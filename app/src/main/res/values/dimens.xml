@@ -2,7 +2,7 @@
 <resources>
     <dimen name="container_margin">4dp</dimen>
     <dimen name="container_marginSide">16dp</dimen>
-    <dimen name="container_padding">16dp</dimen>
+    <dimen name="container_padding">@dimen/container_paddingSide</dimen>
     <dimen name="container_paddingSide">24dp</dimen>
     <dimen name="cont_title_size">18dp</dimen>
     <dimen name="cont_title_size2">14dp</dimen>

@@ -3,8 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/container.xml" value="0.2765" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/ic_signal_cellular_5_5_bar.xml" value="0.2765" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/preview_aurora_airplane.xml" value="0.2765" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/preview_aurora_location.xml" value="0.2765" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/preview_aurora_wifi.xml" value="0.2765" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable/button.xml" value="0.1345" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable/button_red.xml" value="0.196" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/activity_main.xml" value="0.2064814814814815" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/home_page.xml" value="0.29907407407407405" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/icon_packs.xml" value="0.33" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/themes.xml" value="0.18981481481481483" />
         <entry key="..\:/AndroidStudioProjects/Iconify2/app/src/main/res/drawable/button.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/Iconify2/app/src/main/res/layout/activity_main.xml" value="0.1" />
