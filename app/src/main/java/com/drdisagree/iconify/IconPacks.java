@@ -7,22 +7,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
-public class HomePage extends AppCompatActivity {
+public class IconPacks extends AppCompatActivity {
 
-    LinearLayout home_iconPack;
+    LinearLayout Aurora;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_page);
+        setContentView(R.layout.icon_packs);
 
-        home_iconPack = findViewById(R.id.home_iconPack);
+        Aurora = findViewById(R.id.iconPack_aurora);
 
-        home_iconPack.setOnClickListener(new View.OnClickListener() {
+        Aurora.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomePage.this, IconPacks.class);
-                startActivity(intent);
             }
         });
     }

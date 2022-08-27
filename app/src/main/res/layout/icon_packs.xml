@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/container_margin"
+    android:paddingBottom="@dimen/container_margin"
+    tools:context=".IconPacks">
+
+    <LinearLayout
+        android:id="@+id/iconPack_aurora"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/container_marginSide"
+        android:layout_marginTop="@dimen/container_margin"
+        android:layout_marginEnd="@dimen/container_marginSide"
+        android:layout_marginBottom="@dimen/container_margin"
+        android:background="@drawable/container"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/container_paddingSide"
+        android:paddingTop="@dimen/container_padding"
+        android:paddingEnd="@dimen/container_paddingSide"
+        android:paddingBottom="@dimen/container_padding"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center"
+            android:layout_marginEnd="@dimen/container_padding"
+            android:layout_weight="1.0"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/iconPack_aurora"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/cont_title_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/iconPack_aurora2"
+                android:textColor="@color/textColorSecondary"
+                android:textSize="@dimen/cont_title_size2" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/preview_aurora_signal"
+                    app:tint="@color/colorAccent"
+                    android:layout_margin="@dimen/preview_margin"/>
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/preview_aurora_wifi"
+                    app:tint="@color/colorAccent"
+                    android:layout_margin="@dimen/preview_margin"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/preview_aurora_airplane"
+                    app:tint="@color/colorAccent"
+                    android:layout_margin="@dimen/preview_margin"/>
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/preview_aurora_location"
+                    app:tint="@color/colorAccent"
+                    android:layout_margin="@dimen/preview_margin"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

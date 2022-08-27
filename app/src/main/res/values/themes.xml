@@ -15,4 +15,7 @@
     </style>
     <color name="colorBackground">#FF000F1D</color>
     <color name="colorForeground">#FF0A1828</color>
+    <color name="colorContainer">#FF0A1828</color>
+    <color name="textColorPrimary">@color/white</color>
+    <color name="textColorSecondary">#FF69788A</color>
 </resources>

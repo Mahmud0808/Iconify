@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Iconify</string>
     <string name="root_result">Checking for Root</string>
+    <string name="title_icon_packs">Icon Packs</string>
+    <string name="title_icon_packs2">Change system icon pack</string>
+    <string name="title_brightness_bar">Brightness Bar</string>
+    <string name="title_brightness_bar2">Customize brightness slider</string>
+    <string name="title_qs_shape">QS Shape</string>
+    <string name="title_qs_shape2">Customize qs tile shape</string>
+    <string name="iconPack_aurora">Aurora</string>
+    <string name="iconPack_aurora2">Dual tone linear icon pack</string>
 </resources>
