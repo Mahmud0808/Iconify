@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="container_margin">4dp</dimen>
+    <dimen name="container_margin">6dp</dimen>
     <dimen name="container_marginSide">16dp</dimen>
-    <dimen name="container_padding">@dimen/container_paddingSide</dimen>
+    <dimen name="container_padding">20dp</dimen>
     <dimen name="container_paddingSide">24dp</dimen>
     <dimen name="cont_title_size">18dp</dimen>
     <dimen name="cont_title_size2">14dp</dimen>
-    <dimen name="preview_margin">2dp</dimen>
+    <dimen name="preview_margin">3dp</dimen>
+    <dimen name="preview_icon_size">20dp</dimen>
 </resources>

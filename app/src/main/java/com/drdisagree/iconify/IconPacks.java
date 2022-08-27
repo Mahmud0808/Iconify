@@ -22,10 +22,12 @@ public class IconPacks extends AppCompatActivity {
         Button Aurora_Enable = findViewById(R.id.iconPack_aurora);
         Button Aurora_Disable = findViewById(R.id.iconPack_aurora_disable);
 
+        aurora_visibility = PrefConfig.loadPrefAurora(this);
+
         if (aurora_visibility == false)
-            Aurora_Disable.setVisibility(Aurora_Disable.GONE);
+            Aurora_Disable.setVisibility(View.GONE);
         else
-            Aurora_Disable.setVisibility(Aurora_Disable.VISIBLE);
+            Aurora_Disable.setVisibility(View.VISIBLE);
 
         AuroraContainer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,7 +41,6 @@ public class IconPacks extends AppCompatActivity {
             }
         });
 
-        aurora_visibility = PrefConfig.loadPrefAurora(this);
         Aurora_Enable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,6 +57,7 @@ public class IconPacks extends AppCompatActivity {
             public void onClick(View v) {
                 IconInstaller.disable_pack(1);
                 Aurora_Disable.setVisibility(v.GONE);
+                Aurora_Enable.setVisibility(v.VISIBLE);
                 aurora_visibility = false;
                 PrefConfig.savePrefAurora(getApplicationContext(), aurora_visibility);
             }
