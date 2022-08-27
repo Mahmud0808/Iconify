@@ -26,11 +26,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (RootUtil.isDeviceRooted()) {
-                    rootResult.setTextColor(getResources().getColor(R.color.success, null));
+                    rootResult.setTextColor(getResources().getColor(R.color.colorSuccess, null));
                     Intent intent = new Intent(MainActivity.this, HomePage.class);
                     startActivity(intent);
                 } else {
-                    rootResult.setTextColor(getResources().getColor(R.color.error, null));
+                    rootResult.setTextColor(getResources().getColor(R.color.colorError, null));
                     rootResult.setText("Your phone is not rooted :(");
                 }
             }
