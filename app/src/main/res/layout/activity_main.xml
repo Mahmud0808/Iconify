@@ -1,39 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingTop="60dp"
+    android:paddingBottom="60dp"
+    android:paddingStart="@dimen/container_marginSide"
+    android:paddingEnd="@dimen/container_marginSide"
     tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <FrameLayout
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_launcher_background"
+            android:elevation="4dp"
+            android:padding="12dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:foreground="@drawable/ic_launcher_foreground" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="18dp"
+            android:text="Iconify"
+            android:textColor="@color/white"
+            android:textSize="28dp" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/rootResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="@string/root_result"
         android:textColor="@color/white"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="30sp" />
 
     <Button
         android:id="@+id/checkRoot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:background="@drawable/button"
-        android:fontFamily="@font/balooda2bold"
+        android:fontFamily="@font/balooda2semibold"
+        android:gravity="center"
         android:paddingStart="26dp"
         android:paddingEnd="26dp"
         android:text="Check Root"
         android:textColor="@color/colorBackground"
         android:textStyle="bold"
+        android:textSize="18dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rootResult" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
