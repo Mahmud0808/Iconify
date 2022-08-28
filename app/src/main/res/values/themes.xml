@@ -12,6 +12,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:fontFamily">@font/balooda2</item>
+        <item name="fontFamily">@font/balooda2</item>
     </style>
     <color name="colorBackground">#FF000F1D</color>
     <color name="colorForeground">#FF0A1828</color>
