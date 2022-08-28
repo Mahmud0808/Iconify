@@ -1,379 +1,413 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    android:orientation="vertical"
-    android:paddingTop="@dimen/container_margin"
-    android:paddingBottom="@dimen/container_margin"
-    tools:context=".IconPacks">
+    android:fillViewport="true">
 
     <LinearLayout
-        android:id="@+id/iconPack_aurora_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/container_marginSide"
-        android:layout_marginTop="@dimen/container_margin"
-        android:layout_marginEnd="@dimen/container_marginSide"
-        android:layout_marginBottom="@dimen/container_margin"
-        android:background="@drawable/container"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingStart="@dimen/container_paddingSide"
-        android:paddingTop="@dimen/container_padding"
-        android:paddingEnd="@dimen/container_paddingSide"
-        android:paddingBottom="@dimen/container_padding"
-        tools:ignore="MissingConstraints">
+        android:paddingTop="@dimen/container_margin"
+        android:paddingBottom="@dimen/container_margin"
+        tools:context=".IconPacks">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/container_marginSide"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="@dimen/container_marginSide"
+            android:layout_marginBottom="30dp"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="3dp"
+                android:background="@drawable/ic_launcher_foreground" />
+
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left|center"
-                android:layout_marginEnd="@dimen/container_padding"
-                android:layout_weight="1.0"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/iconPack_aurora"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/iconPack_aurora2"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_title_size2" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="@dimen/preview_icon_size"
-                        android:layout_height="@dimen/preview_icon_size"
-                        android:layout_margin="@dimen/preview_margin"
-                        android:src="@drawable/preview_aurora_signal"
-                        app:tint="@color/colorAccent" />
-
-                    <ImageView
-                        android:layout_width="@dimen/preview_icon_size"
-                        android:layout_height="@dimen/preview_icon_size"
-                        android:layout_margin="@dimen/preview_margin"
-                        android:src="@drawable/preview_aurora_wifi"
-                        app:tint="@color/colorAccent" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="@dimen/preview_icon_size"
-                        android:layout_height="@dimen/preview_icon_size"
-                        android:layout_margin="@dimen/preview_margin"
-                        android:src="@drawable/preview_aurora_airplane"
-                        app:tint="@color/colorAccent" />
-
-                    <ImageView
-                        android:layout_width="@dimen/preview_icon_size"
-                        android:layout_height="@dimen/preview_icon_size"
-                        android:layout_margin="@dimen/preview_margin"
-                        android:src="@drawable/preview_aurora_location"
-                        app:tint="@color/colorAccent" />
-                </LinearLayout>
-            </LinearLayout>
+                android:fontFamily="@font/balooda2bold"
+                android:letterSpacing="0.1"
+                android:text="Icon Packs"
+                android:textColor="@color/white"
+                android:textSize="@dimen/header_text_size"
+                android:textStyle="bold" />
         </LinearLayout>
-
-        <Button
-            android:id="@+id/iconPack_aurora"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/container_padding"
-            android:background="@drawable/button"
-            android:fontFamily="@font/balooda2semibold"
-            android:letterSpacing="0.2"
-            android:text="Enable"
-            android:textColor="@color/colorBackground"
-            android:textSize="@dimen/cont_title_size"
-            android:textStyle="bold"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/iconPack_aurora_disable"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/container_padding"
-            android:background="@drawable/button_red"
-            android:fontFamily="@font/balooda2semibold"
-            android:letterSpacing="0.2"
-            android:text="Disable"
-            android:textColor="@color/colorBackground"
-            android:textSize="@dimen/cont_title_size"
-            android:textStyle="bold"
-            android:visibility="gone" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/iconPack_gradicon_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/container_marginSide"
-        android:layout_marginTop="@dimen/container_margin"
-        android:layout_marginEnd="@dimen/container_marginSide"
-        android:layout_marginBottom="@dimen/container_margin"
-        android:background="@drawable/container"
-        android:orientation="vertical"
-        android:paddingStart="@dimen/container_paddingSide"
-        android:paddingTop="@dimen/container_padding"
-        android:paddingEnd="@dimen/container_paddingSide"
-        android:paddingBottom="@dimen/container_padding"
-        tools:ignore="MissingConstraints">
 
         <LinearLayout
+            android:id="@+id/iconPack_aurora_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginStart="@dimen/container_marginSide"
+            android:layout_marginTop="@dimen/container_margin"
+            android:layout_marginEnd="@dimen/container_marginSide"
+            android:layout_marginBottom="@dimen/container_margin"
+            android:background="@drawable/container"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/container_paddingSide"
+            android:paddingTop="@dimen/container_padding"
+            android:paddingEnd="@dimen/container_paddingSide"
+            android:paddingBottom="@dimen/container_padding"
+            tools:ignore="MissingConstraints">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left|center"
-                android:layout_marginEnd="@dimen/container_padding"
-                android:layout_weight="1.0"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/iconPack_gradicon"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/iconPack_gradicon2"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_title_size2" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_gravity="left|center"
+                    android:layout_marginEnd="@dimen/container_padding"
+                    android:layout_weight="1.0"
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="@dimen/preview_icon_size"
-                        android:layout_height="@dimen/preview_icon_size"
-                        android:layout_margin="@dimen/preview_margin"
-                        android:src="@drawable/preview_gradicon_signal"
-                        app:tint="@color/colorAccent" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/iconPack_aurora"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
 
-                    <ImageView
-                        android:layout_width="@dimen/preview_icon_size"
-                        android:layout_height="@dimen/preview_icon_size"
-                        android:layout_margin="@dimen/preview_margin"
-                        android:src="@drawable/preview_gradicon_wifi"
-                        app:tint="@color/colorAccent" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/iconPack_aurora2"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="@dimen/cont_title_size2" />
+
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="@dimen/preview_icon_size"
-                        android:layout_height="@dimen/preview_icon_size"
-                        android:layout_margin="@dimen/preview_margin"
-                        android:src="@drawable/preview_gradicon_airplane"
-                        app:tint="@color/colorAccent" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="@dimen/preview_icon_size"
-                        android:layout_height="@dimen/preview_icon_size"
-                        android:layout_margin="@dimen/preview_margin"
-                        android:src="@drawable/preview_gradicon_location"
-                        app:tint="@color/colorAccent" />
+                        <ImageView
+                            android:layout_width="@dimen/preview_icon_size"
+                            android:layout_height="@dimen/preview_icon_size"
+                            android:layout_margin="@dimen/preview_margin"
+                            android:src="@drawable/preview_aurora_signal"
+                            app:tint="@color/colorAccent" />
+
+                        <ImageView
+                            android:layout_width="@dimen/preview_icon_size"
+                            android:layout_height="@dimen/preview_icon_size"
+                            android:layout_margin="@dimen/preview_margin"
+                            android:src="@drawable/preview_aurora_wifi"
+                            app:tint="@color/colorAccent" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/preview_icon_size"
+                            android:layout_height="@dimen/preview_icon_size"
+                            android:layout_margin="@dimen/preview_margin"
+                            android:src="@drawable/preview_aurora_airplane"
+                            app:tint="@color/colorAccent" />
+
+                        <ImageView
+                            android:layout_width="@dimen/preview_icon_size"
+                            android:layout_height="@dimen/preview_icon_size"
+                            android:layout_margin="@dimen/preview_margin"
+                            android:src="@drawable/preview_aurora_location"
+                            app:tint="@color/colorAccent" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
+            <Button
+                android:id="@+id/iconPack_aurora"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/container_padding"
+                android:background="@drawable/button"
+                android:fontFamily="@font/balooda2semibold"
+                android:letterSpacing="0.2"
+                android:text="Enable"
+                android:textColor="@color/colorBackground"
+                android:textSize="@dimen/cont_title_size"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/iconPack_aurora_disable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/container_padding"
+                android:background="@drawable/button_red"
+                android:fontFamily="@font/balooda2semibold"
+                android:letterSpacing="0.2"
+                android:text="Disable"
+                android:textColor="@color/colorBackground"
+                android:textSize="@dimen/cont_title_size"
+                android:textStyle="bold"
+                android:visibility="gone" />
         </LinearLayout>
-
-        <Button
-            android:id="@+id/iconPack_gradicon"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/container_padding"
-            android:background="@drawable/button"
-            android:fontFamily="@font/balooda2semibold"
-            android:letterSpacing="0.2"
-            android:text="Enable"
-            android:textColor="@color/colorBackground"
-            android:textSize="@dimen/cont_title_size"
-            android:textStyle="bold"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/iconPack_gradicon_disable"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/container_padding"
-            android:background="@drawable/button_red"
-            android:fontFamily="@font/balooda2semibold"
-            android:letterSpacing="0.2"
-            android:text="Disable"
-            android:textColor="@color/colorBackground"
-            android:textSize="@dimen/cont_title_size"
-            android:textStyle="bold"
-            android:visibility="gone" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/iconPack_lorn_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/container_marginSide"
-        android:layout_marginTop="@dimen/container_margin"
-        android:layout_marginEnd="@dimen/container_marginSide"
-        android:layout_marginBottom="@dimen/container_margin"
-        android:background="@drawable/container"
-        android:orientation="vertical"
-        android:paddingStart="@dimen/container_paddingSide"
-        android:paddingTop="@dimen/container_padding"
-        android:paddingEnd="@dimen/container_paddingSide"
-        android:paddingBottom="@dimen/container_padding"
-        tools:ignore="MissingConstraints">
 
         <LinearLayout
+            android:id="@+id/iconPack_gradicon_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginStart="@dimen/container_marginSide"
+            android:layout_marginTop="@dimen/container_margin"
+            android:layout_marginEnd="@dimen/container_marginSide"
+            android:layout_marginBottom="@dimen/container_margin"
+            android:background="@drawable/container"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/container_paddingSide"
+            android:paddingTop="@dimen/container_padding"
+            android:paddingEnd="@dimen/container_paddingSide"
+            android:paddingBottom="@dimen/container_padding"
+            tools:ignore="MissingConstraints">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left|center"
-                android:layout_marginEnd="@dimen/container_padding"
-                android:layout_weight="1.0"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/iconPack_lorn"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/iconPack_lorn2"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_title_size2" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_gravity="left|center"
+                    android:layout_marginEnd="@dimen/container_padding"
+                    android:layout_weight="1.0"
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="@dimen/preview_icon_size"
-                        android:layout_height="@dimen/preview_icon_size"
-                        android:layout_margin="@dimen/preview_margin"
-                        android:src="@drawable/preview_lorn_signal"
-                        app:tint="@color/colorAccent" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/iconPack_gradicon"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
 
-                    <ImageView
-                        android:layout_width="@dimen/preview_icon_size"
-                        android:layout_height="@dimen/preview_icon_size"
-                        android:layout_margin="@dimen/preview_margin"
-                        android:src="@drawable/preview_lorn_wifi"
-                        app:tint="@color/colorAccent" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/iconPack_gradicon2"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="@dimen/cont_title_size2" />
+
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="@dimen/preview_icon_size"
-                        android:layout_height="@dimen/preview_icon_size"
-                        android:layout_margin="@dimen/preview_margin"
-                        android:src="@drawable/preview_lorn_airplane"
-                        app:tint="@color/colorAccent" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="@dimen/preview_icon_size"
-                        android:layout_height="@dimen/preview_icon_size"
-                        android:layout_margin="@dimen/preview_margin"
-                        android:src="@drawable/preview_lorn_location"
-                        app:tint="@color/colorAccent" />
+                        <ImageView
+                            android:layout_width="@dimen/preview_icon_size"
+                            android:layout_height="@dimen/preview_icon_size"
+                            android:layout_margin="@dimen/preview_margin"
+                            android:src="@drawable/preview_gradicon_signal"
+                            app:tint="@color/colorAccent" />
+
+                        <ImageView
+                            android:layout_width="@dimen/preview_icon_size"
+                            android:layout_height="@dimen/preview_icon_size"
+                            android:layout_margin="@dimen/preview_margin"
+                            android:src="@drawable/preview_gradicon_wifi"
+                            app:tint="@color/colorAccent" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/preview_icon_size"
+                            android:layout_height="@dimen/preview_icon_size"
+                            android:layout_margin="@dimen/preview_margin"
+                            android:src="@drawable/preview_gradicon_airplane"
+                            app:tint="@color/colorAccent" />
+
+                        <ImageView
+                            android:layout_width="@dimen/preview_icon_size"
+                            android:layout_height="@dimen/preview_icon_size"
+                            android:layout_margin="@dimen/preview_margin"
+                            android:src="@drawable/preview_gradicon_location"
+                            app:tint="@color/colorAccent" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
+            <Button
+                android:id="@+id/iconPack_gradicon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/container_padding"
+                android:background="@drawable/button"
+                android:fontFamily="@font/balooda2semibold"
+                android:letterSpacing="0.2"
+                android:text="Enable"
+                android:textColor="@color/colorBackground"
+                android:textSize="@dimen/cont_title_size"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/iconPack_gradicon_disable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/container_padding"
+                android:background="@drawable/button_red"
+                android:fontFamily="@font/balooda2semibold"
+                android:letterSpacing="0.2"
+                android:text="Disable"
+                android:textColor="@color/colorBackground"
+                android:textSize="@dimen/cont_title_size"
+                android:textStyle="bold"
+                android:visibility="gone" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/iconPack_lorn"
+        <LinearLayout
+            android:id="@+id/iconPack_lorn_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/container_padding"
-            android:background="@drawable/button"
-            android:fontFamily="@font/balooda2semibold"
-            android:letterSpacing="0.2"
-            android:text="Enable"
-            android:textColor="@color/colorBackground"
-            android:textSize="@dimen/cont_title_size"
-            android:textStyle="bold"
-            android:visibility="gone" />
+            android:layout_marginStart="@dimen/container_marginSide"
+            android:layout_marginTop="@dimen/container_margin"
+            android:layout_marginEnd="@dimen/container_marginSide"
+            android:layout_marginBottom="@dimen/container_margin"
+            android:background="@drawable/container"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/container_paddingSide"
+            android:paddingTop="@dimen/container_padding"
+            android:paddingEnd="@dimen/container_paddingSide"
+            android:paddingBottom="@dimen/container_padding"
+            tools:ignore="MissingConstraints">
 
-        <Button
-            android:id="@+id/iconPack_lorn_disable"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/container_padding"
-            android:background="@drawable/button_red"
-            android:fontFamily="@font/balooda2semibold"
-            android:letterSpacing="0.2"
-            android:text="Disable"
-            android:textColor="@color/colorBackground"
-            android:textSize="@dimen/cont_title_size"
-            android:textStyle="bold"
-            android:visibility="gone" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center"
+                    android:layout_marginEnd="@dimen/container_padding"
+                    android:layout_weight="1.0"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/iconPack_lorn"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/iconPack_lorn2"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="@dimen/cont_title_size2" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/preview_icon_size"
+                            android:layout_height="@dimen/preview_icon_size"
+                            android:layout_margin="@dimen/preview_margin"
+                            android:src="@drawable/preview_lorn_signal"
+                            app:tint="@color/colorAccent" />
+
+                        <ImageView
+                            android:layout_width="@dimen/preview_icon_size"
+                            android:layout_height="@dimen/preview_icon_size"
+                            android:layout_margin="@dimen/preview_margin"
+                            android:src="@drawable/preview_lorn_wifi"
+                            app:tint="@color/colorAccent" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/preview_icon_size"
+                            android:layout_height="@dimen/preview_icon_size"
+                            android:layout_margin="@dimen/preview_margin"
+                            android:src="@drawable/preview_lorn_airplane"
+                            app:tint="@color/colorAccent" />
+
+                        <ImageView
+                            android:layout_width="@dimen/preview_icon_size"
+                            android:layout_height="@dimen/preview_icon_size"
+                            android:layout_margin="@dimen/preview_margin"
+                            android:src="@drawable/preview_lorn_location"
+                            app:tint="@color/colorAccent" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/iconPack_lorn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/container_padding"
+                android:background="@drawable/button"
+                android:fontFamily="@font/balooda2semibold"
+                android:letterSpacing="0.2"
+                android:text="Enable"
+                android:textColor="@color/colorBackground"
+                android:textSize="@dimen/cont_title_size"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/iconPack_lorn_disable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/container_padding"
+                android:background="@drawable/button_red"
+                android:fontFamily="@font/balooda2semibold"
+                android:letterSpacing="0.2"
+                android:text="Disable"
+                android:textColor="@color/colorBackground"
+                android:textSize="@dimen/cont_title_size"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </LinearLayout>
+
     </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

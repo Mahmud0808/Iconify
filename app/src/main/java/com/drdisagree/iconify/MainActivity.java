@@ -1,11 +1,14 @@
 package com.drdisagree.iconify;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,21 +21,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (RootUtil.isDeviceRooted()) {
+            Intent intent = new Intent(MainActivity.this, HomePage.class);
+            startActivity(intent);
+        }
+
         checkRoot = findViewById(R.id.checkRoot);
-        rootResult = findViewById(R.id.rootResult);
+
+        LinearLayout rootNotFound = findViewById(R.id.rootNotFound);
 
         checkRoot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (RootUtil.isDeviceRooted()) {
-                    rootResult.setTextColor(getResources().getColor(R.color.colorSuccess, null));
-                    rootResult.setText("Your phone is rooted :)");
                     Intent intent = new Intent(MainActivity.this, HomePage.class);
                     startActivity(intent);
                 } else {
-                    rootResult.setTextColor(getResources().getColor(R.color.colorError, null));
-                    rootResult.setText("Your phone is not rooted :(");
+                    rootNotFound.setVisibility(v.VISIBLE);
                 }
             }
         });

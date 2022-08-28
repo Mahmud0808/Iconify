@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Iconify</string>
-    <string name="root_result">Checking for Root</string>
     <string name="title_icon_packs">Icon Packs</string>
     <string name="title_icon_packs2">Change system icon pack</string>
     <string name="title_brightness_bar">Brightness Bar</string>
