@@ -8,4 +8,7 @@
     <color name="colorError">#FFFFB7B6</color>
     <color name="colorInfo">#FFB3E6F5</color>
     <color name="colorWarning">#FFFBE7C6</color>
+    <color name="rippleAccent">#2850A6D7</color>
+    <color name="rippleDark">#28000F1D</color>
+    <color name="rippleDarker">#44000F1D</color>
 </resources>
