@@ -30,7 +30,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rootResult" />
+        app:layout_constraintTop_toBottomOf="@+id/rootResult"
+        android:paddingStart="26dp"
+        android:paddingEnd="26dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

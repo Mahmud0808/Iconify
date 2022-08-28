@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (RootUtil.isDeviceRooted()) {
                     rootResult.setTextColor(getResources().getColor(R.color.colorSuccess, null));
+                    rootResult.setText("Your phone is rooted :)");
                     Intent intent = new Intent(MainActivity.this, HomePage.class);
                     startActivity(intent);
                 } else {
