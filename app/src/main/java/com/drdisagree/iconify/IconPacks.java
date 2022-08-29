@@ -13,17 +13,27 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import java.util.concurrent.TimeUnit;
 
 public class IconPacks extends AppCompatActivity {
 
     private boolean aurora_applied;
     private ViewGroup container;
+    private LinearLayout spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.icon_packs);
+
+        // Progressbar while enabling or disabling pack
+        spinner = findViewById(R.id.progressBar_iconPack);
+
+        // Don't show progressbar on opening page
+        spinner.setVisibility(View.GONE);
 
         // Home page list items
         container = (ViewGroup) findViewById(R.id.icon_packs_list);
@@ -68,12 +78,23 @@ public class IconPacks extends AppCompatActivity {
         Aurora_Enable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Show spinner
+                spinner.setVisibility(v.VISIBLE);
                 IconInstaller.install_pack(1);
-                Aurora_Enable.setVisibility(v.GONE);
-                Aurora_Disable.setVisibility(v.VISIBLE);
-                background(R.id.iconPack_aurora_container, R.drawable.container_selected);
                 aurora_applied = true;
                 PrefConfig.savePrefAurora(getApplicationContext(), aurora_applied);
+                // Wait 1 second
+                spinner.postDelayed(new Runnable() {
+                    public void run() {
+                        // Hide spinner
+                        spinner.setVisibility(View.GONE);
+                        // Change background to selected
+                        background(R.id.iconPack_aurora_container, R.drawable.container_selected);
+                        // Change button visibility
+                        Aurora_Enable.setVisibility(v.GONE);
+                        Aurora_Disable.setVisibility(v.VISIBLE);
+                    }
+                }, 1000);
             }
         });
 
@@ -81,12 +102,23 @@ public class IconPacks extends AppCompatActivity {
         Aurora_Disable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Show spinner
+                spinner.setVisibility(v.VISIBLE);
                 IconInstaller.disable_pack(1);
-                Aurora_Disable.setVisibility(v.GONE);
-                Aurora_Enable.setVisibility(v.VISIBLE);
                 aurora_applied = false;
-                background(R.id.iconPack_aurora_container, R.drawable.container);
                 PrefConfig.savePrefAurora(getApplicationContext(), aurora_applied);
+                // Wait 1 second
+                spinner.postDelayed(new Runnable() {
+                    public void run() {
+                        // Hide spinner
+                        spinner.setVisibility(View.GONE);
+                        // Change background to selected
+                        background(R.id.iconPack_aurora_container, R.drawable.container);
+                        // Change button visibility
+                        Aurora_Disable.setVisibility(v.GONE);
+                        Aurora_Enable.setVisibility(v.VISIBLE);
+                    }
+                }, 1000);
             }
         });
     }
