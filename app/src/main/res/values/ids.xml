@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Home Page List Items -->
+    <item name="home_iconPack" type="id" />
+    <item name="home_brightnessBar" type="id" />
+    <item name="home_qsShape" type="id" />
+    <item name="home_notification" type="id" />
+    <item name="home_info" type="id" />
+
+    <!-- Icon Pack List -->
+    <item name="iconPack_aurora_container" type="id" />
+    <item name="iconPack_aurora_enable" type="id" />
+    <item name="iconPack_aurora_disable" type="id" />
+    <item name="iconPack_gradicon_container" type="id" />
+    <item name="iconPack_gradicon_enable" type="id" />
+    <item name="iconPack_gradicon_disable" type="id" />
+    <item name="iconPack_lorn_container" type="id" />
+    <item name="iconPack_lorn_enable" type="id" />
+    <item name="iconPack_lorn_disable" type="id" />
+</resources>

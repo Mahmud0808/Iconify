@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_option"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/container_marginSide"
+    android:layout_marginEnd="@dimen/container_marginSide"
+    android:layout_marginBottom="@dimen/container_margin"
+    android:background="@drawable/container"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/container_paddingSide"
+    android:paddingTop="@dimen/container_padding"
+    android:paddingEnd="@dimen/container_paddingSide"
+    android:paddingBottom="@dimen/container_padding"
+    tools:ignore="MissingConstraints">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center"
+            android:layout_marginEnd="@dimen/container_padding"
+            android:layout_weight="1.0"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/list_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/cont_title_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/list_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColorSecondary"
+                android:textSize="@dimen/cont_title_size2" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/list_preview1"
+                    android:layout_width="@dimen/preview_icon_size"
+                    android:layout_height="@dimen/preview_icon_size"
+                    android:layout_margin="@dimen/preview_margin"
+                    app:tint="@color/colorAccent" />
+
+                <ImageView
+                    android:id="@+id/list_preview2"
+                    android:layout_width="@dimen/preview_icon_size"
+                    android:layout_height="@dimen/preview_icon_size"
+                    android:layout_margin="@dimen/preview_margin"
+                    app:tint="@color/colorAccent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/list_preview3"
+                    android:layout_width="@dimen/preview_icon_size"
+                    android:layout_height="@dimen/preview_icon_size"
+                    android:layout_margin="@dimen/preview_margin"
+                    app:tint="@color/colorAccent" />
+
+                <ImageView
+                    android:id="@+id/list_preview4"
+                    android:layout_width="@dimen/preview_icon_size"
+                    android:layout_height="@dimen/preview_icon_size"
+                    android:layout_margin="@dimen/preview_margin"
+                    app:tint="@color/colorAccent" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/list_button_enable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/container_padding"
+        android:background="@drawable/button"
+        android:fontFamily="@font/balooda2semibold"
+        android:letterSpacing="0.2"
+        android:text="Enable"
+        android:textColor="@color/colorBackground"
+        android:textSize="@dimen/cont_title_size"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/list_button_disable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/container_padding"
+        android:background="@drawable/button_red"
+        android:fontFamily="@font/balooda2semibold"
+        android:letterSpacing="0.2"
+        android:text="Disable"
+        android:textColor="@color/colorBackground"
+        android:textSize="@dimen/cont_title_size"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+</LinearLayout>

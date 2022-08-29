@@ -1,15 +1,5 @@
 <resources>
     <string name="app_name">Iconify</string>
-    <string name="title_icon_packs">Icon Packs</string>
-    <string name="title_icon_packs2">Change system icon pack</string>
-    <string name="title_brightness_bar">Brightness Bar</string>
-    <string name="title_brightness_bar2">Customize brightness slider</string>
-    <string name="title_qs_shape">QS Shape</string>
-    <string name="title_qs_shape2">Customize qs tile shape</string>
-    <string name="title_notification">Notification</string>
-    <string name="title_notification2">Customize notification style</string>
-    <string name="title_info">About</string>
-    <string name="title_info2">Information about this app</string>
     <string name="iconPack_aurora">Aurora</string>
     <string name="iconPack_aurora2">Dual tone linear icon pack</string>
     <string name="iconPack_gradicon">Gradicon</string>

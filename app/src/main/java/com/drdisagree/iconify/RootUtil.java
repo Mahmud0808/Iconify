@@ -10,8 +10,9 @@ public class RootUtil {
     private static boolean checkRoot() {
         Process process = null;
         try {
+            // Check for root permission
             process = Runtime.getRuntime().exec("su");
-
+            // Try to write on terminal and exit
             DataOutputStream os = new DataOutputStream(process.getOutputStream());
             os.writeBytes("echo \"Checking for root permission.\" >/system/sd/temporary.txt\n");
             os.writeBytes("exit\n");

@@ -21,19 +21,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Check for root permission on opening
         if (RootUtil.isDeviceRooted()) {
             Intent intent = new Intent(MainActivity.this, HomePage.class);
             startActivity(intent);
         }
 
+        // Continue button
         checkRoot = findViewById(R.id.checkRoot);
-
+        // Dialog to show if root not found
         LinearLayout rootNotFound = findViewById(R.id.rootNotFound);
 
+        // Check for root onClick
         checkRoot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (RootUtil.isDeviceRooted()) {
                     Intent intent = new Intent(MainActivity.this, HomePage.class);
                     startActivity(intent);

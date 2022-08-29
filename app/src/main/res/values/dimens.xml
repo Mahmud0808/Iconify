@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="container_margin">6dp</dimen>
+    <dimen name="container_margin">12dp</dimen>
     <dimen name="container_marginSide">16dp</dimen>
     <dimen name="container_padding">20dp</dimen>
     <dimen name="container_paddingSide">24dp</dimen>

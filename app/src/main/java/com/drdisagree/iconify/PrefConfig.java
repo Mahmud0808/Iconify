@@ -8,6 +8,7 @@ public class PrefConfig {
     private static final String pref_aurora = "com.drdisagree.iconify";
     private static final String pref_key = "pref_key";
 
+    // Save config of Aurora
     public static void savePrefAurora(Context context, boolean val) {
         SharedPreferences pref = context.getSharedPreferences(pref_aurora, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
@@ -15,6 +16,7 @@ public class PrefConfig {
         editor.apply();
     }
 
+    // Load config of Aurora
     public static boolean loadPrefAurora(Context context) {
         SharedPreferences pref = context.getSharedPreferences(pref_aurora, Context.MODE_PRIVATE);
         return pref.getBoolean(pref_key, false);
