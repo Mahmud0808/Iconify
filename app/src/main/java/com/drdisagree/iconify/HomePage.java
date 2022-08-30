@@ -35,6 +35,7 @@ public class HomePage extends AppCompatActivity {
         addItem(R.id.home_brightnessBar, "Brightness Bar", "Customize brightness slider", R.drawable.ic_brightness_home);
         addItem(R.id.home_qsShape, "QS Shape", "Customize qs tile shape", R.drawable.ic_shape_home);
         addItem(R.id.home_notification, "Notification", "Customize notification style", R.drawable.ic_notification_home);
+        addItem(R.id.home_mediaPlayer, "Media Player", "Change how media player looks", R.drawable.ic_media_home);
         addItem(R.id.home_info, "About", "Information about this app", R.drawable.ic_info_home);
 
         // Home page item onClick
@@ -43,6 +44,56 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomePage.this, IconPacks.class);
+                startActivity(intent);
+            }
+        });
+
+        // Brightness bar item onClick
+        home_iconPack = findViewById(R.id.home_brightnessBar);
+        home_iconPack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, BrightnessBars.class);
+                startActivity(intent);
+            }
+        });
+
+        // QS Shape item onClick
+        home_iconPack = findViewById(R.id.home_qsShape);
+        home_iconPack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, QsShapes.class);
+                startActivity(intent);
+            }
+        });
+
+        // Notification item onClick
+        home_iconPack = findViewById(R.id.home_notification);
+        home_iconPack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, Notifications.class);
+                startActivity(intent);
+            }
+        });
+
+        // Media player item onClick
+        home_iconPack = findViewById(R.id.home_mediaPlayer);
+        home_iconPack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, MediaPlayer.class);
+                startActivity(intent);
+            }
+        });
+
+        // About item onClick
+        home_iconPack = findViewById(R.id.home_info);
+        home_iconPack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, Info.class);
                 startActivity(intent);
             }
         });

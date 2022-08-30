@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         if (RootUtil.isDeviceRooted() && (versionCode == PrefConfig.loadPrefInt(this, "versionCode"))) {
             Intent intent = new Intent(MainActivity.this, HomePage.class);
             startActivity(intent);
+            finish();
         }
 
         // Continue button
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
                 PrefConfig.savePrefInt(this, "versionCode", versionCode);
                 Intent intent = new Intent(MainActivity.this, HomePage.class);
                 startActivity(intent);
+                finish();
             } else {
                 rootNotFound.setVisibility(v.VISIBLE);
             }

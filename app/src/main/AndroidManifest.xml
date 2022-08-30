@@ -14,6 +14,21 @@
         android:theme="@style/Theme.Iconify"
         tools:targetApi="31">
         <activity
+            android:name=".Info"
+            android:exported="false" />
+        <activity
+            android:name=".MediaPlayer"
+            android:exported="false" />
+        <activity
+            android:name=".Notifications"
+            android:exported="false" />
+        <activity
+            android:name=".QsShapes"
+            android:exported="false" />
+        <activity
+            android:name=".BrightnessBars"
+            android:exported="false" />
+        <activity
             android:name=".IconPacks"
             android:exported="false" />
         <activity

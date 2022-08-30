@@ -42,7 +42,7 @@ public class IconPacks extends AppCompatActivity {
         // Don't show progressbar on opening page
         spinner.setVisibility(View.GONE);
 
-        // Home page list items
+        // Icon Pack list items
         container = (ViewGroup) findViewById(R.id.icon_packs_list);
         addItem(R.id.iconPack_aurora_container, "Aurora", "Dual tone linear icon pack", R.drawable.preview_aurora_wifi, R.drawable.preview_aurora_signal, R.drawable.preview_aurora_airplane, R.drawable.preview_aurora_location, R.id.iconPack_aurora_enable, R.id.iconPack_aurora_disable);
         addItem(R.id.iconPack_gradicon_container, "Gradicon", "Gradient shaded filled icon pack", R.drawable.preview_gradicon_wifi, R.drawable.preview_gradicon_signal, R.drawable.preview_gradicon_airplane, R.drawable.preview_gradicon_location, R.id.iconPack_gradicon_enable, R.id.iconPack_gradicon_disable);

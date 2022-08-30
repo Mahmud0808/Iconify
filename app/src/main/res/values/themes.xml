@@ -10,7 +10,9 @@
         <item name="colorSecondaryVariant">@color/colorAccent</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">@color/colorBackground</item>
+        <!-- Navigation bar color. -->
+        <item name="android:navigationBarColor">@color/colorBackground</item>
         <!-- Customize your theme here. -->
         <item name="android:fontFamily">@font/balooda2</item>
         <item name="fontFamily">@font/balooda2</item>

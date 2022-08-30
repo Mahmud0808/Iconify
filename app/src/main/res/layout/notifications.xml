@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     android:fillViewport="true"
-    tools:context=".IconPacks">
+    tools:context=".Notifications">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,7 +22,6 @@
             <include layout="@layout/header" />
 
             <LinearLayout
-                android:id="@+id/icon_packs_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical" />
@@ -31,7 +30,7 @@
     </ScrollView>
 
     <LinearLayout
-        android:id="@+id/progressBar_iconPack"
+        android:id="@+id/progressBar_Notification"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#28000000"
