@@ -13,8 +13,7 @@
     android:paddingStart="@dimen/container_paddingSide"
     android:paddingTop="@dimen/container_padding"
     android:paddingEnd="@dimen/container_paddingSide"
-    android:paddingBottom="@dimen/container_padding"
-    tools:ignore="MissingConstraints">
+    android:paddingBottom="@dimen/container_padding">
 
     <LinearLayout
         android:layout_width="match_parent"
