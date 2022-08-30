@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,6 +31,10 @@ public class IconPacks extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.icon_packs);
+
+        // Header
+        TextView header = findViewById(R.id.header);
+        header.setText("Icon Pack");
 
         // Progressbar while enabling or disabling pack
         spinner = findViewById(R.id.progressBar_iconPack);
@@ -66,29 +71,35 @@ public class IconPacks extends AppCompatActivity {
         enableOnClickListener(GradiconContainer, Gradicon_Enable, Gradicon_Disable, "gradicon", 2);
         enableOnClickListener(LornContainer, Lorn_Enable, Lorn_Disable, "lorn", 3);
 
-        checkIfApplied(AuroraContainer, PrefConfig.loadPrefBool(this, "aurora"));
-        checkIfApplied(GradiconContainer, PrefConfig.loadPrefBool(this, "gradicon"));
-        checkIfApplied(LornContainer, PrefConfig.loadPrefBool(this, "lorn"));
+        refreshBackground();
     }
 
     // Function to check for layout changes
     private void refreshLayout(LinearLayout layout) {
-        for (int i = 0; i < list.length; i++) {
-            if (list[i] == layout)
+
+        for (int i = 0; i < Container.length; i++) {
+            if (Container[i] == layout)
                 continue;
             else {
-                if (list[i] == AuroraContainer) {
-                    Aurora_Enable.setVisibility(v.GONE);
-                    Aurora_Disable.setVisibility(v.GONE);
-                } else if (list[i] == GradiconContainer) {
-                    Gradicon_Enable.setVisibility(v.GONE);
-                    Gradicon_Disable.setVisibility(v.GONE);
-                } else if (list[i] == LornContainer) {
-                    Lorn_Enable.setVisibility(v.GONE);
-                    Lorn_Disable.setVisibility(v.GONE);
+                if (Container[i] == AuroraContainer) {
+                    Aurora_Enable.setVisibility(View.GONE);
+                    Aurora_Disable.setVisibility(View.GONE);
+                } else if (Container[i] == GradiconContainer) {
+                    Gradicon_Enable.setVisibility(View.GONE);
+                    Gradicon_Disable.setVisibility(View.GONE);
+                } else if (Container[i] == LornContainer) {
+                    Lorn_Enable.setVisibility(View.GONE);
+                    Lorn_Disable.setVisibility(View.GONE);
                 }
             }
         }
+    }
+
+    // Function to check for bg drawable changes
+    private void refreshBackground() {
+        checkIfApplied(AuroraContainer, PrefConfig.loadPrefBool(this, "aurora"));
+        checkIfApplied(GradiconContainer, PrefConfig.loadPrefBool(this, "gradicon"));
+        checkIfApplied(LornContainer, PrefConfig.loadPrefBool(this, "lorn"));
     }
 
     // Function for onClick events
@@ -98,14 +109,14 @@ public class IconPacks extends AppCompatActivity {
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                refreshLayout(layout);
                 if (!PrefConfig.loadPrefBool(getApplicationContext(), key)) {
                     disable.setVisibility(v.GONE);
                     if (enable.getVisibility() == v.VISIBLE)
                         enable.setVisibility(v.GONE);
                     else
                         enable.setVisibility(v.VISIBLE);
-                }
-                else {
+                } else {
                     enable.setVisibility(v.GONE);
                     if (disable.getVisibility() == v.VISIBLE)
                         disable.setVisibility(v.GONE);
@@ -122,6 +133,8 @@ public class IconPacks extends AppCompatActivity {
                 refreshLayout(layout);
                 // Show spinner
                 spinner.setVisibility(v.VISIBLE);
+                // Block touch
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 IconInstaller.install_pack(index);
                 PrefConfig.savePrefBool(getApplicationContext(), key, true);
                 // Wait 1 second
@@ -129,8 +142,11 @@ public class IconPacks extends AppCompatActivity {
                     public void run() {
                         // Hide spinner
                         spinner.setVisibility(View.GONE);
+                        // Unblock touch
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         // Change background to selected
                         background(layout.getId(), R.drawable.container_selected);
+                        refreshBackground();
                         // Change button visibility
                         enable.setVisibility(v.GONE);
                         disable.setVisibility(v.VISIBLE);
@@ -146,6 +162,8 @@ public class IconPacks extends AppCompatActivity {
             public void onClick(View v) {
                 // Show spinner
                 spinner.setVisibility(v.VISIBLE);
+                // Block touch
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 IconInstaller.disable_pack(index);
                 PrefConfig.savePrefBool(getApplicationContext(), key, false);
                 // Wait 1 second
@@ -153,6 +171,8 @@ public class IconPacks extends AppCompatActivity {
                     public void run() {
                         // Hide spinner
                         spinner.setVisibility(View.GONE);
+                        // Unblock touch
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         // Change background to selected
                         background(layout.getId(), R.drawable.container);
                         // Change button visibility

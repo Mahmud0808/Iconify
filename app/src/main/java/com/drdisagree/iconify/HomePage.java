@@ -25,6 +25,10 @@ public class HomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
 
+        // Header
+        TextView header = findViewById(R.id.header);
+        header.setText("Iconify");
+
         // Home page list items
         container = (ViewGroup) findViewById(R.id.home_page_list);
         addItem(R.id.home_iconPack, "Icon Pack", "Change system icon pack", R.drawable.ic_wifi_home);
