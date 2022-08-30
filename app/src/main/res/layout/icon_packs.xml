@@ -70,6 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:foregroundTint="@color/colorAccent"
+            android:indeterminateTint="@color/colorAccent"
             android:progressDrawable="@drawable/circular_progress_bar" />
 
     </LinearLayout>

@@ -1,19 +1,19 @@
 package com.drdisagree.iconify;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.ViewFlipper;
+import com.drdisagree.iconify.BuildConfig;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button checkRoot;
     private TextView rootResult;
+    private final int versionCode = BuildConfig.VERSION_CODE;
+    private final String versionName = BuildConfig.VERSION_NAME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Check for root permission on opening
-        if (RootUtil.isDeviceRooted()) {
+        if (RootUtil.isDeviceRooted() && (versionCode == PrefConfig.loadPrefInt(this, "versionCode"))) {
             Intent intent = new Intent(MainActivity.this, HomePage.class);
             startActivity(intent);
         }
@@ -33,15 +33,13 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout rootNotFound = findViewById(R.id.rootNotFound);
 
         // Check for root onClick
-        checkRoot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (RootUtil.isDeviceRooted()) {
-                    Intent intent = new Intent(MainActivity.this, HomePage.class);
-                    startActivity(intent);
-                } else {
-                    rootNotFound.setVisibility(v.VISIBLE);
-                }
+        checkRoot.setOnClickListener(v -> {
+            if (RootUtil.isDeviceRooted()) {
+                PrefConfig.savePrefInt(this, "versionCode", versionCode);
+                Intent intent = new Intent(MainActivity.this, HomePage.class);
+                startActivity(intent);
+            } else {
+                rootNotFound.setVisibility(v.VISIBLE);
             }
         });
     }

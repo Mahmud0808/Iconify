@@ -5,20 +5,31 @@ import android.content.SharedPreferences;
 
 public class PrefConfig {
 
-    private static final String pref_aurora = "com.drdisagree.iconify";
-    private static final String pref_key = "pref_key";
+    private static final String SharedPref = "com.drdisagree.iconify";
 
-    // Save config of Aurora
-    public static void savePrefAurora(Context context, boolean val) {
-        SharedPreferences pref = context.getSharedPreferences(pref_aurora, Context.MODE_PRIVATE);
+    // Save sharedPref config
+    public static void savePrefBool(Context context, String key, boolean val) {
+        SharedPreferences pref = context.getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putBoolean(pref_key, val);
+        editor.putBoolean(key, val);
         editor.apply();
     }
 
-    // Load config of Aurora
-    public static boolean loadPrefAurora(Context context) {
-        SharedPreferences pref = context.getSharedPreferences(pref_aurora, Context.MODE_PRIVATE);
-        return pref.getBoolean(pref_key, false);
+    public static void savePrefInt(Context context, String key, int val) {
+        SharedPreferences pref = context.getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt(key, val);
+        editor.apply();
+    }
+
+    // Load sharedPref config
+    public static boolean loadPrefBool(Context context, String key) {
+        SharedPreferences pref = context.getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
+        return pref.getBoolean(key, false);
+    }
+
+    public static int loadPrefInt(Context context, String key) {
+        SharedPreferences pref = context.getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
+        return pref.getInt(key, 0);
     }
 }
