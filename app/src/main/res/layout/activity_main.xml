@@ -111,7 +111,7 @@
             android:fontFamily="@font/semibold"
             android:letterSpacing="0.15"
             android:paddingStart="32dp"
-            android:paddingTop="6dp"
+            android:paddingTop="8dp"
             android:paddingEnd="32dp"
             android:paddingBottom="6dp"
             android:text="CONTINUE"
