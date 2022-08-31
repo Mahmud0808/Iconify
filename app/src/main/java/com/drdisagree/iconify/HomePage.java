@@ -18,7 +18,7 @@ import android.widget.TextView;
 public class HomePage extends AppCompatActivity {
 
     private ViewGroup container;
-    LinearLayout home_iconPack;
+    LinearLayout home_iconPack, home_brightnessBar, home_qsShape, home_notification, home_mediaPlayer, home_extras, home_info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +36,7 @@ public class HomePage extends AppCompatActivity {
         addItem(R.id.home_qsShape, "QS Shape", "Customize qs tile shape", R.drawable.ic_shape_home);
         addItem(R.id.home_notification, "Notification", "Customize notification style", R.drawable.ic_notification_home);
         addItem(R.id.home_mediaPlayer, "Media Player", "Change how media player looks", R.drawable.ic_media_home);
+        addItem(R.id.home_extras, "Extras", "Additions tweaks and settings", R.drawable.ic_extras_home);
         addItem(R.id.home_info, "About", "Information about this app", R.drawable.ic_info_home);
 
         // Home page item onClick
@@ -49,8 +50,8 @@ public class HomePage extends AppCompatActivity {
         });
 
         // Brightness bar item onClick
-        home_iconPack = findViewById(R.id.home_brightnessBar);
-        home_iconPack.setOnClickListener(new View.OnClickListener() {
+        home_brightnessBar = findViewById(R.id.home_brightnessBar);
+        home_brightnessBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomePage.this, BrightnessBars.class);
@@ -59,8 +60,8 @@ public class HomePage extends AppCompatActivity {
         });
 
         // QS Shape item onClick
-        home_iconPack = findViewById(R.id.home_qsShape);
-        home_iconPack.setOnClickListener(new View.OnClickListener() {
+        home_qsShape = findViewById(R.id.home_qsShape);
+        home_qsShape.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomePage.this, QsShapes.class);
@@ -69,8 +70,8 @@ public class HomePage extends AppCompatActivity {
         });
 
         // Notification item onClick
-        home_iconPack = findViewById(R.id.home_notification);
-        home_iconPack.setOnClickListener(new View.OnClickListener() {
+        home_notification = findViewById(R.id.home_notification);
+        home_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomePage.this, Notifications.class);
@@ -79,8 +80,8 @@ public class HomePage extends AppCompatActivity {
         });
 
         // Media player item onClick
-        home_iconPack = findViewById(R.id.home_mediaPlayer);
-        home_iconPack.setOnClickListener(new View.OnClickListener() {
+        home_mediaPlayer = findViewById(R.id.home_mediaPlayer);
+        home_mediaPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomePage.this, MediaPlayer.class);
@@ -88,9 +89,19 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
+        // Extras item onClick
+        home_extras = findViewById(R.id.home_extras);
+        home_extras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, Extras.class);
+                startActivity(intent);
+            }
+        });
+
         // About item onClick
-        home_iconPack = findViewById(R.id.home_info);
-        home_iconPack.setOnClickListener(new View.OnClickListener() {
+        home_info = findViewById(R.id.home_info);
+        home_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomePage.this, Info.class);

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     android:fillViewport="true"
-    tools:context=".Notifications">
+    tools:context=".Extras">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
     </ScrollView>
 
     <LinearLayout
-        android:id="@+id/progressBar_Notification"
+        android:id="@+id/progressBar_Extras"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#44000000"

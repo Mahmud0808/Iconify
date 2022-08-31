@@ -11,19 +11,19 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/colorBackground</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightStatusBar">false</item>
         <!-- Navigation bar color. -->
         <item name="android:navigationBarColor">@color/colorBackground</item>
         <!-- Customize your theme here. -->
         <item name="android:fontFamily">@font/normal</item>
         <item name="fontFamily">@font/normal</item>
     </style>
-    <color name="colorBackground">#FFFFFFFF</color>
+    <color name="colorBackground">#FF000F1D</color>
     <color name="colorForeground">#FF0A1828</color>
-    <color name="colorContainer">#FFF6F7F9</color>
-    <color name="textColorPrimary">@color/black</color>
-    <color name="textColorSecondary">#FF6E6E6E</color>
-    <color name="colorSuccess">#FF4FBF26</color>
+    <color name="colorContainer">#FF0A1828</color>
+    <color name="textColorPrimary">@color/white</color>
+    <color name="textColorSecondary">#FF69788A</color>
+    <color name="colorSuccess">#FFB7F7C4</color>
     <color name="colorError">#FFFFB7B6</color>
     <color name="colorInfo">#FFB3E6F5</color>
     <color name="colorWarning">#FFFBE7C6</color>

@@ -6,6 +6,7 @@
     <item name="home_qsShape" type="id" />
     <item name="home_notification" type="id" />
     <item name="home_mediaPlayer" type="id" />
+    <item name="home_extras" type="id" />
     <item name="home_info" type="id" />
 
     <!-- Icon Pack List -->

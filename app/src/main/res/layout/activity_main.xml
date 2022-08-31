@@ -40,7 +40,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="18dp"
             android:text="Iconify"
-            android:textColor="@color/white"
+            android:textColor="@color/textColorPrimary"
             android:textSize="28dp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -64,7 +64,7 @@
                 android:layout_marginLeft="@dimen/container_margin"
                 android:layout_marginRight="@dimen/container_margin"
                 android:layout_marginBottom="60dp"
-                android:background="@drawable/bg_warn"
+                android:background="@drawable/container"
                 android:gravity="left|center"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/container_paddingSide"
@@ -88,7 +88,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Warning"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
 
@@ -96,7 +96,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Looks like your device is not rooted!"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_title_size2" />
                 </LinearLayout>
             </LinearLayout>
@@ -108,12 +108,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/button"
-            android:fontFamily="@font/balooda2semibold"
+            android:fontFamily="@font/semibold"
             android:letterSpacing="0.15"
-            android:paddingStart="36dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="36dp"
-            android:paddingBottom="8dp"
+            android:paddingStart="32dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="32dp"
+            android:paddingBottom="6dp"
             android:text="CONTINUE"
             android:textColor="@color/colorBackground"
             android:textSize="22dp"

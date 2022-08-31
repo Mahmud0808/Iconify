@@ -15,16 +15,17 @@
         android:layout_height="28dp"
         android:layout_gravity="center"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="3dp"
-        android:background="@drawable/ic_launcher_foreground" />
+        android:layout_marginBottom="2dp"
+        android:background="@drawable/ic_launcher_foreground"
+        android:backgroundTint="@color/textColorPrimary" />
 
     <TextView
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/balooda2bold"
+        android:fontFamily="@font/bold"
         android:letterSpacing="0.1"
-        android:textColor="@color/white"
+        android:textColor="@color/textColorPrimary"
         android:textSize="@dimen/header_text_size"
         android:textStyle="bold" />
 </LinearLayout>
