@@ -19,4 +19,7 @@
     <item name="iconPack_lorn_container" type="id" />
     <item name="iconPack_lorn_enable" type="id" />
     <item name="iconPack_lorn_disable" type="id" />
+    <item name="iconPack_plumpy_container" type="id" />
+    <item name="iconPack_plumpy_enable" type="id" />
+    <item name="iconPack_plumpy_disable" type="id" />
 </resources>

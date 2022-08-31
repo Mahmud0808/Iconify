@@ -24,14 +24,14 @@
             android:layout_width="108dp"
             android:layout_height="108dp"
             android:layout_gravity="center"
-            android:background="@drawable/ic_launcher_background"
+            android:background="@drawable/ic_launcher_bg"
             android:elevation="4dp"
             android:padding="12dp">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:foreground="@drawable/ic_launcher_foreground" />
+                android:foreground="@drawable/ic_launcher_fg" />
         </FrameLayout>
 
         <TextView

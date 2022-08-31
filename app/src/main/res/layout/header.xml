@@ -16,7 +16,7 @@
         android:layout_gravity="center"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="2dp"
-        android:background="@drawable/ic_launcher_foreground"
+        android:background="@drawable/ic_launcher_fg"
         android:backgroundTint="@color/textColorPrimary" />
 
     <TextView
