@@ -14,6 +14,6 @@ public class Info extends AppCompatActivity {
 
         // Header
         TextView header = findViewById(R.id.header);
-        header.setText("Info");
+        header.setText("About");
     }
 }
