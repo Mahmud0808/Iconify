@@ -1,6 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.Iconify" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Background color. -->
+        <item name="android:windowBackground">@color/colorBackground</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorAccent</item>
         <item name="colorPrimaryVariant">@color/colorAccent</item>
@@ -14,6 +16,7 @@
         <item name="android:windowLightStatusBar">false</item>
         <!-- Navigation bar color. -->
         <item name="android:navigationBarColor">@color/colorBackground</item>
+        <item name="android:windowLightNavigationBar">false</item>
         <!-- Customize your theme here. -->
         <item name="android:fontFamily">@font/normal</item>
         <item name="fontFamily">@font/normal</item>
