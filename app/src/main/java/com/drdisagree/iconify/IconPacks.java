@@ -231,26 +231,26 @@ public class IconPacks extends AppCompatActivity {
     private void addItem(int id, String title, String desc, int preview1, int preview2, int preview3, int preview4, int enableid, int disableid) {
         View list_option_iconpack = LayoutInflater.from(this).inflate(R.layout.list_option_iconpack, container, false);
 
-        TextView list_title = (TextView) list_option_iconpack.findViewById(R.id.list_title);
-        TextView list_desc = (TextView) list_option_iconpack.findViewById(R.id.list_desc);
-        ImageView list_preview1 = (ImageView) list_option_iconpack.findViewById(R.id.list_preview1);
-        ImageView list_preview2 = (ImageView) list_option_iconpack.findViewById(R.id.list_preview2);
-        ImageView list_preview3 = (ImageView) list_option_iconpack.findViewById(R.id.list_preview3);
-        ImageView list_preview4 = (ImageView) list_option_iconpack.findViewById(R.id.list_preview4);
-        Button list_button_enable = (Button) list_option_iconpack.findViewById(R.id.list_button_enable);
-        Button list_button_disable = (Button) list_option_iconpack.findViewById(R.id.list_button_disable);
+        TextView list_title_iconpack = (TextView) list_option_iconpack.findViewById(R.id.list_title_iconpack);
+        TextView list_desc_iconpack = (TextView) list_option_iconpack.findViewById(R.id.list_desc_iconpack);
+        ImageView list_preview1_iconpack = (ImageView) list_option_iconpack.findViewById(R.id.list_preview1_iconpack);
+        ImageView list_preview2_iconpack = (ImageView) list_option_iconpack.findViewById(R.id.list_preview2_iconpack);
+        ImageView list_preview3_iconpack = (ImageView) list_option_iconpack.findViewById(R.id.list_preview3_iconpack);
+        ImageView list_preview4_iconpack = (ImageView) list_option_iconpack.findViewById(R.id.list_preview4_iconpack);
+        Button list_button_enable_iconpack = (Button) list_option_iconpack.findViewById(R.id.list_button_enable_iconpack);
+        Button list_button_disable_iconpack = (Button) list_option_iconpack.findViewById(R.id.list_button_disable_iconpack);
 
         list_option_iconpack.setId(id);
-        list_title.setText(title);
-        list_desc.setText(desc);
+        list_title_iconpack.setText(title);
+        list_desc_iconpack.setText(desc);
 
-        list_preview1.setImageResource(preview1);
-        list_preview2.setImageResource(preview2);
-        list_preview3.setImageResource(preview3);
-        list_preview4.setImageResource(preview4);
+        list_preview1_iconpack.setImageResource(preview1);
+        list_preview2_iconpack.setImageResource(preview2);
+        list_preview3_iconpack.setImageResource(preview3);
+        list_preview4_iconpack.setImageResource(preview4);
 
-        list_button_enable.setId(enableid);
-        list_button_disable.setId(disableid);
+        list_button_enable_iconpack.setId(enableid);
+        list_button_disable_iconpack.setId(disableid);
 
         container.addView(list_option_iconpack);
     }

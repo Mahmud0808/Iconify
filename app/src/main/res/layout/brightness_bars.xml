@@ -21,9 +21,12 @@
             <include layout="@layout/header" />
 
             <LinearLayout
+                android:id="@+id/brightness_bars_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical" />
+
+            <include layout="@layout/list_option_brightnessbar" />
 
         </LinearLayout>
     </ScrollView>

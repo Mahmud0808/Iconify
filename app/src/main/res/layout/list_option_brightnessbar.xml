@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_option_brightnessbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/container_marginSide"
+    android:layout_marginEnd="@dimen/container_marginSide"
+    android:layout_marginBottom="@dimen/container_margin"
+    android:background="@drawable/container"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/container_paddingSide"
+    android:paddingTop="@dimen/container_padding"
+    android:paddingEnd="@dimen/container_paddingSide"
+    android:paddingBottom="@dimen/container_padding">
+
+    <TextView
+        android:id="@+id/list_title_brightnessbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|top"
+        android:layout_marginBottom="@dimen/container_padding"
+        android:text="Brightnessbar 1"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="@dimen/cont_title_size"
+        android:textStyle="bold" />
+
+    <SeekBar
+        android:id="@+id/seekBar1"
+        android:progress="70"
+        android:splitTrack="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/list_button_enable_brightnessbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/container_padding"
+        android:background="@drawable/button"
+        android:fontFamily="@font/semibold"
+        android:letterSpacing="0.2"
+        android:text="Enable"
+        android:textColor="@color/colorBackground"
+        android:textSize="@dimen/cont_title_size"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/list_button_disable_brightnessbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/container_padding"
+        android:background="@drawable/button_red"
+        android:fontFamily="@font/semibold"
+        android:letterSpacing="0.2"
+        android:text="Disable"
+        android:textColor="@color/colorBackground"
+        android:textSize="@dimen/cont_title_size"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+</LinearLayout>
