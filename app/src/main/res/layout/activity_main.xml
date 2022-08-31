@@ -92,9 +92,9 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/warning"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Looks like your device is not rooted!"
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_title_size2" />
                 </LinearLayout>

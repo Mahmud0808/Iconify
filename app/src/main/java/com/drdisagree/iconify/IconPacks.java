@@ -3,6 +3,7 @@ package com.drdisagree.iconify;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ public class IconPacks extends AppCompatActivity {
     LinearLayout AuroraContainer, GradiconContainer, LornContainer, PlumpyContainer;
     Button Aurora_Enable, Aurora_Disable, Gradicon_Enable, Gradicon_Disable, Lorn_Enable, Lorn_Disable, Plumpy_Enable, Plumpy_Disable;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,20 +83,18 @@ public class IconPacks extends AppCompatActivity {
     // Function to check for layout changes
     private void refreshLayout(LinearLayout layout) {
 
-        for (int i = 0; i < Container.length; i++) {
-            if (Container[i] == layout)
-                continue;
-            else {
-                if (Container[i] == AuroraContainer) {
+        for (LinearLayout linearLayout : Container) {
+            if (!(linearLayout == layout)) {
+                if (linearLayout == AuroraContainer) {
                     Aurora_Enable.setVisibility(View.GONE);
                     Aurora_Disable.setVisibility(View.GONE);
-                } else if (Container[i] == GradiconContainer) {
+                } else if (linearLayout == GradiconContainer) {
                     Gradicon_Enable.setVisibility(View.GONE);
                     Gradicon_Disable.setVisibility(View.GONE);
-                } else if (Container[i] == LornContainer) {
+                } else if (linearLayout == LornContainer) {
                     Lorn_Enable.setVisibility(View.GONE);
                     Lorn_Disable.setVisibility(View.GONE);
-                } else if (Container[i] == PlumpyContainer) {
+                } else if (linearLayout == PlumpyContainer) {
                     Plumpy_Enable.setVisibility(View.GONE);
                     Plumpy_Disable.setVisibility(View.GONE);
                 }
@@ -119,17 +119,17 @@ public class IconPacks extends AppCompatActivity {
             public void onClick(View v) {
                 refreshLayout(layout);
                 if (!PrefConfig.loadPrefBool(getApplicationContext(), key)) {
-                    disable.setVisibility(v.GONE);
-                    if (enable.getVisibility() == v.VISIBLE)
-                        enable.setVisibility(v.GONE);
+                    disable.setVisibility(View.GONE);
+                    if (enable.getVisibility() == View.VISIBLE)
+                        enable.setVisibility(View.GONE);
                     else
-                        enable.setVisibility(v.VISIBLE);
+                        enable.setVisibility(View.VISIBLE);
                 } else {
-                    enable.setVisibility(v.GONE);
-                    if (disable.getVisibility() == v.VISIBLE)
-                        disable.setVisibility(v.GONE);
+                    enable.setVisibility(View.GONE);
+                    if (disable.getVisibility() == View.VISIBLE)
+                        disable.setVisibility(View.GONE);
                     else
-                        disable.setVisibility(v.VISIBLE);
+                        disable.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -140,7 +140,7 @@ public class IconPacks extends AppCompatActivity {
             public void onClick(View v) {
                 refreshLayout(layout);
                 // Show spinner
-                spinner.setVisibility(v.VISIBLE);
+                spinner.setVisibility(View.VISIBLE);
                 // Block touch
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 IconInstaller.install_pack(index);
@@ -156,8 +156,8 @@ public class IconPacks extends AppCompatActivity {
                         background(layout.getId(), R.drawable.container_selected);
                         refreshBackground();
                         // Change button visibility
-                        enable.setVisibility(v.GONE);
-                        disable.setVisibility(v.VISIBLE);
+                        enable.setVisibility(View.GONE);
+                        disable.setVisibility(View.VISIBLE);
                     }
                 }, 1000);
                 disable_others(key);
@@ -169,7 +169,7 @@ public class IconPacks extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Show spinner
-                spinner.setVisibility(v.VISIBLE);
+                spinner.setVisibility(View.VISIBLE);
                 // Block touch
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 IconInstaller.disable_pack(index);
@@ -184,8 +184,8 @@ public class IconPacks extends AppCompatActivity {
                         // Change background to selected
                         background(layout.getId(), R.drawable.container);
                         // Change button visibility
-                        disable.setVisibility(v.GONE);
-                        enable.setVisibility(v.VISIBLE);
+                        disable.setVisibility(View.GONE);
+                        enable.setVisibility(View.VISIBLE);
                     }
                 }, 1000);
             }
