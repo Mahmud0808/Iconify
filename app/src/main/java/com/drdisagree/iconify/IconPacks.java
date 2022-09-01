@@ -143,6 +143,7 @@ public class IconPacks extends AppCompatActivity {
                 spinner.setVisibility(View.VISIBLE);
                 // Block touch
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                disable_others(key);
                 IconInstaller.install_pack(index);
                 PrefConfig.savePrefBool(getApplicationContext(), key, true);
                 // Wait 1 second
@@ -160,7 +161,6 @@ public class IconPacks extends AppCompatActivity {
                         disable.setVisibility(View.VISIBLE);
                     }
                 }, 1000);
-                disable_others(key);
             }
         });
 
