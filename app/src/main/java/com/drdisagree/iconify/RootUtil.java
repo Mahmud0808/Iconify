@@ -1,13 +1,11 @@
 package com.drdisagree.iconify;
 
+import com.topjohnwu.superuser.Shell;
 import java.io.*;
 
 public class RootUtil {
-    public static boolean isDeviceRooted() {
-        return checkRoot();
-    }
 
-    private static boolean checkRoot() {
+    static boolean isDeviceRooted() {
         Process process = null;
         try {
             // Check for root permission
@@ -31,5 +29,10 @@ public class RootUtil {
         } finally {
             if (process != null) process.destroy();
         }
+    }
+
+    static boolean isMagiskInstalled() {
+        Shell.Result magisk = Shell.cmd("[ -d /data/adb/magisk ]").exec();
+        return magisk.isSuccess();
     }
 }
