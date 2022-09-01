@@ -248,14 +248,14 @@ public class IconPacks extends AppCompatActivity {
     private void addItem(int id, String title, String desc, int preview1, int preview2, int preview3, int preview4, int enableid, int disableid) {
         View list_option_iconpack = LayoutInflater.from(this).inflate(R.layout.list_option_iconpack, container, false);
 
-        TextView list_title_iconpack = (TextView) list_option_iconpack.findViewById(R.id.list_title_iconpack);
-        TextView list_desc_iconpack = (TextView) list_option_iconpack.findViewById(R.id.list_desc_iconpack);
-        ImageView list_preview1_iconpack = (ImageView) list_option_iconpack.findViewById(R.id.list_preview1_iconpack);
-        ImageView list_preview2_iconpack = (ImageView) list_option_iconpack.findViewById(R.id.list_preview2_iconpack);
-        ImageView list_preview3_iconpack = (ImageView) list_option_iconpack.findViewById(R.id.list_preview3_iconpack);
-        ImageView list_preview4_iconpack = (ImageView) list_option_iconpack.findViewById(R.id.list_preview4_iconpack);
-        Button list_button_enable_iconpack = (Button) list_option_iconpack.findViewById(R.id.list_button_enable_iconpack);
-        Button list_button_disable_iconpack = (Button) list_option_iconpack.findViewById(R.id.list_button_disable_iconpack);
+        TextView list_title_iconpack = list_option_iconpack.findViewById(R.id.list_title_iconpack);
+        TextView list_desc_iconpack = list_option_iconpack.findViewById(R.id.list_desc_iconpack);
+        ImageView list_preview1_iconpack = list_option_iconpack.findViewById(R.id.list_preview1_iconpack);
+        ImageView list_preview2_iconpack = list_option_iconpack.findViewById(R.id.list_preview2_iconpack);
+        ImageView list_preview3_iconpack = list_option_iconpack.findViewById(R.id.list_preview3_iconpack);
+        ImageView list_preview4_iconpack = list_option_iconpack.findViewById(R.id.list_preview4_iconpack);
+        Button list_button_enable_iconpack = list_option_iconpack.findViewById(R.id.list_button_enable_iconpack);
+        Button list_button_disable_iconpack = list_option_iconpack.findViewById(R.id.list_button_disable_iconpack);
 
         list_option_iconpack.setId(id);
         list_title_iconpack.setText(title);
