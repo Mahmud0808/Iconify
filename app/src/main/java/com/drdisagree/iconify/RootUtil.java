@@ -1,9 +1,8 @@
 package com.drdisagree.iconify;
 
-import com.topjohnwu.superuser.Shell;
 import java.io.*;
 import java.util.List;
-import java.util.Objects;
+import com.jaredrummler.android.shell.Shell;
 
 public class RootUtil {
 
@@ -34,7 +33,6 @@ public class RootUtil {
     }
 
     static boolean isMagiskInstalled() {
-        List<String> out = Shell.cmd("[ -d \"/data/adb/magisk\" ] && echo \"true\" || echo \"false\"").exec().getOut();
-                return true;
+        return Shell.run("magisk").getStderr().contains("su");
     }
 }
