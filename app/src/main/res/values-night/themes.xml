@@ -26,6 +26,7 @@
     <color name="colorContainer">#FF0A1828</color>
     <color name="textColorPrimary">@color/white</color>
     <color name="textColorSecondary">#FF69788A</color>
+    <color name="textColorSecondaryLight">#B3FFFFFF</color>
     <color name="colorSuccess">#FFB7F7C4</color>
     <color name="colorError">#FFFFB7B6</color>
     <color name="colorInfo">#FFB3E6F5</color>

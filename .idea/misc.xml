@@ -12,6 +12,7 @@
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/container_selected.xml" value="0.1395" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/container_top.xml" value="0.2465" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/containers.xml" value="0.272" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/dangerous.xml" value="0.193" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/ic_info.xml" value="0.196" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/ic_launcher_background.xml" value="0.267" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/ic_launcher_bg.xml" value="0.1795" />
@@ -46,7 +47,7 @@
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.267" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/brightness_bars.xml" value="0.18802083333333333" />
-        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/extras.xml" value="0.18802083333333333" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/extras.xml" value="0.33" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/header.xml" value="0.2546875" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/home_page.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/icon_packs.xml" value="0.25" />
