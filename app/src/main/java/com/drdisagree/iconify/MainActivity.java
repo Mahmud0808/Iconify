@@ -31,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
         final boolean magiskFound = RootUtil.isMagiskInstalled();
         final boolean deviceRooted = RootUtil.isDeviceRooted();
 
-        Shell.getShell(shell -> {
-
             // Continue button
             checkRoot = findViewById(R.id.checkRoot);
 
@@ -42,18 +40,22 @@ public class MainActivity extends AppCompatActivity {
 
             // Check for root permission on opening
             if (deviceRooted && magiskFound && (versionCode == PrefConfig.loadPrefInt(this, "versionCode"))) {
-                Intent intent = new Intent(MainActivity.this, HomePage.class);
-                startActivity(intent);
-                finish();
+                Shell.getShell(shell -> {
+                    Intent intent = new Intent(MainActivity.this, HomePage.class);
+                    startActivity(intent);
+                    finish();
+                });
             }
 
             // Check for root onClick
             checkRoot.setOnClickListener(v -> {
                 if (deviceRooted && magiskFound) {
-                    PrefConfig.savePrefInt(this, "versionCode", versionCode);
-                    Intent intent = new Intent(MainActivity.this, HomePage.class);
-                    startActivity(intent);
-                    finish();
+                    Shell.getShell(shell -> {
+                        PrefConfig.savePrefInt(this, "versionCode", versionCode);
+                        Intent intent = new Intent(MainActivity.this, HomePage.class);
+                        startActivity(intent);
+                        finish();
+                    });
                 } else {
                     rootNotFound.setVisibility(View.VISIBLE);
                     if (!deviceRooted && !magiskFound) {
@@ -63,6 +65,5 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
-        });
     }
 }
