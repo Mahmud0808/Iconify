@@ -104,10 +104,10 @@ public class IconPacks extends AppCompatActivity {
 
     // Function to check for bg drawable changes
     private void refreshBackground() {
-        checkIfApplied(AuroraContainer, PrefConfig.loadPrefBool(this, "aurora"));
-        checkIfApplied(GradiconContainer, PrefConfig.loadPrefBool(this, "gradicon"));
-        checkIfApplied(LornContainer, PrefConfig.loadPrefBool(this, "lorn"));
-        checkIfApplied(PlumpyContainer, PrefConfig.loadPrefBool(this, "plumpy"));
+        checkIfApplied(AuroraContainer, 1);
+        checkIfApplied(GradiconContainer, 2);
+        checkIfApplied(LornContainer, 3);
+        checkIfApplied(PlumpyContainer, 4);
     }
 
     // Function for onClick events
@@ -214,11 +214,28 @@ public class IconPacks extends AppCompatActivity {
     }
 
     // Function to change applied pack's bg
-    private void checkIfApplied(LinearLayout layout, Boolean icon_applied) {
-        if (icon_applied)
+    private void checkIfApplied(LinearLayout layout, int icon) {
+        if (OverlayUtils.isOverlayEnabled("IconifyComponentIPAS" + icon + ".overlay") && OverlayUtils.isOverlayEnabled("IconifyComponentIPSUI" + icon + ".overlay")) {
+            if (icon == 1)
+                PrefConfig.savePrefBool(this, "aurora", true);
+            else if (icon == 2)
+                PrefConfig.savePrefBool(this, "gradicon", true);
+            else if (icon == 3)
+                PrefConfig.savePrefBool(this, "lorn", true);
+            else if (icon == 4)
+                PrefConfig.savePrefBool(this, "plumpy", true);
             background(layout.getId(), R.drawable.container_selected);
-        else
+        } else {
+            if (icon == 1)
+                PrefConfig.savePrefBool(this, "aurora", false);
+            else if (icon == 2)
+                PrefConfig.savePrefBool(this, "gradicon", false);
+            else if (icon == 3)
+                PrefConfig.savePrefBool(this, "lorn", false);
+            else if (icon == 4)
+                PrefConfig.savePrefBool(this, "plumpy", false);
             background(layout.getId(), R.drawable.container);
+        }
     }
 
     // Function to add border for installed pack
