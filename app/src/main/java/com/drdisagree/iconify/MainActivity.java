@@ -11,9 +11,10 @@ import android.widget.TextView;
 
 import com.topjohnwu.superuser.Shell;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
-    private Button checkRoot;
     private final int versionCode = BuildConfig.VERSION_CODE;
     private final String versionName = BuildConfig.VERSION_NAME;
 
@@ -26,44 +27,58 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        try {
+            Runtime.getRuntime().exec("su");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Shell.getShell(shell -> {
+            setContentView(R.layout.activity_main);
 
-        final boolean magiskFound = RootUtil.isMagiskInstalled();
-        final boolean deviceRooted = RootUtil.isDeviceRooted();
+            // Check for root permission
+            if (!RootUtil.isDeviceRooted())
+                try {
+                    Runtime.getRuntime().exec("su");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            if (RootUtil.isDeviceRooted() && (versionCode == PrefConfig.loadPrefInt(this, "versionCode"))) {
+                if (RootUtil.isMagiskInstalled()) {
+                    Intent intent = new Intent(MainActivity.this, HomePage.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
 
             // Continue button
-            checkRoot = findViewById(R.id.checkRoot);
+            Button checkRoot = findViewById(R.id.checkRoot);
 
             // Dialog to show if root not found
             LinearLayout rootNotFound = findViewById(R.id.rootNotFound);
             TextView warning = findViewById(R.id.warning);
 
-            // Check for root permission on opening
-            if (deviceRooted && magiskFound && (versionCode == PrefConfig.loadPrefInt(this, "versionCode"))) {
-                Shell.getShell(shell -> {
-                    Intent intent = new Intent(MainActivity.this, HomePage.class);
-                    startActivity(intent);
-                    finish();
-                });
-            }
-
             // Check for root onClick
             checkRoot.setOnClickListener(v -> {
-                if (deviceRooted && magiskFound) {
-                    Shell.getShell(shell -> {
-                        PrefConfig.savePrefInt(this, "versionCode", versionCode);
-                        Intent intent = new Intent(MainActivity.this, HomePage.class);
-                        startActivity(intent);
-                        finish();
-                    });
+                try {
+                    Runtime.getRuntime().exec("su");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (RootUtil.isDeviceRooted()) {
+                        if (RootUtil.isMagiskInstalled()) {
+                            PrefConfig.savePrefInt(this, "versionCode", versionCode);
+                            Intent intent = new Intent(MainActivity.this, HomePage.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            rootNotFound.setVisibility(View.VISIBLE);
+                            warning.setText("Use Magisk to root your device!");
+                        }
                 } else {
                     rootNotFound.setVisibility(View.VISIBLE);
-                    if (!deviceRooted && !magiskFound) {
-                        warning.setText("Looks like your device is not rooted!");
-                    } else {
-                        warning.setText("Magisk root method not detected!");
-                    }
+                    warning.setText("Looks like your device is not rooted!");
                 }
             });
+        });
     }
 }

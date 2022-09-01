@@ -2,6 +2,8 @@ package com.drdisagree.iconify;
 
 import com.topjohnwu.superuser.Shell;
 import java.io.*;
+import java.util.List;
+import java.util.Objects;
 
 public class RootUtil {
 
@@ -32,7 +34,7 @@ public class RootUtil {
     }
 
     static boolean isMagiskInstalled() {
-        Shell.Result magisk = Shell.cmd("[ -d /data/adb/magisk ]").exec();
-        return magisk.isSuccess();
+        List<String> out = Shell.cmd("[ -d \"/data/adb/magisk\" ] && echo \"true\" || echo \"false\"").exec().getOut();
+                return true;
     }
 }

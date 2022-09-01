@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1.0"
-        android:gravity="center|bottom"
+        android:gravity="center"
         android:orientation="vertical">
 
         <FrameLayout
@@ -54,7 +54,8 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="100dp">
+            android:layout_gravity="center|top"
+            android:minHeight="180dp">
 
             <LinearLayout
                 android:id="@+id/rootNotFound"
