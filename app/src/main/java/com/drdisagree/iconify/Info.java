@@ -4,17 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.drdisagree.iconify.BuildConfig;
-
-import org.w3c.dom.Text;
 
 public class Info extends AppCompatActivity {
 

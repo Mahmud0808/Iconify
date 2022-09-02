@@ -1,7 +1,6 @@
 package com.drdisagree.iconify;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.text.LineBreaker;
 import android.os.Bundle;
 import android.view.View;

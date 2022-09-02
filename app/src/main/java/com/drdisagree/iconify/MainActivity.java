@@ -2,12 +2,15 @@ package com.drdisagree.iconify;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.topjohnwu.superuser.Shell;
 
@@ -27,34 +30,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        try {
-            Runtime.getRuntime().exec("su");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         Shell.getShell(shell -> {
             setContentView(R.layout.activity_main);
 
             // Check for root permission
-            if (!RootUtil.isDeviceRooted())
+            if (!RootUtil.isDeviceRooted()) {
                 try {
                     Runtime.getRuntime().exec("su");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            if (RootUtil.isDeviceRooted() && (versionCode == PrefConfig.loadPrefInt(this, "versionCode"))) {
-                if (RootUtil.isMagiskInstalled()) {
-                    Intent intent = new Intent(MainActivity.this, HomePage.class);
-                    startActivity(intent);
-                    finish();
-                }
+            }
+
+            if (RootUtil.isDeviceRooted() && RootUtil.isMagiskInstalled() && OverlayUtils.moduleExists() && OverlayUtils.overlayExists() && (versionCode == PrefConfig.loadPrefInt(this, "versionCode"))) {
+                Intent intent = new Intent(MainActivity.this, HomePage.class);
+                startActivity(intent);
+                finish();
             }
 
             // Continue button
             Button checkRoot = findViewById(R.id.checkRoot);
 
             // Dialog to show if root not found
-            LinearLayout rootNotFound = findViewById(R.id.rootNotFound);
+            LinearLayout warn = findViewById(R.id.warn);
             TextView warning = findViewById(R.id.warning);
 
             // Check for root onClick
@@ -65,17 +63,31 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 if (RootUtil.isDeviceRooted()) {
-                        if (RootUtil.isMagiskInstalled()) {
+                    if (RootUtil.isMagiskInstalled()) {
+                        if (PrefConfig.loadPrefInt(this, "versionCode") < versionCode) {
+                            try {
+                                OverlayUtils.handleModule(this);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (OverlayUtils.overlayExists()) {
+                            if (PrefConfig.loadPrefInt(this, "versionCode") != 0)
+                                Toast.makeText(getApplicationContext(), "Reboot to Apply Changes", Toast.LENGTH_LONG).show();
                             PrefConfig.savePrefInt(this, "versionCode", versionCode);
                             Intent intent = new Intent(MainActivity.this, HomePage.class);
                             startActivity(intent);
                             finish();
                         } else {
-                            rootNotFound.setVisibility(View.VISIBLE);
-                            warning.setText("Use Magisk to root your device!");
+                            warn.setVisibility(View.VISIBLE);
+                            warning.setText("Reboot your device first!");
                         }
+                    } else {
+                        warn.setVisibility(View.VISIBLE);
+                        warning.setText("Use Magisk to root your device!");
+                    }
                 } else {
-                    rootNotFound.setVisibility(View.VISIBLE);
+                    warn.setVisibility(View.VISIBLE);
                     warning.setText("Looks like your device is not rooted!");
                 }
             });

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.List;
 import java.util.Objects;
 
 public class IconPacks extends AppCompatActivity {
@@ -104,10 +105,11 @@ public class IconPacks extends AppCompatActivity {
 
     // Function to check for bg drawable changes
     private void refreshBackground() {
-        checkIfApplied(AuroraContainer, 1);
-        checkIfApplied(GradiconContainer, 2);
-        checkIfApplied(LornContainer, 3);
-        checkIfApplied(PlumpyContainer, 4);
+        List<String> overlays = OverlayUtils.getOverlayList();
+        checkIfApplied(AuroraContainer, 1, overlays);
+        checkIfApplied(GradiconContainer, 2, overlays);
+        checkIfApplied(LornContainer, 3, overlays);
+        checkIfApplied(PlumpyContainer, 4, overlays);
     }
 
     // Function for onClick events
@@ -214,8 +216,8 @@ public class IconPacks extends AppCompatActivity {
     }
 
     // Function to change applied pack's bg
-    private void checkIfApplied(LinearLayout layout, int icon) {
-        if (OverlayUtils.isOverlayEnabled("IconifyComponentIPAS" + icon + ".overlay") && OverlayUtils.isOverlayEnabled("IconifyComponentIPSUI" + icon + ".overlay")) {
+    private void checkIfApplied(LinearLayout layout, int icon, List<String> overlays) {
+        if (OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentIPAS" + icon + ".overlay") && OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentIPSUI" + icon + ".overlay")) {
             if (icon == 1)
                 PrefConfig.savePrefBool(this, "aurora", true);
             else if (icon == 2)

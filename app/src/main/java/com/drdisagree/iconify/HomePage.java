@@ -1,16 +1,12 @@
 package com.drdisagree.iconify;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -39,7 +35,7 @@ public class HomePage extends AppCompatActivity {
         addItem(R.id.home_extras, "Extras", "Additions tweaks and settings", R.drawable.ic_extras_home);
         addItem(R.id.home_info, "About", "Information about this app", R.drawable.ic_info_home);
 
-        // Home page item onClick
+        // Icon pack item onClick
         home_iconPack = findViewById(R.id.home_iconPack);
         home_iconPack.setOnClickListener(new View.OnClickListener() {
             @Override

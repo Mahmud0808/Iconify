@@ -3,8 +3,6 @@ package com.drdisagree.iconify;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class BrightnessBars extends AppCompatActivity {
