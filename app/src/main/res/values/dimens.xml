@@ -9,4 +9,5 @@
     <dimen name="cont_title_size2">14dp</dimen>
     <dimen name="preview_margin">3dp</dimen>
     <dimen name="preview_icon_size">20dp</dimen>
+    <dimen name="cont_corner_radius">24dp</dimen>
 </resources>
