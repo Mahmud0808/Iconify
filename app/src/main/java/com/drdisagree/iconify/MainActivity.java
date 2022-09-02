@@ -70,10 +70,10 @@ public class MainActivity extends AppCompatActivity {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                        }
-                        if (OverlayUtils.overlayExists()) {
                             if (PrefConfig.loadPrefInt(this, "versionCode") != 0)
                                 Toast.makeText(getApplicationContext(), "Reboot to Apply Changes", Toast.LENGTH_LONG).show();
+                        }
+                        if (OverlayUtils.overlayExists()) {
                             PrefConfig.savePrefInt(this, "versionCode", versionCode);
                             Intent intent = new Intent(MainActivity.this, HomePage.class);
                             startActivity(intent);
