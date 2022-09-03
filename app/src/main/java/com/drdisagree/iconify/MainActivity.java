@@ -2,10 +2,8 @@ package com.drdisagree.iconify;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -32,21 +30,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Shell.getShell(shell -> {
             setContentView(R.layout.activity_main);
-
-            // Check for root permission
-            if (!RootUtil.isDeviceRooted()) {
-                try {
-                    Runtime.getRuntime().exec("su");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if (RootUtil.isDeviceRooted() && RootUtil.isMagiskInstalled() && OverlayUtils.moduleExists() && OverlayUtils.overlayExists() && (versionCode == PrefConfig.loadPrefInt(this, "versionCode"))) {
-                Intent intent = new Intent(MainActivity.this, HomePage.class);
-                startActivity(intent);
-                finish();
-            }
 
             // Continue button
             Button checkRoot = findViewById(R.id.checkRoot);

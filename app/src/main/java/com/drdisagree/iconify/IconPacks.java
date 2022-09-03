@@ -83,7 +83,6 @@ public class IconPacks extends AppCompatActivity {
 
     // Function to check for layout changes
     private void refreshLayout(LinearLayout layout) {
-
         for (LinearLayout linearLayout : Container) {
             if (!(linearLayout == layout)) {
                 if (linearLayout == AuroraContainer) {

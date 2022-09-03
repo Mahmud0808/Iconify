@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/bg_warn.xml" value="0.1595" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/button.xml" value="0.1795" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/button_red.xml" value="0.1895" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/circular_progress_bar.xml" value="0.272" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/container.xml" value="0.2765" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/container_bottom.xml" value="0.2465" />
@@ -55,10 +56,11 @@
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/list_option.xml" value="0.2755208333333333" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/list_option_brightnessbar.xml" value="0.240625" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/list_option_iconpack.xml" value="0.2833333333333333" />
-        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/list_view.xml" value="0.2671875" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/list_view.xml" value="0.33" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/media_player.xml" value="0.18802083333333333" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/notifications.xml" value="0.18802083333333333" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/qs_shapes.xml" value="0.18802083333333333" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/splash_screen.xml" value="0.16018518518518518" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/themes.xml" value="0.18981481481481483" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.124" />
         <entry key="..\:/AndroidStudioProjects/Iconify2/app/src/main/res/drawable/button.xml" value="0.1" />
