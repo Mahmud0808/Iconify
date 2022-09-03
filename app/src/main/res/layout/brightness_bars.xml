@@ -26,8 +26,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical" />
 
-            <include layout="@layout/list_option_brightnessbar" />
-
         </LinearLayout>
     </ScrollView>
 

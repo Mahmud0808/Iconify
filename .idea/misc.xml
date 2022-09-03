@@ -3,7 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/auto_bb_lessroundedclip.xml" value="0.195" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/auto_bb_miui.xml" value="0.195" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/auto_bb_realme.xml" value="0.195" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/auto_bb_roundedclip.xml" value="0.195" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/bb_lessroundedclip.xml" value="0.195" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/bb_miui.xml" value="0.195" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/bb_realme3.xml" value="0.195" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/bb_roundedclip.xml" value="0.195" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/bg_warn.xml" value="0.1595" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/brightness_bg.xml" value="0.195" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/brightness_icon_bg_default.xml" value="0.195" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/brightness_progress_drawable.xml" value="0.195" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/button.xml" value="0.1795" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/button_red.xml" value="0.1895" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/circular_progress_bar.xml" value="0.272" />
@@ -14,6 +25,7 @@
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/container_top.xml" value="0.2465" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/containers.xml" value="0.272" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/dangerous.xml" value="0.193" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/ic_brightness_off.xml" value="0.195" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/ic_info.xml" value="0.196" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/ic_launcher_background.xml" value="0.267" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/ic_launcher_bg.xml" value="0.1795" />
@@ -54,7 +66,7 @@
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/icon_packs.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/info.xml" value="0.17395833333333333" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/list_option.xml" value="0.2755208333333333" />
-        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/list_option_brightnessbar.xml" value="0.240625" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/list_option_brightnessbar.xml" value="0.33" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/list_option_iconpack.xml" value="0.2833333333333333" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/list_view.xml" value="0.33" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/media_player.xml" value="0.18802083333333333" />

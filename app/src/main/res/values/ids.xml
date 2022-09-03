@@ -22,4 +22,16 @@
     <item name="iconPack_plumpy_container" type="id" />
     <item name="iconPack_plumpy_enable" type="id" />
     <item name="iconPack_plumpy_disable" type="id" />
+
+    <!-- Brightness Bar List -->
+    <item name="brightnessBar_roundedClip_container" type="id" />
+    <item name="brightnessBar_roundedClip_bb" type="id" />
+    <item name="brightnessBar_roundedClip_auto_bb" type="id" />
+    <item name="brightnessBar_roundedClip_enable" type="id" />
+    <item name="brightnessBar_roundedClip_disable" type="id" />
+    <item name="brightnessBar_lessRoundedClip_container" type="id" />
+    <item name="brightnessBar_lessRoundedClip_bb" type="id" />
+    <item name="brightnessBar_lessRoundedClip_auto_bb" type="id" />
+    <item name="brightnessBar_lessRoundedClip_enable" type="id" />
+    <item name="brightnessBar_lessRoundedClip_disable" type="id" />
 </resources>

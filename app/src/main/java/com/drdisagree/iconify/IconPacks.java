@@ -22,7 +22,6 @@ public class IconPacks extends AppCompatActivity {
     private ViewGroup container;
     private LinearLayout spinner;
     LinearLayout[] Container;
-    Button[] Btn;
     LinearLayout AuroraContainer, GradiconContainer, LornContainer, PlumpyContainer;
     Button Aurora_Enable, Aurora_Disable, Gradicon_Enable, Gradicon_Disable, Lorn_Enable, Lorn_Disable, Plumpy_Enable, Plumpy_Disable;
 
@@ -44,6 +43,8 @@ public class IconPacks extends AppCompatActivity {
 
         // Icon Pack list items
         container = (ViewGroup) findViewById(R.id.icon_packs_list);
+
+        // Icon Pack add items in list
         addItem(R.id.iconPack_aurora_container, "Aurora", "Dual tone linear icon pack", R.drawable.preview_aurora_wifi, R.drawable.preview_aurora_signal, R.drawable.preview_aurora_airplane, R.drawable.preview_aurora_location, R.id.iconPack_aurora_enable, R.id.iconPack_aurora_disable);
         addItem(R.id.iconPack_gradicon_container, "Gradicon", "Gradient shaded filled icon pack", R.drawable.preview_gradicon_wifi, R.drawable.preview_gradicon_signal, R.drawable.preview_gradicon_airplane, R.drawable.preview_gradicon_location, R.id.iconPack_gradicon_enable, R.id.iconPack_gradicon_disable);
         addItem(R.id.iconPack_lorn_container, "Lorn", "Thick linear icon pack", R.drawable.preview_lorn_wifi, R.drawable.preview_lorn_signal, R.drawable.preview_lorn_airplane, R.drawable.preview_lorn_location, R.id.iconPack_lorn_enable, R.id.iconPack_lorn_disable);
@@ -247,29 +248,29 @@ public class IconPacks extends AppCompatActivity {
 
     // Function to add new item in list
     private void addItem(int id, String title, String desc, int preview1, int preview2, int preview3, int preview4, int enableid, int disableid) {
-        View list_option_iconpack = LayoutInflater.from(this).inflate(R.layout.list_option_iconpack, container, false);
+        View list = LayoutInflater.from(this).inflate(R.layout.list_option_iconpack, container, false);
 
-        TextView list_title_iconpack = list_option_iconpack.findViewById(R.id.list_title_iconpack);
-        TextView list_desc_iconpack = list_option_iconpack.findViewById(R.id.list_desc_iconpack);
-        ImageView list_preview1_iconpack = list_option_iconpack.findViewById(R.id.list_preview1_iconpack);
-        ImageView list_preview2_iconpack = list_option_iconpack.findViewById(R.id.list_preview2_iconpack);
-        ImageView list_preview3_iconpack = list_option_iconpack.findViewById(R.id.list_preview3_iconpack);
-        ImageView list_preview4_iconpack = list_option_iconpack.findViewById(R.id.list_preview4_iconpack);
-        Button list_button_enable_iconpack = list_option_iconpack.findViewById(R.id.list_button_enable_iconpack);
-        Button list_button_disable_iconpack = list_option_iconpack.findViewById(R.id.list_button_disable_iconpack);
+        TextView name = list.findViewById(R.id.list_title_iconpack);
+        TextView info = list.findViewById(R.id.list_desc_iconpack);
+        ImageView ic1 = list.findViewById(R.id.list_preview1_iconpack);
+        ImageView ic2 = list.findViewById(R.id.list_preview2_iconpack);
+        ImageView ic3 = list.findViewById(R.id.list_preview3_iconpack);
+        ImageView ic4 = list.findViewById(R.id.list_preview4_iconpack);
+        Button enable = list.findViewById(R.id.list_button_enable_iconpack);
+        Button disable = list.findViewById(R.id.list_button_disable_iconpack);
 
-        list_option_iconpack.setId(id);
-        list_title_iconpack.setText(title);
-        list_desc_iconpack.setText(desc);
+        list.setId(id);
+        name.setText(title);
+        info.setText(desc);
 
-        list_preview1_iconpack.setImageResource(preview1);
-        list_preview2_iconpack.setImageResource(preview2);
-        list_preview3_iconpack.setImageResource(preview3);
-        list_preview4_iconpack.setImageResource(preview4);
+        ic1.setImageResource(preview1);
+        ic2.setImageResource(preview2);
+        ic3.setImageResource(preview3);
+        ic4.setImageResource(preview4);
 
-        list_button_enable_iconpack.setId(enableid);
-        list_button_disable_iconpack.setId(disableid);
+        enable.setId(enableid);
+        disable.setId(disableid);
 
-        container.addView(list_option_iconpack);
+        container.addView(list);
     }
 }
