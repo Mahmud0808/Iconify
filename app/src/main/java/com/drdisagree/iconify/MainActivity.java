@@ -19,16 +19,10 @@ public class MainActivity extends AppCompatActivity {
     private final int versionCode = BuildConfig.VERSION_CODE;
     private final String versionName = BuildConfig.VERSION_NAME;
 
-    static {
-        Shell.enableVerboseLogging = true;
-        Shell.setDefaultBuilder(Shell.Builder.create().setFlags(Shell.FLAG_REDIRECT_STDERR).setTimeout(10));
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        Shell.getShell(shell -> {
             setContentView(R.layout.activity_main);
 
             // Continue button
@@ -74,6 +68,5 @@ public class MainActivity extends AppCompatActivity {
                     warning.setText("Looks like your device is not rooted!");
                 }
             });
-        });
     }
 }
