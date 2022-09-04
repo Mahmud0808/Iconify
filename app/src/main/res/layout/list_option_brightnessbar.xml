@@ -40,7 +40,7 @@
             android:layout_weight="1.0"
             android:minHeight="48.0dip" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/auto_brightness_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,6 +48,7 @@
             android:layout_marginStart="20.0dip"
             android:background="@drawable/brightness_bg"
             android:contentDescription="@null"
+            android:padding="12.0dp"
             android:src="@drawable/ic_brightness_off" />
 
     </LinearLayout>

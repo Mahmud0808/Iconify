@@ -27,7 +27,7 @@ public class BrightnessBars extends AppCompatActivity {
     LinearLayout[] Container;
     LinearLayout RoundedClipContainer, LessRoundedClipContainer, RoundedContainer, LessRoundedContainer;
     Button RoundedClip_Enable, RoundedClip_Disable, LessRoundedClip_Enable, LessRoundedClip_Disable, Rounded_Enable, Rounded_Disable, LessRounded_Enable, LessRounded_Disable;
-    ImageButton RoundedClip_Auto_Bb, LessRoundedClip_Auto_Bb, Rounded_Auto_Bb, LessRounded_Auto_Bb;
+    ImageView RoundedClip_Auto_Bb, LessRoundedClip_Auto_Bb, Rounded_Auto_Bb, LessRounded_Auto_Bb;
     ImageView RoundedClip_Bb, LessRoundedClip_Bb, Rounded_Bb, LessRounded_Bb;
 
     @Override
@@ -273,7 +273,7 @@ public class BrightnessBars extends AppCompatActivity {
         Button enable = list.findViewById(R.id.list_button_enable_brightnessbar);
         Button disable = list.findViewById(R.id.list_button_disable_brightnessbar);
         ImageView bb = list.findViewById(R.id.brightness_bar);
-        ImageButton auto_bb = list.findViewById(R.id.auto_brightness_icon);
+        ImageView auto_bb = list.findViewById(R.id.auto_brightness_icon);
 
         list.setId(id);
         name.setText(title);
