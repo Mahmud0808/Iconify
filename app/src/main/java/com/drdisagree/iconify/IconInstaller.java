@@ -116,10 +116,8 @@ public class IconInstaller {
         // Terminal output
         InputStream stdout = process.getInputStream();
 
-        for (int i = 1; i <= 5; i++) {
-            if (i == n)
-                continue;
-            else {
+        for (int i = 1; i <= 4; i++) {
+            if (i != n) {
                 String[] paths = {"/system/product/overlay/IconifyComponentIPAS" + i + ".apk", "/system/product/overlay/IconifyComponentIPSUI" + i + ".apk"};
 
                 for (String path : paths) {
