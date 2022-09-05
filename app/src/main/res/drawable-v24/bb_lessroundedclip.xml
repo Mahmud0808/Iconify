@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:gravity="fill_horizontal|center">
         <shape android:shape="rectangle">
-            <corners android:radius="14.0dp" />
+            <corners android:radius="20.0dp" />
             <size android:height="48.0dp" />
             <gradient
                 android:angle="0.0"
@@ -14,9 +14,9 @@
         <shape android:shape="rectangle">
             <corners
                 android:bottomLeftRadius="0.0dp"
-                android:bottomRightRadius="13.0dp"
+                android:bottomRightRadius="18.0dp"
                 android:topLeftRadius="0.0dp"
-                android:topRightRadius="13.0dp" />
+                android:topRightRadius="18.0dp" />
             <size
                 android:width="80.0dp"
                 android:height="48.0dp" />
