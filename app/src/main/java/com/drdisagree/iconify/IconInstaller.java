@@ -1,5 +1,7 @@
 package com.drdisagree.iconify;
 
+import com.topjohnwu.superuser.Shell;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,42 +18,17 @@ public class IconInstaller {
 
         String[] paths = {"/system/product/overlay/IconifyComponentIPAS" + n + ".apk", "/system/product/overlay/IconifyComponentIPSUI" + n + ".apk"};
 
-        Process process = null;
-
-        // Get root permission
-        try {
-            process = Runtime.getRuntime().exec("su");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Terminal input
-        OutputStream stdin = process.getOutputStream();
-        // Terminal error
-        InputStream stderr = process.getErrorStream();
-        // Terminal output
-        InputStream stdout = process.getInputStream();
-
         for (String path : paths) {
             if (new File(path).exists()) {
 
                 String overlay = (path.replaceAll("/system/product/overlay/", "")).replaceAll("apk", "overlay");
 
                 try {
-                    stdin.write(("cmd overlay enable --user current " + overlay + "\n").getBytes());
+                    Shell.cmd("cmd overlay enable --user current " + overlay).exec();
                 } catch (Throwable t) {
                     t.printStackTrace();
                 }
             }
-        }
-
-        // Exit root
-        try {
-            stdin.write(("exit\n").getBytes());
-            stdin.flush();
-            stdin.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -59,62 +36,21 @@ public class IconInstaller {
 
         String[] paths = {"/system/product/overlay/IconifyComponentIPAS" + n + ".apk", "/system/product/overlay/IconifyComponentIPSUI" + n + ".apk"};
 
-        Process process = null;
-
-        // Get root permission
-        try {
-            process = Runtime.getRuntime().exec("su");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Terminal input
-        OutputStream stdin = process.getOutputStream();
-        // Terminal error
-        InputStream stderr = process.getErrorStream();
-        // Terminal output
-        InputStream stdout = process.getInputStream();
-
         for (String path : paths) {
             if (new File(path).exists()) {
 
                 String overlay = (path.replaceAll("/system/product/overlay/", "")).replaceAll("apk", "overlay");
 
                 try {
-                    stdin.write(("cmd overlay disable --user current " + overlay + "\n").getBytes());
+                    Shell.cmd("cmd overlay disable --user current " + overlay).exec();
                 } catch (Throwable t) {
                     t.printStackTrace();
                 }
             }
         }
-
-        // Exit root
-        try {
-            stdin.write(("exit\n").getBytes());
-            stdin.flush();
-            stdin.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     protected static void disable_others(int n) {
-
-        Process process = null;
-
-        // Get root permission
-        try {
-            process = Runtime.getRuntime().exec("su");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Terminal input
-        OutputStream stdin = process.getOutputStream();
-        // Terminal error
-        InputStream stderr = process.getErrorStream();
-        // Terminal output
-        InputStream stdout = process.getInputStream();
 
         for (int i = 1; i <= 4; i++) {
             if (i != n) {
@@ -126,22 +62,13 @@ public class IconInstaller {
                         String overlay = (path.replaceAll("/system/product/overlay/", "")).replaceAll("apk", "overlay");
 
                         try {
-                            stdin.write(("cmd overlay disable --user current " + overlay + "\n").getBytes());
+                            Shell.cmd("cmd overlay disable --user current " + overlay).exec();
                         } catch (Throwable t) {
                             t.printStackTrace();
                         }
                     }
                 }
             }
-        }
-
-        // Exit root
-        try {
-            stdin.write(("exit\n").getBytes());
-            stdin.flush();
-            stdin.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }
