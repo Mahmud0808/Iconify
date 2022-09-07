@@ -36,24 +36,6 @@ public class Info extends AppCompatActivity {
         TextView versionCodeAndName = findViewById(R.id.versionCodeAndName);
         versionCodeAndName.setText(BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")");
 
-        // Credits
-        ViewGroup creditIcons8 = findViewById(R.id.creditIcons8);
-        creditIcons8.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String url = "https://icons8.com/";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-            }
-        });
-        ImageView ic_link_icons8 = findViewById(R.id.ic_link_icons8);
-        ic_link_icons8.setBackgroundResource(R.drawable.ic_link);
-        TextView credits = findViewById(R.id.credits);
-        credits.setText("Credits");
-        TextView creditsTo = findViewById(R.id.creditsTo);
-        creditsTo.setText("Icons8.com" + '\n' + "for Plumpy and Fluency icons.");
-
         // Telegram
         ViewGroup telegramChannel = findViewById(R.id.telegramChannel);
         telegramChannel.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +53,41 @@ public class Info extends AppCompatActivity {
         telegramTitle.setText("Telegram");
         TextView telegramDesc = findViewById(R.id.telegramDesc);
         telegramDesc.setText("Follow to get latest news & updates.");
+
+        // Credits
+        ViewGroup creditIcons8 = findViewById(R.id.creditIcons8);
+        creditIcons8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://icons8.com/";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
+        ImageView ic_link_icons8 = findViewById(R.id.ic_link_icons8);
+        ic_link_icons8.setBackgroundResource(R.drawable.ic_link);
+        TextView credits = findViewById(R.id.credits);
+        credits.setText("Icons8.com");
+        TextView creditsTo = findViewById(R.id.creditsTo);
+        creditsTo.setText("For Plumpy and Fluency icons.");
+
+        ViewGroup jai = findViewById(R.id.jai);
+        jai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://t.me/Jai_08";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
+        ImageView img_jai = findViewById(R.id.img_jai);
+        img_jai.setBackgroundResource(R.drawable.ic_user);
+        TextView jaiName = findViewById(R.id.jaiName);
+        jaiName.setText("Jai");
+        TextView jaiDesc = findViewById(R.id.jaiDesc);
+        jaiDesc.setText("For helping me with Shell Scripts.");
     }
 
     private void doNothing() {
