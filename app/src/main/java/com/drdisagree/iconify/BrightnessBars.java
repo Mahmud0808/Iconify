@@ -140,6 +140,12 @@ public class BrightnessBars extends AppCompatActivity {
                 } else if (linearLayout == LessRoundedContainer) {
                     LessRounded_Enable.setVisibility(View.GONE);
                     LessRounded_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == DoubleLayerContainer) {
+                    DoubleLayer_Enable.setVisibility(View.GONE);
+                    DoubleLayer_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == ShadedLayerContainer) {
+                    ShadedLayer_Enable.setVisibility(View.GONE);
+                    ShadedLayer_Disable.setVisibility(View.GONE);
                 }
             }
         }
@@ -152,6 +158,8 @@ public class BrightnessBars extends AppCompatActivity {
         checkIfApplied(LessRoundedClipContainer, 2, overlays);
         checkIfApplied(RoundedContainer, 3, overlays);
         checkIfApplied(LessRoundedContainer, 4, overlays);
+        checkIfApplied(DoubleLayerContainer, 5, overlays);
+        checkIfApplied(ShadedLayerContainer, 6, overlays);
     }
 
     // Function for onClick events
@@ -242,18 +250,38 @@ public class BrightnessBars extends AppCompatActivity {
             PrefConfig.savePrefBool(getApplicationContext(), "lessroundedclip", false);
             PrefConfig.savePrefBool(getApplicationContext(), "rounded", false);
             PrefConfig.savePrefBool(getApplicationContext(), "lessrounded", false);
+            PrefConfig.savePrefBool(getApplicationContext(), "doublelayer", false);
+            PrefConfig.savePrefBool(getApplicationContext(), "shadedlayer", false);
         } else if (Objects.equals(pack, "lessroundedclip")) {
             PrefConfig.savePrefBool(getApplicationContext(), "roundedclip", false);
             PrefConfig.savePrefBool(getApplicationContext(), "rounded", false);
             PrefConfig.savePrefBool(getApplicationContext(), "lessrounded", false);
+            PrefConfig.savePrefBool(getApplicationContext(), "doublelayer", false);
+            PrefConfig.savePrefBool(getApplicationContext(), "shadedlayer", false);
         } else if (Objects.equals(pack, "rounded")) {
             PrefConfig.savePrefBool(getApplicationContext(), "roundedclip", false);
             PrefConfig.savePrefBool(getApplicationContext(), "lessroundedclip", false);
             PrefConfig.savePrefBool(getApplicationContext(), "lessrounded", false);
+            PrefConfig.savePrefBool(getApplicationContext(), "doublelayer", false);
+            PrefConfig.savePrefBool(getApplicationContext(), "shadedlayer", false);
         } else if (Objects.equals(pack, "lessrounded")) {
             PrefConfig.savePrefBool(getApplicationContext(), "rounded", false);
             PrefConfig.savePrefBool(getApplicationContext(), "roundedclip", false);
             PrefConfig.savePrefBool(getApplicationContext(), "lessroundedclip", false);
+            PrefConfig.savePrefBool(getApplicationContext(), "doublelayer", false);
+            PrefConfig.savePrefBool(getApplicationContext(), "shadedlayer", false);
+        } else if (Objects.equals(pack, "doublelayer")) {
+            PrefConfig.savePrefBool(getApplicationContext(), "rounded", false);
+            PrefConfig.savePrefBool(getApplicationContext(), "roundedclip", false);
+            PrefConfig.savePrefBool(getApplicationContext(), "lessroundedclip", false);
+            PrefConfig.savePrefBool(getApplicationContext(), "lessrounded", false);
+            PrefConfig.savePrefBool(getApplicationContext(), "shadedlayer", false);
+        } else if (Objects.equals(pack, "shadedlayer")) {
+            PrefConfig.savePrefBool(getApplicationContext(), "rounded", false);
+            PrefConfig.savePrefBool(getApplicationContext(), "roundedclip", false);
+            PrefConfig.savePrefBool(getApplicationContext(), "lessroundedclip", false);
+            PrefConfig.savePrefBool(getApplicationContext(), "doublelayer", false);
+            PrefConfig.savePrefBool(getApplicationContext(), "lessrounded", false);
         }
     }
 
@@ -268,6 +296,10 @@ public class BrightnessBars extends AppCompatActivity {
                 PrefConfig.savePrefBool(this, "rounded", true);
             else if (brightnessbar == 4)
                 PrefConfig.savePrefBool(this, "lessrounded", true);
+            else if (brightnessbar == 5)
+                PrefConfig.savePrefBool(this, "doublelayer", true);
+            else if (brightnessbar == 6)
+                PrefConfig.savePrefBool(this, "shadedlayer", true);
             background(layout.getId(), R.drawable.container_selected);
         } else {
             if (brightnessbar == 1)
@@ -278,6 +310,10 @@ public class BrightnessBars extends AppCompatActivity {
                 PrefConfig.savePrefBool(this, "rounded", false);
             else if (brightnessbar == 4)
                 PrefConfig.savePrefBool(this, "lessrounded", false);
+            else if (brightnessbar == 5)
+                PrefConfig.savePrefBool(this, "doublelayer", false);
+            else if (brightnessbar == 6)
+                PrefConfig.savePrefBool(this, "shadedlayer", false);
             background(layout.getId(), R.drawable.container);
         }
     }
