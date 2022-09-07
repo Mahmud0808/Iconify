@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             }
             if (RootUtil.isDeviceRooted()) {
                 if (RootUtil.isMagiskInstalled()) {
-                    if (PrefConfig.loadPrefInt(this, "versionCode") < versionCode) {
+                    if ((PrefConfig.loadPrefInt(this, "versionCode") < versionCode) || !OverlayUtils.moduleExists()) {
                         try {
                             OverlayUtils.handleModule(this);
                         } catch (IOException e) {
