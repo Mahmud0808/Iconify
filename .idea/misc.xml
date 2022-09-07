@@ -38,6 +38,7 @@
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/ic_link.xml" value="0.2465" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/ic_signal_cellular_5_5_bar.xml" value="0.2765" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/ic_telegram.xml" value="0.1795" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/mask_color_preview.xml" value="0.195" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/preeview_gradicon_location.xml" value="0.273" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/preview_aurora_airplane.xml" value="0.2765" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/preview_aurora_location.xml" value="0.2765" />
@@ -53,6 +54,12 @@
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/preview_plumpy_airplane.xml" value="0.1795" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/preview_plumpy_location.xml" value="0.1795" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/preview_plumpy_wifi.xml" value="0.1795" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/preview_primary_accent.xml" value="0.195" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/preview_secondary_accent.xml" value="0.195" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/seek_bar_progress.xml" value="0.16" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/seek_bar_progress_fill.xml" value="0.16" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/switch_bg.xml" value="0.195" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/switch_thumb.xml" value="0.2095" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/transparent_container.xml" value="0.2465" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable/bg_warn.xml" value="0.272" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable/bg_warns.xml" value="0.272" />
@@ -62,8 +69,10 @@
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable/container_selecteds.xml" value="0.272" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable/ic_launcher_background.xml" value="0.267" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.267" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/activity_color_picker.xml" value="0.20520833333333333" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/brightness_bars.xml" value="0.18802083333333333" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/color_picker.xml" value="0.18802083333333333" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/extras.xml" value="0.33" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/header.xml" value="0.2546875" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/home_page.xml" value="0.25" />
@@ -74,11 +83,14 @@
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/list_option_iconpack.xml" value="0.2833333333333333" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/list_view.xml" value="0.33" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/media_player.xml" value="0.18802083333333333" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/monet_color.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/notifications.xml" value="0.18802083333333333" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/qs_shapes.xml" value="0.18802083333333333" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/splash_screen.xml" value="0.16018518518518518" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/themes.xml" value="0.18981481481481483" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/menu/color_picker.xml" value="0.20520833333333333" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.124" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/xml/color_picker.xml" value="0.20520833333333333" />
         <entry key="..\:/AndroidStudioProjects/Iconify2/app/src/main/res/drawable/button.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/Iconify2/app/src/main/res/layout/activity_main.xml" value="0.1" />
       </map>

@@ -38,4 +38,5 @@ dependencies {
     implementation "com.github.topjohnwu.libsu:service:5.0.2"
     implementation "com.github.topjohnwu.libsu:nio:5.0.2"
     implementation "com.jaredrummler:android-shell:1.0.0"
+    implementation 'com.jaredrummler:colorpicker:1.1.0'
 }

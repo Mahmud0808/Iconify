@@ -14,7 +14,7 @@ import android.widget.TextView;
 public class HomePage extends AppCompatActivity {
 
     private ViewGroup container;
-    LinearLayout home_iconPack, home_brightnessBar, home_qsShape, home_notification, home_mediaPlayer, home_extras, home_info;
+    LinearLayout home_monetColor, home_iconPack, home_brightnessBar, home_qsShape, home_notification, home_mediaPlayer, home_extras, home_info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +27,26 @@ public class HomePage extends AppCompatActivity {
 
         // Home page list items
         container = (ViewGroup) findViewById(R.id.home_page_list);
+        addItem(R.id.home_monetColor, "Color Engine", "Have control over colors", R.drawable.ic_color_home);
         addItem(R.id.home_iconPack, "Icon Pack", "Change system icon pack", R.drawable.ic_wifi_home);
         addItem(R.id.home_brightnessBar, "Brightness Bar", "Customize brightness slider", R.drawable.ic_brightness_home);
         addItem(R.id.home_qsShape, "QS Shape", "Customize qs tile shape", R.drawable.ic_shape_home);
         addItem(R.id.home_notification, "Notification", "Customize notification style", R.drawable.ic_notification_home);
         addItem(R.id.home_mediaPlayer, "Media Player", "Change how media player looks", R.drawable.ic_media_home);
+        addItem(R.id.home_volumePanel, "Volume Panel", "Customize volume panel style", R.drawable.ic_volume_home);
+        addItem(R.id.home_progressBar, "Progress Bar", "Change progress bar style", R.drawable.ic_progress_home);
         addItem(R.id.home_extras, "Extras", "Additions tweaks and settings", R.drawable.ic_extras_home);
         addItem(R.id.home_info, "About", "Information about this app", R.drawable.ic_info_home);
+
+        // Color engine item onClick
+        home_monetColor = findViewById(R.id.home_monetColor);
+        home_monetColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, MonetColor.class);
+                startActivity(intent);
+            }
+        });
 
         // Icon pack item onClick
         home_iconPack = findViewById(R.id.home_iconPack);
