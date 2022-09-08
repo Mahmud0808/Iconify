@@ -30,14 +30,8 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
     int color = initialize_color();
     List<String> accent_color_check = Shell.cmd("settings get secure monet_engine_custom_color").exec().getOut();
     int acc = initialize_accent();
-    List<String> chroma_fact = Shell.cmd("settings get secure monet_engine_chroma_factor").exec().getOut();
-    int chroma = initialize_chroma();
-    List<String> white_lum = Shell.cmd("settings get secure monet_engine_white_luminance_user").exec().getOut();
-    int luminance = initialize_luminance();
     List<String> accurate_sh = Shell.cmd("settings get secure monet_engine_accurate_shades").exec().getOut();
     int shade = initialize_shade();
-    List<String> linear_light = Shell.cmd("settings get secure monet_engine_linear_lightness").exec().getOut();
-    int linear = initialize_linear();
 
     GradientDrawable drawable = new GradientDrawable(
             GradientDrawable.Orientation.LEFT_RIGHT,
@@ -117,7 +111,7 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
                     Shell.cmd("settings put secure monet_engine_custom_color 1").exec();
                     custom_color_picker.setVisibility(View.VISIBLE);
                 } else {
-                    Shell.cmd("settings put secure monet_engine_custom_color 0").exec();
+                    Shell.cmd("settings put secure monet_engine_custom_color 0", "settings put secure monet_engine_color_override null").exec();
                     custom_color_picker.setVisibility(View.GONE);
                 }
             }
@@ -127,35 +121,6 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
             @Override
             public void onClick(View v) {
                 ColorPickerDialog.newBuilder().setColor(color).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).show(MonetColor.this);
-            }
-        });
-
-        SeekBar white_luminance = findViewById(R.id.white_luminance);
-        white_luminance.setPadding(0, 0, 0, 0);
-        white_luminance.setProgressDrawable(getResources().getDrawable(R.drawable.seek_bar));
-        white_luminance.setProgress(luminance / 25);
-        TextView show_white_luminance = findViewById(R.id.show_white_luminance);
-        if (luminance / 25 == 17)
-            show_white_luminance.setText("Value: " + luminance + " (Default)");
-        else
-            show_white_luminance.setText("Value: " + luminance);
-        white_luminance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if (i == 17)
-                    show_white_luminance.setText("Value: " + i * 25 + " (Default)");
-                else
-                    show_white_luminance.setText("Value: " + i * 25);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                Shell.cmd("settings put secure monet_engine_white_luminance_user " + (seekBar.getProgress() * 25)).exec();
             }
         });
 
@@ -174,54 +139,6 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
                 } else {
                     Shell.cmd("settings put secure monet_engine_accurate_shades 0").exec();
                 }
-            }
-        });
-
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_linear_lightness = findViewById(R.id.enable_linear_lightness);
-
-        if (linear == 0) {
-            enable_linear_lightness.setChecked(false);
-        } else {
-            enable_linear_lightness.setChecked(true);
-        }
-
-        enable_linear_lightness.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Shell.cmd("settings put secure monet_engine_linear_lightness 1").exec();
-                } else {
-                    Shell.cmd("settings put secure monet_engine_linear_lightness 0").exec();
-                }
-            }
-        });
-
-        SeekBar chroma_factor = findViewById(R.id.chroma_factor);
-        chroma = initialize_chroma();
-        chroma_factor.setPadding(0, 0, 0, 0);
-        chroma_factor.setProgress(chroma / 25);
-        chroma_factor.setProgressDrawable(getResources().getDrawable(R.drawable.seek_bar));
-        TextView show_chroma_factor = findViewById(R.id.show_chroma_factor);
-        if (chroma == 100)
-            show_chroma_factor.setText("Value: " + chroma + " (Default)");
-        else
-            show_chroma_factor.setText("Value: " + chroma);
-        chroma_factor.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if (i == 4)
-                    show_chroma_factor.setText("Value: " + (i * 25) + " (Default)");
-                else
-                    show_chroma_factor.setText("Value: " + i * 25);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                Shell.cmd("settings put secure monet_engine_chroma_factor " + (seekBar.getProgress() * 25)).exec();
             }
         });
     }
@@ -246,51 +163,21 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
         return acc;
     }
 
-    private int initialize_luminance() {
-        int lum = 425;
-        try {
-            lum = Integer.parseInt(white_lum.get(0));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return lum;
-    }
-
-    private int initialize_chroma() {
-        int chroma = 100;
-        try {
-            chroma = Integer.parseInt(chroma_fact.get(0));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return chroma;
-    }
-
     private int initialize_shade() {
         int shade = 1;
         try {
-            chroma = Integer.parseInt(accurate_sh.get(0));
+            shade = Integer.parseInt(accurate_sh.get(0));
         } catch (Exception e) {
             e.printStackTrace();
         }
         return shade;
     }
 
-    private int initialize_linear() {
-        int linear = 1;
-        try {
-            linear = Integer.parseInt(linear_light.get(0));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return linear;
-    }
-
     @Override
     public void onColorSelected(int dialogId, int color) {
         switch (dialogId) {
             case 1:
-                Shell.cmd("settings put secure monet_engine_color_override " + color).exec();
+                Shell.cmd("settings put secure monet_engine_color_override " + color, "settings put secure monet_engine_color_override " + ColorToHex(color)).exec();
                 break;
         }
     }
@@ -311,12 +198,12 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
         String greenHex = To00Hex(green);
         String redHex = To00Hex(red);
 
-        StringBuilder str = new StringBuilder("#");
-        str.append(alphaHex);
+        StringBuilder str = new StringBuilder("");
+//        str.append(alphaHex);
         str.append(redHex);
         str.append(greenHex);
         str.append(blueHex);
-
+        Log.e("COlor", "returned " + str);
         return str.toString();
     }
 
