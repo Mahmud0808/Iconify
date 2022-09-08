@@ -46,7 +46,15 @@ public class RootUtil {
     }
 
     static String getMagiskDirectory() {
-        final int magiskVer = Integer.parseInt(String.valueOf(Shell.run("su -V")));
+        final int magiskVer;
+        int magiskVerTemp;
+        try {
+            magiskVerTemp = Integer.parseInt(String.valueOf(Shell.run("su -V")));
+        } catch (Exception e) {
+            e.printStackTrace();
+            magiskVerTemp = 0;
+        }
+        magiskVer = magiskVerTemp;
         if (magiskDir != null)
             return magiskDir;
         if (magiskVer >= 20000) {

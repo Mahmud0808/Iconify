@@ -27,17 +27,17 @@ import java.util.List;
 public class MonetColor extends AppCompatActivity implements ColorPickerDialogListener {
 
     List<String> accent_color = Shell.cmd("settings get secure monet_engine_color_override").exec().getOut();
-    int color = (Integer.parseInt(accent_color.get(0)) == 0 ? -1 : Integer.parseInt(accent_color.get(0)));
+    int color = initialize_color();
     List<String> accent_color_check = Shell.cmd("settings get secure monet_engine_custom_color").exec().getOut();
-    int acc = Integer.parseInt(accent_color_check.get(0));
-    List<String> white_lum = Shell.cmd("settings get secure monet_engine_white_luminance_user").exec().getOut();
-    int luminance = Integer.parseInt(white_lum.get(0));
+    int acc = initialize_accent();
     List<String> chroma_fact = Shell.cmd("settings get secure monet_engine_chroma_factor").exec().getOut();
-    int chroma = Integer.parseInt(chroma_fact.get(0));
+    int chroma = initialize_chroma();
+    List<String> white_lum = Shell.cmd("settings get secure monet_engine_white_luminance_user").exec().getOut();
+    int luminance = initialize_luminance();
     List<String> accurate_sh = Shell.cmd("settings get secure monet_engine_accurate_shades").exec().getOut();
-    int shade = Integer.parseInt(accurate_sh.get(0));
+    int shade = initialize_shade();
     List<String> linear_light = Shell.cmd("settings get secure monet_engine_linear_lightness").exec().getOut();
-    int linear = Integer.parseInt(linear_light.get(0));
+    int linear = initialize_linear();
 
     GradientDrawable drawable = new GradientDrawable(
             GradientDrawable.Orientation.LEFT_RIGHT,
@@ -56,6 +56,49 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
 
         drawable.setCornerRadius(120f);
         findViewById(R.id.preview_primary_accent).setBackgroundDrawable(drawable);
+
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch experimental_color = findViewById(R.id.experimental_color);
+        LinearLayout experimental_color_options = findViewById(R.id.experimental_color_options);
+
+        if (!PrefConfig.loadPrefBool(this, "experimentalColorOptions")) {
+            experimental_color.setChecked(false);
+            experimental_color_options.setVisibility(View.GONE);
+        } else {
+            experimental_color.setChecked(true);
+            experimental_color_options.setVisibility(View.VISIBLE);
+        }
+
+        experimental_color.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    experimental_color_options.setVisibility(View.VISIBLE);
+                    PrefConfig.savePrefBool(MonetColor.this, "experimentalColorOptions", true);
+                } else {
+                    experimental_color_options.setVisibility(View.GONE);
+                    PrefConfig.savePrefBool(MonetColor.this, "experimentalColorOptions", false);
+                }
+            }
+        });
+
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_monet_accent = findViewById(R.id.apply_monet_accent);
+
+        List<String> overlays = OverlayUtils.getOverlayList();
+        if (!OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentAMA.overlay")) {
+            apply_monet_accent.setChecked(false);
+        } else {
+            apply_monet_accent.setChecked(true);
+        }
+
+        apply_monet_accent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    OverlayUtils.enableOverlay(OverlayUtils.getOverlayList(), "IconifyComponentAMA.overlay");
+                } else {
+                    OverlayUtils.disableOverlay("IconifyComponentAMA.overlay");
+                }
+            }
+        });
 
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_custom_accent = findViewById(R.id.enable_custom_accent);
         LinearLayout custom_color_picker = findViewById(R.id.custom_color_picker);
@@ -153,9 +196,10 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
         });
 
         SeekBar chroma_factor = findViewById(R.id.chroma_factor);
+        chroma = initialize_chroma();
         chroma_factor.setPadding(0, 0, 0, 0);
-        chroma_factor.setProgressDrawable(getResources().getDrawable(R.drawable.seek_bar));
         chroma_factor.setProgress(chroma / 25);
+        chroma_factor.setProgressDrawable(getResources().getDrawable(R.drawable.seek_bar));
         TextView show_chroma_factor = findViewById(R.id.show_chroma_factor);
         if (chroma == 100)
             show_chroma_factor.setText("Value: " + chroma + " (Default)");
@@ -180,6 +224,66 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
                 Shell.cmd("settings put secure monet_engine_chroma_factor " + (seekBar.getProgress() * 25)).exec();
             }
         });
+    }
+
+    private int initialize_color() {
+        int col = -65536;
+        try {
+            col = Integer.parseInt(accent_color.get(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return col;
+    }
+    
+    private int initialize_accent() {
+        int acc = 0;
+        try {
+            acc = Integer.parseInt(accent_color_check.get(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return acc;
+    }
+
+    private int initialize_luminance() {
+        int lum = 425;
+        try {
+            lum = Integer.parseInt(white_lum.get(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lum;
+    }
+
+    private int initialize_chroma() {
+        int chroma = 100;
+        try {
+            chroma = Integer.parseInt(chroma_fact.get(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return chroma;
+    }
+
+    private int initialize_shade() {
+        int shade = 1;
+        try {
+            chroma = Integer.parseInt(accurate_sh.get(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return shade;
+    }
+
+    private int initialize_linear() {
+        int linear = 1;
+        try {
+            linear = Integer.parseInt(linear_light.get(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return linear;
     }
 
     @Override
