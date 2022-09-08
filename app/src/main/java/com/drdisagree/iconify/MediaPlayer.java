@@ -37,6 +37,8 @@ public class MediaPlayer extends AppCompatActivity {
         mp_accent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    mp_system.setChecked(false);
+                    mp_pitch_black.setChecked(false);
                     OverlayUtils.enableOverlay(overlay, "IconifyComponentMPA.overlay");
                     OverlayUtils.disableOverlay("IconifyComponentMPS.overlay");
                     OverlayUtils.disableOverlay("IconifyComponentMPB.overlay");
@@ -54,6 +56,8 @@ public class MediaPlayer extends AppCompatActivity {
         mp_system.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    mp_accent.setChecked(false);
+                    mp_pitch_black.setChecked(false);
                     OverlayUtils.enableOverlay(overlay, "IconifyComponentMPS.overlay");
                     OverlayUtils.disableOverlay("IconifyComponentMPA.overlay");
                     OverlayUtils.disableOverlay("IconifyComponentMPB.overlay");
@@ -71,6 +75,8 @@ public class MediaPlayer extends AppCompatActivity {
         mp_pitch_black.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    mp_accent.setChecked(false);
+                    mp_system.setChecked(false);
                     OverlayUtils.enableOverlay(overlay, "IconifyComponentMPB.overlay");
                     OverlayUtils.disableOverlay("IconifyComponentMPA.overlay");
                     OverlayUtils.disableOverlay("IconifyComponentMPS.overlay");
