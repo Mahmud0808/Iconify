@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="18dp"
-            android:text="Iconify"
+            android:text="@string/app_name"
             android:textColor="@color/textColorPrimary"
             android:textSize="28dp"
             android:textStyle="bold" />
