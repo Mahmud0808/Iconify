@@ -33,9 +33,7 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
     List<String> accurate_sh = Shell.cmd("settings get secure monet_engine_accurate_shades").exec().getOut();
     int shade = initialize_shade();
 
-    GradientDrawable drawable = new GradientDrawable(
-            GradientDrawable.Orientation.LEFT_RIGHT,
-            new int[]{color, color});
+    GradientDrawable drawable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +45,16 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
         header.setText("Color Engine");
 
         ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
+
+        if (color == -1) {
+            drawable = new GradientDrawable(
+                    GradientDrawable.Orientation.LEFT_RIGHT,
+                    new int[]{Color.parseColor("#50A6D7"), Color.parseColor("#50A6D7")});
+        } else {
+            drawable = new GradientDrawable(
+                    GradientDrawable.Orientation.LEFT_RIGHT,
+                    new int[]{color, color});
+        }
 
         drawable.setCornerRadius(120f);
         findViewById(R.id.preview_primary_accent).setBackgroundDrawable(drawable);
@@ -120,7 +128,10 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
         custom_color_picker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ColorPickerDialog.newBuilder().setColor(color).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).show(MonetColor.this);
+                if (color == -1)
+                    ColorPickerDialog.newBuilder().setColor(Color.parseColor("#50A6D7")).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).show(MonetColor.this);
+                else
+                    ColorPickerDialog.newBuilder().setColor(color).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).show(MonetColor.this);
             }
         });
 
@@ -144,7 +155,7 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
     }
 
     private int initialize_color() {
-        int col = -65536;
+        int col = -1;
         try {
             col = Integer.parseInt(accent_color.get(0));
         } catch (Exception e) {
@@ -152,7 +163,7 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
         }
         return col;
     }
-    
+
     private int initialize_accent() {
         int acc = 0;
         try {
