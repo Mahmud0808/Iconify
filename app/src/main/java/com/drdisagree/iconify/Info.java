@@ -3,6 +3,9 @@ package com.drdisagree.iconify;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -31,7 +35,11 @@ public class Info extends AppCompatActivity {
         appInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doNothing();
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("Iconify Version", "Iconify " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")");
+                clipboard.setPrimaryClip(clip);
+                Toast toast = Toast.makeText(getApplicationContext(), "App Version Copied to Clipboard", Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
         ImageView ic_appVersion = findViewById(R.id.ic_appVersion);
