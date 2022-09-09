@@ -1,9 +1,12 @@
 package com.drdisagree.iconify;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 public class QsShapes extends AppCompatActivity {
 
@@ -13,7 +16,9 @@ public class QsShapes extends AppCompatActivity {
         setContentView(R.layout.qs_shapes);
 
         // Header
-        TextView header = findViewById(R.id.header);
-        header.setText("QS Shape");
+        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        collapsing_toolbar.setTitle("QS Shape");
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 }

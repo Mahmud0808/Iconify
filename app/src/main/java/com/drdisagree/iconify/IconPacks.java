@@ -1,6 +1,7 @@
 package com.drdisagree.iconify;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
@@ -13,6 +14,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.List;
 import java.util.Objects;
@@ -32,8 +35,10 @@ public class IconPacks extends AppCompatActivity {
         setContentView(R.layout.icon_packs);
 
         // Header
-        TextView header = findViewById(R.id.header);
-        header.setText("Icon Pack");
+        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        collapsing_toolbar.setTitle("Icon Pack");
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // Progressbar while enabling or disabling pack
         spinner = findViewById(R.id.progressBar_iconPack);

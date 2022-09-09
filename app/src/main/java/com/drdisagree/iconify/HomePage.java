@@ -1,6 +1,7 @@
 package com.drdisagree.iconify;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 public class HomePage extends AppCompatActivity {
 
@@ -22,8 +25,10 @@ public class HomePage extends AppCompatActivity {
         setContentView(R.layout.home_page);
 
         // Header
-        TextView header = findViewById(R.id.header);
-        header.setText("Iconify");
+        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        collapsing_toolbar.setTitle("Iconify");
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // Home page list items
         container = (ViewGroup) findViewById(R.id.home_page_list);

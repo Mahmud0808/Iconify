@@ -1,6 +1,8 @@
 package com.drdisagree.iconify;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.graphics.text.LineBreaker;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
 public class Extras extends AppCompatActivity {
@@ -22,8 +25,10 @@ public class Extras extends AppCompatActivity {
         LinearLayout spinner = findViewById(R.id.progressBar_Extras);
 
         // Header
-        TextView header = findViewById(R.id.header);
-        header.setText("Extras");
+        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        collapsing_toolbar.setTitle("Extras");
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // Restart SystemUI
         TextView list_title_restartSysui = findViewById(R.id.list_title_restartSysui);

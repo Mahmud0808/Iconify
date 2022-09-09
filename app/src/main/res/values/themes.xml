@@ -21,6 +21,21 @@
         <item name="android:fontFamily">@font/normal</item>
         <item name="fontFamily">@font/normal</item>
     </style>
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">32dp</item>
+        <item name="android:letterSpacing">0.1</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="Toolbar.TitleText.Collapsed" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">20dp</item>
+        <item name="android:letterSpacing">0.1</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="Toolbar.TitleText.Expanded" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">32dp</item>
+        <item name="android:letterSpacing">0.1</item>
+        <item name="android:textStyle">bold</item>
+    </style>
     <color name="colorBackground">#FFFFFFFF</color>
     <color name="colorForeground">#FF0A1828</color>
     <color name="colorContainer">#FFF6F7F9</color>

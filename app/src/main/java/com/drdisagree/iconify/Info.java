@@ -1,6 +1,7 @@
 package com.drdisagree.iconify;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -10,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+
 public class Info extends AppCompatActivity {
 
     @Override
@@ -18,8 +21,10 @@ public class Info extends AppCompatActivity {
         setContentView(R.layout.info);
 
         // Header
-        TextView header = findViewById(R.id.header);
-        header.setText("About");
+        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        collapsing_toolbar.setTitle("About");
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // App version
         ViewGroup appInfo = findViewById(R.id.appInfo);

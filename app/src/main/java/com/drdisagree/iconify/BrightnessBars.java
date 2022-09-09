@@ -1,6 +1,7 @@
 package com.drdisagree.iconify;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import android.os.Bundle;
@@ -13,6 +14,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -36,8 +39,10 @@ public class BrightnessBars extends AppCompatActivity {
         setContentView(R.layout.brightness_bars);
 
         // Header
-        TextView header = findViewById(R.id.header);
-        header.setText("Brightness Bar");
+        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        collapsing_toolbar.setTitle("Brightness Bar");
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // Progressbar while enabling or disabling pack
         spinner = findViewById(R.id.progressBar_BrightnessBar);

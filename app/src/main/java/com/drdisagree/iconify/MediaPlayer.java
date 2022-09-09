@@ -1,6 +1,7 @@
 package com.drdisagree.iconify;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
@@ -20,8 +22,10 @@ public class MediaPlayer extends AppCompatActivity {
         setContentView(R.layout.media_player);
 
         // Header
-        TextView header = findViewById(R.id.header);
-        header.setText("Media Player");
+        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        collapsing_toolbar.setTitle("Media Player");
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         List<String> overlay = OverlayUtils.getOverlayList();
 

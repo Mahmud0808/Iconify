@@ -1,6 +1,7 @@
 package com.drdisagree.iconify;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
@@ -41,8 +43,10 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
         setContentView(R.layout.monet_color);
 
         // Header
-        TextView header = findViewById(R.id.header);
-        header.setText("Color Engine");
+        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        collapsing_toolbar.setTitle("Color Engine");
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
 
