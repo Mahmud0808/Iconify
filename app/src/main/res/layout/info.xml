@@ -25,15 +25,21 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="28dp"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_marginStart="@dimen/container_marginSide"
+                android:layout_marginEnd="@dimen/container_marginSide"
+                android:layout_marginBottom="@dimen/container_marginSide"
+                android:background="@drawable/container"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/container_paddingSide"
+                android:paddingTop="@dimen/container_padding"
+                android:paddingEnd="@dimen/container_paddingSide"
+                android:paddingBottom="@dimen/container_padding">
 
                 <FrameLayout
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/ic_launcher_bg"
+                    android:background="@drawable/ic_launcher_bg2"
                     android:elevation="4dp"
                     android:padding="16dp">
 
@@ -41,26 +47,32 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:foreground="@drawable/ic_launcher_fg" />
+
                 </FrameLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="12dp"
-                    android:text="@string/app_name"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="24dp"
-                    android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/container_paddingSide"
+                    android:gravity="left|center"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="by @DrDisagree"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="16dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/app_name"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="by DrDisagree"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="16dp" />
+
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -173,7 +185,7 @@
                 android:layout_marginBottom="@dimen/container_marginSide"
                 android:text="Credits"
                 android:textColor="@color/textColorPrimary"
-                android:textSize="18dp"
+                android:textSize="20dp"
                 android:textStyle="bold" />
 
             <LinearLayout
