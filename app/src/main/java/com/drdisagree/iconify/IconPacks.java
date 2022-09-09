@@ -150,8 +150,15 @@ public class IconPacks extends AppCompatActivity {
                 spinner.setVisibility(View.VISIBLE);
                 // Block touch
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                disable_others(key);
-                IconInstaller.install_pack(index);
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        disable_others(key);
+                        IconInstaller.install_pack(index);
+                    }
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
                 PrefConfig.savePrefBool(getApplicationContext(), key, true);
                 // Wait 1 second
                 spinner.postDelayed(new Runnable() {
@@ -179,7 +186,14 @@ public class IconPacks extends AppCompatActivity {
                 spinner.setVisibility(View.VISIBLE);
                 // Block touch
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                IconInstaller.disable_pack(index);
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        IconInstaller.disable_pack(index);
+                    }
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
                 PrefConfig.savePrefBool(getApplicationContext(), key, false);
                 // Wait 1 second
                 spinner.postDelayed(new Runnable() {
