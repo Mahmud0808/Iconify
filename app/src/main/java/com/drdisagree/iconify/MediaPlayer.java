@@ -26,6 +26,8 @@ public class MediaPlayer extends AppCompatActivity {
         collapsing_toolbar.setTitle("Media Player");
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         List<String> overlay = OverlayUtils.getOverlayList();
 
@@ -89,5 +91,11 @@ public class MediaPlayer extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

@@ -29,6 +29,8 @@ public class Extras extends AppCompatActivity {
         collapsing_toolbar.setTitle("Extras");
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Restart SystemUI
         TextView list_title_restartSysui = findViewById(R.id.list_title_restartSysui);
@@ -58,5 +60,11 @@ public class Extras extends AppCompatActivity {
                 }, 1000);
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

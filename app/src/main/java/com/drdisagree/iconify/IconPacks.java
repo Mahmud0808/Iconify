@@ -39,6 +39,8 @@ public class IconPacks extends AppCompatActivity {
         collapsing_toolbar.setTitle("Icon Pack");
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Progressbar while enabling or disabling pack
         spinner = findViewById(R.id.progressBar_iconPack);
@@ -85,6 +87,12 @@ public class IconPacks extends AppCompatActivity {
         enableOnClickListener(PlumpyContainer, Plumpy_Enable, Plumpy_Disable, "plumpy", 4);
 
         refreshBackground();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     // Function to check for layout changes

@@ -28,7 +28,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_collapseMode="pin"
-            app:titleTextAppearance="@style/Toolbar.TitleText" />
+            app:titleTextAppearance="@style/Toolbar.TitleText"
+            app:contentInsetStartWithNavigation="0dp" />
 
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 

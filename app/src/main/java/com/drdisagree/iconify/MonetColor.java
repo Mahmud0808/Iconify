@@ -47,6 +47,8 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
         collapsing_toolbar.setTitle("Color Engine");
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
 
@@ -156,6 +158,12 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     private int initialize_color() {

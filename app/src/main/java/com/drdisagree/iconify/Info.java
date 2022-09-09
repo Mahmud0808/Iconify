@@ -29,6 +29,8 @@ public class Info extends AppCompatActivity {
         collapsing_toolbar.setTitle("About");
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // App version
         ViewGroup appInfo = findViewById(R.id.appInfo);
@@ -103,7 +105,9 @@ public class Info extends AppCompatActivity {
         jaiDesc.setText("For helping me with Shell Scripts.");
     }
 
-    private void doNothing() {
-        "".isEmpty();
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

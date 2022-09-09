@@ -20,6 +20,13 @@
         <!-- Customize your theme here. -->
         <item name="android:fontFamily">@font/normal</item>
         <item name="fontFamily">@font/normal</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+        <item name="android:colorControlNormal">@color/textColorPrimary</item>
+        <item name="android:colorControlActivated">@color/textColorPrimary</item>
+        <item name="android:colorControlHighlight">@color/colorAccent</item>
+        <item name="selectableItemBackground">?android:selectableItemBackground</item>
+        <item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>
     </style>
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">32dp</item>

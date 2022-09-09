@@ -35,7 +35,7 @@ public class HomePage extends AppCompatActivity {
         addItem(R.id.home_monetColor, "Color Engine", "Have control over colors", R.drawable.ic_color_home);
         addItem(R.id.home_iconPack, "Icon Pack", "Change system icon pack", R.drawable.ic_wifi_home);
         addItem(R.id.home_brightnessBar, "Brightness Bar", "Customize brightness slider", R.drawable.ic_brightness_home);
-        addItem(R.id.home_qsShape, "QS Shape", "Customize qs tile shape", R.drawable.ic_shape_home);
+        addItem(R.id.home_qsShape, "QS Panel Tiles", "Customize qs panel tiles", R.drawable.ic_shape_home);
         addItem(R.id.home_notification, "Notification", "Customize notification style", R.drawable.ic_notification_home);
         addItem(R.id.home_mediaPlayer, "Media Player", "Change how media player looks", R.drawable.ic_media_home);
         addItem(R.id.home_volumePanel, "Volume Panel", "Customize volume panel style", R.drawable.ic_volume_home);

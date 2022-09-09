@@ -43,6 +43,8 @@ public class BrightnessBars extends AppCompatActivity {
         collapsing_toolbar.setTitle("Brightness Bar");
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Progressbar while enabling or disabling pack
         spinner = findViewById(R.id.progressBar_BrightnessBar);
@@ -127,6 +129,12 @@ public class BrightnessBars extends AppCompatActivity {
         enableOnClickListener(ShadedLayerContainer, ShadedLayer_Enable, ShadedLayer_Disable, "shadedlayer", 6);
 
         refreshBackground();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     // Function to check for layout changes
