@@ -90,8 +90,10 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
         });
 
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_monet_accent = findViewById(R.id.apply_monet_accent);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_monet_gradient = findViewById(R.id.apply_monet_gradient);
 
         List<String> overlays = OverlayUtils.getOverlayList();
+
         if (!OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentAMA.overlay")) {
             apply_monet_accent.setChecked(false);
         } else {
@@ -101,9 +103,29 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
         apply_monet_accent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    apply_monet_gradient.setChecked(false);
+                    OverlayUtils.disableOverlay("IconifyComponentAMG.overlay");
                     OverlayUtils.enableOverlay(OverlayUtils.getOverlayList(), "IconifyComponentAMA.overlay");
                 } else {
                     OverlayUtils.disableOverlay("IconifyComponentAMA.overlay");
+                }
+            }
+        });
+
+        if (!OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentAMG.overlay")) {
+            apply_monet_gradient.setChecked(false);
+        } else {
+            apply_monet_gradient.setChecked(true);
+        }
+
+        apply_monet_gradient.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    apply_monet_accent.setChecked(false);
+                    OverlayUtils.disableOverlay("IconifyComponentAMA.overlay");
+                    OverlayUtils.enableOverlay(OverlayUtils.getOverlayList(), "IconifyComponentAMG.overlay");
+                } else {
+                    OverlayUtils.disableOverlay("IconifyComponentAMG.overlay");
                 }
             }
         });

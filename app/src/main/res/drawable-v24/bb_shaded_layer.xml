@@ -9,6 +9,20 @@
     </item>
     <item
         android:gravity="fill_horizontal|center"
+        android:left="4.0dp"
+        android:right="4.5dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="20.0dp" />
+            <size android:height="40.0dp" />
+            <gradient
+                android:angle="0.0"
+                android:centerColor="#00000000"
+                android:endColor="#00000000"
+                android:startColor="@color/colorBackground2" />
+        </shape>
+    </item>
+    <item
+        android:gravity="fill_horizontal|center"
         android:right="80.0dp">
         <shape android:shape="rectangle">
             <corners android:radius="24.0dp" />
@@ -25,8 +39,9 @@
             <size android:height="40.0dp" />
             <gradient
                 android:angle="0.0"
+                android:centerColor="#00000000"
                 android:endColor="#00000000"
-                android:startColor="#40000000" />
+                android:startColor="@color/ic_launcher_background" />
         </shape>
     </item>
 </layer-list>

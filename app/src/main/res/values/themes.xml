@@ -54,4 +54,5 @@
     <color name="colorError">#FFFFB7B6</color>
     <color name="colorInfo">#FFB3E6F5</color>
     <color name="colorWarning">#FFFBE7C6</color>
+    <color name="colorBackground2">#14000000</color>
 </resources>
