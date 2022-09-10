@@ -10,7 +10,7 @@
     android:paddingTop="60dp"
     android:paddingEnd="@dimen/container_marginSide"
     android:paddingBottom="60dp"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -1,30 +1,24 @@
-package com.drdisagree.iconify;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+package com.drdisagree.iconify.ui;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
 import android.widget.Switch;
-import android.widget.TextView;
-import android.util.Log;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.color.DynamicColors;
-import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
-
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import com.topjohnwu.superuser.Shell;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -250,7 +244,6 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
         str.append(redHex);
         str.append(greenHex);
         str.append(blueHex);
-        Log.e("COlor", "returned " + str);
         return str.toString();
     }
 

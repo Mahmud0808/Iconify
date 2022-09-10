@@ -1,4 +1,4 @@
-package com.drdisagree.iconify;
+package com.drdisagree.iconify.config;
 
 import android.content.Context;
 import android.content.SharedPreferences;

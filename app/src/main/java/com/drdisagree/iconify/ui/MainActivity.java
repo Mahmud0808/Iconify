@@ -1,6 +1,4 @@
-package com.drdisagree.iconify;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.drdisagree.iconify.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +8,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.topjohnwu.superuser.Shell;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.drdisagree.iconify.BuildConfig;
+import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.utils.OverlayUtils;
+import com.drdisagree.iconify.utils.RootUtil;
 
 import java.io.IOException;
 

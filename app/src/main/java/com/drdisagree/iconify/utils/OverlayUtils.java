@@ -1,10 +1,9 @@
-package com.drdisagree.iconify;
+package com.drdisagree.iconify.utils;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.drdisagree.iconify.BuildConfig;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
@@ -20,11 +19,11 @@ public class OverlayUtils {
     public static final String MAGISK_DIR = RootUtil.getMagiskDirectory();
     public static final String OVERLAY_DIR = "/data/adb/modules/Iconify/system/product/overlay";
 
-    static List<String> getOverlayList() {
+    public static List<String> getOverlayList() {
         return Shell.cmd("cmd overlay list").exec().getOut();
     }
 
-    static boolean isOverlayEnabled(List<String> overlays, String pkgName) {
+    public static boolean isOverlayEnabled(List<String> overlays, String pkgName) {
         for (String line : overlays) {
             if (line.startsWith("[x]") && line.contains(pkgName))
                 return true;
@@ -48,17 +47,17 @@ public class OverlayUtils {
         return false;
     }
 
-    static void enableOverlay(List<String> overlays, String pkgName) {
+    public static void enableOverlay(List<String> overlays, String pkgName) {
         if (isOverlayEnabled(overlays, pkgName))
             disableOverlay(pkgName);
-        Shell.cmd("cmd overlay enable --user current " + pkgName, "cmd overlay set-priority " + pkgName +" highest").exec();
+        Shell.cmd("cmd overlay enable --user current " + pkgName, "cmd overlay set-priority " + pkgName + " highest").exec();
     }
 
-    static void disableOverlay(String pkgName) {
+    public static void disableOverlay(String pkgName) {
         Shell.cmd("cmd overlay disable --user current " + pkgName).exec();
     }
 
-    static boolean overlayExists() {
+    public static boolean overlayExists() {
         File f = new File("/system/product/overlay/IconifyComponentIPAS1.apk");
         return (f.exists() && !f.isDirectory());
     }
@@ -80,16 +79,16 @@ public class OverlayUtils {
         copyAssets(context);
     }
 
-    static void handleModule(final Context context) throws IOException {
+    public static void handleModule(final Context context) throws IOException {
         if (moduleExists()) {
             com.topjohnwu.superuser.Shell.cmd("rm -rf " + MAGISK_DIR).exec();
         }
         installModule(context);
     }
 
-    static boolean moduleExists() {
+    public static boolean moduleExists() {
         List<String> lines = Shell.cmd("test -d " + MAGISK_DIR + " && echo '1'").exec().getOut();
-        for (String line: lines) {
+        for (String line : lines) {
             if (line.contains("1"))
                 return true;
         }

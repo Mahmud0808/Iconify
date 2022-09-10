@@ -5,6 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.ui.HomePage;
+import com.drdisagree.iconify.ui.MainActivity;
+import com.drdisagree.iconify.utils.OverlayUtils;
+import com.drdisagree.iconify.utils.RootUtil;
 import com.topjohnwu.superuser.Shell;
 
 public class SplashActivity extends AppCompatActivity {
@@ -13,7 +18,7 @@ public class SplashActivity extends AppCompatActivity {
     private final String versionName = BuildConfig.VERSION_NAME;
 
     static {
-        Shell.enableVerboseLogging = true;
+        Shell.enableVerboseLogging = BuildConfig.DEBUG;
         Shell.setDefaultBuilder(Shell.Builder.create().setFlags(Shell.FLAG_REDIRECT_STDERR).setTimeout(10));
     }
 

@@ -1,4 +1,4 @@
-package com.drdisagree.iconify;
+package com.drdisagree.iconify.installer;
 
 import com.topjohnwu.superuser.Shell;
 
@@ -32,7 +32,7 @@ public class IconInstaller {
         }
     }
 
-    protected static void disable_pack(int n) {
+    public static void disable_pack(int n) {
 
         String[] paths = {"/system/product/overlay/IconifyComponentIPAS" + n + ".apk", "/system/product/overlay/IconifyComponentIPSUI" + n + ".apk"};
 

@@ -1,21 +1,17 @@
-package com.drdisagree.iconify;
+package com.drdisagree.iconify.utils;
 
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.*;
-
-import com.jaredrummler.android.shell.BuildConfig;
 import com.jaredrummler.android.shell.Shell;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 public class RootUtil {
 
     private static String magiskDir = null;
 
-    static boolean isDeviceRooted() {
+    public static boolean isDeviceRooted() {
         Process process = null;
         try {
             // Check for root permission
@@ -41,7 +37,7 @@ public class RootUtil {
         }
     }
 
-    static boolean isMagiskInstalled() {
+    public static boolean isMagiskInstalled() {
         return Shell.run("magisk").getStderr().contains("su");
     }
 

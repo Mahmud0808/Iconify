@@ -1,7 +1,4 @@
-package com.drdisagree.iconify;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+package com.drdisagree.iconify.ui;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -15,6 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.drdisagree.iconify.BuildConfig;
+import com.drdisagree.iconify.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 public class Info extends AppCompatActivity {

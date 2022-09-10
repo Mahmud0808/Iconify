@@ -1,8 +1,4 @@
-package com.drdisagree.iconify;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
+package com.drdisagree.iconify.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,11 +6,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+
+import com.drdisagree.iconify.installer.BrightnessInstaller;
+import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.math.BigDecimal;
