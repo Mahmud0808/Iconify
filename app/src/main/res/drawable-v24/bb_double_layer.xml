@@ -4,6 +4,13 @@
         <shape android:shape="rectangle">
             <corners android:radius="24.0dp" />
             <size android:height="48.0dp" />
+            <solid android:color="@color/colorBackground" />
+        </shape>
+    </item>
+    <item android:gravity="fill_horizontal|center">
+        <shape android:shape="rectangle">
+            <corners android:radius="24.0dp" />
+            <size android:height="48.0dp" />
             <solid android:color="@color/colorBackground2" />
         </shape>
     </item>
