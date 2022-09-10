@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.color.DynamicColors;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
