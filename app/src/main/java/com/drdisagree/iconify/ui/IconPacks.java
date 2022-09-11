@@ -26,6 +26,11 @@ import java.util.Objects;
 
 public class IconPacks extends AppCompatActivity {
 
+    private static final String AURORA_KEY = "IconifyComponentIPAS1.overlay";
+    private static final String GRADICON_KEY = "IconifyComponentIPAS2.overlay";
+    private static final String LORN_KEY = "IconifyComponentIPAS3.overlay";
+    private static final String PLUMPY_KEY = "IconifyComponentIPAS4.overlay";
+
     private ViewGroup container;
     private LinearLayout spinner;
     LinearLayout[] Container;
@@ -43,7 +48,7 @@ public class IconPacks extends AppCompatActivity {
         collapsing_toolbar.setTitle("Icon Pack");
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Progressbar while enabling or disabling pack
@@ -85,10 +90,10 @@ public class IconPacks extends AppCompatActivity {
         Container = new LinearLayout[]{AuroraContainer, GradiconContainer, LornContainer, PlumpyContainer};
 
         // Enable onClick event
-        enableOnClickListener(AuroraContainer, Aurora_Enable, Aurora_Disable, "aurora", 1);
-        enableOnClickListener(GradiconContainer, Gradicon_Enable, Gradicon_Disable, "gradicon", 2);
-        enableOnClickListener(LornContainer, Lorn_Enable, Lorn_Disable, "lorn", 3);
-        enableOnClickListener(PlumpyContainer, Plumpy_Enable, Plumpy_Disable, "plumpy", 4);
+        enableOnClickListener(AuroraContainer, Aurora_Enable, Aurora_Disable, AURORA_KEY, 1);
+        enableOnClickListener(GradiconContainer, Gradicon_Enable, Gradicon_Disable, GRADICON_KEY, 2);
+        enableOnClickListener(LornContainer, Lorn_Enable, Lorn_Disable, LORN_KEY, 3);
+        enableOnClickListener(PlumpyContainer, Plumpy_Enable, Plumpy_Disable, PLUMPY_KEY, 4);
 
         refreshBackground();
     }
@@ -122,11 +127,10 @@ public class IconPacks extends AppCompatActivity {
 
     // Function to check for bg drawable changes
     private void refreshBackground() {
-        List<String> enabledOverlays = OverlayUtils.getEnabledOverlayList();
-        checkIfApplied(AuroraContainer, 1, enabledOverlays);
-        checkIfApplied(GradiconContainer, 2, enabledOverlays);
-        checkIfApplied(LornContainer, 3, enabledOverlays);
-        checkIfApplied(PlumpyContainer, 4, enabledOverlays);
+        checkIfApplied(AuroraContainer, 1);
+        checkIfApplied(GradiconContainer, 2);
+        checkIfApplied(LornContainer, 3);
+        checkIfApplied(PlumpyContainer, 4);
     }
 
     // Function for onClick events
@@ -181,10 +185,10 @@ public class IconPacks extends AppCompatActivity {
                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         // Change background to selected
                         background(layout.getId(), R.drawable.container_selected);
-                        refreshBackground();
                         // Change button visibility
                         enable.setVisibility(View.GONE);
                         disable.setVisibility(View.VISIBLE);
+                        refreshBackground();
                     }
                 }, 1000);
             }
@@ -219,6 +223,7 @@ public class IconPacks extends AppCompatActivity {
                         // Change button visibility
                         disable.setVisibility(View.GONE);
                         enable.setVisibility(View.VISIBLE);
+                        refreshBackground();
                     }
                 }, 1000);
             }
@@ -227,46 +232,30 @@ public class IconPacks extends AppCompatActivity {
 
     // Function to disable other packs if one is applied
     private void disable_others(String pack) {
-        if (Objects.equals(pack, "aurora")) {
-            PrefConfig.savePrefBool(getApplicationContext(), "gradicon", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "lorn", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "plumpy", false);
-        } else if (Objects.equals(pack, "gradicon")) {
-            PrefConfig.savePrefBool(getApplicationContext(), "aurora", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "lorn", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "plumpy", false);
-        } else if (Objects.equals(pack, "lorn")) {
-            PrefConfig.savePrefBool(getApplicationContext(), "aurora", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "gradicon", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "plumpy", false);
-        } else if (Objects.equals(pack, "plumpy")) {
-            PrefConfig.savePrefBool(getApplicationContext(), "aurora", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "gradicon", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "lorn", false);
+        if (Objects.equals(pack, AURORA_KEY)) {
+            PrefConfig.savePrefBool(getApplicationContext(), GRADICON_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), LORN_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), PLUMPY_KEY, false);
+        } else if (Objects.equals(pack, GRADICON_KEY)) {
+            PrefConfig.savePrefBool(getApplicationContext(), AURORA_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), LORN_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), PLUMPY_KEY, false);
+        } else if (Objects.equals(pack, LORN_KEY)) {
+            PrefConfig.savePrefBool(getApplicationContext(), AURORA_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), GRADICON_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), PLUMPY_KEY, false);
+        } else if (Objects.equals(pack, PLUMPY_KEY)) {
+            PrefConfig.savePrefBool(getApplicationContext(), AURORA_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), GRADICON_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), LORN_KEY, false);
         }
     }
 
     // Function to change applied pack's bg
-    private void checkIfApplied(LinearLayout layout, int icon, List<String> enabledOverlays) {
-        if (OverlayUtils.isOverlayEnabled(enabledOverlays, "IconifyComponentIPAS" + icon + ".overlay") && OverlayUtils.isOverlayEnabled(enabledOverlays, "IconifyComponentIPSUI" + icon + ".overlay")) {
-            if (icon == 1)
-                PrefConfig.savePrefBool(this, "aurora", true);
-            else if (icon == 2)
-                PrefConfig.savePrefBool(this, "gradicon", true);
-            else if (icon == 3)
-                PrefConfig.savePrefBool(this, "lorn", true);
-            else if (icon == 4)
-                PrefConfig.savePrefBool(this, "plumpy", true);
+    private void checkIfApplied(LinearLayout layout, int icon) {
+        if (PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentIPAS" + icon + ".overlay") && PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentIPSUI" + icon + ".overlay")) {
             background(layout.getId(), R.drawable.container_selected);
         } else {
-            if (icon == 1)
-                PrefConfig.savePrefBool(this, "aurora", false);
-            else if (icon == 2)
-                PrefConfig.savePrefBool(this, "gradicon", false);
-            else if (icon == 3)
-                PrefConfig.savePrefBool(this, "lorn", false);
-            else if (icon == 4)
-                PrefConfig.savePrefBool(this, "plumpy", false);
             background(layout.getId(), R.drawable.container);
         }
     }
