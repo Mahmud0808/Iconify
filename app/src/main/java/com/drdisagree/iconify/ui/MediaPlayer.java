@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -12,6 +13,7 @@ import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MediaPlayer extends AppCompatActivity {
 
@@ -25,14 +27,14 @@ public class MediaPlayer extends AppCompatActivity {
         collapsing_toolbar.setTitle("Media Player");
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         List<String> enabledOverlays = OverlayUtils.getEnabledOverlayList();
 
-        Switch mp_accent = findViewById(R.id.mp_accent);
-        Switch mp_system = findViewById(R.id.mp_system);
-        Switch mp_pitch_black = findViewById(R.id.mp_pitch_black);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch mp_accent = findViewById(R.id.mp_accent);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch mp_system = findViewById(R.id.mp_system);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch mp_pitch_black = findViewById(R.id.mp_pitch_black);
 
         if (OverlayUtils.isOverlayEnabled(enabledOverlays, "IconifyComponentMPA.overlay"))
             mp_accent.setChecked(true);

@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -19,8 +20,11 @@ import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
+import java.util.Objects;
+
 public class Info extends AppCompatActivity {
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +35,7 @@ public class Info extends AppCompatActivity {
         collapsing_toolbar.setTitle("About");
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // App version

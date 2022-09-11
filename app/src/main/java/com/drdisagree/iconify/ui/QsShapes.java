@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -12,6 +13,7 @@ import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.List;
+import java.util.Objects;
 
 public class QsShapes extends AppCompatActivity {
 
@@ -25,14 +27,14 @@ public class QsShapes extends AppCompatActivity {
         collapsing_toolbar.setTitle("QS Panel Tiles");
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         List<String> enabledOverlays = OverlayUtils.getEnabledOverlayList();
 
-        Switch label_white = findViewById(R.id.label_white);
-        Switch label_systemInverse = findViewById(R.id.label_systemInverse);
-        Switch label_systemInverseV2 = findViewById(R.id.label_systemInverseV2);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_white = findViewById(R.id.label_white);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_systemInverse = findViewById(R.id.label_systemInverse);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_systemInverseV2 = findViewById(R.id.label_systemInverseV2);
 
         if (OverlayUtils.isOverlayEnabled(enabledOverlays, "IconifyComponentQST1.overlay"))
             label_white.setChecked(true);

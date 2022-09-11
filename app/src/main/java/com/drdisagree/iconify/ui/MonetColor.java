@@ -21,6 +21,7 @@ import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MonetColor extends AppCompatActivity implements ColorPickerDialogListener {
 
@@ -41,7 +42,7 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
         collapsing_toolbar.setTitle("Color Engine");
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         ColorPickerDialog colorPickerDialog = new ColorPickerDialog();

@@ -20,13 +20,10 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
 public class BrightnessBars extends AppCompatActivity {
-
-    private static final BigDecimal MAX = BigDecimal.valueOf(10000);
 
     private ViewGroup container;
     private LinearLayout spinner;
@@ -46,7 +43,7 @@ public class BrightnessBars extends AppCompatActivity {
         collapsing_toolbar.setTitle("Brightness Bar");
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Progressbar while enabling or disabling pack

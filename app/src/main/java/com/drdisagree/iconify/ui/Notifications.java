@@ -8,6 +8,8 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
+import java.util.Objects;
+
 public class Notifications extends AppCompatActivity {
 
     @Override
@@ -20,7 +22,7 @@ public class Notifications extends AppCompatActivity {
         collapsing_toolbar.setTitle("Notification");
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
