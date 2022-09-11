@@ -169,13 +169,13 @@ public class BrightnessBars extends AppCompatActivity {
 
     // Function to check for bg drawable changes
     private void refreshBackground() {
-        List<String> overlays = OverlayUtils.getOverlayList();
-        checkIfApplied(RoundedClipContainer, 1, overlays);
-        checkIfApplied(LessRoundedClipContainer, 2, overlays);
-        checkIfApplied(RoundedContainer, 3, overlays);
-        checkIfApplied(LessRoundedContainer, 4, overlays);
-        checkIfApplied(DoubleLayerContainer, 5, overlays);
-        checkIfApplied(ShadedLayerContainer, 6, overlays);
+        List<String> enabledOverlays = OverlayUtils.getEnabledOverlayList();
+        checkIfApplied(RoundedClipContainer, 1, enabledOverlays);
+        checkIfApplied(LessRoundedClipContainer, 2, enabledOverlays);
+        checkIfApplied(RoundedContainer, 3, enabledOverlays);
+        checkIfApplied(LessRoundedContainer, 4, enabledOverlays);
+        checkIfApplied(DoubleLayerContainer, 5, enabledOverlays);
+        checkIfApplied(ShadedLayerContainer, 6, enabledOverlays);
     }
 
     // Function for onClick events
@@ -302,8 +302,8 @@ public class BrightnessBars extends AppCompatActivity {
     }
 
     // Function to change applied pack's bg
-    private void checkIfApplied(LinearLayout layout, int brightnessbar, List<String> overlays) {
-        if (OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentBB" + brightnessbar + ".overlay")) {
+    private void checkIfApplied(LinearLayout layout, int brightnessbar, List<String> enabledOverlays) {
+        if (OverlayUtils.isOverlayEnabled(enabledOverlays, "IconifyComponentBB" + brightnessbar + ".overlay")) {
             if (brightnessbar == 1)
                 PrefConfig.savePrefBool(this, "roundedclip", true);
             else if (brightnessbar == 2)

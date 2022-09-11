@@ -122,11 +122,11 @@ public class IconPacks extends AppCompatActivity {
 
     // Function to check for bg drawable changes
     private void refreshBackground() {
-        List<String> overlays = OverlayUtils.getOverlayList();
-        checkIfApplied(AuroraContainer, 1, overlays);
-        checkIfApplied(GradiconContainer, 2, overlays);
-        checkIfApplied(LornContainer, 3, overlays);
-        checkIfApplied(PlumpyContainer, 4, overlays);
+        List<String> enabledOverlays = OverlayUtils.getEnabledOverlayList();
+        checkIfApplied(AuroraContainer, 1, enabledOverlays);
+        checkIfApplied(GradiconContainer, 2, enabledOverlays);
+        checkIfApplied(LornContainer, 3, enabledOverlays);
+        checkIfApplied(PlumpyContainer, 4, enabledOverlays);
     }
 
     // Function for onClick events
@@ -247,8 +247,8 @@ public class IconPacks extends AppCompatActivity {
     }
 
     // Function to change applied pack's bg
-    private void checkIfApplied(LinearLayout layout, int icon, List<String> overlays) {
-        if (OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentIPAS" + icon + ".overlay") && OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentIPSUI" + icon + ".overlay")) {
+    private void checkIfApplied(LinearLayout layout, int icon, List<String> enabledOverlays) {
+        if (OverlayUtils.isOverlayEnabled(enabledOverlays, "IconifyComponentIPAS" + icon + ".overlay") && OverlayUtils.isOverlayEnabled(enabledOverlays, "IconifyComponentIPSUI" + icon + ".overlay")) {
             if (icon == 1)
                 PrefConfig.savePrefBool(this, "aurora", true);
             else if (icon == 2)

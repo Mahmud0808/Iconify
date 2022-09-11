@@ -13,7 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+
+import java.util.List;
 
 public class HomePage extends AppCompatActivity {
 
@@ -43,6 +47,18 @@ public class HomePage extends AppCompatActivity {
         addItem(R.id.home_progressBar, "Progress Bar", "Change progress bar style", R.drawable.ic_progress_home);
         addItem(R.id.home_extras, "Extras", "Additions tweaks and settings", R.drawable.ic_extras_home);
         addItem(R.id.home_info, "About", "Information about this app", R.drawable.ic_info_home);
+
+        // Get list of enabled overlays
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                List<String> EnabledOverlays = OverlayUtils.getEnabledOverlayList();
+                for (String overlay: EnabledOverlays)
+                    PrefConfig.savePrefBool(getApplicationContext(), overlay, true);
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
 
         // Color engine item onClick
         home_monetColor = findViewById(R.id.home_monetColor);

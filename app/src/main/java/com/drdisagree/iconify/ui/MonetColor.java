@@ -31,8 +31,6 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
     List<String> accurate_sh = Shell.cmd("settings get secure monet_engine_accurate_shades").exec().getOut();
     int shade = initialize_shade();
 
-    GradientDrawable drawable;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,19 +45,6 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
-
-        if (color == -1) {
-            drawable = new GradientDrawable(
-                    GradientDrawable.Orientation.LEFT_RIGHT,
-                    new int[]{Color.parseColor("#50A6D7"), Color.parseColor("#50A6D7")});
-        } else {
-            drawable = new GradientDrawable(
-                    GradientDrawable.Orientation.LEFT_RIGHT,
-                    new int[]{color, color});
-        }
-
-        drawable.setCornerRadius(120f);
-        findViewById(R.id.preview_primary_accent).setBackgroundDrawable(drawable);
 
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch experimental_color = findViewById(R.id.experimental_color);
         LinearLayout experimental_color_options = findViewById(R.id.experimental_color_options);
@@ -88,9 +73,9 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_monet_accent = findViewById(R.id.apply_monet_accent);
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_monet_gradient = findViewById(R.id.apply_monet_gradient);
 
-        List<String> overlays = OverlayUtils.getOverlayList();
+        List<String> enabledOverlays = OverlayUtils.getEnabledOverlayList();
 
-        if (!OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentAMA.overlay")) {
+        if (!OverlayUtils.isOverlayEnabled(enabledOverlays, "IconifyComponentAMA.overlay")) {
             apply_monet_accent.setChecked(false);
         } else {
             apply_monet_accent.setChecked(true);
@@ -101,14 +86,14 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
                 if (isChecked) {
                     apply_monet_gradient.setChecked(false);
                     OverlayUtils.disableOverlay("IconifyComponentAMG.overlay");
-                    OverlayUtils.enableOverlay(OverlayUtils.getOverlayList(), "IconifyComponentAMA.overlay");
+                    OverlayUtils.enableOverlay(enabledOverlays, "IconifyComponentAMA.overlay");
                 } else {
                     OverlayUtils.disableOverlay("IconifyComponentAMA.overlay");
                 }
             }
         });
 
-        if (!OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentAMG.overlay")) {
+        if (!OverlayUtils.isOverlayEnabled(enabledOverlays, "IconifyComponentAMG.overlay")) {
             apply_monet_gradient.setChecked(false);
         } else {
             apply_monet_gradient.setChecked(true);
@@ -119,7 +104,7 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
                 if (isChecked) {
                     apply_monet_accent.setChecked(false);
                     OverlayUtils.disableOverlay("IconifyComponentAMA.overlay");
-                    OverlayUtils.enableOverlay(OverlayUtils.getOverlayList(), "IconifyComponentAMG.overlay");
+                    OverlayUtils.enableOverlay(enabledOverlays, "IconifyComponentAMG.overlay");
                 } else {
                     OverlayUtils.disableOverlay("IconifyComponentAMG.overlay");
                 }

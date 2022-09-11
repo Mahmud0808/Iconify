@@ -20,35 +20,39 @@ public class OverlayUtils {
     public static final String OVERLAY_DIR = "/data/adb/modules/Iconify/system/product/overlay";
 
     public static List<String> getOverlayList() {
-        return Shell.cmd("cmd overlay list").exec().getOut();
+        return Shell.cmd("cmd overlay list |  grep -E '^....IconifyComponent' | sed -E 's/^....//'").exec().getOut();
     }
 
-    public static boolean isOverlayEnabled(List<String> overlays, String pkgName) {
-        for (String line : overlays) {
-            if (line.startsWith("[x]") && line.contains(pkgName))
-                return true;
-        }
-        return false;
+    public static List<String> getEnabledOverlayList() {
+        return Shell.cmd("cmd overlay list |  grep -E '^.x..IconifyComponent' | sed -E 's/^....//'").exec().getOut();
     }
 
-    static boolean isOverlayDisabled(List<String> overlays, String pkgName) {
-        for (String line : overlays) {
-            if (line.startsWith("[ ]") && line.contains(pkgName))
-                return true;
-        }
-        return false;
-    }
-
-    static boolean isOverlayInstalled(List<String> overlays, String pkgName) {
-        for (String line : overlays) {
+    public static boolean isOverlayEnabled(List<String> enabledOverlays, String pkgName) {
+        for (String line : enabledOverlays) {
             if (line.contains(pkgName))
                 return true;
         }
         return false;
     }
 
-    public static void enableOverlay(List<String> overlays, String pkgName) {
-        if (isOverlayEnabled(overlays, pkgName))
+    static boolean isOverlayDisabled(List<String> enabledOverlays, String pkgName) {
+        for (String line : enabledOverlays) {
+            if (line.contains(pkgName))
+                return false;
+        }
+        return true;
+    }
+
+    static boolean isOverlayInstalled(List<String> enabledOverlays, String pkgName) {
+        for (String line : enabledOverlays) {
+            if (line.contains(pkgName))
+                return true;
+        }
+        return false;
+    }
+
+    public static void enableOverlay(List<String> enabledOverlays, String pkgName) {
+        if (isOverlayEnabled(enabledOverlays, pkgName))
             disableOverlay(pkgName);
         Shell.cmd("cmd overlay enable --user current " + pkgName, "cmd overlay set-priority " + pkgName + " highest").exec();
     }
@@ -106,8 +110,8 @@ public class OverlayUtils {
         String data_dir = context.getFilesDir().toString();
         // Clean temporary directory
         Shell.cmd("rm -rf " + data_dir).exec();
-        File devicefile = new File(data_dir + "/Component/");
-        devicefile.mkdirs();
+        File device_file = new File(data_dir + "/Component/");
+        device_file.mkdirs();
 
         for (String overlay : overlays) {
             File file = new File(data_dir + "/Component/" + overlay);

@@ -28,13 +28,13 @@ public class MediaPlayer extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        List<String> overlay = OverlayUtils.getOverlayList();
+        List<String> enabledOverlays = OverlayUtils.getEnabledOverlayList();
 
         Switch mp_accent = findViewById(R.id.mp_accent);
         Switch mp_system = findViewById(R.id.mp_system);
         Switch mp_pitch_black = findViewById(R.id.mp_pitch_black);
 
-        if (OverlayUtils.isOverlayEnabled(overlay, "IconifyComponentMPA.overlay"))
+        if (OverlayUtils.isOverlayEnabled(enabledOverlays, "IconifyComponentMPA.overlay"))
             mp_accent.setChecked(true);
         else
             mp_accent.setChecked(false);
@@ -44,7 +44,7 @@ public class MediaPlayer extends AppCompatActivity {
                 if (isChecked) {
                     mp_system.setChecked(false);
                     mp_pitch_black.setChecked(false);
-                    OverlayUtils.enableOverlay(overlay, "IconifyComponentMPA.overlay");
+                    OverlayUtils.enableOverlay(enabledOverlays, "IconifyComponentMPA.overlay");
                     OverlayUtils.disableOverlay("IconifyComponentMPS.overlay");
                     OverlayUtils.disableOverlay("IconifyComponentMPB.overlay");
                 } else {
@@ -53,7 +53,7 @@ public class MediaPlayer extends AppCompatActivity {
             }
         });
 
-        if (OverlayUtils.isOverlayEnabled(overlay, "IconifyComponentMPS.overlay"))
+        if (OverlayUtils.isOverlayEnabled(enabledOverlays, "IconifyComponentMPS.overlay"))
             mp_system.setChecked(true);
         else
             mp_system.setChecked(false);
@@ -63,7 +63,7 @@ public class MediaPlayer extends AppCompatActivity {
                 if (isChecked) {
                     mp_accent.setChecked(false);
                     mp_pitch_black.setChecked(false);
-                    OverlayUtils.enableOverlay(overlay, "IconifyComponentMPS.overlay");
+                    OverlayUtils.enableOverlay(enabledOverlays, "IconifyComponentMPS.overlay");
                     OverlayUtils.disableOverlay("IconifyComponentMPA.overlay");
                     OverlayUtils.disableOverlay("IconifyComponentMPB.overlay");
                 } else {
@@ -72,7 +72,7 @@ public class MediaPlayer extends AppCompatActivity {
             }
         });
 
-        if (OverlayUtils.isOverlayEnabled(overlay, "IconifyComponentMPB.overlay"))
+        if (OverlayUtils.isOverlayEnabled(enabledOverlays, "IconifyComponentMPB.overlay"))
             mp_pitch_black.setChecked(true);
         else
             mp_pitch_black.setChecked(false);
@@ -82,7 +82,7 @@ public class MediaPlayer extends AppCompatActivity {
                 if (isChecked) {
                     mp_accent.setChecked(false);
                     mp_system.setChecked(false);
-                    OverlayUtils.enableOverlay(overlay, "IconifyComponentMPB.overlay");
+                    OverlayUtils.enableOverlay(enabledOverlays, "IconifyComponentMPB.overlay");
                     OverlayUtils.disableOverlay("IconifyComponentMPA.overlay");
                     OverlayUtils.disableOverlay("IconifyComponentMPS.overlay");
                 } else {
