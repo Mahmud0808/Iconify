@@ -266,17 +266,15 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="48.0dp"
+                        android:layout_width="64.0dp"
                         android:layout_height="48.0dp"
                         android:gravity="center">
 
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/preview_primary_accent"
-                            android:layout_width="38.0dp"
-                            android:layout_height="38.0dp"
+                        <ImageView
+                            android:layout_width="48.0dp"
+                            android:layout_height="48.0dp"
                             android:layout_gravity="left|center"
-                            app:cardCornerRadius="24.0dp"
-                            app:cardElevation="0.0dp" />
+                            android:background="@drawable/preview_color_picker" />
 
                     </LinearLayout>
 
