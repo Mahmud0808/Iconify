@@ -14,16 +14,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
-import com.drdisagree.iconify.installer.BrightnessInstaller;
-import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.utils.OverlayUtils;
+import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.installer.BrightnessInstaller;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
-import java.util.List;
 import java.util.Objects;
 
 public class BrightnessBars extends AppCompatActivity {
+
+    private static final String ROUNDED_CLIP_KEY = "IconifyComponentBB1.overlay";
+    private static final String LESS_ROUNDED_CLIP_KEY = "IconifyComponentBB2.overlay";
+    private static final String ROUNDED_BAR_KEY = "IconifyComponentBB3.overlay";
+    private static final String LESS_ROUNDED_BAR_KEY = "IconifyComponentBB4.overlay";
+    private static final String DOUBLE_LAYER_KEY = "IconifyComponentBB5.overlay";
+    private static final String SHADED_LAYER_KEY = "IconifyComponentBB6.overlay";
 
     private ViewGroup container;
     private LinearLayout spinner;
@@ -121,12 +126,12 @@ public class BrightnessBars extends AppCompatActivity {
         Container = new LinearLayout[]{RoundedClipContainer, LessRoundedClipContainer, RoundedContainer, LessRoundedContainer, DoubleLayerContainer, ShadedLayerContainer};
 
         // Enable onClick event
-        enableOnClickListener(RoundedClipContainer, RoundedClip_Enable, RoundedClip_Disable, "roundedclip", 1);
-        enableOnClickListener(LessRoundedClipContainer, LessRoundedClip_Enable, LessRoundedClip_Disable, "lessroundedclip", 2);
-        enableOnClickListener(RoundedContainer, Rounded_Enable, Rounded_Disable, "rounded", 3);
-        enableOnClickListener(LessRoundedContainer, LessRounded_Enable, LessRounded_Disable, "lessrounded", 4);
-        enableOnClickListener(DoubleLayerContainer, DoubleLayer_Enable, DoubleLayer_Disable, "doublelayer", 5);
-        enableOnClickListener(ShadedLayerContainer, ShadedLayer_Enable, ShadedLayer_Disable, "shadedlayer", 6);
+        enableOnClickListener(RoundedClipContainer, RoundedClip_Enable, RoundedClip_Disable, ROUNDED_CLIP_KEY, 1);
+        enableOnClickListener(LessRoundedClipContainer, LessRoundedClip_Enable, LessRoundedClip_Disable, LESS_ROUNDED_CLIP_KEY, 2);
+        enableOnClickListener(RoundedContainer, Rounded_Enable, Rounded_Disable, ROUNDED_BAR_KEY, 3);
+        enableOnClickListener(LessRoundedContainer, LessRounded_Enable, LessRounded_Disable, LESS_ROUNDED_BAR_KEY, 4);
+        enableOnClickListener(DoubleLayerContainer, DoubleLayer_Enable, DoubleLayer_Disable, DOUBLE_LAYER_KEY, 5);
+        enableOnClickListener(ShadedLayerContainer, ShadedLayer_Enable, ShadedLayer_Disable, SHADED_LAYER_KEY, 6);
 
         refreshBackground();
     }
@@ -166,13 +171,12 @@ public class BrightnessBars extends AppCompatActivity {
 
     // Function to check for bg drawable changes
     private void refreshBackground() {
-        List<String> enabledOverlays = OverlayUtils.getEnabledOverlayList();
-        checkIfApplied(RoundedClipContainer, 1, enabledOverlays);
-        checkIfApplied(LessRoundedClipContainer, 2, enabledOverlays);
-        checkIfApplied(RoundedContainer, 3, enabledOverlays);
-        checkIfApplied(LessRoundedContainer, 4, enabledOverlays);
-        checkIfApplied(DoubleLayerContainer, 5, enabledOverlays);
-        checkIfApplied(ShadedLayerContainer, 6, enabledOverlays);
+        checkIfApplied(RoundedClipContainer, 1);
+        checkIfApplied(LessRoundedClipContainer, 2);
+        checkIfApplied(RoundedContainer, 3);
+        checkIfApplied(LessRoundedContainer, 4);
+        checkIfApplied(DoubleLayerContainer, 5);
+        checkIfApplied(ShadedLayerContainer, 6);
     }
 
     // Function for onClick events
@@ -208,8 +212,15 @@ public class BrightnessBars extends AppCompatActivity {
                 spinner.setVisibility(View.VISIBLE);
                 // Block touch
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                disable_others(key);
-                BrightnessInstaller.install_pack(index);
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        disable_others(key);
+                        BrightnessInstaller.install_pack(index);
+                    }
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
                 PrefConfig.savePrefBool(getApplicationContext(), key, true);
                 // Wait 1 second
                 spinner.postDelayed(new Runnable() {
@@ -220,10 +231,10 @@ public class BrightnessBars extends AppCompatActivity {
                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         // Change background to selected
                         background(layout.getId(), R.drawable.container_selected);
-                        refreshBackground();
                         // Change button visibility
                         enable.setVisibility(View.GONE);
                         disable.setVisibility(View.VISIBLE);
+                        refreshBackground();
                     }
                 }, 1000);
             }
@@ -237,7 +248,14 @@ public class BrightnessBars extends AppCompatActivity {
                 spinner.setVisibility(View.VISIBLE);
                 // Block touch
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                BrightnessInstaller.disable_pack(index);
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        BrightnessInstaller.disable_pack(index);
+                    }
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
                 PrefConfig.savePrefBool(getApplicationContext(), key, false);
                 // Wait 1 second
                 spinner.postDelayed(new Runnable() {
@@ -251,6 +269,7 @@ public class BrightnessBars extends AppCompatActivity {
                         // Change button visibility
                         disable.setVisibility(View.GONE);
                         enable.setVisibility(View.VISIBLE);
+                        refreshBackground();
                     }
                 }, 1000);
             }
@@ -259,74 +278,50 @@ public class BrightnessBars extends AppCompatActivity {
 
     // Function to disable other packs if one is applied
     private void disable_others(String pack) {
-        if (Objects.equals(pack, "roundedclip")) {
-            PrefConfig.savePrefBool(getApplicationContext(), "lessroundedclip", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "rounded", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "lessrounded", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "doublelayer", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "shadedlayer", false);
-        } else if (Objects.equals(pack, "lessroundedclip")) {
-            PrefConfig.savePrefBool(getApplicationContext(), "roundedclip", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "rounded", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "lessrounded", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "doublelayer", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "shadedlayer", false);
-        } else if (Objects.equals(pack, "rounded")) {
-            PrefConfig.savePrefBool(getApplicationContext(), "roundedclip", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "lessroundedclip", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "lessrounded", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "doublelayer", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "shadedlayer", false);
-        } else if (Objects.equals(pack, "lessrounded")) {
-            PrefConfig.savePrefBool(getApplicationContext(), "rounded", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "roundedclip", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "lessroundedclip", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "doublelayer", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "shadedlayer", false);
-        } else if (Objects.equals(pack, "doublelayer")) {
-            PrefConfig.savePrefBool(getApplicationContext(), "rounded", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "roundedclip", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "lessroundedclip", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "lessrounded", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "shadedlayer", false);
-        } else if (Objects.equals(pack, "shadedlayer")) {
-            PrefConfig.savePrefBool(getApplicationContext(), "rounded", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "roundedclip", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "lessroundedclip", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "doublelayer", false);
-            PrefConfig.savePrefBool(getApplicationContext(), "lessrounded", false);
+        if (Objects.equals(pack, ROUNDED_CLIP_KEY)) {
+            PrefConfig.savePrefBool(getApplicationContext(), LESS_ROUNDED_CLIP_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_BAR_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), LESS_ROUNDED_BAR_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), DOUBLE_LAYER_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), SHADED_LAYER_KEY, false);
+        } else if (Objects.equals(pack, LESS_ROUNDED_CLIP_KEY)) {
+            PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_CLIP_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_BAR_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), LESS_ROUNDED_BAR_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), DOUBLE_LAYER_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), SHADED_LAYER_KEY, false);
+        } else if (Objects.equals(pack, ROUNDED_BAR_KEY)) {
+            PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_CLIP_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), LESS_ROUNDED_CLIP_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), LESS_ROUNDED_BAR_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), DOUBLE_LAYER_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), SHADED_LAYER_KEY, false);
+        } else if (Objects.equals(pack, LESS_ROUNDED_BAR_KEY)) {
+            PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_BAR_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_CLIP_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), LESS_ROUNDED_CLIP_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), DOUBLE_LAYER_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), SHADED_LAYER_KEY, false);
+        } else if (Objects.equals(pack, DOUBLE_LAYER_KEY)) {
+            PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_BAR_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_CLIP_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), LESS_ROUNDED_CLIP_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), LESS_ROUNDED_BAR_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), SHADED_LAYER_KEY, false);
+        } else if (Objects.equals(pack, SHADED_LAYER_KEY)) {
+            PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_BAR_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_CLIP_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), LESS_ROUNDED_CLIP_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), DOUBLE_LAYER_KEY, false);
+            PrefConfig.savePrefBool(getApplicationContext(), LESS_ROUNDED_BAR_KEY, false);
         }
     }
 
     // Function to change applied pack's bg
-    private void checkIfApplied(LinearLayout layout, int brightnessbar, List<String> enabledOverlays) {
-        if (OverlayUtils.isOverlayEnabled(enabledOverlays, "IconifyComponentBB" + brightnessbar + ".overlay")) {
-            if (brightnessbar == 1)
-                PrefConfig.savePrefBool(this, "roundedclip", true);
-            else if (brightnessbar == 2)
-                PrefConfig.savePrefBool(this, "lessroundedclip", true);
-            else if (brightnessbar == 3)
-                PrefConfig.savePrefBool(this, "rounded", true);
-            else if (brightnessbar == 4)
-                PrefConfig.savePrefBool(this, "lessrounded", true);
-            else if (brightnessbar == 5)
-                PrefConfig.savePrefBool(this, "doublelayer", true);
-            else if (brightnessbar == 6)
-                PrefConfig.savePrefBool(this, "shadedlayer", true);
+    private void checkIfApplied(LinearLayout layout, int brightness) {
+        if (PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentBB" + brightness + ".overlay")) {
             background(layout.getId(), R.drawable.container_selected);
         } else {
-            if (brightnessbar == 1)
-                PrefConfig.savePrefBool(this, "roundedclip", false);
-            else if (brightnessbar == 2)
-                PrefConfig.savePrefBool(this, "lessroundedclip", false);
-            else if (brightnessbar == 3)
-                PrefConfig.savePrefBool(this, "rounded", false);
-            else if (brightnessbar == 4)
-                PrefConfig.savePrefBool(this, "lessrounded", false);
-            else if (brightnessbar == 5)
-                PrefConfig.savePrefBool(this, "doublelayer", false);
-            else if (brightnessbar == 6)
-                PrefConfig.savePrefBool(this, "shadedlayer", false);
             background(layout.getId(), R.drawable.container);
         }
     }
