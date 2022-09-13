@@ -1,11 +1,9 @@
 package com.drdisagree.iconify.installer;
 
+import com.drdisagree.iconify.utils.OverlayUtils;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 public class BrightnessInstaller {
 
@@ -14,6 +12,7 @@ public class BrightnessInstaller {
     public static void install_pack(int n) {
         disable_others(n);
         enable_pack(n);
+        OverlayUtils.enableColor();
     }
 
     protected static void enable_pack(int n) {

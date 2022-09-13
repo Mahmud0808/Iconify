@@ -1,11 +1,9 @@
 package com.drdisagree.iconify.installer;
 
+import com.drdisagree.iconify.utils.OverlayUtils;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 public class IconInstaller {
 
