@@ -27,7 +27,10 @@
         <shape android:shape="rectangle">
             <corners android:radius="24.0dp" />
             <size android:height="48.0dp" />
-            <solid android:color="@color/colorAccent" />
+            <gradient
+                android:angle="0.0"
+                android:endColor="@color/ic_launcher_background"
+                android:startColor="@color/colorAccent" />
         </shape>
     </item>
     <item
@@ -41,7 +44,7 @@
                 android:angle="0.0"
                 android:centerColor="#00000000"
                 android:endColor="#00000000"
-                android:startColor="@color/ic_launcher_background" />
+                android:startColor="#33FFFFFF" />
         </shape>
     </item>
 </layer-list>
