@@ -1,9 +1,3 @@
 <resources>
     <string name="app_name">Iconify</string>
-    <string name="iconPack_aurora">Aurora</string>
-    <string name="iconPack_aurora2">Dual tone linear icon pack</string>
-    <string name="iconPack_gradicon">Gradicon</string>
-    <string name="iconPack_gradicon2">Gradient shaded filled icon pack</string>
-    <string name="iconPack_lorn">Lorn</string>
-    <string name="iconPack_lorn2">Thick linear icon pack</string>
 </resources>

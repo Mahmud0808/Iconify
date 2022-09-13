@@ -2,6 +2,7 @@ package com.drdisagree.iconify.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
@@ -18,9 +23,11 @@ import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class HomePage extends AppCompatActivity {
 
+    private final String TAG = "MainActivity";
     private ViewGroup container;
     LinearLayout home_monetColor, home_iconPack, home_brightnessBar, home_qsShape, home_notification, home_mediaPlayer, home_extras, home_info;
 

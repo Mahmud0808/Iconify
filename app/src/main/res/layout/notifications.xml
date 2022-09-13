@@ -26,7 +26,6 @@
     </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
-        android:id="@+id/progressBar_Notification"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#44000000"

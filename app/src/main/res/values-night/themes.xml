@@ -44,15 +44,10 @@
         <item name="android:textStyle">bold</item>
     </style>
     <color name="colorBackground">#FF000F1D</color>
-    <color name="colorForeground">#FF0A1828</color>
     <color name="colorContainer">#FF0A1828</color>
     <color name="textColorPrimary">@color/white</color>
     <color name="textColorSecondary">#FF69788A</color>
-    <color name="textColorSecondaryVariant">#BFFFFFFF</color>
     <color name="textColorSecondaryLight">#B3FFFFFF</color>
     <color name="colorSuccess">#FFB7F7C4</color>
-    <color name="colorError">#FFFFB7B6</color>
-    <color name="colorInfo">#FFB3E6F5</color>
-    <color name="colorWarning">#FFFBE7C6</color>
     <color name="colorBackground2">#14FFFFFF</color>
 </resources>

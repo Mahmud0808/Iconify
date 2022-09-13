@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -30,65 +31,66 @@ public class MediaPlayer extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        List<String> enabledOverlays = OverlayUtils.getEnabledOverlayList();
-
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch mp_accent = findViewById(R.id.mp_accent);
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch mp_system = findViewById(R.id.mp_system);
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch mp_pitch_black = findViewById(R.id.mp_pitch_black);
 
-        if (OverlayUtils.isOverlayEnabled(enabledOverlays, "IconifyComponentMPA.overlay"))
-            mp_accent.setChecked(true);
-        else
-            mp_accent.setChecked(false);
+        mp_accent.setChecked(PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentMPA.overlay"));
 
         mp_accent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     mp_system.setChecked(false);
                     mp_pitch_black.setChecked(false);
-                    OverlayUtils.enableOverlay(enabledOverlays, "IconifyComponentMPA.overlay");
                     OverlayUtils.disableOverlay("IconifyComponentMPS.overlay");
+                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPS.overlay", false);
                     OverlayUtils.disableOverlay("IconifyComponentMPB.overlay");
+                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPB.overlay", false);
+                    OverlayUtils.enableOverlay("IconifyComponentMPA.overlay");
+                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPA.overlay", true);
                 } else {
                     OverlayUtils.disableOverlay("IconifyComponentMPA.overlay");
+                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPA.overlay", false);
                 }
             }
         });
 
-        if (OverlayUtils.isOverlayEnabled(enabledOverlays, "IconifyComponentMPS.overlay"))
-            mp_system.setChecked(true);
-        else
-            mp_system.setChecked(false);
+        mp_system.setChecked(PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentMPS.overlay"));
 
         mp_system.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     mp_accent.setChecked(false);
                     mp_pitch_black.setChecked(false);
-                    OverlayUtils.enableOverlay(enabledOverlays, "IconifyComponentMPS.overlay");
                     OverlayUtils.disableOverlay("IconifyComponentMPA.overlay");
+                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPA.overlay", false);
                     OverlayUtils.disableOverlay("IconifyComponentMPB.overlay");
+                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPB.overlay", false);
+                    OverlayUtils.enableOverlay("IconifyComponentMPS.overlay");
+                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPS.overlay", true);
                 } else {
                     OverlayUtils.disableOverlay("IconifyComponentMPS.overlay");
+                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPS.overlay", false);
                 }
             }
         });
 
-        if (OverlayUtils.isOverlayEnabled(enabledOverlays, "IconifyComponentMPB.overlay"))
-            mp_pitch_black.setChecked(true);
-        else
-            mp_pitch_black.setChecked(false);
+        mp_pitch_black.setChecked(PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentMPB.overlay"));
 
         mp_pitch_black.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     mp_accent.setChecked(false);
                     mp_system.setChecked(false);
-                    OverlayUtils.enableOverlay(enabledOverlays, "IconifyComponentMPB.overlay");
                     OverlayUtils.disableOverlay("IconifyComponentMPA.overlay");
+                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPA.overlay", false);
                     OverlayUtils.disableOverlay("IconifyComponentMPS.overlay");
+                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPS.overlay", false);
+                    OverlayUtils.enableOverlay("IconifyComponentMPB.overlay");
+                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPB.overlay", true);
                 } else {
                     OverlayUtils.disableOverlay("IconifyComponentMPB.overlay");
+                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPB.overlay", false);
                 }
             }
         });

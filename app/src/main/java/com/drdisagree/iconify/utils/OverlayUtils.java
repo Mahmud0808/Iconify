@@ -29,20 +29,12 @@ public class OverlayUtils {
         return Shell.cmd("cmd overlay list |  grep -E '^.x..IconifyComponent' | sed -E 's/^....//'").exec().getOut();
     }
 
-    public static boolean isOverlayEnabled(List<String> enabledOverlays, String pkgName) {
-        for (String line : enabledOverlays) {
-            if (line.contains(pkgName))
-                return true;
-        }
-        return false;
+    public static boolean isOverlayEnabled(String pkgName) {
+        return PrefConfig.loadPrefBool(SplashActivity.getContext(), pkgName);
     }
 
-    static boolean isOverlayDisabled(List<String> enabledOverlays, String pkgName) {
-        for (String line : enabledOverlays) {
-            if (line.contains(pkgName))
-                return false;
-        }
-        return true;
+    static boolean isOverlayDisabled(String pkgName) {
+        return !PrefConfig.loadPrefBool(SplashActivity.getContext(), pkgName);
     }
 
     static boolean isOverlayInstalled(List<String> enabledOverlays, String pkgName) {
@@ -53,9 +45,7 @@ public class OverlayUtils {
         return false;
     }
 
-    public static void enableOverlay(List<String> enabledOverlays, String pkgName) {
-        if (isOverlayEnabled(enabledOverlays, pkgName))
-            disableOverlay(pkgName);
+    public static void enableOverlay(String pkgName) {
         Shell.cmd("cmd overlay enable --user current " + pkgName, "cmd overlay set-priority " + pkgName + " highest").exec();
     }
 

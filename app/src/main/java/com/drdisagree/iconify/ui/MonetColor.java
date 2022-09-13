@@ -76,38 +76,36 @@ public class MonetColor extends AppCompatActivity implements ColorPickerDialogLi
 
         List<String> enabledOverlays = OverlayUtils.getEnabledOverlayList();
 
-        if (!OverlayUtils.isOverlayEnabled(enabledOverlays, "IconifyComponentAMA.overlay")) {
-            apply_monet_accent.setChecked(false);
-        } else {
-            apply_monet_accent.setChecked(true);
-        }
+        apply_monet_accent.setChecked(PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentAMA.overlay"));
 
         apply_monet_accent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     apply_monet_gradient.setChecked(false);
                     OverlayUtils.disableOverlay("IconifyComponentAMG.overlay");
-                    OverlayUtils.enableOverlay(enabledOverlays, "IconifyComponentAMA.overlay");
+                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentAMG.overlay", false);
+                    OverlayUtils.enableOverlay("IconifyComponentAMA.overlay");
+                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentAMA.overlay", true);
                 } else {
                     OverlayUtils.disableOverlay("IconifyComponentAMA.overlay");
+                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentAMA.overlay", false);
                 }
             }
         });
 
-        if (!OverlayUtils.isOverlayEnabled(enabledOverlays, "IconifyComponentAMG.overlay")) {
-            apply_monet_gradient.setChecked(false);
-        } else {
-            apply_monet_gradient.setChecked(true);
-        }
+        apply_monet_gradient.setChecked(PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentAMG.overlay"));
 
         apply_monet_gradient.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     apply_monet_accent.setChecked(false);
                     OverlayUtils.disableOverlay("IconifyComponentAMA.overlay");
-                    OverlayUtils.enableOverlay(enabledOverlays, "IconifyComponentAMG.overlay");
+                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentAMA.overlay", false);
+                    OverlayUtils.enableOverlay("IconifyComponentAMG.overlay");
+                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentAMG.overlay", true);
                 } else {
                     OverlayUtils.disableOverlay("IconifyComponentAMG.overlay");
+                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentAMG.overlay", false);
                 }
             }
         });

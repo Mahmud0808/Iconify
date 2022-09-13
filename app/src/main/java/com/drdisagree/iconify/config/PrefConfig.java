@@ -22,6 +22,13 @@ public class PrefConfig {
         editor.apply();
     }
 
+    public static void savePrefString(Context context, String key, String val) {
+        SharedPreferences pref = context.getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(key, val);
+        editor.apply();
+    }
+
     // Load sharedPref config
     public static boolean loadPrefBool(Context context, String key) {
         SharedPreferences pref = context.getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
@@ -31,5 +38,10 @@ public class PrefConfig {
     public static int loadPrefInt(Context context, String key) {
         SharedPreferences pref = context.getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
         return pref.getInt(key, 0);
+    }
+
+    public static String loadPrefString(Context context, String key) {
+        SharedPreferences pref = context.getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
+        return pref.getString(key, "null");
     }
 }

@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.drdisagree.iconify">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Iconify"
         tools:targetApi="31">
+
         <activity
             android:name=".ui.MonetColor"
             android:exported="false" />
@@ -43,6 +46,7 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="false" />
+
         <activity
             android:name=".SplashActivity"
             android:exported="true">
