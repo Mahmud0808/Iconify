@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.drdisagree.iconify.BuildConfig;
+import com.drdisagree.iconify.SplashActivity;
+import com.drdisagree.iconify.config.PrefConfig;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
@@ -59,6 +61,13 @@ public class OverlayUtils {
 
     public static void disableOverlay(String pkgName) {
         Shell.cmd("cmd overlay disable --user current " + pkgName).exec();
+    }
+
+    public static void enableColor() {
+        String pkgName = "IconifyComponentAMA.overlay";
+        if (!PrefConfig.loadPrefBool(SplashActivity.getContext(), "IconifyComponentAMA.overlay") && !PrefConfig.loadPrefBool(SplashActivity.getContext(), "IconifyComponentAMG.overlay")) {
+            Shell.cmd("cmd overlay enable --user current " + pkgName, "cmd overlay set-priority " + pkgName + " highest").exec();
+        }
     }
 
     public static boolean overlayExists() {
