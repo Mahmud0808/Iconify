@@ -100,6 +100,7 @@ public class OverlayUtils {
 
     static void copyAssets(Context context) {
 
+        String ext = "apk";
         String[] overlays = new String[0];
         try {
             overlays = context.getAssets().list("Component");
@@ -121,7 +122,7 @@ public class OverlayUtils {
                     e.printStackTrace();
                 }
             }
-            Shell.cmd("cp -f " + data_dir + "/Component/" + overlay + " " + OVERLAY_DIR + '/' + overlay).exec();
+            Shell.cmd("cp -f " + data_dir + "/Component/" + overlay + " " + OVERLAY_DIR + '/' + changeExtension(overlay, ext)).exec();
         }
         RootUtil.setPermissionsRecursively(644, OVERLAY_DIR + '/');
         // Clean temporary directory
@@ -144,5 +145,12 @@ public class OverlayUtils {
         myOutput.flush();
         myInput.close();
         myOutput.close();
+    }
+
+    public static String changeExtension(String filename, String extension) {
+        if (filename.contains(".")) {
+            filename = filename.substring(0, filename.lastIndexOf('.'));
+        }
+        return filename + "." + extension;
     }
 }
