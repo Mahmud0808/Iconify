@@ -22,6 +22,7 @@ import java.util.List;
 
 public class HomePage extends AppCompatActivity {
 
+    public static boolean isServiceRunning = false;
     private final String TAG = "MainActivity";
     private ViewGroup container;
     LinearLayout home_monetColor, home_iconPack, home_brightnessBar, home_qsShape, home_notification, home_mediaPlayer, home_extras, home_info;
@@ -30,7 +31,9 @@ public class HomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
-        startService(new Intent(this, BackgroundService.class));
+
+        if (!isServiceRunning)
+            startService(new Intent(this, BackgroundService.class));
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);

@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.ui.HomePage;
 
 public class BackgroundService extends Service {
 
@@ -30,7 +31,8 @@ public class BackgroundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Toast.makeText(this, "Background Service Started", Toast.LENGTH_LONG).show();
+        HomePage.isServiceRunning = true;
+        ApplyOnBoot.applyColor();
 
         startForeground();
 
