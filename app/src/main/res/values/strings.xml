@@ -11,4 +11,6 @@
     <string name="disable_this_for_vibrant_colors">Disable this for vibrant colors</string>
     <string name="experimental_features">Experimental Features</string>
     <string name="these_options_may_not_be_compatible_with_some_roms_especially_stock_pixel_based_roms">These options may not be compatible with some roms especially stock pixel based roms.</string>
+    <string name="primary_color">Primary Color</string>
+    <string name="secondary_color">Secondary Color</string>
 </resources>
