@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.utils.FabricatedOverlay;
 import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
@@ -72,10 +73,8 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
                 Runnable runnable1 = new Runnable() {
                     @Override
                     public void run() {
-                        OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
-                        OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
-                        Shell.cmd("cmd overlay fabricate --target android --name colorAccentPrimary android:color/holo_blue_light 0x1c " + ColorToSpecialHex(Integer.parseInt(accent))).exec();
-                        OverlayUtils.enableOverlay("com.android.shell:colorAccentPrimary");
+                        FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(accent)));
+                        FabricatedOverlay.enableOverlay("colorAccentPrimary");
                     }
                 };
                 Thread thread1 = new Thread(runnable1);
@@ -86,10 +85,8 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
                 Runnable runnable2 = new Runnable() {
                     @Override
                     public void run() {
-                        OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
-                        OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
-                        Shell.cmd("cmd overlay fabricate --target android --name colorAccentSecondary android:color/holo_green_light 0x1c " + ColorToSpecialHex(Integer.parseInt(accent))).exec();
-                        OverlayUtils.enableOverlay("com.android.shell:colorAccentSecondary");
+                        FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(accent)));
+                        FabricatedOverlay.enableOverlay("colorAccentSecondary");
                     }
                 };
                 Thread thread2 = new Thread(runnable2);
@@ -114,7 +111,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         String greenHex = To00Hex(green);
         String redHex = To00Hex(red);
 
-        StringBuilder str = new StringBuilder("0xFF");
+        StringBuilder str = new StringBuilder("0xff");
 //      str.append(alphaHex);
         str.append(redHex);
         str.append(greenHex);

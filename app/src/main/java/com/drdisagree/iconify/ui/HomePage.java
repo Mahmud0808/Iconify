@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.services.BackgroundService;
+import com.drdisagree.iconify.utils.FabricatedOverlay;
 import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -31,16 +32,6 @@ public class HomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
-
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                if (!isServiceRunning)
-                    startService(new Intent(getApplicationContext(), BackgroundService.class));
-            }
-        };
-        Thread thread = new Thread(runnable);
-        thread.start();
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
@@ -68,10 +59,24 @@ public class HomePage extends AppCompatActivity {
                 List<String> EnabledOverlays = OverlayUtils.getEnabledOverlayList();
                 for (String overlay : EnabledOverlays)
                     PrefConfig.savePrefBool(getApplicationContext(), overlay, true);
+
+                List<String> EnabledFabricatedOverlays = FabricatedOverlay.getEnabledOverlayList();
+                for (String overlay : EnabledFabricatedOverlays)
+                    PrefConfig.savePrefBool(getApplicationContext(), overlay, true);
             }
         };
         Thread thread1 = new Thread(runnable1);
         thread1.start();
+
+        Runnable runnable2 = new Runnable() {
+            @Override
+            public void run() {
+                if (!isServiceRunning)
+                    startService(new Intent(getApplicationContext(), BackgroundService.class));
+            }
+        };
+        Thread thread2 = new Thread(runnable2);
+        thread2.start();
 
         // Color engine item onClick
         home_monetColor = findViewById(R.id.home_monetColor);

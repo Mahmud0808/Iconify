@@ -33,7 +33,7 @@ public class FabricatedOverlay {
     }
 
     public static void enableOverlay(String name) {
-        Shell.cmd("cmd overlay enable --user current com.android.shell:IconifyComponent" + name, "cmd overlay set-priority com.android.shell:IconifyComponent" + name + " highest").exec();
+        Shell.cmd("cmd overlay enable --user current com.android.shell:IconifyComponent" + name).exec();
     }
 
     public static void disableOverlay(String name) {

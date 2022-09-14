@@ -1,14 +1,11 @@
 package com.drdisagree.iconify.services;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-
 import com.drdisagree.iconify.Iconify;
-import com.drdisagree.iconify.SplashActivity;
 import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.utils.FabricatedOverlay;
 import com.drdisagree.iconify.utils.OverlayUtils;
-import com.topjohnwu.superuser.Shell;
 
+import java.util.List;
 import java.util.Objects;
 
 public class ApplyOnBoot {
@@ -19,18 +16,18 @@ public class ApplyOnBoot {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
-                OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
+                List<String> fabricatedOverlay = FabricatedOverlay.getEnabledOverlayList();
+
                 String colorAccentPrimary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary");
                 if (!Objects.equals(colorAccentPrimary, INVALID)) {
-                    Shell.cmd("cmd overlay fabricate --target android --name colorAccentPrimary android:color/holo_blue_light 0x1c " + ColorToSpecialHex(Integer.parseInt(colorAccentPrimary))).exec();
-                    OverlayUtils.enableOverlay("com.android.shell:colorAccentPrimary");
+                    FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
+                    FabricatedOverlay.enableOverlay("colorAccentPrimary");
                 }
 
                 String colorAccentSecondary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary");
                 if (!Objects.equals(colorAccentSecondary, INVALID)) {
-                    Shell.cmd("cmd overlay fabricate --target android --name colorAccentSecondary android:color/holo_green_light 0x1c " + ColorToSpecialHex(Integer.parseInt(colorAccentSecondary))).exec();
-                    OverlayUtils.enableOverlay("com.android.shell:colorAccentSecondary");
+                    FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(colorAccentSecondary)));
+                    FabricatedOverlay.enableOverlay("colorAccentSecondary");
                 }
             }
         };

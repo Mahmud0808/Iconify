@@ -14,9 +14,14 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.SplashActivity;
+import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.ui.HomePage;
+import com.drdisagree.iconify.utils.FabricatedOverlay;
+
+import java.util.Objects;
 
 public class BackgroundService extends Service {
 
@@ -40,7 +45,8 @@ public class BackgroundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         HomePage.isServiceRunning = true;
-        ApplyOnBoot.applyColor();
+        if (FabricatedOverlay.isOverlayDisabled("colorAccentPrimary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary"), "null"))
+            ApplyOnBoot.applyColor();
 
         startForeground();
 
