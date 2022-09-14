@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.os.IBinder;
 import android.provider.Settings;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -45,7 +44,8 @@ public class BackgroundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         HomePage.isServiceRunning = true;
-        ApplyOnBoot.applyColor();
+        if (FabricatedOverlay.isOverlayDisabled("colorAccentPrimary") && FabricatedOverlay.isOverlayDisabled("colorAccentSecondary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary"), "null") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary"), "null"))
+            ApplyOnBoot.applyColor();
 
         startForeground();
 

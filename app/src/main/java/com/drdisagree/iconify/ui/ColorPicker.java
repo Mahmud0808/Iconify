@@ -73,13 +73,13 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
                 Runnable runnable1 = new Runnable() {
                     @Override
                     public void run() {
-                        FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(accent)));
-                        FabricatedOverlay.enableOverlay("colorAccentPrimary");
-
                         Shell.cmd("settings put secure monet_engine_custom_color 1").exec();
                         Shell.cmd("settings put secure monet_engine_color_override " + Integer.parseInt(accent)).exec();
                         Shell.cmd("settings put secure monet_engine_color_override " + ColorToHex(Integer.parseInt(accent), false)).exec();
                         Shell.cmd("settings put secure monet_engine_color_override " + ColorToHex(Integer.parseInt(accent), true)).exec();
+
+                        FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(accent)));
+                        FabricatedOverlay.enableOverlay("colorAccentPrimary");
                     }
                 };
                 Thread thread1 = new Thread(runnable1);

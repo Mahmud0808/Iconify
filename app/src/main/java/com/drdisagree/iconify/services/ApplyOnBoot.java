@@ -21,13 +21,13 @@ public class ApplyOnBoot {
 
                 String colorAccentPrimary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary");
                 if (!Objects.equals(colorAccentPrimary, INVALID)) {
-                    FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
-                    FabricatedOverlay.enableOverlay("colorAccentPrimary");
-
                     Shell.cmd("settings put secure monet_engine_custom_color 1").exec();
                     Shell.cmd("settings put secure monet_engine_color_override " + Integer.parseInt(colorAccentPrimary)).exec();
                     Shell.cmd("settings put secure monet_engine_color_override " + ColorToHex(Integer.parseInt(colorAccentPrimary), false)).exec();
                     Shell.cmd("settings put secure monet_engine_color_override " + ColorToHex(Integer.parseInt(colorAccentPrimary), true)).exec();
+
+                    FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
+                    FabricatedOverlay.enableOverlay("colorAccentPrimary");
                 }
 
                 String colorAccentSecondary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary");

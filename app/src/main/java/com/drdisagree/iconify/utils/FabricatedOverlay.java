@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.utils;
 
+import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.SplashActivity;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.topjohnwu.superuser.Shell;
@@ -41,10 +42,10 @@ public class FabricatedOverlay {
     }
 
     public static boolean isOverlayEnabled(String name) {
-        return PrefConfig.loadPrefBool(SplashActivity.getContext(), "com.android.shell:IconifyComponent" + name);
+        return PrefConfig.loadPrefBool(Iconify.getAppContext(), "com.android.shell:IconifyComponent" + name);
     }
 
     public static boolean isOverlayDisabled(String name) {
-        return !PrefConfig.loadPrefBool(SplashActivity.getContext(), "com.android.shell:IconifyComponent" + name);
+        return !PrefConfig.loadPrefBool(Iconify.getAppContext(), "com.android.shell:IconifyComponent" + name);
     }
 }
