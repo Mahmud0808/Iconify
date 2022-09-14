@@ -8,4 +8,6 @@
     <color name="rippleAccent">#2850A6D7</color>
     <color name="rippleDark">#28000F1D</color>
     <color name="rippleDarker">#44000F1D</color>
+    <color name="holo_blue_light">@android:color/holo_blue_light</color>
+    <color name="holo_green_light">@android:color/holo_green_light</color>
 </resources>
