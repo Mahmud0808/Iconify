@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Iconify</string>
+    <string name="apply_accent">Apply Accent</string>
+    <string name="link_monet_accent_color_to_iconify">Link monet accent color to Iconify</string>
+    <string name="apply_gradient">Apply Gradient</string>
+    <string name="link_monet_gradient_colors_to_iconify">Link monet gradient colors to Iconify</string>
+    <string name="color_picker">Color Picker</string>
+    <string name="pick_your_desired_colors">Pick your desired colors here</string>
+    <string name="color_picker_preview">Color Picker Preview</string>
+    <string name="accurate_shades">Accurate Shades</string>
+    <string name="disable_this_for_vibrant_colors">Disable this for vibrant colors</string>
+    <string name="experimental_features">Experimental Features</string>
+    <string name="these_options_may_not_be_compatible_with_some_roms_especially_stock_pixel_based_roms">These options may not be compatible with some roms especially stock pixel based roms.</string>
 </resources>
