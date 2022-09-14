@@ -36,27 +36,30 @@
                 android:paddingBottom="@dimen/container_padding">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center"
                     android:layout_marginRight="@dimen/container_padding"
                     android:layout_weight="1.0"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="RtlHardcoded">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Apply Accent"
+                        android:text="@string/apply_accent"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="SpUsage" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Link monet accent color to Iconify"
+                        android:text="@string/link_monet_accent_color_to_iconify"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_title_size2" />
+                        android:textSize="@dimen/cont_title_size2"
+                        tools:ignore="SpUsage" />
 
                 </LinearLayout>
 
@@ -67,7 +70,7 @@
                     android:layout_gravity="left|center"
                     android:thumb="@drawable/switch_thumb"
                     android:track="@drawable/switch_track"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    tools:ignore="RtlHardcoded,UseSwitchCompatOrMaterialXml" />
 
             </LinearLayout>
 
@@ -85,27 +88,30 @@
                 android:paddingBottom="@dimen/container_padding">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center"
                     android:layout_marginRight="@dimen/container_padding"
                     android:layout_weight="1.0"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="RtlHardcoded">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Apply Gradient"
+                        android:text="@string/apply_gradient"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="SpUsage" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Link monet gradient colors to Iconify"
+                        android:text="@string/link_monet_gradient_colors_to_iconify"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_title_size2" />
+                        android:textSize="@dimen/cont_title_size2"
+                        tools:ignore="SpUsage" />
 
                 </LinearLayout>
 
@@ -116,7 +122,68 @@
                     android:layout_gravity="left|center"
                     android:thumb="@drawable/switch_thumb"
                     android:track="@drawable/switch_track"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    tools:ignore="RtlHardcoded,UseSwitchCompatOrMaterialXml" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/custom_color_picker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/container_marginSide"
+                android:layout_marginEnd="@dimen/container_marginSide"
+                android:layout_marginBottom="@dimen/container_margin"
+                android:background="@drawable/container"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/container_paddingSide"
+                android:paddingTop="@dimen/container_padding"
+                android:paddingEnd="@dimen/container_paddingSide"
+                android:paddingBottom="@dimen/container_padding"
+                android:baselineAligned="false">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center"
+                    android:layout_marginRight="@dimen/container_padding"
+                    android:layout_weight="1.0"
+                    android:orientation="vertical"
+                    tools:ignore="RtlHardcoded">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/color_picker"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold"
+                        tools:ignore="SpUsage" />
+
+                    <TextView
+                        android:id="@+id/color_picker_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pick_your_desired_colors"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="@dimen/cont_title_size2"
+                        tools:ignore="SpUsage" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="64.0dp"
+                    android:layout_height="48.0dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="48.0dp"
+                        android:layout_height="48.0dp"
+                        android:layout_gravity="left|center"
+                        android:background="@drawable/preview_color_picker"
+                        tools:ignore="RtlHardcoded"
+                        android:contentDescription="@string/color_picker_preview" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -134,28 +201,31 @@
                 android:paddingBottom="@dimen/container_padding">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center"
                     android:layout_marginRight="@dimen/container_padding"
                     android:layout_weight="1.0"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="RtlHardcoded">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Experimental Features"
+                        android:text="@string/experimental_features"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="SpUsage" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:justificationMode="inter_word"
-                        android:text="These options may not be compatible with some roms especially stock pixel based roms."
+                        android:text="@string/these_options_may_not_be_compatible_with_some_roms_especially_stock_pixel_based_roms"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_title_size2" />
+                        android:textSize="@dimen/cont_title_size2"
+                        tools:ignore="SpUsage" />
 
                 </LinearLayout>
 
@@ -166,7 +236,7 @@
                     android:layout_gravity="left|center"
                     android:thumb="@drawable/switch_thumb"
                     android:track="@drawable/switch_track"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    tools:ignore="RtlHardcoded,UseSwitchCompatOrMaterialXml" />
 
             </LinearLayout>
 
@@ -174,59 +244,10 @@
                 android:id="@+id/experimental_color_options"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/container_marginSide"
-                    android:layout_marginEnd="@dimen/container_marginSide"
-                    android:layout_marginBottom="@dimen/container_margin"
-                    android:background="@drawable/container"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
-                        android:layout_marginRight="@dimen/container_padding"
-                        android:layout_weight="1.0"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Custom Color"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Use custom color for monet engine"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2" />
-
-                    </LinearLayout>
-
-                    <Switch
-                        android:id="@+id/enable_custom_accent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
-                        android:thumb="@drawable/switch_thumb"
-                        android:track="@drawable/switch_track"
-                        tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/custom_color_picker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/container_marginSide"
@@ -238,83 +259,33 @@
                     android:paddingTop="@dimen/container_padding"
                     android:paddingEnd="@dimen/container_paddingSide"
                     android:paddingBottom="@dimen/container_padding"
-                    android:visibility="gone">
+                    tools:ignore="UselessParent">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left|center"
                         android:layout_marginRight="@dimen/container_padding"
                         android:layout_weight="1.0"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        tools:ignore="RtlHardcoded">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Color Picker"
+                            android:text="@string/accurate_shades"
                             android:textColor="@color/textColorPrimary"
                             android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:ignore="SpUsage" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Pick your desired accent color"
+                            android:text="@string/disable_this_for_vibrant_colors"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="64.0dp"
-                        android:layout_height="48.0dp"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:layout_width="48.0dp"
-                            android:layout_height="48.0dp"
-                            android:layout_gravity="left|center"
-                            android:background="@drawable/preview_color_picker" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/container_marginSide"
-                    android:layout_marginEnd="@dimen/container_marginSide"
-                    android:layout_marginBottom="@dimen/container_margin"
-                    android:background="@drawable/container"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
-                        android:layout_marginRight="@dimen/container_padding"
-                        android:layout_weight="1.0"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Accurate Shades"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Disable this for vibrant colors"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2" />
+                            android:textSize="@dimen/cont_title_size2"
+                            tools:ignore="SpUsage" />
 
                     </LinearLayout>
 
@@ -325,7 +296,7 @@
                         android:layout_gravity="left|center"
                         android:thumb="@drawable/switch_thumb"
                         android:track="@drawable/switch_track"
-                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+                        tools:ignore="RtlHardcoded,UseSwitchCompatOrMaterialXml" />
 
                 </LinearLayout>
             </LinearLayout>
