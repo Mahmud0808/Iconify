@@ -22,6 +22,41 @@
             android:layout_marginBottom="24dp"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:id="@+id/color_picker_warn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/container_margin"
+                android:layout_marginRight="@dimen/container_margin"
+                android:layout_marginBottom="18dp"
+                android:background="@drawable/container"
+                android:gravity="left|center"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/container_paddingSide"
+                android:paddingTop="@dimen/container_padding"
+                android:paddingEnd="@dimen/container_paddingSide"
+                android:paddingBottom="@dimen/container_padding"
+                tools:ignore="RtlHardcoded">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hey_there"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/cont_title_size"
+                    android:textStyle="bold"
+                    tools:ignore="SpUsage" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:justificationMode="inter_word"
+                    android:text="@string/it_s_recommended_to_use_repainter_for_changing_monet_colors_as_the_options_below_are_very_basic_and_might_not_fullfill_your_needs_properly"
+                    android:textColor="@color/textColorSecondary"
+                    android:textSize="@dimen/cont_title_size2"
+                    tools:ignore="SpUsage" />
+            </LinearLayout>
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="240dp"

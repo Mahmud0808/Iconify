@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Iconify</string>
-    <string name="apply_accent">Apply Colors</string>
+    <string name="apply_accent">Link to Monet</string>
     <string name="link_monet_accent_color_to_iconify">Link iconify colors to monet</string>
     <string name="color_picker">Color Picker</string>
     <string name="pick_your_desired_colors">Pick your desired colors here</string>
@@ -11,4 +11,13 @@
     <string name="these_options_may_not_be_compatible_with_some_roms_especially_stock_pixel_based_roms">These options may not be compatible with some roms especially stock pixel based roms.</string>
     <string name="primary_color">Primary Color</string>
     <string name="secondary_color">Secondary Color</string>
+    <string name="minimal_qspanel">Minimal QsPanel</string>
+    <string name="remove_top_shade_of_qspanel">Remove top shade of QsPanel</string>
+    <string name="pitch_black_theme">Pitch Black Theme</string>
+    <string name="enable_pitch_black_colored_theme">Enable pitch black colored theme</string>
+    <string name="warning">Warning</string>
+    <string name="continue_button">CONTINUE</string>
+    <string name="iconify_logo">Iconify Logo</string>
+    <string name="hey_there">Hey There!</string>
+    <string name="it_s_recommended_to_use_repainter_for_changing_monet_colors_as_the_options_below_are_very_basic_and_might_not_fullfill_your_needs_properly">It\'s recommended to use Repainter for changing monet colors as the options below are very basic and might not fullfill your needs properly. :(</string>
 </resources>

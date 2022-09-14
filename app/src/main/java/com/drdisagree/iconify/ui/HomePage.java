@@ -62,7 +62,7 @@ public class HomePage extends AppCompatActivity {
 
                 List<String> EnabledFabricatedOverlays = FabricatedOverlay.getEnabledOverlayList();
                 for (String overlay : EnabledFabricatedOverlays)
-                    PrefConfig.savePrefBool(getApplicationContext(), overlay, true);
+                    PrefConfig.savePrefBool(getApplicationContext(), "fabricated" + overlay, true);
             }
         };
         Thread thread1 = new Thread(runnable1);

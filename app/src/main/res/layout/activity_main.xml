@@ -33,7 +33,8 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:foreground="@drawable/ic_launcher_fg" />
+                    android:foreground="@drawable/ic_launcher_fg"
+                    android:contentDescription="@string/iconify_logo" />
             </FrameLayout>
 
             <TextView
@@ -44,7 +45,8 @@
                 android:text="@string/app_name"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="28dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="SpUsage" />
         </LinearLayout>
 
         <LinearLayout
@@ -68,33 +70,38 @@
                 android:paddingTop="@dimen/container_padding"
                 android:paddingEnd="@dimen/container_paddingSide"
                 android:paddingBottom="@dimen/container_padding"
-                android:visibility="invisible">
+                android:visibility="invisible"
+                tools:ignore="RtlHardcoded">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:background="@drawable/ic_error" />
+                    android:background="@drawable/ic_error"
+                    tools:ignore="ContentDescription" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingLeft="16dp">
+                    android:paddingLeft="16dp"
+                    tools:ignore="RtlSymmetry">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Warning"
+                        android:text="@string/warning"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="SpUsage" />
 
                     <TextView
                         android:id="@+id/warning"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_title_size2" />
+                        android:textSize="@dimen/cont_title_size2"
+                        tools:ignore="SpUsage" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -110,10 +117,11 @@
                 android:paddingTop="8dp"
                 android:paddingEnd="32dp"
                 android:paddingBottom="6dp"
-                android:text="CONTINUE"
+                android:text="@string/continue_button"
                 android:textColor="@color/colorBackground"
                 android:textSize="22dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="SpUsage" />
 
         </LinearLayout>
     </LinearLayout>

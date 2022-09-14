@@ -10,11 +10,11 @@ import java.util.List;
 public class FabricatedOverlay {
 
     public static List<String> getOverlayList() {
-    return Shell.cmd("cmd overlay list |  grep -E '^....com.android.shell:IconifyComponent' | sed -E 's/^....//'").exec().getOut();
+    return Shell.cmd("cmd overlay list |  grep -E '^....com.android.shell:IconifyComponent' | sed -E 's/^....com.android.shell:IconifyComponent//'").exec().getOut();
 }
 
     public static List<String> getEnabledOverlayList() {
-        return Shell.cmd("cmd overlay list |  grep -E '^.x..com.android.shell:IconifyComponent' | sed -E 's/^....//'").exec().getOut();
+        return Shell.cmd("cmd overlay list |  grep -E '^.x..com.android.shell:IconifyComponent' | sed -E 's/^....com.android.shell:IconifyComponent//'").exec().getOut();
     }
 
     public static void buildOverlay(String target, String name, String type, String resourceName, String val) {
@@ -34,7 +34,7 @@ public class FabricatedOverlay {
     }
 
     public static void enableOverlay(String name) {
-        Shell.cmd("cmd overlay enable --user current com.android.shell:IconifyComponent" + name, "cmd overlay set-priority com.android.shell:IconifyComponent" + name + " highest").exec();
+        Shell.cmd("cmd overlay enable --user current com.android.shell:IconifyComponent" + name).exec();
     }
 
     public static void disableOverlay(String name) {

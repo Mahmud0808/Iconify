@@ -1,5 +1,9 @@
 package com.drdisagree.iconify.installer;
 
+import android.widget.Toast;
+
+import com.drdisagree.iconify.Iconify;
+import com.drdisagree.iconify.SplashActivity;
 import com.drdisagree.iconify.utils.OverlayUtils;
 import com.topjohnwu.superuser.Shell;
 

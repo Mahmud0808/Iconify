@@ -1,5 +1,9 @@
 package com.drdisagree.iconify.installer;
 
+import android.widget.Toast;
+
+import com.drdisagree.iconify.Iconify;
+import com.drdisagree.iconify.SplashActivity;
 import com.drdisagree.iconify.utils.OverlayUtils;
 import com.topjohnwu.superuser.Shell;
 
@@ -12,7 +16,6 @@ public class BrightnessInstaller {
     public static void install_pack(int n) {
         disable_others(n);
         enable_pack(n);
-        OverlayUtils.enableColor();
     }
 
     protected static void enable_pack(int n) {

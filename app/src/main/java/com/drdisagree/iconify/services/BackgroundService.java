@@ -19,8 +19,7 @@ import com.drdisagree.iconify.SplashActivity;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.ui.HomePage;
 import com.drdisagree.iconify.utils.FabricatedOverlay;
-
-import java.util.Objects;
+import com.drdisagree.iconify.utils.OverlayUtils;
 
 public class BackgroundService extends Service {
 
@@ -44,7 +43,7 @@ public class BackgroundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         HomePage.isServiceRunning = true;
-        if (FabricatedOverlay.isOverlayDisabled("colorAccentPrimary") && FabricatedOverlay.isOverlayDisabled("colorAccentSecondary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary"), "null") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary"), "null"))
+        if (OverlayUtils.isOverlayDisabled("IconifyComponentAMC.overlay") && (FabricatedOverlay.isOverlayDisabled("colorAccentPrimary") || FabricatedOverlay.isOverlayDisabled("colorAccentSecondary")) && (PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentPrimary") || PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentSecondary")))
             ApplyOnBoot.applyColor();
 
         startForeground();

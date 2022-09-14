@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -187,6 +188,7 @@ public class IconPacks extends AppCompatActivity {
                         enable.setVisibility(View.GONE);
                         disable.setVisibility(View.VISIBLE);
                         refreshBackground();
+                        Toast.makeText(getApplicationContext(), "Applied", Toast.LENGTH_SHORT).show();
                     }
                 }, 1000);
             }
@@ -222,6 +224,7 @@ public class IconPacks extends AppCompatActivity {
                         disable.setVisibility(View.GONE);
                         enable.setVisibility(View.VISIBLE);
                         refreshBackground();
+                        Toast.makeText(getApplicationContext(), "Disabled", Toast.LENGTH_SHORT).show();
                     }
                 }, 1000);
             }

@@ -33,7 +33,7 @@ public class OverlayUtils {
         return PrefConfig.loadPrefBool(SplashActivity.getContext(), pkgName);
     }
 
-    static boolean isOverlayDisabled(String pkgName) {
+    public static boolean isOverlayDisabled(String pkgName) {
         return !PrefConfig.loadPrefBool(SplashActivity.getContext(), pkgName);
     }
 
@@ -51,13 +51,6 @@ public class OverlayUtils {
 
     public static void disableOverlay(String pkgName) {
         Shell.cmd("cmd overlay disable --user current " + pkgName).exec();
-    }
-
-    public static void enableColor() {
-        String pkgName = "IconifyComponentAMC.overlay";
-        if (!PrefConfig.loadPrefBool(SplashActivity.getContext(), pkgName)) {
-            Shell.cmd("cmd overlay enable --user current " + pkgName, "cmd overlay set-priority " + pkgName + " highest").exec();
-        }
     }
 
     public static boolean overlayExists() {
