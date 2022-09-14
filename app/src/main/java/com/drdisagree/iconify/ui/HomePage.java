@@ -32,8 +32,15 @@ public class HomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
 
-        if (!isServiceRunning)
-            startService(new Intent(this, BackgroundService.class));
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (!isServiceRunning)
+                    startService(new Intent(getApplicationContext(), BackgroundService.class));
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
@@ -55,16 +62,16 @@ public class HomePage extends AppCompatActivity {
         addItem(R.id.home_info, "About", "Information about this app", R.drawable.ic_info_home);
 
         // Get list of enabled overlays
-        Runnable runnable = new Runnable() {
+        Runnable runnable1 = new Runnable() {
             @Override
             public void run() {
                 List<String> EnabledOverlays = OverlayUtils.getEnabledOverlayList();
-                for (String overlay: EnabledOverlays)
+                for (String overlay : EnabledOverlays)
                     PrefConfig.savePrefBool(getApplicationContext(), overlay, true);
             }
         };
-        Thread thread = new Thread(runnable);
-        thread.start();
+        Thread thread1 = new Thread(runnable1);
+        thread1.start();
 
         // Color engine item onClick
         home_monetColor = findViewById(R.id.home_monetColor);

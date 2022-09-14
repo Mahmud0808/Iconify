@@ -54,8 +54,8 @@ public class OverlayUtils {
     }
 
     public static void enableColor() {
-        String pkgName = "IconifyComponentAMA.overlay";
-        if (!PrefConfig.loadPrefBool(SplashActivity.getContext(), "IconifyComponentAMA.overlay") && !PrefConfig.loadPrefBool(SplashActivity.getContext(), "IconifyComponentAMG.overlay")) {
+        String pkgName = "IconifyComponentAMC.overlay";
+        if (!PrefConfig.loadPrefBool(SplashActivity.getContext(), pkgName)) {
             Shell.cmd("cmd overlay enable --user current " + pkgName, "cmd overlay set-priority " + pkgName + " highest").exec();
         }
     }

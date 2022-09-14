@@ -64,59 +64,7 @@
                 </LinearLayout>
 
                 <Switch
-                    android:id="@+id/apply_monet_accent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left|center"
-                    android:thumb="@drawable/switch_thumb"
-                    android:track="@drawable/switch_track"
-                    tools:ignore="RtlHardcoded,UseSwitchCompatOrMaterialXml" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/container_marginSide"
-                android:layout_marginEnd="@dimen/container_marginSide"
-                android:layout_marginBottom="@dimen/container_margin"
-                android:background="@drawable/container"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/container_paddingSide"
-                android:paddingTop="@dimen/container_padding"
-                android:paddingEnd="@dimen/container_paddingSide"
-                android:paddingBottom="@dimen/container_padding">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left|center"
-                    android:layout_marginRight="@dimen/container_padding"
-                    android:layout_weight="1.0"
-                    android:orientation="vertical"
-                    tools:ignore="RtlHardcoded">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/apply_gradient"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold"
-                        tools:ignore="SpUsage" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/link_monet_gradient_colors_to_iconify"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_title_size2"
-                        tools:ignore="SpUsage" />
-
-                </LinearLayout>
-
-                <Switch
-                    android:id="@+id/apply_monet_gradient"
+                    android:id="@+id/apply_monet_color"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center"

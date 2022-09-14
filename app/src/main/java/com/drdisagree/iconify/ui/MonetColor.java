@@ -7,13 +7,13 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.services.ApplyOnBoot;
 import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
@@ -40,53 +40,44 @@ public class MonetColor extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // Apply Accent or Gradient
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_monet_accent = findViewById(R.id.apply_monet_accent);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_monet_gradient = findViewById(R.id.apply_monet_gradient);
-
         // Apply Accent
-        apply_monet_accent.setChecked(PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentAMA.overlay"));
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_monet_color = findViewById(R.id.apply_monet_color);
 
-        apply_monet_accent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        apply_monet_color.setChecked(PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentAMC.overlay"));
+
+        apply_monet_color.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    apply_monet_gradient.setChecked(false);
-                    OverlayUtils.disableOverlay("IconifyComponentAMG.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentAMG.overlay", false);
-                    OverlayUtils.enableOverlay("IconifyComponentAMA.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentAMA.overlay", true);
+                    apply_monet_color.setChecked(true);
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
+                            PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentAMC.overlay", true);
+                            ApplyOnBoot.applyColor();
+                        }
+                    };
+                    Thread thread = new Thread(runnable);
+                    thread.start();
                 } else {
-                    OverlayUtils.disableOverlay("IconifyComponentAMA.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentAMA.overlay", false);
-                }
-            }
-        });
-
-        // Apply Gradient
-        apply_monet_gradient.setChecked(PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentAMG.overlay"));
-
-        apply_monet_gradient.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    apply_monet_accent.setChecked(false);
-                    OverlayUtils.disableOverlay("IconifyComponentAMA.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentAMA.overlay", false);
-                    OverlayUtils.enableOverlay("IconifyComponentAMG.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentAMG.overlay", true);
-                } else {
-                    OverlayUtils.disableOverlay("IconifyComponentAMG.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentAMG.overlay", false);
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
+                            PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentAMC.overlay", false);
+                            OverlayUtils.disableOverlay("com.android.shell:colorAccentPrimary");
+                            PrefConfig.savePrefSettings(getApplicationContext(), "colorAccentPrimary", "null");
+                            OverlayUtils.disableOverlay("com.android.shell:colorAccentSecondary");
+                            PrefConfig.savePrefSettings(getApplicationContext(), "colorAccentSecondary", "null");
+                        }
+                    };
+                    Thread thread = new Thread(runnable);
+                    thread.start();
                 }
             }
         });
 
         // Color Picker
-        TextView color_picker_desc = findViewById(R.id.color_picker_desc);
-        if (PrefConfig.loadPrefBool(this, "IconifyComponentAMA.overlay"))
-            color_picker_desc.setText("Pick your desired accent color.");
-        else if (PrefConfig.loadPrefBool(this, "IconifyComponentAMG.overlay"))
-            color_picker_desc.setText("Pick your desired gradient colors.");
-
         LinearLayout custom_color_picker = findViewById(R.id.custom_color_picker);
         custom_color_picker.setOnClickListener(new View.OnClickListener() {
             @Override

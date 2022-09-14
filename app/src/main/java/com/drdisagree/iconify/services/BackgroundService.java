@@ -15,12 +15,20 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.SplashActivity;
 import com.drdisagree.iconify.ui.HomePage;
 
 public class BackgroundService extends Service {
 
+    private Context context;
     private static final int NOTIFICATION_ID = 1;
     private static final String NOTIFICATION_CHANNEL_ID = "Background Service";
+
+    @Override
+    public void onCreate() {
+        context = SplashActivity.getContext();
+        super.onCreate();
+    }
 
     @Nullable
     @Override

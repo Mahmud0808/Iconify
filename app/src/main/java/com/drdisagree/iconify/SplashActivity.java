@@ -1,11 +1,11 @@
 package com.drdisagree.iconify;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.ui.HomePage;
@@ -32,16 +32,16 @@ public class SplashActivity extends AppCompatActivity {
         mContext = this;
         Shell.getShell(shell -> {
 
-        Intent intent;
+            Intent intent;
 
-        if (RootUtil.isDeviceRooted() && RootUtil.isMagiskInstalled() && OverlayUtils.moduleExists() && OverlayUtils.overlayExists() && (versionCode == PrefConfig.loadPrefInt(this, "versionCode"))) {
-            intent = new Intent(SplashActivity.this, HomePage.class);
-        } else {
-            intent = new Intent(SplashActivity.this, MainActivity.class);
-        }
+            if (RootUtil.isDeviceRooted() && RootUtil.isMagiskInstalled() && OverlayUtils.moduleExists() && OverlayUtils.overlayExists() && (versionCode == PrefConfig.loadPrefInt(this, "versionCode"))) {
+                intent = new Intent(SplashActivity.this, HomePage.class);
+            } else {
+                intent = new Intent(SplashActivity.this, MainActivity.class);
+            }
 
-        startActivity(intent);
-        finish();
+            startActivity(intent);
+            finish();
         });
     }
 
