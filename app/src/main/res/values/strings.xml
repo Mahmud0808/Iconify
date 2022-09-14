@@ -1,9 +1,7 @@
 <resources>
     <string name="app_name">Iconify</string>
-    <string name="apply_accent">Apply Accent</string>
-    <string name="link_monet_accent_color_to_iconify">Link monet accent color to Iconify</string>
-    <string name="apply_gradient">Apply Gradient</string>
-    <string name="link_monet_gradient_colors_to_iconify">Link monet gradient colors to Iconify</string>
+    <string name="apply_accent">Apply Colors</string>
+    <string name="link_monet_accent_color_to_iconify">Link iconify colors to monet</string>
     <string name="color_picker">Color Picker</string>
     <string name="pick_your_desired_colors">Pick your desired colors here</string>
     <string name="color_picker_preview">Color Picker Preview</string>
