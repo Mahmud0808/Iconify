@@ -45,8 +45,7 @@ public class BackgroundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         HomePage.isServiceRunning = true;
-        if (FabricatedOverlay.isOverlayDisabled("colorAccentPrimary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary"), "null"))
-            ApplyOnBoot.applyColor();
+        ApplyOnBoot.applyColor();
 
         startForeground();
 
