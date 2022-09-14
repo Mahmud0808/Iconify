@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ColorPicker" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:windowTitleStyle">@style/LightPickerDialogTitleStyle</item>
+        <item name="android:dialogCornerRadius">24dp</item>
+        <item name="android:buttonCornerRadius">120dp</item>
+    </style>
+
+    <style name="LightPickerDialogTitleStyle">
+        <item name="android:maxLines">1</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:textAppearance">
+            @android:style/TextAppearance.Material.DialogWindowTitle
+        </item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+    </style>
+</resources>
