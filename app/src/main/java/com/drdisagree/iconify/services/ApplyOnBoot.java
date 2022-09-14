@@ -32,9 +32,6 @@ public class ApplyOnBoot {
                     Shell.cmd("cmd overlay fabricate --target android --name colorAccentSecondary android:color/holo_green_light 0x1c " + ColorToSpecialHex(Integer.parseInt(colorAccentSecondary))).exec();
                     OverlayUtils.enableOverlay("com.android.shell:colorAccentSecondary");
                 }
-
-                OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
-                OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
             }
         };
         Thread thread = new Thread(runnable);

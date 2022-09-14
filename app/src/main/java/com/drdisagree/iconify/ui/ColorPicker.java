@@ -72,11 +72,10 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
                 Runnable runnable1 = new Runnable() {
                     @Override
                     public void run() {
-                        Shell.cmd("cmd overlay fabricate --target android --name colorAccentPrimary android:color/holo_blue_light 0x1c " + ColorToSpecialHex(Integer.parseInt(accent))).exec();
-                        OverlayUtils.enableOverlay("com.android.shell:colorAccentPrimary");
-
                         OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
                         OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
+                        Shell.cmd("cmd overlay fabricate --target android --name colorAccentPrimary android:color/holo_blue_light 0x1c " + ColorToSpecialHex(Integer.parseInt(accent))).exec();
+                        OverlayUtils.enableOverlay("com.android.shell:colorAccentPrimary");
                     }
                 };
                 Thread thread1 = new Thread(runnable1);
@@ -87,11 +86,10 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
                 Runnable runnable2 = new Runnable() {
                     @Override
                     public void run() {
-                        Shell.cmd("cmd overlay fabricate --target android --name colorAccentSecondary android:color/holo_green_light 0x1c " + ColorToSpecialHex(Integer.parseInt(accent))).exec();
-                        OverlayUtils.enableOverlay("com.android.shell:colorAccentSecondary");
-
                         OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
                         OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
+                        Shell.cmd("cmd overlay fabricate --target android --name colorAccentSecondary android:color/holo_green_light 0x1c " + ColorToSpecialHex(Integer.parseInt(accent))).exec();
+                        OverlayUtils.enableOverlay("com.android.shell:colorAccentSecondary");
                     }
                 };
                 Thread thread2 = new Thread(runnable2);
