@@ -14,7 +14,7 @@ public class FabricatedOverlay {
 }
 
     public static List<String> getEnabledOverlayList() {
-        return Shell.cmd("cmd overlay list |  grep -E '^.x..com.android.shell:IconifyComponent' | sed -E 's/^....com.android.shell:IconifyComponent//'").exec().getOut();
+        return Shell.cmd("cmd overlay list |  grep -E '^.x..com.android.shell:IconifyComponent' | sed -E 's/^.x..com.android.shell:IconifyComponent//'").exec().getOut();
     }
 
     public static void buildOverlay(String target, String name, String type, String resourceName, String val) {
@@ -43,7 +43,7 @@ public class FabricatedOverlay {
 
     public static boolean isOverlayEnabled(List<String> overlays, String name) {
         for (String overlay: overlays) {
-            if (overlay.contains("com.android.shell:IconifyComponent" + name))
+            if (overlay.contains(name))
                 return true;
         }
         return false;
@@ -51,7 +51,7 @@ public class FabricatedOverlay {
 
     public static boolean isOverlayDisabled(List<String> overlays, String name) {
         for (String overlay: overlays) {
-            if (overlay.contains("com.android.shell:IconifyComponent" + name))
+            if (overlay.contains(name))
                 return false;
         }
         return true;

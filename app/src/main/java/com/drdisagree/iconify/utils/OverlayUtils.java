@@ -24,7 +24,7 @@ public class OverlayUtils {
     }
 
     public static List<String> getEnabledOverlayList() {
-        return Shell.cmd("cmd overlay list |  grep -E '^.x..IconifyComponent' | sed -E 's/^....//'").exec().getOut();
+        return Shell.cmd("cmd overlay list |  grep -E '^.x..IconifyComponent' | sed -E 's/^.x..//'").exec().getOut();
     }
 
     public static boolean isOverlayEnabled(List<String> overlays, String pkgName) {

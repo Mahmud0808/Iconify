@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -26,13 +27,12 @@ import java.util.Objects;
 
 public class BackgroundService extends Service {
 
-    private Context context;
     private static final int NOTIFICATION_ID = 1;
     private static final String NOTIFICATION_CHANNEL_ID = "Background Service";
 
     @Override
     public void onCreate() {
-        context = SplashActivity.getContext();
+        Context context = SplashActivity.getContext();
         super.onCreate();
     }
 
