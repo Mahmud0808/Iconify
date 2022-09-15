@@ -25,6 +25,7 @@
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/brightness_progress_drawable.xml" value="0.195" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/button.xml" value="0.1795" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/button_red.xml" value="0.1895" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/button_yellow.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/circular_progress_bar.xml" value="0.272" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/container.xml" value="0.2765" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/container_bottom.xml" value="0.2465" />
@@ -80,6 +81,7 @@
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/switch_bg.xml" value="0.195" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/switch_thumb.xml" value="0.2095" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/transparent_container.xml" value="0.2465" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/warning.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable/bg_warn.xml" value="0.272" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable/bg_warns.xml" value="0.272" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable/button.xml" value="0.1345" />

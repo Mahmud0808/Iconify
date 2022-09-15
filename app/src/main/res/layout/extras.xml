@@ -28,7 +28,7 @@
                 android:layout_marginStart="@dimen/container_marginSide"
                 android:layout_marginEnd="@dimen/container_marginSide"
                 android:layout_marginBottom="@dimen/container_margin"
-                android:background="@drawable/dangerous"
+                android:background="@drawable/container"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/container_paddingSide"
                 android:paddingTop="@dimen/container_padding"
@@ -40,7 +40,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center"
                     android:layout_marginRight="@dimen/container_padding"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="RtlHardcoded">
 
                     <TextView
                         android:id="@+id/list_title_disableEverything"
@@ -48,14 +49,16 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="SpUsage" />
 
                     <TextView
                         android:id="@+id/list_desc_disableEverything"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/textColorSecondaryLight"
-                        android:textSize="@dimen/cont_title_size2" />
+                        android:textSize="@dimen/cont_title_size2"
+                        tools:ignore="SpUsage" />
 
                 </LinearLayout>
 
@@ -64,13 +67,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/container_padding"
-                    android:background="@drawable/button_red"
+                    android:background="@drawable/button"
                     android:fontFamily="@font/semibold"
                     android:letterSpacing="0.2"
-                    android:text="Disable ALL"
+                    android:text="@string/disable"
                     android:textColor="@color/colorBackground"
                     android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:ignore="SpUsage" />
             </LinearLayout>
 
             <LinearLayout
@@ -91,7 +95,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center"
                     android:layout_marginRight="@dimen/container_padding"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="RtlHardcoded">
 
                     <TextView
                         android:id="@+id/list_title_restartSysui"
@@ -99,14 +104,16 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="SpUsage" />
 
                     <TextView
                         android:id="@+id/list_desc_restartSysui"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/textColorSecondaryLight"
-                        android:textSize="@dimen/cont_title_size2" />
+                        android:textSize="@dimen/cont_title_size2"
+                        tools:ignore="SpUsage" />
 
                 </LinearLayout>
 
@@ -118,10 +125,11 @@
                     android:background="@drawable/button_red"
                     android:fontFamily="@font/semibold"
                     android:letterSpacing="0.2"
-                    android:text="Restart NOW"
+                    android:text="@string/restart"
                     android:textColor="@color/colorBackground"
                     android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:ignore="SpUsage" />
             </LinearLayout>
 
         </LinearLayout>
