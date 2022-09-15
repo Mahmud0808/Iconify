@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private final String versionName = BuildConfig.VERSION_NAME;
     private LinearLayout spinner;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -112,16 +114,17 @@ public class MainActivity extends AppCompatActivity {
 
                         // Wait 2 second
                         spinner.postDelayed(new Runnable() {
+                            @SuppressLint("SetTextI18n")
                             public void run() {
                                 // Hide spinner
                                 spinner.setVisibility(View.GONE);
                                 // Unblock touch
                                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                warn.setVisibility(View.VISIBLE);
+                                warning.setText("Reboot your device first!");
                             }
                         }, 2000);
-
-                        warn.setVisibility(View.VISIBLE);
-                        warning.setText("Reboot your device first!");
                     }
                 } else {
                     warn.setVisibility(View.VISIBLE);
