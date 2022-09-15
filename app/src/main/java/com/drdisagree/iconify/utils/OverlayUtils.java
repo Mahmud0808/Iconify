@@ -4,8 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.drdisagree.iconify.BuildConfig;
-import com.drdisagree.iconify.SplashActivity;
-import com.drdisagree.iconify.config.PrefConfig;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
@@ -29,12 +27,20 @@ public class OverlayUtils {
         return Shell.cmd("cmd overlay list |  grep -E '^.x..IconifyComponent' | sed -E 's/^....//'").exec().getOut();
     }
 
-    public static boolean isOverlayEnabled(String pkgName) {
-        return PrefConfig.loadPrefBool(SplashActivity.getContext(), pkgName);
+    public static boolean isOverlayEnabled(List<String> overlays, String pkgName) {
+        for (String overlay : overlays) {
+            if (overlay.contains(pkgName))
+                return true;
+        }
+        return false;
     }
 
-    public static boolean isOverlayDisabled(String pkgName) {
-        return !PrefConfig.loadPrefBool(SplashActivity.getContext(), pkgName);
+    public static boolean isOverlayDisabled(List<String> overlays, String pkgName) {
+        for (String overlay : overlays) {
+            if (overlay.contains(pkgName))
+                return false;
+        }
+        return true;
     }
 
     static boolean isOverlayInstalled(List<String> enabledOverlays, String pkgName) {

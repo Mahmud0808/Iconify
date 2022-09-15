@@ -47,7 +47,7 @@ public class BackgroundService extends Service {
 
         HomePage.isServiceRunning = true;
         List<String> overlays = FabricatedOverlay.getEnabledOverlayList();
-        if (OverlayUtils.isOverlayDisabled("IconifyComponentAMC.overlay") && (FabricatedOverlay.isOverlayDisabled(overlays, "colorAccentPrimary") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentPrimary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary"), "null")) || (FabricatedOverlay.isOverlayDisabled(overlays, "colorAccentSecondary") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentSecondary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary"), "null")))
+        if (OverlayUtils.isOverlayDisabled(overlays, "IconifyComponentAMC.overlay") && (FabricatedOverlay.isOverlayDisabled(overlays, "colorAccentPrimary") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentPrimary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary"), "null")) || (FabricatedOverlay.isOverlayDisabled(overlays, "colorAccentSecondary") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentSecondary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary"), "null")))
             ApplyOnBoot.applyColor();
 
         startForeground();
