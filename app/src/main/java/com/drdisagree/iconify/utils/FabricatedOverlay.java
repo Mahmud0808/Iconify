@@ -41,11 +41,19 @@ public class FabricatedOverlay {
         Shell.cmd("cmd overlay disable --user current com.android.shell:IconifyComponent" + name).exec();
     }
 
-    public static boolean isOverlayEnabled(String name) {
-        return PrefConfig.loadPrefBool(Iconify.getAppContext(), "com.android.shell:IconifyComponent" + name);
+    public static boolean isOverlayEnabled(List<String> overlays, String name) {
+        for (String overlay: overlays) {
+            if (overlay.contains("com.android.shell:IconifyComponent" + name))
+                return true;
+        }
+        return false;
     }
 
-    public static boolean isOverlayDisabled(String name) {
-        return !PrefConfig.loadPrefBool(Iconify.getAppContext(), "com.android.shell:IconifyComponent" + name);
+    public static boolean isOverlayDisabled(List<String> overlays, String name) {
+        for (String overlay: overlays) {
+            if (overlay.contains("com.android.shell:IconifyComponent" + name))
+                return false;
+        }
+        return true;
     }
 }

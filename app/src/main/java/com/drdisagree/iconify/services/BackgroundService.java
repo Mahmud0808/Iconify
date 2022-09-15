@@ -21,6 +21,9 @@ import com.drdisagree.iconify.ui.HomePage;
 import com.drdisagree.iconify.utils.FabricatedOverlay;
 import com.drdisagree.iconify.utils.OverlayUtils;
 
+import java.util.List;
+import java.util.Objects;
+
 public class BackgroundService extends Service {
 
     private Context context;
@@ -43,7 +46,8 @@ public class BackgroundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         HomePage.isServiceRunning = true;
-        if (OverlayUtils.isOverlayDisabled("IconifyComponentAMC.overlay") && (FabricatedOverlay.isOverlayDisabled("colorAccentPrimary") || FabricatedOverlay.isOverlayDisabled("colorAccentSecondary")) && (PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentPrimary") || PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentSecondary")))
+        List<String> overlays = FabricatedOverlay.getEnabledOverlayList();
+        if (OverlayUtils.isOverlayDisabled("IconifyComponentAMC.overlay") && (FabricatedOverlay.isOverlayDisabled(overlays, "colorAccentPrimary") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentPrimary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary"), "null")) || (FabricatedOverlay.isOverlayDisabled(overlays, "colorAccentSecondary") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentSecondary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary"), "null")))
             ApplyOnBoot.applyColor();
 
         startForeground();
