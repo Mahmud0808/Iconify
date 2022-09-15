@@ -46,8 +46,7 @@ public class BackgroundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         HomePage.isServiceRunning = true;
-        List<String> overlays = FabricatedOverlay.getEnabledOverlayList();
-        if (OverlayUtils.isOverlayDisabled(overlays, "IconifyComponentAMC.overlay") && (FabricatedOverlay.isOverlayDisabled(overlays, "colorAccentPrimary") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentPrimary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary"), "null")) || (FabricatedOverlay.isOverlayDisabled(overlays, "colorAccentSecondary") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentSecondary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary"), "null")))
+        if (checkEligibilityApplyOnBoot())
             ApplyOnBoot.applyColor();
 
         startForeground();
@@ -94,6 +93,11 @@ public class BackgroundService extends Service {
         NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "Background Service", NotificationManager.IMPORTANCE_LOW);
         channel.setDescription("You can turn off these notifications.");
         notificationManager.createNotificationChannel(channel);
+    }
+
+    public static boolean checkEligibilityApplyOnBoot() {
+        List<String> overlays = FabricatedOverlay.getEnabledOverlayList();
+        return (OverlayUtils.isOverlayDisabled(overlays, "IconifyComponentAMC.overlay") && (FabricatedOverlay.isOverlayDisabled(overlays, "colorAccentPrimary") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentPrimary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary"), "null")) || (FabricatedOverlay.isOverlayDisabled(overlays, "colorAccentSecondary") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentSecondary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary"), "null")));
     }
 
 }
