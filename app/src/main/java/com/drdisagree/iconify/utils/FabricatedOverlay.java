@@ -1,5 +1,8 @@
 package com.drdisagree.iconify.utils;
 
+import android.util.Log;
+import android.util.TypedValue;
+
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.SplashActivity;
 import com.drdisagree.iconify.config.PrefConfig;
@@ -25,10 +28,17 @@ public class FabricatedOverlay {
         if (target.equals("systemui"))
             target = "com.android.systemui";
 
-        if (type.equals("color"))
-            resourceType = "0x1c";
-        else if (type.equals("dimen"))
-            resourceType = "0x05";
+        switch (type) {
+            case "color":
+                resourceType = "0x1c";
+                break;
+            case "dimen":
+                resourceType = "0x05";
+                break;
+            case "bool":
+                resourceType = "0x12";
+                break;
+        }
 
         Shell.cmd("cmd overlay fabricate --target " + target + " --name IconifyComponent" + name + " " + target + ":" + type + "/" + resourceName + " " + resourceType + " " + val).exec();
     }

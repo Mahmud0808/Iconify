@@ -79,8 +79,11 @@
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/preview_secondary_accent.xml" value="0.195" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/seek_bar_progress.xml" value="0.16" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/seek_bar_progress_fill.xml" value="0.16" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/seekbar_progress.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/seekbar_thumb.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/switch_bg.xml" value="0.195" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/switch_thumb.xml" value="0.2095" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/switch_track.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/transparent_container.xml" value="0.2465" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/warning.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable/bg_warn.xml" value="0.272" />

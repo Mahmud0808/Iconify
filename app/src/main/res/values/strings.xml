@@ -22,4 +22,6 @@
     <string name="it_s_recommended_to_use_repainter_for_changing_monet_colors_as_the_options_below_are_very_basic_and_might_not_fullfill_your_needs_properly">It\'s recommended to use Repainter for changing monet colors as the options below are very basic and might not fullfill your needs properly. :(</string>
     <string name="restart">Restart</string>
     <string name="disable">Disable</string>
+    <string name="enable">Enable</string>
+    <string name="corner_radius">UI Corner Radius</string>
 </resources>

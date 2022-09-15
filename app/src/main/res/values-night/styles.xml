@@ -16,4 +16,10 @@
         </item>
         <item name="android:textColor">@color/textColorPrimary</item>
     </style>
+
+    <style name="SeekBar.Iconify" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressBackgroundTint">@color/colorBackground</item>
+        <item name="android:progressTint">@color/colorAccent</item>
+        <item name="android:thumbTint">@color/colorAccent</item>
+    </style>
 </resources>

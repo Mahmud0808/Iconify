@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -41,6 +43,56 @@ public class Extras extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        // Corner Radius
+
+        SeekBar corner_radius_seekbar = findViewById(R.id.corner_radius_seekbar);
+        TextView corner_radius_output = findViewById(R.id.corner_radius_output);
+
+        corner_radius_seekbar.setPadding(0, 0, 0, 0);
+        final int[] finalProgress = {16};
+
+        corner_radius_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                finalProgress[0] = progress;
+                corner_radius_output.setText("Selected: " + (progress + 8) + "dp");
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                PrefConfig.savePrefSettings(Iconify.getAppContext(), "cornerRadius", String.valueOf(finalProgress[0]));
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricated" + "cornerRadius", true);
+
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+
+                        FabricatedOverlay.buildOverlay("android", "dialogCornerRadius", "dimen", "dialog_corner_radius", ((finalProgress[0] < 2) ? "0x0" : "0x") + Integer.toHexString(finalProgress[0] + 8));
+                        FabricatedOverlay.buildOverlay("systemui", "roundedSliderCornerRadius", "dimen", "rounded_slider_corner_radius", ((finalProgress[0] < 2) ? "0x0" : "0x") + Integer.toHexString(finalProgress[0] + 4));
+                        FabricatedOverlay.buildOverlay("systemui", "qsCornerRadius", "dimen", "qs_corner_radius", ((finalProgress[0] < 2) ? "0x0" : "0x") + Integer.toHexString(finalProgress[0] + 4));
+                        FabricatedOverlay.buildOverlay("systemui", "qsFooterActionCornerRadius", "dimen", "qs_footer_action_corner_radius", ((finalProgress[0] < 2) ? "0x0" : "0x") + Integer.toHexString(finalProgress[0] + 4));
+
+                        FabricatedOverlay.enableOverlay("dialogCornerRadius");
+                        FabricatedOverlay.enableOverlay("roundedSliderCornerRadius");
+                        FabricatedOverlay.enableOverlay("qsCornerRadius");
+                        FabricatedOverlay.enableOverlay("qsFooterActionCornerRadius");
+
+                    }
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
+
+                Toast.makeText(getApplicationContext(), (finalProgress[0] + 8 + "dp Applied"), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Disable Everything
         TextView list_title_disableEverything = findViewById(R.id.list_title_disableEverything);
