@@ -75,8 +75,8 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
                     public void run() {
                         Shell.cmd("settings put secure monet_engine_custom_color 1").exec();
                         Shell.cmd("settings put secure monet_engine_color_override " + Integer.parseInt(accent)).exec();
-                        Shell.cmd("settings put secure monet_engine_color_override " + ColorToHex(Integer.parseInt(accent), false)).exec();
-                        Shell.cmd("settings put secure monet_engine_color_override " + ColorToHex(Integer.parseInt(accent), true)).exec();
+                        Shell.cmd("settings put secure monet_engine_color_override " + ColorToHex(Integer.parseInt(accent), false, true)).exec();
+                        Shell.cmd("settings put secure monet_engine_color_override " + ColorToHex(Integer.parseInt(accent), false, false)).exec();
 
                         FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(accent)));
                         FabricatedOverlay.enableOverlay("colorAccentPrimary");
@@ -105,7 +105,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         ;
     }
 
-    public static String ColorToHex(int color, boolean opacity) {
+    public static String ColorToHex(int color, boolean opacity, boolean hash) {
         int alpha = android.graphics.Color.alpha(color);
         int blue = android.graphics.Color.blue(color);
         int green = android.graphics.Color.green(color);
@@ -116,7 +116,13 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         String greenHex = To00Hex(green);
         String redHex = To00Hex(red);
 
-        StringBuilder str = new StringBuilder("#");
+        StringBuilder str;
+
+        if (hash)
+            str = new StringBuilder("#");
+        else
+            str = new StringBuilder("");
+
         if (opacity)
             str.append(alphaHex);
         str.append(redHex);

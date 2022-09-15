@@ -23,8 +23,8 @@ public class ApplyOnBoot {
                 if (!Objects.equals(colorAccentPrimary, INVALID)) {
                     Shell.cmd("settings put secure monet_engine_custom_color 1").exec();
                     Shell.cmd("settings put secure monet_engine_color_override " + Integer.parseInt(colorAccentPrimary)).exec();
-                    Shell.cmd("settings put secure monet_engine_color_override " + ColorToHex(Integer.parseInt(colorAccentPrimary), false)).exec();
-                    Shell.cmd("settings put secure monet_engine_color_override " + ColorToHex(Integer.parseInt(colorAccentPrimary), true)).exec();
+                    Shell.cmd("settings put secure monet_engine_color_override " + ColorToHex(Integer.parseInt(colorAccentPrimary), false, true)).exec();
+                    Shell.cmd("settings put secure monet_engine_color_override " + ColorToHex(Integer.parseInt(colorAccentPrimary), false, false)).exec();
 
                     FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
                     FabricatedOverlay.enableOverlay("colorAccentPrimary");
@@ -41,7 +41,7 @@ public class ApplyOnBoot {
         thread.start();
     }
 
-    public static String ColorToHex(int color, boolean opacity) {
+    public static String ColorToHex(int color, boolean opacity, boolean hash) {
         int alpha = android.graphics.Color.alpha(color);
         int blue = android.graphics.Color.blue(color);
         int green = android.graphics.Color.green(color);
@@ -52,7 +52,13 @@ public class ApplyOnBoot {
         String greenHex = To00Hex(green);
         String redHex = To00Hex(red);
 
-        StringBuilder str = new StringBuilder("#");
+        StringBuilder str;
+
+        if (hash)
+            str = new StringBuilder("#");
+        else
+            str = new StringBuilder("");
+
         if (opacity)
             str.append(alphaHex);
         str.append(redHex);
