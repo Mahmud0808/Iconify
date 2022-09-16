@@ -25,7 +25,7 @@ public class HomePage extends AppCompatActivity {
 
     public static boolean isServiceRunning = false;
     private final String TAG = "MainActivity";
-    LinearLayout home_monetColor, home_iconPack, home_brightnessBar, home_qsShape, home_notification, home_mediaPlayer, home_extras, home_info;
+    LinearLayout home_monetColor, home_iconPack, home_brightnessBar, home_qsShape, home_notification, home_mediaPlayer, home_volumePanel, home_progressBar, home_extras, home_info;
     private ViewGroup container;
 
     @Override
@@ -124,6 +124,26 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomePage.this, Notifications.class);
+                startActivity(intent);
+            }
+        });
+
+        // Volume panel item onClick
+        home_volumePanel = findViewById(R.id.home_volumePanel);
+        home_volumePanel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, VolumePanel.class);
+                startActivity(intent);
+            }
+        });
+
+        // Progress bar item onClick
+        home_progressBar = findViewById(R.id.home_progressBar);
+        home_progressBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this, ProgressBar.class);
                 startActivity(intent);
             }
         });
