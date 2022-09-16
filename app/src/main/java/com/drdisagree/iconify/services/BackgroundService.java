@@ -13,25 +13,13 @@ import android.provider.Settings;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.ui.HomePage;
-import com.drdisagree.iconify.utils.FabricatedOverlay;
-import com.drdisagree.iconify.utils.OverlayUtils;
-
-import java.util.List;
-import java.util.Objects;
 
 public class BackgroundService extends Service {
 
     private static final int NOTIFICATION_ID = 1;
     private static final String NOTIFICATION_CHANNEL_ID = "Background Service";
-
-    public static boolean checkEligibilityApplyOnBoot() {
-        List<String> overlays = FabricatedOverlay.getEnabledOverlayList();
-        return (OverlayUtils.isOverlayDisabled(overlays, "IconifyComponentAMC.overlay") && (FabricatedOverlay.isOverlayDisabled(overlays, "colorAccentPrimary") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentPrimary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary"), "null")) || (FabricatedOverlay.isOverlayDisabled(overlays, "colorAccentSecondary") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentSecondary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary"), "null")));
-    }
 
     @Nullable
     @Override
@@ -43,8 +31,9 @@ public class BackgroundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         HomePage.isServiceRunning = true;
-        if (checkEligibilityApplyOnBoot())
-            ApplyOnBoot.applyColor();
+        ApplyOnBoot.applyColors();
+        ApplyOnBoot.applyCornerRadius();
+        ApplyOnBoot.applyQsRowColumn();
 
         startForeground();
 

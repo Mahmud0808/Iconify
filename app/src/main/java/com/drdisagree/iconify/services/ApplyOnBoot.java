@@ -4,6 +4,7 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.ui.QsRowColumn;
 import com.drdisagree.iconify.utils.FabricatedOverlay;
+import com.drdisagree.iconify.utils.OverlayUtils;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
@@ -12,34 +13,30 @@ import java.util.Objects;
 public class ApplyOnBoot {
 
     private static final String INVALID = "null";
+    private static List<String> overlays = FabricatedOverlay.getEnabledOverlayList();
 
-    public static void applyColor() {
+    public static void applyColors() {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                List<String> fabricatedOverlay = FabricatedOverlay.getEnabledOverlayList();
+                if ((OverlayUtils.isOverlayDisabled(overlays, "IconifyComponentAMC.overlay") && (FabricatedOverlay.isOverlayDisabled(overlays, "colorAccentPrimary") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentPrimary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary"), "null")) || (FabricatedOverlay.isOverlayDisabled(overlays, "colorAccentSecondary") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentSecondary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary"), "null")))) {
+                    String colorAccentPrimary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary");
+                    if (!Objects.equals(colorAccentPrimary, INVALID)) {
+                        Shell.cmd("settings put secure monet_engine_custom_color 1").exec();
+                        Shell.cmd("settings put secure monet_engine_color_override " + Integer.parseInt(colorAccentPrimary)).exec();
+                        Shell.cmd("settings put secure monet_engine_color_override " + ColorToHex(Integer.parseInt(colorAccentPrimary), false, true)).exec();
+                        Shell.cmd("settings put secure monet_engine_color_override " + ColorToHex(Integer.parseInt(colorAccentPrimary), false, false)).exec();
 
-                String colorAccentPrimary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary");
-                if (!Objects.equals(colorAccentPrimary, INVALID)) {
-                    Shell.cmd("settings put secure monet_engine_custom_color 1").exec();
-                    Shell.cmd("settings put secure monet_engine_color_override " + Integer.parseInt(colorAccentPrimary)).exec();
-                    Shell.cmd("settings put secure monet_engine_color_override " + ColorToHex(Integer.parseInt(colorAccentPrimary), false, true)).exec();
-                    Shell.cmd("settings put secure monet_engine_color_override " + ColorToHex(Integer.parseInt(colorAccentPrimary), false, false)).exec();
+                        FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
+                        FabricatedOverlay.enableOverlay("colorAccentPrimary");
+                    }
 
-                    FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
-                    FabricatedOverlay.enableOverlay("colorAccentPrimary");
+                    String colorAccentSecondary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary");
+                    if (!Objects.equals(colorAccentSecondary, INVALID)) {
+                        FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(colorAccentSecondary)));
+                        FabricatedOverlay.enableOverlay("colorAccentSecondary");
+                    }
                 }
-
-                String colorAccentSecondary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary");
-                if (!Objects.equals(colorAccentSecondary, INVALID)) {
-                    FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(colorAccentSecondary)));
-                    FabricatedOverlay.enableOverlay("colorAccentSecondary");
-                }
-
-                applyCornerRadius();
-
-                if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "qsRowColumn"))
-                    QsRowColumn.applyRowColumn();
             }
         };
         Thread thread = new Thread(runnable);
@@ -47,15 +44,36 @@ public class ApplyOnBoot {
     }
 
     public static void applyCornerRadius() {
-        if (!PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius").equals("null")) {
-            FabricatedOverlay.buildOverlay("android", "dialogCornerRadius", "dimen", "dialog_corner_radius", "0x0" + ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8 + 16) * 100));
-            FabricatedOverlay.buildOverlay("android", "insetCornerRadius", "dimen", "harmful_app_name_padding_left", "0x" + ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 4 + 16) * 100));
-        } else {
-            FabricatedOverlay.buildOverlay("android", "dialogCornerRadius", "dimen", "dialog_corner_radius", "0x0" + ((24 + 16) * 100));
-            FabricatedOverlay.buildOverlay("android", "insetCornerRadius", "dimen", "harmful_app_name_padding_left", "0x" + ((20 + 16) * 100));
-        }
-        FabricatedOverlay.enableOverlay("dialogCornerRadius");
-        FabricatedOverlay.enableOverlay("insetCornerRadius");
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (FabricatedOverlay.isOverlayDisabled(overlays, "dialogCornerRadius") || FabricatedOverlay.isOverlayDisabled(overlays, "insetCornerRadius")) {
+                    if (!PrefConfig.loadPrefSettings(Iconify.getAppContext(), "dialogCornerRadius").equals("null")) {
+                        FabricatedOverlay.buildOverlay("android", "dialogCornerRadius", "dimen", "dialog_corner_radius", "0x" + ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8 + 16) * 100));
+                        FabricatedOverlay.buildOverlay("android", "insetCornerRadius", "dimen", "harmful_app_name_padding_left", "0x" + ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 4 + 16) * 100));
+                    } else {
+                        FabricatedOverlay.buildOverlay("android", "dialogCornerRadius", "dimen", "dialog_corner_radius", "0x" + ((24 + 16) * 100));
+                        FabricatedOverlay.buildOverlay("android", "insetCornerRadius", "dimen", "harmful_app_name_padding_left", "0x" + ((20 + 16) * 100));
+                    }
+                    FabricatedOverlay.enableOverlay("dialogCornerRadius");
+                    FabricatedOverlay.enableOverlay("insetCornerRadius");
+                }
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+    }
+
+    public static void applyQsRowColumn() {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "qsRowColumn") && FabricatedOverlay.isOverlayDisabled(overlays, "qsRow"))
+                    QsRowColumn.applyRowColumn();
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
 
     public static String ColorToHex(int color, boolean opacity, boolean hash) {

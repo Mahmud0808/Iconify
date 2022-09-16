@@ -96,7 +96,7 @@
                     android:hapticFeedbackEnabled="true"
                     android:max="1"
                     android:min="0"
-                    android:progress="0"
+                    android:progress="1"
                     android:splitTrack="false"
                     android:theme="@style/SeekBar.Iconify"
                     android:thumb="@null" />

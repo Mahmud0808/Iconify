@@ -25,16 +25,14 @@ import java.util.Objects;
 public class BrightnessBars extends AppCompatActivity {
 
     private static final String ROUNDED_CLIP_KEY = "IconifyComponentBB1.overlay";
-    private static final String LESS_ROUNDED_CLIP_KEY = "IconifyComponentBB2.overlay";
     private static final String ROUNDED_BAR_KEY = "IconifyComponentBB3.overlay";
-    private static final String LESS_ROUNDED_BAR_KEY = "IconifyComponentBB4.overlay";
     private static final String DOUBLE_LAYER_KEY = "IconifyComponentBB5.overlay";
     private static final String SHADED_LAYER_KEY = "IconifyComponentBB6.overlay";
     LinearLayout[] Container;
-    LinearLayout RoundedClipContainer, LessRoundedClipContainer, RoundedContainer, LessRoundedContainer, DoubleLayerContainer, ShadedLayerContainer;
-    Button RoundedClip_Enable, RoundedClip_Disable, LessRoundedClip_Enable, LessRoundedClip_Disable, Rounded_Enable, Rounded_Disable, LessRounded_Enable, LessRounded_Disable, DoubleLayer_Enable, DoubleLayer_Disable, ShadedLayer_Enable, ShadedLayer_Disable;
-    ImageView RoundedClip_Auto_Bb, LessRoundedClip_Auto_Bb, Rounded_Auto_Bb, LessRounded_Auto_Bb, DoubleLayer_Auto_Bb, ShadedLayer_Auto_Bb;
-    ImageView RoundedClip_Bb, LessRoundedClip_Bb, Rounded_Bb, LessRounded_Bb, DoubleLayer_Bb, ShadedLayer_Bb;
+    LinearLayout RoundedClipContainer, RoundedContainer, DoubleLayerContainer, ShadedLayerContainer;
+    Button RoundedClip_Enable, RoundedClip_Disable, Rounded_Enable, Rounded_Disable, DoubleLayer_Enable, DoubleLayer_Disable, ShadedLayer_Enable, ShadedLayer_Disable;
+    ImageView RoundedClip_Auto_Bb, Rounded_Auto_Bb, DoubleLayer_Auto_Bb, ShadedLayer_Auto_Bb;
+    ImageView RoundedClip_Bb, Rounded_Bb, DoubleLayer_Bb, ShadedLayer_Bb;
     private ViewGroup container;
     private LinearLayout spinner;
 
@@ -62,9 +60,7 @@ public class BrightnessBars extends AppCompatActivity {
 
         // Brightness Bar add items in list
         addItem(R.id.brightnessBar_roundedClip_container, R.id.brightnessBar_roundedClip_bb, R.id.brightnessBar_roundedClip_auto_bb, "Rounded Clip", R.id.brightnessBar_roundedClip_enable, R.id.brightnessBar_roundedClip_disable);
-        addItem(R.id.brightnessBar_lessRoundedClip_container, R.id.brightnessBar_lessRoundedClip_bb, R.id.brightnessBar_lessRoundedClip_auto_bb, "Less Rounded Clip", R.id.brightnessBar_lessRoundedClip_enable, R.id.brightnessBar_lessRoundedClip_disable);
         addItem(R.id.brightnessBar_rounded_container, R.id.brightnessBar_rounded_bb, R.id.brightnessBar_rounded_auto_bb, "Rounded Bar", R.id.brightnessBar_rounded_enable, R.id.brightnessBar_rounded_disable);
-        addItem(R.id.brightnessBar_lessRounded_container, R.id.brightnessBar_lessRounded_bb, R.id.brightnessBar_lessRounded_auto_bb, "Less Rounded Bar", R.id.brightnessBar_lessRounded_enable, R.id.brightnessBar_lessRounded_disable);
         addItem(R.id.brightnessBar_doubleLayer_container, R.id.brightnessBar_doubleLayer_bb, R.id.brightnessBar_doubleLayer_auto_bb, "Double Layer", R.id.brightnessBar_doubleLayer_enable, R.id.brightnessBar_doubleLayer_disable);
         addItem(R.id.brightnessBar_shadedLayer_container, R.id.brightnessBar_shadedLayer_bb, R.id.brightnessBar_shadedLayer_auto_bb, "Shaded Layer", R.id.brightnessBar_shadedLayer_enable, R.id.brightnessBar_shadedLayer_disable);
 
@@ -77,15 +73,6 @@ public class BrightnessBars extends AppCompatActivity {
         RoundedClip_Auto_Bb = findViewById(R.id.brightnessBar_roundedClip_auto_bb);
         RoundedClip_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_roundedclip));
 
-        // Less Rounded Clip
-        LessRoundedClipContainer = findViewById(R.id.brightnessBar_lessRoundedClip_container);
-        LessRoundedClip_Enable = findViewById(R.id.brightnessBar_lessRoundedClip_enable);
-        LessRoundedClip_Disable = findViewById(R.id.brightnessBar_lessRoundedClip_disable);
-        LessRoundedClip_Bb = findViewById(R.id.brightnessBar_lessRoundedClip_bb);
-        LessRoundedClip_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.bb_lessroundedclip));
-        LessRoundedClip_Auto_Bb = findViewById(R.id.brightnessBar_lessRoundedClip_auto_bb);
-        LessRoundedClip_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_lessroundedclip));
-
         // Rounded Bar
         RoundedContainer = findViewById(R.id.brightnessBar_rounded_container);
         Rounded_Enable = findViewById(R.id.brightnessBar_rounded_enable);
@@ -94,15 +81,6 @@ public class BrightnessBars extends AppCompatActivity {
         Rounded_Bb.setBackground(ContextCompat.getDrawable(BrightnessBars.this, R.drawable.bb_rounded));
         Rounded_Auto_Bb = findViewById(R.id.brightnessBar_rounded_auto_bb);
         Rounded_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_rounded));
-
-        // Less Rounded Bar
-        LessRoundedContainer = findViewById(R.id.brightnessBar_lessRounded_container);
-        LessRounded_Enable = findViewById(R.id.brightnessBar_lessRounded_enable);
-        LessRounded_Disable = findViewById(R.id.brightnessBar_lessRounded_disable);
-        LessRounded_Bb = findViewById(R.id.brightnessBar_lessRounded_bb);
-        LessRounded_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.bb_lessrounded));
-        LessRounded_Auto_Bb = findViewById(R.id.brightnessBar_lessRounded_auto_bb);
-        LessRounded_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_lessrounded));
 
         // Double Layer
         DoubleLayerContainer = findViewById(R.id.brightnessBar_doubleLayer_container);
@@ -123,15 +101,13 @@ public class BrightnessBars extends AppCompatActivity {
         ShadedLayer_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_shaded_layer));
 
         // List of Brightness Bar
-        Container = new LinearLayout[]{RoundedClipContainer, LessRoundedClipContainer, RoundedContainer, LessRoundedContainer, DoubleLayerContainer, ShadedLayerContainer};
+        Container = new LinearLayout[]{RoundedClipContainer, RoundedContainer, DoubleLayerContainer, ShadedLayerContainer};
 
         // Enable onClick event
         enableOnClickListener(RoundedClipContainer, RoundedClip_Enable, RoundedClip_Disable, ROUNDED_CLIP_KEY, 1);
-        enableOnClickListener(LessRoundedClipContainer, LessRoundedClip_Enable, LessRoundedClip_Disable, LESS_ROUNDED_CLIP_KEY, 2);
-        enableOnClickListener(RoundedContainer, Rounded_Enable, Rounded_Disable, ROUNDED_BAR_KEY, 3);
-        enableOnClickListener(LessRoundedContainer, LessRounded_Enable, LessRounded_Disable, LESS_ROUNDED_BAR_KEY, 4);
-        enableOnClickListener(DoubleLayerContainer, DoubleLayer_Enable, DoubleLayer_Disable, DOUBLE_LAYER_KEY, 5);
-        enableOnClickListener(ShadedLayerContainer, ShadedLayer_Enable, ShadedLayer_Disable, SHADED_LAYER_KEY, 6);
+        enableOnClickListener(RoundedContainer, Rounded_Enable, Rounded_Disable, ROUNDED_BAR_KEY, 2);
+        enableOnClickListener(DoubleLayerContainer, DoubleLayer_Enable, DoubleLayer_Disable, DOUBLE_LAYER_KEY, 3);
+        enableOnClickListener(ShadedLayerContainer, ShadedLayer_Enable, ShadedLayer_Disable, SHADED_LAYER_KEY, 4);
 
         refreshBackground();
     }
@@ -149,15 +125,9 @@ public class BrightnessBars extends AppCompatActivity {
                 if (linearLayout == RoundedClipContainer) {
                     RoundedClip_Enable.setVisibility(View.GONE);
                     RoundedClip_Disable.setVisibility(View.GONE);
-                } else if (linearLayout == LessRoundedClipContainer) {
-                    LessRoundedClip_Enable.setVisibility(View.GONE);
-                    LessRoundedClip_Disable.setVisibility(View.GONE);
                 } else if (linearLayout == RoundedContainer) {
                     Rounded_Enable.setVisibility(View.GONE);
                     Rounded_Disable.setVisibility(View.GONE);
-                } else if (linearLayout == LessRoundedContainer) {
-                    LessRounded_Enable.setVisibility(View.GONE);
-                    LessRounded_Disable.setVisibility(View.GONE);
                 } else if (linearLayout == DoubleLayerContainer) {
                     DoubleLayer_Enable.setVisibility(View.GONE);
                     DoubleLayer_Disable.setVisibility(View.GONE);
@@ -172,11 +142,9 @@ public class BrightnessBars extends AppCompatActivity {
     // Function to check for bg drawable changes
     private void refreshBackground() {
         checkIfApplied(RoundedClipContainer, 1);
-        checkIfApplied(LessRoundedClipContainer, 2);
-        checkIfApplied(RoundedContainer, 3);
-        checkIfApplied(LessRoundedContainer, 4);
-        checkIfApplied(DoubleLayerContainer, 5);
-        checkIfApplied(ShadedLayerContainer, 6);
+        checkIfApplied(RoundedContainer, 2);
+        checkIfApplied(DoubleLayerContainer, 3);
+        checkIfApplied(ShadedLayerContainer, 4);
     }
 
     // Function for onClick events
@@ -281,41 +249,21 @@ public class BrightnessBars extends AppCompatActivity {
     // Function to disable other packs if one is applied
     private void disable_others(String pack) {
         if (Objects.equals(pack, ROUNDED_CLIP_KEY)) {
-            PrefConfig.savePrefBool(getApplicationContext(), LESS_ROUNDED_CLIP_KEY, false);
             PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_BAR_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), LESS_ROUNDED_BAR_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), DOUBLE_LAYER_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), SHADED_LAYER_KEY, false);
-        } else if (Objects.equals(pack, LESS_ROUNDED_CLIP_KEY)) {
-            PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_CLIP_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_BAR_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), LESS_ROUNDED_BAR_KEY, false);
             PrefConfig.savePrefBool(getApplicationContext(), DOUBLE_LAYER_KEY, false);
             PrefConfig.savePrefBool(getApplicationContext(), SHADED_LAYER_KEY, false);
         } else if (Objects.equals(pack, ROUNDED_BAR_KEY)) {
             PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_CLIP_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), LESS_ROUNDED_CLIP_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), LESS_ROUNDED_BAR_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), DOUBLE_LAYER_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), SHADED_LAYER_KEY, false);
-        } else if (Objects.equals(pack, LESS_ROUNDED_BAR_KEY)) {
-            PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_BAR_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_CLIP_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), LESS_ROUNDED_CLIP_KEY, false);
             PrefConfig.savePrefBool(getApplicationContext(), DOUBLE_LAYER_KEY, false);
             PrefConfig.savePrefBool(getApplicationContext(), SHADED_LAYER_KEY, false);
         } else if (Objects.equals(pack, DOUBLE_LAYER_KEY)) {
             PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_BAR_KEY, false);
             PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_CLIP_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), LESS_ROUNDED_CLIP_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), LESS_ROUNDED_BAR_KEY, false);
             PrefConfig.savePrefBool(getApplicationContext(), SHADED_LAYER_KEY, false);
         } else if (Objects.equals(pack, SHADED_LAYER_KEY)) {
             PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_BAR_KEY, false);
             PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_CLIP_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), LESS_ROUNDED_CLIP_KEY, false);
             PrefConfig.savePrefBool(getApplicationContext(), DOUBLE_LAYER_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), LESS_ROUNDED_BAR_KEY, false);
         }
     }
 

@@ -54,7 +54,7 @@ public class MonetColor extends AppCompatActivity {
                         public void run() {
                             OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
                             PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentAMC.overlay", true);
-                            ApplyOnBoot.applyColor();
+                            ApplyOnBoot.applyColors();
                         }
                     };
                     Thread thread = new Thread(runnable);

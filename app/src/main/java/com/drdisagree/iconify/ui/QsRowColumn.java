@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -21,7 +20,7 @@ import java.util.Objects;
 
 public class QsRowColumn extends AppCompatActivity {
 
-    private static int qqsRow = 0, qsRow = 3, qsColumn = 1;
+    private static int qqsRow = 1, qsRow = 3, qsColumn = 1;
 
     public static void applyRowColumn() {
         FabricatedOverlay.buildOverlay("systemui", "qqsRow", "integer", "quick_qs_panel_max_rows", String.valueOf((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qqsRow")) + 1)));
@@ -68,7 +67,7 @@ public class QsRowColumn extends AppCompatActivity {
         TextView qqs_row_output = findViewById(R.id.qqs_row_output);
 
         qqs_row_seekbar.setPadding(0, 0, 0, 0);
-        final int[] finalQqsRow = {0};
+        final int[] finalQqsRow = {1};
 
         if (!PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qqsRow").equals("null")) {
             qqs_row_output.setText("Selected: " + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qqsRow")) + 1));
