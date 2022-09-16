@@ -52,6 +52,12 @@ public class Extras extends AppCompatActivity {
         corner_radius_seekbar.setPadding(0, 0, 0, 0);
         final int[] finalProgress = {16};
 
+        if (!PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius").equals("null")) {
+            corner_radius_output.setText("Selected: " + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8) + "dp");
+            finalProgress[0] = Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius"));
+            corner_radius_seekbar.setProgress(finalProgress[0]);
+        }
+
         corner_radius_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
@@ -75,15 +81,11 @@ public class Extras extends AppCompatActivity {
                     @Override
                     public void run() {
 
-                        FabricatedOverlay.buildOverlay("android", "dialogCornerRadius", "dimen", "dialog_corner_radius", ((finalProgress[0] < 2) ? "0x0" : "0x") + Integer.toHexString(finalProgress[0] + 8));
-                        FabricatedOverlay.buildOverlay("systemui", "roundedSliderCornerRadius", "dimen", "rounded_slider_corner_radius", ((finalProgress[0] < 2) ? "0x0" : "0x") + Integer.toHexString(finalProgress[0] + 4));
-                        FabricatedOverlay.buildOverlay("systemui", "qsCornerRadius", "dimen", "qs_corner_radius", ((finalProgress[0] < 2) ? "0x0" : "0x") + Integer.toHexString(finalProgress[0] + 4));
-                        FabricatedOverlay.buildOverlay("systemui", "qsFooterActionCornerRadius", "dimen", "qs_footer_action_corner_radius", ((finalProgress[0] < 2) ? "0x0" : "0x") + Integer.toHexString(finalProgress[0] + 4));
+                        FabricatedOverlay.buildOverlay("android", "dialogCornerRadius", "dimen", "dialog_corner_radius", ((finalProgress[0] < 2) ? "0x0" : "0x") + ((finalProgress[0] + 8 + 16) * 100));
+                        FabricatedOverlay.buildOverlay("android", "insetCornerRadius", "dimen", "harmful_app_name_padding_left", ((finalProgress[0] < 2) ? "0x0" : "0x") + ((finalProgress[0] + 4 + 16) * 100));
 
                         FabricatedOverlay.enableOverlay("dialogCornerRadius");
-                        FabricatedOverlay.enableOverlay("roundedSliderCornerRadius");
-                        FabricatedOverlay.enableOverlay("qsCornerRadius");
-                        FabricatedOverlay.enableOverlay("qsFooterActionCornerRadius");
+                        FabricatedOverlay.enableOverlay("insetCornerRadius");
 
                     }
                 };
