@@ -248,7 +248,7 @@
                     android:id="@+id/jai"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/container_bottom"
+                    android:background="@drawable/container_mid"
                     android:orientation="horizontal"
                     android:paddingStart="@dimen/container_paddingSide"
                     android:paddingTop="@dimen/container_padding"
@@ -280,6 +280,104 @@
 
                         <TextView
                             android:id="@+id/jaiDesc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/textColorSecondary"
+                            android:textSize="@dimen/cont_title_size2" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/colorBackground" />
+
+                <LinearLayout
+                    android:id="@+id/iperialf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/container_mid"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/container_paddingSide"
+                    android:paddingTop="@dimen/container_padding"
+                    android:paddingEnd="@dimen/container_paddingSide"
+                    android:paddingBottom="@dimen/container_padding">
+
+                    <ImageView
+                        android:id="@+id/img_iperialf"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="left|center"
+                        android:backgroundTint="@color/textColorSecondary" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center"
+                        android:layout_marginLeft="@dimen/container_padding"
+                        android:layout_weight="1.0"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/iperialfName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/iperialfDesc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/textColorSecondary"
+                            android:textSize="@dimen/cont_title_size2" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/colorBackground" />
+
+                <LinearLayout
+                    android:id="@+id/ritesh"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/container_bottom"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/container_paddingSide"
+                    android:paddingTop="@dimen/container_padding"
+                    android:paddingEnd="@dimen/container_paddingSide"
+                    android:paddingBottom="@dimen/container_padding">
+
+                    <ImageView
+                        android:id="@+id/img_ritesh"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="left|center"
+                        android:backgroundTint="@color/textColorSecondary" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center"
+                        android:layout_marginLeft="@dimen/container_padding"
+                        android:layout_weight="1.0"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/riteshName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/riteshDesc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorSecondary"
