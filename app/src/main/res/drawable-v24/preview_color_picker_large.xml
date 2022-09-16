@@ -6,4 +6,7 @@
         android:endColor="@android:color/holo_green_light"
         android:startColor="@android:color/holo_blue_light" />
     <corners android:radius="24dp" />
+    <stroke
+        android:width="4.0dp"
+        android:color="@color/colorContainer" />
 </shape>

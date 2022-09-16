@@ -2,6 +2,7 @@ package com.drdisagree.iconify.services;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.ui.QsRowColumn;
 import com.drdisagree.iconify.utils.FabricatedOverlay;
 import com.topjohnwu.superuser.Shell;
 
@@ -36,6 +37,9 @@ public class ApplyOnBoot {
                 }
 
                 applyCornerRadius();
+
+                if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "qsRowColumn"))
+                    QsRowColumn.applyRowColumn();
             }
         };
         Thread thread = new Thread(runnable);

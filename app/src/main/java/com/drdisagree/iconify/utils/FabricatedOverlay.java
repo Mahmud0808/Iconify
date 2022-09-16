@@ -32,6 +32,9 @@ public class FabricatedOverlay {
             case "bool":
                 resourceType = "0x12";
                 break;
+            case "integer":
+                resourceType = "0x10";
+                break;
         }
 
         Shell.cmd("cmd overlay fabricate --target " + target + " --name IconifyComponent" + name + " " + target + ":" + type + "/" + resourceName + " " + resourceType + " " + val).exec();
