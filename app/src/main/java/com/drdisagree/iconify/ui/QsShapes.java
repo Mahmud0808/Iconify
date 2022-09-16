@@ -1,8 +1,11 @@
 package com.drdisagree.iconify.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,69 +34,23 @@ public class QsShapes extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        List<String> enabledOverlays = OverlayUtils.getEnabledOverlayList();
-
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_white = findViewById(R.id.label_white);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_systemInverse = findViewById(R.id.label_systemInverse);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_systemInverseV2 = findViewById(R.id.label_systemInverseV2);
-
-        label_white.setChecked(PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentQST1.overlay"));
-
-        label_white.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    label_systemInverse.setChecked(false);
-                    label_systemInverseV2.setChecked(false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST2.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentQST2.overlay", false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST3.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentQST3.overlay", false);
-                    OverlayUtils.enableOverlay("IconifyComponentQST1.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentQST1.overlay", true);
-                } else {
-                    OverlayUtils.disableOverlay("IconifyComponentQST1.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentQST1.overlay", false);
-                }
+        // Qs row column item on click
+        LinearLayout qs_row_column = findViewById(R.id.qs_row_column);
+        qs_row_column.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(QsShapes.this, QsRowColumn.class);
+                startActivity(intent);
             }
         });
 
-        label_systemInverse.setChecked(PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentQST2.overlay"));
-
-        label_systemInverse.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    label_white.setChecked(false);
-                    label_systemInverseV2.setChecked(false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST1.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentQST1.overlay", false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST3.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentQST3.overlay", false);
-                    OverlayUtils.enableOverlay("IconifyComponentQST2.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentQST2.overlay", true);
-                } else {
-                    OverlayUtils.disableOverlay("IconifyComponentQST2.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentQST2.overlay", false);
-                }
-            }
-        });
-
-        label_systemInverseV2.setChecked(PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentQST3.overlay"));
-
-        label_systemInverseV2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    label_white.setChecked(false);
-                    label_systemInverse.setChecked(false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST1.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentQST1.overlay", false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST2.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentQST2.overlay", false);
-                    OverlayUtils.enableOverlay("IconifyComponentQST3.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentQST3.overlay", true);
-                } else {
-                    OverlayUtils.disableOverlay("IconifyComponentQST3.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentQST3.overlay", false);
-                }
+        // Qs text color item on click
+        LinearLayout qs_text_color = findViewById(R.id.qs_text_color);
+        qs_text_color.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(QsShapes.this, QsTextColor.class);
+                startActivity(intent);
             }
         });
     }
