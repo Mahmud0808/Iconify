@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.Iconify" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Background color. -->
@@ -28,21 +28,25 @@
         <item name="selectableItemBackground">?android:selectableItemBackground</item>
         <item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>
     </style>
+
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">32dp</item>
         <item name="android:letterSpacing">0.1</item>
         <item name="android:textStyle">bold</item>
     </style>
+
     <style name="Toolbar.TitleText.Collapsed" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">20dp</item>
         <item name="android:letterSpacing">0.1</item>
         <item name="android:textStyle">bold</item>
     </style>
+
     <style name="Toolbar.TitleText.Expanded" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">32dp</item>
         <item name="android:letterSpacing">0.1</item>
         <item name="android:textStyle">bold</item>
     </style>
+
     <color name="colorBackground">#FFFFFFFF</color>
     <color name="colorContainer">#FFF6F7F9</color>
     <color name="textColorPrimary">@color/black</color>

@@ -29,12 +29,11 @@ public class IconPacks extends AppCompatActivity {
     private static final String GRADICON_KEY = "IconifyComponentIPAS2.overlay";
     private static final String LORN_KEY = "IconifyComponentIPAS3.overlay";
     private static final String PLUMPY_KEY = "IconifyComponentIPAS4.overlay";
-
-    private ViewGroup container;
-    private LinearLayout spinner;
     LinearLayout[] Container;
     LinearLayout AuroraContainer, GradiconContainer, LornContainer, PlumpyContainer;
     Button Aurora_Enable, Aurora_Disable, Gradicon_Enable, Gradicon_Disable, Lorn_Enable, Lorn_Disable, Plumpy_Enable, Plumpy_Disable;
+    private ViewGroup container;
+    private LinearLayout spinner;
 
     @SuppressLint("SetTextI18n")
     @Override

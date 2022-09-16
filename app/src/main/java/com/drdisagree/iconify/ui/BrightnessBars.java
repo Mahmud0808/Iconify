@@ -30,14 +30,13 @@ public class BrightnessBars extends AppCompatActivity {
     private static final String LESS_ROUNDED_BAR_KEY = "IconifyComponentBB4.overlay";
     private static final String DOUBLE_LAYER_KEY = "IconifyComponentBB5.overlay";
     private static final String SHADED_LAYER_KEY = "IconifyComponentBB6.overlay";
-
-    private ViewGroup container;
-    private LinearLayout spinner;
     LinearLayout[] Container;
     LinearLayout RoundedClipContainer, LessRoundedClipContainer, RoundedContainer, LessRoundedContainer, DoubleLayerContainer, ShadedLayerContainer;
     Button RoundedClip_Enable, RoundedClip_Disable, LessRoundedClip_Enable, LessRoundedClip_Disable, Rounded_Enable, Rounded_Disable, LessRounded_Enable, LessRounded_Disable, DoubleLayer_Enable, DoubleLayer_Disable, ShadedLayer_Enable, ShadedLayer_Disable;
     ImageView RoundedClip_Auto_Bb, LessRoundedClip_Auto_Bb, Rounded_Auto_Bb, LessRounded_Auto_Bb, DoubleLayer_Auto_Bb, ShadedLayer_Auto_Bb;
     ImageView RoundedClip_Bb, LessRoundedClip_Bb, Rounded_Bb, LessRounded_Bb, DoubleLayer_Bb, ShadedLayer_Bb;
+    private ViewGroup container;
+    private LinearLayout spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

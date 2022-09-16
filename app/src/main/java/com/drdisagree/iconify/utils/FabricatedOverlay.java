@@ -1,11 +1,5 @@
 package com.drdisagree.iconify.utils;
 
-import android.util.Log;
-import android.util.TypedValue;
-
-import com.drdisagree.iconify.Iconify;
-import com.drdisagree.iconify.SplashActivity;
-import com.drdisagree.iconify.config.PrefConfig;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
@@ -13,8 +7,8 @@ import java.util.List;
 public class FabricatedOverlay {
 
     public static List<String> getOverlayList() {
-    return Shell.cmd("cmd overlay list |  grep -E '^....com.android.shell:IconifyComponent' | sed -E 's/^....com.android.shell:IconifyComponent//'").exec().getOut();
-}
+        return Shell.cmd("cmd overlay list |  grep -E '^....com.android.shell:IconifyComponent' | sed -E 's/^....com.android.shell:IconifyComponent//'").exec().getOut();
+    }
 
     public static List<String> getEnabledOverlayList() {
         return Shell.cmd("cmd overlay list |  grep -E '^.x..com.android.shell:IconifyComponent' | sed -E 's/^.x..com.android.shell:IconifyComponent//'").exec().getOut();
@@ -52,7 +46,7 @@ public class FabricatedOverlay {
     }
 
     public static boolean isOverlayEnabled(List<String> overlays, String name) {
-        for (String overlay: overlays) {
+        for (String overlay : overlays) {
             if (overlay.contains(name))
                 return true;
         }
@@ -60,7 +54,7 @@ public class FabricatedOverlay {
     }
 
     public static boolean isOverlayDisabled(List<String> overlays, String name) {
-        for (String overlay: overlays) {
+        for (String overlay : overlays) {
             if (overlay.contains(name))
                 return false;
         }

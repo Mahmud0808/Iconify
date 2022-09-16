@@ -3,7 +3,6 @@ package com.drdisagree.iconify.services;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.utils.FabricatedOverlay;
-import com.drdisagree.iconify.utils.OverlayUtils;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
@@ -35,10 +34,24 @@ public class ApplyOnBoot {
                     FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(colorAccentSecondary)));
                     FabricatedOverlay.enableOverlay("colorAccentSecondary");
                 }
+
+                applyCornerRadius();
             }
         };
         Thread thread = new Thread(runnable);
         thread.start();
+    }
+
+    public static void applyCornerRadius() {
+        if (!PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius").equals("null")) {
+            FabricatedOverlay.buildOverlay("android", "dialogCornerRadius", "dimen", "dialog_corner_radius", "0x0" + ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8 + 16) * 100));
+            FabricatedOverlay.buildOverlay("android", "insetCornerRadius", "dimen", "harmful_app_name_padding_left", "0x" + ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 4 + 16) * 100));
+        } else {
+            FabricatedOverlay.buildOverlay("android", "dialogCornerRadius", "dimen", "dialog_corner_radius", "0x0" + ((24 + 16) * 100));
+            FabricatedOverlay.buildOverlay("android", "insetCornerRadius", "dimen", "harmful_app_name_padding_left", "0x" + ((20 + 16) * 100));
+        }
+        FabricatedOverlay.enableOverlay("dialogCornerRadius");
+        FabricatedOverlay.enableOverlay("insetCornerRadius");
     }
 
     public static String ColorToHex(int color, boolean opacity, boolean hash) {
@@ -57,7 +70,7 @@ public class ApplyOnBoot {
         if (hash)
             str = new StringBuilder("#");
         else
-            str = new StringBuilder("");
+            str = new StringBuilder();
 
         if (opacity)
             str.append(alphaHex);
@@ -88,6 +101,6 @@ public class ApplyOnBoot {
 
     private static String To00Hex(int value) {
         String hex = "00".concat(Integer.toHexString(value));
-        return hex.substring(hex.length() - 2, hex.length());
+        return hex.substring(hex.length() - 2);
     }
 }

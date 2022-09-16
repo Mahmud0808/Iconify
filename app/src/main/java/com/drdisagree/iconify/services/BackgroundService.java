@@ -9,14 +9,12 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.os.IBinder;
 import android.provider.Settings;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.SplashActivity;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.ui.HomePage;
 import com.drdisagree.iconify.utils.FabricatedOverlay;
@@ -30,10 +28,9 @@ public class BackgroundService extends Service {
     private static final int NOTIFICATION_ID = 1;
     private static final String NOTIFICATION_CHANNEL_ID = "Background Service";
 
-    @Override
-    public void onCreate() {
-        Context context = SplashActivity.getContext();
-        super.onCreate();
+    public static boolean checkEligibilityApplyOnBoot() {
+        List<String> overlays = FabricatedOverlay.getEnabledOverlayList();
+        return (OverlayUtils.isOverlayDisabled(overlays, "IconifyComponentAMC.overlay") && (FabricatedOverlay.isOverlayDisabled(overlays, "colorAccentPrimary") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentPrimary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary"), "null")) || (FabricatedOverlay.isOverlayDisabled(overlays, "colorAccentSecondary") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentSecondary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary"), "null")));
     }
 
     @Nullable
@@ -93,11 +90,6 @@ public class BackgroundService extends Service {
         NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "Background Service", NotificationManager.IMPORTANCE_LOW);
         channel.setDescription("You can turn off these notifications.");
         notificationManager.createNotificationChannel(channel);
-    }
-
-    public static boolean checkEligibilityApplyOnBoot() {
-        List<String> overlays = FabricatedOverlay.getEnabledOverlayList();
-        return (OverlayUtils.isOverlayDisabled(overlays, "IconifyComponentAMC.overlay") && (FabricatedOverlay.isOverlayDisabled(overlays, "colorAccentPrimary") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentPrimary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary"), "null")) || (FabricatedOverlay.isOverlayDisabled(overlays, "colorAccentSecondary") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentSecondary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary"), "null")));
     }
 
 }

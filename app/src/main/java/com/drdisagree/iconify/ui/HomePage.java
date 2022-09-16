@@ -25,8 +25,8 @@ public class HomePage extends AppCompatActivity {
 
     public static boolean isServiceRunning = false;
     private final String TAG = "MainActivity";
-    private ViewGroup container;
     LinearLayout home_monetColor, home_iconPack, home_brightnessBar, home_qsShape, home_notification, home_mediaPlayer, home_extras, home_info;
+    private ViewGroup container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -27,6 +27,28 @@ import java.util.Objects;
 
 public class Extras extends AppCompatActivity {
 
+    public static void disableEverything() {
+        List<String> overlays = OverlayUtils.getEnabledOverlayList();
+        List<String> fabricatedOverlays = FabricatedOverlay.getEnabledOverlayList();
+
+        for (String overlay : overlays) {
+            OverlayUtils.disableOverlay(overlay);
+            PrefConfig.savePrefBool(Iconify.getAppContext(), overlay, false);
+        }
+
+        for (String fabricatedOverlay : fabricatedOverlays) {
+            FabricatedOverlay.disableOverlay(fabricatedOverlay);
+            PrefConfig.savePrefBool(Iconify.getAppContext(), fabricatedOverlay, false);
+        }
+
+        PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
+        PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
+        PrefConfig.savePrefSettings(Iconify.getAppContext(), "dialogCornerRadius", "null");
+        PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedcolorAccentPrimary", false);
+        PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedcolorAccentSecondary", false);
+        PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricateddialogCornerRadius", false);
+    }
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,14 +97,14 @@ public class Extras extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 PrefConfig.savePrefSettings(Iconify.getAppContext(), "cornerRadius", String.valueOf(finalProgress[0]));
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricated" + "cornerRadius", true);
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedcornerRadius", true);
 
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
 
-                        FabricatedOverlay.buildOverlay("android", "dialogCornerRadius", "dimen", "dialog_corner_radius", ((finalProgress[0] < 2) ? "0x0" : "0x") + ((finalProgress[0] + 8 + 16) * 100));
-                        FabricatedOverlay.buildOverlay("android", "insetCornerRadius", "dimen", "harmful_app_name_padding_left", ((finalProgress[0] < 2) ? "0x0" : "0x") + ((finalProgress[0] + 4 + 16) * 100));
+                        FabricatedOverlay.buildOverlay("android", "dialogCornerRadius", "dimen", "dialog_corner_radius", "0x" + ((finalProgress[0] + 8 + 16) * 100));
+                        FabricatedOverlay.buildOverlay("android", "insetCornerRadius", "dimen", "harmful_app_name_padding_left", "0x" + ((finalProgress[0] + 4 + 16) * 100));
 
                         FabricatedOverlay.enableOverlay("dialogCornerRadius");
                         FabricatedOverlay.enableOverlay("insetCornerRadius");
@@ -158,27 +180,5 @@ public class Extras extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
-    }
-
-    public static void disableEverything() {
-        List<String> overlays = OverlayUtils.getEnabledOverlayList();
-        List<String> fabricatedOverlays = FabricatedOverlay.getEnabledOverlayList();
-
-        for (String overlay : overlays) {
-            OverlayUtils.disableOverlay(overlay);
-            PrefConfig.savePrefBool(Iconify.getAppContext(), overlay, false);
-        }
-
-        for (String fabricatedOverlay : fabricatedOverlays) {
-            FabricatedOverlay.disableOverlay(fabricatedOverlay);
-            PrefConfig.savePrefBool(Iconify.getAppContext(), fabricatedOverlay, false);
-        }
-
-        PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
-        PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
-        PrefConfig.savePrefSettings(Iconify.getAppContext(), "dialogCornerRadius", "null");
-        PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedcolorAccentPrimary", false);
-        PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedcolorAccentSecondary", false);
-        PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricateddialogCornerRadius", false);
     }
 }

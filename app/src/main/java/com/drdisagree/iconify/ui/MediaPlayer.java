@@ -13,7 +13,6 @@ import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
-import java.util.List;
 import java.util.Objects;
 
 public class MediaPlayer extends AppCompatActivity {

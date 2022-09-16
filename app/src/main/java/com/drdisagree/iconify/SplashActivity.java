@@ -1,7 +1,6 @@
 package com.drdisagree.iconify;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -17,13 +16,18 @@ import com.topjohnwu.superuser.Shell;
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
 
-    private final int versionCode = BuildConfig.VERSION_CODE;
-    private final String versionName = BuildConfig.VERSION_NAME;
     private static SplashActivity mContext;
 
     static {
         Shell.enableVerboseLogging = BuildConfig.DEBUG;
         Shell.setDefaultBuilder(Shell.Builder.create().setFlags(Shell.FLAG_REDIRECT_STDERR).setTimeout(10));
+    }
+
+    private final int versionCode = BuildConfig.VERSION_CODE;
+    private final String versionName = BuildConfig.VERSION_NAME;
+
+    public static SplashActivity getContext() {
+        return mContext;
     }
 
     @Override
@@ -43,9 +47,5 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-    }
-
-    public static SplashActivity getContext() {
-        return mContext;
     }
 }

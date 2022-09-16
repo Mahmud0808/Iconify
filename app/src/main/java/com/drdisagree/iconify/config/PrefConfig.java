@@ -3,8 +3,6 @@ package com.drdisagree.iconify.config;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import androidx.preference.PreferenceManager;
-
 public class PrefConfig {
 
     private static final String SharedPref = "com.drdisagree.iconify";
