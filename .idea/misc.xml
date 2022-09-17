@@ -45,6 +45,10 @@
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/ic_link.xml" value="0.2465" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/ic_media_play.xml" value="0.183" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/ic_mp_system.xml" value="0.25" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/ic_qs_airplane.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/ic_qs_bluetooth.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/ic_qs_internet.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/ic_qs_location.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/ic_signal_cellular_5_5_bar.xml" value="0.2765" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/ic_skip_next.xml" value="0.183" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/ic_skip_previous.xml" value="0.183" />
@@ -77,6 +81,14 @@
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/preview_plumpy_wifi.xml" value="0.1795" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/preview_primary_accent.xml" value="0.195" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/preview_secondary_accent.xml" value="0.195" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_default_disabled.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_default_enabled.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_doublelayer_disabled.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_doublelayer_enabled.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_outline_disabled.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_outline_enabled.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_shadedlayer_disabled.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_shadedlayer_enabled.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/seek_bar_progress.xml" value="0.16" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/seek_bar_progress_fill.xml" value="0.16" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/seekbar_progress.xml" value="0.2105" />
@@ -108,6 +120,7 @@
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/list_option.xml" value="0.2755208333333333" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/list_option_brightnessbar.xml" value="0.33" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/list_option_iconpack.xml" value="0.2833333333333333" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/list_option_qstile.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/list_view.xml" value="0.33" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/media_player.xml" value="0.33" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/layout/monet_color.xml" value="0.25" />

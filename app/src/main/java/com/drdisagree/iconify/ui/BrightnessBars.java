@@ -25,9 +25,9 @@ import java.util.Objects;
 public class BrightnessBars extends AppCompatActivity {
 
     private static final String ROUNDED_CLIP_KEY = "IconifyComponentBB1.overlay";
-    private static final String ROUNDED_BAR_KEY = "IconifyComponentBB3.overlay";
-    private static final String DOUBLE_LAYER_KEY = "IconifyComponentBB5.overlay";
-    private static final String SHADED_LAYER_KEY = "IconifyComponentBB6.overlay";
+    private static final String ROUNDED_BAR_KEY = "IconifyComponentBB2.overlay";
+    private static final String DOUBLE_LAYER_KEY = "IconifyComponentBB3.overlay";
+    private static final String SHADED_LAYER_KEY = "IconifyComponentBB4.overlay";
     LinearLayout[] Container;
     LinearLayout RoundedClipContainer, RoundedContainer, DoubleLayerContainer, ShadedLayerContainer;
     Button RoundedClip_Enable, RoundedClip_Disable, Rounded_Enable, Rounded_Disable, DoubleLayer_Enable, DoubleLayer_Disable, ShadedLayer_Enable, ShadedLayer_Disable;
@@ -248,23 +248,10 @@ public class BrightnessBars extends AppCompatActivity {
 
     // Function to disable other packs if one is applied
     private void disable_others(String pack) {
-        if (Objects.equals(pack, ROUNDED_CLIP_KEY)) {
-            PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_BAR_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), DOUBLE_LAYER_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), SHADED_LAYER_KEY, false);
-        } else if (Objects.equals(pack, ROUNDED_BAR_KEY)) {
-            PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_CLIP_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), DOUBLE_LAYER_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), SHADED_LAYER_KEY, false);
-        } else if (Objects.equals(pack, DOUBLE_LAYER_KEY)) {
-            PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_BAR_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_CLIP_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), SHADED_LAYER_KEY, false);
-        } else if (Objects.equals(pack, SHADED_LAYER_KEY)) {
-            PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_BAR_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_CLIP_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), DOUBLE_LAYER_KEY, false);
-        }
+        PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_CLIP_KEY, pack.equals(ROUNDED_CLIP_KEY));
+        PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_BAR_KEY, pack.equals(ROUNDED_BAR_KEY));
+        PrefConfig.savePrefBool(getApplicationContext(), DOUBLE_LAYER_KEY, pack.equals(DOUBLE_LAYER_KEY));
+        PrefConfig.savePrefBool(getApplicationContext(), SHADED_LAYER_KEY, pack.equals(SHADED_LAYER_KEY));
     }
 
     // Function to change applied pack's bg

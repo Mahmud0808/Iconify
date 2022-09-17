@@ -33,23 +33,11 @@
     <item name="brightnessBar_roundedClip_enable" type="id" />
     <item name="brightnessBar_roundedClip_disable" type="id" />
 
-    <item name="brightnessBar_lessRoundedClip_container" type="id" />
-    <item name="brightnessBar_lessRoundedClip_bb" type="id" />
-    <item name="brightnessBar_lessRoundedClip_auto_bb" type="id" />
-    <item name="brightnessBar_lessRoundedClip_enable" type="id" />
-    <item name="brightnessBar_lessRoundedClip_disable" type="id" />
-
     <item name="brightnessBar_rounded_container" type="id" />
     <item name="brightnessBar_rounded_bb" type="id" />
     <item name="brightnessBar_rounded_auto_bb" type="id" />
     <item name="brightnessBar_rounded_enable" type="id" />
     <item name="brightnessBar_rounded_disable" type="id" />
-
-    <item name="brightnessBar_lessRounded_container" type="id" />
-    <item name="brightnessBar_lessRounded_bb" type="id" />
-    <item name="brightnessBar_lessRounded_auto_bb" type="id" />
-    <item name="brightnessBar_lessRounded_enable" type="id" />
-    <item name="brightnessBar_lessRounded_disable" type="id" />
 
     <item name="brightnessBar_doubleLayer_container" type="id" />
     <item name="brightnessBar_doubleLayer_bb" type="id" />
@@ -62,4 +50,37 @@
     <item name="brightnessBar_shadedLayer_auto_bb" type="id" />
     <item name="brightnessBar_shadedLayer_enable" type="id" />
     <item name="brightnessBar_shadedLayer_disable" type="id" />
+
+    <!-- QsShapes List -->
+    <item name="default_container" type="id" />
+    <item name="default_enable" type="id" />
+    <item name="default_disable" type="id" />
+    <item name="default_qstile1" type="id" />
+    <item name="default_qstile2" type="id" />
+    <item name="default_qstile3" type="id" />
+    <item name="default_qstile4" type="id" />
+
+    <item name="doubleLayer_container" type="id" />
+    <item name="doubleLayer_enable" type="id" />
+    <item name="doubleLayer_disable" type="id" />
+    <item name="doubleLayer_qstile1" type="id" />
+    <item name="doubleLayer_qstile2" type="id" />
+    <item name="doubleLayer_qstile3" type="id" />
+    <item name="doubleLayer_qstile4" type="id" />
+
+    <item name="shadedLayer_container" type="id" />
+    <item name="shadedLayer_enable" type="id" />
+    <item name="shadedLayer_disable" type="id" />
+    <item name="shadedLayer_qstile1" type="id" />
+    <item name="shadedLayer_qstile2" type="id" />
+    <item name="shadedLayer_qstile3" type="id" />
+    <item name="shadedLayer_qstile4" type="id" />
+
+    <item name="outline_container" type="id" />
+    <item name="outline_enable" type="id" />
+    <item name="outline_disable" type="id" />
+    <item name="outline_qstile1" type="id" />
+    <item name="outline_qstile2" type="id" />
+    <item name="outline_qstile3" type="id" />
+    <item name="outline_qstile4" type="id" />
 </resources>

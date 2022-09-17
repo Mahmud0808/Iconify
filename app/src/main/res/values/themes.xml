@@ -54,4 +54,7 @@
     <color name="textColorSecondaryLight">#B3000000</color>
     <color name="colorSuccess">#FF4FBF26</color>
     <color name="colorBackground2">#14000000</color>
+    <color name="offStateColor">@color/colorBackground</color>
+    <color name="offStateColor2">#1A000000</color>
+    <color name="offStateColor3">#40000000</color>
 </resources>
