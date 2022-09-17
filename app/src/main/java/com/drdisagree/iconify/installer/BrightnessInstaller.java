@@ -7,7 +7,7 @@ import java.io.File;
 
 public class BrightnessInstaller {
 
-    private static final int TOTAL_BRIGHTNESSBARS = 6;
+    private static final int TOTAL_BRIGHTNESSBARS = 4;
 
     public static void install_pack(int n) {
         disable_others(n);
