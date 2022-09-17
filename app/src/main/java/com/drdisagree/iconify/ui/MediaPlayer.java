@@ -2,7 +2,9 @@ package com.drdisagree.iconify.ui;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +32,8 @@ public class MediaPlayer extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        refreshPreview();
+
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch mp_accent = findViewById(R.id.mp_accent);
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch mp_system = findViewById(R.id.mp_system);
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch mp_pitch_black = findViewById(R.id.mp_pitch_black);
@@ -51,6 +55,7 @@ public class MediaPlayer extends AppCompatActivity {
                     OverlayUtils.disableOverlay("IconifyComponentMPA.overlay");
                     PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPA.overlay", false);
                 }
+                refreshPreview();
             }
         });
 
@@ -71,6 +76,7 @@ public class MediaPlayer extends AppCompatActivity {
                     OverlayUtils.disableOverlay("IconifyComponentMPS.overlay");
                     PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPS.overlay", false);
                 }
+                refreshPreview();
             }
         });
 
@@ -91,8 +97,29 @@ public class MediaPlayer extends AppCompatActivity {
                     OverlayUtils.disableOverlay("IconifyComponentMPB.overlay");
                     PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPB.overlay", false);
                 }
+                refreshPreview();
             }
         });
+    }
+
+    private void refreshPreview() {
+        ImageView preview_accent = findViewById(R.id.media_player_preview_accent);
+        ImageView preview_system = findViewById(R.id.media_player_preview_system);
+        ImageView preview_black = findViewById(R.id.media_player_preview_black);
+
+        if (PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentMPA.overlay")) {
+            preview_accent.setVisibility(View.VISIBLE);
+            preview_system.setVisibility(View.GONE);
+            preview_black.setVisibility(View.GONE);
+        } else if (PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentMPB.overlay")) {
+            preview_black.setVisibility(View.VISIBLE);
+            preview_accent.setVisibility(View.GONE);
+            preview_system.setVisibility(View.GONE);
+        } else {
+            preview_system.setVisibility(View.VISIBLE);
+            preview_accent.setVisibility(View.GONE);
+            preview_black.setVisibility(View.GONE);
+        }
     }
 
     @Override

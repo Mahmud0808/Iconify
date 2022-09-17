@@ -23,6 +23,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/media_player_preview_accent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
@@ -30,7 +31,32 @@
                 android:layout_marginBottom="@dimen/container_margin"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:src="@drawable/media_player_preview" />
+                android:src="@drawable/media_player_preview_accent"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/media_player_preview_system"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="@dimen/container_margin"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/media_player_preview_system"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/media_player_preview_black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="@dimen/container_margin"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/media_player_preview_black"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"

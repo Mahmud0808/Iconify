@@ -46,15 +46,4 @@
         <item name="android:letterSpacing">0.1</item>
         <item name="android:textStyle">bold</item>
     </style>
-
-    <color name="colorBackground">#FFFFFFFF</color>
-    <color name="colorContainer">#FFF6F7F9</color>
-    <color name="textColorPrimary">@color/black</color>
-    <color name="textColorSecondary">#FF6E6E6E</color>
-    <color name="textColorSecondaryLight">#B3000000</color>
-    <color name="colorSuccess">#FF4FBF26</color>
-    <color name="colorBackground2">#14000000</color>
-    <color name="offStateColor">@color/colorBackground</color>
-    <color name="offStateColor2">#1A000000</color>
-    <color name="offStateColor3">#40000000</color>
 </resources>
