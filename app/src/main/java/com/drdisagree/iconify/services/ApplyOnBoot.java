@@ -13,13 +13,14 @@ import java.util.Objects;
 public class ApplyOnBoot {
 
     private static final String INVALID = "null";
-    private static List<String> overlays = FabricatedOverlay.getEnabledOverlayList();
+    private static List<String> overlays = OverlayUtils.getEnabledOverlayList();
+    private static List<String> fabricatedOverlays = FabricatedOverlay.getEnabledOverlayList();
 
     public static void applyColors() {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if ((OverlayUtils.isOverlayDisabled(overlays, "IconifyComponentAMC.overlay") && (FabricatedOverlay.isOverlayDisabled(overlays, "colorAccentPrimary") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentPrimary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary"), "null")) || (FabricatedOverlay.isOverlayDisabled(overlays, "colorAccentSecondary") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentSecondary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary"), "null")))) {
+                if (OverlayUtils.isOverlayDisabled(overlays, "IconifyComponentAMC.overlay") && (FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "colorAccentPrimary") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentPrimary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary"), "null")) || (FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "colorAccentSecondary") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentSecondary") && !Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary"), "null"))) {
                     String colorAccentPrimary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary");
                     if (!Objects.equals(colorAccentPrimary, INVALID)) {
                         Shell.cmd("settings put secure monet_engine_custom_color 1").exec();
@@ -47,7 +48,7 @@ public class ApplyOnBoot {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (FabricatedOverlay.isOverlayDisabled(overlays, "dialogCornerRadius") || FabricatedOverlay.isOverlayDisabled(overlays, "insetCornerRadius")) {
+                if (FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "dialogCornerRadius") || FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "insetCornerRadius")) {
                     if (!PrefConfig.loadPrefSettings(Iconify.getAppContext(), "dialogCornerRadius").equals("null")) {
                         FabricatedOverlay.buildOverlay("android", "dialogCornerRadius", "dimen", "dialog_corner_radius", "0x" + ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8 + 16) * 100));
                         FabricatedOverlay.buildOverlay("android", "insetCornerRadius", "dimen", "harmful_app_name_padding_left", "0x" + ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 4 + 16) * 100));
@@ -68,7 +69,7 @@ public class ApplyOnBoot {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "qsRowColumn") && FabricatedOverlay.isOverlayDisabled(overlays, "qsRow"))
+                if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "qsRowColumn") && FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "qsRow"))
                     QsRowColumn.applyRowColumn();
             }
         };
