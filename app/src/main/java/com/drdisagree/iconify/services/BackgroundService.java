@@ -15,6 +15,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.ui.HomePage;
+import com.topjohnwu.superuser.Shell;
 
 public class BackgroundService extends Service {
 
@@ -31,9 +32,11 @@ public class BackgroundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         HomePage.isServiceRunning = true;
-        ApplyOnBoot.applyColors();
-        ApplyOnBoot.applyCornerRadius();
-        ApplyOnBoot.applyQsRowColumn();
+        Shell.getShell(shell -> {
+            ApplyOnBoot.applyColors();
+            ApplyOnBoot.applyCornerRadius();
+            ApplyOnBoot.applyQsCustomization();
+        });
 
         startForeground();
 
