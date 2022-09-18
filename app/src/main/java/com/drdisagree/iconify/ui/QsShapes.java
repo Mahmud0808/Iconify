@@ -28,9 +28,10 @@ public class QsShapes extends AppCompatActivity {
     private static final String DOUBLE_LAYER_KEY = "IconifyComponentQSS2.overlay";
     private static final String SHADED_LAYER_KEY = "IconifyComponentQSS3.overlay";
     private static final String OUTLINE_KEY = "IconifyComponentQSS4.overlay";
+    private static final String LEAFY_OUTLINE_KEY = "IconifyComponentQSS5.overlay";
     LinearLayout[] Container;
-    LinearLayout DefaultContainer, DoubleLayerContainer, ShadedLayerContainer, OutlineContainer;
-    Button Default_Enable, Default_Disable, DoubleLayer_Enable, DoubleLayer_Disable, ShadedLayer_Enable, ShadedLayer_Disable, Outline_Enable, Outline_Disable;
+    LinearLayout DefaultContainer, DoubleLayerContainer, ShadedLayerContainer, OutlineContainer, LeafyOutlineContainer;
+    Button Default_Enable, Default_Disable, DoubleLayer_Enable, DoubleLayer_Disable, ShadedLayer_Enable, ShadedLayer_Disable, Outline_Enable, Outline_Disable, LeafyOutline_Enable, LeafyOutline_Disable;
     private ViewGroup container;
     private LinearLayout spinner;
 
@@ -82,6 +83,7 @@ public class QsShapes extends AppCompatActivity {
         addItem(R.id.doubleLayer_container, R.id.doubleLayer_qstile1, R.id.doubleLayer_qstile2, R.id.doubleLayer_qstile3, R.id.doubleLayer_qstile4, "Double Layer", R.id.doubleLayer_enable, R.id.doubleLayer_disable);
         addItem(R.id.shadedLayer_container, R.id.shadedLayer_qstile1, R.id.shadedLayer_qstile2, R.id.shadedLayer_qstile3, R.id.shadedLayer_qstile4, "Shaded Layer", R.id.shadedLayer_enable, R.id.shadedLayer_disable);
         addItem(R.id.outline_container, R.id.outline_qstile1, R.id.outline_qstile2, R.id.outline_qstile3, R.id.outline_qstile4, "Outline", R.id.outline_enable, R.id.outline_disable);
+        addItem(R.id.leafy_outline_container, R.id.leafy_outline_qstile1, R.id.leafy_outline_qstile2, R.id.leafy_outline_qstile3, R.id.leafy_outline_qstile4, "Leafy Outline", R.id.leafy_outline_enable, R.id.leafy_outline_disable);
 
         // Default
         DefaultContainer = findViewById(R.id.default_container);
@@ -135,14 +137,28 @@ public class QsShapes extends AppCompatActivity {
         Outline_QsTile3.setBackground(ContextCompat.getDrawable(QsShapes.this, R.drawable.qs_shape_outline_disabled));
         Outline_QsTile4.setBackground(ContextCompat.getDrawable(QsShapes.this, R.drawable.qs_shape_outline_enabled));
 
+        // Leafy Outline
+        LeafyOutlineContainer = findViewById(R.id.leafy_outline_container);
+        LeafyOutline_Enable = findViewById(R.id.leafy_outline_enable);
+        LeafyOutline_Disable = findViewById(R.id.leafy_outline_disable);
+        LinearLayout LeafyOutline_QsTile1 = findViewById(R.id.leafy_outline_qstile1);
+        LinearLayout LeafyOutline_QsTile2 = findViewById(R.id.leafy_outline_qstile2);
+        LinearLayout LeafyOutline_QsTile3 = findViewById(R.id.leafy_outline_qstile3);
+        LinearLayout LeafyOutline_QsTile4 = findViewById(R.id.leafy_outline_qstile4);
+        LeafyOutline_QsTile1.setBackground(ContextCompat.getDrawable(QsShapes.this, R.drawable.qs_shape_leafy_outline_enabled));
+        LeafyOutline_QsTile2.setBackground(ContextCompat.getDrawable(QsShapes.this, R.drawable.qs_shape_leafy_outline_disabled));
+        LeafyOutline_QsTile3.setBackground(ContextCompat.getDrawable(QsShapes.this, R.drawable.qs_shape_leafy_outline_disabled));
+        LeafyOutline_QsTile4.setBackground(ContextCompat.getDrawable(QsShapes.this, R.drawable.qs_shape_leafy_outline_enabled));
+
         // List of Brightness Bar
-        Container = new LinearLayout[]{DefaultContainer, DoubleLayerContainer, ShadedLayerContainer, OutlineContainer};
+        Container = new LinearLayout[]{DefaultContainer, DoubleLayerContainer, ShadedLayerContainer, OutlineContainer, LeafyOutlineContainer};
 
         // Enable onClick event
         enableOnClickListener(DefaultContainer, Default_Enable, Default_Disable, DEFAULT_KEY, 1);
         enableOnClickListener(DoubleLayerContainer, DoubleLayer_Enable, DoubleLayer_Disable, DOUBLE_LAYER_KEY, 2);
         enableOnClickListener(ShadedLayerContainer, ShadedLayer_Enable, ShadedLayer_Disable, SHADED_LAYER_KEY, 3);
         enableOnClickListener(OutlineContainer, Outline_Enable, Outline_Disable, OUTLINE_KEY, 4);
+        enableOnClickListener(LeafyOutlineContainer, LeafyOutline_Enable, LeafyOutline_Disable, LEAFY_OUTLINE_KEY, 5);
 
         refreshBackground();
     }
@@ -169,6 +185,9 @@ public class QsShapes extends AppCompatActivity {
                 } else if (linearLayout == OutlineContainer) {
                     Outline_Enable.setVisibility(View.GONE);
                     Outline_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == LeafyOutlineContainer) {
+                    LeafyOutline_Enable.setVisibility(View.GONE);
+                    LeafyOutline_Disable.setVisibility(View.GONE);
                 }
             }
         }
@@ -180,6 +199,7 @@ public class QsShapes extends AppCompatActivity {
         checkIfApplied(DoubleLayerContainer, 2);
         checkIfApplied(ShadedLayerContainer, 3);
         checkIfApplied(OutlineContainer, 4);
+        checkIfApplied(LeafyOutlineContainer, 5);
     }
 
     // Function for onClick events
@@ -284,8 +304,10 @@ public class QsShapes extends AppCompatActivity {
     // Function to disable other packs if one is applied
     private void disable_others(String pack) {
         PrefConfig.savePrefBool(getApplicationContext(), DEFAULT_KEY, pack.equals(DEFAULT_KEY));
+        PrefConfig.savePrefBool(getApplicationContext(), DOUBLE_LAYER_KEY, pack.equals(DOUBLE_LAYER_KEY));
         PrefConfig.savePrefBool(getApplicationContext(), SHADED_LAYER_KEY, pack.equals(SHADED_LAYER_KEY));
         PrefConfig.savePrefBool(getApplicationContext(), OUTLINE_KEY, pack.equals(OUTLINE_KEY));
+        PrefConfig.savePrefBool(getApplicationContext(), LEAFY_OUTLINE_KEY, pack.equals(LEAFY_OUTLINE_KEY));
     }
 
     // Function to change applied pack's bg

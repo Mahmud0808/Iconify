@@ -57,6 +57,12 @@
     <item name="brightnessBar_outline_enable" type="id" />
     <item name="brightnessBar_outline_disable" type="id" />
 
+    <item name="brightnessBar_leafy_outline_container" type="id" />
+    <item name="brightnessBar_leafy_outline_bb" type="id" />
+    <item name="brightnessBar_leafy_outline_auto_bb" type="id" />
+    <item name="brightnessBar_leafy_outline_enable" type="id" />
+    <item name="brightnessBar_leafy_outline_disable" type="id" />
+
     <!-- QsShapes List -->
     <item name="default_container" type="id" />
     <item name="default_enable" type="id" />
@@ -89,4 +95,12 @@
     <item name="outline_qstile2" type="id" />
     <item name="outline_qstile3" type="id" />
     <item name="outline_qstile4" type="id" />
+
+    <item name="leafy_outline_container" type="id" />
+    <item name="leafy_outline_enable" type="id" />
+    <item name="leafy_outline_disable" type="id" />
+    <item name="leafy_outline_qstile1" type="id" />
+    <item name="leafy_outline_qstile2" type="id" />
+    <item name="leafy_outline_qstile3" type="id" />
+    <item name="leafy_outline_qstile4" type="id" />
 </resources>

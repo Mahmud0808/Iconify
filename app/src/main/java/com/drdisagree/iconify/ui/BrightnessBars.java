@@ -29,11 +29,12 @@ public class BrightnessBars extends AppCompatActivity {
     private static final String DOUBLE_LAYER_KEY = "IconifyComponentBB3.overlay";
     private static final String SHADED_LAYER_KEY = "IconifyComponentBB4.overlay";
     private static final String OUTLINE_KEY = "IconifyComponentBB5.overlay";
+    private static final String LEAFY_OUTLINE_KEY = "IconifyComponentBB6.overlay";
     LinearLayout[] Container;
-    LinearLayout RoundedClipContainer, RoundedContainer, DoubleLayerContainer, ShadedLayerContainer, OutlineContainer;
-    Button RoundedClip_Enable, RoundedClip_Disable, Rounded_Enable, Rounded_Disable, DoubleLayer_Enable, DoubleLayer_Disable, ShadedLayer_Enable, ShadedLayer_Disable, Outline_Enable, Outline_Disable;
-    ImageView RoundedClip_Auto_Bb, Rounded_Auto_Bb, DoubleLayer_Auto_Bb, ShadedLayer_Auto_Bb, Outline_Auto_Bb;
-    ImageView RoundedClip_Bb, Rounded_Bb, DoubleLayer_Bb, ShadedLayer_Bb, Outline_Bb;
+    LinearLayout RoundedClipContainer, RoundedContainer, DoubleLayerContainer, ShadedLayerContainer, OutlineContainer, LeafyOutlineContainer;
+    Button RoundedClip_Enable, RoundedClip_Disable, Rounded_Enable, Rounded_Disable, DoubleLayer_Enable, DoubleLayer_Disable, ShadedLayer_Enable, ShadedLayer_Disable, Outline_Enable, Outline_Disable, LeafyOutline_Enable, LeafyOutline_Disable;
+    ImageView RoundedClip_Auto_Bb, Rounded_Auto_Bb, DoubleLayer_Auto_Bb, ShadedLayer_Auto_Bb, Outline_Auto_Bb, LeafyOutline_Auto_Bb;
+    ImageView RoundedClip_Bb, Rounded_Bb, DoubleLayer_Bb, ShadedLayer_Bb, Outline_Bb, LeafyOutline_Bb;
     private ViewGroup container;
     private LinearLayout spinner;
 
@@ -65,6 +66,7 @@ public class BrightnessBars extends AppCompatActivity {
         addItem(R.id.brightnessBar_doubleLayer_container, R.id.brightnessBar_doubleLayer_bb, R.id.brightnessBar_doubleLayer_auto_bb, "Double Layer", R.id.brightnessBar_doubleLayer_enable, R.id.brightnessBar_doubleLayer_disable);
         addItem(R.id.brightnessBar_shadedLayer_container, R.id.brightnessBar_shadedLayer_bb, R.id.brightnessBar_shadedLayer_auto_bb, "Shaded Layer", R.id.brightnessBar_shadedLayer_enable, R.id.brightnessBar_shadedLayer_disable);
         addItem(R.id.brightnessBar_outline_container, R.id.brightnessBar_outline_bb, R.id.brightnessBar_outline_auto_bb, "Outline", R.id.brightnessBar_outline_enable, R.id.brightnessBar_outline_disable);
+        addItem(R.id.brightnessBar_leafy_outline_container, R.id.brightnessBar_leafy_outline_bb, R.id.brightnessBar_leafy_outline_auto_bb, "Leafy Outline", R.id.brightnessBar_leafy_outline_enable, R.id.brightnessBar_leafy_outline_disable);
 
         // Rounded Clip
         RoundedClipContainer = findViewById(R.id.brightnessBar_roundedClip_container);
@@ -111,8 +113,17 @@ public class BrightnessBars extends AppCompatActivity {
         Outline_Auto_Bb = findViewById(R.id.brightnessBar_outline_auto_bb);
         Outline_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_outline));
 
+        // Leafy Outline
+        LeafyOutlineContainer = findViewById(R.id.brightnessBar_leafy_outline_container);
+        LeafyOutline_Enable = findViewById(R.id.brightnessBar_leafy_outline_enable);
+        LeafyOutline_Disable = findViewById(R.id.brightnessBar_leafy_outline_disable);
+        LeafyOutline_Bb = findViewById(R.id.brightnessBar_leafy_outline_bb);
+        LeafyOutline_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.bb_leafy_outline));
+        LeafyOutline_Auto_Bb = findViewById(R.id.brightnessBar_leafy_outline_auto_bb);
+        LeafyOutline_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_leafy_outline));
+
         // List of Brightness Bar
-        Container = new LinearLayout[]{RoundedClipContainer, RoundedContainer, DoubleLayerContainer, ShadedLayerContainer, OutlineContainer};
+        Container = new LinearLayout[]{RoundedClipContainer, RoundedContainer, DoubleLayerContainer, ShadedLayerContainer, OutlineContainer, LeafyOutlineContainer};
 
         // Enable onClick event
         enableOnClickListener(RoundedClipContainer, RoundedClip_Enable, RoundedClip_Disable, ROUNDED_CLIP_KEY, 1);
@@ -120,6 +131,7 @@ public class BrightnessBars extends AppCompatActivity {
         enableOnClickListener(DoubleLayerContainer, DoubleLayer_Enable, DoubleLayer_Disable, DOUBLE_LAYER_KEY, 3);
         enableOnClickListener(ShadedLayerContainer, ShadedLayer_Enable, ShadedLayer_Disable, SHADED_LAYER_KEY, 4);
         enableOnClickListener(OutlineContainer, Outline_Enable, Outline_Disable, OUTLINE_KEY, 5);
+        enableOnClickListener(LeafyOutlineContainer, LeafyOutline_Enable, LeafyOutline_Disable, LEAFY_OUTLINE_KEY, 6);
 
         refreshBackground();
     }
@@ -149,6 +161,9 @@ public class BrightnessBars extends AppCompatActivity {
                 } else if (linearLayout == OutlineContainer) {
                     Outline_Enable.setVisibility(View.GONE);
                     Outline_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == LeafyOutlineContainer) {
+                    LeafyOutline_Enable.setVisibility(View.GONE);
+                    LeafyOutline_Disable.setVisibility(View.GONE);
                 }
             }
         }
@@ -161,6 +176,7 @@ public class BrightnessBars extends AppCompatActivity {
         checkIfApplied(DoubleLayerContainer, 3);
         checkIfApplied(ShadedLayerContainer, 4);
         checkIfApplied(OutlineContainer, 5);
+        checkIfApplied(LeafyOutlineContainer, 6);
     }
 
     // Function for onClick events
@@ -269,6 +285,7 @@ public class BrightnessBars extends AppCompatActivity {
         PrefConfig.savePrefBool(getApplicationContext(), DOUBLE_LAYER_KEY, pack.equals(DOUBLE_LAYER_KEY));
         PrefConfig.savePrefBool(getApplicationContext(), SHADED_LAYER_KEY, pack.equals(SHADED_LAYER_KEY));
         PrefConfig.savePrefBool(getApplicationContext(), OUTLINE_KEY, pack.equals(OUTLINE_KEY));
+        PrefConfig.savePrefBool(getApplicationContext(), LEAFY_OUTLINE_KEY, pack.equals(LEAFY_OUTLINE_KEY));
     }
 
     // Function to change applied pack's bg

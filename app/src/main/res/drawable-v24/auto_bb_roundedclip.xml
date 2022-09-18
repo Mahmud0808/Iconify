@@ -5,7 +5,6 @@
         android:angle="0.0"
         android:endColor="@color/ic_launcher_background"
         android:startColor="@color/colorAccent" />
-    <corners android:radius="48.0dp" />
     <size
         android:width="48.0dp"
         android:height="48.0dp" />

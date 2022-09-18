@@ -2,7 +2,11 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape>
-            <corners android:radius="24.0dip" />
+            <corners
+                android:bottomLeftRadius="14.0dp"
+                android:bottomRightRadius="24.0dp"
+                android:topLeftRadius="24.0dip"
+                android:topRightRadius="14.0dp" />
             <gradient
                 android:angle="0.0"
                 android:endColor="@color/ic_launcher_background"
@@ -17,7 +21,11 @@
         android:left="4.0dp"
         android:right="4.0dp">
         <shape>
-            <corners android:radius="20.0dip" />
+            <corners
+                android:bottomLeftRadius="10.0dp"
+                android:bottomRightRadius="20.0dp"
+                android:topLeftRadius="20.0dip"
+                android:topRightRadius="10.0dp" />
             <solid android:color="@color/colorContainer" />
             <size android:height="40.0dp" />
         </shape>

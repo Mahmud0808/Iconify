@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/auto_bb_double_layer.xml" value="0.16" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/auto_bb_leafy_outline.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/auto_bb_lessrounded.xml" value="0.195" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/auto_bb_lessroundedclip.xml" value="0.195" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/auto_bb_miui.xml" value="0.195" />
@@ -13,6 +14,7 @@
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/auto_bb_roundedclip.xml" value="0.195" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/auto_bb_shaded_layer.xml" value="0.16" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/bb_double_layer.xml" value="0.25" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/bb_leafy_outline.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/bb_lessrounded.xml" value="0.195" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/bb_lessroundedclip.xml" value="0.195" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/bb_miui.xml" value="0.195" />
@@ -89,6 +91,8 @@
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_default_enabled.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_doublelayer_disabled.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_doublelayer_enabled.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_leafy_outline_disabled.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_leafy_outline_enabled.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_outline_disabled.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_outline_enabled.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_shadedlayer_disabled.xml" value="0.2105" />
