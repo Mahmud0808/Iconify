@@ -21,9 +21,6 @@
             android:name=".ui.ProgressBar"
             android:exported="false" />
         <activity
-            android:name=".ui.VolumePanel"
-            android:exported="false" />
-        <activity
             android:name=".ui.QsTextColor"
             android:exported="false" />
         <activity
