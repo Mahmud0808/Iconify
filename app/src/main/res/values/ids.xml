@@ -51,6 +51,12 @@
     <item name="brightnessBar_shadedLayer_enable" type="id" />
     <item name="brightnessBar_shadedLayer_disable" type="id" />
 
+    <item name="brightnessBar_outline_container" type="id" />
+    <item name="brightnessBar_outline_bb" type="id" />
+    <item name="brightnessBar_outline_auto_bb" type="id" />
+    <item name="brightnessBar_outline_enable" type="id" />
+    <item name="brightnessBar_outline_disable" type="id" />
+
     <!-- QsShapes List -->
     <item name="default_container" type="id" />
     <item name="default_enable" type="id" />
