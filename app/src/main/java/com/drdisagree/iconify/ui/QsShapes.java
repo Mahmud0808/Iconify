@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.installer.QsShapeInstaller;
+import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.Objects;
@@ -35,6 +37,7 @@ public class QsShapes extends AppCompatActivity {
     private ViewGroup container;
     private LinearLayout spinner;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +78,7 @@ public class QsShapes extends AppCompatActivity {
             }
         });
 
-        // Brightness Bar list items
+        // Qs Shapes list items
         container = (ViewGroup) findViewById(R.id.qs_tiles_list);
 
         // Qs Shape add items in list
@@ -154,11 +157,11 @@ public class QsShapes extends AppCompatActivity {
         Container = new LinearLayout[]{DefaultContainer, DoubleLayerContainer, ShadedLayerContainer, OutlineContainer, LeafyOutlineContainer};
 
         // Enable onClick event
-        enableOnClickListener(DefaultContainer, Default_Enable, Default_Disable, DEFAULT_KEY, 1);
-        enableOnClickListener(DoubleLayerContainer, DoubleLayer_Enable, DoubleLayer_Disable, DOUBLE_LAYER_KEY, 2);
-        enableOnClickListener(ShadedLayerContainer, ShadedLayer_Enable, ShadedLayer_Disable, SHADED_LAYER_KEY, 3);
-        enableOnClickListener(OutlineContainer, Outline_Enable, Outline_Disable, OUTLINE_KEY, 4);
-        enableOnClickListener(LeafyOutlineContainer, LeafyOutline_Enable, LeafyOutline_Disable, LEAFY_OUTLINE_KEY, 5);
+        enableOnClickListener(DefaultContainer, Default_Enable, Default_Disable, DEFAULT_KEY, 1, false);
+        enableOnClickListener(DoubleLayerContainer, DoubleLayer_Enable, DoubleLayer_Disable, DOUBLE_LAYER_KEY, 2, false);
+        enableOnClickListener(ShadedLayerContainer, ShadedLayer_Enable, ShadedLayer_Disable, SHADED_LAYER_KEY, 3, false);
+        enableOnClickListener(OutlineContainer, Outline_Enable, Outline_Disable, OUTLINE_KEY, 4, false);
+        enableOnClickListener(LeafyOutlineContainer, LeafyOutline_Enable, LeafyOutline_Disable, LEAFY_OUTLINE_KEY, 5, false);
 
         refreshBackground();
     }
@@ -203,7 +206,7 @@ public class QsShapes extends AppCompatActivity {
     }
 
     // Function for onClick events
-    private void enableOnClickListener(LinearLayout layout, Button enable, Button disable, String key, int index) {
+    private void enableOnClickListener(LinearLayout layout, Button enable, Button disable, String key, int index, boolean hidelabel) {
 
         // Set onClick operation for options in list
         layout.setOnClickListener(new View.OnClickListener() {
@@ -240,6 +243,13 @@ public class QsShapes extends AppCompatActivity {
                     public void run() {
                         disable_others(key);
                         QsShapeInstaller.install_pack(index);
+                        if (hidelabel) {
+                            OverlayUtils.enableOverlay("IconifyComponentQSHL.overlay");
+                            PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentQSHL.overlay", true);
+                        } else {
+                            OverlayUtils.disableOverlay("IconifyComponentQSHL.overlay");
+                            PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentQSHL.overlay", false);
+                        }
                     }
                 };
                 Thread thread = new Thread(runnable);
@@ -276,6 +286,10 @@ public class QsShapes extends AppCompatActivity {
                     @Override
                     public void run() {
                         QsShapeInstaller.disable_pack(index);
+                        if (hidelabel) {
+                            OverlayUtils.disableOverlay("IconifyComponentQSHL.overlay");
+                            PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentQSHL.overlay", false);
+                        }
                     }
                 };
                 Thread thread = new Thread(runnable);
