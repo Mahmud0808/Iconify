@@ -20,8 +20,6 @@ import java.util.Objects;
 
 public class QsRowColumn extends AppCompatActivity {
 
-    private static int qqsRow = 1, qsRow = 3, qsColumn = 1;
-
     public static void applyRowColumn() {
         FabricatedOverlay.buildOverlay("systemui", "qqsRow", "integer", "quick_qs_panel_max_rows", String.valueOf((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qqsRow")) + 1)));
         FabricatedOverlay.buildOverlay("systemui", "qsRow", "integer", "quick_settings_max_rows", String.valueOf((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsRow")) + 1)));
@@ -88,7 +86,6 @@ public class QsRowColumn extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                qqsRow = finalQqsRow[0];
             }
         });
 
@@ -119,7 +116,6 @@ public class QsRowColumn extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                qsRow = finalQsRow[0];
             }
         });
 
@@ -150,7 +146,6 @@ public class QsRowColumn extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                qsColumn = finalQsColumn[0];
             }
         });
 
@@ -170,12 +165,12 @@ public class QsRowColumn extends AppCompatActivity {
 
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "qsRowColumn", true);
 
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qqsRow", String.valueOf(qqsRow));
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsRow", String.valueOf(qsRow));
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qqsColumn", String.valueOf(qsColumn));
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsColumn", String.valueOf(qsColumn));
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qqsTile", String.valueOf((qqsRow + 1) * (qsColumn + 1)));
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsTile", String.valueOf((qsColumn + 1) * (qsRow + 1)));
+                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qqsRow", String.valueOf(finalQqsRow[0]));
+                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsRow", String.valueOf(finalQsRow[0]));
+                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qqsColumn", String.valueOf(finalQsColumn[0]));
+                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsColumn", String.valueOf(finalQsColumn[0]));
+                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qqsTile", String.valueOf((finalQqsRow[0] + 1) * (finalQsColumn[0] + 1)));
+                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsTile", String.valueOf((finalQsColumn[0] + 1) * (finalQsRow[0] + 1)));
 
                 Runnable runnable = new Runnable() {
                     @Override
