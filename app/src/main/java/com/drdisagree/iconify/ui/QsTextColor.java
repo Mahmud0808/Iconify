@@ -41,35 +41,6 @@ public class QsTextColor extends AppCompatActivity {
 
         List<String> enabledOverlays = OverlayUtils.getEnabledOverlayList();
 
-        // Hide Label
-
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_label = findViewById(R.id.hide_label);
-        LinearLayout text_size_container = findViewById(R.id.text_size_container);
-        View text_size_divider = findViewById(R.id.text_size_divider);
-
-        hide_label.setChecked(PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentQSHL.overlay"));
-
-        if (PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentQSHL.overlay")) {
-            text_size_container.setVisibility(View.GONE);
-            text_size_divider.setVisibility(View.GONE);
-        }
-
-        hide_label.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    text_size_container.setVisibility(View.GONE);
-                    text_size_divider.setVisibility(View.GONE);
-                    OverlayUtils.enableOverlay("IconifyComponentQSHL.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentQSHL.overlay", true);
-                } else {
-                    text_size_container.setVisibility(View.VISIBLE);
-                    text_size_divider.setVisibility(View.VISIBLE);
-                    OverlayUtils.disableOverlay("IconifyComponentQSHL.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentQSHL.overlay", false);
-                }
-            }
-        });
-
         // Text Size
 
         SeekBar text_size = findViewById(R.id.text_size);
