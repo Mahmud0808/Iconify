@@ -48,7 +48,7 @@
                     android:id="@+id/corner_radius_output"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Selected: 24dp"
+                    android:text="Selected: 24dp (Default)"
                     android:textColor="@color/textColorSecondary"
                     android:textSize="@dimen/cont_title_size2"
                     tools:ignore="SpUsage" />
@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/container_padding"
                     android:hapticFeedbackEnabled="true"
-                    android:max="24"
+                    android:max="58"
                     android:min="0"
                     android:progress="16"
                     android:splitTrack="false"
