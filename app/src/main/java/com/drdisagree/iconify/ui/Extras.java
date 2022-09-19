@@ -75,7 +75,10 @@ public class Extras extends AppCompatActivity {
         final int[] finalUiCornerRadius = {16};
 
         if (!PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius").equals("null")) {
-            corner_radius_output.setText("Selected: " + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8) + "dp");
+            if ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8) == 24)
+                corner_radius_output.setText("Selected: " + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8) + "dp (Default)");
+            else
+                corner_radius_output.setText("Selected: " + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8) + "dp");
             finalUiCornerRadius[0] = Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius"));
             corner_radius_seekbar.setProgress(finalUiCornerRadius[0]);
         }
@@ -90,7 +93,10 @@ public class Extras extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
                 finalUiCornerRadius[0] = progress;
-                corner_radius_output.setText("Selected: " + (progress + 8) + "dp");
+                if (progress + 8 == 24)
+                    corner_radius_output.setText("Selected: " + (progress + 8) + "dp (Default)");
+                else
+                    corner_radius_output.setText("Selected: " + (progress + 8) + "dp");
 
             }
 
