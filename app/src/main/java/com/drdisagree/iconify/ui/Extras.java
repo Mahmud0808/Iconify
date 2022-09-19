@@ -72,12 +72,12 @@ public class Extras extends AppCompatActivity {
         TextView corner_radius_output = findViewById(R.id.corner_radius_output);
 
         corner_radius_seekbar.setPadding(0, 0, 0, 0);
-        final int[] finalProgress = {16};
+        final int[] finalUiCornerRadius = {16};
 
         if (!PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius").equals("null")) {
             corner_radius_output.setText("Selected: " + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8) + "dp");
-            finalProgress[0] = Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius"));
-            corner_radius_seekbar.setProgress(finalProgress[0]);
+            finalUiCornerRadius[0] = Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius"));
+            corner_radius_seekbar.setProgress(finalUiCornerRadius[0]);
         }
 
         corner_radius_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -89,22 +89,22 @@ public class Extras extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                finalProgress[0] = progress;
+                finalUiCornerRadius[0] = progress;
                 corner_radius_output.setText("Selected: " + (progress + 8) + "dp");
 
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "cornerRadius", String.valueOf(finalProgress[0]));
+                PrefConfig.savePrefSettings(Iconify.getAppContext(), "cornerRadius", String.valueOf(finalUiCornerRadius[0]));
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedcornerRadius", true);
 
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
 
-                        FabricatedOverlay.buildOverlay("android", "dialogCornerRadius", "dimen", "dialog_corner_radius", "0x" + ((finalProgress[0] + 8 + 16) * 100));
-                        FabricatedOverlay.buildOverlay("android", "insetCornerRadius", "dimen", "harmful_app_name_padding_left", "0x" + ((finalProgress[0] + 4 + 16) * 100));
+                        FabricatedOverlay.buildOverlay("android", "dialogCornerRadius", "dimen", "dialog_corner_radius", "0x" + ((finalUiCornerRadius[0] + 8 + 16) * 100));
+                        FabricatedOverlay.buildOverlay("android", "insetCornerRadius", "dimen", "harmful_app_name_padding_left", "0x" + ((finalUiCornerRadius[0] + 4 + 16) * 100));
 
                         FabricatedOverlay.enableOverlay("dialogCornerRadius");
                         FabricatedOverlay.enableOverlay("insetCornerRadius");
@@ -114,7 +114,7 @@ public class Extras extends AppCompatActivity {
                 Thread thread = new Thread(runnable);
                 thread.start();
 
-                Toast.makeText(getApplicationContext(), (finalProgress[0] + 8 + "dp Applied"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), (finalUiCornerRadius[0] + 8 + "dp Applied"), Toast.LENGTH_SHORT).show();
             }
         });
 
