@@ -72,7 +72,7 @@ public class ApplyOnBoot {
                 if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "qsRowColumn") && FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "qsRow"))
                     QsRowColumn.applyRowColumn();
 
-                if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedqsTextSize") && FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "qsTileTextSize")) {
+                if (OverlayUtils.isOverlayDisabled(overlays, "IconifyComponentQSHL.overlay") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedqsTextSize") && FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "qsTileTextSize")) {
                     FabricatedOverlay.buildOverlay("systemui", "qsTileTextSize", "dimen", "qs_tile_text_size", "0x" + ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsTextSize")) + 10 + 14) * 100));
                     FabricatedOverlay.enableOverlay("qsTileTextSize");
                 }
