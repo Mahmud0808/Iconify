@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:gravity="fill_horizontal|center">
+        <shape android:shape="rectangle">
+            <corners android:radius="24.0dp" />
+            <size android:height="48.0dp" />
+            <solid android:color="@color/colorBackground" />
+        </shape>
+    </item>
+    <item android:gravity="fill_horizontal|center">
+        <shape android:shape="rectangle">
+            <corners android:radius="24.0dp" />
+            <size android:height="48.0dp" />
+            <gradient
+                android:angle="90.0"
+                android:centerColor="@color/transparent"
+                android:endColor="@color/transparent"
+                android:startColor="@color/shadow" />
+        </shape>
+    </item>
+    <item
+        android:gravity="fill_horizontal|center"
+        android:left="4.0dp"
+        android:right="4.5dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="20.0dp" />
+            <size android:height="40.0dp" />
+            <solid android:color="@color/colorBackground" />
+        </shape>
+    </item>
+    <item
+        android:gravity="fill_horizontal|center"
+        android:left="4.0dp"
+        android:right="4.5dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="20.0dp" />
+            <size android:height="40.0dp" />
+            <gradient
+                android:angle="270.0"
+                android:centerColor="@color/transparent"
+                android:endColor="@color/transparent"
+                android:startColor="@color/shadow" />
+        </shape>
+    </item>
+    <item
+        android:gravity="fill_horizontal|center"
+        android:right="80.0dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="24.0dp" />
+            <size android:height="48.0dp" />
+            <gradient
+                android:angle="90.0"
+                android:endColor="@color/ic_launcher_background"
+                android:startColor="@color/colorAccent" />
+        </shape>
+    </item>
+    <item
+        android:gravity="fill_horizontal|center"
+        android:left="4.0dp"
+        android:right="84.5dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="20.0dp" />
+            <size android:height="40.0dp" />
+            <gradient
+                android:angle="270.0"
+                android:endColor="@color/ic_launcher_background"
+                android:startColor="@color/colorAccent" />
+        </shape>
+    </item>
+</layer-list>

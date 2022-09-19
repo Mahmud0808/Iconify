@@ -43,6 +43,7 @@
             tools:ignore="RtlHardcoded">
 
             <ImageView
+                android:id="@+id/qs_icon1"
                 android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
@@ -52,6 +53,7 @@
                 tools:ignore="ContentDescription" />
 
             <TextView
+                android:id="@+id/qs_text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
@@ -72,6 +74,7 @@
             tools:ignore="RtlHardcoded">
 
             <ImageView
+                android:id="@+id/qs_icon2"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="16dp"
@@ -81,6 +84,7 @@
                 tools:ignore="ContentDescription" />
 
             <TextView
+                android:id="@+id/qs_text2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
@@ -109,6 +113,7 @@
             tools:ignore="RtlHardcoded">
 
             <ImageView
+                android:id="@+id/qs_icon3"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="16dp"
@@ -118,6 +123,7 @@
                 tools:ignore="ContentDescription" />
 
             <TextView
+                android:id="@+id/qs_text3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
@@ -138,6 +144,7 @@
             tools:ignore="RtlHardcoded">
 
             <ImageView
+                android:id="@+id/qs_icon4"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="16dp"
@@ -147,6 +154,7 @@
                 tools:ignore="ContentDescription" />
 
             <TextView
+                android:id="@+id/qs_text4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"

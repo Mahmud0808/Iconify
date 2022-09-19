@@ -63,6 +63,18 @@
     <item name="brightnessBar_leafy_outline_enable" type="id" />
     <item name="brightnessBar_leafy_outline_disable" type="id" />
 
+    <item name="brightnessBar_neumorph_container" type="id" />
+    <item name="brightnessBar_neumorph_bb" type="id" />
+    <item name="brightnessBar_neumorph_auto_bb" type="id" />
+    <item name="brightnessBar_neumorph_enable" type="id" />
+    <item name="brightnessBar_neumorph_disable" type="id" />
+
+    <item name="brightnessBar_inline_container" type="id" />
+    <item name="brightnessBar_inline_bb" type="id" />
+    <item name="brightnessBar_inline_auto_bb" type="id" />
+    <item name="brightnessBar_inline_enable" type="id" />
+    <item name="brightnessBar_inline_disable" type="id" />
+
     <!-- QsShapes List -->
     <item name="default_container" type="id" />
     <item name="default_enable" type="id" />
@@ -103,4 +115,28 @@
     <item name="leafy_outline_qstile2" type="id" />
     <item name="leafy_outline_qstile3" type="id" />
     <item name="leafy_outline_qstile4" type="id" />
+
+    <item name="neumorph_container" type="id" />
+    <item name="neumorph_enable" type="id" />
+    <item name="neumorph_disable" type="id" />
+    <item name="neumorph_qstile1" type="id" />
+    <item name="neumorph_qstile2" type="id" />
+    <item name="neumorph_qstile3" type="id" />
+    <item name="neumorph_qstile4" type="id" />
+
+    <item name="surround_container" type="id" />
+    <item name="surround_enable" type="id" />
+    <item name="surround_disable" type="id" />
+    <item name="surround_qstile1" type="id" />
+    <item name="surround_qstile2" type="id" />
+    <item name="surround_qstile3" type="id" />
+    <item name="surround_qstile4" type="id" />
+
+    <item name="bookmark_container" type="id" />
+    <item name="bookmark_enable" type="id" />
+    <item name="bookmark_disable" type="id" />
+    <item name="bookmark_qstile1" type="id" />
+    <item name="bookmark_qstile2" type="id" />
+    <item name="bookmark_qstile3" type="id" />
+    <item name="bookmark_qstile4" type="id" />
 </resources>

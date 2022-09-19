@@ -8,16 +8,19 @@
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/auto_bb_lessrounded.xml" value="0.195" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/auto_bb_lessroundedclip.xml" value="0.195" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/auto_bb_miui.xml" value="0.195" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/auto_bb_neumorph.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/auto_bb_outline.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/auto_bb_realme.xml" value="0.195" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/auto_bb_rounded.xml" value="0.195" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/auto_bb_roundedclip.xml" value="0.195" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/auto_bb_shaded_layer.xml" value="0.16" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/bb_double_layer.xml" value="0.25" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/bb_inline.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/bb_leafy_outline.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/bb_lessrounded.xml" value="0.195" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/bb_lessroundedclip.xml" value="0.195" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/bb_miui.xml" value="0.195" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/bb_neumorph.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/bb_outline.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/bb_realme3.xml" value="0.195" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/bb_rounded.xml" value="0.195" />
@@ -87,16 +90,25 @@
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/preview_plumpy_wifi.xml" value="0.1795" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/preview_primary_accent.xml" value="0.195" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/preview_secondary_accent.xml" value="0.195" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_bookmark_arrow_bg.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_bookmark_arrow_enabled_bg.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_bookmark_arrow_fg.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_bookmark_disabled.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_bookmark_enabled.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_default_disabled.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_default_enabled.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_doublelayer_disabled.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_doublelayer_enabled.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_leafy_outline_disabled.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_leafy_outline_enabled.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_neumorph_disabled.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_neumorph_enabled.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_outline_disabled.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_outline_enabled.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_shadedlayer_disabled.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_shadedlayer_enabled.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_surround_disabled.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_surround_enabled.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/seek_bar_progress.xml" value="0.16" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/seek_bar_progress_fill.xml" value="0.16" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/seekbar_progress.xml" value="0.2105" />

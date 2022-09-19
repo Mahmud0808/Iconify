@@ -20,4 +20,5 @@
     <color name="offStateColor">@color/colorBackground</color>
     <color name="offStateColor2">#1AFFFFFF</color>
     <color name="offStateColor3">#40000000</color>
+    <color name="shadow">#40000000</color>
 </resources>
