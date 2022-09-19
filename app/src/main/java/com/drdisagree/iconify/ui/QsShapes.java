@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.installer.QsShapeInstaller;
+import com.drdisagree.iconify.utils.DisplayUtil;
 import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -190,19 +191,19 @@ public class QsShapes extends AppCompatActivity {
         Surround_QsTile4.setBackground(ContextCompat.getDrawable(QsShapes.this, R.drawable.qs_shape_surround_enabled));
         // Set custom margins
         marginParams = new ViewGroup.MarginLayoutParams(SurroundContainer.findViewById(R.id.qs_icon1).getLayoutParams());
-        marginParams.setMargins(50, 0, 68, 0);
+        marginParams.setMargins(DisplayUtil.IntToDp(20), 0, DisplayUtil.IntToDp(22), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         SurroundContainer.findViewById(R.id.qs_icon1).setLayoutParams(layoutParams);
         marginParams = new ViewGroup.MarginLayoutParams(SurroundContainer.findViewById(R.id.qs_icon2).getLayoutParams());
-        marginParams.setMargins(50, 0, 68, 0);
+        marginParams.setMargins(DisplayUtil.IntToDp(20), 0, DisplayUtil.IntToDp(22), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         SurroundContainer.findViewById(R.id.qs_icon2).setLayoutParams(layoutParams);
         marginParams = new ViewGroup.MarginLayoutParams(SurroundContainer.findViewById(R.id.qs_icon3).getLayoutParams());
-        marginParams.setMargins(50, 0, 68, 0);
+        marginParams.setMargins(DisplayUtil.IntToDp(20), 0, DisplayUtil.IntToDp(22), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         SurroundContainer.findViewById(R.id.qs_icon3).setLayoutParams(layoutParams);
         marginParams = new ViewGroup.MarginLayoutParams(SurroundContainer.findViewById(R.id.qs_icon4).getLayoutParams());
-        marginParams.setMargins(50, 0, 68, 0);
+        marginParams.setMargins(DisplayUtil.IntToDp(20), 0, DisplayUtil.IntToDp(22), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         SurroundContainer.findViewById(R.id.qs_icon4).setLayoutParams(layoutParams);
 
@@ -220,19 +221,19 @@ public class QsShapes extends AppCompatActivity {
         Bookmark_QsTile4.setBackground(ContextCompat.getDrawable(QsShapes.this, R.drawable.qs_shape_bookmark_enabled));
         // Set custom margins
         marginParams = new ViewGroup.MarginLayoutParams(BookmarkContainer.findViewById(R.id.qs_icon1).getLayoutParams());
-        marginParams.setMargins(58, 0, 84, 0);
+        marginParams.setMargins(DisplayUtil.IntToDp(16), 0, DisplayUtil.IntToDp(28), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         BookmarkContainer.findViewById(R.id.qs_icon1).setLayoutParams(layoutParams);
         marginParams = new ViewGroup.MarginLayoutParams(BookmarkContainer.findViewById(R.id.qs_icon2).getLayoutParams());
-        marginParams.setMargins(58, 0, 84, 0);
+        marginParams.setMargins(DisplayUtil.IntToDp(16), 0, DisplayUtil.IntToDp(28), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         BookmarkContainer.findViewById(R.id.qs_icon2).setLayoutParams(layoutParams);
         marginParams = new ViewGroup.MarginLayoutParams(BookmarkContainer.findViewById(R.id.qs_icon3).getLayoutParams());
-        marginParams.setMargins(58, 0, 84, 0);
+        marginParams.setMargins(DisplayUtil.IntToDp(16), 0, DisplayUtil.IntToDp(28), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         BookmarkContainer.findViewById(R.id.qs_icon3).setLayoutParams(layoutParams);
         marginParams = new ViewGroup.MarginLayoutParams(BookmarkContainer.findViewById(R.id.qs_icon4).getLayoutParams());
-        marginParams.setMargins(58, 0, 84, 0);
+        marginParams.setMargins(DisplayUtil.IntToDp(16), 0, DisplayUtil.IntToDp(28), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         BookmarkContainer.findViewById(R.id.qs_icon4).setLayoutParams(layoutParams);
 
