@@ -11,13 +11,13 @@
         android:height="20dp"
         android:drawable="@drawable/qs_shape_bookmark_arrow_disabled_bg"
         android:gravity="left|center"
-        android:left="50dp" />
+        android:left="40dp" />
     <item
         android:width="20dp"
         android:height="20dp"
         android:drawable="@drawable/qs_shape_bookmark_arrow_fg"
         android:gravity="left|center"
-        android:left="50dp" />
+        android:left="40dp" />
     <item android:gravity="left|center">
         <shape android:shape="rectangle">
             <solid android:color="@color/offStateColor" />
@@ -25,7 +25,7 @@
                 android:bottomLeftRadius="24dp"
                 android:topLeftRadius="24dp" />
             <size
-                android:width="60dp"
+                android:width="50dp"
                 android:height="60dp" />
         </shape>
     </item>
@@ -36,7 +36,7 @@
                 android:bottomLeftRadius="24dp"
                 android:topLeftRadius="24dp" />
             <size
-                android:width="60dp"
+                android:width="50dp"
                 android:height="60dp" />
         </shape>
     </item>
