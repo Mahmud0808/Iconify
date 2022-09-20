@@ -14,10 +14,8 @@ public class QsShapeInstaller {
     public static void install_pack(int n) {
         disable_others(n);
         enable_pack(n);
-        if (!PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcornerRadius")) {
-            PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedcornerRadius", true);
-            ApplyOnBoot.applyCornerRadius();
-        }
+        PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedcornerRadius", true);
+        ApplyOnBoot.applyCornerRadius();
     }
 
     protected static void enable_pack(int n) {
