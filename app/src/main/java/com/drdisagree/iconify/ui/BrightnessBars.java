@@ -32,12 +32,13 @@ public class BrightnessBars extends AppCompatActivity {
     private static final String LEAFY_OUTLINE_KEY = "IconifyComponentBB6.overlay";
     private static final String NEUMORPH_KEY = "IconifyComponentBB7.overlay";
     private static final String INLINE_KEY = "IconifyComponentBB8.overlay";
+    private static final String NEUMORPH_OUTLINE_KEY = "IconifyComponentBB9.overlay";
 
     LinearLayout[] Container;
-    LinearLayout RoundedClipContainer, RoundedContainer, DoubleLayerContainer, ShadedLayerContainer, OutlineContainer, LeafyOutlineContainer, NeumorphContainer, InlineContainer;
-    Button RoundedClip_Enable, RoundedClip_Disable, Rounded_Enable, Rounded_Disable, DoubleLayer_Enable, DoubleLayer_Disable, ShadedLayer_Enable, ShadedLayer_Disable, Outline_Enable, Outline_Disable, LeafyOutline_Enable, LeafyOutline_Disable, Neumorph_Enable, Neumorph_Disable, Inline_Enable, Inline_Disable;
-    ImageView RoundedClip_Auto_Bb, Rounded_Auto_Bb, DoubleLayer_Auto_Bb, ShadedLayer_Auto_Bb, Outline_Auto_Bb, LeafyOutline_Auto_Bb, Neumorph_Auto_Bb, Inline_Auto_Bb;
-    ImageView RoundedClip_Bb, Rounded_Bb, DoubleLayer_Bb, ShadedLayer_Bb, Outline_Bb, LeafyOutline_Bb, Neumorph_Bb, Inline_Bb;
+    LinearLayout RoundedClipContainer, RoundedContainer, DoubleLayerContainer, ShadedLayerContainer, OutlineContainer, LeafyOutlineContainer, NeumorphContainer, InlineContainer, NeumorphOutlineContainer;
+    Button RoundedClip_Enable, RoundedClip_Disable, Rounded_Enable, Rounded_Disable, DoubleLayer_Enable, DoubleLayer_Disable, ShadedLayer_Enable, ShadedLayer_Disable, Outline_Enable, Outline_Disable, LeafyOutline_Enable, LeafyOutline_Disable, Neumorph_Enable, Neumorph_Disable, Inline_Enable, Inline_Disable, NeumorphOutline_Enable, NeumorphOutline_Disable;
+    ImageView RoundedClip_Auto_Bb, Rounded_Auto_Bb, DoubleLayer_Auto_Bb, ShadedLayer_Auto_Bb, Outline_Auto_Bb, LeafyOutline_Auto_Bb, Neumorph_Auto_Bb, Inline_Auto_Bb, NeumorphOutline_Auto_Bb;
+    ImageView RoundedClip_Bb, Rounded_Bb, DoubleLayer_Bb, ShadedLayer_Bb, Outline_Bb, LeafyOutline_Bb, Neumorph_Bb, Inline_Bb, NeumorphOutline_Bb;
     private ViewGroup container;
     private LinearLayout spinner;
 
@@ -71,6 +72,7 @@ public class BrightnessBars extends AppCompatActivity {
         addItem(R.id.brightnessBar_outline_container, R.id.brightnessBar_outline_bb, R.id.brightnessBar_outline_auto_bb, "Outline", R.id.brightnessBar_outline_enable, R.id.brightnessBar_outline_disable);
         addItem(R.id.brightnessBar_leafy_outline_container, R.id.brightnessBar_leafy_outline_bb, R.id.brightnessBar_leafy_outline_auto_bb, "Leafy Outline", R.id.brightnessBar_leafy_outline_enable, R.id.brightnessBar_leafy_outline_disable);
         addItem(R.id.brightnessBar_neumorph_container, R.id.brightnessBar_neumorph_bb, R.id.brightnessBar_neumorph_auto_bb, "Neumorph", R.id.brightnessBar_neumorph_enable, R.id.brightnessBar_neumorph_disable);
+        addItem(R.id.brightnessBar_neumorph_outline_container, R.id.brightnessBar_neumorph_outline_bb, R.id.brightnessBar_neumorph_outline_auto_bb, "Neumorph Outline", R.id.brightnessBar_neumorph_outline_enable, R.id.brightnessBar_neumorph_outline_disable);
         addItem(R.id.brightnessBar_inline_container, R.id.brightnessBar_inline_bb, R.id.brightnessBar_inline_auto_bb, "Inline", R.id.brightnessBar_inline_enable, R.id.brightnessBar_inline_disable);
 
         // Rounded Clip
@@ -136,6 +138,15 @@ public class BrightnessBars extends AppCompatActivity {
         Neumorph_Auto_Bb = findViewById(R.id.brightnessBar_neumorph_auto_bb);
         Neumorph_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_neumorph));
 
+        // Neumorph Outline
+        NeumorphOutlineContainer = findViewById(R.id.brightnessBar_neumorph_outline_container);
+        NeumorphOutline_Enable = findViewById(R.id.brightnessBar_neumorph_outline_enable);
+        NeumorphOutline_Disable = findViewById(R.id.brightnessBar_neumorph_outline_disable);
+        NeumorphOutline_Bb = findViewById(R.id.brightnessBar_neumorph_outline_bb);
+        NeumorphOutline_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.bb_neumorph_outline));
+        NeumorphOutline_Auto_Bb = findViewById(R.id.brightnessBar_neumorph_outline_auto_bb);
+        NeumorphOutline_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_neumorph_outline));
+
         // Inline
         InlineContainer = findViewById(R.id.brightnessBar_inline_container);
         Inline_Enable = findViewById(R.id.brightnessBar_inline_enable);
@@ -146,7 +157,7 @@ public class BrightnessBars extends AppCompatActivity {
         Inline_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_rounded));
 
         // List of Brightness Bar
-        Container = new LinearLayout[]{RoundedClipContainer, RoundedContainer, DoubleLayerContainer, ShadedLayerContainer, OutlineContainer, LeafyOutlineContainer, NeumorphContainer, InlineContainer};
+        Container = new LinearLayout[]{RoundedClipContainer, RoundedContainer, DoubleLayerContainer, ShadedLayerContainer, OutlineContainer, LeafyOutlineContainer, NeumorphContainer, NeumorphOutlineContainer, InlineContainer};
 
         // Enable onClick event
         enableOnClickListener(RoundedClipContainer, RoundedClip_Enable, RoundedClip_Disable, ROUNDED_CLIP_KEY, 1);
@@ -157,6 +168,7 @@ public class BrightnessBars extends AppCompatActivity {
         enableOnClickListener(LeafyOutlineContainer, LeafyOutline_Enable, LeafyOutline_Disable, LEAFY_OUTLINE_KEY, 6);
         enableOnClickListener(NeumorphContainer, Neumorph_Enable, Neumorph_Disable, NEUMORPH_KEY, 7);
         enableOnClickListener(InlineContainer, Inline_Enable, Inline_Disable, NEUMORPH_KEY, 8);
+        enableOnClickListener(NeumorphOutlineContainer, NeumorphOutline_Enable, NeumorphOutline_Disable, NEUMORPH_OUTLINE_KEY, 9);
 
         refreshBackground();
     }
@@ -195,6 +207,9 @@ public class BrightnessBars extends AppCompatActivity {
                 } else if (linearLayout == InlineContainer) {
                     Inline_Enable.setVisibility(View.GONE);
                     Inline_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == NeumorphOutlineContainer) {
+                    NeumorphOutline_Enable.setVisibility(View.GONE);
+                    NeumorphOutline_Disable.setVisibility(View.GONE);
                 }
             }
         }
@@ -210,6 +225,7 @@ public class BrightnessBars extends AppCompatActivity {
         checkIfApplied(LeafyOutlineContainer, 6);
         checkIfApplied(NeumorphContainer, 7);
         checkIfApplied(InlineContainer, 8);
+        checkIfApplied(NeumorphOutlineContainer, 9);
     }
 
     // Function for onClick events
@@ -321,6 +337,7 @@ public class BrightnessBars extends AppCompatActivity {
         PrefConfig.savePrefBool(getApplicationContext(), LEAFY_OUTLINE_KEY, pack.equals(LEAFY_OUTLINE_KEY));
         PrefConfig.savePrefBool(getApplicationContext(), NEUMORPH_KEY, pack.equals(NEUMORPH_KEY));
         PrefConfig.savePrefBool(getApplicationContext(), INLINE_KEY, pack.equals(INLINE_KEY));
+        PrefConfig.savePrefBool(getApplicationContext(), NEUMORPH_OUTLINE_KEY, pack.equals(NEUMORPH_OUTLINE_KEY));
     }
 
     // Function to change applied pack's bg

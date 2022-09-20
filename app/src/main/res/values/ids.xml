@@ -75,6 +75,12 @@
     <item name="brightnessBar_inline_enable" type="id" />
     <item name="brightnessBar_inline_disable" type="id" />
 
+    <item name="brightnessBar_neumorph_outline_container" type="id" />
+    <item name="brightnessBar_neumorph_outline_bb" type="id" />
+    <item name="brightnessBar_neumorph_outline_auto_bb" type="id" />
+    <item name="brightnessBar_neumorph_outline_enable" type="id" />
+    <item name="brightnessBar_neumorph_outline_disable" type="id" />
+
     <!-- QsShapes List -->
     <item name="default_container" type="id" />
     <item name="default_enable" type="id" />
