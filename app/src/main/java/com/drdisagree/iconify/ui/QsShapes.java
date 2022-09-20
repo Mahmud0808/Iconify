@@ -35,10 +35,11 @@ public class QsShapes extends AppCompatActivity {
     private static final String NEUMORPH_KEY = "IconifyComponentQSS6.overlay";
     private static final String SURROUND_KEY = "IconifyComponentQSS7.overlay";
     private static final String BOOKMARK_KEY = "IconifyComponentQSS8.overlay";
+    private static final String NEUMORPH_OUTLINE_KEY = "IconifyComponentQSS9.overlay";
 
     LinearLayout[] Container;
-    LinearLayout DefaultContainer, DoubleLayerContainer, ShadedLayerContainer, OutlineContainer, LeafyOutlineContainer, NeumorphContainer, SurroundContainer, BookmarkContainer;
-    Button Default_Enable, Default_Disable, DoubleLayer_Enable, DoubleLayer_Disable, ShadedLayer_Enable, ShadedLayer_Disable, Outline_Enable, Outline_Disable, LeafyOutline_Enable, LeafyOutline_Disable, Neumorph_Enable, Neumorph_Disable, Surround_Enable, Surround_Disable, Bookmark_Enable, Bookmark_Disable;
+    LinearLayout DefaultContainer, DoubleLayerContainer, ShadedLayerContainer, OutlineContainer, LeafyOutlineContainer, NeumorphContainer, SurroundContainer, BookmarkContainer, NeumorphOutlineContainer;
+    Button Default_Enable, Default_Disable, DoubleLayer_Enable, DoubleLayer_Disable, ShadedLayer_Enable, ShadedLayer_Disable, Outline_Enable, Outline_Disable, LeafyOutline_Enable, LeafyOutline_Disable, Neumorph_Enable, Neumorph_Disable, Surround_Enable, Surround_Disable, Bookmark_Enable, Bookmark_Disable, NeumorphOutline_Enable, NeumorphOutline_Disable;
     private ViewGroup container;
     private LinearLayout spinner;
 
@@ -96,6 +97,7 @@ public class QsShapes extends AppCompatActivity {
         addItem(R.id.outline_container, R.id.outline_qstile1, R.id.outline_qstile2, R.id.outline_qstile3, R.id.outline_qstile4, "Outline", R.id.outline_enable, R.id.outline_disable);
         addItem(R.id.leafy_outline_container, R.id.leafy_outline_qstile1, R.id.leafy_outline_qstile2, R.id.leafy_outline_qstile3, R.id.leafy_outline_qstile4, "Leafy Outline", R.id.leafy_outline_enable, R.id.leafy_outline_disable);
         addItem(R.id.neumorph_container, R.id.neumorph_qstile1, R.id.neumorph_qstile2, R.id.neumorph_qstile3, R.id.neumorph_qstile4, "Neumorph", R.id.neumorph_enable, R.id.neumorph_disable);
+        addItem(R.id.neumorph_outline_container, R.id.neumorph_outline_qstile1, R.id.neumorph_outline_qstile2, R.id.neumorph_outline_qstile3, R.id.neumorph_outline_qstile4, "Neumorph Outline", R.id.neumorph_outline_enable, R.id.neumorph_outline_disable);
         addItem(R.id.surround_container, R.id.surround_qstile1, R.id.surround_qstile2, R.id.surround_qstile3, R.id.surround_qstile4, "Surround", R.id.surround_enable, R.id.surround_disable);
         addItem(R.id.bookmark_container, R.id.bookmark_qstile1, R.id.bookmark_qstile2, R.id.bookmark_qstile3, R.id.bookmark_qstile4, "Bookmark", R.id.bookmark_enable, R.id.bookmark_disable);
 
@@ -177,6 +179,19 @@ public class QsShapes extends AppCompatActivity {
         Neumorph_QsTile3.setBackground(ContextCompat.getDrawable(QsShapes.this, R.drawable.qs_shape_neumorph_disabled));
         Neumorph_QsTile4.setBackground(ContextCompat.getDrawable(QsShapes.this, R.drawable.qs_shape_neumorph_enabled));
 
+        // Neumorph Outline
+        NeumorphOutlineContainer = findViewById(R.id.neumorph_outline_container);
+        NeumorphOutline_Enable = findViewById(R.id.neumorph_outline_enable);
+        NeumorphOutline_Disable = findViewById(R.id.neumorph_outline_disable);
+        LinearLayout NeumorphOutline_QsTile1 = findViewById(R.id.neumorph_outline_qstile1);
+        LinearLayout NeumorphOutline_QsTile2 = findViewById(R.id.neumorph_outline_qstile2);
+        LinearLayout NeumorphOutline_QsTile3 = findViewById(R.id.neumorph_outline_qstile3);
+        LinearLayout NeumorphOutline_QsTile4 = findViewById(R.id.neumorph_outline_qstile4);
+        NeumorphOutline_QsTile1.setBackground(ContextCompat.getDrawable(QsShapes.this, R.drawable.qs_shape_neumorph_outline_enabled));
+        NeumorphOutline_QsTile2.setBackground(ContextCompat.getDrawable(QsShapes.this, R.drawable.qs_shape_neumorph_outline_disabled));
+        NeumorphOutline_QsTile3.setBackground(ContextCompat.getDrawable(QsShapes.this, R.drawable.qs_shape_neumorph_outline_disabled));
+        NeumorphOutline_QsTile4.setBackground(ContextCompat.getDrawable(QsShapes.this, R.drawable.qs_shape_neumorph_outline_enabled));
+
         // Surround
         SurroundContainer = findViewById(R.id.surround_container);
         Surround_Enable = findViewById(R.id.surround_enable);
@@ -249,6 +264,7 @@ public class QsShapes extends AppCompatActivity {
         enableOnClickListener(NeumorphContainer, Neumorph_Enable, Neumorph_Disable, NEUMORPH_KEY, 6, false);
         enableOnClickListener(SurroundContainer, Surround_Enable, Surround_Disable, SURROUND_KEY, 7, false);
         enableOnClickListener(BookmarkContainer, Bookmark_Enable, Bookmark_Disable, BOOKMARK_KEY, 8, false);
+        enableOnClickListener(NeumorphOutlineContainer, NeumorphOutline_Enable, NeumorphOutline_Disable, NEUMORPH_OUTLINE_KEY, 9, false);
 
         refreshBackground();
     }
@@ -287,6 +303,9 @@ public class QsShapes extends AppCompatActivity {
                 } else if (linearLayout == BookmarkContainer) {
                     Bookmark_Enable.setVisibility(View.GONE);
                     Bookmark_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == NeumorphOutlineContainer) {
+                    NeumorphOutline_Enable.setVisibility(View.GONE);
+                    NeumorphOutline_Disable.setVisibility(View.GONE);
                 }
             }
         }
@@ -302,6 +321,7 @@ public class QsShapes extends AppCompatActivity {
         checkIfApplied(NeumorphContainer, 6);
         checkIfApplied(SurroundContainer, 7);
         checkIfApplied(BookmarkContainer, 8);
+        checkIfApplied(NeumorphOutlineContainer, 9);
     }
 
     // Function for onClick events
@@ -424,6 +444,7 @@ public class QsShapes extends AppCompatActivity {
         PrefConfig.savePrefBool(getApplicationContext(), NEUMORPH_KEY, pack.equals(NEUMORPH_KEY));
         PrefConfig.savePrefBool(getApplicationContext(), SURROUND_KEY, pack.equals(SURROUND_KEY));
         PrefConfig.savePrefBool(getApplicationContext(), BOOKMARK_KEY, pack.equals(BOOKMARK_KEY));
+        PrefConfig.savePrefBool(getApplicationContext(), NEUMORPH_OUTLINE_KEY, pack.equals(NEUMORPH_OUTLINE_KEY));
     }
 
     // Function to change applied pack's bg

@@ -139,4 +139,12 @@
     <item name="bookmark_qstile2" type="id" />
     <item name="bookmark_qstile3" type="id" />
     <item name="bookmark_qstile4" type="id" />
+
+    <item name="neumorph_outline_container" type="id" />
+    <item name="neumorph_outline_enable" type="id" />
+    <item name="neumorph_outline_disable" type="id" />
+    <item name="neumorph_outline_qstile1" type="id" />
+    <item name="neumorph_outline_qstile2" type="id" />
+    <item name="neumorph_outline_qstile3" type="id" />
+    <item name="neumorph_outline_qstile4" type="id" />
 </resources>
