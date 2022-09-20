@@ -253,7 +253,7 @@ public class QsShapes extends AppCompatActivity {
         BookmarkContainer.findViewById(R.id.qs_icon4).setLayoutParams(layoutParams);
 
         // List of Brightness Bar
-        Container = new LinearLayout[]{DefaultContainer, DoubleLayerContainer, ShadedLayerContainer, OutlineContainer, LeafyOutlineContainer, NeumorphContainer, SurroundContainer, BookmarkContainer};
+        Container = new LinearLayout[]{DefaultContainer, DoubleLayerContainer, ShadedLayerContainer, OutlineContainer, LeafyOutlineContainer, NeumorphContainer, NeumorphOutlineContainer, SurroundContainer, BookmarkContainer};
 
         // Enable onClick event
         enableOnClickListener(DefaultContainer, Default_Enable, Default_Disable, DEFAULT_KEY, 1, false);
