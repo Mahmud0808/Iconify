@@ -221,19 +221,19 @@ public class QsShapes extends AppCompatActivity {
         Bookmark_QsTile4.setBackground(ContextCompat.getDrawable(QsShapes.this, R.drawable.qs_shape_bookmark_enabled));
         // Set custom margins
         marginParams = new ViewGroup.MarginLayoutParams(BookmarkContainer.findViewById(R.id.qs_icon1).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(16), 0, DisplayUtil.IntToDp(28), 0);
+        marginParams.setMargins(DisplayUtil.IntToDp(16), 0, DisplayUtil.IntToDp(26), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         BookmarkContainer.findViewById(R.id.qs_icon1).setLayoutParams(layoutParams);
         marginParams = new ViewGroup.MarginLayoutParams(BookmarkContainer.findViewById(R.id.qs_icon2).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(16), 0, DisplayUtil.IntToDp(28), 0);
+        marginParams.setMargins(DisplayUtil.IntToDp(16), 0, DisplayUtil.IntToDp(26), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         BookmarkContainer.findViewById(R.id.qs_icon2).setLayoutParams(layoutParams);
         marginParams = new ViewGroup.MarginLayoutParams(BookmarkContainer.findViewById(R.id.qs_icon3).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(16), 0, DisplayUtil.IntToDp(28), 0);
+        marginParams.setMargins(DisplayUtil.IntToDp(16), 0, DisplayUtil.IntToDp(26), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         BookmarkContainer.findViewById(R.id.qs_icon3).setLayoutParams(layoutParams);
         marginParams = new ViewGroup.MarginLayoutParams(BookmarkContainer.findViewById(R.id.qs_icon4).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(16), 0, DisplayUtil.IntToDp(28), 0);
+        marginParams.setMargins(DisplayUtil.IntToDp(16), 0, DisplayUtil.IntToDp(26), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         BookmarkContainer.findViewById(R.id.qs_icon4).setLayoutParams(layoutParams);
 
