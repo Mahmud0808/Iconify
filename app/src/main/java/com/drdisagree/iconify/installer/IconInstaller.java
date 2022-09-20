@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.installer;
 
+import com.drdisagree.iconify.Iconify;
+import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.services.ApplyOnBoot;
 import com.topjohnwu.superuser.Shell;
 
@@ -10,7 +12,6 @@ public class IconInstaller {
     public static void install_pack(int n) {
         disable_others(n);
         enable_pack(n);
-        ApplyOnBoot.applyCornerRadius();
     }
 
     protected static void enable_pack(int n) {
