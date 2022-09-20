@@ -48,7 +48,7 @@ public class ApplyOnBoot {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if ((FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "dialogCornerRadius") || FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "insetCornerRadius4")) && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcornerRadius")) {
+                if (FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "dialogCornerRadius") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcornerRadius")) {
                     if (!PrefConfig.loadPrefSettings(Iconify.getAppContext(), "dialogCornerRadius").equals("null")) {
                         FabricatedOverlay.buildOverlay("android", "dialogCornerRadius", "dimen", "dialog_corner_radius", "0x" + ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8 + 16) * 100));
                         FabricatedOverlay.buildOverlay("android", "insetCornerRadius2", "dimen", "harmful_app_name_padding_right", "0x" + ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 6 + 16) * 100));
