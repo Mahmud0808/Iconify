@@ -110,10 +110,12 @@ public class Extras extends AppCompatActivity {
                     public void run() {
 
                         FabricatedOverlay.buildOverlay("android", "dialogCornerRadius", "dimen", "dialog_corner_radius", "0x" + ((finalUiCornerRadius[0] + 8 + 16) * 100));
-                        FabricatedOverlay.buildOverlay("android", "insetCornerRadius", "dimen", "harmful_app_name_padding_left", "0x" + ((finalUiCornerRadius[0] + 4 + 16) * 100));
+                        FabricatedOverlay.buildOverlay("android", "insetCornerRadius2", "dimen", "harmful_app_name_padding_right", "0x" + ((finalUiCornerRadius[0] + 6 + 16) * 100));
+                        FabricatedOverlay.buildOverlay("android", "insetCornerRadius4", "dimen", "harmful_app_name_padding_left", "0x" + ((finalUiCornerRadius[0] + 4 + 16) * 100));
 
                         FabricatedOverlay.enableOverlay("dialogCornerRadius");
-                        FabricatedOverlay.enableOverlay("insetCornerRadius");
+                        FabricatedOverlay.enableOverlay("insetCornerRadius2");
+                        FabricatedOverlay.enableOverlay("insetCornerRadius4");
 
                     }
                 };
