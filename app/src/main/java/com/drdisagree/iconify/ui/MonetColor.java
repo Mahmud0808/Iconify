@@ -93,12 +93,21 @@ public class MonetColor extends AppCompatActivity {
             }
         });
 
-        // Minimal QsPanel
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_minimal_qspanel = findViewById(R.id.apply_minimal_qspanel);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_pitch_black_theme = findViewById(R.id.apply_pitch_black_theme);
+
+        // Minimal QsPanel
         apply_minimal_qspanel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    OverlayUtils.enableOverlay("IconifyComponentQSST.overlay");
+                    apply_pitch_black_theme.setChecked(false);
+                    OverlayUtils.disableOverlay("IconifyComponentQSPB.overlay");
+
+                    apply_minimal_qspanel.postDelayed(new Runnable() {
+                        public void run() {
+                            OverlayUtils.enableOverlay("IconifyComponentQSST.overlay");
+                        }
+                    }, 1000);
                 } else {
                     OverlayUtils.disableOverlay("IconifyComponentQSST.overlay");
                 }
@@ -106,11 +115,17 @@ public class MonetColor extends AppCompatActivity {
         });
 
         // Pitch Black QsPanel
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_pitch_black_theme = findViewById(R.id.apply_pitch_black_theme);
         apply_pitch_black_theme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    OverlayUtils.enableOverlay("IconifyComponentQSPB.overlay");
+                    apply_minimal_qspanel.setChecked(false);
+                    OverlayUtils.disableOverlay("IconifyComponentQSST.overlay");
+
+                    apply_pitch_black_theme.postDelayed(new Runnable() {
+                        public void run() {
+                            OverlayUtils.enableOverlay("IconifyComponentQSPB.overlay");
+                        }
+                    }, 1000);
                 } else {
                     OverlayUtils.disableOverlay("IconifyComponentQSPB.overlay");
                 }
