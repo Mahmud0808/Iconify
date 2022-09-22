@@ -9,7 +9,7 @@ import java.io.File;
 
 public class QsShapeInstaller {
 
-    private static final int TOTAL_QSSHAPES = 3;
+    private static final int TOTAL_QSSHAPES = 9;
 
     public static void install_pack(int n) {
         disable_others(n);
