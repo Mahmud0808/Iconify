@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                         Thread thread = new Thread(runnable);
                         thread.start();
 
-                        // Wait 2 second
+                        // Wait 5 second
                         spinner.postDelayed(new Runnable() {
                             public void run() {
                                 // Hide spinner
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                                 // Unblock touch
                                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                             }
-                        }, 2000);
+                        }, 5000);
 
                         if (PrefConfig.loadPrefInt(this, "versionCode") != 0)
                             Toast.makeText(getApplicationContext(), "Reboot to Apply Changes", Toast.LENGTH_LONG).show();
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                         Thread thread = new Thread(runnable);
                         thread.start();
 
-                        // Wait 2 second
+                        // Wait 5 second
                         spinner.postDelayed(new Runnable() {
                             @SuppressLint("SetTextI18n")
                             public void run() {
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                                 warn.setVisibility(View.VISIBLE);
                                 warning.setText("Reboot your device first!");
                             }
-                        }, 2000);
+                        }, 5000);
                     }
                 } else {
                     warn.setVisibility(View.VISIBLE);
