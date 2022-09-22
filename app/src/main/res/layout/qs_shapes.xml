@@ -55,7 +55,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Change Qs tile row and columns"
+                        android:text="Change Qs tile rows and columns"
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_title_size2" />
 
@@ -102,7 +102,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Change icon and label color"
+                        android:text="Change icon and label options"
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_title_size2" />
 
