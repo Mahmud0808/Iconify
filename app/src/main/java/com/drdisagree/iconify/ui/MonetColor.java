@@ -93,6 +93,30 @@ public class MonetColor extends AppCompatActivity {
             }
         });
 
+        // Minimal QsPanel
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_minimal_qspanel = findViewById(R.id.apply_minimal_qspanel);
+        apply_minimal_qspanel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    OverlayUtils.enableOverlay("IconifyComponentQSST.overlay");
+                } else {
+                    OverlayUtils.disableOverlay("IconifyComponentQSST.overlay");
+                }
+            }
+        });
+
+        // Pitch Black QsPanel
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_pitch_black_theme = findViewById(R.id.apply_pitch_black_theme);
+        apply_pitch_black_theme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    OverlayUtils.enableOverlay("IconifyComponentQSPB.overlay");
+                } else {
+                    OverlayUtils.disableOverlay("IconifyComponentQSPB.overlay");
+                }
+            }
+        });
+
         // Experimental Options
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch experimental_color = findViewById(R.id.experimental_color);
         LinearLayout experimental_color_options = findViewById(R.id.experimental_color_options);
