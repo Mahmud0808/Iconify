@@ -84,7 +84,7 @@ public class QsTextColor extends AppCompatActivity {
                     @Override
                     public void run() {
 
-                        FabricatedOverlay.buildOverlay("systemui", "qsTileTextSize", "dimen", "qs_tile_text_size", "0x" + ((finalTextSize[0] + 10 + 14) * 100));
+                        FabricatedOverlay.buildOverlay("systemui", "qsTileTextSize", "dimen", "qs_tile_text_size", "0x" + ((finalTextSize[0] + 10 + 12) * 100));
 
                         FabricatedOverlay.enableOverlay("qsTileTextSize");
 
