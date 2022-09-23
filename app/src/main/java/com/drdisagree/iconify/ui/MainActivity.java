@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.drdisagree.iconify.BuildConfig;
+import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.utils.OverlayUtils;
@@ -68,23 +69,22 @@ public class MainActivity extends AppCompatActivity {
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        // Hide spinner
+                                        spinner.setVisibility(View.GONE);
+                                        // Unblock touch
+                                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                        if (PrefConfig.loadPrefInt(Iconify.getAppContext(), "versionCode") != 0)
+                                            Toast.makeText(getApplicationContext(), "Reboot to Apply Changes", Toast.LENGTH_LONG).show();
+                                    }
+                                });
                             }
                         };
                         Thread thread = new Thread(runnable);
                         thread.start();
-
-                        // Wait 5 second
-                        spinner.postDelayed(new Runnable() {
-                            public void run() {
-                                // Hide spinner
-                                spinner.setVisibility(View.GONE);
-                                // Unblock touch
-                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                            }
-                        }, 5000);
-
-                        if (PrefConfig.loadPrefInt(this, "versionCode") != 0)
-                            Toast.makeText(getApplicationContext(), "Reboot to Apply Changes", Toast.LENGTH_LONG).show();
                     }
                     if (OverlayUtils.overlayExists()) {
                         PrefConfig.savePrefInt(this, "versionCode", versionCode);
@@ -107,24 +107,22 @@ public class MainActivity extends AppCompatActivity {
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        // Hide spinner
+                                        spinner.setVisibility(View.GONE);
+                                        // Unblock touch
+                                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                        warn.setVisibility(View.VISIBLE);
+                                        warning.setText("Reboot your device first!");
+                                    }
+                                });
                             }
                         };
                         Thread thread = new Thread(runnable);
                         thread.start();
-
-                        // Wait 5 second
-                        spinner.postDelayed(new Runnable() {
-                            @SuppressLint("SetTextI18n")
-                            public void run() {
-                                // Hide spinner
-                                spinner.setVisibility(View.GONE);
-                                // Unblock touch
-                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                                warn.setVisibility(View.VISIBLE);
-                                warning.setText("Reboot your device first!");
-                            }
-                        }, 5000);
                     }
                 } else {
                     warn.setVisibility(View.VISIBLE);
