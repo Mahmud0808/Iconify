@@ -58,13 +58,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/container_padding"
+                    android:background="@null"
                     android:hapticFeedbackEnabled="true"
                     android:max="58"
                     android:min="0"
                     android:progress="16"
+                    android:progressDrawable="@drawable/seekbar"
                     android:splitTrack="false"
                     android:theme="@style/SeekBar.Iconify"
-                    android:thumb="@null" />
+                    android:thumb="@drawable/seek_thumb" />
 
             </LinearLayout>
 
