@@ -1,7 +1,9 @@
 package com.drdisagree.iconify.utils;
 
 import android.util.Log;
+import android.widget.Toast;
 
+import com.drdisagree.iconify.Iconify;
 import com.jaredrummler.android.shell.Shell;
 
 import java.io.DataOutputStream;
@@ -42,24 +44,20 @@ public class RootUtil {
     }
 
     static String getMagiskDirectory() {
-        final int magiskVer;
-        int magiskVerTemp;
+        int magiskVer = 0;
         try {
-            magiskVerTemp = Integer.parseInt(String.valueOf(Shell.run("su -V")));
+            magiskVer = Integer.parseInt(String.valueOf(Shell.run("su -V")));
         } catch (Exception e) {
             e.printStackTrace();
-            magiskVerTemp = 0;
         }
-        magiskVer = magiskVerTemp;
-        if (magiskDir != null)
-            return magiskDir;
         if (magiskVer >= 20000) {
             magiskDir = "/data/adb/modules/Iconify";
         } else {
             Log.e("MagiskCheck", "Magisk version cannot be lesser than 20.0");
+            Toast.makeText(Iconify.getAppContext(), "Update Magisk to v20.0+", Toast.LENGTH_LONG).show();
             magiskDir = "/";
         }
-        Log.e("MagiskCheck", String.format("Detected directory %s for version %d", magiskDir, magiskVer));
+        Log.e("MagiskCheck", "Detected directory " + magiskDir + " for version " + magiskVer);
         return magiskDir;
     }
 

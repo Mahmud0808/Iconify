@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Objects;
 
 public class OverlayUtils {
 
@@ -89,10 +90,12 @@ public class OverlayUtils {
     }
 
     public static boolean moduleExists() {
-        List<String> lines = Shell.cmd("test -d " + MAGISK_DIR + " && echo '1'").exec().getOut();
-        for (String line : lines) {
-            if (line.contains("1"))
-                return true;
+        if (Objects.equals(MAGISK_DIR, "/data/adb/modules/Iconify")) {
+            List<String> lines = Shell.cmd("test -d " + MAGISK_DIR + " && echo '1'").exec().getOut();
+            for (String line : lines) {
+                if (line.contains("1"))
+                    return true;
+            }
         }
         return false;
     }
