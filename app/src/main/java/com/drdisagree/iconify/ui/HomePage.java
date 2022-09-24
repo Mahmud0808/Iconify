@@ -25,7 +25,7 @@ import java.util.List;
 public class HomePage extends AppCompatActivity {
 
     public static boolean isServiceRunning = false;
-    private final String TAG = "MainActivity";
+    private final String TAG = "WelcomePage";
     LinearLayout home_monetColor, home_iconPack, home_brightnessBar, home_qsShape, home_notification, home_mediaPlayer, home_progressBar, home_extras, home_info;
     private ViewGroup container;
 
@@ -50,7 +50,7 @@ public class HomePage extends AppCompatActivity {
         addItem(R.id.home_qsShape, "QS Panel Tiles", "Customize qs panel tiles", R.drawable.ic_shape_home);
         addItem(R.id.home_notification, "Notification", "Customize notification style", R.drawable.ic_notification_home);
         addItem(R.id.home_mediaPlayer, "Media Player", "Change how media player looks", R.drawable.ic_media_home);
-        addItem(R.id.home_progressBar, "Progress Bar", "Change progress bar style", R.drawable.ic_progress_home);
+        // addItem(R.id.home_progressBar, "Progress Bar", "Change progress bar style", R.drawable.ic_progress_home);
         addItem(R.id.home_extras, "Extras", "Additions tweaks and settings", R.drawable.ic_extras_home);
         addItem(R.id.home_info, "About", "Information about this app", R.drawable.ic_info_home);
 
@@ -130,7 +130,7 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
-        // Progress bar item onClick
+        /* Progress bar item onClick
         home_progressBar = findViewById(R.id.home_progressBar);
         home_progressBar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,7 +138,7 @@ public class HomePage extends AppCompatActivity {
                 Intent intent = new Intent(HomePage.this, ProgressBar.class);
                 startActivity(intent);
             }
-        });
+        }); */
 
         // Media player item onClick
         home_mediaPlayer = findViewById(R.id.home_mediaPlayer);

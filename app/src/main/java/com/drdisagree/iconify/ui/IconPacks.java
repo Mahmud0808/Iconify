@@ -188,7 +188,7 @@ public class IconPacks extends AppCompatActivity {
                         enable.setVisibility(View.GONE);
                         disable.setVisibility(View.VISIBLE);
                         refreshBackground();
-                        Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Applied", Toast.LENGTH_SHORT).show();
                     }
                 }, 1000);
             }
@@ -224,7 +224,7 @@ public class IconPacks extends AppCompatActivity {
                         disable.setVisibility(View.GONE);
                         enable.setVisibility(View.VISIBLE);
                         refreshBackground();
-                        Toast.makeText(Iconify.getAppContext(), "Disabled", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Disabled", Toast.LENGTH_SHORT).show();
                     }
                 }, 1000);
             }

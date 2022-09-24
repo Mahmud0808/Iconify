@@ -122,7 +122,7 @@ public class Extras extends AppCompatActivity {
                 Thread thread = new Thread(runnable);
                 thread.start();
 
-                Toast.makeText(Iconify.getAppContext(), (finalUiCornerRadius[0] + 8 + "dp Applied"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), (finalUiCornerRadius[0] + 8 + "dp Applied"), Toast.LENGTH_SHORT).show();
             }
         });
 

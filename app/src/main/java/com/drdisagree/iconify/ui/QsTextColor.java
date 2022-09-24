@@ -93,7 +93,7 @@ public class QsTextColor extends AppCompatActivity {
                 Thread thread = new Thread(runnable);
                 thread.start();
 
-                Toast.makeText(Iconify.getAppContext(), (finalTextSize[0] + 10 + "sp Applied"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), (finalTextSize[0] + 10 + "sp Applied"), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -149,7 +149,7 @@ public class QsTextColor extends AppCompatActivity {
                 Thread thread = new Thread(runnable);
                 thread.start();
 
-                Toast.makeText(Iconify.getAppContext(), (finalIconSize[0] + 10 + "dp Applied"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), (finalIconSize[0] + 10 + "dp Applied"), Toast.LENGTH_SHORT).show();
             }
         });
 
