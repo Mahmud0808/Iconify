@@ -12,17 +12,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
-import java.util.Objects;
 
 public class ModuleUtil {
 
     public static final int BYTE_ACCESS_RATE = 8192;
-    public static final String MAGISK_DIR = RootUtil.getMagiskDirectory();
+    public static final String MAGISK_DIR = "/data/adb/modules";
+    public static final String MODULE_DIR = "/data/adb/modules/Iconify";
     public static final String OVERLAY_DIR = "/data/adb/modules/Iconify/system/product/overlay";
 
     public static void handleModule(final Context context) throws IOException {
         if (moduleExists()) {
-            Shell.cmd("rm -rf " + MAGISK_DIR).exec();
+            Shell.cmd("rm -rf " + MODULE_DIR).exec();
         }
         installModule(context);
     }
@@ -33,29 +33,50 @@ public class ModuleUtil {
 
         Log.e("ModuleCheck", "Magisk module does not exist, creating!");
         // Clean temporary directory
-        Shell.cmd("mkdir -p " + MAGISK_DIR).exec();
-        Shell.cmd("printf 'id=Iconify\nname=Iconify\nversion=" + BuildConfig.VERSION_NAME + "\nversionCode=" + BuildConfig.VERSION_CODE + "\nauthor=@DrDisagree\ndescription=Systemless module for Iconify.\n' > " + MAGISK_DIR + "/module.prop").exec();
-        Shell.cmd("touch " + MAGISK_DIR + "/auto_mount").exec();
-        Shell.cmd("mkdir -p " + MAGISK_DIR + "/system").exec();
-        Shell.cmd("mkdir -p " + MAGISK_DIR + "/system/product").exec();
-        Shell.cmd("mkdir -p " + MAGISK_DIR + "/system/product/overlay").exec();
+        Shell.cmd("mkdir -p " + MODULE_DIR).exec();
+        Shell.cmd("printf 'id=Iconify\nname=Iconify\nversion=" + BuildConfig.VERSION_NAME + "\nversionCode=" + BuildConfig.VERSION_CODE + "\nauthor=@DrDisagree\ndescription=Systemless module for Iconify.\n' > " + MODULE_DIR + "/module.prop").exec();
+        Shell.cmd("mkdir -p " + MODULE_DIR + "/common").exec();
+        Shell.cmd("printf '#!/system/bin/sh\n" +
+                "# Do NOT assume where your module will be located.\n" +
+                "# ALWAYS use $MODDIR if you need to know where this script\n" +
+                "# and module is placed.\n" +
+                "# This will make sure your module will still work\n" +
+                "# if Magisk change its mount point in the future\n" +
+                "# This script will be executed in late_start service mode\n' > " + MODULE_DIR + "/common/post-fs-data.sh").exec();
+        Shell.cmd("printf '#!/system/bin/sh\n" +
+                "# Do NOT assume where your module will be located.\n" +
+                "# ALWAYS use $MODDIR if you need to know where this script\n" +
+                "# and module is placed.\n" +
+                "# This will make sure your module will still work\n" +
+                "# if Magisk change its mount point in the future\n" +
+                "MODDIR=${0%%/*}\n" +
+                "# This script will be executed in late_start service mode\n' > " + MODULE_DIR + "/common/service.sh").exec();
+        Shell.cmd("touch " + MODULE_DIR + "/common/system.prop").exec();
+        Shell.cmd("mkdir -p " + MODULE_DIR + "/system").exec();
+        Shell.cmd("mkdir -p " + MODULE_DIR + "/system/product").exec();
+        Shell.cmd("mkdir -p " + MODULE_DIR + "/system/product/overlay").exec();
+        Shell.cmd("printf '#!/system/bin/sh\n" +
+                "# Please do not hardcode /magisk/modname/... ; instead, please use $MODDIR/...\n" +
+                "# This will make your scripts compatible even if Magisk change its mount point in the future\n" +
+                "MODDIR=${0%%/*}\n" +
+                "\n" +
+                "# This script will be executed in late_start service mode\n" +
+                "# More info in the main Magisk thread\n' > " + MODULE_DIR + "/service.sh").exec();
         Log.e("ModuleCheck", "Magisk module successfully created!");
 
-        copyAssets(context);
+        copyOverlays(context);
     }
 
     public static boolean moduleExists() {
-        if (Objects.equals(MAGISK_DIR, "/data/adb/modules/Iconify")) {
-            List<String> lines = Shell.cmd("test -d " + MAGISK_DIR + " && echo '1'").exec().getOut();
-            for (String line : lines) {
-                if (line.contains("1"))
-                    return true;
-            }
+        List<String> lines = Shell.cmd("test -d " + MODULE_DIR + " && echo '1'").exec().getOut();
+        for (String line : lines) {
+            if (line.contains("1"))
+                return true;
         }
         return false;
     }
 
-    static void copyAssets(Context context) {
+    static void copyOverlays(Context context) {
 
         String ext = "apk";
         String[] overlays = new String[0];
