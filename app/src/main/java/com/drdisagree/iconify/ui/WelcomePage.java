@@ -18,7 +18,6 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.utils.OverlayUtils;
 import com.drdisagree.iconify.utils.RootUtil;
-import com.topjohnwu.superuser.Shell;
 
 import java.io.IOException;
 
@@ -27,11 +26,6 @@ public class WelcomePage extends AppCompatActivity {
     private final int versionCode = BuildConfig.VERSION_CODE;
     private final String versionName = BuildConfig.VERSION_NAME;
     private LinearLayout spinner;
-
-    static {
-        Shell.enableVerboseLogging = BuildConfig.DEBUG;
-        Shell.setDefaultBuilder(Shell.Builder.create().setFlags(Shell.FLAG_REDIRECT_STDERR).setTimeout(10));
-    }
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -52,89 +46,87 @@ public class WelcomePage extends AppCompatActivity {
 
         // Check for root onClick
         checkRoot.setOnClickListener(v -> {
-            Shell.getShell(shell -> {
-                if (RootUtil.isDeviceRooted()) {
-                    if (RootUtil.isMagiskInstalled()) {
-                        if ((PrefConfig.loadPrefInt(this, "versionCode") < versionCode) || !OverlayUtils.moduleExists()) {
+            if (RootUtil.isDeviceRooted()) {
+                if (RootUtil.isMagiskInstalled()) {
+                    if ((PrefConfig.loadPrefInt(this, "versionCode") < versionCode) || !OverlayUtils.moduleExists()) {
 
-                            // Show spinner
-                            spinner.setVisibility(View.VISIBLE);
+                        // Show spinner
+                        spinner.setVisibility(View.VISIBLE);
 
-                            // Block touch
-                            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        // Block touch
+                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                            Runnable runnable = new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        OverlayUtils.handleModule(Iconify.getAppContext());
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            // Hide spinner
-                                            spinner.setVisibility(View.GONE);
-                                            // Unblock touch
-                                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                                            if (PrefConfig.loadPrefInt(Iconify.getAppContext(), "versionCode") != 0)
-                                                Toast.makeText(getApplicationContext(), "Reboot to Apply Changes", Toast.LENGTH_LONG).show();
-                                        }
-                                    });
+                        Runnable runnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    OverlayUtils.handleModule(Iconify.getAppContext());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
                                 }
-                            };
-                            Thread thread = new Thread(runnable);
-                            thread.start();
-                        }
-                        if (OverlayUtils.overlayExists()) {
-                            PrefConfig.savePrefInt(this, "versionCode", versionCode);
-                            Intent intent = new Intent(WelcomePage.this, HomePage.class);
-                            startActivity(intent);
-                            finish();
-                        } else {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        // Hide spinner
+                                        spinner.setVisibility(View.GONE);
+                                        // Unblock touch
+                                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                            // Show spinner
-                            spinner.setVisibility(View.VISIBLE);
-
-                            // Block touch
-                            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                            Runnable runnable = new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        OverlayUtils.handleModule(Iconify.getAppContext());
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
+                                        if (PrefConfig.loadPrefInt(Iconify.getAppContext(), "versionCode") != 0)
+                                            Toast.makeText(getApplicationContext(), "Reboot to Apply Changes", Toast.LENGTH_LONG).show();
                                     }
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            // Hide spinner
-                                            spinner.setVisibility(View.GONE);
-                                            // Unblock touch
-                                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                                            warn.setVisibility(View.VISIBLE);
-                                            warning.setText("Reboot your device first!");
-                                        }
-                                    });
-                                }
-                            };
-                            Thread thread = new Thread(runnable);
-                            thread.start();
-                        }
+                                });
+                            }
+                        };
+                        Thread thread = new Thread(runnable);
+                        thread.start();
+                    }
+                    if (OverlayUtils.overlayExists()) {
+                        PrefConfig.savePrefInt(this, "versionCode", versionCode);
+                        Intent intent = new Intent(WelcomePage.this, HomePage.class);
+                        startActivity(intent);
+                        finish();
                     } else {
-                        warn.setVisibility(View.VISIBLE);
-                        warning.setText("Use Magisk to root your device!");
+
+                        // Show spinner
+                        spinner.setVisibility(View.VISIBLE);
+
+                        // Block touch
+                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                        Runnable runnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    OverlayUtils.handleModule(Iconify.getAppContext());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        // Hide spinner
+                                        spinner.setVisibility(View.GONE);
+                                        // Unblock touch
+                                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                        warn.setVisibility(View.VISIBLE);
+                                        warning.setText("Reboot your device first!");
+                                    }
+                                });
+                            }
+                        };
+                        Thread thread = new Thread(runnable);
+                        thread.start();
                     }
                 } else {
                     warn.setVisibility(View.VISIBLE);
-                    warning.setText("Looks like your device is not rooted!");
+                    warning.setText("Use Magisk to root your device!");
                 }
-            });
+            } else {
+                warn.setVisibility(View.VISIBLE);
+                warning.setText("Looks like your device is not rooted!");
+            }
         });
     }
 }

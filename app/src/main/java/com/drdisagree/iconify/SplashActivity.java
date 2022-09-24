@@ -21,6 +21,11 @@ public class SplashActivity extends AppCompatActivity {
     private final int versionCode = BuildConfig.VERSION_CODE;
     private final String versionName = BuildConfig.VERSION_NAME;
 
+    static {
+        Shell.enableVerboseLogging = BuildConfig.DEBUG;
+        Shell.setDefaultBuilder(Shell.Builder.create().setFlags(Shell.FLAG_REDIRECT_STDERR).setTimeout(10));
+    }
+
     public static SplashActivity getContext() {
         return mContext;
     }
@@ -28,17 +33,20 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext = this;
 
-        Intent intent;
+        Shell.getShell(shell -> {
+            mContext = this;
 
-        if (RootUtil.isDeviceRooted() && RootUtil.isMagiskInstalled() && OverlayUtils.moduleExists() && OverlayUtils.overlayExists() && (versionCode == PrefConfig.loadPrefInt(this, "versionCode"))) {
-            intent = new Intent(SplashActivity.this, HomePage.class);
-        } else {
-            intent = new Intent(SplashActivity.this, WelcomePage.class);
-        }
+            Intent intent;
 
-        startActivity(intent);
-        finish();
+            if (RootUtil.isDeviceRooted() && RootUtil.isMagiskInstalled() && OverlayUtils.moduleExists() && OverlayUtils.overlayExists() && (versionCode == PrefConfig.loadPrefInt(this, "versionCode"))) {
+                intent = new Intent(SplashActivity.this, HomePage.class);
+            } else {
+                intent = new Intent(SplashActivity.this, WelcomePage.class);
+            }
+
+            startActivity(intent);
+            finish();
+        });
     }
 }
