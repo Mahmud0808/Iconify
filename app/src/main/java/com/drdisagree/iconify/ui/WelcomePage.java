@@ -28,6 +28,11 @@ public class WelcomePage extends AppCompatActivity {
     private final String versionName = BuildConfig.VERSION_NAME;
     private LinearLayout spinner;
 
+    static {
+        Shell.enableVerboseLogging = BuildConfig.DEBUG;
+        Shell.setDefaultBuilder(Shell.Builder.create().setFlags(Shell.FLAG_REDIRECT_STDERR).setTimeout(10));
+    }
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
