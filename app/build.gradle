@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.drdisagree.iconify"
-        minSdk 29
+        minSdk 31
         targetSdk 32
         versionCode 1
         versionName "v1.0"
