@@ -114,8 +114,12 @@
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_shadedlayer_enabled.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_surround_disabled.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/qs_shape_surround_enabled.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/seek_background.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/seek_bar_progress.xml" value="0.16" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/seek_bar_progress_fill.xml" value="0.16" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/seek_progress.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/seek_thumb.xml" value="0.2105" />
+        <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/seekbar.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/seekbar_progress.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/seekbar_thumb.xml" value="0.2105" />
         <entry key="..\:/AndroidStudioProjects/Iconify/app/src/main/res/drawable-v24/switch_bg.xml" value="0.195" />

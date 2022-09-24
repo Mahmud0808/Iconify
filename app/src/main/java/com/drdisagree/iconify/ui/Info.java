@@ -21,6 +21,7 @@ import com.drdisagree.iconify.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.Objects;
+import com.drdisagree.iconify.Iconify;
 
 public class Info extends AppCompatActivity {
 
@@ -46,7 +47,7 @@ public class Info extends AppCompatActivity {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("Iconify Version", "Iconify " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")");
                 clipboard.setPrimaryClip(clip);
-                Toast toast = Toast.makeText(getApplicationContext(), "Copied to Clipboard", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(Iconify.getAppContext(), "Copied to Clipboard", Toast.LENGTH_SHORT);
                 toast.show();
             }
         });

@@ -22,6 +22,7 @@ import com.drdisagree.iconify.installer.IconInstaller;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.Objects;
+import com.drdisagree.iconify.Iconify;
 
 public class IconPacks extends AppCompatActivity {
 
@@ -139,7 +140,7 @@ public class IconPacks extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 refreshLayout(layout);
-                if (!PrefConfig.loadPrefBool(getApplicationContext(), key)) {
+                if (!PrefConfig.loadPrefBool(Iconify.getAppContext(), key)) {
                     disable.setVisibility(View.GONE);
                     if (enable.getVisibility() == View.VISIBLE)
                         enable.setVisibility(View.GONE);
@@ -173,7 +174,7 @@ public class IconPacks extends AppCompatActivity {
                 };
                 Thread thread = new Thread(runnable);
                 thread.start();
-                PrefConfig.savePrefBool(getApplicationContext(), key, true);
+                PrefConfig.savePrefBool(Iconify.getAppContext(), key, true);
                 // Wait 1 second
                 spinner.postDelayed(new Runnable() {
                     public void run() {
@@ -187,7 +188,7 @@ public class IconPacks extends AppCompatActivity {
                         enable.setVisibility(View.GONE);
                         disable.setVisibility(View.VISIBLE);
                         refreshBackground();
-                        Toast.makeText(getApplicationContext(), "Applied", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
                     }
                 }, 1000);
             }
@@ -209,7 +210,7 @@ public class IconPacks extends AppCompatActivity {
                 };
                 Thread thread = new Thread(runnable);
                 thread.start();
-                PrefConfig.savePrefBool(getApplicationContext(), key, false);
+                PrefConfig.savePrefBool(Iconify.getAppContext(), key, false);
                 // Wait 1 second
                 spinner.postDelayed(new Runnable() {
                     public void run() {
@@ -223,7 +224,7 @@ public class IconPacks extends AppCompatActivity {
                         disable.setVisibility(View.GONE);
                         enable.setVisibility(View.VISIBLE);
                         refreshBackground();
-                        Toast.makeText(getApplicationContext(), "Disabled", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), "Disabled", Toast.LENGTH_SHORT).show();
                     }
                 }, 1000);
             }
@@ -233,27 +234,27 @@ public class IconPacks extends AppCompatActivity {
     // Function to disable other packs if one is applied
     private void disable_others(String pack) {
         if (Objects.equals(pack, AURORA_KEY)) {
-            PrefConfig.savePrefBool(getApplicationContext(), GRADICON_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), LORN_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), PLUMPY_KEY, false);
+            PrefConfig.savePrefBool(Iconify.getAppContext(), GRADICON_KEY, false);
+            PrefConfig.savePrefBool(Iconify.getAppContext(), LORN_KEY, false);
+            PrefConfig.savePrefBool(Iconify.getAppContext(), PLUMPY_KEY, false);
         } else if (Objects.equals(pack, GRADICON_KEY)) {
-            PrefConfig.savePrefBool(getApplicationContext(), AURORA_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), LORN_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), PLUMPY_KEY, false);
+            PrefConfig.savePrefBool(Iconify.getAppContext(), AURORA_KEY, false);
+            PrefConfig.savePrefBool(Iconify.getAppContext(), LORN_KEY, false);
+            PrefConfig.savePrefBool(Iconify.getAppContext(), PLUMPY_KEY, false);
         } else if (Objects.equals(pack, LORN_KEY)) {
-            PrefConfig.savePrefBool(getApplicationContext(), AURORA_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), GRADICON_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), PLUMPY_KEY, false);
+            PrefConfig.savePrefBool(Iconify.getAppContext(), AURORA_KEY, false);
+            PrefConfig.savePrefBool(Iconify.getAppContext(), GRADICON_KEY, false);
+            PrefConfig.savePrefBool(Iconify.getAppContext(), PLUMPY_KEY, false);
         } else if (Objects.equals(pack, PLUMPY_KEY)) {
-            PrefConfig.savePrefBool(getApplicationContext(), AURORA_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), GRADICON_KEY, false);
-            PrefConfig.savePrefBool(getApplicationContext(), LORN_KEY, false);
+            PrefConfig.savePrefBool(Iconify.getAppContext(), AURORA_KEY, false);
+            PrefConfig.savePrefBool(Iconify.getAppContext(), GRADICON_KEY, false);
+            PrefConfig.savePrefBool(Iconify.getAppContext(), LORN_KEY, false);
         }
     }
 
     // Function to change applied pack's bg
     private void checkIfApplied(LinearLayout layout, int icon) {
-        if (PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentIPAS" + icon + ".overlay") && PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentIPSUI" + icon + ".overlay")) {
+        if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentIPAS" + icon + ".overlay") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentIPSUI" + icon + ".overlay")) {
             background(layout.getId(), R.drawable.container_selected);
         } else {
             background(layout.getId(), R.drawable.container);

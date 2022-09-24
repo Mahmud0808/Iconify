@@ -16,6 +16,7 @@ import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.Objects;
+import com.drdisagree.iconify.Iconify;
 
 public class MediaPlayer extends AppCompatActivity {
 
@@ -38,7 +39,7 @@ public class MediaPlayer extends AppCompatActivity {
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch mp_system = findViewById(R.id.mp_system);
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch mp_pitch_black = findViewById(R.id.mp_pitch_black);
 
-        mp_accent.setChecked(PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentMPA.overlay"));
+        mp_accent.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentMPA.overlay"));
 
         mp_accent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -46,20 +47,20 @@ public class MediaPlayer extends AppCompatActivity {
                     mp_system.setChecked(false);
                     mp_pitch_black.setChecked(false);
                     OverlayUtils.disableOverlay("IconifyComponentMPS.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPS.overlay", false);
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentMPS.overlay", false);
                     OverlayUtils.disableOverlay("IconifyComponentMPB.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPB.overlay", false);
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentMPB.overlay", false);
                     OverlayUtils.enableOverlay("IconifyComponentMPA.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPA.overlay", true);
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentMPA.overlay", true);
                 } else {
                     OverlayUtils.disableOverlay("IconifyComponentMPA.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPA.overlay", false);
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentMPA.overlay", false);
                 }
                 refreshPreview();
             }
         });
 
-        mp_system.setChecked(PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentMPS.overlay"));
+        mp_system.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentMPS.overlay"));
 
         mp_system.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -67,20 +68,20 @@ public class MediaPlayer extends AppCompatActivity {
                     mp_accent.setChecked(false);
                     mp_pitch_black.setChecked(false);
                     OverlayUtils.disableOverlay("IconifyComponentMPA.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPA.overlay", false);
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentMPA.overlay", false);
                     OverlayUtils.disableOverlay("IconifyComponentMPB.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPB.overlay", false);
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentMPB.overlay", false);
                     OverlayUtils.enableOverlay("IconifyComponentMPS.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPS.overlay", true);
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentMPS.overlay", true);
                 } else {
                     OverlayUtils.disableOverlay("IconifyComponentMPS.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPS.overlay", false);
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentMPS.overlay", false);
                 }
                 refreshPreview();
             }
         });
 
-        mp_pitch_black.setChecked(PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentMPB.overlay"));
+        mp_pitch_black.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentMPB.overlay"));
 
         mp_pitch_black.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -88,14 +89,14 @@ public class MediaPlayer extends AppCompatActivity {
                     mp_accent.setChecked(false);
                     mp_system.setChecked(false);
                     OverlayUtils.disableOverlay("IconifyComponentMPA.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPA.overlay", false);
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentMPA.overlay", false);
                     OverlayUtils.disableOverlay("IconifyComponentMPS.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPS.overlay", false);
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentMPS.overlay", false);
                     OverlayUtils.enableOverlay("IconifyComponentMPB.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPB.overlay", true);
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentMPB.overlay", true);
                 } else {
                     OverlayUtils.disableOverlay("IconifyComponentMPB.overlay");
-                    PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentMPB.overlay", false);
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentMPB.overlay", false);
                 }
                 refreshPreview();
             }
@@ -107,11 +108,11 @@ public class MediaPlayer extends AppCompatActivity {
         ImageView preview_system = findViewById(R.id.media_player_preview_system);
         ImageView preview_black = findViewById(R.id.media_player_preview_black);
 
-        if (PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentMPA.overlay")) {
+        if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentMPA.overlay")) {
             preview_accent.setVisibility(View.VISIBLE);
             preview_system.setVisibility(View.GONE);
             preview_black.setVisibility(View.GONE);
-        } else if (PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentMPB.overlay")) {
+        } else if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentMPB.overlay")) {
             preview_black.setVisibility(View.VISIBLE);
             preview_accent.setVisibility(View.GONE);
             preview_system.setVisibility(View.GONE);

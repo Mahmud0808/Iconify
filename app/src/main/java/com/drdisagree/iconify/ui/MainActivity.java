@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 try {
-                                    OverlayUtils.handleModule(getApplicationContext());
+                                    OverlayUtils.handleModule(Iconify.getAppContext());
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                                         if (PrefConfig.loadPrefInt(Iconify.getAppContext(), "versionCode") != 0)
-                                            Toast.makeText(getApplicationContext(), "Reboot to Apply Changes", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(Iconify.getAppContext(), "Reboot to Apply Changes", Toast.LENGTH_LONG).show();
                                     }
                                 });
                             }
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 try {
-                                    OverlayUtils.handleModule(getApplicationContext());
+                                    OverlayUtils.handleModule(Iconify.getAppContext());
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }

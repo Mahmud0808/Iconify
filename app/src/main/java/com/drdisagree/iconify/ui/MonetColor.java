@@ -20,6 +20,7 @@ import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
 import java.util.Objects;
+import com.drdisagree.iconify.Iconify;
 
 public class MonetColor extends AppCompatActivity {
 
@@ -43,7 +44,7 @@ public class MonetColor extends AppCompatActivity {
         // Apply Accent
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_monet_color = findViewById(R.id.apply_monet_color);
 
-        apply_monet_color.setChecked(PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentAMC.overlay"));
+        apply_monet_color.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay"));
 
         apply_monet_color.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -53,7 +54,7 @@ public class MonetColor extends AppCompatActivity {
                         @Override
                         public void run() {
                             OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
-                            PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentAMC.overlay", true);
+                            PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay", true);
                             ApplyOnBoot.applyColors();
                         }
                     };
@@ -64,13 +65,13 @@ public class MonetColor extends AppCompatActivity {
                         @Override
                         public void run() {
                             OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
-                            PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentAMC.overlay", false);
+                            PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay", false);
                             OverlayUtils.disableOverlay("com.android.shell:colorAccentPrimary");
-                            PrefConfig.savePrefBool(getApplicationContext(), "fabricatecolorAccentPrimary", false);
-                            PrefConfig.savePrefSettings(getApplicationContext(), "colorAccentPrimary", "null");
+                            PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatecolorAccentPrimary", false);
+                            PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
                             OverlayUtils.disableOverlay("com.android.shell:colorAccentSecondary");
-                            PrefConfig.savePrefBool(getApplicationContext(), "fabricatecolorAccentSecondary", false);
-                            PrefConfig.savePrefSettings(getApplicationContext(), "colorAccentSecondary", "null");
+                            PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatecolorAccentSecondary", false);
+                            PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
                         }
                     };
                     Thread thread = new Thread(runnable);
@@ -81,7 +82,7 @@ public class MonetColor extends AppCompatActivity {
 
         // Color Picker
         LinearLayout custom_color_picker = findViewById(R.id.custom_color_picker);
-        if (PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentAMC.overlay"))
+        if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay"))
             custom_color_picker.setVisibility(View.GONE);
         else
             custom_color_picker.setVisibility(View.VISIBLE);

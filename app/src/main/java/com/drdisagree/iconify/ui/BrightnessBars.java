@@ -21,6 +21,7 @@ import com.drdisagree.iconify.installer.BrightnessInstaller;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.Objects;
+import com.drdisagree.iconify.Iconify;
 
 public class BrightnessBars extends AppCompatActivity {
 
@@ -236,7 +237,7 @@ public class BrightnessBars extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 refreshLayout(layout);
-                if (!PrefConfig.loadPrefBool(getApplicationContext(), key)) {
+                if (!PrefConfig.loadPrefBool(Iconify.getAppContext(), key)) {
                     disable.setVisibility(View.GONE);
                     if (enable.getVisibility() == View.VISIBLE)
                         enable.setVisibility(View.GONE);
@@ -270,7 +271,7 @@ public class BrightnessBars extends AppCompatActivity {
                 };
                 Thread thread = new Thread(runnable);
                 thread.start();
-                PrefConfig.savePrefBool(getApplicationContext(), key, true);
+                PrefConfig.savePrefBool(Iconify.getAppContext(), key, true);
                 // Wait 1 second
                 spinner.postDelayed(new Runnable() {
                     public void run() {
@@ -284,7 +285,7 @@ public class BrightnessBars extends AppCompatActivity {
                         enable.setVisibility(View.GONE);
                         disable.setVisibility(View.VISIBLE);
                         refreshBackground();
-                        Toast.makeText(getApplicationContext(), "Applied", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
                     }
                 }, 1000);
             }
@@ -306,7 +307,7 @@ public class BrightnessBars extends AppCompatActivity {
                 };
                 Thread thread = new Thread(runnable);
                 thread.start();
-                PrefConfig.savePrefBool(getApplicationContext(), key, false);
+                PrefConfig.savePrefBool(Iconify.getAppContext(), key, false);
                 // Wait 1 second
                 spinner.postDelayed(new Runnable() {
                     public void run() {
@@ -320,7 +321,7 @@ public class BrightnessBars extends AppCompatActivity {
                         disable.setVisibility(View.GONE);
                         enable.setVisibility(View.VISIBLE);
                         refreshBackground();
-                        Toast.makeText(getApplicationContext(), "Disabled", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), "Disabled", Toast.LENGTH_SHORT).show();
                     }
                 }, 1000);
             }
@@ -329,20 +330,20 @@ public class BrightnessBars extends AppCompatActivity {
 
     // Function to disable other packs if one is applied
     private void disable_others(String pack) {
-        PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_CLIP_KEY, pack.equals(ROUNDED_CLIP_KEY));
-        PrefConfig.savePrefBool(getApplicationContext(), ROUNDED_BAR_KEY, pack.equals(ROUNDED_BAR_KEY));
-        PrefConfig.savePrefBool(getApplicationContext(), DOUBLE_LAYER_KEY, pack.equals(DOUBLE_LAYER_KEY));
-        PrefConfig.savePrefBool(getApplicationContext(), SHADED_LAYER_KEY, pack.equals(SHADED_LAYER_KEY));
-        PrefConfig.savePrefBool(getApplicationContext(), OUTLINE_KEY, pack.equals(OUTLINE_KEY));
-        PrefConfig.savePrefBool(getApplicationContext(), LEAFY_OUTLINE_KEY, pack.equals(LEAFY_OUTLINE_KEY));
-        PrefConfig.savePrefBool(getApplicationContext(), NEUMORPH_KEY, pack.equals(NEUMORPH_KEY));
-        PrefConfig.savePrefBool(getApplicationContext(), INLINE_KEY, pack.equals(INLINE_KEY));
-        PrefConfig.savePrefBool(getApplicationContext(), NEUMORPH_OUTLINE_KEY, pack.equals(NEUMORPH_OUTLINE_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), ROUNDED_CLIP_KEY, pack.equals(ROUNDED_CLIP_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), ROUNDED_BAR_KEY, pack.equals(ROUNDED_BAR_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), DOUBLE_LAYER_KEY, pack.equals(DOUBLE_LAYER_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), SHADED_LAYER_KEY, pack.equals(SHADED_LAYER_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), OUTLINE_KEY, pack.equals(OUTLINE_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), LEAFY_OUTLINE_KEY, pack.equals(LEAFY_OUTLINE_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), NEUMORPH_KEY, pack.equals(NEUMORPH_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), INLINE_KEY, pack.equals(INLINE_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), NEUMORPH_OUTLINE_KEY, pack.equals(NEUMORPH_OUTLINE_KEY));
     }
 
     // Function to change applied pack's bg
     private void checkIfApplied(LinearLayout layout, int brightness) {
-        if (PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentBB" + brightness + ".overlay")) {
+        if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentBB" + brightness + ".overlay")) {
             background(layout.getId(), R.drawable.container_selected);
         } else {
             background(layout.getId(), R.drawable.container);

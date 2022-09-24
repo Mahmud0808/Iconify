@@ -17,6 +17,7 @@ import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.Objects;
+import com.drdisagree.iconify.Iconify;
 
 public class ColorPicker extends AppCompatActivity implements ColorPickerDialogListener {
 
@@ -87,8 +88,8 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         ColorPickerDialog.Builder colorPickerDialogPrimary = ColorPickerDialog.newBuilder();
         ColorPickerDialog.Builder colorPickerDialogSecondary = ColorPickerDialog.newBuilder();
 
-        colorPickerDialogPrimary.setDialogStyle(R.style.ColorPicker).setColor(ContextCompat.getColor(getApplicationContext(), R.color.holo_blue_light)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false);
-        colorPickerDialogSecondary.setDialogStyle(R.style.ColorPicker).setColor(ContextCompat.getColor(getApplicationContext(), R.color.holo_green_light)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(false);
+        colorPickerDialogPrimary.setDialogStyle(R.style.ColorPicker).setColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.holo_blue_light)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false);
+        colorPickerDialogSecondary.setDialogStyle(R.style.ColorPicker).setColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.holo_green_light)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(false);
 
         LinearLayout preview_coloraccentprimary = findViewById(R.id.preview_coloraccentprimary);
         preview_coloraccentprimary.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +119,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         String accent = String.valueOf(color);
         switch (dialogId) {
             case 1:
-                PrefConfig.savePrefSettings(getApplicationContext(), "colorAccentPrimary", accent);
+                PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", accent);
                 Runnable runnable1 = new Runnable() {
                     @Override
                     public void run() {
@@ -130,7 +131,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
                 thread1.start();
                 break;
             case 2:
-                PrefConfig.savePrefSettings(getApplicationContext(), "colorAccentSecondary", accent);
+                PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", accent);
                 Runnable runnable2 = new Runnable() {
                     @Override
                     public void run() {

@@ -60,11 +60,11 @@ public class HomePage extends AppCompatActivity {
             public void run() {
                 List<String> EnabledOverlays = OverlayUtils.getEnabledOverlayList();
                 for (String overlay : EnabledOverlays)
-                    PrefConfig.savePrefBool(getApplicationContext(), overlay, true);
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), overlay, true);
 
                 List<String> EnabledFabricatedOverlays = FabricatedOverlay.getEnabledOverlayList();
                 for (String overlay : EnabledFabricatedOverlays)
-                    PrefConfig.savePrefBool(getApplicationContext(), "fabricated" + overlay, true);
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricated" + overlay, true);
             }
         };
         Thread thread1 = new Thread(runnable1);
@@ -74,7 +74,7 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void run() {
                 if (!isServiceRunning)
-                    startService(new Intent(getApplicationContext(), BackgroundService.class));
+                    startService(new Intent(Iconify.getAppContext(), BackgroundService.class));
             }
         };
         Thread thread2 = new Thread(runnable2);

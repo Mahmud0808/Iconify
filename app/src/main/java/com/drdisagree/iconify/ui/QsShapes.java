@@ -24,6 +24,7 @@ import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.Objects;
+import com.drdisagree.iconify.Iconify;
 
 public class QsShapes extends AppCompatActivity {
 
@@ -332,7 +333,7 @@ public class QsShapes extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 refreshLayout(layout);
-                if (!PrefConfig.loadPrefBool(getApplicationContext(), key)) {
+                if (!PrefConfig.loadPrefBool(Iconify.getAppContext(), key)) {
                     disable.setVisibility(View.GONE);
                     if (enable.getVisibility() == View.VISIBLE)
                         enable.setVisibility(View.GONE);
@@ -364,16 +365,16 @@ public class QsShapes extends AppCompatActivity {
                         QsShapeInstaller.install_pack(index);
                         if (hidelabel) {
                             OverlayUtils.enableOverlay("IconifyComponentQSHL.overlay");
-                            PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentQSHL.overlay", true);
+                            PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", true);
                         } else {
                             OverlayUtils.disableOverlay("IconifyComponentQSHL.overlay");
-                            PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentQSHL.overlay", false);
+                            PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", false);
                         }
                     }
                 };
                 Thread thread = new Thread(runnable);
                 thread.start();
-                PrefConfig.savePrefBool(getApplicationContext(), key, true);
+                PrefConfig.savePrefBool(Iconify.getAppContext(), key, true);
                 // Wait 1 second
                 spinner.postDelayed(new Runnable() {
                     public void run() {
@@ -387,7 +388,7 @@ public class QsShapes extends AppCompatActivity {
                         enable.setVisibility(View.GONE);
                         disable.setVisibility(View.VISIBLE);
                         refreshBackground();
-                        Toast.makeText(getApplicationContext(), "Applied", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
                     }
                 }, 1000);
             }
@@ -407,13 +408,13 @@ public class QsShapes extends AppCompatActivity {
                         QsShapeInstaller.disable_pack(index);
                         if (hidelabel) {
                             OverlayUtils.disableOverlay("IconifyComponentQSHL.overlay");
-                            PrefConfig.savePrefBool(getApplicationContext(), "IconifyComponentQSHL.overlay", false);
+                            PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", false);
                         }
                     }
                 };
                 Thread thread = new Thread(runnable);
                 thread.start();
-                PrefConfig.savePrefBool(getApplicationContext(), key, false);
+                PrefConfig.savePrefBool(Iconify.getAppContext(), key, false);
                 // Wait 1 second
                 spinner.postDelayed(new Runnable() {
                     public void run() {
@@ -427,7 +428,7 @@ public class QsShapes extends AppCompatActivity {
                         disable.setVisibility(View.GONE);
                         enable.setVisibility(View.VISIBLE);
                         refreshBackground();
-                        Toast.makeText(getApplicationContext(), "Disabled", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), "Disabled", Toast.LENGTH_SHORT).show();
                     }
                 }, 1000);
             }
@@ -436,20 +437,20 @@ public class QsShapes extends AppCompatActivity {
 
     // Function to disable other packs if one is applied
     private void disable_others(String pack) {
-        PrefConfig.savePrefBool(getApplicationContext(), DEFAULT_KEY, pack.equals(DEFAULT_KEY));
-        PrefConfig.savePrefBool(getApplicationContext(), DOUBLE_LAYER_KEY, pack.equals(DOUBLE_LAYER_KEY));
-        PrefConfig.savePrefBool(getApplicationContext(), SHADED_LAYER_KEY, pack.equals(SHADED_LAYER_KEY));
-        PrefConfig.savePrefBool(getApplicationContext(), OUTLINE_KEY, pack.equals(OUTLINE_KEY));
-        PrefConfig.savePrefBool(getApplicationContext(), LEAFY_OUTLINE_KEY, pack.equals(LEAFY_OUTLINE_KEY));
-        PrefConfig.savePrefBool(getApplicationContext(), NEUMORPH_KEY, pack.equals(NEUMORPH_KEY));
-        PrefConfig.savePrefBool(getApplicationContext(), SURROUND_KEY, pack.equals(SURROUND_KEY));
-        PrefConfig.savePrefBool(getApplicationContext(), BOOKMARK_KEY, pack.equals(BOOKMARK_KEY));
-        PrefConfig.savePrefBool(getApplicationContext(), NEUMORPH_OUTLINE_KEY, pack.equals(NEUMORPH_OUTLINE_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), DEFAULT_KEY, pack.equals(DEFAULT_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), DOUBLE_LAYER_KEY, pack.equals(DOUBLE_LAYER_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), SHADED_LAYER_KEY, pack.equals(SHADED_LAYER_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), OUTLINE_KEY, pack.equals(OUTLINE_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), LEAFY_OUTLINE_KEY, pack.equals(LEAFY_OUTLINE_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), NEUMORPH_KEY, pack.equals(NEUMORPH_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), SURROUND_KEY, pack.equals(SURROUND_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), BOOKMARK_KEY, pack.equals(BOOKMARK_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), NEUMORPH_OUTLINE_KEY, pack.equals(NEUMORPH_OUTLINE_KEY));
     }
 
     // Function to change applied pack's bg
     private void checkIfApplied(LinearLayout layout, int qsshape) {
-        if (PrefConfig.loadPrefBool(getApplicationContext(), "IconifyComponentQSS" + qsshape + ".overlay")) {
+        if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentQSS" + qsshape + ".overlay")) {
             background(layout.getId(), R.drawable.container_selected);
         } else {
             background(layout.getId(), R.drawable.container);
