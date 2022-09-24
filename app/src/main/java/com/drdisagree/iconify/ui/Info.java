@@ -21,7 +21,6 @@ import com.drdisagree.iconify.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.Objects;
-import com.drdisagree.iconify.Iconify;
 
 public class Info extends AppCompatActivity {
 

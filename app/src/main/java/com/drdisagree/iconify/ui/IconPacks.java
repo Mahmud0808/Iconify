@@ -16,13 +16,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.installer.IconInstaller;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.Objects;
-import com.drdisagree.iconify.Iconify;
 
 public class IconPacks extends AppCompatActivity {
 

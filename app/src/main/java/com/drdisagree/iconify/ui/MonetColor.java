@@ -11,6 +11,7 @@ import android.widget.Switch;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.services.ApplyOnBoot;
@@ -21,7 +22,6 @@ import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
 import java.util.Objects;
-import com.drdisagree.iconify.Iconify;
 
 public class MonetColor extends AppCompatActivity {
 

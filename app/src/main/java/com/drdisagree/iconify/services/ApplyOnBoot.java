@@ -5,7 +5,6 @@ import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.ui.QsRowColumn;
 import com.drdisagree.iconify.utils.FabricatedOverlay;
 import com.drdisagree.iconify.utils.OverlayUtils;
-import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
 import java.util.Objects;
