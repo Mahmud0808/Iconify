@@ -16,6 +16,7 @@ import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.utils.ModuleUtil;
 import com.drdisagree.iconify.utils.OverlayUtils;
 import com.drdisagree.iconify.utils.RootUtil;
 
@@ -48,7 +49,7 @@ public class WelcomePage extends AppCompatActivity {
         checkRoot.setOnClickListener(v -> {
             if (RootUtil.isDeviceRooted()) {
                 if (RootUtil.isMagiskInstalled()) {
-                    if ((PrefConfig.loadPrefInt(this, "versionCode") < versionCode) || !OverlayUtils.moduleExists()) {
+                    if ((PrefConfig.loadPrefInt(this, "versionCode") < versionCode) || !ModuleUtil.moduleExists()) {
 
                         // Show spinner
                         spinner.setVisibility(View.VISIBLE);
@@ -60,7 +61,7 @@ public class WelcomePage extends AppCompatActivity {
                             @Override
                             public void run() {
                                 try {
-                                    OverlayUtils.handleModule(Iconify.getAppContext());
+                                    ModuleUtil.handleModule(Iconify.getAppContext());
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -98,7 +99,7 @@ public class WelcomePage extends AppCompatActivity {
                             @Override
                             public void run() {
                                 try {
-                                    OverlayUtils.handleModule(Iconify.getAppContext());
+                                    ModuleUtil.handleModule(Iconify.getAppContext());
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }

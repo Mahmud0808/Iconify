@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.ui.HomePage;
 import com.drdisagree.iconify.ui.WelcomePage;
+import com.drdisagree.iconify.utils.ModuleUtil;
 import com.drdisagree.iconify.utils.OverlayUtils;
 import com.drdisagree.iconify.utils.RootUtil;
 import com.topjohnwu.superuser.Shell;
@@ -39,7 +40,7 @@ public class SplashActivity extends AppCompatActivity {
 
             Intent intent;
 
-            if (RootUtil.isDeviceRooted() && RootUtil.isMagiskInstalled() && OverlayUtils.moduleExists() && OverlayUtils.overlayExists() && (versionCode == PrefConfig.loadPrefInt(this, "versionCode"))) {
+            if (RootUtil.isDeviceRooted() && RootUtil.isMagiskInstalled() && ModuleUtil.moduleExists() && OverlayUtils.overlayExists() && (versionCode == PrefConfig.loadPrefInt(this, "versionCode"))) {
                 intent = new Intent(SplashActivity.this, HomePage.class);
             } else {
                 intent = new Intent(SplashActivity.this, WelcomePage.class);
