@@ -1,9 +1,7 @@
 package com.drdisagree.iconify.utils;
 
 import android.util.Log;
-import android.widget.Toast;
 
-import com.drdisagree.iconify.Iconify;
 import com.jaredrummler.android.shell.Shell;
 
 import java.io.DataOutputStream;
@@ -14,28 +12,32 @@ public class RootUtil {
     private static String magiskDir = null;
 
     public static boolean isDeviceRooted() {
-        Process process = null;
-        try {
-            // Check for root permission
-            process = Runtime.getRuntime().exec("su");
-            // Try to write on terminal and exit
-            DataOutputStream os = new DataOutputStream(process.getOutputStream());
-            os.writeBytes("echo \"Checking for root permission.\" >/system/sd/temporary.txt\n");
-            os.writeBytes("exit\n");
-            os.flush();
-
+        if (Boolean.TRUE.equals(com.topjohnwu.superuser.Shell.isAppGrantedRoot())) {
+            return true;
+        } else {
+            Process process = null;
             try {
-                process.waitFor();
-                return process.exitValue() == 1;
-            } catch (InterruptedException e) {
+                // Check for root permission
+                process = Runtime.getRuntime().exec("su");
+                // Try to write on terminal and exit
+                DataOutputStream os = new DataOutputStream(process.getOutputStream());
+                os.writeBytes("echo \"Checking for root permission.\" >/system/sd/temporary.txt\n");
+                os.writeBytes("exit\n");
+                os.flush();
+
+                try {
+                    process.waitFor();
+                    return process.exitValue() == 1;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            } catch (IOException e) {
                 e.printStackTrace();
                 return false;
+            } finally {
+                if (process != null) process.destroy();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        } finally {
-            if (process != null) process.destroy();
         }
     }
 
@@ -50,13 +52,10 @@ public class RootUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (magiskVer >= 20000) {
-            magiskDir = "/data/adb/modules/Iconify";
-        } else {
+        if (magiskVer < 20000) {
             Log.e("MagiskCheck", "Magisk version cannot be lesser than 20.0");
-            Toast.makeText(Iconify.getAppContext(), "Update Magisk to v20.0+", Toast.LENGTH_LONG).show();
-            magiskDir = "/";
         }
+        magiskDir = "/data/adb/modules/Iconify";
         Log.e("MagiskCheck", "Detected directory " + magiskDir + " for version " + magiskVer);
         return magiskDir;
     }

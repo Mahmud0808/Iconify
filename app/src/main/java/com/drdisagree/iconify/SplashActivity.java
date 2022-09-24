@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.ui.HomePage;
-import com.drdisagree.iconify.ui.MainActivity;
+import com.drdisagree.iconify.ui.WelcomePage;
 import com.drdisagree.iconify.utils.OverlayUtils;
 import com.drdisagree.iconify.utils.RootUtil;
 import com.topjohnwu.superuser.Shell;
@@ -34,18 +34,16 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
-        Shell.getShell(shell -> {
 
-            Intent intent;
+        Intent intent;
 
-            if (RootUtil.isDeviceRooted() && RootUtil.isMagiskInstalled() && OverlayUtils.moduleExists() && OverlayUtils.overlayExists() && (versionCode == PrefConfig.loadPrefInt(this, "versionCode"))) {
-                intent = new Intent(SplashActivity.this, HomePage.class);
-            } else {
-                intent = new Intent(SplashActivity.this, MainActivity.class);
-            }
+        if (RootUtil.isDeviceRooted() && RootUtil.isMagiskInstalled() && OverlayUtils.moduleExists() && OverlayUtils.overlayExists() && (versionCode == PrefConfig.loadPrefInt(this, "versionCode"))) {
+            intent = new Intent(SplashActivity.this, HomePage.class);
+        } else {
+            intent = new Intent(SplashActivity.this, WelcomePage.class);
+        }
 
-            startActivity(intent);
-            finish();
-        });
+        startActivity(intent);
+        finish();
     }
 }
