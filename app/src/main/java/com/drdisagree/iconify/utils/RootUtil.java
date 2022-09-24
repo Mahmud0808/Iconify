@@ -55,7 +55,7 @@ public class RootUtil {
         if (magiskVer < 20000) {
             Log.e("MagiskCheck", "Magisk version cannot be lesser than 20.0");
         }
-        magiskDir = "/data/adb/modules/Iconify";
+        magiskDir = "/data/adb/modules";
         Log.e("MagiskCheck", "Detected directory " + magiskDir + " for version " + magiskVer);
         return magiskDir;
     }
