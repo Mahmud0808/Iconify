@@ -72,7 +72,7 @@
             android:name=".ui.HomePage"
             android:exported="false" />
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.WelcomePage"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
