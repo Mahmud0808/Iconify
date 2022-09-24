@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.services.ApplyOnBoot;
+import com.drdisagree.iconify.utils.FabricatedOverlay;
 import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
@@ -66,10 +67,10 @@ public class MonetColor extends AppCompatActivity {
                         public void run() {
                             OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
                             PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay", false);
-                            OverlayUtils.disableOverlay("com.android.shell:colorAccentPrimary");
+                            FabricatedOverlay.disableOverlay("colorAccentPrimary");
                             PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatecolorAccentPrimary", false);
                             PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
-                            OverlayUtils.disableOverlay("com.android.shell:colorAccentSecondary");
+                            FabricatedOverlay.disableOverlay("colorAccentSecondary");
                             PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatecolorAccentSecondary", false);
                             PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
                         }
@@ -82,10 +83,6 @@ public class MonetColor extends AppCompatActivity {
 
         // Color Picker
         LinearLayout custom_color_picker = findViewById(R.id.custom_color_picker);
-        if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay"))
-            custom_color_picker.setVisibility(View.GONE);
-        else
-            custom_color_picker.setVisibility(View.VISIBLE);
         custom_color_picker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
