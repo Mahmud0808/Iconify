@@ -89,6 +89,7 @@
     <item name="default_qstile2" type="id" />
     <item name="default_qstile3" type="id" />
     <item name="default_qstile4" type="id" />
+    <item name="default_qstile_orientation" type="id" />
 
     <item name="doubleLayer_container" type="id" />
     <item name="doubleLayer_enable" type="id" />
@@ -97,6 +98,7 @@
     <item name="doubleLayer_qstile2" type="id" />
     <item name="doubleLayer_qstile3" type="id" />
     <item name="doubleLayer_qstile4" type="id" />
+    <item name="doubleLayer_qstile_orientation" type="id" />
 
     <item name="shadedLayer_container" type="id" />
     <item name="shadedLayer_enable" type="id" />
@@ -105,6 +107,7 @@
     <item name="shadedLayer_qstile2" type="id" />
     <item name="shadedLayer_qstile3" type="id" />
     <item name="shadedLayer_qstile4" type="id" />
+    <item name="shadedLayer_qstile_orientation" type="id" />
 
     <item name="outline_container" type="id" />
     <item name="outline_enable" type="id" />
@@ -113,6 +116,7 @@
     <item name="outline_qstile2" type="id" />
     <item name="outline_qstile3" type="id" />
     <item name="outline_qstile4" type="id" />
+    <item name="outline_qstile_orientation" type="id" />
 
     <item name="leafy_outline_container" type="id" />
     <item name="leafy_outline_enable" type="id" />
@@ -121,6 +125,7 @@
     <item name="leafy_outline_qstile2" type="id" />
     <item name="leafy_outline_qstile3" type="id" />
     <item name="leafy_outline_qstile4" type="id" />
+    <item name="leafy_qstile_orientation" type="id" />
 
     <item name="neumorph_container" type="id" />
     <item name="neumorph_enable" type="id" />
@@ -129,6 +134,7 @@
     <item name="neumorph_qstile2" type="id" />
     <item name="neumorph_qstile3" type="id" />
     <item name="neumorph_qstile4" type="id" />
+    <item name="neumorph_qstile_orientation" type="id" />
 
     <item name="surround_container" type="id" />
     <item name="surround_enable" type="id" />
@@ -137,6 +143,7 @@
     <item name="surround_qstile2" type="id" />
     <item name="surround_qstile3" type="id" />
     <item name="surround_qstile4" type="id" />
+    <item name="surround_qstile_orientation" type="id" />
 
     <item name="bookmark_container" type="id" />
     <item name="bookmark_enable" type="id" />
@@ -145,6 +152,7 @@
     <item name="bookmark_qstile2" type="id" />
     <item name="bookmark_qstile3" type="id" />
     <item name="bookmark_qstile4" type="id" />
+    <item name="bookmark_qstile_orientation" type="id" />
 
     <item name="neumorph_outline_container" type="id" />
     <item name="neumorph_outline_enable" type="id" />
@@ -153,4 +161,5 @@
     <item name="neumorph_outline_qstile2" type="id" />
     <item name="neumorph_outline_qstile3" type="id" />
     <item name="neumorph_outline_qstile4" type="id" />
+    <item name="neumorph_outline_qstile_orientation" type="id" />
 </resources>

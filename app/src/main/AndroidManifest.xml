@@ -61,6 +61,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.QsShapes"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />
         <activity
             android:name=".ui.BrightnessBars"

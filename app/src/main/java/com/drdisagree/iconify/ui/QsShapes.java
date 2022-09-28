@@ -2,6 +2,7 @@ package com.drdisagree.iconify.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -41,6 +43,7 @@ public class QsShapes extends AppCompatActivity {
     LinearLayout[] Container;
     LinearLayout DefaultContainer, DoubleLayerContainer, ShadedLayerContainer, OutlineContainer, LeafyOutlineContainer, NeumorphContainer, SurroundContainer, BookmarkContainer, NeumorphOutlineContainer;
     Button Default_Enable, Default_Disable, DoubleLayer_Enable, DoubleLayer_Disable, ShadedLayer_Enable, ShadedLayer_Disable, Outline_Enable, Outline_Disable, LeafyOutline_Enable, LeafyOutline_Disable, Neumorph_Enable, Neumorph_Disable, Surround_Enable, Surround_Disable, Bookmark_Enable, Bookmark_Disable, NeumorphOutline_Enable, NeumorphOutline_Disable;
+    LinearLayout[] qstile_orientation_list;
     private ViewGroup container;
     private LinearLayout spinner;
 
@@ -92,15 +95,15 @@ public class QsShapes extends AppCompatActivity {
         LinearLayout.LayoutParams layoutParams;
 
         // Qs Shape add items in list
-        addItem(R.id.default_container, R.id.default_qstile1, R.id.default_qstile2, R.id.default_qstile3, R.id.default_qstile4, "Default", R.id.default_enable, R.id.default_disable);
-        addItem(R.id.doubleLayer_container, R.id.doubleLayer_qstile1, R.id.doubleLayer_qstile2, R.id.doubleLayer_qstile3, R.id.doubleLayer_qstile4, "Double Layer", R.id.doubleLayer_enable, R.id.doubleLayer_disable);
-        addItem(R.id.shadedLayer_container, R.id.shadedLayer_qstile1, R.id.shadedLayer_qstile2, R.id.shadedLayer_qstile3, R.id.shadedLayer_qstile4, "Shaded Layer", R.id.shadedLayer_enable, R.id.shadedLayer_disable);
-        addItem(R.id.outline_container, R.id.outline_qstile1, R.id.outline_qstile2, R.id.outline_qstile3, R.id.outline_qstile4, "Outline", R.id.outline_enable, R.id.outline_disable);
-        addItem(R.id.leafy_outline_container, R.id.leafy_outline_qstile1, R.id.leafy_outline_qstile2, R.id.leafy_outline_qstile3, R.id.leafy_outline_qstile4, "Leafy Outline", R.id.leafy_outline_enable, R.id.leafy_outline_disable);
-        addItem(R.id.neumorph_container, R.id.neumorph_qstile1, R.id.neumorph_qstile2, R.id.neumorph_qstile3, R.id.neumorph_qstile4, "Neumorph", R.id.neumorph_enable, R.id.neumorph_disable);
-        addItem(R.id.neumorph_outline_container, R.id.neumorph_outline_qstile1, R.id.neumorph_outline_qstile2, R.id.neumorph_outline_qstile3, R.id.neumorph_outline_qstile4, "Neumorph Outline", R.id.neumorph_outline_enable, R.id.neumorph_outline_disable);
-        addItem(R.id.surround_container, R.id.surround_qstile1, R.id.surround_qstile2, R.id.surround_qstile3, R.id.surround_qstile4, "Surround", R.id.surround_enable, R.id.surround_disable);
-        addItem(R.id.bookmark_container, R.id.bookmark_qstile1, R.id.bookmark_qstile2, R.id.bookmark_qstile3, R.id.bookmark_qstile4, "Bookmark", R.id.bookmark_enable, R.id.bookmark_disable);
+        addItem(R.id.default_container, R.id.default_qstile1, R.id.default_qstile2, R.id.default_qstile3, R.id.default_qstile4, "Default", R.id.default_enable, R.id.default_disable, R.id.default_qstile_orientation);
+        addItem(R.id.doubleLayer_container, R.id.doubleLayer_qstile1, R.id.doubleLayer_qstile2, R.id.doubleLayer_qstile3, R.id.doubleLayer_qstile4, "Double Layer", R.id.doubleLayer_enable, R.id.doubleLayer_disable, R.id.doubleLayer_qstile_orientation);
+        addItem(R.id.shadedLayer_container, R.id.shadedLayer_qstile1, R.id.shadedLayer_qstile2, R.id.shadedLayer_qstile3, R.id.shadedLayer_qstile4, "Shaded Layer", R.id.shadedLayer_enable, R.id.shadedLayer_disable, R.id.shadedLayer_qstile_orientation);
+        addItem(R.id.outline_container, R.id.outline_qstile1, R.id.outline_qstile2, R.id.outline_qstile3, R.id.outline_qstile4, "Outline", R.id.outline_enable, R.id.outline_disable, R.id.outline_qstile_orientation);
+        addItem(R.id.leafy_outline_container, R.id.leafy_outline_qstile1, R.id.leafy_outline_qstile2, R.id.leafy_outline_qstile3, R.id.leafy_outline_qstile4, "Leafy Outline", R.id.leafy_outline_enable, R.id.leafy_outline_disable, R.id.leafy_qstile_orientation);
+        addItem(R.id.neumorph_container, R.id.neumorph_qstile1, R.id.neumorph_qstile2, R.id.neumorph_qstile3, R.id.neumorph_qstile4, "Neumorph", R.id.neumorph_enable, R.id.neumorph_disable, R.id.neumorph_qstile_orientation);
+        addItem(R.id.neumorph_outline_container, R.id.neumorph_outline_qstile1, R.id.neumorph_outline_qstile2, R.id.neumorph_outline_qstile3, R.id.neumorph_outline_qstile4, "Neumorph Outline", R.id.neumorph_outline_enable, R.id.neumorph_outline_disable, R.id.neumorph_outline_qstile_orientation);
+        addItem(R.id.surround_container, R.id.surround_qstile1, R.id.surround_qstile2, R.id.surround_qstile3, R.id.surround_qstile4, "Surround", R.id.surround_enable, R.id.surround_disable, R.id.surround_qstile_orientation);
+        addItem(R.id.bookmark_container, R.id.bookmark_qstile1, R.id.bookmark_qstile2, R.id.bookmark_qstile3, R.id.bookmark_qstile4, "Bookmark", R.id.bookmark_enable, R.id.bookmark_disable, R.id.bookmark_qstile_orientation);
 
         // Default
         DefaultContainer = findViewById(R.id.default_container);
@@ -274,6 +277,21 @@ public class QsShapes extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    // Change orientation in landscape / portrait mode
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // List of orientation
+        qstile_orientation_list = new LinearLayout[]{findViewById(R.id.default_qstile_orientation), findViewById(R.id.doubleLayer_qstile_orientation), findViewById(R.id.shadedLayer_qstile_orientation), findViewById(R.id.outline_qstile_orientation), findViewById(R.id.leafy_qstile_orientation), findViewById(R.id.neumorph_qstile_orientation), findViewById(R.id.surround_qstile_orientation), findViewById(R.id.bookmark_qstile_orientation), findViewById(R.id.neumorph_outline_qstile_orientation)};
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            for (LinearLayout qstile_orientation : qstile_orientation_list)
+                qstile_orientation.setOrientation(LinearLayout.HORIZONTAL);
+        } else {
+            for (LinearLayout qstile_orientation : qstile_orientation_list)
+                qstile_orientation.setOrientation(LinearLayout.VERTICAL);
+        }
     }
 
     // Function to check for layout changes
@@ -463,7 +481,7 @@ public class QsShapes extends AppCompatActivity {
         layout.setBackground(ContextCompat.getDrawable(this, drawable));
     }
 
-    private void addItem(int id, int qstile1id, int qstile2id, int qstile3id, int qstile4id, String title, int enableid, int disableid) {
+    private void addItem(int id, int qstile1id, int qstile2id, int qstile3id, int qstile4id, String title, int enableid, int disableid, int orientation) {
         View list = LayoutInflater.from(this).inflate(R.layout.list_option_qstile, container, false);
 
         TextView name = list.findViewById(R.id.list_title_qstile);
@@ -473,6 +491,7 @@ public class QsShapes extends AppCompatActivity {
         LinearLayout qstile2 = list.findViewById(R.id.qs_tile2);
         LinearLayout qstile3 = list.findViewById(R.id.qs_tile3);
         LinearLayout qstile4 = list.findViewById(R.id.qs_tile4);
+        LinearLayout qs_tile_orientation = list.findViewById(R.id.qs_tile_orientation);
 
         list.setId(id);
         name.setText(title);
@@ -484,6 +503,8 @@ public class QsShapes extends AppCompatActivity {
         qstile2.setId(qstile2id);
         qstile3.setId(qstile3id);
         qstile4.setId(qstile4id);
+
+        qs_tile_orientation.setId(orientation);
 
         container.addView(list);
     }
