@@ -68,10 +68,10 @@ public class MonetColor extends AppCompatActivity {
                             OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
                             PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay", false);
                             FabricatedOverlay.disableOverlay("colorAccentPrimary");
-                            PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatecolorAccentPrimary", false);
+                            PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedcolorAccentPrimary", false);
                             PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
                             FabricatedOverlay.disableOverlay("colorAccentSecondary");
-                            PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatecolorAccentSecondary", false);
+                            PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedcolorAccentSecondary", false);
                             PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
                         }
                     };
