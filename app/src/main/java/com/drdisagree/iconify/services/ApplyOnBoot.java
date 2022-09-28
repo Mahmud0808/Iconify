@@ -45,7 +45,7 @@ public class ApplyOnBoot {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (OverlayUtils.isOverlayDisabled(overlays, "IconifyComponentAMC.overlay") && (!PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentPrimary") && Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary"), "null") && !PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentSecondary") && Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary"), "null"))) {
+                if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "defaultColors") && OverlayUtils.isOverlayDisabled(overlays, "IconifyComponentAMC.overlay") && (!PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentPrimary") && Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary"), "null") && !PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcolorAccentSecondary") && Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary"), "null"))) {
                     String colorAccentPrimary = "0xFF50A6D7";
                     String colorAccentSecondary = "0xFF387BFF";
                     if (FabricatedOverlay.isOverlayDisabled(overlays, "colorAccentPrimary")) {
