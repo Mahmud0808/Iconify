@@ -14,6 +14,7 @@ public class QsShapeInstaller {
     public static void install_pack(int n) {
         disable_others(n);
         enable_pack(n);
+        ApplyOnBoot.applyDefaultColors();
         PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedcornerRadius", true);
         ApplyOnBoot.applyCornerRadius();
     }

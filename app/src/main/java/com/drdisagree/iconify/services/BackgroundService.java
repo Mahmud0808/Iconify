@@ -34,6 +34,7 @@ public class BackgroundService extends Service {
         HomePage.isServiceRunning = true;
         Shell.getShell(shell -> {
             ApplyOnBoot.applyColors();
+            ApplyOnBoot.applyDefaultColors();
             ApplyOnBoot.applyCornerRadius();
             ApplyOnBoot.applyQsCustomization();
         });

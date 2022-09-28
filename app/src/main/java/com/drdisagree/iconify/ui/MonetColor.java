@@ -73,6 +73,7 @@ public class MonetColor extends AppCompatActivity {
                             FabricatedOverlay.disableOverlay("colorAccentSecondary");
                             PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedcolorAccentSecondary", false);
                             PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
+                            ApplyOnBoot.applyDefaultColors();
                         }
                     };
                     Thread thread = new Thread(runnable);
