@@ -48,7 +48,8 @@
                 android:layout_weight="1.0"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                tools:ignore="RtlHardcoded">
+                android:paddingRight="16dp"
+                tools:ignore="NestedWeights,RtlHardcoded,RtlSymmetry">
 
                 <ImageView
                     android:id="@+id/qs_icon1"
@@ -65,6 +66,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:text="Internet"
                     android:textColor="@color/textColorPrimary"
                     android:textStyle="bold" />
@@ -79,7 +82,8 @@
                 android:layout_weight="1.0"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                tools:ignore="RtlHardcoded">
+                android:paddingRight="16dp"
+                tools:ignore="RtlHardcoded,RtlSymmetry">
 
                 <ImageView
                     android:id="@+id/qs_icon2"
@@ -96,6 +100,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:text="Airplane"
                     android:textColor="@color/textColorPrimary"
                     android:textStyle="bold" />
@@ -118,7 +124,8 @@
                 android:layout_weight="1.0"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                tools:ignore="RtlHardcoded">
+                android:paddingRight="16dp"
+                tools:ignore="NestedWeights,RtlHardcoded,RtlSymmetry">
 
                 <ImageView
                     android:id="@+id/qs_icon3"
@@ -135,6 +142,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:text="Location"
                     android:textColor="@color/textColorPrimary"
                     android:textStyle="bold" />
@@ -149,6 +158,7 @@
                 android:layout_weight="1.0"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                android:paddingRight="16dp"
                 tools:ignore="RtlHardcoded">
 
                 <ImageView
@@ -166,6 +176,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:text="Bluetooth"
                     android:textColor="@color/textColorPrimary"
                     android:textStyle="bold" />
