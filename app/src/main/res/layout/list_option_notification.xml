@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/container_marginSide"
+    android:layout_marginEnd="@dimen/container_marginSide"
+    android:layout_marginBottom="@dimen/container_margin"
+    android:background="@drawable/container"
+    android:orientation="vertical"
+    android:paddingStart="16dp"
+    android:paddingTop="18dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="18dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:gravity="left|center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/ic_launcher_bg"
+            android:foreground="@mipmap/ic_launcher_foreground"
+            android:foregroundTint="@color/textColorPrimaryInverse" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_weight="1.0"
+            android:text="Iconify"
+            android:textColor="@color/textColorSecondary"
+            android:textSize="15dp" />
+
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="12dp"
+            android:background="@drawable/ic_launcher_bg"
+            android:backgroundTint="@color/colorBackground"
+            android:foreground="@drawable/ic_collapse_arrow"
+            android:foregroundTint="@color/textColorPrimary" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|center"
+        android:layout_marginLeft="36dp"
+        android:layout_marginRight="36dp"
+        android:orientation="vertical"
+        tools:ignore="RtlHardcoded">
+
+        <TextView
+            android:id="@+id/notif_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/cont_title_size"
+            android:textStyle="bold"
+            tools:ignore="SpUsage" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et leo libero."
+            android:textColor="@color/textColorSecondary"
+            android:textSize="16dp"
+            tools:ignore="SpUsage" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/list_button_enable_notif"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/container_padding"
+        android:background="@drawable/button"
+        android:fontFamily="@font/semibold"
+        android:letterSpacing="0.2"
+        android:text="Enable"
+        android:textColor="@color/colorBackground"
+        android:textSize="@dimen/cont_title_size"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/list_button_disable_notif"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/container_padding"
+        android:background="@drawable/button_red"
+        android:fontFamily="@font/semibold"
+        android:letterSpacing="0.2"
+        android:text="Disable"
+        android:textColor="@color/colorBackground"
+        android:textSize="@dimen/cont_title_size"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+</LinearLayout>

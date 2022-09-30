@@ -162,4 +162,11 @@
     <item name="neumorph_outline_qstile3" type="id" />
     <item name="neumorph_outline_qstile4" type="id" />
     <item name="neumorph_outline_qstile_orientation" type="id" />
+
+    <!-- Notification List -->
+    <item name="notif_default_container" type="id" />
+    <item name="notif_default_title" type="id" />
+    <item name="notif_default_enable" type="id" />
+    <item name="notif_default_disable" type="id" />
+    <item name="notif_default_arrow" type="id" />
 </resources>
