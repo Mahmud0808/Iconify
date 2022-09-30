@@ -270,6 +270,18 @@ public class QsShapes extends AppCompatActivity {
         enableOnClickListener(BookmarkContainer, Bookmark_Enable, Bookmark_Disable, BOOKMARK_KEY, 8, false);
         enableOnClickListener(NeumorphOutlineContainer, NeumorphOutline_Enable, NeumorphOutline_Disable, NEUMORPH_OUTLINE_KEY, 9, false);
 
+        // List of orientation
+        qstile_orientation_list = new LinearLayout[]{findViewById(R.id.default_qstile_orientation), findViewById(R.id.doubleLayer_qstile_orientation), findViewById(R.id.shadedLayer_qstile_orientation), findViewById(R.id.outline_qstile_orientation), findViewById(R.id.leafy_qstile_orientation), findViewById(R.id.neumorph_qstile_orientation), findViewById(R.id.surround_qstile_orientation), findViewById(R.id.bookmark_qstile_orientation), findViewById(R.id.neumorph_outline_qstile_orientation)};
+
+        int orientation = this.getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            for (LinearLayout qstile_orientation : qstile_orientation_list)
+                qstile_orientation.setOrientation(LinearLayout.VERTICAL);
+        } else {
+            for (LinearLayout qstile_orientation : qstile_orientation_list)
+                qstile_orientation.setOrientation(LinearLayout.HORIZONTAL);
+        }
+
         refreshBackground();
     }
 
