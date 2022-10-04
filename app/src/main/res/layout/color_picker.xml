@@ -16,6 +16,7 @@
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <LinearLayout
+            android:id="@+id/page_color_picker"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="24dp"
@@ -57,14 +58,47 @@
                     tools:ignore="SpUsage" />
             </LinearLayout>
 
-            <ImageView
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
-                android:layout_marginStart="@dimen/container_marginSide"
-                android:layout_marginEnd="@dimen/container_marginSide"
-                android:layout_marginBottom="18dp"
-                android:background="@drawable/preview_color_picker_large"
-                android:contentDescription="@string/color_picker_preview" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:layout_marginStart="@dimen/container_marginSide"
+                    android:layout_marginEnd="@dimen/container_marginSide"
+                    android:layout_marginBottom="@dimen/container_margin"
+                    android:background="@drawable/preview_color_picker_large"
+                    android:contentDescription="@string/color_picker_preview" />
+
+
+                <LinearLayout
+                    android:id="@+id/enable_default_colors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/container_marginSide"
+                    android:layout_marginRight="@dimen/container_marginSide"
+                    android:background="@drawable/container_semi_transparent"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/container_paddingSide"
+                    android:paddingTop="@dimen/container_padding"
+                    android:paddingEnd="@dimen/container_paddingSide"
+                    android:paddingBottom="@dimen/container_padding"
+                    tools:ignore="RtlHardcoded">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Long Press to Apply\nDefault Colors"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/cont_title_size2"
+                        tools:ignore="SpUsage" />
+
+                </LinearLayout>
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -127,6 +161,23 @@
 
                 </LinearLayout>
             </LinearLayout>
+
+            <Button
+                android:id="@+id/disable_custom_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/container_marginSide"
+                android:layout_marginEnd="@dimen/container_marginSide"
+                android:background="@drawable/button_red"
+                android:fontFamily="@font/semibold"
+                android:paddingTop="18dp"
+                android:paddingBottom="18dp"
+                android:text="Disable Custom Colors"
+                android:textColor="@color/colorBackground"
+                android:textSize="@dimen/cont_title_size"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:ignore="SpUsage" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
