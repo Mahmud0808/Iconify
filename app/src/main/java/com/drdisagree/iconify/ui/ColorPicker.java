@@ -2,7 +2,9 @@ package com.drdisagree.iconify.ui;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -11,15 +13,19 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.services.ApplyOnBoot;
 import com.drdisagree.iconify.utils.FabricatedOverlay;
 import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
+import java.util.List;
 import java.util.Objects;
 
 public class ColorPicker extends AppCompatActivity implements ColorPickerDialogListener {
+
+    private static List<String> overlays = OverlayUtils.getEnabledOverlayList();
 
     public static String ColorToHex(int color, boolean opacity, boolean hash) {
         int alpha = android.graphics.Color.alpha(color);
@@ -84,6 +90,27 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        // Enable default colors
+        LinearLayout enable_default_colors = findViewById(R.id.enable_default_colors);
+        enable_default_colors.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
+                PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
+                PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
+
+                FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
+                FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", "0xFF387BFF");
+                FabricatedOverlay.enableOverlay("colorAccentPrimary");
+                FabricatedOverlay.enableOverlay("colorAccentSecondary");
+
+                ApplyOnBoot.applyColors();
+                Toast.makeText(Iconify.getAppContext(), "Default Colors Applied", Toast.LENGTH_SHORT).show();
+                findViewById(R.id.page_color_picker).invalidate();
+                return true;
+            }
+        });
+
         // Primary and Secondary color
         ColorPickerDialog.Builder colorPickerDialogPrimary = ColorPickerDialog.newBuilder();
         ColorPickerDialog.Builder colorPickerDialogSecondary = ColorPickerDialog.newBuilder();
@@ -106,6 +133,26 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
                 colorPickerDialogSecondary.show(ColorPicker.this);
             }
         });
+
+        // Disable custom colors button
+        Button disable_custom_color = findViewById(R.id.disable_custom_color);
+        if (OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentAMC.overlay") && (PrefConfig.loadPrefBool(Iconify.getAppContext(), "customColor") || !PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary").equals("null") || !PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary").equals("null")))
+            disable_custom_color.setVisibility(View.VISIBLE);
+        else
+            disable_custom_color.setVisibility(View.GONE);
+
+        disable_custom_color.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", false);
+                PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
+                PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
+                FabricatedOverlay.disableOverlay("colorAccentPrimary");
+                FabricatedOverlay.disableOverlay("colorAccentSecondary");
+                disable_custom_color.setVisibility(View.GONE);
+                findViewById(R.id.page_color_picker).invalidate();
+            }
+        });
     }
 
     @Override
@@ -119,6 +166,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         String accent = String.valueOf(color);
         switch (dialogId) {
             case 1:
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
                 PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", accent);
                 Runnable runnable1 = new Runnable() {
                     @Override
@@ -134,12 +182,14 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
                             FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(colorAccentSecondary)));
                             FabricatedOverlay.enableOverlay("colorAccentSecondary");
                         }
+                        findViewById(R.id.page_color_picker).invalidate();
                     }
                 };
                 Thread thread1 = new Thread(runnable1);
                 thread1.start();
                 break;
             case 2:
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
                 PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", accent);
                 Runnable runnable2 = new Runnable() {
                     @Override
@@ -155,6 +205,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
                             FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
                             FabricatedOverlay.enableOverlay("colorAccentPrimary");
                         }
+                        findViewById(R.id.page_color_picker).invalidate();
                     }
                 };
                 Thread thread2 = new Thread(runnable2);
