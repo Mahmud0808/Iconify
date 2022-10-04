@@ -14,8 +14,8 @@ public class BrightnessInstaller {
     public static void install_pack(int n) {
         disable_others(n);
         enable_pack(n);
-        PrefConfig.savePrefBool(Iconify.getAppContext(), "defaultColors", true);
-        ApplyOnBoot.applyDefaultColors();
+        PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
+        ApplyOnBoot.applyColors();
         PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedcornerRadius", true);
         ApplyOnBoot.applyCornerRadius();
     }

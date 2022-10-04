@@ -32,13 +32,12 @@ public class BackgroundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         HomePage.isServiceRunning = true;
+
         Shell.getShell(shell -> {
             ApplyOnBoot.applyColors();
-            ApplyOnBoot.applyDefaultColors();
             ApplyOnBoot.applyCornerRadius();
             ApplyOnBoot.applyQsCustomization();
         });
-
         startForeground();
 
         return super.onStartCommand(intent, flags, startId);
