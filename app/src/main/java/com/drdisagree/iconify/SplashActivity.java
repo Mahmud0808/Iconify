@@ -19,13 +19,13 @@ public class SplashActivity extends AppCompatActivity {
 
     private static SplashActivity mContext;
 
-    private final int versionCode = BuildConfig.VERSION_CODE;
-    private final String versionName = BuildConfig.VERSION_NAME;
-
     static {
         Shell.enableVerboseLogging = BuildConfig.DEBUG;
         Shell.setDefaultBuilder(Shell.Builder.create().setFlags(Shell.FLAG_REDIRECT_STDERR).setTimeout(10));
     }
+
+    private final int versionCode = BuildConfig.VERSION_CODE;
+    private final String versionName = BuildConfig.VERSION_NAME;
 
     public static SplashActivity getContext() {
         return mContext;
