@@ -44,9 +44,11 @@ public class Extras extends AppCompatActivity {
         PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
         PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
         PrefConfig.savePrefSettings(Iconify.getAppContext(), "dialogCornerRadius", "null");
+        PrefConfig.savePrefSettings(Iconify.getAppContext(), "insetCornerRadius2", "null");
+        PrefConfig.savePrefSettings(Iconify.getAppContext(), "insetCornerRadius4", "null");
         PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedcolorAccentPrimary", false);
         PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedcolorAccentSecondary", false);
-        PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricateddialogCornerRadius", false);
+        PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedcornerRadius", false);
     }
 
     @SuppressLint("SetTextI18n")
@@ -87,6 +89,7 @@ public class Extras extends AppCompatActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedcornerRadius", true);
             }
 
             @Override
@@ -116,6 +119,8 @@ public class Extras extends AppCompatActivity {
                         FabricatedOverlay.enableOverlay("dialogCornerRadius");
                         FabricatedOverlay.enableOverlay("insetCornerRadius2");
                         FabricatedOverlay.enableOverlay("insetCornerRadius4");
+
+                        PrefConfig.savePrefSettings(Iconify.getAppContext(), "cornerRadius", String.valueOf(finalUiCornerRadius[0]));
 
                     }
                 };
