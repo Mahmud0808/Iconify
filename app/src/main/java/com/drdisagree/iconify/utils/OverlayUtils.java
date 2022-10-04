@@ -1,18 +1,9 @@
 package com.drdisagree.iconify.utils;
 
-import android.content.Context;
-import android.util.Log;
-
-import com.drdisagree.iconify.BuildConfig;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
-import java.util.Objects;
 
 public class OverlayUtils {
 
@@ -26,7 +17,7 @@ public class OverlayUtils {
 
     public static boolean isOverlayEnabled(List<String> overlays, String pkgName) {
         for (String overlay : overlays) {
-            if (overlay.contains(pkgName))
+            if (overlay.equals(pkgName))
                 return true;
         }
         return false;
@@ -34,7 +25,7 @@ public class OverlayUtils {
 
     public static boolean isOverlayDisabled(List<String> overlays, String pkgName) {
         for (String overlay : overlays) {
-            if (overlay.contains(pkgName))
+            if (overlay.equals(pkgName))
                 return false;
         }
         return true;
@@ -42,7 +33,7 @@ public class OverlayUtils {
 
     static boolean isOverlayInstalled(List<String> enabledOverlays, String pkgName) {
         for (String line : enabledOverlays) {
-            if (line.contains(pkgName))
+            if (line.equals(pkgName))
                 return true;
         }
         return false;

@@ -50,7 +50,7 @@ public class FabricatedOverlay {
 
     public static boolean isOverlayEnabled(List<String> overlays, String name) {
         for (String overlay : overlays) {
-            if (overlay.contains(name))
+            if (overlay.equals(name))
                 return true;
         }
         return false;
@@ -58,7 +58,7 @@ public class FabricatedOverlay {
 
     public static boolean isOverlayDisabled(List<String> overlays, String name) {
         for (String overlay : overlays) {
-            if (overlay.contains(name))
+            if (overlay.equals(name))
                 return false;
         }
         return true;
