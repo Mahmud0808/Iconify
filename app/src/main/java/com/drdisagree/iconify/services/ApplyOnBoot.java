@@ -21,12 +21,15 @@ public class ApplyOnBoot {
             public void run() {
                 String colorAccentPrimary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary");
                 String colorAccentSecondary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary");
-                if ((PrefConfig.loadPrefBool(Iconify.getAppContext(), "customPrimaryColor") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "customSecondaryColor")) && (FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "colorAccentPrimary") || FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "colorAccentSecondary"))) {
-                    if (OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentAMC.overlay")) {
-                        OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
-                        OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
-                    }
+                if ((PrefConfig.loadPrefBool(Iconify.getAppContext(), "customPrimaryColor") || PrefConfig.loadPrefBool(Iconify.getAppContext(), "customSecondaryColor")) && (FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "colorAccentPrimary") || FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "colorAccentSecondary"))) {
+                    boolean amc_reApplied = false;
                     if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "customPrimaryColor") && FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "colorAccentPrimary")) {
+                        if (OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentAMC.overlay")) {
+                            OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
+                            OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
+                            amc_reApplied = true;
+                        }
+
                         if (!Objects.equals(colorAccentPrimary, INVALID))
                             FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
                         else
@@ -35,6 +38,11 @@ public class ApplyOnBoot {
                         FabricatedOverlay.enableOverlay("colorAccentPrimary");
                     }
                     if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "customSecondaryColor") && FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "colorAccentSecondary")) {
+                        if (!amc_reApplied && OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentAMC.overlay")) {
+                            OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
+                            OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
+                        }
+
                         if (!Objects.equals(colorAccentSecondary, INVALID))
                             FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(colorAccentSecondary)));
                         else
