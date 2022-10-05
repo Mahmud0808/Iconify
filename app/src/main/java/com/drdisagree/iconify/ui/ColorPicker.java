@@ -95,7 +95,8 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         enable_default_colors.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "customPrimaryColor", true);
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "customSecondaryColor", true);
                 PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
                 PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
 
@@ -136,7 +137,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
 
         // Disable custom colors button
         Button disable_custom_color = findViewById(R.id.disable_custom_color);
-        if (OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentAMC.overlay") && (PrefConfig.loadPrefBool(Iconify.getAppContext(), "customColor") || !PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary").equals("null") || !PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary").equals("null")))
+        if (OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentAMC.overlay") && (PrefConfig.loadPrefBool(Iconify.getAppContext(), "customPrimaryColor") || PrefConfig.loadPrefBool(Iconify.getAppContext(), "customSecondaryColor")))
             disable_custom_color.setVisibility(View.VISIBLE);
         else
             disable_custom_color.setVisibility(View.GONE);
@@ -144,7 +145,8 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         disable_custom_color.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", false);
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "customPrimaryColor", false);
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "customSecondaryColor", false);
                 PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
                 PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
                 FabricatedOverlay.disableOverlay("colorAccentPrimary");
@@ -166,7 +168,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         String accent = String.valueOf(color);
         switch (dialogId) {
             case 1:
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "customPrimaryColor", true);
                 PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", accent);
                 Runnable runnable1 = new Runnable() {
                     @Override
@@ -189,7 +191,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
                 thread1.start();
                 break;
             case 2:
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "customSecondaryColor", true);
                 PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", accent);
                 Runnable runnable2 = new Runnable() {
                     @Override

@@ -38,6 +38,7 @@ public class BackgroundService extends Service {
             ApplyOnBoot.applyCornerRadius();
             ApplyOnBoot.applyQsCustomization();
         });
+
         startForeground();
 
         return super.onStartCommand(intent, flags, startId);
