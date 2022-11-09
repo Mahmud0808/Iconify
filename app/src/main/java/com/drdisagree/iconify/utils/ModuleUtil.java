@@ -100,7 +100,7 @@ public class ModuleUtil {
                     e.printStackTrace();
                 }
             }
-            Shell.cmd("cp -f " + data_dir + "/Component/" + overlay + " " + OVERLAY_DIR + '/' + changeExtension(overlay, ext)).exec();
+            Shell.cmd("cp -f " + data_dir + "/Component/" + overlay + " " + OVERLAY_DIR + '/' + overlay).exec();
         }
         RootUtil.setPermissionsRecursively(644, OVERLAY_DIR + '/');
         // Clean temporary directory
@@ -123,12 +123,5 @@ public class ModuleUtil {
         myOutput.flush();
         myInput.close();
         myOutput.close();
-    }
-
-    public static String changeExtension(String filename, String extension) {
-        if (filename.contains(".")) {
-            filename = filename.substring(0, filename.lastIndexOf('.'));
-        }
-        return filename + "." + extension;
     }
 }
