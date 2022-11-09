@@ -6,6 +6,8 @@ import java.io.File;
 
 public class IconInstaller {
 
+    private static final int TOTAL_ICONPACKS = 4;
+
     public static void install_pack(int n) {
         disable_others(n);
         enable_pack(n);
@@ -49,7 +51,7 @@ public class IconInstaller {
 
     protected static void disable_others(int n) {
 
-        for (int i = 1; i <= 4; i++) {
+        for (int i = 1; i <= TOTAL_ICONPACKS; i++) {
             if (i != n) {
                 String[] paths = {"/system/product/overlay/IconifyComponentIPAS" + i + ".apk", "/system/product/overlay/IconifyComponentIPSUI" + i + ".apk"};
 
