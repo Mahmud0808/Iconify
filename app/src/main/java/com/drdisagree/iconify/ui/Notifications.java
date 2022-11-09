@@ -27,12 +27,17 @@ import java.util.Objects;
 public class Notifications extends AppCompatActivity {
 
     private static final String DEFAULT_KEY = "IconifyComponentNF1.overlay";
+    private static final String CORNERS_KEY = "IconifyComponentNF2.overlay";
+    private static final String OUTLINE_KEY = "IconifyComponentNF3.overlay";
+    private static final String BOTTOM_OUTLINE_KEY = "IconifyComponentNF4.overlay";
+    private static final String NEUMORPH_KEY = "IconifyComponentNF5.overlay";
+    private static final String STACK_KEY = "IconifyComponentNF6.overlay";
 
     LinearLayout[] Container;
-    LinearLayout DefaultContainer;
-    TextView Default_Title;
-    Button Default_Enable, Default_Disable;
-    ImageView Default_Arrow;
+    LinearLayout DefaultContainer, CornersContainer, OutlineContainer, BottomOutlineContainer, NeumorphContainer, StackContainer;
+    TextView Default_Title, Corners_Title, Outline_Title, Bottom_Outline_Title, Neumorph_Title, Stack_Title;
+    Button Default_Enable, Default_Disable, Corners_Enable, Corners_Disable, Outline_Enable, Outline_Disable, Bottom_Outline_Enable, Bottom_Outline_Disable, Neumorph_Enable, Neumorph_Disable, Stack_Enable, Stack_Disable;
+    ImageView Default_Arrow, Corners_Arrow, Outline_Arrow, Bottom_Outline_Arrow, Neumorph_Arrow, Stack_Arrow;
     private ViewGroup container;
     private LinearLayout spinner;
 
@@ -60,7 +65,12 @@ public class Notifications extends AppCompatActivity {
         container = (ViewGroup) findViewById(R.id.notification_list);
 
         // Brightness Bar add items in list
-        addItem(R.id.notif_default_container, R.id.notif_default_title, R.drawable.container, R.id.notif_default_arrow, R.id.notif_default_enable, R.id.notif_default_disable);
+        addItem(R.id.notif_default_container, R.id.notif_default_title, R.drawable.notif_default, R.id.notif_default_arrow, R.id.notif_default_enable, R.id.notif_default_disable);
+        addItem(R.id.notif_corners_container, R.id.notif_corners_title, R.drawable.notif_corners, R.id.notif_corners_arrow, R.id.notif_corners_enable, R.id.notif_corners_disable);
+        addItem(R.id.notif_outline_container, R.id.notif_outline_title, R.drawable.notif_outline, R.id.notif_outline_arrow, R.id.notif_outline_enable, R.id.notif_outline_disable);
+        addItem(R.id.notif_bottom_outline_container, R.id.notif_bottom_outline_title, R.drawable.notif_bottom_outline, R.id.notif_bottom_outline_arrow, R.id.notif_bottom_outline_enable, R.id.notif_bottom_outline_disable);
+        addItem(R.id.notif_neumorph_container, R.id.notif_neumorph_title, R.drawable.notif_neumorph, R.id.notif_neumorph_arrow, R.id.notif_neumorph_enable, R.id.notif_neumorph_disable);
+        addItem(R.id.notif_stack_container, R.id.notif_stack_title, R.drawable.notif_stack, R.id.notif_stack_arrow, R.id.notif_stack_enable, R.id.notif_stack_disable);
 
         // Default
         DefaultContainer = findViewById(R.id.notif_default_container);
@@ -70,11 +80,56 @@ public class Notifications extends AppCompatActivity {
         Default_Disable = findViewById(R.id.notif_default_disable);
         Default_Arrow = findViewById(R.id.notif_default_arrow);
 
+        // Corners
+        CornersContainer = findViewById(R.id.notif_corners_container);
+        Corners_Title = findViewById(R.id.notif_corners_title);
+        Corners_Title.setText("Corners");
+        Corners_Enable = findViewById(R.id.notif_corners_enable);
+        Corners_Disable = findViewById(R.id.notif_corners_disable);
+        Corners_Arrow = findViewById(R.id.notif_corners_arrow);
+
+        // Outline
+        OutlineContainer = findViewById(R.id.notif_outline_container);
+        Outline_Title = findViewById(R.id.notif_outline_title);
+        Outline_Title.setText("Outline");
+        Outline_Enable = findViewById(R.id.notif_outline_enable);
+        Outline_Disable = findViewById(R.id.notif_outline_disable);
+        Outline_Arrow = findViewById(R.id.notif_outline_arrow);
+
+        // Bottom Outline
+        BottomOutlineContainer = findViewById(R.id.notif_bottom_outline_container);
+        Bottom_Outline_Title = findViewById(R.id.notif_bottom_outline_title);
+        Bottom_Outline_Title.setText("Bottom Outline");
+        Bottom_Outline_Enable = findViewById(R.id.notif_bottom_outline_enable);
+        Bottom_Outline_Disable = findViewById(R.id.notif_bottom_outline_disable);
+        Bottom_Outline_Arrow = findViewById(R.id.notif_bottom_outline_arrow);
+
+        // Neumorph
+        NeumorphContainer = findViewById(R.id.notif_neumorph_container);
+        Neumorph_Title = findViewById(R.id.notif_neumorph_title);
+        Neumorph_Title.setText("Neumorph");
+        Neumorph_Enable = findViewById(R.id.notif_neumorph_enable);
+        Neumorph_Disable = findViewById(R.id.notif_neumorph_disable);
+        Neumorph_Arrow = findViewById(R.id.notif_neumorph_arrow);
+
+        // Stack
+        StackContainer = findViewById(R.id.notif_stack_container);
+        Stack_Title = findViewById(R.id.notif_stack_title);
+        Stack_Title.setText("Stack");
+        Stack_Enable = findViewById(R.id.notif_stack_enable);
+        Stack_Disable = findViewById(R.id.notif_stack_disable);
+        Stack_Arrow = findViewById(R.id.notif_stack_arrow);
+
         // List of Noification
-        Container = new LinearLayout[]{DefaultContainer};
+        Container = new LinearLayout[]{DefaultContainer, CornersContainer, OutlineContainer, BottomOutlineContainer, NeumorphContainer, StackContainer};
 
         // Enable onClick event
         enableOnClickListener(DefaultContainer, Default_Title, Default_Enable, Default_Disable, Default_Arrow, DEFAULT_KEY, 1);
+        enableOnClickListener(CornersContainer, Corners_Title, Corners_Enable, Corners_Disable, Corners_Arrow, CORNERS_KEY, 2);
+        enableOnClickListener(OutlineContainer, Outline_Title, Outline_Enable, Outline_Disable, Outline_Arrow, OUTLINE_KEY, 3);
+        enableOnClickListener(BottomOutlineContainer, Bottom_Outline_Title, Bottom_Outline_Enable, Bottom_Outline_Disable, Bottom_Outline_Arrow, BOTTOM_OUTLINE_KEY, 4);
+        enableOnClickListener(NeumorphContainer, Neumorph_Title, Neumorph_Enable, Neumorph_Disable, Neumorph_Arrow, NEUMORPH_KEY, 5);
+        enableOnClickListener(StackContainer, Stack_Title, Stack_Enable, Stack_Disable, Stack_Arrow, STACK_KEY, 6);
 
         refreshBackground();
     }
@@ -92,6 +147,21 @@ public class Notifications extends AppCompatActivity {
                 if (linearLayout == DefaultContainer) {
                     Default_Enable.setVisibility(View.GONE);
                     Default_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == CornersContainer) {
+                    Corners_Enable.setVisibility(View.GONE);
+                    Corners_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == OutlineContainer) {
+                    Outline_Enable.setVisibility(View.GONE);
+                    Outline_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == BottomOutlineContainer) {
+                    Bottom_Outline_Enable.setVisibility(View.GONE);
+                    Bottom_Outline_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == NeumorphContainer) {
+                    Neumorph_Enable.setVisibility(View.GONE);
+                    Neumorph_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == StackContainer) {
+                    Stack_Enable.setVisibility(View.GONE);
+                    Stack_Disable.setVisibility(View.GONE);
                 }
             }
         }
@@ -100,6 +170,11 @@ public class Notifications extends AppCompatActivity {
     // Function to check for bg drawable changes
     private void refreshBackground() {
         checkIfApplied(Default_Title, 1);
+        checkIfApplied(Corners_Title, 2);
+        checkIfApplied(Outline_Title, 3);
+        checkIfApplied(Bottom_Outline_Title, 4);
+        checkIfApplied(Neumorph_Title, 5);
+        checkIfApplied(Stack_Title, 6);
     }
 
     // Function to change applied pack's bg
@@ -225,6 +300,11 @@ public class Notifications extends AppCompatActivity {
     // Function to disable other packs if one is applied
     private void disable_others(String pack) {
         PrefConfig.savePrefBool(Iconify.getAppContext(), DEFAULT_KEY, pack.equals(DEFAULT_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), CORNERS_KEY, pack.equals(CORNERS_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), OUTLINE_KEY, pack.equals(OUTLINE_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), BOTTOM_OUTLINE_KEY, pack.equals(BOTTOM_OUTLINE_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), NEUMORPH_KEY, pack.equals(NEUMORPH_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), STACK_KEY, pack.equals(STACK_KEY));
     }
 
     private void addItem(int id, int title, int drawable, int arrowid, int enableid, int disableid) {
