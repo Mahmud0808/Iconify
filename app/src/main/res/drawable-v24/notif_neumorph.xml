@@ -3,19 +3,6 @@
     <item>
         <shape android:shape="rectangle">
             <gradient
-                android:angle="0.0"
-                android:endColor="@color/ic_launcher_background"
-                android:startColor="@color/colorAccent" />
-            <corners android:radius="24.0dp" />
-        </shape>
-    </item>
-    <item
-        android:bottom="2.0dp"
-        android:left="2.0dp"
-        android:right="2.0dp"
-        android:top="2.0dp">
-        <shape android:shape="rectangle">
-            <gradient
                 android:angle="270"
                 android:endColor="@color/neumorph_outline_end"
                 android:startColor="@color/neumorph_outline_start"
@@ -24,10 +11,10 @@
         </shape>
     </item>
     <item
-        android:bottom="6.0dp"
-        android:left="6.0dp"
-        android:right="6.0dp"
-        android:top="6.0dp">
+        android:bottom="4.0dp"
+        android:left="4.0dp"
+        android:right="4.0dp"
+        android:top="4.0dp">
         <shape android:shape="rectangle">
             <gradient
                 android:angle="90"
