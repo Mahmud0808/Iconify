@@ -13,11 +13,17 @@ import android.provider.Settings;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.ui.HomePage;
 import com.topjohnwu.superuser.Shell;
 
 public class BackgroundService extends Service {
+
+    static {
+        Shell.enableVerboseLogging = BuildConfig.DEBUG;
+        Shell.setDefaultBuilder(Shell.Builder.create().setFlags(Shell.FLAG_REDIRECT_STDERR).setTimeout(10));
+    }
 
     private static final int NOTIFICATION_ID = 1;
     private static final String NOTIFICATION_CHANNEL_ID = "Background Service";
