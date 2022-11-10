@@ -5,21 +5,10 @@
         <shape android:shape="rectangle">
             <gradient
                 android:angle="0.0"
-                android:endColor="@color/ic_launcher_background"
-                android:startColor="@color/colorAccent" />
-            <corners android:radius="@dimen/cont_corner_radius" />
-        </shape>
-    </item>
-    <item
-        android:left="4dp"
-        android:right="4dp">
-        <shape android:shape="rectangle">
-            <gradient
-                android:angle="0.0"
                 android:centerColor="@color/colorContainer"
                 android:endColor="@color/ic_launcher_background"
                 android:startColor="@color/colorAccent" />
-            <corners android:radius="32dp" />
+            <corners android:radius="@dimen/cont_corner_radius" />
         </shape>
     </item>
     <item
