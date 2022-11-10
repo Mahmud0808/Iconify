@@ -62,18 +62,18 @@ public class ApplyOnBoot {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "dialogCornerRadius") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedcornerRadius")) {
-                    if (OverlayUtils.isOverlayDisabled(overlays, "IconifyComponentCR.overlay") && PrefConfig.loadPrefSettings(Iconify.getAppContext(), "dialogCornerRadius").equals("null"))
-                        OverlayUtils.enableOverlay("IconifyComponentCR.overlay");
                     if (!PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius").equals("null")) {
                         FabricatedOverlay.buildOverlay("android", "dialogCornerRadius", "dimen", "dialog_corner_radius", "0x" + ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8 + 16) * 100));
                         FabricatedOverlay.buildOverlay("android", "insetCornerRadius2", "dimen", "harmful_app_name_padding_right", "0x" + ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 6 + 16) * 100));
                         FabricatedOverlay.buildOverlay("android", "insetCornerRadius4", "dimen", "harmful_app_name_padding_left", "0x" + ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 4 + 16) * 100));
-                        FabricatedOverlay.enableOverlay("dialogCornerRadius");
-                        FabricatedOverlay.enableOverlay("insetCornerRadius2");
-                        FabricatedOverlay.enableOverlay("insetCornerRadius4");
+                    } else {
+                        FabricatedOverlay.buildOverlay("android", "dialogCornerRadius", "dimen", "dialog_corner_radius", "0x" + ((16 + 8 + 16) * 100));
+                        FabricatedOverlay.buildOverlay("android", "insetCornerRadius2", "dimen", "harmful_app_name_padding_right", "0x" + ((16 + 6 + 16) * 100));
+                        FabricatedOverlay.buildOverlay("android", "insetCornerRadius4", "dimen", "harmful_app_name_padding_left", "0x" + ((16 + 4 + 16) * 100));
                     }
-                }
+                FabricatedOverlay.enableOverlay("dialogCornerRadius");
+                FabricatedOverlay.enableOverlay("insetCornerRadius2");
+                FabricatedOverlay.enableOverlay("insetCornerRadius4");
             }
         };
         Thread thread = new Thread(runnable);
