@@ -66,7 +66,7 @@ public class Notifications extends AppCompatActivity {
 
         // Brightness Bar add items in list
         addItem(R.id.notif_default_container, R.id.notif_default_title, R.drawable.notif_default, R.id.notif_default_arrow, R.id.notif_default_enable, R.id.notif_default_disable);
-        addItem(R.id.notif_corners_container, R.id.notif_corners_title, R.drawable.notif_corners, R.id.notif_corners_arrow, R.id.notif_corners_enable, R.id.notif_corners_disable);
+        addItem(R.id.notif_layers_container, R.id.notif_layers_title, R.drawable.notif_layers, R.id.notif_layers_arrow, R.id.notif_layers_enable, R.id.notif_layers_disable);
         addItem(R.id.notif_outline_container, R.id.notif_outline_title, R.drawable.notif_outline, R.id.notif_outline_arrow, R.id.notif_outline_enable, R.id.notif_outline_disable);
         addItem(R.id.notif_bottom_outline_container, R.id.notif_bottom_outline_title, R.drawable.notif_bottom_outline, R.id.notif_bottom_outline_arrow, R.id.notif_bottom_outline_enable, R.id.notif_bottom_outline_disable);
         addItem(R.id.notif_neumorph_container, R.id.notif_neumorph_title, R.drawable.notif_neumorph, R.id.notif_neumorph_arrow, R.id.notif_neumorph_enable, R.id.notif_neumorph_disable);
@@ -80,13 +80,13 @@ public class Notifications extends AppCompatActivity {
         Default_Disable = findViewById(R.id.notif_default_disable);
         Default_Arrow = findViewById(R.id.notif_default_arrow);
 
-        // Corners
-        CornersContainer = findViewById(R.id.notif_corners_container);
-        Corners_Title = findViewById(R.id.notif_corners_title);
-        Corners_Title.setText("Corners");
-        Corners_Enable = findViewById(R.id.notif_corners_enable);
-        Corners_Disable = findViewById(R.id.notif_corners_disable);
-        Corners_Arrow = findViewById(R.id.notif_corners_arrow);
+        // Layers
+        CornersContainer = findViewById(R.id.notif_layers_container);
+        Corners_Title = findViewById(R.id.notif_layers_title);
+        Corners_Title.setText("Layers");
+        Corners_Enable = findViewById(R.id.notif_layers_enable);
+        Corners_Disable = findViewById(R.id.notif_layers_disable);
+        Corners_Arrow = findViewById(R.id.notif_layers_arrow);
 
         // Outline
         OutlineContainer = findViewById(R.id.notif_outline_container);

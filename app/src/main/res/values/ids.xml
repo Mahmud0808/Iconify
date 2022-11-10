@@ -170,11 +170,11 @@
     <item name="notif_default_disable" type="id" />
     <item name="notif_default_arrow" type="id" />
 
-    <item name="notif_corners_container" type="id" />
-    <item name="notif_corners_title" type="id" />
-    <item name="notif_corners_enable" type="id" />
-    <item name="notif_corners_disable" type="id" />
-    <item name="notif_corners_arrow" type="id" />
+    <item name="notif_layers_container" type="id" />
+    <item name="notif_layers_title" type="id" />
+    <item name="notif_layers_enable" type="id" />
+    <item name="notif_layers_disable" type="id" />
+    <item name="notif_layers_arrow" type="id" />
 
     <item name="notif_outline_container" type="id" />
     <item name="notif_outline_title" type="id" />
