@@ -68,7 +68,7 @@ What you can change using Iconify:
 
 ## Download
 
-Link - https://www.pling.com/p/1732643/
+Link - https://github.com/Mahmud0808/Iconify/releases
 
 ## Telegram Channel
 
