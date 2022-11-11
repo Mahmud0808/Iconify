@@ -6,7 +6,7 @@ An android application to customize your boring Android UI.
 
 ## Features
 
-What you can change using Iconify?
+What you can change using Iconify:
 
 - Solid or Gradient Colors
 
