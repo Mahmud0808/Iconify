@@ -29,9 +29,9 @@ What you can change using Iconify?
 ## Preview
 
 <p align="center">
-<a href="https://ibb.co/RhVSwt7"><img src="https://i.ibb.co/5Yf9HC2/Screenshot-20221111-151910-Iconify.png" alt="Screenshot-20221111-151910-Iconify" border="0" style="width: 24%; margin: 32px;"></a>
-<a href="https://ibb.co/PjWVFhX"><img src="https://i.ibb.co/yPkxdyv/Screenshot-20221111-145557-Lawnchair.png" alt="Image-1" border="0" style="width: 24%; margin: 32px;"></a>
-<a href="https://ibb.co/VLW2fpv"><img src="https://i.ibb.co/WHWgmpc/Screenshot-20221111-145720-Iconify.png" alt="Image-2" border="0" style="width: 24%; margin: 32px;"></a>
+<a href="https://ibb.co/RhVSwt7" target=”_blank”><img src="https://i.ibb.co/5Yf9HC2/Screenshot-20221111-151910-Iconify.png" alt="Screenshot-20221111-151910-Iconify" border="0" style="width: 24%; margin: 32px;"></a>
+<a href="https://ibb.co/PjWVFhX" target=”_blank”><img src="https://i.ibb.co/yPkxdyv/Screenshot-20221111-145557-Lawnchair.png" alt="Image-1" border="0" style="width: 24%; margin: 32px;"></a>
+<a href="https://ibb.co/VLW2fpv" target=”_blank”><img src="https://i.ibb.co/WHWgmpc/Screenshot-20221111-145720-Iconify.png" alt="Image-2" border="0" style="width: 24%; margin: 32px;"></a>
 </p>
 
 ### 🌟STAR THIS REPOSITORY TO SUPPORT THE DEVELOPER AND ENCOURAGE THE DEVELOPMENT OF THE APPLICATION!
