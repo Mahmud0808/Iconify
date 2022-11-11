@@ -1,8 +1,13 @@
 # Iconify
 
-<p align="center"><img src="https://github.com/Mahmud0808/Iconify/blob/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png?raw=true"></p>
+<p align="center">
+  <a href="https://telegram.me/IconifyOfficial" ><img src="https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white"></a>
+  <a href="https://github.com/Mahmud0808/Iconify/releases"><img src="https://img.shields.io/github/downloads/Mahmud0808/Iconify/total?color=%233DDC84&logo=android&logoColor=%23fff&style=for-the-badge"></a>
+</p>
 
 An android application to customize your boring Android UI.
+
+Iconify was mainly created to change the system icons of any aosp rom. But then I got bored of using substratum. Picking and installing overlays one by one without any previews made me frustrated. So I decided to make it easier for me by creating an application where I can one click change anything I want. This was totally for my personal use but as people showed interest, I decided to release it in public.
 
 ## Features
 
@@ -99,6 +104,8 @@ Link - https://github.com/Mahmud0808/Iconify/issues/new/choose
 All contributions are welcome, from code to documentation to graphics to design suggestions to bug reports. Please use GitHub to its fullest; contribute Pull Requests, contribute tutorials or other content - whatever you have to offer, we can use it!
 
 ## Disclaimer
+
+- Some roms might not be fully compatible with Iconify
 
 - I won't be responsible if anything happens to your device.
 
