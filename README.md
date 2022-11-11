@@ -50,7 +50,7 @@ What you can change using Iconify:
 
 - Grant root permission
 
-- Click on CONTINUE button
+- Click on `CONTINUE` button
 
 - Wait for it to finish loading
 
