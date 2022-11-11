@@ -44,7 +44,7 @@ public class Info extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Iconify Version", "Iconify " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")");
+                ClipData clip = ClipData.newPlainText("Iconify Version", "Iconify\nVersion Name: " + BuildConfig.VERSION_NAME + "\nVersion Code: " + BuildConfig.VERSION_CODE);
                 clipboard.setPrimaryClip(clip);
                 Toast toast = Toast.makeText(getApplicationContext(), "Copied to Clipboard", Toast.LENGTH_SHORT);
                 toast.show();
@@ -62,7 +62,7 @@ public class Info extends AppCompatActivity {
         telegramChannel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = "https://t.me/AnotherTheme";
+                String url = "https://t.me/IconifyOfficial";
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
                 startActivity(i);
@@ -148,6 +148,42 @@ public class Info extends AppCompatActivity {
         riteshName.setText("Ritesh");
         TextView riteshDesc = findViewById(R.id.riteshDesc);
         riteshDesc.setText("For helping me with RRO.");
+
+        // Insanely Insane
+        ViewGroup insanely_insane = findViewById(R.id.insanely_insane);
+        insanely_insane.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://t.me/sanely_insane";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
+        ImageView img_insanely_insane = findViewById(R.id.img_insanely_insane);
+        img_insanely_insane.setBackgroundResource(R.drawable.ic_user);
+        TextView insanelyInsaneName = findViewById(R.id.insanelyInsaneName);
+        insanelyInsaneName.setText("Insanely Insane");
+        TextView insanelyInsaneDesc = findViewById(R.id.insanelyInsaneDesc);
+        insanelyInsaneDesc.setText("For testing the app.");
+
+        // Jaguar
+        ViewGroup jaguar = findViewById(R.id.jaguar);
+        jaguar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://t.me/Jaguar0066";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
+        ImageView img_jaguar = findViewById(R.id.img_jaguar);
+        img_jaguar.setBackgroundResource(R.drawable.ic_user);
+        TextView jaguarName = findViewById(R.id.jaguarName);
+        jaguarName.setText("Jaguar");
+        TextView jaguarDesc = findViewById(R.id.jaguarDesc);
+        jaguarDesc.setText("For testing the app.");
     }
 
     @Override
