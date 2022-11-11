@@ -88,7 +88,11 @@ Link - https://github.com/Mahmud0808/Iconify/issues/new/choose
 
 - Rodolphe06
 
-- Ritesh_Kanwar
+- ModestCat03
+
+- sanely_insane
+
+- Jaguar0066
 
 ## Contribution
 
