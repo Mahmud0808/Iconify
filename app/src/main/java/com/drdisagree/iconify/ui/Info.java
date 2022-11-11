@@ -150,8 +150,8 @@ public class Info extends AppCompatActivity {
         riteshDesc.setText("For helping me with RRO.");
 
         // Insanely Insane
-        ViewGroup insanely_insane = findViewById(R.id.insanely_insane);
-        insanely_insane.setOnClickListener(new View.OnClickListener() {
+        ViewGroup sanely_insane = findViewById(R.id.sanely_insane);
+        sanely_insane.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String url = "https://t.me/sanely_insane";
@@ -160,12 +160,12 @@ public class Info extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        ImageView img_insanely_insane = findViewById(R.id.img_insanely_insane);
-        img_insanely_insane.setBackgroundResource(R.drawable.ic_user);
-        TextView insanelyInsaneName = findViewById(R.id.insanelyInsaneName);
-        insanelyInsaneName.setText("Insanely Insane");
-        TextView insanelyInsaneDesc = findViewById(R.id.insanelyInsaneDesc);
-        insanelyInsaneDesc.setText("For testing the app.");
+        ImageView img_sanely_insane = findViewById(R.id.img_sanely_insane);
+        img_sanely_insane.setBackgroundResource(R.drawable.ic_user);
+        TextView sanelyInsaneName = findViewById(R.id.sanelyInsaneName);
+        sanelyInsaneName.setText("Sanely Insane");
+        TextView sanelyInsaneDesc = findViewById(R.id.sanelyInsaneDesc);
+        sanelyInsaneDesc.setText("For testing the app.");
 
         // Jaguar
         ViewGroup jaguar = findViewById(R.id.jaguar);

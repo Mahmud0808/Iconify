@@ -392,7 +392,7 @@
                     android:background="@color/colorBackground" />
 
                 <LinearLayout
-                    android:id="@+id/insanely_insane"
+                    android:id="@+id/sanely_insane"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/container_mid"
@@ -403,7 +403,7 @@
                     android:paddingBottom="@dimen/container_padding">
 
                     <ImageView
-                        android:id="@+id/img_insanely_insane"
+                        android:id="@+id/img_sanely_insane"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="left|center"
@@ -418,7 +418,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/insanelyInsaneName"
+                            android:id="@+id/sanelyInsaneName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorPrimary"
@@ -426,7 +426,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/insanelyInsaneDesc"
+                            android:id="@+id/sanelyInsaneDesc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorSecondary"
