@@ -53,6 +53,241 @@
                     android:textSize="@dimen/cont_title_size2"
                     tools:ignore="SpUsage" />
 
+                <LinearLayout
+                    android:id="@+id/qs_tile_preview_orientation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="-4dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="-4dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.0"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/qs_tile_preview1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1.0"
+                            android:background="@drawable/qs_shape_preview_enabled"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingTop="14dp"
+                            android:paddingRight="16dp"
+                            android:paddingBottom="14dp"
+                            tools:ignore="NestedWeights,RtlHardcoded,RtlSymmetry">
+
+                            <ImageView
+                                android:id="@+id/qs_icon1"
+                                android:layout_width="20dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="16dp"
+                                android:layout_marginRight="10dp"
+                                android:src="@drawable/ic_qs_internet"
+                                app:tint="@color/textColorPrimary"
+                                tools:ignore="ContentDescription" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:text="Internet"
+                                    android:textColor="@color/textColorPrimary"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="-6dp"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:text="RIP in Peace"
+                                    android:textColor="@color/textColorSecondaryLight" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/qs_tile_preview2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1.0"
+                            android:background="@drawable/qs_shape_preview_disabled"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingTop="14dp"
+                            android:paddingRight="16dp"
+                            android:paddingBottom="14dp"
+                            tools:ignore="RtlHardcoded,RtlSymmetry">
+
+                            <ImageView
+                                android:id="@+id/qs_icon2"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="16dp"
+                                android:layout_marginRight="10dp"
+                                android:src="@drawable/ic_qs_airplane"
+                                app:tint="@color/textColorPrimary"
+                                tools:ignore="ContentDescription" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:text="Airplane"
+                                    android:textColor="@color/textColorPrimary"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="-6dp"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:text="Off"
+                                    android:textColor="@color/textColorSecondaryLight" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.0"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/qs_tile_preview3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1.0"
+                            android:background="@drawable/qs_shape_preview_disabled"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingTop="14dp"
+                            android:paddingRight="16dp"
+                            android:paddingBottom="14dp"
+                            tools:ignore="NestedWeights,RtlHardcoded,RtlSymmetry">
+
+                            <ImageView
+                                android:id="@+id/qs_icon3"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="16dp"
+                                android:layout_marginRight="10dp"
+                                android:src="@drawable/ic_qs_location"
+                                app:tint="@color/textColorPrimary"
+                                tools:ignore="ContentDescription" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:text="Location"
+                                    android:textColor="@color/textColorPrimary"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="-6dp"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:text="Off"
+                                    android:textColor="@color/textColorSecondaryLight" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/qs_tile_preview4"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:layout_weight="1.0"
+                            android:background="@drawable/qs_shape_preview_enabled"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingTop="14dp"
+                            android:paddingRight="16dp"
+                            android:paddingBottom="14dp"
+                            tools:ignore="RtlHardcoded">
+
+                            <ImageView
+                                android:id="@+id/qs_icon4"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="16dp"
+                                android:layout_marginRight="10dp"
+                                android:src="@drawable/ic_qs_bluetooth"
+                                app:tint="@color/textColorPrimary"
+                                tools:ignore="ContentDescription" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:text="Bluetooth"
+                                    android:textColor="@color/textColorPrimary"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="-6dp"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:text="Off"
+                                    android:textColor="@color/textColorSecondaryLight" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
                 <SeekBar
                     android:id="@+id/corner_radius_seekbar"
                     android:layout_width="match_parent"
@@ -67,6 +302,20 @@
                     android:splitTrack="false"
                     android:theme="@style/SeekBar.Iconify"
                     android:thumb="@drawable/seek_thumb" />
+
+                <Button
+                    android:id="@+id/apply_radius"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/container_padding"
+                    android:background="@drawable/button"
+                    android:fontFamily="@font/semibold"
+                    android:letterSpacing="0.2"
+                    android:text="APPLY"
+                    android:textColor="@color/colorBackground"
+                    android:textSize="@dimen/cont_title_size"
+                    android:textStyle="bold"
+                    tools:ignore="SpUsage" />
 
             </LinearLayout>
 
