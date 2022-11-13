@@ -14,4 +14,5 @@
     <color name="shadow">#40000000</color>
     <color name="neumorph_outline_start">#FF363636</color>
     <color name="neumorph_outline_end">#FF0F0F0F</color>
+    <color name="switch_track_layer">#B3000000</color>
 </resources>
