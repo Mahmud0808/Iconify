@@ -3,6 +3,7 @@ package com.drdisagree.iconify.installer;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.services.ApplyOnBoot;
+import com.drdisagree.iconify.utils.OverlayUtils;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
@@ -16,8 +17,8 @@ public class BrightnessInstaller {
         enable_pack(n);
         PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
         ApplyOnBoot.applyColors();
-        PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedcornerRadius", true);
-        ApplyOnBoot.applyCornerRadius();
+        if (PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius").equals("null"))
+            OverlayUtils.enableOverlay("IconifyComponentCR16.overlay");
     }
 
     protected static void enable_pack(int n) {

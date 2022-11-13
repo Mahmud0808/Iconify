@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.installer.RadiusInstaller;
 import com.drdisagree.iconify.utils.FabricatedOverlay;
 import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -105,23 +106,12 @@ public class Extras extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "cornerRadius", String.valueOf(finalUiCornerRadius[0]));
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedcornerRadius", true);
 
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
-
-                        FabricatedOverlay.buildOverlay("android", "dialogCornerRadius", "dimen", "dialog_corner_radius", "0x" + ((finalUiCornerRadius[0] + 8 + 16) * 100));
-                        FabricatedOverlay.buildOverlay("android", "insetCornerRadius2", "dimen", "harmful_app_name_padding_right", "0x" + ((finalUiCornerRadius[0] + 6 + 16) * 100));
-                        FabricatedOverlay.buildOverlay("android", "insetCornerRadius4", "dimen", "harmful_app_name_padding_left", "0x" + ((finalUiCornerRadius[0] + 4 + 16) * 100));
-
-                        FabricatedOverlay.enableOverlay("dialogCornerRadius");
-                        FabricatedOverlay.enableOverlay("insetCornerRadius2");
-                        FabricatedOverlay.enableOverlay("insetCornerRadius4");
-
+                        RadiusInstaller.install_pack(finalUiCornerRadius[0]);
                         PrefConfig.savePrefSettings(Iconify.getAppContext(), "cornerRadius", String.valueOf(finalUiCornerRadius[0]));
-
                     }
                 };
                 Thread thread = new Thread(runnable);
