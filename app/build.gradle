@@ -9,8 +9,8 @@ android {
         applicationId "com.drdisagree.iconify"
         minSdk 31
         targetSdk 33
-        versionCode 1
-        versionName "v1.0-Beta"
+        versionCode 2
+        versionName "v2.0-Beta"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
