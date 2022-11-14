@@ -72,9 +72,6 @@ public class WelcomePage extends AppCompatActivity {
                                         spinner.setVisibility(View.GONE);
                                         // Unblock touch
                                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                                        if (PrefConfig.loadPrefInt(Iconify.getAppContext(), "versionCode") != 0)
-                                            Toast.makeText(getApplicationContext(), "Reboot to Apply Changes", Toast.LENGTH_LONG).show();
                                     }
                                 });
                             }
