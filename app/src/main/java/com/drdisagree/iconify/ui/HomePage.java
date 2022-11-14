@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -36,6 +37,9 @@ public class HomePage extends AppCompatActivity {
         setContentView(R.layout.home_page);
 
         PrefConfig.savePrefBool(Iconify.getAppContext(), "onHomePage", true);
+
+        if (PrefConfig.loadPrefInt(Iconify.getAppContext(), "versionCode") < BuildConfig.VERSION_CODE && PrefConfig.loadPrefInt(Iconify.getAppContext(), "versionCode") != 0)
+            Toast.makeText(Iconify.getAppContext(), "Reboot to Apply Changes", Toast.LENGTH_LONG).show();
         PrefConfig.savePrefInt(this, "versionCode", BuildConfig.VERSION_CODE);
 
         // Header

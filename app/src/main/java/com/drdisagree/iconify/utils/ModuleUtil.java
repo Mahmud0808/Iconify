@@ -29,9 +29,6 @@ public class ModuleUtil {
             Shell.cmd("rm -rf " + MODULE_DIR).exec();
         }
         installModule(context);
-
-        if (PrefConfig.loadPrefInt(Iconify.getAppContext(), "versionCode") < BuildConfig.VERSION_CODE && PrefConfig.loadPrefInt(Iconify.getAppContext(), "versionCode")  != 0)
-            Toast.makeText(SplashActivity.getContext(), "Reboot to Apply Changes", Toast.LENGTH_LONG).show();
     }
 
     static void installModule(Context context) {

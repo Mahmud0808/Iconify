@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.SplashActivity;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.utils.ModuleUtil;
 import com.drdisagree.iconify.utils.OverlayUtils;
@@ -80,7 +81,6 @@ public class WelcomePage extends AppCompatActivity {
                         thread.start();
                     }
                     if (OverlayUtils.overlayExists()) {
-                        PrefConfig.savePrefInt(this, "versionCode", versionCode);
                         Intent intent = new Intent(WelcomePage.this, HomePage.class);
                         startActivity(intent);
                         finish();
