@@ -78,9 +78,9 @@
                             android:background="@drawable/qs_shape_preview_enabled"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
-                            android:paddingTop="14dp"
+                            android:paddingTop="18dp"
                             android:paddingRight="16dp"
-                            android:paddingBottom="14dp"
+                            android:paddingBottom="18dp"
                             tools:ignore="NestedWeights,RtlHardcoded,RtlSymmetry">
 
                             <ImageView
@@ -130,9 +130,9 @@
                             android:background="@drawable/qs_shape_preview_disabled"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
-                            android:paddingTop="14dp"
+                            android:paddingTop="18dp"
                             android:paddingRight="16dp"
-                            android:paddingBottom="14dp"
+                            android:paddingBottom="18dp"
                             tools:ignore="RtlHardcoded,RtlSymmetry">
 
                             <ImageView
@@ -190,9 +190,9 @@
                             android:background="@drawable/qs_shape_preview_disabled"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
-                            android:paddingTop="14dp"
+                            android:paddingTop="18dp"
                             android:paddingRight="16dp"
-                            android:paddingBottom="14dp"
+                            android:paddingBottom="18dp"
                             tools:ignore="NestedWeights,RtlHardcoded,RtlSymmetry">
 
                             <ImageView
@@ -242,9 +242,9 @@
                             android:background="@drawable/qs_shape_preview_enabled"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
-                            android:paddingTop="14dp"
+                            android:paddingTop="18dp"
                             android:paddingRight="16dp"
-                            android:paddingBottom="14dp"
+                            android:paddingBottom="18dp"
                             tools:ignore="RtlHardcoded">
 
                             <ImageView
@@ -295,7 +295,7 @@
                     android:layout_marginTop="@dimen/container_padding"
                     android:background="@null"
                     android:hapticFeedbackEnabled="true"
-                    android:max="58"
+                    android:max="36"
                     android:min="0"
                     android:progress="16"
                     android:progressDrawable="@drawable/seekbar"
