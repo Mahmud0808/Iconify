@@ -2,8 +2,12 @@ package com.drdisagree.iconify.utils;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.drdisagree.iconify.BuildConfig;
+import com.drdisagree.iconify.Iconify;
+import com.drdisagree.iconify.SplashActivity;
+import com.drdisagree.iconify.config.PrefConfig;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
@@ -25,6 +29,9 @@ public class ModuleUtil {
             Shell.cmd("rm -rf " + MODULE_DIR).exec();
         }
         installModule(context);
+
+        if (PrefConfig.loadPrefInt(Iconify.getAppContext(), "versionCode") < BuildConfig.VERSION_CODE && PrefConfig.loadPrefInt(Iconify.getAppContext(), "versionCode")  != 0)
+            Toast.makeText(SplashActivity.getContext(), "Reboot to Apply Changes", Toast.LENGTH_LONG).show();
     }
 
     static void installModule(Context context) {
