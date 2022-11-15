@@ -32,10 +32,67 @@
                 tools:ignore="UselessParent">
 
                 <LinearLayout
-                    android:id="@+id/text_size_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/container_top"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/container_paddingSide"
+                    android:paddingTop="@dimen/container_padding"
+                    android:paddingEnd="@dimen/container_paddingSide"
+                    android:paddingBottom="@dimen/container_padding">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center"
+                        android:layout_marginRight="@dimen/container_padding"
+                        android:layout_weight="1.0"
+                        android:orientation="vertical"
+                        tools:ignore="RtlHardcoded">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center"
+                            android:paddingTop="3dp"
+                            android:text="Hide Label"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center"
+                            android:paddingTop="3dp"
+                            android:text="Remove QS Tile Titles"
+                            android:textColor="@color/textColorSecondary"
+                            android:textSize="@dimen/cont_title_size2"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <Switch
+                        android:id="@+id/hide_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center"
+                        android:thumb="@drawable/switch_thumb"
+                        android:track="@drawable/switch_track"
+                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/colorBackground" />
+
+                <LinearLayout
+                    android:id="@+id/text_size_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/container_mid"
                     android:orientation="vertical"
                     android:paddingStart="@dimen/container_paddingSide"
                     android:paddingTop="@dimen/container_padding"
@@ -82,14 +139,16 @@
                 </LinearLayout>
 
                 <View
+                    android:id="@+id/text_size_divider"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:background="@color/colorBackground" />
 
                 <LinearLayout
+                    android:id="@+id/icon_size_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/container_bottom"
+                    android:background="@drawable/container_mid"
                     android:orientation="vertical"
                     android:paddingStart="@dimen/container_paddingSide"
                     android:paddingTop="@dimen/container_padding"
@@ -128,6 +187,60 @@
                         android:max="20"
                         android:min="0"
                         android:progress="10"
+                        android:progressDrawable="@drawable/seekbar"
+                        android:splitTrack="false"
+                        android:theme="@style/SeekBar.Iconify"
+                        android:thumb="@drawable/seek_thumb" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/colorBackground" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/container_bottom"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/container_paddingSide"
+                    android:paddingTop="@dimen/container_padding"
+                    android:paddingEnd="@dimen/container_paddingSide"
+                    android:paddingBottom="@dimen/container_padding">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center"
+                        android:paddingTop="3dp"
+                        android:text="Move Icon"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/move_icon_output"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center"
+                        android:paddingTop="3dp"
+                        android:text="Selected: 10dp (Default)"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="@dimen/cont_title_size2"
+                        android:textStyle="bold" />
+
+                    <SeekBar
+                        android:id="@+id/move_icon"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/container_padding"
+                        android:layout_marginBottom="8dp"
+                        android:background="@null"
+                        android:hapticFeedbackEnabled="true"
+                        android:max="79"
+                        android:min="0"
+                        android:progress="15"
                         android:progressDrawable="@drawable/seekbar"
                         android:splitTrack="false"
                         android:theme="@style/SeekBar.Iconify"
@@ -379,135 +492,6 @@
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                 </LinearLayout>
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="@dimen/container_margin"
-                android:layout_marginBottom="20dp"
-                android:text="Additional Options"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/container_marginSide"
-                android:layout_marginEnd="@dimen/container_marginSide"
-                android:layout_marginBottom="@dimen/container_margin"
-                android:orientation="vertical"
-                tools:ignore="UselessParent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/container_top"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
-                        android:layout_marginRight="@dimen/container_padding"
-                        android:layout_weight="1.0"
-                        android:orientation="vertical"
-                        tools:ignore="RtlHardcoded">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left|center"
-                            android:paddingTop="3dp"
-                            android:text="Hide Label"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left|center"
-                            android:paddingTop="3dp"
-                            android:text="Remove QS Tile Titles"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <Switch
-                        android:id="@+id/hide_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
-                        android:thumb="@drawable/switch_thumb"
-                        android:track="@drawable/switch_track"
-                        tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/container_bottom"
-                    android:orientation="vertical"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
-                        android:paddingTop="3dp"
-                        android:text="Move Icon"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/move_icon_output"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
-                        android:paddingTop="3dp"
-                        android:text="Selected: 10dp (Default)"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_title_size2"
-                        android:textStyle="bold" />
-
-                    <SeekBar
-                        android:id="@+id/move_icon"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/container_padding"
-                        android:layout_marginBottom="8dp"
-                        android:background="@null"
-                        android:hapticFeedbackEnabled="true"
-                        android:max="39"
-                        android:min="0"
-                        android:progress="15"
-                        android:progressDrawable="@drawable/seekbar"
-                        android:splitTrack="false"
-                        android:theme="@style/SeekBar.Iconify"
-                        android:thumb="@drawable/seek_thumb" />
-
-                </LinearLayout>
-
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

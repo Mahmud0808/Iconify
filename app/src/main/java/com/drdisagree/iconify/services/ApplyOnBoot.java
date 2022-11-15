@@ -74,6 +74,11 @@ public class ApplyOnBoot {
                     FabricatedOverlay.buildOverlay("systemui", "qsTileIconSize", "dimen", "qs_icon_size", "0x" + ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsIconSize")) + 10 + 16) * 100));
                     FabricatedOverlay.enableOverlay("qsTileIconSize");
                 }
+
+                if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedqsMoveIcon") && FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "qsTileMoveIcon")) {
+                    FabricatedOverlay.buildOverlay("systemui", "qsTileMoveIcon", "dimen", "qs_tile_start_padding", "0x" + ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsMoveIcon")) + 1 + 16) * 100));
+                    FabricatedOverlay.enableOverlay("qsTileMoveIcon");
+                }
             }
         };
         Thread thread = new Thread(runnable);

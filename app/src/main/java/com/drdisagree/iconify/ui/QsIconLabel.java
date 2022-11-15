@@ -2,7 +2,9 @@ package com.drdisagree.iconify.ui;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -10,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -27,7 +30,7 @@ public class QsIconLabel extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.qs_text_color);
+        setContentView(R.layout.qs_icon_label);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
@@ -54,7 +57,8 @@ public class QsIconLabel extends AppCompatActivity {
                 text_size_output.setText("Selected: " + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsTextSize")) + 10) + "sp");
             finalTextSize[0] = Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsTextSize"));
             text_size.setProgress(finalTextSize[0]);
-        }
+        } else
+            text_size_output.setText("Selected: 14sp (Default)");
 
         text_size.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -110,7 +114,8 @@ public class QsIconLabel extends AppCompatActivity {
                 icon_size_output.setText("Selected: " + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsIconSize")) + 10) + "dp");
             finalIconSize[0] = Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsIconSize"));
             icon_size.setProgress(finalIconSize[0]);
-        }
+        } else
+            icon_size_output.setText("Selected: 20dp (Default)");
 
         icon_size.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -150,6 +155,17 @@ public class QsIconLabel extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), (finalIconSize[0] + 10 + "dp Applied"), Toast.LENGTH_SHORT).show();
             }
         });
+
+        // Hide text size if hide label is enabled
+
+        LinearLayout text_size_container = findViewById(R.id.text_size_container);
+        LinearLayout icon_size_container = findViewById(R.id.icon_size_container);
+        View text_size_divider = findViewById(R.id.text_size_divider);
+
+        if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay")) {
+            text_size_container.setVisibility(View.GONE);
+            text_size_divider.setVisibility(View.GONE);
+        }
 
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_white = findViewById(R.id.label_white);
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_whiteV2 = findViewById(R.id.label_whiteV2);
@@ -250,12 +266,84 @@ public class QsIconLabel extends AppCompatActivity {
 
         // Hide Label
 
-        Switch hide_label = findViewById(R.id.hide_label);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_label = findViewById(R.id.hide_label);
+
+        hide_label.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay"));
+
+        hide_label.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    OverlayUtils.enableOverlay("IconifyComponentQSHL.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", true);
+
+                    text_size_container.setVisibility(View.GONE);
+                    text_size_divider.setVisibility(View.GONE);
+                } else {
+                    OverlayUtils.disableOverlay("IconifyComponentQSHL.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", false);
+
+                    text_size_container.setVisibility(View.VISIBLE);
+                    text_size_divider.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         // Move Icon
 
         SeekBar move_icon = findViewById(R.id.move_icon);
         TextView move_icon_output = findViewById(R.id.move_icon_output);
+
+        move_icon.setPadding(0, 0, 0, 0);
+        final int[] finalMoveIcon = {15};
+
+        if (!PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsMoveIcon").equals("null")) {
+            if ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsMoveIcon")) + 1) == 16)
+                move_icon_output.setText("Selected: " + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsMoveIcon")) + 1) + "dp (Default)");
+            else
+                move_icon_output.setText("Selected: " + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsMoveIcon")) + 1) + "dp");
+            finalMoveIcon[0] = Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsMoveIcon"));
+            move_icon.setProgress(finalMoveIcon[0]);
+        } else
+            move_icon_output.setText("Selected: 16dp (Default)");
+
+        move_icon.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                finalMoveIcon[0] = progress;
+                if (progress + 1 == 16)
+                    move_icon_output.setText("Selected: " + (progress + 1) + "dp (Default)");
+                else
+                    move_icon_output.setText("Selected: " + (progress + 1) + "dp");
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsMoveIcon", String.valueOf(finalMoveIcon[0]));
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedqsMoveIcon", true);
+
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+
+                        FabricatedOverlay.buildOverlay("systemui", "qsTileMoveIcon", "dimen", "qs_tile_start_padding", "0x" + ((finalMoveIcon[0] + 1 + 16) * 100));
+
+                        FabricatedOverlay.enableOverlay("qsTileMoveIcon");
+
+                    }
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
+
+                Toast.makeText(getApplicationContext(), (finalMoveIcon[0] + 1 + "dp Applied"), Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
