@@ -21,7 +21,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import java.util.List;
 import java.util.Objects;
 
-public class QsTextColor extends AppCompatActivity {
+public class QsIconLabel extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     @Override

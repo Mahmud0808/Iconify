@@ -83,7 +83,7 @@ public class QsShapes extends AppCompatActivity {
         qs_text_color.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(QsShapes.this, QsTextColor.class);
+                Intent intent = new Intent(QsShapes.this, QsIconLabel.class);
                 startActivity(intent);
             }
         });
