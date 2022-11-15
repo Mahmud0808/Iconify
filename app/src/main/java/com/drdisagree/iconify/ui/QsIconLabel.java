@@ -247,6 +247,16 @@ public class QsIconLabel extends AppCompatActivity {
                 }
             }
         });
+
+        // Hide Label
+
+        Switch hide_label = findViewById(R.id.hide_label);
+
+        // Move Icon
+
+        SeekBar move_icon = findViewById(R.id.move_icon);
+        TextView move_icon_output = findViewById(R.id.move_icon_output);
+
     }
 
     @Override

@@ -9,7 +9,7 @@ import java.io.File;
 
 public class RadiusInstaller {
 
-    private static final int TOTAL_RADIUS = 58;
+    private static final int TOTAL_RADIUS = 37;
 
     public static void install_pack(int n) {
         disable_others(n);
