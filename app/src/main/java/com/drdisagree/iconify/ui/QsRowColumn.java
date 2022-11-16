@@ -21,12 +21,12 @@ import java.util.Objects;
 public class QsRowColumn extends AppCompatActivity {
 
     public static void applyRowColumn() {
-        FabricatedOverlay.buildOverlay("systemui", "qqsRow", "integer", "quick_qs_panel_max_rows", String.valueOf((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qqsRow")) + 1)));
-        FabricatedOverlay.buildOverlay("systemui", "qsRow", "integer", "quick_settings_max_rows", String.valueOf((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsRow")) + 1)));
-        FabricatedOverlay.buildOverlay("systemui", "qqsColumn", "integer", "quick_qs_panel_max_columns", String.valueOf((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsColumn")) + 1)));
-        FabricatedOverlay.buildOverlay("systemui", "qsColumn", "integer", "quick_settings_num_columns", String.valueOf((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsColumn")) + 1)));
-        FabricatedOverlay.buildOverlay("systemui", "qqsTile", "integer", "quick_qs_panel_max_tiles", String.valueOf(((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qqsRow")) + 1) * (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsColumn")) + 1))));
-        FabricatedOverlay.buildOverlay("systemui", "qsTile", "integer", "quick_settings_min_num_tiles", String.valueOf(((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsColumn")) + 1) * (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsRow")) + 1))));
+        FabricatedOverlay.buildOverlay("systemui", "qqsRow", "integer", "quick_qs_panel_max_rows", String.valueOf(Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qqsRow")) + 1));
+        FabricatedOverlay.buildOverlay("systemui", "qsRow", "integer", "quick_settings_max_rows", String.valueOf(Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsRow")) + 1));
+        FabricatedOverlay.buildOverlay("systemui", "qqsColumn", "integer", "quick_qs_panel_max_columns", String.valueOf(Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsColumn")) + 1));
+        FabricatedOverlay.buildOverlay("systemui", "qsColumn", "integer", "quick_settings_num_columns", String.valueOf(Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsColumn")) + 1));
+        FabricatedOverlay.buildOverlay("systemui", "qqsTile", "integer", "quick_qs_panel_max_tiles", String.valueOf((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qqsRow")) + 1) * (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsColumn")) + 1)));
+        FabricatedOverlay.buildOverlay("systemui", "qsTile", "integer", "quick_settings_min_num_tiles", String.valueOf((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsColumn")) + 1) * (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsRow")) + 1)));
 
         FabricatedOverlay.enableOverlay("qqsRow");
         FabricatedOverlay.enableOverlay("qsRow");
