@@ -105,6 +105,8 @@ public class MonetColor extends AppCompatActivity {
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_pitch_black_theme = findViewById(R.id.apply_pitch_black_theme);
 
         // Minimal QsPanel
+        apply_minimal_qspanel.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentQSST.overlay"));
+
         apply_minimal_qspanel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -123,6 +125,8 @@ public class MonetColor extends AppCompatActivity {
         });
 
         // Pitch Black QsPanel
+        apply_pitch_black_theme.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentQSPB.overlay"));
+
         apply_pitch_black_theme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
