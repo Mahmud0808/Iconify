@@ -7,10 +7,9 @@ import com.drdisagree.iconify.utils.OverlayUtils;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
+import static com.drdisagree.iconify.common.References.TOTAL_NOTIFICATIONS;
 
 public class NotifInstaller {
-
-    private static final int TOTAL_NOTIFICATIONS = 6;
 
     public static void install_pack(int n) {
         disable_others(n);

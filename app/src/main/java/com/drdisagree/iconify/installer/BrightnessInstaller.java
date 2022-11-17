@@ -7,10 +7,9 @@ import com.drdisagree.iconify.utils.OverlayUtils;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
+import static com.drdisagree.iconify.common.References.TOTAL_BRIGHTNESSBARS;
 
 public class BrightnessInstaller {
-
-    private static final int TOTAL_BRIGHTNESSBARS = 9;
 
     public static void install_pack(int n) {
         disable_others(n);

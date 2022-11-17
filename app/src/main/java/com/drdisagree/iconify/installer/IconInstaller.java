@@ -1,12 +1,10 @@
 package com.drdisagree.iconify.installer;
 
 import com.topjohnwu.superuser.Shell;
-
 import java.io.File;
+import static com.drdisagree.iconify.common.References.TOTAL_ICONPACKS;
 
 public class IconInstaller {
-
-    private static final int TOTAL_ICONPACKS = 4;
 
     public static void install_pack(int n) {
         disable_others(n);

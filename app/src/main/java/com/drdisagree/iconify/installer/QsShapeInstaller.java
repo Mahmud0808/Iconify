@@ -7,10 +7,9 @@ import com.drdisagree.iconify.utils.OverlayUtils;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
+import static com.drdisagree.iconify.common.References.TOTAL_QSSHAPES;
 
 public class QsShapeInstaller {
-
-    private static final int TOTAL_QSSHAPES = 9;
 
     public static void install_pack(int n) {
         disable_others(n);

@@ -1,15 +1,10 @@
 package com.drdisagree.iconify.installer;
 
-import com.drdisagree.iconify.Iconify;
-import com.drdisagree.iconify.config.PrefConfig;
-import com.drdisagree.iconify.services.ApplyOnBoot;
 import com.topjohnwu.superuser.Shell;
-
 import java.io.File;
+import static com.drdisagree.iconify.common.References.TOTAL_RADIUS;
 
 public class RadiusInstaller {
-
-    private static final int TOTAL_RADIUS = 37;
 
     public static void install_pack(int n) {
         disable_others(n);
