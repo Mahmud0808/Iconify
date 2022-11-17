@@ -62,6 +62,10 @@ public class ApplyOnBoot {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                if (OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentQSPB.overlay")) {
+                    OverlayUtils.disableOverlay("IconifyComponentQSPB.overlay");
+                    OverlayUtils.enableOverlay("IconifyComponentQSPB.overlay");
+                }
                 if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "qsRowColumn") && FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "qsRow"))
                     QsRowColumn.applyRowColumn();
 
