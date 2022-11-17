@@ -57,11 +57,23 @@
     <item name="brightnessBar_outline_enable" type="id" />
     <item name="brightnessBar_outline_disable" type="id" />
 
+    <item name="brightnessBar_outline_pixel_container" type="id" />
+    <item name="brightnessBar_outline_pixel_bb" type="id" />
+    <item name="brightnessBar_outline_pixel_auto_bb" type="id" />
+    <item name="brightnessBar_outline_pixel_enable" type="id" />
+    <item name="brightnessBar_outline_pixel_disable" type="id" />
+
     <item name="brightnessBar_leafy_outline_container" type="id" />
     <item name="brightnessBar_leafy_outline_bb" type="id" />
     <item name="brightnessBar_leafy_outline_auto_bb" type="id" />
     <item name="brightnessBar_leafy_outline_enable" type="id" />
     <item name="brightnessBar_leafy_outline_disable" type="id" />
+
+    <item name="brightnessBar_leafy_outline_pixel_container" type="id" />
+    <item name="brightnessBar_leafy_outline_pixel_bb" type="id" />
+    <item name="brightnessBar_leafy_outline_pixel_auto_bb" type="id" />
+    <item name="brightnessBar_leafy_outline_pixel_enable" type="id" />
+    <item name="brightnessBar_leafy_outline_pixel_disable" type="id" />
 
     <item name="brightnessBar_neumorph_container" type="id" />
     <item name="brightnessBar_neumorph_bb" type="id" />
@@ -118,6 +130,15 @@
     <item name="outline_qstile4" type="id" />
     <item name="outline_qstile_orientation" type="id" />
 
+    <item name="outline_pixel_container" type="id" />
+    <item name="outline_pixel_enable" type="id" />
+    <item name="outline_pixel_disable" type="id" />
+    <item name="outline_pixel_qstile1" type="id" />
+    <item name="outline_pixel_qstile2" type="id" />
+    <item name="outline_pixel_qstile3" type="id" />
+    <item name="outline_pixel_qstile4" type="id" />
+    <item name="outline_pixel_qstile_orientation" type="id" />
+
     <item name="leafy_outline_container" type="id" />
     <item name="leafy_outline_enable" type="id" />
     <item name="leafy_outline_disable" type="id" />
@@ -126,6 +147,15 @@
     <item name="leafy_outline_qstile3" type="id" />
     <item name="leafy_outline_qstile4" type="id" />
     <item name="leafy_qstile_orientation" type="id" />
+
+    <item name="leafy_outline_pixel_container" type="id" />
+    <item name="leafy_outline_pixel_enable" type="id" />
+    <item name="leafy_outline_pixel_disable" type="id" />
+    <item name="leafy_outline_pixel_qstile1" type="id" />
+    <item name="leafy_outline_pixel_qstile2" type="id" />
+    <item name="leafy_outline_pixel_qstile3" type="id" />
+    <item name="leafy_outline_pixel_qstile4" type="id" />
+    <item name="leafy_pixel_qstile_orientation" type="id" />
 
     <item name="neumorph_container" type="id" />
     <item name="neumorph_enable" type="id" />
