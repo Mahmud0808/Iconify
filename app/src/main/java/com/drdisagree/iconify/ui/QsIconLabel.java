@@ -95,7 +95,7 @@ public class QsIconLabel extends AppCompatActivity {
                 Thread thread = new Thread(runnable);
                 thread.start();
 
-                Toast.makeText(getApplicationContext(), (finalTextSize[0] + 10 + "sp Applied"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Iconify.getAppContext(), (finalTextSize[0] + 10 + "sp Applied"), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -152,7 +152,7 @@ public class QsIconLabel extends AppCompatActivity {
                 Thread thread = new Thread(runnable);
                 thread.start();
 
-                Toast.makeText(getApplicationContext(), (finalIconSize[0] + 10 + "dp Applied"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Iconify.getAppContext(), (finalIconSize[0] + 10 + "dp Applied"), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -341,7 +341,7 @@ public class QsIconLabel extends AppCompatActivity {
                 Thread thread = new Thread(runnable);
                 thread.start();
 
-                Toast.makeText(getApplicationContext(), (finalMoveIcon[0] + 1 + "dp Applied"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Iconify.getAppContext(), (finalMoveIcon[0] + 1 + "dp Applied"), Toast.LENGTH_SHORT).show();
             }
         });
 
