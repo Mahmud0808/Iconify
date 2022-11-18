@@ -1,6 +1,9 @@
 package com.drdisagree.iconify.ui;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
@@ -78,15 +84,34 @@ public class HomePage extends AppCompatActivity {
         Thread thread1 = new Thread(runnable1);
         thread1.start();
 
-        Runnable runnable2 = new Runnable() {
-            @Override
-            public void run() {
-                if (!isServiceRunning)
-                    startService(new Intent(Iconify.getAppContext(), BackgroundService.class));
+        if (Build.VERSION.SDK_INT >= 33) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NOTIFICATION_POLICY) != PackageManager.PERMISSION_GRANTED) {
+                ActivityResultLauncher<String> launcher = registerForActivityResult(
+                        new ActivityResultContracts.RequestPermission(), isGranted -> {
+                            Runnable runnable2 = new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (!isServiceRunning)
+                                        startService(new Intent(Iconify.getAppContext(), BackgroundService.class));
+                                }
+                            };
+                            Thread thread2 = new Thread(runnable2);
+                            thread2.start();
+                        }
+                );
+                launcher.launch(Manifest.permission.POST_NOTIFICATIONS);
             }
-        };
-        Thread thread2 = new Thread(runnable2);
-        thread2.start();
+        } else {
+            Runnable runnable2 = new Runnable() {
+                @Override
+                public void run() {
+                    if (!isServiceRunning)
+                        startService(new Intent(Iconify.getAppContext(), BackgroundService.class));
+                }
+            };
+            Thread thread2 = new Thread(runnable2);
+            thread2.start();
+        }
 
         // Color engine item onClick
         home_monetColor = findViewById(R.id.home_monetColor);
