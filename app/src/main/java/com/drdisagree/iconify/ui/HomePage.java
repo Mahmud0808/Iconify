@@ -21,6 +21,7 @@ import com.drdisagree.iconify.services.BackgroundService;
 import com.drdisagree.iconify.utils.FabricatedOverlay;
 import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
 
@@ -41,6 +42,7 @@ public class HomePage extends AppCompatActivity {
         if (PrefConfig.loadPrefInt(Iconify.getAppContext(), "versionCode") < BuildConfig.VERSION_CODE && PrefConfig.loadPrefInt(Iconify.getAppContext(), "versionCode") != 0)
             Toast.makeText(Iconify.getAppContext(), "Reboot to Apply Changes", Toast.LENGTH_LONG).show();
         PrefConfig.savePrefInt(this, "versionCode", BuildConfig.VERSION_CODE);
+        getBootId();
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
@@ -191,5 +193,10 @@ public class HomePage extends AppCompatActivity {
         list_preview.setImageResource(preview);
 
         container.addView(list_view);
+    }
+
+    // Save unique id of each boot
+    public static void getBootId() {
+        PrefConfig.savePrefSettings(Iconify.getAppContext(), "boot_id", Shell.cmd("cat /proc/sys/kernel/random/boot_id").exec().getOut().toString());
     }
 }

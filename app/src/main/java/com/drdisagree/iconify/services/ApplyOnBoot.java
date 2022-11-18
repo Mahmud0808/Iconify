@@ -2,9 +2,11 @@ package com.drdisagree.iconify.services;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.ui.HomePage;
 import com.drdisagree.iconify.ui.QsRowColumn;
 import com.drdisagree.iconify.utils.FabricatedOverlay;
 import com.drdisagree.iconify.utils.OverlayUtils;
+import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
 import java.util.Objects;
@@ -62,10 +64,12 @@ public class ApplyOnBoot {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentQSPB.overlay")) {
+                if (!Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "boot_id"), Shell.cmd("cat /proc/sys/kernel/random/boot_id").exec().getOut().toString()) && OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentQSPB.overlay")) {
                     OverlayUtils.disableOverlay("IconifyComponentQSPB.overlay");
                     OverlayUtils.enableOverlay("IconifyComponentQSPB.overlay");
                 }
+                HomePage.getBootId();
+
                 if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "qsRowColumn") && FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "qsRow"))
                     QsRowColumn.applyRowColumn();
 
