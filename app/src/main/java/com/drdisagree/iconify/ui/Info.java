@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.BuildConfig;
+import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -46,7 +47,7 @@ public class Info extends AppCompatActivity {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("Iconify Version", "Iconify\nVersion Name: " + BuildConfig.VERSION_NAME + "\nVersion Code: " + BuildConfig.VERSION_CODE);
                 clipboard.setPrimaryClip(clip);
-                Toast toast = Toast.makeText(getApplicationContext(), "Copied to Clipboard", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(Iconify.getAppContext(), "Copied to Clipboard", Toast.LENGTH_SHORT);
                 toast.show();
             }
         });
