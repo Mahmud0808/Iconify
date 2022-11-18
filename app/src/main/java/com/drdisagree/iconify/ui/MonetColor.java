@@ -112,14 +112,17 @@ public class MonetColor extends AppCompatActivity {
                 if (isChecked) {
                     apply_pitch_black_theme.setChecked(false);
                     OverlayUtils.disableOverlay("IconifyComponentQSPB.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSPB.overlay", false);
 
                     apply_minimal_qspanel.postDelayed(new Runnable() {
                         public void run() {
                             OverlayUtils.enableOverlay("IconifyComponentQSST.overlay");
+                            PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSST.overlay", true);
                         }
                     }, 1000);
                 } else {
                     OverlayUtils.disableOverlay("IconifyComponentQSST.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSST.overlay", false);
                 }
             }
         });
@@ -132,14 +135,17 @@ public class MonetColor extends AppCompatActivity {
                 if (isChecked) {
                     apply_minimal_qspanel.setChecked(false);
                     OverlayUtils.disableOverlay("IconifyComponentQSST.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSST.overlay", false);
 
                     apply_pitch_black_theme.postDelayed(new Runnable() {
                         public void run() {
                             OverlayUtils.enableOverlay("IconifyComponentQSPB.overlay");
+                            PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSPB.overlay", true);
                         }
                     }, 1000);
                 } else {
                     OverlayUtils.disableOverlay("IconifyComponentQSPB.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSPB.overlay", false);
                 }
             }
         });
