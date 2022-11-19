@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/container_marginSide"
+    android:layout_marginEnd="@dimen/container_marginSide"
+    android:layout_marginBottom="@dimen/container_margin"
+    android:background="@drawable/container"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/container_paddingSide"
+    android:paddingTop="@dimen/container_padding"
+    android:paddingEnd="@dimen/container_paddingSide"
+    android:paddingBottom="@dimen/container_padding">
+
+    <TextView
+        android:id="@+id/list_title_brightnessbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|top"
+        android:layout_marginBottom="@dimen/container_padding"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="@dimen/cont_title_size"
+        android:textStyle="bold"
+        tools:ignore="RtlHardcoded,SpUsage" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/brightness_bar"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1.0"
+            android:background="@drawable/brightness_bg"
+            android:minHeight="48.0dip"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/auto_brightness_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20.0dip"
+            android:background="@drawable/brightness_bg"
+            android:contentDescription="@null"
+            android:padding="12.0dp"
+            android:src="@drawable/ic_brightness_off"
+            app:tint="@color/white" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/list_button_enable_brightnessbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/container_padding"
+        android:background="@drawable/button"
+        android:fontFamily="@font/semibold"
+        android:letterSpacing="0.2"
+        android:text="@string/enable"
+        android:textColor="@color/colorBackground"
+        android:textSize="@dimen/cont_title_size"
+        android:textStyle="bold"
+        android:visibility="gone"
+        tools:ignore="SpUsage" />
+
+    <Button
+        android:id="@+id/list_button_disable_brightnessbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/container_padding"
+        android:background="@drawable/button_red"
+        android:fontFamily="@font/semibold"
+        android:letterSpacing="0.2"
+        android:text="@string/disable"
+        android:textColor="@color/colorBackground"
+        android:textSize="@dimen/cont_title_size"
+        android:textStyle="bold"
+        android:visibility="gone"
+        tools:ignore="SpUsage" />
+
+</LinearLayout>
