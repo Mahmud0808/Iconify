@@ -289,15 +289,36 @@
                         android:orientation="vertical"
                         tools:ignore="RtlHardcoded">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="left|center"
-                            android:paddingTop="3dp"
-                            android:text="Always White"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center"
+                                android:paddingTop="3dp"
+                                android:text="Always White"
+                                android:textColor="@color/textColorPrimary"
+                                android:textSize="@dimen/cont_title_size"
+                                android:textStyle="bold" />
+
+                            <View
+                                android:layout_width="4dp"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center"
+                                android:paddingTop="3dp"
+                                android:text="- A12"
+                                android:textColor="@color/textColorSecondary"
+                                android:textSize="@dimen/cont_title_size"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -346,15 +367,36 @@
                         android:orientation="vertical"
                         tools:ignore="RtlHardcoded">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="left|center"
-                            android:paddingTop="3dp"
-                            android:text="Always White v2"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center"
+                                android:paddingTop="3dp"
+                                android:text="Always White v2"
+                                android:textColor="@color/textColorPrimary"
+                                android:textSize="@dimen/cont_title_size"
+                                android:textStyle="bold" />
+
+                            <View
+                                android:layout_width="4dp"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center"
+                                android:paddingTop="3dp"
+                                android:text="- A12"
+                                android:textColor="@color/textColorSecondary"
+                                android:textSize="@dimen/cont_title_size"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -403,15 +445,36 @@
                         android:orientation="vertical"
                         tools:ignore="RtlHardcoded">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="left|center"
-                            android:paddingTop="3dp"
-                            android:text="Follow System"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center"
+                                android:paddingTop="3dp"
+                                android:text="Follow System"
+                                android:textColor="@color/textColorPrimary"
+                                android:textSize="@dimen/cont_title_size"
+                                android:textStyle="bold" />
+
+                            <View
+                                android:layout_width="4dp"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center"
+                                android:paddingTop="3dp"
+                                android:text="- A12"
+                                android:textColor="@color/textColorSecondary"
+                                android:textSize="@dimen/cont_title_size"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -427,6 +490,84 @@
 
                     <Switch
                         android:id="@+id/label_systemInverse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center"
+                        android:thumb="@drawable/switch_thumb"
+                        android:track="@drawable/switch_track"
+                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/colorBackground" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/container_mid"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/container_paddingSide"
+                    android:paddingTop="@dimen/container_padding"
+                    android:paddingEnd="@dimen/container_paddingSide"
+                    android:paddingBottom="@dimen/container_padding">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center"
+                        android:layout_marginRight="@dimen/container_padding"
+                        android:layout_weight="1.0"
+                        android:orientation="vertical"
+                        tools:ignore="RtlHardcoded">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center"
+                                android:paddingTop="3dp"
+                                android:text="Follow System v2"
+                                android:textColor="@color/textColorPrimary"
+                                android:textSize="@dimen/cont_title_size"
+                                android:textStyle="bold" />
+
+                            <View
+                                android:layout_width="4dp"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center"
+                                android:paddingTop="3dp"
+                                android:text="- A12"
+                                android:textColor="@color/textColorSecondary"
+                                android:textSize="@dimen/cont_title_size"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center"
+                            android:paddingTop="3dp"
+                            android:text="Title System, Text Accent"
+                            android:textColor="@color/textColorSecondary"
+                            android:textSize="@dimen/cont_title_size2"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <Switch
+                        android:id="@+id/label_systemInverseV2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left|center"
@@ -460,22 +601,43 @@
                         android:orientation="vertical"
                         tools:ignore="RtlHardcoded">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="left|center"
-                            android:paddingTop="3dp"
-                            android:text="Follow System v2"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center"
+                                android:paddingTop="3dp"
+                                android:text="Fix Text Color"
+                                android:textColor="@color/textColorPrimary"
+                                android:textSize="@dimen/cont_title_size"
+                                android:textStyle="bold" />
+
+                            <View
+                                android:layout_width="4dp"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center"
+                                android:paddingTop="3dp"
+                                android:text="- A13"
+                                android:textColor="@color/textColorSecondary"
+                                android:textSize="@dimen/cont_title_size"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="left|center"
                             android:paddingTop="3dp"
-                            android:text="Title System, Text Accent"
+                            android:text="Fix Invisible / Black Texts"
                             android:textColor="@color/textColorSecondary"
                             android:textSize="@dimen/cont_title_size2"
                             android:textStyle="bold" />
@@ -483,7 +645,7 @@
                     </LinearLayout>
 
                     <Switch
-                        android:id="@+id/label_systemInverseV2"
+                        android:id="@+id/label_fixtexta13"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left|center"
