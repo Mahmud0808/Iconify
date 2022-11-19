@@ -22,7 +22,7 @@ public class BrightnessInstaller {
 
     protected static void enable_pack(int n) {
 
-        String path = "/system/product/overlay/IconifyComponentBB" + n + ".apk";
+        String path = "/system/product/overlay/IconifyComponentBBN" + n + ".apk";
 
         if (new File(path).exists()) {
 
@@ -38,7 +38,7 @@ public class BrightnessInstaller {
 
     public static void disable_pack(int n) {
 
-        String path = "/system/product/overlay/IconifyComponentBB" + n + ".apk";
+        String path = "/system/product/overlay/IconifyComponentBBN" + n + ".apk";
 
         if (new File(path).exists()) {
 
@@ -56,7 +56,7 @@ public class BrightnessInstaller {
 
         for (int i = 1; i <= TOTAL_BRIGHTNESSBARS; i++) {
             if (i != n) {
-                String path = "/system/product/overlay/IconifyComponentBB" + i + ".apk";
+                String path = "/system/product/overlay/IconifyComponentBBN" + i + ".apk";
 
                 if (new File(path).exists()) {
 

@@ -22,7 +22,7 @@ public class QsShapeInstaller {
 
     protected static void enable_pack(int n) {
 
-        String path = "/system/product/overlay/IconifyComponentQSS" + n + ".apk";
+        String path = "/system/product/overlay/IconifyComponentQSSN" + n + ".apk";
 
         if (new File(path).exists()) {
 
@@ -38,7 +38,7 @@ public class QsShapeInstaller {
 
     public static void disable_pack(int n) {
 
-        String path = "/system/product/overlay/IconifyComponentQSS" + n + ".apk";
+        String path = "/system/product/overlay/IconifyComponentQSSN" + n + ".apk";
 
         if (new File(path).exists()) {
 
@@ -56,7 +56,7 @@ public class QsShapeInstaller {
 
         for (int i = 1; i <= TOTAL_QSSHAPES; i++) {
             if (i != n) {
-                String path = "/system/product/overlay/IconifyComponentQSS" + i + ".apk";
+                String path = "/system/product/overlay/IconifyComponentQSSN" + i + ".apk";
 
                 if (new File(path).exists()) {
 
