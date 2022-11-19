@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:name=".Iconify"
@@ -16,8 +16,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Iconify"
-        tools:replace="android:allowBackup"
-        tools:targetApi="31">
+        tools:replace="android:allowBackup">
+        <activity
+            android:name=".ui.BrightnessBarsPixel"
+            android:exported="false" />
+        <activity
+            android:name=".ui.QsShapesPixel"
+            android:exported="false" />
         <activity
             android:name=".ui.ProgressBar"
             android:exported="false" />
@@ -27,6 +32,7 @@
         <activity
             android:name=".ui.QsRowColumn"
             android:exported="false" />
+
         <receiver
             android:name=".services.BootCompletedReceiver"
             android:exported="true">
@@ -35,6 +41,7 @@
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
+
         <service
             android:name=".services.BackgroundService"
             android:enabled="true"
@@ -79,6 +86,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
