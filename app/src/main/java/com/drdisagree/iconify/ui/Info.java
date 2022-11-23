@@ -58,6 +58,24 @@ public class Info extends AppCompatActivity {
         TextView versionCodeAndName = findViewById(R.id.versionCodeAndName);
         versionCodeAndName.setText(BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")");
 
+        // Github
+        ViewGroup githubRepo = findViewById(R.id.githubRepo);
+        githubRepo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://github.com/Mahmud0808/Iconify";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
+        ImageView ic_github = findViewById(R.id.ic_github);
+        ic_github.setBackgroundResource(R.drawable.ic_github);
+        TextView githubTitle = findViewById(R.id.githubTitle);
+        githubTitle.setText("Github");
+        TextView githubDesc = findViewById(R.id.githubDesc);
+        githubDesc.setText("Check the github repository.");
+
         // Telegram
         ViewGroup telegramChannel = findViewById(R.id.telegramChannel);
         telegramChannel.setOnClickListener(new View.OnClickListener() {
