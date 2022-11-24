@@ -17,6 +17,9 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.installer.IconSizeInstaller;
+import com.drdisagree.iconify.installer.MoveIconInstaller;
+import com.drdisagree.iconify.installer.TextSizeInstaller;
 import com.drdisagree.iconify.utils.FabricatedOverlay;
 import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -85,11 +88,7 @@ public class QsIconLabel extends AppCompatActivity {
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
-
-                        FabricatedOverlay.buildOverlay("systemui", "qsTileTextSize", "dimen", "qs_tile_text_size", "0x" + ((finalTextSize[0] + 10 + 12) * 100));
-
-                        FabricatedOverlay.enableOverlay("qsTileTextSize");
-
+                        TextSizeInstaller.install_pack(finalTextSize[0]);
                     }
                 };
                 Thread thread = new Thread(runnable);
@@ -142,11 +141,7 @@ public class QsIconLabel extends AppCompatActivity {
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
-
-                        FabricatedOverlay.buildOverlay("systemui", "qsTileIconSize", "dimen", "qs_icon_size", "0x" + ((finalIconSize[0] + 10 + 16) * 100));
-
-                        FabricatedOverlay.enableOverlay("qsTileIconSize");
-
+                        IconSizeInstaller.install_pack(finalIconSize[0]);
                     }
                 };
                 Thread thread = new Thread(runnable);
@@ -376,11 +371,7 @@ public class QsIconLabel extends AppCompatActivity {
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
-
-                        FabricatedOverlay.buildOverlay("systemui", "qsTileMoveIcon", "dimen", "qs_tile_start_padding", "0x" + ((finalMoveIcon[0] + 1 + 16) * 100));
-
-                        FabricatedOverlay.enableOverlay("qsTileMoveIcon");
-
+                        MoveIconInstaller.install_pack(finalMoveIcon[0]);
                     }
                 };
                 Thread thread = new Thread(runnable);
