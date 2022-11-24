@@ -16,12 +16,57 @@
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <LinearLayout
-            android:id="@+id/qs_tiles_list_pixel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
-            android:orientation="vertical" />
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/color_picker_warn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/container_marginSide"
+                android:layout_marginRight="@dimen/container_marginSide"
+                android:layout_marginBottom="@dimen/container_margin"
+                android:background="@drawable/container"
+                android:gravity="left|center"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/container_paddingSide"
+                android:paddingTop="@dimen/container_padding"
+                android:paddingEnd="@dimen/container_paddingSide"
+                android:paddingBottom="@dimen/container_padding"
+                tools:ignore="RtlHardcoded">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hey_there"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/cont_title_size"
+                    android:textStyle="bold"
+                    tools:ignore="SpUsage" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:justificationMode="inter_word"
+                    android:text="You must select Primary Color from Iconify Color Picker or else the following overlays will be broken."
+                    android:textColor="@color/textColorSecondary"
+                    android:textSize="@dimen/cont_title_size2"
+                    tools:ignore="SpUsage" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/qs_tiles_list_pixel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:orientation="vertical" />
+
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 
