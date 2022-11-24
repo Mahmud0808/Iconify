@@ -82,20 +82,6 @@ public class ApplyOnBoot {
                 if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "qsRowColumn") && FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "qsRow"))
                     QsRowColumn.applyRowColumn();
 
-                if (OverlayUtils.isOverlayDisabled(overlays, "IconifyComponentQSHL.overlay") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedqsTextSize") && FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "qsTileTextSize") && OverlayUtils.isOverlayDisabled(overlays, "IconifyComponentQSHL.overlay")) {
-                    FabricatedOverlay.buildOverlay("systemui", "qsTileTextSize", "dimen", "qs_tile_text_size", "0x" + ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsTextSize")) + 10 + 14) * 100));
-                    FabricatedOverlay.enableOverlay("qsTileTextSize");
-                }
-
-                if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedqsIconSize") && FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "qsTileIconSize")) {
-                    FabricatedOverlay.buildOverlay("systemui", "qsTileIconSize", "dimen", "qs_icon_size", "0x" + ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsIconSize")) + 10 + 16) * 100));
-                    FabricatedOverlay.enableOverlay("qsTileIconSize");
-                }
-
-                if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedqsMoveIcon") && FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "qsTileMoveIcon")) {
-                    FabricatedOverlay.buildOverlay("systemui", "qsTileMoveIcon", "dimen", "qs_tile_start_padding", "0x" + ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsMoveIcon")) + 1 + 16) * 100));
-                    FabricatedOverlay.enableOverlay("qsTileMoveIcon");
-                }
             }
         };
         Thread thread = new Thread(runnable);
