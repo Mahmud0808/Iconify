@@ -1,5 +1,9 @@
 package com.drdisagree.iconify.services;
 
+import android.graphics.Color;
+
+import androidx.core.graphics.ColorUtils;
+
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.ui.HomePage;
@@ -32,12 +36,17 @@ public class ApplyOnBoot {
                             amc_reApplied = true;
                         }
 
-                        if (!Objects.equals(colorAccentPrimary, INVALID))
+                        if (!Objects.equals(colorAccentPrimary, INVALID)) {
                             FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
-                        else
+                            FabricatedOverlay.buildOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(Integer.parseInt(colorAccentPrimary), Color.BLACK, 0.8f)));
+                        }
+                        else {
                             FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
+                            FabricatedOverlay.buildOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", "0xFF122530");
+                        }
 
                         FabricatedOverlay.enableOverlay("colorAccentPrimary");
+                        FabricatedOverlay.enableOverlay("colorAccentPrimaryDark");
                     }
                     if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "customSecondaryColor") && FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "colorAccentSecondary")) {
                         if (!amc_reApplied && OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentAMC.overlay")) {

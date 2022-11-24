@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.ColorUtils;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -101,8 +103,10 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
                 PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
 
                 FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
+                FabricatedOverlay.buildOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", "0xFF122530");
                 FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", "0xFF387BFF");
                 FabricatedOverlay.enableOverlay("colorAccentPrimary");
+                FabricatedOverlay.enableOverlay("colorAccentPrimaryDark");
                 FabricatedOverlay.enableOverlay("colorAccentSecondary");
 
                 ApplyOnBoot.applyColors();
@@ -178,7 +182,9 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
                             OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
                         }
                         FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(accent)));
+                        FabricatedOverlay.buildOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(Integer.parseInt(accent), Color.BLACK, 0.8f)));
                         FabricatedOverlay.enableOverlay("colorAccentPrimary");
+                        FabricatedOverlay.enableOverlay("colorAccentPrimaryDark");
                         String colorAccentSecondary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary");
                         if (!Objects.equals(colorAccentSecondary, "null")) {
                             FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(colorAccentSecondary)));
@@ -205,7 +211,9 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
                         String colorAccentPrimary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary");
                         if (!Objects.equals(colorAccentPrimary, "null")) {
                             FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
+                            FabricatedOverlay.buildOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(Integer.parseInt(colorAccentPrimary), Color.BLACK, 0.8f)));
                             FabricatedOverlay.enableOverlay("colorAccentPrimary");
+                            FabricatedOverlay.enableOverlay("colorAccentPrimaryDark");
                         }
                         findViewById(R.id.page_color_picker).invalidate();
                     }
