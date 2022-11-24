@@ -23,7 +23,7 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
-import com.drdisagree.iconify.installer.QsShapeInstaller;
+import com.drdisagree.iconify.installer.QsShapePixelInstaller;
 import com.drdisagree.iconify.utils.DisplayUtil;
 import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -32,12 +32,19 @@ import java.util.Objects;
 
 public class QsShapesPixel extends AppCompatActivity {
 
-    private static final String OUTLINE_PIXEL_KEY = "IconifyComponentQSSP4.overlay";
-    private static final String LEAFY_OUTLINE_PIXEL_KEY = "IconifyComponentQSSP5.overlay";
+    private static final String DEFAULT_KEY_PIXEL = "IconifyComponentQSSP1.overlay";
+    private static final String DOUBLE_LAYER_KEY_PIXEL = "IconifyComponentQSSP2.overlay";
+    private static final String SHADED_LAYER_KEY_PIXEL = "IconifyComponentQSSP3.overlay";
+    private static final String OUTLINE_KEY_PIXEL = "IconifyComponentQSSP4.overlay";
+    private static final String LEAFY_OUTLINE_KEY_PIXEL = "IconifyComponentQSSP5.overlay";
+    private static final String NEUMORPH_KEY_PIXEL = "IconifyComponentQSSP6.overlay";
+    private static final String SURROUND_KEY_PIXEL = "IconifyComponentQSSP7.overlay";
+    private static final String BOOKMARK_KEY_PIXEL = "IconifyComponentQSSP8.overlay";
+    private static final String NEUMORPH_OUTLINE_KEY_PIXEL = "IconifyComponentQSSP9.overlay";
 
     LinearLayout[] Container;
-    LinearLayout OutlinePixelContainer, LeafyOutlinePixelContainer;
-    Button OutlinePixel_Enable, OutlinePixel_Disable, LeafyOutlinePixel_Enable, LeafyOutlinePixel_Disable;
+    LinearLayout DefaultContainer, DoubleLayerContainer, ShadedLayerContainer, OutlineContainer, LeafyOutlineContainer, NeumorphContainer, SurroundContainer, BookmarkContainer, NeumorphOutlineContainer;
+    Button Default_Enable, Default_Disable, DoubleLayer_Enable, DoubleLayer_Disable, ShadedLayer_Enable, ShadedLayer_Disable, Outline_Enable, Outline_Disable, LeafyOutline_Enable, LeafyOutline_Disable, Neumorph_Enable, Neumorph_Disable, Surround_Enable, Surround_Disable, Bookmark_Enable, Bookmark_Disable, NeumorphOutline_Enable, NeumorphOutline_Disable;
     LinearLayout[] qstile_orientation_list;
     private ViewGroup container;
     private LinearLayout spinner;
@@ -70,44 +77,185 @@ public class QsShapesPixel extends AppCompatActivity {
         LinearLayout.LayoutParams layoutParams;
 
         // Qs Shape add items in list
-        addItem(R.id.outline_pixel_container, R.id.outline_pixel_qstile1, R.id.outline_pixel_qstile2, R.id.outline_pixel_qstile3, R.id.outline_pixel_qstile4, "Outline", R.id.outline_pixel_enable, R.id.outline_pixel_disable, R.id.outline_pixel_qstile_orientation);
-        addItem(R.id.leafy_outline_pixel_container, R.id.leafy_outline_pixel_qstile1, R.id.leafy_outline_pixel_qstile2, R.id.leafy_outline_pixel_qstile3, R.id.leafy_outline_pixel_qstile4, "Leafy Outline", R.id.leafy_outline_pixel_enable, R.id.leafy_outline_pixel_disable, R.id.leafy_pixel_qstile_orientation);
+        addItem(R.id.default_container, R.id.default_qstile1, R.id.default_qstile2, R.id.default_qstile3, R.id.default_qstile4, "Default", R.id.default_enable, R.id.default_disable, R.id.default_qstile_orientation);
+        addItem(R.id.doubleLayer_container, R.id.doubleLayer_qstile1, R.id.doubleLayer_qstile2, R.id.doubleLayer_qstile3, R.id.doubleLayer_qstile4, "Double Layer", R.id.doubleLayer_enable, R.id.doubleLayer_disable, R.id.doubleLayer_qstile_orientation);
+        addItem(R.id.shadedLayer_container, R.id.shadedLayer_qstile1, R.id.shadedLayer_qstile2, R.id.shadedLayer_qstile3, R.id.shadedLayer_qstile4, "Shaded Layer", R.id.shadedLayer_enable, R.id.shadedLayer_disable, R.id.shadedLayer_qstile_orientation);
+        addItem(R.id.outline_container, R.id.outline_qstile1, R.id.outline_qstile2, R.id.outline_qstile3, R.id.outline_qstile4, "Outline", R.id.outline_enable, R.id.outline_disable, R.id.outline_qstile_orientation);
+        addItem(R.id.leafy_outline_container, R.id.leafy_outline_qstile1, R.id.leafy_outline_qstile2, R.id.leafy_outline_qstile3, R.id.leafy_outline_qstile4, "Leafy Outline", R.id.leafy_outline_enable, R.id.leafy_outline_disable, R.id.leafy_qstile_orientation);
+        addItem(R.id.neumorph_container, R.id.neumorph_qstile1, R.id.neumorph_qstile2, R.id.neumorph_qstile3, R.id.neumorph_qstile4, "Neumorph", R.id.neumorph_enable, R.id.neumorph_disable, R.id.neumorph_qstile_orientation);
+        addItem(R.id.neumorph_outline_container, R.id.neumorph_outline_qstile1, R.id.neumorph_outline_qstile2, R.id.neumorph_outline_qstile3, R.id.neumorph_outline_qstile4, "Neumorph Outline", R.id.neumorph_outline_enable, R.id.neumorph_outline_disable, R.id.neumorph_outline_qstile_orientation);
+        addItem(R.id.surround_container, R.id.surround_qstile1, R.id.surround_qstile2, R.id.surround_qstile3, R.id.surround_qstile4, "Surround", R.id.surround_enable, R.id.surround_disable, R.id.surround_qstile_orientation);
+        addItem(R.id.bookmark_container, R.id.bookmark_qstile1, R.id.bookmark_qstile2, R.id.bookmark_qstile3, R.id.bookmark_qstile4, "Bookmark", R.id.bookmark_enable, R.id.bookmark_disable, R.id.bookmark_qstile_orientation);
+
+        // Default
+        DefaultContainer = findViewById(R.id.default_container);
+        Default_Enable = findViewById(R.id.default_enable);
+        Default_Disable = findViewById(R.id.default_disable);
+        LinearLayout Default_QsTile1 = findViewById(R.id.default_qstile1);
+        LinearLayout Default_QsTile2 = findViewById(R.id.default_qstile2);
+        LinearLayout Default_QsTile3 = findViewById(R.id.default_qstile3);
+        LinearLayout Default_QsTile4 = findViewById(R.id.default_qstile4);
+        Default_QsTile1.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_default_enabled_pixel));
+        Default_QsTile2.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_default_disabled_pixel));
+        Default_QsTile3.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_default_disabled_pixel));
+        Default_QsTile4.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_default_enabled_pixel));
+
+        // Double Layer
+        DoubleLayerContainer = findViewById(R.id.doubleLayer_container);
+        DoubleLayer_Enable = findViewById(R.id.doubleLayer_enable);
+        DoubleLayer_Disable = findViewById(R.id.doubleLayer_disable);
+        LinearLayout DoubleLayer_QsTile1 = findViewById(R.id.doubleLayer_qstile1);
+        LinearLayout DoubleLayer_QsTile2 = findViewById(R.id.doubleLayer_qstile2);
+        LinearLayout DoubleLayer_QsTile3 = findViewById(R.id.doubleLayer_qstile3);
+        LinearLayout DoubleLayer_QsTile4 = findViewById(R.id.doubleLayer_qstile4);
+        DoubleLayer_QsTile1.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_doublelayer_enabled_pixel));
+        DoubleLayer_QsTile2.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_doublelayer_disabled_pixel));
+        DoubleLayer_QsTile3.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_doublelayer_disabled_pixel));
+        DoubleLayer_QsTile4.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_doublelayer_enabled_pixel));
+
+        // Shaded Layer
+        ShadedLayerContainer = findViewById(R.id.shadedLayer_container);
+        ShadedLayer_Enable = findViewById(R.id.shadedLayer_enable);
+        ShadedLayer_Disable = findViewById(R.id.shadedLayer_disable);
+        LinearLayout ShadedLayer_QsTile1 = findViewById(R.id.shadedLayer_qstile1);
+        LinearLayout ShadedLayer_QsTile2 = findViewById(R.id.shadedLayer_qstile2);
+        LinearLayout ShadedLayer_QsTile3 = findViewById(R.id.shadedLayer_qstile3);
+        LinearLayout ShadedLayer_QsTile4 = findViewById(R.id.shadedLayer_qstile4);
+        ShadedLayer_QsTile1.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_shadedlayer_enabled_pixel));
+        ShadedLayer_QsTile2.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_shadedlayer_disabled_pixel));
+        ShadedLayer_QsTile3.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_shadedlayer_disabled_pixel));
+        ShadedLayer_QsTile4.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_shadedlayer_enabled_pixel));
 
         // Outline
-        OutlinePixelContainer = findViewById(R.id.outline_pixel_container);
-        OutlinePixel_Enable = findViewById(R.id.outline_pixel_enable);
-        OutlinePixel_Disable = findViewById(R.id.outline_pixel_disable);
-        LinearLayout OutlinePixel_QsTile1 = findViewById(R.id.outline_pixel_qstile1);
-        LinearLayout OutlinePixel_QsTile2 = findViewById(R.id.outline_pixel_qstile2);
-        LinearLayout OutlinePixel_QsTile3 = findViewById(R.id.outline_pixel_qstile3);
-        LinearLayout OutlinePixel_QsTile4 = findViewById(R.id.outline_pixel_qstile4);
-        OutlinePixel_QsTile1.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_outline_pixel_enabled));
-        OutlinePixel_QsTile2.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_outline_pixel_disabled));
-        OutlinePixel_QsTile3.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_outline_pixel_disabled));
-        OutlinePixel_QsTile4.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_outline_pixel_enabled));
+        OutlineContainer = findViewById(R.id.outline_container);
+        Outline_Enable = findViewById(R.id.outline_enable);
+        Outline_Disable = findViewById(R.id.outline_disable);
+        LinearLayout Outline_QsTile1 = findViewById(R.id.outline_qstile1);
+        LinearLayout Outline_QsTile2 = findViewById(R.id.outline_qstile2);
+        LinearLayout Outline_QsTile3 = findViewById(R.id.outline_qstile3);
+        LinearLayout Outline_QsTile4 = findViewById(R.id.outline_qstile4);
+        Outline_QsTile1.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_outline_pixel_enabled));
+        Outline_QsTile2.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_outline_pixel_disabled));
+        Outline_QsTile3.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_outline_pixel_disabled));
+        Outline_QsTile4.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_outline_pixel_enabled));
 
         // Leafy Outline
-        LeafyOutlinePixelContainer = findViewById(R.id.leafy_outline_pixel_container);
-        LeafyOutlinePixel_Enable = findViewById(R.id.leafy_outline_pixel_enable);
-        LeafyOutlinePixel_Disable = findViewById(R.id.leafy_outline_pixel_disable);
-        LinearLayout LeafyOutlinePixel_QsTile1 = findViewById(R.id.leafy_outline_pixel_qstile1);
-        LinearLayout LeafyOutlinePixel_QsTile2 = findViewById(R.id.leafy_outline_pixel_qstile2);
-        LinearLayout LeafyOutlinePixel_QsTile3 = findViewById(R.id.leafy_outline_pixel_qstile3);
-        LinearLayout LeafyOutlinePixel_QsTile4 = findViewById(R.id.leafy_outline_pixel_qstile4);
-        LeafyOutlinePixel_QsTile1.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_leafy_outline_pixel_enabled));
-        LeafyOutlinePixel_QsTile2.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_leafy_outline_pixel_disabled));
-        LeafyOutlinePixel_QsTile3.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_leafy_outline_pixel_disabled));
-        LeafyOutlinePixel_QsTile4.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_leafy_outline_pixel_enabled));
+        LeafyOutlineContainer = findViewById(R.id.leafy_outline_container);
+        LeafyOutline_Enable = findViewById(R.id.leafy_outline_enable);
+        LeafyOutline_Disable = findViewById(R.id.leafy_outline_disable);
+        LinearLayout LeafyOutline_QsTile1 = findViewById(R.id.leafy_outline_qstile1);
+        LinearLayout LeafyOutline_QsTile2 = findViewById(R.id.leafy_outline_qstile2);
+        LinearLayout LeafyOutline_QsTile3 = findViewById(R.id.leafy_outline_qstile3);
+        LinearLayout LeafyOutline_QsTile4 = findViewById(R.id.leafy_outline_qstile4);
+        LeafyOutline_QsTile1.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_leafy_outline_pixel_enabled));
+        LeafyOutline_QsTile2.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_leafy_outline_pixel_disabled));
+        LeafyOutline_QsTile3.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_leafy_outline_pixel_disabled));
+        LeafyOutline_QsTile4.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_leafy_outline_pixel_enabled));
+
+        // Neumorph
+        NeumorphContainer = findViewById(R.id.neumorph_container);
+        Neumorph_Enable = findViewById(R.id.neumorph_enable);
+        Neumorph_Disable = findViewById(R.id.neumorph_disable);
+        LinearLayout Neumorph_QsTile1 = findViewById(R.id.neumorph_qstile1);
+        LinearLayout Neumorph_QsTile2 = findViewById(R.id.neumorph_qstile2);
+        LinearLayout Neumorph_QsTile3 = findViewById(R.id.neumorph_qstile3);
+        LinearLayout Neumorph_QsTile4 = findViewById(R.id.neumorph_qstile4);
+        Neumorph_QsTile1.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_neumorph_enabled_pixel));
+        Neumorph_QsTile2.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_neumorph_disabled_pixel));
+        Neumorph_QsTile3.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_neumorph_disabled_pixel));
+        Neumorph_QsTile4.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_neumorph_enabled_pixel));
+
+        // Neumorph Outline
+        NeumorphOutlineContainer = findViewById(R.id.neumorph_outline_container);
+        NeumorphOutline_Enable = findViewById(R.id.neumorph_outline_enable);
+        NeumorphOutline_Disable = findViewById(R.id.neumorph_outline_disable);
+        LinearLayout NeumorphOutline_QsTile1 = findViewById(R.id.neumorph_outline_qstile1);
+        LinearLayout NeumorphOutline_QsTile2 = findViewById(R.id.neumorph_outline_qstile2);
+        LinearLayout NeumorphOutline_QsTile3 = findViewById(R.id.neumorph_outline_qstile3);
+        LinearLayout NeumorphOutline_QsTile4 = findViewById(R.id.neumorph_outline_qstile4);
+        NeumorphOutline_QsTile1.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_neumorph_outline_enabled_pixel));
+        NeumorphOutline_QsTile2.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_neumorph_outline_disabled_pixel));
+        NeumorphOutline_QsTile3.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_neumorph_outline_disabled_pixel));
+        NeumorphOutline_QsTile4.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_neumorph_outline_enabled_pixel));
+
+        // Surround
+        SurroundContainer = findViewById(R.id.surround_container);
+        Surround_Enable = findViewById(R.id.surround_enable);
+        Surround_Disable = findViewById(R.id.surround_disable);
+        LinearLayout Surround_QsTile1 = findViewById(R.id.surround_qstile1);
+        LinearLayout Surround_QsTile2 = findViewById(R.id.surround_qstile2);
+        LinearLayout Surround_QsTile3 = findViewById(R.id.surround_qstile3);
+        LinearLayout Surround_QsTile4 = findViewById(R.id.surround_qstile4);
+        Surround_QsTile1.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_surround_enabled_pixel));
+        Surround_QsTile2.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_surround_disabled_pixel));
+        Surround_QsTile3.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_surround_disabled_pixel));
+        Surround_QsTile4.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_surround_enabled_pixel));
+
+        // Set custom margins for Surround
+        marginParams = new ViewGroup.MarginLayoutParams(SurroundContainer.findViewById(R.id.qs_icon1).getLayoutParams());
+        marginParams.setMargins(DisplayUtil.IntToDp(20), 0, DisplayUtil.IntToDp(22), 0);
+        layoutParams = new LinearLayout.LayoutParams(marginParams);
+        SurroundContainer.findViewById(R.id.qs_icon1).setLayoutParams(layoutParams);
+        marginParams = new ViewGroup.MarginLayoutParams(SurroundContainer.findViewById(R.id.qs_icon2).getLayoutParams());
+        marginParams.setMargins(DisplayUtil.IntToDp(20), 0, DisplayUtil.IntToDp(22), 0);
+        layoutParams = new LinearLayout.LayoutParams(marginParams);
+        SurroundContainer.findViewById(R.id.qs_icon2).setLayoutParams(layoutParams);
+        marginParams = new ViewGroup.MarginLayoutParams(SurroundContainer.findViewById(R.id.qs_icon3).getLayoutParams());
+        marginParams.setMargins(DisplayUtil.IntToDp(20), 0, DisplayUtil.IntToDp(22), 0);
+        layoutParams = new LinearLayout.LayoutParams(marginParams);
+        SurroundContainer.findViewById(R.id.qs_icon3).setLayoutParams(layoutParams);
+        marginParams = new ViewGroup.MarginLayoutParams(SurroundContainer.findViewById(R.id.qs_icon4).getLayoutParams());
+        marginParams.setMargins(DisplayUtil.IntToDp(20), 0, DisplayUtil.IntToDp(22), 0);
+        layoutParams = new LinearLayout.LayoutParams(marginParams);
+        SurroundContainer.findViewById(R.id.qs_icon4).setLayoutParams(layoutParams);
+
+        // Bookmark
+        BookmarkContainer = findViewById(R.id.bookmark_container);
+        Bookmark_Enable = findViewById(R.id.bookmark_enable);
+        Bookmark_Disable = findViewById(R.id.bookmark_disable);
+        LinearLayout Bookmark_QsTile1 = findViewById(R.id.bookmark_qstile1);
+        LinearLayout Bookmark_QsTile2 = findViewById(R.id.bookmark_qstile2);
+        LinearLayout Bookmark_QsTile3 = findViewById(R.id.bookmark_qstile3);
+        LinearLayout Bookmark_QsTile4 = findViewById(R.id.bookmark_qstile4);
+        Bookmark_QsTile1.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_bookmark_enabled_pixel));
+        Bookmark_QsTile2.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_bookmark_disabled_pixel));
+        Bookmark_QsTile3.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_bookmark_disabled_pixel));
+        Bookmark_QsTile4.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.qs_shape_bookmark_enabled_pixel));
+
+        // Set custom margins for Bookmark
+        marginParams = new ViewGroup.MarginLayoutParams(BookmarkContainer.findViewById(R.id.qs_icon1).getLayoutParams());
+        marginParams.setMargins(DisplayUtil.IntToDp(16), 0, DisplayUtil.IntToDp(26), 0);
+        layoutParams = new LinearLayout.LayoutParams(marginParams);
+        BookmarkContainer.findViewById(R.id.qs_icon1).setLayoutParams(layoutParams);
+        marginParams = new ViewGroup.MarginLayoutParams(BookmarkContainer.findViewById(R.id.qs_icon2).getLayoutParams());
+        marginParams.setMargins(DisplayUtil.IntToDp(16), 0, DisplayUtil.IntToDp(26), 0);
+        layoutParams = new LinearLayout.LayoutParams(marginParams);
+        BookmarkContainer.findViewById(R.id.qs_icon2).setLayoutParams(layoutParams);
+        marginParams = new ViewGroup.MarginLayoutParams(BookmarkContainer.findViewById(R.id.qs_icon3).getLayoutParams());
+        marginParams.setMargins(DisplayUtil.IntToDp(16), 0, DisplayUtil.IntToDp(26), 0);
+        layoutParams = new LinearLayout.LayoutParams(marginParams);
+        BookmarkContainer.findViewById(R.id.qs_icon3).setLayoutParams(layoutParams);
+        marginParams = new ViewGroup.MarginLayoutParams(BookmarkContainer.findViewById(R.id.qs_icon4).getLayoutParams());
+        marginParams.setMargins(DisplayUtil.IntToDp(16), 0, DisplayUtil.IntToDp(26), 0);
+        layoutParams = new LinearLayout.LayoutParams(marginParams);
+        BookmarkContainer.findViewById(R.id.qs_icon4).setLayoutParams(layoutParams);
 
         // List of QsShape
-        Container = new LinearLayout[]{OutlinePixelContainer, LeafyOutlinePixelContainer};
+        Container = new LinearLayout[]{DefaultContainer, DoubleLayerContainer, ShadedLayerContainer, OutlineContainer, LeafyOutlineContainer, NeumorphContainer, NeumorphOutlineContainer, SurroundContainer, BookmarkContainer};
 
         // Enable onClick event
-        enableOnClickListener(OutlinePixelContainer, OutlinePixel_Enable, OutlinePixel_Disable, OUTLINE_PIXEL_KEY, 4, false);
-        enableOnClickListener(LeafyOutlinePixelContainer, LeafyOutlinePixel_Enable, LeafyOutlinePixel_Disable, LEAFY_OUTLINE_PIXEL_KEY, 5, false);
+        enableOnClickListener(DefaultContainer, Default_Enable, Default_Disable, DEFAULT_KEY_PIXEL, 1, false);
+        enableOnClickListener(DoubleLayerContainer, DoubleLayer_Enable, DoubleLayer_Disable, DOUBLE_LAYER_KEY_PIXEL, 2, false);
+        enableOnClickListener(ShadedLayerContainer, ShadedLayer_Enable, ShadedLayer_Disable, SHADED_LAYER_KEY_PIXEL, 3, false);
+        enableOnClickListener(OutlineContainer, Outline_Enable, Outline_Disable, OUTLINE_KEY_PIXEL, 4, false);
+        enableOnClickListener(LeafyOutlineContainer, LeafyOutline_Enable, LeafyOutline_Disable, LEAFY_OUTLINE_KEY_PIXEL, 5, false);
+        enableOnClickListener(NeumorphContainer, Neumorph_Enable, Neumorph_Disable, NEUMORPH_KEY_PIXEL, 6, false);
+        enableOnClickListener(SurroundContainer, Surround_Enable, Surround_Disable, SURROUND_KEY_PIXEL, 7, false);
+        enableOnClickListener(BookmarkContainer, Bookmark_Enable, Bookmark_Disable, BOOKMARK_KEY_PIXEL, 8, false);
+        enableOnClickListener(NeumorphOutlineContainer, NeumorphOutline_Enable, NeumorphOutline_Disable, NEUMORPH_OUTLINE_KEY_PIXEL, 9, false);
 
         // List of orientation
-        qstile_orientation_list = new LinearLayout[]{findViewById(R.id.outline_pixel_qstile_orientation), findViewById(R.id.leafy_pixel_qstile_orientation)};
+        qstile_orientation_list = new LinearLayout[]{findViewById(R.id.default_qstile_orientation), findViewById(R.id.doubleLayer_qstile_orientation), findViewById(R.id.shadedLayer_qstile_orientation), findViewById(R.id.outline_qstile_orientation), findViewById(R.id.leafy_qstile_orientation), findViewById(R.id.neumorph_qstile_orientation), findViewById(R.id.surround_qstile_orientation), findViewById(R.id.bookmark_qstile_orientation), findViewById(R.id.neumorph_outline_qstile_orientation)};
 
         int orientation = this.getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -132,7 +280,7 @@ public class QsShapesPixel extends AppCompatActivity {
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // List of orientation
-        qstile_orientation_list = new LinearLayout[]{findViewById(R.id.outline_pixel_qstile_orientation), findViewById(R.id.leafy_pixel_qstile_orientation)};
+        qstile_orientation_list = new LinearLayout[]{findViewById(R.id.default_qstile_orientation), findViewById(R.id.doubleLayer_qstile_orientation), findViewById(R.id.shadedLayer_qstile_orientation), findViewById(R.id.outline_qstile_orientation), findViewById(R.id.leafy_qstile_orientation), findViewById(R.id.neumorph_qstile_orientation), findViewById(R.id.surround_qstile_orientation), findViewById(R.id.bookmark_qstile_orientation), findViewById(R.id.neumorph_outline_qstile_orientation)};
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             for (LinearLayout qstile_orientation : qstile_orientation_list)
                 qstile_orientation.setOrientation(LinearLayout.HORIZONTAL);
@@ -146,12 +294,33 @@ public class QsShapesPixel extends AppCompatActivity {
     private void refreshLayout(LinearLayout layout) {
         for (LinearLayout linearLayout : Container) {
             if (!(linearLayout == layout)) {
-                if (linearLayout == OutlinePixelContainer) {
-                    OutlinePixel_Enable.setVisibility(View.GONE);
-                    OutlinePixel_Disable.setVisibility(View.GONE);
-                } else if (linearLayout == LeafyOutlinePixelContainer) {
-                    LeafyOutlinePixel_Enable.setVisibility(View.GONE);
-                    LeafyOutlinePixel_Disable.setVisibility(View.GONE);
+                if (linearLayout == DefaultContainer) {
+                    Default_Enable.setVisibility(View.GONE);
+                    Default_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == DoubleLayerContainer) {
+                    DoubleLayer_Enable.setVisibility(View.GONE);
+                    DoubleLayer_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == ShadedLayerContainer) {
+                    ShadedLayer_Enable.setVisibility(View.GONE);
+                    ShadedLayer_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == OutlineContainer) {
+                    Outline_Enable.setVisibility(View.GONE);
+                    Outline_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == LeafyOutlineContainer) {
+                    LeafyOutline_Enable.setVisibility(View.GONE);
+                    LeafyOutline_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == NeumorphContainer) {
+                    Neumorph_Enable.setVisibility(View.GONE);
+                    Neumorph_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == SurroundContainer) {
+                    Surround_Enable.setVisibility(View.GONE);
+                    Surround_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == BookmarkContainer) {
+                    Bookmark_Enable.setVisibility(View.GONE);
+                    Bookmark_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == NeumorphOutlineContainer) {
+                    NeumorphOutline_Enable.setVisibility(View.GONE);
+                    NeumorphOutline_Disable.setVisibility(View.GONE);
                 }
             }
         }
@@ -159,8 +328,15 @@ public class QsShapesPixel extends AppCompatActivity {
 
     // Function to check for bg drawable changes
     private void refreshBackground() {
-        checkIfApplied(OutlinePixelContainer, 4);
-        checkIfApplied(LeafyOutlinePixelContainer, 5);
+        checkIfApplied(DefaultContainer, 1);
+        checkIfApplied(DoubleLayerContainer, 2);
+        checkIfApplied(ShadedLayerContainer, 3);
+        checkIfApplied(OutlineContainer, 4);
+        checkIfApplied(LeafyOutlineContainer, 5);
+        checkIfApplied(NeumorphContainer, 6);
+        checkIfApplied(SurroundContainer, 7);
+        checkIfApplied(BookmarkContainer, 8);
+        checkIfApplied(NeumorphOutlineContainer, 9);
     }
 
     // Function for onClick events
@@ -200,7 +376,7 @@ public class QsShapesPixel extends AppCompatActivity {
                     @Override
                     public void run() {
                         disable_others(key);
-                        QsShapeInstaller.install_pack(index);
+                        QsShapePixelInstaller.install_pack(index);
                         if (hidelabel) {
                             OverlayUtils.enableOverlay("IconifyComponentQSHL.overlay");
                             PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", true);
@@ -228,7 +404,7 @@ public class QsShapesPixel extends AppCompatActivity {
                         refreshBackground();
                         Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
                     }
-                }, 400);
+                }, 1000);
             }
         });
 
@@ -243,7 +419,7 @@ public class QsShapesPixel extends AppCompatActivity {
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
-                        QsShapeInstaller.disable_pack(index);
+                        QsShapePixelInstaller.disable_pack(index);
                         if (hidelabel) {
                             OverlayUtils.disableOverlay("IconifyComponentQSHL.overlay");
                             PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", false);
@@ -268,15 +444,22 @@ public class QsShapesPixel extends AppCompatActivity {
                         refreshBackground();
                         Toast.makeText(Iconify.getAppContext(), "Disabled", Toast.LENGTH_SHORT).show();
                     }
-                }, 400);
+                }, 1000);
             }
         });
     }
 
     // Function to disable other packs if one is applied
     private void disable_others(String pack) {
-        PrefConfig.savePrefBool(Iconify.getAppContext(), OUTLINE_PIXEL_KEY, pack.equals(OUTLINE_PIXEL_KEY));
-        PrefConfig.savePrefBool(Iconify.getAppContext(), LEAFY_OUTLINE_PIXEL_KEY, pack.equals(LEAFY_OUTLINE_PIXEL_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), DEFAULT_KEY_PIXEL, pack.equals(DEFAULT_KEY_PIXEL));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), DOUBLE_LAYER_KEY_PIXEL, pack.equals(DOUBLE_LAYER_KEY_PIXEL));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), SHADED_LAYER_KEY_PIXEL, pack.equals(SHADED_LAYER_KEY_PIXEL));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), OUTLINE_KEY_PIXEL, pack.equals(OUTLINE_KEY_PIXEL));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), LEAFY_OUTLINE_KEY_PIXEL, pack.equals(LEAFY_OUTLINE_KEY_PIXEL));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), NEUMORPH_KEY_PIXEL, pack.equals(NEUMORPH_KEY_PIXEL));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), SURROUND_KEY_PIXEL, pack.equals(SURROUND_KEY_PIXEL));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), BOOKMARK_KEY_PIXEL, pack.equals(BOOKMARK_KEY_PIXEL));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), NEUMORPH_OUTLINE_KEY_PIXEL, pack.equals(NEUMORPH_OUTLINE_KEY_PIXEL));
     }
 
     // Function to change applied pack's bg

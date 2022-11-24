@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:gravity="fill_horizontal|center">
+        <shape>
+            <gradient
+                android:angle="0.0"
+                android:endColor="@color/ic_launcher_background"
+                android:startColor="@color/colorAccent" />
+            <corners android:radius="24.0dp" />
+            <size
+                android:width="48.0dp"
+                android:height="48.0dp" />
+        </shape>
+    </item>
+    <item
+        android:gravity="fill_horizontal|center"
+        android:left="2.0dp"
+        android:right="2.0dp">
+        <shape>
+            <gradient
+                android:angle="270"
+                android:endColor="@color/neumorph_outline_end"
+                android:startColor="@color/neumorph_outline_start"
+                android:type="linear" />
+            <corners android:radius="22.0dp" />
+            <size android:height="44.0dp" />
+        </shape>
+    </item>
+    <item
+        android:gravity="fill_horizontal|center"
+        android:left="4.0dp"
+        android:right="4.0dp">
+        <shape>
+            <gradient
+                android:angle="90"
+                android:endColor="@color/neumorph_outline_end"
+                android:startColor="@color/neumorph_outline_start"
+                android:type="linear" />
+            <corners android:radius="20.0dp" />
+            <size android:height="40.0dp" />
+        </shape>
+    </item>
+</layer-list>
