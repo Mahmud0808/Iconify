@@ -25,4 +25,5 @@
     <color name="neumorph_outline_start">#FFD4D4D4</color>
     <color name="neumorph_outline_end">#FFF0F0F0</color>
     <color name="switch_track_layer">#B3FFFFFF</color>
+    <color name="accent_device_default">@android:color/system_accent1_200</color>
 </resources>
