@@ -38,12 +38,16 @@ public class Extras extends AppCompatActivity {
         for (String overlay : overlays) {
             OverlayUtils.disableOverlay(overlay);
             PrefConfig.clearPref(Iconify.getAppContext(), overlay);
+            PrefConfig.clearPref(Iconify.getAppContext(), "cornerRadius");
         }
 
         for (String fabricatedOverlay : fabricatedOverlays) {
             FabricatedOverlay.disableOverlay(fabricatedOverlay);
             PrefConfig.clearPref(Iconify.getAppContext(), fabricatedOverlay);
             PrefConfig.clearPref(Iconify.getAppContext(), "qsRowColumn");
+            PrefConfig.clearPref(Iconify.getAppContext(), "customColor");
+            PrefConfig.clearPref(Iconify.getAppContext(), "colorAccentPrimary");
+            PrefConfig.clearPref(Iconify.getAppContext(), "colorAccentSecondary");
         }
 
         PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
