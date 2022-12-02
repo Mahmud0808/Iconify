@@ -44,4 +44,10 @@ public class PrefConfig {
         SharedPreferences pref = context.getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
         return pref.getString(key, "null");
     }
+
+    // Clear sharedPref config
+    public static void clearPref(Context context, String key) {
+        SharedPreferences pref = context.getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
+        pref.edit().remove(key).commit();
+    }
 }
