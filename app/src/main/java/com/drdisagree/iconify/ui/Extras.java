@@ -39,6 +39,9 @@ public class Extras extends AppCompatActivity {
             OverlayUtils.disableOverlay(overlay);
             PrefConfig.clearPref(Iconify.getAppContext(), overlay);
             PrefConfig.clearPref(Iconify.getAppContext(), "cornerRadius");
+            PrefConfig.clearPref(Iconify.getAppContext(), "qsTextSize");
+            PrefConfig.clearPref(Iconify.getAppContext(), "qsIconSize");
+            PrefConfig.clearPref(Iconify.getAppContext(), "qsMoveIcon");
         }
 
         for (String fabricatedOverlay : fabricatedOverlays) {
@@ -48,6 +51,9 @@ public class Extras extends AppCompatActivity {
             PrefConfig.clearPref(Iconify.getAppContext(), "customColor");
             PrefConfig.clearPref(Iconify.getAppContext(), "colorAccentPrimary");
             PrefConfig.clearPref(Iconify.getAppContext(), "colorAccentSecondary");
+            PrefConfig.clearPref(Iconify.getAppContext(), "fabricatedqsTextSize");
+            PrefConfig.clearPref(Iconify.getAppContext(), "fabricatedqsIconSize");
+            PrefConfig.clearPref(Iconify.getAppContext(), "fabricatedqsMoveIcon");
         }
 
         PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
