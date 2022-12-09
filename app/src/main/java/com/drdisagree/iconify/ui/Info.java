@@ -74,7 +74,7 @@ public class Info extends AppCompatActivity {
         TextView githubTitle = findViewById(R.id.githubTitle);
         githubTitle.setText("Github");
         TextView githubDesc = findViewById(R.id.githubDesc);
-        githubDesc.setText("Check the github repository.");
+        githubDesc.setText("Check out github repository.");
 
         // Telegram
         ViewGroup telegramChannel = findViewById(R.id.telegramChannel);
