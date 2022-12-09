@@ -25,6 +25,36 @@
     <item name="iconPack_plumpy_container" type="id" />
     <item name="iconPack_plumpy_enable" type="id" />
     <item name="iconPack_plumpy_disable" type="id" />
+    <item name="iconPack_acherus_container" type="id" />
+    <item name="iconPack_acherus_enable" type="id" />
+    <item name="iconPack_acherus_disable" type="id" />
+    <item name="iconPack_circular_container" type="id" />
+    <item name="iconPack_circular_enable" type="id" />
+    <item name="iconPack_circular_disable" type="id" />
+    <item name="iconPack_filled_container" type="id" />
+    <item name="iconPack_filled_enable" type="id" />
+    <item name="iconPack_filled_disable" type="id" />
+    <item name="iconPack_kai_container" type="id" />
+    <item name="iconPack_kai_enable" type="id" />
+    <item name="iconPack_kai_disable" type="id" />
+    <item name="iconPack_oos_container" type="id" />
+    <item name="iconPack_oos_enable" type="id" />
+    <item name="iconPack_oos_disable" type="id" />
+    <item name="iconPack_outline_container" type="id" />
+    <item name="iconPack_outline_enable" type="id" />
+    <item name="iconPack_outline_disable" type="id" />
+    <item name="iconPack_pui_container" type="id" />
+    <item name="iconPack_pui_enable" type="id" />
+    <item name="iconPack_pui_disable" type="id" />
+    <item name="iconPack_rounded_container" type="id" />
+    <item name="iconPack_rounded_enable" type="id" />
+    <item name="iconPack_rounded_disable" type="id" />
+    <item name="iconPack_sam_container" type="id" />
+    <item name="iconPack_sam_enable" type="id" />
+    <item name="iconPack_sam_disable" type="id" />
+    <item name="iconPack_victor_container" type="id" />
+    <item name="iconPack_victor_enable" type="id" />
+    <item name="iconPack_victor_disable" type="id" />
 
     <!-- Brightness Bar List -->
     <item name="brightnessBar_roundedClip_container" type="id" />

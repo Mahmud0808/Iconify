@@ -30,9 +30,19 @@ public class IconPacks extends AppCompatActivity {
     private static final String GRADICON_KEY = "IconifyComponentIPAS2.overlay";
     private static final String LORN_KEY = "IconifyComponentIPAS3.overlay";
     private static final String PLUMPY_KEY = "IconifyComponentIPAS4.overlay";
+    private static final String ACHERUS_KEY = "IconifyComponentIPAS5.overlay";
+    private static final String CIRCULAR_KEY = "IconifyComponentIPAS6.overlay";
+    private static final String FILLED_KEY = "IconifyComponentIPAS7.overlay";
+    private static final String KAI_KEY = "IconifyComponentIPAS8.overlay";
+    private static final String OOS_KEY = "IconifyComponentIPAS9.overlay";
+    private static final String OUTLINE_KEY = "IconifyComponentIPAS10.overlay";
+    private static final String PUI_KEY = "IconifyComponentIPAS11.overlay";
+    private static final String ROUNDED_KEY = "IconifyComponentIPAS12.overlay";
+    private static final String SAM_KEY = "IconifyComponentIPAS13.overlay";
+    private static final String VICTOR_KEY = "IconifyComponentIPAS14.overlay";
     LinearLayout[] Container;
-    LinearLayout AuroraContainer, GradiconContainer, LornContainer, PlumpyContainer;
-    Button Aurora_Enable, Aurora_Disable, Gradicon_Enable, Gradicon_Disable, Lorn_Enable, Lorn_Disable, Plumpy_Enable, Plumpy_Disable;
+    LinearLayout AuroraContainer, GradiconContainer, LornContainer, PlumpyContainer, AcherusContainer, CircularContainer, FilledContainer, KaiContainer, OosContainer, OutlineContainer, PuiContainer, RoundedContainer, SamContainer, VictorContainer;
+    Button Aurora_Enable, Aurora_Disable, Gradicon_Enable, Gradicon_Disable, Lorn_Enable, Lorn_Disable, Plumpy_Enable, Plumpy_Disable, Acherus_Enable, Acherus_Disable, Circular_Enable, Circular_Disable, Filled_Enable, Filled_Disable, Kai_Enable, Kai_Disable, Oos_Enable, Oos_Disable, Outline_Enable, Outline_Disable, Pui_Enable, Pui_Disable, Rounded_Enable, Rounded_Disable, Sam_Enable, Sam_Disable, Victor_Enable, Victor_Disable;
     private ViewGroup container;
     private LinearLayout spinner;
 
@@ -64,6 +74,16 @@ public class IconPacks extends AppCompatActivity {
         addItem(R.id.iconPack_gradicon_container, "Gradicon", "Gradient shaded filled icon pack", R.drawable.preview_gradicon_wifi, R.drawable.preview_gradicon_signal, R.drawable.preview_gradicon_airplane, R.drawable.preview_gradicon_location, R.id.iconPack_gradicon_enable, R.id.iconPack_gradicon_disable);
         addItem(R.id.iconPack_lorn_container, "Lorn", "Thick linear icon pack", R.drawable.preview_lorn_wifi, R.drawable.preview_lorn_signal, R.drawable.preview_lorn_airplane, R.drawable.preview_lorn_location, R.id.iconPack_lorn_enable, R.id.iconPack_lorn_disable);
         addItem(R.id.iconPack_plumpy_container, "Plumpy", "Dual tone filled icon pack", R.drawable.preview_plumpy_wifi, R.drawable.preview_plumpy_signal, R.drawable.preview_plumpy_airplane, R.drawable.preview_plumpy_location, R.id.iconPack_plumpy_enable, R.id.iconPack_plumpy_disable);
+        addItem(R.id.iconPack_acherus_container, "Acherus", "Acherus sub icon pack", R.drawable.preview_acherus_wifi, R.drawable.preview_acherus_signal, R.drawable.preview_acherus_airplane, R.drawable.preview_acherus_location, R.id.iconPack_acherus_enable, R.id.iconPack_acherus_disable);
+        addItem(R.id.iconPack_circular_container, "Circular", "Thin line icon pack", R.drawable.preview_circular_wifi, R.drawable.preview_circular_signal, R.drawable.preview_circular_airplane, R.drawable.preview_circular_location, R.id.iconPack_circular_enable, R.id.iconPack_circular_disable);
+        addItem(R.id.iconPack_filled_container, "Filled", "Dual tone filled icon pack", R.drawable.preview_filled_wifi, R.drawable.preview_filled_signal, R.drawable.preview_filled_airplane, R.drawable.preview_filled_location, R.id.iconPack_filled_enable, R.id.iconPack_filled_disable);
+        addItem(R.id.iconPack_kai_container, "Kai", "Thin line icon pack", R.drawable.preview_kai_wifi, R.drawable.preview_kai_signal, R.drawable.preview_kai_airplane, R.drawable.preview_kai_location, R.id.iconPack_kai_enable, R.id.iconPack_kai_disable);
+        addItem(R.id.iconPack_oos_container, "OOS", "Oxygen OS icon pack", R.drawable.preview_oos_wifi, R.drawable.preview_oos_signal, R.drawable.preview_oos_airplane, R.drawable.preview_oos_location, R.id.iconPack_oos_enable, R.id.iconPack_oos_disable);
+        addItem(R.id.iconPack_outline_container, "Outline", "Thin outline icon pack", R.drawable.preview_outline_wifi, R.drawable.preview_outline_signal, R.drawable.preview_outline_airplane, R.drawable.preview_outline_location, R.id.iconPack_outline_enable, R.id.iconPack_outline_disable);
+        addItem(R.id.iconPack_pui_container, "PUI", "Thick dualtone icon pack", R.drawable.preview_pui_wifi, R.drawable.preview_pui_signal, R.drawable.preview_pui_airplane, R.drawable.preview_pui_location, R.id.iconPack_pui_enable, R.id.iconPack_pui_disable);
+        addItem(R.id.iconPack_rounded_container, "Rounded", "Rounded corner icon pack", R.drawable.preview_rounded_wifi, R.drawable.preview_rounded_signal, R.drawable.preview_rounded_airplane, R.drawable.preview_rounded_location, R.id.iconPack_rounded_enable, R.id.iconPack_rounded_disable);
+        addItem(R.id.iconPack_sam_container, "Sam", "Filled icon pack", R.drawable.preview_sam_wifi, R.drawable.preview_sam_signal, R.drawable.preview_sam_airplane, R.drawable.preview_sam_location, R.id.iconPack_sam_enable, R.id.iconPack_sam_disable);
+        addItem(R.id.iconPack_victor_container, "Victor", "Edgy icon pack", R.drawable.preview_victor_wifi, R.drawable.preview_victor_signal, R.drawable.preview_victor_airplane, R.drawable.preview_victor_location, R.id.iconPack_victor_enable, R.id.iconPack_victor_disable);
 
         // Declaration of Aurora
         AuroraContainer = findViewById(R.id.iconPack_aurora_container);
@@ -85,14 +105,74 @@ public class IconPacks extends AppCompatActivity {
         Plumpy_Enable = findViewById(R.id.iconPack_plumpy_enable);
         Plumpy_Disable = findViewById(R.id.iconPack_plumpy_disable);
 
+        // Declaration of Acherus
+        AcherusContainer = findViewById(R.id.iconPack_acherus_container);
+        Acherus_Enable = findViewById(R.id.iconPack_acherus_enable);
+        Acherus_Disable = findViewById(R.id.iconPack_acherus_disable);
+
+        // Declaration of Circular
+        CircularContainer = findViewById(R.id.iconPack_circular_container);
+        Circular_Enable = findViewById(R.id.iconPack_circular_enable);
+        Circular_Disable = findViewById(R.id.iconPack_circular_disable);
+
+        // Declaration of Filled
+        FilledContainer = findViewById(R.id.iconPack_filled_container);
+        Filled_Enable = findViewById(R.id.iconPack_filled_enable);
+        Filled_Disable = findViewById(R.id.iconPack_filled_disable);
+
+        // Declaration of Kai
+        KaiContainer = findViewById(R.id.iconPack_kai_container);
+        Kai_Enable = findViewById(R.id.iconPack_kai_enable);
+        Kai_Disable = findViewById(R.id.iconPack_kai_disable);
+
+        // Declaration of Oos
+        OosContainer = findViewById(R.id.iconPack_oos_container);
+        Oos_Enable = findViewById(R.id.iconPack_oos_enable);
+        Oos_Disable = findViewById(R.id.iconPack_oos_disable);
+
+        // Declaration of Outline
+        OutlineContainer = findViewById(R.id.iconPack_outline_container);
+        Outline_Enable = findViewById(R.id.iconPack_outline_enable);
+        Outline_Disable = findViewById(R.id.iconPack_outline_disable);
+
+        // Declaration of Pui
+        PuiContainer = findViewById(R.id.iconPack_pui_container);
+        Pui_Enable = findViewById(R.id.iconPack_pui_enable);
+        Pui_Disable = findViewById(R.id.iconPack_pui_disable);
+
+        // Declaration of Rounded
+        RoundedContainer = findViewById(R.id.iconPack_rounded_container);
+        Rounded_Enable = findViewById(R.id.iconPack_rounded_enable);
+        Rounded_Disable = findViewById(R.id.iconPack_rounded_disable);
+
+        // Declaration of Sam
+        SamContainer = findViewById(R.id.iconPack_sam_container);
+        Sam_Enable = findViewById(R.id.iconPack_sam_enable);
+        Sam_Disable = findViewById(R.id.iconPack_sam_disable);
+
+        // Declaration of Victor
+        VictorContainer = findViewById(R.id.iconPack_victor_container);
+        Victor_Enable = findViewById(R.id.iconPack_victor_enable);
+        Victor_Disable = findViewById(R.id.iconPack_victor_disable);
+
         // List of Icon Pack
-        Container = new LinearLayout[]{AuroraContainer, GradiconContainer, LornContainer, PlumpyContainer};
+        Container = new LinearLayout[]{AuroraContainer, GradiconContainer, LornContainer, PlumpyContainer, AcherusContainer, CircularContainer, FilledContainer, KaiContainer, OosContainer, OutlineContainer, PuiContainer, RoundedContainer, SamContainer, VictorContainer};
 
         // Enable onClick event
         enableOnClickListener(AuroraContainer, Aurora_Enable, Aurora_Disable, AURORA_KEY, 1);
         enableOnClickListener(GradiconContainer, Gradicon_Enable, Gradicon_Disable, GRADICON_KEY, 2);
         enableOnClickListener(LornContainer, Lorn_Enable, Lorn_Disable, LORN_KEY, 3);
         enableOnClickListener(PlumpyContainer, Plumpy_Enable, Plumpy_Disable, PLUMPY_KEY, 4);
+        enableOnClickListener(AcherusContainer, Acherus_Enable, Acherus_Disable, ACHERUS_KEY, 5);
+        enableOnClickListener(CircularContainer, Circular_Enable, Circular_Disable, CIRCULAR_KEY, 6);
+        enableOnClickListener(FilledContainer, Filled_Enable, Filled_Disable, FILLED_KEY, 7);
+        enableOnClickListener(KaiContainer, Kai_Enable, Kai_Disable, KAI_KEY, 8);
+        enableOnClickListener(OosContainer, Oos_Enable, Oos_Disable, OOS_KEY, 9);
+        enableOnClickListener(OutlineContainer, Outline_Enable, Outline_Disable, OUTLINE_KEY, 10);
+        enableOnClickListener(PuiContainer, Pui_Enable, Pui_Disable, PUI_KEY, 11);
+        enableOnClickListener(RoundedContainer, Rounded_Enable, Rounded_Disable, ROUNDED_KEY, 12);
+        enableOnClickListener(SamContainer, Sam_Enable, Sam_Disable, SAM_KEY, 13);
+        enableOnClickListener(VictorContainer, Victor_Enable, Victor_Disable, VICTOR_KEY, 14);
 
         refreshBackground();
     }
@@ -119,6 +199,36 @@ public class IconPacks extends AppCompatActivity {
                 } else if (linearLayout == PlumpyContainer) {
                     Plumpy_Enable.setVisibility(View.GONE);
                     Plumpy_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == AcherusContainer) {
+                    Acherus_Enable.setVisibility(View.GONE);
+                    Acherus_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == CircularContainer) {
+                    Circular_Enable.setVisibility(View.GONE);
+                    Circular_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == FilledContainer) {
+                    Filled_Enable.setVisibility(View.GONE);
+                    Filled_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == KaiContainer) {
+                    Kai_Enable.setVisibility(View.GONE);
+                    Kai_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == OosContainer) {
+                    Oos_Enable.setVisibility(View.GONE);
+                    Oos_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == OutlineContainer) {
+                    Outline_Enable.setVisibility(View.GONE);
+                    Outline_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == PuiContainer) {
+                    Pui_Enable.setVisibility(View.GONE);
+                    Pui_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == RoundedContainer) {
+                    Rounded_Enable.setVisibility(View.GONE);
+                    Rounded_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == SamContainer) {
+                    Sam_Enable.setVisibility(View.GONE);
+                    Sam_Disable.setVisibility(View.GONE);
+                } else if (linearLayout == VictorContainer) {
+                    Victor_Enable.setVisibility(View.GONE);
+                    Victor_Disable.setVisibility(View.GONE);
                 }
             }
         }
@@ -130,6 +240,16 @@ public class IconPacks extends AppCompatActivity {
         checkIfApplied(GradiconContainer, 2);
         checkIfApplied(LornContainer, 3);
         checkIfApplied(PlumpyContainer, 4);
+        checkIfApplied(AcherusContainer, 5);
+        checkIfApplied(CircularContainer, 6);
+        checkIfApplied(FilledContainer, 7);
+        checkIfApplied(KaiContainer, 8);
+        checkIfApplied(OosContainer, 9);
+        checkIfApplied(OutlineContainer, 10);
+        checkIfApplied(PuiContainer, 11);
+        checkIfApplied(RoundedContainer, 12);
+        checkIfApplied(SamContainer, 13);
+        checkIfApplied(VictorContainer, 14);
     }
 
     // Function for onClick events
@@ -233,23 +353,20 @@ public class IconPacks extends AppCompatActivity {
 
     // Function to disable other packs if one is applied
     private void disable_others(String pack) {
-        if (Objects.equals(pack, AURORA_KEY)) {
-            PrefConfig.savePrefBool(Iconify.getAppContext(), GRADICON_KEY, false);
-            PrefConfig.savePrefBool(Iconify.getAppContext(), LORN_KEY, false);
-            PrefConfig.savePrefBool(Iconify.getAppContext(), PLUMPY_KEY, false);
-        } else if (Objects.equals(pack, GRADICON_KEY)) {
-            PrefConfig.savePrefBool(Iconify.getAppContext(), AURORA_KEY, false);
-            PrefConfig.savePrefBool(Iconify.getAppContext(), LORN_KEY, false);
-            PrefConfig.savePrefBool(Iconify.getAppContext(), PLUMPY_KEY, false);
-        } else if (Objects.equals(pack, LORN_KEY)) {
-            PrefConfig.savePrefBool(Iconify.getAppContext(), AURORA_KEY, false);
-            PrefConfig.savePrefBool(Iconify.getAppContext(), GRADICON_KEY, false);
-            PrefConfig.savePrefBool(Iconify.getAppContext(), PLUMPY_KEY, false);
-        } else if (Objects.equals(pack, PLUMPY_KEY)) {
-            PrefConfig.savePrefBool(Iconify.getAppContext(), AURORA_KEY, false);
-            PrefConfig.savePrefBool(Iconify.getAppContext(), GRADICON_KEY, false);
-            PrefConfig.savePrefBool(Iconify.getAppContext(), LORN_KEY, false);
-        }
+        PrefConfig.savePrefBool(Iconify.getAppContext(), AURORA_KEY, pack.equals(AURORA_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), GRADICON_KEY, pack.equals(GRADICON_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), LORN_KEY, pack.equals(LORN_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), PLUMPY_KEY, pack.equals(PLUMPY_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), ACHERUS_KEY, pack.equals(ACHERUS_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), CIRCULAR_KEY, pack.equals(CIRCULAR_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), FILLED_KEY, pack.equals(FILLED_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), KAI_KEY, pack.equals(KAI_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), OOS_KEY, pack.equals(OOS_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), OUTLINE_KEY, pack.equals(OUTLINE_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), PUI_KEY, pack.equals(PUI_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), ROUNDED_KEY, pack.equals(ROUNDED_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), SAM_KEY, pack.equals(SAM_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), VICTOR_KEY, pack.equals(VICTOR_KEY));
     }
 
     // Function to change applied pack's bg
