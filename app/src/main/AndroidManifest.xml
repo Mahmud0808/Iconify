@@ -18,6 +18,9 @@
         android:theme="@style/Theme.Iconify"
         tools:replace="android:allowBackup">
         <activity
+            android:name=".ui.VolumePanel"
+            android:exported="false" />
+        <activity
             android:name=".ui.BrightnessBarsPixel"
             android:exported="false" />
         <activity
