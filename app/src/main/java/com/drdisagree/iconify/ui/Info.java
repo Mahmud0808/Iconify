@@ -203,6 +203,26 @@ public class Info extends AppCompatActivity {
         jaguarName.setText("Jaguar");
         TextView jaguarDesc = findViewById(R.id.jaguarDesc);
         jaguarDesc.setText("For testing the app.");
+
+        // Contributors
+
+        // Azure-Helper
+        ViewGroup azure_helper = findViewById(R.id.azure_helper);
+        azure_helper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://github.com/Azure-Helper";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
+        ImageView img_azure_helper = findViewById(R.id.img_azure_helper);
+        img_azure_helper.setBackgroundResource(R.drawable.ic_user);
+        TextView azure_helperName = findViewById(R.id.azure_helperName);
+        azure_helperName.setText("Azure-Helper");
+        TextView azure_helperDesc = findViewById(R.id.azure_helperDesc);
+        azure_helperDesc.setText("For contributing on github.");
     }
 
     @Override
