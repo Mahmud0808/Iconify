@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_marginStart="@dimen/container_marginSide"
+        android:layout_marginEnd="@dimen/container_marginSide"
+        android:id="@+id/launch_app"
+        android:paddingStart="@dimen/container_paddingSide"
+        android:paddingTop="@dimen/container_padding"
+        android:paddingEnd="@dimen/container_paddingSide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/container_top"
+        android:orientation="vertical"
+        android:paddingBottom="12dp">
+
+        <ImageView
+            android:id="@+id/app_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:background="@drawable/ic_android"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:text="Music Player"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/cont_title_size"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/text_size_divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorBackground" />
+
+    <LinearLayout
+        android:layout_marginStart="@dimen/container_marginSide"
+        android:layout_marginEnd="@dimen/container_marginSide"
+        android:layout_marginBottom="@dimen/container_margin"
+        android:background="@drawable/container_bottom"
+        android:paddingStart="@dimen/container_paddingSide"
+        android:paddingTop="18dp"
+        android:paddingBottom="18dp"
+        android:paddingEnd="@dimen/container_paddingSide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/aurora"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center"
+            android:layout_weight="1.0"
+            android:background="@drawable/button"
+            android:fontFamily="@font/semibold"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:text="Aurora"
+            android:textColor="@color/colorBackground"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/gradicon"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1.0"
+            android:background="@drawable/button"
+            android:fontFamily="@font/semibold"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:text="Gradicon"
+            android:textColor="@color/colorBackground"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/plumpy"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center"
+            android:layout_weight="1.0"
+            android:background="@drawable/button"
+            android:fontFamily="@font/semibold"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:text="Plumpy"
+            android:textColor="@color/colorBackground"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</LinearLayout>

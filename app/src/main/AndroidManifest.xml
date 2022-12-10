@@ -6,6 +6,15 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <queries>
+        <package android:name="com.maxmpz.audioplayer" />
+        <package android:name="code.name.monkey.retromusic" />
+        <package android:name="com.awedea.nyx" />
+        <package android:name="com.kapp.youtube.final" />
+        <package android:name="com.shadow.blackhole" />
+        <package android:name="in.krosbits.musicolet" />
+    </queries>
+
     <application
         android:name=".Iconify"
         android:allowBackup="false"

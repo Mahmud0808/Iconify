@@ -63,7 +63,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/container_marginSide"
                 android:layout_marginEnd="@dimen/container_marginSide"
-                android:layout_marginBottom="@dimen/container_margin"
                 android:orientation="vertical"
                 tools:ignore="UselessParent">
 
@@ -187,6 +186,26 @@
 
                 </LinearLayout>
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/mediaplayer_icon_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="@dimen/container_marginSide"
+                android:layout_marginBottom="@dimen/container_marginSide"
+                android:text="Media Player Icons"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/mediaplayer_icon_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
