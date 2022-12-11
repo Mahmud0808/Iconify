@@ -181,6 +181,13 @@ public class Extras extends AppCompatActivity {
         button_disableEverything.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(Iconify.getAppContext(), "Long Press to Disable Everything.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        button_disableEverything.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
                 // Show spinner
                 spinner.setVisibility(View.VISIBLE);
                 // Block touch
@@ -194,6 +201,7 @@ public class Extras extends AppCompatActivity {
                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     }
                 }, 1000);
+                return true;
             }
         });
 
@@ -209,6 +217,13 @@ public class Extras extends AppCompatActivity {
         button_restartSysui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(Iconify.getAppContext(), "Long Press to Restart SystemUI.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        button_restartSysui.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
                 // Show spinner
                 spinner.setVisibility(View.VISIBLE);
                 // Block touch
@@ -223,6 +238,7 @@ public class Extras extends AppCompatActivity {
                         Shell.cmd("killall com.android.systemui").exec();
                     }
                 }, 1000);
+                return true;
             }
         });
 
