@@ -304,6 +304,7 @@
                     android:thumb="@drawable/seek_thumb" />
 
                 <Button
+                    android:stateListAnimator="@null"
                     android:id="@+id/apply_radius"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -360,6 +361,7 @@
                 </LinearLayout>
 
                 <Button
+                    android:stateListAnimator="@null"
                     android:id="@+id/button_disableEverything"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -415,6 +417,7 @@
                 </LinearLayout>
 
                 <Button
+                    android:stateListAnimator="@null"
                     android:id="@+id/button_restartSysui"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

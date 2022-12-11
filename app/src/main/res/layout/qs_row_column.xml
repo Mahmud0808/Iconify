@@ -230,6 +230,7 @@
                     android:paddingBottom="@dimen/container_padding">
 
                     <Button
+                        android:stateListAnimator="@null"
                         android:id="@+id/qs_row_column_apply"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -243,6 +244,7 @@
                         tools:ignore="SpUsage" />
 
                     <Button
+                        android:stateListAnimator="@null"
                         android:id="@+id/qs_row_column_reset"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

@@ -93,6 +93,7 @@
     </LinearLayout>
 
     <Button
+        android:stateListAnimator="@null"
         android:id="@+id/list_button_enable_iconpack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -107,6 +108,7 @@
         android:visibility="gone" />
 
     <Button
+        android:stateListAnimator="@null"
         android:id="@+id/list_button_disable_iconpack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

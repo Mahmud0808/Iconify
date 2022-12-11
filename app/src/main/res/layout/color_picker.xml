@@ -92,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="Long Press to Apply\nDefault Colors"
+                        android:text="Long Press to Apply\nIconify Default Colors"
                         android:textColor="@color/white"
                         android:textSize="@dimen/cont_title_size2"
                         tools:ignore="SpUsage" />
@@ -163,6 +163,7 @@
             </LinearLayout>
 
             <Button
+                android:stateListAnimator="@null"
                 android:id="@+id/disable_custom_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
