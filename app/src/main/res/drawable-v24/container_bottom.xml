@@ -6,7 +6,9 @@
             <solid android:color="@color/colorContainer" />
             <corners
                 android:bottomLeftRadius="@dimen/cont_corner_radius"
-                android:bottomRightRadius="@dimen/cont_corner_radius" />
+                android:bottomRightRadius="@dimen/cont_corner_radius"
+                android:topLeftRadius="8dp"
+                android:topRightRadius="8dp" />
         </shape>
     </item>
 </ripple>
