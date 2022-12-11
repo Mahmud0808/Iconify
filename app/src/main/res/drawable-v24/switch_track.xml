@@ -4,19 +4,7 @@
         <layer-list>
             <item>
                 <shape android:shape="rectangle">
-                    <solid android:color="@color/colorBackground" />
-                    <corners android:radius="24.0dp" />
-                </shape>
-            </item>
-            <item>
-                <shape android:shape="rectangle">
-                    <solid android:color="#6650A6D7" />
-                    <corners android:radius="24.0dp" />
-                </shape>
-            </item>
-            <item android:bottom="1dp" android:left="1dp" android:right="1dp" android:top="1dp">
-                <shape android:shape="rectangle">
-                    <solid android:color="@color/colorBackground" />
+                    <solid android:color="#4DB6B6B6" />
                     <corners android:radius="24.0dp" />
                 </shape>
             </item>
@@ -27,12 +15,6 @@
             <item>
                 <shape android:shape="rectangle">
                     <solid android:color="@color/colorAccent" />
-                    <corners android:radius="24.0dp" />
-                </shape>
-            </item>
-            <item android:bottom="1dp" android:left="1dp" android:right="1dp" android:top="1dp">
-                <shape android:shape="rectangle">
-                    <solid android:color="@color/switch_track_layer" />
                     <corners android:radius="24.0dp" />
                 </shape>
             </item>
