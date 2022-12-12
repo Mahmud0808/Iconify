@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -152,16 +151,19 @@ public class MediaPlayer extends AppCompatActivity {
     }
 
     private void musicPlayerIconList() {
-        TextView title = findViewById(R.id.mediaplayer_icon_title);
-
         final String poweramp = "com.maxmpz.audioplayer";
         final String retro = "code.name.monkey.retromusic";
         final String nyx = "com.awedea.nyx";
         final String ymusic = "com.kapp.youtube.final";
         final String blackhole = "com.shadow.blackhole";
         final String musicolet = "in.krosbits.musicolet";
+        final String youtube = "com.google.android.youtube";
+        final String yt_music = "com.google.android.apps.youtube.music";
+        final String youtube_revanced = "app.revanced.android.youtube";
+        final String yt_music_revanced = "app.revanced.android.apps.youtube.music";
 
-        if (AppUtils.isAppInstalled(poweramp) || AppUtils.isAppInstalled(retro) || AppUtils.isAppInstalled(nyx) || AppUtils.isAppInstalled(ymusic) || AppUtils.isAppInstalled(blackhole) || AppUtils.isAppInstalled(musicolet))
+        TextView title = findViewById(R.id.mediaplayer_icon_title);
+        if (AppUtils.isAppInstalled(poweramp) || AppUtils.isAppInstalled(retro) || AppUtils.isAppInstalled(nyx) || AppUtils.isAppInstalled(ymusic) || AppUtils.isAppInstalled(blackhole) || AppUtils.isAppInstalled(musicolet) || AppUtils.isAppInstalled(youtube) || AppUtils.isAppInstalled(yt_music) || AppUtils.isAppInstalled(youtube_revanced) || AppUtils.isAppInstalled(yt_music_revanced))
             title.setVisibility(View.VISIBLE);
 
         if (AppUtils.isAppInstalled(poweramp)) {
@@ -193,6 +195,26 @@ public class MediaPlayer extends AppCompatActivity {
             addItem(R.id.musicolet, AppUtils.getAppIcon(musicolet), AppUtils.getAppName(musicolet), musicolet, R.id.musicolet_aurora, R.id.musicolet_gradicon, R.id.musicolet_plumpy);
             enableOnClickListener(R.id.musicolet_aurora, R.id.musicolet_gradicon, R.id.musicolet_plumpy, 6);
         }
+
+        if (AppUtils.isAppInstalled(youtube)) {
+            addItem(R.id.youtube, AppUtils.getAppIcon(youtube), AppUtils.getAppName(youtube), youtube, R.id.youtube_aurora, R.id.youtube_gradicon, R.id.youtube_plumpy);
+            enableOnClickListener(R.id.youtube_aurora, R.id.youtube_gradicon, R.id.youtube_plumpy, 7);
+        }
+
+        if (AppUtils.isAppInstalled(yt_music)) {
+            addItem(R.id.yt_music, AppUtils.getAppIcon(yt_music), AppUtils.getAppName(yt_music), yt_music, R.id.yt_music_aurora, R.id.yt_music_gradicon, R.id.yt_music_plumpy);
+            enableOnClickListener(R.id.yt_music_aurora, R.id.yt_music_gradicon, R.id.yt_music_plumpy, 8);
+        }
+
+        if (AppUtils.isAppInstalled(youtube_revanced)) {
+            addItem(R.id.youtube_revanced, AppUtils.getAppIcon(youtube_revanced), AppUtils.getAppName(youtube_revanced), youtube_revanced, R.id.youtube_revanced_aurora, R.id.youtube_revanced_gradicon, R.id.youtube_revanced_plumpy);
+            enableOnClickListener(R.id.youtube_revanced_aurora, R.id.youtube_revanced_gradicon, R.id.youtube_revanced_plumpy, 9);
+        }
+
+        if (AppUtils.isAppInstalled(yt_music_revanced)) {
+            addItem(R.id.yt_music_revanced, AppUtils.getAppIcon(yt_music_revanced), AppUtils.getAppName(yt_music_revanced), yt_music_revanced, R.id.yt_music_revanced_aurora, R.id.yt_music_revanced_gradicon, R.id.yt_music_revanced_plumpy);
+            enableOnClickListener(R.id.yt_music_revanced_aurora, R.id.yt_music_revanced_gradicon, R.id.yt_music_revanced_plumpy, 10);
+        }
     }
 
     private void enableOnClickListener(int aurora_id, int gradicon_id, int plumpy_id, int idx) {
@@ -202,43 +224,37 @@ public class MediaPlayer extends AppCompatActivity {
 
         checkIfApplied(aurora, gradicon, plumpy, idx);
 
-        aurora.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (PrefConfig.loadPrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "1.overlay"))) {
-                    Shell.cmd("cmd overlay disable --user current IconifyComponentMPIP" + idx + "1.overlay").exec();
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "1.overlay"), false);
-                } else {
-                    MediaPlayerIconInstaller.install_pack(idx, 1);
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "1.overlay"), true);
-                }
-                checkIfApplied(aurora, gradicon, plumpy, idx);
+        aurora.setOnClickListener(v -> {
+            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "1.overlay"))) {
+                Shell.cmd("cmd overlay disable --user current IconifyComponentMPIP" + idx + "1.overlay").exec();
+                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "1.overlay"), false);
+            } else {
+                MediaPlayerIconInstaller.install_pack(idx, 1);
+                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "1.overlay"), true);
             }
+            checkIfApplied(aurora, gradicon, plumpy, idx);
         });
 
-        gradicon.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (PrefConfig.loadPrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "2.overlay"))) {
-                    Shell.cmd("cmd overlay disable --user current IconifyComponentMPIP" + idx + "2.overlay").exec();
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "2.overlay"), false);
-                } else {
-                    MediaPlayerIconInstaller.install_pack(idx, 2);
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "2.overlay"), true);
-                }
-                checkIfApplied(aurora, gradicon, plumpy, idx);
+        gradicon.setOnClickListener(v -> {
+            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "2.overlay"))) {
+                Shell.cmd("cmd overlay disable --user current IconifyComponentMPIP" + idx + "2.overlay").exec();
+                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "2.overlay"), false);
+            } else {
+                MediaPlayerIconInstaller.install_pack(idx, 2);
+                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "2.overlay"), true);
             }
+            checkIfApplied(aurora, gradicon, plumpy, idx);
         });
 
-        plumpy.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (PrefConfig.loadPrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "3.overlay"))) {
-                    Shell.cmd("cmd overlay disable --user current IconifyComponentMPIP" + idx + "3.overlay").exec();
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "3.overlay"), false);
-                } else {
-                    MediaPlayerIconInstaller.install_pack(idx, 3);
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "3.overlay"), true);
-                }
-                checkIfApplied(aurora, gradicon, plumpy, idx);
+        plumpy.setOnClickListener(v -> {
+            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "3.overlay"))) {
+                Shell.cmd("cmd overlay disable --user current IconifyComponentMPIP" + idx + "3.overlay").exec();
+                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "3.overlay"), false);
+            } else {
+                MediaPlayerIconInstaller.install_pack(idx, 3);
+                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "3.overlay"), true);
             }
+            checkIfApplied(aurora, gradicon, plumpy, idx);
         });
     }
 
@@ -284,11 +300,7 @@ public class MediaPlayer extends AppCompatActivity {
         gradicon.setId(gradicon_id);
         plumpy.setId(plumpy_id);
 
-        launch.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                AppUtils.launchApp(MediaPlayer.this, packageName);
-            }
-        });
+        launch.setOnClickListener(v -> AppUtils.launchApp(MediaPlayer.this, packageName));
 
         container.addView(list);
     }

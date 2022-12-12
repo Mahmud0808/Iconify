@@ -13,6 +13,10 @@
         <package android:name="com.kapp.youtube.final" />
         <package android:name="com.shadow.blackhole" />
         <package android:name="in.krosbits.musicolet" />
+        <package android:name="com.google.android.youtube" />
+        <package android:name="com.google.android.apps.youtube.music" />
+        <package android:name="app.revanced.android.youtube" />
+        <package android:name="app.revanced.android.apps.youtube.music" />
     </queries>
 
     <application

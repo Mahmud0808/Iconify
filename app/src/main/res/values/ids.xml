@@ -266,4 +266,28 @@
     <item name="musicolet_aurora" type="id" />
     <item name="musicolet_gradicon" type="id" />
     <item name="musicolet_plumpy" type="id" />
+
+    <item name="youtube" type="id" />
+    <item name="youtube_launch" type="id" />
+    <item name="youtube_aurora" type="id" />
+    <item name="youtube_gradicon" type="id" />
+    <item name="youtube_plumpy" type="id" />
+
+    <item name="yt_music" type="id" />
+    <item name="yt_music_launch" type="id" />
+    <item name="yt_music_aurora" type="id" />
+    <item name="yt_music_gradicon" type="id" />
+    <item name="yt_music_plumpy" type="id" />
+
+    <item name="youtube_revanced" type="id" />
+    <item name="youtube_revanced_launch" type="id" />
+    <item name="youtube_revanced_aurora" type="id" />
+    <item name="youtube_revanced_gradicon" type="id" />
+    <item name="youtube_revanced_plumpy" type="id" />
+
+    <item name="yt_music_revanced" type="id" />
+    <item name="yt_music_revanced_launch" type="id" />
+    <item name="yt_music_revanced_aurora" type="id" />
+    <item name="yt_music_revanced_gradicon" type="id" />
+    <item name="yt_music_revanced_plumpy" type="id" />
 </resources>
