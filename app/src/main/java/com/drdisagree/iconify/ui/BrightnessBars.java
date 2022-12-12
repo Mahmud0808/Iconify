@@ -59,12 +59,9 @@ public class BrightnessBars extends AppCompatActivity {
 
         // Brightnessbar pixel item on click
         LinearLayout brightness_bar_pixel = findViewById(R.id.brightness_bar_pixel);
-        brightness_bar_pixel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(BrightnessBars.this, BrightnessBarsPixel.class);
-                startActivity(intent);
-            }
+        brightness_bar_pixel.setOnClickListener(v -> {
+            Intent intent = new Intent(BrightnessBars.this, BrightnessBarsPixel.class);
+            startActivity(intent);
         });
 
         // Progressbar while enabling or disabling pack

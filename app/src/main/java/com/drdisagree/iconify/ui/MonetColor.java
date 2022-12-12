@@ -51,39 +51,33 @@ public class MonetColor extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     apply_monet_color.setChecked(true);
-                    Runnable runnable = new Runnable() {
-                        @Override
-                        public void run() {
-                            OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
-                            PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay", true);
+                    Runnable runnable = () -> {
+                        OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
+                        PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay", true);
 
-                            PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", false);
-                            PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
-                            PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
-                            FabricatedOverlay.disableOverlay("colorAccentPrimary");
-                            FabricatedOverlay.disableOverlay("colorAccentSecondary");
-                            findViewById(R.id.page_monet_color).invalidate();
-                        }
+                        PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", false);
+                        PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
+                        PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
+                        FabricatedOverlay.disableOverlay("colorAccentPrimary");
+                        FabricatedOverlay.disableOverlay("colorAccentSecondary");
+                        findViewById(R.id.page_monet_color).invalidate();
                     };
                     Thread thread = new Thread(runnable);
                     thread.start();
                 } else {
-                    Runnable runnable = new Runnable() {
-                        @Override
-                        public void run() {
-                            OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
-                            PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay", false);
+                    Runnable runnable = () -> {
+                        OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
+                        PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay", false);
 
-                            PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
-                            PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
-                            PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
-                            FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
-                            FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", "0xFF387BFF");
-                            FabricatedOverlay.enableOverlay("colorAccentPrimary");
-                            FabricatedOverlay.enableOverlay("colorAccentSecondary");
-                            ApplyOnBoot.applyColors();
-                            findViewById(R.id.page_monet_color).invalidate();
-                        }
+                        PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
+                        PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
+                        PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
+                        FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
+                        FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", "0xFF387BFF");
+                        FabricatedOverlay.enableOverlay("colorAccentPrimary");
+                        FabricatedOverlay.enableOverlay("colorAccentSecondary");
+                        ApplyOnBoot.applyColors();
+                        findViewById(R.id.page_monet_color).invalidate();
                     };
                     Thread thread = new Thread(runnable);
                     thread.start();
@@ -93,12 +87,9 @@ public class MonetColor extends AppCompatActivity {
 
         // Color Picker
         LinearLayout custom_color_picker = findViewById(R.id.custom_color_picker);
-        custom_color_picker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MonetColor.this, ColorPicker.class);
-                startActivity(intent);
-            }
+        custom_color_picker.setOnClickListener(v -> {
+            Intent intent = new Intent(MonetColor.this, ColorPicker.class);
+            startActivity(intent);
         });
 
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_minimal_qspanel = findViewById(R.id.apply_minimal_qspanel);
@@ -114,11 +105,9 @@ public class MonetColor extends AppCompatActivity {
                     OverlayUtils.disableOverlay("IconifyComponentQSPB.overlay");
                     PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSPB.overlay", false);
 
-                    apply_minimal_qspanel.postDelayed(new Runnable() {
-                        public void run() {
-                            OverlayUtils.enableOverlay("IconifyComponentQSST.overlay");
-                            PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSST.overlay", true);
-                        }
+                    apply_minimal_qspanel.postDelayed(() -> {
+                        OverlayUtils.enableOverlay("IconifyComponentQSST.overlay");
+                        PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSST.overlay", true);
                     }, 1000);
                 } else {
                     OverlayUtils.disableOverlay("IconifyComponentQSST.overlay");
@@ -137,11 +126,9 @@ public class MonetColor extends AppCompatActivity {
                     OverlayUtils.disableOverlay("IconifyComponentQSST.overlay");
                     PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSST.overlay", false);
 
-                    apply_pitch_black_theme.postDelayed(new Runnable() {
-                        public void run() {
-                            OverlayUtils.enableOverlay("IconifyComponentQSPB.overlay");
-                            PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSPB.overlay", true);
-                        }
+                    apply_pitch_black_theme.postDelayed(() -> {
+                        OverlayUtils.enableOverlay("IconifyComponentQSPB.overlay");
+                        PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSPB.overlay", true);
                     }, 1000);
                 } else {
                     OverlayUtils.disableOverlay("IconifyComponentQSPB.overlay");

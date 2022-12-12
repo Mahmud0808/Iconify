@@ -58,24 +58,18 @@ public class WelcomePage extends AppCompatActivity {
                         // Block touch
                         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                        Runnable runnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    ModuleUtil.handleModule(Iconify.getAppContext());
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        // Hide spinner
-                                        spinner.setVisibility(View.GONE);
-                                        // Unblock touch
-                                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                    }
-                                });
+                        Runnable runnable = () -> {
+                            try {
+                                ModuleUtil.handleModule(Iconify.getAppContext());
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
+                            runOnUiThread(() -> {
+                                // Hide spinner
+                                spinner.setVisibility(View.GONE);
+                                // Unblock touch
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            });
                         };
                         Thread thread = new Thread(runnable);
                         thread.start();
@@ -92,27 +86,21 @@ public class WelcomePage extends AppCompatActivity {
                         // Block touch
                         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                        Runnable runnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    ModuleUtil.handleModule(Iconify.getAppContext());
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        // Hide spinner
-                                        spinner.setVisibility(View.GONE);
-                                        // Unblock touch
-                                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                                        warn.setVisibility(View.VISIBLE);
-                                        warning.setText("Reboot your device first!");
-                                    }
-                                });
+                        Runnable runnable = () -> {
+                            try {
+                                ModuleUtil.handleModule(Iconify.getAppContext());
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
+                            runOnUiThread(() -> {
+                                // Hide spinner
+                                spinner.setVisibility(View.GONE);
+                                // Unblock touch
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                warn.setVisibility(View.VISIBLE);
+                                warning.setText("Reboot your device first!");
+                            });
                         };
                         Thread thread = new Thread(runnable);
                         thread.start();

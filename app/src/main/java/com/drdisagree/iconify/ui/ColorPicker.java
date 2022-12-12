@@ -124,20 +124,10 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         colorPickerDialogSecondary.setDialogStyle(R.style.ColorPicker).setColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.holo_green_light)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(false);
 
         LinearLayout preview_coloraccentprimary = findViewById(R.id.preview_coloraccentprimary);
-        preview_coloraccentprimary.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                colorPickerDialogPrimary.show(ColorPicker.this);
-            }
-        });
+        preview_coloraccentprimary.setOnClickListener(v -> colorPickerDialogPrimary.show(ColorPicker.this));
 
         LinearLayout preview_coloraccentsecondary = findViewById(R.id.preview_coloraccentsecondary);
-        preview_coloraccentsecondary.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                colorPickerDialogSecondary.show(ColorPicker.this);
-            }
-        });
+        preview_coloraccentsecondary.setOnClickListener(v -> colorPickerDialogSecondary.show(ColorPicker.this));
 
         // Disable custom colors button
         Button disable_custom_color = findViewById(R.id.disable_custom_color);
@@ -146,18 +136,15 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         else
             disable_custom_color.setVisibility(View.GONE);
 
-        disable_custom_color.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "customPrimaryColor", false);
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "customSecondaryColor", false);
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
-                FabricatedOverlay.disableOverlay("colorAccentPrimary");
-                FabricatedOverlay.disableOverlay("colorAccentSecondary");
-                disable_custom_color.setVisibility(View.GONE);
-                findViewById(R.id.page_color_picker).invalidate();
-            }
+        disable_custom_color.setOnClickListener(v -> {
+            PrefConfig.savePrefBool(Iconify.getAppContext(), "customPrimaryColor", false);
+            PrefConfig.savePrefBool(Iconify.getAppContext(), "customSecondaryColor", false);
+            PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
+            PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
+            FabricatedOverlay.disableOverlay("colorAccentPrimary");
+            FabricatedOverlay.disableOverlay("colorAccentSecondary");
+            disable_custom_color.setVisibility(View.GONE);
+            findViewById(R.id.page_color_picker).invalidate();
         });
     }
 
@@ -174,24 +161,21 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
             case 1:
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "customPrimaryColor", true);
                 PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", accent);
-                Runnable runnable1 = new Runnable() {
-                    @Override
-                    public void run() {
-                        if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay")) {
-                            OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
-                            OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
-                        }
-                        FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(accent)));
-                        FabricatedOverlay.buildOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(Integer.parseInt(accent), Color.BLACK, 0.8f)));
-                        FabricatedOverlay.enableOverlay("colorAccentPrimary");
-                        FabricatedOverlay.enableOverlay("colorAccentPrimaryDark");
-                        String colorAccentSecondary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary");
-                        if (!Objects.equals(colorAccentSecondary, "null")) {
-                            FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(colorAccentSecondary)));
-                            FabricatedOverlay.enableOverlay("colorAccentSecondary");
-                        }
-                        findViewById(R.id.page_color_picker).invalidate();
+                Runnable runnable1 = () -> {
+                    if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay")) {
+                        OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
+                        OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
                     }
+                    FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(accent)));
+                    FabricatedOverlay.buildOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(Integer.parseInt(accent), Color.BLACK, 0.8f)));
+                    FabricatedOverlay.enableOverlay("colorAccentPrimary");
+                    FabricatedOverlay.enableOverlay("colorAccentPrimaryDark");
+                    String colorAccentSecondary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary");
+                    if (!Objects.equals(colorAccentSecondary, "null")) {
+                        FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(colorAccentSecondary)));
+                        FabricatedOverlay.enableOverlay("colorAccentSecondary");
+                    }
+                    findViewById(R.id.page_color_picker).invalidate();
                 };
                 Thread thread1 = new Thread(runnable1);
                 thread1.start();
@@ -199,24 +183,21 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
             case 2:
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "customSecondaryColor", true);
                 PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", accent);
-                Runnable runnable2 = new Runnable() {
-                    @Override
-                    public void run() {
-                        if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay")) {
-                            OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
-                            OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
-                        }
-                        FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(accent)));
-                        FabricatedOverlay.enableOverlay("colorAccentSecondary");
-                        String colorAccentPrimary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary");
-                        if (!Objects.equals(colorAccentPrimary, "null")) {
-                            FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
-                            FabricatedOverlay.buildOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(Integer.parseInt(colorAccentPrimary), Color.BLACK, 0.8f)));
-                            FabricatedOverlay.enableOverlay("colorAccentPrimary");
-                            FabricatedOverlay.enableOverlay("colorAccentPrimaryDark");
-                        }
-                        findViewById(R.id.page_color_picker).invalidate();
+                Runnable runnable2 = () -> {
+                    if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay")) {
+                        OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
+                        OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
                     }
+                    FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(accent)));
+                    FabricatedOverlay.enableOverlay("colorAccentSecondary");
+                    String colorAccentPrimary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary");
+                    if (!Objects.equals(colorAccentPrimary, "null")) {
+                        FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
+                        FabricatedOverlay.buildOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(Integer.parseInt(colorAccentPrimary), Color.BLACK, 0.8f)));
+                        FabricatedOverlay.enableOverlay("colorAccentPrimary");
+                        FabricatedOverlay.enableOverlay("colorAccentPrimaryDark");
+                    }
+                    findViewById(R.id.page_color_picker).invalidate();
                 };
                 Thread thread2 = new Thread(runnable2);
                 thread2.start();

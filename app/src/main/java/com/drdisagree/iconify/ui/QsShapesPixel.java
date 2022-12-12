@@ -343,109 +343,90 @@ public class QsShapesPixel extends AppCompatActivity {
     private void enableOnClickListener(LinearLayout layout, Button enable, Button disable, String key, int index, boolean hidelabel) {
 
         // Set onClick operation for options in list
-        layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                refreshLayout(layout);
-                if (!PrefConfig.loadPrefBool(Iconify.getAppContext(), key)) {
-                    disable.setVisibility(View.GONE);
-                    if (enable.getVisibility() == View.VISIBLE)
-                        enable.setVisibility(View.GONE);
-                    else
-                        enable.setVisibility(View.VISIBLE);
-                } else {
+        layout.setOnClickListener(v -> {
+            refreshLayout(layout);
+            if (!PrefConfig.loadPrefBool(Iconify.getAppContext(), key)) {
+                disable.setVisibility(View.GONE);
+                if (enable.getVisibility() == View.VISIBLE)
                     enable.setVisibility(View.GONE);
-                    if (disable.getVisibility() == View.VISIBLE)
-                        disable.setVisibility(View.GONE);
-                    else
-                        disable.setVisibility(View.VISIBLE);
-                }
+                else
+                    enable.setVisibility(View.VISIBLE);
+            } else {
+                enable.setVisibility(View.GONE);
+                if (disable.getVisibility() == View.VISIBLE)
+                    disable.setVisibility(View.GONE);
+                else
+                    disable.setVisibility(View.VISIBLE);
             }
         });
 
         // Set onClick operation for Enable button
-        enable.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                refreshLayout(layout);
-                // Show spinner
-                spinner.setVisibility(View.VISIBLE);
-                // Block touch
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        disable_others(key);
-                        QsShapePixelInstaller.install_pack(index);
-                        if (hidelabel) {
-                            OverlayUtils.enableOverlay("IconifyComponentQSHL.overlay");
-                            PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", true);
-                        } else {
-                            OverlayUtils.disableOverlay("IconifyComponentQSHL.overlay");
-                            PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", false);
-                        }
-                    }
-                };
-                Thread thread = new Thread(runnable);
-                thread.start();
-                PrefConfig.savePrefBool(Iconify.getAppContext(), key, true);
-                // Wait 1 second
-                spinner.postDelayed(new Runnable() {
-                    public void run() {
-                        // Hide spinner
-                        spinner.setVisibility(View.GONE);
-                        // Unblock touch
-                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                        // Change background to selected
-                        background(layout.getId(), R.drawable.container_selected);
-                        // Change button visibility
-                        enable.setVisibility(View.GONE);
-                        disable.setVisibility(View.VISIBLE);
-                        refreshBackground();
-                        Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
-                    }
-                }, 1000);
-            }
+        enable.setOnClickListener(v -> {
+            refreshLayout(layout);
+            // Show spinner
+            spinner.setVisibility(View.VISIBLE);
+            // Block touch
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            Runnable runnable = () -> {
+                disable_others(key);
+                QsShapePixelInstaller.install_pack(index);
+                if (hidelabel) {
+                    OverlayUtils.enableOverlay("IconifyComponentQSHL.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", true);
+                } else {
+                    OverlayUtils.disableOverlay("IconifyComponentQSHL.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", false);
+                }
+            };
+            Thread thread = new Thread(runnable);
+            thread.start();
+            PrefConfig.savePrefBool(Iconify.getAppContext(), key, true);
+            // Wait 1 second
+            spinner.postDelayed(() -> {
+                // Hide spinner
+                spinner.setVisibility(View.GONE);
+                // Unblock touch
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                // Change background to selected
+                background(layout.getId(), R.drawable.container_selected);
+                // Change button visibility
+                enable.setVisibility(View.GONE);
+                disable.setVisibility(View.VISIBLE);
+                refreshBackground();
+                Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
+            }, 1000);
         });
 
         // Set onClick operation for Disable button
-        disable.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Show spinner
-                spinner.setVisibility(View.VISIBLE);
-                // Block touch
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        QsShapePixelInstaller.disable_pack(index);
-                        if (hidelabel) {
-                            OverlayUtils.disableOverlay("IconifyComponentQSHL.overlay");
-                            PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", false);
-                        }
-                    }
-                };
-                Thread thread = new Thread(runnable);
-                thread.start();
-                PrefConfig.savePrefBool(Iconify.getAppContext(), key, false);
-                // Wait 1 second
-                spinner.postDelayed(new Runnable() {
-                    public void run() {
-                        // Hide spinner
-                        spinner.setVisibility(View.GONE);
-                        // Unblock touch
-                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                        // Change background to selected
-                        background(layout.getId(), R.drawable.container);
-                        // Change button visibility
-                        disable.setVisibility(View.GONE);
-                        enable.setVisibility(View.VISIBLE);
-                        refreshBackground();
-                        Toast.makeText(Iconify.getAppContext(), "Disabled", Toast.LENGTH_SHORT).show();
-                    }
-                }, 1000);
-            }
+        disable.setOnClickListener(v -> {
+            // Show spinner
+            spinner.setVisibility(View.VISIBLE);
+            // Block touch
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            Runnable runnable = () -> {
+                QsShapePixelInstaller.disable_pack(index);
+                if (hidelabel) {
+                    OverlayUtils.disableOverlay("IconifyComponentQSHL.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", false);
+                }
+            };
+            Thread thread = new Thread(runnable);
+            thread.start();
+            PrefConfig.savePrefBool(Iconify.getAppContext(), key, false);
+            // Wait 1 second
+            spinner.postDelayed(() -> {
+                // Hide spinner
+                spinner.setVisibility(View.GONE);
+                // Unblock touch
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                // Change background to selected
+                background(layout.getId(), R.drawable.container);
+                // Change button visibility
+                disable.setVisibility(View.GONE);
+                enable.setVisibility(View.VISIBLE);
+                refreshBackground();
+                Toast.makeText(Iconify.getAppContext(), "Disabled", Toast.LENGTH_SHORT).show();
+            }, 1000);
         });
     }
 

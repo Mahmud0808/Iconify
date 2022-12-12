@@ -159,31 +159,23 @@ public class QsRowColumn extends AppCompatActivity {
 
         // Apply button
 
-        qs_row_column_apply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        qs_row_column_apply.setOnClickListener(v -> {
 
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "qsRowColumn", true);
+            PrefConfig.savePrefBool(Iconify.getAppContext(), "qsRowColumn", true);
 
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qqsRow", String.valueOf(finalQqsRow[0]));
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsRow", String.valueOf(finalQsRow[0]));
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qqsColumn", String.valueOf(finalQsColumn[0]));
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsColumn", String.valueOf(finalQsColumn[0]));
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qqsTile", String.valueOf((finalQqsRow[0] + 1) * (finalQsColumn[0] + 1)));
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsTile", String.valueOf((finalQsColumn[0] + 1) * (finalQsRow[0] + 1)));
+            PrefConfig.savePrefSettings(Iconify.getAppContext(), "qqsRow", String.valueOf(finalQqsRow[0]));
+            PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsRow", String.valueOf(finalQsRow[0]));
+            PrefConfig.savePrefSettings(Iconify.getAppContext(), "qqsColumn", String.valueOf(finalQsColumn[0]));
+            PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsColumn", String.valueOf(finalQsColumn[0]));
+            PrefConfig.savePrefSettings(Iconify.getAppContext(), "qqsTile", String.valueOf((finalQqsRow[0] + 1) * (finalQsColumn[0] + 1)));
+            PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsTile", String.valueOf((finalQsColumn[0] + 1) * (finalQsRow[0] + 1)));
 
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        applyRowColumn();
-                    }
-                };
-                Thread thread = new Thread(runnable);
-                thread.start();
+            Runnable runnable = () -> applyRowColumn();
+            Thread thread = new Thread(runnable);
+            thread.start();
 
-                qs_row_column_reset.setVisibility(View.VISIBLE);
+            qs_row_column_reset.setVisibility(View.VISIBLE);
 
-            }
         });
 
         // Reset button
@@ -193,24 +185,16 @@ public class QsRowColumn extends AppCompatActivity {
         else
             qs_row_column_reset.setVisibility(View.GONE);
 
-        qs_row_column_reset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        qs_row_column_reset.setOnClickListener(v -> {
 
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "qsRowColumn", false);
+            PrefConfig.savePrefBool(Iconify.getAppContext(), "qsRowColumn", false);
 
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        resetRowColumn();
-                    }
-                };
-                Thread thread = new Thread(runnable);
-                thread.start();
+            Runnable runnable = () -> resetRowColumn();
+            Thread thread = new Thread(runnable);
+            thread.start();
 
-                qs_row_column_reset.setVisibility(View.GONE);
+            qs_row_column_reset.setVisibility(View.GONE);
 
-            }
         });
     }
 

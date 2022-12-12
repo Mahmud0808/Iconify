@@ -149,24 +149,19 @@ public class Extras extends AppCompatActivity {
         });
 
         Button apply_radius = findViewById(R.id.apply_radius);
-        apply_radius.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Show spinner
-                spinner.setVisibility(View.VISIBLE);
-                // Block touch
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                spinner.postDelayed(new Runnable() {
-                    public void run() {
-                        RadiusInstaller.install_pack(finalUiCornerRadius[0]);
-                        PrefConfig.savePrefSettings(Iconify.getAppContext(), "cornerRadius", String.valueOf(finalUiCornerRadius[0]));
-                        // Hide spinner
-                        spinner.setVisibility(View.GONE);
-                        // Unblock touch
-                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                    }
-                }, 1000);
-            }
+        apply_radius.setOnClickListener(v -> {
+            // Show spinner
+            spinner.setVisibility(View.VISIBLE);
+            // Block touch
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            spinner.postDelayed(() -> {
+                RadiusInstaller.install_pack(finalUiCornerRadius[0]);
+                PrefConfig.savePrefSettings(Iconify.getAppContext(), "cornerRadius", String.valueOf(finalUiCornerRadius[0]));
+                // Hide spinner
+                spinner.setVisibility(View.GONE);
+                // Unblock touch
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            }, 1000);
         });
 
         // Disable Everything
@@ -178,12 +173,7 @@ public class Extras extends AppCompatActivity {
         list_desc_disableEverything.setText("Disable all the applied UI, colors and miscellaneous changes done by Iconify.");
         list_desc_disableEverything.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD);
 
-        button_disableEverything.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(Iconify.getAppContext(), "Long Press to Disable Everything.", Toast.LENGTH_SHORT).show();
-            }
-        });
+        button_disableEverything.setOnClickListener(v -> Toast.makeText(Iconify.getAppContext(), "Long Press to Disable Everything.", Toast.LENGTH_SHORT).show());
 
         button_disableEverything.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -192,14 +182,12 @@ public class Extras extends AppCompatActivity {
                 spinner.setVisibility(View.VISIBLE);
                 // Block touch
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                spinner.postDelayed(new Runnable() {
-                    public void run() {
-                        disableEverything();
-                        // Hide spinner
-                        spinner.setVisibility(View.GONE);
-                        // Unblock touch
-                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                    }
+                spinner.postDelayed(() -> {
+                    disableEverything();
+                    // Hide spinner
+                    spinner.setVisibility(View.GONE);
+                    // Unblock touch
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 }, 1000);
                 return true;
             }
@@ -214,12 +202,7 @@ public class Extras extends AppCompatActivity {
         list_desc_restartSysui.setText("Sometimes some of the options might get applied but not visible until a SystemUI reboot. In that case you can use this option to restart SystemUI.");
         list_desc_restartSysui.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD);
 
-        button_restartSysui.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(Iconify.getAppContext(), "Long Press to Restart SystemUI.", Toast.LENGTH_SHORT).show();
-            }
-        });
+        button_restartSysui.setOnClickListener(v -> Toast.makeText(Iconify.getAppContext(), "Long Press to Restart SystemUI.", Toast.LENGTH_SHORT).show());
 
         button_restartSysui.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -228,15 +211,13 @@ public class Extras extends AppCompatActivity {
                 spinner.setVisibility(View.VISIBLE);
                 // Block touch
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                spinner.postDelayed(new Runnable() {
-                    public void run() {
-                        // Hide spinner
-                        spinner.setVisibility(View.GONE);
-                        // Unblock touch
-                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                        // Restarting sysui
-                        Shell.cmd("killall com.android.systemui").exec();
-                    }
+                spinner.postDelayed(() -> {
+                    // Hide spinner
+                    spinner.setVisibility(View.GONE);
+                    // Unblock touch
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    // Restarting sysui
+                    Shell.cmd("killall com.android.systemui").exec();
                 }, 1000);
                 return true;
             }

@@ -41,15 +41,12 @@ public class Info extends AppCompatActivity {
 
         // App version
         ViewGroup appInfo = findViewById(R.id.appInfo);
-        appInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Iconify Version", "Iconify\nVersion Name: " + BuildConfig.VERSION_NAME + "\nVersion Code: " + BuildConfig.VERSION_CODE);
-                clipboard.setPrimaryClip(clip);
-                Toast toast = Toast.makeText(Iconify.getAppContext(), "Copied to Clipboard", Toast.LENGTH_SHORT);
-                toast.show();
-            }
+        appInfo.setOnClickListener(v -> {
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("Iconify Version", "Iconify\nVersion Name: " + BuildConfig.VERSION_NAME + "\nVersion Code: " + BuildConfig.VERSION_CODE);
+            clipboard.setPrimaryClip(clip);
+            Toast toast = Toast.makeText(Iconify.getAppContext(), "Copied to Clipboard", Toast.LENGTH_SHORT);
+            toast.show();
         });
         ImageView ic_appVersion = findViewById(R.id.ic_appVersion);
         ic_appVersion.setBackgroundResource(R.drawable.ic_info);
@@ -60,14 +57,11 @@ public class Info extends AppCompatActivity {
 
         // Github
         ViewGroup githubRepo = findViewById(R.id.githubRepo);
-        githubRepo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String url = "https://github.com/Mahmud0808/Iconify";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-            }
+        githubRepo.setOnClickListener(v -> {
+            String url = "https://github.com/Mahmud0808/Iconify";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
         });
         ImageView ic_github = findViewById(R.id.ic_github);
         ic_github.setBackgroundResource(R.drawable.ic_github);
@@ -78,14 +72,11 @@ public class Info extends AppCompatActivity {
 
         // Telegram
         ViewGroup telegramChannel = findViewById(R.id.telegramChannel);
-        telegramChannel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String url = "https://t.me/IconifyOfficial";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-            }
+        telegramChannel.setOnClickListener(v -> {
+            String url = "https://t.me/IconifyOfficial";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
         });
         ImageView ic_telegram = findViewById(R.id.ic_telegram);
         ic_telegram.setBackgroundResource(R.drawable.ic_telegram);
@@ -98,14 +89,11 @@ public class Info extends AppCompatActivity {
 
         // Icons8
         ViewGroup creditIcons8 = findViewById(R.id.creditIcons8);
-        creditIcons8.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String url = "https://icons8.com/";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-            }
+        creditIcons8.setOnClickListener(v -> {
+            String url = "https://icons8.com/";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
         });
         ImageView ic_link_icons8 = findViewById(R.id.ic_link_icons8);
         ic_link_icons8.setBackgroundResource(R.drawable.ic_link);
@@ -116,14 +104,11 @@ public class Info extends AppCompatActivity {
 
         // Jai
         ViewGroup jai = findViewById(R.id.jai);
-        jai.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String url = "https://t.me/Jai_08";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-            }
+        jai.setOnClickListener(v -> {
+            String url = "https://t.me/Jai_08";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
         });
         ImageView img_jai = findViewById(R.id.img_jai);
         img_jai.setBackgroundResource(R.drawable.ic_user);
@@ -134,14 +119,11 @@ public class Info extends AppCompatActivity {
 
         // 1perialf
         ViewGroup iperialf = findViewById(R.id.iperialf);
-        iperialf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String url = "https://t.me/Rodolphe06";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-            }
+        iperialf.setOnClickListener(v -> {
+            String url = "https://t.me/Rodolphe06";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
         });
         ImageView img_iperialf = findViewById(R.id.img_iperialf);
         img_iperialf.setBackgroundResource(R.drawable.ic_user);
@@ -152,14 +134,11 @@ public class Info extends AppCompatActivity {
 
         // Ritesh
         ViewGroup ritesh = findViewById(R.id.ritesh);
-        ritesh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String url = "https://t.me/ModestCat03";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-            }
+        ritesh.setOnClickListener(v -> {
+            String url = "https://t.me/ModestCat03";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
         });
         ImageView img_ritesh = findViewById(R.id.img_ritesh);
         img_ritesh.setBackgroundResource(R.drawable.ic_user);
@@ -170,14 +149,11 @@ public class Info extends AppCompatActivity {
 
         // Insanely Insane
         ViewGroup sanely_insane = findViewById(R.id.sanely_insane);
-        sanely_insane.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String url = "https://t.me/sanely_insane";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-            }
+        sanely_insane.setOnClickListener(v -> {
+            String url = "https://t.me/sanely_insane";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
         });
         ImageView img_sanely_insane = findViewById(R.id.img_sanely_insane);
         img_sanely_insane.setBackgroundResource(R.drawable.ic_user);
@@ -188,14 +164,11 @@ public class Info extends AppCompatActivity {
 
         // Jaguar
         ViewGroup jaguar = findViewById(R.id.jaguar);
-        jaguar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String url = "https://t.me/Jaguar0066";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-            }
+        jaguar.setOnClickListener(v -> {
+            String url = "https://t.me/Jaguar0066";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
         });
         ImageView img_jaguar = findViewById(R.id.img_jaguar);
         img_jaguar.setBackgroundResource(R.drawable.ic_user);
@@ -208,14 +181,11 @@ public class Info extends AppCompatActivity {
 
         // Azure-Helper
         ViewGroup azure_helper = findViewById(R.id.azure_helper);
-        azure_helper.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String url = "https://github.com/Azure-Helper";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-            }
+        azure_helper.setOnClickListener(v -> {
+            String url = "https://github.com/Azure-Helper";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
         });
         ImageView img_azure_helper = findViewById(R.id.img_azure_helper);
         img_azure_helper.setBackgroundResource(R.drawable.ic_user);

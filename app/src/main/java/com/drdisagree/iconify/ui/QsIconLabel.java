@@ -85,12 +85,7 @@ public class QsIconLabel extends AppCompatActivity {
                 PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsTextSize", String.valueOf(finalTextSize[0]));
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedqsTextSize", true);
 
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        TextSizeInstaller.install_pack(finalTextSize[0]);
-                    }
-                };
+                Runnable runnable = () -> TextSizeInstaller.install_pack(finalTextSize[0]);
                 Thread thread = new Thread(runnable);
                 thread.start();
 
@@ -138,12 +133,7 @@ public class QsIconLabel extends AppCompatActivity {
                 PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsIconSize", String.valueOf(finalIconSize[0]));
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedqsIconSize", true);
 
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        IconSizeInstaller.install_pack(finalIconSize[0]);
-                    }
-                };
+                Runnable runnable = () -> IconSizeInstaller.install_pack(finalIconSize[0]);
                 Thread thread = new Thread(runnable);
                 thread.start();
 
@@ -368,12 +358,7 @@ public class QsIconLabel extends AppCompatActivity {
                 PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsMoveIcon", String.valueOf(finalMoveIcon[0]));
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedqsMoveIcon", true);
 
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        MoveIconInstaller.install_pack(finalMoveIcon[0]);
-                    }
-                };
+                Runnable runnable = () -> MoveIconInstaller.install_pack(finalMoveIcon[0]);
                 Thread thread = new Thread(runnable);
                 thread.start();
 
