@@ -71,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:justificationMode="inter_word"
-            android:text="Click to expand or collapse notification."
+            android:text="Notification Preview.\nClick to apply this style."
             android:textColor="@color/textColorSecondary"
             android:textSize="16dp"
             tools:ignore="SpUsage" />
