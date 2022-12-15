@@ -13,8 +13,8 @@ import android.provider.Settings;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.common.References;
 import com.drdisagree.iconify.ui.HomePage;
 import com.topjohnwu.superuser.Shell;
 
@@ -32,7 +32,7 @@ public class BackgroundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        HomePage.isServiceRunning = true;
+        References.isNotificationServiceRunning = true;
 
         Shell.getShell(shell -> {
             ApplyOnBoot.applyColors();
