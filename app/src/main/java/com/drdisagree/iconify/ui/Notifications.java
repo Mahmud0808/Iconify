@@ -180,7 +180,7 @@ public class Notifications extends AppCompatActivity {
     // Function to change applied pack's bg
     private void checkIfApplied(TextView name, int notif) {
         if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentNF" + notif + ".overlay")) {
-            name.setText(name.getText() + " - Applied");
+            name.setText(name.getText().toString().replace(" - Applied", "") + " - Applied");
             name.setTextColor(getResources().getColor(R.color.colorSuccess));
         } else {
             name.setText(name.getText().toString().replace(" - Applied", ""));
@@ -242,7 +242,7 @@ public class Notifications extends AppCompatActivity {
                 // Unblock touch
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 // Change name to selected color
-                name.setText(name.getText() + " - Applied");
+                name.setText(name.getText().toString().replace(" - Applied", "") + " - Applied");
                 name.setTextColor(getResources().getColor(R.color.colorSuccess));
                 // Change button visibility
                 enable.setVisibility(View.GONE);
