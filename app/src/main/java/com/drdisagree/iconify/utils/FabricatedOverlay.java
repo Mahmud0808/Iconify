@@ -48,12 +48,12 @@ public class FabricatedOverlay {
 
     public static void enableOverlay(String name) {
         Shell.cmd("cmd overlay enable --user current com.android.shell:IconifyComponent" + name).exec();
-        PrefConfig.savePrefBool(Iconify.getAppContext(), name, true);
+        PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricated" + name, true);
     }
 
     public static void disableOverlay(String name) {
         Shell.cmd("cmd overlay disable --user current com.android.shell:IconifyComponent" + name).exec();
-        PrefConfig.savePrefBool(Iconify.getAppContext(), name, false);
+        PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricated" + name, false);
     }
 
     public static boolean isOverlayEnabled(List<String> overlays, String name) {
