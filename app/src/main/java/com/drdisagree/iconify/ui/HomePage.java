@@ -75,9 +75,17 @@ public class HomePage extends AppCompatActivity {
             for (String overlay : EnabledOverlays)
                 PrefConfig.savePrefBool(Iconify.getAppContext(), overlay, true);
 
+            List<String> DisabledOverlays = OverlayUtils.getDisabledOverlayList();
+            for (String overlay : DisabledOverlays)
+                PrefConfig.savePrefBool(Iconify.getAppContext(), overlay, false);
+
             List<String> EnabledFabricatedOverlays = FabricatedOverlay.getEnabledOverlayList();
             for (String overlay : EnabledFabricatedOverlays)
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricated" + overlay, true);
+
+            List<String> DisabledFabricatedOverlays = FabricatedOverlay.getDisabledOverlayList();
+            for (String overlay : DisabledFabricatedOverlays)
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricated" + overlay, false);
         };
         Thread thread1 = new Thread(runnable1);
         thread1.start();

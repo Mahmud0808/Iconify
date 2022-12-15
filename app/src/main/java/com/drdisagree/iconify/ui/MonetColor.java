@@ -53,7 +53,6 @@ public class MonetColor extends AppCompatActivity {
                     apply_monet_color.setChecked(true);
                     Runnable runnable = () -> {
                         OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
-                        PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay", true);
 
                         PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", false);
                         PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
@@ -67,7 +66,6 @@ public class MonetColor extends AppCompatActivity {
                 } else {
                     Runnable runnable = () -> {
                         OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
-                        PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay", false);
 
                         PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
                         PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
@@ -103,15 +101,12 @@ public class MonetColor extends AppCompatActivity {
                 if (isChecked) {
                     apply_pitch_black_theme.setChecked(false);
                     OverlayUtils.disableOverlay("IconifyComponentQSPB.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSPB.overlay", false);
 
                     apply_minimal_qspanel.postDelayed(() -> {
                         OverlayUtils.enableOverlay("IconifyComponentQSST.overlay");
-                        PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSST.overlay", true);
                     }, 1000);
                 } else {
                     OverlayUtils.disableOverlay("IconifyComponentQSST.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSST.overlay", false);
                 }
             }
         });
@@ -124,15 +119,12 @@ public class MonetColor extends AppCompatActivity {
                 if (isChecked) {
                     apply_minimal_qspanel.setChecked(false);
                     OverlayUtils.disableOverlay("IconifyComponentQSST.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSST.overlay", false);
 
                     apply_pitch_black_theme.postDelayed(() -> {
                         OverlayUtils.enableOverlay("IconifyComponentQSPB.overlay");
-                        PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSPB.overlay", true);
                     }, 1000);
                 } else {
                     OverlayUtils.disableOverlay("IconifyComponentQSPB.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSPB.overlay", false);
                 }
             }
         });

@@ -131,7 +131,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
 
         // Disable custom colors button
         Button disable_custom_color = findViewById(R.id.disable_custom_color);
-        if (OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentAMC.overlay") && (PrefConfig.loadPrefBool(Iconify.getAppContext(), "customPrimaryColor") || PrefConfig.loadPrefBool(Iconify.getAppContext(), "customSecondaryColor")))
+        if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay") && (PrefConfig.loadPrefBool(Iconify.getAppContext(), "customPrimaryColor") || PrefConfig.loadPrefBool(Iconify.getAppContext(), "customSecondaryColor")))
             disable_custom_color.setVisibility(View.VISIBLE);
         else
             disable_custom_color.setVisibility(View.GONE);
