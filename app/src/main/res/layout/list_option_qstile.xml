@@ -188,6 +188,7 @@
     </LinearLayout>
 
     <Button
+        app:backgroundTint="@null"
         android:stateListAnimator="@null"
         android:id="@+id/list_button_enable_qstile"
         android:layout_width="match_parent"
@@ -204,6 +205,7 @@
         tools:ignore="SpUsage" />
 
     <Button
+        app:backgroundTint="@null"
         android:stateListAnimator="@null"
         android:id="@+id/list_button_disable_qstile"
         android:layout_width="match_parent"

@@ -4,7 +4,7 @@
         <shape android:shape="rectangle">
             <gradient
                 android:angle="90.0"
-                android:endColor="@color/ic_launcher_background"
+                android:endColor="@color/colorAccentVariant"
                 android:startColor="@color/colorAccent" />
             <corners android:radius="24dp" />
         </shape>
@@ -17,7 +17,7 @@
         <shape android:shape="rectangle">
             <gradient
                 android:angle="270.0"
-                android:endColor="@color/ic_launcher_background"
+                android:endColor="@color/colorAccentVariant"
                 android:startColor="@color/colorAccent" />
             <corners android:radius="20dp" />
         </shape>

@@ -59,14 +59,14 @@
                     android:layout_width="@dimen/preview_icon_size"
                     android:layout_height="@dimen/preview_icon_size"
                     android:layout_margin="@dimen/preview_margin"
-                    app:tint="@color/colorAccent" />
+                    app:tint="@color/colorAccentDark" />
 
                 <ImageView
                     android:id="@+id/list_preview2_iconpack"
                     android:layout_width="@dimen/preview_icon_size"
                     android:layout_height="@dimen/preview_icon_size"
                     android:layout_margin="@dimen/preview_margin"
-                    app:tint="@color/colorAccent" />
+                    app:tint="@color/colorAccentDark" />
             </LinearLayout>
 
             <LinearLayout
@@ -79,20 +79,21 @@
                     android:layout_width="@dimen/preview_icon_size"
                     android:layout_height="@dimen/preview_icon_size"
                     android:layout_margin="@dimen/preview_margin"
-                    app:tint="@color/colorAccent" />
+                    app:tint="@color/colorAccentDark" />
 
                 <ImageView
                     android:id="@+id/list_preview4_iconpack"
                     android:layout_width="@dimen/preview_icon_size"
                     android:layout_height="@dimen/preview_icon_size"
                     android:layout_margin="@dimen/preview_margin"
-                    app:tint="@color/colorAccent" />
+                    app:tint="@color/colorAccentDark" />
 
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
     <Button
+        app:backgroundTint="@null"
         android:stateListAnimator="@null"
         android:id="@+id/list_button_enable_iconpack"
         android:layout_width="match_parent"
@@ -108,6 +109,7 @@
         android:visibility="gone" />
 
     <Button
+        app:backgroundTint="@null"
         android:stateListAnimator="@null"
         android:id="@+id/list_button_disable_iconpack"
         android:layout_width="match_parent"

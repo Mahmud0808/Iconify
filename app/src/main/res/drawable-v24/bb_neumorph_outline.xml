@@ -41,7 +41,7 @@
         <shape android:shape="rectangle">
             <gradient
                 android:angle="0.0"
-                android:endColor="@color/ic_launcher_background"
+                android:endColor="@color/colorAccentVariant"
                 android:startColor="@color/colorAccent" />
             <corners android:radius="24.0dp" />
             <size android:height="48.0dp" />

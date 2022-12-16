@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:gravity="fill_horizontal|center">
         <shape android:shape="rectangle">
-            <solid android:color="#FF000F1D" />
+            <solid android:color="@color/pixel_black_bg" />
             <corners android:radius="24.0dp" />
             <size android:height="48.0dp" />
         </shape>
@@ -41,7 +41,7 @@
         <shape android:shape="rectangle">
             <gradient
                 android:angle="0.0"
-                android:endColor="@color/ic_launcher_background"
+                android:endColor="@color/colorAccentVariant"
                 android:startColor="@color/colorAccent" />
             <corners android:radius="24.0dp" />
             <size android:height="48.0dp" />

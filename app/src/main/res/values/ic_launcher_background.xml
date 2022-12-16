@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ic_launcher_background">#387BFF</color>
+    <color name="ic_launcher_background">@color/material_dynamic_primary80</color>
 </resources>

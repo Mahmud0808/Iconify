@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorBackground">#FF000F1D</color>
-    <color name="colorContainer">#FF0A1828</color>
-    <color name="textColorPrimary">@color/white</color>
-    <color name="textColorPrimaryInverse">@color/black</color>
-    <color name="textColorSecondary">#FF69788A</color>
-    <color name="textColorSecondaryLight">#B3FFFFFF</color>
-    <color name="colorSuccess">#FFB7F7C4</color>
+    <color name="colorAccent">@color/material_dynamic_primary90</color>
+    <color name="colorAccentDark">@color/colorAccent</color>
+    <color name="colorAccentDarker">@color/colorAccent</color>
+    <color name="colorAccentVariant">@color/material_dynamic_tertiary90</color>
+    <color name="rippleAccent">#1AFFFFFF</color>
+    <color name="colorBackground">@color/material_dynamic_neutral_variant10</color>
+    <color name="colorContainer">@color/material_dynamic_secondary20</color>
+    <color name="textColorPrimary">@color/material_dynamic_neutral95</color>
+    <color name="textColorPrimaryInverse">@color/material_dynamic_neutral10</color>
+    <color name="textColorSecondary">@color/material_dynamic_neutral90</color>
+    <color name="colorSuccess">@color/material_dynamic_primary80</color>
     <color name="colorBackground2">#14FFFFFF</color>
-    <color name="offStateColor">@color/colorBackground</color>
     <color name="offStateColor2">#1AFFFFFF</color>
-    <color name="offStateColor3">#40000000</color>
     <color name="shadow">#40000000</color>
     <color name="neumorph_outline_start">#FF363636</color>
     <color name="neumorph_outline_end">#FF0F0F0F</color>

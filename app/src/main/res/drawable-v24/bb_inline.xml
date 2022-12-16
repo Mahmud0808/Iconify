@@ -19,7 +19,7 @@
             <size android:height="40.0dp" />
             <gradient
                 android:angle="0.0"
-                android:endColor="@color/ic_launcher_background"
+                android:endColor="@color/colorAccentVariant"
                 android:startColor="@color/colorAccent" />
         </shape>
     </item>

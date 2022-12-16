@@ -4,7 +4,7 @@
         <shape android:shape="rectangle">
             <corners android:radius="24.0dp" />
             <size android:height="48.0dp" />
-            <solid android:color="#FF000F1D" />
+            <solid android:color="@color/pixel_black_bg" />
         </shape>
     </item>
     <item android:gravity="fill_horizontal|center">
@@ -21,7 +21,7 @@
         <shape android:shape="rectangle">
             <corners android:radius="20.0dp" />
             <size android:height="40.0dp" />
-            <solid android:color="#FF000F1D" />
+            <solid android:color="@color/pixel_black_bg" />
         </shape>
     </item>
     <item
@@ -32,7 +32,7 @@
             <size android:height="48.0dp" />
             <gradient
                 android:angle="0.0"
-                android:endColor="@color/ic_launcher_background"
+                android:endColor="@color/colorAccentVariant"
                 android:startColor="@color/colorAccent" />
         </shape>
     </item>
@@ -54,7 +54,7 @@
             <size android:height="40.0dp" />
             <gradient
                 android:angle="0.0"
-                android:endColor="@color/ic_launcher_background"
+                android:endColor="@color/colorAccentVariant"
                 android:startColor="@color/colorAccent" />
         </shape>
     </item>

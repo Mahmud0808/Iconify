@@ -12,6 +12,7 @@ import com.drdisagree.iconify.ui.WelcomePage;
 import com.drdisagree.iconify.utils.ModuleUtil;
 import com.drdisagree.iconify.utils.OverlayUtils;
 import com.drdisagree.iconify.utils.RootUtil;
+import com.google.android.material.color.DynamicColors;
 import com.topjohnwu.superuser.Shell;
 
 @SuppressLint("CustomSplashScreen")
@@ -34,6 +35,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DynamicColors.applyToActivitiesIfAvailable(getApplication());
 
         Shell.getShell(shell -> {
             mContext = this;

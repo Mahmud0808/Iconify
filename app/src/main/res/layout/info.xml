@@ -40,7 +40,6 @@
                     android:layout_height="72dp"
                     android:layout_gravity="center"
                     android:background="@drawable/ic_launcher_bg2"
-                    android:elevation="4dp"
                     android:padding="16dp">
 
                     <ImageView

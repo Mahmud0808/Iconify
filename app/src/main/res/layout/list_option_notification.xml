@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginStart="@dimen/container_marginSide"
     android:layout_marginEnd="@dimen/container_marginSide"
     android:layout_marginBottom="@dimen/container_margin"
@@ -79,6 +80,7 @@
     </LinearLayout>
 
     <Button
+        app:backgroundTint="@null"
         android:stateListAnimator="@null"
         android:id="@+id/list_button_enable_notif"
         android:layout_width="match_parent"
@@ -94,6 +96,7 @@
         android:visibility="gone" />
 
     <Button
+        app:backgroundTint="@null"
         android:stateListAnimator="@null"
         android:id="@+id/list_button_disable_notif"
         android:layout_width="match_parent"

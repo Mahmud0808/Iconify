@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ColorPicker" parent="Theme.AppCompat.Light.Dialog">
+    <style name="ColorPicker" parent="Theme.Material3.Light.Dialog">
         <item name="android:colorAccent">@color/colorAccent</item>
         <item name="android:windowTitleStyle">@style/LightPickerDialogTitleStyle</item>
         <item name="android:dialogCornerRadius">24dp</item>
-        <item name="android:buttonCornerRadius">120dp</item>
+        <item name="android:buttonCornerRadius">24dp</item>
+        <item name="android:background">@color/colorBackground</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+        <item name="android:fontFamily">@font/normal</item>
+        <item name="android:tint">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorButtonNormal">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorSecondary">@color/colorAccent</item>
+        <item name="colorTertiary">@color/colorAccent</item>
+        <item name="cpv_hashColor">@color/textColorPrimary</item>
     </style>
 
     <style name="LightPickerDialogTitleStyle">

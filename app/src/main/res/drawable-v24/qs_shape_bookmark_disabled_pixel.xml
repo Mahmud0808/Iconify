@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="#FF000F1D" />
+            <solid android:color="@color/pixel_black_bg" />
             <corners android:radius="24dp" />
         </shape>
     </item>
@@ -20,7 +20,7 @@
         android:left="43dp" />
     <item android:gravity="left|center">
         <shape android:shape="rectangle">
-            <solid android:color="#FF000F1D" />
+            <solid android:color="@color/pixel_black_bg" />
             <corners
                 android:bottomLeftRadius="24dp"
                 android:topLeftRadius="24dp" />

@@ -230,6 +230,7 @@
                     android:paddingBottom="@dimen/container_padding">
 
                     <Button
+                        app:backgroundTint="@null"
                         android:stateListAnimator="@null"
                         android:id="@+id/qs_row_column_apply"
                         android:layout_width="match_parent"
@@ -244,6 +245,7 @@
                         tools:ignore="SpUsage" />
 
                     <Button
+                        app:backgroundTint="@null"
                         android:stateListAnimator="@null"
                         android:id="@+id/qs_row_column_reset"
                         android:layout_width="match_parent"
@@ -264,21 +266,8 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#44000000"
-        android:gravity="center"
-        android:visibility="gone">
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:foregroundTint="@color/colorAccent"
-            android:indeterminateTint="@color/colorAccent"
-            android:progressDrawable="@drawable/circular_progress_bar" />
-
-    </LinearLayout>
+    <include
+        android:id="@+id/progressBar_qsRowColumn"
+        layout="@layout/loading_spinner"
+        android:visibility="gone" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

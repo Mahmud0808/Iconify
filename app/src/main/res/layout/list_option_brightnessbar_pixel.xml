@@ -56,6 +56,7 @@
     </LinearLayout>
 
     <Button
+        app:backgroundTint="@null"
         android:stateListAnimator="@null"
         android:id="@+id/list_button_enable_brightnessbar"
         android:layout_width="match_parent"
@@ -72,6 +73,7 @@
         tools:ignore="SpUsage" />
 
     <Button
+        app:backgroundTint="@null"
         android:stateListAnimator="@null"
         android:id="@+id/list_button_disable_brightnessbar"
         android:layout_width="match_parent"

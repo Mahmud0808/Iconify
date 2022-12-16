@@ -115,7 +115,7 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="RIP in Peace"
-                                    android:textColor="@color/textColorSecondaryLight" />
+                                    android:textColor="@color/textColorSecondary" />
 
                             </LinearLayout>
 
@@ -167,7 +167,7 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="Off"
-                                    android:textColor="@color/textColorSecondaryLight" />
+                                    android:textColor="@color/textColorSecondary" />
 
                             </LinearLayout>
 
@@ -227,7 +227,7 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="Off"
-                                    android:textColor="@color/textColorSecondaryLight" />
+                                    android:textColor="@color/textColorSecondary" />
 
                             </LinearLayout>
 
@@ -279,7 +279,7 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="On"
-                                    android:textColor="@color/textColorSecondaryLight" />
+                                    android:textColor="@color/textColorSecondary" />
 
                             </LinearLayout>
 
@@ -304,6 +304,7 @@
                     android:thumb="@drawable/seek_thumb" />
 
                 <Button
+                    app:backgroundTint="@null"
                     android:stateListAnimator="@null"
                     android:id="@+id/apply_radius"
                     android:layout_width="match_parent"
@@ -354,13 +355,14 @@
                         android:id="@+id/list_desc_disableEverything"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/textColorSecondaryLight"
+                        android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_title_size2"
                         tools:ignore="SpUsage" />
 
                 </LinearLayout>
 
                 <Button
+                    app:backgroundTint="@null"
                     android:stateListAnimator="@null"
                     android:id="@+id/button_disableEverything"
                     android:layout_width="match_parent"
@@ -410,13 +412,14 @@
                         android:id="@+id/list_desc_restartSysui"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/textColorSecondaryLight"
+                        android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_title_size2"
                         tools:ignore="SpUsage" />
 
                 </LinearLayout>
 
                 <Button
+                    app:backgroundTint="@null"
                     android:stateListAnimator="@null"
                     android:id="@+id/button_restartSysui"
                     android:layout_width="match_parent"
