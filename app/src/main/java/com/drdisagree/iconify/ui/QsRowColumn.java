@@ -172,7 +172,6 @@ public class QsRowColumn extends AppCompatActivity {
         // Apply button
 
         qs_row_column_apply.setOnClickListener(v -> {
-
             // Show spinner
             spinner.setVisibility(View.VISIBLE);
             // Block touch
@@ -210,15 +209,27 @@ public class QsRowColumn extends AppCompatActivity {
             qs_row_column_reset.setVisibility(View.GONE);
 
         qs_row_column_reset.setOnClickListener(v -> {
+            // Show spinner
+            spinner.setVisibility(View.VISIBLE);
+            // Block touch
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            Runnable runnable = () -> {
 
-            PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedqsRowColumn", false);
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedqsRowColumn", false);
 
-            Runnable runnable = () -> resetRowColumn();
+                resetRowColumn();
+            };
             Thread thread = new Thread(runnable);
             thread.start();
-
-            qs_row_column_reset.setVisibility(View.GONE);
-
+            // Wait 1 second
+            spinner.postDelayed(() -> {
+                // Hide spinner
+                spinner.setVisibility(View.GONE);
+                // Unblock touch
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                qs_row_column_reset.setVisibility(View.GONE);
+                Toast.makeText(Iconify.getAppContext(), "Reset", Toast.LENGTH_SHORT).show();
+            }, 1000);
         });
     }
 
