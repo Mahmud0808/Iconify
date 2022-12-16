@@ -9,8 +9,8 @@ android {
         applicationId "com.drdisagree.iconify"
         minSdk 31
         targetSdk 33
-        versionCode 4
-        versionName "v3.1-Beta"
+        versionCode 5
+        versionName "v4.0-Beta"
         setProperty("archivesBaseName", "Iconify $versionName")
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -43,4 +43,5 @@ dependencies {
     implementation 'com.github.PolideaInternal:ColorPicker:1.0.0'
     implementation 'androidx.work:work-runtime:2.7.1'
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
+    implementation 'androidx.core:core-splashscreen:1.0.0'
 }
