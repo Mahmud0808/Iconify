@@ -71,8 +71,7 @@ public class BackgroundService extends Service {
                 .setContentTitle("Background Service")
                 .setContentText("Useless notification. Tap to disable.")
                 .setContentIntent(pendingIntent)
-                .setSound(null, AudioManager.STREAM_NOTIFICATION)
-                .setColor(getResources().getColor(R.color.accent_device_default));
+                .setSound(null, AudioManager.STREAM_NOTIFICATION);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         createChannel(notificationManager);
