@@ -92,30 +92,6 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // Enable default colors
-        LinearLayout enable_default_colors = findViewById(R.id.enable_default_colors);
-        enable_default_colors.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "customPrimaryColor", true);
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "customSecondaryColor", true);
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
-
-                FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
-                FabricatedOverlay.buildOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", "0xFF122530");
-                FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", "0xFF387BFF");
-                FabricatedOverlay.enableOverlay("colorAccentPrimary");
-                FabricatedOverlay.enableOverlay("colorAccentPrimaryDark");
-                FabricatedOverlay.enableOverlay("colorAccentSecondary");
-
-                ApplyOnBoot.applyColors();
-                Toast.makeText(Iconify.getAppContext(), "Default Colors Applied", Toast.LENGTH_SHORT).show();
-                findViewById(R.id.page_color_picker).invalidate();
-                return true;
-            }
-        });
-
         // Primary and Secondary color
         ColorPickerDialog.Builder colorPickerDialogPrimary = ColorPickerDialog.newBuilder();
         ColorPickerDialog.Builder colorPickerDialogSecondary = ColorPickerDialog.newBuilder();
@@ -131,7 +107,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
 
         // Disable custom colors button
         Button disable_custom_color = findViewById(R.id.disable_custom_color);
-        if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay") && (PrefConfig.loadPrefBool(Iconify.getAppContext(), "customPrimaryColor") || PrefConfig.loadPrefBool(Iconify.getAppContext(), "customSecondaryColor")))
+        if (OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentAMC.overlay") && (PrefConfig.loadPrefBool(Iconify.getAppContext(), "customPrimaryColor") || PrefConfig.loadPrefBool(Iconify.getAppContext(), "customSecondaryColor")))
             disable_custom_color.setVisibility(View.VISIBLE);
         else
             disable_custom_color.setVisibility(View.GONE);

@@ -47,7 +47,7 @@ public class Extras extends AppCompatActivity {
         for (String fabricatedOverlay : fabricatedOverlays) {
             FabricatedOverlay.disableOverlay(fabricatedOverlay);
             PrefConfig.clearPref(Iconify.getAppContext(), fabricatedOverlay);
-            PrefConfig.clearPref(Iconify.getAppContext(), "qsRowColumn");
+            PrefConfig.clearPref(Iconify.getAppContext(), "fabricatedqsRowColumn");
             PrefConfig.clearPref(Iconify.getAppContext(), "customColor");
             PrefConfig.clearPref(Iconify.getAppContext(), "colorAccentPrimary");
             PrefConfig.clearPref(Iconify.getAppContext(), "colorAccentSecondary");

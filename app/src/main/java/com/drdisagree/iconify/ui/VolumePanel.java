@@ -45,10 +45,14 @@ public class VolumePanel extends AppCompatActivity {
                     thick_bg.setChecked(false);
                     no_bg.setChecked(false);
                     OverlayUtils.disableOverlay("IconifyComponentVPBG2.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG2.overlay", false);
                     OverlayUtils.disableOverlay("IconifyComponentVPBG3.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG3.overlay", false);
                     OverlayUtils.enableOverlay("IconifyComponentVPBG1.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG1.overlay", true);
                 } else {
                     OverlayUtils.disableOverlay("IconifyComponentVPBG1.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG1.overlay", false);
                 }
             }
         });
@@ -61,10 +65,14 @@ public class VolumePanel extends AppCompatActivity {
                     thin_bg.setChecked(false);
                     no_bg.setChecked(false);
                     OverlayUtils.disableOverlay("IconifyComponentVPBG1.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG1.overlay", false);
                     OverlayUtils.disableOverlay("IconifyComponentVPBG3.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG3.overlay", false);
                     OverlayUtils.enableOverlay("IconifyComponentVPBG2.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG2.overlay", true);
                 } else {
                     OverlayUtils.disableOverlay("IconifyComponentVPBG2.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG2.overlay", false);
                 }
             }
         });
@@ -77,10 +85,14 @@ public class VolumePanel extends AppCompatActivity {
                     thin_bg.setChecked(false);
                     thick_bg.setChecked(false);
                     OverlayUtils.disableOverlay("IconifyComponentVPBG1.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG1.overlay", false);
                     OverlayUtils.disableOverlay("IconifyComponentVPBG2.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG2.overlay", false);
                     OverlayUtils.enableOverlay("IconifyComponentVPBG3.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG3.overlay", true);
                 } else {
                     OverlayUtils.disableOverlay("IconifyComponentVPBG3.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG3.overlay", false);
                 }
             }
         });

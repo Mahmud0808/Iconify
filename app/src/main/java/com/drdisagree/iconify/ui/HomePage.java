@@ -22,7 +22,6 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.common.References;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.services.BackgroundService;
 import com.drdisagree.iconify.utils.FabricatedOverlay;
@@ -33,6 +32,8 @@ import com.topjohnwu.superuser.Shell;
 import java.util.List;
 
 public class HomePage extends AppCompatActivity {
+
+    public static boolean isServiceRunning = false;
     private final String TAG = "WelcomePage";
     LinearLayout home_monetColor, home_iconPack, home_brightnessBar, home_qsShape, home_notification, home_mediaPlayer, home_volumePanel, home_progressBar, home_extras, home_info;
     private ViewGroup container;
@@ -74,17 +75,9 @@ public class HomePage extends AppCompatActivity {
             for (String overlay : EnabledOverlays)
                 PrefConfig.savePrefBool(Iconify.getAppContext(), overlay, true);
 
-            List<String> DisabledOverlays = OverlayUtils.getDisabledOverlayList();
-            for (String overlay : DisabledOverlays)
-                PrefConfig.savePrefBool(Iconify.getAppContext(), overlay, false);
-
             List<String> EnabledFabricatedOverlays = FabricatedOverlay.getEnabledOverlayList();
             for (String overlay : EnabledFabricatedOverlays)
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricated" + overlay, true);
-
-            List<String> DisabledFabricatedOverlays = FabricatedOverlay.getDisabledOverlayList();
-            for (String overlay : DisabledFabricatedOverlays)
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricated" + overlay, false);
         };
         Thread thread1 = new Thread(runnable1);
         thread1.start();
@@ -94,7 +87,7 @@ public class HomePage extends AppCompatActivity {
                 ActivityResultLauncher<String> launcher = registerForActivityResult(
                         new ActivityResultContracts.RequestPermission(), isGranted -> {
                             Runnable runnable2 = () -> {
-                                if (!References.isNotificationServiceRunning)
+                                if (!isServiceRunning)
                                     startService(new Intent(Iconify.getAppContext(), BackgroundService.class));
                             };
                             Thread thread2 = new Thread(runnable2);
@@ -105,7 +98,7 @@ public class HomePage extends AppCompatActivity {
             }
         } else {
             Runnable runnable2 = () -> {
-                if (!References.isNotificationServiceRunning)
+                if (!isServiceRunning)
                     startService(new Intent(Iconify.getAppContext(), BackgroundService.class));
             };
             Thread thread2 = new Thread(runnable2);
