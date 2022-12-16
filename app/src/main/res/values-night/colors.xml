@@ -19,4 +19,8 @@
     <color name="neumorph_outline_end">#FF0F0F0F</color>
     <color name="switch_track_layer">#B3000000</color>
     <color name="splash_logo">@color/material_dynamic_primary70</color>
+    <color name="switch_track_active">@color/colorAccentDarker</color>
+    <color name="switch_track_inactive">@color/material_dynamic_neutral_variant30</color>
+    <color name="switch_thumb_active">@color/material_dynamic_secondary30</color>
+    <color name="switch_thumb_inactive">@color/material_dynamic_neutral_variant60</color>
 </resources>

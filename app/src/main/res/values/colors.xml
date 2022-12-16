@@ -12,9 +12,9 @@
     <color name="rippleDark">#33000000</color>
     <color name="holo_blue_light">@android:color/holo_blue_light</color>
     <color name="holo_green_light">@android:color/holo_green_light</color>
-    <color name="colorBackground">@color/material_dynamic_neutral_variant99</color>
-    <color name="colorContainer">@color/material_dynamic_secondary95</color>
-    <color name="colorContainerOverlay">@color/transparent</color>
+    <color name="colorBackground">@color/material_dynamic_neutral99</color>
+    <color name="colorContainer">@color/material_dynamic_neutral_variant99</color>
+    <color name="colorContainerOverlay">#05000000</color>
     <color name="textColorPrimary">@color/material_dynamic_neutral10</color>
     <color name="textColorPrimaryInverse">@color/material_dynamic_neutral95</color>
     <color name="textColorSecondary">@color/material_dynamic_neutral20</color>
@@ -29,4 +29,8 @@
     <color name="switch_track_layer">#B3FFFFFF</color>
     <color name="pixel_black_bg">@color/material_dynamic_neutral_variant10</color>
     <color name="splash_logo">@color/colorAccentDark</color>
+    <color name="switch_track_active">@color/colorAccentDarker</color>
+    <color name="switch_track_inactive">@color/material_dynamic_neutral_variant90</color>
+    <color name="switch_thumb_active">@color/white</color>
+    <color name="switch_thumb_inactive">@color/material_dynamic_neutral_variant50</color>
 </resources>
