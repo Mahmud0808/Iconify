@@ -113,6 +113,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
             disable_custom_color.setVisibility(View.GONE);
 
         disable_custom_color.setOnClickListener(v -> {
+            PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", false);
             PrefConfig.savePrefBool(Iconify.getAppContext(), "customPrimaryColor", false);
             PrefConfig.savePrefBool(Iconify.getAppContext(), "customSecondaryColor", false);
             PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
@@ -135,6 +136,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         String accent = String.valueOf(color);
         switch (dialogId) {
             case 1:
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "customPrimaryColor", true);
                 PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", accent);
                 Runnable runnable1 = () -> {
@@ -157,6 +159,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
                 thread1.start();
                 break;
             case 2:
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "customSecondaryColor", true);
                 PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", accent);
                 Runnable runnable2 = () -> {
