@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:foregroundTint="@color/colorAccentDarker"
-                android:indeterminateTint="@color/colorAccent"
+                android:indeterminateTint="@color/colorAccentDarker"
                 android:progressDrawable="@drawable/circular_progress_bar" />
 
             <TextView
