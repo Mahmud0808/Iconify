@@ -2,12 +2,25 @@
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="@color/rippleAccent">
     <item>
-        <shape android:shape="rectangle">
-            <solid android:color="@color/colorContainer" />
-            <corners android:radius="@dimen/cont_corner_radius" />
-            <stroke
-                android:width="1dp"
-                android:color="@color/colorSuccess" />
-        </shape>
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/colorContainer" />
+                    <corners android:radius="@dimen/cont_corner_radius" />
+                    <stroke
+                        android:width="1dp"
+                        android:color="@color/colorSuccess" />
+                </shape>
+            </item>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/colorContainerOverlay" />
+                    <corners android:radius="@dimen/cont_corner_radius" />
+                    <stroke
+                        android:width="1dp"
+                        android:color="@color/colorSuccess" />
+                </shape>
+            </item>
+        </layer-list>
     </item>
 </ripple>

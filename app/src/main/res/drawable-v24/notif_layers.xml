@@ -9,6 +9,12 @@
     </item>
     <item>
         <shape android:shape="rectangle">
+            <solid android:color="@color/colorContainerOverlay" />
+            <corners android:radius="@dimen/cont_corner_radius" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
             <solid android:color="#1A000000" />
             <corners android:radius="@dimen/cont_corner_radius" />
         </shape>
@@ -20,6 +26,16 @@
         android:top="4dp">
         <shape android:shape="rectangle">
             <solid android:color="@color/colorContainer" />
+            <corners android:radius="22dp" />
+        </shape>
+    </item>
+    <item
+        android:bottom="4dp"
+        android:left="4dp"
+        android:right="4dp"
+        android:top="4dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorContainerOverlay" />
             <corners android:radius="22dp" />
         </shape>
     </item>

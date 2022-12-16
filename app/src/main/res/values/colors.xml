@@ -8,12 +8,13 @@
     <color name="colorAccentDark">@color/material_dynamic_primary60</color>
     <color name="colorAccentDarker">@color/colorAccent</color>
     <color name="colorAccentVariant">@color/material_dynamic_tertiary80</color>
-    <color name="rippleAccent">@color/material_dynamic_primary99</color>
+    <color name="rippleAccent">#1A000000</color>
     <color name="rippleDark">#33000000</color>
     <color name="holo_blue_light">@android:color/holo_blue_light</color>
     <color name="holo_green_light">@android:color/holo_green_light</color>
     <color name="colorBackground">@color/material_dynamic_neutral_variant99</color>
     <color name="colorContainer">@color/material_dynamic_secondary95</color>
+    <color name="colorContainerOverlay">@color/transparent</color>
     <color name="textColorPrimary">@color/material_dynamic_neutral10</color>
     <color name="textColorPrimaryInverse">@color/material_dynamic_neutral95</color>
     <color name="textColorSecondary">@color/material_dynamic_neutral20</color>
@@ -26,5 +27,6 @@
     <color name="neumorph_outline_start">#FFD4D4D4</color>
     <color name="neumorph_outline_end">#FFF0F0F0</color>
     <color name="switch_track_layer">#B3FFFFFF</color>
-    <color name="pixel_black_bg">@color/material_dynamic_secondary10</color>
+    <color name="pixel_black_bg">@color/material_dynamic_neutral_variant10</color>
+    <color name="splash_logo">@color/colorAccentDark</color>
 </resources>

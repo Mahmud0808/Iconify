@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorAccent">@color/material_dynamic_primary90</color>
-    <color name="colorAccentDark">@color/colorAccent</color>
+    <color name="colorAccentDark">@color/material_dynamic_primary70</color>
     <color name="colorAccentDarker">@color/colorAccent</color>
     <color name="colorAccentVariant">@color/material_dynamic_tertiary90</color>
     <color name="rippleAccent">#1AFFFFFF</color>
     <color name="colorBackground">@color/material_dynamic_neutral_variant10</color>
     <color name="colorContainer">@color/material_dynamic_secondary20</color>
+    <color name="colorContainerOverlay">#4D000000</color>
     <color name="textColorPrimary">@color/material_dynamic_neutral95</color>
     <color name="textColorPrimaryInverse">@color/material_dynamic_neutral10</color>
     <color name="textColorSecondary">@color/material_dynamic_neutral90</color>
@@ -17,4 +18,5 @@
     <color name="neumorph_outline_start">#FF363636</color>
     <color name="neumorph_outline_end">#FF0F0F0F</color>
     <color name="switch_track_layer">#B3000000</color>
+    <color name="splash_logo">@color/material_dynamic_primary70</color>
 </resources>
