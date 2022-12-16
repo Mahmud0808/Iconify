@@ -3,6 +3,7 @@ package com.drdisagree.iconify;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.splashscreen.SplashScreen;
 
@@ -19,6 +20,7 @@ import com.topjohnwu.superuser.Shell;
 public class SplashActivity extends AppCompatActivity {
 
     private static SplashActivity mContext;
+    private boolean keepShowing = true;
 
     static {
         Shell.enableVerboseLogging = BuildConfig.DEBUG;
@@ -37,21 +39,32 @@ public class SplashActivity extends AppCompatActivity {
         SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
 
         super.onCreate(savedInstanceState);
+        splashScreen.setKeepOnScreenCondition(() -> keepShowing);
         DynamicColors.applyToActivitiesIfAvailable(getApplication());
 
-        Shell.getShell(shell -> {
-            mContext = this;
-
-            Intent intent;
-
-            if (RootUtil.isDeviceRooted() && RootUtil.isMagiskInstalled() && ModuleUtil.moduleExists() && OverlayUtils.overlayExists() && (versionCode == PrefConfig.loadPrefInt(this, "versionCode"))) {
-                intent = new Intent(SplashActivity.this, HomePage.class);
-            } else {
-                intent = new Intent(SplashActivity.this, WelcomePage.class);
-            }
-
-            startActivity(intent);
-            finish();
-        });
+        Thread thread = new Thread(runner);
+        thread.start();
     }
+
+    private final Runnable runner = new Runnable() {
+        @Override
+        public void run() {
+            Shell.getShell(shell -> {
+                mContext = SplashActivity.this;
+
+                Intent intent;
+
+                if (RootUtil.isDeviceRooted() && RootUtil.isMagiskInstalled() && ModuleUtil.moduleExists() && OverlayUtils.overlayExists() && (versionCode == PrefConfig.loadPrefInt(SplashActivity.this, "versionCode"))) {
+                    keepShowing = false;
+                    intent = new Intent(SplashActivity.this, HomePage.class);
+                } else {
+                    keepShowing = false;
+                    intent = new Intent(SplashActivity.this, WelcomePage.class);
+                }
+
+                startActivity(intent);
+                finish();
+            });
+        }
+    };
 }
