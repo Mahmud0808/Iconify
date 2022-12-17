@@ -40,9 +40,6 @@
             android:name=".ui.QsShapesPixel"
             android:exported="false" />
         <activity
-            android:name=".ui.ProgressBar"
-            android:exported="false" />
-        <activity
             android:name=".ui.QsIconLabel"
             android:exported="false" />
         <activity
