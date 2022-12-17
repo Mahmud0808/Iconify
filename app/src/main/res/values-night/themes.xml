@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.Iconify" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.Iconify" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Background color. -->
         <item name="android:windowBackground">@color/colorBackground</item>
         <!-- Primary brand color. -->

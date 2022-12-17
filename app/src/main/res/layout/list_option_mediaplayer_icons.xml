@@ -73,7 +73,6 @@
             android:fontFamily="@font/semibold"
             android:paddingLeft="6dp"
             android:paddingRight="6dp"
-            android:paddingTop="2dp"
             android:text="Aurora"
             android:textColor="@color/colorBackground"
             android:textStyle="bold" />
@@ -92,7 +91,6 @@
             android:fontFamily="@font/semibold"
             android:paddingLeft="6dp"
             android:paddingRight="6dp"
-            android:paddingTop="2dp"
             android:text="Gradicon"
             android:textColor="@color/colorBackground"
             android:textStyle="bold" />
@@ -108,7 +106,6 @@
             android:background="@drawable/button"
             android:fontFamily="@font/semibold"
             android:paddingLeft="6dp"
-            android:paddingTop="2dp"
             android:paddingRight="6dp"
             android:text="Plumpy"
             android:textColor="@color/colorBackground"
