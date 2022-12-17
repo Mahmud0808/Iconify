@@ -47,41 +47,39 @@ public class MonetColor extends AppCompatActivity {
 
         apply_monet_color.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay"));
 
-        apply_monet_color.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    apply_monet_color.setChecked(true);
-                    Runnable runnable = () -> {
-                        OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
-                        PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay", true);
+        apply_monet_color.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                apply_monet_color.setChecked(true);
+                Runnable runnable = () -> {
+                    OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay", true);
 
-                        PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", false);
-                        PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
-                        PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
-                        FabricatedOverlay.disableOverlay("colorAccentPrimary");
-                        FabricatedOverlay.disableOverlay("colorAccentSecondary");
-                        findViewById(R.id.page_monet_color).invalidate();
-                    };
-                    Thread thread = new Thread(runnable);
-                    thread.start();
-                } else {
-                    Runnable runnable = () -> {
-                        OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
-                        PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay", false);
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", false);
+                    PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
+                    PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
+                    FabricatedOverlay.disableOverlay("colorAccentPrimary");
+                    FabricatedOverlay.disableOverlay("colorAccentSecondary");
+                    findViewById(R.id.page_monet_color).invalidate();
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
+            } else {
+                Runnable runnable = () -> {
+                    OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay", false);
 
-                        PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
-                        PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
-                        PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
-                        FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
-                        FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", "0xFF387BFF");
-                        FabricatedOverlay.enableOverlay("colorAccentPrimary");
-                        FabricatedOverlay.enableOverlay("colorAccentSecondary");
-                        ApplyOnBoot.applyColors();
-                        findViewById(R.id.page_monet_color).invalidate();
-                    };
-                    Thread thread = new Thread(runnable);
-                    thread.start();
-                }
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
+                    PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
+                    PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
+                    FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
+                    FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", "0xFF387BFF");
+                    FabricatedOverlay.enableOverlay("colorAccentPrimary");
+                    FabricatedOverlay.enableOverlay("colorAccentSecondary");
+                    ApplyOnBoot.applyColors();
+                    findViewById(R.id.page_monet_color).invalidate();
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
             }
         });
 
@@ -98,42 +96,38 @@ public class MonetColor extends AppCompatActivity {
         // Minimal QsPanel
         apply_minimal_qspanel.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentQSST.overlay"));
 
-        apply_minimal_qspanel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    apply_pitch_black_theme.setChecked(false);
-                    OverlayUtils.disableOverlay("IconifyComponentQSPB.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSPB.overlay", false);
+        apply_minimal_qspanel.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                apply_pitch_black_theme.setChecked(false);
+                OverlayUtils.disableOverlay("IconifyComponentQSPB.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSPB.overlay", false);
 
-                    apply_minimal_qspanel.postDelayed(() -> {
-                        OverlayUtils.enableOverlay("IconifyComponentQSST.overlay");
-                        PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSST.overlay", true);
-                    }, 1000);
-                } else {
-                    OverlayUtils.disableOverlay("IconifyComponentQSST.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSST.overlay", false);
-                }
+                apply_minimal_qspanel.postDelayed(() -> {
+                    OverlayUtils.enableOverlay("IconifyComponentQSST.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSST.overlay", true);
+                }, 1000);
+            } else {
+                OverlayUtils.disableOverlay("IconifyComponentQSST.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSST.overlay", false);
             }
         });
 
         // Pitch Black QsPanel
         apply_pitch_black_theme.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentQSPB.overlay"));
 
-        apply_pitch_black_theme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    apply_minimal_qspanel.setChecked(false);
-                    OverlayUtils.disableOverlay("IconifyComponentQSST.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSST.overlay", false);
+        apply_pitch_black_theme.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                apply_minimal_qspanel.setChecked(false);
+                OverlayUtils.disableOverlay("IconifyComponentQSST.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSST.overlay", false);
 
-                    apply_pitch_black_theme.postDelayed(() -> {
-                        OverlayUtils.enableOverlay("IconifyComponentQSPB.overlay");
-                        PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSPB.overlay", true);
-                    }, 1000);
-                } else {
-                    OverlayUtils.disableOverlay("IconifyComponentQSPB.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSPB.overlay", false);
-                }
+                apply_pitch_black_theme.postDelayed(() -> {
+                    OverlayUtils.enableOverlay("IconifyComponentQSPB.overlay");
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSPB.overlay", true);
+                }, 1000);
+            } else {
+                OverlayUtils.disableOverlay("IconifyComponentQSPB.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSPB.overlay", false);
             }
         });
 
@@ -149,16 +143,13 @@ public class MonetColor extends AppCompatActivity {
             experimental_color_options.setVisibility(View.VISIBLE);
         }
 
-        experimental_color.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
-                    experimental_color_options.setVisibility(View.VISIBLE);
-                    PrefConfig.savePrefBool(MonetColor.this, "experimentalColorOptions", true);
-                } else {
-                    experimental_color_options.setVisibility(View.GONE);
-                    PrefConfig.savePrefBool(MonetColor.this, "experimentalColorOptions", false);
-                }
+        experimental_color.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            if (isChecked) {
+                experimental_color_options.setVisibility(View.VISIBLE);
+                PrefConfig.savePrefBool(MonetColor.this, "experimentalColorOptions", true);
+            } else {
+                experimental_color_options.setVisibility(View.GONE);
+                PrefConfig.savePrefBool(MonetColor.this, "experimentalColorOptions", false);
             }
         });
 
@@ -167,13 +158,11 @@ public class MonetColor extends AppCompatActivity {
 
         enable_accurate_shades.setChecked(shade != 0);
 
-        enable_accurate_shades.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Shell.cmd("settings put secure monet_engine_accurate_shades 1").exec();
-                } else {
-                    Shell.cmd("settings put secure monet_engine_accurate_shades 0").exec();
-                }
+        enable_accurate_shades.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                Shell.cmd("settings put secure monet_engine_accurate_shades 1").exec();
+            } else {
+                Shell.cmd("settings put secure monet_engine_accurate_shades 0").exec();
             }
         });
     }

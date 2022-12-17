@@ -60,53 +60,47 @@ public class MediaPlayer extends AppCompatActivity {
 
         mp_accent.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentMPA.overlay"));
 
-        mp_accent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    mp_system.setChecked(false);
-                    mp_pitch_black.setChecked(false);
-                    OverlayUtils.disableOverlay("IconifyComponentMPS.overlay");
-                    OverlayUtils.disableOverlay("IconifyComponentMPB.overlay");
-                    OverlayUtils.enableOverlay("IconifyComponentMPA.overlay");
-                } else {
-                    OverlayUtils.disableOverlay("IconifyComponentMPA.overlay");
-                }
-                refreshPreview();
+        mp_accent.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                mp_system.setChecked(false);
+                mp_pitch_black.setChecked(false);
+                OverlayUtils.disableOverlay("IconifyComponentMPS.overlay");
+                OverlayUtils.disableOverlay("IconifyComponentMPB.overlay");
+                OverlayUtils.enableOverlay("IconifyComponentMPA.overlay");
+            } else {
+                OverlayUtils.disableOverlay("IconifyComponentMPA.overlay");
             }
+            refreshPreview();
         });
 
         mp_system.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentMPS.overlay"));
 
-        mp_system.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    mp_accent.setChecked(false);
-                    mp_pitch_black.setChecked(false);
-                    OverlayUtils.disableOverlay("IconifyComponentMPA.overlay");
-                    OverlayUtils.disableOverlay("IconifyComponentMPB.overlay");
-                    OverlayUtils.enableOverlay("IconifyComponentMPS.overlay");
-                } else {
-                    OverlayUtils.disableOverlay("IconifyComponentMPS.overlay");
-                }
-                refreshPreview();
+        mp_system.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                mp_accent.setChecked(false);
+                mp_pitch_black.setChecked(false);
+                OverlayUtils.disableOverlay("IconifyComponentMPA.overlay");
+                OverlayUtils.disableOverlay("IconifyComponentMPB.overlay");
+                OverlayUtils.enableOverlay("IconifyComponentMPS.overlay");
+            } else {
+                OverlayUtils.disableOverlay("IconifyComponentMPS.overlay");
             }
+            refreshPreview();
         });
 
         mp_pitch_black.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentMPB.overlay"));
 
-        mp_pitch_black.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    mp_accent.setChecked(false);
-                    mp_system.setChecked(false);
-                    OverlayUtils.disableOverlay("IconifyComponentMPA.overlay");
-                    OverlayUtils.disableOverlay("IconifyComponentMPS.overlay");
-                    OverlayUtils.enableOverlay("IconifyComponentMPB.overlay");
-                } else {
-                    OverlayUtils.disableOverlay("IconifyComponentMPB.overlay");
-                }
-                refreshPreview();
+        mp_pitch_black.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                mp_accent.setChecked(false);
+                mp_system.setChecked(false);
+                OverlayUtils.disableOverlay("IconifyComponentMPA.overlay");
+                OverlayUtils.disableOverlay("IconifyComponentMPS.overlay");
+                OverlayUtils.enableOverlay("IconifyComponentMPB.overlay");
+            } else {
+                OverlayUtils.disableOverlay("IconifyComponentMPB.overlay");
             }
+            refreshPreview();
         });
 
         musicPlayerIconList();

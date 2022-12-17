@@ -160,137 +160,127 @@ public class QsIconLabel extends AppCompatActivity {
 
         label_white.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentQST1.overlay"));
 
-        label_white.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    label_whiteV2.setChecked(false);
-                    label_systemInverse.setChecked(false);
-                    label_systemInverseV2.setChecked(false);
-                    label_fixtexta13.setChecked(false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST2.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST2.overlay", false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST3.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST3.overlay", false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST4.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST4.overlay", false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST5.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST5.overlay", false);
+        label_white.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                label_whiteV2.setChecked(false);
+                label_systemInverse.setChecked(false);
+                label_systemInverseV2.setChecked(false);
+                label_fixtexta13.setChecked(false);
+                OverlayUtils.disableOverlay("IconifyComponentQST2.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST2.overlay", false);
+                OverlayUtils.disableOverlay("IconifyComponentQST3.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST3.overlay", false);
+                OverlayUtils.disableOverlay("IconifyComponentQST4.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST4.overlay", false);
+                OverlayUtils.disableOverlay("IconifyComponentQST5.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST5.overlay", false);
 
-                    OverlayUtils.enableOverlay("IconifyComponentQST1.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST1.overlay", true);
-                } else {
-                    OverlayUtils.disableOverlay("IconifyComponentQST1.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST1.overlay", false);
-                }
+                OverlayUtils.enableOverlay("IconifyComponentQST1.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST1.overlay", true);
+            } else {
+                OverlayUtils.disableOverlay("IconifyComponentQST1.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST1.overlay", false);
             }
         });
 
         label_whiteV2.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentQST2.overlay"));
 
-        label_whiteV2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    label_white.setChecked(false);
-                    label_systemInverse.setChecked(false);
-                    label_systemInverseV2.setChecked(false);
-                    label_fixtexta13.setChecked(false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST1.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST1.overlay", false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST3.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST3.overlay", false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST4.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST4.overlay", false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST5.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST5.overlay", false);
+        label_whiteV2.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                label_white.setChecked(false);
+                label_systemInverse.setChecked(false);
+                label_systemInverseV2.setChecked(false);
+                label_fixtexta13.setChecked(false);
+                OverlayUtils.disableOverlay("IconifyComponentQST1.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST1.overlay", false);
+                OverlayUtils.disableOverlay("IconifyComponentQST3.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST3.overlay", false);
+                OverlayUtils.disableOverlay("IconifyComponentQST4.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST4.overlay", false);
+                OverlayUtils.disableOverlay("IconifyComponentQST5.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST5.overlay", false);
 
-                    OverlayUtils.enableOverlay("IconifyComponentQST2.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST2.overlay", true);
-                } else {
-                    OverlayUtils.disableOverlay("IconifyComponentQST2.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST2.overlay", false);
-                }
+                OverlayUtils.enableOverlay("IconifyComponentQST2.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST2.overlay", true);
+            } else {
+                OverlayUtils.disableOverlay("IconifyComponentQST2.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST2.overlay", false);
             }
         });
 
         label_systemInverse.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentQST3.overlay"));
 
-        label_systemInverse.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    label_white.setChecked(false);
-                    label_whiteV2.setChecked(false);
-                    label_systemInverseV2.setChecked(false);
-                    label_fixtexta13.setChecked(false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST1.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST1.overlay", false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST2.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST2.overlay", false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST4.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST4.overlay", false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST5.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST5.overlay", false);
+        label_systemInverse.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                label_white.setChecked(false);
+                label_whiteV2.setChecked(false);
+                label_systemInverseV2.setChecked(false);
+                label_fixtexta13.setChecked(false);
+                OverlayUtils.disableOverlay("IconifyComponentQST1.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST1.overlay", false);
+                OverlayUtils.disableOverlay("IconifyComponentQST2.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST2.overlay", false);
+                OverlayUtils.disableOverlay("IconifyComponentQST4.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST4.overlay", false);
+                OverlayUtils.disableOverlay("IconifyComponentQST5.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST5.overlay", false);
 
-                    OverlayUtils.enableOverlay("IconifyComponentQST3.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST3.overlay", true);
-                } else {
-                    OverlayUtils.disableOverlay("IconifyComponentQST3.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST3.overlay", false);
-                }
+                OverlayUtils.enableOverlay("IconifyComponentQST3.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST3.overlay", true);
+            } else {
+                OverlayUtils.disableOverlay("IconifyComponentQST3.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST3.overlay", false);
             }
         });
 
         label_systemInverseV2.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentQST4.overlay"));
 
-        label_systemInverseV2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    label_white.setChecked(false);
-                    label_whiteV2.setChecked(false);
-                    label_systemInverse.setChecked(false);
-                    label_fixtexta13.setChecked(false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST1.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST1.overlay", false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST2.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST2.overlay", false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST3.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST3.overlay", false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST5.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST5.overlay", false);
+        label_systemInverseV2.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                label_white.setChecked(false);
+                label_whiteV2.setChecked(false);
+                label_systemInverse.setChecked(false);
+                label_fixtexta13.setChecked(false);
+                OverlayUtils.disableOverlay("IconifyComponentQST1.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST1.overlay", false);
+                OverlayUtils.disableOverlay("IconifyComponentQST2.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST2.overlay", false);
+                OverlayUtils.disableOverlay("IconifyComponentQST3.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST3.overlay", false);
+                OverlayUtils.disableOverlay("IconifyComponentQST5.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST5.overlay", false);
 
-                    OverlayUtils.enableOverlay("IconifyComponentQST4.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST4.overlay", true);
-                } else {
-                    OverlayUtils.disableOverlay("IconifyComponentQST4.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST4.overlay", false);
-                }
+                OverlayUtils.enableOverlay("IconifyComponentQST4.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST4.overlay", true);
+            } else {
+                OverlayUtils.disableOverlay("IconifyComponentQST4.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST4.overlay", false);
             }
         });
 
         label_fixtexta13.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentQST5.overlay"));
 
-        label_fixtexta13.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    label_white.setChecked(false);
-                    label_whiteV2.setChecked(false);
-                    label_systemInverse.setChecked(false);
-                    label_systemInverseV2.setChecked(false);
+        label_fixtexta13.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                label_white.setChecked(false);
+                label_whiteV2.setChecked(false);
+                label_systemInverse.setChecked(false);
+                label_systemInverseV2.setChecked(false);
 
-                    OverlayUtils.disableOverlay("IconifyComponentQST1.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST1.overlay", false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST2.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST2.overlay", false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST3.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST3.overlay", false);
-                    OverlayUtils.disableOverlay("IconifyComponentQST4.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST4.overlay", false);
+                OverlayUtils.disableOverlay("IconifyComponentQST1.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST1.overlay", false);
+                OverlayUtils.disableOverlay("IconifyComponentQST2.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST2.overlay", false);
+                OverlayUtils.disableOverlay("IconifyComponentQST3.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST3.overlay", false);
+                OverlayUtils.disableOverlay("IconifyComponentQST4.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST4.overlay", false);
 
-                    OverlayUtils.enableOverlay("IconifyComponentQST5.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST5.overlay", true);
-                } else {
-                    OverlayUtils.disableOverlay("IconifyComponentQST5.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST5.overlay", false);
-                }
+                OverlayUtils.enableOverlay("IconifyComponentQST5.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST5.overlay", true);
+            } else {
+                OverlayUtils.disableOverlay("IconifyComponentQST5.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST5.overlay", false);
             }
         });
 
@@ -300,21 +290,19 @@ public class QsIconLabel extends AppCompatActivity {
 
         hide_label.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay"));
 
-        hide_label.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    OverlayUtils.enableOverlay("IconifyComponentQSHL.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", true);
+        hide_label.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                OverlayUtils.enableOverlay("IconifyComponentQSHL.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", true);
 
-                    text_size_container.setVisibility(View.GONE);
-                    text_size_divider.setVisibility(View.GONE);
-                } else {
-                    OverlayUtils.disableOverlay("IconifyComponentQSHL.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", false);
+                text_size_container.setVisibility(View.GONE);
+                text_size_divider.setVisibility(View.GONE);
+            } else {
+                OverlayUtils.disableOverlay("IconifyComponentQSHL.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", false);
 
-                    text_size_container.setVisibility(View.VISIBLE);
-                    text_size_divider.setVisibility(View.VISIBLE);
-                }
+                text_size_container.setVisibility(View.VISIBLE);
+                text_size_divider.setVisibility(View.VISIBLE);
             }
         });
 
