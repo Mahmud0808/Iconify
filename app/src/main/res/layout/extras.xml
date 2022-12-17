@@ -115,7 +115,7 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="RIP in Peace"
-                                    android:textColor="@color/textColorSecondary" />
+                                    android:textColor="@color/textColorSecondaryLight" />
 
                             </LinearLayout>
 
@@ -167,7 +167,7 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="Off"
-                                    android:textColor="@color/textColorSecondary" />
+                                    android:textColor="@color/textColorSecondaryLight" />
 
                             </LinearLayout>
 
@@ -227,7 +227,7 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="Off"
-                                    android:textColor="@color/textColorSecondary" />
+                                    android:textColor="@color/textColorSecondaryLight" />
 
                             </LinearLayout>
 
@@ -279,7 +279,7 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="On"
-                                    android:textColor="@color/textColorSecondary" />
+                                    android:textColor="@color/textColorSecondaryLight" />
 
                             </LinearLayout>
 
