@@ -3,15 +3,12 @@ package com.drdisagree.iconify.ui;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +21,6 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
-import com.drdisagree.iconify.installer.QsShapeInstaller;
 import com.drdisagree.iconify.installer.QsShapePixelInstaller;
 import com.drdisagree.iconify.utils.DisplayUtil;
 import com.drdisagree.iconify.utils.OverlayUtils;
@@ -74,6 +70,13 @@ public class QsShapesPixel extends AppCompatActivity {
 
         ViewGroup.MarginLayoutParams marginParams;
         LinearLayout.LayoutParams layoutParams;
+
+        // Link warn msg to color picker page
+        LinearLayout qs_shape_pixel_warn = findViewById(R.id.qs_shape_pixel_warn);
+        qs_shape_pixel_warn.setOnClickListener(v -> {
+            Intent intent = new Intent(QsShapesPixel.this, ColorPicker.class);
+            startActivity(intent);
+        });
 
         // Qs Shape add items in list
         addItem(R.id.default_container, R.id.default_qstile1, R.id.default_qstile2, R.id.default_qstile3, R.id.default_qstile4, "Default", R.id.default_enable, R.id.default_disable, R.id.default_qstile_orientation);
@@ -367,7 +370,7 @@ public class QsShapesPixel extends AppCompatActivity {
 
             Runnable runnable = () -> {
                 disable_others(key);
-                QsShapeInstaller.install_pack(index);
+                QsShapePixelInstaller.install_pack(index);
                 if (hidelabel) {
                     OverlayUtils.enableOverlay("IconifyComponentQSHL.overlay");
                     PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", true);
@@ -405,7 +408,7 @@ public class QsShapesPixel extends AppCompatActivity {
             loadingDialog.show("Please Wait");
 
             Runnable runnable = () -> {
-                QsShapeInstaller.disable_pack(index);
+                QsShapePixelInstaller.disable_pack(index);
                 if (hidelabel) {
                     OverlayUtils.disableOverlay("IconifyComponentQSHL.overlay");
                     PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", false);

@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,7 +19,6 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
-import com.drdisagree.iconify.installer.BrightnessInstaller;
 import com.drdisagree.iconify.installer.BrightnessPixelInstaller;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -64,6 +62,13 @@ public class BrightnessBarsPixel extends AppCompatActivity {
 
         // Brightness Bar list items
         container = (ViewGroup) findViewById(R.id.brightness_bars_list_pixel);
+
+        // Link warn msg to color picker page
+        LinearLayout brightness_bar_pixel_warn = findViewById(R.id.brightness_bar_pixel_warn);
+        brightness_bar_pixel_warn.setOnClickListener(v -> {
+            Intent intent = new Intent(BrightnessBarsPixel.this, ColorPicker.class);
+            startActivity(intent);
+        });
 
         // Brightness Bar add items in list
         addItem(R.id.brightnessBar_roundedClip_container, R.id.brightnessBar_roundedClip_bb, R.id.brightnessBar_roundedClip_auto_bb, "Rounded Clip", R.id.brightnessBar_roundedClip_enable, R.id.brightnessBar_roundedClip_disable);
@@ -258,7 +263,7 @@ public class BrightnessBarsPixel extends AppCompatActivity {
 
             Runnable runnable = () -> {
                 disable_others(key);
-                BrightnessInstaller.install_pack(index);
+                BrightnessPixelInstaller.install_pack(index);
 
                 runOnUiThread(() -> {
                     PrefConfig.savePrefBool(Iconify.getAppContext(), key, true);
@@ -289,7 +294,7 @@ public class BrightnessBarsPixel extends AppCompatActivity {
             loadingDialog.show("Please Wait");
 
             Runnable runnable = () -> {
-                BrightnessInstaller.disable_pack(index);
+                BrightnessPixelInstaller.disable_pack(index);
 
                 runOnUiThread(() -> {
                     PrefConfig.savePrefBool(Iconify.getAppContext(), key, false);
