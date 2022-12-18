@@ -2,12 +2,8 @@ package com.drdisagree.iconify.utils;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.drdisagree.iconify.BuildConfig;
-import com.drdisagree.iconify.Iconify;
-import com.drdisagree.iconify.SplashActivity;
-import com.drdisagree.iconify.config.PrefConfig;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
@@ -38,7 +34,11 @@ public class ModuleUtil {
         Log.e("ModuleCheck", "Magisk module does not exist, creating!");
         // Clean temporary directory
         Shell.cmd("mkdir -p " + MODULE_DIR).exec();
-        Shell.cmd("printf 'id=Iconify\nname=Iconify\nversion=" + BuildConfig.VERSION_NAME + "\nversionCode=" + BuildConfig.VERSION_CODE + "\nauthor=@DrDisagree\ndescription=Systemless module for Iconify.\n' > " + MODULE_DIR + "/module.prop").exec();
+        Shell.cmd("printf 'id=Iconify\n" +
+                "name=Iconify\nversion=" + BuildConfig.VERSION_NAME + "\n" +
+                "versionCode=" + BuildConfig.VERSION_CODE + "\n" +"" +
+                "author=@DrDisagree\n" +
+                "description=Systemless module for Iconify.\n' > " + MODULE_DIR + "/module.prop").exec();
         Shell.cmd("mkdir -p " + MODULE_DIR + "/common").exec();
         Shell.cmd("printf '#!/system/bin/sh\n" +
                 "# Do NOT assume where your module will be located.\n" +
@@ -46,7 +46,8 @@ public class ModuleUtil {
                 "# and module is placed.\n" +
                 "# This will make sure your module will still work\n" +
                 "# if Magisk change its mount point in the future\n" +
-                "# This script will be executed in late_start service mode\n' > " + MODULE_DIR + "/common/post-fs-data.sh").exec();
+                "MODDIR=${0%%/*}\n" +
+                "# This script will be executed in post-fs-data mode' > " + MODULE_DIR + "/common/post-fs-data.sh").exec();
         Shell.cmd("printf '#!/system/bin/sh\n" +
                 "# Do NOT assume where your module will be located.\n" +
                 "# ALWAYS use $MODDIR if you need to know where this script\n" +
