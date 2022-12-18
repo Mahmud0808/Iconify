@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,7 @@ public class QsShapes extends AppCompatActivity {
     Button Default_Enable, Default_Disable, DoubleLayer_Enable, DoubleLayer_Disable, ShadedLayer_Enable, ShadedLayer_Disable, Outline_Enable, Outline_Disable, LeafyOutline_Enable, LeafyOutline_Disable, Neumorph_Enable, Neumorph_Disable, Surround_Enable, Surround_Disable, Bookmark_Enable, Bookmark_Disable, NeumorphOutline_Enable, NeumorphOutline_Disable;
     LinearLayout[] qstile_orientation_list;
     private ViewGroup container;
-    private LinearLayout spinner;
+    LoadingDialog loadingDialog;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -64,11 +65,8 @@ public class QsShapes extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // Progressbar while enabling or disabling pack
-        spinner = findViewById(R.id.progressBar_QsShape);
-
-        // Don't show progressbar on opening page
-        spinner.setVisibility(View.GONE);
+        // Loading dialog while enabling or disabling pack
+        loadingDialog = new LoadingDialog(this);
 
         // Qs row column item on click
         LinearLayout qs_row_column = findViewById(R.id.qs_row_column);
@@ -384,10 +382,9 @@ public class QsShapes extends AppCompatActivity {
         // Set onClick operation for Enable button
         enable.setOnClickListener(v -> {
             refreshLayout(layout);
-            // Show spinner
-            spinner.setVisibility(View.VISIBLE);
-            // Block touch
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            // Show loading dialog
+            loadingDialog.show("Please Wait");
+
             Runnable runnable = () -> {
                 disable_others(key);
                 QsShapeInstaller.install_pack(index);
@@ -398,56 +395,62 @@ public class QsShapes extends AppCompatActivity {
                     OverlayUtils.disableOverlay("IconifyComponentQSHL.overlay");
                     PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", false);
                 }
+
+                runOnUiThread(() -> {
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), key, true);
+
+                    new Handler().postDelayed(() -> {
+                        // Hide loading dialog
+                        loadingDialog.hide();
+
+                        // Change background to selected
+                        background(layout.getId(), R.drawable.container_selected);
+
+                        // Change button visibility
+                        enable.setVisibility(View.GONE);
+                        disable.setVisibility(View.VISIBLE);
+                        refreshBackground();
+
+                        Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
+                    }, 2000);
+                });
             };
             Thread thread = new Thread(runnable);
             thread.start();
-            PrefConfig.savePrefBool(Iconify.getAppContext(), key, true);
-            // Wait 1 second
-            spinner.postDelayed(() -> {
-                // Hide spinner
-                spinner.setVisibility(View.GONE);
-                // Unblock touch
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                // Change background to selected
-                background(layout.getId(), R.drawable.container_selected);
-                // Change button visibility
-                enable.setVisibility(View.GONE);
-                disable.setVisibility(View.VISIBLE);
-                refreshBackground();
-                Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
-            }, 1000);
         });
 
         // Set onClick operation for Disable button
         disable.setOnClickListener(v -> {
-            // Show spinner
-            spinner.setVisibility(View.VISIBLE);
-            // Block touch
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            // Show loading dialog
+            loadingDialog.show("Please Wait");
+
             Runnable runnable = () -> {
                 QsShapeInstaller.disable_pack(index);
                 if (hidelabel) {
                     OverlayUtils.disableOverlay("IconifyComponentQSHL.overlay");
                     PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", false);
                 }
+
+                runOnUiThread(() -> {
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), key, false);
+
+                    new Handler().postDelayed(() -> {
+                        loadingDialog.hide();
+
+                        // Change background to selected
+                        background(layout.getId(), R.drawable.container);
+
+                        // Change button visibility
+                        disable.setVisibility(View.GONE);
+                        enable.setVisibility(View.VISIBLE);
+                        refreshBackground();
+
+                        Toast.makeText(Iconify.getAppContext(), "Disabled", Toast.LENGTH_SHORT).show();
+                    }, 2000);
+                });
             };
             Thread thread = new Thread(runnable);
             thread.start();
-            PrefConfig.savePrefBool(Iconify.getAppContext(), key, false);
-            // Wait 1 second
-            spinner.postDelayed(() -> {
-                // Hide spinner
-                spinner.setVisibility(View.GONE);
-                // Unblock touch
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                // Change background to selected
-                background(layout.getId(), R.drawable.container);
-                // Change button visibility
-                disable.setVisibility(View.GONE);
-                enable.setVisibility(View.VISIBLE);
-                refreshBackground();
-                Toast.makeText(Iconify.getAppContext(), "Disabled", Toast.LENGTH_SHORT).show();
-            }, 1000);
         });
     }
 
@@ -505,5 +508,11 @@ public class QsShapes extends AppCompatActivity {
         qs_tile_orientation.setId(orientation);
 
         container.addView(list);
+    }
+
+    @Override
+    public void onDestroy() {
+        loadingDialog.hide();
+        super.onDestroy();
     }
 }

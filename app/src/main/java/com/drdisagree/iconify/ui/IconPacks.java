@@ -2,10 +2,10 @@ package com.drdisagree.iconify.ui;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,7 +44,7 @@ public class IconPacks extends AppCompatActivity {
     LinearLayout AuroraContainer, GradiconContainer, LornContainer, PlumpyContainer, AcherusContainer, CircularContainer, FilledContainer, KaiContainer, OosContainer, OutlineContainer, PuiContainer, RoundedContainer, SamContainer, VictorContainer;
     Button Aurora_Enable, Aurora_Disable, Gradicon_Enable, Gradicon_Disable, Lorn_Enable, Lorn_Disable, Plumpy_Enable, Plumpy_Disable, Acherus_Enable, Acherus_Disable, Circular_Enable, Circular_Disable, Filled_Enable, Filled_Disable, Kai_Enable, Kai_Disable, Oos_Enable, Oos_Disable, Outline_Enable, Outline_Disable, Pui_Enable, Pui_Disable, Rounded_Enable, Rounded_Disable, Sam_Enable, Sam_Disable, Victor_Enable, Victor_Disable;
     private ViewGroup container;
-    private LinearLayout spinner;
+    LoadingDialog loadingDialog;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -60,11 +60,8 @@ public class IconPacks extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // Progressbar while enabling or disabling pack
-        spinner = findViewById(R.id.progressBar_iconPack);
-
-        // Don't show progressbar on opening page
-        spinner.setVisibility(View.GONE);
+        // Loading dialog while enabling or disabling pack
+        loadingDialog = new LoadingDialog(this);
 
         // Icon Pack list items
         container = (ViewGroup) findViewById(R.id.icon_packs_list);
@@ -276,57 +273,65 @@ public class IconPacks extends AppCompatActivity {
         // Set onClick operation for Enable button
         enable.setOnClickListener(v -> {
             refreshLayout(layout);
-            // Show spinner
-            spinner.setVisibility(View.VISIBLE);
-            // Block touch
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            // Show loading dialog
+            loadingDialog.show("Please Wait");
+
             Runnable runnable = () -> {
                 disable_others(key);
                 IconInstaller.install_pack(index);
+
+                runOnUiThread(() -> {
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), key, true);
+
+                    new Handler().postDelayed(() -> {
+                        // Hide loading dialog
+                        loadingDialog.hide();
+
+                        // Change background to selected
+                        background(layout.getId(), R.drawable.container_selected);
+
+                        // Change button visibility
+                        enable.setVisibility(View.GONE);
+                        disable.setVisibility(View.VISIBLE);
+                        refreshBackground();
+
+                        Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
+                    }, 3000);
+                });
             };
             Thread thread = new Thread(runnable);
             thread.start();
-            PrefConfig.savePrefBool(Iconify.getAppContext(), key, true);
-            // Wait 1 second
-            spinner.postDelayed(() -> {
-                // Hide spinner
-                spinner.setVisibility(View.GONE);
-                // Unblock touch
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                // Change background to selected
-                background(layout.getId(), R.drawable.container_selected);
-                // Change button visibility
-                enable.setVisibility(View.GONE);
-                disable.setVisibility(View.VISIBLE);
-                refreshBackground();
-                Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
-            }, 1000);
         });
 
         // Set onClick operation for Disable button
         disable.setOnClickListener(v -> {
-            // Show spinner
-            spinner.setVisibility(View.VISIBLE);
-            // Block touch
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            Runnable runnable = () -> IconInstaller.disable_pack(index);
+            // Show loading dialog
+            loadingDialog.show("Please Wait");
+
+            Runnable runnable = () -> {
+                IconInstaller.disable_pack(index);
+
+                runOnUiThread(() -> {
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), key, false);
+
+                    new Handler().postDelayed(() -> {
+                        // Hide loading dialog
+                        loadingDialog.hide();
+
+                        // Change background to selected
+                        background(layout.getId(), R.drawable.container);
+
+                        // Change button visibility
+                        disable.setVisibility(View.GONE);
+                        enable.setVisibility(View.VISIBLE);
+                        refreshBackground();
+
+                        Toast.makeText(Iconify.getAppContext(), "Disabled", Toast.LENGTH_SHORT).show();
+                    }, 3000);
+                });
+            };
             Thread thread = new Thread(runnable);
             thread.start();
-            PrefConfig.savePrefBool(Iconify.getAppContext(), key, false);
-            // Wait 1 second
-            spinner.postDelayed(() -> {
-                // Hide spinner
-                spinner.setVisibility(View.GONE);
-                // Unblock touch
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                // Change background to selected
-                background(layout.getId(), R.drawable.container);
-                // Change button visibility
-                disable.setVisibility(View.GONE);
-                enable.setVisibility(View.VISIBLE);
-                refreshBackground();
-                Toast.makeText(Iconify.getAppContext(), "Disabled", Toast.LENGTH_SHORT).show();
-            }, 1000);
         });
     }
 
@@ -389,5 +394,11 @@ public class IconPacks extends AppCompatActivity {
         disable.setId(disableid);
 
         container.addView(list);
+    }
+
+    @Override
+    public void onDestroy() {
+        loadingDialog.hide();
+        super.onDestroy();
     }
 }

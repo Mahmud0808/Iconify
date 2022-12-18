@@ -5,8 +5,8 @@ import android.content.res.Configuration;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.text.LineBreaker;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class Extras extends AppCompatActivity {
+
+    LoadingDialog loadingDialog;
 
     public static void disableEverything() {
         List<String> overlays = OverlayUtils.getEnabledOverlayList();
@@ -72,8 +74,8 @@ public class Extras extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.extras);
 
-        // Spinner
-        LinearLayout spinner = findViewById(R.id.progressBar_Extras);
+        // Show loading dialog
+        loadingDialog = new LoadingDialog(this);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
@@ -109,10 +111,10 @@ public class Extras extends AppCompatActivity {
             } else {
                 corner_radius_output.setText("Selected: " + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8) + "dp");
             }
-            drawable1.setCornerRadius((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius"))  + 8) * getResources().getDisplayMetrics().density);
-            drawable2.setCornerRadius((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius"))  + 8) * getResources().getDisplayMetrics().density);
-            drawable3.setCornerRadius((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius"))  + 8) * getResources().getDisplayMetrics().density);
-            drawable4.setCornerRadius((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius"))  + 8) * getResources().getDisplayMetrics().density);
+            drawable1.setCornerRadius((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8) * getResources().getDisplayMetrics().density);
+            drawable2.setCornerRadius((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8) * getResources().getDisplayMetrics().density);
+            drawable3.setCornerRadius((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8) * getResources().getDisplayMetrics().density);
+            drawable4.setCornerRadius((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8) * getResources().getDisplayMetrics().density);
             finalUiCornerRadius[0] = Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius"));
             corner_radius_seekbar.setProgress(finalUiCornerRadius[0]);
         } else {
@@ -150,18 +152,25 @@ public class Extras extends AppCompatActivity {
 
         Button apply_radius = findViewById(R.id.apply_radius);
         apply_radius.setOnClickListener(v -> {
-            // Show spinner
-            spinner.setVisibility(View.VISIBLE);
-            // Block touch
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            spinner.postDelayed(() -> {
+            // Show loading dialog
+            loadingDialog.show("Please Wait");
+
+            Runnable runnable = () -> {
                 RadiusInstaller.install_pack(finalUiCornerRadius[0]);
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "cornerRadius", String.valueOf(finalUiCornerRadius[0]));
-                // Hide spinner
-                spinner.setVisibility(View.GONE);
-                // Unblock touch
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            }, 1000);
+
+                runOnUiThread(() -> {
+                    PrefConfig.savePrefSettings(Iconify.getAppContext(), "cornerRadius", String.valueOf(finalUiCornerRadius[0]));
+
+                    new Handler().postDelayed(() -> {
+                        // Hide loading dialog
+                        loadingDialog.hide();
+
+                        Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
+                    }, 2000);
+                });
+            };
+            Thread thread = new Thread(runnable);
+            thread.start();
         });
 
         // Disable Everything
@@ -178,17 +187,20 @@ public class Extras extends AppCompatActivity {
         button_disableEverything.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                // Show spinner
-                spinner.setVisibility(View.VISIBLE);
-                // Block touch
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                spinner.postDelayed(() -> {
+                // Show loading dialog
+                loadingDialog.show("Please Wait");
+
+                Runnable runnable = () -> {
                     disableEverything();
-                    // Hide spinner
-                    spinner.setVisibility(View.GONE);
-                    // Unblock touch
-                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                }, 1000);
+
+                    runOnUiThread(() -> new Handler().postDelayed(() -> {
+                        // Hide loading dialog
+                        loadingDialog.hide();
+                    }, 3000));
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
+
                 return true;
             }
         });
@@ -207,18 +219,17 @@ public class Extras extends AppCompatActivity {
         button_restartSysui.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                // Show spinner
-                spinner.setVisibility(View.VISIBLE);
-                // Block touch
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                spinner.postDelayed(() -> {
-                    // Hide spinner
-                    spinner.setVisibility(View.GONE);
-                    // Unblock touch
-                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                    // Restarting sysui
+                // Show loading dialog
+                loadingDialog.show("Please Wait");
+
+                new Handler().postDelayed(() -> {
+                    // Hide loading dialog
+                    loadingDialog.hide();
+
+                    // Restart SystemUI
                     Shell.cmd("killall com.android.systemui").exec();
                 }, 1000);
+
                 return true;
             }
         });
@@ -247,5 +258,11 @@ public class Extras extends AppCompatActivity {
             qs_tile_preview_orientation.setOrientation(LinearLayout.HORIZONTAL);
         else
             qs_tile_preview_orientation.setOrientation(LinearLayout.VERTICAL);
+    }
+
+    @Override
+    public void onDestroy() {
+        loadingDialog.hide();
+        super.onDestroy();
     }
 }

@@ -437,9 +437,4 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <include
-        android:id="@+id/progressBar_Extras"
-        layout="@layout/loading_spinner"
-        android:visibility="gone" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

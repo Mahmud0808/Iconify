@@ -265,9 +265,4 @@
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <include
-        android:id="@+id/progressBar_qsRowColumn"
-        layout="@layout/loading_spinner"
-        android:visibility="gone" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

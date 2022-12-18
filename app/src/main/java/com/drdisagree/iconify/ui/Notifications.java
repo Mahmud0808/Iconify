@@ -2,10 +2,10 @@ package com.drdisagree.iconify.ui;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,7 +39,7 @@ public class Notifications extends AppCompatActivity {
     Button Default_Enable, Default_Disable, Corners_Enable, Corners_Disable, Outline_Enable, Outline_Disable, Bottom_Outline_Enable, Bottom_Outline_Disable, Neumorph_Enable, Neumorph_Disable, Stack_Enable, Stack_Disable;
     ImageView Default_Arrow, Corners_Arrow, Outline_Arrow, Bottom_Outline_Arrow, Neumorph_Arrow, Stack_Arrow;
     private ViewGroup container;
-    private LinearLayout spinner;
+    LoadingDialog loadingDialog;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -55,11 +55,8 @@ public class Notifications extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // Progressbar while enabling or disabling pack
-        spinner = findViewById(R.id.progressBar_Notification);
-
-        // Don't show progressbar on opening page
-        spinner.setVisibility(View.GONE);
+        // Loading dialog while enabling or disabling pack
+        loadingDialog = new LoadingDialog(this);
 
         // Brightness Bar list items
         container = (ViewGroup) findViewById(R.id.notification_list);
@@ -224,59 +221,70 @@ public class Notifications extends AppCompatActivity {
         // Set onClick operation for Enable button
         enable.setOnClickListener(v -> {
             refreshLayout(layout);
-            // Show spinner
-            spinner.setVisibility(View.VISIBLE);
-            // Block touch
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            Runnable runnable = () -> {
+            // Show loading dialog
+            loadingDialog.show("Please Wait");
+
+            @SuppressLint("SetTextI18n") Runnable runnable = () -> {
                 disable_others(key);
                 NotifInstaller.install_pack(index);
+
+                runOnUiThread(() -> {
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), key, true);
+
+                    new Handler().postDelayed(() -> {
+                        // Hide loading dialog
+                        if (loadingDialog != null)
+                            loadingDialog.hide();
+
+                        // Change name to " - applied"
+                        name.setText(name.getText().toString().replace(" - Applied", "") + " - Applied");
+                        name.setTextColor(getResources().getColor(R.color.colorSuccess));
+
+                        // Change button visibility
+                        enable.setVisibility(View.GONE);
+                        disable.setVisibility(View.VISIBLE);
+                        refreshBackground();
+
+                        Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
+                    }, 2000);
+                });
             };
             Thread thread = new Thread(runnable);
             thread.start();
-            PrefConfig.savePrefBool(Iconify.getAppContext(), key, true);
-            // Wait 1 second
-            spinner.postDelayed(() -> {
-                // Hide spinner
-                spinner.setVisibility(View.GONE);
-                // Unblock touch
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                // Change name to selected color
-                name.setText(name.getText().toString().replace(" - Applied", "") + " - Applied");
-                name.setTextColor(getResources().getColor(R.color.colorSuccess));
-                // Change button visibility
-                enable.setVisibility(View.GONE);
-                disable.setVisibility(View.VISIBLE);
-                refreshBackground();
-                Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
-            }, 1000);
         });
 
         // Set onClick operation for Disable button
         disable.setOnClickListener(v -> {
-            // Show spinner
-            spinner.setVisibility(View.VISIBLE);
-            // Block touch
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            Runnable runnable = () -> NotifInstaller.disable_pack(index);
+            // Show loading dialog
+            if (loadingDialog == null)
+                loadingDialog = new LoadingDialog(Notifications.this);
+            loadingDialog.show("Please Wait");
+
+            Runnable runnable = () -> {
+                NotifInstaller.disable_pack(index);
+
+                runOnUiThread(() -> {
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), key, false);
+
+                    new Handler().postDelayed(() -> {
+                        // Hide loading dialog
+                        loadingDialog.hide();
+
+                        // Change name back to original
+                        name.setText(name.getText().toString().replace(" - Applied", ""));
+                        name.setTextColor(getResources().getColor(R.color.textColorPrimary));
+
+                        // Change button visibility
+                        disable.setVisibility(View.GONE);
+                        enable.setVisibility(View.VISIBLE);
+                        refreshBackground();
+
+                        Toast.makeText(Iconify.getAppContext(), "Disabled", Toast.LENGTH_SHORT).show();
+                    }, 2000);
+                });
+            };
             Thread thread = new Thread(runnable);
             thread.start();
-            PrefConfig.savePrefBool(Iconify.getAppContext(), key, false);
-            // Wait 1 second
-            spinner.postDelayed(() -> {
-                // Hide spinner
-                spinner.setVisibility(View.GONE);
-                // Unblock touch
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                // Change name to default color
-                name.setText(name.getText().toString().replace(" - Applied", ""));
-                name.setTextColor(getResources().getColor(R.color.textColorPrimary));
-                // Change button visibility
-                disable.setVisibility(View.GONE);
-                enable.setVisibility(View.VISIBLE);
-                refreshBackground();
-                Toast.makeText(Iconify.getAppContext(), "Disabled", Toast.LENGTH_SHORT).show();
-            }, 1000);
         });
     }
 
@@ -310,5 +318,11 @@ public class Notifications extends AppCompatActivity {
         collapse_expand.setForeground(ContextCompat.getDrawable(Notifications.this, R.drawable.ic_expand_arrow));
 
         container.addView(list);
+    }
+
+    @Override
+    public void onDestroy() {
+        loadingDialog.hide();
+        super.onDestroy();
     }
 }

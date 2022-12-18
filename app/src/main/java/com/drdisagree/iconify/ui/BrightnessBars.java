@@ -2,10 +2,10 @@ package com.drdisagree.iconify.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -42,7 +42,7 @@ public class BrightnessBars extends AppCompatActivity {
     ImageView RoundedClip_Auto_Bb, Rounded_Auto_Bb, DoubleLayer_Auto_Bb, ShadedLayer_Auto_Bb, Outline_Auto_Bb, LeafyOutline_Auto_Bb, Neumorph_Auto_Bb, Inline_Auto_Bb, NeumorphOutline_Auto_Bb;
     ImageView RoundedClip_Bb, Rounded_Bb, DoubleLayer_Bb, ShadedLayer_Bb, Outline_Bb, LeafyOutline_Bb, Neumorph_Bb, Inline_Bb, NeumorphOutline_Bb;
     private ViewGroup container;
-    private LinearLayout spinner;
+    LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +64,8 @@ public class BrightnessBars extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Progressbar while enabling or disabling pack
-        spinner = findViewById(R.id.progressBar_BrightnessBar);
-
-        // Don't show progressbar on opening page
-        spinner.setVisibility(View.GONE);
+        // Loading dialog while enabling or disabling pack
+        loadingDialog = new LoadingDialog(this);
 
         // Brightness Bar list items
         container = (ViewGroup) findViewById(R.id.brightness_bars_list);
@@ -261,57 +258,65 @@ public class BrightnessBars extends AppCompatActivity {
         // Set onClick operation for Enable button
         enable.setOnClickListener(v -> {
             refreshLayout(layout);
-            // Show spinner
-            spinner.setVisibility(View.VISIBLE);
-            // Block touch
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            // Show loading dialog
+            loadingDialog.show("Please Wait");
+
             Runnable runnable = () -> {
                 disable_others(key);
                 BrightnessInstaller.install_pack(index);
+
+                runOnUiThread(() -> {
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), key, true);
+
+                    new Handler().postDelayed(() -> {
+                        // Hide loading dialog
+                        loadingDialog.hide();
+
+                        // Change background to selected
+                        background(layout.getId(), R.drawable.container_selected);
+
+                        // Change button visibility
+                        enable.setVisibility(View.GONE);
+                        disable.setVisibility(View.VISIBLE);
+                        refreshBackground();
+
+                        Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
+                    }, 2000);
+                });
             };
             Thread thread = new Thread(runnable);
             thread.start();
-            PrefConfig.savePrefBool(Iconify.getAppContext(), key, true);
-            // Wait 1 second
-            spinner.postDelayed(() -> {
-                // Hide spinner
-                spinner.setVisibility(View.GONE);
-                // Unblock touch
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                // Change background to selected
-                background(layout.getId(), R.drawable.container_selected);
-                // Change button visibility
-                enable.setVisibility(View.GONE);
-                disable.setVisibility(View.VISIBLE);
-                refreshBackground();
-                Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
-            }, 1000);
         });
 
         // Set onClick operation for Disable button
         disable.setOnClickListener(v -> {
-            // Show spinner
-            spinner.setVisibility(View.VISIBLE);
-            // Block touch
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            Runnable runnable = () -> BrightnessInstaller.disable_pack(index);
+            // Show loading dialog
+            loadingDialog.show("Please Wait");
+
+            Runnable runnable = () -> {
+                BrightnessInstaller.disable_pack(index);
+
+                runOnUiThread(() -> {
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), key, false);
+
+                    new Handler().postDelayed(() -> {
+                        // Hide loading dialog
+                        loadingDialog.hide();
+
+                        // Change background to selected
+                        background(layout.getId(), R.drawable.container);
+
+                        // Change button visibility
+                        disable.setVisibility(View.GONE);
+                        enable.setVisibility(View.VISIBLE);
+                        refreshBackground();
+
+                        Toast.makeText(Iconify.getAppContext(), "Disabled", Toast.LENGTH_SHORT).show();
+                    }, 2000);
+                });
+            };
             Thread thread = new Thread(runnable);
             thread.start();
-            PrefConfig.savePrefBool(Iconify.getAppContext(), key, false);
-            // Wait 1 second
-            spinner.postDelayed(() -> {
-                // Hide spinner
-                spinner.setVisibility(View.GONE);
-                // Unblock touch
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                // Change background to selected
-                background(layout.getId(), R.drawable.container);
-                // Change button visibility
-                disable.setVisibility(View.GONE);
-                enable.setVisibility(View.VISIBLE);
-                refreshBackground();
-                Toast.makeText(Iconify.getAppContext(), "Disabled", Toast.LENGTH_SHORT).show();
-            }, 1000);
         });
     }
 
@@ -362,5 +367,11 @@ public class BrightnessBars extends AppCompatActivity {
         auto_bb.setId(auto_bb_id);
 
         container.addView(list);
+    }
+
+    @Override
+    public void onDestroy() {
+        loadingDialog.hide();
+        super.onDestroy();
     }
 }

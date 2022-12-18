@@ -24,9 +24,4 @@
             android:orientation="vertical" />
 
     </androidx.core.widget.NestedScrollView>
-
-    <include
-        android:id="@+id/progressBar_iconPack"
-        layout="@layout/loading_spinner"
-        android:visibility="gone" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

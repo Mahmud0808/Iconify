@@ -2,10 +2,9 @@ package com.drdisagree.iconify.ui;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,7 +15,6 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
-import com.drdisagree.iconify.installer.IconInstaller;
 import com.drdisagree.iconify.utils.FabricatedOverlay;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -24,7 +22,7 @@ import java.util.Objects;
 
 public class QsRowColumn extends AppCompatActivity {
 
-    private LinearLayout spinner;
+    LoadingDialog loadingDialog;
 
     public static void applyRowColumn() {
         FabricatedOverlay.buildOverlay("systemui", "qqsRow", "integer", "quick_qs_panel_max_rows", String.valueOf(Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qqsRow")) + 1));
@@ -65,11 +63,8 @@ public class QsRowColumn extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // Progressbar while enabling or disabling pack
-        spinner = findViewById(R.id.progressBar_qsRowColumn);
-
-        // Don't show progressbar on opening page
-        spinner.setVisibility(View.GONE);
+        // Loading dialog while enabling or disabling pack
+        loadingDialog = new LoadingDialog(this);
 
         // Quick QsPanel Row
 
@@ -172,64 +167,66 @@ public class QsRowColumn extends AppCompatActivity {
         // Apply button
 
         qs_row_column_apply.setOnClickListener(v -> {
-            // Show spinner
-            spinner.setVisibility(View.VISIBLE);
-            // Block touch
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            // Show loading dialog
+            loadingDialog.show("Please Wait");
+
             Runnable runnable = () -> {
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedqsRowColumn", true);
-
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qqsRow", String.valueOf(finalQqsRow[0]));
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsRow", String.valueOf(finalQsRow[0]));
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qqsColumn", String.valueOf(finalQsColumn[0]));
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsColumn", String.valueOf(finalQsColumn[0]));
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qqsTile", String.valueOf((finalQqsRow[0] + 1) * (finalQsColumn[0] + 1)));
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsTile", String.valueOf((finalQsColumn[0] + 1) * (finalQsRow[0] + 1)));
-
                 applyRowColumn();
+
+                runOnUiThread(() -> {
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedqsRowColumn", true);
+
+                    PrefConfig.savePrefSettings(Iconify.getAppContext(), "qqsRow", String.valueOf(finalQqsRow[0]));
+                    PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsRow", String.valueOf(finalQsRow[0]));
+                    PrefConfig.savePrefSettings(Iconify.getAppContext(), "qqsColumn", String.valueOf(finalQsColumn[0]));
+                    PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsColumn", String.valueOf(finalQsColumn[0]));
+                    PrefConfig.savePrefSettings(Iconify.getAppContext(), "qqsTile", String.valueOf((finalQqsRow[0] + 1) * (finalQsColumn[0] + 1)));
+                    PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsTile", String.valueOf((finalQsColumn[0] + 1) * (finalQsRow[0] + 1)));
+
+                    new Handler().postDelayed(() -> {
+                        // Hide loading dialog
+                        loadingDialog.hide();
+
+                        // Reset button visibility
+                        qs_row_column_reset.setVisibility(View.VISIBLE);
+
+                        Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
+                    }, 2000);
+                });
             };
             Thread thread = new Thread(runnable);
             thread.start();
-            // Wait 1 second
-            spinner.postDelayed(() -> {
-                // Hide spinner
-                spinner.setVisibility(View.GONE);
-                // Unblock touch
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                qs_row_column_reset.setVisibility(View.VISIBLE);
-                Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
-            }, 1000);
         });
 
         // Reset button
-
         if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedqsRowColumn"))
             qs_row_column_reset.setVisibility(View.VISIBLE);
         else
             qs_row_column_reset.setVisibility(View.GONE);
 
         qs_row_column_reset.setOnClickListener(v -> {
-            // Show spinner
-            spinner.setVisibility(View.VISIBLE);
-            // Block touch
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            // Show loading dialog
+            loadingDialog.show("Please Wait");
+
             Runnable runnable = () -> {
-
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedqsRowColumn", false);
-
                 resetRowColumn();
+
+                runOnUiThread(() -> {
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedqsRowColumn", false);
+
+                    new Handler().postDelayed(() -> {
+                        // Hide loading dialog
+                        loadingDialog.hide();
+
+                        // Reset button visibility
+                        qs_row_column_reset.setVisibility(View.GONE);
+
+                        Toast.makeText(Iconify.getAppContext(), "Reset", Toast.LENGTH_SHORT).show();
+                    }, 2000);
+                });
             };
             Thread thread = new Thread(runnable);
             thread.start();
-            // Wait 1 second
-            spinner.postDelayed(() -> {
-                // Hide spinner
-                spinner.setVisibility(View.GONE);
-                // Unblock touch
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                qs_row_column_reset.setVisibility(View.GONE);
-                Toast.makeText(Iconify.getAppContext(), "Reset", Toast.LENGTH_SHORT).show();
-            }, 1000);
         });
     }
 
@@ -237,5 +234,11 @@ public class QsRowColumn extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public void onDestroy() {
+        loadingDialog.hide();
+        super.onDestroy();
     }
 }

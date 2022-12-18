@@ -145,9 +145,4 @@
         </LinearLayout>
     </LinearLayout>
 
-    <include
-        android:id="@+id/progressBar_installingModule"
-        layout="@layout/loading_spinner"
-        android:visibility="gone" />
-
 </FrameLayout>

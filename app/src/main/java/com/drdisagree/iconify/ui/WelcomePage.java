@@ -3,8 +3,8 @@ package com.drdisagree.iconify.ui;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.SplashActivity;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.utils.ModuleUtil;
 import com.drdisagree.iconify.utils.OverlayUtils;
@@ -27,7 +26,7 @@ public class WelcomePage extends AppCompatActivity {
 
     private final int versionCode = BuildConfig.VERSION_CODE;
     private final String versionName = BuildConfig.VERSION_NAME;
-    private LinearLayout spinner;
+    LoadingDialog loadingDialog;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -36,8 +35,8 @@ public class WelcomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome_page);
 
-        // Progressbar while installing module
-        spinner = findViewById(R.id.progressBar_installingModule);
+        // Loading dialog while installing module
+        loadingDialog = new LoadingDialog(this);
 
         // Continue button
         Button checkRoot = findViewById(R.id.checkRoot);
@@ -50,60 +49,39 @@ public class WelcomePage extends AppCompatActivity {
         checkRoot.setOnClickListener(v -> {
             if (RootUtil.isDeviceRooted()) {
                 if (RootUtil.isMagiskInstalled()) {
-                    if ((PrefConfig.loadPrefInt(this, "versionCode") < versionCode) || !ModuleUtil.moduleExists()) {
-
-                        // Show spinner
-                        spinner.setVisibility(View.VISIBLE);
-
-                        // Block touch
-                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    if ((PrefConfig.loadPrefInt(this, "versionCode") < versionCode) || !ModuleUtil.moduleExists() || !OverlayUtils.overlayExists()) {
+                        // Show loading dialog
+                        loadingDialog.show("Installing");
 
                         Runnable runnable = () -> {
                             try {
                                 ModuleUtil.handleModule(Iconify.getAppContext());
                             } catch (IOException e) {
+                                Toast.makeText(Iconify.getAppContext(), "Something went wrong.", Toast.LENGTH_LONG).show();
                                 e.printStackTrace();
                             }
                             runOnUiThread(() -> {
-                                // Hide spinner
-                                spinner.setVisibility(View.GONE);
-                                // Unblock touch
-                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                // Hide loading dialog
+                                loadingDialog.hide();
+
+                                if (OverlayUtils.overlayExists()) {
+                                    new Handler().postDelayed(() -> {
+                                        Intent intent = new Intent(WelcomePage.this, HomePage.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }, 10);
+                                } else {
+                                    warn.setVisibility(View.VISIBLE);
+                                    warning.setText("Reboot your device first!");
+                                }
                             });
                         };
                         Thread thread = new Thread(runnable);
                         thread.start();
-                    }
-                    if (OverlayUtils.overlayExists()) {
+                    } else {
                         Intent intent = new Intent(WelcomePage.this, HomePage.class);
                         startActivity(intent);
                         finish();
-                    } else {
-
-                        // Show spinner
-                        spinner.setVisibility(View.VISIBLE);
-
-                        // Block touch
-                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                        Runnable runnable = () -> {
-                            try {
-                                ModuleUtil.handleModule(Iconify.getAppContext());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            runOnUiThread(() -> {
-                                // Hide spinner
-                                spinner.setVisibility(View.GONE);
-                                // Unblock touch
-                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                                warn.setVisibility(View.VISIBLE);
-                                warning.setText("Reboot your device first!");
-                            });
-                        };
-                        Thread thread = new Thread(runnable);
-                        thread.start();
                     }
                 } else {
                     warn.setVisibility(View.VISIBLE);
@@ -114,5 +92,11 @@ public class WelcomePage extends AppCompatActivity {
                 warning.setText("Looks like your device is not rooted!");
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        loadingDialog.hide();
+        super.onDestroy();
     }
 }
