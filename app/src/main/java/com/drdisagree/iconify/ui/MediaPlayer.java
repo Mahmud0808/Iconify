@@ -2,6 +2,7 @@ package com.drdisagree.iconify.ui;
 
 import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -132,7 +133,8 @@ public class MediaPlayer extends AppCompatActivity {
         return true;
     }
 
-    private void musicPlayerIconList() {
+    @SuppressLint("StaticFieldLeak")
+    private class LoadMusicPlayerList extends AsyncTask<Integer, Integer, String> {
         final String poweramp = "com.maxmpz.audioplayer";
         final String retro = "code.name.monkey.retromusic";
         final String nyx = "com.awedea.nyx";
@@ -144,70 +146,107 @@ public class MediaPlayer extends AppCompatActivity {
         final String youtube_revanced = "app.revanced.android.youtube";
         final String yt_music_revanced = "app.revanced.android.apps.youtube.music";
 
-        Boolean isPowerampInstalled = AppUtils.isAppInstalled(poweramp);
-        Boolean isRetroInstalled = AppUtils.isAppInstalled(retro);
-        Boolean isNyxInstalled = AppUtils.isAppInstalled(nyx);
-        Boolean isYmusicInstalled = AppUtils.isAppInstalled(ymusic);
-        Boolean isBlackholeInstalled = AppUtils.isAppInstalled(blackhole);
-        Boolean isMusicoletInstalled = AppUtils.isAppInstalled(musicolet);
-        Boolean isYoutubeInstalled = AppUtils.isAppInstalled(youtube);
-        Boolean isYtmusicInstalled = AppUtils.isAppInstalled(yt_music);
-        Boolean isYoutubetvancedInstalled = AppUtils.isAppInstalled(youtube_revanced);
-        Boolean isYtmusicvancedInstalled = AppUtils.isAppInstalled(yt_music_revanced);
+        Boolean isPowerampInstalled = false;
+        Boolean isRetroInstalled = false;
+        Boolean isNyxInstalled = false;
+        Boolean isYmusicInstalled = false;
+        Boolean isBlackholeInstalled = false;
+        Boolean isMusicoletInstalled = false;
+        Boolean isYoutubeInstalled = false;
+        Boolean isYtmusicInstalled = false;
+        Boolean isYoutubetvancedInstalled = false;
+        Boolean isYtmusicvancedInstalled = false;
 
-        TextView title = findViewById(R.id.mediaplayer_icon_title);
-        if (isPowerampInstalled || isRetroInstalled || isNyxInstalled || isYmusicInstalled || isBlackholeInstalled || isMusicoletInstalled || isYoutubeInstalled || isYtmusicInstalled || isYoutubetvancedInstalled || isYtmusicvancedInstalled)
-            title.setVisibility(View.VISIBLE);
-
-        if (isPowerampInstalled) {
-            addItem(R.id.poweramp, AppUtils.getAppIcon(poweramp), AppUtils.getAppName(poweramp), poweramp, R.id.poweramp_aurora, R.id.poweramp_gradicon, R.id.poweramp_plumpy);
-            enableOnClickListener(R.id.poweramp_aurora, R.id.poweramp_gradicon, R.id.poweramp_plumpy, 1);
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // ...
         }
 
-        if (isRetroInstalled) {
-            addItem(R.id.retro, AppUtils.getAppIcon(retro), AppUtils.getAppName(retro), retro, R.id.retro_aurora, R.id.retro_gradicon, R.id.retro_plumpy);
-            enableOnClickListener(R.id.retro_aurora, R.id.retro_gradicon, R.id.retro_plumpy, 2);
+        @Override
+        protected String doInBackground(Integer... integers) {
+            isPowerampInstalled = AppUtils.isAppInstalled(poweramp);
+            isRetroInstalled = AppUtils.isAppInstalled(retro);
+            isNyxInstalled = AppUtils.isAppInstalled(nyx);
+            isYmusicInstalled = AppUtils.isAppInstalled(ymusic);
+            isBlackholeInstalled = AppUtils.isAppInstalled(blackhole);
+            isMusicoletInstalled = AppUtils.isAppInstalled(musicolet);
+            isYoutubeInstalled = AppUtils.isAppInstalled(youtube);
+            isYtmusicInstalled = AppUtils.isAppInstalled(yt_music);
+            isYoutubetvancedInstalled = AppUtils.isAppInstalled(youtube_revanced);
+            isYtmusicvancedInstalled = AppUtils.isAppInstalled(yt_music_revanced);
+            return "Finished!";
         }
 
-        if (isNyxInstalled) {
-            addItem(R.id.nyx, AppUtils.getAppIcon(nyx), AppUtils.getAppName(nyx), nyx, R.id.nyx_aurora, R.id.nyx_gradicon, R.id.nyx_plumpy);
-            enableOnClickListener(R.id.nyx_aurora, R.id.nyx_gradicon, R.id.nyx_plumpy, 3);
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            // ...
         }
 
-        if (isYmusicInstalled) {
-            addItem(R.id.ymusic, AppUtils.getAppIcon(ymusic), AppUtils.getAppName(ymusic), ymusic, R.id.ymusic_aurora, R.id.ymusic_gradicon, R.id.ymusic_plumpy);
-            enableOnClickListener(R.id.ymusic_aurora, R.id.ymusic_gradicon, R.id.ymusic_plumpy, 4);
-        }
+        @Override
+        protected void onPostExecute(String string) {
+            super.onPostExecute(string);
 
-        if (isBlackholeInstalled) {
-            addItem(R.id.blackhole, AppUtils.getAppIcon(blackhole), AppUtils.getAppName(blackhole), blackhole, R.id.blackhole_aurora, R.id.blackhole_gradicon, R.id.blackhole_plumpy);
-            enableOnClickListener(R.id.blackhole_aurora, R.id.blackhole_gradicon, R.id.blackhole_plumpy, 5);
-        }
+            TextView title = findViewById(R.id.mediaplayer_icon_title);
+            if (isPowerampInstalled || isRetroInstalled || isNyxInstalled || isYmusicInstalled || isBlackholeInstalled || isMusicoletInstalled || isYoutubeInstalled || isYtmusicInstalled || isYoutubetvancedInstalled || isYtmusicvancedInstalled)
+                title.setVisibility(View.VISIBLE);
 
-        if (isMusicoletInstalled) {
-            addItem(R.id.musicolet, AppUtils.getAppIcon(musicolet), AppUtils.getAppName(musicolet), musicolet, R.id.musicolet_aurora, R.id.musicolet_gradicon, R.id.musicolet_plumpy);
-            enableOnClickListener(R.id.musicolet_aurora, R.id.musicolet_gradicon, R.id.musicolet_plumpy, 6);
-        }
+            if (isPowerampInstalled) {
+                addItem(R.id.poweramp, AppUtils.getAppIcon(poweramp), AppUtils.getAppName(poweramp), poweramp, R.id.poweramp_aurora, R.id.poweramp_gradicon, R.id.poweramp_plumpy);
+                enableOnClickListener(R.id.poweramp_aurora, R.id.poweramp_gradicon, R.id.poweramp_plumpy, 1);
+            }
 
-        if (isYoutubeInstalled) {
-            addItem(R.id.youtube, AppUtils.getAppIcon(youtube), AppUtils.getAppName(youtube), youtube, R.id.youtube_aurora, R.id.youtube_gradicon, R.id.youtube_plumpy);
-            enableOnClickListener(R.id.youtube_aurora, R.id.youtube_gradicon, R.id.youtube_plumpy, 7);
-        }
+            if (isRetroInstalled) {
+                addItem(R.id.retro, AppUtils.getAppIcon(retro), AppUtils.getAppName(retro), retro, R.id.retro_aurora, R.id.retro_gradicon, R.id.retro_plumpy);
+                enableOnClickListener(R.id.retro_aurora, R.id.retro_gradicon, R.id.retro_plumpy, 2);
+            }
 
-        if (isYtmusicInstalled) {
-            addItem(R.id.yt_music, AppUtils.getAppIcon(yt_music), AppUtils.getAppName(yt_music), yt_music, R.id.yt_music_aurora, R.id.yt_music_gradicon, R.id.yt_music_plumpy);
-            enableOnClickListener(R.id.yt_music_aurora, R.id.yt_music_gradicon, R.id.yt_music_plumpy, 8);
-        }
+            if (isNyxInstalled) {
+                addItem(R.id.nyx, AppUtils.getAppIcon(nyx), AppUtils.getAppName(nyx), nyx, R.id.nyx_aurora, R.id.nyx_gradicon, R.id.nyx_plumpy);
+                enableOnClickListener(R.id.nyx_aurora, R.id.nyx_gradicon, R.id.nyx_plumpy, 3);
+            }
 
-        if (isYoutubetvancedInstalled) {
-            addItem(R.id.youtube_revanced, AppUtils.getAppIcon(youtube_revanced), AppUtils.getAppName(youtube_revanced), youtube_revanced, R.id.youtube_revanced_aurora, R.id.youtube_revanced_gradicon, R.id.youtube_revanced_plumpy);
-            enableOnClickListener(R.id.youtube_revanced_aurora, R.id.youtube_revanced_gradicon, R.id.youtube_revanced_plumpy, 9);
-        }
+            if (isYmusicInstalled) {
+                addItem(R.id.ymusic, AppUtils.getAppIcon(ymusic), AppUtils.getAppName(ymusic), ymusic, R.id.ymusic_aurora, R.id.ymusic_gradicon, R.id.ymusic_plumpy);
+                enableOnClickListener(R.id.ymusic_aurora, R.id.ymusic_gradicon, R.id.ymusic_plumpy, 4);
+            }
 
-        if (isYtmusicvancedInstalled) {
-            addItem(R.id.yt_music_revanced, AppUtils.getAppIcon(yt_music_revanced), AppUtils.getAppName(yt_music_revanced), yt_music_revanced, R.id.yt_music_revanced_aurora, R.id.yt_music_revanced_gradicon, R.id.yt_music_revanced_plumpy);
-            enableOnClickListener(R.id.yt_music_revanced_aurora, R.id.yt_music_revanced_gradicon, R.id.yt_music_revanced_plumpy, 10);
+            if (isBlackholeInstalled) {
+                addItem(R.id.blackhole, AppUtils.getAppIcon(blackhole), AppUtils.getAppName(blackhole), blackhole, R.id.blackhole_aurora, R.id.blackhole_gradicon, R.id.blackhole_plumpy);
+                enableOnClickListener(R.id.blackhole_aurora, R.id.blackhole_gradicon, R.id.blackhole_plumpy, 5);
+            }
+
+            if (isMusicoletInstalled) {
+                addItem(R.id.musicolet, AppUtils.getAppIcon(musicolet), AppUtils.getAppName(musicolet), musicolet, R.id.musicolet_aurora, R.id.musicolet_gradicon, R.id.musicolet_plumpy);
+                enableOnClickListener(R.id.musicolet_aurora, R.id.musicolet_gradicon, R.id.musicolet_plumpy, 6);
+            }
+
+            if (isYoutubeInstalled) {
+                addItem(R.id.youtube, AppUtils.getAppIcon(youtube), AppUtils.getAppName(youtube), youtube, R.id.youtube_aurora, R.id.youtube_gradicon, R.id.youtube_plumpy);
+                enableOnClickListener(R.id.youtube_aurora, R.id.youtube_gradicon, R.id.youtube_plumpy, 7);
+            }
+
+            if (isYtmusicInstalled) {
+                addItem(R.id.yt_music, AppUtils.getAppIcon(yt_music), AppUtils.getAppName(yt_music), yt_music, R.id.yt_music_aurora, R.id.yt_music_gradicon, R.id.yt_music_plumpy);
+                enableOnClickListener(R.id.yt_music_aurora, R.id.yt_music_gradicon, R.id.yt_music_plumpy, 8);
+            }
+
+            if (isYoutubetvancedInstalled) {
+                addItem(R.id.youtube_revanced, AppUtils.getAppIcon(youtube_revanced), AppUtils.getAppName(youtube_revanced), youtube_revanced, R.id.youtube_revanced_aurora, R.id.youtube_revanced_gradicon, R.id.youtube_revanced_plumpy);
+                enableOnClickListener(R.id.youtube_revanced_aurora, R.id.youtube_revanced_gradicon, R.id.youtube_revanced_plumpy, 9);
+            }
+
+            if (isYtmusicvancedInstalled) {
+                addItem(R.id.yt_music_revanced, AppUtils.getAppIcon(yt_music_revanced), AppUtils.getAppName(yt_music_revanced), yt_music_revanced, R.id.yt_music_revanced_aurora, R.id.yt_music_revanced_gradicon, R.id.yt_music_revanced_plumpy);
+                enableOnClickListener(R.id.yt_music_revanced_aurora, R.id.yt_music_revanced_gradicon, R.id.yt_music_revanced_plumpy, 10);
+            }
         }
+    }
+
+    private void musicPlayerIconList() {
+        LoadMusicPlayerList musicPlayerList = new LoadMusicPlayerList();
+        musicPlayerList.execute();
     }
 
     private void enableOnClickListener(int aurora_id, int gradicon_id, int plumpy_id, int idx) {
