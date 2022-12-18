@@ -196,6 +196,8 @@ public class Extras extends AppCompatActivity {
                     runOnUiThread(() -> new Handler().postDelayed(() -> {
                         // Hide loading dialog
                         loadingDialog.hide();
+
+                        Toast.makeText(Iconify.getAppContext(), "Everything is disabled.", Toast.LENGTH_SHORT).show();
                     }, 3000));
                 };
                 Thread thread = new Thread(runnable);
