@@ -8,38 +8,26 @@
         </shape>
     </item>
     <item
-        android:width="80dp"
-        android:height="80dp"
+        android:width="160dp"
+        android:height="160dp"
         android:gravity="center">
         <vector
-            android:width="24.0dp"
-            android:height="24.0dp"
-            android:viewportWidth="24.0"
-            android:viewportHeight="24.0">
-            <path
-                android:fillColor="#66FFFFFF"
-                android:fillType="nonZero"
-                android:pathData="M13.44,2.93C12.85,6.42,16.14,7.85,17.86,10.08C14.97,7.47,8.54,7.59,10.80,3.66Q11.63,2.92,12.71,2.32C13.03,2.14,13.57,2.28,13.44,2.93z"
-                android:strokeLineCap="square"
-                android:strokeLineJoin="miter" />
-            <path
-                android:fillColor="#99FFFFFF"
-                android:fillType="nonZero"
-                android:pathData="M10.20,4.18C8.76,8.16,14.99,7.55,18.43,10.89C19.46,12.18,20.23,15.47,18.36,17.97C21.75,10.98,4.95,13.76,7.95,6.57Q8.89,5.35,10.20,4.18z"
-                android:strokeLineCap="square"
-                android:strokeLineJoin="miter" />
-            <path
-                android:fillColor="#CCFFFFFF"
-                android:fillType="nonZero"
-                android:pathData="M7.38,7.32C5.63,14.14,22.02,11.24,17.73,18.78Q16.50,20.31,14.32,20.91C20.50,16.56,6.80,17.26,4.80,12.29Q5.63,9.62,7.38,7.32z"
-                android:strokeLineCap="square"
-                android:strokeLineJoin="miter" />
-            <path
-                android:fillColor="#FFFFFFFF"
-                android:fillType="nonZero"
-                android:pathData="M13.46,21.11C19.98,16.80,7.12,17.68,4.68,12.83C3.49,18.25,8.54,22.03,13.46,21.11z"
-                android:strokeLineCap="square"
-                android:strokeLineJoin="miter" />
+            android:width="108dp"
+            android:height="108dp"
+            android:viewportWidth="108"
+            android:viewportHeight="108">
+            <group
+                android:scaleX="2.145"
+                android:scaleY="2.145"
+                android:translateX="28.26"
+                android:translateY="28.26">
+                <path
+                    android:fillColor="#FFFFFFFF"
+                    android:fillType="nonZero"
+                    android:pathData="M12.85,0.35C15.49,2.50,18.63,5.59,20.12,8.52C24.93,18.37,17.40,24.00,12.00,24.00C6.60,24.00,-0.93,18.37,3.88,8.52C5.37,5.59,8.51,2.50,11.15,0.35Q12.04,-0.35,12.85,0.35zM12.00,5.98C10.67,5.98,9.59,7.06,9.59,8.38C9.59,9.71,10.67,10.79,12.00,10.79C13.33,10.79,14.41,9.71,14.41,8.38C14.41,7.06,13.33,5.98,12.00,5.98zM14.91,17.65Q15.71,16.21,14.56,13.48C10.77,15.15,10.40,11.76,8.82,11.81Q8.82,13.95,8.77,15.84C8.57,19.57,13.25,20.62,14.91,17.65z"
+                    android:strokeLineCap="square"
+                    android:strokeLineJoin="miter" />
+            </group>
         </vector>
     </item>
 </layer-list>

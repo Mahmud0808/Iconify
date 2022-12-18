@@ -40,12 +40,13 @@
                     android:layout_height="72dp"
                     android:layout_gravity="center"
                     android:background="@drawable/ic_launcher_bg2"
-                    android:padding="16dp">
+                    android:padding="8dp">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:foreground="@drawable/ic_launcher_fg" />
+                        android:foreground="@drawable/ic_launcher_fg"
+                        android:contentDescription="Iconify Logo" />
 
                 </FrameLayout>
 

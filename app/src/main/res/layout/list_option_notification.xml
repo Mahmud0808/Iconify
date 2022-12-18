@@ -26,7 +26,7 @@
             android:layout_height="24dp"
             android:layout_marginRight="12dp"
             android:background="@drawable/ic_launcher_bg"
-            android:foreground="@mipmap/ic_launcher_foreground"
+            android:foreground="@drawable/ic_launcher_foreground"
             android:foregroundTint="@color/textColorPrimaryInverse" />
 
         <TextView
