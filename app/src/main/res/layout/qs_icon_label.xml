@@ -67,8 +67,7 @@
                             android:paddingTop="3dp"
                             android:text="Remove QS Tile Titles"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2"
-                            android:textStyle="bold" />
+                            android:textSize="@dimen/cont_title_size2" />
 
                     </LinearLayout>
 
@@ -117,8 +116,7 @@
                         android:paddingTop="3dp"
                         android:text="Selected: 14sp (Default)"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_title_size2"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/cont_title_size2" />
 
                     <SeekBar
                         android:id="@+id/text_size"
@@ -173,8 +171,7 @@
                         android:paddingTop="3dp"
                         android:text="Selected: 20dp (Default)"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_title_size2"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/cont_title_size2" />
 
                     <SeekBar
                         android:id="@+id/icon_size"
@@ -227,8 +224,7 @@
                         android:paddingTop="3dp"
                         android:text="Selected: 10dp (Default)"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_title_size2"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/cont_title_size2" />
 
                     <SeekBar
                         android:id="@+id/move_icon"
@@ -315,8 +311,7 @@
                                 android:paddingTop="3dp"
                                 android:text="- A12"
                                 android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/cont_title_size"
-                                android:textStyle="bold" />
+                                android:textSize="@dimen/cont_title_size" />
 
                         </LinearLayout>
 
@@ -327,8 +322,7 @@
                             android:paddingTop="3dp"
                             android:text="Title White, Text White"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2"
-                            android:textStyle="bold" />
+                            android:textSize="@dimen/cont_title_size2" />
 
                     </LinearLayout>
 
@@ -393,8 +387,7 @@
                                 android:paddingTop="3dp"
                                 android:text="- A12"
                                 android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/cont_title_size"
-                                android:textStyle="bold" />
+                                android:textSize="@dimen/cont_title_size" />
 
                         </LinearLayout>
 
@@ -405,8 +398,7 @@
                             android:paddingTop="3dp"
                             android:text="Title White, Text Accent"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2"
-                            android:textStyle="bold" />
+                            android:textSize="@dimen/cont_title_size2" />
 
                     </LinearLayout>
 
@@ -471,8 +463,7 @@
                                 android:paddingTop="3dp"
                                 android:text="- A12"
                                 android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/cont_title_size"
-                                android:textStyle="bold" />
+                                android:textSize="@dimen/cont_title_size" />
 
                         </LinearLayout>
 
@@ -483,8 +474,7 @@
                             android:paddingTop="3dp"
                             android:text="Title System, Text System"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2"
-                            android:textStyle="bold" />
+                            android:textSize="@dimen/cont_title_size2" />
 
                     </LinearLayout>
 
@@ -549,8 +539,7 @@
                                 android:paddingTop="3dp"
                                 android:text="- A12"
                                 android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/cont_title_size"
-                                android:textStyle="bold" />
+                                android:textSize="@dimen/cont_title_size" />
 
                         </LinearLayout>
 
@@ -561,8 +550,7 @@
                             android:paddingTop="3dp"
                             android:text="Title System, Text Accent"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2"
-                            android:textStyle="bold" />
+                            android:textSize="@dimen/cont_title_size2" />
 
                     </LinearLayout>
 
@@ -625,10 +613,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="left|center"
                                 android:paddingTop="3dp"
-                                android:text="- A13"
+                                android:text="- A13 (Test)"
                                 android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/cont_title_size"
-                                android:textStyle="bold" />
+                                android:textSize="@dimen/cont_title_size" />
 
                         </LinearLayout>
 
@@ -639,8 +626,7 @@
                             android:paddingTop="3dp"
                             android:text="Fix Invisible / Black Texts"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2"
-                            android:textStyle="bold" />
+                            android:textSize="@dimen/cont_title_size2" />
 
                     </LinearLayout>
 
