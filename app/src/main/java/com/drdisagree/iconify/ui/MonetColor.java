@@ -42,7 +42,7 @@ public class MonetColor extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // Apply Accent
+        // Link to monet
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_monet_color = findViewById(R.id.apply_monet_color);
 
         apply_monet_color.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay"));

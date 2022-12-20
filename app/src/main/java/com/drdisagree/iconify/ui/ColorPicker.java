@@ -27,8 +27,6 @@ import java.util.Objects;
 
 public class ColorPicker extends AppCompatActivity implements ColorPickerDialogListener {
 
-    private static List<String> overlays = OverlayUtils.getEnabledOverlayList();
-
     public static String ColorToHex(int color, boolean opacity, boolean hash) {
         int alpha = android.graphics.Color.alpha(color);
         int blue = android.graphics.Color.blue(color);
@@ -107,7 +105,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
 
         // Disable custom colors button
         Button disable_custom_color = findViewById(R.id.disable_custom_color);
-        if (OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentAMC.overlay") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "customColor"))
+        if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay") && PrefConfig.loadPrefBool(Iconify.getAppContext(), "customColor"))
             disable_custom_color.setVisibility(View.VISIBLE);
         else
             disable_custom_color.setVisibility(View.GONE);
