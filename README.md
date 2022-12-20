@@ -81,7 +81,9 @@ Link - https://t.me/IconifyOfficial
 
 ## For Feedback or Bug Reports
 
-Link - https://github.com/Mahmud0808/Iconify/issues/new/choose
+GitHub - https://github.com/Mahmud0808/Iconify/issues/new/choose
+
+Telegram - https://t.me/IconifyBot
 
 ## Thanks To
 
