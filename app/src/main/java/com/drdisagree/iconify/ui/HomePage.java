@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -45,8 +47,27 @@ public class HomePage extends AppCompatActivity {
 
         PrefConfig.savePrefBool(Iconify.getAppContext(), "onHomePage", true);
 
-        if (PrefConfig.loadPrefInt(Iconify.getAppContext(), "versionCode") < BuildConfig.VERSION_CODE && PrefConfig.loadPrefInt(Iconify.getAppContext(), "versionCode") != 0)
-            Toast.makeText(Iconify.getAppContext(), "Reboot to Apply Changes", Toast.LENGTH_LONG).show();
+        container = (ViewGroup) findViewById(R.id.home_page_list);
+        View list_view = LayoutInflater.from(this).inflate(R.layout.dialog_reboot, container, false);
+        LinearLayout reboot_reminder = list_view.findViewById(R.id.reboot_reminder);
+        container.addView(list_view);
+        reboot_reminder.setVisibility(View.GONE);
+
+        if (PrefConfig.loadPrefInt(Iconify.getAppContext(), "versionCode") < BuildConfig.VERSION_CODE && PrefConfig.loadPrefInt(Iconify.getAppContext(), "versionCode") != 0) {
+            reboot_reminder.setVisibility(View.VISIBLE);
+            Button reboot_now = findViewById(R.id.reboot_phone);
+            reboot_now.setOnClickListener(v -> {
+                LoadingDialog rebootingDialog = new LoadingDialog(HomePage.this);
+                rebootingDialog.show("Rebooting in 5 seconds");
+
+                runOnUiThread(() -> new Handler().postDelayed(() -> {
+                    rebootingDialog.hide();
+
+                    Shell.cmd("su -c 'svc power reboot'").exec();
+                }, 5000));
+            });
+        }
+
         PrefConfig.savePrefInt(this, "versionCode", BuildConfig.VERSION_CODE);
         getBootId();
 
@@ -57,7 +78,7 @@ public class HomePage extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Home page list items
-        container = (ViewGroup) findViewById(R.id.home_page_list);
+
         addItem(R.id.home_monetColor, "Color Engine", "Have control over colors", R.drawable.ic_color_home);
         addItem(R.id.home_iconPack, "Icon Pack", "Change system icon pack", R.drawable.ic_wifi_home);
         addItem(R.id.home_brightnessBar, "Brightness Bar", "Customize brightness slider", R.drawable.ic_brightness_home);
