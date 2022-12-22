@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.installer;
 
+import static com.drdisagree.iconify.common.References.TOTAL_QSSHAPES;
+
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.services.ApplyOnBoot;
@@ -7,15 +9,16 @@ import com.drdisagree.iconify.utils.OverlayUtils;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
-import static com.drdisagree.iconify.common.References.TOTAL_QSSHAPES;
 
 public class QsShapeInstaller {
 
     public static void install_pack(int n) {
         disable_others(n);
         enable_pack(n);
-        PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
-        ApplyOnBoot.applyColors();
+        if (!PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay")) {
+            PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
+            ApplyOnBoot.applyColors();
+        }
         if (PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius").equals("null"))
             OverlayUtils.enableOverlay("IconifyComponentCR16.overlay");
     }

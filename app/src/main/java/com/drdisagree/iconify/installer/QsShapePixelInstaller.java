@@ -15,8 +15,10 @@ public class QsShapePixelInstaller {
     public static void install_pack(int n) {
         disable_others(n);
         enable_pack(n);
-        PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
-        ApplyOnBoot.applyColors();
+        if (!PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay")) {
+            PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
+            ApplyOnBoot.applyColors();
+        }
         if (PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius").equals("null"))
             OverlayUtils.enableOverlay("IconifyComponentCR16.overlay");
     }
