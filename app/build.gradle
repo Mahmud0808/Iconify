@@ -11,7 +11,7 @@ android {
         targetSdk 33
         versionCode 5
         versionName "v4.0-Beta"
-        setProperty("archivesBaseName", "Iconify $versionName")
+        setProperty("archivesBaseName", "app")
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
