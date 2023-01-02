@@ -29,6 +29,6 @@ jobs:
       uses: actions/upload-artifact@v3.1.1
       with:
         name: Iconify
-        path: app/build/outputs/apk/app-debug.apk
+        path: app/build/outputs/apk/debug/*.apk
         if-no-files-found: error 
    
