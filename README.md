@@ -7,7 +7,7 @@
 <img src="https://github.com/Mahmud0808/Iconify/raw/master/app/banner.png" alt="Banner">
 </p>
 
-Iconify was mainly created to change the system icons of any aosp rom. But then I got bored of using substratum. Picking and installing overlays one by one without any previews made me frustrated. So I decided to make it easier for me by creating an application where I can one click change anything I want. This was totally for my personal use but as people showed interest, I decided to release it in public.
+Iconify was mainly created as substratum theme to change the system icons of any aosp rom. But then I got bored of using substratum. Picking and installing overlays one by one without any previews made me frustrated. So I decided to make it easier for me by creating an application where I can one click change anything I want. This was totally for my personal use but as people showed interest, I decided to release it in public.
 
 ### 🌟STAR THIS REPOSITORY TO SUPPORT THE DEVELOPER AND ENCOURAGE THE DEVELOPMENT OF THE APPLICATION!
 
