@@ -6,12 +6,15 @@
   <a href="https://telegram.me/IconifyOfficial"><img src="https://img.shields.io/badge/Telegram-3K+-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram"></a>
   <a href="https://github.com/Mahmud0808/Iconify/releases"><img src="https://img.shields.io/github/downloads/Mahmud0808/Iconify/total?color=%233DDC84&logo=android&logoColor=%23fff&style=for-the-badge" alt="Downloads"></a>
 <br><br>
-<img src="https://github.com/Mahmud0808/Iconify/raw/master/app/banner.png" alt="Banner">
+<img src="https://github.com/Mahmud0808/Iconify/raw/master/app/banner.png" width="100%" alt="Banner">
 </p>
 
-Iconify was mainly created as substratum theme to change the system icons of any aosp rom. But then I got bored of using substratum. Picking and installing overlays one by one without any previews made me frustrated. So I decided to make it easier for me by creating an application where I can one click change anything I want. This was totally for my personal use but as people showed interest, I decided to release it in public.
+Iconify was mainly created as a substratum theme to change the system icons of any aosp rom. After some time, I converted it to use as magisk module with Terminal GUI integration. But then I got bored of using substratum and terminal gui. Applying overlays without any previews made me frustrated. So I decided to make it easier for me by creating an application where I can see the previews and change anything I want. This was totally for my personal use but as people showed interest, I decided to release it in public.
 
 ### 🌟STAR THIS REPOSITORY TO SUPPORT THE DEVELOPER AND ENCOURAGE THE DEVELOPMENT OF THE APPLICATION!
+<p align="center">
+<a href="https://www.buymeacoffee.com/DrDisagree"><img src="https://i.ibb.co/VCKD9MD/buymeacoffee.png" width="30%" /></a>
+</p>
 
 ## Features
 
