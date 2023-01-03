@@ -613,7 +613,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="left|center"
                                 android:paddingTop="3dp"
-                                android:text="- A13 (Test)"
+                                android:text="- A13"
                                 android:textColor="@color/textColorSecondary"
                                 android:textSize="@dimen/cont_title_size" />
 
@@ -624,7 +624,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="left|center"
                             android:paddingTop="3dp"
-                            android:text="Fix Invisible / Black Texts"
+                            android:text="No Fix For Pixel Variant :("
                             android:textColor="@color/textColorSecondary"
                             android:textSize="@dimen/cont_title_size2" />
 
