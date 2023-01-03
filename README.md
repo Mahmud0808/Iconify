@@ -98,7 +98,7 @@ What you can change using Iconify:
 
 - [Telegram Bot](https://t.me/IconifyBot)
 
-## Bug Report
+## Bug Report or Feature Request
 
 > Make sure to mention as much details as possible.
 
