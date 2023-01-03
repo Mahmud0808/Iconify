@@ -1,9 +1,11 @@
 # Iconify
 
 <p align="center">
-  <a href="https://telegram.me/IconifyOfficial" ><img src="https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram"></a>
+  <a href="https://github.com/Mahmud0808/Iconify/actions"><img src="https://img.shields.io/github/actions/workflow/status/Mahmud0808/Iconify/build_debug.yml?branch=master&label=Debug%20Build&style=for-the-badge" alt="Debug Build"></a>
+  <a href="https://github.com/Mahmud0808/Iconify"><img alt="Repo Size" src="https://img.shields.io/github/repo-size/Mahmud0808/Iconify?style=for-the-badge"></a>
+  <a href="https://telegram.me/IconifyOfficial"><img src="https://img.shields.io/badge/Telegram-3K+-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram"></a>
   <a href="https://github.com/Mahmud0808/Iconify/releases"><img src="https://img.shields.io/github/downloads/Mahmud0808/Iconify/total?color=%233DDC84&logo=android&logoColor=%23fff&style=for-the-badge" alt="Downloads"></a>
-
+<br><br>
 <img src="https://github.com/Mahmud0808/Iconify/raw/master/app/banner.png" alt="Banner">
 </p>
 
@@ -75,45 +77,53 @@ What you can change using Iconify:
 
 > Download latst version of Iconify from here.
 
-Link - https://github.com/Mahmud0808/Iconify/releases/latest
+- [Release Build](https://github.com/Mahmud0808/Iconify/releases/latest)
+
+- [Debug Build](https://github.com/Mahmud0808/Iconify/actions)
 
 ## Telegram Channel
 
 > Follow to get latest news and updates.
 
-Link - https://t.me/IconifyOfficial
+- [@IconifyOfficial](https://t.me/IconifyOfficial)
 
 ## Discussion & Feedback
 
 > You can ask about any feature requests or queries.
 
-- GitHub - [Click Here](https://github.com/Mahmud0808/Iconify/discussions/new)
+- [GitHub Discussions](https://github.com/Mahmud0808/Iconify/discussions/new)
 
-- Telegram - [Click Here](https://t.me/IconifyBot)
+- [Telegram Bot](https://t.me/IconifyBot)
 
 ## Bug Report
 
 > Make sure to mention as much details as possible.
 
-- GitHub - [Click Here](https://github.com/Mahmud0808/Iconify/issues/new/choose)
+- [GitHub Issues](https://github.com/Mahmud0808/Iconify/issues/new/choose)
 
-- Telegram - [Click Here](https://t.me/IconifyBot)
+- [Telegram Bot](https://t.me/IconifyBot)
 
 ## Thanks To
 
-- Android Open Source Project (AOSP)
+- [Android Open Source Project (AOSP)](https://source.android.com)
 
-- icons8.com
+- [Substratum](https://github.com/substratum/substratum)
 
-- jai_08
+- [icons8.com](https://icons8.com)
 
-- Rodolphe06
+- [J@i](https://t.me/jai_08)
 
-- ModestCat03
+- [Flodor](https://t.me/Rodolphe06)
 
-- sanely_insane
+- [𝙍𝙄𝙏𝙀𝙎𝙃](https://t.me/ModestCat03)
 
-- Jaguar0066
+- [Sanely insane](https://t.me/sanely_insane)
+
+- [Jaguar](https://t.me/Jaguar0066)
+
+- [Jorge ARZ](https://t.me/ArzjoDev)
+
+- [ɦʏքɛʀ.sɦ](https://t.me/hyp3r_sh)
 
 ## Contribution
 
