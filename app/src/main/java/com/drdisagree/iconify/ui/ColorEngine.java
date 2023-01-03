@@ -58,7 +58,7 @@ public class ColorEngine extends AppCompatActivity {
                     PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
                     FabricatedOverlay.disableOverlay("colorAccentPrimary");
                     FabricatedOverlay.disableOverlay("colorAccentSecondary");
-                    findViewById(R.id.page_monet_color).invalidate();
+                    findViewById(R.id.page_color_engine).invalidate();
                 };
                 Thread thread = new Thread(runnable);
                 thread.start();
@@ -75,7 +75,7 @@ public class ColorEngine extends AppCompatActivity {
                     FabricatedOverlay.enableOverlay("colorAccentPrimary");
                     FabricatedOverlay.enableOverlay("colorAccentSecondary");
                     ApplyOnBoot.applyColors();
-                    findViewById(R.id.page_monet_color).invalidate();
+                    findViewById(R.id.page_color_engine).invalidate();
                 };
                 Thread thread = new Thread(runnable);
                 thread.start();
