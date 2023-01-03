@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
@@ -23,7 +22,7 @@ import com.topjohnwu.superuser.Shell;
 import java.util.List;
 import java.util.Objects;
 
-public class MonetColor extends AppCompatActivity {
+public class ColorEngine extends AppCompatActivity {
 
     List<String> accurate_sh = Shell.cmd("settings get secure monet_engine_accurate_shades").exec().getOut();
     int shade = initialize_shade();
@@ -32,7 +31,7 @@ public class MonetColor extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.monet_color);
+        setContentView(R.layout.color_engine);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
@@ -86,7 +85,7 @@ public class MonetColor extends AppCompatActivity {
         // Color Picker
         LinearLayout custom_color_picker = findViewById(R.id.custom_color_picker);
         custom_color_picker.setOnClickListener(v -> {
-            Intent intent = new Intent(MonetColor.this, ColorPicker.class);
+            Intent intent = new Intent(ColorEngine.this, ColorPicker.class);
             startActivity(intent);
         });
 
@@ -146,10 +145,10 @@ public class MonetColor extends AppCompatActivity {
         experimental_color.setOnCheckedChangeListener((compoundButton, isChecked) -> {
             if (isChecked) {
                 experimental_color_options.setVisibility(View.VISIBLE);
-                PrefConfig.savePrefBool(MonetColor.this, "experimentalColorOptions", true);
+                PrefConfig.savePrefBool(ColorEngine.this, "experimentalColorOptions", true);
             } else {
                 experimental_color_options.setVisibility(View.GONE);
-                PrefConfig.savePrefBool(MonetColor.this, "experimentalColorOptions", false);
+                PrefConfig.savePrefBool(ColorEngine.this, "experimentalColorOptions", false);
             }
         });
 

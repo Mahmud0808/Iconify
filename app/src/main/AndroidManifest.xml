@@ -64,7 +64,7 @@
             android:name=".ui.ColorPicker"
             android:exported="false" />
         <activity
-            android:name=".ui.MonetColor"
+            android:name=".ui.ColorEngine"
             android:exported="false" />
         <activity
             android:name=".ui.Extras"
