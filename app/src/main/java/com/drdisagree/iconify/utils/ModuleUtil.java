@@ -23,10 +23,10 @@ public class ModuleUtil {
         if (moduleExists()) {
             Shell.cmd("rm -rf " + MODULE_DIR).exec();
         }
-        installModule(context);
+        installModule();
     }
 
-    static void installModule(Context context) {
+    static void installModule() throws IOException {
         Log.e("ModuleCheck", "Magisk module does not exist, creating!");
         // Clean temporary directory
         Shell.cmd("mkdir -p " + MODULE_DIR).exec();
@@ -43,15 +43,7 @@ public class ModuleUtil {
                 "# This will make sure your module will still work\n" +
                 "# if Magisk change its mount point in the future\n" +
                 "MODDIR=${0%%/*}\n" +
-                "# This script will be executed in post-fs-data mode' > " + MODULE_DIR + "/common/post-fs-data.sh").exec();
-        Shell.cmd("printf '#!/system/bin/sh\n" +
-                "# Do NOT assume where your module will be located.\n" +
-                "# ALWAYS use $MODDIR if you need to know where this script\n" +
-                "# and module is placed.\n" +
-                "# This will make sure your module will still work\n" +
-                "# if Magisk change its mount point in the future\n" +
-                "MODDIR=${0%%/*}\n" +
-                "# This script will be executed in late_start service mode\n' > " + MODULE_DIR + "/common/service.sh").exec();
+                "# This script will be executed in post-fs-data mode' > " + MODULE_DIR + "/post-fs-data.sh").exec();
         Shell.cmd("printf '#!/system/bin/sh\n" +
                 "# Do NOT assume where your module will be located.\n" +
                 "# ALWAYS use $MODDIR if you need to know where this script\n" +
@@ -61,12 +53,14 @@ public class ModuleUtil {
                 "MODDIR=${0%%/*}\n" +
                 "# This script will be executed in late_start service mode\n' > " + MODULE_DIR + "/service.sh").exec();
         Shell.cmd("touch " + MODULE_DIR + "/common/system.prop").exec();
+        Shell.cmd("mkdir -p " + MODULE_DIR + "/tools").exec();
         Shell.cmd("mkdir -p " + MODULE_DIR + "/system").exec();
         Shell.cmd("mkdir -p " + MODULE_DIR + "/system/product").exec();
         Shell.cmd("mkdir -p " + MODULE_DIR + "/system/product/overlay").exec();
-        Log.e("ModuleCheck", "Magisk module successfully created!");
+        Log.d("ModuleCheck", "Magisk module successfully created!");
 
-        copyOverlays(context);
+        extractTools();
+        CompilerUtil.buildOverlays();
     }
 
     public static boolean moduleExists() {
@@ -78,7 +72,7 @@ public class ModuleUtil {
         return false;
     }
 
-    static void copyOverlays(Context context) {
+    static void extractComponent() {
         try {
             FileUtil.copyAssets("Component");
         } catch (IOException e) {
@@ -87,6 +81,18 @@ public class ModuleUtil {
             Shell.cmd("cp -a " + DATA_DIR + "/Component/. " + OVERLAY_DIR + '/').exec();
             FileUtil.cleanDir("Component");
             RootUtil.setPermissionsRecursively(644, OVERLAY_DIR + '/');
+        }
+    }
+
+    static void extractTools() {
+        try {
+            FileUtil.copyAssets("Tools");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            Shell.cmd("cp -a " + DATA_DIR + "/Tools/. " + MODULE_DIR + "/tools").exec();
+            FileUtil.cleanDir("Tools");
+            RootUtil.setPermissionsRecursively(755, MODULE_DIR + "/tools");
         }
     }
 }

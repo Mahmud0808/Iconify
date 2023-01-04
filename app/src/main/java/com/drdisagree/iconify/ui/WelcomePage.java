@@ -1,9 +1,14 @@
 package com.drdisagree.iconify.ui;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -11,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
@@ -41,7 +47,7 @@ public class WelcomePage extends AppCompatActivity {
         // Continue button
         Button checkRoot = findViewById(R.id.checkRoot);
 
-        // Dialog to show if root not found
+        // Dialog to show warns
         LinearLayout warn = findViewById(R.id.warn);
         TextView warning = findViewById(R.id.warning);
 
@@ -49,47 +55,58 @@ public class WelcomePage extends AppCompatActivity {
         checkRoot.setOnClickListener(v -> {
             if (RootUtil.isDeviceRooted()) {
                 if (RootUtil.isMagiskInstalled()) {
-                    if ((PrefConfig.loadPrefInt(this, "versionCode") < versionCode) || !ModuleUtil.moduleExists() || !OverlayUtils.overlayExists()) {
-                        // Show loading dialog
-                        loadingDialog.show("Installing");
-
-                        Runnable runnable = () -> {
-                            try {
-                                ModuleUtil.handleModule(Iconify.getAppContext());
-                            } catch (IOException e) {
-                                Toast.makeText(Iconify.getAppContext(), "Something went wrong.", Toast.LENGTH_LONG).show();
-                                e.printStackTrace();
-                            }
-                            runOnUiThread(() -> {
-                                // Hide loading dialog
-                                loadingDialog.hide();
-
-                                if (OverlayUtils.overlayExists()) {
-                                    new Handler().postDelayed(() -> {
-                                        Intent intent = new Intent(WelcomePage.this, HomePage.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }, 10);
-                                } else {
-                                    warn.setVisibility(View.VISIBLE);
-                                    warning.setText("Reboot your device first!");
-                                }
-                            });
-                        };
-                        Thread thread = new Thread(runnable);
-                        thread.start();
-                    } else {
-                        Intent intent = new Intent(WelcomePage.this, HomePage.class);
+                    if (!Environment.isExternalStorageManager()) {
+                        warning.setText("Grant storage access first!");
+                        warn.setVisibility(View.VISIBLE);
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                        Uri uri = Uri.fromParts("package", this.getPackageName(), null);
+                        intent.setData(uri);
                         startActivity(intent);
-                        finish();
+                    } else {
+                        if ((PrefConfig.loadPrefInt(this, "versionCode") < versionCode) || !ModuleUtil.moduleExists() || !OverlayUtils.overlayExists()) {
+                            warn.setVisibility(View.INVISIBLE);
+                            // Show loading dialog
+                            loadingDialog.show("Installing");
+
+                            Runnable runnable = () -> {
+                                try {
+                                    ModuleUtil.handleModule(Iconify.getAppContext());
+                                } catch (IOException e) {
+                                    Toast.makeText(Iconify.getAppContext(), "Something went wrong.", Toast.LENGTH_LONG).show();
+                                    e.printStackTrace();
+                                }
+                                runOnUiThread(() -> {
+                                    // Hide loading dialog
+                                    loadingDialog.hide();
+
+                                    if (OverlayUtils.overlayExists()) {
+                                        new Handler().postDelayed(() -> {
+                                            Intent intent = new Intent(WelcomePage.this, HomePage.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }, 10);
+                                    } else {
+                                        warning.setText("Reboot your device first!");
+                                        warn.setVisibility(View.VISIBLE);
+                                    }
+                                });
+                            };
+                            Thread thread = new Thread(runnable);
+                            thread.start();
+                        } else {
+                            Intent intent = new Intent(WelcomePage.this, HomePage.class);
+                            startActivity(intent);
+                            finish();
+                        }
                     }
                 } else {
-                    warn.setVisibility(View.VISIBLE);
                     warning.setText("Use Magisk to root your device!");
+                    warn.setVisibility(View.VISIBLE);
                 }
             } else {
-                warn.setVisibility(View.VISIBLE);
                 warning.setText("Looks like your device is not rooted!");
+                warn.setVisibility(View.VISIBLE);
             }
         });
     }
