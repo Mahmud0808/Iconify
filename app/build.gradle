@@ -9,8 +9,8 @@ android {
         applicationId "com.drdisagree.iconify"
         minSdk 31
         targetSdk 33
-        versionCode 5
-        versionName "v4.0-Beta"
+        versionCode 6
+        versionName "v5.0-Beta"
         setProperty("archivesBaseName", "app")
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -44,4 +44,5 @@ dependencies {
     implementation 'androidx.work:work-runtime:2.7.1'
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
     implementation 'androidx.core:core-splashscreen:1.0.0'
+    implementation 'com.android.tools.build:apksig:7.3.1'
 }
