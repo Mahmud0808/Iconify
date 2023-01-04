@@ -23,6 +23,11 @@ public class CompilerUtil {
     private static final String SIGNED_DIR = TEMP_DIR + "/overlays/signed";
 
     public static void buildOverlays() throws IOException {
+        // Clean temp directory
+        Shell.cmd("rm -rf " + TEMP_DIR).exec();
+        Shell.cmd("rm -rf " + ModuleUtil.DATA_DIR + "/Keystore").exec();
+        Shell.cmd("rm -rf " + ModuleUtil.DATA_DIR + "/Overlays").exec();
+
         // Extract keystore and overlays from assets
         FileUtil.copyAssets("Keystore");
         FileUtil.copyAssets("Overlays");
@@ -77,7 +82,7 @@ public class CompilerUtil {
     }
 
     private static void createManifest(String pkgName, String target, String destination) {
-        Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"" + pkgName + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + target + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + destination + "/AndroidManifest.xml;").exec();
+        Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + pkgName + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + target + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + destination + "/AndroidManifest.xml;").exec();
     }
 
     private static void runAapt(String source, String destination, String name) {
@@ -113,7 +118,7 @@ public class CompilerUtil {
                     .setV3SigningEnabled(true)
                     .setV4SigningEnabled(true)
                     .setInputApk(new File(source))
-                    .setOutputApk(new File(SIGNED_DIR + '/' + name))
+                    .setOutputApk(new File(SIGNED_DIR + "/IconifyComponent" + name))
                     .setMinSdkVersion(Build.VERSION.SDK_INT)
                     .build()
                     .sign();
