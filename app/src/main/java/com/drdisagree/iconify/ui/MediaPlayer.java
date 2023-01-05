@@ -3,6 +3,7 @@ package com.drdisagree.iconify.ui;
 import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -146,6 +148,7 @@ public class MediaPlayer extends AppCompatActivity {
         final String youtube_revanced = "app.revanced.android.youtube";
         final String yt_music_revanced = "app.revanced.android.apps.youtube.music";
 
+        Boolean defaultA13 = Build.VERSION.SDK_INT >= 33;
         Boolean isPowerampInstalled = false;
         Boolean isRetroInstalled = false;
         Boolean isNyxInstalled = false;
@@ -189,8 +192,13 @@ public class MediaPlayer extends AppCompatActivity {
             super.onPostExecute(string);
 
             TextView title = findViewById(R.id.mediaplayer_icon_title);
-            if (isPowerampInstalled || isRetroInstalled || isNyxInstalled || isYmusicInstalled || isBlackholeInstalled || isMusicoletInstalled || isYoutubeInstalled || isYtmusicInstalled || isYoutubetvancedInstalled || isYtmusicvancedInstalled)
+            if (defaultA13 || isPowerampInstalled || isRetroInstalled || isNyxInstalled || isYmusicInstalled || isBlackholeInstalled || isMusicoletInstalled || isYoutubeInstalled || isYtmusicInstalled || isYoutubetvancedInstalled || isYtmusicvancedInstalled)
                 title.setVisibility(View.VISIBLE);
+
+            if (defaultA13) {
+                addItem(R.id.poweramp, ContextCompat.getDrawable(MediaPlayer.this, R.drawable.ic_android), "Android 13 Default Player", null, R.id.defaulta13mp_aurora, R.id.defaulta13mp_gradicon, R.id.defaulta13mp_plumpy);
+                enableOnClickListener(R.id.defaulta13mp_aurora, R.id.defaulta13mp_gradicon, R.id.defaulta13mp_plumpy, 0);
+            }
 
             if (isPowerampInstalled) {
                 addItem(R.id.poweramp, AppUtils.getAppIcon(poweramp), AppUtils.getAppName(poweramp), poweramp, R.id.poweramp_aurora, R.id.poweramp_gradicon, R.id.poweramp_plumpy);
@@ -332,7 +340,8 @@ public class MediaPlayer extends AppCompatActivity {
         gradicon.setId(gradicon_id);
         plumpy.setId(plumpy_id);
 
-        launch.setOnClickListener(v -> AppUtils.launchApp(MediaPlayer.this, packageName));
+        if (packageName != null)
+            launch.setOnClickListener(v -> AppUtils.launchApp(MediaPlayer.this, packageName));
 
         container.addView(list);
     }

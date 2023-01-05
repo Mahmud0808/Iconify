@@ -231,6 +231,12 @@
     <item name="notif_stack_arrow" type="id" />
 
     <!-- Media Player Icon List -->
+    <item name="defaulta13mp" type="id" />
+    <item name="defaulta13mp_launch" type="id" />
+    <item name="defaulta13mp_aurora" type="id" />
+    <item name="defaulta13mp_gradicon" type="id" />
+    <item name="defaulta13mp_plumpy" type="id" />
+
     <item name="poweramp" type="id" />
     <item name="poweramp_launch" type="id" />
     <item name="poweramp_aurora" type="id" />
