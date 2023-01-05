@@ -71,7 +71,7 @@ public class OverlayUtils {
 
             int numberOfOverlaysInstalled = Integer.parseInt(Shell.cmd("find /" + ModuleUtil.OVERLAY_DIR + "/ -maxdepth 1 -type f -print| wc -l").exec().getOut().get(0));
             Log.e("OverlayExists", String.valueOf(numberOfOverlaysInAssets) + ' ' + numberOfOverlaysInstalled);
-            return numberOfOverlaysInAssets == numberOfOverlaysInstalled;
+            return numberOfOverlaysInAssets <= numberOfOverlaysInstalled;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
