@@ -37,6 +37,7 @@
             android:layout_marginTop="12dp"
             android:gravity="center"
             android:text="Please Wait"
+            android:textAlignment="center"
             android:textColor="@color/textColorPrimary"
             android:textSize="18dp"
             android:textStyle="bold" />
