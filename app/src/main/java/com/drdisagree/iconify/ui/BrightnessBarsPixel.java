@@ -63,13 +63,6 @@ public class BrightnessBarsPixel extends AppCompatActivity {
         // Brightness Bar list items
         container = (ViewGroup) findViewById(R.id.brightness_bars_list_pixel);
 
-        // Link warn msg to color picker page
-        LinearLayout brightness_bar_pixel_warn = findViewById(R.id.brightness_bar_pixel_warn);
-        brightness_bar_pixel_warn.setOnClickListener(v -> {
-            Intent intent = new Intent(BrightnessBarsPixel.this, ColorPicker.class);
-            startActivity(intent);
-        });
-
         // Brightness Bar add items in list
         addItem(R.id.brightnessBar_roundedClip_container, R.id.brightnessBar_roundedClip_bb, R.id.brightnessBar_roundedClip_auto_bb, "Rounded Clip", R.id.brightnessBar_roundedClip_enable, R.id.brightnessBar_roundedClip_disable);
         addItem(R.id.brightnessBar_rounded_container, R.id.brightnessBar_rounded_bb, R.id.brightnessBar_rounded_auto_bb, "Rounded Bar", R.id.brightnessBar_rounded_enable, R.id.brightnessBar_rounded_disable);

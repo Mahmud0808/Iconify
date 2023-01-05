@@ -71,13 +71,6 @@ public class QsShapesPixel extends AppCompatActivity {
         ViewGroup.MarginLayoutParams marginParams;
         LinearLayout.LayoutParams layoutParams;
 
-        // Link warn msg to color picker page
-        LinearLayout qs_shape_pixel_warn = findViewById(R.id.qs_shape_pixel_warn);
-        qs_shape_pixel_warn.setOnClickListener(v -> {
-            Intent intent = new Intent(QsShapesPixel.this, ColorPicker.class);
-            startActivity(intent);
-        });
-
         // Qs Shape add items in list
         addItem(R.id.default_container, R.id.default_qstile1, R.id.default_qstile2, R.id.default_qstile3, R.id.default_qstile4, "Default", R.id.default_enable, R.id.default_disable, R.id.default_qstile_orientation);
         addItem(R.id.doubleLayer_container, R.id.doubleLayer_qstile1, R.id.doubleLayer_qstile2, R.id.doubleLayer_qstile3, R.id.doubleLayer_qstile4, "Double Layer", R.id.doubleLayer_enable, R.id.doubleLayer_disable, R.id.doubleLayer_qstile_orientation);

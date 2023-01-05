@@ -143,7 +143,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
                         OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
                     }
                     FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(accent)));
-                    FabricatedOverlay.buildOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(Integer.parseInt(accent), Color.BLACK, 0.8f)));
+                    FabricatedOverlay.buildOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(Integer.parseInt(accent), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
                     FabricatedOverlay.enableOverlay("colorAccentPrimary");
                     FabricatedOverlay.enableOverlay("colorAccentPrimaryDark");
                     String colorAccentSecondary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary");
