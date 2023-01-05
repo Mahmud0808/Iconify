@@ -57,9 +57,9 @@
                     android:id="@+id/qs_tile_preview_orientation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="-4dp"
+                    android:layout_marginStart="-4dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginRight="-4dp"
+                    android:layout_marginEnd="-4dp"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -79,7 +79,7 @@
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
                             android:paddingTop="18dp"
-                            android:paddingRight="16dp"
+                            android:paddingEnd="16dp"
                             android:paddingBottom="18dp"
                             tools:ignore="NestedWeights,RtlHardcoded,RtlSymmetry">
 
@@ -87,8 +87,8 @@
                                 android:id="@+id/qs_icon1"
                                 android:layout_width="20dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="16dp"
-                                android:layout_marginRight="10dp"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginEnd="10dp"
                                 android:src="@drawable/ic_qs_internet"
                                 app:tint="@color/textColorPrimary"
                                 tools:ignore="ContentDescription" />
@@ -131,7 +131,7 @@
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
                             android:paddingTop="18dp"
-                            android:paddingRight="16dp"
+                            android:paddingEnd="16dp"
                             android:paddingBottom="18dp"
                             tools:ignore="RtlHardcoded,RtlSymmetry">
 
@@ -139,8 +139,8 @@
                                 android:id="@+id/qs_icon2"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:layout_marginLeft="16dp"
-                                android:layout_marginRight="10dp"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginEnd="10dp"
                                 android:src="@drawable/ic_qs_airplane"
                                 app:tint="@color/textColorPrimary"
                                 tools:ignore="ContentDescription" />
@@ -191,7 +191,7 @@
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
                             android:paddingTop="18dp"
-                            android:paddingRight="16dp"
+                            android:paddingEnd="16dp"
                             android:paddingBottom="18dp"
                             tools:ignore="NestedWeights,RtlHardcoded,RtlSymmetry">
 
@@ -199,8 +199,8 @@
                                 android:id="@+id/qs_icon3"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:layout_marginLeft="16dp"
-                                android:layout_marginRight="10dp"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginEnd="10dp"
                                 android:src="@drawable/ic_qs_location"
                                 app:tint="@color/textColorPrimary"
                                 tools:ignore="ContentDescription" />
@@ -243,16 +243,15 @@
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
                             android:paddingTop="18dp"
-                            android:paddingRight="16dp"
-                            android:paddingBottom="18dp"
-                            tools:ignore="RtlHardcoded">
+                            android:paddingEnd="16dp"
+                            android:paddingBottom="18dp">
 
                             <ImageView
                                 android:id="@+id/qs_icon4"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:layout_marginLeft="16dp"
-                                android:layout_marginRight="10dp"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginEnd="10dp"
                                 android:src="@drawable/ic_qs_bluetooth"
                                 app:tint="@color/textColorPrimary"
                                 tools:ignore="ContentDescription" />
@@ -304,8 +303,6 @@
                     android:thumb="@drawable/seek_thumb" />
 
                 <Button
-                    app:backgroundTint="@null"
-                    android:stateListAnimator="@null"
                     android:id="@+id/apply_radius"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -313,10 +310,12 @@
                     android:background="@drawable/button"
                     android:fontFamily="@font/semibold"
                     android:letterSpacing="0.2"
+                    android:stateListAnimator="@null"
                     android:text="APPLY"
                     android:textColor="@color/colorBackground"
                     android:textSize="@dimen/cont_title_size"
                     android:textStyle="bold"
+                    app:backgroundTint="@null"
                     tools:ignore="SpUsage" />
 
             </LinearLayout>
@@ -337,10 +336,9 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|center"
-                    android:layout_marginRight="@dimen/container_padding"
-                    android:orientation="vertical"
-                    tools:ignore="RtlHardcoded">
+                    android:layout_gravity="start|center"
+                    android:layout_marginEnd="@dimen/container_padding"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/list_title_disableEverything"
@@ -355,6 +353,7 @@
                         android:id="@+id/list_desc_disableEverything"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_title_size2"
                         tools:ignore="SpUsage" />
@@ -362,8 +361,6 @@
                 </LinearLayout>
 
                 <Button
-                    app:backgroundTint="@null"
-                    android:stateListAnimator="@null"
                     android:id="@+id/button_disableEverything"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -371,10 +368,12 @@
                     android:background="@drawable/button"
                     android:fontFamily="@font/semibold"
                     android:letterSpacing="0.2"
+                    android:stateListAnimator="@null"
                     android:text="@string/disable"
                     android:textColor="@color/colorBackground"
                     android:textSize="@dimen/cont_title_size"
                     android:textStyle="bold"
+                    app:backgroundTint="@null"
                     tools:ignore="SpUsage" />
             </LinearLayout>
 
@@ -394,10 +393,9 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|center"
-                    android:layout_marginRight="@dimen/container_padding"
-                    android:orientation="vertical"
-                    tools:ignore="RtlHardcoded">
+                    android:layout_gravity="start|center"
+                    android:layout_marginEnd="@dimen/container_padding"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/list_title_restartSysui"
@@ -412,6 +410,7 @@
                         android:id="@+id/list_desc_restartSysui"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_title_size2"
                         tools:ignore="SpUsage" />
@@ -419,8 +418,6 @@
                 </LinearLayout>
 
                 <Button
-                    app:backgroundTint="@null"
-                    android:stateListAnimator="@null"
                     android:id="@+id/button_restartSysui"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -428,10 +425,12 @@
                     android:background="@drawable/button_red"
                     android:fontFamily="@font/semibold"
                     android:letterSpacing="0.2"
+                    android:stateListAnimator="@null"
                     android:text="@string/restart"
                     android:textColor="@color/colorBackground"
                     android:textSize="@dimen/cont_title_size"
                     android:textStyle="bold"
+                    app:backgroundTint="@null"
                     tools:ignore="SpUsage" />
             </LinearLayout>
 

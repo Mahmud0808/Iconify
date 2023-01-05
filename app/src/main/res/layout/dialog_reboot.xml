@@ -24,7 +24,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center"
-            android:layout_marginRight="@dimen/container_padding"
+            android:layout_marginEnd="@dimen/container_padding"
             android:background="@drawable/ic_restart_large" />
 
         <LinearLayout
@@ -57,8 +57,8 @@
         android:layout_marginTop="@dimen/container_padding"
         android:background="@drawable/button"
         android:fontFamily="@font/semibold"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
         android:stateListAnimator="@null"
         android:text="Reboot Now"
         android:textColor="@color/colorBackground"

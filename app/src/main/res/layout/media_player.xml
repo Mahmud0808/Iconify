@@ -79,7 +79,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:paddingTop="3dp"
                         android:text="Accent Background"
                         android:textColor="@color/textColorPrimary"
@@ -95,7 +95,7 @@
                         android:id="@+id/mp_accent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:thumb="@drawable/switch_thumb"
                         android:track="@drawable/switch_track"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
@@ -122,7 +122,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:paddingTop="3dp"
                         android:text="System Background"
                         android:textColor="@color/textColorPrimary"
@@ -138,7 +138,7 @@
                         android:id="@+id/mp_system"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:thumb="@drawable/switch_thumb"
                         android:track="@drawable/switch_track"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
@@ -163,7 +163,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:paddingTop="3dp"
                         android:text="Pitch Black Background"
                         android:textColor="@color/textColorPrimary"
@@ -179,7 +179,7 @@
                         android:id="@+id/mp_pitch_black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:thumb="@drawable/switch_thumb"
                         android:track="@drawable/switch_track"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />

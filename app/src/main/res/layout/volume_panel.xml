@@ -85,7 +85,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:paddingTop="3dp"
                         android:text="Thin Background"
                         android:textColor="@color/textColorPrimary"
@@ -101,7 +101,7 @@
                         android:id="@+id/thin_bg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:thumb="@drawable/switch_thumb"
                         android:track="@drawable/switch_track"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
@@ -128,7 +128,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:paddingTop="3dp"
                         android:text="Thick Background"
                         android:textColor="@color/textColorPrimary"
@@ -144,7 +144,7 @@
                         android:id="@+id/thick_bg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:thumb="@drawable/switch_thumb"
                         android:track="@drawable/switch_track"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
@@ -169,7 +169,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:paddingTop="3dp"
                         android:text="No Background"
                         android:textColor="@color/textColorPrimary"
@@ -185,7 +185,7 @@
                         android:id="@+id/no_bg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:thumb="@drawable/switch_thumb"
                         android:track="@drawable/switch_track"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />

@@ -26,17 +26,16 @@
                 android:id="@+id/color_picker_warn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/container_marginSide"
-                android:layout_marginRight="@dimen/container_marginSide"
+                android:layout_marginStart="@dimen/container_marginSide"
+                android:layout_marginEnd="@dimen/container_marginSide"
                 android:layout_marginBottom="@dimen/container_margin"
                 android:background="@drawable/container"
-                android:gravity="left|center"
+                android:gravity="start|center"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/container_paddingSide"
                 android:paddingTop="@dimen/container_padding"
                 android:paddingEnd="@dimen/container_paddingSide"
-                android:paddingBottom="@dimen/container_padding"
-                tools:ignore="RtlHardcoded">
+                android:paddingBottom="@dimen/container_padding">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -230,23 +229,21 @@
                     android:paddingBottom="@dimen/container_padding">
 
                     <Button
-                        app:backgroundTint="@null"
-                        android:stateListAnimator="@null"
                         android:id="@+id/qs_row_column_apply"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/button"
                         android:fontFamily="@font/semibold"
                         android:letterSpacing="0.2"
+                        android:stateListAnimator="@null"
                         android:text="APPLY"
                         android:textColor="@color/colorBackground"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold"
+                        app:backgroundTint="@null"
                         tools:ignore="SpUsage" />
 
                     <Button
-                        app:backgroundTint="@null"
-                        android:stateListAnimator="@null"
                         android:id="@+id/qs_row_column_reset"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -254,11 +251,13 @@
                         android:background="@drawable/button_red"
                         android:fontFamily="@font/semibold"
                         android:letterSpacing="0.2"
+                        android:stateListAnimator="@null"
                         android:text="RESET"
                         android:textColor="@color/colorBackground"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold"
                         android:visibility="gone"
+                        app:backgroundTint="@null"
                         tools:ignore="SpUsage" />
 
                 </LinearLayout>

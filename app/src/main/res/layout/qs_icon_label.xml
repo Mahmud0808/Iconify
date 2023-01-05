@@ -44,16 +44,15 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
-                        android:layout_marginRight="@dimen/container_padding"
+                        android:layout_gravity="start|center"
+                        android:layout_marginEnd="@dimen/container_padding"
                         android:layout_weight="1.0"
-                        android:orientation="vertical"
-                        tools:ignore="RtlHardcoded">
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="left|center"
+                            android:layout_gravity="start|center"
                             android:paddingTop="3dp"
                             android:text="Hide Label"
                             android:textColor="@color/textColorPrimary"
@@ -63,7 +62,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="left|center"
+                            android:layout_gravity="start|center"
                             android:paddingTop="3dp"
                             android:text="Remove QS Tile Titles"
                             android:textColor="@color/textColorSecondary"
@@ -75,7 +74,7 @@
                         android:id="@+id/hide_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:thumb="@drawable/switch_thumb"
                         android:track="@drawable/switch_track"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
@@ -101,7 +100,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:paddingTop="3dp"
                         android:text="Text Size"
                         android:textColor="@color/textColorPrimary"
@@ -112,7 +111,7 @@
                         android:id="@+id/text_size_output"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:paddingTop="3dp"
                         android:text="Selected: 14sp (Default)"
                         android:textColor="@color/textColorSecondary"
@@ -156,7 +155,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:paddingTop="3dp"
                         android:text="Icon Size"
                         android:textColor="@color/textColorPrimary"
@@ -167,7 +166,7 @@
                         android:id="@+id/icon_size_output"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:paddingTop="3dp"
                         android:text="Selected: 20dp (Default)"
                         android:textColor="@color/textColorSecondary"
@@ -209,7 +208,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:paddingTop="3dp"
                         android:text="Move Icon"
                         android:textColor="@color/textColorPrimary"
@@ -220,7 +219,7 @@
                         android:id="@+id/move_icon_output"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:paddingTop="3dp"
                         android:text="Selected: 10dp (Default)"
                         android:textColor="@color/textColorSecondary"
@@ -248,8 +247,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left|center"
-                android:layout_marginLeft="40dp"
+                android:layout_gravity="start|center"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="@dimen/container_margin"
                 android:layout_marginBottom="20dp"
                 android:text="QS Text Color"
@@ -279,11 +278,10 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
-                        android:layout_marginRight="@dimen/container_padding"
+                        android:layout_gravity="start|center"
+                        android:layout_marginEnd="@dimen/container_padding"
                         android:layout_weight="1.0"
-                        android:orientation="vertical"
-                        tools:ignore="RtlHardcoded">
+                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -293,7 +291,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="left|center"
+                                android:layout_gravity="start|center"
                                 android:paddingTop="3dp"
                                 android:text="Always White"
                                 android:textColor="@color/textColorPrimary"
@@ -307,7 +305,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="left|center"
+                                android:layout_gravity="start|center"
                                 android:paddingTop="3dp"
                                 android:text="- A12"
                                 android:textColor="@color/textColorSecondary"
@@ -318,7 +316,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="left|center"
+                            android:layout_gravity="start|center"
                             android:paddingTop="3dp"
                             android:text="Title White, Text White"
                             android:textColor="@color/textColorSecondary"
@@ -330,7 +328,7 @@
                         android:id="@+id/label_white"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:thumb="@drawable/switch_thumb"
                         android:track="@drawable/switch_track"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
@@ -355,11 +353,10 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
-                        android:layout_marginRight="@dimen/container_padding"
+                        android:layout_gravity="start|center"
+                        android:layout_marginEnd="@dimen/container_padding"
                         android:layout_weight="1.0"
-                        android:orientation="vertical"
-                        tools:ignore="RtlHardcoded">
+                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -369,7 +366,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="left|center"
+                                android:layout_gravity="start|center"
                                 android:paddingTop="3dp"
                                 android:text="Always White v2"
                                 android:textColor="@color/textColorPrimary"
@@ -383,7 +380,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="left|center"
+                                android:layout_gravity="start|center"
                                 android:paddingTop="3dp"
                                 android:text="- A12"
                                 android:textColor="@color/textColorSecondary"
@@ -394,7 +391,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="left|center"
+                            android:layout_gravity="start|center"
                             android:paddingTop="3dp"
                             android:text="Title White, Text Accent"
                             android:textColor="@color/textColorSecondary"
@@ -406,7 +403,7 @@
                         android:id="@+id/label_whiteV2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:thumb="@drawable/switch_thumb"
                         android:track="@drawable/switch_track"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
@@ -431,11 +428,10 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
-                        android:layout_marginRight="@dimen/container_padding"
+                        android:layout_gravity="start|center"
+                        android:layout_marginEnd="@dimen/container_padding"
                         android:layout_weight="1.0"
-                        android:orientation="vertical"
-                        tools:ignore="RtlHardcoded">
+                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -445,7 +441,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="left|center"
+                                android:layout_gravity="start|center"
                                 android:paddingTop="3dp"
                                 android:text="Follow System"
                                 android:textColor="@color/textColorPrimary"
@@ -459,7 +455,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="left|center"
+                                android:layout_gravity="start|center"
                                 android:paddingTop="3dp"
                                 android:text="- A12"
                                 android:textColor="@color/textColorSecondary"
@@ -470,7 +466,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="left|center"
+                            android:layout_gravity="start|center"
                             android:paddingTop="3dp"
                             android:text="Title System, Text System"
                             android:textColor="@color/textColorSecondary"
@@ -482,7 +478,7 @@
                         android:id="@+id/label_systemInverse"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:thumb="@drawable/switch_thumb"
                         android:track="@drawable/switch_track"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
@@ -507,11 +503,10 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
-                        android:layout_marginRight="@dimen/container_padding"
+                        android:layout_gravity="start|center"
+                        android:layout_marginEnd="@dimen/container_padding"
                         android:layout_weight="1.0"
-                        android:orientation="vertical"
-                        tools:ignore="RtlHardcoded">
+                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -521,7 +516,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="left|center"
+                                android:layout_gravity="start|center"
                                 android:paddingTop="3dp"
                                 android:text="Follow System v2"
                                 android:textColor="@color/textColorPrimary"
@@ -535,7 +530,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="left|center"
+                                android:layout_gravity="start|center"
                                 android:paddingTop="3dp"
                                 android:text="- A12"
                                 android:textColor="@color/textColorSecondary"
@@ -546,7 +541,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="left|center"
+                            android:layout_gravity="start|center"
                             android:paddingTop="3dp"
                             android:text="Title System, Text Accent"
                             android:textColor="@color/textColorSecondary"
@@ -558,7 +553,7 @@
                         android:id="@+id/label_systemInverseV2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:thumb="@drawable/switch_thumb"
                         android:track="@drawable/switch_track"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
@@ -583,11 +578,10 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
-                        android:layout_marginRight="@dimen/container_padding"
+                        android:layout_gravity="start|center"
+                        android:layout_marginEnd="@dimen/container_padding"
                         android:layout_weight="1.0"
-                        android:orientation="vertical"
-                        tools:ignore="RtlHardcoded">
+                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -597,7 +591,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="left|center"
+                                android:layout_gravity="start|center"
                                 android:paddingTop="3dp"
                                 android:text="Fix Text Color"
                                 android:textColor="@color/textColorPrimary"
@@ -611,7 +605,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="left|center"
+                                android:layout_gravity="start|center"
                                 android:paddingTop="3dp"
                                 android:text="- A13"
                                 android:textColor="@color/textColorSecondary"
@@ -622,7 +616,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="left|center"
+                            android:layout_gravity="start|center"
                             android:paddingTop="3dp"
                             android:text="No Fix For Pixel Variant :("
                             android:textColor="@color/textColorSecondary"
@@ -634,7 +628,7 @@
                         android:id="@+id/label_fixtexta13"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:thumb="@drawable/switch_thumb"
                         android:track="@drawable/switch_track"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />

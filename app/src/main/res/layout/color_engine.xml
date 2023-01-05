@@ -39,11 +39,10 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|center"
-                    android:layout_marginRight="@dimen/container_padding"
+                    android:layout_gravity="start|center"
+                    android:layout_marginEnd="@dimen/container_padding"
                     android:layout_weight="1.0"
-                    android:orientation="vertical"
-                    tools:ignore="RtlHardcoded">
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -68,7 +67,7 @@
                     android:id="@+id/apply_monet_color"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|center"
+                    android:layout_gravity="start|center"
                     android:thumb="@drawable/switch_thumb"
                     android:track="@drawable/switch_track"
                     tools:ignore="RtlHardcoded,UseSwitchCompatOrMaterialXml" />
@@ -93,11 +92,10 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|center"
-                    android:layout_marginRight="@dimen/container_padding"
+                    android:layout_gravity="start|center"
+                    android:layout_marginEnd="@dimen/container_padding"
                     android:layout_weight="1.0"
-                    android:orientation="vertical"
-                    tools:ignore="RtlHardcoded">
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -119,14 +117,13 @@
 
                 </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="48.0dp"
-                        android:layout_height="48.0dp"
-                        android:layout_margin="2.0dp"
-                        android:layout_gravity="left|center"
-                        android:background="@drawable/preview_color_picker"
-                        android:contentDescription="@string/color_picker_preview"
-                        tools:ignore="RtlHardcoded" />
+                <ImageView
+                    android:layout_width="48.0dp"
+                    android:layout_height="48.0dp"
+                    android:layout_gravity="start|center"
+                    android:layout_margin="2.0dp"
+                    android:background="@drawable/preview_color_picker"
+                    android:contentDescription="@string/color_picker_preview" />
 
             </LinearLayout>
 
@@ -146,11 +143,10 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|center"
-                    android:layout_marginRight="@dimen/container_padding"
+                    android:layout_gravity="start|center"
+                    android:layout_marginEnd="@dimen/container_padding"
                     android:layout_weight="1.0"
-                    android:orientation="vertical"
-                    tools:ignore="RtlHardcoded">
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -175,7 +171,7 @@
                     android:id="@+id/apply_minimal_qspanel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|center"
+                    android:layout_gravity="start|center"
                     android:thumb="@drawable/switch_thumb"
                     android:track="@drawable/switch_track"
                     tools:ignore="RtlHardcoded,UseSwitchCompatOrMaterialXml" />
@@ -198,11 +194,10 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|center"
-                    android:layout_marginRight="@dimen/container_padding"
+                    android:layout_gravity="start|center"
+                    android:layout_marginEnd="@dimen/container_padding"
                     android:layout_weight="1.0"
-                    android:orientation="vertical"
-                    tools:ignore="RtlHardcoded">
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -227,7 +222,7 @@
                     android:id="@+id/apply_pitch_black_theme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|center"
+                    android:layout_gravity="start|center"
                     android:thumb="@drawable/switch_thumb"
                     android:track="@drawable/switch_track"
                     tools:ignore="RtlHardcoded,UseSwitchCompatOrMaterialXml" />
@@ -250,11 +245,10 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|center"
-                    android:layout_marginRight="@dimen/container_padding"
+                    android:layout_gravity="start|center"
+                    android:layout_marginEnd="@dimen/container_padding"
                     android:layout_weight="1.0"
-                    android:orientation="vertical"
-                    tools:ignore="RtlHardcoded">
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -280,7 +274,7 @@
                     android:id="@+id/experimental_color"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|center"
+                    android:layout_gravity="start|center"
                     android:thumb="@drawable/switch_thumb"
                     android:track="@drawable/switch_track"
                     tools:ignore="RtlHardcoded,UseSwitchCompatOrMaterialXml" />
@@ -311,11 +305,10 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
-                        android:layout_marginRight="@dimen/container_padding"
+                        android:layout_gravity="start|center"
+                        android:layout_marginEnd="@dimen/container_padding"
                         android:layout_weight="1.0"
-                        android:orientation="vertical"
-                        tools:ignore="RtlHardcoded">
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -340,7 +333,7 @@
                         android:id="@+id/enable_accurate_shades"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="start|center"
                         android:thumb="@drawable/switch_thumb"
                         android:track="@drawable/switch_track"
                         tools:ignore="RtlHardcoded,UseSwitchCompatOrMaterialXml" />

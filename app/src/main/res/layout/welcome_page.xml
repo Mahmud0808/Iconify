@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.WelcomePage">
 
     <LinearLayout
@@ -42,10 +42,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:gravity="center"
                 android:layout_marginTop="18dp"
-                android:text="@string/app_name"
+                android:gravity="center"
                 android:letterSpacing="0.1"
+                android:text="@string/app_name"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="28dp"
                 android:textStyle="bold"
@@ -55,8 +55,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="48dp"
-                android:layout_marginRight="48dp"
+                android:layout_marginStart="48dp"
+                android:layout_marginEnd="48dp"
                 android:ellipsize="none"
                 android:gravity="center"
                 android:maxLines="2"
@@ -77,18 +77,17 @@
                 android:id="@+id/warn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/container_margin"
-                android:layout_marginRight="@dimen/container_margin"
+                android:layout_marginStart="@dimen/container_margin"
+                android:layout_marginEnd="@dimen/container_margin"
                 android:layout_marginBottom="60dp"
                 android:background="@drawable/container"
-                android:gravity="left|center"
+                android:gravity="start|center"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/container_paddingSide"
                 android:paddingTop="@dimen/container_padding"
                 android:paddingEnd="@dimen/container_paddingSide"
                 android:paddingBottom="@dimen/container_padding"
-                android:visibility="invisible"
-                tools:ignore="RtlHardcoded">
+                android:visibility="invisible">
 
                 <ImageView
                     android:layout_width="24dp"
@@ -100,13 +99,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingLeft="16dp"
+                    android:paddingStart="16dp"
                     tools:ignore="RtlSymmetry">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/warning"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold"
@@ -116,6 +116,7 @@
                         android:id="@+id/warning"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_title_size2"
                         tools:ignore="SpUsage" />
@@ -123,8 +124,6 @@
             </LinearLayout>
 
             <Button
-                app:backgroundTint="@null"
-                android:stateListAnimator="@null"
                 android:id="@+id/checkRoot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -136,10 +135,12 @@
                 android:paddingTop="4dp"
                 android:paddingEnd="32dp"
                 android:paddingBottom="1dp"
+                android:stateListAnimator="@null"
                 android:text="@string/continue_button"
                 android:textColor="@color/colorBackground"
                 android:textSize="22dp"
                 android:textStyle="bold"
+                app:backgroundTint="@null"
                 tools:ignore="SpUsage" />
 
         </LinearLayout>

@@ -14,9 +14,9 @@
         android:elevation="8dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingLeft="48dp"
+        android:paddingStart="48dp"
         android:paddingTop="28dp"
-        android:paddingRight="48dp"
+        android:paddingEnd="48dp"
         android:paddingBottom="24dp"
         tools:ignore="UselessParent">
 

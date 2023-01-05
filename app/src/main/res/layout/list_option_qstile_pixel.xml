@@ -18,7 +18,7 @@
         android:id="@+id/list_title_qstile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left|top"
+        android:layout_gravity="start|top"
         android:layout_marginBottom="@dimen/container_padding"
         android:textColor="@color/textColorPrimary"
         android:textSize="@dimen/cont_title_size"
@@ -29,8 +29,8 @@
         android:id="@+id/qs_tile_orientation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="-4dp"
-        android:layout_marginRight="-4dp"
+        android:layout_marginStart="-4dp"
+        android:layout_marginEnd="-4dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -48,15 +48,15 @@
                 android:layout_weight="1.0"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingRight="16dp"
+                android:paddingEnd="16dp"
                 tools:ignore="NestedWeights,RtlHardcoded,RtlSymmetry">
 
                 <ImageView
                     android:id="@+id/qs_icon1"
                     android:layout_width="20dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/ic_qs_internet"
                     app:tint="@color/white"
                     tools:ignore="ContentDescription" />
@@ -82,15 +82,15 @@
                 android:layout_weight="1.0"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingRight="16dp"
+                android:paddingEnd="16dp"
                 tools:ignore="RtlHardcoded,RtlSymmetry">
 
                 <ImageView
                     android:id="@+id/qs_icon2"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/ic_qs_airplane"
                     app:tint="@color/white"
                     tools:ignore="ContentDescription" />
@@ -124,15 +124,15 @@
                 android:layout_weight="1.0"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingRight="16dp"
+                android:paddingEnd="16dp"
                 tools:ignore="NestedWeights,RtlHardcoded,RtlSymmetry">
 
                 <ImageView
                     android:id="@+id/qs_icon3"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/ic_qs_location"
                     app:tint="@color/white"
                     tools:ignore="ContentDescription" />
@@ -158,15 +158,14 @@
                 android:layout_weight="1.0"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingRight="16dp"
-                tools:ignore="RtlHardcoded">
+                android:paddingEnd="16dp">
 
                 <ImageView
                     android:id="@+id/qs_icon4"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/ic_qs_bluetooth"
                     app:tint="@color/white"
                     tools:ignore="ContentDescription" />
@@ -188,8 +187,6 @@
     </LinearLayout>
 
     <Button
-        app:backgroundTint="@null"
-        android:stateListAnimator="@null"
         android:id="@+id/list_button_enable_qstile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -197,16 +194,16 @@
         android:background="@drawable/button"
         android:fontFamily="@font/semibold"
         android:letterSpacing="0.2"
+        android:stateListAnimator="@null"
         android:text="@string/enable"
         android:textColor="@color/colorBackground"
         android:textSize="@dimen/cont_title_size"
         android:textStyle="bold"
         android:visibility="gone"
+        app:backgroundTint="@null"
         tools:ignore="SpUsage" />
 
     <Button
-        app:backgroundTint="@null"
-        android:stateListAnimator="@null"
         android:id="@+id/list_button_disable_qstile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -214,11 +211,13 @@
         android:background="@drawable/button_red"
         android:fontFamily="@font/semibold"
         android:letterSpacing="0.2"
+        android:stateListAnimator="@null"
         android:text="@string/disable"
         android:textColor="@color/colorBackground"
         android:textSize="@dimen/cont_title_size"
         android:textStyle="bold"
         android:visibility="gone"
+        app:backgroundTint="@null"
         tools:ignore="SpUsage" />
 
 </LinearLayout>

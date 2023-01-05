@@ -18,7 +18,7 @@
         android:id="@+id/list_title_brightnessbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left|top"
+        android:layout_gravity="start|top"
         android:layout_marginBottom="@dimen/container_padding"
         android:textColor="@color/textColorPrimary"
         android:textSize="@dimen/cont_title_size"
@@ -56,8 +56,6 @@
     </LinearLayout>
 
     <Button
-        app:backgroundTint="@null"
-        android:stateListAnimator="@null"
         android:id="@+id/list_button_enable_brightnessbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -65,16 +63,16 @@
         android:background="@drawable/button"
         android:fontFamily="@font/semibold"
         android:letterSpacing="0.2"
+        android:stateListAnimator="@null"
         android:text="@string/enable"
         android:textColor="@color/colorBackground"
         android:textSize="@dimen/cont_title_size"
         android:textStyle="bold"
         android:visibility="gone"
+        app:backgroundTint="@null"
         tools:ignore="SpUsage" />
 
     <Button
-        app:backgroundTint="@null"
-        android:stateListAnimator="@null"
         android:id="@+id/list_button_disable_brightnessbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -82,11 +80,13 @@
         android:background="@drawable/button_red"
         android:fontFamily="@font/semibold"
         android:letterSpacing="0.2"
+        android:stateListAnimator="@null"
         android:text="@string/disable"
         android:textColor="@color/colorBackground"
         android:textSize="@dimen/cont_title_size"
         android:textStyle="bold"
         android:visibility="gone"
+        app:backgroundTint="@null"
         tools:ignore="SpUsage" />
 
 </LinearLayout>

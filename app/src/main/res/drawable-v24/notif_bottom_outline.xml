@@ -8,10 +8,10 @@
                 android:endColor="@color/colorAccentVariant"
                 android:startColor="@color/colorAccent" />
             <corners
-                android:topLeftRadius="32dp"
-                android:topRightRadius="32dp"
                 android:bottomLeftRadius="@dimen/cont_corner_radius"
-                android:bottomRightRadius="@dimen/cont_corner_radius" />
+                android:bottomRightRadius="@dimen/cont_corner_radius"
+                android:topLeftRadius="32dp"
+                android:topRightRadius="32dp" />
         </shape>
     </item>
     <item android:bottom="4dp">

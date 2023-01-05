@@ -17,7 +17,7 @@
     </item>
     <item
         android:bottom="4.0dp"
-        android:gravity="left|center"
+        android:gravity="start|center"
         android:left="4.0dp"
         android:right="4.0dp"
         android:top="4.0dp">
