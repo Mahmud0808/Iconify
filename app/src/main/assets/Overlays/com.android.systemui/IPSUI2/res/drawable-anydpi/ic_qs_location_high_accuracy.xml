@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:height="24.0dip" android:width="24.0dip" android:viewportWidth="24.0" android:viewportHeight="24.0">
+	<group android:pivotX="12.0" android:pivotY="12.0" android:scaleY="1.0" android:rotation="-0.0">
+		<path android:fillColor="@drawable/ic_qs_location_high_accuracy_2" android:pathData="M9.00,20.91C11.00,22.16,13.00,22.16,15.00,20.91C16.75,19.66,19.00,17.66,20.26,12.65A8.50 8.50 -0.00 1 0 3.74,12.65C5.00,17.66,7.25,19.66,9.00,20.91zM13.04,9.76C14.05,9.75,15.19,11.07,14.39,12.25L12.64,14.50C12.17,15.14,10.87,14.42,11.59,13.47L13.04,11.50Q13.15,11.25,12.78,11.25L10.96,11.24C9.95,11.25,8.81,9.93,9.61,8.75L11.36,6.50C11.83,5.86,13.13,6.58,12.41,7.53L10.96,9.50Q10.85,9.75,11.22,9.75L13.04,9.76z" android:strokeColor="@drawable/ic_qs_location_high_accuracy_1" android:strokeLineCap="square" android:strokeLineJoin="miter" android:fillType="nonZero" />
+	</group>
+</vector>

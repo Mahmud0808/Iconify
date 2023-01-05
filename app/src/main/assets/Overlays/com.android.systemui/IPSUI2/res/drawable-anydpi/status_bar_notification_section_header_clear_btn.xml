@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:tint="?android:textColorPrimary" android:height="24.0dip" android:width="24.0dip" android:viewportWidth="24.0" android:viewportHeight="24.0">
+	<group android:pivotX="12.0" android:pivotY="12.0" android:scaleY="1.0" android:rotation="-225.0">
+		<path android:fillColor="@drawable/status_bar_notification_section_header_clear_btn_2" android:pathData="M12.00,5.55L12.00,5.55A1.68 1.68 0 0 1 13.68,7.23L13.68,16.77A1.68 1.68 0 0 1 12.00,18.45L12.00,18.45A1.68 1.68 0 0 1 10.32,16.77L10.32,7.23A1.68 1.68 0 0 1 12.00,5.55zM16.77,10.32L7.23,10.32A1.68 1.68 0 0 0 5.55,12.00L5.55,12.00A1.68 1.68 0 0 0 7.23,13.68L16.77,13.68A1.68 1.68 0 0 0 18.45,12.00L18.45,12.00A1.68 1.68 0 0 0 16.77,10.32zM10.32,9.62L10.32,13.68L13.68,13.68L13.68,9.62z" android:strokeColor="@drawable/status_bar_notification_section_header_clear_btn_1" android:strokeLineCap="square" android:strokeLineJoin="miter" android:fillType="nonZero" />
+	</group>
+</vector>

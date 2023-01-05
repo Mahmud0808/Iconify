@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:height="24.0dip" android:width="24.0dip" android:viewportWidth="24.0" android:viewportHeight="24.0">
+	<group android:pivotX="10.404" android:pivotY="9.999" android:scaleY="1.0" android:rotation="-0.0">
+		<path android:fillColor="@drawable/ic_invert_colors_2" android:pathData="M16.54,7.41L6.32,17.66C5.89,18.14,5.07,18.09,4.74,17.45C2.08,11.79,6.68,5.76,11.26,2.31Q12.03,1.73,12.71,2.31C14.11,3.43,15.27,4.55,16.59,6.02C16.95,6.43,16.95,6.96,16.54,7.41zM7.14,20.37C6.61,19.88,6.76,19.27,7.13,18.90L17.23,8.79C17.65,8.41,18.35,8.44,18.76,9.11C23.73,18.55,13.44,25.21,7.14,20.37z" android:strokeColor="@drawable/ic_invert_colors_1" android:strokeLineCap="square" android:strokeLineJoin="miter" android:fillType="nonZero" />
+	</group>
+</vector>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:height="17.0dip" android:width="14.0dip" android:viewportWidth="14.0" android:viewportHeight="17.0">
+	<group android:pivotX="4.504" android:pivotY="5.776" android:scaleY="1.0" android:rotation="-0.0">
+		<path android:fillColor="@drawable/stat_sys_network_traffic_down_arrow_2" android:pathData="M5.83,6.37L5.83,8.15C5.83,9.92,3.21,9.92,3.21,8.15L3.21,6.38L2.62,6.37C1.75,6.37,1.06,5.29,1.75,4.37L3.35,2.77Q4.04,2.08,4.50,2.08Q4.96,2.08,5.65,2.77L7.25,4.37C7.94,5.29,7.29,6.37,6.42,6.37L5.83,6.37z" android:strokeColor="@drawable/stat_sys_network_traffic_down_arrow_1" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillType="nonZero" />
+	</group>
+	<group android:pivotX="9.496" android:pivotY="11.224" android:scaleY="1.0" android:rotation="-0.0">
+		<path android:fillColor="@drawable/stat_sys_network_traffic_down_arrow_4" android:pathData="M8.17,10.63L8.17,8.85C8.17,7.08,10.79,7.08,10.79,8.85L10.79,10.63L11.38,10.63C12.25,10.63,12.94,11.71,12.25,12.63L10.65,14.23Q9.96,14.92,9.50,14.92Q9.04,14.92,8.35,14.23L6.75,12.63C6.06,11.71,6.71,10.63,7.58,10.63L8.17,10.63z" android:strokeColor="@drawable/stat_sys_network_traffic_down_arrow_3" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillType="nonZero" />
+	</group>
+</vector>

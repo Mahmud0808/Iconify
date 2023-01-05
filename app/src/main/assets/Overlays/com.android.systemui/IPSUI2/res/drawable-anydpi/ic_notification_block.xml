@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:height="24.0dip" android:width="24.0dip" android:viewportWidth="24.0" android:viewportHeight="24.0">
+	<group android:pivotX="12.0" android:pivotY="12.0" android:scaleY="1.0" android:rotation="-0.0">
+		<path android:fillColor="@drawable/ic_notification_block_2" android:pathData="M12.00,2.00C17.52,2.00,22.00,6.48,22.00,12.00C22.00,17.52,17.52,22.00,12.00,22.00C6.48,22.00,2.00,17.52,2.00,12.00C2.00,6.48,6.48,2.00,12.00,2.00zM15.54,5.64L18.36,8.46L8.46,18.36L5.64,15.54zM12.00,6.00C8.69,6.00,6.00,8.69,6.00,12.00C6.00,15.31,8.69,18.00,12.00,18.00C15.31,18.00,18.00,15.31,18.00,12.00C18.00,8.69,15.31,6.00,12.00,6.00z" android:strokeColor="@drawable/ic_notification_block_1" android:strokeLineCap="square" android:strokeLineJoin="miter" android:fillType="nonZero" />
+	</group>
+</vector>

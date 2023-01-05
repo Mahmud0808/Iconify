@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:height="24.0dip" android:width="24.0dip" android:viewportWidth="24.0" android:viewportHeight="24.0">
+	<group android:pivotX="12.0" android:pivotY="12.0" android:scaleY="1.0" android:rotation="-0.0">
+		<path android:fillColor="@drawable/ic_clock_black_24dp_2" android:pathData="M12.00,2.50C17.25,2.50,21.50,6.75,21.50,12.00C21.50,17.25,17.25,21.50,12.00,21.50C6.75,21.50,2.50,17.25,2.50,12.00C2.50,6.75,6.75,2.50,12.00,2.50zM12.00,7.01C12.00,6.30,10.57,6.30,10.57,7.01L10.57,12.48Q10.57,13.43,11.52,13.43L15.09,13.43C15.80,13.43,15.80,12.00,15.09,12.00L12.00,12.00L12.00,7.01z" android:strokeColor="@drawable/ic_clock_black_24dp_1" android:strokeLineCap="square" android:strokeLineJoin="miter" android:fillType="nonZero" />
+	</group>
+</vector>

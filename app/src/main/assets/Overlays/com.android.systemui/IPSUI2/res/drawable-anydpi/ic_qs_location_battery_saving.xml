@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:height="24.0dip" android:width="24.0dip" android:viewportWidth="24.0" android:viewportHeight="24.0">
+	<group android:pivotX="12.0" android:pivotY="12.0" android:scaleY="1.0" android:rotation="-0.0">
+		<path android:fillColor="@drawable/ic_qs_location_battery_saving_2" android:pathData="M9.00,20.91C11.00,22.16,13.00,22.16,15.00,20.91C16.75,19.66,19.00,17.66,20.26,12.65A8.50 8.50 -0.00 1 0 3.74,12.65C5.00,17.66,7.25,19.66,9.00,20.91zM11.25,11.25L12.75,11.25L12.75,9.75L11.25,9.75zM8.50,10.50L8.50,10.50A0.75 0.75 0 0 1 9.25,9.75L14.75,9.75A0.75 0.75 0 0 1 15.50,10.50L15.50,10.50A0.75 0.75 0 0 1 14.75,11.25L9.25,11.25A0.75 0.75 0 0 1 8.50,10.50zM12.00,7.00L12.00,7.00A0.75 0.75 0 0 1 12.75,7.75L12.75,13.25A0.75 0.75 0 0 1 12.00,14.00L12.00,14.00A0.75 0.75 0 0 1 11.25,13.25L11.25,7.75A0.75 0.75 0 0 1 12.00,7.00z" android:strokeColor="@drawable/ic_qs_location_battery_saving_1" android:strokeLineCap="square" android:strokeLineJoin="miter" android:fillType="nonZero" />
+	</group>
+</vector>

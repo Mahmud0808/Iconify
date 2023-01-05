@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:height="24.0dip" android:width="24.0dip" android:viewportWidth="24.0" android:viewportHeight="24.0">
+	<group android:pivotX="12.0" android:pivotY="15.75" android:scaleY="1.0" android:rotation="-0.0">
+		<path android:fillColor="@drawable/dummy_ae_259" android:pathData="M6.00,9.50L18.00,9.50A4.00 4.00 0 0 1 22.00,13.50L22.00,18.00A4.00 4.00 0 0 1 18.00,22.00L6.00,22.00A4.00 4.00 0 0 1 2.00,18.00L2.00,13.50A4.00 4.00 0 0 1 6.00,9.50zM12.00,12.75C10.34,12.75,9.00,14.09,9.00,15.75C9.00,17.41,10.34,18.75,12.00,18.75C13.66,18.75,15.00,17.41,15.00,15.75C15.00,14.09,13.66,12.75,12.00,12.75zM12.00,14.25C11.17,14.25,10.50,14.92,10.50,15.75C10.50,16.58,11.17,17.25,12.00,17.25C12.83,17.25,13.50,16.58,13.50,15.75C13.50,14.92,12.83,14.25,12.00,14.25zM7.11,9.51L5.73,9.51C5.73,5.07,6.17,2.16,12.00,2.00C17.83,2.16,18.27,5.07,18.27,9.51L16.89,9.51C16.89,5.57,16.49,3.48,12.00,3.38C7.51,3.48,7.11,5.57,7.11,9.51z" android:strokeColor="@drawable/dummy_ae_258" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillType="nonZero" />
+	</group>
+</vector>

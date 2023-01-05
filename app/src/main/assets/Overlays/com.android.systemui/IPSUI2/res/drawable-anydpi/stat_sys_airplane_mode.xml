@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:height="17.0dip" android:width="17.0dip" android:viewportWidth="17.0" android:viewportHeight="17.0">
+	<group android:pivotX="8.5" android:pivotY="8.496" android:scaleY="1.0" android:rotation="-90.0">
+		<path android:fillColor="@drawable/stat_sys_airplane_mode_2" android:pathData="M14.40,9.91L9.91,9.91L6.05,14.69C5.43,15.31,4.19,15.31,4.50,14.38L6.37,9.91L3.09,9.91L2.25,11.44C2.06,11.83,1.09,11.90,1.19,11.28L1.71,8.50L1.19,5.71C1.09,5.09,2.06,5.16,2.25,5.55L3.09,7.08L6.37,7.08L4.50,2.61C4.19,1.68,5.43,1.68,6.05,2.30L9.91,7.08L14.40,7.08C16.29,7.26,16.29,9.74,14.40,9.91z" android:strokeColor="@drawable/stat_sys_airplane_mode_1" android:strokeLineCap="square" android:strokeLineJoin="miter" android:fillType="nonZero" />
+	</group>
+</vector>

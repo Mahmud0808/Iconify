@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:height="24.0dip" android:width="24.0dip" android:viewportWidth="24.0" android:viewportHeight="24.0">
+	<group android:pivotX="12.0" android:pivotY="12.0" android:scaleY="1.0" android:rotation="-0.0">
+		<path android:fillColor="@drawable/ic_qs_navbar_2" android:pathData="M7.50,1.00L16.50,1.00A2.50 2.50 0 0 1 19.00,3.50L19.00,20.50A2.50 2.50 0 0 1 16.50,23.00L7.50,23.00A2.50 2.50 0 0 1 5.00,20.50L5.00,3.50A2.50 2.50 0 0 1 7.50,1.00zM8.37,20.90C8.73,21.08,9.45,21.08,9.45,20.36L9.45,19.64C9.45,18.92,8.73,18.92,8.37,19.10L7.65,19.57C7.29,19.82,7.29,20.18,7.65,20.43L8.37,20.90zM14.64,19.50L14.64,20.50A0.50 0.50 0 0 0 15.13,20.99L16.12,20.99A0.50 0.50 0 0 0 16.62,20.50L16.62,19.50A0.50 0.50 0 0 0 16.12,19.01L15.13,19.01A0.50 0.50 0 0 0 14.64,19.50zM12.02,18.90C11.42,18.90,10.92,19.39,10.92,20.00C10.92,20.61,11.42,21.10,12.02,21.10C12.63,21.10,13.12,20.61,13.12,20.00C13.12,19.39,12.63,18.90,12.02,18.90z" android:strokeColor="@drawable/ic_qs_navbar_1" android:strokeLineCap="square" android:strokeLineJoin="miter" android:fillType="nonZero" />
+	</group>
+</vector>

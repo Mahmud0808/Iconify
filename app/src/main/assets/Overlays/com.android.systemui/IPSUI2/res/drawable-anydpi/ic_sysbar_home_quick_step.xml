@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:tint="?android:colorControlNormal" android:height="28.0dip" android:width="28.0dip" android:viewportWidth="28.0" android:viewportHeight="28.0">
+	<group android:pivotX="14.0" android:pivotY="14.0" android:scaleY="1.0" android:rotation="-0.0">
+		<path android:fillColor="@drawable/ic_sysbar_home_quick_step_2" android:pathData="M5.00,9.50L23.00,9.50A4.00 4.00 0 0 1 27.00,13.50L27.00,14.50A4.00 4.00 0 0 1 23.00,18.50L5.00,18.50A4.00 4.00 0 0 1 1.00,14.50L1.00,13.50A4.00 4.00 0 0 1 5.00,9.50zM15.75,9.50L14.25,9.50L10.25,18.50L11.75,18.50L15.75,9.50zM12.50,9.50L11.00,9.50L7.00,18.50L8.50,18.50L12.50,9.50z" android:strokeColor="@drawable/ic_sysbar_home_quick_step_1" android:strokeLineCap="square" android:strokeLineJoin="miter" android:fillType="nonZero" />
+	</group>
+</vector>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:height="24.0dip" android:width="24.0dip" android:viewportWidth="24.0" android:viewportHeight="24.0">
+	<group android:pivotX="12.0" android:pivotY="12.0" android:scaleY="1.0" android:rotation="-0.0">
+		<path android:fillColor="@drawable/ic_qs_bluetooth_on_2" android:pathData="M16.47,21.25C21.97,18.75,21.97,5.25,16.47,2.75C14.50,1.75,9.50,1.75,7.53,2.75C2.03,5.25,2.03,18.75,7.53,21.25C9.50,22.25,14.50,22.25,16.47,21.25zM12.78,11.87L12.78,12.19L15.03,13.94C15.78,14.56,15.78,15.06,15.03,15.81L12.28,18.31C11.53,19.06,10.53,19.06,10.53,18.06L10.53,13.56L9.41,14.56C8.53,15.31,7.53,14.06,8.36,13.31L9.78,12.19L9.78,11.87L8.36,10.75C7.53,10.00,8.53,8.75,9.41,9.50L10.53,10.50L10.53,6.00C10.53,5.00,11.53,5.00,12.28,5.75L15.03,8.25C15.78,9.00,15.78,9.50,15.03,10.12L12.78,11.87zM12.03,7.75L12.03,10.50L13.53,9.15L12.03,7.75zM12.03,16.31L12.03,13.56L13.53,14.91L12.03,16.31z" android:strokeColor="@drawable/ic_qs_bluetooth_on_1" android:strokeLineCap="square" android:strokeLineJoin="miter" android:fillType="nonZero" />
+	</group>
+</vector>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:height="24.0dip" android:width="24.0dip" android:viewportWidth="24.0" android:viewportHeight="24.0">
+	<group android:pivotX="12.0" android:pivotY="12.0" android:scaleY="1.0" android:rotation="-0.0">
+		<path android:fillColor="@drawable/ic_ksh_key_left_2" android:pathData="M12.00,2.00C17.52,2.00,22.00,6.48,22.00,12.00C22.00,17.52,17.52,22.00,12.00,22.00C6.48,22.00,2.00,17.52,2.00,12.00C2.00,6.48,6.48,2.00,12.00,2.00zM9.33,12.67L12.75,16.13C13.37,16.75,14.50,15.78,13.80,15.00L10.83,12.00L13.80,9.00C14.50,8.22,13.37,7.25,12.75,7.88L9.33,11.33C8.84,11.83,8.84,12.21,9.33,12.67z" android:strokeColor="@drawable/ic_ksh_key_left_1" android:strokeLineCap="square" android:strokeLineJoin="miter" android:fillType="nonZero" />
+	</group>
+</vector>

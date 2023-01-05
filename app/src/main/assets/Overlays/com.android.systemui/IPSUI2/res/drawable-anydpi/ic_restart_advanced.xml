@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:tint="?android:textColorPrimary" android:height="24.0dip" android:width="24.0dip" android:viewportWidth="24.0" android:viewportHeight="24.0">
+	<group android:pivotX="6.25" android:pivotY="6.25" android:scaleY="1.0" android:rotation="-0.0">
+		<path android:fillColor="@drawable/ic_restart_advanced_2" android:pathData="M5.00,2.00L7.50,2.00A3.00 3.00 0 0 1 10.50,5.00L10.50,7.50A3.00 3.00 0 0 1 7.50,10.50L5.00,10.50A3.00 3.00 0 0 1 2.00,7.50L2.00,5.00A3.00 3.00 0 0 1 5.00,2.00zM13.50,5.00L13.50,7.50A3.00 3.00 0 0 0 16.50,10.50L19.00,10.50A3.00 3.00 0 0 0 22.00,7.50L22.00,5.00A3.00 3.00 0 0 0 19.00,2.00L16.50,2.00A3.00 3.00 0 0 0 13.50,5.00zM13.50,16.50L13.50,19.00A3.00 3.00 0 0 0 16.50,22.00L19.00,22.00A3.00 3.00 0 0 0 22.00,19.00L22.00,16.50A3.00 3.00 0 0 0 19.00,13.50L16.50,13.50A3.00 3.00 0 0 0 13.50,16.50zM2.00,16.50L2.00,19.00A3.00 3.00 0 0 0 5.00,22.00L7.50,22.00A3.00 3.00 0 0 0 10.50,19.00L10.50,16.50A3.00 3.00 0 0 0 7.50,13.50L5.00,13.50A3.00 3.00 0 0 0 2.00,16.50z" android:strokeColor="@drawable/ic_restart_advanced_1" android:strokeLineCap="square" android:strokeLineJoin="miter" android:fillType="nonZero" />
+	</group>
+</vector>

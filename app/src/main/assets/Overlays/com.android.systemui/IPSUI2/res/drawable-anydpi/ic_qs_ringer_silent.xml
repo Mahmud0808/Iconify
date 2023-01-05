@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:height="24.0dip" android:width="24.0dip" android:viewportWidth="24.0" android:viewportHeight="24.0">
+	<group android:pivotX="8.5" android:pivotY="12.0" android:scaleY="1.0" android:rotation="-0.0">
+		<path android:fillColor="@drawable/ic_qs_ringer_silent_2" android:pathData="M15.75,16.50C15.75,21.00,12.25,21.00,10.50,20.00L7.25,18.00Q6.75,17.75,6.25,17.75L5.00,17.75C2.00,17.75,1.25,15.75,1.25,14.25L1.25,9.75C1.25,8.25,2.00,6.25,5.00,6.25L6.25,6.25Q6.75,6.25,7.25,6.00L10.50,4.00C12.25,3.00,15.75,3.00,15.75,7.50L15.75,16.50zM17.53,10.59L21.41,14.47A0.75 0.75 0 0 0 22.47,14.47L22.47,14.47A0.75 0.75 0 0 0 22.47,13.41L18.59,9.53A0.75 0.75 0 0 0 17.53,9.53L17.53,9.53A0.75 0.75 0 0 0 17.53,10.59zM18.59,14.47L22.47,10.59A0.75 0.75 0 0 0 22.47,9.53L22.47,9.53A0.75 0.75 0 0 0 21.41,9.53L17.53,13.41A0.75 0.75 0 0 0 17.53,14.47L17.53,14.47A0.75 0.75 0 0 0 18.59,14.47zM20.00,13.06L21.06,12.00L20.00,10.94L18.94,12.00z" android:strokeColor="@drawable/ic_qs_ringer_silent_1" android:strokeLineCap="square" android:strokeLineJoin="miter" android:fillType="nonZero" />
+	</group>
+</vector>

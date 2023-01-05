@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:height="24.0dip" android:width="24.0dip" android:viewportWidth="24.0" android:viewportHeight="24.0">
+	<group android:pivotX="12.0" android:pivotY="12.0" android:scaleY="1.0" android:rotation="-0.0">
+		<path android:fillColor="@drawable/ic_qs_nfc_2" android:pathData="M7.00,2.52L17.00,2.52A4.48 4.48 0 0 1 21.48,7.00L21.48,17.00A4.48 4.48 0 0 1 17.00,21.48L7.00,21.48A4.48 4.48 0 0 1 2.52,17.00L2.52,7.00A4.48 4.48 0 0 1 7.00,2.52zM13.41,9.89L9.18,6.36C8.24,5.42,7.30,5.89,7.30,6.83L7.30,17.64C7.30,19.05,9.18,19.05,9.18,17.64L9.18,8.71L12.47,11.30C13.41,12.00,14.35,10.47,13.41,9.89zM10.59,14.11L14.82,17.64C15.76,18.58,16.70,18.11,16.70,17.17L16.70,6.36C16.70,4.95,14.82,4.95,14.82,6.36L14.82,15.29L11.53,12.70C10.59,12.00,9.65,13.53,10.59,14.11z" android:strokeColor="@drawable/ic_qs_nfc_1" android:strokeLineCap="square" android:strokeLineJoin="miter" android:fillType="nonZero" />
+	</group>
+</vector>

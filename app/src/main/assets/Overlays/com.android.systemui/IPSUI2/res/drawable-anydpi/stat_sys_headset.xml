@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:height="17.0dip" android:width="17.0dip" android:viewportWidth="17.0" android:viewportHeight="17.0">
+	<group android:pivotX="8.5" android:pivotY="8.5" android:scaleY="1.0" android:rotation="-0.0">
+		<path android:fillColor="@drawable/stat_sys_headset_2" android:pathData="M14.52,8.50A6.02 6.02 -0.00 1 0 2.48,8.50L2.48,9.39A2.75 2.75 -0.00 0 1 6.91,11.33L6.90,12.93A2.75 2.75 -0.00 1 1 1.42,12.75L1.42,8.50A7.08 7.08 -0.00 1 1 15.58,8.50L15.58,12.75A2.75 2.75 -0.00 1 1 10.10,12.93L10.09,11.33A2.75 2.75 -0.00 0 1 14.52,9.39L14.52,8.50z" android:strokeColor="@drawable/stat_sys_headset_1" android:strokeLineCap="square" android:strokeLineJoin="miter" android:fillType="nonZero" />
+	</group>
+</vector>

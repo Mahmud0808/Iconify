@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:height="24.0dip" android:width="24.0dip" android:viewportWidth="24.0" android:viewportHeight="24.0">
+	<group android:pivotX="12.0" android:pivotY="12.0" android:scaleY="1.0" android:rotation="-0.0">
+		<path android:fillColor="@drawable/ic_qs_hwkeys_2" android:pathData="M5.50,5.00L18.50,5.00A4.50 4.50 0 0 1 23.00,9.50L23.00,14.50A4.50 4.50 0 0 1 18.50,19.00L5.50,19.00A4.50 4.50 0 0 1 1.00,14.50L1.00,9.50A4.50 4.50 0 0 1 5.50,5.00zM12.00,10.48C11.16,10.48,10.48,11.16,10.48,12.00C10.48,12.84,11.16,13.52,12.00,13.52C12.84,13.52,13.52,12.84,13.52,12.00C13.52,11.16,12.84,10.48,12.00,10.48zM15.62,11.31L15.62,12.69A0.69 0.69 0 0 0 16.31,13.38L17.69,13.38A0.69 0.69 0 0 0 18.38,12.69L18.38,11.31A0.69 0.69 0 0 0 17.69,10.63L16.31,10.63A0.69 0.69 0 0 0 15.62,11.31zM6.94,13.25C7.44,13.50,8.44,13.50,8.44,12.50L8.44,11.50C8.44,10.50,7.44,10.50,6.94,10.75L5.94,11.40C5.44,11.75,5.44,12.25,5.94,12.60L6.94,13.25z" android:strokeColor="@drawable/ic_qs_hwkeys_1" android:strokeLineCap="square" android:strokeLineJoin="miter" android:fillType="nonZero" />
+	</group>
+</vector>

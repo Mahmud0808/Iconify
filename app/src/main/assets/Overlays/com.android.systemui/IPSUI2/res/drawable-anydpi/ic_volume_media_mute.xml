@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:tint="?android:colorControlNormal" android:height="24.0dip" android:width="24.0dip" android:viewportWidth="24.0" android:viewportHeight="24.0">
+	<group android:pivotX="17.293" android:pivotY="12.872" android:scaleY="1.0" android:rotation="-0.0">
+		<path android:fillColor="@drawable/ic_volume_media_mute_2" android:pathData="M18.50,8.00Q19.50,7.75,19.50,8.50L19.50,13.75A3.54 3.58 -0.00 1 0 20.83,16.66L20.83,5.61L18.50,8.00" android:strokeColor="@drawable/ic_volume_media_mute_1" android:strokeLineCap="square" android:strokeLineJoin="miter" android:fillType="nonZero" />
+	</group>
+	<group android:pivotX="12.433" android:pivotY="11.824" android:scaleY="1.0" android:rotation="-0.0">
+		<path android:fillColor="@drawable/ic_volume_media_mute_4" android:pathData="M8.90,14.10L7.94,15.09C5.37,14.01,2.41,16.47,3.41,19.69L3.07,20.06C2.24,20.90,3.51,22.22,4.41,21.33L21.79,3.60C22.63,2.79,21.36,1.44,20.46,2.30L20.06,2.69C19.10,1.85,17.89,1.99,17.00,2.16L11.00,3.83C10.00,4.16,9.00,5.00,8.90,6.70L8.90,15.60M10.23,16.45L5.14,21.63C7.30,22.69,10.23,21.47,10.23,18.25L10.23,16.45zM10.78,10.25L13.45,9.48L10.26,12.72L10.26,11.07Q10.27,10.41,10.78,10.25z" android:strokeColor="@drawable/ic_volume_media_mute_3" android:strokeLineCap="square" android:strokeLineJoin="miter" android:fillType="nonZero" />
+	</group>
+</vector>

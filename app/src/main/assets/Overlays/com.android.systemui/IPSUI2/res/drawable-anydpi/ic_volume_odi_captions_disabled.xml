@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:tint="?android:colorControlNormal" android:height="24.0dip" android:width="24.0dip" android:viewportWidth="24.0" android:viewportHeight="24.0">
+	<group android:pivotX="12.0" android:pivotY="11.875" android:scaleY="1.0" android:rotation="-0.0">
+		<path android:fillColor="@drawable/ic_volume_odi_captions_disabled_2" android:pathData="M22.00,7.25C22.00,4.25,19.75,2.00,16.75,2.00L7.25,2.00C4.25,2.00,2.00,4.25,2.00,7.25L2.00,13.75C2.00,16.75,4.25,19.00,7.25,19.00L9.00,19.00L10.50,21.00C11.25,22.00,12.75,22.00,13.50,21.00L15.00,19.00L16.75,19.00C19.75,19.00,22.00,16.75,22.00,13.75L22.00,7.25zM8.64,7.14L8.64,7.14A0.75 0.75 0 0 1 9.70,7.14L15.36,12.80A0.75 0.75 0 0 1 15.36,13.86L15.36,13.86A0.75 0.75 0 0 1 14.30,13.86L8.64,8.20A0.75 0.75 0 0 1 8.64,7.14zM8.64,13.86L8.64,13.86A0.75 0.75 0 0 1 8.64,12.80L14.30,7.14A0.75 0.75 0 0 1 15.36,7.14L15.36,7.14A0.75 0.75 0 0 1 15.36,8.20L9.70,13.86A0.75 0.75 0 0 1 8.64,13.86zM12.00,11.56L13.06,10.50L12.00,9.44L10.94,10.50z" android:strokeColor="@drawable/ic_volume_odi_captions_disabled_1" android:strokeLineCap="round" android:strokeLineJoin="round" android:fillType="nonZero" />
+	</group>
+</vector>

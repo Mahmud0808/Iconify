@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:tint="?android:colorControlNormal" android:height="24.0dip" android:width="24.0dip" android:viewportWidth="24.0" android:viewportHeight="24.0">
+	<group android:pivotX="12.0" android:pivotY="12.0" android:scaleY="1.0" android:rotation="-0.0">
+		<path android:fillColor="@drawable/ic_sysbar_accessibility_button_2" android:pathData="M12.00,2.00C17.52,2.00,22.00,6.48,22.00,12.00C22.00,17.52,17.52,22.00,12.00,22.00C6.48,22.00,2.00,17.52,2.00,12.00C2.00,6.48,6.48,2.00,12.00,2.00zM12.00,4.00C10.90,4.00,10.00,4.90,10.00,6.00C10.00,7.10,10.90,8.00,12.00,8.00C13.10,8.00,14.00,7.10,14.00,6.00C14.00,4.90,13.10,4.00,12.00,4.00zM12.00,15.00C12.50,15.00,12.50,15.50,12.50,16.00L12.60,19.30C13.00,20.50,14.50,20.00,14.50,19.00Q14.25,15.00,14.00,11.00L18.50,9.88C19.50,9.38,19.00,7.67,17.50,8.17L14.00,9.00L12.00,9.00L10.00,9.00L6.50,8.17C5.00,7.67,4.50,9.37,5.50,9.88L10.00,11.00Q9.75,15.00,9.50,19.00C9.50,20.00,11.00,20.50,11.40,19.30L11.50,16.00C11.50,15.50,11.50,15.00,12.00,15.00z" android:strokeColor="@drawable/ic_sysbar_accessibility_button_1" android:strokeLineCap="square" android:strokeLineJoin="miter" android:fillType="nonZero" />
+	</group>
+</vector>

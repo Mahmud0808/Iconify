@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:height="24.0dip" android:width="24.0dip" android:viewportWidth="24.0" android:viewportHeight="24.0">
+	<group android:pivotX="12.0" android:pivotY="12.0" android:scaleY="1.0" android:rotation="-0.0">
+		<path android:fillColor="@drawable/ic_qs_weather_default_on_2" android:pathData="M17.41,9.51C23.73,10.46,23.73,20.00,16.10,20.00L6.16,20.00C0.28,20.00,1.14,12.58,5.57,12.58C2.56,2.88,16.55,0.78,17.41,9.51z" android:strokeColor="@drawable/ic_qs_weather_default_on_1" android:strokeLineCap="square" android:strokeLineJoin="miter" android:fillType="nonZero" />
+	</group>
+</vector>

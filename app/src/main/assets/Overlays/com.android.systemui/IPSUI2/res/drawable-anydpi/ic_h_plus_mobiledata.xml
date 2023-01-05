@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:height="17.0dip" android:width="15.0dip" android:viewportWidth="15.0" android:viewportHeight="17.0">
+	<group android:pivotX="1.334" android:pivotY="8.5" android:scaleY="1.0" android:rotation="-0.0">
+		<path android:fillColor="@drawable/ic_h_plus_mobiledata_2" android:pathData="M1.33,3.49L1.33,3.49A0.95 0.95 0 0 1 2.29,4.44L2.29,12.56A0.95 0.95 0 0 1 1.33,13.51L1.33,13.51A0.95 0.95 0 0 1 0.38,12.56L0.38,4.44A0.95 0.95 0 0 1 1.33,3.49zM1.93,7.65L6.40,7.65A0.00 0.00 0 0 1 6.40,7.65L6.40,9.34A0.00 0.00 0 0 1 6.40,9.34L1.93,9.34A0.00 0.00 0 0 1 1.93,9.34L1.93,7.65A0.00 0.00 0 0 1 1.93,7.65zM6.95,3.49L6.95,3.49A0.95 0.95 0 0 1 7.91,4.44L7.91,12.56A0.95 0.95 0 0 1 6.95,13.51L6.95,13.51A0.95 0.95 0 0 1 6.00,12.56L6.00,4.44A0.95 0.95 0 0 1 6.95,3.49zM10.77,9.17L10.77,11.01C10.77,11.67,12.17,11.67,12.17,11.01L12.17,9.17zM12.17,9.17L14.10,9.17C14.80,9.16,14.79,7.83,14.09,7.83L12.17,7.83L12.17,5.99C12.17,5.33,10.77,5.33,10.77,5.99L10.77,7.83L8.85,7.83C8.15,7.83,8.15,9.16,8.85,9.17L10.77,9.17z" android:strokeColor="@drawable/ic_h_plus_mobiledata_1" android:strokeLineCap="square" android:strokeLineJoin="miter" android:fillType="nonZero" />
+	</group>
+</vector>
