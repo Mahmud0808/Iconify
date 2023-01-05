@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="surface_header_dark">#FF000000</color>
+    <color name="background_device_default_dark">#FF000000</color>
+    <color name="primary_device_default_dark">#FF000000</color>
+    <color name="primary_device_default_settings">#FF000000</color>
+    <color name="surface_dark_sysui">#FF000000</color>
+    <color name="background_dark">#FF000000</color>
+    <color name="system_neutral1_500">#FF000000</color>
+    <color name="system_neutral1_900">#FF000000</color>
+    <style name="Theme.DeviceDefault.SystemUI" parent="@*android:style/Theme.DeviceDefault">
+        <item name="@*android:colorSurfaceHeader">#FF000000</item>
+    </style>
+</resources>

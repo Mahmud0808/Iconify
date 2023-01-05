@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="?android:colorBackgroundFloating" />
+    <corners
+        android:bottomLeftRadius="14.0dp"
+        android:bottomRightRadius="@*android:dimen/harmful_app_name_padding_top"
+        android:topLeftRadius="@*android:dimen/harmful_app_name_padding_top"
+        android:topRightRadius="14.0dp" />
+</shape>

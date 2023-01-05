@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<inset xmlns:android="http://schemas.android.com/apk/res/android">
+    <shape>
+        <solid android:color="@*android:color/transparent" />
+        <corners
+            android:topLeftRadius="@*android:dimen/harmful_app_name_padding_top"
+            android:topRightRadius="@*android:dimen/harmful_app_name_padding_top" />
+    </shape>
+</inset>

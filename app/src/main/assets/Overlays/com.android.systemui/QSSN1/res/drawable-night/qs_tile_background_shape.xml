@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:tintMode="src_atop">
+            <solid android:color="@*android:color/system_neutral2_800" />
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+        </shape>
+    </item>
+    <item>
+        <shape android:tintMode="multiply">
+            <gradient
+                android:angle="0.0"
+                android:endColor="?android:colorSecondary"
+                android:startColor="?android:colorPrimary" />
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+        </shape>
+    </item>
+</layer-list>

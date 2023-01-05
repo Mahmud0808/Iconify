@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@null"
+        android:gravity="fill_horizontal|center">
+        <shape android:shape="rectangle">
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+            <size android:height="48.0dip" />
+            <gradient
+                android:angle="0.0"
+                android:endColor="@*android:color/holo_green_light"
+                android:startColor="@*android:color/holo_blue_light" />
+        </shape>
+    </item>
+    <item
+        android:gravity="fill_horizontal|center"
+        android:left="2.5dp"
+        android:right="2.5dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_right" />
+            <size android:height="44.0dip" />
+            <gradient
+                android:angle="270.0"
+                android:endColor="#FF0F0F0F"
+                android:startColor="#FF363636" />
+        </shape>
+    </item>
+    <item
+        android:gravity="fill_horizontal|center"
+        android:left="4.5dip"
+        android:right="4.5dip">
+        <shape android:shape="rectangle">
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
+            <size android:height="40.0dip" />
+            <gradient
+                android:angle="90.0"
+                android:endColor="#FF0F0F0F"
+                android:startColor="#FF363636" />
+        </shape>
+    </item>
+</layer-list>

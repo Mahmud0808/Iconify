@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <layer-list>
+            <item>
+                <shape android:tintMode="src_atop">
+                    <solid android:color="@*android:color/holo_blue_dark" />
+                    <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+                </shape>
+            </item>
+            <item
+                android:width="20.0dp"
+                android:height="20.0dp"
+                android:drawable="@drawable/iconify_arrow_bgd"
+                android:gravity="left|center"
+                android:left="42.0dp"></item>
+            <item
+                android:width="20.0dp"
+                android:height="20.0dp"
+                android:drawable="@drawable/iconify_arrow_fgd"
+                android:gravity="left|center"
+                android:left="42.0dp"></item>
+            <item android:gravity="left|center">
+                <shape android:tintMode="src_atop">
+                    <solid android:color="@*android:color/holo_blue_dark" />
+                    <corners
+                        android:bottomLeftRadius="@*android:dimen/harmful_app_name_padding_top"
+                        android:topLeftRadius="@*android:dimen/harmful_app_name_padding_top" />
+                    <size android:width="56.0dp" />
+                </shape>
+            </item>
+            <item android:gravity="left|center">
+                <shape android:tintMode="src_atop">
+                    <solid android:color="#40000000" />
+                    <corners
+                        android:bottomLeftRadius="@*android:dimen/harmful_app_name_padding_top"
+                        android:topLeftRadius="@*android:dimen/harmful_app_name_padding_top" />
+                    <size android:width="56.0dp" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <item>
+        <layer-list>
+            <item>
+                <shape android:tintMode="multiply">
+                    <gradient
+                        android:angle="0.0"
+                        android:endColor="?android:colorSecondary"
+                        android:startColor="?android:colorPrimary" />
+                    <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+                </shape>
+            </item>
+            <item
+                android:width="20.0dp"
+                android:height="20.0dp"
+                android:drawable="@drawable/iconify_arrow_bg"
+                android:gravity="left|center"
+                android:left="42.0dp"></item>
+            <item
+                android:width="20.0dp"
+                android:height="20.0dp"
+                android:drawable="@drawable/iconify_arrow_fg"
+                android:gravity="left|center"
+                android:left="42.0dp"></item>
+            <item android:gravity="left|center">
+                <shape android:tintMode="multiply">
+                    <gradient
+                        android:angle="0.0"
+                        android:endColor="?android:colorSecondary"
+                        android:startColor="?android:colorPrimary" />
+                    <corners
+                        android:bottomLeftRadius="@*android:dimen/harmful_app_name_padding_top"
+                        android:topLeftRadius="@*android:dimen/harmful_app_name_padding_top" />
+                    <size android:width="56.0dp" />
+                </shape>
+            </item>
+            <item android:gravity="left|center">
+                <shape android:tintMode="multiply">
+                    <solid android:color="#40000000" />
+                    <corners
+                        android:bottomLeftRadius="@*android:dimen/harmful_app_name_padding_top"
+                        android:topLeftRadius="@*android:dimen/harmful_app_name_padding_top" />
+                    <size android:width="56.0dp" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</layer-list>
