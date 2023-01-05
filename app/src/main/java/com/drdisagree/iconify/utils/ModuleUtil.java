@@ -60,7 +60,6 @@ public class ModuleUtil {
         Log.d("ModuleCheck", "Magisk module successfully created!");
 
         extractTools();
-        extractComponent();
         CompilerUtil.buildOverlays();
     }
 
@@ -71,18 +70,6 @@ public class ModuleUtil {
                 return true;
         }
         return false;
-    }
-
-    static void extractComponent() {
-        try {
-            FileUtil.copyAssets("Component");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            Shell.cmd("cp -a " + DATA_DIR + "/Component/. " + OVERLAY_DIR + '/').exec();
-            FileUtil.cleanDir("Component");
-            RootUtil.setPermissionsRecursively(644, OVERLAY_DIR + '/');
-        }
     }
 
     static void extractTools() {

@@ -1,10 +1,15 @@
 package com.drdisagree.iconify.utils;
 
+import android.util.Log;
+
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 public class OverlayUtils {
@@ -56,7 +61,20 @@ public class OverlayUtils {
     }
 
     public static boolean overlayExists() {
-        File f = new File("/system/product/overlay/IconifyComponentIPAS1.apk");
-        return (f.exists() && !f.isDirectory());
+        try {
+            String[] packages = Iconify.getAppContext().getAssets().list("Overlays");
+            int numberOfOverlaysInAssets = 0;
+
+            for (String overlay : packages) {
+                numberOfOverlaysInAssets += Iconify.getAppContext().getAssets().list("Overlays/" + overlay).length;
+            }
+
+            int numberOfOverlaysInstalled = Integer.parseInt(Shell.cmd("find /" + ModuleUtil.OVERLAY_DIR + "/ -maxdepth 1 -type f -print| wc -l").exec().getOut().get(0));
+            Log.e("OverlayExists", String.valueOf(numberOfOverlaysInAssets) + ' ' + numberOfOverlaysInstalled);
+            return numberOfOverlaysInAssets == numberOfOverlaysInstalled;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
