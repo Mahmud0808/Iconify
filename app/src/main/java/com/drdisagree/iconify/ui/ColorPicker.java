@@ -2,6 +2,7 @@ package com.drdisagree.iconify.ui;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -119,7 +120,9 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
             FabricatedOverlay.disableOverlay("colorAccentPrimary");
             FabricatedOverlay.disableOverlay("colorAccentSecondary");
             disable_custom_color.setVisibility(View.GONE);
-            findViewById(R.id.page_color_picker).invalidate();
+            disable_custom_color.postDelayed(() -> {
+                findViewById(R.id.page_color_picker).invalidate();
+            }, 1000);
         });
     }
 
@@ -151,7 +154,9 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
                         FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(colorAccentSecondary)));
                         FabricatedOverlay.enableOverlay("colorAccentSecondary");
                     }
-                    findViewById(R.id.page_color_picker).invalidate();
+                    new Handler().postDelayed(() -> {
+                        findViewById(R.id.page_color_picker).invalidate();
+                    }, 1000);
                 };
                 Thread thread1 = new Thread(runnable1);
                 thread1.start();
@@ -174,7 +179,9 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
                         FabricatedOverlay.enableOverlay("colorAccentPrimary");
                         FabricatedOverlay.enableOverlay("colorAccentPrimaryDark");
                     }
-                    findViewById(R.id.page_color_picker).invalidate();
+                    new Handler().postDelayed(() -> {
+                        findViewById(R.id.page_color_picker).invalidate();
+                    }, 1000);
                 };
                 Thread thread2 = new Thread(runnable2);
                 thread2.start();

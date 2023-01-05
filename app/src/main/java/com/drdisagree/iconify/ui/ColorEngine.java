@@ -49,38 +49,34 @@ public class ColorEngine extends AppCompatActivity {
         apply_monet_color.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 apply_monet_color.setChecked(true);
-                Runnable runnable = () -> {
-                    OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay", true);
+                OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay", true);
 
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", false);
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "customPrimaryColor", false);
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "customSecondaryColor", false);
-                    PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
-                    PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
-                    FabricatedOverlay.disableOverlay("colorAccentPrimary");
-                    FabricatedOverlay.disableOverlay("colorAccentSecondary");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", false);
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "customPrimaryColor", false);
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "customSecondaryColor", false);
+                PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
+                PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
+                FabricatedOverlay.disableOverlay("colorAccentPrimary");
+                FabricatedOverlay.disableOverlay("colorAccentSecondary");
+                apply_monet_color.postDelayed(() -> {
                     findViewById(R.id.page_color_engine).invalidate();
-                };
-                Thread thread = new Thread(runnable);
-                thread.start();
+                }, 1000);
             } else {
-                Runnable runnable = () -> {
-                    OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay", false);
+                OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay", false);
 
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
-                    PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
-                    PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
-                    FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
-                    FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", "0xFF387BFF");
-                    FabricatedOverlay.enableOverlay("colorAccentPrimary");
-                    FabricatedOverlay.enableOverlay("colorAccentSecondary");
-                    ApplyOnBoot.applyColors();
+                PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
+                PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
+                PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
+                FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
+                FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", "0xFF387BFF");
+                FabricatedOverlay.enableOverlay("colorAccentPrimary");
+                FabricatedOverlay.enableOverlay("colorAccentSecondary");
+                ApplyOnBoot.applyColors();
+                apply_monet_color.postDelayed(() -> {
                     findViewById(R.id.page_color_engine).invalidate();
-                };
-                Thread thread = new Thread(runnable);
-                thread.start();
+                }, 1000);
             }
         });
 
@@ -106,7 +102,7 @@ public class ColorEngine extends AppCompatActivity {
                 apply_minimal_qspanel.postDelayed(() -> {
                     OverlayUtils.enableOverlay("IconifyComponentQSST.overlay");
                     PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSST.overlay", true);
-                }, 1000);
+                }, 200);
             } else {
                 OverlayUtils.disableOverlay("IconifyComponentQSST.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSST.overlay", false);
@@ -125,7 +121,7 @@ public class ColorEngine extends AppCompatActivity {
                 apply_pitch_black_theme.postDelayed(() -> {
                     OverlayUtils.enableOverlay("IconifyComponentQSPB.overlay");
                     PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSPB.overlay", true);
-                }, 1000);
+                }, 200);
             } else {
                 OverlayUtils.disableOverlay("IconifyComponentQSPB.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSPB.overlay", false);
