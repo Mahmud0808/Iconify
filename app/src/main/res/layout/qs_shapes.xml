@@ -159,7 +159,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_gravity="left|center"
-                    android:background="@drawable/ic_qs_shape_pixel" />
+                    android:background="@drawable/ic_pixel_device" />
 
             </LinearLayout>
 
