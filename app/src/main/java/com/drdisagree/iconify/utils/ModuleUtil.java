@@ -60,6 +60,7 @@ public class ModuleUtil {
         Log.d("ModuleCheck", "Magisk module successfully created!");
 
         extractTools();
+        extractComponent();
         CompilerUtil.buildOverlays();
     }
 
