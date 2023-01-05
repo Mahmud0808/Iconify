@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector android:name="ic_rotate_to_landscape" android:height="48.0dip" android:width="48.0dip" android:viewportWidth="24.0" android:viewportHeight="24.0"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:name="device">
+        <group android:name="device_pivot">
+            <group android:name="landscape" android:pivotX="12.0" android:pivotY="12.0">
+                <path android:name="device_merged" android:pathData="M20.8,15.9V8.1c0-1-0.8-1.8-1.8-1.8H4.9c-1,0-1.8,0.8-1.8,1.8v7.8c0,1,0.8,1.8,1.8,1.8h14.2  C20,17.6,20.8,17,20.8,15.9z" android:strokeColor="#ffffffff" android:strokeWidth="1.5" android:strokeLineCap="round" android:strokeLineJoin="round" />
+            </group>
+        </group>
+    </group>
+    <group android:name="arrows" android:pivotX="12.0" android:pivotY="12.0" android:rotation="-135.0">
+        <group android:name="arrows_pivot">
+            <group android:name="arrows_0">
+                <path android:name="bottom_merged" android:pathData="M8.8,19.9l2.5,2.5c0.2,0.2,0,0.5-0.2,0.5C5.5,22.6,1,17.8,1,12 M23,12c0-5.8-4.5-10.6-10.2-11  c-0.3,0-0.4,0.3-0.2,0.6l2.6,2.6" android:strokeColor="#ffffffff" android:strokeWidth="1.5" android:strokeLineCap="round" android:strokeLineJoin="round" android:strokeAlpha="0.0" />
+            </group>
+        </group>
+    </group>
+</vector>

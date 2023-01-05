@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true" android:drawable="@*android:drawable/btn_switch_to_on_mtrl_00003" />
+    <item android:state_checked="false" android:drawable="@*android:drawable/btn_star_on_disabled_focused_holo_light" />
+</selector>

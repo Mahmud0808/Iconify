@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * Copyright (c) 2019, The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="config_batterymeterBoltPath">M6.315 6.705c.386.037.691.359.701.752L7.004 10h.746c.242.007.275.04.389.109.312.189.44.603.293.953-.635 1.283-1.346 2.528-2.02 3.791-.341.594-1.391.355-1.412-.353V12h-.75c-.242-.007-.275-.04-.389-.109-.312-.189-.44-.602-.293-.952.64-1.299 1.356-2.559 2.036-3.838.142-.249.401-.407.711-.396zm-.814 3.788s0 .017 0 0z</string>
+
+    <string name="config_batterymeterFillMask">M10.5 4.05c0-.146-.058-.286-.161-.389-.103-.103-.243-.161-.389-.161h-7.9c-.146 0-.286.058-.389.161-.103.103-.161.243-.161.389v13.9c0 .146.058.286.161.389.103.103.243.161.389.161h7.9c.146 0 .286-.058.389-.161.103-.103.161-.243.161-.389V4.05z</string>
+
+    <string name="config_batterymeterPerimeterPath">M7.456.002c.36.004.712.204.897.515.095.161.146.346.146.534v.951c.486 0 .971-.001 1.456 0 .651.003 1.285.33 1.663.86.244.343.39.759.38 1.183v13.908c-.003.63-.313 1.255-.825 1.637-.348.26-.783.404-1.218.406-2.637.005-5.273.005-7.91 0-.648-.002-1.287-.329-1.666-.865-.243-.342-.375-.761-.377-1.178-.007-4.636-.007-9.272 0-13.908.003-.643.321-1.271.845-1.652.347-.252.775-.391 1.204-.391h1.45v-.951s0-.063.006-.116c.044-.39.324-.745.7-.875.108-.037.222-.057.337-.058.971-.003 1.941-.003 2.912 0zm2.492 3.499s-7.167-.005-7.902 0c-.284.003-.543.25-.545.548v13.903c.003.285.251.543.548.545 2.635.005 5.27.021 7.905 0 .282-.003.543-.247.545-.548V4.046c0-.285-.252-.544-.551-.545z</string>
+
+    <string name="config_batterymeterPowersavePath">M6.051 8.252c.382.035.69.362.699.748v1.25c.635 0 1.366-.152 1.749.19.442.395.173 1.295-.499 1.31H6.75c0 .803.157 1.792-.564 1.977-.448.114-.925-.257-.936-.727v-1.25c-.803 0-1.792.157-1.977-.564-.114-.448.257-.925.727-.936h1.25c0-.936-.065-2.038.801-1.998z</string>
+</resources>

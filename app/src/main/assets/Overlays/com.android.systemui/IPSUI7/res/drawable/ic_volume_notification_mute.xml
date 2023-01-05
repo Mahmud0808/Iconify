@@ -1,0 +1,33 @@
+<!--
+     Copyright (C) 2020 The LineageOS Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:height="24dp"
+    android:viewportHeight="24"
+    android:viewportWidth="24"
+    android:width="24dp"
+    android:tint="?android:attr/colorControlNormal" >
+
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M12,21C13.1046,21 14,20.1046 14,19H10C10,20.1046 10.8954,21 12,21Z"/>
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M3,3C3.2762,3 3.5262,3.1119 3.7071,3.2929L20.7072,20.2929C20.8881,20.4739 21,20.7239 21,21C21,21.5523 20.5523,22 20,22C19.7206,22 19.4679,21.8854 19.2864,21.7006L15.5858,18H6.2071C5.7616,18 5.5385,17.4614 5.8535,17.1464L6.9999,16V10.5C6.9999,10.1617 7.0335,9.8312 7.0976,9.5118L2.2995,4.7137C2.1147,4.5322 2,4.2795 2,4C2,3.4477 2.4477,3 3,3Z"/>
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M17.0001,13.7574V10.5C17.0001,8.2551 15.5206,6.3557 13.4835,5.7237C13.4944,5.6507 13.5001,5.576 13.5001,5.5C13.5001,4.6716 12.8285,4 12.0001,4C11.1716,4 10.5001,4.6716 10.5001,5.5C10.5001,5.576 10.5057,5.6507 10.5166,5.7237C10.138,5.8412 9.7786,6.0025 9.4443,6.2016L17.0001,13.7574Z"/>
+
+</vector>

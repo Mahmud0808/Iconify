@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector android:height="24.0dip" android:width="24.0dip" android:viewportWidth="24.0" android:viewportHeight="24.0"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:pathData="M11.95 3.74v-2M6.457 5.677L5.043 4.263M17.543 5.677l1.414-1.414M10.446   21.243c-.551-.002-.996-.449-.996-1V15.47s-1.956-1.95-2.714-2.706c-.189-.188-.294-.444-.294-.71.002-.659.004-1.962.006-2.875.001-.265.107-.519.295-.707.188-.187.443-.291.708-.291   2.094.006 6.917.019 9.005.024.55.002.996.447.998.997.003.911.007 2.217.01   2.88.001.269-.107.528-.299.716-.762.751-2.713 2.672-2.713 2.672s-.001 3.129-.002   4.786c0 .266-.106.521-.294.708-.189.188-.444.293-.71.292-.872-.004-2.13-.009-3-.013z" android:strokeColor="#ffffffff" android:strokeWidth="1.5" android:strokeLineCap="round" android:strokeLineJoin="round" />
+    <path android:name="cross_1" />
+    <path android:name="mask" />
+</vector>

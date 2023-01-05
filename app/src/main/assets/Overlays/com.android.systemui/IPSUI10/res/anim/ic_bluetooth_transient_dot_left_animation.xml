@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set>
+    <set android:ordering="sequentially"
+      xmlns:android="http://schemas.android.com/apk/res/android">
+        <objectAnimator android:interpolator="@android:interpolator/linear" android:duration="16" android:valueFrom="0.5" android:valueTo="1.0" android:valueType="floatType" android:propertyName="strokeAlpha" />
+        <objectAnimator android:interpolator="@android:interpolator/linear" android:duration="233" android:valueFrom="1.0" android:valueTo="1.0" android:valueType="floatType" android:propertyName="strokeAlpha" />
+        <objectAnimator android:interpolator="@android:interpolator/linear" android:duration="16" android:valueFrom="1.0" android:valueTo="0.5" android:valueType="floatType" android:propertyName="strokeAlpha" />
+        <objectAnimator android:interpolator="@android:interpolator/linear" android:duration="233" android:valueFrom="0.5" android:valueTo="0.5" android:valueType="floatType" android:propertyName="strokeAlpha" />
+        <objectAnimator android:interpolator="@android:interpolator/linear" android:duration="16" android:valueFrom="0.5" android:valueTo="1.0" android:valueType="floatType" android:propertyName="strokeAlpha" />
+        <objectAnimator android:interpolator="@android:interpolator/linear" android:duration="233" android:valueFrom="1.0" android:valueTo="1.0" android:valueType="floatType" android:propertyName="strokeAlpha" />
+        <objectAnimator android:interpolator="@android:interpolator/linear" android:duration="16" android:valueFrom="1.0" android:valueTo="0.5" android:valueType="floatType" android:propertyName="strokeAlpha" />
+        <objectAnimator android:interpolator="@android:interpolator/linear" android:duration="233" android:valueFrom="0.5" android:valueTo="0.5" android:valueType="floatType" android:propertyName="strokeAlpha" />
+    </set>
+</set>

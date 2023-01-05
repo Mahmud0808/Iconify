@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector android:name="ic_caret_down" android:height="24.0dip" android:width="24.0dip" android:viewportWidth="24.0" android:viewportHeight="24.0"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:name="left" android:pathData="M7.039 14.5s3.454-3.498 4.584-4.643c.094-.094.221-.148.354-.148.133-.001.261.052.355.146   1.145 1.141 4.662 4.645 4.662 4.646" android:strokeColor="?android:colorControlNormal" android:strokeWidth="1.5" android:strokeLineCap="round" android:strokeLineJoin="round" />
+    <path android:name="right" />
+</vector>

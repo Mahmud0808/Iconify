@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<objectAnimator android:interpolator="@android:anim/linear_interpolator" android:duration="3000" android:repeatCount="infinite"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <propertyValuesHolder android:valueType="floatType" android:propertyName="strokeAlpha">
+        <keyframe android:value="0.4" android:fraction="0.0" />
+        <keyframe android:value="0.4" android:fraction="0.32" />
+        <keyframe android:value="1.0" android:fraction="0.33" />
+        <keyframe android:value="1.0" android:fraction="0.66" />
+        <keyframe android:value="0.4" android:fraction="0.67" />
+        <keyframe android:value="0.4" android:fraction="1.0" />
+    </propertyValuesHolder>
+</objectAnimator>

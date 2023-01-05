@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true">
+        <layer-list>
+            <item>
+                <shape android:dither="true" android:tint="?android:colorControlActivated" android:visible="true" android:shape="ring" android:useLevel="false">
+                    <solid android:color="?android:colorControlActivated" />
+                    <size android:height="0.0dip" android:width="0.0dip" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <item android:state_enabled="false">
+        <layer-list>
+            <item>
+                <shape android:dither="true" android:tint="?android:colorControlActivated" android:visible="true" android:shape="ring" android:useLevel="false">
+                    <solid android:color="?android:colorControlActivated" />
+                    <size android:height="0.0dip" android:width="0.0dip" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</selector>
