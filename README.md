@@ -30,11 +30,13 @@ What you can change using Iconify:
 
 - QS Panel Row & Column
 
-- QS Panel Icon & Text Color & Size
+- QS Panel Icon & Label
 
-- Notification Background Style
+- Notification Style
 
-- Media Player Background Color
+- Media Player Style
+
+- Volume Panel Style
 
 - And many more...
 
