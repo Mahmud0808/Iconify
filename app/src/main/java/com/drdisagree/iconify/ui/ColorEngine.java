@@ -54,6 +54,8 @@ public class ColorEngine extends AppCompatActivity {
                     PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay", true);
 
                     PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", false);
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "customPrimaryColor", false);
+                    PrefConfig.savePrefBool(Iconify.getAppContext(), "customSecondaryColor", false);
                     PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
                     PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
                     FabricatedOverlay.disableOverlay("colorAccentPrimary");
