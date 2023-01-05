@@ -82,14 +82,17 @@ public class CompilerUtil {
     }
 
     private static void createManifest(String pkgName, String target, String destination) {
+        Log.d("AAPT", "Creating Manifest for " + pkgName + "...");
         Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + pkgName + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + target + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + destination + "/AndroidManifest.xml;").exec();
     }
 
     private static void runAapt(String source, String destination, String name) {
+        Log.d("AAPT", name + " APK building...");
         Shell.cmd(ModuleUtil.MODULE_DIR + "/tools/aapt p -f -v -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + destination + '/' + name + "-unsigned-unaligned.apk >/dev/null;").exec();
     }
 
     private static void zipAlign(String source, String destination, String name) {
+        Log.d("ZipAlign", name + " APK aligning...");
         Shell.cmd(ModuleUtil.MODULE_DIR + "/tools/zipalign 4 " + source + ' ' + destination + '/' + name).exec();
     }
 
@@ -116,16 +119,15 @@ public class CompilerUtil {
                     .setV1SigningEnabled(false)
                     .setV2SigningEnabled(true)
                     .setV3SigningEnabled(true)
-                    .setV4SigningEnabled(true)
                     .setInputApk(new File(source))
                     .setOutputApk(new File(SIGNED_DIR + "/IconifyComponent" + name))
                     .setMinSdkVersion(Build.VERSION.SDK_INT)
                     .build()
                     .sign();
-
-            Log.e("ApkSigner", "APK successfully signed!");
+            Log.d("ApkSigner", name + " APK successfully signed!");
         } catch (Exception e) {
             e.printStackTrace();
+            Log.d("ApkSigner", name + " APK signing failed!");
         }
     }
 }
