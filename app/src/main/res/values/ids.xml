@@ -13,6 +13,10 @@
     <item name="home_settings" type="id" />
     <item name="home_info" type="id" />
 
+    <!-- Home Page List Items -->
+    <item name="extras_ui_roundness" type="id" />
+    <item name="extras_navbar" type="id" />
+
     <!-- Icon Pack List -->
     <item name="iconPack_aurora_container" type="id" />
     <item name="iconPack_aurora_enable" type="id" />

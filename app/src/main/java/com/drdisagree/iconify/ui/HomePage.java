@@ -189,7 +189,7 @@ public class HomePage extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Extras item onClick
+        // Settings item onClick
         home_settings = findViewById(R.id.home_settings);
         home_settings.setOnClickListener(v -> {
             Intent intent = new Intent(HomePage.this, Settings.class);

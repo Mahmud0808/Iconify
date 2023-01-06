@@ -1,5 +1,38 @@
 <resources>
     <string name="app_name">Iconify</string>
+    
+    <!-- Home page activities -->
+    <string name="activity_title_brightness_bar">Brightness Bar</string>
+    <string name="activity_desc_brightness_bar">Customize brightness slider</string>
+    <string name="activity_title_color_engine">Color Engine</string>
+    <string name="activity_desc_color_engine">Have control over colors</string>
+    <string name="activity_title_color_picker">Color Picker</string>
+    <string name="activity_title_extras">Extras</string>
+    <string name="activity_desc_extras">Additional tweaks and options</string>
+    <string name="activity_title_home_page">Iconify</string>
+    <string name="activity_title_icon_pack">Icon Pack</string>
+    <string name="activity_desc_icon_pack">Change system icon pack</string>
+    <string name="activity_title_info">About</string>
+    <string name="activity_desc_info">Information about this app</string>
+    <string name="activity_title_media_player">Media Player</string>
+    <string name="activity_desc_media_player">Change how media player looks</string>
+    <string name="activity_title_notification">Notification</string>
+    <string name="activity_desc_notification">Customize notification style</string>
+    <string name="activity_title_qs_icon_label">Icon and Label</string>
+    <string name="activity_title_qs_row_column">Row and Column</string>
+    <string name="activity_title_qs_shape">QS Panel Tiles</string>
+    <string name="activity_desc_qs_shape">Customize qs panel tiles</string>
+    <string name="activity_title_settings">Settings</string>
+    <string name="activity_desc_settings">Miscellaneous settings</string>
+    <string name="activity_title_volume_panel">Volume Panel</string>
+    <string name="activity_desc_volume_panel">Customize volume panel design</string>
+    
+    <!-- Extras page activites -->
+    <string name="activity_title_ui_roundness">UI Roundness</string>
+    <string name="activity_desc_ui_roundness">Change corner radius of interface</string>
+    <string name="activity_title_navigation_bar">Navigation Bar</string>
+    <string name="activity_desc_navigation_bar">Tweak navigation options</string>
+    
     <string name="link_monet_title">Link to Monet</string>
     <string name="link_monet_desc">Link iconify colors to monet</string>
     <string name="color_picker_title">Color Picker</string>
@@ -24,7 +57,7 @@
     <string name="btn_disable">Disable</string>
     <string name="btn_enable">Enable</string>
     <string name="btn_apply">APPLY</string>
-    <string name="corner_radius_title">UI Corner Radius</string>
+    <string name="corner_radius_title">Corner Radius</string>
     <string name="pixel_variant_title">Pixel Variant</string>
     <string name="pixel_variant_desc">For roms with black QsPanel</string>
     <string name="icon">Icon</string>
@@ -90,30 +123,6 @@
     <string name="toast_disabled">Disabled</string>
     <string name="toast_reset">Reset</string>
     <string name="rebooting_desc">Rebooting in 5 seconds</string>
-    <string name="activity_title_brightness_bar">Brightness Bar</string>
-    <string name="activity_title_color_engine">Color Engine</string>
-    <string name="activity_title_color_picker">Color Picker</string>
-    <string name="activity_title_extras">Extras</string>
-    <string name="activity_title_home_page">Iconify</string>
-    <string name="activity_title_icon_pack">Icon Pack</string>
-    <string name="activity_title_info">About</string>
-    <string name="activity_title_media_player">Media Player</string>
-    <string name="activity_title_notification">Notification</string>
-    <string name="activity_title_qs_icon_label">Icon and Label</string>
-    <string name="activity_title_qs_row_column">Row and Column</string>
-    <string name="activity_title_qs_shape">QS Panel Tiles</string>
-    <string name="activity_title_settings">Settings</string>
-    <string name="activity_title_volume_panel">Volume Panel</string>
-    <string name="activity_desc_brightness_bar">Customize brightness slider</string>
-    <string name="activity_desc_color_engine">Have control over colors</string>
-    <string name="activity_desc_extras">Additional tweaks and options</string>
-    <string name="activity_desc_icon_pack">Change system icon pack</string>
-    <string name="activity_desc_info">Information about this app</string>
-    <string name="activity_desc_media_player">Change how media player looks</string>
-    <string name="activity_desc_notification">Customize notification style</string>
-    <string name="activity_desc_qs_shape">Customize qs panel tiles</string>
-    <string name="activity_desc_settings">Miscellaneous settings</string>
-    <string name="activity_desc_volume_panel">Customize volume panel design</string>
     <string name="iconify_clipboard_label_version">Iconify Version</string>
     <string name="iconify_clipboard_label_version_name">Version Name:</string>
     <string name="iconify_clipboard_label_version_code">Version Code:</string>
@@ -142,4 +151,24 @@
     <string name="restart_sysui_title">Restart SystemUI</string>
     <string name="restart_sysui_desc">Sometimes some of the options might get applied but not visible until a SystemUI reboot. In that case you can use this option to restart SystemUI.</string>
     <string name="toast_restart_sysui">Long press to restart SystemUI</string>
+    <string name="navbar_fullscreen_title">Fullscreen</string>
+    <string name="navbar_fullscreen_desc">Hide pill and keyboard spacing</string>
+    <string name="navbar_immersive_title">Immersive</string>
+    <string name="navbar_immersive_desc">Default keyboard spacing</string>
+    <string name="navbar_immersive_v2_title">Immersive v2</string>
+    <string name="navbar_immersive_v2_desc">Smaller keyboard spacing</string>
+    <string name="navbar_immersive_v3_title">Immersive v3</string>
+    <string name="navbar_immersive_v3_desc">Smallest keyboard spacing</string>
+    <string name="navbar_hide_pill_title">Hide Pill</string>
+    <string name="navbar_hide_pill_desc">Hide navigation pill</string>
+    <string name="navbar_monet_pill_title">Monet Pill</string>
+    <string name="navbar_monet_pill_desc">Link accent color to pill</string>
+    <string name="navbar_disable_left_gesture_title">Disable Left Gesture</string>
+    <string name="navbar_disable_left_gesture_desc">Disable back gesture of left side</string>
+    <string name="navbar_disable_right_gesture_title">Disable Right Gesture</string>
+    <string name="navbar_disable_right_gesture_desc">Disable back gesture of right side</string>
+    <string name="navbar_lower_sensitivity_title">Lower Sensitivity</string>
+    <string name="navbar_lower_sensitivity_desc">Lower gesture sensitivity</string>
+    <string name="navbar_hide_kb_buttons_title">Hide Keyboard Buttons</string>
+    <string name="navbar_hide_kb_buttons_desc">Hide keyboard back/switcher buttons</string>
 </resources>
