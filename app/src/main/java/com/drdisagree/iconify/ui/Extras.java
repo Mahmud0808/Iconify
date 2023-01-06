@@ -3,10 +3,8 @@ package com.drdisagree.iconify.ui;
 import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.text.LineBreaker;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -24,7 +22,6 @@ import com.drdisagree.iconify.installer.RadiusInstaller;
 import com.drdisagree.iconify.utils.FabricatedOverlay;
 import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
 import java.util.Objects;
@@ -72,14 +69,14 @@ public class Extras extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.extras);
+        setContentView(R.layout.activity_extras);
 
         // Show loading dialog
         loadingDialog = new LoadingDialog(this);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle("Extras");
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_extras));
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -107,9 +104,9 @@ public class Extras extends AppCompatActivity {
 
         if (!PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius").equals("null")) {
             if ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8) == 24) {
-                corner_radius_output.setText("Selected: " + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8) + "dp (Default)");
+                corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8) + "dp " + getResources().getString(R.string.opt_default));
             } else {
-                corner_radius_output.setText("Selected: " + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8) + "dp");
+                corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8) + "dp");
             }
             drawable1.setCornerRadius((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8) * getResources().getDisplayMetrics().density);
             drawable2.setCornerRadius((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius")) + 8) * getResources().getDisplayMetrics().density);
@@ -118,6 +115,7 @@ public class Extras extends AppCompatActivity {
             finalUiCornerRadius[0] = Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius"));
             corner_radius_seekbar.setProgress(finalUiCornerRadius[0]);
         } else {
+            corner_radius_output.setText(getResources().getString(R.string.opt_selected) + " 24dp " + getResources().getString(R.string.opt_default));
             drawable1.setCornerRadius(24 * getResources().getDisplayMetrics().density);
             drawable2.setCornerRadius(24 * getResources().getDisplayMetrics().density);
             drawable3.setCornerRadius(24 * getResources().getDisplayMetrics().density);
@@ -135,9 +133,9 @@ public class Extras extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 finalUiCornerRadius[0] = progress;
                 if (progress + 8 == 24)
-                    corner_radius_output.setText("Selected: " + (progress + 8) + "dp (Default)");
+                    corner_radius_output.setText(getResources().getString(R.string.opt_selected) + (progress + 8) + "dp" + getResources().getString(R.string.opt_default));
                 else
-                    corner_radius_output.setText("Selected: " + (progress + 8) + "dp");
+                    corner_radius_output.setText(getResources().getString(R.string.opt_selected) + (progress + 8) + "dp");
                 drawable1.setCornerRadius((finalUiCornerRadius[0] + 8) * getResources().getDisplayMetrics().density);
                 drawable2.setCornerRadius((finalUiCornerRadius[0] + 8) * getResources().getDisplayMetrics().density);
                 drawable3.setCornerRadius((finalUiCornerRadius[0] + 8) * getResources().getDisplayMetrics().density);
@@ -153,7 +151,7 @@ public class Extras extends AppCompatActivity {
         Button apply_radius = findViewById(R.id.apply_radius);
         apply_radius.setOnClickListener(v -> {
             // Show loading dialog
-            loadingDialog.show("Please Wait");
+            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
                 RadiusInstaller.install_pack(finalUiCornerRadius[0]);
@@ -165,75 +163,12 @@ public class Extras extends AppCompatActivity {
                         // Hide loading dialog
                         loadingDialog.hide();
 
-                        Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                     }, 2000);
                 });
             };
             Thread thread = new Thread(runnable);
             thread.start();
-        });
-
-        // Disable Everything
-        TextView list_title_disableEverything = findViewById(R.id.list_title_disableEverything);
-        TextView list_desc_disableEverything = findViewById(R.id.list_desc_disableEverything);
-        Button button_disableEverything = findViewById(R.id.button_disableEverything);
-
-        list_title_disableEverything.setText("Disable Everything");
-        list_desc_disableEverything.setText("Disable all the applied UI, colors and miscellaneous changes done by Iconify.");
-        list_desc_disableEverything.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD);
-
-        button_disableEverything.setOnClickListener(v -> Toast.makeText(Iconify.getAppContext(), "Long Press to Disable Everything.", Toast.LENGTH_SHORT).show());
-
-        button_disableEverything.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                // Show loading dialog
-                loadingDialog.show("Please Wait");
-
-                Runnable runnable = () -> {
-                    disableEverything();
-
-                    runOnUiThread(() -> new Handler().postDelayed(() -> {
-                        // Hide loading dialog
-                        loadingDialog.hide();
-
-                        Toast.makeText(Iconify.getAppContext(), "Everything is disabled.", Toast.LENGTH_SHORT).show();
-                    }, 3000));
-                };
-                Thread thread = new Thread(runnable);
-                thread.start();
-
-                return true;
-            }
-        });
-
-        // Restart SystemUI
-        TextView list_title_restartSysui = findViewById(R.id.list_title_restartSysui);
-        TextView list_desc_restartSysui = findViewById(R.id.list_desc_restartSysui);
-        Button button_restartSysui = findViewById(R.id.button_restartSysui);
-
-        list_title_restartSysui.setText("Restart SystemUI");
-        list_desc_restartSysui.setText("Sometimes some of the options might get applied but not visible until a SystemUI reboot. In that case you can use this option to restart SystemUI.");
-        list_desc_restartSysui.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD);
-
-        button_restartSysui.setOnClickListener(v -> Toast.makeText(Iconify.getAppContext(), "Long Press to Restart SystemUI.", Toast.LENGTH_SHORT).show());
-
-        button_restartSysui.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                // Show loading dialog
-                loadingDialog.show("Please Wait");
-
-                new Handler().postDelayed(() -> {
-                    // Hide loading dialog
-                    loadingDialog.hide();
-
-                    // Restart SystemUI
-                    Shell.cmd("killall com.android.systemui").exec();
-                }, 1000);
-
-                return true;
-            }
         });
 
         // Change orientation in landscape / portrait mode

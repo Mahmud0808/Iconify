@@ -10,6 +10,7 @@
     <item name="home_volumePanel" type="id" />
     <item name="home_progressBar" type="id" />
     <item name="home_extras" type="id" />
+    <item name="home_settings" type="id" />
     <item name="home_info" type="id" />
 
     <!-- Icon Pack List -->
