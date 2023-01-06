@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Objects;
 
 public class OverlayUtils {
 
@@ -61,6 +62,11 @@ public class OverlayUtils {
     }
 
     public static boolean overlayExists() {
+        List<String> list = Shell.cmd("[ -f /system/product/overlay/IconifyComponentAMC.apk ] && echo \"found\" || echo \"not found\"").exec().getOut();
+        return Objects.equals(list.get(0), "found");
+    }
+
+    public static boolean matchOverlayAgainstAssets() {
         try {
             String[] packages = Iconify.getAppContext().getAssets().list("Overlays");
             int numberOfOverlaysInAssets = 0;
