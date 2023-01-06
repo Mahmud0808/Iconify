@@ -3,15 +3,12 @@ package com.drdisagree.iconify.ui;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,11 +51,11 @@ public class QsShapes extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.qs_shapes);
+        setContentView(R.layout.activity_qs_shapes);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle("QS Panel Tiles");
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_qs_shape));
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -212,19 +209,19 @@ public class QsShapes extends AppCompatActivity {
 
         // Set custom margins for Surround
         marginParams = new ViewGroup.MarginLayoutParams(SurroundContainer.findViewById(R.id.qs_icon1).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(20), 0, DisplayUtil.IntToDp(22), 0);
+        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(22), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         SurroundContainer.findViewById(R.id.qs_icon1).setLayoutParams(layoutParams);
         marginParams = new ViewGroup.MarginLayoutParams(SurroundContainer.findViewById(R.id.qs_icon2).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(20), 0, DisplayUtil.IntToDp(22), 0);
+        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(22), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         SurroundContainer.findViewById(R.id.qs_icon2).setLayoutParams(layoutParams);
         marginParams = new ViewGroup.MarginLayoutParams(SurroundContainer.findViewById(R.id.qs_icon3).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(20), 0, DisplayUtil.IntToDp(22), 0);
+        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(22), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         SurroundContainer.findViewById(R.id.qs_icon3).setLayoutParams(layoutParams);
         marginParams = new ViewGroup.MarginLayoutParams(SurroundContainer.findViewById(R.id.qs_icon4).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(20), 0, DisplayUtil.IntToDp(22), 0);
+        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(22), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         SurroundContainer.findViewById(R.id.qs_icon4).setLayoutParams(layoutParams);
 
@@ -243,19 +240,19 @@ public class QsShapes extends AppCompatActivity {
 
         // Set custom margins for Bookmark
         marginParams = new ViewGroup.MarginLayoutParams(BookmarkContainer.findViewById(R.id.qs_icon1).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(16), 0, DisplayUtil.IntToDp(26), 0);
+        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(26), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         BookmarkContainer.findViewById(R.id.qs_icon1).setLayoutParams(layoutParams);
         marginParams = new ViewGroup.MarginLayoutParams(BookmarkContainer.findViewById(R.id.qs_icon2).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(16), 0, DisplayUtil.IntToDp(26), 0);
+        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(26), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         BookmarkContainer.findViewById(R.id.qs_icon2).setLayoutParams(layoutParams);
         marginParams = new ViewGroup.MarginLayoutParams(BookmarkContainer.findViewById(R.id.qs_icon3).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(16), 0, DisplayUtil.IntToDp(26), 0);
+        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(26), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         BookmarkContainer.findViewById(R.id.qs_icon3).setLayoutParams(layoutParams);
         marginParams = new ViewGroup.MarginLayoutParams(BookmarkContainer.findViewById(R.id.qs_icon4).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(16), 0, DisplayUtil.IntToDp(26), 0);
+        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(26), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         BookmarkContainer.findViewById(R.id.qs_icon4).setLayoutParams(layoutParams);
 
@@ -383,7 +380,7 @@ public class QsShapes extends AppCompatActivity {
         enable.setOnClickListener(v -> {
             refreshLayout(layout);
             // Show loading dialog
-            loadingDialog.show("Please Wait");
+            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
                 disable_others(key);
@@ -411,7 +408,7 @@ public class QsShapes extends AppCompatActivity {
                         disable.setVisibility(View.VISIBLE);
                         refreshBackground();
 
-                        Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                     }, 2000);
                 });
             };
@@ -422,7 +419,7 @@ public class QsShapes extends AppCompatActivity {
         // Set onClick operation for Disable button
         disable.setOnClickListener(v -> {
             // Show loading dialog
-            loadingDialog.show("Please Wait");
+            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
                 QsShapeInstaller.disable_pack(index);
@@ -445,7 +442,7 @@ public class QsShapes extends AppCompatActivity {
                         enable.setVisibility(View.VISIBLE);
                         refreshBackground();
 
-                        Toast.makeText(Iconify.getAppContext(), "Disabled", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
                     }, 2000);
                 });
             };

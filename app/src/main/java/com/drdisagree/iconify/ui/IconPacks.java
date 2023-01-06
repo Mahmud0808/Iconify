@@ -50,11 +50,11 @@ public class IconPacks extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.icon_packs);
+        setContentView(R.layout.activity_icon_packs);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle("Icon Pack");
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_icon_pack));
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -274,7 +274,7 @@ public class IconPacks extends AppCompatActivity {
         enable.setOnClickListener(v -> {
             refreshLayout(layout);
             // Show loading dialog
-            loadingDialog.show("Please Wait");
+            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
                 disable_others(key);
@@ -295,7 +295,7 @@ public class IconPacks extends AppCompatActivity {
                         disable.setVisibility(View.VISIBLE);
                         refreshBackground();
 
-                        Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                     }, 3000);
                 });
             };
@@ -306,7 +306,7 @@ public class IconPacks extends AppCompatActivity {
         // Set onClick operation for Disable button
         disable.setOnClickListener(v -> {
             // Show loading dialog
-            loadingDialog.show("Please Wait");
+            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
                 IconInstaller.disable_pack(index);
@@ -326,7 +326,7 @@ public class IconPacks extends AppCompatActivity {
                         enable.setVisibility(View.VISIBLE);
                         refreshBackground();
 
-                        Toast.makeText(Iconify.getAppContext(), "Disabled", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
                     }, 3000);
                 });
             };

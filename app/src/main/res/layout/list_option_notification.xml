@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/container_marginSide"
@@ -27,17 +26,18 @@
             android:layout_marginEnd="12dp"
             android:background="@drawable/ic_launcher_bg"
             android:foreground="@drawable/ic_launcher_foreground"
-            android:foregroundTint="@color/textColorPrimaryInverse" />
+            android:foregroundTint="@color/textColorPrimaryInverse"
+            android:contentDescription="@string/icon" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:layout_weight="1.0"
-            android:text="Iconify"
+            android:text="@string/app_name"
             android:textAlignment="viewStart"
             android:textColor="@color/textColorSecondary"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
 
         <ImageView
             android:id="@+id/arrow"
@@ -47,7 +47,8 @@
             android:background="@drawable/ic_launcher_bg"
             android:backgroundTint="@color/colorBackground"
             android:foreground="@drawable/ic_collapse_arrow"
-            android:foregroundTint="@color/textColorPrimary" />
+            android:foregroundTint="@color/textColorPrimary"
+            android:contentDescription="@string/icon" />
 
     </LinearLayout>
 
@@ -66,18 +67,16 @@
             android:textAlignment="viewStart"
             android:textColor="@color/textColorPrimary"
             android:textSize="@dimen/cont_title_size"
-            android:textStyle="bold"
-            tools:ignore="SpUsage" />
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:justificationMode="inter_word"
-            android:text="Notification Preview.\nClick to apply this style."
+            android:text="@string/notif_preview_desc"
             android:textAlignment="viewStart"
             android:textColor="@color/textColorSecondary"
-            android:textSize="16dp"
-            tools:ignore="SpUsage" />
+            android:textSize="16sp" />
 
     </LinearLayout>
 
@@ -90,7 +89,7 @@
         android:fontFamily="@font/semibold"
         android:letterSpacing="0.2"
         android:stateListAnimator="@null"
-        android:text="Enable"
+        android:text="@string/btn_enable"
         android:textColor="@color/colorBackground"
         android:textSize="@dimen/cont_title_size"
         android:textStyle="bold"
@@ -106,7 +105,7 @@
         android:fontFamily="@font/semibold"
         android:letterSpacing="0.2"
         android:stateListAnimator="@null"
-        android:text="Disable"
+        android:text="@string/btn_disable"
         android:textColor="@color/colorBackground"
         android:textSize="@dimen/cont_title_size"
         android:textStyle="bold"

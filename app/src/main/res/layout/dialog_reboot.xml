@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/reboot_reminder"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -25,7 +24,8 @@
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_marginEnd="@dimen/container_padding"
-            android:background="@drawable/ic_restart_large" />
+            android:background="@drawable/ic_restart_large"
+            android:contentDescription="@string/icon" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,7 +35,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Iconify Just Got Updated!"
+                android:text="@string/iconify_updated_title"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="@dimen/cont_title_size"
                 android:textStyle="bold" />
@@ -43,9 +43,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Reboot your phone to use the latest added features and options."
+                android:text="@string/iconify_updated_desc"
                 android:textColor="@color/textColorSecondary"
-                android:textSize="@dimen/cont_title_size2" />
+                android:textSize="@dimen/cont_desc_size" />
         </LinearLayout>
     </LinearLayout>
 
@@ -53,17 +53,16 @@
         android:id="@+id/reboot_phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:layout_marginTop="@dimen/container_padding"
         android:background="@drawable/button"
         android:fontFamily="@font/semibold"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
         android:stateListAnimator="@null"
-        android:text="Reboot Now"
+        android:text="@string/btn_reboot_now"
         android:textColor="@color/colorBackground"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:textStyle="bold"
-        app:backgroundTint="@null"
-        tools:ignore="SpUsage" />
+        app:backgroundTint="@null" />
 </LinearLayout>

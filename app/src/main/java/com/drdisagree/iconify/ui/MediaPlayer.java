@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -34,16 +33,15 @@ import java.util.Objects;
 public class MediaPlayer extends AppCompatActivity {
 
     private ViewGroup container;
-    private static List<String> overlays = OverlayUtils.getEnabledOverlayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.media_player);
+        setContentView(R.layout.activity_media_player);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle("Media Player");
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_media_player));
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);

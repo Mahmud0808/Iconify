@@ -2,9 +2,6 @@ package com.drdisagree.iconify.ui;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,11 +20,11 @@ public class VolumePanel extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.volume_panel);
+        setContentView(R.layout.activity_volume_panel);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle("Volume Panel");
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_volume_panel));
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);

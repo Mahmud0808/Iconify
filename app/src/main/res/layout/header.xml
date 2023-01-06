@@ -21,7 +21,7 @@
         app:expandedTitleTextAppearance="@style/Toolbar.TitleText.Expanded"
         app:expandedTitleTextColor="@color/textColorPrimary"
         app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-        app:title="Iconify">
+        app:title="@string/app_name">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"

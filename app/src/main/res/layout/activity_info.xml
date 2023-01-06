@@ -45,7 +45,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:contentDescription="Iconify Logo"
+                        android:contentDescription="@string/iconify_logo"
                         android:foreground="@drawable/ic_launcher_fg" />
 
                 </FrameLayout>
@@ -62,15 +62,15 @@
                         android:layout_height="wrap_content"
                         android:text="@string/app_name"
                         android:textColor="@color/textColorPrimary"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="by DrDisagree"
+                        android:text="@string/iconify_slogan"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="16dp" />
+                        android:textSize="16sp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -98,10 +98,11 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="start|center"
-                        android:backgroundTint="@color/textColorSecondary" />
+                        android:backgroundTint="@color/textColorSecondary"
+                        android:contentDescription="@string/icon" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:layout_marginStart="@dimen/container_padding"
@@ -113,7 +114,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorPrimary"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -121,7 +122,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2" />
+                            android:textSize="@dimen/cont_desc_size" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -147,10 +148,11 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="start|center"
-                        android:backgroundTint="@color/textColorSecondary" />
+                        android:backgroundTint="@color/textColorSecondary"
+                        android:contentDescription="@string/icon" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:layout_marginStart="@dimen/container_padding"
@@ -162,7 +164,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorPrimary"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -170,7 +172,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2" />
+                            android:textSize="@dimen/cont_desc_size" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -196,10 +198,11 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="start|center"
-                        android:backgroundTint="@color/textColorSecondary" />
+                        android:backgroundTint="@color/textColorSecondary"
+                        android:contentDescription="@string/icon" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:layout_marginStart="@dimen/container_padding"
@@ -211,7 +214,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorPrimary"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -219,7 +222,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2" />
+                            android:textSize="@dimen/cont_desc_size" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -231,9 +234,9 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="@dimen/container_marginSide"
                 android:layout_marginBottom="@dimen/container_marginSide"
-                android:text="Credits"
+                android:text="@string/section_title_credits"
                 android:textColor="@color/textColorPrimary"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -259,10 +262,11 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="start|center"
-                        android:backgroundTint="@color/textColorSecondary" />
+                        android:backgroundTint="@color/textColorSecondary"
+                        android:contentDescription="@string/icon" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:layout_marginStart="@dimen/container_padding"
@@ -274,7 +278,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorPrimary"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -282,7 +286,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2" />
+                            android:textSize="@dimen/cont_desc_size" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -308,10 +312,11 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="start|center"
-                        android:backgroundTint="@color/textColorSecondary" />
+                        android:backgroundTint="@color/textColorSecondary"
+                        android:contentDescription="@string/icon" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:layout_marginStart="@dimen/container_padding"
@@ -323,7 +328,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorPrimary"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -331,7 +336,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2" />
+                            android:textSize="@dimen/cont_desc_size" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -357,10 +362,11 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="start|center"
-                        android:backgroundTint="@color/textColorSecondary" />
+                        android:backgroundTint="@color/textColorSecondary"
+                        android:contentDescription="@string/icon" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:layout_marginStart="@dimen/container_padding"
@@ -372,7 +378,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorPrimary"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -380,7 +386,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2" />
+                            android:textSize="@dimen/cont_desc_size" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -406,10 +412,11 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="start|center"
-                        android:backgroundTint="@color/textColorSecondary" />
+                        android:backgroundTint="@color/textColorSecondary"
+                        android:contentDescription="@string/icon" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:layout_marginStart="@dimen/container_padding"
@@ -421,7 +428,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorPrimary"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -429,7 +436,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2" />
+                            android:textSize="@dimen/cont_desc_size" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -455,10 +462,11 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="start|center"
-                        android:backgroundTint="@color/textColorSecondary" />
+                        android:backgroundTint="@color/textColorSecondary"
+                        android:contentDescription="@string/icon" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:layout_marginStart="@dimen/container_padding"
@@ -470,7 +478,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorPrimary"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -478,7 +486,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2" />
+                            android:textSize="@dimen/cont_desc_size" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -504,10 +512,11 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="start|center"
-                        android:backgroundTint="@color/textColorSecondary" />
+                        android:backgroundTint="@color/textColorSecondary"
+                        android:contentDescription="@string/icon" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:layout_marginStart="@dimen/container_padding"
@@ -519,7 +528,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorPrimary"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -527,7 +536,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2" />
+                            android:textSize="@dimen/cont_desc_size" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -539,9 +548,9 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="@dimen/container_marginSide"
                 android:layout_marginBottom="@dimen/container_marginSide"
-                android:text="Contributors"
+                android:text="@string/section_title_contributors"
                 android:textColor="@color/textColorPrimary"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -568,10 +577,11 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="start|center"
-                        android:backgroundTint="@color/textColorSecondary" />
+                        android:backgroundTint="@color/textColorSecondary"
+                        android:contentDescription="@string/icon" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:layout_marginStart="@dimen/container_padding"
@@ -583,7 +593,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorPrimary"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -591,7 +601,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2" />
+                            android:textSize="@dimen/cont_desc_size" />
 
                     </LinearLayout>
                 </LinearLayout>

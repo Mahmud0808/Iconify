@@ -37,7 +37,8 @@
                     android:layout_marginBottom="@dimen/container_margin"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/volume_panel_preview_thin_bg" />
+                    android:src="@drawable/volume_panel_preview_thin_bg"
+                    android:contentDescription="@string/cont_desc_volume_panel" />
 
                 <ImageView
                     android:id="@+id/volumepanel_preview_thick_bg"
@@ -48,7 +49,8 @@
                     android:layout_marginBottom="@dimen/container_margin"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/volume_panel_preview_thick_bg" />
+                    android:src="@drawable/volume_panel_preview_thick_bg"
+                    android:contentDescription="@string/cont_desc_volume_panel" />
 
                 <ImageView
                     android:id="@+id/volumepanel_preview_no_bg"
@@ -59,7 +61,8 @@
                     android:layout_marginBottom="@dimen/container_margin"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/volume_panel_preview_no_bg" />
+                    android:src="@drawable/volume_panel_preview_no_bg"
+                    android:contentDescription="@string/cont_desc_volume_panel" />
 
             </LinearLayout>
 
@@ -69,8 +72,7 @@
                 android:layout_marginStart="@dimen/container_marginSide"
                 android:layout_marginEnd="@dimen/container_marginSide"
                 android:layout_marginBottom="@dimen/container_margin"
-                android:orientation="vertical"
-                tools:ignore="UselessParent">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -87,7 +89,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:paddingTop="3dp"
-                        android:text="Thin Background"
+                        android:text="@string/vp_thin_background_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -130,7 +132,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:paddingTop="3dp"
-                        android:text="Thick Background"
+                        android:text="@string/vp_thick_background_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -171,7 +173,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:paddingTop="3dp"
-                        android:text="No Background"
+                        android:text="@string/vp_no_background_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />

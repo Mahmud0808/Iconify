@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -47,11 +46,11 @@ public class BrightnessBarsPixel extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.brightness_bars_pixel);
+        setContentView(R.layout.activity_brightness_bars_pixel);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle("Brightness Bar");
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_brightness_bar));
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -252,7 +251,7 @@ public class BrightnessBarsPixel extends AppCompatActivity {
         enable.setOnClickListener(v -> {
             refreshLayout(layout);
             // Show loading dialog
-            loadingDialog.show("Please Wait");
+            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
                 disable_others(key);
@@ -273,7 +272,7 @@ public class BrightnessBarsPixel extends AppCompatActivity {
                         disable.setVisibility(View.VISIBLE);
                         refreshBackground();
 
-                        Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                     }, 2000);
                 });
             };
@@ -284,7 +283,7 @@ public class BrightnessBarsPixel extends AppCompatActivity {
         // Set onClick operation for Disable button
         disable.setOnClickListener(v -> {
             // Show loading dialog
-            loadingDialog.show("Please Wait");
+            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
                 BrightnessPixelInstaller.disable_pack(index);
@@ -304,7 +303,7 @@ public class BrightnessBarsPixel extends AppCompatActivity {
                         enable.setVisibility(View.VISIBLE);
                         refreshBackground();
 
-                        Toast.makeText(Iconify.getAppContext(), "Disabled", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
                     }, 2000);
                 });
             };

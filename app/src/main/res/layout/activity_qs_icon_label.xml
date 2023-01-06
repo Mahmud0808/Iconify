@@ -28,8 +28,7 @@
                 android:layout_marginStart="@dimen/container_marginSide"
                 android:layout_marginEnd="@dimen/container_marginSide"
                 android:layout_marginBottom="@dimen/container_margin"
-                android:orientation="vertical"
-                tools:ignore="UselessParent">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -54,7 +53,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:paddingTop="3dp"
-                            android:text="Hide Label"
+                            android:text="@string/hide_label_title"
                             android:textColor="@color/textColorPrimary"
                             android:textSize="@dimen/cont_title_size"
                             android:textStyle="bold" />
@@ -64,9 +63,9 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:paddingTop="3dp"
-                            android:text="Remove QS Tile Titles"
+                            android:text="@string/hide_label_desc"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2" />
+                            android:textSize="@dimen/cont_desc_size" />
 
                     </LinearLayout>
 
@@ -102,7 +101,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:paddingTop="3dp"
-                        android:text="Text Size"
+                        android:text="@string/text_size_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -113,9 +112,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:paddingTop="3dp"
-                        android:text="Selected: 14sp (Default)"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_title_size2" />
+                        android:textSize="@dimen/cont_desc_size" />
 
                     <SeekBar
                         android:id="@+id/text_size"
@@ -157,7 +155,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:paddingTop="3dp"
-                        android:text="Icon Size"
+                        android:text="@string/icon_size_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -168,9 +166,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:paddingTop="3dp"
-                        android:text="Selected: 20dp (Default)"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_title_size2" />
+                        android:textSize="@dimen/cont_desc_size" />
 
                     <SeekBar
                         android:id="@+id/icon_size"
@@ -210,7 +207,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:paddingTop="3dp"
-                        android:text="Move Icon"
+                        android:text="@string/move_icon_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -221,9 +218,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:paddingTop="3dp"
-                        android:text="Selected: 10dp (Default)"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_title_size2" />
+                        android:textSize="@dimen/cont_desc_size" />
 
                     <SeekBar
                         android:id="@+id/move_icon"
@@ -251,9 +247,9 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="@dimen/container_margin"
                 android:layout_marginBottom="20dp"
-                android:text="QS Text Color"
+                android:text="@string/section_title_qs_text_color"
                 android:textColor="@color/textColorPrimary"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -293,7 +289,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start|center"
                                 android:paddingTop="3dp"
-                                android:text="Always White"
+                                android:text="@string/label_always_white_title"
                                 android:textColor="@color/textColorPrimary"
                                 android:textSize="@dimen/cont_title_size"
                                 android:textStyle="bold" />
@@ -307,7 +303,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start|center"
                                 android:paddingTop="3dp"
-                                android:text="- A12"
+                                android:text="@string/for_a12"
                                 android:textColor="@color/textColorSecondary"
                                 android:textSize="@dimen/cont_title_size" />
 
@@ -318,9 +314,9 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:paddingTop="3dp"
-                            android:text="Title White, Text White"
+                            android:text="@string/label_always_white_desc"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2" />
+                            android:textSize="@dimen/cont_desc_size" />
 
                     </LinearLayout>
 
@@ -368,7 +364,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start|center"
                                 android:paddingTop="3dp"
-                                android:text="Always White v2"
+                                android:text="@string/label_always_white_v2_title"
                                 android:textColor="@color/textColorPrimary"
                                 android:textSize="@dimen/cont_title_size"
                                 android:textStyle="bold" />
@@ -382,7 +378,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start|center"
                                 android:paddingTop="3dp"
-                                android:text="- A12"
+                                android:text="@string/for_a12"
                                 android:textColor="@color/textColorSecondary"
                                 android:textSize="@dimen/cont_title_size" />
 
@@ -393,9 +389,9 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:paddingTop="3dp"
-                            android:text="Title White, Text Accent"
+                            android:text="@string/label_always_white_v2_desc"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2" />
+                            android:textSize="@dimen/cont_desc_size" />
 
                     </LinearLayout>
 
@@ -443,7 +439,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start|center"
                                 android:paddingTop="3dp"
-                                android:text="Follow System"
+                                android:text="@string/label_follow_system_title"
                                 android:textColor="@color/textColorPrimary"
                                 android:textSize="@dimen/cont_title_size"
                                 android:textStyle="bold" />
@@ -457,7 +453,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start|center"
                                 android:paddingTop="3dp"
-                                android:text="- A12"
+                                android:text="@string/for_a12"
                                 android:textColor="@color/textColorSecondary"
                                 android:textSize="@dimen/cont_title_size" />
 
@@ -468,9 +464,9 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:paddingTop="3dp"
-                            android:text="Title System, Text System"
+                            android:text="@string/label_follow_system_desc"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2" />
+                            android:textSize="@dimen/cont_desc_size" />
 
                     </LinearLayout>
 
@@ -518,7 +514,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start|center"
                                 android:paddingTop="3dp"
-                                android:text="Follow System v2"
+                                android:text="@string/label_follow_system_v2_title"
                                 android:textColor="@color/textColorPrimary"
                                 android:textSize="@dimen/cont_title_size"
                                 android:textStyle="bold" />
@@ -532,7 +528,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start|center"
                                 android:paddingTop="3dp"
-                                android:text="- A12"
+                                android:text="@string/for_a12"
                                 android:textColor="@color/textColorSecondary"
                                 android:textSize="@dimen/cont_title_size" />
 
@@ -543,9 +539,9 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:paddingTop="3dp"
-                            android:text="Title System, Text Accent"
+                            android:text="@string/label_follow_system_v2_desc"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2" />
+                            android:textSize="@dimen/cont_desc_size" />
 
                     </LinearLayout>
 
@@ -593,7 +589,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start|center"
                                 android:paddingTop="3dp"
-                                android:text="Fix Text Color"
+                                android:text="@string/label_fix_text_color_title"
                                 android:textColor="@color/textColorPrimary"
                                 android:textSize="@dimen/cont_title_size"
                                 android:textStyle="bold" />
@@ -607,7 +603,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start|center"
                                 android:paddingTop="3dp"
-                                android:text="- A13"
+                                android:text="@string/for_a13"
                                 android:textColor="@color/textColorSecondary"
                                 android:textSize="@dimen/cont_title_size" />
 
@@ -618,9 +614,9 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:paddingTop="3dp"
-                            android:text="No Fix For Pixel Variant :("
+                            android:text="@string/label_fix_text_color_desc"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2" />
+                            android:textSize="@dimen/cont_desc_size" />
 
                     </LinearLayout>
 

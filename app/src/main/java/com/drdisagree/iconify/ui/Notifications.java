@@ -45,11 +45,11 @@ public class Notifications extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.notifications);
+        setContentView(R.layout.activity_notifications);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle("Notification");
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_notification));
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -175,12 +175,13 @@ public class Notifications extends AppCompatActivity {
     }
 
     // Function to change applied pack's bg
+    @SuppressLint("SetTextI18n")
     private void checkIfApplied(TextView name, int notif) {
         if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentNF" + notif + ".overlay")) {
-            name.setText(name.getText().toString().replace(" - Applied", "") + " - Applied");
+            name.setText(name.getText().toString().replace(' ' + getResources().getString(R.string.opt_applied), "") + ' ' + getResources().getString(R.string.opt_applied));
             name.setTextColor(getResources().getColor(R.color.colorSuccess));
         } else {
-            name.setText(name.getText().toString().replace(" - Applied", ""));
+            name.setText(name.getText().toString().replace(' ' + getResources().getString(R.string.opt_applied), ""));
             name.setTextColor(getResources().getColor(R.color.textColorPrimary));
         }
     }
@@ -222,7 +223,7 @@ public class Notifications extends AppCompatActivity {
         enable.setOnClickListener(v -> {
             refreshLayout(layout);
             // Show loading dialog
-            loadingDialog.show("Please Wait");
+            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             @SuppressLint("SetTextI18n") Runnable runnable = () -> {
                 disable_others(key);
@@ -237,7 +238,7 @@ public class Notifications extends AppCompatActivity {
                             loadingDialog.hide();
 
                         // Change name to " - applied"
-                        name.setText(name.getText().toString().replace(" - Applied", "") + " - Applied");
+                        name.setText(name.getText().toString().replace(' ' + getResources().getString(R.string.opt_applied), "") + ' ' + getResources().getString(R.string.opt_applied));
                         name.setTextColor(getResources().getColor(R.color.colorSuccess));
 
                         // Change button visibility
@@ -245,7 +246,7 @@ public class Notifications extends AppCompatActivity {
                         disable.setVisibility(View.VISIBLE);
                         refreshBackground();
 
-                        Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                     }, 2000);
                 });
             };
@@ -258,7 +259,7 @@ public class Notifications extends AppCompatActivity {
             // Show loading dialog
             if (loadingDialog == null)
                 loadingDialog = new LoadingDialog(Notifications.this);
-            loadingDialog.show("Please Wait");
+            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
                 NotifInstaller.disable_pack(index);
@@ -271,7 +272,7 @@ public class Notifications extends AppCompatActivity {
                         loadingDialog.hide();
 
                         // Change name back to original
-                        name.setText(name.getText().toString().replace(" - Applied", ""));
+                        name.setText(name.getText().toString().replace(' ' + getResources().getString(R.string.opt_applied), ""));
                         name.setTextColor(getResources().getColor(R.color.textColorPrimary));
 
                         // Change button visibility
@@ -279,7 +280,7 @@ public class Notifications extends AppCompatActivity {
                         enable.setVisibility(View.VISIBLE);
                         refreshBackground();
 
-                        Toast.makeText(Iconify.getAppContext(), "Disabled", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
                     }, 2000);
                 });
             };

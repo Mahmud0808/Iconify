@@ -47,19 +47,17 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/apply_accent"
+                        android:text="@string/link_monet_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold"
-                        tools:ignore="SpUsage" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/link_monet_accent_color_to_iconify"
+                        android:text="@string/link_monet_desc"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_title_size2"
-                        tools:ignore="SpUsage" />
+                        android:textSize="@dimen/cont_desc_size" />
 
                 </LinearLayout>
 
@@ -70,7 +68,7 @@
                     android:layout_gravity="start|center"
                     android:thumb="@drawable/switch_thumb"
                     android:track="@drawable/switch_track"
-                    tools:ignore="RtlHardcoded,UseSwitchCompatOrMaterialXml" />
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </LinearLayout>
 
@@ -100,20 +98,18 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/color_picker"
+                        android:text="@string/color_picker_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold"
-                        tools:ignore="SpUsage" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/color_picker_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/pick_your_desired_colors"
+                        android:text="@string/color_picker_desc"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_title_size2"
-                        tools:ignore="SpUsage" />
+                        android:textSize="@dimen/cont_desc_size" />
 
                 </LinearLayout>
 
@@ -154,16 +150,14 @@
                         android:text="@string/minimal_qspanel"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold"
-                        tools:ignore="SpUsage" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/remove_top_shade_of_qspanel"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_title_size2"
-                        tools:ignore="SpUsage" />
+                        android:textSize="@dimen/cont_desc_size" />
 
                 </LinearLayout>
 
@@ -174,7 +168,7 @@
                     android:layout_gravity="start|center"
                     android:thumb="@drawable/switch_thumb"
                     android:track="@drawable/switch_track"
-                    tools:ignore="RtlHardcoded,UseSwitchCompatOrMaterialXml" />
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </LinearLayout>
 
@@ -205,16 +199,14 @@
                         android:text="@string/pitch_black_theme"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold"
-                        tools:ignore="SpUsage" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/enable_pitch_black_colored_theme"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_title_size2"
-                        tools:ignore="SpUsage" />
+                        android:textSize="@dimen/cont_desc_size" />
 
                 </LinearLayout>
 
@@ -225,7 +217,7 @@
                     android:layout_gravity="start|center"
                     android:thumb="@drawable/switch_thumb"
                     android:track="@drawable/switch_track"
-                    tools:ignore="RtlHardcoded,UseSwitchCompatOrMaterialXml" />
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </LinearLayout>
 
@@ -253,20 +245,18 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/experimental_features"
+                        android:text="@string/experimental_features_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold"
-                        tools:ignore="SpUsage" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:justificationMode="inter_word"
-                        android:text="@string/these_options_may_not_be_compatible_with_some_roms_especially_stock_pixel_based_roms"
+                        android:text="@string/experimental_features_desc"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_title_size2"
-                        tools:ignore="SpUsage" />
+                        android:textSize="@dimen/cont_desc_size" />
 
                 </LinearLayout>
 
@@ -299,8 +289,7 @@
                     android:paddingStart="@dimen/container_paddingSide"
                     android:paddingTop="@dimen/container_padding"
                     android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding"
-                    tools:ignore="UselessParent">
+                    android:paddingBottom="@dimen/container_padding">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -313,19 +302,17 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/accurate_shades"
+                            android:text="@string/accurate_shades_title"
                             android:textColor="@color/textColorPrimary"
                             android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold"
-                            tools:ignore="SpUsage" />
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/disable_this_for_vibrant_colors"
+                            android:text="@string/accurate_shades_desc"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_title_size2"
-                            tools:ignore="SpUsage" />
+                            android:textSize="@dimen/cont_desc_size" />
 
                     </LinearLayout>
 

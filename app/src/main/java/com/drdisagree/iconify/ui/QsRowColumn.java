@@ -53,11 +53,11 @@ public class QsRowColumn extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.qs_row_column);
+        setContentView(R.layout.activity_qs_row_column);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle("Row and Column");
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_qs_row_column));
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -75,16 +75,17 @@ public class QsRowColumn extends AppCompatActivity {
         final int[] finalQqsRow = {1};
 
         if (!PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qqsRow").equals("null")) {
-            qqs_row_output.setText("Selected: " + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qqsRow")) + 1));
+            qqs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qqsRow")) + 1));
             finalQqsRow[0] = Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qqsRow"));
             qqs_row_seekbar.setProgress(finalQqsRow[0]);
-        }
+        } else
+            qqs_row_output.setText(getResources().getString(R.string.opt_selected) + " 2");
 
         qqs_row_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 finalQqsRow[0] = progress;
-                qqs_row_output.setText("Selected: " + (progress + 1));
+                qqs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 1));
             }
 
             @Override
@@ -105,16 +106,17 @@ public class QsRowColumn extends AppCompatActivity {
         final int[] finalQsRow = {3};
 
         if (!PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsRow").equals("null")) {
-            qs_row_output.setText("Selected: " + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsRow")) + 1));
+            qs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsRow")) + 1));
             finalQsRow[0] = Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsRow"));
             qs_row_seekbar.setProgress(finalQsRow[0]);
-        }
+        } else
+            qs_row_output.setText(getResources().getString(R.string.opt_selected) + " 4");
 
         qs_row_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 finalQsRow[0] = progress;
-                qs_row_output.setText("Selected: " + (progress + 1));
+                qs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 1));
             }
 
             @Override
@@ -135,16 +137,17 @@ public class QsRowColumn extends AppCompatActivity {
         final int[] finalQsColumn = {1};
 
         if (!PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsColumn").equals("null")) {
-            qs_column_output.setText("Selected: " + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsColumn")) + 1));
+            qs_column_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsColumn")) + 1));
             finalQsColumn[0] = Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsColumn"));
             qs_column_seekbar.setProgress(finalQsColumn[0]);
-        }
+        } else
+            qs_column_output.setText(getResources().getString(R.string.opt_selected) + " 2");
 
         qs_column_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 finalQsColumn[0] = progress;
-                qs_column_output.setText("Selected: " + (progress + 1));
+                qs_column_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 1));
             }
 
             @Override
@@ -157,18 +160,15 @@ public class QsRowColumn extends AppCompatActivity {
         });
 
         // Apply button declaration
-
         Button qs_row_column_apply = findViewById(R.id.qs_row_column_apply);
 
         // Reset button declaration
-
         Button qs_row_column_reset = findViewById(R.id.qs_row_column_reset);
 
         // Apply button
-
         qs_row_column_apply.setOnClickListener(v -> {
             // Show loading dialog
-            loadingDialog.show("Please Wait");
+            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedqsRowColumn", true);
@@ -191,7 +191,7 @@ public class QsRowColumn extends AppCompatActivity {
                         // Reset button visibility
                         qs_row_column_reset.setVisibility(View.VISIBLE);
 
-                        Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                     }, 2000);
                 });
             };
@@ -207,7 +207,7 @@ public class QsRowColumn extends AppCompatActivity {
 
         qs_row_column_reset.setOnClickListener(v -> {
             // Show loading dialog
-            loadingDialog.show("Please Wait");
+            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
                 resetRowColumn();
@@ -222,7 +222,7 @@ public class QsRowColumn extends AppCompatActivity {
                         // Reset button visibility
                         qs_row_column_reset.setVisibility(View.GONE);
 
-                        Toast.makeText(Iconify.getAppContext(), "Reset", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_reset), Toast.LENGTH_SHORT).show();
                     }, 2000);
                 });
             };

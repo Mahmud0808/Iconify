@@ -43,17 +43,15 @@
                     android:text="@string/hey_there"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold"
-                    tools:ignore="SpUsage" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:justificationMode="inter_word"
-                    android:text="Some of the combinations might not work in some roms. In that case, just try some other combinations and choose which fits the best for you."
+                    android:text="@string/qs_row_column_warn_desc"
                     android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_title_size2"
-                    tools:ignore="SpUsage" />
+                    android:textSize="@dimen/cont_desc_size" />
             </LinearLayout>
 
             <LinearLayout
@@ -78,20 +76,17 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Quick QsPanel Row"
+                        android:text="@string/quick_qspanel_row_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold"
-                        tools:ignore="SpUsage" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/qqs_row_output"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Selected: 2"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_title_size2"
-                        tools:ignore="SpUsage" />
+                        android:textSize="@dimen/cont_desc_size" />
 
                     <SeekBar
                         android:id="@+id/qqs_row_seekbar"
@@ -129,20 +124,17 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="QsPanel Row"
+                        android:text="@string/qspanel_row_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold"
-                        tools:ignore="SpUsage" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/qs_row_output"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Selected: 4"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_title_size2"
-                        tools:ignore="SpUsage" />
+                        android:textSize="@dimen/cont_desc_size" />
 
                     <SeekBar
                         android:id="@+id/qs_row_seekbar"
@@ -180,20 +172,17 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="QsPanel Column"
+                        android:text="@string/qspanel_column_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold"
-                        tools:ignore="SpUsage" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/qs_column_output"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Selected: 2"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_title_size2"
-                        tools:ignore="SpUsage" />
+                        android:textSize="@dimen/cont_desc_size" />
 
                     <SeekBar
                         android:id="@+id/qs_column_seekbar"
@@ -236,12 +225,11 @@
                         android:fontFamily="@font/semibold"
                         android:letterSpacing="0.2"
                         android:stateListAnimator="@null"
-                        android:text="APPLY"
+                        android:text="@string/btn_apply"
                         android:textColor="@color/colorBackground"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold"
-                        app:backgroundTint="@null"
-                        tools:ignore="SpUsage" />
+                        app:backgroundTint="@null" />
 
                     <Button
                         android:id="@+id/qs_row_column_reset"
@@ -252,13 +240,12 @@
                         android:fontFamily="@font/semibold"
                         android:letterSpacing="0.2"
                         android:stateListAnimator="@null"
-                        android:text="RESET"
+                        android:text="@string/btn_reset"
                         android:textColor="@color/colorBackground"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold"
                         android:visibility="gone"
-                        app:backgroundTint="@null"
-                        tools:ignore="SpUsage" />
+                        app:backgroundTint="@null" />
 
                 </LinearLayout>
             </LinearLayout>

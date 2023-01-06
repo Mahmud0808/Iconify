@@ -1,9 +1,7 @@
 package com.drdisagree.iconify.ui;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
@@ -31,7 +28,6 @@ import java.io.IOException;
 public class WelcomePage extends AppCompatActivity {
 
     private final int versionCode = BuildConfig.VERSION_CODE;
-    private final String versionName = BuildConfig.VERSION_NAME;
     LoadingDialog loadingDialog;
 
     @SuppressLint("SetTextI18n")
@@ -39,7 +35,7 @@ public class WelcomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.welcome_page);
+        setContentView(R.layout.activity_welcome_page);
 
         // Loading dialog while installing module
         loadingDialog = new LoadingDialog(this);
@@ -56,7 +52,7 @@ public class WelcomePage extends AppCompatActivity {
             if (RootUtil.isDeviceRooted()) {
                 if (RootUtil.isMagiskInstalled()) {
                     if (!Environment.isExternalStorageManager()) {
-                        warning.setText("Grant storage access first!");
+                        warning.setText(getResources().getString(R.string.perm_storage_access));
                         warn.setVisibility(View.VISIBLE);
                         Intent intent = new Intent();
                         intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
@@ -67,13 +63,13 @@ public class WelcomePage extends AppCompatActivity {
                         if ((PrefConfig.loadPrefInt(this, "versionCode") < versionCode) || !ModuleUtil.moduleExists() || !OverlayUtils.overlayExists()) {
                             warn.setVisibility(View.INVISIBLE);
                             // Show loading dialog
-                            loadingDialog.show("Installing");
+                            loadingDialog.show(getResources().getString(R.string.installing));
 
                             Runnable runnable = () -> {
                                 try {
                                     ModuleUtil.handleModule(Iconify.getAppContext());
                                 } catch (IOException e) {
-                                    Toast.makeText(Iconify.getAppContext(), "Something went wrong.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_LONG).show();
                                     e.printStackTrace();
                                 }
                                 runOnUiThread(() -> {
@@ -87,7 +83,7 @@ public class WelcomePage extends AppCompatActivity {
                                             finish();
                                         }, 10);
                                     } else {
-                                        warning.setText("Reboot your device first!");
+                                        warning.setText(getResources().getString(R.string.reboot_needed));
                                         warn.setVisibility(View.VISIBLE);
                                     }
                                 });
@@ -101,11 +97,11 @@ public class WelcomePage extends AppCompatActivity {
                         }
                     }
                 } else {
-                    warning.setText("Use Magisk to root your device!");
+                    warning.setText(getResources().getString(R.string.use_magisk));
                     warn.setVisibility(View.VISIBLE);
                 }
             } else {
-                warning.setText("Looks like your device is not rooted!");
+                warning.setText(getResources().getString(R.string.root_not_found));
                 warn.setVisibility(View.VISIBLE);
             }
         });

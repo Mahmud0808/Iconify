@@ -3,7 +3,6 @@ package com.drdisagree.iconify.ui;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -12,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -20,7 +18,6 @@ import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.installer.IconSizeInstaller;
 import com.drdisagree.iconify.installer.MoveIconInstaller;
 import com.drdisagree.iconify.installer.TextSizeInstaller;
-import com.drdisagree.iconify.utils.FabricatedOverlay;
 import com.drdisagree.iconify.utils.OverlayUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -33,11 +30,11 @@ public class QsIconLabel extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.qs_icon_label);
+        setContentView(R.layout.activity_qs_icon_label);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle("Icon and Label");
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_qs_icon_label));
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -55,13 +52,13 @@ public class QsIconLabel extends AppCompatActivity {
 
         if (!PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsTextSize").equals("null")) {
             if ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsTextSize")) + 10) == 14)
-                text_size_output.setText("Selected: " + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsTextSize")) + 10) + "sp (Default)");
+                text_size_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsTextSize")) + 10) + "sp " + getResources().getString(R.string.opt_default));
             else
-                text_size_output.setText("Selected: " + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsTextSize")) + 10) + "sp");
+                text_size_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsTextSize")) + 10) + "sp");
             finalTextSize[0] = Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsTextSize"));
             text_size.setProgress(finalTextSize[0]);
         } else
-            text_size_output.setText("Selected: 14sp (Default)");
+            text_size_output.setText(getResources().getString(R.string.opt_selected) + " 14sp " + getResources().getString(R.string.opt_default));
 
         text_size.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -74,9 +71,9 @@ public class QsIconLabel extends AppCompatActivity {
 
                 finalTextSize[0] = progress;
                 if (progress + 10 == 14)
-                    text_size_output.setText("Selected: " + (progress + 10) + "sp (Default)");
+                    text_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 10) + "sp " + getResources().getString(R.string.opt_default));
                 else
-                    text_size_output.setText("Selected: " + (progress + 10) + "sp");
+                    text_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 10) + "sp");
 
             }
 
@@ -89,7 +86,7 @@ public class QsIconLabel extends AppCompatActivity {
                 Thread thread = new Thread(runnable);
                 thread.start();
 
-                Toast.makeText(Iconify.getAppContext(), (finalTextSize[0] + 10 + "sp Applied"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Iconify.getAppContext(), (finalTextSize[0] + 10 + "sp " + getResources().getString(R.string.toast_applied)), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -103,13 +100,13 @@ public class QsIconLabel extends AppCompatActivity {
 
         if (!PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsIconSize").equals("null")) {
             if ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsIconSize")) + 10) == 20)
-                icon_size_output.setText("Selected: " + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsIconSize")) + 10) + "dp (Default)");
+                icon_size_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsIconSize")) + 10) + "dp " + getResources().getString(R.string.opt_default));
             else
-                icon_size_output.setText("Selected: " + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsIconSize")) + 10) + "dp");
+                icon_size_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsIconSize")) + 10) + "dp");
             finalIconSize[0] = Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsIconSize"));
             icon_size.setProgress(finalIconSize[0]);
         } else
-            icon_size_output.setText("Selected: 20dp (Default)");
+            icon_size_output.setText(getResources().getString(R.string.opt_selected) + " 20dp " + getResources().getString(R.string.opt_default));
 
         icon_size.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -122,10 +119,9 @@ public class QsIconLabel extends AppCompatActivity {
 
                 finalIconSize[0] = progress;
                 if (progress + 10 == 20)
-                    icon_size_output.setText("Selected: " + (progress + 10) + "dp (Default)");
+                    icon_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 10) + "dp " + getResources().getString(R.string.opt_default));
                 else
-                    icon_size_output.setText("Selected: " + (progress + 10) + "dp");
-
+                    icon_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 10) + "dp");
             }
 
             @Override
@@ -137,7 +133,7 @@ public class QsIconLabel extends AppCompatActivity {
                 Thread thread = new Thread(runnable);
                 thread.start();
 
-                Toast.makeText(Iconify.getAppContext(), (finalIconSize[0] + 10 + "dp Applied"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Iconify.getAppContext(), (finalIconSize[0] + 10 + "dp " + getResources().getString(R.string.toast_applied)), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -316,13 +312,13 @@ public class QsIconLabel extends AppCompatActivity {
 
         if (!PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsMoveIcon").equals("null")) {
             if ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsMoveIcon")) + 1) == 16)
-                move_icon_output.setText("Selected: " + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsMoveIcon")) + 1) + "dp (Default)");
+                move_icon_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsMoveIcon")) + 1) + "dp " + getResources().getString(R.string.opt_default));
             else
-                move_icon_output.setText("Selected: " + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsMoveIcon")) + 1) + "dp");
+                move_icon_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsMoveIcon")) + 1) + "dp");
             finalMoveIcon[0] = Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsMoveIcon"));
             move_icon.setProgress(finalMoveIcon[0]);
         } else
-            move_icon_output.setText("Selected: 16dp (Default)");
+            move_icon_output.setText(getResources().getString(R.string.opt_selected) + " 16dp " + getResources().getString(R.string.opt_default));
 
         move_icon.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -335,10 +331,9 @@ public class QsIconLabel extends AppCompatActivity {
 
                 finalMoveIcon[0] = progress;
                 if (progress + 1 == 16)
-                    move_icon_output.setText("Selected: " + (progress + 1) + "dp (Default)");
+                    move_icon_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 1) + "dp " + getResources().getString(R.string.opt_default));
                 else
-                    move_icon_output.setText("Selected: " + (progress + 1) + "dp");
-
+                    move_icon_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 1) + "dp");
             }
 
             @Override
@@ -350,7 +345,7 @@ public class QsIconLabel extends AppCompatActivity {
                 Thread thread = new Thread(runnable);
                 thread.start();
 
-                Toast.makeText(Iconify.getAppContext(), (finalMoveIcon[0] + 1 + "dp Applied"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Iconify.getAppContext(), (finalMoveIcon[0] + 1 + "dp " + getResources().getString(R.string.toast_applied)), Toast.LENGTH_SHORT).show();
             }
         });
 

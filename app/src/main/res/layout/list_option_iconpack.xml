@@ -20,7 +20,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center"
             android:layout_marginEnd="@dimen/container_padding"
@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/textColorSecondary"
-                android:textSize="@dimen/cont_title_size2" />
+                android:textSize="@dimen/cont_desc_size" />
 
         </LinearLayout>
 
@@ -59,6 +59,7 @@
                     android:layout_width="@dimen/preview_icon_size"
                     android:layout_height="@dimen/preview_icon_size"
                     android:layout_margin="@dimen/preview_margin"
+                    android:contentDescription="@string/icon"
                     app:tint="@color/colorAccentDark" />
 
                 <ImageView
@@ -66,6 +67,7 @@
                     android:layout_width="@dimen/preview_icon_size"
                     android:layout_height="@dimen/preview_icon_size"
                     android:layout_margin="@dimen/preview_margin"
+                    android:contentDescription="@string/icon"
                     app:tint="@color/colorAccentDark" />
             </LinearLayout>
 
@@ -79,6 +81,7 @@
                     android:layout_width="@dimen/preview_icon_size"
                     android:layout_height="@dimen/preview_icon_size"
                     android:layout_margin="@dimen/preview_margin"
+                    android:contentDescription="@string/icon"
                     app:tint="@color/colorAccentDark" />
 
                 <ImageView
@@ -86,6 +89,7 @@
                     android:layout_width="@dimen/preview_icon_size"
                     android:layout_height="@dimen/preview_icon_size"
                     android:layout_margin="@dimen/preview_margin"
+                    android:contentDescription="@string/icon"
                     app:tint="@color/colorAccentDark" />
 
             </LinearLayout>
@@ -101,7 +105,7 @@
         android:fontFamily="@font/semibold"
         android:letterSpacing="0.2"
         android:stateListAnimator="@null"
-        android:text="Enable"
+        android:text="@string/btn_enable"
         android:textColor="@color/colorBackground"
         android:textSize="@dimen/cont_title_size"
         android:textStyle="bold"
@@ -117,7 +121,7 @@
         android:fontFamily="@font/semibold"
         android:letterSpacing="0.2"
         android:stateListAnimator="@null"
-        android:text="Disable"
+        android:text="@string/btn_disable"
         android:textColor="@color/colorBackground"
         android:textSize="@dimen/cont_title_size"
         android:textStyle="bold"

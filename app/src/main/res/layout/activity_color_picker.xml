@@ -44,18 +44,16 @@
                     android:text="@string/hey_there"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold"
-                    tools:ignore="SpUsage" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:justificationMode="inter_word"
-                    android:text="@string/it_s_recommended_to_use_repainter_for_changing_monet_colors_as_the_options_below_are_very_basic_and_might_not_fulfill_your_needs_properly"
+                    android:text="@string/recommend_repainter_desc"
                     android:textAlignment="viewStart"
                     android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_title_size2"
-                    tools:ignore="SpUsage" />
+                    android:textSize="@dimen/cont_desc_size" />
             </LinearLayout>
 
             <ImageView
@@ -94,8 +92,7 @@
                         android:text="@string/primary_color"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold"
-                        tools:ignore="SpUsage" />
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -123,8 +120,7 @@
                         android:text="@string/secondary_color"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold"
-                        tools:ignore="SpUsage" />
+                        android:textStyle="bold" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -140,13 +136,12 @@
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
                 android:stateListAnimator="@null"
-                android:text="Disable Custom Colors"
+                android:text="@string/btn_disable_custom_colors"
                 android:textColor="@color/colorBackground"
                 android:textSize="@dimen/cont_title_size"
                 android:textStyle="bold"
                 android:visibility="gone"
-                app:backgroundTint="@null"
-                tools:ignore="SpUsage" />
+                app:backgroundTint="@null" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

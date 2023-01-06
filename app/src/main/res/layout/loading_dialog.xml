@@ -36,10 +36,10 @@
             android:layout_gravity="center"
             android:layout_marginTop="12dp"
             android:gravity="center"
-            android:text="Please Wait"
+            android:text="@string/loading_dialog_wait"
             android:textAlignment="center"
             android:textColor="@color/textColorPrimary"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
     </LinearLayout>

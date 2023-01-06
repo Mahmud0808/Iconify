@@ -37,8 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1.0"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:id="@+id/qs_tile1"
@@ -49,13 +49,13 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingEnd="16dp"
-                tools:ignore="NestedWeights,RtlHardcoded,RtlSymmetry">
+                android:paddingStart="16dp"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:id="@+id/qs_icon1"
                     android:layout_width="20dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:layout_marginEnd="10dp"
                     android:src="@drawable/ic_qs_internet"
                     app:tint="@color/textColorPrimary"
@@ -68,7 +68,7 @@
                     android:layout_marginTop="2dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="Internet"
+                    android:text="@string/qstile_btn1_title"
                     android:textColor="@color/textColorPrimary"
                     android:textStyle="bold" />
 
@@ -83,13 +83,13 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingEnd="16dp"
-                tools:ignore="RtlHardcoded,RtlSymmetry">
+                android:paddingStart="16dp"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:id="@+id/qs_icon2"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginStart="16dp"
                     android:layout_marginEnd="10dp"
                     android:src="@drawable/ic_qs_airplane"
                     app:tint="@color/textColorPrimary"
@@ -102,7 +102,7 @@
                     android:layout_marginTop="2dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="Airplane"
+                    android:text="@string/qstile_btn2_title"
                     android:textColor="@color/textColorPrimary"
                     android:textStyle="bold" />
 
@@ -113,8 +113,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1.0"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:id="@+id/qs_tile3"
@@ -125,13 +125,13 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingEnd="16dp"
-                tools:ignore="NestedWeights,RtlHardcoded,RtlSymmetry">
+                android:paddingStart="16dp"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:id="@+id/qs_icon3"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginStart="16dp"
                     android:layout_marginEnd="10dp"
                     android:src="@drawable/ic_qs_location"
                     app:tint="@color/textColorPrimary"
@@ -144,7 +144,7 @@
                     android:layout_marginTop="2dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="Location"
+                    android:text="@string/qstile_btn3_title"
                     android:textColor="@color/textColorPrimary"
                     android:textStyle="bold" />
 
@@ -158,13 +158,14 @@
                 android:layout_weight="1.0"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingEnd="16dp">
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:id="@+id/qs_icon4"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginStart="16dp"
                     android:layout_marginEnd="10dp"
                     android:src="@drawable/ic_qs_bluetooth"
                     app:tint="@color/textColorPrimary"
@@ -177,7 +178,7 @@
                     android:layout_marginTop="2dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="Bluetooth"
+                    android:text="@string/qstile_btn4_title"
                     android:textColor="@color/textColorPrimary"
                     android:textStyle="bold" />
 
@@ -195,13 +196,12 @@
         android:fontFamily="@font/semibold"
         android:letterSpacing="0.2"
         android:stateListAnimator="@null"
-        android:text="@string/enable"
+        android:text="@string/btn_enable"
         android:textColor="@color/colorBackground"
         android:textSize="@dimen/cont_title_size"
         android:textStyle="bold"
         android:visibility="gone"
-        app:backgroundTint="@null"
-        tools:ignore="SpUsage" />
+        app:backgroundTint="@null" />
 
     <Button
         android:id="@+id/list_button_disable_qstile"
@@ -212,12 +212,11 @@
         android:fontFamily="@font/semibold"
         android:letterSpacing="0.2"
         android:stateListAnimator="@null"
-        android:text="@string/disable"
+        android:text="@string/btn_disable"
         android:textColor="@color/colorBackground"
         android:textSize="@dimen/cont_title_size"
         android:textStyle="bold"
         android:visibility="gone"
-        app:backgroundTint="@null"
-        tools:ignore="SpUsage" />
+        app:backgroundTint="@null" />
 
 </LinearLayout>

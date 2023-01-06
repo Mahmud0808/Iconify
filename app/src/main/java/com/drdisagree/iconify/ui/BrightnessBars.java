@@ -47,11 +47,11 @@ public class BrightnessBars extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.brightness_bars);
+        setContentView(R.layout.activity_brightness_bars);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle("Brightness Bar");
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_brightness_bar));
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -259,7 +259,7 @@ public class BrightnessBars extends AppCompatActivity {
         enable.setOnClickListener(v -> {
             refreshLayout(layout);
             // Show loading dialog
-            loadingDialog.show("Please Wait");
+            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
                 disable_others(key);
@@ -280,7 +280,7 @@ public class BrightnessBars extends AppCompatActivity {
                         disable.setVisibility(View.VISIBLE);
                         refreshBackground();
 
-                        Toast.makeText(Iconify.getAppContext(), "Applied", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                     }, 2000);
                 });
             };
@@ -291,7 +291,7 @@ public class BrightnessBars extends AppCompatActivity {
         // Set onClick operation for Disable button
         disable.setOnClickListener(v -> {
             // Show loading dialog
-            loadingDialog.show("Please Wait");
+            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
                 BrightnessInstaller.disable_pack(index);
@@ -311,7 +311,7 @@ public class BrightnessBars extends AppCompatActivity {
                         enable.setVisibility(View.VISIBLE);
                         refreshBackground();
 
-                        Toast.makeText(Iconify.getAppContext(), "Disabled", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
                     }, 2000);
                 });
             };

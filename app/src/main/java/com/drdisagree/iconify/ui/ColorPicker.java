@@ -62,27 +62,22 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         String greenHex = To00Hex(green);
         String redHex = To00Hex(red);
 
-        StringBuilder str = new StringBuilder("0xff");
-//      str.append(alphaHex);
-        str.append(redHex);
-        str.append(greenHex);
-        str.append(blueHex);
-        return str.toString();
+        return "0xff" + redHex + greenHex + blueHex;
     }
 
     private static String To00Hex(int value) {
         String hex = "00".concat(Integer.toHexString(value));
-        return hex.substring(hex.length() - 2, hex.length());
+        return hex.substring(hex.length() - 2);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.color_picker);
+        setContentView(R.layout.activity_color_picker);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle("Color Picker");
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_color_picker));
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);

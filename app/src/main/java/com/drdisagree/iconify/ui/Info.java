@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,11 +28,11 @@ public class Info extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.info);
+        setContentView(R.layout.activity_info);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle("About");
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_info));
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -43,17 +42,17 @@ public class Info extends AppCompatActivity {
         ViewGroup appInfo = findViewById(R.id.appInfo);
         appInfo.setOnClickListener(v -> {
             ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("Iconify Version", "Iconify\nVersion Name: " + BuildConfig.VERSION_NAME + "\nVersion Code: " + BuildConfig.VERSION_CODE);
+            ClipData clip = ClipData.newPlainText(getResources().getString(R.string.iconify_clipboard_label_version), getResources().getString(R.string.app_name) + "\n" + getResources().getString(R.string.iconify_clipboard_label_version_name) + ' ' + BuildConfig.VERSION_NAME + "\n" + getResources().getString(R.string.iconify_clipboard_label_version_code) + ' ' + BuildConfig.VERSION_CODE);
             clipboard.setPrimaryClip(clip);
-            Toast toast = Toast.makeText(Iconify.getAppContext(), "Copied to Clipboard", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_copied), Toast.LENGTH_SHORT);
             toast.show();
         });
         ImageView ic_appVersion = findViewById(R.id.ic_appVersion);
         ic_appVersion.setBackgroundResource(R.drawable.ic_info);
         TextView appVersion = findViewById(R.id.appVersion);
-        appVersion.setText("Version");
+        appVersion.setText(getResources().getString(R.string.info_version_title));
         TextView versionCodeAndName = findViewById(R.id.versionCodeAndName);
-        versionCodeAndName.setText(BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")");
+        versionCodeAndName.setText(BuildConfig.VERSION_NAME + " #" + BuildConfig.VERSION_CODE);
 
         // Github
         ViewGroup githubRepo = findViewById(R.id.githubRepo);
@@ -66,9 +65,9 @@ public class Info extends AppCompatActivity {
         ImageView ic_github = findViewById(R.id.ic_github);
         ic_github.setBackgroundResource(R.drawable.ic_github);
         TextView githubTitle = findViewById(R.id.githubTitle);
-        githubTitle.setText("Github");
+        githubTitle.setText(getResources().getString(R.string.info_github_title));
         TextView githubDesc = findViewById(R.id.githubDesc);
-        githubDesc.setText("Check out github repository.");
+        githubDesc.setText(getResources().getString(R.string.info_github_desc));
 
         // Telegram
         ViewGroup telegramChannel = findViewById(R.id.telegramChannel);
@@ -81,9 +80,9 @@ public class Info extends AppCompatActivity {
         ImageView ic_telegram = findViewById(R.id.ic_telegram);
         ic_telegram.setBackgroundResource(R.drawable.ic_telegram);
         TextView telegramTitle = findViewById(R.id.telegramTitle);
-        telegramTitle.setText("Telegram");
+        telegramTitle.setText(getResources().getString(R.string.info_telegram_title));
         TextView telegramDesc = findViewById(R.id.telegramDesc);
-        telegramDesc.setText("Follow to get latest news & updates.");
+        telegramDesc.setText(getResources().getString(R.string.info_telegram_desc));
 
         // Credits
 
@@ -100,7 +99,7 @@ public class Info extends AppCompatActivity {
         TextView credits = findViewById(R.id.credits);
         credits.setText("Icons8.com");
         TextView creditsTo = findViewById(R.id.creditsTo);
-        creditsTo.setText("For Plumpy and Fluency icons.");
+        creditsTo.setText(getResources().getString(R.string.info_icons8_desc));
 
         // Jai
         ViewGroup jai = findViewById(R.id.jai);
@@ -115,7 +114,7 @@ public class Info extends AppCompatActivity {
         TextView jaiName = findViewById(R.id.jaiName);
         jaiName.setText("Jai");
         TextView jaiDesc = findViewById(R.id.jaiDesc);
-        jaiDesc.setText("For helping me with Shell Scripts.");
+        jaiDesc.setText(getResources().getString(R.string.info_shell_desc));
 
         // 1perialf
         ViewGroup iperialf = findViewById(R.id.iperialf);
@@ -130,7 +129,7 @@ public class Info extends AppCompatActivity {
         TextView iperialfName = findViewById(R.id.iperialfName);
         iperialfName.setText("1perialf");
         TextView iperialfDesc = findViewById(R.id.iperialfDesc);
-        iperialfDesc.setText("For helping me with RRO.");
+        iperialfDesc.setText(getResources().getString(R.string.info_rro_desc));
 
         // Ritesh
         ViewGroup ritesh = findViewById(R.id.ritesh);
@@ -145,7 +144,7 @@ public class Info extends AppCompatActivity {
         TextView riteshName = findViewById(R.id.riteshName);
         riteshName.setText("Ritesh");
         TextView riteshDesc = findViewById(R.id.riteshDesc);
-        riteshDesc.setText("For helping me with RRO.");
+        riteshDesc.setText(getResources().getString(R.string.info_rro_desc));
 
         // Insanely Insane
         ViewGroup sanely_insane = findViewById(R.id.sanely_insane);
@@ -160,7 +159,7 @@ public class Info extends AppCompatActivity {
         TextView sanelyInsaneName = findViewById(R.id.sanelyInsaneName);
         sanelyInsaneName.setText("Sanely Insane");
         TextView sanelyInsaneDesc = findViewById(R.id.sanelyInsaneDesc);
-        sanelyInsaneDesc.setText("For testing the app.");
+        sanelyInsaneDesc.setText(getResources().getString(R.string.info_tester_desc));
 
         // Jaguar
         ViewGroup jaguar = findViewById(R.id.jaguar);
@@ -175,7 +174,7 @@ public class Info extends AppCompatActivity {
         TextView jaguarName = findViewById(R.id.jaguarName);
         jaguarName.setText("Jaguar");
         TextView jaguarDesc = findViewById(R.id.jaguarDesc);
-        jaguarDesc.setText("For testing the app.");
+        jaguarDesc.setText(getResources().getString(R.string.info_tester_desc));
 
         // Contributors
 
@@ -192,7 +191,7 @@ public class Info extends AppCompatActivity {
         TextView azure_helperName = findViewById(R.id.azure_helperName);
         azure_helperName.setText("Azure-Helper");
         TextView azure_helperDesc = findViewById(R.id.azure_helperDesc);
-        azure_helperDesc.setText("For contributing on github.");
+        azure_helperDesc.setText(getResources().getString(R.string.info_contributor_desc));
     }
 
     @Override

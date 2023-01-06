@@ -35,14 +35,13 @@ import java.util.List;
 public class HomePage extends AppCompatActivity {
 
     public static boolean isServiceRunning = false;
-    private final String TAG = "WelcomePage";
-    LinearLayout home_monetColor, home_iconPack, home_brightnessBar, home_qsShape, home_notification, home_mediaPlayer, home_volumePanel, home_progressBar, home_extras, home_info;
+    LinearLayout home_monetColor, home_iconPack, home_brightnessBar, home_qsShape, home_notification, home_mediaPlayer, home_volumePanel, home_progressBar, home_extras, home_settings, home_info;
     private ViewGroup container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_page);
+        setContentView(R.layout.activity_home_page);
 
         PrefConfig.savePrefBool(Iconify.getAppContext(), "onHomePage", true);
 
@@ -57,7 +56,7 @@ public class HomePage extends AppCompatActivity {
             Button reboot_now = findViewById(R.id.reboot_phone);
             reboot_now.setOnClickListener(v -> {
                 LoadingDialog rebootingDialog = new LoadingDialog(HomePage.this);
-                rebootingDialog.show("Rebooting in 5 seconds");
+                rebootingDialog.show(getResources().getString(R.string.rebooting_desc));
 
                 runOnUiThread(() -> new Handler().postDelayed(() -> {
                     rebootingDialog.hide();
@@ -72,22 +71,23 @@ public class HomePage extends AppCompatActivity {
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle("Iconify");
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_home_page));
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // Home page list items
 
-        addItem(R.id.home_monetColor, "Color Engine", "Have control over colors", R.drawable.ic_color_home);
-        addItem(R.id.home_iconPack, "Icon Pack", "Change system icon pack", R.drawable.ic_wifi_home);
-        addItem(R.id.home_brightnessBar, "Brightness Bar", "Customize brightness slider", R.drawable.ic_brightness_home);
-        addItem(R.id.home_qsShape, "QS Panel Tiles", "Customize qs panel tiles", R.drawable.ic_shape_home);
-        addItem(R.id.home_notification, "Notification", "Customize notification style", R.drawable.ic_notification_home);
-        addItem(R.id.home_mediaPlayer, "Media Player", "Change how media player looks", R.drawable.ic_media_home);
-        addItem(R.id.home_volumePanel, "Volume Panel", "Customize volume panel", R.drawable.ic_volume_home);
+        addItem(R.id.home_monetColor, getResources().getString(R.string.activity_title_color_engine), getResources().getString(R.string.activity_desc_color_engine), R.drawable.ic_home_color);
+        addItem(R.id.home_iconPack, getResources().getString(R.string.activity_title_icon_pack), getResources().getString(R.string.activity_desc_icon_pack), R.drawable.ic_home_iconpack);
+        addItem(R.id.home_brightnessBar, getResources().getString(R.string.activity_title_brightness_bar), getResources().getString(R.string.activity_desc_brightness_bar), R.drawable.ic_home_brightness);
+        addItem(R.id.home_qsShape, getResources().getString(R.string.activity_title_qs_shape), getResources().getString(R.string.activity_desc_qs_shape), R.drawable.ic_home_shape);
+        addItem(R.id.home_notification, getResources().getString(R.string.activity_title_notification), getResources().getString(R.string.activity_desc_notification), R.drawable.ic_home_notification);
+        addItem(R.id.home_mediaPlayer, getResources().getString(R.string.activity_title_media_player), getResources().getString(R.string.activity_desc_media_player), R.drawable.ic_home_media);
+        addItem(R.id.home_volumePanel, getResources().getString(R.string.activity_title_volume_panel), getResources().getString(R.string.activity_desc_volume_panel), R.drawable.ic_home_volume);
         // addItem(R.id.home_progressBar, "Progress Bar", "Change progress bar style", R.drawable.ic_progress_home);
-        addItem(R.id.home_extras, "Extras", "Additions tweaks and settings", R.drawable.ic_extras_home);
-        addItem(R.id.home_info, "About", "Information about this app", R.drawable.ic_info_home);
+        addItem(R.id.home_extras, getResources().getString(R.string.activity_title_extras), getResources().getString(R.string.activity_desc_extras), R.drawable.ic_home_extras);
+        addItem(R.id.home_settings, getResources().getString(R.string.activity_title_settings), getResources().getString(R.string.activity_desc_settings), R.drawable.ic_home_settings);
+        addItem(R.id.home_info, getResources().getString(R.string.activity_title_info), getResources().getString(R.string.activity_desc_info), R.drawable.ic_home_info);
 
         // Get list of enabled overlays
         Runnable runnable1 = () -> {
@@ -186,6 +186,13 @@ public class HomePage extends AppCompatActivity {
         home_extras = findViewById(R.id.home_extras);
         home_extras.setOnClickListener(v -> {
             Intent intent = new Intent(HomePage.this, Extras.class);
+            startActivity(intent);
+        });
+
+        // Extras item onClick
+        home_settings = findViewById(R.id.home_settings);
+        home_settings.setOnClickListener(v -> {
+            Intent intent = new Intent(HomePage.this, Settings.class);
             startActivity(intent);
         });
 

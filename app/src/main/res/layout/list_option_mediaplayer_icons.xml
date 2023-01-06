@@ -26,7 +26,8 @@
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:background="@drawable/ic_android"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitCenter"
+            android:contentDescription="@string/icon" />
 
         <TextView
             android:id="@+id/app_name"
@@ -34,7 +35,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
-            android:text="Music Player"
             android:textColor="@color/textColorPrimary"
             android:textSize="@dimen/cont_title_size"
             android:textStyle="bold" />
@@ -72,10 +72,11 @@
             android:paddingStart="6dp"
             android:paddingEnd="6dp"
             android:stateListAnimator="@null"
-            android:text="Aurora"
+            android:text="@string/iconpack_aurora"
             android:textColor="@color/colorBackground"
             android:textStyle="bold"
-            app:backgroundTint="@null" />
+            app:backgroundTint="@null"
+            style="?android:attr/buttonBarButtonStyle" />
 
         <Button
             android:id="@+id/gradicon"
@@ -90,10 +91,11 @@
             android:paddingStart="6dp"
             android:paddingEnd="6dp"
             android:stateListAnimator="@null"
-            android:text="Gradicon"
+            android:text="@string/iconpack_gradicon"
             android:textColor="@color/colorBackground"
             android:textStyle="bold"
-            app:backgroundTint="@null" />
+            app:backgroundTint="@null"
+            style="?android:attr/buttonBarButtonStyle" />
 
         <Button
             android:id="@+id/plumpy"
@@ -106,10 +108,11 @@
             android:paddingStart="6dp"
             android:paddingEnd="6dp"
             android:stateListAnimator="@null"
-            android:text="Plumpy"
+            android:text="@string/iconpack_plumpy"
             android:textColor="@color/colorBackground"
             android:textStyle="bold"
-            app:backgroundTint="@null" />
+            app:backgroundTint="@null"
+            style="?android:attr/buttonBarButtonStyle" />
 
     </LinearLayout>
 

@@ -37,7 +37,7 @@
                 android:paddingBottom="@dimen/container_padding">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|center"
                     android:layout_marginEnd="@dimen/container_padding"
@@ -47,7 +47,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Row and Column"
+                        android:text="@string/row_and_column_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -55,9 +55,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Change Qs tile rows and columns"
+                        android:text="@string/row_and_column_desc"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_title_size2" />
+                        android:textSize="@dimen/cont_desc_size" />
 
                 </LinearLayout>
 
@@ -65,7 +65,8 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_gravity="start|center"
-                    android:background="@drawable/ic_qs_row_column" />
+                    android:background="@drawable/ic_qs_row_column"
+                    android:contentDescription="@string/icon" />
 
             </LinearLayout>
 
@@ -84,7 +85,7 @@
                 android:paddingBottom="@dimen/container_padding">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|center"
                     android:layout_marginEnd="@dimen/container_padding"
@@ -94,7 +95,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Icon and Label"
+                        android:text="@string/icon_and_label_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -102,9 +103,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Change icon and label options"
+                        android:text="@string/icon_and_label_desc"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_title_size2" />
+                        android:textSize="@dimen/cont_desc_size" />
 
                 </LinearLayout>
 
@@ -112,7 +113,8 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_gravity="start|center"
-                    android:background="@drawable/ic_qs_text_color" />
+                    android:background="@drawable/ic_qs_text_color"
+                    android:contentDescription="@string/icon" />
 
             </LinearLayout>
 
@@ -131,7 +133,7 @@
                 android:paddingBottom="@dimen/container_padding">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|center"
                     android:layout_marginEnd="@dimen/container_padding"
@@ -141,7 +143,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Pixel Variant"
+                        android:text="@string/pixel_variant_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -149,9 +151,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="For roms with black QsPanel"
+                        android:text="@string/pixel_variant_desc"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_title_size2" />
+                        android:textSize="@dimen/cont_desc_size" />
 
                 </LinearLayout>
 
@@ -159,7 +161,8 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_gravity="start|center"
-                    android:background="@drawable/ic_pixel_device" />
+                    android:background="@drawable/ic_pixel_device"
+                    android:contentDescription="@string/icon" />
 
             </LinearLayout>
 
