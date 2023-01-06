@@ -25,9 +25,9 @@
             android:layout_height="24dp"
             android:layout_marginEnd="12dp"
             android:background="@drawable/ic_launcher_bg"
+            android:contentDescription="@string/icon"
             android:foreground="@drawable/ic_launcher_foreground"
-            android:foregroundTint="@color/textColorPrimaryInverse"
-            android:contentDescription="@string/icon" />
+            android:foregroundTint="@color/textColorPrimaryInverse" />
 
         <TextView
             android:layout_width="0dp"
@@ -46,9 +46,9 @@
             android:layout_marginStart="12dp"
             android:background="@drawable/ic_launcher_bg"
             android:backgroundTint="@color/colorBackground"
+            android:contentDescription="@string/icon"
             android:foreground="@drawable/ic_collapse_arrow"
-            android:foregroundTint="@color/textColorPrimary"
-            android:contentDescription="@string/icon" />
+            android:foregroundTint="@color/textColorPrimary" />
 
     </LinearLayout>
 

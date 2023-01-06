@@ -26,8 +26,8 @@
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:background="@drawable/ic_android"
-            android:scaleType="fitCenter"
-            android:contentDescription="@string/icon" />
+            android:contentDescription="@string/icon"
+            android:scaleType="fitCenter" />
 
         <TextView
             android:id="@+id/app_name"
@@ -63,6 +63,7 @@
 
         <Button
             android:id="@+id/aurora"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="42dp"
             android:layout_gravity="center"
@@ -75,11 +76,11 @@
             android:text="@string/iconpack_aurora"
             android:textColor="@color/colorBackground"
             android:textStyle="bold"
-            app:backgroundTint="@null"
-            style="?android:attr/buttonBarButtonStyle" />
+            app:backgroundTint="@null" />
 
         <Button
             android:id="@+id/gradicon"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="42dp"
             android:layout_gravity="center"
@@ -94,11 +95,11 @@
             android:text="@string/iconpack_gradicon"
             android:textColor="@color/colorBackground"
             android:textStyle="bold"
-            app:backgroundTint="@null"
-            style="?android:attr/buttonBarButtonStyle" />
+            app:backgroundTint="@null" />
 
         <Button
             android:id="@+id/plumpy"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="42dp"
             android:layout_gravity="center"
@@ -111,8 +112,7 @@
             android:text="@string/iconpack_plumpy"
             android:textColor="@color/colorBackground"
             android:textStyle="bold"
-            app:backgroundTint="@null"
-            style="?android:attr/buttonBarButtonStyle" />
+            app:backgroundTint="@null" />
 
     </LinearLayout>
 

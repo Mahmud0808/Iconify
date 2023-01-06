@@ -36,9 +36,9 @@
                     android:layout_marginEnd="12dp"
                     android:layout_marginBottom="@dimen/container_margin"
                     android:adjustViewBounds="true"
+                    android:contentDescription="@string/cont_desc_volume_panel"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/volume_panel_preview_thin_bg"
-                    android:contentDescription="@string/cont_desc_volume_panel" />
+                    android:src="@drawable/volume_panel_preview_thin_bg" />
 
                 <ImageView
                     android:id="@+id/volumepanel_preview_thick_bg"
@@ -48,9 +48,9 @@
                     android:layout_marginEnd="12dp"
                     android:layout_marginBottom="@dimen/container_margin"
                     android:adjustViewBounds="true"
+                    android:contentDescription="@string/cont_desc_volume_panel"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/volume_panel_preview_thick_bg"
-                    android:contentDescription="@string/cont_desc_volume_panel" />
+                    android:src="@drawable/volume_panel_preview_thick_bg" />
 
                 <ImageView
                     android:id="@+id/volumepanel_preview_no_bg"
@@ -60,9 +60,9 @@
                     android:layout_marginEnd="12dp"
                     android:layout_marginBottom="@dimen/container_margin"
                     android:adjustViewBounds="true"
+                    android:contentDescription="@string/cont_desc_volume_panel"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/volume_panel_preview_no_bg"
-                    android:contentDescription="@string/cont_desc_volume_panel" />
+                    android:src="@drawable/volume_panel_preview_no_bg" />
 
             </LinearLayout>
 

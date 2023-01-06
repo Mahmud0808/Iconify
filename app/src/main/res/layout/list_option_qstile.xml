@@ -37,8 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/qs_tile1"
@@ -48,8 +48,8 @@
                 android:layout_weight="1.0"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingEnd="16dp"
                 android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
@@ -82,8 +82,8 @@
                 android:layout_weight="1.0"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingEnd="16dp"
                 android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
@@ -113,8 +113,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/qs_tile3"
@@ -124,8 +124,8 @@
                 android:layout_weight="1.0"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingEnd="16dp"
                 android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
@@ -158,8 +158,8 @@
                 android:layout_weight="1.0"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingEnd="16dp"
                 android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
