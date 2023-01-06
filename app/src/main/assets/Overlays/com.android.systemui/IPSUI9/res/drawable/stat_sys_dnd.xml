@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 **
 ** Copyright 2017, The Android Open Source Project
 **
@@ -17,6 +16,6 @@
 */
 -->
 <inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_no_disturb"
     android:insetLeft="2.5dp"
-    android:insetRight="2.5dp"
-    android:drawable="@drawable/ic_no_disturb" />
+    android:insetRight="2.5dp" />

@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector
-  xmlns:android="http://schemas.android.com/apk/res/android">
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_checked="true">
         <layer-list>
             <item>
-                <shape android:dither="true" android:tint="?android:colorControlActivated" android:visible="true" android:shape="ring" android:useLevel="false">
+                <shape
+                    android:dither="true"
+                    android:shape="ring"
+                    android:tint="?android:colorControlActivated"
+                    android:useLevel="false"
+                    android:visible="true">
                     <solid android:color="?android:colorControlActivated" />
-                    <size android:height="0.0dip" android:width="0.0dip" />
+                    <size
+                        android:width="0.0dip"
+                        android:height="0.0dip" />
                 </shape>
             </item>
         </layer-list>
@@ -14,9 +20,16 @@
     <item android:state_enabled="false">
         <layer-list>
             <item>
-                <shape android:dither="true" android:tint="?android:colorControlActivated" android:visible="true" android:shape="ring" android:useLevel="false">
+                <shape
+                    android:dither="true"
+                    android:shape="ring"
+                    android:tint="?android:colorControlActivated"
+                    android:useLevel="false"
+                    android:visible="true">
                     <solid android:color="?android:colorControlActivated" />
-                    <size android:height="0.0dip" android:width="0.0dip" />
+                    <size
+                        android:width="0.0dip"
+                        android:height="0.0dip" />
                 </shape>
             </item>
         </layer-list>

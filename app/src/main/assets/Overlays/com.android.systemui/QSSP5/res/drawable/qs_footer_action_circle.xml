@@ -21,8 +21,7 @@
             android:top="4.0dp">
             <shape android:shape="rectangle">
                 <solid android:color="#FF000000" />
-                <corners
-                    android:radius="@*android:dimen/harmful_app_name_padding_left" />
+                <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
             </shape>
         </item>
     </ripple>

@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<dimen name="qs_icon_size">15.0dip</dimen>
+    <dimen name="qs_icon_size">15.0dip</dimen>
 </resources>

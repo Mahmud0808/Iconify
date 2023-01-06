@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
    Copyright (C) 2019 The Android Open Source Project
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,10 +14,10 @@
    limitations under the License.
 -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
     android:height="24dp"
-    android:viewportHeight="24"
     android:viewportWidth="24"
-    android:width="24dp" >
+    android:viewportHeight="24">
     <path
         android:fillColor="@android:color/white"
         android:pathData="M4.12,9.67C4.42,7.73,5.38,6,6.77,4.73C7.19,4.35,7.2,3.7,6.8,3.3c-0.39-0.39-1-0.39-1.4-0.03 C3.7,4.84,2.52,6.96,2.15,9.34c-0.1,0.61,0.37,1.16,0.99,1.16C3.63,10.5,4.04,10.15,4.12,9.67z" />

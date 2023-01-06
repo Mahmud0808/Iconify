@@ -13,7 +13,15 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<vector android:height="32dp" android:viewportHeight="24" android:viewportWidth="24" android:width="32dp" xmlns:android="http://schemas.android.com/apk/res/android">
-  <path android:fillColor="@android:color/white" android:pathData="M21,2h-5l-1.5,1.5l0,4.5h-9L4,9.5v11L5.5,22h13l1.5-1.5v-11L18.5,8H16V3.5h5v2.62h1.5V3.5L21,2z M18.5,20.5h-13v-11h13 V20.5z"/>
-  <path android:fillColor="@android:color/white" android:pathData="M 12 13 C 13.1045694997 13 14 13.8954305003 14 15 C 14 16.1045694997 13.1045694997 17 12 17 C 10.8954305003 17 10 16.1045694997 10 15 C 10 13.8954305003 10.8954305003 13 12 13 Z"/>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M21,2h-5l-1.5,1.5l0,4.5h-9L4,9.5v11L5.5,22h13l1.5-1.5v-11L18.5,8H16V3.5h5v2.62h1.5V3.5L21,2z M18.5,20.5h-13v-11h13 V20.5z" />
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M 12 13 C 13.1045694997 13 14 13.8954305003 14 15 C 14 16.1045694997 13.1045694997 17 12 17 C 10.8954305003 17 10 16.1045694997 10 15 C 10 13.8954305003 10.8954305003 13 12 13 Z" />
 </vector>

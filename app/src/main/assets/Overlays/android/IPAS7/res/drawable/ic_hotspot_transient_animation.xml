@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2019 The Android Open Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +14,7 @@
   ~ limitations under the License
 -->
 <animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:drawable="@*android:drawable/ic_hotspot_transient_animation_drawable" >
+    android:drawable="@*android:drawable/ic_hotspot_transient_animation_drawable">
     <target
         android:name="_R_G_L_0_G_D_0_P_0"
         android:animation="@*android:anim/ic_hotspot_transient_animation_2" />

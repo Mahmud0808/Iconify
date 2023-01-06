@@ -7,20 +7,20 @@
     <group
         android:pivotX="12.000"
         android:pivotY="12.000"
-        android:scaleY="1.000"
-        android:rotation="-0.000">
+        android:rotation="-0.000"
+        android:scaleY="1.000">
 
         <path
-            android:strokeLineJoin="miter"
             android:fillType="nonZero"
+            android:pathData="M17.41,9.51C23.73,10.46,23.73,20.00,16.10,20.00L6.16,20.00C0.28,20.00,1.14,12.58,5.57,12.58C2.56,2.88,16.55,0.78,17.41,9.51z"
             android:strokeLineCap="square"
-            android:pathData="M17.41,9.51C23.73,10.46,23.73,20.00,16.10,20.00L6.16,20.00C0.28,20.00,1.14,12.58,5.57,12.58C2.56,2.88,16.55,0.78,17.41,9.51z">
+            android:strokeLineJoin="miter">
             <aapt:attr name="android:strokeColor">
                 <gradient
-                    android:startX="2.000"
-                    android:startY="4.000"
                     android:endX="22.000"
                     android:endY="20.000"
+                    android:startX="2.000"
+                    android:startY="4.000"
                     android:type="linear">
                     <item
                         android:color="#00000000"
@@ -32,10 +32,10 @@
             </aapt:attr>
             <aapt:attr name="android:fillColor">
                 <gradient
-                    android:startX="12.000"
-                    android:startY="3.155"
                     android:endX="12.000"
                     android:endY="20.845"
+                    android:startX="12.000"
+                    android:startY="3.155"
                     android:type="linear">
                     <item
                         android:color="#FF000000"
