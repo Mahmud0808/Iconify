@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.ui;
+package com.drdisagree.iconify.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -20,6 +20,7 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.installer.NotifInstaller;
+import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.Objects;

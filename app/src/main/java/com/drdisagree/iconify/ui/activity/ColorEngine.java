@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.ui;
+package com.drdisagree.iconify.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -15,7 +15,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.services.ApplyOnBoot;
 import com.drdisagree.iconify.utils.FabricatedOverlay;
-import com.drdisagree.iconify.utils.OverlayUtils;
+import com.drdisagree.iconify.utils.OverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
@@ -49,7 +49,7 @@ public class ColorEngine extends AppCompatActivity {
         apply_monet_color.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 apply_monet_color.setChecked(true);
-                OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
+                OverlayUtil.enableOverlay("IconifyComponentAMC.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay", true);
 
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", false);
@@ -63,7 +63,7 @@ public class ColorEngine extends AppCompatActivity {
                     findViewById(R.id.page_color_engine).invalidate();
                 }, 1000);
             } else {
-                OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentAMC.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay", false);
 
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
@@ -96,15 +96,15 @@ public class ColorEngine extends AppCompatActivity {
         apply_minimal_qspanel.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 apply_pitch_black_theme.setChecked(false);
-                OverlayUtils.disableOverlay("IconifyComponentQSPB.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQSPB.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSPB.overlay", false);
 
                 apply_minimal_qspanel.postDelayed(() -> {
-                    OverlayUtils.enableOverlay("IconifyComponentQSST.overlay");
+                    OverlayUtil.enableOverlay("IconifyComponentQSST.overlay");
                     PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSST.overlay", true);
                 }, 200);
             } else {
-                OverlayUtils.disableOverlay("IconifyComponentQSST.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQSST.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSST.overlay", false);
             }
         });
@@ -115,15 +115,15 @@ public class ColorEngine extends AppCompatActivity {
         apply_pitch_black_theme.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 apply_minimal_qspanel.setChecked(false);
-                OverlayUtils.disableOverlay("IconifyComponentQSST.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQSST.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSST.overlay", false);
 
                 apply_pitch_black_theme.postDelayed(() -> {
-                    OverlayUtils.enableOverlay("IconifyComponentQSPB.overlay");
+                    OverlayUtil.enableOverlay("IconifyComponentQSPB.overlay");
                     PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSPB.overlay", true);
                 }, 200);
             } else {
-                OverlayUtils.disableOverlay("IconifyComponentQSPB.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQSPB.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSPB.overlay", false);
             }
         });

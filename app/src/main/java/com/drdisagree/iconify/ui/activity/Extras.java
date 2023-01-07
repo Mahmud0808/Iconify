@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.ui;
+package com.drdisagree.iconify.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;

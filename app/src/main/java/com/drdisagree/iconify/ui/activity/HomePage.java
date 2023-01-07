@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.ui;
+package com.drdisagree.iconify.ui.activity;
 
 import android.Manifest;
 import android.content.Intent;
@@ -25,8 +25,9 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.services.BackgroundService;
+import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedOverlay;
-import com.drdisagree.iconify.utils.OverlayUtils;
+import com.drdisagree.iconify.utils.OverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
@@ -91,7 +92,7 @@ public class HomePage extends AppCompatActivity {
 
         // Get list of enabled overlays
         Runnable runnable1 = () -> {
-            List<String> EnabledOverlays = OverlayUtils.getEnabledOverlayList();
+            List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
             for (String overlay : EnabledOverlays)
                 PrefConfig.savePrefBool(Iconify.getAppContext(), overlay, true);
 

@@ -12,7 +12,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.services.ApplyOnBoot;
 import com.drdisagree.iconify.utils.FabricatedOverlay;
-import com.drdisagree.iconify.utils.OverlayUtils;
+import com.drdisagree.iconify.utils.OverlayUtil;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
@@ -31,7 +31,7 @@ public class QsShapePixelInstaller {
             ApplyOnBoot.applyColors();
         }
         if (PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius").equals("null"))
-            OverlayUtils.enableOverlay("IconifyComponentCR16.overlay");
+            OverlayUtil.enableOverlay("IconifyComponentCR16.overlay");
     }
 
     protected static void enable_pack(int n) {

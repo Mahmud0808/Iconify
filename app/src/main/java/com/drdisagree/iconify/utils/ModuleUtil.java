@@ -19,7 +19,7 @@ public class ModuleUtil {
     public static final String DATA_DIR = Iconify.getAppContext().getFilesDir().toString();
     public static final String OVERLAY_DIR = "/data/adb/modules/Iconify/system/product/overlay";
 
-    public static void handleModule(final Context context) throws IOException {
+    public static void handleModule() throws IOException {
         if (moduleExists()) {
             Shell.cmd("rm -rf " + MODULE_DIR).exec();
         }
@@ -36,22 +36,8 @@ public class ModuleUtil {
                 "author=@DrDisagree\n" +
                 "description=Systemless module for Iconify.\n' > " + MODULE_DIR + "/module.prop").exec();
         Shell.cmd("mkdir -p " + MODULE_DIR + "/common").exec();
-        Shell.cmd("printf '#!/system/bin/sh\n" +
-                "# Do NOT assume where your module will be located.\n" +
-                "# ALWAYS use $MODDIR if you need to know where this script\n" +
-                "# and module is placed.\n" +
-                "# This will make sure your module will still work\n" +
-                "# if Magisk change its mount point in the future\n" +
-                "MODDIR=${0%%/*}\n" +
-                "# This script will be executed in post-fs-data mode' > " + MODULE_DIR + "/post-fs-data.sh").exec();
-        Shell.cmd("printf '#!/system/bin/sh\n" +
-                "# Do NOT assume where your module will be located.\n" +
-                "# ALWAYS use $MODDIR if you need to know where this script\n" +
-                "# and module is placed.\n" +
-                "# This will make sure your module will still work\n" +
-                "# if Magisk change its mount point in the future\n" +
-                "MODDIR=${0%%/*}\n" +
-                "# This script will be executed in late_start service mode\n' > " + MODULE_DIR + "/service.sh").exec();
+        Shell.cmd("printf 'MODDIR=${0%%/*}\n' > " + MODULE_DIR + "/post-fs-data.sh").exec();
+        Shell.cmd("printf 'MODDIR=${0%%/*}\n' > " + MODULE_DIR + "/service.sh").exec();
         Shell.cmd("touch " + MODULE_DIR + "/common/system.prop").exec();
         Shell.cmd("mkdir -p " + MODULE_DIR + "/tools").exec();
         Shell.cmd("mkdir -p " + MODULE_DIR + "/system").exec();

@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.ui;
+package com.drdisagree.iconify.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.content.ClipData;

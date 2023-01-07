@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.ui;
+package com.drdisagree.iconify.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -19,8 +19,9 @@ import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.drdisagree.iconify.utils.ModuleUtil;
-import com.drdisagree.iconify.utils.OverlayUtils;
+import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.RootUtil;
 
 import java.io.IOException;
@@ -60,14 +61,14 @@ public class WelcomePage extends AppCompatActivity {
                         intent.setData(uri);
                         startActivity(intent);
                     } else {
-                        if ((PrefConfig.loadPrefInt(this, "versionCode") < versionCode) || !ModuleUtil.moduleExists() || !OverlayUtils.overlayExists()) {
+                        if ((PrefConfig.loadPrefInt(this, "versionCode") < versionCode) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
                             warn.setVisibility(View.INVISIBLE);
                             // Show loading dialog
                             loadingDialog.show(getResources().getString(R.string.installing));
 
                             Runnable runnable = () -> {
                                 try {
-                                    ModuleUtil.handleModule(Iconify.getAppContext());
+                                    ModuleUtil.handleModule();
                                 } catch (IOException e) {
                                     Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_LONG).show();
                                     e.printStackTrace();
@@ -76,7 +77,7 @@ public class WelcomePage extends AppCompatActivity {
                                     // Hide loading dialog
                                     loadingDialog.hide();
 
-                                    if (OverlayUtils.overlayExists()) {
+                                    if (OverlayUtil.overlayExists()) {
                                         new Handler().postDelayed(() -> {
                                             Intent intent = new Intent(WelcomePage.this, HomePage.class);
                                             startActivity(intent);

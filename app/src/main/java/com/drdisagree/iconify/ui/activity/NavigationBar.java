@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.ui;
+package com.drdisagree.iconify.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
-import com.drdisagree.iconify.utils.OverlayUtils;
+import com.drdisagree.iconify.utils.OverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
@@ -93,11 +93,11 @@ public class NavigationBar extends AppCompatActivity {
                 nb_pill_menu.setVisibility(View.GONE);
                 nb_kb_buttons_menu.setVisibility(View.VISIBLE);
                 disableOthers("IconifyComponentNBFullScreen.overlay");
-                OverlayUtils.enableOverlay("IconifyComponentNBFullScreen.overlay");
+                OverlayUtil.enableOverlay("IconifyComponentNBFullScreen.overlay");
             } else {
                 nb_pill_menu.setVisibility(View.VISIBLE);
                 nb_kb_buttons_menu.setVisibility(View.GONE);
-                OverlayUtils.disableOverlay("IconifyComponentNBFullScreen.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentNBFullScreen.overlay");
             }
         });
 
@@ -106,10 +106,10 @@ public class NavigationBar extends AppCompatActivity {
             if (isChecked) {
                 nb_kb_buttons_menu.setVisibility(View.VISIBLE);
                 disableOthers("IconifyComponentNBImmersive.overlay");
-                OverlayUtils.enableOverlay("IconifyComponentNBImmersive.overlay");
+                OverlayUtil.enableOverlay("IconifyComponentNBImmersive.overlay");
             } else {
                 nb_kb_buttons_menu.setVisibility(View.GONE);
-                OverlayUtils.disableOverlay("IconifyComponentNBImmersive.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentNBImmersive.overlay");
             }
         });
 
@@ -118,10 +118,10 @@ public class NavigationBar extends AppCompatActivity {
             if (isChecked) {
                 nb_kb_buttons_menu.setVisibility(View.VISIBLE);
                 disableOthers("IconifyComponentNBImmersiveSmall.overlay");
-                OverlayUtils.enableOverlay("IconifyComponentNBImmersiveSmall.overlay");
+                OverlayUtil.enableOverlay("IconifyComponentNBImmersiveSmall.overlay");
             } else {
                 nb_kb_buttons_menu.setVisibility(View.GONE);
-                OverlayUtils.disableOverlay("IconifyComponentNBImmersiveSmall.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmall.overlay");
             }
         });
 
@@ -130,19 +130,19 @@ public class NavigationBar extends AppCompatActivity {
             if (isChecked) {
                 nb_kb_buttons_menu.setVisibility(View.VISIBLE);
                 disableOthers("IconifyComponentNBImmersiveSmaller.overlay");
-                OverlayUtils.enableOverlay("IconifyComponentNBImmersiveSmaller.overlay");
+                OverlayUtil.enableOverlay("IconifyComponentNBImmersiveSmaller.overlay");
             } else {
                 nb_kb_buttons_menu.setVisibility(View.GONE);
-                OverlayUtils.disableOverlay("IconifyComponentNBImmersiveSmaller.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmaller.overlay");
             }
         });
 
         // Lower Sensitivity
         nb_hide_pill.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                OverlayUtils.enableOverlay("IconifyComponentNBLowSens.overlay");
+                OverlayUtil.enableOverlay("IconifyComponentNBLowSens.overlay");
             } else {
-                OverlayUtils.disableOverlay("IconifyComponentNBLowSens.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentNBLowSens.overlay");
             }
         });
 
@@ -150,11 +150,11 @@ public class NavigationBar extends AppCompatActivity {
         nb_hide_pill.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 nb_monet_pill_menu.setVisibility(View.GONE);
-                OverlayUtils.enableOverlay("IconifyComponentNBHidePill.overlay");
+                OverlayUtil.enableOverlay("IconifyComponentNBHidePill.overlay");
                 Shell.cmd("killall com.android.systemui").exec();
             } else {
                 nb_monet_pill_menu.setVisibility(View.VISIBLE);
-                OverlayUtils.disableOverlay("IconifyComponentNBHidePill.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentNBHidePill.overlay");
                 Shell.cmd("killall com.android.systemui").exec();
             }
         });
@@ -162,10 +162,10 @@ public class NavigationBar extends AppCompatActivity {
         // Monet Pill
         nb_monet_pill.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                OverlayUtils.enableOverlay("IconifyComponentNBMonetPill.overlay");
+                OverlayUtil.enableOverlay("IconifyComponentNBMonetPill.overlay");
                 Shell.cmd("killall com.android.systemui").exec();
             } else {
-                OverlayUtils.disableOverlay("IconifyComponentNBMonetPill.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentNBMonetPill.overlay");
                 Shell.cmd("killall com.android.systemui").exec();
             }
         });
@@ -173,9 +173,9 @@ public class NavigationBar extends AppCompatActivity {
         // Hide Keyboard Buttons
         nb_hide_kb_buttons.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                OverlayUtils.enableOverlay("IconifyComponentNBHideKBButton.overlay");
+                OverlayUtil.enableOverlay("IconifyComponentNBHideKBButton.overlay");
             } else {
-                OverlayUtils.disableOverlay("IconifyComponentNBHideKBButton.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentNBHideKBButton.overlay");
             }
         });
 
@@ -222,22 +222,22 @@ public class NavigationBar extends AppCompatActivity {
         if (!Objects.equals(pkgName, "IconifyComponentNBFullScreen.overlay")) {
             nb_fullscreen.setChecked(false);
             PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentNBFullScreen.overlay"), false);
-            OverlayUtils.disableOverlay("IconifyComponentNBFullScreen.overlay");
+            OverlayUtil.disableOverlay("IconifyComponentNBFullScreen.overlay");
         }
         if (!Objects.equals(pkgName, "IconifyComponentNBImmersive.overlay")) {
             nb_immersive.setChecked(false);
             PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentNBImmersive.overlay"), false);
-            OverlayUtils.disableOverlay("IconifyComponentNBImmersive.overlay");
+            OverlayUtil.disableOverlay("IconifyComponentNBImmersive.overlay");
         }
         if (!Objects.equals(pkgName, "IconifyComponentNBImmersiveSmall.overlay")) {
             nb_immersivev2.setChecked(false);
             PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentNBImmersiveSmall.overlay"), false);
-            OverlayUtils.disableOverlay("IconifyComponentNBImmersiveSmall.overlay");
+            OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmall.overlay");
         }
         if (!Objects.equals(pkgName, "IconifyComponentNBImmersiveSmaller.overlay")) {
             nb_immersivev3.setChecked(false);
             PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentNBImmersiveSmaller.overlay"), false);
-            OverlayUtils.disableOverlay("IconifyComponentNBImmersiveSmaller.overlay");
+            OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmaller.overlay");
         }
     }
 

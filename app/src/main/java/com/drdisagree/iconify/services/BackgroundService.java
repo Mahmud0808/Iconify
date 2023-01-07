@@ -15,7 +15,6 @@ import androidx.core.app.NotificationCompat;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.References;
-import com.drdisagree.iconify.ui.HomePage;
 import com.topjohnwu.superuser.Shell;
 
 public class BackgroundService extends Service {

@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.ui;
+package com.drdisagree.iconify.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -18,7 +18,7 @@ import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.installer.IconSizeInstaller;
 import com.drdisagree.iconify.installer.MoveIconInstaller;
 import com.drdisagree.iconify.installer.TextSizeInstaller;
-import com.drdisagree.iconify.utils.OverlayUtils;
+import com.drdisagree.iconify.utils.OverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.List;
@@ -40,7 +40,7 @@ public class QsIconLabel extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        List<String> enabledOverlays = OverlayUtils.getEnabledOverlayList();
+        List<String> enabledOverlays = OverlayUtil.getEnabledOverlayList();
 
         // Text Size
 
@@ -162,19 +162,19 @@ public class QsIconLabel extends AppCompatActivity {
                 label_systemInverse.setChecked(false);
                 label_systemInverseV2.setChecked(false);
                 label_fixtexta13.setChecked(false);
-                OverlayUtils.disableOverlay("IconifyComponentQST2.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST2.overlay", false);
-                OverlayUtils.disableOverlay("IconifyComponentQST3.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST3.overlay", false);
-                OverlayUtils.disableOverlay("IconifyComponentQST4.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST4.overlay", false);
-                OverlayUtils.disableOverlay("IconifyComponentQST5.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST5.overlay", false);
 
-                OverlayUtils.enableOverlay("IconifyComponentQST1.overlay");
+                OverlayUtil.enableOverlay("IconifyComponentQST1.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST1.overlay", true);
             } else {
-                OverlayUtils.disableOverlay("IconifyComponentQST1.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST1.overlay", false);
             }
         });
@@ -187,19 +187,19 @@ public class QsIconLabel extends AppCompatActivity {
                 label_systemInverse.setChecked(false);
                 label_systemInverseV2.setChecked(false);
                 label_fixtexta13.setChecked(false);
-                OverlayUtils.disableOverlay("IconifyComponentQST1.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST1.overlay", false);
-                OverlayUtils.disableOverlay("IconifyComponentQST3.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST3.overlay", false);
-                OverlayUtils.disableOverlay("IconifyComponentQST4.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST4.overlay", false);
-                OverlayUtils.disableOverlay("IconifyComponentQST5.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST5.overlay", false);
 
-                OverlayUtils.enableOverlay("IconifyComponentQST2.overlay");
+                OverlayUtil.enableOverlay("IconifyComponentQST2.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST2.overlay", true);
             } else {
-                OverlayUtils.disableOverlay("IconifyComponentQST2.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST2.overlay", false);
             }
         });
@@ -212,19 +212,19 @@ public class QsIconLabel extends AppCompatActivity {
                 label_whiteV2.setChecked(false);
                 label_systemInverseV2.setChecked(false);
                 label_fixtexta13.setChecked(false);
-                OverlayUtils.disableOverlay("IconifyComponentQST1.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST1.overlay", false);
-                OverlayUtils.disableOverlay("IconifyComponentQST2.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST2.overlay", false);
-                OverlayUtils.disableOverlay("IconifyComponentQST4.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST4.overlay", false);
-                OverlayUtils.disableOverlay("IconifyComponentQST5.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST5.overlay", false);
 
-                OverlayUtils.enableOverlay("IconifyComponentQST3.overlay");
+                OverlayUtil.enableOverlay("IconifyComponentQST3.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST3.overlay", true);
             } else {
-                OverlayUtils.disableOverlay("IconifyComponentQST3.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST3.overlay", false);
             }
         });
@@ -237,19 +237,19 @@ public class QsIconLabel extends AppCompatActivity {
                 label_whiteV2.setChecked(false);
                 label_systemInverse.setChecked(false);
                 label_fixtexta13.setChecked(false);
-                OverlayUtils.disableOverlay("IconifyComponentQST1.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST1.overlay", false);
-                OverlayUtils.disableOverlay("IconifyComponentQST2.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST2.overlay", false);
-                OverlayUtils.disableOverlay("IconifyComponentQST3.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST3.overlay", false);
-                OverlayUtils.disableOverlay("IconifyComponentQST5.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST5.overlay", false);
 
-                OverlayUtils.enableOverlay("IconifyComponentQST4.overlay");
+                OverlayUtil.enableOverlay("IconifyComponentQST4.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST4.overlay", true);
             } else {
-                OverlayUtils.disableOverlay("IconifyComponentQST4.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST4.overlay", false);
             }
         });
@@ -263,19 +263,19 @@ public class QsIconLabel extends AppCompatActivity {
                 label_systemInverse.setChecked(false);
                 label_systemInverseV2.setChecked(false);
 
-                OverlayUtils.disableOverlay("IconifyComponentQST1.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST1.overlay", false);
-                OverlayUtils.disableOverlay("IconifyComponentQST2.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST2.overlay", false);
-                OverlayUtils.disableOverlay("IconifyComponentQST3.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST3.overlay", false);
-                OverlayUtils.disableOverlay("IconifyComponentQST4.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST4.overlay", false);
 
-                OverlayUtils.enableOverlay("IconifyComponentQST5.overlay");
+                OverlayUtil.enableOverlay("IconifyComponentQST5.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST5.overlay", true);
             } else {
-                OverlayUtils.disableOverlay("IconifyComponentQST5.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQST5.overlay", false);
             }
         });
@@ -288,13 +288,13 @@ public class QsIconLabel extends AppCompatActivity {
 
         hide_label.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                OverlayUtils.enableOverlay("IconifyComponentQSHL.overlay");
+                OverlayUtil.enableOverlay("IconifyComponentQSHL.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", true);
 
                 text_size_container.setVisibility(View.GONE);
                 text_size_divider.setVisibility(View.GONE);
             } else {
-                OverlayUtils.disableOverlay("IconifyComponentQSHL.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentQSHL.overlay");
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", false);
 
                 text_size_container.setVisibility(View.VISIBLE);

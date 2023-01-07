@@ -1,5 +1,6 @@
-package com.drdisagree.iconify.ui;
+package com.drdisagree.iconify.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -18,22 +19,23 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
-import com.drdisagree.iconify.installer.BrightnessPixelInstaller;
+import com.drdisagree.iconify.installer.BrightnessInstaller;
+import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.Objects;
 
-public class BrightnessBarsPixel extends AppCompatActivity {
+public class BrightnessBars extends AppCompatActivity {
 
-    private static final String ROUNDED_CLIP_KEY_PIXEL = "IconifyComponentBBP1.overlay";
-    private static final String ROUNDED_BAR_KEY_PIXEL = "IconifyComponentBBP2.overlay";
-    private static final String DOUBLE_LAYER_KEY_PIXEL = "IconifyComponentBBP3.overlay";
-    private static final String SHADED_LAYER_KEY_PIXEL = "IconifyComponentBBP4.overlay";
-    private static final String OUTLINE_KEY_PIXEL = "IconifyComponentBBP5.overlay";
-    private static final String LEAFY_OUTLINE_KEY_PIXEL = "IconifyComponentBBP6.overlay";
-    private static final String NEUMORPH_KEY_PIXEL = "IconifyComponentBBP7.overlay";
-    private static final String INLINE_KEY_PIXEL = "IconifyComponentBBP8.overlay";
-    private static final String NEUMORPH_OUTLINE_KEY_PIXEL = "IconifyComponentBBP9.overlay";
+    private static final String ROUNDED_CLIP_KEY = "IconifyComponentBBN1.overlay";
+    private static final String ROUNDED_BAR_KEY = "IconifyComponentBBN2.overlay";
+    private static final String DOUBLE_LAYER_KEY = "IconifyComponentBBN3.overlay";
+    private static final String SHADED_LAYER_KEY = "IconifyComponentBBN4.overlay";
+    private static final String OUTLINE_KEY = "IconifyComponentBBN5.overlay";
+    private static final String LEAFY_OUTLINE_KEY = "IconifyComponentBBN6.overlay";
+    private static final String NEUMORPH_KEY = "IconifyComponentBBN7.overlay";
+    private static final String INLINE_KEY = "IconifyComponentBBN8.overlay";
+    private static final String NEUMORPH_OUTLINE_KEY = "IconifyComponentBBN9.overlay";
 
     LinearLayout[] Container;
     LinearLayout RoundedClipContainer, RoundedContainer, DoubleLayerContainer, ShadedLayerContainer, OutlineContainer, LeafyOutlineContainer, NeumorphContainer, InlineContainer, NeumorphOutlineContainer;
@@ -46,7 +48,7 @@ public class BrightnessBarsPixel extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_brightness_bars_pixel);
+        setContentView(R.layout.activity_brightness_bars);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
@@ -56,11 +58,18 @@ public class BrightnessBarsPixel extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        // Brightnessbar pixel item on click
+        LinearLayout brightness_bar_pixel = findViewById(R.id.brightness_bar_pixel);
+        brightness_bar_pixel.setOnClickListener(v -> {
+            Intent intent = new Intent(BrightnessBars.this, BrightnessBarsPixel.class);
+            startActivity(intent);
+        });
+
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
 
         // Brightness Bar list items
-        container = (ViewGroup) findViewById(R.id.brightness_bars_list_pixel);
+        container = (ViewGroup) findViewById(R.id.brightness_bars_list);
 
         // Brightness Bar add items in list
         addItem(R.id.brightnessBar_roundedClip_container, R.id.brightnessBar_roundedClip_bb, R.id.brightnessBar_roundedClip_auto_bb, "Rounded Clip", R.id.brightnessBar_roundedClip_enable, R.id.brightnessBar_roundedClip_disable);
@@ -78,95 +87,95 @@ public class BrightnessBarsPixel extends AppCompatActivity {
         RoundedClip_Enable = findViewById(R.id.brightnessBar_roundedClip_enable);
         RoundedClip_Disable = findViewById(R.id.brightnessBar_roundedClip_disable);
         RoundedClip_Bb = findViewById(R.id.brightnessBar_roundedClip_bb);
-        RoundedClip_Bb.setBackground(ContextCompat.getDrawable(BrightnessBarsPixel.this, R.drawable.bb_roundedclip_pixel));
+        RoundedClip_Bb.setBackground(ContextCompat.getDrawable(BrightnessBars.this, R.drawable.bb_roundedclip));
         RoundedClip_Auto_Bb = findViewById(R.id.brightnessBar_roundedClip_auto_bb);
-        RoundedClip_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_roundedclip_pixel));
+        RoundedClip_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_roundedclip));
 
         // Rounded Bar
         RoundedContainer = findViewById(R.id.brightnessBar_rounded_container);
         Rounded_Enable = findViewById(R.id.brightnessBar_rounded_enable);
         Rounded_Disable = findViewById(R.id.brightnessBar_rounded_disable);
         Rounded_Bb = findViewById(R.id.brightnessBar_rounded_bb);
-        Rounded_Bb.setBackground(ContextCompat.getDrawable(BrightnessBarsPixel.this, R.drawable.bb_rounded_pixel));
+        Rounded_Bb.setBackground(ContextCompat.getDrawable(BrightnessBars.this, R.drawable.bb_rounded));
         Rounded_Auto_Bb = findViewById(R.id.brightnessBar_rounded_auto_bb);
-        Rounded_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_rounded_pixel));
+        Rounded_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_rounded));
 
         // Double Layer
         DoubleLayerContainer = findViewById(R.id.brightnessBar_doubleLayer_container);
         DoubleLayer_Enable = findViewById(R.id.brightnessBar_doubleLayer_enable);
         DoubleLayer_Disable = findViewById(R.id.brightnessBar_doubleLayer_disable);
         DoubleLayer_Bb = findViewById(R.id.brightnessBar_doubleLayer_bb);
-        DoubleLayer_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.bb_double_layer_pixel));
+        DoubleLayer_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.bb_double_layer));
         DoubleLayer_Auto_Bb = findViewById(R.id.brightnessBar_doubleLayer_auto_bb);
-        DoubleLayer_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_double_layer_pixel));
+        DoubleLayer_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_double_layer));
 
         // Shaded Layer
         ShadedLayerContainer = findViewById(R.id.brightnessBar_shadedLayer_container);
         ShadedLayer_Enable = findViewById(R.id.brightnessBar_shadedLayer_enable);
         ShadedLayer_Disable = findViewById(R.id.brightnessBar_shadedLayer_disable);
         ShadedLayer_Bb = findViewById(R.id.brightnessBar_shadedLayer_bb);
-        ShadedLayer_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.bb_shaded_layer_pixel));
+        ShadedLayer_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.bb_shaded_layer));
         ShadedLayer_Auto_Bb = findViewById(R.id.brightnessBar_shadedLayer_auto_bb);
-        ShadedLayer_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_shaded_layer_pixel));
+        ShadedLayer_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_shaded_layer));
 
         // Outline
         OutlineContainer = findViewById(R.id.brightnessBar_outline_container);
         Outline_Enable = findViewById(R.id.brightnessBar_outline_enable);
         Outline_Disable = findViewById(R.id.brightnessBar_outline_disable);
         Outline_Bb = findViewById(R.id.brightnessBar_outline_bb);
-        Outline_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.bb_outline_pixel));
+        Outline_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.bb_outline));
         Outline_Auto_Bb = findViewById(R.id.brightnessBar_outline_auto_bb);
-        Outline_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_outline_pixel));
+        Outline_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_outline));
 
         // Leafy Outline
         LeafyOutlineContainer = findViewById(R.id.brightnessBar_leafy_outline_container);
         LeafyOutline_Enable = findViewById(R.id.brightnessBar_leafy_outline_enable);
         LeafyOutline_Disable = findViewById(R.id.brightnessBar_leafy_outline_disable);
         LeafyOutline_Bb = findViewById(R.id.brightnessBar_leafy_outline_bb);
-        LeafyOutline_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.bb_leafy_outline_pixel));
+        LeafyOutline_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.bb_leafy_outline));
         LeafyOutline_Auto_Bb = findViewById(R.id.brightnessBar_leafy_outline_auto_bb);
-        LeafyOutline_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_leafy_outline_pixel));
+        LeafyOutline_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_leafy_outline));
 
         // Neumorph
         NeumorphContainer = findViewById(R.id.brightnessBar_neumorph_container);
         Neumorph_Enable = findViewById(R.id.brightnessBar_neumorph_enable);
         Neumorph_Disable = findViewById(R.id.brightnessBar_neumorph_disable);
         Neumorph_Bb = findViewById(R.id.brightnessBar_neumorph_bb);
-        Neumorph_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.bb_neumorph_pixel));
+        Neumorph_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.bb_neumorph));
         Neumorph_Auto_Bb = findViewById(R.id.brightnessBar_neumorph_auto_bb);
-        Neumorph_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_neumorph_pixel));
+        Neumorph_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_neumorph));
 
         // Neumorph Outline
         NeumorphOutlineContainer = findViewById(R.id.brightnessBar_neumorph_outline_container);
         NeumorphOutline_Enable = findViewById(R.id.brightnessBar_neumorph_outline_enable);
         NeumorphOutline_Disable = findViewById(R.id.brightnessBar_neumorph_outline_disable);
         NeumorphOutline_Bb = findViewById(R.id.brightnessBar_neumorph_outline_bb);
-        NeumorphOutline_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.bb_neumorph_outline_pixel));
+        NeumorphOutline_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.bb_neumorph_outline));
         NeumorphOutline_Auto_Bb = findViewById(R.id.brightnessBar_neumorph_outline_auto_bb);
-        NeumorphOutline_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_neumorph_outline_pixel));
+        NeumorphOutline_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_neumorph_outline));
 
         // Inline
         InlineContainer = findViewById(R.id.brightnessBar_inline_container);
         Inline_Enable = findViewById(R.id.brightnessBar_inline_enable);
         Inline_Disable = findViewById(R.id.brightnessBar_inline_disable);
         Inline_Bb = findViewById(R.id.brightnessBar_inline_bb);
-        Inline_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.bb_inline_pixel));
+        Inline_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.bb_inline));
         Inline_Auto_Bb = findViewById(R.id.brightnessBar_inline_auto_bb);
-        Inline_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_rounded_pixel));
+        Inline_Auto_Bb.setBackground(ContextCompat.getDrawable(this, R.drawable.auto_bb_rounded));
 
         // List of Brightness Bar
         Container = new LinearLayout[]{RoundedClipContainer, RoundedContainer, DoubleLayerContainer, ShadedLayerContainer, OutlineContainer, LeafyOutlineContainer, NeumorphContainer, NeumorphOutlineContainer, InlineContainer};
 
         // Enable onClick event
-        enableOnClickListener(RoundedClipContainer, RoundedClip_Enable, RoundedClip_Disable, ROUNDED_CLIP_KEY_PIXEL, 1);
-        enableOnClickListener(RoundedContainer, Rounded_Enable, Rounded_Disable, ROUNDED_BAR_KEY_PIXEL, 2);
-        enableOnClickListener(DoubleLayerContainer, DoubleLayer_Enable, DoubleLayer_Disable, DOUBLE_LAYER_KEY_PIXEL, 3);
-        enableOnClickListener(ShadedLayerContainer, ShadedLayer_Enable, ShadedLayer_Disable, SHADED_LAYER_KEY_PIXEL, 4);
-        enableOnClickListener(OutlineContainer, Outline_Enable, Outline_Disable, OUTLINE_KEY_PIXEL, 5);
-        enableOnClickListener(LeafyOutlineContainer, LeafyOutline_Enable, LeafyOutline_Disable, LEAFY_OUTLINE_KEY_PIXEL, 6);
-        enableOnClickListener(NeumorphContainer, Neumorph_Enable, Neumorph_Disable, NEUMORPH_KEY_PIXEL, 7);
-        enableOnClickListener(InlineContainer, Inline_Enable, Inline_Disable, INLINE_KEY_PIXEL, 8);
-        enableOnClickListener(NeumorphOutlineContainer, NeumorphOutline_Enable, NeumorphOutline_Disable, NEUMORPH_OUTLINE_KEY_PIXEL, 9);
+        enableOnClickListener(RoundedClipContainer, RoundedClip_Enable, RoundedClip_Disable, ROUNDED_CLIP_KEY, 1);
+        enableOnClickListener(RoundedContainer, Rounded_Enable, Rounded_Disable, ROUNDED_BAR_KEY, 2);
+        enableOnClickListener(DoubleLayerContainer, DoubleLayer_Enable, DoubleLayer_Disable, DOUBLE_LAYER_KEY, 3);
+        enableOnClickListener(ShadedLayerContainer, ShadedLayer_Enable, ShadedLayer_Disable, SHADED_LAYER_KEY, 4);
+        enableOnClickListener(OutlineContainer, Outline_Enable, Outline_Disable, OUTLINE_KEY, 5);
+        enableOnClickListener(LeafyOutlineContainer, LeafyOutline_Enable, LeafyOutline_Disable, LEAFY_OUTLINE_KEY, 6);
+        enableOnClickListener(NeumorphContainer, Neumorph_Enable, Neumorph_Disable, NEUMORPH_KEY, 7);
+        enableOnClickListener(InlineContainer, Inline_Enable, Inline_Disable, INLINE_KEY, 8);
+        enableOnClickListener(NeumorphOutlineContainer, NeumorphOutline_Enable, NeumorphOutline_Disable, NEUMORPH_OUTLINE_KEY, 9);
 
         refreshBackground();
     }
@@ -255,7 +264,7 @@ public class BrightnessBarsPixel extends AppCompatActivity {
 
             Runnable runnable = () -> {
                 disable_others(key);
-                BrightnessPixelInstaller.install_pack(index);
+                BrightnessInstaller.install_pack(index);
 
                 runOnUiThread(() -> {
                     PrefConfig.savePrefBool(Iconify.getAppContext(), key, true);
@@ -286,7 +295,7 @@ public class BrightnessBarsPixel extends AppCompatActivity {
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
-                BrightnessPixelInstaller.disable_pack(index);
+                BrightnessInstaller.disable_pack(index);
 
                 runOnUiThread(() -> {
                     PrefConfig.savePrefBool(Iconify.getAppContext(), key, false);
@@ -314,20 +323,20 @@ public class BrightnessBarsPixel extends AppCompatActivity {
 
     // Function to disable other packs if one is applied
     private void disable_others(String pack) {
-        PrefConfig.savePrefBool(Iconify.getAppContext(), ROUNDED_CLIP_KEY_PIXEL, pack.equals(ROUNDED_CLIP_KEY_PIXEL));
-        PrefConfig.savePrefBool(Iconify.getAppContext(), ROUNDED_BAR_KEY_PIXEL, pack.equals(ROUNDED_BAR_KEY_PIXEL));
-        PrefConfig.savePrefBool(Iconify.getAppContext(), DOUBLE_LAYER_KEY_PIXEL, pack.equals(DOUBLE_LAYER_KEY_PIXEL));
-        PrefConfig.savePrefBool(Iconify.getAppContext(), SHADED_LAYER_KEY_PIXEL, pack.equals(SHADED_LAYER_KEY_PIXEL));
-        PrefConfig.savePrefBool(Iconify.getAppContext(), OUTLINE_KEY_PIXEL, pack.equals(OUTLINE_KEY_PIXEL));
-        PrefConfig.savePrefBool(Iconify.getAppContext(), LEAFY_OUTLINE_KEY_PIXEL, pack.equals(LEAFY_OUTLINE_KEY_PIXEL));
-        PrefConfig.savePrefBool(Iconify.getAppContext(), NEUMORPH_KEY_PIXEL, pack.equals(NEUMORPH_KEY_PIXEL));
-        PrefConfig.savePrefBool(Iconify.getAppContext(), INLINE_KEY_PIXEL, pack.equals(INLINE_KEY_PIXEL));
-        PrefConfig.savePrefBool(Iconify.getAppContext(), NEUMORPH_OUTLINE_KEY_PIXEL, pack.equals(NEUMORPH_OUTLINE_KEY_PIXEL));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), ROUNDED_CLIP_KEY, pack.equals(ROUNDED_CLIP_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), ROUNDED_BAR_KEY, pack.equals(ROUNDED_BAR_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), DOUBLE_LAYER_KEY, pack.equals(DOUBLE_LAYER_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), SHADED_LAYER_KEY, pack.equals(SHADED_LAYER_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), OUTLINE_KEY, pack.equals(OUTLINE_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), LEAFY_OUTLINE_KEY, pack.equals(LEAFY_OUTLINE_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), NEUMORPH_KEY, pack.equals(NEUMORPH_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), INLINE_KEY, pack.equals(INLINE_KEY));
+        PrefConfig.savePrefBool(Iconify.getAppContext(), NEUMORPH_OUTLINE_KEY, pack.equals(NEUMORPH_OUTLINE_KEY));
     }
 
     // Function to change applied pack's bg
     private void checkIfApplied(LinearLayout layout, int brightness) {
-        if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentBBP" + brightness + ".overlay")) {
+        if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentBBN" + brightness + ".overlay")) {
             background(layout.getId(), R.drawable.container_selected);
         } else {
             background(layout.getId(), R.drawable.container);
@@ -341,7 +350,7 @@ public class BrightnessBarsPixel extends AppCompatActivity {
     }
 
     private void addItem(int id, int bb_id, int auto_bb_id, String title, int enableid, int disableid) {
-        View list = LayoutInflater.from(this).inflate(R.layout.list_option_brightnessbar_pixel, container, false);
+        View list = LayoutInflater.from(this).inflate(R.layout.list_option_brightnessbar, container, false);
 
         TextView name = list.findViewById(R.id.list_title_brightnessbar);
         Button enable = list.findViewById(R.id.list_button_enable_brightnessbar);

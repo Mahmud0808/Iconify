@@ -8,10 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.splashscreen.SplashScreen;
 
 import com.drdisagree.iconify.config.PrefConfig;
-import com.drdisagree.iconify.ui.HomePage;
-import com.drdisagree.iconify.ui.WelcomePage;
+import com.drdisagree.iconify.ui.activity.HomePage;
+import com.drdisagree.iconify.ui.activity.WelcomePage;
 import com.drdisagree.iconify.utils.ModuleUtil;
-import com.drdisagree.iconify.utils.OverlayUtils;
+import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.RootUtil;
 import com.google.android.material.color.DynamicColors;
 import com.topjohnwu.superuser.Shell;
@@ -54,7 +54,7 @@ public class SplashActivity extends AppCompatActivity {
 
                 Intent intent;
 
-                if (RootUtil.isDeviceRooted() && RootUtil.isMagiskInstalled() && ModuleUtil.moduleExists() && OverlayUtils.overlayExists() && (versionCode == PrefConfig.loadPrefInt(SplashActivity.this, "versionCode"))) {
+                if (RootUtil.isDeviceRooted() && RootUtil.isMagiskInstalled() && ModuleUtil.moduleExists() && OverlayUtil.overlayExists() && (versionCode == PrefConfig.loadPrefInt(SplashActivity.this, "versionCode"))) {
                     keepShowing = false;
                     intent = new Intent(SplashActivity.this, HomePage.class);
                 } else {

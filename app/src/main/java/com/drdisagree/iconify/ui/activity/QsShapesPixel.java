@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.ui;
+package com.drdisagree.iconify.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.content.res.Configuration;
@@ -21,8 +21,9 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.installer.QsShapePixelInstaller;
+import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.drdisagree.iconify.utils.DisplayUtil;
-import com.drdisagree.iconify.utils.OverlayUtils;
+import com.drdisagree.iconify.utils.OverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.Objects;
@@ -364,10 +365,10 @@ public class QsShapesPixel extends AppCompatActivity {
                 disable_others(key);
                 QsShapePixelInstaller.install_pack(index);
                 if (hidelabel) {
-                    OverlayUtils.enableOverlay("IconifyComponentQSHL.overlay");
+                    OverlayUtil.enableOverlay("IconifyComponentQSHL.overlay");
                     PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", true);
                 } else {
-                    OverlayUtils.disableOverlay("IconifyComponentQSHL.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQSHL.overlay");
                     PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", false);
                 }
 
@@ -402,7 +403,7 @@ public class QsShapesPixel extends AppCompatActivity {
             Runnable runnable = () -> {
                 QsShapePixelInstaller.disable_pack(index);
                 if (hidelabel) {
-                    OverlayUtils.disableOverlay("IconifyComponentQSHL.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQSHL.overlay");
                     PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", false);
                 }
 

@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.ui;
+package com.drdisagree.iconify.ui.fragment;
 
 import android.app.Dialog;
 import android.content.Context;

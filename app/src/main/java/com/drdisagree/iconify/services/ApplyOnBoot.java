@@ -6,10 +6,10 @@ import androidx.core.graphics.ColorUtils;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.config.PrefConfig;
-import com.drdisagree.iconify.ui.HomePage;
-import com.drdisagree.iconify.ui.QsRowColumn;
+import com.drdisagree.iconify.ui.activity.HomePage;
+import com.drdisagree.iconify.ui.activity.QsRowColumn;
 import com.drdisagree.iconify.utils.FabricatedOverlay;
-import com.drdisagree.iconify.utils.OverlayUtils;
+import com.drdisagree.iconify.utils.OverlayUtil;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.Objects;
 public class ApplyOnBoot {
 
     private static final String INVALID = "null";
-    private static List<String> overlays = OverlayUtils.getEnabledOverlayList();
+    private static List<String> overlays = OverlayUtil.getEnabledOverlayList();
     private static List<String> fabricatedOverlays = FabricatedOverlay.getEnabledOverlayList();
 
     public static void applyColors() {
@@ -33,9 +33,9 @@ public class ApplyOnBoot {
             if ((PrefConfig.loadPrefBool(Iconify.getAppContext(), "customPrimaryColor") || PrefConfig.loadPrefBool(Iconify.getAppContext(), "customSecondaryColor")) && (FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "colorAccentPrimary") || FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "colorAccentSecondary"))) {
                 boolean amc_reApplied = false;
                 if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "customPrimaryColor") && FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "colorAccentPrimary")) {
-                    if (OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentAMC.overlay")) {
-                        OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
-                        OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
+                    if (OverlayUtil.isOverlayEnabled(overlays, "IconifyComponentAMC.overlay")) {
+                        OverlayUtil.disableOverlay("IconifyComponentAMC.overlay");
+                        OverlayUtil.enableOverlay("IconifyComponentAMC.overlay");
                         amc_reApplied = true;
                     }
 
@@ -52,9 +52,9 @@ public class ApplyOnBoot {
                     FabricatedOverlay.enableOverlay("colorAccentPrimaryDark");
                 }
                 if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "customSecondaryColor") && FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "colorAccentSecondary")) {
-                    if (!amc_reApplied && OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentAMC.overlay")) {
-                        OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
-                        OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
+                    if (!amc_reApplied && OverlayUtil.isOverlayEnabled(overlays, "IconifyComponentAMC.overlay")) {
+                        OverlayUtil.disableOverlay("IconifyComponentAMC.overlay");
+                        OverlayUtil.enableOverlay("IconifyComponentAMC.overlay");
                     }
 
                     if (!Objects.equals(colorAccentSecondary, INVALID))
@@ -73,9 +73,9 @@ public class ApplyOnBoot {
 
     public static void applyQsCustomization() {
         Runnable runnable = () -> {
-            if (!Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "boot_id"), Shell.cmd("cat /proc/sys/kernel/random/boot_id").exec().getOut().toString()) && OverlayUtils.isOverlayEnabled(overlays, "IconifyComponentQSPB.overlay")) {
-                OverlayUtils.disableOverlay("IconifyComponentQSPB.overlay");
-                OverlayUtils.enableOverlay("IconifyComponentQSPB.overlay");
+            if (!Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "boot_id"), Shell.cmd("cat /proc/sys/kernel/random/boot_id").exec().getOut().toString()) && OverlayUtil.isOverlayEnabled(overlays, "IconifyComponentQSPB.overlay")) {
+                OverlayUtil.disableOverlay("IconifyComponentQSPB.overlay");
+                OverlayUtil.enableOverlay("IconifyComponentQSPB.overlay");
             }
             HomePage.getBootId();
 

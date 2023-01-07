@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.ui;
+package com.drdisagree.iconify.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
@@ -22,12 +22,11 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.installer.MediaPlayerIconInstaller;
-import com.drdisagree.iconify.utils.AppUtils;
-import com.drdisagree.iconify.utils.OverlayUtils;
+import com.drdisagree.iconify.utils.AppUtil;
+import com.drdisagree.iconify.utils.OverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
-import java.util.List;
 import java.util.Objects;
 
 public class MediaPlayer extends AppCompatActivity {
@@ -65,11 +64,11 @@ public class MediaPlayer extends AppCompatActivity {
             if (isChecked) {
                 mp_system.setChecked(false);
                 mp_pitch_black.setChecked(false);
-                OverlayUtils.disableOverlay("IconifyComponentMPS.overlay");
-                OverlayUtils.disableOverlay("IconifyComponentMPB.overlay");
-                OverlayUtils.enableOverlay("IconifyComponentMPA.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentMPS.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentMPB.overlay");
+                OverlayUtil.enableOverlay("IconifyComponentMPA.overlay");
             } else {
-                OverlayUtils.disableOverlay("IconifyComponentMPA.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentMPA.overlay");
             }
             refreshPreview();
         });
@@ -80,11 +79,11 @@ public class MediaPlayer extends AppCompatActivity {
             if (isChecked) {
                 mp_accent.setChecked(false);
                 mp_pitch_black.setChecked(false);
-                OverlayUtils.disableOverlay("IconifyComponentMPA.overlay");
-                OverlayUtils.disableOverlay("IconifyComponentMPB.overlay");
-                OverlayUtils.enableOverlay("IconifyComponentMPS.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentMPA.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentMPB.overlay");
+                OverlayUtil.enableOverlay("IconifyComponentMPS.overlay");
             } else {
-                OverlayUtils.disableOverlay("IconifyComponentMPS.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentMPS.overlay");
             }
             refreshPreview();
         });
@@ -95,11 +94,11 @@ public class MediaPlayer extends AppCompatActivity {
             if (isChecked) {
                 mp_accent.setChecked(false);
                 mp_system.setChecked(false);
-                OverlayUtils.disableOverlay("IconifyComponentMPA.overlay");
-                OverlayUtils.disableOverlay("IconifyComponentMPS.overlay");
-                OverlayUtils.enableOverlay("IconifyComponentMPB.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentMPA.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentMPS.overlay");
+                OverlayUtil.enableOverlay("IconifyComponentMPB.overlay");
             } else {
-                OverlayUtils.disableOverlay("IconifyComponentMPB.overlay");
+                OverlayUtil.disableOverlay("IconifyComponentMPB.overlay");
             }
             refreshPreview();
         });
@@ -166,16 +165,16 @@ public class MediaPlayer extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Integer... integers) {
-            isPowerampInstalled = AppUtils.isAppInstalled(poweramp);
-            isRetroInstalled = AppUtils.isAppInstalled(retro);
-            isNyxInstalled = AppUtils.isAppInstalled(nyx);
-            isYmusicInstalled = AppUtils.isAppInstalled(ymusic);
-            isBlackholeInstalled = AppUtils.isAppInstalled(blackhole);
-            isMusicoletInstalled = AppUtils.isAppInstalled(musicolet);
-            isYoutubeInstalled = AppUtils.isAppInstalled(youtube);
-            isYtmusicInstalled = AppUtils.isAppInstalled(yt_music);
-            isYoutubetvancedInstalled = AppUtils.isAppInstalled(youtube_revanced);
-            isYtmusicvancedInstalled = AppUtils.isAppInstalled(yt_music_revanced);
+            isPowerampInstalled = AppUtil.isAppInstalled(poweramp);
+            isRetroInstalled = AppUtil.isAppInstalled(retro);
+            isNyxInstalled = AppUtil.isAppInstalled(nyx);
+            isYmusicInstalled = AppUtil.isAppInstalled(ymusic);
+            isBlackholeInstalled = AppUtil.isAppInstalled(blackhole);
+            isMusicoletInstalled = AppUtil.isAppInstalled(musicolet);
+            isYoutubeInstalled = AppUtil.isAppInstalled(youtube);
+            isYtmusicInstalled = AppUtil.isAppInstalled(yt_music);
+            isYoutubetvancedInstalled = AppUtil.isAppInstalled(youtube_revanced);
+            isYtmusicvancedInstalled = AppUtil.isAppInstalled(yt_music_revanced);
             return "Finished!";
         }
 
@@ -199,52 +198,52 @@ public class MediaPlayer extends AppCompatActivity {
             }
 
             if (isPowerampInstalled) {
-                addItem(R.id.poweramp, AppUtils.getAppIcon(poweramp), AppUtils.getAppName(poweramp), poweramp, R.id.poweramp_aurora, R.id.poweramp_gradicon, R.id.poweramp_plumpy);
+                addItem(R.id.poweramp, AppUtil.getAppIcon(poweramp), AppUtil.getAppName(poweramp), poweramp, R.id.poweramp_aurora, R.id.poweramp_gradicon, R.id.poweramp_plumpy);
                 enableOnClickListener(R.id.poweramp_aurora, R.id.poweramp_gradicon, R.id.poweramp_plumpy, 1);
             }
 
             if (isRetroInstalled) {
-                addItem(R.id.retro, AppUtils.getAppIcon(retro), AppUtils.getAppName(retro), retro, R.id.retro_aurora, R.id.retro_gradicon, R.id.retro_plumpy);
+                addItem(R.id.retro, AppUtil.getAppIcon(retro), AppUtil.getAppName(retro), retro, R.id.retro_aurora, R.id.retro_gradicon, R.id.retro_plumpy);
                 enableOnClickListener(R.id.retro_aurora, R.id.retro_gradicon, R.id.retro_plumpy, 2);
             }
 
             if (isNyxInstalled) {
-                addItem(R.id.nyx, AppUtils.getAppIcon(nyx), AppUtils.getAppName(nyx), nyx, R.id.nyx_aurora, R.id.nyx_gradicon, R.id.nyx_plumpy);
+                addItem(R.id.nyx, AppUtil.getAppIcon(nyx), AppUtil.getAppName(nyx), nyx, R.id.nyx_aurora, R.id.nyx_gradicon, R.id.nyx_plumpy);
                 enableOnClickListener(R.id.nyx_aurora, R.id.nyx_gradicon, R.id.nyx_plumpy, 3);
             }
 
             if (isYmusicInstalled) {
-                addItem(R.id.ymusic, AppUtils.getAppIcon(ymusic), AppUtils.getAppName(ymusic), ymusic, R.id.ymusic_aurora, R.id.ymusic_gradicon, R.id.ymusic_plumpy);
+                addItem(R.id.ymusic, AppUtil.getAppIcon(ymusic), AppUtil.getAppName(ymusic), ymusic, R.id.ymusic_aurora, R.id.ymusic_gradicon, R.id.ymusic_plumpy);
                 enableOnClickListener(R.id.ymusic_aurora, R.id.ymusic_gradicon, R.id.ymusic_plumpy, 4);
             }
 
             if (isBlackholeInstalled) {
-                addItem(R.id.blackhole, AppUtils.getAppIcon(blackhole), AppUtils.getAppName(blackhole), blackhole, R.id.blackhole_aurora, R.id.blackhole_gradicon, R.id.blackhole_plumpy);
+                addItem(R.id.blackhole, AppUtil.getAppIcon(blackhole), AppUtil.getAppName(blackhole), blackhole, R.id.blackhole_aurora, R.id.blackhole_gradicon, R.id.blackhole_plumpy);
                 enableOnClickListener(R.id.blackhole_aurora, R.id.blackhole_gradicon, R.id.blackhole_plumpy, 5);
             }
 
             if (isMusicoletInstalled) {
-                addItem(R.id.musicolet, AppUtils.getAppIcon(musicolet), AppUtils.getAppName(musicolet), musicolet, R.id.musicolet_aurora, R.id.musicolet_gradicon, R.id.musicolet_plumpy);
+                addItem(R.id.musicolet, AppUtil.getAppIcon(musicolet), AppUtil.getAppName(musicolet), musicolet, R.id.musicolet_aurora, R.id.musicolet_gradicon, R.id.musicolet_plumpy);
                 enableOnClickListener(R.id.musicolet_aurora, R.id.musicolet_gradicon, R.id.musicolet_plumpy, 6);
             }
 
             if (isYoutubeInstalled) {
-                addItem(R.id.youtube, AppUtils.getAppIcon(youtube), AppUtils.getAppName(youtube), youtube, R.id.youtube_aurora, R.id.youtube_gradicon, R.id.youtube_plumpy);
+                addItem(R.id.youtube, AppUtil.getAppIcon(youtube), AppUtil.getAppName(youtube), youtube, R.id.youtube_aurora, R.id.youtube_gradicon, R.id.youtube_plumpy);
                 enableOnClickListener(R.id.youtube_aurora, R.id.youtube_gradicon, R.id.youtube_plumpy, 7);
             }
 
             if (isYtmusicInstalled) {
-                addItem(R.id.yt_music, AppUtils.getAppIcon(yt_music), AppUtils.getAppName(yt_music), yt_music, R.id.yt_music_aurora, R.id.yt_music_gradicon, R.id.yt_music_plumpy);
+                addItem(R.id.yt_music, AppUtil.getAppIcon(yt_music), AppUtil.getAppName(yt_music), yt_music, R.id.yt_music_aurora, R.id.yt_music_gradicon, R.id.yt_music_plumpy);
                 enableOnClickListener(R.id.yt_music_aurora, R.id.yt_music_gradicon, R.id.yt_music_plumpy, 8);
             }
 
             if (isYoutubetvancedInstalled) {
-                addItem(R.id.youtube_revanced, AppUtils.getAppIcon(youtube_revanced), AppUtils.getAppName(youtube_revanced), youtube_revanced, R.id.youtube_revanced_aurora, R.id.youtube_revanced_gradicon, R.id.youtube_revanced_plumpy);
+                addItem(R.id.youtube_revanced, AppUtil.getAppIcon(youtube_revanced), AppUtil.getAppName(youtube_revanced), youtube_revanced, R.id.youtube_revanced_aurora, R.id.youtube_revanced_gradicon, R.id.youtube_revanced_plumpy);
                 enableOnClickListener(R.id.youtube_revanced_aurora, R.id.youtube_revanced_gradicon, R.id.youtube_revanced_plumpy, 9);
             }
 
             if (isYtmusicvancedInstalled) {
-                addItem(R.id.yt_music_revanced, AppUtils.getAppIcon(yt_music_revanced), AppUtils.getAppName(yt_music_revanced), yt_music_revanced, R.id.yt_music_revanced_aurora, R.id.yt_music_revanced_gradicon, R.id.yt_music_revanced_plumpy);
+                addItem(R.id.yt_music_revanced, AppUtil.getAppIcon(yt_music_revanced), AppUtil.getAppName(yt_music_revanced), yt_music_revanced, R.id.yt_music_revanced_aurora, R.id.yt_music_revanced_gradicon, R.id.yt_music_revanced_plumpy);
                 enableOnClickListener(R.id.yt_music_revanced_aurora, R.id.yt_music_revanced_gradicon, R.id.yt_music_revanced_plumpy, 10);
             }
         }
@@ -339,7 +338,7 @@ public class MediaPlayer extends AppCompatActivity {
         plumpy.setId(plumpy_id);
 
         if (packageName != null)
-            launch.setOnClickListener(v -> AppUtils.launchApp(MediaPlayer.this, packageName));
+            launch.setOnClickListener(v -> AppUtil.launchApp(MediaPlayer.this, packageName));
 
         container.addView(list);
     }

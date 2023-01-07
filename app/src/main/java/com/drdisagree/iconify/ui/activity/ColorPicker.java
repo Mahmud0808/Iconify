@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.ui;
+package com.drdisagree.iconify.ui.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,7 +16,7 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.utils.FabricatedOverlay;
-import com.drdisagree.iconify.utils.OverlayUtils;
+import com.drdisagree.iconify.utils.OverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
@@ -135,8 +135,8 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
 
                 Runnable runnable1 = () -> {
                     if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay")) {
-                        OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
-                        OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
+                        OverlayUtil.disableOverlay("IconifyComponentAMC.overlay");
+                        OverlayUtil.enableOverlay("IconifyComponentAMC.overlay");
                     }
 
                     FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(accent)));
@@ -166,8 +166,8 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
 
                 Runnable runnable2 = () -> {
                     if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay")) {
-                        OverlayUtils.disableOverlay("IconifyComponentAMC.overlay");
-                        OverlayUtils.enableOverlay("IconifyComponentAMC.overlay");
+                        OverlayUtil.disableOverlay("IconifyComponentAMC.overlay");
+                        OverlayUtil.enableOverlay("IconifyComponentAMC.overlay");
                     }
 
                     FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(accent)));

@@ -1,7 +1,6 @@
 package com.drdisagree.iconify.utils;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -11,7 +10,7 @@ import android.widget.Toast;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 
-public class AppUtils {
+public class AppUtil {
     public static boolean isAppInstalled(String packageName) {
         PackageManager pm = Iconify.getAppContext().getPackageManager();
         try {
