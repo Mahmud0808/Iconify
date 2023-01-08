@@ -38,7 +38,7 @@ public class ModuleUtil {
                 "do\n" +
                 " sleep 1\n" +
                 "done\n" +
-                "sleep 1\n\n" +
+                "sleep 5\n\n" +
                 "qspb=$(cmd overlay list |  grep -E '^.x..IconifyComponentQSPB.overlay' | sed -E 's/^.x..//')\n" +
                 "if [ -z \"$qspb\" ]\n" +
                 "then\n" +
