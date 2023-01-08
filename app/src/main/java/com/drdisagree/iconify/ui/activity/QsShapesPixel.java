@@ -366,10 +366,8 @@ public class QsShapesPixel extends AppCompatActivity {
                 QsShapePixelInstaller.install_pack(index);
                 if (hidelabel) {
                     OverlayUtil.enableOverlay("IconifyComponentQSHL.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", true);
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentQSHL.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", false);
                 }
 
                 runOnUiThread(() -> {
@@ -404,7 +402,6 @@ public class QsShapesPixel extends AppCompatActivity {
                 QsShapePixelInstaller.disable_pack(index);
                 if (hidelabel) {
                     OverlayUtil.disableOverlay("IconifyComponentQSHL.overlay");
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay", false);
                 }
 
                 runOnUiThread(() -> {

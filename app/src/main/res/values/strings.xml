@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Iconify</string>
-    
+
     <!-- Home page activities -->
     <string name="activity_title_brightness_bar">Brightness Bar</string>
     <string name="activity_desc_brightness_bar">Customize brightness slider</string>
@@ -26,13 +26,15 @@
     <string name="activity_desc_settings">Miscellaneous settings</string>
     <string name="activity_title_volume_panel">Volume Panel</string>
     <string name="activity_desc_volume_panel">Customize volume panel design</string>
-    
+    <string name="activity_title_color_table">Color Table</string>
+    <string name="activity_desc_color_table">Show full table of system colors</string>
+
     <!-- Extras page activites -->
     <string name="activity_title_ui_roundness">UI Roundness</string>
     <string name="activity_desc_ui_roundness">Change corner radius of interface</string>
     <string name="activity_title_navigation_bar">Navigation Bar</string>
     <string name="activity_desc_navigation_bar">Tweak navigation options</string>
-    
+
     <string name="link_monet_title">Link to Monet</string>
     <string name="link_monet_desc">Link iconify colors to monet</string>
     <string name="color_picker_title">Color Picker</string>
@@ -62,6 +64,7 @@
     <string name="pixel_variant_desc">For roms with black QsPanel</string>
     <string name="icon">Icon</string>
     <string name="btn_disable_custom_colors">Disable Custom Colors</string>
+    <string name="btn_enable_custom_colors">Apply Colors</string>
     <string name="qstile_btn1_title">Internet</string>
     <string name="qstile_btn1_desc">RIP in Peace</string>
     <string name="qstile_btn2_title">Airplane</string>
@@ -171,4 +174,7 @@
     <string name="navbar_lower_sensitivity_desc">Lower gesture sensitivity</string>
     <string name="navbar_hide_kb_buttons_title">Hide Keyboard Buttons</string>
     <string name="navbar_hide_kb_buttons_desc">Hide keyboard back/switcher buttons</string>
+    <string name="checked">Checked</string>
+    <string name="secondary_color_desc">Pick gradient end color</string>
+    <string name="primary_color_desc">Pick gradient start color</string>
 </resources>

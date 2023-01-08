@@ -24,39 +24,54 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/color_picker_warn"
+                android:id="@+id/color_table"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/container_marginSide"
                 android:layout_marginEnd="@dimen/container_marginSide"
-                android:layout_marginBottom="18dp"
+                android:layout_marginBottom="@dimen/container_margin"
                 android:background="@drawable/container"
-                android:gravity="start|center"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:paddingStart="@dimen/container_paddingSide"
                 android:paddingTop="@dimen/container_padding"
                 android:paddingEnd="@dimen/container_paddingSide"
                 android:paddingBottom="@dimen/container_padding">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/hey_there"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
+                    android:layout_gravity="start|center"
+                    android:layout_marginEnd="@dimen/container_padding"
+                    android:layout_weight="1.0"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:justificationMode="inter_word"
-                    android:text="@string/recommend_repainter_desc"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_desc_size" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity_title_color_table"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity_desc_color_table"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="@dimen/cont_desc_size" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="start|center"
+                    android:background="@drawable/ic_color_palette"
+                    android:contentDescription="@string/icon" />
             </LinearLayout>
 
-            <ImageView
+            <View
+                android:id="@+id/color_preview_large"
                 android:layout_width="match_parent"
                 android:layout_height="240dp"
                 android:layout_marginStart="@dimen/container_marginSide"
@@ -66,64 +81,126 @@
                 android:contentDescription="@string/color_picker_preview" />
 
             <LinearLayout
+                android:id="@+id/preview_coloraccentprimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/container_marginSide"
                 android:layout_marginEnd="@dimen/container_marginSide"
                 android:layout_marginBottom="@dimen/container_margin"
-                android:orientation="horizontal">
+                android:background="@drawable/container"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/container_paddingSide"
+                android:paddingTop="@dimen/container_padding"
+                android:paddingEnd="@dimen/container_paddingSide"
+                android:paddingBottom="@dimen/container_padding">
 
                 <LinearLayout
-                    android:id="@+id/preview_coloraccentprimary"
                     android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="0.5"
-                    android:background="@drawable/preview_coloraccentprimary"
-                    android:gravity="center"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center"
+                    android:layout_marginEnd="@dimen/container_padding"
+                    android:layout_weight="1.0"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:paddingTop="2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="@string/primary_color"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/primary_color_desc"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="@dimen/cont_desc_size"
+                        tools:ignore="TooManyViews" />
+
                 </LinearLayout>
 
                 <View
-                    android:layout_width="12dp"
-                    android:layout_height="1dp" />
+                    android:id="@+id/preview_color_picker_primary"
+                    android:layout_width="48.0dp"
+                    android:layout_height="48.0dp"
+                    android:layout_gravity="start|center"
+                    android:layout_margin="2.0dp"
+                    android:background="@drawable/preview_color_picker_primary"
+                    android:contentDescription="@string/color_picker_preview" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/preview_coloraccentsecondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/container_marginSide"
+                android:layout_marginEnd="@dimen/container_marginSide"
+                android:layout_marginBottom="@dimen/container_margin"
+                android:background="@drawable/container"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/container_paddingSide"
+                android:paddingTop="@dimen/container_padding"
+                android:paddingEnd="@dimen/container_paddingSide"
+                android:paddingBottom="@dimen/container_padding">
 
                 <LinearLayout
-                    android:id="@+id/preview_coloraccentsecondary"
                     android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="0.5"
-                    android:background="@drawable/preview_coloraccentsecondary"
-                    android:gravity="center"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center"
+                    android:layout_marginEnd="@dimen/container_padding"
+                    android:layout_weight="1.0"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:paddingTop="2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="@string/secondary_color"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/secondary_color_desc"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="@dimen/cont_desc_size" />
+
                 </LinearLayout>
+
+                <View
+                    android:id="@+id/preview_color_picker_secondary"
+                    android:layout_width="48.0dp"
+                    android:layout_height="48.0dp"
+                    android:layout_gravity="start|center"
+                    android:layout_margin="2.0dp"
+                    android:background="@drawable/preview_color_picker_secondary"
+                    android:contentDescription="@string/color_picker_preview" />
+
             </LinearLayout>
+
+            <Button
+                android:id="@+id/enable_custom_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/container_marginSide"
+                android:layout_marginEnd="@dimen/container_marginSide"
+                android:layout_marginBottom="@dimen/container_margin"
+                android:background="@drawable/button"
+                android:fontFamily="@font/semibold"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:stateListAnimator="@null"
+                android:text="@string/btn_enable_custom_colors"
+                android:textColor="@color/colorBackground"
+                android:textSize="@dimen/cont_title_size"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/disable_custom_color"
@@ -131,6 +208,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/container_marginSide"
                 android:layout_marginEnd="@dimen/container_marginSide"
+                android:layout_marginBottom="@dimen/container_margin"
                 android:background="@drawable/button_red"
                 android:fontFamily="@font/semibold"
                 android:paddingTop="12dp"
@@ -145,22 +223,4 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#44000000"
-        android:gravity="center"
-        android:visibility="gone">
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:foregroundTint="@color/colorAccent"
-            android:indeterminateTint="@color/colorAccent"
-            android:progressDrawable="@drawable/circular_progress_bar" />
-
-    </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

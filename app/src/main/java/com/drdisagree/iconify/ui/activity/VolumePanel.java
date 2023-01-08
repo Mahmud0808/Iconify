@@ -41,14 +41,10 @@ public class VolumePanel extends AppCompatActivity {
                 thick_bg.setChecked(false);
                 no_bg.setChecked(false);
                 OverlayUtil.disableOverlay("IconifyComponentVPBG2.overlay");
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG2.overlay", false);
                 OverlayUtil.disableOverlay("IconifyComponentVPBG3.overlay");
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG3.overlay", false);
                 OverlayUtil.enableOverlay("IconifyComponentVPBG1.overlay");
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG1.overlay", true);
             } else {
                 OverlayUtil.disableOverlay("IconifyComponentVPBG1.overlay");
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG1.overlay", false);
             }
         });
 
@@ -59,14 +55,10 @@ public class VolumePanel extends AppCompatActivity {
                 thin_bg.setChecked(false);
                 no_bg.setChecked(false);
                 OverlayUtil.disableOverlay("IconifyComponentVPBG1.overlay");
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG1.overlay", false);
                 OverlayUtil.disableOverlay("IconifyComponentVPBG3.overlay");
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG3.overlay", false);
                 OverlayUtil.enableOverlay("IconifyComponentVPBG2.overlay");
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG2.overlay", true);
             } else {
                 OverlayUtil.disableOverlay("IconifyComponentVPBG2.overlay");
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG2.overlay", false);
             }
         });
 
@@ -77,14 +69,10 @@ public class VolumePanel extends AppCompatActivity {
                 thin_bg.setChecked(false);
                 thick_bg.setChecked(false);
                 OverlayUtil.disableOverlay("IconifyComponentVPBG1.overlay");
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG1.overlay", false);
                 OverlayUtil.disableOverlay("IconifyComponentVPBG2.overlay");
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG2.overlay", false);
                 OverlayUtil.enableOverlay("IconifyComponentVPBG3.overlay");
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG3.overlay", true);
             } else {
                 OverlayUtil.disableOverlay("IconifyComponentVPBG3.overlay");
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "IconifyComponentVPBG3.overlay", false);
             }
         });
     }

@@ -14,7 +14,7 @@ public class BootCompletedReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED) && PrefConfig.loadPrefBool(Iconify.getAppContext(), "onHomePage")) {
             Log.w("BootCompletedReceiver", "Starting Background Service...");
-            context.startService(new Intent(context, BackgroundService.class));
+            // context.startService(new Intent(context, BackgroundService.class));
         }
     }
 }

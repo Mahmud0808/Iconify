@@ -1,12 +1,14 @@
 package com.drdisagree.iconify.utils;
 
+import android.util.TypedValue;
+
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
 
-public class FabricatedOverlay {
+public class FabricatedOverlayUtil {
 
     public static List<String> getOverlayList() {
         return Shell.cmd("cmd overlay list |  grep -E '^....com.android.shell:IconifyComponent' | sed -E 's/^....com.android.shell:IconifyComponent//'").exec().getOut();
@@ -20,9 +22,7 @@ public class FabricatedOverlay {
         return Shell.cmd("cmd overlay list |  grep -E '^. ..com.android.shell:IconifyComponent' | sed -E 's/^. ..com.android.shell:IconifyComponent//'").exec().getOut();
     }
 
-    public static void buildOverlay(String target, String name, String type, String resourceName, String val) {
-        disableOverlay(name);
-
+    public static void buildAndEnableOverlay(String target, String name, String type, String resourceName, String val) {
         String resourceType = "0x1c";
 
         if (target.equals("systemui"))
@@ -43,16 +43,26 @@ public class FabricatedOverlay {
                 break;
         }
 
-        Shell.cmd("cmd overlay fabricate --target " + target + " --name IconifyComponent" + name + " " + target + ":" + type + "/" + resourceName + " " + resourceType + " " + val).exec();
-    }
+        String build_cmd = "cmd overlay fabricate --target " + target + " --name IconifyComponent" + name + " " + target + ":" + type + "/" + resourceName + " " + resourceType + " " + val;
+        String enable_cmd = "cmd overlay enable --user current com.android.shell:IconifyComponent" + name;
 
-    public static void enableOverlay(String name) {
-        Shell.cmd("cmd overlay enable --user current com.android.shell:IconifyComponent" + name).exec();
+        Shell.cmd("grep -v \"IconifyComponent" + name + "\" " + ModuleUtil.MODULE_DIR + "/service.sh > " + ModuleUtil.MODULE_DIR + "/iconify_temp.sh && mv " + ModuleUtil.MODULE_DIR + "/iconify_temp.sh " + ModuleUtil.MODULE_DIR + "/service.sh").exec();
+        Shell.cmd("echo \"" + build_cmd + "\" >> " + ModuleUtil.MODULE_DIR + "/service.sh").exec();
+        Shell.cmd("echo \"" + enable_cmd + "\" >> " + ModuleUtil.MODULE_DIR + "/service.sh").exec();
+
+        Shell.cmd(build_cmd).exec();
+        Shell.cmd(enable_cmd).exec();
+
         PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricated" + name, true);
     }
 
     public static void disableOverlay(String name) {
-        Shell.cmd("cmd overlay disable --user current com.android.shell:IconifyComponent" + name).exec();
+        String disable_cmd = "cmd overlay disable --user current com.android.shell:IconifyComponent" + name;
+
+        Shell.cmd("grep -v \"IconifyComponent" + name + "\" " + ModuleUtil.MODULE_DIR + "/service.sh > " + ModuleUtil.MODULE_DIR + "/iconify_temp.sh && mv " + ModuleUtil.MODULE_DIR + "/iconify_temp.sh " + ModuleUtil.MODULE_DIR + "/service.sh").exec();
+
+        Shell.cmd(disable_cmd).exec();
+
         PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricated" + name, false);
     }
 

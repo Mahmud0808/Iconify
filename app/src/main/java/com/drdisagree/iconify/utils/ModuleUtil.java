@@ -1,16 +1,12 @@
 package com.drdisagree.iconify.utils;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.topjohnwu.superuser.Shell;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
 
 public class ModuleUtil {
@@ -37,7 +33,27 @@ public class ModuleUtil {
                 "description=Systemless module for Iconify.\n' > " + MODULE_DIR + "/module.prop").exec();
         Shell.cmd("mkdir -p " + MODULE_DIR + "/common").exec();
         Shell.cmd("printf 'MODDIR=${0%%/*}\n' > " + MODULE_DIR + "/post-fs-data.sh").exec();
-        Shell.cmd("printf 'MODDIR=${0%%/*}\n' > " + MODULE_DIR + "/service.sh").exec();
+        Shell.cmd("printf 'MODDIR=${0%%/*}\n\n" +
+                "while [ \"$(getprop sys.boot_completed | tr -d '\\r')\" != \"1\" ]\n" +
+                "do\n" +
+                " sleep 1\n" +
+                "done\n" +
+                "sleep 1\n\n" +
+                "qspb=$(cmd overlay list |  grep -E '^.x..IconifyComponentQSPB.overlay' | sed -E 's/^.x..//')\n" +
+                "if [ -z \"$qspb\" ]\n" +
+                "then\n" +
+                " :\n" +
+                "else\n" +
+                " cmd overlay disable --user current IconifyComponentQSPB.overlay\n" +
+                " cmd overlay enable --user current IconifyComponentQSPB.overlay\n" +
+                " cmd overlay set-priority IconifyComponentQSPB.overlay highest\n" +
+                "fi\n\n" +
+                "cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimary android:color/system_accent1_200 0x1c 0xFF50A6D7\n" +
+                "cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentPrimary\n" +
+                "cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimaryDark android:color/holo_blue_dark 0x1c 0xFF122530\n" +
+                "cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentPrimaryDark\n" +
+                "cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary android:color/system_accent3_200 0x1c 0xFF387BFF\n" +
+                "cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentSecondary\n' > " + MODULE_DIR + "/service.sh").exec();
         Shell.cmd("touch " + MODULE_DIR + "/common/system.prop").exec();
         Shell.cmd("mkdir -p " + MODULE_DIR + "/tools").exec();
         Shell.cmd("mkdir -p " + MODULE_DIR + "/system").exec();

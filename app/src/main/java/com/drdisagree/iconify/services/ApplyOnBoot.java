@@ -8,7 +8,7 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.ui.activity.HomePage;
 import com.drdisagree.iconify.ui.activity.QsRowColumn;
-import com.drdisagree.iconify.utils.FabricatedOverlay;
+import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.topjohnwu.superuser.Shell;
 
@@ -19,7 +19,7 @@ public class ApplyOnBoot {
 
     private static final String INVALID = "null";
     private static List<String> overlays = OverlayUtil.getEnabledOverlayList();
-    private static List<String> fabricatedOverlays = FabricatedOverlay.getEnabledOverlayList();
+    private static List<String> fabricatedOverlays = FabricatedOverlayUtil.getEnabledOverlayList();
 
     public static void applyColors() {
         Runnable runnable = () -> {
@@ -30,9 +30,9 @@ public class ApplyOnBoot {
 
             String colorAccentPrimary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary");
             String colorAccentSecondary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary");
-            if ((PrefConfig.loadPrefBool(Iconify.getAppContext(), "customPrimaryColor") || PrefConfig.loadPrefBool(Iconify.getAppContext(), "customSecondaryColor")) && (FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "colorAccentPrimary") || FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "colorAccentSecondary"))) {
+            if ((PrefConfig.loadPrefBool(Iconify.getAppContext(), "customPrimaryColor") || PrefConfig.loadPrefBool(Iconify.getAppContext(), "customSecondaryColor")) && (FabricatedOverlayUtil.isOverlayDisabled(fabricatedOverlays, "colorAccentPrimary") || FabricatedOverlayUtil.isOverlayDisabled(fabricatedOverlays, "colorAccentSecondary"))) {
                 boolean amc_reApplied = false;
-                if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "customPrimaryColor") && FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "colorAccentPrimary")) {
+                if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "customPrimaryColor") && FabricatedOverlayUtil.isOverlayDisabled(fabricatedOverlays, "colorAccentPrimary")) {
                     if (OverlayUtil.isOverlayEnabled(overlays, "IconifyComponentAMC.overlay")) {
                         OverlayUtil.disableOverlay("IconifyComponentAMC.overlay");
                         OverlayUtil.enableOverlay("IconifyComponentAMC.overlay");
@@ -40,29 +40,36 @@ public class ApplyOnBoot {
                     }
 
                     if (!Objects.equals(colorAccentPrimary, INVALID)) {
-                        FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
-                        FabricatedOverlay.buildOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(Integer.parseInt(colorAccentPrimary), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
+                        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
+                        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary1_100", "color", "system_accent1_100", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
+                        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary1_200", "color", "system_accent1_200", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
+                        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary1_300", "color", "system_accent1_300", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
+                        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary2_100", "color", "system_accent2_100", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
+                        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary2_200", "color", "system_accent2_200", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
+                        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary3_200", "color", "system_accent2_300", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
+                        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(Integer.parseInt(colorAccentPrimary), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
                     }
                     else {
-                        FabricatedOverlay.buildOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
-                        FabricatedOverlay.buildOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", "0xFF122530");
+                        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
+                        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary1_100", "color", "system_accent1_100", "0xFF50A6D7");
+                        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary1_200", "color", "system_accent1_200", "0xFF50A6D7");
+                        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary1_300", "color", "system_accent1_300", "0xFF50A6D7");
+                        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary2_100", "color", "system_accent2_100", "0xFF50A6D7");
+                        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary2_200", "color", "system_accent2_200", "0xFF50A6D7");
+                        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary3_200", "color", "system_accent2_300", "0xFF50A6D7");
+                        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", "0xFF122530");
                     }
-
-                    FabricatedOverlay.enableOverlay("colorAccentPrimary");
-                    FabricatedOverlay.enableOverlay("colorAccentPrimaryDark");
                 }
-                if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "customSecondaryColor") && FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "colorAccentSecondary")) {
+                if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "customSecondaryColor") && FabricatedOverlayUtil.isOverlayDisabled(fabricatedOverlays, "colorAccentSecondary")) {
                     if (!amc_reApplied && OverlayUtil.isOverlayEnabled(overlays, "IconifyComponentAMC.overlay")) {
                         OverlayUtil.disableOverlay("IconifyComponentAMC.overlay");
                         OverlayUtil.enableOverlay("IconifyComponentAMC.overlay");
                     }
 
                     if (!Objects.equals(colorAccentSecondary, INVALID))
-                        FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(colorAccentSecondary)));
+                        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentSecondary", "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(colorAccentSecondary)));
                     else
-                        FabricatedOverlay.buildOverlay("android", "colorAccentSecondary", "color", "holo_green_light", "0xFF387BFF");
-
-                    FabricatedOverlay.enableOverlay("colorAccentSecondary");
+                        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentSecondary", "color", "holo_green_light", "0xFF387BFF");
                 }
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
             }
@@ -79,7 +86,7 @@ public class ApplyOnBoot {
             }
             HomePage.getBootId();
 
-            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedqsRowColumn") && FabricatedOverlay.isOverlayDisabled(fabricatedOverlays, "qsRow"))
+            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedqsRowColumn") && FabricatedOverlayUtil.isOverlayDisabled(fabricatedOverlays, "qsRow"))
                 QsRowColumn.applyRowColumn();
 
         };
@@ -124,12 +131,8 @@ public class ApplyOnBoot {
         String greenHex = To00Hex(green);
         String redHex = To00Hex(red);
 
-        StringBuilder str = new StringBuilder("0xFF");
-//      str.append(alphaHex);
-        str.append(redHex);
-        str.append(greenHex);
-        str.append(blueHex);
-        return str.toString();
+        //      str.append(alphaHex);
+        return "0xFF" + redHex + greenHex + blueHex;
     }
 
     private static String To00Hex(int value) {

@@ -10,8 +10,8 @@
     <color name="colorAccentVariant">@color/material_dynamic_tertiary80</color>
     <color name="rippleAccent">#1A000000</color>
     <color name="rippleDark">#33000000</color>
-    <color name="holo_blue_light">@android:color/holo_blue_light</color>
-    <color name="holo_green_light">@android:color/holo_green_light</color>
+    <color name="holo_blue_light">@android:color/system_accent1_200</color>
+    <color name="holo_green_light">@android:color/system_accent3_200</color>
     <color name="colorBackground">@color/material_dynamic_neutral99</color>
     <color name="colorContainer">@color/material_dynamic_neutral_variant99</color>
     <color name="colorContainerOverlay">#05000000</color>

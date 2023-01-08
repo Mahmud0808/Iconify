@@ -16,7 +16,7 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
-import com.drdisagree.iconify.utils.FabricatedOverlay;
+import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.Objects;
@@ -26,28 +26,21 @@ public class QsRowColumn extends AppCompatActivity {
     LoadingDialog loadingDialog;
 
     public static void applyRowColumn() {
-        FabricatedOverlay.buildOverlay("systemui", "qqsRow", "integer", "quick_qs_panel_max_rows", String.valueOf(Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qqsRow")) + 1));
-        FabricatedOverlay.buildOverlay("systemui", "qsRow", "integer", "quick_settings_max_rows", String.valueOf(Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsRow")) + 1));
-        FabricatedOverlay.buildOverlay("systemui", "qqsColumn", "integer", "quick_qs_panel_max_columns", String.valueOf(Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsColumn")) + 1));
-        FabricatedOverlay.buildOverlay("systemui", "qsColumn", "integer", "quick_settings_num_columns", String.valueOf(Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsColumn")) + 1));
-        FabricatedOverlay.buildOverlay("systemui", "qqsTile", "integer", "quick_qs_panel_max_tiles", String.valueOf((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qqsRow")) + 1) * (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsColumn")) + 1)));
-        FabricatedOverlay.buildOverlay("systemui", "qsTile", "integer", "quick_settings_min_num_tiles", String.valueOf((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsColumn")) + 1) * (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsRow")) + 1)));
-
-        FabricatedOverlay.enableOverlay("qqsRow");
-        FabricatedOverlay.enableOverlay("qsRow");
-        FabricatedOverlay.enableOverlay("qqsColumn");
-        FabricatedOverlay.enableOverlay("qsColumn");
-        FabricatedOverlay.enableOverlay("qqsTile");
-        FabricatedOverlay.enableOverlay("qsTile");
+        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", "qqsRow", "integer", "quick_qs_panel_max_rows", String.valueOf(Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qqsRow")) + 1));
+        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", "qsRow", "integer", "quick_settings_max_rows", String.valueOf(Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsRow")) + 1));
+        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", "qqsColumn", "integer", "quick_qs_panel_max_columns", String.valueOf(Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsColumn")) + 1));
+        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", "qsColumn", "integer", "quick_settings_num_columns", String.valueOf(Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsColumn")) + 1));
+        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", "qqsTile", "integer", "quick_qs_panel_max_tiles", String.valueOf((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qqsRow")) + 1) * (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsColumn")) + 1)));
+        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", "qsTile", "integer", "quick_settings_min_num_tiles", String.valueOf((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsColumn")) + 1) * (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsRow")) + 1)));
     }
 
     public static void resetRowColumn() {
-        FabricatedOverlay.disableOverlay("qqsRow");
-        FabricatedOverlay.disableOverlay("qsRow");
-        FabricatedOverlay.disableOverlay("qqsColumn");
-        FabricatedOverlay.disableOverlay("qsColumn");
-        FabricatedOverlay.disableOverlay("qqsTile");
-        FabricatedOverlay.disableOverlay("qsTile");
+        FabricatedOverlayUtil.disableOverlay("qqsRow");
+        FabricatedOverlayUtil.disableOverlay("qsRow");
+        FabricatedOverlayUtil.disableOverlay("qqsColumn");
+        FabricatedOverlayUtil.disableOverlay("qsColumn");
+        FabricatedOverlayUtil.disableOverlay("qqsTile");
+        FabricatedOverlayUtil.disableOverlay("qsTile");
     }
 
     @SuppressLint("SetTextI18n")

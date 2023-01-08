@@ -15,6 +15,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.References;
+import com.drdisagree.iconify.ui.activity.ColorEngine;
 import com.topjohnwu.superuser.Shell;
 
 public class BackgroundService extends Service {
@@ -33,12 +34,13 @@ public class BackgroundService extends Service {
 
         References.isNotificationServiceRunning = true;
 
-        Shell.getShell(shell -> {
+        /* Shell.getShell(shell -> {
             ApplyOnBoot.applyColors();
             ApplyOnBoot.applyQsCustomization();
         });
 
         startForeground();
+        */
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -56,13 +58,8 @@ public class BackgroundService extends Service {
 
         PendingIntent pendingIntent = null;
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-            pendingIntent = PendingIntent.getActivity(this, 0,
-                    notificationIntent, PendingIntent.FLAG_MUTABLE);
-        } else {
-            pendingIntent = PendingIntent.getActivity(this, 0,
-                    notificationIntent, 0);
-        }
+        pendingIntent = PendingIntent.getActivity(this, 0,
+                notificationIntent, PendingIntent.FLAG_MUTABLE);
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setOngoing(true)
