@@ -52,38 +52,22 @@ public class ColorEngine extends AppCompatActivity {
 
                 OverlayUtil.enableOverlay("IconifyComponentAMC.overlay");
 
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", false);
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "customPrimaryColor", false);
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "customSecondaryColor", false);
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
-
-                Runnable runnable = () -> {
-                    FabricatedOverlayUtil.disableOverlay("colorAccentPrimary");
-                    FabricatedOverlayUtil.disableOverlay("colorAccentSecondary");
-                };
-                Thread thread = new Thread(runnable);
-                thread.start();
-
                 apply_monet_color.postDelayed(() -> {
                     findViewById(R.id.page_color_engine).invalidate();
                 }, 1000);
             } else {
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
-
                 Runnable runnable = () -> {
                     OverlayUtil.disableOverlay("IconifyComponentAMC.overlay");
 
-                    FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
-                    FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary1_100", "color", "system_accent1_100", "0xFF50A6D7");
-                    FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary1_200", "color", "system_accent1_200", "0xFF50A6D7");
-                    FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary1_300", "color", "system_accent1_300", "0xFF50A6D7");
-                    FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary2_100", "color", "system_accent2_100", "0xFF50A6D7");
-                    FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary2_200", "color", "system_accent2_200", "0xFF50A6D7");
-                    FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary3_200", "color", "system_accent2_300", "0xFF50A6D7");
-                    FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentSecondary", "color", "holo_green_light", "0xFF387BFF");
+                    FabricatedOverlayUtil.disableOverlay("colorAccentPrimary1");
+                    FabricatedOverlayUtil.disableOverlay("colorAccentPrimary2");
+                    FabricatedOverlayUtil.disableOverlay("colorAccentPrimary3");
+                    FabricatedOverlayUtil.disableOverlay("colorAccentPrimary4");
+                    FabricatedOverlayUtil.disableOverlay("colorAccentPrimary5");
+                    FabricatedOverlayUtil.disableOverlay("colorAccentPrimary6");
+                    FabricatedOverlayUtil.disableOverlay("colorAccentSecondary1");
+                    FabricatedOverlayUtil.disableOverlay("colorAccentSecondary2");
+                    FabricatedOverlayUtil.disableOverlay("colorAccentSecondary3");
 
                     ApplyOnBoot.applyColors();
                 };

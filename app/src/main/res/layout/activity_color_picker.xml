@@ -70,15 +70,31 @@
                     android:contentDescription="@string/icon" />
             </LinearLayout>
 
-            <View
-                android:id="@+id/color_preview_large"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
-                android:layout_marginStart="@dimen/container_marginSide"
-                android:layout_marginEnd="@dimen/container_marginSide"
-                android:layout_marginBottom="@dimen/container_margin"
-                android:background="@drawable/preview_color_picker_large"
-                android:contentDescription="@string/color_picker_preview" />
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/color_preview_large_start"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:layout_marginStart="@dimen/container_marginSide"
+                    android:layout_marginEnd="@dimen/container_marginSide"
+                    android:layout_marginBottom="@dimen/container_margin"
+                    android:background="@drawable/preview_color_picker_large_start"
+                    android:contentDescription="@string/color_picker_preview" />
+
+                <View
+                    android:id="@+id/color_preview_large_end"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:layout_marginStart="@dimen/container_marginSide"
+                    android:layout_marginEnd="@dimen/container_marginSide"
+                    android:layout_marginBottom="@dimen/container_margin"
+                    android:background="@drawable/preview_color_picker_large_end"
+                    android:contentDescription="@string/color_picker_preview" />
+
+            </FrameLayout>
 
             <LinearLayout
                 android:id="@+id/preview_coloraccentprimary"
