@@ -98,7 +98,7 @@ What you can change using Iconify:
 
 - [GitHub Discussions](https://github.com/Mahmud0808/Iconify/discussions/new)
 
-- [Telegram Bot](https://t.me/IconifyBot)
+- [Telegram Group](https://t.me/IconifyDiscussion)
 
 ## Bug Report or Feature Request
 
