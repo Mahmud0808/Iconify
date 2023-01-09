@@ -48,12 +48,19 @@ public class ModuleUtil {
                 " cmd overlay enable --user current IconifyComponentQSPB.overlay\n" +
                 " cmd overlay set-priority IconifyComponentQSPB.overlay highest\n" +
                 "fi\n\n" +
-                "cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimary android:color/holo_blue_light 0x1c 0xFF50A6D7\n" +
-                "cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentPrimary\n" +
-                "cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimaryDark android:color/holo_blue_dark 0x1c 0xFF122530\n" +
-                "cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentPrimaryDark\n" +
-                "cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary android:color/holo_green_light 0x1c 0xFF387BFF\n" +
-                "cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentSecondary\n' > " + MODULE_DIR + "/service.sh").exec();
+                "amc=$(cmd overlay list |  grep -E '^.x..IconifyComponentAMC.overlay' | sed -E 's/^.x..//')\n" +
+                "if [ -z \"$amc\" ]\n" +
+                "then\n" +
+                " echo \"Applying default Iconify color\"\n" +
+                " cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimary android:color/holo_blue_light 0x1c 0xFF50A6D7\n" +
+                " cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentPrimary\n" +
+                " cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimaryDark android:color/holo_blue_dark 0x1c 0xFF122530\n" +
+                " cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentPrimaryDark\n" +
+                " cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary android:color/holo_green_light 0x1c 0xFF387BFF\n" +
+                " cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentSecondary\n" +
+                "else\n" +
+                " :\n" +
+                "fi\n\n' > " + MODULE_DIR + "/service.sh").exec();
         Shell.cmd("touch " + MODULE_DIR + "/common/system.prop").exec();
         Shell.cmd("mkdir -p " + MODULE_DIR + "/tools").exec();
         Shell.cmd("mkdir -p " + MODULE_DIR + "/system").exec();
