@@ -37,6 +37,16 @@ public class CompilerUtil {
         Shell.cmd("rm -rf " + UNSIGNED_DIR + "; mkdir -p " + UNSIGNED_DIR).exec();
         Shell.cmd("rm -rf " + SIGNED_DIR + "; mkdir -p " + SIGNED_DIR).exec();
 
+        // Detect and use compatible AAPT
+        List<String> outs = Shell.cmd("[ \"$(" + ModuleUtil.MODULE_DIR + "/tools/aapt v)\" ] && echo \"aapt\"; [ \"$(" + ModuleUtil.MODULE_DIR + "/tools/aapt64 v)\" ] && echo \"aapt64\"").exec().getOut();
+        String aaptToUse = "aapt";
+        for (String lines: outs) {
+            if (lines.contains("64")) {
+                aaptToUse = "aapt64";
+                break;
+            }
+        }
+
         // Create AndroidManifest.xml and build APK using AAPT
         File dir = new File(ModuleUtil.DATA_DIR + "/Overlays");
         for (File pkg : Objects.requireNonNull(dir.listFiles())) {
@@ -46,7 +56,7 @@ public class CompilerUtil {
                         String overlay_name = overlay.toString().replace(pkg.toString() + '/', "");
                         createManifest(overlay_name, pkg.toString().replace(ModuleUtil.DATA_DIR + "/Overlays/", ""), overlay.getAbsolutePath());
 
-                        runAapt(overlay.getAbsolutePath(), UNSIGNED_UNALIGNED_DIR, overlay_name);
+                        runAapt(aaptToUse, overlay.getAbsolutePath(), UNSIGNED_UNALIGNED_DIR, overlay_name);
                     }
                 }
             }
@@ -86,9 +96,9 @@ public class CompilerUtil {
         Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + pkgName + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + target + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + destination + "/AndroidManifest.xml;").exec();
     }
 
-    private static void runAapt(String source, String destination, String name) {
+    private static void runAapt(String aaptToUse, String source, String destination, String name) {
         Log.d("AAPT", name + " APK building...");
-        Shell.cmd(ModuleUtil.MODULE_DIR + "/tools/aapt p -f -v -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + destination + '/' + name + "-unsigned-unaligned.apk >/dev/null;").exec();
+        Shell.cmd(ModuleUtil.MODULE_DIR + "/tools/" + aaptToUse + " p -f -v -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + destination + '/' + name + "-unsigned-unaligned.apk >/dev/null;").exec();
     }
 
     private static void zipAlign(String source, String destination, String name) {
