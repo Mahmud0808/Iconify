@@ -20,18 +20,18 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Get version name
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Get application version name
         run: echo "VERSION_NAME=$(${{github.workspace}}/gradlew -q printVersionName)" >> $GITHUB_ENV
 
-      - name: Bump version code
+      - name: Bump application version code
         uses: chkfung/android-version-actions@v1.2.1
         with:
           gradlePath: app/build.gradle
           versionCode: ${{github.run_number}}
           versionName: "${{ env.VERSION_NAME }} Dev (#${{github.run_number}})"
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
 
       - name: Build with Gradle
         run: ./gradlew assembleDebug
