@@ -3,8 +3,10 @@ package com.drdisagree.iconify.utils;
 import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
+
 import com.android.apksig.ApkSigner;
 import com.topjohnwu.superuser.Shell;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -38,14 +40,13 @@ public class CompilerUtil {
         Shell.cmd("rm -rf " + SIGNED_DIR + "; mkdir -p " + SIGNED_DIR).exec();
 
         // Detect and use compatible AAPT
-        List<String> outs = Shell.cmd("[ \"$(" + ModuleUtil.MODULE_DIR + "/tools/aapt v)\" ] && echo \"aapt\"; [ \"$(" + ModuleUtil.MODULE_DIR + "/tools/aapt64 v)\" ] && echo \"aapt64\"").exec().getOut();
-        String aaptToUse = "aapt";
-        for (String lines: outs) {
-            if (lines.contains("64")) {
-                aaptToUse = "aapt64";
-                break;
-            }
-        }
+        List<String> aaptOuts = Shell.cmd("[ ! -z \"$(" + ModuleUtil.MODULE_DIR + "/tools/aapt v)\" ] && echo \"is executable by iconify\"; [ ! -z \"$(" + ModuleUtil.MODULE_DIR + "/tools/aapt64 v)\" ] && echo \"is executable by iconify\"").exec().getOut();
+        String aaptToUse = aaptOuts.get(0).contains("is executable by iconify") ? "aapt" : (aaptOuts.get(1).contains("is executable by iconify") ? "aapt64" : "aaptx86");
+
+        // Detect and use compatible ZipAlign
+        List<String> zipAlignOuts1 = Shell.cmd(ModuleUtil.MODULE_DIR + "/tools/zipalign").exec().getOut();
+        List<String> zipAlignOuts2 = Shell.cmd(ModuleUtil.MODULE_DIR + "/tools/zipalign64").exec().getOut();
+        String zipAlignToUse = zipAlignOuts1.get(0).contains("Zip alignment utility") ? "zipalign" : (zipAlignOuts2.get(0).contains("Zip alignment utility") ? "zipalign64" : "zipalign86");
 
         // Create AndroidManifest.xml and build APK using AAPT
         File dir = new File(ModuleUtil.DATA_DIR + "/Overlays");
@@ -56,7 +57,7 @@ public class CompilerUtil {
                         String overlay_name = overlay.toString().replace(pkg.toString() + '/', "");
                         createManifest(overlay_name, pkg.toString().replace(ModuleUtil.DATA_DIR + "/Overlays/", ""), overlay.getAbsolutePath());
 
-                        runAapt(aaptToUse, overlay.getAbsolutePath(), UNSIGNED_UNALIGNED_DIR, overlay_name);
+                        runAapt(aaptToUse, overlay.getAbsolutePath(), overlay_name);
                     }
                 }
             }
@@ -67,7 +68,7 @@ public class CompilerUtil {
         Log.d("ZipAlign", Arrays.toString(dir.listFiles()));
         for (File overlay : Objects.requireNonNull(dir.listFiles())) {
             if (!overlay.isDirectory()) {
-                zipAlign(overlay.getAbsolutePath(), UNSIGNED_DIR, overlay.toString().replace(UNSIGNED_UNALIGNED_DIR + '/', "").replace("-unaligned", ""));
+                zipAlign(zipAlignToUse, overlay.getAbsolutePath(), overlay.toString().replace(UNSIGNED_UNALIGNED_DIR + '/', "").replace("-unaligned", ""));
             }
         }
 
@@ -96,14 +97,14 @@ public class CompilerUtil {
         Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + pkgName + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + target + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + destination + "/AndroidManifest.xml;").exec();
     }
 
-    private static void runAapt(String aaptToUse, String source, String destination, String name) {
+    private static void runAapt(String aaptToUse, String source, String name) {
         Log.d("AAPT", name + " APK building...");
-        Shell.cmd(ModuleUtil.MODULE_DIR + "/tools/" + aaptToUse + " p -f -v -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + destination + '/' + name + "-unsigned-unaligned.apk >/dev/null;").exec();
+        Shell.cmd(ModuleUtil.MODULE_DIR + "/tools/" + aaptToUse + " p -f -v -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk >/dev/null;").exec();
     }
 
-    private static void zipAlign(String source, String destination, String name) {
+    private static void zipAlign(String zipAlignToUse, String source, String name) {
         Log.d("ZipAlign", name + " APK aligning...");
-        Shell.cmd(ModuleUtil.MODULE_DIR + "/tools/zipalign 4 " + source + ' ' + destination + '/' + name).exec();
+        Shell.cmd(ModuleUtil.MODULE_DIR + "/tools/" + zipAlignToUse + " 4 " + source + ' ' + UNSIGNED_DIR + '/' + name).exec();
     }
 
     private static void apkSigner(String source, String name) {
