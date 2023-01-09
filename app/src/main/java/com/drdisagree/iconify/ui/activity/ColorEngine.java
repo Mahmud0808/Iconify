@@ -24,6 +24,7 @@ import java.util.Objects;
 
 public class ColorEngine extends AppCompatActivity {
 
+    List<String> overlays = FabricatedOverlayUtil.getEnabledOverlayList();
     List<String> accurate_sh = Shell.cmd("settings get secure monet_engine_accurate_shades").exec().getOut();
     int shade = initialize_shade();
 
@@ -57,8 +58,6 @@ public class ColorEngine extends AppCompatActivity {
                 }, 1000);
             } else {
                 Runnable runnable = () -> {
-                    OverlayUtil.disableOverlay("IconifyComponentAMC.overlay");
-
                     FabricatedOverlayUtil.disableOverlay("colorAccentPrimary1");
                     FabricatedOverlayUtil.disableOverlay("colorAccentPrimary2");
                     FabricatedOverlayUtil.disableOverlay("colorAccentPrimary3");
@@ -69,6 +68,16 @@ public class ColorEngine extends AppCompatActivity {
                     FabricatedOverlayUtil.disableOverlay("colorAccentSecondary2");
                     FabricatedOverlayUtil.disableOverlay("colorAccentSecondary3");
 
+                    if (FabricatedOverlayUtil.isOverlayDisabled(overlays, "colorAccentPrimary")) {
+                        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
+                        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", "0xFF122530");
+                    }
+
+                    if (FabricatedOverlayUtil.isOverlayDisabled(overlays, "colorAccentSecondary")) {
+                        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentSecondary", "color", "holo_green_light", "0xFF387BFF");
+                    }
+
+                    OverlayUtil.disableOverlay("IconifyComponentAMC.overlay");
                     ApplyOnBoot.applyColors();
                 };
                 Thread thread = new Thread(runnable);
