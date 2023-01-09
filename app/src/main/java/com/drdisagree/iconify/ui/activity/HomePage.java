@@ -92,9 +92,10 @@ public class HomePage extends AppCompatActivity {
 
         // Get list of enabled overlays
         Runnable runnable1 = () -> {
+            List<String> AllOverlays = OverlayUtil.getOverlayList();
             List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
-            for (String overlay : EnabledOverlays)
-                PrefConfig.savePrefBool(Iconify.getAppContext(), overlay, true);
+            for (String overlay : AllOverlays)
+                PrefConfig.savePrefBool(Iconify.getAppContext(), overlay, OverlayUtil.isOverlayEnabled(EnabledOverlays, overlay));
 
             List<String> EnabledFabricatedOverlays = FabricatedOverlayUtil.getEnabledOverlayList();
             for (String overlay : EnabledFabricatedOverlays)
