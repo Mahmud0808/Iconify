@@ -52,7 +52,7 @@ public class Info extends AppCompatActivity {
         TextView appVersion = findViewById(R.id.appVersion);
         appVersion.setText(getResources().getString(R.string.info_version_title));
         TextView versionCodeAndName = findViewById(R.id.versionCodeAndName);
-        versionCodeAndName.setText(BuildConfig.VERSION_NAME + " #" + BuildConfig.VERSION_CODE);
+        versionCodeAndName.setText(BuildConfig.VERSION_NAME);
 
         // Github
         ViewGroup githubRepo = findViewById(R.id.githubRepo);
