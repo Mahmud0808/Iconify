@@ -10,7 +10,7 @@ android {
         minSdk 31
         targetSdk 33
         versionCode 6
-        versionName "v5.0-Beta"
+        versionName "5.0-Beta"
         setProperty("archivesBaseName", "app")
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
