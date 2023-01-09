@@ -46,3 +46,7 @@ dependencies {
     implementation 'androidx.core:core-splashscreen:1.0.0'
     implementation 'com.android.tools.build:apksig:7.3.1'
 }
+
+task printVersionName {
+    println android.defaultConfig.versionName
+}
