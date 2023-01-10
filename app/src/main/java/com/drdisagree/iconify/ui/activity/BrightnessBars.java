@@ -137,7 +137,6 @@ public class BrightnessBars extends AppCompatActivity {
 
     // Function for onClick events
     private void enableOnClickListener(LinearLayout layout, Button enable, Button disable, String key, int index) {
-
         // Set onClick operation for options in list
         layout.setOnClickListener(v -> {
             refreshLayout(layout);
@@ -164,7 +163,7 @@ public class BrightnessBars extends AppCompatActivity {
 
             Runnable runnable = () -> {
                 disable_others(key);
-                BrightnessManager.install_pack(index);
+                BrightnessManager.install_pack(index + 1);
 
                 runOnUiThread(() -> {
                     PrefConfig.savePrefBool(Iconify.getAppContext(), key, true);
@@ -192,7 +191,7 @@ public class BrightnessBars extends AppCompatActivity {
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
-                BrightnessManager.disable_pack(index);
+                BrightnessManager.disable_pack(index + 1);
 
                 runOnUiThread(() -> {
                     PrefConfig.savePrefBool(Iconify.getAppContext(), key, false);

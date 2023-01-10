@@ -17,8 +17,8 @@
                     <corners android:radius="24.0dip" />
                     <size android:height="44.0dip" />
                     <gradient
-                        android:endColor="#B3000000"
-                        android:startColor="#99000000" />
+                        android:endColor="#B3FFFFFF"
+                        android:startColor="#99FFFFFF" />
                 </shape>
             </item>
         </layer-list>
@@ -43,8 +43,8 @@
             <corners android:radius="24.0dip" />
             <size android:height="44.0dip" />
             <gradient
-                android:endColor="#B3000000"
-                android:startColor="#99000000" />
+                android:endColor="#B3FFFFFF"
+                android:startColor="#99FFFFFF" />
         </shape>
     </item>
 </layer-list>

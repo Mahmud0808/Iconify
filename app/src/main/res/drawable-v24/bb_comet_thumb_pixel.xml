@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:gravity="fill_horizontal|center">
+        <shape android:shape="rectangle">
+            <corners android:radius="24.0dip" />
+            <size android:height="4.0dip" />
+            <solid android:color="@color/pixel_black_bg" />
+        </shape>
+    </item>
+    <item
+        android:gravity="fill_horizontal|center"
+        android:end="80.0dip">
+        <shape android:shape="rectangle">
+            <corners android:radius="24.0dip" />
+            <size android:height="24.0dip" />
+            <solid android:color="#00000000" />
+        </shape>
+    </item>
+    <item
+        android:gravity="fill_horizontal|center"
+        android:end="80.0dip">
+        <shape android:shape="rectangle">
+            <corners android:radius="24.0dip" />
+            <size android:height="4.0dip" />
+            <gradient
+                android:angle="0.0"
+                android:endColor="@color/colorAccentVariant"
+                android:startColor="@color/colorAccent" />
+        </shape>
+    </item>
+    <item
+        android:gravity="end|center"
+        android:end="80.0dip">
+        <vector
+            android:width="24.0dp"
+            android:height="16.0dp"
+            android:tint="@color/colorAccentVariant"
+            android:viewportWidth="42.0"
+            android:viewportHeight="24.0">
+            <path
+                android:fillColor="#FFFFFFFF"
+                android:fillType="nonZero"
+                android:pathData="M30.00,0.00C36.63,0.00,42.00,5.37,42.00,12.00C42.00,18.63,36.63,24.00,30.00,24.00C23.37,24.00,18.00,18.63,18.00,12.00C18.00,5.37,23.37,0.00,30.00,0.00zM30.00,24.00C19.50,24.00,12.00,20.50,1.50,14.50C-0.50,13.50,-0.50,10.50,1.50,9.50C12.00,3.50,19.50,0.00,30.00,0.00"
+                android:strokeLineCap="square"
+                android:strokeLineJoin="miter" />
+        </vector>
+    </item>
+    <item
+        android:gravity="end|center"
+        android:end="85.0dip">
+        <shape android:shape="rectangle">
+            <corners android:radius="24.0dip" />
+            <size
+                android:width="6.0dip"
+                android:height="6.0dip" />
+            <solid android:color="@color/pixel_black_bg" />
+        </shape>
+    </item>
+</layer-list>
