@@ -95,9 +95,9 @@ public class UiRoundness extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 finalUiCornerRadius[0] = progress;
                 if (progress + 8 == 24)
-                    corner_radius_output.setText(getResources().getString(R.string.opt_selected) + (progress + 8) + "dp " + getResources().getString(R.string.opt_default));
+                    corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 8) + "dp " + getResources().getString(R.string.opt_default));
                 else
-                    corner_radius_output.setText(getResources().getString(R.string.opt_selected) + (progress + 8) + "dp");
+                    corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 8) + "dp");
                 drawable1.setCornerRadius((finalUiCornerRadius[0] + 8) * getResources().getDisplayMetrics().density);
                 drawable2.setCornerRadius((finalUiCornerRadius[0] + 8) * getResources().getDisplayMetrics().density);
                 drawable3.setCornerRadius((finalUiCornerRadius[0] + 8) * getResources().getDisplayMetrics().density);
