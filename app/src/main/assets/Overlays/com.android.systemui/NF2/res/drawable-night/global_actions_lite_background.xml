@@ -14,8 +14,8 @@
     </item>
     <item
         android:bottom="4dp"
-        android:left="4dp"
-        android:right="4dp"
+        android:start="4dp"
+        android:end="4dp"
         android:top="4dp">
         <shape android:shape="rectangle">
             <solid android:color="?android:attr/colorBackgroundFloating" />

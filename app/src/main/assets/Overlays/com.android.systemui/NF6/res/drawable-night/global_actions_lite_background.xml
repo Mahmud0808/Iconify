@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:left="24dp"
-        android:right="24dp">
+        android:start="24dp"
+        android:end="24dp">
         <shape android:shape="rectangle">
             <gradient
                 android:angle="0.0"
@@ -16,8 +16,8 @@
         </shape>
     </item>
     <item
-        android:left="24dp"
-        android:right="24dp">
+        android:start="24dp"
+        android:end="24dp">
         <shape android:shape="rectangle">
             <solid android:color="#40000000" />
             <corners
@@ -29,8 +29,8 @@
     </item>
     <item
         android:bottom="4dp"
-        android:left="12dp"
-        android:right="12dp">
+        android:start="12dp"
+        android:end="12dp">
         <shape android:shape="rectangle">
             <gradient
                 android:angle="0.0"
@@ -45,8 +45,8 @@
     </item>
     <item
         android:bottom="4dp"
-        android:left="12dp"
-        android:right="12dp">
+        android:start="12dp"
+        android:end="12dp">
         <shape android:shape="rectangle">
             <solid android:color="#1A000000" />
             <corners

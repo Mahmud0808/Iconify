@@ -14,8 +14,8 @@
     </item>
     <item
         android:gravity="fill_horizontal|center"
-        android:left="4.0dp"
-        android:right="4.0dp">
+        android:start="4.0dp"
+        android:end="4.0dp">
         <shape>
             <corners android:radius="20.0dip" />
             <solid android:color="@color/colorContainer" />

@@ -116,6 +116,36 @@
     <item name="brightnessBar_neumorph_outline_enable" type="id" />
     <item name="brightnessBar_neumorph_outline_disable" type="id" />
 
+    <item name="brightnessBar_neumorph_thumb_container" type="id" />
+    <item name="brightnessBar_neumorph_thumb_bb" type="id" />
+    <item name="brightnessBar_neumorph_thumb_auto_bb" type="id" />
+    <item name="brightnessBar_neumorph_thumb_enable" type="id" />
+    <item name="brightnessBar_neumorph_thumb_disable" type="id" />
+
+    <item name="brightnessBar_blocky_thumb_container" type="id" />
+    <item name="brightnessBar_blocky_thumb_bb" type="id" />
+    <item name="brightnessBar_blocky_thumb_auto_bb" type="id" />
+    <item name="brightnessBar_blocky_thumb_enable" type="id" />
+    <item name="brightnessBar_blocky_thumb_disable" type="id" />
+
+    <item name="brightnessBar_comet_thumb_container" type="id" />
+    <item name="brightnessBar_comet_thumb_bb" type="id" />
+    <item name="brightnessBar_comet_thumb_auto_bb" type="id" />
+    <item name="brightnessBar_comet_thumb_enable" type="id" />
+    <item name="brightnessBar_comet_thumb_disable" type="id" />
+
+    <item name="brightnessBar_minimal_thumb_container" type="id" />
+    <item name="brightnessBar_minimal_thumb_bb" type="id" />
+    <item name="brightnessBar_minimal_thumb_auto_bb" type="id" />
+    <item name="brightnessBar_minimal_thumb_enable" type="id" />
+    <item name="brightnessBar_minimal_thumb_disable" type="id" />
+
+    <item name="brightnessBar_oldschool_thumb_container" type="id" />
+    <item name="brightnessBar_oldschool_thumb_bb" type="id" />
+    <item name="brightnessBar_oldschool_thumb_auto_bb" type="id" />
+    <item name="brightnessBar_oldschool_thumb_enable" type="id" />
+    <item name="brightnessBar_oldschool_thumb_disable" type="id" />
+
     <!-- QsShapes List -->
     <item name="default_container" type="id" />
     <item name="default_enable" type="id" />

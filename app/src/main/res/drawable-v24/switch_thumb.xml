@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_checked="false">
         <layer-list>
-            <item android:bottom="8dp" android:left="8dp" android:right="2dp" android:top="8dp">
+            <item android:bottom="8dp" android:start="8dp" android:end="2dp" android:top="8dp">
                 <shape android:shape="oval">
                     <solid android:color="@color/switch_thumb_inactive" />
                     <size android:width="16dp" android:height="16dp" />
@@ -12,7 +12,7 @@
     </item>
     <item android:state_checked="true">
         <layer-list>
-            <item android:bottom="4dp" android:left="-2.28dp" android:right="4dp" android:top="4dp">
+            <item android:bottom="4dp" android:start="-2.28dp" android:end="4dp" android:top="4dp">
                 <shape android:shape="oval">
                     <solid android:color="@color/switch_thumb_active" />
                     <size android:width="24dp" android:height="24dp" />

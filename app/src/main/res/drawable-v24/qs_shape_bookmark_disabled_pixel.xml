@@ -11,13 +11,13 @@
         android:height="14dp"
         android:drawable="@drawable/qs_shape_bookmark_arrow_disabled_bg_pixel"
         android:gravity="left|center"
-        android:left="43dp" />
+        android:start="43dp" />
     <item
         android:width="14dp"
         android:height="14dp"
         android:drawable="@drawable/qs_shape_bookmark_arrow_fg_pixel"
         android:gravity="left|center"
-        android:left="43dp" />
+        android:start="43dp" />
     <item android:gravity="left|center">
         <shape android:shape="rectangle">
             <solid android:color="@color/pixel_black_bg" />

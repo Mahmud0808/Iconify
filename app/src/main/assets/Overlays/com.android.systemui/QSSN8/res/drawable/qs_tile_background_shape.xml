@@ -13,13 +13,13 @@
                 android:height="20.0dp"
                 android:drawable="@drawable/iconify_arrow_bgd"
                 android:gravity="left|center"
-                android:left="42.0dp"></item>
+                android:start="42.0dp"></item>
             <item
                 android:width="20.0dp"
                 android:height="20.0dp"
                 android:drawable="@drawable/iconify_arrow_fgd"
                 android:gravity="left|center"
-                android:left="42.0dp"></item>
+                android:start="42.0dp"></item>
             <item android:gravity="left|center">
                 <shape android:tintMode="src_atop">
                     <solid android:color="@*android:color/system_neutral2_50" />
@@ -56,13 +56,13 @@
                 android:height="20.0dp"
                 android:drawable="@drawable/iconify_arrow_bg"
                 android:gravity="left|center"
-                android:left="42.0dp"></item>
+                android:start="42.0dp"></item>
             <item
                 android:width="20.0dp"
                 android:height="20.0dp"
                 android:drawable="@drawable/iconify_arrow_fg"
                 android:gravity="left|center"
-                android:left="42.0dp"></item>
+                android:start="42.0dp"></item>
             <item android:gravity="left|center">
                 <shape android:tintMode="multiply">
                     <gradient

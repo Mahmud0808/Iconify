@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?android:colorControlHighlight">
+    <item>
+        <shape>
+            <solid android:color="#00000000" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient android:startColor="@*android:color/holo_blue_light" android:endColor="@*android:color/holo_green_light" android:angle="315.0" />
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+        </shape>
+    </item>
+    <item
+        android:top="2dp"
+        android:bottom="2dp"
+        android:start="2dp"
+        android:end="2dp">
+        <shape android:shape="rectangle">
+            <gradient android:startColor="#99000000" android:endColor="#B3000000" />
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_right" />
+        </shape>
+    </item>
+</ripple>

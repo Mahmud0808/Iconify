@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:start="8.0dip"
+        android:end="8.0dip"
+        android:top="8.0dip"
+        android:bottom="8.0dip">
+        <shape android:tintMode="multiply">
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+            <solid android:color="@*android:color/system_neutral2_800" />
+            <size
+                android:width="32.0dip"
+                android:height="32.0dip" />
+        </shape>
+    </item>
+</layer-list>

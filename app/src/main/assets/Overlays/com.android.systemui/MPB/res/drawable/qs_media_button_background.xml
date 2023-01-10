@@ -7,8 +7,8 @@
     <corners android:radius="24.0dip" />
     <padding
         android:bottom="8.0dip"
-        android:left="16.0dip"
-        android:right="16.0dip"
+        android:start="16.0dip"
+        android:end="16.0dip"
         android:top="8.0dip" />
     <solid android:color="@*android:color/transparent" />
 </shape>

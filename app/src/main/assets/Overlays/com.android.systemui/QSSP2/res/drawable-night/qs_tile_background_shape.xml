@@ -10,8 +10,8 @@
             </item>
             <item
                 android:bottom="4.0dp"
-                android:left="4.0dp"
-                android:right="4.0dp"
+                android:start="4.0dp"
+                android:end="4.0dp"
                 android:top="4.0dp">
                 <shape android:tintMode="src_atop">
                     <solid android:color="@*android:color/holo_blue_dark" />
@@ -39,8 +39,8 @@
             </item>
             <item
                 android:bottom="4.0dp"
-                android:left="4.0dp"
-                android:right="4.0dp"
+                android:start="4.0dp"
+                android:end="4.0dp"
                 android:top="4.0dp">
                 <shape android:tintMode="multiply">
                     <gradient

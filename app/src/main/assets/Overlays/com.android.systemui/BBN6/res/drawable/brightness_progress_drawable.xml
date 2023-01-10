@@ -17,8 +17,8 @@
             </item>
             <item
                 android:gravity="fill_horizontal|center"
-                android:left="4.5dip"
-                android:right="4.5dip">
+                android:start="4.5dip"
+                android:end="4.5dip">
                 <shape android:shape="rectangle">
                     <corners
                         android:bottomLeftRadius="10.0dp"

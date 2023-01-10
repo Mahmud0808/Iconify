@@ -17,7 +17,7 @@
             <item
                 android:bottom="4.0dp"
                 android:gravity="left|center"
-                android:left="4.5dp"
+                android:start="4.5dp"
                 android:top="4.0dp">
                 <shape android:tintMode="src_atop">
                     <solid android:color="@*android:color/system_neutral2_800" />
@@ -47,7 +47,7 @@
             <item
                 android:bottom="4.0dp"
                 android:gravity="left|center"
-                android:left="4.5dp"
+                android:start="4.5dp"
                 android:top="4.0dp">
                 <shape android:tintMode="multiply">
                     <gradient

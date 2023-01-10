@@ -9,8 +9,8 @@
     </item>
     <item
         android:gravity="fill_horizontal|center"
-        android:left="4.0dp"
-        android:right="4.5dp">
+        android:start="4.0dp"
+        android:end="4.5dp">
         <shape android:shape="rectangle">
             <corners android:radius="20.0dp" />
             <size android:height="40.0dp" />
@@ -23,7 +23,7 @@
     </item>
     <item
         android:gravity="fill_horizontal|center"
-        android:right="80.0dp">
+        android:end="80.0dp">
         <shape android:shape="rectangle">
             <corners android:radius="24.0dp" />
             <size android:height="48.0dp" />
@@ -35,8 +35,8 @@
     </item>
     <item
         android:gravity="fill_horizontal|center"
-        android:left="4.0dp"
-        android:right="84.5dp">
+        android:start="4.0dp"
+        android:end="84.5dp">
         <shape android:shape="rectangle">
             <corners android:radius="24.0dp" />
             <size android:height="40.0dp" />
