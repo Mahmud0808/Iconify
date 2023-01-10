@@ -1,6 +1,6 @@
-package com.drdisagree.iconify.installer;
+package com.drdisagree.iconify.overlaymanager;
 
-import static com.drdisagree.iconify.common.References.TOTAL_QSSHAPESPIXEL;
+import static com.drdisagree.iconify.common.References.TOTAL_BRIGHTNESSBARSPIXEL;
 
 import android.graphics.Color;
 
@@ -17,12 +17,11 @@ import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
 
-public class QsShapePixelInstaller {
+public class BrightnessPixelManager {
 
     public static void install_pack(int n) {
         disable_others(n);
         enable_pack(n);
-
         FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", ApplyOnBoot.ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(ContextCompat.getColor(Iconify.getAppContext(), R.color.holo_blue_light), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
 
         if (PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius").equals("null"))
@@ -31,7 +30,7 @@ public class QsShapePixelInstaller {
 
     protected static void enable_pack(int n) {
 
-        String path = "/system/product/overlay/IconifyComponentQSSP" + n + ".apk";
+        String path = "/system/product/overlay/IconifyComponentBBP" + n + ".apk";
 
         if (new File(path).exists()) {
 
@@ -47,7 +46,7 @@ public class QsShapePixelInstaller {
 
     public static void disable_pack(int n) {
 
-        String path = "/system/product/overlay/IconifyComponentQSSP" + n + ".apk";
+        String path = "/system/product/overlay/IconifyComponentBBP" + n + ".apk";
 
         if (new File(path).exists()) {
 
@@ -63,9 +62,9 @@ public class QsShapePixelInstaller {
 
     protected static void disable_others(int n) {
 
-        for (int i = 1; i <= TOTAL_QSSHAPESPIXEL; i++) {
+        for (int i = 1; i <= TOTAL_BRIGHTNESSBARSPIXEL; i++) {
             if (i != n) {
-                String path = "/system/product/overlay/IconifyComponentQSSP" + i + ".apk";
+                String path = "/system/product/overlay/IconifyComponentBBP" + i + ".apk";
 
                 if (new File(path).exists()) {
 

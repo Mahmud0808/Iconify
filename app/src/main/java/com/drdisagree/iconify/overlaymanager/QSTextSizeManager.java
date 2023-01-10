@@ -1,12 +1,12 @@
-package com.drdisagree.iconify.installer;
+package com.drdisagree.iconify.overlaymanager;
 
-import static com.drdisagree.iconify.common.References.TOTAL_ICONSIZE;
+import static com.drdisagree.iconify.common.References.TOTAL_TEXTSIZE;
 
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
 
-public class IconSizeInstaller {
+public class QSTextSizeManager {
 
     public static void install_pack(int n) {
         disable_others(n);
@@ -15,7 +15,7 @@ public class IconSizeInstaller {
 
     protected static void enable_pack(int n) {
 
-        String path = "/system/product/overlay/IconifyComponentIconSize" + n + ".apk";
+        String path = "/system/product/overlay/IconifyComponentTextSize" + n + ".apk";
 
         if (new File(path).exists()) {
 
@@ -31,7 +31,7 @@ public class IconSizeInstaller {
 
     public static void disable_pack(int n) {
 
-        String path = "/system/product/overlay/IconifyComponentIconSize" + n + ".apk";
+        String path = "/system/product/overlay/IconifyComponentTextSize" + n + ".apk";
 
         if (new File(path).exists()) {
 
@@ -47,9 +47,9 @@ public class IconSizeInstaller {
 
     protected static void disable_others(int n) {
 
-        for (int i = 0; i <= TOTAL_ICONSIZE; i++) {
+        for (int i = 0; i <= TOTAL_TEXTSIZE; i++) {
             if (i != n) {
-                String path = "/system/product/overlay/IconifyComponentIconSize" + i + ".apk";
+                String path = "/system/product/overlay/IconifyComponentTextSize" + i + ".apk";
 
                 if (new File(path).exists()) {
 

@@ -21,7 +21,7 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
-import com.drdisagree.iconify.installer.QsShapeInstaller;
+import com.drdisagree.iconify.overlaymanager.QsShapeManager;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.drdisagree.iconify.utils.DisplayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
@@ -45,8 +45,8 @@ public class QsShapes extends AppCompatActivity {
     LinearLayout DefaultContainer, DoubleLayerContainer, ShadedLayerContainer, OutlineContainer, LeafyOutlineContainer, NeumorphContainer, SurroundContainer, BookmarkContainer, NeumorphOutlineContainer;
     Button Default_Enable, Default_Disable, DoubleLayer_Enable, DoubleLayer_Disable, ShadedLayer_Enable, ShadedLayer_Disable, Outline_Enable, Outline_Disable, LeafyOutline_Enable, LeafyOutline_Disable, Neumorph_Enable, Neumorph_Disable, Surround_Enable, Surround_Disable, Bookmark_Enable, Bookmark_Disable, NeumorphOutline_Enable, NeumorphOutline_Disable;
     LinearLayout[] qstile_orientation_list;
-    private ViewGroup container;
     LoadingDialog loadingDialog;
+    private ViewGroup container;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -385,7 +385,7 @@ public class QsShapes extends AppCompatActivity {
 
             Runnable runnable = () -> {
                 disable_others(key);
-                QsShapeInstaller.install_pack(index);
+                QsShapeManager.install_pack(index);
                 if (hidelabel) {
                     OverlayUtil.enableOverlay("IconifyComponentQSHL.overlay");
                 } else {
@@ -421,7 +421,7 @@ public class QsShapes extends AppCompatActivity {
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
-                QsShapeInstaller.disable_pack(index);
+                QsShapeManager.disable_pack(index);
                 if (hidelabel) {
                     OverlayUtil.disableOverlay("IconifyComponentQSHL.overlay");
                 }

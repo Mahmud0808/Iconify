@@ -20,7 +20,6 @@ import com.topjohnwu.superuser.Shell;
 public class SplashActivity extends AppCompatActivity {
 
     private static SplashActivity mContext;
-    private boolean keepShowing = true;
 
     static {
         Shell.enableVerboseLogging = BuildConfig.DEBUG;
@@ -29,23 +28,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private final int versionCode = BuildConfig.VERSION_CODE;
     private final String versionName = BuildConfig.VERSION_NAME;
-
-    public static SplashActivity getContext() {
-        return mContext;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
-
-        super.onCreate(savedInstanceState);
-        splashScreen.setKeepOnScreenCondition(() -> keepShowing);
-        DynamicColors.applyToActivitiesIfAvailable(getApplication());
-
-        Thread thread = new Thread(runner);
-        thread.start();
-    }
-
+    private boolean keepShowing = true;
     private final Runnable runner = new Runnable() {
         @Override
         public void run() {
@@ -67,4 +50,20 @@ public class SplashActivity extends AppCompatActivity {
             });
         }
     };
+
+    public static SplashActivity getContext() {
+        return mContext;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
+
+        super.onCreate(savedInstanceState);
+        splashScreen.setKeepOnScreenCondition(() -> keepShowing);
+        DynamicColors.applyToActivitiesIfAvailable(getApplication());
+
+        Thread thread = new Thread(runner);
+        thread.start();
+    }
 }

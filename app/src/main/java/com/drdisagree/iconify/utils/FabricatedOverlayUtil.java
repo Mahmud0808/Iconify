@@ -1,8 +1,7 @@
 package com.drdisagree.iconify.utils;
 
-import android.util.TypedValue;
-
 import com.drdisagree.iconify.Iconify;
+import com.drdisagree.iconify.common.References;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.topjohnwu.superuser.Shell;
 
@@ -46,9 +45,9 @@ public class FabricatedOverlayUtil {
         String build_cmd = "cmd overlay fabricate --target " + target + " --name IconifyComponent" + name + " " + target + ":" + type + "/" + resourceName + " " + resourceType + " " + val;
         String enable_cmd = "cmd overlay enable --user current com.android.shell:IconifyComponent" + name;
 
-        Shell.cmd("grep -v \"IconifyComponent" + name + "\" " + ModuleUtil.MODULE_DIR + "/service.sh > " + ModuleUtil.MODULE_DIR + "/iconify_temp.sh && mv " + ModuleUtil.MODULE_DIR + "/iconify_temp.sh " + ModuleUtil.MODULE_DIR + "/service.sh").exec();
-        Shell.cmd("echo \"" + build_cmd + "\" >> " + ModuleUtil.MODULE_DIR + "/service.sh").exec();
-        Shell.cmd("echo \"" + enable_cmd + "\" >> " + ModuleUtil.MODULE_DIR + "/service.sh").exec();
+        Shell.cmd("grep -v \"IconifyComponent" + name + "\" " + References.MODULE_DIR + "/service.sh > " + References.MODULE_DIR + "/iconify_temp.sh && mv " + References.MODULE_DIR + "/iconify_temp.sh " + References.MODULE_DIR + "/service.sh").exec();
+        Shell.cmd("echo \"" + build_cmd + "\" >> " + References.MODULE_DIR + "/service.sh").exec();
+        Shell.cmd("echo \"" + enable_cmd + "\" >> " + References.MODULE_DIR + "/service.sh").exec();
 
         Shell.cmd(build_cmd).exec();
         Shell.cmd(enable_cmd).exec();
@@ -59,7 +58,7 @@ public class FabricatedOverlayUtil {
     public static void disableOverlay(String name) {
         String disable_cmd = "cmd overlay disable --user current com.android.shell:IconifyComponent" + name;
 
-        Shell.cmd("grep -v \"IconifyComponent" + name + "\" " + ModuleUtil.MODULE_DIR + "/service.sh > " + ModuleUtil.MODULE_DIR + "/iconify_temp.sh && mv " + ModuleUtil.MODULE_DIR + "/iconify_temp.sh " + ModuleUtil.MODULE_DIR + "/service.sh").exec();
+        Shell.cmd("grep -v \"IconifyComponent" + name + "\" " + References.MODULE_DIR + "/service.sh > " + References.MODULE_DIR + "/iconify_temp.sh && mv " + References.MODULE_DIR + "/iconify_temp.sh " + References.MODULE_DIR + "/service.sh").exec();
 
         Shell.cmd(disable_cmd).exec();
 

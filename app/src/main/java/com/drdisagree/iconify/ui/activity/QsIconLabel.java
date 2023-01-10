@@ -15,13 +15,12 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
-import com.drdisagree.iconify.installer.IconSizeInstaller;
-import com.drdisagree.iconify.installer.MoveIconInstaller;
-import com.drdisagree.iconify.installer.TextSizeInstaller;
+import com.drdisagree.iconify.overlaymanager.IconSizeManager;
+import com.drdisagree.iconify.overlaymanager.QSMoveIconManager;
+import com.drdisagree.iconify.overlaymanager.QSTextSizeManager;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
-import java.util.List;
 import java.util.Objects;
 
 public class QsIconLabel extends AppCompatActivity {
@@ -40,10 +39,7 @@ public class QsIconLabel extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        List<String> enabledOverlays = OverlayUtil.getEnabledOverlayList();
-
         // Text Size
-
         SeekBar text_size = findViewById(R.id.text_size);
         TextView text_size_output = findViewById(R.id.text_size_output);
 
@@ -82,7 +78,7 @@ public class QsIconLabel extends AppCompatActivity {
                 PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsTextSize", String.valueOf(finalTextSize[0]));
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedqsTextSize", true);
 
-                Runnable runnable = () -> TextSizeInstaller.install_pack(finalTextSize[0]);
+                Runnable runnable = () -> QSTextSizeManager.install_pack(finalTextSize[0]);
                 Thread thread = new Thread(runnable);
                 thread.start();
 
@@ -129,7 +125,7 @@ public class QsIconLabel extends AppCompatActivity {
                 PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsIconSize", String.valueOf(finalIconSize[0]));
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedqsIconSize", true);
 
-                Runnable runnable = () -> IconSizeInstaller.install_pack(finalIconSize[0]);
+                Runnable runnable = () -> IconSizeManager.install_pack(finalIconSize[0]);
                 Thread thread = new Thread(runnable);
                 thread.start();
 
@@ -309,7 +305,7 @@ public class QsIconLabel extends AppCompatActivity {
                 PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsMoveIcon", String.valueOf(finalMoveIcon[0]));
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedqsMoveIcon", true);
 
-                Runnable runnable = () -> MoveIconInstaller.install_pack(finalMoveIcon[0]);
+                Runnable runnable = () -> QSMoveIconManager.install_pack(finalMoveIcon[0]);
                 Thread thread = new Thread(runnable);
                 thread.start();
 

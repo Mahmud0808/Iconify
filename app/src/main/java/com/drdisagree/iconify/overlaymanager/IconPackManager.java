@@ -1,10 +1,12 @@
-package com.drdisagree.iconify.installer;
+package com.drdisagree.iconify.overlaymanager;
 
-import com.topjohnwu.superuser.Shell;
-import java.io.File;
 import static com.drdisagree.iconify.common.References.TOTAL_ICONPACKS;
 
-public class IconInstaller {
+import com.topjohnwu.superuser.Shell;
+
+import java.io.File;
+
+public class IconPackManager {
 
     public static void install_pack(int n) {
         disable_others(n);

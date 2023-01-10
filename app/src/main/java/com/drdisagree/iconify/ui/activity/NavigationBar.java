@@ -22,16 +22,14 @@ import java.util.Objects;
 
 public class NavigationBar extends AppCompatActivity {
 
-    private ViewGroup container;
     List<String> left_back_gesture = Shell.cmd("settings get secure back_gesture_inset_scale_left").exec().getOut();
     List<String> right_back_gesture = Shell.cmd("settings get secure back_gesture_inset_scale_right").exec().getOut();
-
     // Switches
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch nb_fullscreen, nb_immersive, nb_immersivev2, nb_immersivev3, nb_hide_pill, nb_monet_pill, nb_disable_left_gesture, nb_disable_right_gesture, nb_lower_sens, nb_hide_kb_buttons;
-
     // Views
     LinearLayout nb_pill_menu, nb_monet_pill_menu, nb_kb_buttons_menu;
+    private ViewGroup container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

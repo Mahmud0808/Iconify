@@ -39,6 +39,11 @@ public class HomePage extends AppCompatActivity {
     LinearLayout home_monetColor, home_iconPack, home_brightnessBar, home_qsShape, home_notification, home_mediaPlayer, home_volumePanel, home_progressBar, home_extras, home_settings, home_info;
     private ViewGroup container;
 
+    // Save unique id of each boot
+    public static void getBootId() {
+        PrefConfig.savePrefSettings(Iconify.getAppContext(), "boot_id", Shell.cmd("cat /proc/sys/kernel/random/boot_id").exec().getOut().toString());
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,8 +102,8 @@ public class HomePage extends AppCompatActivity {
             for (String overlay : AllOverlays)
                 PrefConfig.savePrefBool(Iconify.getAppContext(), overlay, OverlayUtil.isOverlayEnabled(EnabledOverlays, overlay));
 
-            List<String> EnabledFabricatedOverlays = FabricatedOverlayUtil.getEnabledOverlayList();
-            for (String overlay : EnabledFabricatedOverlays)
+            List<String> FabricatedEnabledOverlays = FabricatedOverlayUtil.getEnabledOverlayList();
+            for (String overlay : FabricatedEnabledOverlays)
                 PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricated" + overlay, true);
         };
         Thread thread1 = new Thread(runnable1);
@@ -220,10 +225,5 @@ public class HomePage extends AppCompatActivity {
         list_preview.setImageResource(preview);
 
         container.addView(list_view);
-    }
-
-    // Save unique id of each boot
-    public static void getBootId() {
-        PrefConfig.savePrefSettings(Iconify.getAppContext(), "boot_id", Shell.cmd("cat /proc/sys/kernel/random/boot_id").exec().getOut().toString());
     }
 }

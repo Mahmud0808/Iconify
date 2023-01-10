@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.common.References;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.services.ApplyOnBoot;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
@@ -24,7 +25,6 @@ import java.util.Objects;
 
 public class ColorEngine extends AppCompatActivity {
 
-    List<String> overlays = FabricatedOverlayUtil.getEnabledOverlayList();
     List<String> accurate_sh = Shell.cmd("settings get secure monet_engine_accurate_shades").exec().getOut();
     int shade = initialize_shade();
 
@@ -68,12 +68,12 @@ public class ColorEngine extends AppCompatActivity {
                     FabricatedOverlayUtil.disableOverlay("colorAccentSecondary2");
                     FabricatedOverlayUtil.disableOverlay("colorAccentSecondary3");
 
-                    if (FabricatedOverlayUtil.isOverlayDisabled(overlays, "colorAccentPrimary")) {
+                    if (FabricatedOverlayUtil.isOverlayDisabled(References.FabricatedEnabledOverlays, "colorAccentPrimary")) {
                         FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
                         FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", "0xFF122530");
                     }
 
-                    if (FabricatedOverlayUtil.isOverlayDisabled(overlays, "colorAccentSecondary")) {
+                    if (FabricatedOverlayUtil.isOverlayDisabled(References.FabricatedEnabledOverlays, "colorAccentSecondary")) {
                         FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentSecondary", "color", "holo_green_light", "0xFF387BFF");
                     }
 

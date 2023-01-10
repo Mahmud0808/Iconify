@@ -19,7 +19,7 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
-import com.drdisagree.iconify.installer.BrightnessInstaller;
+import com.drdisagree.iconify.overlaymanager.BrightnessManager;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -42,8 +42,8 @@ public class BrightnessBars extends AppCompatActivity {
     Button RoundedClip_Enable, RoundedClip_Disable, Rounded_Enable, Rounded_Disable, DoubleLayer_Enable, DoubleLayer_Disable, ShadedLayer_Enable, ShadedLayer_Disable, Outline_Enable, Outline_Disable, LeafyOutline_Enable, LeafyOutline_Disable, Neumorph_Enable, Neumorph_Disable, Inline_Enable, Inline_Disable, NeumorphOutline_Enable, NeumorphOutline_Disable;
     ImageView RoundedClip_Auto_Bb, Rounded_Auto_Bb, DoubleLayer_Auto_Bb, ShadedLayer_Auto_Bb, Outline_Auto_Bb, LeafyOutline_Auto_Bb, Neumorph_Auto_Bb, Inline_Auto_Bb, NeumorphOutline_Auto_Bb;
     ImageView RoundedClip_Bb, Rounded_Bb, DoubleLayer_Bb, ShadedLayer_Bb, Outline_Bb, LeafyOutline_Bb, Neumorph_Bb, Inline_Bb, NeumorphOutline_Bb;
-    private ViewGroup container;
     LoadingDialog loadingDialog;
+    private ViewGroup container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -264,7 +264,7 @@ public class BrightnessBars extends AppCompatActivity {
 
             Runnable runnable = () -> {
                 disable_others(key);
-                BrightnessInstaller.install_pack(index);
+                BrightnessManager.install_pack(index);
 
                 runOnUiThread(() -> {
                     PrefConfig.savePrefBool(Iconify.getAppContext(), key, true);
@@ -295,7 +295,7 @@ public class BrightnessBars extends AppCompatActivity {
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
-                BrightnessInstaller.disable_pack(index);
+                BrightnessManager.disable_pack(index);
 
                 runOnUiThread(() -> {
                     PrefConfig.savePrefBool(Iconify.getAppContext(), key, false);

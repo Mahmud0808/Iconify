@@ -19,7 +19,7 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
-import com.drdisagree.iconify.installer.NotifInstaller;
+import com.drdisagree.iconify.overlaymanager.NotificationManager;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -39,8 +39,8 @@ public class Notifications extends AppCompatActivity {
     TextView Default_Title, Corners_Title, Outline_Title, Bottom_Outline_Title, Neumorph_Title, Stack_Title;
     Button Default_Enable, Default_Disable, Corners_Enable, Corners_Disable, Outline_Enable, Outline_Disable, Bottom_Outline_Enable, Bottom_Outline_Disable, Neumorph_Enable, Neumorph_Disable, Stack_Enable, Stack_Disable;
     ImageView Default_Arrow, Corners_Arrow, Outline_Arrow, Bottom_Outline_Arrow, Neumorph_Arrow, Stack_Arrow;
-    private ViewGroup container;
     LoadingDialog loadingDialog;
+    private ViewGroup container;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -228,7 +228,7 @@ public class Notifications extends AppCompatActivity {
 
             @SuppressLint("SetTextI18n") Runnable runnable = () -> {
                 disable_others(key);
-                NotifInstaller.install_pack(index);
+                NotificationManager.install_pack(index);
 
                 runOnUiThread(() -> {
                     PrefConfig.savePrefBool(Iconify.getAppContext(), key, true);
@@ -263,7 +263,7 @@ public class Notifications extends AppCompatActivity {
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
-                NotifInstaller.disable_pack(index);
+                NotificationManager.disable_pack(index);
 
                 runOnUiThread(() -> {
                     PrefConfig.savePrefBool(Iconify.getAppContext(), key, false);

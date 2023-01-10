@@ -3,6 +3,7 @@ package com.drdisagree.iconify.utils;
 import android.util.Log;
 
 import com.drdisagree.iconify.Iconify;
+import com.drdisagree.iconify.common.References;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.topjohnwu.superuser.Shell;
 
@@ -71,7 +72,7 @@ public class OverlayUtil {
                 numberOfOverlaysInAssets += Iconify.getAppContext().getAssets().list("Overlays/" + overlay).length;
             }
 
-            int numberOfOverlaysInstalled = Integer.parseInt(Shell.cmd("find /" + ModuleUtil.OVERLAY_DIR + "/ -maxdepth 1 -type f -print| wc -l").exec().getOut().get(0));
+            int numberOfOverlaysInstalled = Integer.parseInt(Shell.cmd("find /" + References.OVERLAY_DIR + "/ -maxdepth 1 -type f -print| wc -l").exec().getOut().get(0));
             Log.e("OverlayExists", String.valueOf(numberOfOverlaysInAssets) + ' ' + numberOfOverlaysInstalled);
             return numberOfOverlaysInAssets <= numberOfOverlaysInstalled;
         } catch (Exception e) {

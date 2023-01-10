@@ -19,7 +19,7 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
-import com.drdisagree.iconify.installer.IconInstaller;
+import com.drdisagree.iconify.overlaymanager.IconPackManager;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -44,8 +44,8 @@ public class IconPacks extends AppCompatActivity {
     LinearLayout[] Container;
     LinearLayout AuroraContainer, GradiconContainer, LornContainer, PlumpyContainer, AcherusContainer, CircularContainer, FilledContainer, KaiContainer, OosContainer, OutlineContainer, PuiContainer, RoundedContainer, SamContainer, VictorContainer;
     Button Aurora_Enable, Aurora_Disable, Gradicon_Enable, Gradicon_Disable, Lorn_Enable, Lorn_Disable, Plumpy_Enable, Plumpy_Disable, Acherus_Enable, Acherus_Disable, Circular_Enable, Circular_Disable, Filled_Enable, Filled_Disable, Kai_Enable, Kai_Disable, Oos_Enable, Oos_Disable, Outline_Enable, Outline_Disable, Pui_Enable, Pui_Disable, Rounded_Enable, Rounded_Disable, Sam_Enable, Sam_Disable, Victor_Enable, Victor_Disable;
-    private ViewGroup container;
     LoadingDialog loadingDialog;
+    private ViewGroup container;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -279,7 +279,7 @@ public class IconPacks extends AppCompatActivity {
 
             Runnable runnable = () -> {
                 disable_others(key);
-                IconInstaller.install_pack(index);
+                IconPackManager.install_pack(index);
 
                 runOnUiThread(() -> {
                     PrefConfig.savePrefBool(Iconify.getAppContext(), key, true);
@@ -310,7 +310,7 @@ public class IconPacks extends AppCompatActivity {
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
-                IconInstaller.disable_pack(index);
+                IconPackManager.disable_pack(index);
 
                 runOnUiThread(() -> {
                     PrefConfig.savePrefBool(Iconify.getAppContext(), key, false);

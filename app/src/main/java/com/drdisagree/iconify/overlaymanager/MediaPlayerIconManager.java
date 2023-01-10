@@ -1,21 +1,21 @@
-package com.drdisagree.iconify.installer;
+package com.drdisagree.iconify.overlaymanager;
 
-import static com.drdisagree.iconify.common.References.TOTAL_MOVEICON;
-
+import com.drdisagree.iconify.Iconify;
+import com.drdisagree.iconify.config.PrefConfig;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
 
-public class MoveIconInstaller {
+public class MediaPlayerIconManager {
 
-    public static void install_pack(int n) {
-        disable_others(n);
-        enable_pack(n);
+    public static void install_pack(int m, int n) {
+        disable_others(m, n);
+        enable_pack(m, n);
     }
 
-    protected static void enable_pack(int n) {
+    protected static void enable_pack(int m, int n) {
 
-        String path = "/system/product/overlay/IconifyComponentMoveIcon" + n + ".apk";
+        String path = "/system/product/overlay/IconifyComponentMPIP" + m + n + ".apk";
 
         if (new File(path).exists()) {
 
@@ -29,9 +29,9 @@ public class MoveIconInstaller {
         }
     }
 
-    public static void disable_pack(int n) {
+    public static void disable_pack(int m, int n) {
 
-        String path = "/system/product/overlay/IconifyComponentMoveIcon" + n + ".apk";
+        String path = "/system/product/overlay/IconifyComponentMPIP" + m + n + ".apk";
 
         if (new File(path).exists()) {
 
@@ -39,17 +39,18 @@ public class MoveIconInstaller {
 
             try {
                 Shell.cmd("cmd overlay disable --user current " + overlay).exec();
+                PrefConfig.savePrefBool(Iconify.getAppContext(), overlay, false);
             } catch (Throwable t) {
                 t.printStackTrace();
             }
         }
     }
 
-    protected static void disable_others(int n) {
+    protected static void disable_others(int m, int n) {
 
-        for (int i = 0; i <= TOTAL_MOVEICON; i++) {
+        for (int i = 1; i <= 3; i++) {
             if (i != n) {
-                String path = "/system/product/overlay/IconifyComponentMoveIcon" + i + ".apk";
+                String path = "/system/product/overlay/IconifyComponentMPIP" + m + i + ".apk";
 
                 if (new File(path).exists()) {
 
@@ -57,6 +58,7 @@ public class MoveIconInstaller {
 
                     try {
                         Shell.cmd("cmd overlay disable --user current " + overlay).exec();
+                        PrefConfig.savePrefBool(Iconify.getAppContext(), overlay, false);
                     } catch (Throwable t) {
                         t.printStackTrace();
                     }

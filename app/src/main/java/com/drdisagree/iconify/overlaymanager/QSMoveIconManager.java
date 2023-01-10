@@ -1,28 +1,21 @@
-package com.drdisagree.iconify.installer;
+package com.drdisagree.iconify.overlaymanager;
 
-import com.drdisagree.iconify.Iconify;
-import com.drdisagree.iconify.config.PrefConfig;
-import com.drdisagree.iconify.services.ApplyOnBoot;
-import com.drdisagree.iconify.ui.activity.ColorEngine;
-import com.drdisagree.iconify.utils.OverlayUtil;
+import static com.drdisagree.iconify.common.References.TOTAL_MOVEICON;
+
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
-import static com.drdisagree.iconify.common.References.TOTAL_NOTIFICATIONS;
 
-public class NotifInstaller {
+public class QSMoveIconManager {
 
     public static void install_pack(int n) {
         disable_others(n);
         enable_pack(n);
-
-        if (PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius").equals("null"))
-            OverlayUtil.enableOverlay("IconifyComponentCR16.overlay");
     }
 
     protected static void enable_pack(int n) {
 
-        String path = "/system/product/overlay/IconifyComponentNF" + n + ".apk";
+        String path = "/system/product/overlay/IconifyComponentMoveIcon" + n + ".apk";
 
         if (new File(path).exists()) {
 
@@ -38,7 +31,7 @@ public class NotifInstaller {
 
     public static void disable_pack(int n) {
 
-        String path = "/system/product/overlay/IconifyComponentNF" + n + ".apk";
+        String path = "/system/product/overlay/IconifyComponentMoveIcon" + n + ".apk";
 
         if (new File(path).exists()) {
 
@@ -54,9 +47,9 @@ public class NotifInstaller {
 
     protected static void disable_others(int n) {
 
-        for (int i = 1; i <= TOTAL_NOTIFICATIONS; i++) {
+        for (int i = 0; i <= TOTAL_MOVEICON; i++) {
             if (i != n) {
-                String path = "/system/product/overlay/IconifyComponentNF" + i + ".apk";
+                String path = "/system/product/overlay/IconifyComponentMoveIcon" + i + ".apk";
 
                 if (new File(path).exists()) {
 

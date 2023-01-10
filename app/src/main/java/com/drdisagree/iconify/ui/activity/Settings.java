@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.common.References;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
@@ -21,7 +22,6 @@ import com.drdisagree.iconify.utils.OverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
-import java.util.List;
 import java.util.Objects;
 
 public class Settings extends AppCompatActivity {
@@ -29,10 +29,7 @@ public class Settings extends AppCompatActivity {
     LoadingDialog loadingDialog;
 
     public static void disableEverything() {
-        List<String> overlays = OverlayUtil.getEnabledOverlayList();
-        List<String> fabricatedOverlays = FabricatedOverlayUtil.getEnabledOverlayList();
-
-        for (String overlay : overlays) {
+        for (String overlay : References.EnabledOverlays) {
             OverlayUtil.disableOverlay(overlay);
             PrefConfig.clearPref(Iconify.getAppContext(), overlay);
             PrefConfig.clearPref(Iconify.getAppContext(), "cornerRadius");
@@ -41,7 +38,7 @@ public class Settings extends AppCompatActivity {
             PrefConfig.clearPref(Iconify.getAppContext(), "qsMoveIcon");
         }
 
-        for (String fabricatedOverlay : fabricatedOverlays) {
+        for (String fabricatedOverlay : References.FabricatedEnabledOverlays) {
             FabricatedOverlayUtil.disableOverlay(fabricatedOverlay);
             PrefConfig.clearPref(Iconify.getAppContext(), fabricatedOverlay);
             PrefConfig.clearPref(Iconify.getAppContext(), "fabricatedqsRowColumn");

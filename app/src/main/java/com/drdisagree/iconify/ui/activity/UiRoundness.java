@@ -18,7 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
-import com.drdisagree.iconify.installer.RadiusInstaller;
+import com.drdisagree.iconify.overlaymanager.UIRadiusManager;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -89,7 +89,6 @@ public class UiRoundness extends AppCompatActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                ;
             }
 
             @Override
@@ -107,7 +106,6 @@ public class UiRoundness extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                ;
             }
         });
 
@@ -117,7 +115,7 @@ public class UiRoundness extends AppCompatActivity {
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
-                RadiusInstaller.install_pack(finalUiCornerRadius[0]);
+                UIRadiusManager.install_pack(finalUiCornerRadius[0]);
 
                 runOnUiThread(() -> {
                     PrefConfig.savePrefSettings(Iconify.getAppContext(), "cornerRadius", String.valueOf(finalUiCornerRadius[0]));

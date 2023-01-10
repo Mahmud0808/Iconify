@@ -21,7 +21,7 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.PrefConfig;
-import com.drdisagree.iconify.installer.MediaPlayerIconInstaller;
+import com.drdisagree.iconify.overlaymanager.MediaPlayerIconManager;
 import com.drdisagree.iconify.utils.AppUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -130,6 +130,100 @@ public class MediaPlayer extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    private void musicPlayerIconList() {
+        LoadMusicPlayerList musicPlayerList = new LoadMusicPlayerList();
+        musicPlayerList.execute();
+    }
+
+    private void enableOnClickListener(int aurora_id, int gradicon_id, int plumpy_id, int idx) {
+        Button aurora = findViewById(aurora_id);
+        Button gradicon = findViewById(gradicon_id);
+        Button plumpy = findViewById(plumpy_id);
+
+        checkIfApplied(aurora, gradicon, plumpy, idx);
+
+        aurora.setOnClickListener(v -> {
+            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "1.overlay"))) {
+                Shell.cmd("cmd overlay disable --user current IconifyComponentMPIP" + idx + "1.overlay").exec();
+                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "1.overlay"), false);
+            } else {
+                MediaPlayerIconManager.install_pack(idx, 1);
+                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "1.overlay"), true);
+            }
+            checkIfApplied(aurora, gradicon, plumpy, idx);
+        });
+
+        gradicon.setOnClickListener(v -> {
+            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "2.overlay"))) {
+                Shell.cmd("cmd overlay disable --user current IconifyComponentMPIP" + idx + "2.overlay").exec();
+                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "2.overlay"), false);
+            } else {
+                MediaPlayerIconManager.install_pack(idx, 2);
+                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "2.overlay"), true);
+            }
+            checkIfApplied(aurora, gradicon, plumpy, idx);
+        });
+
+        plumpy.setOnClickListener(v -> {
+            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "3.overlay"))) {
+                Shell.cmd("cmd overlay disable --user current IconifyComponentMPIP" + idx + "3.overlay").exec();
+                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "3.overlay"), false);
+            } else {
+                MediaPlayerIconManager.install_pack(idx, 3);
+                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "3.overlay"), true);
+            }
+            checkIfApplied(aurora, gradicon, plumpy, idx);
+        });
+    }
+
+    private void checkIfApplied(Button aurora, Button gradicon, Button plumpy, int idx) {
+        refreshButton(aurora, gradicon, plumpy, idx);
+    }
+
+    private void refreshButton(Button btn1, Button btn2, Button btn3, int m) {
+        if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentMPIP" + m + "1.overlay")) {
+            btn1.setBackgroundResource(R.drawable.button_red);
+            btn2.setBackgroundResource(R.drawable.button);
+            btn3.setBackgroundResource(R.drawable.button);
+        } else if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentMPIP" + m + "2.overlay")) {
+            btn2.setBackgroundResource(R.drawable.button_red);
+            btn1.setBackgroundResource(R.drawable.button);
+            btn3.setBackgroundResource(R.drawable.button);
+        } else if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentMPIP" + m + "3.overlay")) {
+            btn3.setBackgroundResource(R.drawable.button_red);
+            btn1.setBackgroundResource(R.drawable.button);
+            btn2.setBackgroundResource(R.drawable.button);
+        } else {
+            btn1.setBackgroundResource(R.drawable.button);
+            btn2.setBackgroundResource(R.drawable.button);
+            btn3.setBackgroundResource(R.drawable.button);
+        }
+    }
+
+    private void addItem(int id, Drawable ic, String appName, String packageName, int aurora_id, int gradicon_id, int plumpy_id) {
+        View list = LayoutInflater.from(this).inflate(R.layout.list_option_mediaplayer_icons, container, false);
+
+        LinearLayout launch = list.findViewById(R.id.launch_app);
+        ImageView icon = list.findViewById(R.id.app_icon);
+        TextView name = list.findViewById(R.id.app_name);
+        Button aurora = list.findViewById(R.id.aurora);
+        Button gradicon = list.findViewById(R.id.gradicon);
+        Button plumpy = list.findViewById(R.id.plumpy);
+
+        list.setId(id);
+        icon.setBackground(ic);
+        name.setText(appName);
+
+        aurora.setId(aurora_id);
+        gradicon.setId(gradicon_id);
+        plumpy.setId(plumpy_id);
+
+        if (packageName != null)
+            launch.setOnClickListener(v -> AppUtil.launchApp(MediaPlayer.this, packageName));
+
+        container.addView(list);
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -247,99 +341,5 @@ public class MediaPlayer extends AppCompatActivity {
                 enableOnClickListener(R.id.yt_music_revanced_aurora, R.id.yt_music_revanced_gradicon, R.id.yt_music_revanced_plumpy, 10);
             }
         }
-    }
-
-    private void musicPlayerIconList() {
-        LoadMusicPlayerList musicPlayerList = new LoadMusicPlayerList();
-        musicPlayerList.execute();
-    }
-
-    private void enableOnClickListener(int aurora_id, int gradicon_id, int plumpy_id, int idx) {
-        Button aurora = findViewById(aurora_id);
-        Button gradicon = findViewById(gradicon_id);
-        Button plumpy = findViewById(plumpy_id);
-
-        checkIfApplied(aurora, gradicon, plumpy, idx);
-
-        aurora.setOnClickListener(v -> {
-            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "1.overlay"))) {
-                Shell.cmd("cmd overlay disable --user current IconifyComponentMPIP" + idx + "1.overlay").exec();
-                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "1.overlay"), false);
-            } else {
-                MediaPlayerIconInstaller.install_pack(idx, 1);
-                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "1.overlay"), true);
-            }
-            checkIfApplied(aurora, gradicon, plumpy, idx);
-        });
-
-        gradicon.setOnClickListener(v -> {
-            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "2.overlay"))) {
-                Shell.cmd("cmd overlay disable --user current IconifyComponentMPIP" + idx + "2.overlay").exec();
-                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "2.overlay"), false);
-            } else {
-                MediaPlayerIconInstaller.install_pack(idx, 2);
-                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "2.overlay"), true);
-            }
-            checkIfApplied(aurora, gradicon, plumpy, idx);
-        });
-
-        plumpy.setOnClickListener(v -> {
-            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "3.overlay"))) {
-                Shell.cmd("cmd overlay disable --user current IconifyComponentMPIP" + idx + "3.overlay").exec();
-                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "3.overlay"), false);
-            } else {
-                MediaPlayerIconInstaller.install_pack(idx, 3);
-                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "3.overlay"), true);
-            }
-            checkIfApplied(aurora, gradicon, plumpy, idx);
-        });
-    }
-
-    private void checkIfApplied(Button aurora, Button gradicon, Button plumpy, int idx) {
-        refreshButton(aurora, gradicon, plumpy, idx);
-    }
-
-    private void refreshButton(Button btn1, Button btn2, Button btn3, int m) {
-        if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentMPIP" + m + "1.overlay")) {
-            btn1.setBackgroundResource(R.drawable.button_red);
-            btn2.setBackgroundResource(R.drawable.button);
-            btn3.setBackgroundResource(R.drawable.button);
-        } else if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentMPIP" + m + "2.overlay")) {
-            btn2.setBackgroundResource(R.drawable.button_red);
-            btn1.setBackgroundResource(R.drawable.button);
-            btn3.setBackgroundResource(R.drawable.button);
-        } else if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentMPIP" + m + "3.overlay")) {
-            btn3.setBackgroundResource(R.drawable.button_red);
-            btn1.setBackgroundResource(R.drawable.button);
-            btn2.setBackgroundResource(R.drawable.button);
-        } else {
-            btn1.setBackgroundResource(R.drawable.button);
-            btn2.setBackgroundResource(R.drawable.button);
-            btn3.setBackgroundResource(R.drawable.button);
-        }
-    }
-
-    private void addItem(int id, Drawable ic, String appName, String packageName, int aurora_id, int gradicon_id, int plumpy_id) {
-        View list = LayoutInflater.from(this).inflate(R.layout.list_option_mediaplayer_icons, container, false);
-
-        LinearLayout launch = list.findViewById(R.id.launch_app);
-        ImageView icon = list.findViewById(R.id.app_icon);
-        TextView name = list.findViewById(R.id.app_name);
-        Button aurora = list.findViewById(R.id.aurora);
-        Button gradicon = list.findViewById(R.id.gradicon);
-        Button plumpy = list.findViewById(R.id.plumpy);
-
-        list.setId(id);
-        icon.setBackground(ic);
-        name.setText(appName);
-
-        aurora.setId(aurora_id);
-        gradicon.setId(gradicon_id);
-        plumpy.setId(plumpy_id);
-
-        if (packageName != null)
-            launch.setOnClickListener(v -> AppUtil.launchApp(MediaPlayer.this, packageName));
-
-        container.addView(list);
     }
 }

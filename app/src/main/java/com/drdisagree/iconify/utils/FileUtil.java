@@ -54,7 +54,6 @@ public class FileUtil {
                 autoCloseable.close();
             }
         } catch (Exception ignored) {
-            ;
         }
     }
 

@@ -1,10 +1,10 @@
 package com.drdisagree.iconify.utils;
 
 import android.os.Build;
-import android.os.Environment;
 import android.util.Log;
 
 import com.android.apksig.ApkSigner;
+import com.drdisagree.iconify.common.References;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
@@ -19,43 +19,39 @@ import java.util.List;
 import java.util.Objects;
 
 public class CompilerUtil {
-    private static final String TEMP_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.iconify";
-    private static final String UNSIGNED_UNALIGNED_DIR = TEMP_DIR + "/overlays/unsigned_unaligned";
-    private static final String UNSIGNED_DIR = TEMP_DIR + "/overlays/unsigned";
-    private static final String SIGNED_DIR = TEMP_DIR + "/overlays/signed";
 
     public static void buildOverlays() throws IOException {
         // Clean temp directory
-        Shell.cmd("rm -rf " + TEMP_DIR).exec();
-        Shell.cmd("rm -rf " + ModuleUtil.DATA_DIR + "/Keystore").exec();
-        Shell.cmd("rm -rf " + ModuleUtil.DATA_DIR + "/Overlays").exec();
+        Shell.cmd("rm -rf " + References.TEMP_DIR).exec();
+        Shell.cmd("rm -rf " + References.DATA_DIR + "/Keystore").exec();
+        Shell.cmd("rm -rf " + References.DATA_DIR + "/Overlays").exec();
 
         // Extract keystore and overlays from assets
         FileUtil.copyAssets("Keystore");
         FileUtil.copyAssets("Overlays");
 
-        Shell.cmd("rm -rf " + TEMP_DIR + "; mkdir -p " + TEMP_DIR).exec();
-        Shell.cmd("rm -rf " + UNSIGNED_UNALIGNED_DIR + "; mkdir -p " + UNSIGNED_UNALIGNED_DIR).exec();
-        Shell.cmd("rm -rf " + UNSIGNED_DIR + "; mkdir -p " + UNSIGNED_DIR).exec();
-        Shell.cmd("rm -rf " + SIGNED_DIR + "; mkdir -p " + SIGNED_DIR).exec();
+        Shell.cmd("rm -rf " + References.TEMP_DIR + "; mkdir -p " + References.TEMP_DIR).exec();
+        Shell.cmd("rm -rf " + References.UNSIGNED_UNALIGNED_DIR + "; mkdir -p " + References.UNSIGNED_UNALIGNED_DIR).exec();
+        Shell.cmd("rm -rf " + References.UNSIGNED_DIR + "; mkdir -p " + References.UNSIGNED_DIR).exec();
+        Shell.cmd("rm -rf " + References.SIGNED_DIR + "; mkdir -p " + References.SIGNED_DIR).exec();
 
         // Detect and use compatible AAPT
-        List<String> aaptOuts = Shell.cmd("[ ! -z \"$(" + ModuleUtil.MODULE_DIR + "/tools/aapt v)\" ] && echo \"is executable by iconify\"; [ ! -z \"$(" + ModuleUtil.MODULE_DIR + "/tools/aapt64 v)\" ] && echo \"is executable by iconify\"").exec().getOut();
+        List<String> aaptOuts = Shell.cmd("[ ! -z \"$(" + References.MODULE_DIR + "/tools/aapt v)\" ] && echo \"is executable by iconify\"; [ ! -z \"$(" + References.MODULE_DIR + "/tools/aapt64 v)\" ] && echo \"is executable by iconify\"").exec().getOut();
         String aaptToUse = aaptOuts.get(0).contains("is executable by iconify") ? "aapt" : (aaptOuts.get(1).contains("is executable by iconify") ? "aapt64" : "aaptx86");
 
         // Detect and use compatible ZipAlign
-        List<String> zipAlignOuts1 = Shell.cmd(ModuleUtil.MODULE_DIR + "/tools/zipalign").exec().getOut();
-        List<String> zipAlignOuts2 = Shell.cmd(ModuleUtil.MODULE_DIR + "/tools/zipalign64").exec().getOut();
+        List<String> zipAlignOuts1 = Shell.cmd(References.MODULE_DIR + "/tools/zipalign").exec().getOut();
+        List<String> zipAlignOuts2 = Shell.cmd(References.MODULE_DIR + "/tools/zipalign64").exec().getOut();
         String zipAlignToUse = zipAlignOuts1.get(0).contains("Zip alignment utility") ? "zipalign" : (zipAlignOuts2.get(0).contains("Zip alignment utility") ? "zipalign64" : "zipalign86");
 
         // Create AndroidManifest.xml and build APK using AAPT
-        File dir = new File(ModuleUtil.DATA_DIR + "/Overlays");
+        File dir = new File(References.DATA_DIR + "/Overlays");
         for (File pkg : Objects.requireNonNull(dir.listFiles())) {
             if (pkg.isDirectory()) {
                 for (File overlay : Objects.requireNonNull(pkg.listFiles())) {
                     if (overlay.isDirectory()) {
                         String overlay_name = overlay.toString().replace(pkg.toString() + '/', "");
-                        createManifest(overlay_name, pkg.toString().replace(ModuleUtil.DATA_DIR + "/Overlays/", ""), overlay.getAbsolutePath());
+                        createManifest(overlay_name, pkg.toString().replace(References.DATA_DIR + "/Overlays/", ""), overlay.getAbsolutePath());
 
                         runAapt(aaptToUse, overlay.getAbsolutePath(), overlay_name);
                     }
@@ -64,32 +60,32 @@ public class CompilerUtil {
         }
 
         // ZipAlign the APK
-        dir = new File(UNSIGNED_UNALIGNED_DIR);
+        dir = new File(References.UNSIGNED_UNALIGNED_DIR);
         Log.d("ZipAlign", Arrays.toString(dir.listFiles()));
         for (File overlay : Objects.requireNonNull(dir.listFiles())) {
             if (!overlay.isDirectory()) {
-                zipAlign(zipAlignToUse, overlay.getAbsolutePath(), overlay.toString().replace(UNSIGNED_UNALIGNED_DIR + '/', "").replace("-unaligned", ""));
+                zipAlign(zipAlignToUse, overlay.getAbsolutePath(), overlay.toString().replace(References.UNSIGNED_UNALIGNED_DIR + '/', "").replace("-unaligned", ""));
             }
         }
 
         // Sign the APK
-        dir = new File(UNSIGNED_DIR);
+        dir = new File(References.UNSIGNED_DIR);
         for (File overlay : Objects.requireNonNull(dir.listFiles())) {
             if (!overlay.isDirectory()) {
-                apkSigner(overlay.getAbsolutePath(), overlay.toString().replace(UNSIGNED_DIR + '/', "").replace("-unsigned", ""));
+                apkSigner(overlay.getAbsolutePath(), overlay.toString().replace(References.UNSIGNED_DIR + '/', "").replace("-unsigned", ""));
             }
         }
 
         // Move all generated overlays to module
-        Shell.cmd("cp -a " + SIGNED_DIR + "/. " + ModuleUtil.OVERLAY_DIR).exec();
+        Shell.cmd("cp -a " + References.SIGNED_DIR + "/. " + References.OVERLAY_DIR).exec();
 
         // Clean temp directory
-        Shell.cmd("rm -rf " + TEMP_DIR).exec();
-        Shell.cmd("rm -rf " + ModuleUtil.DATA_DIR + "/Keystore").exec();
-        Shell.cmd("rm -rf " + ModuleUtil.DATA_DIR + "/Overlays").exec();
+        Shell.cmd("rm -rf " + References.TEMP_DIR).exec();
+        Shell.cmd("rm -rf " + References.DATA_DIR + "/Keystore").exec();
+        Shell.cmd("rm -rf " + References.DATA_DIR + "/Overlays").exec();
 
         // Set permissions
-        RootUtil.setPermissionsRecursively(644, ModuleUtil.OVERLAY_DIR + '/');
+        RootUtil.setPermissionsRecursively(644, References.OVERLAY_DIR + '/');
     }
 
     private static void createManifest(String pkgName, String target, String destination) {
@@ -99,17 +95,17 @@ public class CompilerUtil {
 
     private static void runAapt(String aaptToUse, String source, String name) {
         Log.d("AAPT", name + " APK building...");
-        Shell.cmd(ModuleUtil.MODULE_DIR + "/tools/" + aaptToUse + " p -f -v -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk >/dev/null;").exec();
+        Shell.cmd(References.MODULE_DIR + "/tools/" + aaptToUse + " p -f -v -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + References.UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk >/dev/null;").exec();
     }
 
     private static void zipAlign(String zipAlignToUse, String source, String name) {
         Log.d("ZipAlign", name + " APK aligning...");
-        Shell.cmd(ModuleUtil.MODULE_DIR + "/tools/" + zipAlignToUse + " 4 " + source + ' ' + UNSIGNED_DIR + '/' + name).exec();
+        Shell.cmd(References.MODULE_DIR + "/tools/" + zipAlignToUse + " 4 " + source + ' ' + References.UNSIGNED_DIR + '/' + name).exec();
     }
 
     private static void apkSigner(String source, String name) {
         try {
-            File key = new File(ModuleUtil.DATA_DIR + "/Keystore/key");
+            File key = new File(References.DATA_DIR + "/Keystore/key");
             char[] keyPass = "overlay".toCharArray();
 
             if (!key.exists()) {
@@ -131,7 +127,7 @@ public class CompilerUtil {
                     .setV2SigningEnabled(true)
                     .setV3SigningEnabled(true)
                     .setInputApk(new File(source))
-                    .setOutputApk(new File(SIGNED_DIR + "/IconifyComponent" + name))
+                    .setOutputApk(new File(References.SIGNED_DIR + "/IconifyComponent" + name))
                     .setMinSdkVersion(Build.VERSION.SDK_INT)
                     .build()
                     .sign();

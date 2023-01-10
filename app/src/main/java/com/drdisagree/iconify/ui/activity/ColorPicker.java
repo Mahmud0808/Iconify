@@ -17,6 +17,7 @@ import androidx.core.graphics.ColorUtils;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.common.References;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
@@ -25,17 +26,15 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
-import java.util.List;
 import java.util.Objects;
 
 public class ColorPicker extends AppCompatActivity implements ColorPickerDialogListener {
 
-    private String accent, accentPrimary, accentSecondary;
     Button enable_custom_color;
     LoadingDialog loadingDialog;
     ColorPickerDialog.Builder colorPickerDialogPrimary, colorPickerDialogSecondary;
-    List<String> overlays = OverlayUtil.getEnabledOverlayList();
     boolean isSelectedPrimary = false, isSelectedSecondary = false;
+    private String accent, accentPrimary, accentSecondary;
 
     public static String ColorToHex(int color, boolean opacity, boolean hash) {
         int alpha = android.graphics.Color.alpha(color);
@@ -53,7 +52,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         if (hash)
             str = new StringBuilder("#");
         else
-            str = new StringBuilder("");
+            str = new StringBuilder();
 
         if (opacity)
             str.append(alphaHex);
@@ -269,7 +268,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         FabricatedOverlayUtil.disableOverlay("colorAccentSecondary2");
         FabricatedOverlayUtil.disableOverlay("colorAccentSecondary3");
 
-        if (OverlayUtil.isOverlayDisabled(overlays, "IconifyComponentAMC.overlay")) {
+        if (OverlayUtil.isOverlayDisabled(References.EnabledOverlays, "IconifyComponentAMC.overlay")) {
             FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
             FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", "0xFF122530");
             FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentSecondary", "color", "holo_green_light", "0xFF387BFF");
@@ -278,6 +277,5 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
 
     @Override
     public void onDialogDismissed(int dialogId) {
-        ;
     }
 }

@@ -3,7 +3,7 @@ package com.drdisagree.iconify.utils;
 import android.util.Log;
 
 import com.drdisagree.iconify.BuildConfig;
-import com.drdisagree.iconify.Iconify;
+import com.drdisagree.iconify.common.References;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.IOException;
@@ -11,13 +11,9 @@ import java.util.List;
 
 public class ModuleUtil {
 
-    public static final String MODULE_DIR = "/data/adb/modules/Iconify";
-    public static final String DATA_DIR = Iconify.getAppContext().getFilesDir().toString();
-    public static final String OVERLAY_DIR = "/data/adb/modules/Iconify/system/product/overlay";
-
     public static void handleModule() throws IOException {
         if (moduleExists()) {
-            Shell.cmd("rm -rf " + MODULE_DIR).exec();
+            Shell.cmd("rm -rf " + References.MODULE_DIR).exec();
         }
         installModule();
     }
@@ -25,14 +21,14 @@ public class ModuleUtil {
     static void installModule() throws IOException {
         Log.e("ModuleCheck", "Magisk module does not exist, creating!");
         // Clean temporary directory
-        Shell.cmd("mkdir -p " + MODULE_DIR).exec();
+        Shell.cmd("mkdir -p " + References.MODULE_DIR).exec();
         Shell.cmd("printf 'id=Iconify\n" +
                 "name=Iconify\nversion=" + BuildConfig.VERSION_NAME + "\n" +
                 "versionCode=" + BuildConfig.VERSION_CODE + "\n" + "" +
                 "author=@DrDisagree\n" +
-                "description=Systemless module for Iconify.\n' > " + MODULE_DIR + "/module.prop").exec();
-        Shell.cmd("mkdir -p " + MODULE_DIR + "/common").exec();
-        Shell.cmd("printf 'MODDIR=${0%%/*}\n' > " + MODULE_DIR + "/post-fs-data.sh").exec();
+                "description=Systemless module for Iconify.\n' > " + References.MODULE_DIR + "/module.prop").exec();
+        Shell.cmd("mkdir -p " + References.MODULE_DIR + "/common").exec();
+        Shell.cmd("printf 'MODDIR=${0%%/*}\n' > " + References.MODULE_DIR + "/post-fs-data.sh").exec();
         Shell.cmd("printf 'MODDIR=${0%%/*}\n\n" +
                 "while [ \"$(getprop sys.boot_completed | tr -d '\\r')\" != \"1\" ]\n" +
                 "do\n" +
@@ -60,12 +56,12 @@ public class ModuleUtil {
                 " cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentSecondary\n" +
                 "else\n" +
                 " :\n" +
-                "fi\n\n' > " + MODULE_DIR + "/service.sh").exec();
-        Shell.cmd("touch " + MODULE_DIR + "/common/system.prop").exec();
-        Shell.cmd("mkdir -p " + MODULE_DIR + "/tools").exec();
-        Shell.cmd("mkdir -p " + MODULE_DIR + "/system").exec();
-        Shell.cmd("mkdir -p " + MODULE_DIR + "/system/product").exec();
-        Shell.cmd("mkdir -p " + MODULE_DIR + "/system/product/overlay").exec();
+                "fi\n\n' > " + References.MODULE_DIR + "/service.sh").exec();
+        Shell.cmd("touch " + References.MODULE_DIR + "/common/system.prop").exec();
+        Shell.cmd("mkdir -p " + References.MODULE_DIR + "/tools").exec();
+        Shell.cmd("mkdir -p " + References.MODULE_DIR + "/system").exec();
+        Shell.cmd("mkdir -p " + References.MODULE_DIR + "/system/product").exec();
+        Shell.cmd("mkdir -p " + References.MODULE_DIR + "/system/product/overlay").exec();
         Log.d("ModuleCheck", "Magisk module successfully created!");
 
         extractTools();
@@ -73,7 +69,7 @@ public class ModuleUtil {
     }
 
     public static boolean moduleExists() {
-        List<String> lines = Shell.cmd("test -d " + MODULE_DIR + " && echo '1'").exec().getOut();
+        List<String> lines = Shell.cmd("test -d " + References.MODULE_DIR + " && echo '1'").exec().getOut();
         for (String line : lines) {
             if (line.contains("1"))
                 return true;
@@ -87,9 +83,9 @@ public class ModuleUtil {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            Shell.cmd("cp -a " + DATA_DIR + "/Tools/. " + MODULE_DIR + "/tools").exec();
+            Shell.cmd("cp -a " + References.DATA_DIR + "/Tools/. " + References.MODULE_DIR + "/tools").exec();
             FileUtil.cleanDir("Tools");
-            RootUtil.setPermissionsRecursively(755, MODULE_DIR + "/tools");
+            RootUtil.setPermissionsRecursively(755, References.MODULE_DIR + "/tools");
         }
     }
 }

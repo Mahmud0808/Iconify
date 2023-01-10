@@ -1,17 +1,15 @@
-package com.drdisagree.iconify.installer;
+package com.drdisagree.iconify.overlaymanager;
 
-import static com.drdisagree.iconify.common.References.TOTAL_QSSHAPES;
+import static com.drdisagree.iconify.common.References.TOTAL_NOTIFICATIONS;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.config.PrefConfig;
-import com.drdisagree.iconify.services.ApplyOnBoot;
-import com.drdisagree.iconify.ui.activity.ColorEngine;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
 
-public class QsShapeInstaller {
+public class NotificationManager {
 
     public static void install_pack(int n) {
         disable_others(n);
@@ -23,7 +21,7 @@ public class QsShapeInstaller {
 
     protected static void enable_pack(int n) {
 
-        String path = "/system/product/overlay/IconifyComponentQSSN" + n + ".apk";
+        String path = "/system/product/overlay/IconifyComponentNF" + n + ".apk";
 
         if (new File(path).exists()) {
 
@@ -39,7 +37,7 @@ public class QsShapeInstaller {
 
     public static void disable_pack(int n) {
 
-        String path = "/system/product/overlay/IconifyComponentQSSN" + n + ".apk";
+        String path = "/system/product/overlay/IconifyComponentNF" + n + ".apk";
 
         if (new File(path).exists()) {
 
@@ -55,9 +53,9 @@ public class QsShapeInstaller {
 
     protected static void disable_others(int n) {
 
-        for (int i = 1; i <= TOTAL_QSSHAPES; i++) {
+        for (int i = 1; i <= TOTAL_NOTIFICATIONS; i++) {
             if (i != n) {
-                String path = "/system/product/overlay/IconifyComponentQSSN" + i + ".apk";
+                String path = "/system/product/overlay/IconifyComponentNF" + i + ".apk";
 
                 if (new File(path).exists()) {
 
