@@ -29,12 +29,7 @@ import java.util.Objects;
 
 public class Notifications extends AppCompatActivity {
 
-    private static final String[] NOTIFICATION_KEY = new String[]{"IconifyComponentNF1.overlay",
-            "IconifyComponentNF2.overlay", "IconifyComponentNF3.overlay", "IconifyComponentNF4.overlay",
-            "IconifyComponentNF5.overlay", "IconifyComponentNF6.overlay", "IconifyComponentNF7.overlay",
-            "IconifyComponentNF8.overlay", "IconifyComponentNF9.overlay", "IconifyComponentNF10.overlay",
-            "IconifyComponentNF11.overlay", "IconifyComponentNF12.overlay", "IconifyComponentNF13.overlay",
-            "IconifyComponentNF14.overlay"};
+    ArrayList<String> NOTIFICATION_KEY = new ArrayList<>();
 
     LoadingDialog loadingDialog;
     private ViewGroup container;
@@ -78,12 +73,17 @@ public class Notifications extends AppCompatActivity {
 
         addItem(notif_list);
 
+        // Generate keys for preference
+        for (int i = 0; i < container.getChildCount(); i++) {
+            NOTIFICATION_KEY.add("IconifyComponentNF" + (i + 1) + ".overlay");
+        }
+
         // Enable onClick event
         for (int i = 0; i < container.getChildCount(); i++) {
             enableOnClickListener(container.getChildAt(i).findViewById(R.id.notification_child),
                     container.getChildAt(i).findViewById(R.id.list_button_enable_notif),
                     container.getChildAt(i).findViewById(R.id.list_button_disable_notif),
-                    NOTIFICATION_KEY[i], i);
+                    NOTIFICATION_KEY.get(i), i);
         }
 
         refreshBackground();
@@ -112,7 +112,7 @@ public class Notifications extends AppCompatActivity {
         for (int i = 0; i < container.getChildCount(); i++) {
             LinearLayout child = container.getChildAt(i).findViewById(R.id.notification_child);
             TextView title = child.findViewById(R.id.notif_title);
-            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), NOTIFICATION_KEY[i])) {
+            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), NOTIFICATION_KEY.get(i))) {
                 title.setText(title.getText().toString().replace(' ' + getResources().getString(R.string.opt_applied), "") + ' ' + getResources().getString(R.string.opt_applied));
                 title.setTextColor(getResources().getColor(R.color.colorSuccess));
             } else {
@@ -125,7 +125,7 @@ public class Notifications extends AppCompatActivity {
     // Function to disable other packs if one is applied
     private void disable_others(String pack) {
         for (int i = 0; i < References.TOTAL_NOTIFICATIONS; i++)
-            PrefConfig.savePrefBool(Iconify.getAppContext(), NOTIFICATION_KEY[i], pack.equals(NOTIFICATION_KEY[i]));
+            PrefConfig.savePrefBool(Iconify.getAppContext(), NOTIFICATION_KEY.get(i), pack.equals(NOTIFICATION_KEY.get(i)));
     }
 
     // Function for onClick events

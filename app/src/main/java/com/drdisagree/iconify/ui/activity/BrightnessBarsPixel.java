@@ -28,15 +28,7 @@ import java.util.Objects;
 
 public class BrightnessBarsPixel extends AppCompatActivity {
 
-    private static final String[] BRIGHTNESSBAR_KEY = new String[]{"IconifyComponentBBP1.overlay",
-            "IconifyComponentBBP2.overlay", "IconifyComponentBBP3.overlay",
-            "IconifyComponentBBP4.overlay", "IconifyComponentBBP5.overlay",
-            "IconifyComponentBBP6.overlay", "IconifyComponentBBP7.overlay",
-            "IconifyComponentBBP8.overlay", "IconifyComponentBBP9.overlay",
-            "IconifyComponentBBP10.overlay", "IconifyComponentBBP11.overlay",
-            "IconifyComponentBBP12.overlay", "IconifyComponentBBP13.overlay",
-            "IconifyComponentBBP14.overlay", "IconifyComponentBBP15.overlay",
-            "IconifyComponentBBP16.overlay"};
+    ArrayList<String> BRIGHTNESSBAR_KEY = new ArrayList<>();
 
     LoadingDialog loadingDialog;
     private ViewGroup container;
@@ -81,12 +73,17 @@ public class BrightnessBarsPixel extends AppCompatActivity {
 
         addItem(bb_list);
 
+        // Generate keys for preference
+        for (int i = 0; i < container.getChildCount(); i++) {
+            BRIGHTNESSBAR_KEY.add("IconifyComponentBBP" + (i + 1) + ".overlay");
+        }
+
         // Enable onClick event
         for (int i = 0; i < container.getChildCount(); i++) {
             enableOnClickListener(container.getChildAt(i).findViewById(R.id.brightness_bar_child),
                     container.getChildAt(i).findViewById(R.id.list_button_enable_brightnessbar),
                     container.getChildAt(i).findViewById(R.id.list_button_disable_brightnessbar),
-                    BRIGHTNESSBAR_KEY[i], i);
+                    BRIGHTNESSBAR_KEY.get(i), i);
         }
 
         refreshBackground();
@@ -113,7 +110,7 @@ public class BrightnessBarsPixel extends AppCompatActivity {
     private void refreshBackground() {
         for (int i = 0; i < container.getChildCount(); i++) {
             LinearLayout child = container.getChildAt(i).findViewById(R.id.brightness_bar_child);
-            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), BRIGHTNESSBAR_KEY[i])) {
+            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), BRIGHTNESSBAR_KEY.get(i))) {
                 child.setBackground(ContextCompat.getDrawable(BrightnessBarsPixel.this, R.drawable.container_selected));
             } else {
                 child.setBackground(ContextCompat.getDrawable(BrightnessBarsPixel.this, R.drawable.container));
@@ -123,8 +120,8 @@ public class BrightnessBarsPixel extends AppCompatActivity {
 
     // Function to disable other packs if one is applied
     private void disable_others(String pack) {
-        for (int i = 0; i < References.TOTAL_BRIGHTNESSBARS; i++)
-            PrefConfig.savePrefBool(Iconify.getAppContext(), BRIGHTNESSBAR_KEY[i], pack.equals(BRIGHTNESSBAR_KEY[i]));
+        for (int i = 0; i < References.TOTAL_BRIGHTNESSBARSPIXEL; i++)
+            PrefConfig.savePrefBool(Iconify.getAppContext(), BRIGHTNESSBAR_KEY.get(i), pack.equals(BRIGHTNESSBAR_KEY.get(i)));
     }
 
     // Function for onClick events

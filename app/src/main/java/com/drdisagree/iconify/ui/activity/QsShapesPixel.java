@@ -30,11 +30,7 @@ import java.util.Objects;
 
 public class QsShapesPixel extends AppCompatActivity {
 
-    private static final String[] QSSHAPE_KEY = new String[]{"IconifyComponentQSSP1.overlay",
-            "IconifyComponentQSSP2.overlay", "IconifyComponentQSSP3.overlay",
-            "IconifyComponentQSSP4.overlay", "IconifyComponentQSSP5.overlay",
-            "IconifyComponentQSSP6.overlay", "IconifyComponentQSSP7.overlay",
-            "IconifyComponentQSSP8.overlay", "IconifyComponentQSSP9.overlay"};
+    ArrayList<String> QSSHAPE_KEY = new ArrayList<>();
 
     LoadingDialog loadingDialog;
     private ViewGroup container;
@@ -72,6 +68,11 @@ public class QsShapesPixel extends AppCompatActivity {
         qsshape_list.add(new Object[]{"Bookmark", R.drawable.qs_shape_bookmark_enabled_pixel, R.drawable.qs_shape_bookmark_disabled_pixel});
 
         addItem(qsshape_list);
+
+        // Generate keys for preference
+        for (int i = 0; i < container.getChildCount(); i++) {
+            QSSHAPE_KEY.add("IconifyComponentQSSP" + (i + 1) + ".overlay");
+        }
 
         ViewGroup.MarginLayoutParams marginParams;
         LinearLayout.LayoutParams layoutParams;
@@ -117,7 +118,7 @@ public class QsShapesPixel extends AppCompatActivity {
             enableOnClickListener(container.getChildAt(i).findViewById(R.id.qsshape_child),
                     container.getChildAt(i).findViewById(R.id.list_button_enable_qsshape),
                     container.getChildAt(i).findViewById(R.id.list_button_disable_qsshape),
-                    QSSHAPE_KEY[i], i);
+                    QSSHAPE_KEY.get(i), i);
         }
 
         refreshBackground();
@@ -180,7 +181,7 @@ public class QsShapesPixel extends AppCompatActivity {
     private void refreshBackground() {
         for (int i = 0; i < container.getChildCount(); i++) {
             LinearLayout child = container.getChildAt(i).findViewById(R.id.qsshape_child);
-            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), QSSHAPE_KEY[i])) {
+            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), QSSHAPE_KEY.get(i))) {
                 child.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.container_selected));
             } else {
                 child.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.container));
@@ -190,8 +191,8 @@ public class QsShapesPixel extends AppCompatActivity {
 
     // Function to disable other packs if one is applied
     private void disable_others(String pack) {
-        for (int i = 0; i < References.TOTAL_QSSHAPES; i++)
-            PrefConfig.savePrefBool(Iconify.getAppContext(), QSSHAPE_KEY[i], pack.equals(QSSHAPE_KEY[i]));
+        for (int i = 0; i < References.TOTAL_QSSHAPESPIXEL; i++)
+            PrefConfig.savePrefBool(Iconify.getAppContext(), QSSHAPE_KEY.get(i), pack.equals(QSSHAPE_KEY.get(i)));
     }
 
     // Function for onClick events
