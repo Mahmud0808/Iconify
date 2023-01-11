@@ -10,7 +10,7 @@
                 android:startColor="@color/colorAccent" />
         </shape>
     </item>
-    <item android:gravity="right|center">
+    <item android:gravity="end|center">
         <shape android:shape="rectangle">
             <corners
                 android:bottomLeftRadius="0.0dp"

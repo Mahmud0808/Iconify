@@ -13,15 +13,15 @@
         android:width="14dp"
         android:height="14dp"
         android:drawable="@drawable/qs_shape_bookmark_arrow_enabled_bg_pixel"
-        android:gravity="left|center"
+        android:gravity="start|center"
         android:start="43dp" />
     <item
         android:width="14dp"
         android:height="14dp"
         android:drawable="@drawable/qs_shape_bookmark_arrow_fg_pixel"
-        android:gravity="left|center"
+        android:gravity="start|center"
         android:start="43dp" />
-    <item android:gravity="left|center">
+    <item android:gravity="start|center">
         <shape android:shape="rectangle">
             <gradient
                 android:angle="0.0"
@@ -35,7 +35,7 @@
                 android:height="60dp" />
         </shape>
     </item>
-    <item android:gravity="left|center">
+    <item android:gravity="start|center">
         <shape android:shape="rectangle">
             <solid android:color="@color/offStateColor3" />
             <corners

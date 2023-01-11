@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?android:colorControlHighlight">
+    <item>
+        <shape>
+            <solid android:color="#00000000" />
+        </shape>
+    </item>
+    <item android:top="6dp" android:end="120dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@*android:color/system_neutral2_800" />
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+        </shape>
+    </item>
+    <item android:bottom="6dp" android:start="120dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@*android:color/system_neutral2_800" />
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+        </shape>
+    </item>
+    <item
+        android:start="48dp"
+        android:gravity="start|top">
+        <shape android:shape="rectangle">
+            <gradient android:startColor="@*android:color/holo_blue_light" android:endColor="@*android:color/holo_green_light" android:angle="0.0" />
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
+            <size android:height="3dp" android:width="70dp" />
+        </shape>
+    </item>
+    <item
+        android:end="48dp"
+        android:gravity="end|bottom">
+        <shape android:shape="rectangle">
+            <gradient android:startColor="@*android:color/holo_blue_light" android:endColor="@*android:color/holo_green_light" android:angle="0.0" />
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
+            <size android:height="3dp" android:width="70dp" />
+        </shape>
+    </item>
+</ripple>

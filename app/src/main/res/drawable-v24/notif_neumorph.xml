@@ -7,7 +7,7 @@
                 android:endColor="@color/neumorph_outline_end"
                 android:startColor="@color/neumorph_outline_start"
                 android:type="linear" />
-            <corners android:radius="22.0dp" />
+            <corners android:radius="24.0dp" />
         </shape>
     </item>
     <item

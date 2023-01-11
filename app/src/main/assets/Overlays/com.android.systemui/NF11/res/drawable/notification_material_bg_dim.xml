@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="?android:colorControlHighlight">
-    <item
-        android:top="2.0dp"
-        android:bottom="2.0dp">
+    <item>
+        <shape>
+            <solid android:color="#00000000" />
+        </shape>
+    </item>
+    <item>
         <shape
             android:shape="rectangle"
             android:tintMode="src_atop">
@@ -17,8 +20,8 @@
     <item
         android:start="2.0dp"
         android:end="2.0dp"
-        android:top="4.0dp"
-        android:bottom="4.0dp">
+        android:top="2.0dp"
+        android:bottom="2.0dp">
         <shape
             android:shape="rectangle"
             android:tintMode="src_atop">
@@ -30,10 +33,10 @@
         </shape>
     </item>
     <item
-        android:bottom="6.0dp"
-        android:start="4.0dp"
-        android:end="4.0dp"
-        android:top="6.0dp">
+        android:bottom="4.0dp"
+        android:left="4.0dp"
+        android:right="4.0dp"
+        android:top="4.0dp">
         <shape
             android:shape="rectangle"
             android:tintMode="src_atop">
@@ -42,9 +45,6 @@
                 android:endColor="#FFF0F0F0"
                 android:startColor="#FFD4D4D4" />
             <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
-            <padding
-                android:start="20dp"
-                android:end="20dp" />
         </shape>
     </item>
 </ripple>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/rippleAccent">
+    <item>
+        <shape>
+            <solid android:color="#00000000" />
+        </shape>
+    </item>
+    <item
+        android:bottom="2dp"
+        android:end="44dp"
+        android:start="44dp"
+        android:top="2dp">
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="315.0"
+                android:endColor="@color/colorAccentVariant"
+                android:startColor="@color/colorAccent" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+    <item
+        android:bottom="4dp"
+        android:end="44dp"
+        android:start="44dp"
+        android:top="4dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorContainer" />
+            <corners android:radius="22dp" />
+        </shape>
+    </item>
+    <item
+        android:bottom="4dp"
+        android:end="44dp"
+        android:start="44dp"
+        android:top="4dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorContainerOverlay" />
+            <corners android:radius="22dp" />
+        </shape>
+    </item>
+    <item
+        android:bottom="6dp"
+        android:top="6dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorContainer" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+    <item
+        android:bottom="6dp"
+        android:top="6dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorContainerOverlay" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+</ripple>

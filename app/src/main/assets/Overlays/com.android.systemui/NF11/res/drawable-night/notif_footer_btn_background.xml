@@ -31,8 +31,8 @@
     </item>
     <item
         android:bottom="6.0dp"
-        android:start="4.0dp"
-        android:end="4.0dp"
+        android:left="4.0dp"
+        android:right="4.0dp"
         android:top="6.0dp">
         <shape
             android:shape="rectangle"
@@ -43,8 +43,8 @@
                 android:startColor="#FF363636" />
             <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
             <padding
-                android:start="20dp"
-                android:end="20dp" />
+                android:left="20dp"
+                android:right="20dp" />
         </shape>
     </item>
 </ripple>

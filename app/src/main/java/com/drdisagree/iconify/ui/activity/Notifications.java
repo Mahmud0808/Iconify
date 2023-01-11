@@ -18,27 +18,24 @@ import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.common.References;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.overlaymanager.NotificationManager;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Notifications extends AppCompatActivity {
 
-    private static final String DEFAULT_KEY = "IconifyComponentNF1.overlay";
-    private static final String CORNERS_KEY = "IconifyComponentNF2.overlay";
-    private static final String OUTLINE_KEY = "IconifyComponentNF3.overlay";
-    private static final String BOTTOM_OUTLINE_KEY = "IconifyComponentNF4.overlay";
-    private static final String NEUMORPH_KEY = "IconifyComponentNF5.overlay";
-    private static final String STACK_KEY = "IconifyComponentNF6.overlay";
+    private static final String[] NOTIFICATION_KEY = new String[]{"IconifyComponentNF1.overlay",
+            "IconifyComponentNF2.overlay", "IconifyComponentNF3.overlay", "IconifyComponentNF4.overlay",
+            "IconifyComponentNF5.overlay", "IconifyComponentNF6.overlay", "IconifyComponentNF7.overlay",
+            "IconifyComponentNF8.overlay", "IconifyComponentNF9.overlay", "IconifyComponentNF10.overlay",
+            "IconifyComponentNF11.overlay", "IconifyComponentNF12.overlay", "IconifyComponentNF13.overlay",
+            "IconifyComponentNF14.overlay"};
 
-    LinearLayout[] Container;
-    LinearLayout DefaultContainer, CornersContainer, OutlineContainer, BottomOutlineContainer, NeumorphContainer, StackContainer;
-    TextView Default_Title, Corners_Title, Outline_Title, Bottom_Outline_Title, Neumorph_Title, Stack_Title;
-    Button Default_Enable, Default_Disable, Corners_Enable, Corners_Disable, Outline_Enable, Outline_Disable, Bottom_Outline_Enable, Bottom_Outline_Disable, Neumorph_Enable, Neumorph_Disable, Stack_Enable, Stack_Disable;
-    ImageView Default_Arrow, Corners_Arrow, Outline_Arrow, Bottom_Outline_Arrow, Neumorph_Arrow, Stack_Arrow;
     LoadingDialog loadingDialog;
     private ViewGroup container;
 
@@ -59,75 +56,35 @@ public class Notifications extends AppCompatActivity {
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
 
-        // Brightness Bar list items
+        // Notifications list items
         container = (ViewGroup) findViewById(R.id.notification_list);
+        ArrayList<Object[]> notif_list = new ArrayList<>();
 
-        // Brightness Bar add items in list
-        addItem(R.id.notif_default_container, R.id.notif_default_title, R.drawable.notif_default, R.id.notif_default_arrow, R.id.notif_default_enable, R.id.notif_default_disable);
-        addItem(R.id.notif_layers_container, R.id.notif_layers_title, R.drawable.notif_layers, R.id.notif_layers_arrow, R.id.notif_layers_enable, R.id.notif_layers_disable);
-        addItem(R.id.notif_outline_container, R.id.notif_outline_title, R.drawable.notif_outline, R.id.notif_outline_arrow, R.id.notif_outline_enable, R.id.notif_outline_disable);
-        addItem(R.id.notif_bottom_outline_container, R.id.notif_bottom_outline_title, R.drawable.notif_bottom_outline, R.id.notif_bottom_outline_arrow, R.id.notif_bottom_outline_enable, R.id.notif_bottom_outline_disable);
-        addItem(R.id.notif_neumorph_container, R.id.notif_neumorph_title, R.drawable.notif_neumorph, R.id.notif_neumorph_arrow, R.id.notif_neumorph_enable, R.id.notif_neumorph_disable);
-        addItem(R.id.notif_stack_container, R.id.notif_stack_title, R.drawable.notif_stack, R.id.notif_stack_arrow, R.id.notif_stack_enable, R.id.notif_stack_disable);
+        // Notifications add items in list
+        notif_list.add(new Object[]{"Default", R.drawable.notif_default});
+        notif_list.add(new Object[]{"Layers", R.drawable.notif_layers});
+        notif_list.add(new Object[]{"Thin Outline", R.drawable.notif_thin_outline});
+        notif_list.add(new Object[]{"Bottom Outline", R.drawable.notif_bottom_outline});
+        notif_list.add(new Object[]{"Neumorph", R.drawable.notif_neumorph});
+        notif_list.add(new Object[]{"Stack", R.drawable.notif_stack});
+        notif_list.add(new Object[]{"Side Stack", R.drawable.notif_side_stack});
+        notif_list.add(new Object[]{"Outline", R.drawable.notif_outline});
+        notif_list.add(new Object[]{"Leafy Outline", R.drawable.notif_leafy_outline});
+        notif_list.add(new Object[]{"Lighty", R.drawable.notif_lighty});
+        notif_list.add(new Object[]{"Neumorph Outline", R.drawable.notif_neumorph_outline});
+        notif_list.add(new Object[]{"Cyberponk", R.drawable.notif_cyberponk});
+        notif_list.add(new Object[]{"Cyberponk v2", R.drawable.notif_cyberponk_v2});
+        notif_list.add(new Object[]{"Thread Line", R.drawable.notif_thread_line});
 
-        // Default
-        DefaultContainer = findViewById(R.id.notif_default_container);
-        Default_Title = findViewById(R.id.notif_default_title);
-        Default_Title.setText("Default");
-        Default_Enable = findViewById(R.id.notif_default_enable);
-        Default_Disable = findViewById(R.id.notif_default_disable);
-        Default_Arrow = findViewById(R.id.notif_default_arrow);
-
-        // Layers
-        CornersContainer = findViewById(R.id.notif_layers_container);
-        Corners_Title = findViewById(R.id.notif_layers_title);
-        Corners_Title.setText("Layers");
-        Corners_Enable = findViewById(R.id.notif_layers_enable);
-        Corners_Disable = findViewById(R.id.notif_layers_disable);
-        Corners_Arrow = findViewById(R.id.notif_layers_arrow);
-
-        // Outline
-        OutlineContainer = findViewById(R.id.notif_outline_container);
-        Outline_Title = findViewById(R.id.notif_outline_title);
-        Outline_Title.setText("Outline");
-        Outline_Enable = findViewById(R.id.notif_outline_enable);
-        Outline_Disable = findViewById(R.id.notif_outline_disable);
-        Outline_Arrow = findViewById(R.id.notif_outline_arrow);
-
-        // Bottom Outline
-        BottomOutlineContainer = findViewById(R.id.notif_bottom_outline_container);
-        Bottom_Outline_Title = findViewById(R.id.notif_bottom_outline_title);
-        Bottom_Outline_Title.setText("Bottom Outline");
-        Bottom_Outline_Enable = findViewById(R.id.notif_bottom_outline_enable);
-        Bottom_Outline_Disable = findViewById(R.id.notif_bottom_outline_disable);
-        Bottom_Outline_Arrow = findViewById(R.id.notif_bottom_outline_arrow);
-
-        // Neumorph
-        NeumorphContainer = findViewById(R.id.notif_neumorph_container);
-        Neumorph_Title = findViewById(R.id.notif_neumorph_title);
-        Neumorph_Title.setText("Neumorph");
-        Neumorph_Enable = findViewById(R.id.notif_neumorph_enable);
-        Neumorph_Disable = findViewById(R.id.notif_neumorph_disable);
-        Neumorph_Arrow = findViewById(R.id.notif_neumorph_arrow);
-
-        // Stack
-        StackContainer = findViewById(R.id.notif_stack_container);
-        Stack_Title = findViewById(R.id.notif_stack_title);
-        Stack_Title.setText("Stack");
-        Stack_Enable = findViewById(R.id.notif_stack_enable);
-        Stack_Disable = findViewById(R.id.notif_stack_disable);
-        Stack_Arrow = findViewById(R.id.notif_stack_arrow);
-
-        // List of Noification
-        Container = new LinearLayout[]{DefaultContainer, CornersContainer, OutlineContainer, BottomOutlineContainer, NeumorphContainer, StackContainer};
+        addItem(notif_list);
 
         // Enable onClick event
-        enableOnClickListener(DefaultContainer, Default_Title, Default_Enable, Default_Disable, Default_Arrow, DEFAULT_KEY, 1);
-        enableOnClickListener(CornersContainer, Corners_Title, Corners_Enable, Corners_Disable, Corners_Arrow, CORNERS_KEY, 2);
-        enableOnClickListener(OutlineContainer, Outline_Title, Outline_Enable, Outline_Disable, Outline_Arrow, OUTLINE_KEY, 3);
-        enableOnClickListener(BottomOutlineContainer, Bottom_Outline_Title, Bottom_Outline_Enable, Bottom_Outline_Disable, Bottom_Outline_Arrow, BOTTOM_OUTLINE_KEY, 4);
-        enableOnClickListener(NeumorphContainer, Neumorph_Title, Neumorph_Enable, Neumorph_Disable, Neumorph_Arrow, NEUMORPH_KEY, 5);
-        enableOnClickListener(StackContainer, Stack_Title, Stack_Enable, Stack_Disable, Stack_Arrow, STACK_KEY, 6);
+        for (int i = 0; i < container.getChildCount(); i++) {
+            enableOnClickListener(container.getChildAt(i).findViewById(R.id.notification_child),
+                    container.getChildAt(i).findViewById(R.id.list_button_enable_notif),
+                    container.getChildAt(i).findViewById(R.id.list_button_disable_notif),
+                    NOTIFICATION_KEY[i], i);
+        }
 
         refreshBackground();
     }
@@ -140,62 +97,39 @@ public class Notifications extends AppCompatActivity {
 
     // Function to check for layout changes
     private void refreshLayout(LinearLayout layout) {
-        for (LinearLayout linearLayout : Container) {
-            if (!(linearLayout == layout)) {
-                if (linearLayout == DefaultContainer) {
-                    Default_Enable.setVisibility(View.GONE);
-                    Default_Disable.setVisibility(View.GONE);
-                } else if (linearLayout == CornersContainer) {
-                    Corners_Enable.setVisibility(View.GONE);
-                    Corners_Disable.setVisibility(View.GONE);
-                } else if (linearLayout == OutlineContainer) {
-                    Outline_Enable.setVisibility(View.GONE);
-                    Outline_Disable.setVisibility(View.GONE);
-                } else if (linearLayout == BottomOutlineContainer) {
-                    Bottom_Outline_Enable.setVisibility(View.GONE);
-                    Bottom_Outline_Disable.setVisibility(View.GONE);
-                } else if (linearLayout == NeumorphContainer) {
-                    Neumorph_Enable.setVisibility(View.GONE);
-                    Neumorph_Disable.setVisibility(View.GONE);
-                } else if (linearLayout == StackContainer) {
-                    Stack_Enable.setVisibility(View.GONE);
-                    Stack_Disable.setVisibility(View.GONE);
-                }
+        for (int i = 0; i < container.getChildCount(); i++) {
+            LinearLayout child = container.getChildAt(i).findViewById(R.id.notification_child);
+            if (!(child == layout)) {
+                container.getChildAt(i).findViewById(R.id.list_button_enable_notif).setVisibility(View.GONE);
+                container.getChildAt(i).findViewById(R.id.list_button_disable_notif).setVisibility(View.GONE);
             }
         }
     }
 
     // Function to check for bg drawable changes
-    private void refreshBackground() {
-        checkIfApplied(Default_Title, 1);
-        checkIfApplied(Corners_Title, 2);
-        checkIfApplied(Outline_Title, 3);
-        checkIfApplied(Bottom_Outline_Title, 4);
-        checkIfApplied(Neumorph_Title, 5);
-        checkIfApplied(Stack_Title, 6);
-    }
-
-    // Function to change applied pack's bg
     @SuppressLint("SetTextI18n")
-    private void checkIfApplied(TextView name, int notif) {
-        if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentNF" + notif + ".overlay")) {
-            name.setText(name.getText().toString().replace(' ' + getResources().getString(R.string.opt_applied), "") + ' ' + getResources().getString(R.string.opt_applied));
-            name.setTextColor(getResources().getColor(R.color.colorSuccess));
-        } else {
-            name.setText(name.getText().toString().replace(' ' + getResources().getString(R.string.opt_applied), ""));
-            name.setTextColor(getResources().getColor(R.color.textColorPrimary));
+    private void refreshBackground() {
+        for (int i = 0; i < container.getChildCount(); i++) {
+            LinearLayout child = container.getChildAt(i).findViewById(R.id.notification_child);
+            TextView title = child.findViewById(R.id.notif_title);
+            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), NOTIFICATION_KEY[i])) {
+                title.setText(title.getText().toString().replace(' ' + getResources().getString(R.string.opt_applied), "") + ' ' + getResources().getString(R.string.opt_applied));
+                title.setTextColor(getResources().getColor(R.color.colorSuccess));
+            } else {
+                title.setText(title.getText().toString().replace(' ' + getResources().getString(R.string.opt_applied), ""));
+                title.setTextColor(getResources().getColor(R.color.textColorPrimary));
+            }
         }
     }
 
-    // Function to add border for installed pack
-    private void background(int id, int drawable) {
-        LinearLayout layout = findViewById(id);
-        layout.setBackground(ContextCompat.getDrawable(this, drawable));
+    // Function to disable other packs if one is applied
+    private void disable_others(String pack) {
+        for (int i = 0; i < References.TOTAL_NOTIFICATIONS; i++)
+            PrefConfig.savePrefBool(Iconify.getAppContext(), NOTIFICATION_KEY[i], pack.equals(NOTIFICATION_KEY[i]));
     }
 
     // Function for onClick events
-    private void enableOnClickListener(LinearLayout layout, TextView name, Button enable, Button disable, ImageView arrow, String key, int index) {
-
+    private void enableOnClickListener(LinearLayout layout, Button enable, Button disable, String key, int index) {
         // Set onClick operation for options in list
         layout.setOnClickListener(v -> {
             refreshLayout(layout);
@@ -203,19 +137,19 @@ public class Notifications extends AppCompatActivity {
                 disable.setVisibility(View.GONE);
                 if (enable.getVisibility() == View.VISIBLE) {
                     enable.setVisibility(View.GONE);
-                    arrow.setForeground(ContextCompat.getDrawable(Notifications.this, R.drawable.ic_expand_arrow));
+                    layout.findViewById(R.id.notif_arrow).setForeground(ContextCompat.getDrawable(Notifications.this, R.drawable.ic_expand_arrow));
                 } else {
                     enable.setVisibility(View.VISIBLE);
-                    arrow.setForeground(ContextCompat.getDrawable(Notifications.this, R.drawable.ic_collapse_arrow));
+                    layout.findViewById(R.id.notif_arrow).setForeground(ContextCompat.getDrawable(Notifications.this, R.drawable.ic_collapse_arrow));
                 }
             } else {
                 enable.setVisibility(View.GONE);
                 if (disable.getVisibility() == View.VISIBLE) {
                     disable.setVisibility(View.GONE);
-                    arrow.setForeground(ContextCompat.getDrawable(Notifications.this, R.drawable.ic_expand_arrow));
+                    layout.findViewById(R.id.notif_arrow).setForeground(ContextCompat.getDrawable(Notifications.this, R.drawable.ic_expand_arrow));
                 } else {
                     disable.setVisibility(View.VISIBLE);
-                    arrow.setForeground(ContextCompat.getDrawable(Notifications.this, R.drawable.ic_collapse_arrow));
+                    layout.findViewById(R.id.notif_arrow).setForeground(ContextCompat.getDrawable(Notifications.this, R.drawable.ic_collapse_arrow));
                 }
             }
         });
@@ -228,7 +162,7 @@ public class Notifications extends AppCompatActivity {
 
             @SuppressLint("SetTextI18n") Runnable runnable = () -> {
                 disable_others(key);
-                NotificationManager.install_pack(index);
+                NotificationManager.install_pack(index + 1);
 
                 runOnUiThread(() -> {
                     PrefConfig.savePrefBool(Iconify.getAppContext(), key, true);
@@ -239,8 +173,9 @@ public class Notifications extends AppCompatActivity {
                             loadingDialog.hide();
 
                         // Change name to " - applied"
-                        name.setText(name.getText().toString().replace(' ' + getResources().getString(R.string.opt_applied), "") + ' ' + getResources().getString(R.string.opt_applied));
-                        name.setTextColor(getResources().getColor(R.color.colorSuccess));
+                        TextView title = layout.findViewById(R.id.notif_title);
+                        title.setText(title.getText().toString().replace(' ' + getResources().getString(R.string.opt_applied), "") + ' ' + getResources().getString(R.string.opt_applied));
+                        title.setTextColor(getResources().getColor(R.color.colorSuccess));
 
                         // Change button visibility
                         enable.setVisibility(View.GONE);
@@ -258,12 +193,10 @@ public class Notifications extends AppCompatActivity {
         // Set onClick operation for Disable button
         disable.setOnClickListener(v -> {
             // Show loading dialog
-            if (loadingDialog == null)
-                loadingDialog = new LoadingDialog(Notifications.this);
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
-                NotificationManager.disable_pack(index);
+                NotificationManager.disable_pack(index + 1);
 
                 runOnUiThread(() -> {
                     PrefConfig.savePrefBool(Iconify.getAppContext(), key, false);
@@ -273,8 +206,9 @@ public class Notifications extends AppCompatActivity {
                         loadingDialog.hide();
 
                         // Change name back to original
-                        name.setText(name.getText().toString().replace(' ' + getResources().getString(R.string.opt_applied), ""));
-                        name.setTextColor(getResources().getColor(R.color.textColorPrimary));
+                        TextView title = layout.findViewById(R.id.notif_title);
+                        title.setText(title.getText().toString().replace(' ' + getResources().getString(R.string.opt_applied), ""));
+                        title.setTextColor(getResources().getColor(R.color.textColorPrimary));
 
                         // Change button visibility
                         disable.setVisibility(View.GONE);
@@ -290,36 +224,19 @@ public class Notifications extends AppCompatActivity {
         });
     }
 
-    // Function to disable other packs if one is applied
-    private void disable_others(String pack) {
-        PrefConfig.savePrefBool(Iconify.getAppContext(), DEFAULT_KEY, pack.equals(DEFAULT_KEY));
-        PrefConfig.savePrefBool(Iconify.getAppContext(), CORNERS_KEY, pack.equals(CORNERS_KEY));
-        PrefConfig.savePrefBool(Iconify.getAppContext(), OUTLINE_KEY, pack.equals(OUTLINE_KEY));
-        PrefConfig.savePrefBool(Iconify.getAppContext(), BOTTOM_OUTLINE_KEY, pack.equals(BOTTOM_OUTLINE_KEY));
-        PrefConfig.savePrefBool(Iconify.getAppContext(), NEUMORPH_KEY, pack.equals(NEUMORPH_KEY));
-        PrefConfig.savePrefBool(Iconify.getAppContext(), STACK_KEY, pack.equals(STACK_KEY));
-    }
+    private void addItem(ArrayList<Object[]> pack) {
+        for (int i = 0; i < pack.size(); i++) {
+            View list = LayoutInflater.from(this).inflate(R.layout.list_option_notification, container, false);
+            list.setBackground(ContextCompat.getDrawable(Notifications.this, (int) pack.get(i)[1]));
 
-    private void addItem(int id, int title, int drawable, int arrowid, int enableid, int disableid) {
-        View list = LayoutInflater.from(this).inflate(R.layout.list_option_notification, container, false);
+            TextView name = list.findViewById(R.id.notif_title);
+            name.setText((String) pack.get(i)[0]);
 
-        TextView name = list.findViewById(R.id.notif_title);
-        Button enable = list.findViewById(R.id.list_button_enable_notif);
-        Button disable = list.findViewById(R.id.list_button_disable_notif);
-        ImageView collapse_expand = list.findViewById(R.id.arrow);
+            ImageView collapse_expand = list.findViewById(R.id.notif_arrow);
+            collapse_expand.setForeground(ContextCompat.getDrawable(Notifications.this, R.drawable.ic_expand_arrow));
 
-        list.setId(id);
-        list.setBackgroundResource(drawable);
-
-        name.setId(title);
-
-        enable.setId(enableid);
-        disable.setId(disableid);
-
-        collapse_expand.setId(arrowid);
-        collapse_expand.setForeground(ContextCompat.getDrawable(Notifications.this, R.drawable.ic_expand_arrow));
-
-        container.addView(list);
+            container.addView(list);
+        }
     }
 
     @Override

@@ -14,8 +14,8 @@
     </item>
     <item
         android:gravity="fill_horizontal|center"
-        android:left="2.5dip"
-        android:right="2.5dip">
+        android:start="2.5dip"
+        android:end="2.5dip">
         <shape>
             <corners android:radius="24.0dip" />
             <gradient
