@@ -28,8 +28,8 @@
                 android:startColor="#FFD4D4D4" />
             <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
             <padding
-                android:start="20dp"
-                android:end="20dp" />
+                android:left="20dp"
+                android:right="20dp" />
         </shape>
     </item>
 </ripple>
