@@ -118,7 +118,7 @@
                     android:layout_height="48.0dp"
                     android:layout_gravity="start|center"
                     android:layout_margin="2.0dp"
-                    android:background="@drawable/preview_color_picker"
+                    android:background="@drawable/preview_color_picker_large"
                     android:contentDescription="@string/color_picker_preview" />
 
             </LinearLayout>

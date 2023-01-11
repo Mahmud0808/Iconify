@@ -53,6 +53,14 @@ public class ColorEngine extends AppCompatActivity {
 
                 OverlayUtil.enableOverlay("IconifyComponentAMC.overlay");
 
+                if (!Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary"), "null")) {
+                    ColorPicker.applyPrimaryColors();
+                }
+
+                if (!Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary"), "null")) {
+                    ColorPicker.applySecondaryColors();
+                }
+
                 apply_monet_color.postDelayed(() -> {
                     findViewById(R.id.page_color_engine).invalidate();
                 }, 1000);

@@ -19,10 +19,13 @@
             android:id="@+id/page_color_picker"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/container_marginSide"
             android:layout_marginTop="24dp"
+            android:layout_marginEnd="@dimen/container_marginSide"
             android:layout_marginBottom="24dp"
             android:orientation="vertical">
 
+            <!--
             <LinearLayout
                 android:id="@+id/color_table"
                 android:layout_width="match_parent"
@@ -68,33 +71,17 @@
                     android:layout_gravity="start|center"
                     android:background="@drawable/ic_color_palette"
                     android:contentDescription="@string/icon" />
-            </LinearLayout>
+            </LinearLayout> -->
 
-            <FrameLayout
+            <View
+                android:id="@+id/color_preview_large"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <View
-                    android:id="@+id/color_preview_large_start"
-                    android:layout_width="match_parent"
-                    android:layout_height="240dp"
-                    android:layout_marginStart="@dimen/container_marginSide"
-                    android:layout_marginEnd="@dimen/container_marginSide"
-                    android:layout_marginBottom="@dimen/container_margin"
-                    android:background="@drawable/preview_color_picker_large_start"
-                    android:contentDescription="@string/color_picker_preview" />
-
-                <View
-                    android:id="@+id/color_preview_large_end"
-                    android:layout_width="match_parent"
-                    android:layout_height="240dp"
-                    android:layout_marginStart="@dimen/container_marginSide"
-                    android:layout_marginEnd="@dimen/container_marginSide"
-                    android:layout_marginBottom="@dimen/container_margin"
-                    android:background="@drawable/preview_color_picker_large_end"
-                    android:contentDescription="@string/color_picker_preview" />
-
-            </FrameLayout>
+                android:layout_height="240dp"
+                android:layout_marginStart="@dimen/container_marginSide"
+                android:layout_marginEnd="@dimen/container_marginSide"
+                android:layout_marginBottom="@dimen/container_margin"
+                android:background="@drawable/preview_color_picker_large"
+                android:contentDescription="@string/color_picker_preview" />
 
             <LinearLayout
                 android:id="@+id/preview_coloraccentprimary"
