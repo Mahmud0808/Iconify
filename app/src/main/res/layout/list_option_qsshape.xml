@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/qsshape_child"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/container_marginSide"
@@ -15,7 +16,7 @@
     android:paddingBottom="@dimen/container_padding">
 
     <TextView
-        android:id="@+id/list_title_qstile"
+        android:id="@+id/list_title_qsshape"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|top"
@@ -190,7 +191,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/list_button_enable_qstile"
+        android:id="@+id/list_button_enable_qsshape"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/container_padding"
@@ -206,7 +207,7 @@
         app:backgroundTint="@null" />
 
     <Button
-        android:id="@+id/list_button_disable_qstile"
+        android:id="@+id/list_button_disable_qsshape"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/container_padding"

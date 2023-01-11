@@ -167,7 +167,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/qs_tiles_list"
+                android:id="@+id/qs_shape_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="24dp"
