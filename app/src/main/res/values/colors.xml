@@ -16,8 +16,10 @@
     <color name="colorContainer">@color/material_dynamic_neutral_variant99</color>
     <color name="colorContainerOverlay">#05000000</color>
     <color name="textColorPrimary">@color/material_dynamic_neutral10</color>
+    <color name="textColorPrimaryError">#180000</color>
     <color name="textColorPrimaryInverse">@color/material_dynamic_neutral95</color>
     <color name="textColorSecondary">@color/material_dynamic_neutral_variant30</color>
+    <color name="textColorSecondaryError">#490000</color>
     <color name="textColorSecondaryLight">@color/material_dynamic_neutral20</color>
     <color name="colorSuccess">@color/material_dynamic_primary60</color>
     <color name="colorBackground2">#14000000</color>
