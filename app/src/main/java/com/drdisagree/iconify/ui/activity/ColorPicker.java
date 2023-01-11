@@ -97,12 +97,12 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         loadingDialog = new LoadingDialog(this);
 
         if (!Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary"), "null"))
-            accentPrimary = String.valueOf(ContextCompat.getColor(Iconify.getAppContext(), R.color.holo_blue_light));
+            accentPrimary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary");
         else
             accentPrimary = String.valueOf(Color.parseColor("#FF50A6D7"));
 
         if (!Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary"), "null"))
-            accentSecondary = String.valueOf(ContextCompat.getColor(Iconify.getAppContext(), R.color.holo_green_light));
+            accentSecondary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary");
         else
             accentSecondary = String.valueOf(Color.parseColor("#FF387BFF"));
 
@@ -159,13 +159,9 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         disable_custom_color.setOnClickListener(v -> {
             disable_custom_color.setVisibility(View.GONE);
             Runnable runnable = () -> {
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "customPrimaryColor", false);
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "customSecondaryColor", false);
                 disableMonetColors();
 
                 runOnUiThread(() -> {
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), "customMonetColor", false);
-
                     new Handler().postDelayed(() -> {
                         Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
                     }, 2000);
@@ -254,6 +250,8 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
     }
 
     private void applyMonetColors() {
+        PrefConfig.savePrefBool(Iconify.getAppContext(), "customMonetColor", true);
+
         if (isSelectedPrimary) {
             PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", accentPrimary);
             applyPrimaryColors();
@@ -265,6 +263,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
     }
 
     public static void disableMonetColors() {
+        PrefConfig.clearPref(Iconify.getAppContext(), "customMonetColor");
         PrefConfig.clearPref(Iconify.getAppContext(), "customPrimaryColor");
         PrefConfig.clearPref(Iconify.getAppContext(), "customSecondaryColor");
         PrefConfig.clearPref(Iconify.getAppContext(), "colorAccentPrimary");
