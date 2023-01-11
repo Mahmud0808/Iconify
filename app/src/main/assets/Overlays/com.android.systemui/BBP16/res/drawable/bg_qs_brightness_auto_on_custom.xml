@@ -18,7 +18,9 @@
         android:end="2.5dip">
         <shape>
             <corners android:radius="@*android:dimen/harmful_app_name_padding_right" />
-            <gradient android:startColor="#99000000" android:endColor="#B3000000" />
+            <gradient
+                android:startColor="#99000000"
+                android:endColor="#B3000000" />
             <size
                 android:width="44.0dip"
                 android:height="44.0dip" />

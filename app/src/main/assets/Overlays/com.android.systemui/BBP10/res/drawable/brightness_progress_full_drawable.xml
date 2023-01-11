@@ -12,8 +12,7 @@
                 android:startColor="@*android:color/holo_blue_light" />
         </shape>
     </item>
-    <item
-        android:gravity="end|center">
+    <item android:gravity="end|center">
         <shape android:shape="rectangle">
             <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
             <size

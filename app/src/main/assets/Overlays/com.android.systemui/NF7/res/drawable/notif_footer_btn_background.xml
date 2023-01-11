@@ -5,7 +5,10 @@
         android:top="4dp"
         android:start="2dp">
         <shape android:shape="rectangle">
-            <gradient android:startColor="@*android:color/holo_blue_light" android:endColor="@*android:color/holo_green_light" android:angle="315.0" />
+            <gradient
+                android:startColor="@*android:color/holo_blue_light"
+                android:endColor="@*android:color/holo_green_light"
+                android:angle="315.0" />
             <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
         </shape>
     </item>

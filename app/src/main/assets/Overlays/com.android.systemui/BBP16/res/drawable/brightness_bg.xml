@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:gravity="fill_horizontal|center">
-        <shape>
+        <shape android:tintMode="multiply">
             <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
             <gradient
                 android:angle="315.0"
@@ -16,9 +16,11 @@
         android:gravity="fill_horizontal|center"
         android:start="2.5dip"
         android:end="2.5dip">
-        <shape>
+        <shape android:tintMode="multiply">
             <corners android:radius="@*android:dimen/harmful_app_name_padding_right" />
-            <gradient android:startColor="#99000000" android:endColor="#B3000000" />
+            <gradient
+                android:startColor="#99000000"
+                android:endColor="#B3000000" />
             <size
                 android:width="44.0dip"
                 android:height="44.0dip" />
