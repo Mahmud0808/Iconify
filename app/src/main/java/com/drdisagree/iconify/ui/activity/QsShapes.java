@@ -86,9 +86,9 @@ public class QsShapes extends AppCompatActivity {
         qsshape_list.add(new Object[]{"Outline", R.drawable.qs_shape_outline_enabled, R.drawable.qs_shape_outline_disabled});
         qsshape_list.add(new Object[]{"Leafy Outline", R.drawable.qs_shape_leafy_outline_enabled, R.drawable.qs_shape_leafy_outline_disabled});
         qsshape_list.add(new Object[]{"Neumorph", R.drawable.qs_shape_neumorph_enabled, R.drawable.qs_shape_neumorph_disabled});
-        qsshape_list.add(new Object[]{"Neumorph Outline", R.drawable.qs_shape_neumorph_outline_enabled, R.drawable.qs_shape_neumorph_outline_disabled});
         qsshape_list.add(new Object[]{"Surround", R.drawable.qs_shape_surround_enabled, R.drawable.qs_shape_surround_disabled});
         qsshape_list.add(new Object[]{"Bookmark", R.drawable.qs_shape_bookmark_enabled, R.drawable.qs_shape_bookmark_disabled});
+        qsshape_list.add(new Object[]{"Neumorph Outline", R.drawable.qs_shape_neumorph_outline_enabled, R.drawable.qs_shape_neumorph_outline_disabled});
 
         addItem(qsshape_list);
 
@@ -101,40 +101,40 @@ public class QsShapes extends AppCompatActivity {
         LinearLayout.LayoutParams layoutParams;
 
         // Set custom margins for Surround
-        marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(7).findViewById(R.id.qs_icon1).getLayoutParams());
+        marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(6).findViewById(R.id.qs_icon1).getLayoutParams());
         marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(22), 0);
+        layoutParams = new LinearLayout.LayoutParams(marginParams);
+        container.getChildAt(6).findViewById(R.id.qs_icon1).setLayoutParams(layoutParams);
+        marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(6).findViewById(R.id.qs_icon2).getLayoutParams());
+        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(22), 0);
+        layoutParams = new LinearLayout.LayoutParams(marginParams);
+        container.getChildAt(6).findViewById(R.id.qs_icon2).setLayoutParams(layoutParams);
+        marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(6).findViewById(R.id.qs_icon3).getLayoutParams());
+        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(22), 0);
+        layoutParams = new LinearLayout.LayoutParams(marginParams);
+        container.getChildAt(6).findViewById(R.id.qs_icon3).setLayoutParams(layoutParams);
+        marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(6).findViewById(R.id.qs_icon4).getLayoutParams());
+        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(22), 0);
+        layoutParams = new LinearLayout.LayoutParams(marginParams);
+        container.getChildAt(6).findViewById(R.id.qs_icon4).setLayoutParams(layoutParams);
+
+        // Set custom margins for Bookmark
+        marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(7).findViewById(R.id.qs_icon1).getLayoutParams());
+        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(26), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         container.getChildAt(7).findViewById(R.id.qs_icon1).setLayoutParams(layoutParams);
         marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(7).findViewById(R.id.qs_icon2).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(22), 0);
+        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(26), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         container.getChildAt(7).findViewById(R.id.qs_icon2).setLayoutParams(layoutParams);
         marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(7).findViewById(R.id.qs_icon3).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(22), 0);
+        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(26), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         container.getChildAt(7).findViewById(R.id.qs_icon3).setLayoutParams(layoutParams);
         marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(7).findViewById(R.id.qs_icon4).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(22), 0);
+        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(26), 0);
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         container.getChildAt(7).findViewById(R.id.qs_icon4).setLayoutParams(layoutParams);
-
-        // Set custom margins for Bookmark
-        marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(8).findViewById(R.id.qs_icon1).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(26), 0);
-        layoutParams = new LinearLayout.LayoutParams(marginParams);
-        container.getChildAt(8).findViewById(R.id.qs_icon1).setLayoutParams(layoutParams);
-        marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(8).findViewById(R.id.qs_icon2).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(26), 0);
-        layoutParams = new LinearLayout.LayoutParams(marginParams);
-        container.getChildAt(8).findViewById(R.id.qs_icon2).setLayoutParams(layoutParams);
-        marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(8).findViewById(R.id.qs_icon3).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(26), 0);
-        layoutParams = new LinearLayout.LayoutParams(marginParams);
-        container.getChildAt(8).findViewById(R.id.qs_icon3).setLayoutParams(layoutParams);
-        marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(8).findViewById(R.id.qs_icon4).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(26), 0);
-        layoutParams = new LinearLayout.LayoutParams(marginParams);
-        container.getChildAt(8).findViewById(R.id.qs_icon4).setLayoutParams(layoutParams);
 
         // Enable onClick event
         for (int i = 0; i < container.getChildCount(); i++) {
