@@ -61,7 +61,7 @@ public class WelcomePage extends AppCompatActivity {
                         intent.setData(uri);
                         startActivity(intent);
                     } else {
-                        if ((PrefConfig.loadPrefInt(this, "versionCode") < versionCode) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
+                        if ((PrefConfig.loadPrefInt("versionCode") < versionCode) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
                             warn.setVisibility(View.INVISIBLE);
                             // Show loading dialog
                             loadingDialog.show(getResources().getString(R.string.installing));
@@ -76,6 +76,9 @@ public class WelcomePage extends AppCompatActivity {
                                 runOnUiThread(() -> {
                                     // Hide loading dialog
                                     loadingDialog.hide();
+
+                                    if (PrefConfig.loadPrefInt("versionCode") == 0)
+                                        PrefConfig.savePrefInt("versionCode", versionCode);
 
                                     if (OverlayUtil.overlayExists()) {
                                         new Handler().postDelayed(() -> {

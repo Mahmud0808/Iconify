@@ -52,7 +52,7 @@ public class FabricatedOverlayUtil {
         Shell.cmd(build_cmd).exec();
         Shell.cmd(enable_cmd).exec();
 
-        PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricated" + name, true);
+        PrefConfig.savePrefBool("fabricated" + name, true);
     }
 
     public static void disableOverlay(String name) {
@@ -62,7 +62,7 @@ public class FabricatedOverlayUtil {
 
         Shell.cmd(disable_cmd).exec();
 
-        PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricated" + name, false);
+        PrefConfig.savePrefBool("fabricated" + name, false);
     }
 
     public static boolean isOverlayEnabled(List<String> overlays, String name) {

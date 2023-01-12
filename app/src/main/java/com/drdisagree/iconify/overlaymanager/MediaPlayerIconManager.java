@@ -39,7 +39,7 @@ public class MediaPlayerIconManager {
 
             try {
                 Shell.cmd("cmd overlay disable --user current " + overlay).exec();
-                PrefConfig.savePrefBool(Iconify.getAppContext(), overlay, false);
+                PrefConfig.savePrefBool(overlay, false);
             } catch (Throwable t) {
                 t.printStackTrace();
             }
@@ -58,7 +58,7 @@ public class MediaPlayerIconManager {
 
                     try {
                         Shell.cmd("cmd overlay disable --user current " + overlay).exec();
-                        PrefConfig.savePrefBool(Iconify.getAppContext(), overlay, false);
+                        PrefConfig.savePrefBool(overlay, false);
                     } catch (Throwable t) {
                         t.printStackTrace();
                     }

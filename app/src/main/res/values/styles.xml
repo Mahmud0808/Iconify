@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="ColorPicker" parent="Theme.Material3.Light.Dialog">
         <item name="android:colorAccent">@color/colorAccent</item>
         <item name="android:windowTitleStyle">@style/LightPickerDialogTitleStyle</item>
@@ -32,5 +31,12 @@
         <item name="android:progressBackgroundTint">@color/colorBackground</item>
         <item name="android:progressTint">@color/colorAccent</item>
         <item name="android:thumbTint">@color/colorAccent</item>
+    </style>
+
+    <style name="MenuLightTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@color/colorContainer</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
     </style>
 </resources>

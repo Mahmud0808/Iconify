@@ -62,14 +62,14 @@ public class NavigationBar extends AppCompatActivity {
         nb_kb_buttons_menu = findViewById(R.id.nb_kb_buttons_menu);
 
         // Switch states
-        nb_fullscreen.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentNBFullScreen.overlay"));
-        nb_immersive.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentNBImmersive.overlay"));
-        nb_immersivev2.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentNBImmersiveSmall.overlay"));
-        nb_immersivev3.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentNBImmersiveSmaller.overlay"));
-        nb_lower_sens.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentNBLowSens.overlay"));
-        nb_hide_pill.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentNBHidePill.overlay"));
-        nb_monet_pill.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentNBMonetPill.overlay"));
-        nb_hide_kb_buttons.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentNBHideKBButton.overlay"));
+        nb_fullscreen.setChecked(PrefConfig.loadPrefBool("IconifyComponentNBFullScreen.overlay"));
+        nb_immersive.setChecked(PrefConfig.loadPrefBool("IconifyComponentNBImmersive.overlay"));
+        nb_immersivev2.setChecked(PrefConfig.loadPrefBool("IconifyComponentNBImmersiveSmall.overlay"));
+        nb_immersivev3.setChecked(PrefConfig.loadPrefBool("IconifyComponentNBImmersiveSmaller.overlay"));
+        nb_lower_sens.setChecked(PrefConfig.loadPrefBool("IconifyComponentNBLowSens.overlay"));
+        nb_hide_pill.setChecked(PrefConfig.loadPrefBool("IconifyComponentNBHidePill.overlay"));
+        nb_monet_pill.setChecked(PrefConfig.loadPrefBool("IconifyComponentNBMonetPill.overlay"));
+        nb_hide_kb_buttons.setChecked(PrefConfig.loadPrefBool("IconifyComponentNBHideKBButton.overlay"));
         nb_disable_left_gesture.setChecked(initialize_left_gesture_switch());
         nb_disable_right_gesture.setChecked(initialize_right_gesture_switch());
 
@@ -219,22 +219,22 @@ public class NavigationBar extends AppCompatActivity {
     private void disableOthers(String pkgName) {
         if (!Objects.equals(pkgName, "IconifyComponentNBFullScreen.overlay")) {
             nb_fullscreen.setChecked(false);
-            PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentNBFullScreen.overlay"), false);
+            PrefConfig.savePrefBool(("IconifyComponentNBFullScreen.overlay"), false);
             OverlayUtil.disableOverlay("IconifyComponentNBFullScreen.overlay");
         }
         if (!Objects.equals(pkgName, "IconifyComponentNBImmersive.overlay")) {
             nb_immersive.setChecked(false);
-            PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentNBImmersive.overlay"), false);
+            PrefConfig.savePrefBool(("IconifyComponentNBImmersive.overlay"), false);
             OverlayUtil.disableOverlay("IconifyComponentNBImmersive.overlay");
         }
         if (!Objects.equals(pkgName, "IconifyComponentNBImmersiveSmall.overlay")) {
             nb_immersivev2.setChecked(false);
-            PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentNBImmersiveSmall.overlay"), false);
+            PrefConfig.savePrefBool(("IconifyComponentNBImmersiveSmall.overlay"), false);
             OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmall.overlay");
         }
         if (!Objects.equals(pkgName, "IconifyComponentNBImmersiveSmaller.overlay")) {
             nb_immersivev3.setChecked(false);
-            PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentNBImmersiveSmaller.overlay"), false);
+            PrefConfig.savePrefBool(("IconifyComponentNBImmersiveSmaller.overlay"), false);
             OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmaller.overlay");
         }
     }

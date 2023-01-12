@@ -25,6 +25,7 @@ import java.util.Objects;
 
 public class ColorEngine extends AppCompatActivity {
 
+    public static List<String> FabricatedEnabledOverlays = FabricatedOverlayUtil.getEnabledOverlayList();
     List<String> accurate_sh = Shell.cmd("settings get secure monet_engine_accurate_shades").exec().getOut();
     int shade = initialize_shade();
 
@@ -45,7 +46,7 @@ public class ColorEngine extends AppCompatActivity {
         // Link to monet
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_monet_color = findViewById(R.id.apply_monet_color);
 
-        apply_monet_color.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentAMC.overlay"));
+        apply_monet_color.setChecked(PrefConfig.loadPrefBool("IconifyComponentAMC.overlay"));
 
         apply_monet_color.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -53,11 +54,11 @@ public class ColorEngine extends AppCompatActivity {
 
                 OverlayUtil.enableOverlay("IconifyComponentAMC.overlay");
 
-                if (!Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary"), "null")) {
+                if (!Objects.equals(PrefConfig.loadPrefSettings("colorAccentPrimary"), "null")) {
                     ColorPicker.applyPrimaryColors();
                 }
 
-                if (!Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary"), "null")) {
+                if (!Objects.equals(PrefConfig.loadPrefSettings("colorAccentSecondary"), "null")) {
                     ColorPicker.applySecondaryColors();
                 }
 
@@ -76,12 +77,12 @@ public class ColorEngine extends AppCompatActivity {
                     FabricatedOverlayUtil.disableOverlay("colorAccentSecondary2");
                     FabricatedOverlayUtil.disableOverlay("colorAccentSecondary3");
 
-                    if (FabricatedOverlayUtil.isOverlayDisabled(References.FabricatedEnabledOverlays, "colorAccentPrimary")) {
+                    if (FabricatedOverlayUtil.isOverlayDisabled(FabricatedEnabledOverlays, "colorAccentPrimary")) {
                         FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
                         FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", "0xFF122530");
                     }
 
-                    if (FabricatedOverlayUtil.isOverlayDisabled(References.FabricatedEnabledOverlays, "colorAccentSecondary")) {
+                    if (FabricatedOverlayUtil.isOverlayDisabled(FabricatedEnabledOverlays, "colorAccentSecondary")) {
                         FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentSecondary", "color", "holo_green_light", "0xFF387BFF");
                     }
 
@@ -108,7 +109,7 @@ public class ColorEngine extends AppCompatActivity {
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_pitch_black_theme = findViewById(R.id.apply_pitch_black_theme);
 
         // Minimal QsPanel
-        apply_minimal_qspanel.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentQSST.overlay"));
+        apply_minimal_qspanel.setChecked(PrefConfig.loadPrefBool("IconifyComponentQSST.overlay"));
 
         apply_minimal_qspanel.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -124,7 +125,7 @@ public class ColorEngine extends AppCompatActivity {
         });
 
         // Pitch Black QsPanel
-        apply_pitch_black_theme.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentQSPB.overlay"));
+        apply_pitch_black_theme.setChecked(PrefConfig.loadPrefBool("IconifyComponentQSPB.overlay"));
 
         apply_pitch_black_theme.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -143,7 +144,7 @@ public class ColorEngine extends AppCompatActivity {
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch experimental_color = findViewById(R.id.experimental_color);
         LinearLayout experimental_color_options = findViewById(R.id.experimental_color_options);
 
-        if (!PrefConfig.loadPrefBool(this, "experimentalColorOptions")) {
+        if (!PrefConfig.loadPrefBool("experimentalColorOptions")) {
             experimental_color.setChecked(false);
             experimental_color_options.setVisibility(View.GONE);
         } else {
@@ -154,10 +155,10 @@ public class ColorEngine extends AppCompatActivity {
         experimental_color.setOnCheckedChangeListener((compoundButton, isChecked) -> {
             if (isChecked) {
                 experimental_color_options.setVisibility(View.VISIBLE);
-                PrefConfig.savePrefBool(ColorEngine.this, "experimentalColorOptions", true);
+                PrefConfig.savePrefBool("experimentalColorOptions", true);
             } else {
                 experimental_color_options.setVisibility(View.GONE);
-                PrefConfig.savePrefBool(ColorEngine.this, "experimentalColorOptions", false);
+                PrefConfig.savePrefBool("experimentalColorOptions", false);
             }
         });
 

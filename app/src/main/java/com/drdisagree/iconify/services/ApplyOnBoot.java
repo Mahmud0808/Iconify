@@ -13,25 +13,28 @@ import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.topjohnwu.superuser.Shell;
 
+import java.util.List;
 import java.util.Objects;
 
 public class ApplyOnBoot {
 
     private static final String INVALID = "null";
+    public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
+    public static List<String> FabricatedEnabledOverlays = FabricatedOverlayUtil.getEnabledOverlayList();
 
     public static void applyColors() {
         Runnable runnable = () -> {
-            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "customColor")) {
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "customPrimaryColor", true);
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "customSecondaryColor", true);
+            if (PrefConfig.loadPrefBool("customColor")) {
+                PrefConfig.savePrefBool("customPrimaryColor", true);
+                PrefConfig.savePrefBool("customSecondaryColor", true);
             }
 
-            String colorAccentPrimary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentPrimary");
-            String colorAccentSecondary = PrefConfig.loadPrefSettings(Iconify.getAppContext(), "colorAccentSecondary");
-            if ((PrefConfig.loadPrefBool(Iconify.getAppContext(), "customPrimaryColor") || PrefConfig.loadPrefBool(Iconify.getAppContext(), "customSecondaryColor")) && (FabricatedOverlayUtil.isOverlayDisabled(References.FabricatedEnabledOverlays, "colorAccentPrimary") || FabricatedOverlayUtil.isOverlayDisabled(References.FabricatedEnabledOverlays, "colorAccentSecondary"))) {
+            String colorAccentPrimary = PrefConfig.loadPrefSettings("colorAccentPrimary");
+            String colorAccentSecondary = PrefConfig.loadPrefSettings("colorAccentSecondary");
+            if ((PrefConfig.loadPrefBool("customPrimaryColor") || PrefConfig.loadPrefBool("customSecondaryColor")) && (FabricatedOverlayUtil.isOverlayDisabled(FabricatedEnabledOverlays, "colorAccentPrimary") || FabricatedOverlayUtil.isOverlayDisabled(FabricatedEnabledOverlays, "colorAccentSecondary"))) {
                 boolean amc_reApplied = false;
-                if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "customPrimaryColor") && FabricatedOverlayUtil.isOverlayDisabled(References.FabricatedEnabledOverlays, "colorAccentPrimary")) {
-                    if (OverlayUtil.isOverlayEnabled(References.EnabledOverlays, "IconifyComponentAMC.overlay")) {
+                if (PrefConfig.loadPrefBool("customPrimaryColor") && FabricatedOverlayUtil.isOverlayDisabled(FabricatedEnabledOverlays, "colorAccentPrimary")) {
+                    if (OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentAMC.overlay")) {
                         OverlayUtil.disableOverlay("IconifyComponentAMC.overlay");
                         OverlayUtil.enableOverlay("IconifyComponentAMC.overlay");
                         amc_reApplied = true;
@@ -57,8 +60,8 @@ public class ApplyOnBoot {
                         FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", "0xFF122530");
                     }
                 }
-                if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "customSecondaryColor") && FabricatedOverlayUtil.isOverlayDisabled(References.FabricatedEnabledOverlays, "colorAccentSecondary")) {
-                    if (!amc_reApplied && OverlayUtil.isOverlayEnabled(References.EnabledOverlays, "IconifyComponentAMC.overlay")) {
+                if (PrefConfig.loadPrefBool("customSecondaryColor") && FabricatedOverlayUtil.isOverlayDisabled(FabricatedEnabledOverlays, "colorAccentSecondary")) {
+                    if (!amc_reApplied && OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentAMC.overlay")) {
                         OverlayUtil.disableOverlay("IconifyComponentAMC.overlay");
                         OverlayUtil.enableOverlay("IconifyComponentAMC.overlay");
                     }
@@ -68,7 +71,7 @@ public class ApplyOnBoot {
                     else
                         FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentSecondary", "color", "holo_green_light", "0xFF387BFF");
                 }
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "customColor", true);
+                PrefConfig.savePrefBool("customColor", true);
             }
         };
         Thread thread = new Thread(runnable);
@@ -77,13 +80,13 @@ public class ApplyOnBoot {
 
     public static void applyQsCustomization() {
         Runnable runnable = () -> {
-            if (!Objects.equals(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "boot_id"), Shell.cmd("cat /proc/sys/kernel/random/boot_id").exec().getOut().toString()) && OverlayUtil.isOverlayEnabled(References.EnabledOverlays, "IconifyComponentQSPB.overlay")) {
+            if (!Objects.equals(PrefConfig.loadPrefSettings("boot_id"), Shell.cmd("cat /proc/sys/kernel/random/boot_id").exec().getOut().toString()) && OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentQSPB.overlay")) {
                 OverlayUtil.disableOverlay("IconifyComponentQSPB.overlay");
                 OverlayUtil.enableOverlay("IconifyComponentQSPB.overlay");
             }
             HomePage.getBootId();
 
-            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "fabricatedqsRowColumn") && FabricatedOverlayUtil.isOverlayDisabled(References.FabricatedEnabledOverlays, "qsRow"))
+            if (PrefConfig.loadPrefBool("fabricatedqsRowColumn") && FabricatedOverlayUtil.isOverlayDisabled(FabricatedEnabledOverlays, "qsRow"))
                 QsRowColumn.applyRowColumn();
 
         };

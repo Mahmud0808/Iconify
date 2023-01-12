@@ -46,12 +46,12 @@ public class QsIconLabel extends AppCompatActivity {
         text_size.setPadding(0, 0, 0, 0);
         final int[] finalTextSize = {4};
 
-        if (!PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsTextSize").equals("null")) {
-            if ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsTextSize")) + 10) == 14)
-                text_size_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsTextSize")) + 10) + "sp " + getResources().getString(R.string.opt_default));
+        if (!PrefConfig.loadPrefSettings("qsTextSize").equals("null")) {
+            if ((Integer.parseInt(PrefConfig.loadPrefSettings("qsTextSize")) + 10) == 14)
+                text_size_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(PrefConfig.loadPrefSettings("qsTextSize")) + 10) + "sp " + getResources().getString(R.string.opt_default));
             else
-                text_size_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsTextSize")) + 10) + "sp");
-            finalTextSize[0] = Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsTextSize"));
+                text_size_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(PrefConfig.loadPrefSettings("qsTextSize")) + 10) + "sp");
+            finalTextSize[0] = Integer.parseInt(PrefConfig.loadPrefSettings("qsTextSize"));
             text_size.setProgress(finalTextSize[0]);
         } else
             text_size_output.setText(getResources().getString(R.string.opt_selected) + " 14sp " + getResources().getString(R.string.opt_default));
@@ -75,8 +75,8 @@ public class QsIconLabel extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsTextSize", String.valueOf(finalTextSize[0]));
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedqsTextSize", true);
+                PrefConfig.savePrefSettings("qsTextSize", String.valueOf(finalTextSize[0]));
+                PrefConfig.savePrefBool("fabricatedqsTextSize", true);
 
                 Runnable runnable = () -> QSTextSizeManager.install_pack(finalTextSize[0]);
                 Thread thread = new Thread(runnable);
@@ -94,12 +94,12 @@ public class QsIconLabel extends AppCompatActivity {
         icon_size.setPadding(0, 0, 0, 0);
         final int[] finalIconSize = {10};
 
-        if (!PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsIconSize").equals("null")) {
-            if ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsIconSize")) + 10) == 20)
-                icon_size_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsIconSize")) + 10) + "dp " + getResources().getString(R.string.opt_default));
+        if (!PrefConfig.loadPrefSettings("qsIconSize").equals("null")) {
+            if ((Integer.parseInt(PrefConfig.loadPrefSettings("qsIconSize")) + 10) == 20)
+                icon_size_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(PrefConfig.loadPrefSettings("qsIconSize")) + 10) + "dp " + getResources().getString(R.string.opt_default));
             else
-                icon_size_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsIconSize")) + 10) + "dp");
-            finalIconSize[0] = Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsIconSize"));
+                icon_size_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(PrefConfig.loadPrefSettings("qsIconSize")) + 10) + "dp");
+            finalIconSize[0] = Integer.parseInt(PrefConfig.loadPrefSettings("qsIconSize"));
             icon_size.setProgress(finalIconSize[0]);
         } else
             icon_size_output.setText(getResources().getString(R.string.opt_selected) + " 20dp " + getResources().getString(R.string.opt_default));
@@ -122,8 +122,8 @@ public class QsIconLabel extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsIconSize", String.valueOf(finalIconSize[0]));
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedqsIconSize", true);
+                PrefConfig.savePrefSettings("qsIconSize", String.valueOf(finalIconSize[0]));
+                PrefConfig.savePrefBool("fabricatedqsIconSize", true);
 
                 Runnable runnable = () -> IconSizeManager.install_pack(finalIconSize[0]);
                 Thread thread = new Thread(runnable);
@@ -139,7 +139,7 @@ public class QsIconLabel extends AppCompatActivity {
         LinearLayout icon_size_container = findViewById(R.id.icon_size_container);
         View text_size_divider = findViewById(R.id.text_size_divider);
 
-        if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay")) {
+        if (PrefConfig.loadPrefBool("IconifyComponentQSHL.overlay")) {
             text_size_container.setVisibility(View.GONE);
             text_size_divider.setVisibility(View.GONE);
         }
@@ -150,7 +150,7 @@ public class QsIconLabel extends AppCompatActivity {
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_systemInverseV2 = findViewById(R.id.label_systemInverseV2);
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_fixtexta13 = findViewById(R.id.label_fixtexta13);
 
-        label_white.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentQST1.overlay"));
+        label_white.setChecked(PrefConfig.loadPrefBool("IconifyComponentQST1.overlay"));
 
         label_white.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -169,7 +169,7 @@ public class QsIconLabel extends AppCompatActivity {
             }
         });
 
-        label_whiteV2.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentQST2.overlay"));
+        label_whiteV2.setChecked(PrefConfig.loadPrefBool("IconifyComponentQST2.overlay"));
 
         label_whiteV2.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -188,7 +188,7 @@ public class QsIconLabel extends AppCompatActivity {
             }
         });
 
-        label_systemInverse.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentQST3.overlay"));
+        label_systemInverse.setChecked(PrefConfig.loadPrefBool("IconifyComponentQST3.overlay"));
 
         label_systemInverse.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -207,7 +207,7 @@ public class QsIconLabel extends AppCompatActivity {
             }
         });
 
-        label_systemInverseV2.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentQST4.overlay"));
+        label_systemInverseV2.setChecked(PrefConfig.loadPrefBool("IconifyComponentQST4.overlay"));
 
         label_systemInverseV2.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -226,7 +226,7 @@ public class QsIconLabel extends AppCompatActivity {
             }
         });
 
-        label_fixtexta13.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentQST5.overlay"));
+        label_fixtexta13.setChecked(PrefConfig.loadPrefBool("IconifyComponentQST5.overlay"));
 
         label_fixtexta13.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -250,7 +250,7 @@ public class QsIconLabel extends AppCompatActivity {
 
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_label = findViewById(R.id.hide_label);
 
-        hide_label.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentQSHL.overlay"));
+        hide_label.setChecked(PrefConfig.loadPrefBool("IconifyComponentQSHL.overlay"));
 
         hide_label.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -274,12 +274,12 @@ public class QsIconLabel extends AppCompatActivity {
         move_icon.setPadding(0, 0, 0, 0);
         final int[] finalMoveIcon = {15};
 
-        if (!PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsMoveIcon").equals("null")) {
-            if ((Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsMoveIcon")) + 1) == 16)
-                move_icon_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsMoveIcon")) + 1) + "dp " + getResources().getString(R.string.opt_default));
+        if (!PrefConfig.loadPrefSettings("qsMoveIcon").equals("null")) {
+            if ((Integer.parseInt(PrefConfig.loadPrefSettings("qsMoveIcon")) + 1) == 16)
+                move_icon_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(PrefConfig.loadPrefSettings("qsMoveIcon")) + 1) + "dp " + getResources().getString(R.string.opt_default));
             else
-                move_icon_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsMoveIcon")) + 1) + "dp");
-            finalMoveIcon[0] = Integer.parseInt(PrefConfig.loadPrefSettings(Iconify.getAppContext(), "qsMoveIcon"));
+                move_icon_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(PrefConfig.loadPrefSettings("qsMoveIcon")) + 1) + "dp");
+            finalMoveIcon[0] = Integer.parseInt(PrefConfig.loadPrefSettings("qsMoveIcon"));
             move_icon.setProgress(finalMoveIcon[0]);
         } else
             move_icon_output.setText(getResources().getString(R.string.opt_selected) + " 16dp " + getResources().getString(R.string.opt_default));
@@ -302,8 +302,8 @@ public class QsIconLabel extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                PrefConfig.savePrefSettings(Iconify.getAppContext(), "qsMoveIcon", String.valueOf(finalMoveIcon[0]));
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedqsMoveIcon", true);
+                PrefConfig.savePrefSettings("qsMoveIcon", String.valueOf(finalMoveIcon[0]));
+                PrefConfig.savePrefBool("fabricatedqsMoveIcon", true);
 
                 Runnable runnable = () -> QSMoveIconManager.install_pack(finalMoveIcon[0]);
                 Thread thread = new Thread(runnable);

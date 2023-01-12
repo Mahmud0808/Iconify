@@ -33,8 +33,4 @@ public class References {
 
     // Notification service checker
     public static boolean isNotificationServiceRunning = false;
-
-    // List of overlays enabled
-    public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
-    public static List<String> FabricatedEnabledOverlays = FabricatedOverlayUtil.getEnabledOverlayList();
 }

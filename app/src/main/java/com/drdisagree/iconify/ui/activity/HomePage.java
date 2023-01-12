@@ -41,7 +41,7 @@ public class HomePage extends AppCompatActivity {
 
     // Save unique id of each boot
     public static void getBootId() {
-        PrefConfig.savePrefSettings(Iconify.getAppContext(), "boot_id", Shell.cmd("cat /proc/sys/kernel/random/boot_id").exec().getOut().toString());
+        PrefConfig.savePrefSettings("boot_id", Shell.cmd("cat /proc/sys/kernel/random/boot_id").exec().getOut().toString());
     }
 
     @Override
@@ -49,7 +49,7 @@ public class HomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-        PrefConfig.savePrefBool(Iconify.getAppContext(), "onHomePage", true);
+        PrefConfig.savePrefBool("onHomePage", true);
 
         container = (ViewGroup) findViewById(R.id.home_page_list);
         View list_view = LayoutInflater.from(this).inflate(R.layout.dialog_reboot, container, false);
@@ -57,7 +57,7 @@ public class HomePage extends AppCompatActivity {
         container.addView(list_view);
         reboot_reminder.setVisibility(View.GONE);
 
-        if (PrefConfig.loadPrefInt(Iconify.getAppContext(), "versionCode") < BuildConfig.VERSION_CODE && PrefConfig.loadPrefInt(Iconify.getAppContext(), "versionCode") != 0) {
+        if (PrefConfig.loadPrefInt("versionCode") < BuildConfig.VERSION_CODE && PrefConfig.loadPrefInt("versionCode") != 0) {
             reboot_reminder.setVisibility(View.VISIBLE);
             Button reboot_now = findViewById(R.id.reboot_phone);
             reboot_now.setOnClickListener(v -> {
@@ -72,7 +72,7 @@ public class HomePage extends AppCompatActivity {
             });
         }
 
-        PrefConfig.savePrefInt(this, "versionCode", BuildConfig.VERSION_CODE);
+        PrefConfig.savePrefInt("versionCode", BuildConfig.VERSION_CODE);
         getBootId();
 
         // Header
@@ -100,11 +100,11 @@ public class HomePage extends AppCompatActivity {
             List<String> AllOverlays = OverlayUtil.getOverlayList();
             List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
             for (String overlay : AllOverlays)
-                PrefConfig.savePrefBool(Iconify.getAppContext(), overlay, OverlayUtil.isOverlayEnabled(EnabledOverlays, overlay));
+                PrefConfig.savePrefBool(overlay, OverlayUtil.isOverlayEnabled(EnabledOverlays, overlay));
 
             List<String> FabricatedEnabledOverlays = FabricatedOverlayUtil.getEnabledOverlayList();
             for (String overlay : FabricatedEnabledOverlays)
-                PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricated" + overlay, true);
+                PrefConfig.savePrefBool("fabricated" + overlay, true);
         };
         Thread thread1 = new Thread(runnable1);
         thread1.start();

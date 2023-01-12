@@ -110,7 +110,7 @@ public class IconPacks extends AppCompatActivity {
     private void refreshBackground() {
         for (int i = 0; i < container.getChildCount(); i++) {
             LinearLayout child = container.getChildAt(i).findViewById(R.id.icon_pack_child);
-            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), ICONPACK_KEY.get(i))) {
+            if (PrefConfig.loadPrefBool(ICONPACK_KEY.get(i))) {
                 child.setBackground(ContextCompat.getDrawable(IconPacks.this, R.drawable.container_selected));
             } else {
                 child.setBackground(ContextCompat.getDrawable(IconPacks.this, R.drawable.container));
@@ -121,7 +121,7 @@ public class IconPacks extends AppCompatActivity {
     // Function to disable other packs if one is applied
     private void disable_others(String pack) {
         for (int i = 0; i < References.TOTAL_ICONPACKS; i++)
-            PrefConfig.savePrefBool(Iconify.getAppContext(), ICONPACK_KEY.get(i), pack.equals(ICONPACK_KEY.get(i)));
+            PrefConfig.savePrefBool(ICONPACK_KEY.get(i), pack.equals(ICONPACK_KEY.get(i)));
     }
 
     // Function for onClick events
@@ -129,7 +129,7 @@ public class IconPacks extends AppCompatActivity {
         // Set onClick operation for options in list
         layout.setOnClickListener(v -> {
             refreshLayout(layout);
-            if (!PrefConfig.loadPrefBool(Iconify.getAppContext(), key)) {
+            if (!PrefConfig.loadPrefBool(key)) {
                 disable.setVisibility(View.GONE);
                 if (enable.getVisibility() == View.VISIBLE)
                     enable.setVisibility(View.GONE);
@@ -155,7 +155,7 @@ public class IconPacks extends AppCompatActivity {
                 IconPackManager.install_pack(index + 1);
 
                 runOnUiThread(() -> {
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), key, true);
+                    PrefConfig.savePrefBool(key, true);
 
                     new Handler().postDelayed(() -> {
                         // Hide loading dialog
@@ -183,7 +183,7 @@ public class IconPacks extends AppCompatActivity {
                 IconPackManager.disable_pack(index + 1);
 
                 runOnUiThread(() -> {
-                    PrefConfig.savePrefBool(Iconify.getAppContext(), key, false);
+                    PrefConfig.savePrefBool(key, false);
 
                     new Handler().postDelayed(() -> {
                         // Hide loading dialog

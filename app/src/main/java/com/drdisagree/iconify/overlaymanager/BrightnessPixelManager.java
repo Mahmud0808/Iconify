@@ -24,7 +24,7 @@ public class BrightnessPixelManager {
         enable_pack(n);
         FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", ApplyOnBoot.ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(ContextCompat.getColor(Iconify.getAppContext(), R.color.holo_blue_light), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
 
-        if (PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius").equals("null"))
+        if (PrefConfig.loadPrefSettings("cornerRadius").equals("null"))
             OverlayUtil.enableOverlay("IconifyComponentCR16.overlay");
     }
 

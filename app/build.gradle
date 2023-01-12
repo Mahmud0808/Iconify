@@ -5,31 +5,15 @@ plugins {
 android {
     compileSdk 33
 
-    def versionPropsFile = file('version.properties')
+    defaultConfig {
+        applicationId "com.drdisagree.iconify"
+        minSdk 31
+        targetSdk 33
+        versionCode 6
+        versionName "5.0-Beta"
+        setProperty("archivesBaseName", "app")
 
-    if (versionPropsFile.canRead()) {
-        Properties versionProps = new Properties()
-
-        versionProps.load(new FileInputStream(versionPropsFile))
-
-        def code = versionProps['VERSION_CODE'].toInteger() + 1
-
-        versionProps['VERSION_CODE']=code.toString()
-        versionProps.store(versionPropsFile.newWriter(), null)
-
-        defaultConfig {
-            applicationId "com.drdisagree.iconify"
-            minSdk 31
-            targetSdk 33
-            versionCode code
-            versionName "5.0-Beta"
-            setProperty("archivesBaseName", "app")
-
-            testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        }
-    }
-    else {
-        throw new GradleException("Could not read version.properties!")
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {

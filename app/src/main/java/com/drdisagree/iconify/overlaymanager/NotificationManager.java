@@ -15,7 +15,7 @@ public class NotificationManager {
         disable_others(n);
         enable_pack(n);
 
-        if (PrefConfig.loadPrefSettings(Iconify.getAppContext(), "cornerRadius").equals("null"))
+        if (PrefConfig.loadPrefSettings("cornerRadius").equals("null"))
             OverlayUtil.enableOverlay("IconifyComponentCR16.overlay");
     }
 

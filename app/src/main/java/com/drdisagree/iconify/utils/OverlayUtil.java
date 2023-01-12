@@ -50,12 +50,12 @@ public class OverlayUtil {
 
     public static void enableOverlay(String pkgName) {
         Shell.cmd("cmd overlay enable --user current " + pkgName, "cmd overlay set-priority " + pkgName + " highest").exec();
-        PrefConfig.savePrefBool(Iconify.getAppContext(), pkgName, true);
+        PrefConfig.savePrefBool(pkgName, true);
     }
 
     public static void disableOverlay(String pkgName) {
         Shell.cmd("cmd overlay disable --user current " + pkgName).exec();
-        PrefConfig.savePrefBool(Iconify.getAppContext(), pkgName, false);
+        PrefConfig.savePrefBool(pkgName, false);
     }
 
     public static boolean overlayExists() {

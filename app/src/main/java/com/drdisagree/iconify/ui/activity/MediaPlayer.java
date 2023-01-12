@@ -58,7 +58,7 @@ public class MediaPlayer extends AppCompatActivity {
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch mp_system = findViewById(R.id.mp_system);
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch mp_pitch_black = findViewById(R.id.mp_pitch_black);
 
-        mp_accent.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentMPA.overlay"));
+        mp_accent.setChecked(PrefConfig.loadPrefBool("IconifyComponentMPA.overlay"));
 
         mp_accent.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -73,7 +73,7 @@ public class MediaPlayer extends AppCompatActivity {
             refreshPreview();
         });
 
-        mp_system.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentMPS.overlay"));
+        mp_system.setChecked(PrefConfig.loadPrefBool("IconifyComponentMPS.overlay"));
 
         mp_system.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -88,7 +88,7 @@ public class MediaPlayer extends AppCompatActivity {
             refreshPreview();
         });
 
-        mp_pitch_black.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentMPB.overlay"));
+        mp_pitch_black.setChecked(PrefConfig.loadPrefBool("IconifyComponentMPB.overlay"));
 
         mp_pitch_black.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -111,11 +111,11 @@ public class MediaPlayer extends AppCompatActivity {
         ImageView preview_system = findViewById(R.id.media_player_preview_system);
         ImageView preview_black = findViewById(R.id.media_player_preview_black);
 
-        if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentMPA.overlay")) {
+        if (PrefConfig.loadPrefBool("IconifyComponentMPA.overlay")) {
             preview_accent.setVisibility(View.VISIBLE);
             preview_system.setVisibility(View.GONE);
             preview_black.setVisibility(View.GONE);
-        } else if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentMPB.overlay")) {
+        } else if (PrefConfig.loadPrefBool("IconifyComponentMPB.overlay")) {
             preview_black.setVisibility(View.VISIBLE);
             preview_accent.setVisibility(View.GONE);
             preview_system.setVisibility(View.GONE);
@@ -145,34 +145,34 @@ public class MediaPlayer extends AppCompatActivity {
         checkIfApplied(aurora, gradicon, plumpy, idx);
 
         aurora.setOnClickListener(v -> {
-            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "1.overlay"))) {
+            if (PrefConfig.loadPrefBool(("IconifyComponentMPIP" + idx + "1.overlay"))) {
                 Shell.cmd("cmd overlay disable --user current IconifyComponentMPIP" + idx + "1.overlay").exec();
-                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "1.overlay"), false);
+                PrefConfig.savePrefBool(("IconifyComponentMPIP" + idx + "1.overlay"), false);
             } else {
                 MediaPlayerIconManager.install_pack(idx, 1);
-                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "1.overlay"), true);
+                PrefConfig.savePrefBool(("IconifyComponentMPIP" + idx + "1.overlay"), true);
             }
             checkIfApplied(aurora, gradicon, plumpy, idx);
         });
 
         gradicon.setOnClickListener(v -> {
-            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "2.overlay"))) {
+            if (PrefConfig.loadPrefBool(("IconifyComponentMPIP" + idx + "2.overlay"))) {
                 Shell.cmd("cmd overlay disable --user current IconifyComponentMPIP" + idx + "2.overlay").exec();
-                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "2.overlay"), false);
+                PrefConfig.savePrefBool(("IconifyComponentMPIP" + idx + "2.overlay"), false);
             } else {
                 MediaPlayerIconManager.install_pack(idx, 2);
-                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "2.overlay"), true);
+                PrefConfig.savePrefBool(("IconifyComponentMPIP" + idx + "2.overlay"), true);
             }
             checkIfApplied(aurora, gradicon, plumpy, idx);
         });
 
         plumpy.setOnClickListener(v -> {
-            if (PrefConfig.loadPrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "3.overlay"))) {
+            if (PrefConfig.loadPrefBool(("IconifyComponentMPIP" + idx + "3.overlay"))) {
                 Shell.cmd("cmd overlay disable --user current IconifyComponentMPIP" + idx + "3.overlay").exec();
-                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "3.overlay"), false);
+                PrefConfig.savePrefBool(("IconifyComponentMPIP" + idx + "3.overlay"), false);
             } else {
                 MediaPlayerIconManager.install_pack(idx, 3);
-                PrefConfig.savePrefBool(Iconify.getAppContext(), ("IconifyComponentMPIP" + idx + "3.overlay"), true);
+                PrefConfig.savePrefBool(("IconifyComponentMPIP" + idx + "3.overlay"), true);
             }
             checkIfApplied(aurora, gradicon, plumpy, idx);
         });
@@ -183,15 +183,15 @@ public class MediaPlayer extends AppCompatActivity {
     }
 
     private void refreshButton(Button btn1, Button btn2, Button btn3, int m) {
-        if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentMPIP" + m + "1.overlay")) {
+        if (PrefConfig.loadPrefBool("IconifyComponentMPIP" + m + "1.overlay")) {
             btn1.setBackgroundResource(R.drawable.button_red);
             btn2.setBackgroundResource(R.drawable.button);
             btn3.setBackgroundResource(R.drawable.button);
-        } else if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentMPIP" + m + "2.overlay")) {
+        } else if (PrefConfig.loadPrefBool("IconifyComponentMPIP" + m + "2.overlay")) {
             btn2.setBackgroundResource(R.drawable.button_red);
             btn1.setBackgroundResource(R.drawable.button);
             btn3.setBackgroundResource(R.drawable.button);
-        } else if (PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentMPIP" + m + "3.overlay")) {
+        } else if (PrefConfig.loadPrefBool("IconifyComponentMPIP" + m + "3.overlay")) {
             btn3.setBackgroundResource(R.drawable.button_red);
             btn1.setBackgroundResource(R.drawable.button);
             btn2.setBackgroundResource(R.drawable.button);

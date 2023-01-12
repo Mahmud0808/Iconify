@@ -34,7 +34,7 @@ public class VolumePanel extends AppCompatActivity {
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch thick_bg = findViewById(R.id.thick_bg);
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch no_bg = findViewById(R.id.no_bg);
 
-        thin_bg.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentVPBG1.overlay"));
+        thin_bg.setChecked(PrefConfig.loadPrefBool("IconifyComponentVPBG1.overlay"));
 
         thin_bg.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -48,7 +48,7 @@ public class VolumePanel extends AppCompatActivity {
             }
         });
 
-        thick_bg.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentVPBG2.overlay"));
+        thick_bg.setChecked(PrefConfig.loadPrefBool("IconifyComponentVPBG2.overlay"));
 
         thick_bg.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -62,7 +62,7 @@ public class VolumePanel extends AppCompatActivity {
             }
         });
 
-        no_bg.setChecked(PrefConfig.loadPrefBool(Iconify.getAppContext(), "IconifyComponentVPBG3.overlay"));
+        no_bg.setChecked(PrefConfig.loadPrefBool("IconifyComponentVPBG3.overlay"));
 
         no_bg.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {

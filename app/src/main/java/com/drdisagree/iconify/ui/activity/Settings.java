@@ -1,16 +1,24 @@
 package com.drdisagree.iconify.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.text.LineBreaker;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -22,42 +30,48 @@ import com.drdisagree.iconify.utils.OverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Settings extends AppCompatActivity {
+    
+    public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
+    public static List<String> FabricatedEnabledOverlays = FabricatedOverlayUtil.getEnabledOverlayList();
 
     LoadingDialog loadingDialog;
+    private static final int REQUESTCODE_IMPORT = 1;
+    private static final int REQUESTCODE_EXPORT = 2;
 
     public static void disableEverything() {
-        for (String overlay : References.EnabledOverlays) {
+        for (String overlay : EnabledOverlays) {
             OverlayUtil.disableOverlay(overlay);
-            PrefConfig.clearPref(Iconify.getAppContext(), overlay);
-            PrefConfig.clearPref(Iconify.getAppContext(), "cornerRadius");
-            PrefConfig.clearPref(Iconify.getAppContext(), "qsTextSize");
-            PrefConfig.clearPref(Iconify.getAppContext(), "qsIconSize");
-            PrefConfig.clearPref(Iconify.getAppContext(), "qsMoveIcon");
+            PrefConfig.clearPref(overlay);
+            PrefConfig.clearPref("cornerRadius");
+            PrefConfig.clearPref("qsTextSize");
+            PrefConfig.clearPref("qsIconSize");
+            PrefConfig.clearPref("qsMoveIcon");
         }
 
-        for (String fabricatedOverlay : References.FabricatedEnabledOverlays) {
+        for (String fabricatedOverlay : FabricatedEnabledOverlays) {
             FabricatedOverlayUtil.disableOverlay(fabricatedOverlay);
-            PrefConfig.clearPref(Iconify.getAppContext(), fabricatedOverlay);
-            PrefConfig.clearPref(Iconify.getAppContext(), "fabricatedqsRowColumn");
-            PrefConfig.clearPref(Iconify.getAppContext(), "customColor");
-            PrefConfig.clearPref(Iconify.getAppContext(), "colorAccentPrimary");
-            PrefConfig.clearPref(Iconify.getAppContext(), "colorAccentSecondary");
-            PrefConfig.clearPref(Iconify.getAppContext(), "fabricatedqsTextSize");
-            PrefConfig.clearPref(Iconify.getAppContext(), "fabricatedqsIconSize");
-            PrefConfig.clearPref(Iconify.getAppContext(), "fabricatedqsMoveIcon");
+            PrefConfig.clearPref(fabricatedOverlay);
+            PrefConfig.clearPref("fabricatedqsRowColumn");
+            PrefConfig.clearPref("customColor");
+            PrefConfig.clearPref("colorAccentPrimary");
+            PrefConfig.clearPref("colorAccentSecondary");
+            PrefConfig.clearPref("fabricatedqsTextSize");
+            PrefConfig.clearPref("fabricatedqsIconSize");
+            PrefConfig.clearPref("fabricatedqsMoveIcon");
         }
 
-        PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentPrimary", "null");
-        PrefConfig.savePrefSettings(Iconify.getAppContext(), "colorAccentSecondary", "null");
-        PrefConfig.savePrefSettings(Iconify.getAppContext(), "dialogCornerRadius", "null");
-        PrefConfig.savePrefSettings(Iconify.getAppContext(), "insetCornerRadius2", "null");
-        PrefConfig.savePrefSettings(Iconify.getAppContext(), "insetCornerRadius4", "null");
-        PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedcolorAccentPrimary", false);
-        PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedcolorAccentSecondary", false);
-        PrefConfig.savePrefBool(Iconify.getAppContext(), "fabricatedcornerRadius", false);
+        PrefConfig.savePrefSettings("colorAccentPrimary", "null");
+        PrefConfig.savePrefSettings("colorAccentSecondary", "null");
+        PrefConfig.savePrefSettings("dialogCornerRadius", "null");
+        PrefConfig.savePrefSettings("insetCornerRadius2", "null");
+        PrefConfig.savePrefSettings("insetCornerRadius4", "null");
+        PrefConfig.savePrefBool("fabricatedcolorAccentPrimary", false);
+        PrefConfig.savePrefBool("fabricatedcolorAccentSecondary", false);
+        PrefConfig.savePrefBool("fabricatedcornerRadius", false);
     }
 
     @SuppressLint("SetTextI18n")
@@ -142,6 +156,73 @@ public class Settings extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.settings_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemID = item.getItemId();
+
+        if (itemID == android.R.id.home) {
+            onBackPressed();
+        } else if (itemID == R.id.menu_updates) {
+            ;
+        } else if (itemID == R.id.menu_changelog) {
+            ;
+        } else if (itemID == R.id.menu_exportPrefs) {
+            exportSettings();
+        } else if (itemID == R.id.menu_importPrefs) {
+            importSettings();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void exportSettings() {
+        Intent fileIntent = new Intent();
+        fileIntent.setAction(Intent.ACTION_CREATE_DOCUMENT);
+        fileIntent.setType("*/*");
+        startActivityForResult(fileIntent, REQUESTCODE_EXPORT);
+    }
+
+    private void importSettings() {
+        Intent fileIntent = new Intent();
+        fileIntent.setAction(Intent.ACTION_GET_CONTENT);
+        fileIntent.setType("*/*");
+        startActivityForResult(fileIntent, REQUESTCODE_IMPORT);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (data == null)
+            return;
+
+        SharedPreferences prefs = Iconify.getAppContext().getSharedPreferences(Iconify.getAppContext().getPackageName(), Context.MODE_PRIVATE);
+        switch (requestCode) {
+            case REQUESTCODE_IMPORT:
+                try {
+                    PrefConfig.importPrefs(prefs, getContentResolver().openInputStream(data.getData()));
+                } catch (Exception e) {
+                    Toast.makeText(Iconify.getAppContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case REQUESTCODE_EXPORT:
+                try {
+                    PrefConfig.exportPrefs(prefs, getContentResolver().openOutputStream(data.getData()));
+                } catch (Exception e) {
+                    Toast.makeText(Iconify.getAppContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
     }
 
     @Override
