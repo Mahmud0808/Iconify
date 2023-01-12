@@ -77,8 +77,14 @@ public class WelcomePage extends AppCompatActivity {
                                     // Hide loading dialog
                                     loadingDialog.hide();
 
-                                    if (PrefConfig.loadPrefInt("versionCode") == 0)
-                                        PrefConfig.savePrefInt("versionCode", versionCode);
+                                    if (PrefConfig.loadPrefInt("versionCode") == 0) {
+                                        PrefConfig.savePrefBool("firstInstall", true);
+                                        PrefConfig.savePrefBool("updateDetected", false);
+                                    } else {
+                                        PrefConfig.savePrefBool("firstInstall", false);
+                                        PrefConfig.savePrefBool("updateDetected", true);
+                                    }
+                                    PrefConfig.savePrefInt("versionCode", versionCode);
 
                                     if (OverlayUtil.overlayExists()) {
                                         new Handler().postDelayed(() -> {

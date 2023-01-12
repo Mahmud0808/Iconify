@@ -57,7 +57,10 @@ public class HomePage extends AppCompatActivity {
         container.addView(list_view);
         reboot_reminder.setVisibility(View.GONE);
 
-        if (PrefConfig.loadPrefInt("versionCode") < BuildConfig.VERSION_CODE && PrefConfig.loadPrefInt("versionCode") != 0) {
+        if (!PrefConfig.loadPrefBool("firstInstall") && PrefConfig.loadPrefBool("updateDetected")) {
+            PrefConfig.savePrefBool("firstInstall", false);
+            PrefConfig.savePrefBool("updateDetected", false);
+
             reboot_reminder.setVisibility(View.VISIBLE);
             Button reboot_now = findViewById(R.id.reboot_phone);
             reboot_now.setOnClickListener(v -> {
