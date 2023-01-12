@@ -10,6 +10,7 @@
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
         <item name="android:fontFamily">@font/normal</item>
         <item name="android:tint">@color/colorAccent</item>
+        <item name="android:radius">24dp</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorButtonNormal">@color/colorAccent</item>
         <item name="colorPrimary">@color/colorAccent</item>

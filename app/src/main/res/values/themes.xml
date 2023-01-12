@@ -27,7 +27,9 @@
         <item name="android:colorControlHighlight">@color/colorAccent</item>
         <item name="selectableItemBackground">?android:selectableItemBackground</item>
         <item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>
-        <item name="popupTheme">@style/MenuLightTheme</item>
+        <item name="colorBackgroundFloating">@color/colorContainer</item>
+        <item name="colorSurface">@color/colorContainer</item>
+        <item name="colorPrimarySurface">@color/colorContainer</item>
     </style>
 
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
