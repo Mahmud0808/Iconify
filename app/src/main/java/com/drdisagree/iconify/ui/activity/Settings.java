@@ -16,13 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.preference.PreferenceManager;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.common.References;
 import com.drdisagree.iconify.config.PrefConfig;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
@@ -34,7 +33,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Settings extends AppCompatActivity {
-    
+
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
     public static List<String> FabricatedEnabledOverlays = FabricatedOverlayUtil.getEnabledOverlayList();
 
@@ -173,9 +172,9 @@ public class Settings extends AppCompatActivity {
         if (itemID == android.R.id.home) {
             onBackPressed();
         } else if (itemID == R.id.menu_updates) {
-            ;
+            Toast.makeText(Iconify.getAppContext(), "Coming soon", Toast.LENGTH_SHORT).show();
         } else if (itemID == R.id.menu_changelog) {
-            ;
+            Toast.makeText(Iconify.getAppContext(), "Coming soon", Toast.LENGTH_SHORT).show();
         } else if (itemID == R.id.menu_exportPrefs) {
             exportSettings();
         } else if (itemID == R.id.menu_importPrefs) {
@@ -206,22 +205,36 @@ public class Settings extends AppCompatActivity {
         if (data == null)
             return;
 
-        SharedPreferences prefs = Iconify.getAppContext().getSharedPreferences(Iconify.getAppContext().getPackageName(), Context.MODE_PRIVATE);
-        switch (requestCode) {
-            case REQUESTCODE_IMPORT:
-                try {
-                    PrefConfig.importPrefs(prefs, getContentResolver().openInputStream(data.getData()));
-                } catch (Exception e) {
-                    Toast.makeText(Iconify.getAppContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case REQUESTCODE_EXPORT:
-                try {
-                    PrefConfig.exportPrefs(prefs, getContentResolver().openOutputStream(data.getData()));
-                } catch (Exception e) {
-                    Toast.makeText(Iconify.getAppContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
-                }
-                break;
+        if (resultCode == RESULT_OK) {
+            SharedPreferences prefs = Iconify.getAppContext().getSharedPreferences(Iconify.getAppContext().getPackageName(), Context.MODE_PRIVATE);
+            switch (requestCode) {
+                case REQUESTCODE_IMPORT:
+                    AlertDialog alertDialog = new AlertDialog.Builder(Settings.this).create();
+                    alertDialog.setTitle("Are you sure?");
+                    alertDialog.setMessage("You will loose your current setup and settings.");
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
+                            (dialog, which) -> {
+                                dialog.dismiss();
+                                try {
+                                    PrefConfig.importPrefs(prefs, getContentResolver().openInputStream(data.getData()));
+                                    Toast.makeText(Iconify.getAppContext(), "Imported settings successfully", Toast.LENGTH_LONG).show();
+                                } catch (Exception e) {
+                                    Toast.makeText(Iconify.getAppContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
+                            (dialog, which) -> dialog.dismiss());
+                    alertDialog.show();
+                    break;
+                case REQUESTCODE_EXPORT:
+                    try {
+                        PrefConfig.exportPrefs(prefs, getContentResolver().openOutputStream(data.getData()));
+                        Toast.makeText(Iconify.getAppContext(), "Saved settings successfully", Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        Toast.makeText(Iconify.getAppContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+            }
         }
     }
 
