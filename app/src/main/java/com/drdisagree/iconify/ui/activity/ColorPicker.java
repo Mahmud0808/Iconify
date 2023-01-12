@@ -121,8 +121,8 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         colorPickerDialogPrimary = ColorPickerDialog.newBuilder();
         colorPickerDialogSecondary = ColorPickerDialog.newBuilder();
 
-        colorPickerDialogPrimary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentPrimary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(false).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);
-        colorPickerDialogSecondary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentSecondary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(false).setDialogId(2).setShowAlphaSlider(false).setShowColorShades(true);
+        colorPickerDialogPrimary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentPrimary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);
+        colorPickerDialogSecondary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentSecondary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(false).setShowColorShades(true);
 
         LinearLayout preview_coloraccentprimary = findViewById(R.id.preview_coloraccentprimary);
         preview_coloraccentprimary.setOnClickListener(v -> colorPickerDialogPrimary.show(ColorPicker.this));
@@ -191,7 +191,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
                 updatePrimaryColor();
                 enable_custom_color.setVisibility(View.VISIBLE);
                 PrefConfig.savePrefBool("customPrimaryColor", true);
-                colorPickerDialogPrimary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentPrimary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(false).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);
+                colorPickerDialogPrimary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentPrimary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);
 
                 break;
             case 2:
@@ -201,7 +201,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
                 updateSecondaryColor();
                 enable_custom_color.setVisibility(View.VISIBLE);
                 PrefConfig.savePrefBool("customSecondaryColor", true);
-                colorPickerDialogSecondary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentSecondary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(false).setDialogId(2).setShowAlphaSlider(false).setShowColorShades(true);
+                colorPickerDialogSecondary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentSecondary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(false).setShowColorShades(true);
 
                 break;
         }
