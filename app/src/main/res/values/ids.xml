@@ -1,22 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Home Page List Items -->
-    <item name="home_monetColor" type="id" />
-    <item name="home_iconPack" type="id" />
-    <item name="home_brightnessBar" type="id" />
-    <item name="home_qsShape" type="id" />
-    <item name="home_notification" type="id" />
-    <item name="home_mediaPlayer" type="id" />
-    <item name="home_volumePanel" type="id" />
-    <item name="home_progressBar" type="id" />
-    <item name="home_extras" type="id" />
-    <item name="home_settings" type="id" />
-    <item name="home_info" type="id" />
-
-    <!-- Home Page List Items -->
-    <item name="extras_ui_roundness" type="id" />
-    <item name="extras_navbar" type="id" />
-
     <!-- Media Player Icon List -->
     <item name="defaulta13mp" type="id" />
     <item name="defaulta13mp_launch" type="id" />

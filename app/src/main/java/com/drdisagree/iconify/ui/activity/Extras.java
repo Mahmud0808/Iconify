@@ -15,19 +15,17 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Extras extends AppCompatActivity {
 
-    LinearLayout extras_ui_roundness, extras_navbar;
     private ViewGroup container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_extras);
-
-        container = (ViewGroup) findViewById(R.id.extras_list);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
@@ -38,39 +36,41 @@ public class Extras extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Extras page list items
+        container = (ViewGroup) findViewById(R.id.extras_list);
+        ArrayList<Object[]> extras_page = new ArrayList<>();
 
-        addItem(R.id.extras_ui_roundness, getResources().getString(R.string.activity_title_ui_roundness), getResources().getString(R.string.activity_desc_ui_roundness), R.drawable.ic_extras_roundness);
-        addItem(R.id.extras_navbar, getResources().getString(R.string.activity_title_navigation_bar), getResources().getString(R.string.activity_desc_navigation_bar), R.drawable.ic_extras_navbar);
+        extras_page.add(new Object[]{UiRoundness.class, getResources().getString(R.string.activity_title_ui_roundness), getResources().getString(R.string.activity_desc_ui_roundness), R.drawable.ic_extras_roundness});
+        extras_page.add(new Object[]{NavigationBar.class, getResources().getString(R.string.activity_title_navigation_bar), getResources().getString(R.string.activity_desc_navigation_bar), R.drawable.ic_extras_navbar});
 
-        // UI Roundness item onClick
-        extras_ui_roundness = findViewById(R.id.extras_ui_roundness);
-        extras_ui_roundness.setOnClickListener(v -> {
-            Intent intent = new Intent(Extras.this, UiRoundness.class);
-            startActivity(intent);
-        });
+        addItem(extras_page);
 
-        // Navigation Bar item onClick
-        extras_navbar = findViewById(R.id.extras_navbar);
-        extras_navbar.setOnClickListener(v -> {
-            Intent intent = new Intent(Extras.this, NavigationBar.class);
-            startActivity(intent);
-        });
+        // Enable onClick event
+        for (int i = 0; i < extras_page.size(); i++) {
+            LinearLayout child = container.getChildAt(i).findViewById(R.id.list_item);
+            int finalI = i;
+            child.setOnClickListener(v -> {
+                Intent intent = new Intent(Extras.this, (Class<?>) extras_page.get(finalI)[0]);
+                startActivity(intent);
+            });
+        }
     }
 
     // Function to add new item in list
-    private void addItem(int id, String title, String desc, int preview) {
-        View list_view = LayoutInflater.from(this).inflate(R.layout.list_view, container, false);
+    private void addItem(ArrayList<Object[]> pack) {
+        for (int i = 0; i < pack.size(); i++) {
+            View list = LayoutInflater.from(this).inflate(R.layout.list_view, container, false);
 
-        TextView list_title = (TextView) list_view.findViewById(R.id.list_title);
-        TextView list_desc = (TextView) list_view.findViewById(R.id.list_desc);
-        ImageView list_preview = (ImageView) list_view.findViewById(R.id.list_preview);
+            TextView title = (TextView) list.findViewById(R.id.list_title);
+            title.setText((String) pack.get(i)[1]);
 
-        list_view.setId(id);
-        list_title.setText(title);
-        list_desc.setText(desc);
-        list_preview.setImageResource(preview);
+            TextView desc = (TextView) list.findViewById(R.id.list_desc);
+            desc.setText((String) pack.get(i)[2]);
 
-        container.addView(list_view);
+            ImageView preview = (ImageView) list.findViewById(R.id.list_preview);
+            preview.setImageResource((int) pack.get(i)[3]);
+
+            container.addView(list);
+        }
     }
 
     @Override
