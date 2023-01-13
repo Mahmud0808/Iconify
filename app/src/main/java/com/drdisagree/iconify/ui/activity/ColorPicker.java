@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -49,10 +48,13 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
 
         StringBuilder str;
 
-        if (hash) str = new StringBuilder("#");
-        else str = new StringBuilder();
+        if (hash)
+            str = new StringBuilder("#");
+        else
+            str = new StringBuilder();
 
-        if (opacity) str.append(alphaHex);
+        if (opacity)
+            str.append(alphaHex);
         str.append(redHex);
         str.append(greenHex);
         str.append(blueHex);
@@ -96,11 +98,15 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
 
         if (!Objects.equals(Prefs.getString("colorAccentPrimary"), "null"))
             accentPrimary = Prefs.getString("colorAccentPrimary");
-        else accentPrimary = String.valueOf(Color.parseColor("#FF50A6D7"));
+        else
+            accentPrimary = String.valueOf(Color.parseColor("#FF50A6D7"));
 
         if (!Objects.equals(Prefs.getString("colorAccentSecondary"), "null"))
             accentSecondary = Prefs.getString("colorAccentSecondary");
-        else accentSecondary = String.valueOf(Color.parseColor("#FF387BFF"));
+        else
+            accentSecondary = String.valueOf(Color.parseColor("#FF387BFF"));
+
+        accent = accentPrimary;
 
         /* Color table
         LinearLayout color_table = findViewById(R.id.color_table);
