@@ -31,12 +31,12 @@ import com.drdisagree.iconify.utils.OverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomePage extends AppCompatActivity {
 
     public static boolean isServiceRunning = false;
-    LinearLayout home_monetColor, home_iconPack, home_brightnessBar, home_qsShape, home_notification, home_mediaPlayer, home_volumePanel, home_progressBar, home_extras, home_settings, home_info;
     private ViewGroup container;
 
     // Save unique id of each boot
@@ -85,18 +85,20 @@ public class HomePage extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Home page list items
+        ArrayList<Object[]> home_page = new ArrayList<>();
 
-        addItem(R.id.home_monetColor, getResources().getString(R.string.activity_title_color_engine), getResources().getString(R.string.activity_desc_color_engine), R.drawable.ic_home_color);
-        addItem(R.id.home_iconPack, getResources().getString(R.string.activity_title_icon_pack), getResources().getString(R.string.activity_desc_icon_pack), R.drawable.ic_home_iconpack);
-        addItem(R.id.home_brightnessBar, getResources().getString(R.string.activity_title_brightness_bar), getResources().getString(R.string.activity_desc_brightness_bar), R.drawable.ic_home_brightness);
-        addItem(R.id.home_qsShape, getResources().getString(R.string.activity_title_qs_shape), getResources().getString(R.string.activity_desc_qs_shape), R.drawable.ic_home_shape);
-        addItem(R.id.home_notification, getResources().getString(R.string.activity_title_notification), getResources().getString(R.string.activity_desc_notification), R.drawable.ic_home_notification);
-        addItem(R.id.home_mediaPlayer, getResources().getString(R.string.activity_title_media_player), getResources().getString(R.string.activity_desc_media_player), R.drawable.ic_home_media);
-        addItem(R.id.home_volumePanel, getResources().getString(R.string.activity_title_volume_panel), getResources().getString(R.string.activity_desc_volume_panel), R.drawable.ic_home_volume);
-        // addItem(R.id.home_progressBar, "Progress Bar", "Change progress bar style", R.drawable.ic_progress_home);
-        addItem(R.id.home_extras, getResources().getString(R.string.activity_title_extras), getResources().getString(R.string.activity_desc_extras), R.drawable.ic_home_extras);
-        addItem(R.id.home_settings, getResources().getString(R.string.activity_title_settings), getResources().getString(R.string.activity_desc_settings), R.drawable.ic_home_settings);
-        addItem(R.id.home_info, getResources().getString(R.string.activity_title_info), getResources().getString(R.string.activity_desc_info), R.drawable.ic_home_info);
+        home_page.add(new Object[]{ColorEngine.class, getResources().getString(R.string.activity_title_color_engine), getResources().getString(R.string.activity_desc_color_engine), R.drawable.ic_home_color});
+        home_page.add(new Object[]{IconPacks.class, getResources().getString(R.string.activity_title_icon_pack), getResources().getString(R.string.activity_desc_icon_pack), R.drawable.ic_home_iconpack});
+        home_page.add(new Object[]{BrightnessBars.class, getResources().getString(R.string.activity_title_brightness_bar), getResources().getString(R.string.activity_desc_brightness_bar), R.drawable.ic_home_brightness});
+        home_page.add(new Object[]{QsShapes.class, getResources().getString(R.string.activity_title_qs_shape), getResources().getString(R.string.activity_desc_qs_shape), R.drawable.ic_home_qs_shape});
+        home_page.add(new Object[]{Notifications.class, getResources().getString(R.string.activity_title_notification), getResources().getString(R.string.activity_desc_notification), R.drawable.ic_home_notification});
+        home_page.add(new Object[]{MediaPlayer.class, getResources().getString(R.string.activity_title_media_player), getResources().getString(R.string.activity_desc_media_player), R.drawable.ic_home_media});
+        home_page.add(new Object[]{VolumePanel.class, getResources().getString(R.string.activity_title_volume_panel), getResources().getString(R.string.activity_desc_volume_panel), R.drawable.ic_home_volume});
+        home_page.add(new Object[]{Extras.class, getResources().getString(R.string.activity_title_extras), getResources().getString(R.string.activity_desc_extras), R.drawable.ic_home_extras});
+        home_page.add(new Object[]{Settings.class, getResources().getString(R.string.activity_title_settings), getResources().getString(R.string.activity_desc_settings), R.drawable.ic_home_settings});
+        home_page.add(new Object[]{Info.class, getResources().getString(R.string.activity_title_info), getResources().getString(R.string.activity_desc_info), R.drawable.ic_home_info});
+
+        addItem(home_page);
 
         // Get list of enabled overlays
         Runnable runnable1 = () -> {
@@ -135,98 +137,33 @@ public class HomePage extends AppCompatActivity {
             thread2.start();
         }
 
-        // Color engine item onClick
-        home_monetColor = findViewById(R.id.home_monetColor);
-        home_monetColor.setOnClickListener(v -> {
-            Intent intent = new Intent(HomePage.this, ColorEngine.class);
-            startActivity(intent);
-        });
-
-        // Icon pack item onClick
-        home_iconPack = findViewById(R.id.home_iconPack);
-        home_iconPack.setOnClickListener(v -> {
-            Intent intent = new Intent(HomePage.this, IconPacks.class);
-            startActivity(intent);
-        });
-
-        // Brightness bar item onClick
-        home_brightnessBar = findViewById(R.id.home_brightnessBar);
-        home_brightnessBar.setOnClickListener(v -> {
-            Intent intent = new Intent(HomePage.this, BrightnessBars.class);
-            startActivity(intent);
-        });
-
-        // QS Shape item onClick
-        home_qsShape = findViewById(R.id.home_qsShape);
-        home_qsShape.setOnClickListener(v -> {
-            Intent intent = new Intent(HomePage.this, QsShapes.class);
-            startActivity(intent);
-        });
-
-        // Notification item onClick
-        home_notification = findViewById(R.id.home_notification);
-        home_notification.setOnClickListener(v -> {
-            Intent intent = new Intent(HomePage.this, Notifications.class);
-            startActivity(intent);
-        });
-
-        // Media player item onClick
-        home_mediaPlayer = findViewById(R.id.home_mediaPlayer);
-        home_mediaPlayer.setOnClickListener(v -> {
-            Intent intent = new Intent(HomePage.this, MediaPlayer.class);
-            startActivity(intent);
-        });
-
-        // Volume panel item onClick
-        home_volumePanel = findViewById(R.id.home_volumePanel);
-        home_volumePanel.setOnClickListener(v -> {
-            Intent intent = new Intent(HomePage.this, VolumePanel.class);
-            startActivity(intent);
-        });
-
-        /* Progress bar item onClick
-        home_progressBar = findViewById(R.id.home_progressBar);
-        home_progressBar.setOnClickListener(v -> {
-                Intent intent = new Intent(HomePage.this, ProgressBar.class);
+        // Enable onClick event
+        // reboot dialog is in the first index
+        for (int i = 1; i < home_page.size() + 1; i++) {
+            LinearLayout child = container.getChildAt(i).findViewById(R.id.list_item);
+            int finalI = i - 1;
+            child.setOnClickListener(v -> {
+                Intent intent = new Intent(HomePage.this, (Class<?>) home_page.get(finalI)[0]);
                 startActivity(intent);
-            }
-        }); */
-
-        // Extras item onClick
-        home_extras = findViewById(R.id.home_extras);
-        home_extras.setOnClickListener(v -> {
-            Intent intent = new Intent(HomePage.this, Extras.class);
-            startActivity(intent);
-        });
-
-        // Settings item onClick
-        home_settings = findViewById(R.id.home_settings);
-        home_settings.setOnClickListener(v -> {
-            Intent intent = new Intent(HomePage.this, Settings.class);
-            startActivity(intent);
-        });
-
-        // About item onClick
-        home_info = findViewById(R.id.home_info);
-        home_info.setOnClickListener(v -> {
-            Intent intent = new Intent(HomePage.this, Info.class);
-            startActivity(intent);
-        });
+            });
+        }
     }
 
     // Function to add new item in list
-    private void addItem(int id, String title, String desc, int preview) {
-        View list_view = LayoutInflater.from(this).inflate(R.layout.list_view, container, false);
+    private void addItem(ArrayList<Object[]> pack) {
+        for (int i = 0; i < pack.size(); i++) {
+            View list = LayoutInflater.from(this).inflate(R.layout.list_view, container, false);
 
-        TextView list_title = (TextView) list_view.findViewById(R.id.list_title);
-        TextView list_desc = (TextView) list_view.findViewById(R.id.list_desc);
-        ImageView list_preview = (ImageView) list_view.findViewById(R.id.list_preview);
+            TextView title = (TextView) list.findViewById(R.id.list_title);
+            title.setText((String) pack.get(i)[1]);
 
-        list_view.setId(id);
-        list_title.setText(title);
-        list_desc.setText(desc);
-        list_preview.setImageResource(preview);
+            TextView desc = (TextView) list.findViewById(R.id.list_desc);
+            desc.setText((String) pack.get(i)[2]);
 
-        container.addView(list_view);
+            ImageView preview = (ImageView) list.findViewById(R.id.list_preview);
+            preview.setImageResource((int) pack.get(i)[3]);
+
+            container.addView(list);
+        }
     }
 }
