@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -32,7 +33,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
     LoadingDialog loadingDialog;
     ColorPickerDialog.Builder colorPickerDialogPrimary, colorPickerDialogSecondary;
     private static boolean isSelectedPrimary = false, isSelectedSecondary = false;
-    private static String accent, accentPrimary, accentSecondary;
+    private static String accentPrimary, accentSecondary;
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
 
     public static String ColorToHex(int color, boolean opacity, boolean hash) {
@@ -48,13 +49,10 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
 
         StringBuilder str;
 
-        if (hash)
-            str = new StringBuilder("#");
-        else
-            str = new StringBuilder();
+        if (hash) str = new StringBuilder("#");
+        else str = new StringBuilder();
 
-        if (opacity)
-            str.append(alphaHex);
+        if (opacity) str.append(alphaHex);
         str.append(redHex);
         str.append(greenHex);
         str.append(blueHex);
@@ -98,15 +96,11 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
 
         if (!Objects.equals(Prefs.getString("colorAccentPrimary"), "null"))
             accentPrimary = Prefs.getString("colorAccentPrimary");
-        else
-            accentPrimary = String.valueOf(Color.parseColor("#FF50A6D7"));
+        else accentPrimary = String.valueOf(Color.parseColor("#FF50A6D7"));
 
         if (!Objects.equals(Prefs.getString("colorAccentSecondary"), "null"))
             accentSecondary = Prefs.getString("colorAccentSecondary");
-        else
-            accentSecondary = String.valueOf(Color.parseColor("#FF387BFF"));
-
-        accent = accentPrimary;
+        else accentSecondary = String.valueOf(Color.parseColor("#FF387BFF"));
 
         /* Color table
         LinearLayout color_table = findViewById(R.id.color_table);
@@ -151,10 +145,8 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         // Disable custom colors button
         Button disable_custom_color = findViewById(R.id.disable_custom_color);
 
-        if (Prefs.getBoolean("customMonetColor"))
-            disable_custom_color.setVisibility(View.VISIBLE);
-        else
-            disable_custom_color.setVisibility(View.GONE);
+        if (Prefs.getBoolean("customMonetColor")) disable_custom_color.setVisibility(View.VISIBLE);
+        else disable_custom_color.setVisibility(View.GONE);
 
         disable_custom_color.setOnClickListener(v -> {
             disable_custom_color.setVisibility(View.GONE);
@@ -180,12 +172,11 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
 
     @Override
     public void onColorSelected(int dialogId, int color) {
-        accent = String.valueOf(color);
         switch (dialogId) {
             case 1:
 
                 isSelectedPrimary = true;
-                accentPrimary = accent;
+                accentPrimary = String.valueOf(color);
                 updatePrimaryColor();
                 enable_custom_color.setVisibility(View.VISIBLE);
                 Prefs.putBoolean("customPrimaryColor", true);
@@ -195,7 +186,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
             case 2:
 
                 isSelectedSecondary = true;
-                accentSecondary = accent;
+                accentSecondary = String.valueOf(color);
                 updateSecondaryColor();
                 enable_custom_color.setVisibility(View.VISIBLE);
                 Prefs.putBoolean("customSecondaryColor", true);
@@ -231,35 +222,35 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         color_preview_large.setBackgroundDrawable(gd);
     }
 
-    public static void applyPrimaryColors() {
-        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(accentPrimary)));
-        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary1", "color", "system_accent1_100", ColorToSpecialHex(Integer.parseInt(accentPrimary)));
-        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary2", "color", "system_accent1_200", ColorToSpecialHex(Integer.parseInt(accentPrimary)));
-        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary3", "color", "system_accent1_300", ColorToSpecialHex(Integer.parseInt(accentPrimary)));
-        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary4", "color", "system_accent2_100", ColorToSpecialHex(ColorUtils.blendARGB(Integer.parseInt(accentPrimary), Color.WHITE, 0.16f)));
-        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary5", "color", "system_accent2_200", ColorToSpecialHex(ColorUtils.blendARGB(Integer.parseInt(accentPrimary), Color.WHITE, 0.16f)));
-        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary6", "color", "system_accent2_300", ColorToSpecialHex(ColorUtils.blendARGB(Integer.parseInt(accentPrimary), Color.WHITE, 0.16f)));
-        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(Integer.parseInt(accentPrimary), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
-    }
-
-    public static void applySecondaryColors() {
-        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentSecondary", "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(accentSecondary)));
-        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentSecondary1", "color", "system_accent3_100", ColorToSpecialHex(Integer.parseInt(accentSecondary)));
-        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentSecondary2", "color", "system_accent3_200", ColorToSpecialHex(Integer.parseInt(accentSecondary)));
-        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentSecondary3", "color", "system_accent3_300", ColorToSpecialHex(Integer.parseInt(accentSecondary)));
-    }
-
     private void applyMonetColors() {
         Prefs.putBoolean("customMonetColor", true);
 
-        if (isSelectedPrimary) {
-            Prefs.putString("colorAccentPrimary", accentPrimary);
-            applyPrimaryColors();
-        }
-        if (isSelectedSecondary) {
-            Prefs.putString("colorAccentSecondary", accentSecondary);
-            applySecondaryColors();
-        }
+        if (isSelectedPrimary) Prefs.putString("colorAccentPrimary", accentPrimary);
+
+        if (isSelectedSecondary) Prefs.putString("colorAccentSecondary", accentSecondary);
+
+        if (isSelectedPrimary) applyPrimaryColors();
+
+        if (isSelectedSecondary) applySecondaryColors();
+
+    }
+
+    public static void applyPrimaryColors() {
+        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(Prefs.getString("colorAccentPrimary"))));
+        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary1", "color", "system_accent1_100", ColorToSpecialHex(Integer.parseInt(Prefs.getString("colorAccentPrimary"))));
+        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary2", "color", "system_accent1_200", ColorToSpecialHex(Integer.parseInt(Prefs.getString("colorAccentPrimary"))));
+        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary3", "color", "system_accent1_300", ColorToSpecialHex(Integer.parseInt(Prefs.getString("colorAccentPrimary"))));
+        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary4", "color", "system_accent2_100", ColorToSpecialHex(ColorUtils.blendARGB(Integer.parseInt(Prefs.getString("colorAccentPrimary")), Color.WHITE, 0.16f)));
+        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary5", "color", "system_accent2_200", ColorToSpecialHex(ColorUtils.blendARGB(Integer.parseInt(Prefs.getString("colorAccentPrimary")), Color.WHITE, 0.16f)));
+        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary6", "color", "system_accent2_300", ColorToSpecialHex(ColorUtils.blendARGB(Integer.parseInt(Prefs.getString("colorAccentPrimary")), Color.WHITE, 0.16f)));
+        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(Integer.parseInt(Prefs.getString("colorAccentPrimary")), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
+    }
+
+    public static void applySecondaryColors() {
+        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentSecondary", "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(Prefs.getString("colorAccentSecondary"))));
+        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentSecondary1", "color", "system_accent3_100", ColorToSpecialHex(Integer.parseInt(Prefs.getString("colorAccentSecondary"))));
+        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentSecondary2", "color", "system_accent3_200", ColorToSpecialHex(Integer.parseInt(Prefs.getString("colorAccentSecondary"))));
+        FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentSecondary3", "color", "system_accent3_300", ColorToSpecialHex(Integer.parseInt(Prefs.getString("colorAccentSecondary"))));
     }
 
     public static void disableMonetColors() {
