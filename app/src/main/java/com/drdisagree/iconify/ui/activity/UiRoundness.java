@@ -17,7 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.UIRadiusManager;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -62,20 +62,20 @@ public class UiRoundness extends AppCompatActivity {
 
         corner_radius_seekbar.setPadding(0, 0, 0, 0);
         final int[] finalUiCornerRadius = {16};
-        if (!PrefConfig.loadPrefSettings("cornerRadius").equals("null"))
-            finalUiCornerRadius[0] = Integer.parseInt(PrefConfig.loadPrefSettings("cornerRadius"));
+        if (!Prefs.getString("cornerRadius").equals("null"))
+            finalUiCornerRadius[0] = Integer.parseInt(Prefs.getString("cornerRadius"));
 
-        if (!PrefConfig.loadPrefSettings("cornerRadius").equals("null")) {
-            if ((Integer.parseInt(PrefConfig.loadPrefSettings("cornerRadius")) + 8) == 24) {
-                corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(PrefConfig.loadPrefSettings("cornerRadius")) + 8) + "dp " + getResources().getString(R.string.opt_default));
+        if (!Prefs.getString("cornerRadius").equals("null")) {
+            if ((Integer.parseInt(Prefs.getString("cornerRadius")) + 8) == 24) {
+                corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString("cornerRadius")) + 8) + "dp " + getResources().getString(R.string.opt_default));
             } else {
-                corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(PrefConfig.loadPrefSettings("cornerRadius")) + 8) + "dp");
+                corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString("cornerRadius")) + 8) + "dp");
             }
-            drawable1.setCornerRadius((Integer.parseInt(PrefConfig.loadPrefSettings("cornerRadius")) + 8) * getResources().getDisplayMetrics().density);
-            drawable2.setCornerRadius((Integer.parseInt(PrefConfig.loadPrefSettings("cornerRadius")) + 8) * getResources().getDisplayMetrics().density);
-            drawable3.setCornerRadius((Integer.parseInt(PrefConfig.loadPrefSettings("cornerRadius")) + 8) * getResources().getDisplayMetrics().density);
-            drawable4.setCornerRadius((Integer.parseInt(PrefConfig.loadPrefSettings("cornerRadius")) + 8) * getResources().getDisplayMetrics().density);
-            finalUiCornerRadius[0] = Integer.parseInt(PrefConfig.loadPrefSettings("cornerRadius"));
+            drawable1.setCornerRadius((Integer.parseInt(Prefs.getString("cornerRadius")) + 8) * getResources().getDisplayMetrics().density);
+            drawable2.setCornerRadius((Integer.parseInt(Prefs.getString("cornerRadius")) + 8) * getResources().getDisplayMetrics().density);
+            drawable3.setCornerRadius((Integer.parseInt(Prefs.getString("cornerRadius")) + 8) * getResources().getDisplayMetrics().density);
+            drawable4.setCornerRadius((Integer.parseInt(Prefs.getString("cornerRadius")) + 8) * getResources().getDisplayMetrics().density);
+            finalUiCornerRadius[0] = Integer.parseInt(Prefs.getString("cornerRadius"));
             corner_radius_seekbar.setProgress(finalUiCornerRadius[0]);
         } else {
             corner_radius_output.setText(getResources().getString(R.string.opt_selected) + " 24dp " + getResources().getString(R.string.opt_default));
@@ -118,7 +118,7 @@ public class UiRoundness extends AppCompatActivity {
                 UIRadiusManager.install_pack(finalUiCornerRadius[0]);
 
                 runOnUiThread(() -> {
-                    PrefConfig.savePrefSettings("cornerRadius", String.valueOf(finalUiCornerRadius[0]));
+                    Prefs.putString("cornerRadius", String.valueOf(finalUiCornerRadius[0]));
 
                     new Handler().postDelayed(() -> {
                         // Hide loading dialog

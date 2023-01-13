@@ -19,7 +19,7 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.References;
-import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.NotificationManager;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -112,7 +112,7 @@ public class Notifications extends AppCompatActivity {
         for (int i = 0; i < container.getChildCount(); i++) {
             LinearLayout child = container.getChildAt(i).findViewById(R.id.notification_child);
             TextView title = child.findViewById(R.id.notif_title);
-            if (PrefConfig.loadPrefBool(NOTIFICATION_KEY.get(i))) {
+            if (Prefs.getBoolean(NOTIFICATION_KEY.get(i))) {
                 title.setText(title.getText().toString().replace(' ' + getResources().getString(R.string.opt_applied), "") + ' ' + getResources().getString(R.string.opt_applied));
                 title.setTextColor(getResources().getColor(R.color.colorSuccess));
             } else {
@@ -125,7 +125,7 @@ public class Notifications extends AppCompatActivity {
     // Function to disable other packs if one is applied
     private void disable_others(String pack) {
         for (int i = 0; i < References.TOTAL_NOTIFICATIONS; i++)
-            PrefConfig.savePrefBool(NOTIFICATION_KEY.get(i), pack.equals(NOTIFICATION_KEY.get(i)));
+            Prefs.putBoolean(NOTIFICATION_KEY.get(i), pack.equals(NOTIFICATION_KEY.get(i)));
     }
 
     // Function for onClick events
@@ -133,7 +133,7 @@ public class Notifications extends AppCompatActivity {
         // Set onClick operation for options in list
         layout.setOnClickListener(v -> {
             refreshLayout(layout);
-            if (!PrefConfig.loadPrefBool(key)) {
+            if (!Prefs.getBoolean(key)) {
                 disable.setVisibility(View.GONE);
                 if (enable.getVisibility() == View.VISIBLE) {
                     enable.setVisibility(View.GONE);
@@ -165,7 +165,7 @@ public class Notifications extends AppCompatActivity {
                 NotificationManager.install_pack(index + 1);
 
                 runOnUiThread(() -> {
-                    PrefConfig.savePrefBool(key, true);
+                    Prefs.putBoolean(key, true);
 
                     new Handler().postDelayed(() -> {
                         // Hide loading dialog
@@ -199,7 +199,7 @@ public class Notifications extends AppCompatActivity {
                 NotificationManager.disable_pack(index + 1);
 
                 runOnUiThread(() -> {
-                    PrefConfig.savePrefBool(key, false);
+                    Prefs.putBoolean(key, false);
 
                     new Handler().postDelayed(() -> {
                         // Hide loading dialog

@@ -2,8 +2,7 @@ package com.drdisagree.iconify.overlaymanager;
 
 import static com.drdisagree.iconify.common.References.TOTAL_NOTIFICATIONS;
 
-import com.drdisagree.iconify.Iconify;
-import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.topjohnwu.superuser.Shell;
 
@@ -15,7 +14,7 @@ public class NotificationManager {
         disable_others(n);
         enable_pack(n);
 
-        if (PrefConfig.loadPrefSettings("cornerRadius").equals("null"))
+        if (Prefs.getString("cornerRadius").equals("null"))
             OverlayUtil.enableOverlay("IconifyComponentCR16.overlay");
     }
 

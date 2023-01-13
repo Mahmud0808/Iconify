@@ -11,7 +11,7 @@ android {
         targetSdk 33
         versionCode 6
         versionName "5.0-Beta"
-        setProperty("archivesBaseName", "app")
+        setProperty("archivesBaseName", "Iconify-v" + versionName)
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -30,21 +30,47 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+    // Magisk libsu version
+    def libsuVersion = '5.0.4'
+
+    // Xposed API
+    compileOnly files('lib/api-82.jar')
+    compileOnly files('lib/api-82-sources.jar')
+
+    // The core module that provides APIs to a shell
+    implementation "com.github.topjohnwu.libsu:core:${libsuVersion}"
+    // Optional: APIs for creating root services. Depends on ":core"
+    implementation "com.github.topjohnwu.libsu:service:${libsuVersion}"
+    // Optional: Provides remote file system support
+    implementation "com.github.topjohnwu.libsu:nio:${libsuVersion}"
+
+    // Android Shell
+    implementation "com.jaredrummler:android-shell:1.0.0"
+
+    // Color Picker
+    implementation 'com.github.PolideaInternal:ColorPicker:1.0.0'
+
+    // Splash Screen
+    implementation 'androidx.core:core-splashscreen:1.0.0'
+
+    // Material Components
     implementation 'com.google.android.material:material:1.7.0'
+
+    // APK Signer
+    implementation 'com.android.tools.build:apksig:7.3.1'
+
+    // Remote Preference
+    implementation 'com.crossbowffs.remotepreferences:remotepreferences:0.8'
+
+    implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.work:work-runtime:2.7.1'
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
+
+    // Test Implementation
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    implementation "com.github.topjohnwu.libsu:core:5.0.3"
-    implementation "com.github.topjohnwu.libsu:service:5.0.3"
-    implementation "com.github.topjohnwu.libsu:nio:5.0.3"
-    implementation "com.jaredrummler:android-shell:1.0.0"
-    implementation 'com.github.PolideaInternal:ColorPicker:1.0.0'
-    implementation 'androidx.work:work-runtime:2.7.1'
-    implementation 'androidx.work:work-runtime-ktx:2.7.1'
-    implementation 'androidx.core:core-splashscreen:1.0.0'
-    implementation 'com.android.tools.build:apksig:7.3.1'
 }
 
 task printVersionName {

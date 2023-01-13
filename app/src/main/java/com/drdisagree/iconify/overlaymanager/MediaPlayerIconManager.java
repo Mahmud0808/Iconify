@@ -1,7 +1,6 @@
 package com.drdisagree.iconify.overlaymanager;
 
-import com.drdisagree.iconify.Iconify;
-import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.config.Prefs;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
@@ -39,7 +38,7 @@ public class MediaPlayerIconManager {
 
             try {
                 Shell.cmd("cmd overlay disable --user current " + overlay).exec();
-                PrefConfig.savePrefBool(overlay, false);
+                Prefs.putBoolean(overlay, false);
             } catch (Throwable t) {
                 t.printStackTrace();
             }
@@ -58,7 +57,7 @@ public class MediaPlayerIconManager {
 
                     try {
                         Shell.cmd("cmd overlay disable --user current " + overlay).exec();
-                        PrefConfig.savePrefBool(overlay, false);
+                        Prefs.putBoolean(overlay, false);
                     } catch (Throwable t) {
                         t.printStackTrace();
                     }

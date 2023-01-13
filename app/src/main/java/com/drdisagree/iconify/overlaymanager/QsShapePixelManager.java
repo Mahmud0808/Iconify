@@ -9,7 +9,7 @@ import androidx.core.graphics.ColorUtils;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.services.ApplyOnBoot;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
@@ -25,7 +25,7 @@ public class QsShapePixelManager {
 
         FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimaryDark", "color", "holo_blue_dark", ApplyOnBoot.ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(ContextCompat.getColor(Iconify.getAppContext(), R.color.holo_blue_light), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
 
-        if (PrefConfig.loadPrefSettings("cornerRadius").equals("null"))
+        if (Prefs.getString("cornerRadius").equals("null"))
             OverlayUtil.enableOverlay("IconifyComponentCR16.overlay");
     }
 

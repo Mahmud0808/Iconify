@@ -2,20 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_updates"
-        android:title="App Updates" />
+        android:title="@string/app_updates" />
 
     <item
         android:id="@+id/menu_changelog"
-        android:title="Changelog" />
+        android:title="@string/changelog" />
 
-    <item android:title="Import/Export">
+    <item android:title="@string/import_export">
         <menu>
             <item
                 android:id="@+id/menu_exportPrefs"
-                android:title="Export Settings" />
+                android:title="@string/export_settings" />
             <item
                 android:id="@+id/menu_importPrefs"
-                android:title="Import Settings" />
+                android:title="@string/import_settings" />
         </menu>
     </item>
+
+    <item
+        android:id="@+id/menu_experimental_features"
+        android:title="@string/experimental_features" />
 </menu>

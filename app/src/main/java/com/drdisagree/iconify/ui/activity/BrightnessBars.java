@@ -19,7 +19,7 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.References;
-import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.BrightnessManager;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -118,7 +118,7 @@ public class BrightnessBars extends AppCompatActivity {
     private void refreshBackground() {
         for (int i = 0; i < container.getChildCount(); i++) {
             LinearLayout child = container.getChildAt(i).findViewById(R.id.brightness_bar_child);
-            if (PrefConfig.loadPrefBool(BRIGHTNESSBAR_KEY.get(i))) {
+            if (Prefs.getBoolean(BRIGHTNESSBAR_KEY.get(i))) {
                 child.setBackground(ContextCompat.getDrawable(BrightnessBars.this, R.drawable.container_selected));
             } else {
                 child.setBackground(ContextCompat.getDrawable(BrightnessBars.this, R.drawable.container));
@@ -129,7 +129,7 @@ public class BrightnessBars extends AppCompatActivity {
     // Function to disable other packs if one is applied
     private void disable_others(String pack) {
         for (int i = 0; i < References.TOTAL_BRIGHTNESSBARS; i++)
-            PrefConfig.savePrefBool(BRIGHTNESSBAR_KEY.get(i), pack.equals(BRIGHTNESSBAR_KEY.get(i)));
+            Prefs.putBoolean(BRIGHTNESSBAR_KEY.get(i), pack.equals(BRIGHTNESSBAR_KEY.get(i)));
     }
 
     // Function for onClick events
@@ -137,7 +137,7 @@ public class BrightnessBars extends AppCompatActivity {
         // Set onClick operation for options in list
         layout.setOnClickListener(v -> {
             refreshLayout(layout);
-            if (!PrefConfig.loadPrefBool(key)) {
+            if (!Prefs.getBoolean(key)) {
                 disable.setVisibility(View.GONE);
                 if (enable.getVisibility() == View.VISIBLE)
                     enable.setVisibility(View.GONE);
@@ -163,7 +163,7 @@ public class BrightnessBars extends AppCompatActivity {
                 BrightnessManager.install_pack(index + 1);
 
                 runOnUiThread(() -> {
-                    PrefConfig.savePrefBool(key, true);
+                    Prefs.putBoolean(key, true);
 
                     new Handler().postDelayed(() -> {
                         // Hide loading dialog
@@ -191,7 +191,7 @@ public class BrightnessBars extends AppCompatActivity {
                 BrightnessManager.disable_pack(index + 1);
 
                 runOnUiThread(() -> {
-                    PrefConfig.savePrefBool(key, false);
+                    Prefs.putBoolean(key, false);
 
                     new Handler().postDelayed(() -> {
                         // Hide loading dialog

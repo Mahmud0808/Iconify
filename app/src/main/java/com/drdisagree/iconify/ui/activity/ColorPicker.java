@@ -11,13 +11,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.common.References;
-import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
@@ -98,13 +96,13 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         // Loading dialog
         loadingDialog = new LoadingDialog(this);
 
-        if (!Objects.equals(PrefConfig.loadPrefSettings("colorAccentPrimary"), "null"))
-            accentPrimary = PrefConfig.loadPrefSettings("colorAccentPrimary");
+        if (!Objects.equals(Prefs.getString("colorAccentPrimary"), "null"))
+            accentPrimary = Prefs.getString("colorAccentPrimary");
         else
             accentPrimary = String.valueOf(Color.parseColor("#FF50A6D7"));
 
-        if (!Objects.equals(PrefConfig.loadPrefSettings("colorAccentSecondary"), "null"))
-            accentSecondary = PrefConfig.loadPrefSettings("colorAccentSecondary");
+        if (!Objects.equals(Prefs.getString("colorAccentSecondary"), "null"))
+            accentSecondary = Prefs.getString("colorAccentSecondary");
         else
             accentSecondary = String.valueOf(Color.parseColor("#FF387BFF"));
 
@@ -139,7 +137,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
                 applyMonetColors();
 
                 runOnUiThread(() -> {
-                    PrefConfig.savePrefBool("customMonetColor", true);
+                    Prefs.putBoolean("customMonetColor", true);
 
                     new Handler().postDelayed(() -> {
                         Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
@@ -153,7 +151,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         // Disable custom colors button
         Button disable_custom_color = findViewById(R.id.disable_custom_color);
 
-        if (PrefConfig.loadPrefBool("customMonetColor"))
+        if (Prefs.getBoolean("customMonetColor"))
             disable_custom_color.setVisibility(View.VISIBLE);
         else
             disable_custom_color.setVisibility(View.GONE);
@@ -190,7 +188,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
                 accentPrimary = accent;
                 updatePrimaryColor();
                 enable_custom_color.setVisibility(View.VISIBLE);
-                PrefConfig.savePrefBool("customPrimaryColor", true);
+                Prefs.putBoolean("customPrimaryColor", true);
                 colorPickerDialogPrimary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentPrimary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);
 
                 break;
@@ -200,7 +198,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
                 accentSecondary = accent;
                 updateSecondaryColor();
                 enable_custom_color.setVisibility(View.VISIBLE);
-                PrefConfig.savePrefBool("customSecondaryColor", true);
+                Prefs.putBoolean("customSecondaryColor", true);
                 colorPickerDialogSecondary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentSecondary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(false).setShowColorShades(true);
 
                 break;
@@ -252,24 +250,24 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
     }
 
     private void applyMonetColors() {
-        PrefConfig.savePrefBool("customMonetColor", true);
+        Prefs.putBoolean("customMonetColor", true);
 
         if (isSelectedPrimary) {
-            PrefConfig.savePrefSettings("colorAccentPrimary", accentPrimary);
+            Prefs.putString("colorAccentPrimary", accentPrimary);
             applyPrimaryColors();
         }
         if (isSelectedSecondary) {
-            PrefConfig.savePrefSettings("colorAccentSecondary", accentSecondary);
+            Prefs.putString("colorAccentSecondary", accentSecondary);
             applySecondaryColors();
         }
     }
 
     public static void disableMonetColors() {
-        PrefConfig.clearPref("customMonetColor");
-        PrefConfig.clearPref("customPrimaryColor");
-        PrefConfig.clearPref("customSecondaryColor");
-        PrefConfig.clearPref("colorAccentPrimary");
-        PrefConfig.clearPref("colorAccentSecondary");
+        Prefs.clearPref("customMonetColor");
+        Prefs.clearPref("customPrimaryColor");
+        Prefs.clearPref("customSecondaryColor");
+        Prefs.clearPref("colorAccentPrimary");
+        Prefs.clearPref("colorAccentSecondary");
 
         FabricatedOverlayUtil.disableOverlay("colorAccentPrimary");
         FabricatedOverlayUtil.disableOverlay("colorAccentPrimary1");

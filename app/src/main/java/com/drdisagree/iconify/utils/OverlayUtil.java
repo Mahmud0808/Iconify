@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.References;
-import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.config.Prefs;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
@@ -50,12 +50,12 @@ public class OverlayUtil {
 
     public static void enableOverlay(String pkgName) {
         Shell.cmd("cmd overlay enable --user current " + pkgName, "cmd overlay set-priority " + pkgName + " highest").exec();
-        PrefConfig.savePrefBool(pkgName, true);
+        Prefs.putBoolean(pkgName, true);
     }
 
     public static void disableOverlay(String pkgName) {
         Shell.cmd("cmd overlay disable --user current " + pkgName).exec();
-        PrefConfig.savePrefBool(pkgName, false);
+        Prefs.putBoolean(pkgName, false);
     }
 
     public static boolean overlayExists() {

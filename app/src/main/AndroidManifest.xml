@@ -36,20 +36,31 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Iconify"
         tools:replace="android:allowBackup">
+
+        <!-- xposed meta data -->
+        <meta-data
+            android:name="xposedmodule"
+            android:value="true" />
+        <meta-data
+            android:name="xposeddescription"
+            android:value="@string/iconify_slogan" />
+        <meta-data
+            android:name="xposedminversion"
+            android:value="82" />
+        <meta-data
+            android:name="xposedscope"
+            android:resource="@array/module_scope" />
+
+        <!-- activities -->
+        <activity
+            android:name=".ui.activity.Experimental"
+            android:exported="false" />
         <activity
             android:name=".ui.activity.ColorTable"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".ui.activity.NavigationBar"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".ui.activity.Settings"
             android:exported="false" />
@@ -61,6 +72,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.activity.QsShapesPixel"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />
         <activity
             android:name=".ui.activity.QsIconLabel"
@@ -131,5 +143,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

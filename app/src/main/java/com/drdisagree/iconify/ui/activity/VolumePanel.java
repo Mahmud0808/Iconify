@@ -7,9 +7,8 @@ import android.widget.Switch;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -34,7 +33,7 @@ public class VolumePanel extends AppCompatActivity {
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch thick_bg = findViewById(R.id.thick_bg);
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch no_bg = findViewById(R.id.no_bg);
 
-        thin_bg.setChecked(PrefConfig.loadPrefBool("IconifyComponentVPBG1.overlay"));
+        thin_bg.setChecked(Prefs.getBoolean("IconifyComponentVPBG1.overlay"));
 
         thin_bg.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -48,7 +47,7 @@ public class VolumePanel extends AppCompatActivity {
             }
         });
 
-        thick_bg.setChecked(PrefConfig.loadPrefBool("IconifyComponentVPBG2.overlay"));
+        thick_bg.setChecked(Prefs.getBoolean("IconifyComponentVPBG2.overlay"));
 
         thick_bg.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -62,7 +61,7 @@ public class VolumePanel extends AppCompatActivity {
             }
         });
 
-        no_bg.setChecked(PrefConfig.loadPrefBool("IconifyComponentVPBG3.overlay"));
+        no_bg.setChecked(Prefs.getBoolean("IconifyComponentVPBG3.overlay"));
 
         no_bg.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {

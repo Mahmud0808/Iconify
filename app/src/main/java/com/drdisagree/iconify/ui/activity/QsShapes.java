@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.ui.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -21,7 +20,7 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.References;
-import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.QsShapeManager;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.drdisagree.iconify.utils.DisplayUtil;
@@ -204,7 +203,7 @@ public class QsShapes extends AppCompatActivity {
     private void refreshBackground() {
         for (int i = 0; i < container.getChildCount(); i++) {
             LinearLayout child = container.getChildAt(i).findViewById(R.id.qsshape_child);
-            if (PrefConfig.loadPrefBool(QSSHAPE_KEY.get(i))) {
+            if (Prefs.getBoolean(QSSHAPE_KEY.get(i))) {
                 child.setBackground(ContextCompat.getDrawable(QsShapes.this, R.drawable.container_selected));
             } else {
                 child.setBackground(ContextCompat.getDrawable(QsShapes.this, R.drawable.container));
@@ -215,7 +214,7 @@ public class QsShapes extends AppCompatActivity {
     // Function to disable other packs if one is applied
     private void disable_others(String pack) {
         for (int i = 0; i < References.TOTAL_QSSHAPES; i++)
-            PrefConfig.savePrefBool(QSSHAPE_KEY.get(i), pack.equals(QSSHAPE_KEY.get(i)));
+            Prefs.putBoolean(QSSHAPE_KEY.get(i), pack.equals(QSSHAPE_KEY.get(i)));
     }
 
     // Function for onClick events
@@ -224,7 +223,7 @@ public class QsShapes extends AppCompatActivity {
         // Set onClick operation for options in list
         layout.setOnClickListener(v -> {
             refreshLayout(layout);
-            if (!PrefConfig.loadPrefBool(key)) {
+            if (!Prefs.getBoolean(key)) {
                 disable.setVisibility(View.GONE);
                 if (enable.getVisibility() == View.VISIBLE)
                     enable.setVisibility(View.GONE);
@@ -250,7 +249,7 @@ public class QsShapes extends AppCompatActivity {
                 QsShapeManager.install_pack(index + 1);
 
                 runOnUiThread(() -> {
-                    PrefConfig.savePrefBool(key, true);
+                    Prefs.putBoolean(key, true);
 
                     new Handler().postDelayed(() -> {
                         // Hide loading dialog
@@ -278,7 +277,7 @@ public class QsShapes extends AppCompatActivity {
                 QsShapeManager.disable_pack(index + 1);
 
                 runOnUiThread(() -> {
-                    PrefConfig.savePrefBool(key, false);
+                    Prefs.putBoolean(key, false);
 
                     new Handler().postDelayed(() -> {
                         loadingDialog.hide();

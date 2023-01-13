@@ -1,11 +1,14 @@
 package com.drdisagree.iconify.ui.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +26,7 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.services.BackgroundService;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
@@ -41,7 +44,7 @@ public class HomePage extends AppCompatActivity {
 
     // Save unique id of each boot
     public static void getBootId() {
-        PrefConfig.savePrefSettings("boot_id", Shell.cmd("cat /proc/sys/kernel/random/boot_id").exec().getOut().toString());
+        Prefs.putString("boot_id", Shell.cmd("cat /proc/sys/kernel/random/boot_id").exec().getOut().toString());
     }
 
     @Override
@@ -49,7 +52,7 @@ public class HomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-        PrefConfig.savePrefBool("onHomePage", true);
+        Prefs.putBoolean("onHomePage", true);
 
         container = (ViewGroup) findViewById(R.id.home_page_list);
         View list_view = LayoutInflater.from(this).inflate(R.layout.dialog_reboot, container, false);
@@ -57,9 +60,9 @@ public class HomePage extends AppCompatActivity {
         container.addView(list_view);
         reboot_reminder.setVisibility(View.GONE);
 
-        if (!PrefConfig.loadPrefBool("firstInstall") && PrefConfig.loadPrefBool("updateDetected")) {
-            PrefConfig.savePrefBool("firstInstall", false);
-            PrefConfig.savePrefBool("updateDetected", false);
+        if (!Prefs.getBoolean("firstInstall") && Prefs.getBoolean("updateDetected")) {
+            Prefs.putBoolean("firstInstall", false);
+            Prefs.putBoolean("updateDetected", false);
 
             reboot_reminder.setVisibility(View.VISIBLE);
             Button reboot_now = findViewById(R.id.reboot_phone);
@@ -75,7 +78,7 @@ public class HomePage extends AppCompatActivity {
             });
         }
 
-        PrefConfig.savePrefInt("versionCode", BuildConfig.VERSION_CODE);
+        Prefs.putInt("versionCode", BuildConfig.VERSION_CODE);
         getBootId();
 
         // Header
@@ -105,11 +108,11 @@ public class HomePage extends AppCompatActivity {
             List<String> AllOverlays = OverlayUtil.getOverlayList();
             List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
             for (String overlay : AllOverlays)
-                PrefConfig.savePrefBool(overlay, OverlayUtil.isOverlayEnabled(EnabledOverlays, overlay));
+                Prefs.putBoolean(overlay, OverlayUtil.isOverlayEnabled(EnabledOverlays, overlay));
 
             List<String> FabricatedEnabledOverlays = FabricatedOverlayUtil.getEnabledOverlayList();
             for (String overlay : FabricatedEnabledOverlays)
-                PrefConfig.savePrefBool("fabricated" + overlay, true);
+                Prefs.putBoolean("fabricated" + overlay, true);
         };
         Thread thread1 = new Thread(runnable1);
         thread1.start();

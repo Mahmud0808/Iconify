@@ -33,4 +33,12 @@ public class References {
 
     // Notification service checker
     public static boolean isNotificationServiceRunning = false;
+
+    public static final String SYSTEM_UI_PACKAGE = "com.android.systemui";
+    public static final String FRAMEWORK_PACKAGE = "android";
+
+    public static final String SharedPref = Iconify.getAppContext().getPackageName();
+    public static final String SharedXPref = Iconify.getAppContext().getPackageName() + "_xpreference";
+
+    public static final String QSBLUR_SWITCH = "xposed_qsblur";
 }

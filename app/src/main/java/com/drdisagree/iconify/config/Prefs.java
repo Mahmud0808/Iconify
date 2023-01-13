@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.config;
 
+import static com.drdisagree.iconify.common.References.SharedPref;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -25,60 +27,60 @@ import java.io.OutputStream;
 import java.util.Map;
 import java.util.Objects;
 
-public class PrefConfig {
+public class Prefs {
 
     @SuppressLint("StaticFieldLeak")
     private static final Context context = Iconify.getAppContext();
-    private static final String SharedPref = context.getPackageName();
+
+    static SharedPreferences pref = Iconify.getAppContext().getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
+    static SharedPreferences.Editor editor = pref.edit();
 
     // Save sharedPref config
-    public static void savePrefBool(String key, boolean val) {
-        SharedPreferences pref = context.getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putBoolean(key, val);
-        editor.apply();
+    public static void putBoolean(String key, boolean val) {
+        editor.putBoolean(key, val).apply();
     }
 
-    public static void savePrefInt(String key, int val) {
-        SharedPreferences pref = context.getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putInt(key, val);
-        editor.apply();
+    public static void putInt(String key, int val) {
+        editor.putInt(key, val).apply();
     }
 
-    public static void savePrefSettings(String key, String val) {
-        SharedPreferences pref = context.getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putString(key, val);
-        editor.apply();
+    public static void putString(String key, String val) {
+        editor.putString(key, val).apply();
     }
 
     // Load sharedPref config
-    public static boolean loadPrefBool(String key) {
-        SharedPreferences pref = context.getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
+    public static boolean getBoolean(String key) {
         return pref.getBoolean(key, false);
     }
 
-    public static int loadPrefInt(String key) {
-        SharedPreferences pref = context.getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
+    public static boolean getBoolean(String key, Boolean defValue) {
+        return pref.getBoolean(key, defValue);
+    }
+
+    public static int getInt(String key) {
         return pref.getInt(key, 0);
     }
 
-    public static String loadPrefSettings(String key) {
-        SharedPreferences pref = context.getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
+    public static int getInt(String key, int defValue) {
+        return pref.getInt(key, defValue);
+    }
+
+    public static String getString(String key) {
         return pref.getString(key, "null");
+    }
+
+    public static String getString(String key, String defValue) {
+        return pref.getString(key, defValue);
     }
 
     // Clear specific sharedPref config
     public static void clearPref(String key) {
-        SharedPreferences pref = context.getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
-        pref.edit().remove(key).apply();
+        editor.remove(key).apply();
     }
 
     // Clear all sharedPref config
     public static void clearAllPref() {
-        SharedPreferences pref = context.getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
-        pref.edit().clear().apply();
+        editor.clear().apply();
     }
 
     public static void exportPrefs(SharedPreferences preferences, final @NonNull OutputStream outputStream) throws IOException {
@@ -96,7 +98,7 @@ public class PrefConfig {
         }
     }
 
-    public static void importPrefs(SharedPreferences sharedPreferences, final @NonNull InputStream inputStream) throws IOException {
+    public static void importPrefs(final @NonNull InputStream inputStream) throws IOException {
         ObjectInputStream objectInputStream = null;
         Map<String, Object> map;
         try {
@@ -119,7 +121,7 @@ public class PrefConfig {
 
         for (Map.Entry<String, Object> item : map.entrySet()) {
             if (item.getValue() instanceof Boolean) {
-                savePrefBool(item.getKey(), (Boolean) item.getValue());
+                putBoolean(item.getKey(), (Boolean) item.getValue());
 
                 if ((Boolean) item.getValue()) {
                     if (item.getKey().contains("IconifyComponent") && item.getKey().contains(".overlay"))
@@ -127,11 +129,11 @@ public class PrefConfig {
                 }
             } else if (item.getValue() instanceof String) {
                 if (Objects.equals(item.getKey(), "boot_id"))
-                    PrefConfig.savePrefSettings(item.getKey(), Shell.cmd("cat /proc/sys/kernel/random/boot_id").exec().getOut().toString());
+                    Prefs.putString(item.getKey(), Shell.cmd("cat /proc/sys/kernel/random/boot_id").exec().getOut().toString());
                 else
-                    savePrefSettings(item.getKey(), (String) item.getValue());
+                    putString(item.getKey(), (String) item.getValue());
 
-                if (item.getKey().contains("colorAccentPrimary") && !primaryColorApplied && loadPrefBool("fabricated" + item.getKey())) {
+                if (item.getKey().contains("colorAccentPrimary") && !primaryColorApplied && getBoolean("fabricated" + item.getKey())) {
                     primaryColorApplied = true;
                     try {
                         FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentPrimary", "color", "holo_blue_light", ColorPicker.ColorToSpecialHex(Integer.parseInt((String) item.getValue())));
@@ -145,7 +147,7 @@ public class PrefConfig {
                     } catch (NumberFormatException ignored) {
                     }
                 }
-                if (item.getKey().contains("colorAccentSecondary") && !secondaryColorApplied && !primaryColorApplied && loadPrefBool("fabricated" + item.getKey())) {
+                if (item.getKey().contains("colorAccentSecondary") && !secondaryColorApplied && !primaryColorApplied && getBoolean("fabricated" + item.getKey())) {
                     secondaryColorApplied = true;
                     try {
                         FabricatedOverlayUtil.buildAndEnableOverlay("android", "colorAccentSecondary", "color", "holo_green_light", ColorPicker.ColorToSpecialHex(Integer.parseInt((String) item.getValue())));
@@ -157,9 +159,9 @@ public class PrefConfig {
                 }
             } else if (item.getValue() instanceof Integer) {
                 if (Objects.equals(item.getKey(), "versionCode"))
-                    savePrefInt(item.getKey(), BuildConfig.VERSION_CODE);
+                    putInt(item.getKey(), BuildConfig.VERSION_CODE);
                 else
-                    savePrefInt(item.getKey(), (Integer) item.getValue());
+                    putInt(item.getKey(), (Integer) item.getValue());
             }
         }
     }

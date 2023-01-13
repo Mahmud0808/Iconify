@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.SharedXPref;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -7,10 +9,10 @@ import android.content.SharedPreferences;
 import android.graphics.text.LineBreaker;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +24,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
@@ -44,36 +46,36 @@ public class Settings extends AppCompatActivity {
     public static void disableEverything() {
         for (String overlay : EnabledOverlays) {
             OverlayUtil.disableOverlay(overlay);
-            PrefConfig.clearPref(overlay);
-            PrefConfig.clearPref("cornerRadius");
-            PrefConfig.clearPref("qsTextSize");
-            PrefConfig.clearPref("qsIconSize");
-            PrefConfig.clearPref("qsMoveIcon");
+            Prefs.clearPref(overlay);
+            Prefs.clearPref("cornerRadius");
+            Prefs.clearPref("qsTextSize");
+            Prefs.clearPref("qsIconSize");
+            Prefs.clearPref("qsMoveIcon");
         }
 
         for (String fabricatedOverlay : FabricatedEnabledOverlays) {
             FabricatedOverlayUtil.disableOverlay(fabricatedOverlay);
-            PrefConfig.clearPref(fabricatedOverlay);
-            PrefConfig.clearPref("fabricatedqsRowColumn");
-            PrefConfig.clearPref("customColor");
-            PrefConfig.clearPref("colorAccentPrimary");
-            PrefConfig.clearPref("colorAccentSecondary");
-            PrefConfig.clearPref("fabricatedqsTextSize");
-            PrefConfig.clearPref("fabricatedqsIconSize");
-            PrefConfig.clearPref("fabricatedqsMoveIcon");
+            Prefs.clearPref(fabricatedOverlay);
+            Prefs.clearPref("fabricatedqsRowColumn");
+            Prefs.clearPref("customColor");
+            Prefs.clearPref("colorAccentPrimary");
+            Prefs.clearPref("colorAccentSecondary");
+            Prefs.clearPref("fabricatedqsTextSize");
+            Prefs.clearPref("fabricatedqsIconSize");
+            Prefs.clearPref("fabricatedqsMoveIcon");
         }
 
-        PrefConfig.savePrefSettings("colorAccentPrimary", "null");
-        PrefConfig.savePrefSettings("colorAccentSecondary", "null");
-        PrefConfig.savePrefSettings("dialogCornerRadius", "null");
-        PrefConfig.savePrefSettings("insetCornerRadius2", "null");
-        PrefConfig.savePrefSettings("insetCornerRadius4", "null");
-        PrefConfig.savePrefBool("fabricatedcolorAccentPrimary", false);
-        PrefConfig.savePrefBool("fabricatedcolorAccentSecondary", false);
-        PrefConfig.savePrefBool("fabricatedcornerRadius", false);
+        Prefs.putString("colorAccentPrimary", "null");
+        Prefs.putString("colorAccentSecondary", "null");
+        Prefs.putString("dialogCornerRadius", "null");
+        Prefs.putString("insetCornerRadius2", "null");
+        Prefs.putString("insetCornerRadius4", "null");
+        Prefs.putBoolean("fabricatedcolorAccentPrimary", false);
+        Prefs.putBoolean("fabricatedcolorAccentSecondary", false);
+        Prefs.putBoolean("fabricatedcornerRadius", false);
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "WorldReadableFiles"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,27 +103,24 @@ public class Settings extends AppCompatActivity {
 
         button_disableEverything.setOnClickListener(v -> Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disable_everything), Toast.LENGTH_SHORT).show());
 
-        button_disableEverything.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                // Show loading dialog
-                loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
+        button_disableEverything.setOnLongClickListener(v -> {
+            // Show loading dialog
+            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
-                Runnable runnable = () -> {
-                    disableEverything();
+            Runnable runnable = () -> {
+                disableEverything();
 
-                    runOnUiThread(() -> new Handler().postDelayed(() -> {
-                        // Hide loading dialog
-                        loadingDialog.hide();
+                runOnUiThread(() -> new Handler().postDelayed(() -> {
+                    // Hide loading dialog
+                    loadingDialog.hide();
 
-                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disabled_everything), Toast.LENGTH_SHORT).show();
-                    }, 3000));
-                };
-                Thread thread = new Thread(runnable);
-                thread.start();
+                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disabled_everything), Toast.LENGTH_SHORT).show();
+                }, 3000));
+            };
+            Thread thread = new Thread(runnable);
+            thread.start();
 
-                return true;
-            }
+            return true;
         });
 
         // Restart SystemUI
@@ -179,6 +178,9 @@ public class Settings extends AppCompatActivity {
             exportSettings();
         } else if (itemID == R.id.menu_importPrefs) {
             importSettings();
+        } else if (itemID == R.id.menu_experimental_features) {
+            Intent intent = new Intent(Settings.this, Experimental.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -216,7 +218,7 @@ public class Settings extends AppCompatActivity {
                             (dialog, which) -> {
                                 dialog.dismiss();
                                 try {
-                                    PrefConfig.importPrefs(prefs, getContentResolver().openInputStream(data.getData()));
+                                    Prefs.importPrefs(getContentResolver().openInputStream(data.getData()));
                                     Toast.makeText(Iconify.getAppContext(), "Imported settings successfully", Toast.LENGTH_LONG).show();
                                 } catch (Exception e) {
                                     Toast.makeText(Iconify.getAppContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
@@ -228,7 +230,7 @@ public class Settings extends AppCompatActivity {
                     break;
                 case REQUESTCODE_EXPORT:
                     try {
-                        PrefConfig.exportPrefs(prefs, getContentResolver().openOutputStream(data.getData()));
+                        Prefs.exportPrefs(prefs, getContentResolver().openOutputStream(data.getData()));
                         Toast.makeText(Iconify.getAppContext(), "Saved settings successfully", Toast.LENGTH_LONG).show();
                     } catch (Exception e) {
                         Toast.makeText(Iconify.getAppContext(), "Something went wrong", Toast.LENGTH_SHORT).show();

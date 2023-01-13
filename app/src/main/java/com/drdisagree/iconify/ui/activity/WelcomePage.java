@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.drdisagree.iconify.utils.ModuleUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
@@ -61,7 +61,7 @@ public class WelcomePage extends AppCompatActivity {
                         intent.setData(uri);
                         startActivity(intent);
                     } else {
-                        if ((PrefConfig.loadPrefInt("versionCode") < versionCode) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
+                        if ((Prefs.getInt("versionCode") < versionCode) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
                             warn.setVisibility(View.INVISIBLE);
                             // Show loading dialog
                             loadingDialog.show(getResources().getString(R.string.installing));
@@ -77,14 +77,14 @@ public class WelcomePage extends AppCompatActivity {
                                     // Hide loading dialog
                                     loadingDialog.hide();
 
-                                    if (PrefConfig.loadPrefInt("versionCode") == 0) {
-                                        PrefConfig.savePrefBool("firstInstall", true);
-                                        PrefConfig.savePrefBool("updateDetected", false);
+                                    if (Prefs.getInt("versionCode") == 0) {
+                                        Prefs.putBoolean("firstInstall", true);
+                                        Prefs.putBoolean("updateDetected", false);
                                     } else {
-                                        PrefConfig.savePrefBool("firstInstall", false);
-                                        PrefConfig.savePrefBool("updateDetected", true);
+                                        Prefs.putBoolean("firstInstall", false);
+                                        Prefs.putBoolean("updateDetected", true);
                                     }
-                                    PrefConfig.savePrefInt("versionCode", versionCode);
+                                    Prefs.putInt("versionCode", versionCode);
 
                                     if (OverlayUtil.overlayExists()) {
                                         new Handler().postDelayed(() -> {

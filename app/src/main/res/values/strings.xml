@@ -28,6 +28,7 @@
     <string name="activity_desc_volume_panel">Customize volume panel design</string>
     <string name="activity_title_color_table">Color Table</string>
     <string name="activity_desc_color_table">Show full table of system colors</string>
+    <string name="activity_title_experimental">Experimental Settings</string>
 
     <!-- Extras page activites -->
     <string name="activity_title_ui_roundness">UI Roundness</string>
@@ -177,4 +178,10 @@
     <string name="checked">Checked</string>
     <string name="secondary_color_desc">Pick gradient end color</string>
     <string name="primary_color_desc">Pick gradient start color</string>
+    <string name="app_updates">App Updates</string>
+    <string name="changelog">Changelog</string>
+    <string name="import_export">Import/Export</string>
+    <string name="export_settings">Export Settings</string>
+    <string name="import_settings">Import Settings</string>
+    <string name="experimental_features">Experimental Features</string>
 </resources>

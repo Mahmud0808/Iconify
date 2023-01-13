@@ -1,8 +1,7 @@
 package com.drdisagree.iconify.utils;
 
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.References;
-import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.config.Prefs;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
@@ -52,7 +51,7 @@ public class FabricatedOverlayUtil {
         Shell.cmd(build_cmd).exec();
         Shell.cmd(enable_cmd).exec();
 
-        PrefConfig.savePrefBool("fabricated" + name, true);
+        Prefs.putBoolean("fabricated" + name, true);
     }
 
     public static void disableOverlay(String name) {
@@ -62,7 +61,7 @@ public class FabricatedOverlayUtil {
 
         Shell.cmd(disable_cmd).exec();
 
-        PrefConfig.savePrefBool("fabricated" + name, false);
+        Prefs.putBoolean("fabricated" + name, false);
     }
 
     public static boolean isOverlayEnabled(List<String> overlays, String name) {

@@ -19,7 +19,7 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.References;
-import com.drdisagree.iconify.config.PrefConfig;
+import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.QsShapePixelManager;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.drdisagree.iconify.utils.DisplayUtil;
@@ -181,7 +181,7 @@ public class QsShapesPixel extends AppCompatActivity {
     private void refreshBackground() {
         for (int i = 0; i < container.getChildCount(); i++) {
             LinearLayout child = container.getChildAt(i).findViewById(R.id.qsshape_child);
-            if (PrefConfig.loadPrefBool(QSSHAPE_KEY.get(i))) {
+            if (Prefs.getBoolean(QSSHAPE_KEY.get(i))) {
                 child.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.container_selected));
             } else {
                 child.setBackground(ContextCompat.getDrawable(QsShapesPixel.this, R.drawable.container));
@@ -192,7 +192,7 @@ public class QsShapesPixel extends AppCompatActivity {
     // Function to disable other packs if one is applied
     private void disable_others(String pack) {
         for (int i = 0; i < References.TOTAL_QSSHAPESPIXEL; i++)
-            PrefConfig.savePrefBool(QSSHAPE_KEY.get(i), pack.equals(QSSHAPE_KEY.get(i)));
+            Prefs.putBoolean(QSSHAPE_KEY.get(i), pack.equals(QSSHAPE_KEY.get(i)));
     }
 
     // Function for onClick events
@@ -201,7 +201,7 @@ public class QsShapesPixel extends AppCompatActivity {
         // Set onClick operation for options in list
         layout.setOnClickListener(v -> {
             refreshLayout(layout);
-            if (!PrefConfig.loadPrefBool(key)) {
+            if (!Prefs.getBoolean(key)) {
                 disable.setVisibility(View.GONE);
                 if (enable.getVisibility() == View.VISIBLE)
                     enable.setVisibility(View.GONE);
@@ -227,7 +227,7 @@ public class QsShapesPixel extends AppCompatActivity {
                 QsShapePixelManager.install_pack(index + 1);
 
                 runOnUiThread(() -> {
-                    PrefConfig.savePrefBool(key, true);
+                    Prefs.putBoolean(key, true);
 
                     new Handler().postDelayed(() -> {
                         // Hide loading dialog
@@ -255,7 +255,7 @@ public class QsShapesPixel extends AppCompatActivity {
                 QsShapePixelManager.disable_pack(index + 1);
 
                 runOnUiThread(() -> {
-                    PrefConfig.savePrefBool(key, false);
+                    Prefs.putBoolean(key, false);
 
                     new Handler().postDelayed(() -> {
                         loadingDialog.hide();
