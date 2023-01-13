@@ -106,8 +106,6 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         else
             accentSecondary = String.valueOf(Color.parseColor("#FF387BFF"));
 
-        accent = accentPrimary;
-
         /* Color table
         LinearLayout color_table = findViewById(R.id.color_table);
         color_table.setOnClickListener(v -> {
