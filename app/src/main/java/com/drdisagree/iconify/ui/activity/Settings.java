@@ -1,7 +1,5 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.SharedXPref;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +7,6 @@ import android.content.SharedPreferences;
 import android.graphics.text.LineBreaker;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,8 +25,8 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
 import java.util.Objects;
@@ -143,7 +140,7 @@ public class Settings extends AppCompatActivity {
                 loadingDialog.hide();
 
                 // Restart SystemUI
-                Shell.cmd("killall com.android.systemui").exec();
+                SystemUtil.restartSystemUI();
             }, 1000);
 
             return true;

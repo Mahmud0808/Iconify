@@ -51,6 +51,13 @@
             android:name="xposedscope"
             android:resource="@array/module_scope" />
 
+        <provider
+            android:name=".utils.RemotePrefProvider"
+            android:authorities="com.drdisagree.iconify"
+            android:directBootAware="true"
+            android:exported="true"
+            tools:ignore="ExportedContentProvider" />
+
         <!-- activities -->
         <activity
             android:name=".ui.activity.Experimental"

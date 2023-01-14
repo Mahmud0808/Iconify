@@ -13,6 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
@@ -148,11 +149,11 @@ public class NavigationBar extends AppCompatActivity {
             if (isChecked) {
                 nb_monet_pill_menu.setVisibility(View.GONE);
                 OverlayUtil.enableOverlay("IconifyComponentNBHidePill.overlay");
-                Shell.cmd("killall com.android.systemui").exec();
+                SystemUtil.restartSystemUI();
             } else {
                 nb_monet_pill_menu.setVisibility(View.VISIBLE);
                 OverlayUtil.disableOverlay("IconifyComponentNBHidePill.overlay");
-                Shell.cmd("killall com.android.systemui").exec();
+                SystemUtil.restartSystemUI();
             }
         });
 
@@ -160,10 +161,10 @@ public class NavigationBar extends AppCompatActivity {
         nb_monet_pill.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 OverlayUtil.enableOverlay("IconifyComponentNBMonetPill.overlay");
-                Shell.cmd("killall com.android.systemui").exec();
+                SystemUtil.restartSystemUI();
             } else {
                 OverlayUtil.disableOverlay("IconifyComponentNBMonetPill.overlay");
-                Shell.cmd("killall com.android.systemui").exec();
+                SystemUtil.restartSystemUI();
             }
         });
 

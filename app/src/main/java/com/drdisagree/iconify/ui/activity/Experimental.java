@@ -3,14 +3,19 @@ package com.drdisagree.iconify.ui.activity;
 import static com.drdisagree.iconify.common.References.QSBLUR_SWITCH;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.drdisagree.iconify.BuildConfig;
+import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
@@ -45,6 +50,17 @@ public class Experimental extends AppCompatActivity {
             } else {
                 Shell.cmd("settings put secure monet_engine_accurate_shades 0").exec();
             }
+        });
+
+        // Qs Panel Blur
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_qs_blur = findViewById(R.id.enable_qs_blur);
+        Context prefContext = Iconify.getAppContext().createDeviceProtectedStorageContext();
+        SharedPreferences prefs = prefContext.getSharedPreferences(BuildConfig.APPLICATION_ID + "_xpreferences", MODE_PRIVATE);
+        enable_qs_blur.setChecked(prefs.getBoolean(QSBLUR_SWITCH, false));
+        enable_qs_blur.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            prefs.edit().putBoolean(QSBLUR_SWITCH, isChecked).commit();
+            // Restart SystemUI
+            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
     }
 

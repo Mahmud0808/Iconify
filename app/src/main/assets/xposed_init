@@ -1,1 +1,3 @@
-com.drdisagree.iconify.xposed.mods.QSBlur
+com.drdisagree.iconify.config.XPrefs
+com.drdisagree.iconify.xposed.IconifyMods
+com.drdisagree.iconify.xposed.ResourceManager
