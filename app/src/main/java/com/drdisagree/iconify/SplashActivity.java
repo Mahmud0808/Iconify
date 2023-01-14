@@ -16,6 +16,8 @@ import com.drdisagree.iconify.utils.RootUtil;
 import com.google.android.material.color.DynamicColors;
 import com.topjohnwu.superuser.Shell;
 
+import java.util.Objects;
+
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
 
@@ -24,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
     static {
         Shell.enableVerboseLogging = BuildConfig.DEBUG;
         if (Shell.getCachedShell() == null)
-            Shell.setDefaultBuilder(Shell.Builder.create().setFlags(Shell.FLAG_REDIRECT_STDERR).setTimeout(10));
+            Shell.setDefaultBuilder(Shell.Builder.create().setFlags(Shell.FLAG_REDIRECT_STDERR).setTimeout(20));
     }
 
     private final int versionCode = BuildConfig.VERSION_CODE;
