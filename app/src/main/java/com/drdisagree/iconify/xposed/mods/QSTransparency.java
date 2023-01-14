@@ -118,6 +118,8 @@ public class QSTransparency extends ModPack {
         hookAllMethods(ScrimController, "getInterpolatedFraction", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
+                if (!QsTransparencyActive) return;
+
                 behindFraction = (float) param.getResult();
             }
         });
@@ -125,6 +127,8 @@ public class QSTransparency extends ModPack {
         hookAllMethods(ScrimController, "applyState", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
+                if (!QsTransparencyActive) return;
+
                 boolean mClipsQsScrim = (boolean) getObjectField(param.thisObject, "mClipsQsScrim");
 
                 if (mClipsQsScrim) {

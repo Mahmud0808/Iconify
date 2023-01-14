@@ -29,7 +29,6 @@ import java.io.IOException;
 
 public class WelcomePage extends AppCompatActivity {
 
-    private final int versionCode = BuildConfig.VERSION_CODE;
     LoadingDialog loadingDialog;
 
     @SuppressLint("SetTextI18n")
@@ -62,7 +61,7 @@ public class WelcomePage extends AppCompatActivity {
                         intent.setData(uri);
                         startActivity(intent);
                     } else {
-                        if ((Prefs.getInt("versionCode") < versionCode) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
+                        if ((Prefs.getInt("versionCode") < BuildConfig.VERSION_CODE) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
                             warn.setVisibility(View.INVISIBLE);
                             // Show loading dialog
                             loadingDialog.show(getResources().getString(R.string.installing));
@@ -85,7 +84,7 @@ public class WelcomePage extends AppCompatActivity {
                                         Prefs.putBoolean("firstInstall", false);
                                         Prefs.putBoolean("updateDetected", true);
                                     }
-                                    Prefs.putInt("versionCode", versionCode);
+                                    Prefs.putInt("versionCode", BuildConfig.VERSION_CODE);
 
                                     if (OverlayUtil.overlayExists()) {
                                         new Handler().postDelayed(() -> {

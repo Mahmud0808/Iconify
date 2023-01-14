@@ -117,6 +117,8 @@ public class Experimental extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RemotePrefs.putInt(QSBLUR_RADIUS, blur_radius[0]);
+                // Restart SystemUI
+                new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
             }
         });
     }
