@@ -43,7 +43,7 @@
     <string name="color_picker_preview">Color Picker Preview</string>
     <string name="accurate_shades_title">Accurate Shades</string>
     <string name="accurate_shades_desc">Disable this for vibrant colors</string>
-    <string name="experimental_features_title">Experimental Features</string>
+    <string name="experimental_features_title">Experimental</string>
     <string name="experimental_features_desc">These options may not be compatible with some roms especially stock pixel based roms.</string>
     <string name="primary_color">Primary Color</string>
     <string name="secondary_color">Secondary Color</string>

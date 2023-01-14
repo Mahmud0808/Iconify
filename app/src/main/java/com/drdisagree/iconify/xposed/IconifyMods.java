@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.xposed;
 
-import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
@@ -9,9 +8,9 @@ import android.annotation.SuppressLint;
 import android.app.Instrumentation;
 import android.content.Context;
 
-import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.config.XPrefs;
-import com.drdisagree.iconify.xposed.mods.QSBlur;
+import com.drdisagree.iconify.xposed.mods.BlurRadius;
+import com.drdisagree.iconify.xposed.mods.QSTransparency;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,30 +28,23 @@ public class IconifyMods implements IXposedHookLoadPackage {
     public Context mContext = null;
 
     public IconifyMods() {
-        modPacks.add(QSBlur.class);
+        modPacks.add(QSTransparency.class);
+        modPacks.add(BlurRadius.class);
     }
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         isSecondProcess = lpparam.processName.contains(":");
 
-        if (lpparam.packageName.equals(SYSTEM_UI_PACKAGE) && BuildConfig.DEBUG) {
-            log("-------------");
-            log("Iconify Debug");
-            log("-------------");
-        }
-
         findAndHookMethod(Instrumentation.class, "newApplication", ClassLoader.class, String.class, Context.class, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
-                if (mContext == null)
-                {
+                if (mContext == null) {
                     mContext = (Context) param.args[2];
 
                     XPrefs.init(mContext);
 
-                    if(bootLooped(mContext.getPackageName()))
-                    {
+                    if (bootLooped(mContext.getPackageName())) {
                         return;
                     }
 
@@ -80,27 +72,21 @@ public class IconifyMods implements IXposedHookLoadPackage {
     }
 
     @SuppressLint("ApplySharedPref")
-    private static boolean bootLooped(String packageName)
-    {
+    private static boolean bootLooped(String packageName) {
         String loadTimeKey = String.format("packageLastLoad_%s", packageName);
         String strikeKey = String.format("packageStrike_%s", packageName);
         long currentTime = Calendar.getInstance().getTime().getTime();
         long lastLoadTime = Xprefs.getLong(loadTimeKey, 0);
         int strikeCount = Xprefs.getInt(strikeKey, 0);
-        if (currentTime - lastLoadTime > 40000)
-        {
+        if (currentTime - lastLoadTime > 40000) {
             Xprefs.edit()
                     .putLong(loadTimeKey, currentTime)
                     .putInt(strikeKey, 0)
                     .commit();
-        }
-        else if(strikeCount >= 3)
-        {
+        } else if (strikeCount >= 3) {
             log(String.format("IconifyMods: Possible bootloop in %s. Will not load for now", packageName));
             return true;
-        }
-        else
-        {
+        } else {
             Xprefs.edit().putInt(strikeKey, ++strikeCount).commit();
         }
         return false;

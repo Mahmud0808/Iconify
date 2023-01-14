@@ -1,7 +1,5 @@
 package com.drdisagree.iconify.xposed;
 
-import android.content.res.XModuleResources;
-
 import java.util.HashMap;
 
 import de.robv.android.xposed.IXposedHookInitPackageResources;
@@ -14,7 +12,7 @@ public class ResourceManager implements IXposedHookInitPackageResources, IXposed
     public final static HashMap<String, XC_InitPackageResources.InitPackageResourcesParam> resparams = new HashMap<>();
 
     @Override
-    public void initZygote(StartupParam startupParam) throws Throwable {
+    public void initZygote(StartupParam startupParam) {
         MODULE_PATH = startupParam.modulePath;
     }
 

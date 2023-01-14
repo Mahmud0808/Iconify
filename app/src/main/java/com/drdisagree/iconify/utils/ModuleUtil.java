@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class ModuleUtil {
-    
+
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
 
     public static void handleModule() throws IOException {

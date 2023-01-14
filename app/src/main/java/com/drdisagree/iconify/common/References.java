@@ -3,11 +3,7 @@ package com.drdisagree.iconify.common;
 import android.os.Environment;
 
 import com.drdisagree.iconify.Iconify;
-import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
-import com.drdisagree.iconify.utils.OverlayUtil;
 import com.topjohnwu.superuser.Shell;
-
-import java.util.List;
 
 public class References {
     // Grab number of overlays dynamically for each variant
@@ -40,5 +36,8 @@ public class References {
     public static final String SharedPref = Iconify.getAppContext().getPackageName();
     public static final String SharedXPref = Iconify.getAppContext().getPackageName() + "_xpreference";
 
+    public static final String QSTRANSPARENCY_SWITCH = "xposed_qstransparency";
+    public static final String QSALPHA_LEVEL = "xposed_qsalpha";
     public static final String QSBLUR_SWITCH = "xposed_qsblur";
+    public static final String QSBLUR_RADIUS = "xposed_qsblurradius";
 }

@@ -2,7 +2,6 @@ package com.drdisagree.iconify.config;
 
 import static com.drdisagree.iconify.common.References.SharedPref;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -29,9 +28,6 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Prefs {
-
-    @SuppressLint("StaticFieldLeak")
-    private static final Context context = Iconify.getAppContext();
 
     static SharedPreferences pref = Iconify.getAppContext().getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
     static SharedPreferences.Editor editor = pref.edit();

@@ -1,20 +1,24 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.QSALPHA_LEVEL;
+import static com.drdisagree.iconify.common.References.QSBLUR_RADIUS;
 import static com.drdisagree.iconify.common.References.QSBLUR_SWITCH;
+import static com.drdisagree.iconify.common.References.QSTRANSPARENCY_SWITCH;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.SeekBar;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.drdisagree.iconify.BuildConfig;
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.config.RemotePrefs;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
@@ -52,15 +56,70 @@ public class Experimental extends AppCompatActivity {
             }
         });
 
-        // Qs Panel Blur
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_qs_blur = findViewById(R.id.enable_qs_blur);
-        Context prefContext = Iconify.getAppContext().createDeviceProtectedStorageContext();
-        SharedPreferences prefs = prefContext.getSharedPreferences(BuildConfig.APPLICATION_ID + "_xpreferences", MODE_PRIVATE);
-        enable_qs_blur.setChecked(prefs.getBoolean(QSBLUR_SWITCH, false));
-        enable_qs_blur.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            prefs.edit().putBoolean(QSBLUR_SWITCH, isChecked).commit();
+        // Qs Panel Transparency
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_qs_transparency = findViewById(R.id.enable_qs_transparency);
+        enable_qs_transparency.setChecked(RemotePrefs.getBoolean(QSTRANSPARENCY_SWITCH, false));
+        enable_qs_transparency.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RemotePrefs.putBoolean(QSTRANSPARENCY_SWITCH, isChecked);
             // Restart SystemUI
             new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+        });
+
+        SeekBar transparency_seekbar = findViewById(R.id.transparency_seekbar);
+        transparency_seekbar.setPadding(0, 0, 0, 0);
+        TextView transparency_output = findViewById(R.id.transparency_output);
+        final int[] transparency = {RemotePrefs.getInt(QSALPHA_LEVEL, 60)};
+        transparency_output.setText(getResources().getString(R.string.opt_selected) + ' ' + transparency[0] + "%");
+        transparency_seekbar.setProgress(transparency[0]);
+        transparency_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                transparency[0] = progress;
+                transparency_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "%");
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                RemotePrefs.putInt(QSALPHA_LEVEL, transparency[0]);
+            }
+        });
+
+        // Qs Panel Blur
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_blur = findViewById(R.id.enable_blur);
+        enable_blur.setChecked(RemotePrefs.getBoolean(QSBLUR_SWITCH, false));
+        enable_blur.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RemotePrefs.putBoolean(QSBLUR_SWITCH, isChecked);
+            if (isChecked) SystemUtil.enableBlur();
+            else SystemUtil.disableBlur();
+        });
+
+        SeekBar blur_seekbar = findViewById(R.id.blur_seekbar);
+        blur_seekbar.setPadding(0, 0, 0, 0);
+        TextView blur_output = findViewById(R.id.blur_output);
+        final int[] blur_radius = {RemotePrefs.getInt(QSBLUR_RADIUS, 23)};
+        blur_output.setText(getResources().getString(R.string.opt_selected) + ' ' + blur_radius[0] + "px");
+        blur_seekbar.setProgress(blur_radius[0]);
+        blur_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                blur_radius[0] = progress;
+                blur_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "px");
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                RemotePrefs.putInt(QSBLUR_RADIUS, blur_radius[0]);
+            }
         });
     }
 
