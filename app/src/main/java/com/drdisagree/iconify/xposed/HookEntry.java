@@ -9,6 +9,7 @@ import android.app.Instrumentation;
 import android.content.Context;
 
 import com.drdisagree.iconify.config.XPrefs;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.xposed.mods.BlurRadius;
 import com.drdisagree.iconify.xposed.mods.QSTransparency;
 
@@ -19,7 +20,7 @@ import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-public class IconifyMods implements IXposedHookLoadPackage {
+public class HookEntry implements IXposedHookLoadPackage {
 
     public static boolean isSecondProcess = false;
 
@@ -27,7 +28,7 @@ public class IconifyMods implements IXposedHookLoadPackage {
     public static ArrayList<ModPack> runningMods = new ArrayList<>();
     public Context mContext = null;
 
-    public IconifyMods() {
+    public HookEntry() {
         modPacks.add(QSTransparency.class);
         modPacks.add(BlurRadius.class);
     }
@@ -48,6 +49,7 @@ public class IconifyMods implements IXposedHookLoadPackage {
                         return;
                     }
 
+                    new SystemUtil(mContext);
                     XPrefs.loadEverything(mContext.getPackageName());
                 }
 
@@ -84,7 +86,7 @@ public class IconifyMods implements IXposedHookLoadPackage {
                     .putInt(strikeKey, 0)
                     .commit();
         } else if (strikeCount >= 3) {
-            log(String.format("IconifyMods: Possible bootloop in %s. Will not load for now", packageName));
+            log(String.format("HookEntry: Possible bootloop in %s. Will not load for now", packageName));
             return true;
         } else {
             Xprefs.edit().putInt(strikeKey, ++strikeCount).commit();

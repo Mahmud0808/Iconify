@@ -7,14 +7,12 @@ import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.ResourceManager.resparams;
 import static de.robv.android.xposed.XposedBridge.log;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.XResources;
 import android.util.TypedValue;
 
 import com.drdisagree.iconify.xposed.ModPack;
 
-import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -41,7 +39,6 @@ public class BlurRadius extends ModPack {
         return packageName.equals(SYSTEM_UI_PACKAGE);
     }
 
-    @SuppressLint("DiscouragedApi")
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpParam) {
         if (!lpParam.packageName.equals(SYSTEM_UI_PACKAGE))
             return;

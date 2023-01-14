@@ -1,12 +1,13 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -56,7 +57,7 @@ public class WelcomePage extends AppCompatActivity {
                         warning.setText(getResources().getString(R.string.perm_storage_access));
                         warn.setVisibility(View.VISIBLE);
                         Intent intent = new Intent();
-                        intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                        intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
                         Uri uri = Uri.fromParts("package", this.getPackageName(), null);
                         intent.setData(uri);
                         startActivity(intent);
