@@ -28,6 +28,7 @@ import com.drdisagree.iconify.services.BackgroundService;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
@@ -70,7 +71,7 @@ public class HomePage extends AppCompatActivity {
                 runOnUiThread(() -> new Handler().postDelayed(() -> {
                     rebootingDialog.hide();
 
-                    Shell.cmd("su -c 'svc power reboot'").exec();
+                    SystemUtil.restartDevice();
                 }, 5000));
             });
         }

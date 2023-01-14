@@ -2,29 +2,16 @@ package com.drdisagree.iconify.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.provider.Settings;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.drdisagree.iconify.BuildConfig;
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
-import com.drdisagree.iconify.utils.ModuleUtil;
-import com.drdisagree.iconify.utils.OverlayUtil;
-import com.drdisagree.iconify.utils.RootUtil;
-
-import java.io.IOException;
 
 public class WelcomePage extends AppCompatActivity {
 
@@ -48,6 +35,9 @@ public class WelcomePage extends AppCompatActivity {
         LinearLayout warn = findViewById(R.id.warn);
         TextView warning = findViewById(R.id.warning);
 
+        Intent intent = new Intent(WelcomePage.this, HomePage.class);
+        startActivity(intent);
+        finish();/*
         // Check for root onClick
         checkRoot.setOnClickListener(v -> {
             if (RootUtil.isDeviceRooted()) {
@@ -114,7 +104,7 @@ public class WelcomePage extends AppCompatActivity {
                 warning.setText(getResources().getString(R.string.root_not_found));
                 warn.setVisibility(View.VISIBLE);
             }
-        });
+        });*/
     }
 
     @Override

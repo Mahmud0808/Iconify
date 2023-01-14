@@ -5,9 +5,10 @@ import static de.robv.android.xposed.XposedBridge.log;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.XModuleResources;
+
 import com.crossbowffs.remotepreferences.RemotePreferences;
 import com.drdisagree.iconify.BuildConfig;
-import com.drdisagree.iconify.xposed.IconifyMods;
+import com.drdisagree.iconify.xposed.HookEntry;
 import com.drdisagree.iconify.xposed.ModPack;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
@@ -36,7 +37,7 @@ public class XPrefs implements IXposedHookZygoteInit {
     }
 
     public static void loadEverything(String... key) {
-        for (ModPack thisMod : IconifyMods.runningMods) {
+        for (ModPack thisMod : HookEntry.runningMods) {
             thisMod.updatePrefs(key);
         }
     }

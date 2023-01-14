@@ -16,8 +16,6 @@ import com.drdisagree.iconify.utils.RootUtil;
 import com.google.android.material.color.DynamicColors;
 import com.topjohnwu.superuser.Shell;
 
-import java.util.Objects;
-
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
 
@@ -29,8 +27,6 @@ public class SplashActivity extends AppCompatActivity {
             Shell.setDefaultBuilder(Shell.Builder.create().setFlags(Shell.FLAG_REDIRECT_STDERR).setTimeout(20));
     }
 
-    private final int versionCode = BuildConfig.VERSION_CODE;
-    private final String versionName = BuildConfig.VERSION_NAME;
     private boolean keepShowing = true;
     private final Runnable runner = new Runnable() {
         @Override
@@ -40,7 +36,7 @@ public class SplashActivity extends AppCompatActivity {
 
                 Intent intent;
 
-                if (RootUtil.isDeviceRooted() && RootUtil.isMagiskInstalled() && ModuleUtil.moduleExists() && OverlayUtil.overlayExists() && (versionCode == Prefs.getInt("versionCode"))) {
+                if (RootUtil.isDeviceRooted() && RootUtil.isMagiskInstalled() && ModuleUtil.moduleExists() && OverlayUtil.overlayExists() && (BuildConfig.VERSION_CODE == Prefs.getInt("versionCode"))) {
                     keepShowing = false;
                     intent = new Intent(SplashActivity.this, HomePage.class);
                 } else {

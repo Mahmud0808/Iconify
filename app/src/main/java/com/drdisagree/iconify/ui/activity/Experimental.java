@@ -6,8 +6,6 @@ import static com.drdisagree.iconify.common.References.QSBLUR_SWITCH;
 import static com.drdisagree.iconify.common.References.QSTRANSPARENCY_SWITCH;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.SeekBar;
