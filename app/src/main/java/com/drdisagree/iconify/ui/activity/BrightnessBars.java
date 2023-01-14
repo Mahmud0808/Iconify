@@ -69,8 +69,8 @@ public class BrightnessBars extends AppCompatActivity {
         bb_list.add(new Object[]{"Outline", R.drawable.bb_outline, R.drawable.auto_bb_outline});
         bb_list.add(new Object[]{"Leafy Outline", R.drawable.bb_leafy_outline, R.drawable.auto_bb_leafy_outline});
         bb_list.add(new Object[]{"Neumorph", R.drawable.bb_neumorph, R.drawable.auto_bb_neumorph});
-        bb_list.add(new Object[]{"Neumorph Outline", R.drawable.bb_neumorph_outline, R.drawable.auto_bb_neumorph_outline});
         bb_list.add(new Object[]{"Inline", R.drawable.bb_inline, R.drawable.auto_bb_rounded});
+        bb_list.add(new Object[]{"Neumorph Outline", R.drawable.bb_neumorph_outline, R.drawable.auto_bb_neumorph_outline});
         bb_list.add(new Object[]{"Neumorph Thumb", R.drawable.bb_neumorph_thumb, R.drawable.auto_bb_neumorph_thumb});
         bb_list.add(new Object[]{"Blocky Thumb", R.drawable.bb_blocky_thumb, R.drawable.auto_bb_blocky_thumb});
         bb_list.add(new Object[]{"Comet Thumb", R.drawable.bb_comet_thumb, R.drawable.auto_bb_comet_thumb});
