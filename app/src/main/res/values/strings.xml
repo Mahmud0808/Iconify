@@ -28,7 +28,7 @@
     <string name="activity_desc_volume_panel">Customize volume panel design</string>
     <string name="activity_title_color_table">Color Table</string>
     <string name="activity_desc_color_table">Show full table of system colors</string>
-    <string name="activity_title_experimental">Experimental Settings</string>
+    <string name="activity_title_experimental">Experimental</string>
 
     <!-- Extras page activites -->
     <string name="activity_title_ui_roundness">UI Roundness</string>
@@ -43,8 +43,6 @@
     <string name="color_picker_preview">Color Picker Preview</string>
     <string name="accurate_shades_title">Accurate Shades</string>
     <string name="accurate_shades_desc">Disable this for vibrant colors</string>
-    <string name="experimental_features_title">Experimental</string>
-    <string name="experimental_features_desc">These options may not be compatible with some roms especially stock pixel based roms.</string>
     <string name="primary_color">Primary Color</string>
     <string name="secondary_color">Secondary Color</string>
     <string name="minimal_qspanel">Minimal QsPanel</string>
