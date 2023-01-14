@@ -14,6 +14,7 @@ import androidx.core.graphics.ColorUtils;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.ui.activity.ColorPicker;
+import com.drdisagree.iconify.ui.activity.QsRowColumn;
 import com.drdisagree.iconify.ui.activity.Settings;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
@@ -164,5 +165,7 @@ public class Prefs {
                     putInt(item.getKey(), (Integer) item.getValue());
             }
         }
+        if (Prefs.getBoolean("fabricatedqsRowColumn"))
+            QsRowColumn.applyRowColumn();
     }
 }
