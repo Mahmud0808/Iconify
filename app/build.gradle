@@ -10,7 +10,7 @@ android {
         minSdk 31
         targetSdk 33
         versionCode 6
-        versionName "5.0-Beta"
+        versionName "5.0-Stable"
         setProperty("archivesBaseName", "Iconify-v" + versionName)
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
