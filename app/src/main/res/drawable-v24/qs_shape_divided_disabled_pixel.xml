@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:tintMode="src_atop">
-            <solid android:color="#FF1F2022" />
+            <solid android:color="@color/pixel_black_bg" />
             <corners android:radius="24dp" />
         </shape>
     </item>
@@ -14,7 +14,7 @@
     </item>
     <item android:gravity="left|center">
         <shape android:tintMode="src_atop">
-            <solid android:color="#FF1F2022" />
+            <solid android:color="@color/pixel_black_bg" />
             <corners
                 android:bottomLeftRadius="24dp"
                 android:topLeftRadius="24dp" />

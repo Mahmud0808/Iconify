@@ -18,7 +18,7 @@
         <shape
             android:shape="rectangle"
             android:tintMode="multiply">
-            <solid android:color="#FF1F2022" />
+            <solid android:color="@color/pixel_black_bg" />
             <corners android:radius="24dp" />
         </shape>
     </item>
@@ -29,7 +29,7 @@
         <shape
             android:shape="rectangle"
             android:tintMode="multiply">
-            <solid android:color="#FF1F2022" />
+            <solid android:color="@color/pixel_black_bg" />
             <corners android:radius="24dp" />
         </shape>
     </item>
