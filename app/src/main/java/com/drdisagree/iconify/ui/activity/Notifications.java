@@ -70,6 +70,8 @@ public class Notifications extends AppCompatActivity {
         notif_list.add(new Object[]{"Cyberponk", R.drawable.notif_cyberponk});
         notif_list.add(new Object[]{"Cyberponk v2", R.drawable.notif_cyberponk_v2});
         notif_list.add(new Object[]{"Thread Line", R.drawable.notif_thread_line});
+        notif_list.add(new Object[]{"Faded", R.drawable.notif_faded});
+        notif_list.add(new Object[]{"Dumbbell", R.drawable.notif_dumbbell});
 
         addItem(notif_list);
 

@@ -35,6 +35,8 @@ public class QsShapes extends AppCompatActivity {
 
     LoadingDialog loadingDialog;
     private ViewGroup container;
+    ViewGroup.MarginLayoutParams marginParams;
+    LinearLayout.LayoutParams layoutParams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +90,13 @@ public class QsShapes extends AppCompatActivity {
         qsshape_list.add(new Object[]{"Surround", R.drawable.qs_shape_surround_enabled, R.drawable.qs_shape_surround_disabled});
         qsshape_list.add(new Object[]{"Bookmark", R.drawable.qs_shape_bookmark_enabled, R.drawable.qs_shape_bookmark_disabled});
         qsshape_list.add(new Object[]{"Neumorph Outline", R.drawable.qs_shape_neumorph_outline_enabled, R.drawable.qs_shape_neumorph_outline_disabled});
+        qsshape_list.add(new Object[]{"Reflected", R.drawable.qs_shape_reflected_enabled, R.drawable.qs_shape_reflected_disabled});
+        qsshape_list.add(new Object[]{"Reflected Fill", R.drawable.qs_shape_reflected_fill_enabled, R.drawable.qs_shape_reflected_fill_disabled});
+        qsshape_list.add(new Object[]{"Divided", R.drawable.qs_shape_divided_enabled, R.drawable.qs_shape_divided_disabled});
+        qsshape_list.add(new Object[]{"Lighty", R.drawable.qs_shape_lighty_enabled, R.drawable.qs_shape_lighty_disabled});
+        qsshape_list.add(new Object[]{"Bottom Outline", R.drawable.qs_shape_bottom_outline_enabled, R.drawable.qs_shape_bottom_outline_disabled});
+        qsshape_list.add(new Object[]{"Cyberponk", R.drawable.qs_shape_cyberponk_enabled, R.drawable.qs_shape_cyberponk_disabled});
+        qsshape_list.add(new Object[]{"Cyberponk v2", R.drawable.qs_shape_cyberponk_v2_enabled, R.drawable.qs_shape_cyberponk_v2_disabled});
 
         addItem(qsshape_list);
 
@@ -96,44 +105,14 @@ public class QsShapes extends AppCompatActivity {
             QSSHAPE_KEY.add("IconifyComponentQSSN" + (i + 1) + ".overlay");
         }
 
-        ViewGroup.MarginLayoutParams marginParams;
-        LinearLayout.LayoutParams layoutParams;
+        // Custom margins for Surround
+        setMargin(6, 4, 22);
 
-        // Set custom margins for Surround
-        marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(6).findViewById(R.id.qs_icon1).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(22), 0);
-        layoutParams = new LinearLayout.LayoutParams(marginParams);
-        container.getChildAt(6).findViewById(R.id.qs_icon1).setLayoutParams(layoutParams);
-        marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(6).findViewById(R.id.qs_icon2).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(22), 0);
-        layoutParams = new LinearLayout.LayoutParams(marginParams);
-        container.getChildAt(6).findViewById(R.id.qs_icon2).setLayoutParams(layoutParams);
-        marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(6).findViewById(R.id.qs_icon3).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(22), 0);
-        layoutParams = new LinearLayout.LayoutParams(marginParams);
-        container.getChildAt(6).findViewById(R.id.qs_icon3).setLayoutParams(layoutParams);
-        marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(6).findViewById(R.id.qs_icon4).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(22), 0);
-        layoutParams = new LinearLayout.LayoutParams(marginParams);
-        container.getChildAt(6).findViewById(R.id.qs_icon4).setLayoutParams(layoutParams);
+        // Custom margins for Bookmark
+        setMargin(7, 4, 26);
 
-        // Set custom margins for Bookmark
-        marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(7).findViewById(R.id.qs_icon1).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(26), 0);
-        layoutParams = new LinearLayout.LayoutParams(marginParams);
-        container.getChildAt(7).findViewById(R.id.qs_icon1).setLayoutParams(layoutParams);
-        marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(7).findViewById(R.id.qs_icon2).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(26), 0);
-        layoutParams = new LinearLayout.LayoutParams(marginParams);
-        container.getChildAt(7).findViewById(R.id.qs_icon2).setLayoutParams(layoutParams);
-        marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(7).findViewById(R.id.qs_icon3).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(26), 0);
-        layoutParams = new LinearLayout.LayoutParams(marginParams);
-        container.getChildAt(7).findViewById(R.id.qs_icon3).setLayoutParams(layoutParams);
-        marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(7).findViewById(R.id.qs_icon4).getLayoutParams());
-        marginParams.setMargins(DisplayUtil.IntToDp(4), 0, DisplayUtil.IntToDp(26), 0);
-        layoutParams = new LinearLayout.LayoutParams(marginParams);
-        container.getChildAt(7).findViewById(R.id.qs_icon4).setLayoutParams(layoutParams);
+        // Custom margins for Divided
+        setMargin(11, 4, 22);
 
         // Enable onClick event
         for (int i = 0; i < container.getChildCount(); i++) {
@@ -294,6 +273,28 @@ public class QsShapes extends AppCompatActivity {
             Thread thread = new Thread(runnable);
             thread.start();
         });
+    }
+
+    private void setMargin(int childIndex, int iconMarginLeft, int iconMarginRight) {
+        marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(childIndex).findViewById(R.id.qs_icon1).getLayoutParams());
+        marginParams.setMargins(DisplayUtil.IntToDp(iconMarginLeft), 0, DisplayUtil.IntToDp(iconMarginRight), 0);
+        layoutParams = new LinearLayout.LayoutParams(marginParams);
+        container.getChildAt(childIndex).findViewById(R.id.qs_icon1).setLayoutParams(layoutParams);
+
+        marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(childIndex).findViewById(R.id.qs_icon2).getLayoutParams());
+        marginParams.setMargins(DisplayUtil.IntToDp(iconMarginLeft), 0, DisplayUtil.IntToDp(iconMarginRight), 0);
+        layoutParams = new LinearLayout.LayoutParams(marginParams);
+        container.getChildAt(childIndex).findViewById(R.id.qs_icon2).setLayoutParams(layoutParams);
+
+        marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(childIndex).findViewById(R.id.qs_icon3).getLayoutParams());
+        marginParams.setMargins(DisplayUtil.IntToDp(iconMarginLeft), 0, DisplayUtil.IntToDp(iconMarginRight), 0);
+        layoutParams = new LinearLayout.LayoutParams(marginParams);
+        container.getChildAt(childIndex).findViewById(R.id.qs_icon3).setLayoutParams(layoutParams);
+
+        marginParams = new ViewGroup.MarginLayoutParams(container.getChildAt(childIndex).findViewById(R.id.qs_icon4).getLayoutParams());
+        marginParams.setMargins(DisplayUtil.IntToDp(iconMarginLeft), 0, DisplayUtil.IntToDp(iconMarginRight), 0);
+        layoutParams = new LinearLayout.LayoutParams(marginParams);
+        container.getChildAt(childIndex).findViewById(R.id.qs_icon4).setLayoutParams(layoutParams);
     }
 
     private void addItem(ArrayList<Object[]> pack) {

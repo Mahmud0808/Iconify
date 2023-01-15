@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/rippleAccent">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="0.0"
+                android:endColor="@color/colorAccentVariant"
+                android:startColor="@color/colorAccent" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+    <item
+        android:bottom="4.0dp"
+        android:top="4.0dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorContainer" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+    <item
+        android:bottom="4.0dp"
+        android:top="4.0dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorContainerOverlay" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+    <item android:gravity="start|center">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorContainer" />
+            <corners android:radius="22dp" />
+            <size android:width="120dp" />
+        </shape>
+    </item>
+    <item android:gravity="start|center">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorContainerOverlay" />
+            <corners android:radius="22dp" />
+            <size android:width="120dp" />
+        </shape>
+    </item>
+    <item android:gravity="end|center">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorContainer" />
+            <corners android:radius="22dp" />
+            <size android:width="120dp" />
+        </shape>
+    </item>
+    <item android:gravity="end|center">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorContainerOverlay" />
+            <corners android:radius="22dp" />
+            <size android:width="120dp" />
+        </shape>
+    </item>
+</ripple>

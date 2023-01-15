@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+    <layer-list>
+    <item>
+        <shape android:tintMode="src_atop" android:shape="rectangle">
+            <solid android:color="@*android:color/system_neutral2_50" />
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+        </shape>
+    </item>
+    <item>
+        <shape android:tintMode="src_atop" android:shape="rectangle">
+            <solid android:color="#1A000000" />
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+        </shape>
+    </item>
+    <item
+        android:top="6dp"
+        android:bottom="3dp"
+        android:end="40dp">
+        <shape android:tintMode="src_atop" android:shape="rectangle">
+            <solid android:color="@*android:color/system_neutral2_50" />
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+        </shape>
+    </item>
+    <item
+        android:top="3dp"
+        android:bottom="6dp"
+        android:start="40dp">
+        <shape android:tintMode="src_atop" android:shape="rectangle">
+            <solid android:color="@*android:color/system_neutral2_50" />
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+        </shape>
+    </item>
+    </layer-list>
+    </item>
+    <item>
+    <layer-list>
+    <item>
+        <shape android:tintMode="multiply" android:shape="rectangle">
+            <gradient
+                android:startColor="@*android:color/holo_blue_light"
+                android:endColor="@*android:color/holo_green_light"
+                android:angle="315.0" />
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+        </shape>
+    </item>
+    <item
+        android:top="6dp"
+        android:bottom="3dp"
+        android:end="40dp">
+        <shape android:tintMode="multiply" android:shape="rectangle">
+            <solid android:color="@*android:color/system_neutral2_50" />
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+        </shape>
+    </item>
+    <item
+        android:top="3dp"
+        android:bottom="6dp"
+        android:start="40dp">
+        <shape android:tintMode="multiply" android:shape="rectangle">
+            <solid android:color="@*android:color/system_neutral2_50" />
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+        </shape>
+    </item>
+    </layer-list>
+    </item>
+</layer-list>

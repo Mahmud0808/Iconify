@@ -37,7 +37,7 @@
                 android:centerColor="@color/transparent"
                 android:endColor="@color/transparent"
                 android:startColor="@color/shadow" />
-            <corners android:radius="24dp" />
+            <corners android:radius="20dp" />
         </shape>
     </item>
 </layer-list>

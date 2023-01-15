@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:tintMode="multiply">
+            <gradient
+                android:angle="0.0"
+                android:endColor="@color/colorAccentVariant"
+                android:startColor="@color/colorAccent" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+    <item android:bottom="4dp">
+        <shape android:tintMode="multiply">
+            <solid android:color="#40000000" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+</layer-list>
