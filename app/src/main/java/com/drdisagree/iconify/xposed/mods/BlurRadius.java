@@ -4,7 +4,7 @@ import static com.drdisagree.iconify.common.References.QSBLUR_RADIUS;
 import static com.drdisagree.iconify.common.References.QSBLUR_SWITCH;
 import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
-import static com.drdisagree.iconify.xposed.ResourceManager.resparams;
+import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static de.robv.android.xposed.XposedBridge.log;
 
 import android.content.Context;

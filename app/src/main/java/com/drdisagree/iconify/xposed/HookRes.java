@@ -6,7 +6,7 @@ import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 
-public class ResourceManager implements IXposedHookInitPackageResources, IXposedHookZygoteInit {
+public class HookRes implements IXposedHookInitPackageResources, IXposedHookZygoteInit {
 
     private String MODULE_PATH;
     public final static HashMap<String, XC_InitPackageResources.InitPackageResourcesParam> resparams = new HashMap<>();
