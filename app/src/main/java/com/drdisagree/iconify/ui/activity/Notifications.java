@@ -124,12 +124,6 @@ public class Notifications extends AppCompatActivity {
         }
     }
 
-    // Function to disable other packs if one is applied
-    private void disable_others(String pack) {
-        for (int i = 0; i < References.TOTAL_NOTIFICATIONS; i++)
-            Prefs.putBoolean(NOTIFICATION_KEY.get(i), pack.equals(NOTIFICATION_KEY.get(i)));
-    }
-
     // Function for onClick events
     private void enableOnClickListener(LinearLayout layout, Button enable, Button disable, String key, int index) {
         // Set onClick operation for options in list
@@ -163,12 +157,9 @@ public class Notifications extends AppCompatActivity {
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             @SuppressLint("SetTextI18n") Runnable runnable = () -> {
-                disable_others(key);
                 NotificationManager.install_pack(index + 1);
 
                 runOnUiThread(() -> {
-                    Prefs.putBoolean(key, true);
-
                     new Handler().postDelayed(() -> {
                         // Hide loading dialog
                         if (loadingDialog != null)
@@ -201,8 +192,6 @@ public class Notifications extends AppCompatActivity {
                 NotificationManager.disable_pack(index + 1);
 
                 runOnUiThread(() -> {
-                    Prefs.putBoolean(key, false);
-
                     new Handler().postDelayed(() -> {
                         // Hide loading dialog
                         loadingDialog.hide();

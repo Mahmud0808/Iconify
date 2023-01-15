@@ -2,68 +2,14 @@
 <resources>
     <!-- Media Player Icon List -->
     <item name="defaulta13mp" type="id" />
-    <item name="defaulta13mp_launch" type="id" />
-    <item name="defaulta13mp_aurora" type="id" />
-    <item name="defaulta13mp_gradicon" type="id" />
-    <item name="defaulta13mp_plumpy" type="id" />
-
     <item name="poweramp" type="id" />
-    <item name="poweramp_launch" type="id" />
-    <item name="poweramp_aurora" type="id" />
-    <item name="poweramp_gradicon" type="id" />
-    <item name="poweramp_plumpy" type="id" />
-
     <item name="retro" type="id" />
-    <item name="retro_launch" type="id" />
-    <item name="retro_aurora" type="id" />
-    <item name="retro_gradicon" type="id" />
-    <item name="retro_plumpy" type="id" />
-
     <item name="nyx" type="id" />
-    <item name="nyx_launch" type="id" />
-    <item name="nyx_aurora" type="id" />
-    <item name="nyx_gradicon" type="id" />
-    <item name="nyx_plumpy" type="id" />
-
     <item name="ymusic" type="id" />
-    <item name="ymusic_launch" type="id" />
-    <item name="ymusic_aurora" type="id" />
-    <item name="ymusic_gradicon" type="id" />
-    <item name="ymusic_plumpy" type="id" />
-
     <item name="blackhole" type="id" />
-    <item name="blackhole_launch" type="id" />
-    <item name="blackhole_aurora" type="id" />
-    <item name="blackhole_gradicon" type="id" />
-    <item name="blackhole_plumpy" type="id" />
-
     <item name="musicolet" type="id" />
-    <item name="musicolet_launch" type="id" />
-    <item name="musicolet_aurora" type="id" />
-    <item name="musicolet_gradicon" type="id" />
-    <item name="musicolet_plumpy" type="id" />
-
     <item name="youtube" type="id" />
-    <item name="youtube_launch" type="id" />
-    <item name="youtube_aurora" type="id" />
-    <item name="youtube_gradicon" type="id" />
-    <item name="youtube_plumpy" type="id" />
-
     <item name="yt_music" type="id" />
-    <item name="yt_music_launch" type="id" />
-    <item name="yt_music_aurora" type="id" />
-    <item name="yt_music_gradicon" type="id" />
-    <item name="yt_music_plumpy" type="id" />
-
     <item name="youtube_revanced" type="id" />
-    <item name="youtube_revanced_launch" type="id" />
-    <item name="youtube_revanced_aurora" type="id" />
-    <item name="youtube_revanced_gradicon" type="id" />
-    <item name="youtube_revanced_plumpy" type="id" />
-
     <item name="yt_music_revanced" type="id" />
-    <item name="yt_music_revanced_launch" type="id" />
-    <item name="yt_music_revanced_aurora" type="id" />
-    <item name="yt_music_revanced_gradicon" type="id" />
-    <item name="yt_music_revanced_plumpy" type="id" />
 </resources>

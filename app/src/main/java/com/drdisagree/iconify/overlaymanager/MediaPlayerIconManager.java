@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.overlaymanager;
 
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.utils.OverlayUtil;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
@@ -13,54 +14,37 @@ public class MediaPlayerIconManager {
     }
 
     protected static void enable_pack(int m, int n) {
-
         String path = "/system/product/overlay/IconifyComponentMPIP" + m + n + ".apk";
 
         if (new File(path).exists()) {
+            String overlay = "IconifyComponentMPIP" + m + n + ".overlay";
 
-            String overlay = (path.replaceAll("/system/product/overlay/", "")).replaceAll("apk", "overlay");
-
-            try {
-                Shell.cmd("cmd overlay enable --user current " + overlay).exec();
-            } catch (Throwable t) {
-                t.printStackTrace();
-            }
+            if (!Prefs.getBoolean(overlay))
+                OverlayUtil.enableOverlay(overlay);
         }
     }
 
     public static void disable_pack(int m, int n) {
-
         String path = "/system/product/overlay/IconifyComponentMPIP" + m + n + ".apk";
 
         if (new File(path).exists()) {
+            String overlay = "IconifyComponentMPIP" + m + n + ".overlay";
 
-            String overlay = (path.replaceAll("/system/product/overlay/", "")).replaceAll("apk", "overlay");
-
-            try {
-                Shell.cmd("cmd overlay disable --user current " + overlay).exec();
-                Prefs.putBoolean(overlay, false);
-            } catch (Throwable t) {
-                t.printStackTrace();
-            }
+            if (Prefs.getBoolean(overlay))
+                OverlayUtil.disableOverlay(overlay);
         }
     }
 
     protected static void disable_others(int m, int n) {
-
         for (int i = 1; i <= 3; i++) {
             if (i != n) {
                 String path = "/system/product/overlay/IconifyComponentMPIP" + m + i + ".apk";
 
                 if (new File(path).exists()) {
+                    String overlay = "IconifyComponentMPIP" + m + i + ".overlay";
 
-                    String overlay = (path.replaceAll("/system/product/overlay/", "")).replaceAll("apk", "overlay");
-
-                    try {
-                        Shell.cmd("cmd overlay disable --user current " + overlay).exec();
-                        Prefs.putBoolean(overlay, false);
-                    } catch (Throwable t) {
-                        t.printStackTrace();
-                    }
+                    if (Prefs.getBoolean(overlay))
+                        OverlayUtil.disableOverlay(overlay);
                 }
             }
         }

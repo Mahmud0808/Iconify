@@ -190,12 +190,6 @@ public class QsShapes extends AppCompatActivity {
         }
     }
 
-    // Function to disable other packs if one is applied
-    private void disable_others(String pack) {
-        for (int i = 0; i < References.TOTAL_QSSHAPES; i++)
-            Prefs.putBoolean(QSSHAPE_KEY.get(i), pack.equals(QSSHAPE_KEY.get(i)));
-    }
-
     // Function for onClick events
     private void enableOnClickListener(LinearLayout layout, Button enable, Button
             disable, String key, int index) {
@@ -224,12 +218,9 @@ public class QsShapes extends AppCompatActivity {
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
-                disable_others(key);
                 QsShapeManager.install_pack(index + 1);
 
                 runOnUiThread(() -> {
-                    Prefs.putBoolean(key, true);
-
                     new Handler().postDelayed(() -> {
                         // Hide loading dialog
                         loadingDialog.hide();
@@ -256,8 +247,6 @@ public class QsShapes extends AppCompatActivity {
                 QsShapeManager.disable_pack(index + 1);
 
                 runOnUiThread(() -> {
-                    Prefs.putBoolean(key, false);
-
                     new Handler().postDelayed(() -> {
                         loadingDialog.hide();
 

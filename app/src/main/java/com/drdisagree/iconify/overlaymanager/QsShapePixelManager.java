@@ -30,18 +30,13 @@ public class QsShapePixelManager {
     }
 
     protected static void enable_pack(int n) {
-
         String path = "/system/product/overlay/IconifyComponentQSSP" + n + ".apk";
 
         if (new File(path).exists()) {
+            String overlay = "IconifyComponentQSSP" + n + ".overlay";
 
-            String overlay = (path.replaceAll("/system/product/overlay/", "")).replaceAll("apk", "overlay");
-
-            try {
-                Shell.cmd("cmd overlay enable --user current " + overlay).exec();
-            } catch (Throwable t) {
-                t.printStackTrace();
-            }
+            if (!Prefs.getBoolean(overlay))
+                OverlayUtil.enableOverlay(overlay);
         }
     }
 
@@ -50,14 +45,10 @@ public class QsShapePixelManager {
         String path = "/system/product/overlay/IconifyComponentQSSP" + n + ".apk";
 
         if (new File(path).exists()) {
+            String overlay = "IconifyComponentQSSP" + n + ".overlay";
 
-            String overlay = (path.replaceAll("/system/product/overlay/", "")).replaceAll("apk", "overlay");
-
-            try {
-                Shell.cmd("cmd overlay disable --user current " + overlay).exec();
-            } catch (Throwable t) {
-                t.printStackTrace();
-            }
+            if (Prefs.getBoolean(overlay))
+                OverlayUtil.disableOverlay(overlay);
         }
     }
 
@@ -68,14 +59,10 @@ public class QsShapePixelManager {
                 String path = "/system/product/overlay/IconifyComponentQSSP" + i + ".apk";
 
                 if (new File(path).exists()) {
+                    String overlay = "IconifyComponentQSSP" + i + ".overlay";
 
-                    String overlay = (path.replaceAll("/system/product/overlay/", "")).replaceAll("apk", "overlay");
-
-                    try {
-                        Shell.cmd("cmd overlay disable --user current " + overlay).exec();
-                    } catch (Throwable t) {
-                        t.printStackTrace();
-                    }
+                    if (Prefs.getBoolean(overlay))
+                        OverlayUtil.disableOverlay(overlay);
                 }
             }
         }

@@ -49,13 +49,13 @@ public class OverlayUtil {
     }
 
     public static void enableOverlay(String pkgName) {
-        Shell.cmd("cmd overlay enable --user current " + pkgName, "cmd overlay set-priority " + pkgName + " highest").exec();
         Prefs.putBoolean(pkgName, true);
+        Shell.cmd("cmd overlay enable --user current " + pkgName, "cmd overlay set-priority " + pkgName + " highest").exec();
     }
 
     public static void disableOverlay(String pkgName) {
-        Shell.cmd("cmd overlay disable --user current " + pkgName).exec();
         Prefs.putBoolean(pkgName, false);
+        Shell.cmd("cmd overlay disable --user current " + pkgName).exec();
     }
 
     public static boolean overlayExists() {

@@ -19,52 +19,37 @@ public class NotificationManager {
     }
 
     protected static void enable_pack(int n) {
-
         String path = "/system/product/overlay/IconifyComponentNF" + n + ".apk";
 
         if (new File(path).exists()) {
+            String overlay = "IconifyComponentNF" + n + ".overlay";
 
-            String overlay = (path.replaceAll("/system/product/overlay/", "")).replaceAll("apk", "overlay");
-
-            try {
-                Shell.cmd("cmd overlay enable --user current " + overlay).exec();
-            } catch (Throwable t) {
-                t.printStackTrace();
-            }
+            if (!Prefs.getBoolean(overlay))
+                OverlayUtil.enableOverlay(overlay);
         }
     }
 
     public static void disable_pack(int n) {
-
         String path = "/system/product/overlay/IconifyComponentNF" + n + ".apk";
 
         if (new File(path).exists()) {
+            String overlay = "IconifyComponentNF" + n + ".overlay";
 
-            String overlay = (path.replaceAll("/system/product/overlay/", "")).replaceAll("apk", "overlay");
-
-            try {
-                Shell.cmd("cmd overlay disable --user current " + overlay).exec();
-            } catch (Throwable t) {
-                t.printStackTrace();
-            }
+            if (Prefs.getBoolean(overlay))
+                OverlayUtil.disableOverlay(overlay);
         }
     }
 
     protected static void disable_others(int n) {
-
         for (int i = 1; i <= TOTAL_NOTIFICATIONS; i++) {
             if (i != n) {
                 String path = "/system/product/overlay/IconifyComponentNF" + i + ".apk";
 
                 if (new File(path).exists()) {
+                    String overlay = "IconifyComponentNF" + i + ".overlay";
 
-                    String overlay = (path.replaceAll("/system/product/overlay/", "")).replaceAll("apk", "overlay");
-
-                    try {
-                        Shell.cmd("cmd overlay disable --user current " + overlay).exec();
-                    } catch (Throwable t) {
-                        t.printStackTrace();
-                    }
+                    if (Prefs.getBoolean(overlay))
+                        OverlayUtil.disableOverlay(overlay);
                 }
             }
         }

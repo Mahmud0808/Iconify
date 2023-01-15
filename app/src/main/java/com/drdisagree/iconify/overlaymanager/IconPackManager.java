@@ -2,6 +2,8 @@ package com.drdisagree.iconify.overlaymanager;
 
 import static com.drdisagree.iconify.common.References.TOTAL_ICONPACKS;
 
+import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.utils.OverlayUtil;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
@@ -14,58 +16,58 @@ public class IconPackManager {
     }
 
     protected static void enable_pack(int n) {
-
         String[] paths = {"/system/product/overlay/IconifyComponentIPAS" + n + ".apk", "/system/product/overlay/IconifyComponentIPSUI" + n + ".apk"};
 
-        for (String path : paths) {
-            if (new File(path).exists()) {
+        if (new File(paths[0]).exists()) {
+            String overlay = "IconifyComponentIPAS" + n + ".overlay";
 
-                String overlay = (path.replaceAll("/system/product/overlay/", "")).replaceAll("apk", "overlay");
+            if (!Prefs.getBoolean(overlay))
+                OverlayUtil.enableOverlay(overlay);
+        }
 
-                try {
-                    Shell.cmd("cmd overlay enable --user current " + overlay).exec();
-                } catch (Throwable t) {
-                    t.printStackTrace();
-                }
-            }
+        if (new File(paths[1]).exists()) {
+            String overlay = "IconifyComponentIPSUI" + n + ".overlay";
+
+            if (!Prefs.getBoolean(overlay))
+                OverlayUtil.enableOverlay(overlay);
         }
     }
 
     public static void disable_pack(int n) {
-
         String[] paths = {"/system/product/overlay/IconifyComponentIPAS" + n + ".apk", "/system/product/overlay/IconifyComponentIPSUI" + n + ".apk"};
 
-        for (String path : paths) {
-            if (new File(path).exists()) {
+        if (new File(paths[0]).exists()) {
+            String overlay = "IconifyComponentIPAS" + n + ".overlay";
 
-                String overlay = (path.replaceAll("/system/product/overlay/", "")).replaceAll("apk", "overlay");
+            if (Prefs.getBoolean(overlay))
+                OverlayUtil.disableOverlay(overlay);
+        }
 
-                try {
-                    Shell.cmd("cmd overlay disable --user current " + overlay).exec();
-                } catch (Throwable t) {
-                    t.printStackTrace();
-                }
-            }
+        if (new File(paths[1]).exists()) {
+            String overlay = "IconifyComponentIPSUI" + n + ".overlay";
+
+            if (Prefs.getBoolean(overlay))
+                OverlayUtil.disableOverlay(overlay);
         }
     }
 
     protected static void disable_others(int n) {
-
         for (int i = 1; i <= TOTAL_ICONPACKS; i++) {
             if (i != n) {
                 String[] paths = {"/system/product/overlay/IconifyComponentIPAS" + i + ".apk", "/system/product/overlay/IconifyComponentIPSUI" + i + ".apk"};
 
-                for (String path : paths) {
-                    if (new File(path).exists()) {
+                if (new File(paths[0]).exists()) {
+                    String overlay = "IconifyComponentIPAS" + i + ".overlay";
 
-                        String overlay = (path.replaceAll("/system/product/overlay/", "")).replaceAll("apk", "overlay");
+                    if (Prefs.getBoolean(overlay))
+                        OverlayUtil.disableOverlay(overlay);
+                }
 
-                        try {
-                            Shell.cmd("cmd overlay disable --user current " + overlay).exec();
-                        } catch (Throwable t) {
-                            t.printStackTrace();
-                        }
-                    }
+                if (new File(paths[1]).exists()) {
+                    String overlay = "IconifyComponentIPSUI" + i + ".overlay";
+
+                    if (Prefs.getBoolean(overlay))
+                        OverlayUtil.disableOverlay(overlay);
                 }
             }
         }
