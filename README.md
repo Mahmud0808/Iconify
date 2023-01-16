@@ -72,11 +72,30 @@ What you can change using Iconify:
 
 ## In Case of Bootloop
 
+#### Custom Recovery Users:
+
 - Go to recovery mode by holding Power and Volume+ Button
 
 - Navigate to data/adb/modules directory
 
 - Delete Iconify folder and reboot
+
+#### Stock Recovery Users:
+
+- Boot into safe mode (Google if you don't know how to)
+
+- Or, Use this adb command
+
+```adb shell magisk --remove-module```
+
+#### XPosed Related Bootloop:
+
+- Boot into safe mode (Google if you don't know how to)
+
+- Or, Use this adb command
+
+``` adb uninstall com.drdisagree.iconify```
+ 
 
 ## Download
 
@@ -86,7 +105,7 @@ What you can change using Iconify:
 
 - [Debug Build](https://github.com/Mahmud0808/Iconify/actions)
 
-## Telegram Channel
+## Telegram
 
 > Follow to get latest news and updates.
 
@@ -94,13 +113,13 @@ What you can change using Iconify:
 
 ## Discussion & Feedback
 
-> You can ask about any feature requests or queries.
+> You can chit-chat here on topics related to Iconify.
 
 - [GitHub Discussions](https://github.com/Mahmud0808/Iconify/discussions/new)
 
 - [Telegram Group](https://t.me/IconifyDiscussion)
 
-## Bug Report or Feature Request
+## Bug Report
 
 > Make sure to mention as much details as possible.
 
