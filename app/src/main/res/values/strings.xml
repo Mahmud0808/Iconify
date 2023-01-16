@@ -182,4 +182,5 @@
     <string name="export_settings">Export Settings</string>
     <string name="import_settings">Import Settings</string>
     <string name="experimental_features">Experimental Features</string>
+    <string name="installation_failed">Something went wrong.\nSend logs to developer to help fix the problem.</string>
 </resources>

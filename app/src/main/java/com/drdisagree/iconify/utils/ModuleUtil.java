@@ -19,14 +19,14 @@ public class ModuleUtil {
 
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
 
-    public static void handleModule() throws IOException {
+    public static boolean handleModule() throws IOException {
         if (moduleExists()) {
             Shell.cmd("rm -rf " + References.MODULE_DIR).exec();
         }
-        installModule();
+        return installModule();
     }
 
-    static void installModule() throws IOException {
+    static boolean installModule() throws IOException {
         Log.e("ModuleCheck", "Magisk module does not exist, creating!");
         // Clean temporary directory
         Shell.cmd("mkdir -p " + References.MODULE_DIR).exec();
@@ -103,7 +103,7 @@ public class ModuleUtil {
         Log.d("ModuleCheck", "Magisk module successfully created!");
 
         extractTools();
-        CompilerUtil.buildOverlays();
+        return CompilerUtil.buildOverlays();
     }
 
     public static boolean moduleExists() {

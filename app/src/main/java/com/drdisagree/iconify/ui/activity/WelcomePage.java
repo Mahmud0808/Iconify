@@ -30,6 +30,7 @@ import java.io.IOException;
 public class WelcomePage extends AppCompatActivity {
 
     LoadingDialog loadingDialog;
+    private static boolean hasErroredOut = false;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -68,32 +69,38 @@ public class WelcomePage extends AppCompatActivity {
 
                             Runnable runnable = () -> {
                                 try {
-                                    ModuleUtil.handleModule();
+                                    hasErroredOut = ModuleUtil.handleModule();
                                 } catch (IOException e) {
                                     Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                                    hasErroredOut = true;
                                     e.printStackTrace();
                                 }
                                 runOnUiThread(() -> {
                                     // Hide loading dialog
                                     loadingDialog.hide();
 
-                                    if (Prefs.getInt("versionCode") == 0) {
-                                        Prefs.putBoolean("firstInstall", true);
-                                        Prefs.putBoolean("updateDetected", false);
-                                    } else {
-                                        Prefs.putBoolean("firstInstall", false);
-                                        Prefs.putBoolean("updateDetected", true);
-                                    }
-                                    Prefs.putInt("versionCode", BuildConfig.VERSION_CODE);
+                                    if (!hasErroredOut) {
+                                        if (Prefs.getInt("versionCode") == 0) {
+                                            Prefs.putBoolean("firstInstall", true);
+                                            Prefs.putBoolean("updateDetected", false);
+                                        } else {
+                                            Prefs.putBoolean("firstInstall", false);
+                                            Prefs.putBoolean("updateDetected", true);
+                                        }
+                                        Prefs.putInt("versionCode", BuildConfig.VERSION_CODE);
 
-                                    if (OverlayUtil.overlayExists()) {
-                                        new Handler().postDelayed(() -> {
-                                            Intent intent = new Intent(WelcomePage.this, HomePage.class);
-                                            startActivity(intent);
-                                            finish();
-                                        }, 10);
+                                        if (OverlayUtil.overlayExists()) {
+                                            new Handler().postDelayed(() -> {
+                                                Intent intent = new Intent(WelcomePage.this, HomePage.class);
+                                                startActivity(intent);
+                                                finish();
+                                            }, 10);
+                                        } else {
+                                            warning.setText(getResources().getString(R.string.reboot_needed));
+                                            warn.setVisibility(View.VISIBLE);
+                                        }
                                     } else {
-                                        warning.setText(getResources().getString(R.string.reboot_needed));
+                                        warning.setText(getResources().getString(R.string.installation_failed));
                                         warn.setVisibility(View.VISIBLE);
                                     }
                                 });
