@@ -17,9 +17,7 @@
         android:pivotY="12.0"
         android:translateX="1.5"
         android:translateY="1.5">
-        <path
-            android:name=
-            getResources().getString(R.string.toast_disabled) android:pathData=" M5.25 4l15.5 15.5"
+        <path android:pathData=" M5.25 4l15.5 15.5"
         android:strokeColor="#ffffffff" android:strokeWidth="1.5" android:strokeLineCap="round"
         android:strokeLineJoin="round" />
     </group>
