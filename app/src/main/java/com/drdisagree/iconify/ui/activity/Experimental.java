@@ -4,6 +4,7 @@ import static com.drdisagree.iconify.common.References.QSALPHA_LEVEL;
 import static com.drdisagree.iconify.common.References.QSBLUR_RADIUS;
 import static com.drdisagree.iconify.common.References.QSBLUR_SWITCH;
 import static com.drdisagree.iconify.common.References.QSTRANSPARENCY_SWITCH;
+import static com.drdisagree.iconify.common.References.STATUSBAR_CLOCKBG;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -120,6 +121,14 @@ public class Experimental extends AppCompatActivity {
                 // Restart SystemUI
                 new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
             }
+        });
+
+        // Clock Background Chip
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_clock_bg_chip = findViewById(R.id.enable_clock_bg_chip);
+        enable_clock_bg_chip.setChecked(RemotePrefs.getBoolean(STATUSBAR_CLOCKBG, false));
+        enable_clock_bg_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RemotePrefs.putBoolean(STATUSBAR_CLOCKBG, isChecked);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
     }
 

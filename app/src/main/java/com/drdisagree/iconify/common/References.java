@@ -6,6 +6,7 @@ import com.drdisagree.iconify.Iconify;
 import com.topjohnwu.superuser.Shell;
 
 public class References {
+
     // Grab number of overlays dynamically for each variant
     public static final int TOTAL_BRIGHTNESSBARS = (Shell.cmd("cmd overlay list |  grep -E '^....IconifyComponentBBN' | sed -E 's/^....//'").exec().getOut()).size();
     public static final int TOTAL_BRIGHTNESSBARSPIXEL = (Shell.cmd("cmd overlay list |  grep -E '^....IconifyComponentBBP' | sed -E 's/^....//'").exec().getOut()).size();
@@ -30,14 +31,18 @@ public class References {
     // Notification service checker
     public static boolean isNotificationServiceRunning = false;
 
+    // System packages
     public static final String SYSTEM_UI_PACKAGE = "com.android.systemui";
     public static final String FRAMEWORK_PACKAGE = "android";
 
+    // Preference files
     public static final String SharedPref = Iconify.getAppContext().getPackageName();
     public static final String SharedXPref = Iconify.getAppContext().getPackageName() + "_xpreference";
 
+    // Xposed mods
     public static final String QSTRANSPARENCY_SWITCH = "xposed_qstransparency";
     public static final String QSALPHA_LEVEL = "xposed_qsalpha";
     public static final String QSBLUR_SWITCH = "xposed_qsblur";
     public static final String QSBLUR_RADIUS = "xposed_qsblurradius";
+    public static final String STATUSBAR_CLOCKBG = "xposed_qsclockbg";
 }

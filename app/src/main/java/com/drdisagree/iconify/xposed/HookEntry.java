@@ -12,6 +12,7 @@ import com.drdisagree.iconify.config.XPrefs;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.xposed.mods.BlurRadius;
 import com.drdisagree.iconify.xposed.mods.QSTransparency;
+import com.drdisagree.iconify.xposed.mods.StatusbarClock;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,6 +32,7 @@ public class HookEntry implements IXposedHookLoadPackage {
     public HookEntry() {
         modPacks.add(QSTransparency.class);
         modPacks.add(BlurRadius.class);
+        modPacks.add(StatusbarClock.class);
     }
 
     @Override
@@ -64,8 +66,7 @@ public class HookEntry implements IXposedHookLoadPackage {
                         instance.handleLoadPackage(lpparam);
                         runningMods.add(instance);
                     } catch (Throwable T) {
-                        log("Start Error Dump - Occurred in " + mod.getName());
-                        T.printStackTrace();
+                        log("Start Error Dump - Occurred in " + mod.getName() + '\n' + T);
                     }
                 }
             }
