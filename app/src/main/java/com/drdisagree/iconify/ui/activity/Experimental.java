@@ -90,6 +90,7 @@ public class Experimental extends AppCompatActivity {
 
         // Qs Panel Blur
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_blur = findViewById(R.id.enable_blur);
+        RemotePrefs.putBoolean(QSBLUR_SWITCH, SystemUtil.supportsBlur());
         enable_blur.setChecked(RemotePrefs.getBoolean(QSBLUR_SWITCH, false));
         enable_blur.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RemotePrefs.putBoolean(QSBLUR_SWITCH, isChecked);

@@ -7,6 +7,9 @@ import android.content.res.Configuration;
 import com.drdisagree.iconify.common.References;
 import com.topjohnwu.superuser.Shell;
 
+import java.util.List;
+import java.util.Objects;
+
 public class SystemUtil {
 
     @SuppressLint("StaticFieldLeak")
@@ -71,5 +74,10 @@ public class SystemUtil {
             } catch (Exception ignored) {
             }
         }).start();
+    }
+
+    public static boolean supportsBlur() {
+        List<String> outs = Shell.cmd("getprop ro.sf.blurs_are_expensive", "getprop ro.surface_flinger.supports_background_blur").exec().getOut();
+        return (Objects.equals(outs.get(0), "1") && Objects.equals(outs.get(1), "1"));
     }
 }
