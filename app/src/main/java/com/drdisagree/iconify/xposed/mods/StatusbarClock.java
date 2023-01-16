@@ -36,7 +36,6 @@ public class StatusbarClock extends ModPack implements IXposedHookLoadPackage {
     private String rootPackagePath = "";
     private static final String CLASS_CLOCK = SYSTEM_UI_PACKAGE + ".statusbar.policy.Clock";
     boolean showClockChip = false;
-    private Object updateClock;
 
     public StatusbarClock(Context context) {
         super(context);
@@ -48,11 +47,6 @@ public class StatusbarClock extends ModPack implements IXposedHookLoadPackage {
         if (Xprefs == null) return;
         showClockChip = Xprefs.getBoolean(STATUSBAR_CLOCKBG, false);
         setResources();
-        try {
-            callMethod(updateClock, "updateClock");
-        } catch (Throwable ignored) {
-            ;
-        }
     }
 
     @Override
@@ -68,13 +62,6 @@ public class StatusbarClock extends ModPack implements IXposedHookLoadPackage {
         rootPackagePath = lpparam.appInfo.sourceDir;
 
         final Class<?> Clock = XposedHelpers.findClass(CLASS_CLOCK, lpparam.classLoader);
-
-        hookAllConstructors(Clock, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) {
-                updateClock = param.thisObject;
-            }
-        });
 
         hookAllMethods(Clock, "updateClock", new XC_MethodHook() {
             @Override
