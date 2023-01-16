@@ -1,0 +1,13 @@
+Iconify v3.0 Beta has arrived! It has the following new changes:
+
+• Added Brightnessbar and QS Tile shapes for Pixel based roms. (Roms with always black QsPanel)
+• QS Icon and Text size changer now works perfectly.
+• Added option to hide QS Text and move QS Icon to center.
+• Fixed some visual bugs and glitches.
+• Fixed some switch states not being saved.
+• Now Iconify will autostart faster after a reboot.
+• Request notification permission for Android 13 and above.
+• Added QS Text Color Fix for Android 13. (Test!)
+• Added Github Link in about section. Thanks to @Azure-Helper
+
+Also included in this version are bug fixes and other improvements.

@@ -1,0 +1,26 @@
+Iconify v5.0 Stable has arrived! It has the following new changes:
+
+Feature Changes:
+• Icon Packs:
+    • Android 13 December+ is now supported
+• Brightness Bars:
+    • 7 new styles added
+• QS Panel Tiles:
+    • 7 new styles added
+• Notification:
+    • 10 new styles added
+• Navigation Bar:
+    • Added Immersive/Fullscreen and many other customizations. (Thanks to HideNavBar)
+• Settings (3 dot menu):
+    • Added option to Import/Export customizations.
+    • Added new Experimental Features section.
+• Experimental Features:
+    • Transparent Qs Panel (LSPosed Required) (Tested on Derpfest A13 December Patch only)
+    • Window Level Blur (LSPosed Required)
+
+App Changes:
+• New installation method. More reliable but takes a bit longer time.
+• No more running in background.
+• Some other minor changes.
+
+Also included in this version are bug fixes and other improvements.

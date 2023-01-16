@@ -1,0 +1,25 @@
+Iconify v4.0 Beta has arrived! It has the following new changes:
+
+Feature Changes:
+• Added 10 new (or old!) icon packs. Thanks to SparkOS
+• All overlays are now a little bit more colorful.
+• Added Volume Panel customization. (only works if your rom has thin volume panel by default)
+• Added QS Media Player icon packs. Supported music players:
+    • Poweramp Music Player
+    • Retro Music Player
+    • Nyx Music Player
+    • YMusic
+    • Blackhole
+    • Musicolet Music Player
+    • YouTube
+    • YouTube Music
+    • YouTube ReVanced (both root and non-root)
+    • YouTube Music ReVanced (both root and non-root)
+
+App Changes:
+• Iconify now follows monet. (gore!)
+• Reworked app icon.
+• Redesigned many layouts.
+• Some other minor changes.
+
+Also included in this version are bug fixes and other improvements.

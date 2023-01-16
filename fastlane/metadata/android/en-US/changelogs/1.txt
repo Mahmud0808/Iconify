@@ -1,0 +1,6 @@
+Iconify v1.0 Beta has arrived! It has the following new changes:
+
+• Initial release.
+• Beta version.
+
+Also included in this version are bug fixes and other improvements.

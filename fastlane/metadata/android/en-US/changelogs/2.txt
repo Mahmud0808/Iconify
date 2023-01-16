@@ -1,0 +1,8 @@
+Iconify v2.0 Beta has arrived! It has the following new changes:
+
+• Added themed icon for Android 13. Thanks to @Azure-Helper
+• Fixed roundness of qs tile, brightness bar and notification.
+• Added live preview and confirmation for applying UI Radius. (As per user request)
+• Reduced number of steps for UI Radius.
+
+Also included in this version are bug fixes and other improvements.
