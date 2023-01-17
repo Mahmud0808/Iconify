@@ -19,11 +19,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.common.References;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.drdisagree.iconify.utils.ModuleUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.RootUtil;
+import com.topjohnwu.superuser.Shell;
 
 import java.io.IOException;
 
@@ -100,6 +102,7 @@ public class WelcomePage extends AppCompatActivity {
                                             warn.setVisibility(View.VISIBLE);
                                         }
                                     } else {
+                                        Shell.cmd("rm -rf " + References.MODULE_DIR);
                                         warning.setText(getResources().getString(R.string.installation_failed));
                                         warn.setVisibility(View.VISIBLE);
                                     }
