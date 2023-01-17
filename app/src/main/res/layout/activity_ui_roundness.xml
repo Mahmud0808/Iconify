@@ -51,11 +51,58 @@
                     android:textSize="@dimen/cont_desc_size" />
 
                 <LinearLayout
-                    android:id="@+id/qs_tile_preview_orientation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/container_padding"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1.0">
+
+                        <ImageView
+                            android:id="@+id/brightness_bar_bg"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/qs_shape_preview_disabled"
+                            android:minHeight="48.0dip"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageView
+                            android:id="@+id/brightness_bar_fg"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="120dp"
+                            android:background="@drawable/qs_shape_preview_enabled"
+                            android:minHeight="48.0dip"
+                            tools:ignore="ContentDescription" />
+
+                    </FrameLayout>
+
+                    <ImageView
+                        android:id="@+id/auto_brightness"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="16.0dip"
+                        android:background="@drawable/qs_shape_preview_enabled"
+                        android:contentDescription="@null"
+                        android:padding="12.0dp"
+                        android:src="@drawable/ic_brightness_off" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/qs_tile_orientation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="-4dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginEnd="-4dp"
                     android:orientation="vertical">
 
@@ -63,6 +110,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_weight="1.0"
                         android:baselineAligned="false"
                         android:orientation="horizontal">
 
@@ -174,6 +222,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_weight="1.0"
                         android:baselineAligned="false"
                         android:orientation="horizontal">
 

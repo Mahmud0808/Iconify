@@ -6,6 +6,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -46,16 +47,15 @@ public class UiRoundness extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Corner Radius
-
-        LinearLayout qstile_preview1 = findViewById(R.id.qs_tile_preview1);
-        LinearLayout qstile_preview2 = findViewById(R.id.qs_tile_preview2);
-        LinearLayout qstile_preview3 = findViewById(R.id.qs_tile_preview3);
-        LinearLayout qstile_preview4 = findViewById(R.id.qs_tile_preview4);
-
-        GradientDrawable drawable1 = (GradientDrawable) qstile_preview1.getBackground();
-        GradientDrawable drawable2 = (GradientDrawable) qstile_preview2.getBackground();
-        GradientDrawable drawable3 = (GradientDrawable) qstile_preview3.getBackground();
-        GradientDrawable drawable4 = (GradientDrawable) qstile_preview4.getBackground();
+        GradientDrawable[] drawables = new GradientDrawable[]{
+                (GradientDrawable) findViewById(R.id.qs_tile_preview1).getBackground(),
+                (GradientDrawable) findViewById(R.id.qs_tile_preview2).getBackground(),
+                (GradientDrawable) findViewById(R.id.qs_tile_preview3).getBackground(),
+                (GradientDrawable) findViewById(R.id.qs_tile_preview4).getBackground(),
+                (GradientDrawable) findViewById(R.id.brightness_bar_bg).getBackground(),
+                (GradientDrawable) findViewById(R.id.brightness_bar_fg).getBackground(),
+                (GradientDrawable) findViewById(R.id.auto_brightness).getBackground()
+        };
 
         SeekBar corner_radius_seekbar = findViewById(R.id.corner_radius_seekbar);
         TextView corner_radius_output = findViewById(R.id.corner_radius_output);
@@ -71,18 +71,16 @@ public class UiRoundness extends AppCompatActivity {
             } else {
                 corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString("cornerRadius")) + 8) + "dp");
             }
-            drawable1.setCornerRadius((Integer.parseInt(Prefs.getString("cornerRadius")) + 8) * getResources().getDisplayMetrics().density);
-            drawable2.setCornerRadius((Integer.parseInt(Prefs.getString("cornerRadius")) + 8) * getResources().getDisplayMetrics().density);
-            drawable3.setCornerRadius((Integer.parseInt(Prefs.getString("cornerRadius")) + 8) * getResources().getDisplayMetrics().density);
-            drawable4.setCornerRadius((Integer.parseInt(Prefs.getString("cornerRadius")) + 8) * getResources().getDisplayMetrics().density);
+            for (GradientDrawable drawable: drawables) {
+                drawable.setCornerRadius((Integer.parseInt(Prefs.getString("cornerRadius")) + 8) * getResources().getDisplayMetrics().density);
+            }
             finalUiCornerRadius[0] = Integer.parseInt(Prefs.getString("cornerRadius"));
             corner_radius_seekbar.setProgress(finalUiCornerRadius[0]);
         } else {
             corner_radius_output.setText(getResources().getString(R.string.opt_selected) + " 24dp " + getResources().getString(R.string.opt_default));
-            drawable1.setCornerRadius(24 * getResources().getDisplayMetrics().density);
-            drawable2.setCornerRadius(24 * getResources().getDisplayMetrics().density);
-            drawable3.setCornerRadius(24 * getResources().getDisplayMetrics().density);
-            drawable4.setCornerRadius(24 * getResources().getDisplayMetrics().density);
+            for (GradientDrawable drawable: drawables) {
+                drawable.setCornerRadius(24 * getResources().getDisplayMetrics().density);
+            }
         }
 
         corner_radius_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -98,10 +96,9 @@ public class UiRoundness extends AppCompatActivity {
                     corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 8) + "dp " + getResources().getString(R.string.opt_default));
                 else
                     corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 8) + "dp");
-                drawable1.setCornerRadius((finalUiCornerRadius[0] + 8) * getResources().getDisplayMetrics().density);
-                drawable2.setCornerRadius((finalUiCornerRadius[0] + 8) * getResources().getDisplayMetrics().density);
-                drawable3.setCornerRadius((finalUiCornerRadius[0] + 8) * getResources().getDisplayMetrics().density);
-                drawable4.setCornerRadius((finalUiCornerRadius[0] + 8) * getResources().getDisplayMetrics().density);
+                for (GradientDrawable drawable: drawables) {
+                    drawable.setCornerRadius((finalUiCornerRadius[0] + 8) * getResources().getDisplayMetrics().density);
+                }
             }
 
             @Override
@@ -134,11 +131,11 @@ public class UiRoundness extends AppCompatActivity {
 
         // Change orientation in landscape / portrait mode
         int orientation = this.getResources().getConfiguration().orientation;
-        LinearLayout qs_tile_preview_orientation = findViewById(R.id.qs_tile_preview_orientation);
+        LinearLayout qs_tile_orientation = findViewById(R.id.qs_tile_orientation);
         if (orientation == Configuration.ORIENTATION_LANDSCAPE)
-            qs_tile_preview_orientation.setOrientation(LinearLayout.HORIZONTAL);
+            qs_tile_orientation.setOrientation(LinearLayout.HORIZONTAL);
         else
-            qs_tile_preview_orientation.setOrientation(LinearLayout.VERTICAL);
+            qs_tile_orientation.setOrientation(LinearLayout.VERTICAL);
     }
 
     @Override
@@ -151,11 +148,11 @@ public class UiRoundness extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        LinearLayout qs_tile_preview_orientation = findViewById(R.id.qs_tile_preview_orientation);
+        LinearLayout qs_tile_orientation = findViewById(R.id.qs_tile_orientation);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
-            qs_tile_preview_orientation.setOrientation(LinearLayout.HORIZONTAL);
+            qs_tile_orientation.setOrientation(LinearLayout.HORIZONTAL);
         else
-            qs_tile_preview_orientation.setOrientation(LinearLayout.VERTICAL);
+            qs_tile_orientation.setOrientation(LinearLayout.VERTICAL);
     }
 
     @Override
