@@ -149,6 +149,8 @@ What you can change using Iconify:
 
 - [ɦʏքɛʀ.sɦ](https://t.me/hyp3r_sh)
 
+- [AOSPMods](https://github.com/siavash79/AOSPMods/tree/canary/app/src/main/java/sh/siava/AOSPMods)
+
 ## Contribution
 
 All contributions are welcome, from code to documentation to graphics to design suggestions to bug reports. Please use GitHub to its fullest; contribute Pull Requests, contribute tutorials or other content - whatever you have to offer, we can use it!
