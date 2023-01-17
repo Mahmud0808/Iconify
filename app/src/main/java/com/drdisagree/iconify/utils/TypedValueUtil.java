@@ -6,9 +6,6 @@ import androidx.annotation.IntRange;
 
 public class TypedValueUtil {
 
-    public @interface ComplexDimensionUnit {
-    }
-
     public static int createComplexDimension(
             @IntRange(from = -0x800000, to = 0x7FFFFF) int value,
             @ComplexDimensionUnit int units) {
@@ -35,5 +32,8 @@ public class TypedValueUtil {
         }
         return ((mantissa & TypedValue.COMPLEX_MANTISSA_MASK) << TypedValue.COMPLEX_MANTISSA_SHIFT)
                 | (radix << TypedValue.COMPLEX_RADIX_SHIFT);
+    }
+
+    public @interface ComplexDimensionUnit {
     }
 }
