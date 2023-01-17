@@ -24,25 +24,22 @@ public class References {
     public static final String DATA_DIR = Iconify.getAppContext().getFilesDir().toString();
     public static final String OVERLAY_DIR = MODULE_DIR + "/system/product/overlay";
     public static final String TEMP_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.iconify";
+    public static final String TOOLS_DIR = MODULE_DIR + "/tools";
     public static final String UNSIGNED_UNALIGNED_DIR = TEMP_DIR + "/overlays/unsigned_unaligned";
     public static final String UNSIGNED_DIR = TEMP_DIR + "/overlays/unsigned";
     public static final String SIGNED_DIR = TEMP_DIR + "/overlays/signed";
-
-    // Notification service checker
-    public static boolean isNotificationServiceRunning = false;
-
     // System packages
     public static final String SYSTEM_UI_PACKAGE = "com.android.systemui";
     public static final String FRAMEWORK_PACKAGE = "android";
-
     // Preference files
     public static final String SharedPref = Iconify.getAppContext().getPackageName();
     public static final String SharedXPref = Iconify.getAppContext().getPackageName() + "_xpreference";
-
     // Xposed mods
     public static final String QSTRANSPARENCY_SWITCH = "xposed_qstransparency";
     public static final String QSALPHA_LEVEL = "xposed_qsalpha";
     public static final String QSBLUR_SWITCH = "xposed_qsblur";
     public static final String QSBLUR_RADIUS = "xposed_qsblurradius";
     public static final String STATUSBAR_CLOCKBG = "xposed_qsclockbg";
+    // Notification service checker
+    public static boolean isNotificationServiceRunning = false;
 }

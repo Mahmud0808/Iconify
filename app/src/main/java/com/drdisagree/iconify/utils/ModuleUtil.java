@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.utils;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.core.graphics.ColorUtils;
@@ -116,13 +117,28 @@ public class ModuleUtil {
     }
 
     static void extractTools() {
+        String[] supported_abis = Build.SUPPORTED_ABIS;
+        boolean isArm64 = false;
+        for (String abi : supported_abis) {
+            if (abi.contains("arm64")) {
+                isArm64 = true;
+                break;
+            }
+        }
+
+        String folderName;
+        if (isArm64)
+            folderName = "arm64-v8a";
+        else
+            folderName = "armeabi-v7a";
+
         try {
-            FileUtil.copyAssets("Tools");
-        } catch (IOException e) {
+            FileUtil.copyAssets("Tools/" + folderName);
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            Shell.cmd("cp -a " + References.DATA_DIR + "/Tools/. " + References.MODULE_DIR + "/tools").exec();
-            FileUtil.cleanDir("Tools");
+            Shell.cmd("cp -a " + References.DATA_DIR + "/Tools/" + folderName + "/. " + References.MODULE_DIR + "/tools").exec();
+            //FileUtil.cleanDir("Tools");
             RootUtil.setPermissionsRecursively(755, References.MODULE_DIR + "/tools");
         }
     }
