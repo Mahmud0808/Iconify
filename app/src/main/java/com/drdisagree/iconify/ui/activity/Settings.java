@@ -169,7 +169,8 @@ public class Settings extends AppCompatActivity {
         } else if (itemID == R.id.menu_updates) {
             Toast.makeText(Iconify.getAppContext(), "Coming soon", Toast.LENGTH_SHORT).show();
         } else if (itemID == R.id.menu_changelog) {
-            Toast.makeText(Iconify.getAppContext(), "Coming soon", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Settings.this, Changelog.class);
+            startActivity(intent);
         } else if (itemID == R.id.menu_exportPrefs) {
             exportSettings();
         } else if (itemID == R.id.menu_importPrefs) {
