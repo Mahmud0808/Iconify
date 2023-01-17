@@ -18,6 +18,7 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.IconSizeManager;
 import com.drdisagree.iconify.overlaymanager.QSMoveIconManager;
 import com.drdisagree.iconify.overlaymanager.QSTextSizeManager;
+import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -41,16 +42,17 @@ public class QsIconLabel extends AppCompatActivity {
 
         // Text Size
         SeekBar text_size = findViewById(R.id.text_size);
+        text_size.setPadding(0, 0, 0, 0);
+
         TextView text_size_output = findViewById(R.id.text_size_output);
 
-        text_size.setPadding(0, 0, 0, 0);
-        final int[] finalTextSize = {4};
+        final int[] finalTextSize = {14};
 
         if (!Prefs.getString("qsTextSize").equals("null")) {
-            if ((Integer.parseInt(Prefs.getString("qsTextSize")) + 10) == 14)
-                text_size_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(Prefs.getString("qsTextSize")) + 10) + "sp " + getResources().getString(R.string.opt_default));
+            if (Integer.parseInt(Prefs.getString("qsTextSize")) == 14)
+                text_size_output.setText(getResources().getString(R.string.opt_selected) + Integer.parseInt(Prefs.getString("qsTextSize")) + "sp " + getResources().getString(R.string.opt_default));
             else
-                text_size_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(Prefs.getString("qsTextSize")) + 10) + "sp");
+                text_size_output.setText(getResources().getString(R.string.opt_selected) + Integer.parseInt(Prefs.getString("qsTextSize")) + "sp");
             finalTextSize[0] = Integer.parseInt(Prefs.getString("qsTextSize"));
             text_size.setProgress(finalTextSize[0]);
         } else
@@ -66,10 +68,10 @@ public class QsIconLabel extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
                 finalTextSize[0] = progress;
-                if (progress + 10 == 14)
-                    text_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 10) + "sp " + getResources().getString(R.string.opt_default));
+                if (progress == 14)
+                    text_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "sp " + getResources().getString(R.string.opt_default));
                 else
-                    text_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 10) + "sp");
+                    text_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "sp");
 
             }
 
@@ -78,27 +80,25 @@ public class QsIconLabel extends AppCompatActivity {
                 Prefs.putString("qsTextSize", String.valueOf(finalTextSize[0]));
                 Prefs.putBoolean("fabricatedqsTextSize", true);
 
-                Runnable runnable = () -> QSTextSizeManager.install_pack(finalTextSize[0]);
-                Thread thread = new Thread(runnable);
-                thread.start();
+                FabricatedOverlayUtil.buildAndEnableOverlay("com.android.systemui", "qsTextSize", "dimen", "qs_tile_text_size", finalTextSize[0] + "sp");
 
-                Toast.makeText(Iconify.getAppContext(), (finalTextSize[0] + 10 + "sp " + getResources().getString(R.string.toast_applied)), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Iconify.getAppContext(), finalTextSize[0] + "sp " + getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
             }
         });
 
         // Icon Size
-
         SeekBar icon_size = findViewById(R.id.icon_size);
+        icon_size.setPadding(0, 0, 0, 0);
+
         TextView icon_size_output = findViewById(R.id.icon_size_output);
 
-        icon_size.setPadding(0, 0, 0, 0);
-        final int[] finalIconSize = {10};
+        final int[] finalIconSize = {20};
 
         if (!Prefs.getString("qsIconSize").equals("null")) {
-            if ((Integer.parseInt(Prefs.getString("qsIconSize")) + 10) == 20)
-                icon_size_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(Prefs.getString("qsIconSize")) + 10) + "dp " + getResources().getString(R.string.opt_default));
+            if (Integer.parseInt(Prefs.getString("qsIconSize")) == 20)
+                icon_size_output.setText(getResources().getString(R.string.opt_selected) + Integer.parseInt(Prefs.getString("qsIconSize")) + "dp " + getResources().getString(R.string.opt_default));
             else
-                icon_size_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(Prefs.getString("qsIconSize")) + 10) + "dp");
+                icon_size_output.setText(getResources().getString(R.string.opt_selected) + Integer.parseInt(Prefs.getString("qsIconSize")) + "dp");
             finalIconSize[0] = Integer.parseInt(Prefs.getString("qsIconSize"));
             icon_size.setProgress(finalIconSize[0]);
         } else
@@ -114,10 +114,10 @@ public class QsIconLabel extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
                 finalIconSize[0] = progress;
-                if (progress + 10 == 20)
-                    icon_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 10) + "dp " + getResources().getString(R.string.opt_default));
+                if (progress == 20)
+                    icon_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp " + getResources().getString(R.string.opt_default));
                 else
-                    icon_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 10) + "dp");
+                    icon_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
             }
 
             @Override
@@ -125,16 +125,13 @@ public class QsIconLabel extends AppCompatActivity {
                 Prefs.putString("qsIconSize", String.valueOf(finalIconSize[0]));
                 Prefs.putBoolean("fabricatedqsIconSize", true);
 
-                Runnable runnable = () -> IconSizeManager.install_pack(finalIconSize[0]);
-                Thread thread = new Thread(runnable);
-                thread.start();
+                FabricatedOverlayUtil.buildAndEnableOverlay("com.android.systemui", "qsIconSize", "dimen", "qs_icon_size", finalIconSize[0] + "dp");
 
-                Toast.makeText(Iconify.getAppContext(), (finalIconSize[0] + 10 + "dp " + getResources().getString(R.string.toast_applied)), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Iconify.getAppContext(), finalIconSize[0] + "dp " + getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
             }
         });
 
         // Hide text size if hide label is enabled
-
         LinearLayout text_size_container = findViewById(R.id.text_size_container);
         LinearLayout icon_size_container = findViewById(R.id.icon_size_container);
         View text_size_divider = findViewById(R.id.text_size_divider);
@@ -267,18 +264,17 @@ public class QsIconLabel extends AppCompatActivity {
         });
 
         // Move Icon
-
         SeekBar move_icon = findViewById(R.id.move_icon);
         TextView move_icon_output = findViewById(R.id.move_icon_output);
 
         move_icon.setPadding(0, 0, 0, 0);
-        final int[] finalMoveIcon = {15};
+        final int[] finalMoveIcon = {16};
 
         if (!Prefs.getString("qsMoveIcon").equals("null")) {
-            if ((Integer.parseInt(Prefs.getString("qsMoveIcon")) + 1) == 16)
-                move_icon_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(Prefs.getString("qsMoveIcon")) + 1) + "dp " + getResources().getString(R.string.opt_default));
+            if (Integer.parseInt(Prefs.getString("qsMoveIcon")) == 16)
+                move_icon_output.setText(getResources().getString(R.string.opt_selected) + Integer.parseInt(Prefs.getString("qsMoveIcon")) + "dp " + getResources().getString(R.string.opt_default));
             else
-                move_icon_output.setText(getResources().getString(R.string.opt_selected) + (Integer.parseInt(Prefs.getString("qsMoveIcon")) + 1) + "dp");
+                move_icon_output.setText(getResources().getString(R.string.opt_selected) + Integer.parseInt(Prefs.getString("qsMoveIcon")) + "dp");
             finalMoveIcon[0] = Integer.parseInt(Prefs.getString("qsMoveIcon"));
             move_icon.setProgress(finalMoveIcon[0]);
         } else
@@ -294,10 +290,10 @@ public class QsIconLabel extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
                 finalMoveIcon[0] = progress;
-                if (progress + 1 == 16)
-                    move_icon_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 1) + "dp " + getResources().getString(R.string.opt_default));
+                if (progress == 16)
+                    move_icon_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp " + getResources().getString(R.string.opt_default));
                 else
-                    move_icon_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 1) + "dp");
+                    move_icon_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
             }
 
             @Override
@@ -305,11 +301,9 @@ public class QsIconLabel extends AppCompatActivity {
                 Prefs.putString("qsMoveIcon", String.valueOf(finalMoveIcon[0]));
                 Prefs.putBoolean("fabricatedqsMoveIcon", true);
 
-                Runnable runnable = () -> QSMoveIconManager.install_pack(finalMoveIcon[0]);
-                Thread thread = new Thread(runnable);
-                thread.start();
+                FabricatedOverlayUtil.buildAndEnableOverlay("com.android.systemui", "qsMoveIcon", "dimen", "qs_tile_start_padding", finalMoveIcon[0] + "dp");
 
-                Toast.makeText(Iconify.getAppContext(), (finalMoveIcon[0] + 1 + "dp " + getResources().getString(R.string.toast_applied)), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Iconify.getAppContext(), finalMoveIcon[0] + "dp " + getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
             }
         });
 
