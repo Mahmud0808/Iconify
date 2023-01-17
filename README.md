@@ -151,6 +151,8 @@ What you can change using Iconify:
 
 - [AOSPMods](https://github.com/siavash79/AOSPMods/tree/canary/app/src/main/java/sh/siava/AOSPMods)
 
+- [HideNavBar](https://github.com/Magisk-Modules-Repo/HideNavBar)
+
 ## Contribution
 
 All contributions are welcome, from code to documentation to graphics to design suggestions to bug reports. Please use GitHub to its fullest; contribute Pull Requests, contribute tutorials or other content - whatever you have to offer, we can use it!
