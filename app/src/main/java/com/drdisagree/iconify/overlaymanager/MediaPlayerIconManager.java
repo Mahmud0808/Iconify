@@ -2,7 +2,6 @@ package com.drdisagree.iconify.overlaymanager;
 
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.OverlayUtil;
-import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
 

@@ -2,8 +2,6 @@ package com.drdisagree.iconify.overlaymanager;
 
 import static com.drdisagree.iconify.common.References.TOTAL_BRIGHTNESSBARS;
 
-import android.util.Log;
-
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.OverlayUtil;
 

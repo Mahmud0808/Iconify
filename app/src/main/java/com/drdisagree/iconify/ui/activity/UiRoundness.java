@@ -6,7 +6,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -71,14 +70,14 @@ public class UiRoundness extends AppCompatActivity {
             } else {
                 corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString("cornerRadius")) + 8) + "dp");
             }
-            for (GradientDrawable drawable: drawables) {
+            for (GradientDrawable drawable : drawables) {
                 drawable.setCornerRadius((Integer.parseInt(Prefs.getString("cornerRadius")) + 8) * getResources().getDisplayMetrics().density);
             }
             finalUiCornerRadius[0] = Integer.parseInt(Prefs.getString("cornerRadius"));
             corner_radius_seekbar.setProgress(finalUiCornerRadius[0]);
         } else {
             corner_radius_output.setText(getResources().getString(R.string.opt_selected) + " 24dp " + getResources().getString(R.string.opt_default));
-            for (GradientDrawable drawable: drawables) {
+            for (GradientDrawable drawable : drawables) {
                 drawable.setCornerRadius(24 * getResources().getDisplayMetrics().density);
             }
         }
@@ -96,7 +95,7 @@ public class UiRoundness extends AppCompatActivity {
                     corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 8) + "dp " + getResources().getString(R.string.opt_default));
                 else
                     corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 8) + "dp");
-                for (GradientDrawable drawable: drawables) {
+                for (GradientDrawable drawable : drawables) {
                     drawable.setCornerRadius((finalUiCornerRadius[0] + 8) * getResources().getDisplayMetrics().density);
                 }
             }

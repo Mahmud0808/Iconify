@@ -36,7 +36,7 @@ public class Extras extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Extras page list items
-        container = (ViewGroup) findViewById(R.id.extras_list);
+        container = findViewById(R.id.extras_list);
         ArrayList<Object[]> extras_page = new ArrayList<>();
 
         extras_page.add(new Object[]{UiRoundness.class, getResources().getString(R.string.activity_title_ui_roundness), getResources().getString(R.string.activity_desc_ui_roundness), R.drawable.ic_extras_roundness});
@@ -60,13 +60,13 @@ public class Extras extends AppCompatActivity {
         for (int i = 0; i < pack.size(); i++) {
             View list = LayoutInflater.from(this).inflate(R.layout.list_view, container, false);
 
-            TextView title = (TextView) list.findViewById(R.id.list_title);
+            TextView title = list.findViewById(R.id.list_title);
             title.setText((String) pack.get(i)[1]);
 
-            TextView desc = (TextView) list.findViewById(R.id.list_desc);
+            TextView desc = list.findViewById(R.id.list_desc);
             desc.setText((String) pack.get(i)[2]);
 
-            ImageView preview = (ImageView) list.findViewById(R.id.list_preview);
+            ImageView preview = list.findViewById(R.id.list_preview);
             preview.setImageResource((int) pack.get(i)[3]);
 
             container.addView(list);

@@ -18,7 +18,6 @@ import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.common.References;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.IconPackManager;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
@@ -52,7 +51,7 @@ public class IconPacks extends AppCompatActivity {
         loadingDialog = new LoadingDialog(this);
 
         // Icon Pack list items
-        container = (ViewGroup) findViewById(R.id.icon_packs_list);
+        container = findViewById(R.id.icon_packs_list);
         ArrayList<Object[]> iconpack_list = new ArrayList<>();
 
         // Icon Pack add items in list

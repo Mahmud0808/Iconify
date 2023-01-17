@@ -19,7 +19,6 @@ import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.common.References;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.QsShapeManager;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
@@ -34,9 +33,9 @@ public class QsShapes extends AppCompatActivity {
     ArrayList<String> QSSHAPE_KEY = new ArrayList<>();
 
     LoadingDialog loadingDialog;
-    private ViewGroup container;
     ViewGroup.MarginLayoutParams marginParams;
     LinearLayout.LayoutParams layoutParams;
+    private ViewGroup container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +76,7 @@ public class QsShapes extends AppCompatActivity {
         });
 
         // Qs Shapes list items
-        container = (ViewGroup) findViewById(R.id.qs_shape_list);
+        container = findViewById(R.id.qs_shape_list);
         ArrayList<Object[]> qsshape_list = new ArrayList<>();
 
         // Qs Shape add items in list

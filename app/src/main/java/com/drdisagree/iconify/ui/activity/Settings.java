@@ -33,12 +33,11 @@ import java.util.Objects;
 
 public class Settings extends AppCompatActivity {
 
-    public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
-    public static List<String> FabricatedEnabledOverlays = FabricatedOverlayUtil.getEnabledOverlayList();
-
-    LoadingDialog loadingDialog;
     private static final int REQUESTCODE_IMPORT = 1;
     private static final int REQUESTCODE_EXPORT = 2;
+    public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
+    public static List<String> FabricatedEnabledOverlays = FabricatedOverlayUtil.getEnabledOverlayList();
+    LoadingDialog loadingDialog;
 
     public static void disableEverything() {
         for (String overlay : EnabledOverlays) {

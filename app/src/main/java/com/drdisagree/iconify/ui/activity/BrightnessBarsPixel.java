@@ -17,7 +17,6 @@ import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.common.References;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.BrightnessPixelManager;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
@@ -50,7 +49,7 @@ public class BrightnessBarsPixel extends AppCompatActivity {
         loadingDialog = new LoadingDialog(this);
 
         // Brightness Bar list items
-        container = (ViewGroup) findViewById(R.id.brightness_bars_list_pixel);
+        container = findViewById(R.id.brightness_bars_list_pixel);
         ArrayList<Object[]> bb_list = new ArrayList<>();
 
         // Brightness Bar add items in list

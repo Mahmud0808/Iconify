@@ -52,7 +52,7 @@ public class HomePage extends AppCompatActivity {
 
         Prefs.putBoolean("onHomePage", true);
 
-        container = (ViewGroup) findViewById(R.id.home_page_list);
+        container = findViewById(R.id.home_page_list);
         View list_view = LayoutInflater.from(this).inflate(R.layout.dialog_reboot, container, false);
         LinearLayout reboot_reminder = list_view.findViewById(R.id.reboot_reminder);
         container.addView(list_view);
@@ -155,13 +155,13 @@ public class HomePage extends AppCompatActivity {
         for (int i = 0; i < pack.size(); i++) {
             View list = LayoutInflater.from(this).inflate(R.layout.list_view, container, false);
 
-            TextView title = (TextView) list.findViewById(R.id.list_title);
+            TextView title = list.findViewById(R.id.list_title);
             title.setText((String) pack.get(i)[1]);
 
-            TextView desc = (TextView) list.findViewById(R.id.list_desc);
+            TextView desc = list.findViewById(R.id.list_desc);
             desc.setText((String) pack.get(i)[2]);
 
-            ImageView preview = (ImageView) list.findViewById(R.id.list_preview);
+            ImageView preview = list.findViewById(R.id.list_preview);
             preview.setImageResource((int) pack.get(i)[3]);
 
             container.addView(list);

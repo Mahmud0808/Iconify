@@ -35,6 +35,27 @@ public class HookEntry implements IXposedHookLoadPackage {
         modPacks.add(StatusbarClock.class);
     }
 
+    @SuppressLint("ApplySharedPref")
+    private static boolean bootLooped(String packageName) {
+        String loadTimeKey = String.format("packageLastLoad_%s", packageName);
+        String strikeKey = String.format("packageStrike_%s", packageName);
+        long currentTime = Calendar.getInstance().getTime().getTime();
+        long lastLoadTime = Xprefs.getLong(loadTimeKey, 0);
+        int strikeCount = Xprefs.getInt(strikeKey, 0);
+        if (currentTime - lastLoadTime > 40000) {
+            Xprefs.edit()
+                    .putLong(loadTimeKey, currentTime)
+                    .putInt(strikeKey, 0)
+                    .commit();
+        } else if (strikeCount >= 3) {
+            log(String.format("HookEntry: Possible bootloop in %s. Will not load for now", packageName));
+            return true;
+        } else {
+            Xprefs.edit().putInt(strikeKey, ++strikeCount).commit();
+        }
+        return false;
+    }
+
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         isSecondProcess = lpparam.processName.contains(":");
@@ -72,26 +93,5 @@ public class HookEntry implements IXposedHookLoadPackage {
             }
         });
 
-    }
-
-    @SuppressLint("ApplySharedPref")
-    private static boolean bootLooped(String packageName) {
-        String loadTimeKey = String.format("packageLastLoad_%s", packageName);
-        String strikeKey = String.format("packageStrike_%s", packageName);
-        long currentTime = Calendar.getInstance().getTime().getTime();
-        long lastLoadTime = Xprefs.getLong(loadTimeKey, 0);
-        int strikeCount = Xprefs.getInt(strikeKey, 0);
-        if (currentTime - lastLoadTime > 40000) {
-            Xprefs.edit()
-                    .putLong(loadTimeKey, currentTime)
-                    .putInt(strikeKey, 0)
-                    .commit();
-        } else if (strikeCount >= 3) {
-            log(String.format("HookEntry: Possible bootloop in %s. Will not load for now", packageName));
-            return true;
-        } else {
-            Xprefs.edit().putInt(strikeKey, ++strikeCount).commit();
-        }
-        return false;
     }
 }

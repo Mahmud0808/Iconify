@@ -4,10 +4,8 @@ import static com.drdisagree.iconify.common.References.STATUSBAR_CLOCKBG;
 import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
-import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedBridge.log;
-import static de.robv.android.xposed.XposedHelpers.callMethod;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -33,9 +31,9 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class StatusbarClock extends ModPack implements IXposedHookLoadPackage {
 
     private static final String TAG = "Iconify - StatusbarClock";
-    private String rootPackagePath = "";
     private static final String CLASS_CLOCK = SYSTEM_UI_PACKAGE + ".statusbar.policy.Clock";
     boolean showClockChip = false;
+    private String rootPackagePath = "";
 
     public StatusbarClock(Context context) {
         super(context);
@@ -98,8 +96,8 @@ public class StatusbarClock extends ModPack implements IXposedHookLoadPackage {
             ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
                 @Override
                 public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
-                    @SuppressLint("DiscouragedApi") LinearLayout clock_container = (LinearLayout) liparam.view.findViewById(liparam.res.getIdentifier("clock_container", "id", SYSTEM_UI_PACKAGE));
-                    @SuppressLint("DiscouragedApi") TextView clock = (TextView) liparam.view.findViewById(liparam.res.getIdentifier("clock", "id", SYSTEM_UI_PACKAGE));
+                    @SuppressLint("DiscouragedApi") LinearLayout clock_container = liparam.view.findViewById(liparam.res.getIdentifier("clock_container", "id", SYSTEM_UI_PACKAGE));
+                    @SuppressLint("DiscouragedApi") TextView clock = liparam.view.findViewById(liparam.res.getIdentifier("clock", "id", SYSTEM_UI_PACKAGE));
                     int clockHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, mContext.getResources().getDisplayMetrics());
                     clock_container.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics());
                     clock_container.requestLayout();

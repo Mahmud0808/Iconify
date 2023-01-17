@@ -8,8 +8,8 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 
 public class HookRes implements IXposedHookInitPackageResources, IXposedHookZygoteInit {
 
-    private String MODULE_PATH;
     public final static HashMap<String, XC_InitPackageResources.InitPackageResourcesParam> resparams = new HashMap<>();
+    private String MODULE_PATH;
 
     @Override
     public void initZygote(StartupParam startupParam) {

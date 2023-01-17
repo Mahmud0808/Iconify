@@ -13,7 +13,6 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.services.ApplyOnBoot;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
-import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
 

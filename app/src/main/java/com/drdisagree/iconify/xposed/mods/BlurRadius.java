@@ -19,8 +19,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class BlurRadius extends ModPack {
 
     private static final String TAG = "Iconify - BlurRadius";
-    private String rootPackagePath = "";
     int BlurRadius = 23;
+    private String rootPackagePath = "";
 
     public BlurRadius(Context context) {
         super(context);

@@ -26,15 +26,15 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class QSTransparency extends ModPack {
 
     private static final String TAG = "Iconify - QSTransparency";
-    private String rootPackagePath = "";
-    boolean QsTransparencyActive = false;
     private static final String CLASS_SCRIMCONTROLLER = SYSTEM_UI_PACKAGE + ".statusbar.phone.ScrimController";
     private static final String CLASS_SCRIMSTATE = SYSTEM_UI_PACKAGE + ".statusbar.phone.ScrimState";
     private static final String CLASS_SCRIMVIEW = SYSTEM_UI_PACKAGE + ".scrim.ScrimView";
-    private Object Scrims;
     public static float mCustomScrimAlpha = 0.6f;
-    private float alpha;
+    boolean QsTransparencyActive = false;
     float behindFraction;
+    private String rootPackagePath = "";
+    private Object Scrims;
+    private float alpha;
 
     public QSTransparency(Context context) {
         super(context);

@@ -14,8 +14,8 @@ public class SystemUtil {
 
     @SuppressLint("StaticFieldLeak")
     static SystemUtil instance;
-    Context mContext;
     static boolean darkSwitching = false;
+    Context mContext;
 
     public SystemUtil(Context context) {
         mContext = context;
@@ -25,10 +25,6 @@ public class SystemUtil {
     public static boolean isDarkMode() {
         if (instance == null) return false;
         return instance.getIsDark();
-    }
-
-    private boolean getIsDark() {
-        return (mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
     }
 
     public static void restartSystemUI() {
@@ -79,5 +75,9 @@ public class SystemUtil {
     public static boolean supportsBlur() {
         List<String> outs = Shell.cmd("getprop ro.sf.blurs_are_expensive", "getprop ro.surface_flinger.supports_background_blur").exec().getOut();
         return (Objects.equals(outs.get(0), "1") && Objects.equals(outs.get(1), "1"));
+    }
+
+    private boolean getIsDark() {
+        return (mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
     }
 }

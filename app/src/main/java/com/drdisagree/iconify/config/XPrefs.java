@@ -18,9 +18,8 @@ public class XPrefs implements IXposedHookZygoteInit {
     public static String MOD_PATH = "";
     public static XModuleResources modRes;
     public static SharedPreferences Xprefs;
-    private static String packageName;
-
     static SharedPreferences.OnSharedPreferenceChangeListener listener = (sharedPreferences, key) -> loadEverything(key);
+    private static String packageName;
 
     public static void init(Context context) {
         packageName = context.getPackageName();
@@ -30,15 +29,15 @@ public class XPrefs implements IXposedHookZygoteInit {
         Xprefs.registerOnSharedPreferenceChangeListener(listener);
     }
 
-    @Override
-    public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) {
-        MOD_PATH = startupParam.modulePath;
-        modRes = XModuleResources.createInstance(XPrefs.MOD_PATH, null);
-    }
-
     public static void loadEverything(String... key) {
         for (ModPack thisMod : HookEntry.runningMods) {
             thisMod.updatePrefs(key);
         }
+    }
+
+    @Override
+    public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) {
+        MOD_PATH = startupParam.modulePath;
+        modRes = XModuleResources.createInstance(XPrefs.MOD_PATH, null);
     }
 }

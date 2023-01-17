@@ -18,7 +18,6 @@ import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.common.References;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.NotificationManager;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
@@ -52,7 +51,7 @@ public class Notifications extends AppCompatActivity {
         loadingDialog = new LoadingDialog(this);
 
         // Notifications list items
-        container = (ViewGroup) findViewById(R.id.notification_list);
+        container = findViewById(R.id.notification_list);
         ArrayList<Object[]> notif_list = new ArrayList<>();
 
         // Notifications add items in list

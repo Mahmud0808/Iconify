@@ -3,7 +3,6 @@ package com.drdisagree.iconify;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
-import android.os.StrictMode;
 
 import com.google.android.material.color.DynamicColors;
 

@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,9 +30,9 @@ import java.util.Objects;
 
 public class MediaPlayer extends AppCompatActivity {
 
+    private final ArrayList<String[]> MPIP_KEY = new ArrayList<>();
+    private final ArrayList<Object[]> mpip_list = new ArrayList<>();
     private ViewGroup container;
-    private ArrayList<String[]> MPIP_KEY = new ArrayList<>();
-    private ArrayList<Object[]> mpip_list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +99,7 @@ public class MediaPlayer extends AppCompatActivity {
         });
 
         // Media Player Icon list items
-        container = (ViewGroup) findViewById(R.id.mediaplayer_icon_list);
+        container = findViewById(R.id.mediaplayer_icon_list);
 
         mpip_list.add(new Object[]{"defaultA13", false, R.id.defaulta13mp});
         mpip_list.add(new Object[]{"com.maxmpz.audioplayer", false, R.id.poweramp});
@@ -151,56 +150,6 @@ public class MediaPlayer extends AppCompatActivity {
     private void musicPlayerIconList() {
         LoadMusicPlayerList musicPlayerList = new LoadMusicPlayerList();
         musicPlayerList.execute();
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private class LoadMusicPlayerList extends AsyncTask<Integer, Integer, String> {
-        @Override
-        protected void onPreExecute() {
-        }
-
-        @Override
-        protected String doInBackground(Integer... integers) {
-            // Check if packages are installed
-            for (int i = 0; i < mpip_list.size(); i++) {
-                if (i == 0) // default music player of a13
-                    mpip_list.get(i)[1] = Build.VERSION.SDK_INT >= 33;
-                else
-                    mpip_list.get(i)[1] = AppUtil.isAppInstalled((String) mpip_list.get(i)[0]);
-            }
-            return "Finished!";
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            // ...
-        }
-
-        @Override
-        protected void onPostExecute(String string) {
-            boolean titleShown = false;
-            boolean isSupportedPlayerShown = false;
-            TextView title = findViewById(R.id.mediaplayer_icon_title);
-
-            for (int i = 0; i < mpip_list.size(); i++) {
-                if (!titleShown && isSupportedPlayerShown) {
-                    title.setVisibility(View.VISIBLE);
-                    titleShown = true;
-                }
-
-                if ((Boolean) mpip_list.get(i)[1]) {
-                    if (i == 0) {
-                        addItem("Android 13 Default Player", (String) mpip_list.get(i)[0], ContextCompat.getDrawable(MediaPlayer.this, R.drawable.ic_android), (int) mpip_list.get(i)[2]);
-                    } else {
-                        addItem(AppUtil.getAppName((String) mpip_list.get(i)[0]), (String) mpip_list.get(i)[0], AppUtil.getAppIcon((String) mpip_list.get(i)[0]), (int) mpip_list.get(i)[2]);
-                    }
-                    enableOnClickListener(i);
-                    isSupportedPlayerShown = true;
-                }
-            }
-
-            refreshBackground();
-        }
     }
 
     // Function to check for button bg drawable changes
@@ -263,5 +212,55 @@ public class MediaPlayer extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class LoadMusicPlayerList extends AsyncTask<Integer, Integer, String> {
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected String doInBackground(Integer... integers) {
+            // Check if packages are installed
+            for (int i = 0; i < mpip_list.size(); i++) {
+                if (i == 0) // default music player of a13
+                    mpip_list.get(i)[1] = Build.VERSION.SDK_INT >= 33;
+                else
+                    mpip_list.get(i)[1] = AppUtil.isAppInstalled((String) mpip_list.get(i)[0]);
+            }
+            return "Finished!";
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            // ...
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            boolean titleShown = false;
+            boolean isSupportedPlayerShown = false;
+            TextView title = findViewById(R.id.mediaplayer_icon_title);
+
+            for (int i = 0; i < mpip_list.size(); i++) {
+                if (!titleShown && isSupportedPlayerShown) {
+                    title.setVisibility(View.VISIBLE);
+                    titleShown = true;
+                }
+
+                if ((Boolean) mpip_list.get(i)[1]) {
+                    if (i == 0) {
+                        addItem("Android 13 Default Player", (String) mpip_list.get(i)[0], ContextCompat.getDrawable(MediaPlayer.this, R.drawable.ic_android), (int) mpip_list.get(i)[2]);
+                    } else {
+                        addItem(AppUtil.getAppName((String) mpip_list.get(i)[0]), (String) mpip_list.get(i)[0], AppUtil.getAppIcon((String) mpip_list.get(i)[0]), (int) mpip_list.get(i)[2]);
+                    }
+                    enableOnClickListener(i);
+                    isSupportedPlayerShown = true;
+                }
+            }
+
+            refreshBackground();
+        }
     }
 }
