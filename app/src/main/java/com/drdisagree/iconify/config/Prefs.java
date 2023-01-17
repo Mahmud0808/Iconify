@@ -154,6 +154,15 @@ public class Prefs {
                     } catch (NumberFormatException ignored) {
                     }
                 }
+                if (item.getKey().equals("qsTextSize") && getBoolean("fabricatedqsTextSize")) {
+                    FabricatedOverlayUtil.buildAndEnableOverlay("com.android.systemui", "qsTextSize", "dimen", "qs_tile_text_size", item.getValue() + "sp");
+                }
+                if (item.getKey().equals("qsIconSize") && getBoolean("fabricatedqsIconSize")) {
+                    FabricatedOverlayUtil.buildAndEnableOverlay("com.android.systemui", "qsIconSize", "dimen", "qs_icon_size", item.getValue() + "dp");
+                }
+                if (item.getKey().equals("qsMoveIcon") && getBoolean("fabricatedqsMoveIcon")) {
+                    FabricatedOverlayUtil.buildAndEnableOverlay("com.android.systemui", "qsMoveIcon", "dimen", "qs_tile_start_padding", item.getValue() + "dp");
+                }
             } else if (item.getValue() instanceof Integer) {
                 if (Objects.equals(item.getKey(), "versionCode"))
                     putInt(item.getKey(), BuildConfig.VERSION_CODE);

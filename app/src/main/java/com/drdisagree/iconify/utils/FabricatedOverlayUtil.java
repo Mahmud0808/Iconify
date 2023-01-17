@@ -67,6 +67,8 @@ public class FabricatedOverlayUtil {
             }
 
             val = String.valueOf(TypedValueUtil.createComplexDimension(Integer.parseInt(val), valType));
+
+            Prefs.putString("TypedValue." + name, val);
         }
 
         String build_cmd = "cmd overlay fabricate --target " + target + " --name IconifyComponent" + name + " " + target + ":" + type + "/" + resourceName + " " + resourceType + " " + val;

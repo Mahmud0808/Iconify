@@ -67,12 +67,30 @@ public class ModuleUtil {
         String secondary_colors = "";
         if (!Objects.equals(Prefs.getString("colorAccentSecondary"), "null")) {
             secondary_colors += "cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary android:color/holo_green_light 0x1c " + ColorPicker.ColorToSpecialHex(Integer.parseInt(Prefs.getString("colorAccentSecondary"))) + "\n";
-            secondary_colors += "cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary android:color/system_accent3_100 0x1c " + ColorPicker.ColorToSpecialHex(Integer.parseInt(Prefs.getString("colorAccentSecondary"))) + "\n";
-            secondary_colors += "cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary android:color/system_accent3_200 0x1c " + ColorPicker.ColorToSpecialHex(Integer.parseInt(Prefs.getString("colorAccentSecondary"))) + "\n";
-            secondary_colors += "cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary android:color/system_accent3_300 0x1c " + ColorPicker.ColorToSpecialHex(Integer.parseInt(Prefs.getString("colorAccentSecondary"))) + "\n";
+            primary_colors += "cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentSecondary\n";
+            secondary_colors += "cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary1 android:color/system_accent3_100 0x1c " + ColorPicker.ColorToSpecialHex(Integer.parseInt(Prefs.getString("colorAccentSecondary"))) + "\n";
+            primary_colors += "cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentSecondary1\n";
+            secondary_colors += "cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary2 android:color/system_accent3_200 0x1c " + ColorPicker.ColorToSpecialHex(Integer.parseInt(Prefs.getString("colorAccentSecondary"))) + "\n";
+            primary_colors += "cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentSecondary2\n";
+            secondary_colors += "cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary3 android:color/system_accent3_300 0x1c " + ColorPicker.ColorToSpecialHex(Integer.parseInt(Prefs.getString("colorAccentSecondary"))) + "\n";
+            primary_colors += "cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentSecondary3\n";
         } else if (OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMC.overlay")) {
             secondary_colors += "cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary android:color/holo_green_light 0x1c 0xFF387BFF\n";
             secondary_colors += "cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentSecondary\n";
+        }
+
+        String qs_icon_label = "";
+        if (!Objects.equals(Prefs.getString("TypedValue.qsTextSize"), "null") && Prefs.getBoolean("fabricatedqsTextSize")) {
+            qs_icon_label += "cmd overlay fabricate --target com.android.systemui --name IconifyComponentqsTextSize com.android.systemui:dimen/qs_tile_text_size 0x05 " + Prefs.getString("TypedValue.qsTextSize") + "\n";
+            qs_icon_label += "cmd overlay enable --user current com.android.shell:IconifyComponentqsTextSize\n";
+        }
+        if (!Objects.equals(Prefs.getString("TypedValue.qsIconSize"), "null") && Prefs.getBoolean("fabricatedqsIconSize")) {
+            qs_icon_label += "cmd overlay fabricate --target com.android.systemui --name IconifyComponentqsIconSize com.android.systemui:dimen/qs_icon_size 0x05 " + Prefs.getString("TypedValue.qsIconSize") + "\n";
+            qs_icon_label += "cmd overlay enable --user current com.android.shell:IconifyComponentqsIconSize\n";
+        }
+        if (!Objects.equals(Prefs.getString("TypedValue.qsMoveIcon"), "null") && Prefs.getBoolean("fabricatedqsMoveIcon")) {
+            qs_icon_label += "cmd overlay fabricate --target com.android.systemui --name IconifyComponentqsMoveIcon com.android.systemui:dimen/qs_tile_start_padding 0x05 " + Prefs.getString("TypedValue.qsMoveIcon") + "\n";
+            qs_icon_label += "cmd overlay enable --user current com.android.shell:IconifyComponentqsMoveIcon\n";
         }
 
         String service_sh = "MODDIR=${0%%/*}\n\n" +
@@ -93,6 +111,7 @@ public class ModuleUtil {
 
         service_sh += primary_colors;
         service_sh += secondary_colors;
+        service_sh += qs_icon_label;
         service_sh += "\n";
 
         Shell.cmd("printf '" + service_sh + "' > " + References.MODULE_DIR + "/service.sh").exec();
