@@ -10,7 +10,6 @@ import android.content.Context;
 
 import com.drdisagree.iconify.config.XPrefs;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.xposed.mods.BlurRadius;
 import com.drdisagree.iconify.xposed.mods.QSTransparency;
 import com.drdisagree.iconify.xposed.mods.StatusbarClock;
 
@@ -31,7 +30,6 @@ public class HookEntry implements IXposedHookLoadPackage {
 
     public HookEntry() {
         modPacks.add(QSTransparency.class);
-        modPacks.add(BlurRadius.class);
         modPacks.add(StatusbarClock.class);
     }
 

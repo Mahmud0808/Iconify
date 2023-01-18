@@ -37,8 +37,6 @@ public class References {
     // Xposed mods
     public static final String QSTRANSPARENCY_SWITCH = "xposed_qstransparency";
     public static final String QSALPHA_LEVEL = "xposed_qsalpha";
-    public static final String QSBLUR_SWITCH = "xposed_qsblur";
-    public static final String QSBLUR_RADIUS = "xposed_qsblurradius";
     public static final String STATUSBAR_CLOCKBG = "xposed_qsclockbg";
     // Notification service checker
     public static boolean isNotificationServiceRunning = false;

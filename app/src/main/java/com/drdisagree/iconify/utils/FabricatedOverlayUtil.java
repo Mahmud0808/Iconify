@@ -55,7 +55,7 @@ public class FabricatedOverlayUtil {
             } else if (val.contains("px")) {
                 valType = TypedValue.COMPLEX_UNIT_PX;
                 val = val.replace("px", "");
-            } else if (val.contains("IN")) {
+            } else if (val.contains("in")) {
                 valType = TypedValue.COMPLEX_UNIT_IN;
                 val = val.replace("in", "");
             } else if (val.contains("pt")) {
