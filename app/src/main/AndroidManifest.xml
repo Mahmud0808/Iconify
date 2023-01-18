@@ -58,9 +58,9 @@
             android:directBootAware="true"
             android:exported="true"
             tools:ignore="ExportedContentProvider" />
-
-        <!-- activities -->
-
+        <activity
+            android:name=".ui.activity.AppUpdates"
+            android:exported="false" />
         <activity
             android:name=".ui.activity.Changelog"
             android:exported="false" />

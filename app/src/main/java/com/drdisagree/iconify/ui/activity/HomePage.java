@@ -1,8 +1,13 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.LATEST_VERSION;
+
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -32,6 +38,14 @@ import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +53,11 @@ public class HomePage extends AppCompatActivity {
 
     public static boolean isServiceRunning = false;
     private ViewGroup container;
+    @SuppressLint("StaticFieldLeak")
+    private static LinearLayout check_update;
+    @SuppressLint("StaticFieldLeak")
+    private static TextView current_version, latest_version;
+    private Button download_update;
 
     // Save unique id of each boot
     public static void getBootId() {
@@ -53,9 +72,29 @@ public class HomePage extends AppCompatActivity {
         Prefs.putBoolean("onHomePage", true);
 
         container = findViewById(R.id.home_page_list);
-        View list_view = LayoutInflater.from(this).inflate(R.layout.dialog_reboot, container, false);
-        LinearLayout reboot_reminder = list_view.findViewById(R.id.reboot_reminder);
-        container.addView(list_view);
+
+        // New update available dialog
+        View list_view1 = LayoutInflater.from(this).inflate(R.layout.dialog_new_update, container, false);
+        check_update = list_view1.findViewById(R.id.check_update);
+        container.addView(list_view1);
+        check_update.setVisibility(View.GONE);
+
+        current_version = container.findViewById(R.id.current_version);
+        latest_version = container.findViewById(R.id.latest_version);
+        download_update = container.findViewById(R.id.download_update);
+
+        long lastChecked = Prefs.getLong("LAST_UPDATE_CHECK_TIME", -1);
+
+        if (Prefs.getLong("UPDATE_CHECK_TIME", 0) != -1 && (lastChecked == -1 || (System.currentTimeMillis() - lastChecked >= Prefs.getLong("UPDATE_CHECK_TIME", 0)))) {
+            Prefs.putLong("LAST_UPDATE_CHECK_TIME", System.currentTimeMillis());
+            HomePage.CheckForUpdate checkForUpdate = new HomePage.CheckForUpdate();
+            checkForUpdate.execute();
+        }
+
+        // Reboot needed dialog
+        View list_view2 = LayoutInflater.from(this).inflate(R.layout.dialog_reboot, container, false);
+        LinearLayout reboot_reminder = list_view2.findViewById(R.id.reboot_reminder);
+        container.addView(list_view2);
         reboot_reminder.setVisibility(View.GONE);
 
         if (!Prefs.getBoolean("firstInstall") && Prefs.getBoolean("updateDetected")) {
@@ -139,10 +178,12 @@ public class HomePage extends AppCompatActivity {
         }
 
         // Enable onClick event
-        // reboot dialog is in the first index
-        for (int i = 1; i < home_page.size() + 1; i++) {
+        // new update dilaog is in the first index
+        // reboot dialog is in the second index
+        int extra_items = container.getChildCount() - home_page.size();
+        for (int i = extra_items; i < home_page.size() + extra_items; i++) {
             LinearLayout child = container.getChildAt(i).findViewById(R.id.list_item);
-            int finalI = i - 1;
+            int finalI = i - extra_items;
             child.setOnClickListener(v -> {
                 Intent intent = new Intent(HomePage.this, (Class<?>) home_page.get(finalI)[0]);
                 startActivity(intent);
@@ -165,6 +206,91 @@ public class HomePage extends AppCompatActivity {
             preview.setImageResource((int) pack.get(i)[3]);
 
             container.addView(list);
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class CheckForUpdate extends AsyncTask<Integer, Integer, String> {
+
+        String jsonURL = LATEST_VERSION;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(Integer... integers) {
+            HttpURLConnection urlConnection = null;
+            BufferedReader bufferedReader = null;
+
+            try {
+                URL url = new URL(jsonURL);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.connect();
+
+                InputStream inputStream = urlConnection.getInputStream();
+
+                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                StringBuilder stringBuffer = new StringBuilder();
+
+                String line;
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(line).append("\n");
+                }
+                if (stringBuffer.length() == 0) {
+                    return null;
+                } else {
+                    return stringBuffer.toString();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (bufferedReader != null) {
+                    try {
+                        bufferedReader.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+        @SuppressLint("SetTextI18n")
+        @Override
+        protected void onPostExecute(String jsonStr) {
+            super.onPostExecute(jsonStr);
+
+            if (jsonStr != null) {
+                try {
+                    JSONObject latestVersion = new JSONObject(jsonStr);
+
+                    if (Integer.parseInt(latestVersion.getString("versionCode")) > BuildConfig.VERSION_CODE) {
+                        download_update.setOnClickListener(v -> {
+                            try {
+                                String apkUrl = latestVersion.getString("apkUrl");
+                                Intent i = new Intent(Intent.ACTION_VIEW);
+                                i.setData(Uri.parse(apkUrl));
+                                startActivity(i);
+                            } catch (JSONException e) {
+                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                e.printStackTrace();
+                            }
+                        });
+                        current_version.setText(getResources().getString(R.string.current_version) + " " + BuildConfig.VERSION_NAME);
+                        latest_version.setText(getResources().getString(R.string.latest_version) + " " + latestVersion.getString("versionName"));
+                        check_update.setVisibility(View.VISIBLE);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

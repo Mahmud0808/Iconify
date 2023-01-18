@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="ColorPicker" parent="Theme.Material3.Light.Dialog">
         <item name="android:colorAccent">@color/colorAccent</item>
         <item name="android:windowTitleStyle">@style/LightPickerDialogTitleStyle</item>
@@ -39,5 +40,14 @@
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
         <item name="android:colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
+        <item name="android:textColor">@color/textColorPrimary</item>
+    </style>
+
+    <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:background">@color/colorContainer</item>
     </style>
 </resources>

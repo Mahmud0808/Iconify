@@ -167,7 +167,8 @@ public class Settings extends AppCompatActivity {
         if (itemID == android.R.id.home) {
             onBackPressed();
         } else if (itemID == R.id.menu_updates) {
-            Toast.makeText(Iconify.getAppContext(), "Coming soon", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Settings.this, AppUpdates.class);
+            startActivity(intent);
         } else if (itemID == R.id.menu_changelog) {
             Intent intent = new Intent(Settings.this, Changelog.class);
             startActivity(intent);
@@ -209,28 +210,28 @@ public class Settings extends AppCompatActivity {
             switch (requestCode) {
                 case REQUESTCODE_IMPORT:
                     AlertDialog alertDialog = new AlertDialog.Builder(Settings.this).create();
-                    alertDialog.setTitle("Are you sure?");
-                    alertDialog.setMessage("You will loose your current setup and settings.");
-                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes",
+                    alertDialog.setTitle(getResources().getString(R.string.confirmation));
+                    alertDialog.setMessage(getResources().getString(R.string.you_will_loose_current_setup));
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.positive),
                             (dialog, which) -> {
                                 dialog.dismiss();
                                 try {
                                     Prefs.importPrefs(getContentResolver().openInputStream(data.getData()));
-                                    Toast.makeText(Iconify.getAppContext(), "Imported settings successfully", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.imported_settings), Toast.LENGTH_LONG).show();
                                 } catch (Exception e) {
-                                    Toast.makeText(Iconify.getAppContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                                 }
                             });
-                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.negative),
                             (dialog, which) -> dialog.dismiss());
                     alertDialog.show();
                     break;
                 case REQUESTCODE_EXPORT:
                     try {
                         Prefs.exportPrefs(prefs, getContentResolver().openOutputStream(data.getData()));
-                        Toast.makeText(Iconify.getAppContext(), "Saved settings successfully", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.exported_settings), Toast.LENGTH_LONG).show();
                     } catch (Exception e) {
-                        Toast.makeText(Iconify.getAppContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                     }
                     break;
             }

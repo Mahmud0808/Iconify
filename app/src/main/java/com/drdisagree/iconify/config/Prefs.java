@@ -41,6 +41,10 @@ public class Prefs {
         editor.putInt(key, val).apply();
     }
 
+    public static void putLong(String key, long val) {
+        editor.putLong(key, val).apply();
+    }
+
     public static void putString(String key, String val) {
         editor.putString(key, val).apply();
     }
@@ -60,6 +64,14 @@ public class Prefs {
 
     public static int getInt(String key, int defValue) {
         return pref.getInt(key, defValue);
+    }
+
+    public static long getLong(String key) {
+        return pref.getLong(key, 0);
+    }
+
+    public static long getLong(String key, long defValue) {
+        return pref.getLong(key, defValue);
     }
 
     public static String getString(String key) {

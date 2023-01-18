@@ -186,4 +186,26 @@
     <string name="installation_failed">Something went wrong.\nSend logs to developer to help fix the problem.</string>
     <string name="no_internet_connection">Couldn\'t connect to server!\nThere might be an issue with your internet connection or the server might be down at this moment. Please try again later.</string>
     <string name="changelog_not_found">Changelog not found!\nThis might be an issue with your internet connection or the server might be down at this moment. Please try again later.</string>
+    <string name="btn_download">Download</string>
+    <string name="update_schedule_title">Update Schedule</string>
+    <string name="update_schedule_des">When to check for update</string>
+    <string name="new_update_available">New update available!</string>
+    <string name="view_changelog">View Changelog</string>
+    <string name="hide_changelog">Hide Changelog</string>
+    <string name="already_up_to_date">You are already up to date.</string>
+    <string name="current_version">Current Version:</string>
+    <string name="latest_version">Latest Version:</string>
+    <string name="update_checking_failed">Failed to check for update!</string>
+    <string name="not_available">N/A</string>
+    <string name="confirmation">Are you sure?</string>
+    <string name="you_will_loose_current_setup">You will loose your current setup and settings.</string>
+    <string name="positive">Yes</string>
+    <string name="negative">No</string>
+    <string name="imported_settings">Imported settings successfully</string>
+    <string name="exported_settings">Saved settings successfully</string>
+    <string name="update_schedule1">Every Time</string>
+    <string name="update_schedule2">Every Hour</string>
+    <string name="update_schedule3">Every Day</string>
+    <string name="update_schedule4">Every Week</string>
+    <string name="update_schedule5">Never</string>
 </resources>

@@ -1,0 +1,12 @@
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/text1"
+    style="@style/spinnerItemStyle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:ellipsize="marquee"
+    android:background="@drawable/dropdown_bg"
+    android:maxLines="1"
+    android:paddingLeft="12dp"
+    android:paddingTop="6dp"
+    android:paddingRight="12dp"
+    android:paddingBottom="6dp" />
