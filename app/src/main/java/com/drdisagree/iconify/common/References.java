@@ -41,5 +41,5 @@ public class References {
     // Notification service checker
     public static boolean isNotificationServiceRunning = false;
     // Parse new update
-    public static final String LATEST_VERSION = "https://raw.githubusercontent.com/Mahmud0808/Iconify/master/latestVersion.json";
+    public static final String LATEST_VERSION = "https://raw.githubusercontent.com/Mahmud0808/Iconify/stable/latestVersion.json";
 }

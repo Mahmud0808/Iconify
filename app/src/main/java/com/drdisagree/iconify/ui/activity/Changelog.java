@@ -87,7 +87,7 @@ public class Changelog extends AppCompatActivity {
         @Override
         protected String doInBackground(Integer... integers) {
             try {
-                URL myUrl = new URL("https://raw.githubusercontent.com/Mahmud0808/Iconify/master/fastlane/metadata/android/en-US/changelogs/" + BuildConfig.VERSION_CODE + ".txt");
+                URL myUrl = new URL("https://raw.githubusercontent.com/Mahmud0808/Iconify/stable/fastlane/metadata/android/en-US/changelogs/" + BuildConfig.VERSION_CODE + ".txt");
                 URLConnection connection = myUrl.openConnection();
                 connection.setConnectTimeout(5000);
                 connection.connect();
@@ -99,7 +99,7 @@ public class Changelog extends AppCompatActivity {
 
             if (connectionAvailable) {
                 for (int i = BuildConfig.VERSION_CODE; i >= 1; i--) {
-                    String parseChangelog = "https://raw.githubusercontent.com/Mahmud0808/Iconify/master/fastlane/metadata/android/en-US/changelogs/" + i + ".txt";
+                    String parseChangelog = "https://raw.githubusercontent.com/Mahmud0808/Iconify/stable/fastlane/metadata/android/en-US/changelogs/" + i + ".txt";
                     HttpURLConnection urlConnection = null;
                     BufferedReader bufferedReader = null;
 
