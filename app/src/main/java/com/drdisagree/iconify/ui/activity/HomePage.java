@@ -4,9 +4,12 @@ import static com.drdisagree.iconify.common.References.LATEST_VERSION;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,12 +21,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.BuildConfig;
@@ -38,7 +41,6 @@ import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -56,8 +58,8 @@ public class HomePage extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     private static LinearLayout check_update;
     @SuppressLint("StaticFieldLeak")
-    private static TextView current_version, latest_version;
-    private Button download_update;
+    private HomePage.CheckForUpdate checkForUpdate = null;
+    TextView update_desc;
 
     // Save unique id of each boot
     public static void getBootId() {
@@ -78,16 +80,13 @@ public class HomePage extends AppCompatActivity {
         check_update = list_view1.findViewById(R.id.check_update);
         container.addView(list_view1);
         check_update.setVisibility(View.GONE);
-
-        current_version = container.findViewById(R.id.current_version);
-        latest_version = container.findViewById(R.id.latest_version);
-        download_update = container.findViewById(R.id.download_update);
+        update_desc = findViewById(R.id.update_desc);
 
         long lastChecked = Prefs.getLong("LAST_UPDATE_CHECK_TIME", -1);
 
         if (Prefs.getLong("UPDATE_CHECK_TIME", 0) != -1 && (lastChecked == -1 || (System.currentTimeMillis() - lastChecked >= Prefs.getLong("UPDATE_CHECK_TIME", 0)))) {
             Prefs.putLong("LAST_UPDATE_CHECK_TIME", System.currentTimeMillis());
-            HomePage.CheckForUpdate checkForUpdate = new HomePage.CheckForUpdate();
+            checkForUpdate = new HomePage.CheckForUpdate();
             checkForUpdate.execute();
         }
 
@@ -185,9 +184,15 @@ public class HomePage extends AppCompatActivity {
             LinearLayout child = container.getChildAt(i).findViewById(R.id.list_item);
             int finalI = i - extra_items;
             child.setOnClickListener(v -> {
+                if (checkForUpdate != null && (checkForUpdate.getStatus() == AsyncTask.Status.PENDING || checkForUpdate.getStatus() == AsyncTask.Status.RUNNING))
+                    checkForUpdate.cancel(true);
                 Intent intent = new Intent(HomePage.this, (Class<?>) home_page.get(finalI)[0]);
                 startActivity(intent);
             });
+        }
+
+        if (Build.VERSION.SDK_INT >= 33 && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 0);
         }
     }
 
@@ -272,25 +277,48 @@ public class HomePage extends AppCompatActivity {
                     JSONObject latestVersion = new JSONObject(jsonStr);
 
                     if (Integer.parseInt(latestVersion.getString("versionCode")) > BuildConfig.VERSION_CODE) {
-                        download_update.setOnClickListener(v -> {
-                            try {
-                                String apkUrl = latestVersion.getString("apkUrl");
-                                Intent i = new Intent(Intent.ACTION_VIEW);
-                                i.setData(Uri.parse(apkUrl));
-                                startActivity(i);
-                            } catch (JSONException e) {
-                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                                e.printStackTrace();
-                            }
-                        });
-                        current_version.setText(getResources().getString(R.string.current_version) + " " + BuildConfig.VERSION_NAME);
-                        latest_version.setText(getResources().getString(R.string.latest_version) + " " + latestVersion.getString("versionName"));
-                        check_update.setVisibility(View.VISIBLE);
+                        NotificationManager manager = (NotificationManager) Iconify.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                        NotificationChannel channel = manager.getNotificationChannel("Updates");
+                        if (ContextCompat.checkSelfPermission(HomePage.this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED && channel.getImportance() != NotificationManager.IMPORTANCE_NONE) {
+                            showUpdateNotification();
+                        } else {
+                            check_update.setOnClickListener(v -> {
+                                Intent intent = new Intent(HomePage.this, AppUpdates.class);
+                                startActivity(intent);
+                            });
+                            update_desc.setText(getResources().getString(R.string.update_dialog_desc).replace("{latestVersionName}", latestVersion.getString("versionName")));
+                            check_update.setVisibility(View.VISIBLE);
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
+    }
+
+    private void showUpdateNotification() {
+        Intent notificationIntent = new Intent(this, AppUpdates.class);
+        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_MUTABLE);
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "Updates")
+                .setSmallIcon(R.drawable.ic_launcher_fg)
+                .setContentTitle("Update Available")
+                .setContentText("A new version of Iconify is available.")
+                .setContentIntent(pendingIntent)
+                .setOnlyAlertOnce(true)
+                .setAutoCancel(true);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        createChannel(notificationManager);
+        notificationManager.notify(0, notificationBuilder.build());
+    }
+
+    public void createChannel(NotificationManager notificationManager) {
+        NotificationChannel channel = new NotificationChannel("Updates", "Updates", NotificationManager.IMPORTANCE_DEFAULT);
+        channel.setDescription("This channel shows notification about the latest updates.");
+        notificationManager.createNotificationChannel(channel);
     }
 }

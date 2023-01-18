@@ -41,7 +41,7 @@ import java.util.Objects;
 public class AppUpdates extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
-    private static LinearLayout check_update, changelog;
+    private static LinearLayout check_update, changelog, checking_for_update, checked_for_update;
     @SuppressLint("StaticFieldLeak")
     private static TextView update_title, current_version, latest_version, changelog_text, show_changelog;
     Button download_update;
@@ -59,6 +59,8 @@ public class AppUpdates extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        checking_for_update = findViewById(R.id.checking_for_update);
+        checked_for_update = findViewById(R.id.checked_for_update);
         check_update = findViewById(R.id.check_update);
         update_title = findViewById(R.id.update_title);
         current_version = findViewById(R.id.current_version);
@@ -122,7 +124,8 @@ public class AppUpdates extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            super.onPreExecute();
+            checking_for_update.setVisibility(View.VISIBLE);
+            checked_for_update.setVisibility(View.GONE);
         }
 
         @Override
@@ -223,7 +226,6 @@ public class AppUpdates extends AppCompatActivity {
 
                     current_version.setText(getResources().getString(R.string.current_version) + " " + BuildConfig.VERSION_NAME);
                     latest_version.setText(getResources().getString(R.string.latest_version) + " " + latestVersion.getString("versionName"));
-                    check_update.setVisibility(View.VISIBLE);
                 } catch (Exception e) {
                     failedToCheck();
                     e.printStackTrace();
@@ -231,6 +233,8 @@ public class AppUpdates extends AppCompatActivity {
             } else {
                 failedToCheck();
             }
+            checking_for_update.setVisibility(View.GONE);
+            checked_for_update.setVisibility(View.VISIBLE);
         }
     }
 
@@ -239,6 +243,5 @@ public class AppUpdates extends AppCompatActivity {
         update_title.setText(Iconify.getAppContext().getResources().getString(R.string.update_checking_failed));
         current_version.setText(Iconify.getAppContext().getResources().getString(R.string.current_version) + " " + BuildConfig.VERSION_NAME);
         latest_version.setText(Iconify.getAppContext().getResources().getString(R.string.latest_version) + " " + Iconify.getAppContext().getResources().getString(R.string.not_available));
-        check_update.setVisibility(View.VISIBLE);
     }
 }
