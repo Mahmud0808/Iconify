@@ -62,7 +62,7 @@ public class Changelog extends AppCompatActivity {
             View list = LayoutInflater.from(this).inflate(R.layout.list_changelog, container, false);
 
             TextView changes = list.findViewById(R.id.changelog_text);
-            changes.setText((String) pack.get(i).substring(0, (int) pack.get(i).lastIndexOf("\n")));
+            changes.setText(pack.get(i));
 
             container.addView(list);
         }
@@ -122,7 +122,10 @@ public class Changelog extends AppCompatActivity {
                         if (stringBuffer.length() == 0) {
                             return null;
                         } else {
-                            changelogs.add(stringBuffer.toString());
+                            if (stringBuffer.toString().lastIndexOf("\n") == stringBuffer.toString().length() - 1)
+                                changelogs.add(stringBuffer.substring(0, stringBuffer.toString().lastIndexOf("\n")));
+                            else
+                                changelogs.add(stringBuffer.toString());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
