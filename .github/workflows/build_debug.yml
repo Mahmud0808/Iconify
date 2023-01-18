@@ -2,7 +2,7 @@ name: Build Debug APK
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "beta" ]
   
   workflow_dispatch:
 
