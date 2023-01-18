@@ -117,7 +117,7 @@ public class Changelog extends AppCompatActivity {
                         String line;
 
                         while ((line = bufferedReader.readLine()) != null) {
-                            stringBuffer.append(line.replace(">>", "\t\t•")).append("\n");
+                            stringBuffer.append(line.replace(">>", "\t\t>>")).append("\n");
                         }
                         if (stringBuffer.length() == 0) {
                             return null;
