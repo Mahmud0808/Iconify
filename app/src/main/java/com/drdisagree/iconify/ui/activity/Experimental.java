@@ -1,10 +1,9 @@
 package com.drdisagree.iconify.ui.activity;
 
 import static com.drdisagree.iconify.common.References.QSALPHA_LEVEL;
-import static com.drdisagree.iconify.common.References.QSBLUR_RADIUS;
-import static com.drdisagree.iconify.common.References.QSBLUR_SWITCH;
 import static com.drdisagree.iconify.common.References.QSTRANSPARENCY_SWITCH;
 import static com.drdisagree.iconify.common.References.STATUSBAR_CLOCKBG;
+import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -17,7 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RemotePrefs;
+import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
@@ -90,18 +91,22 @@ public class Experimental extends AppCompatActivity {
 
         // Qs Panel Blur
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_blur = findViewById(R.id.enable_blur);
-        RemotePrefs.putBoolean(QSBLUR_SWITCH, SystemUtil.supportsBlur());
-        enable_blur.setChecked(RemotePrefs.getBoolean(QSBLUR_SWITCH, false));
+        Prefs.putBoolean("qsBlurSwitch", SystemUtil.supportsBlur());
+        enable_blur.setChecked(Prefs.getBoolean("qsBlurSwitch", false));
         enable_blur.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RemotePrefs.putBoolean(QSBLUR_SWITCH, isChecked);
-            if (isChecked) SystemUtil.enableBlur();
-            else SystemUtil.disableBlur();
+            Prefs.putBoolean("qsBlurSwitch", isChecked);
+            if (isChecked)
+                SystemUtil.enableBlur();
+            else {
+                SystemUtil.disableBlur();
+                FabricatedOverlayUtil.disableOverlay("qsBlurRadius");
+            }
         });
 
         SeekBar blur_seekbar = findViewById(R.id.blur_seekbar);
         blur_seekbar.setPadding(0, 0, 0, 0);
         TextView blur_output = findViewById(R.id.blur_output);
-        final int[] blur_radius = {RemotePrefs.getInt(QSBLUR_RADIUS, 23)};
+        final int[] blur_radius = {Prefs.getInt("qsBlurRadius", 23)};
         blur_output.setText(getResources().getString(R.string.opt_selected) + ' ' + blur_radius[0] + "px");
         blur_seekbar.setProgress(blur_radius[0]);
         blur_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -118,7 +123,8 @@ public class Experimental extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                RemotePrefs.putInt(QSBLUR_RADIUS, blur_radius[0]);
+                Prefs.putInt("qsBlurRadius", blur_radius[0]);
+                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEM_UI_PACKAGE, "qsBlurRadius", "dimen", "max_window_blur_radius", blur_radius[0] + "px");
                 // Restart SystemUI
                 new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
             }
