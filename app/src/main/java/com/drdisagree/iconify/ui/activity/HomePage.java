@@ -54,12 +54,12 @@ import java.util.List;
 public class HomePage extends AppCompatActivity {
 
     public static boolean isServiceRunning = false;
-    private ViewGroup container;
     @SuppressLint("StaticFieldLeak")
     private static LinearLayout check_update;
+    TextView update_desc;
+    private ViewGroup container;
     @SuppressLint("StaticFieldLeak")
     private HomePage.CheckForUpdate checkForUpdate = null;
-    TextView update_desc;
 
     // Save unique id of each boot
     public static void getBootId() {
@@ -214,6 +214,31 @@ public class HomePage extends AppCompatActivity {
         }
     }
 
+    private void showUpdateNotification() {
+        Intent notificationIntent = new Intent(this, AppUpdates.class);
+        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_MUTABLE);
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "Updates")
+                .setSmallIcon(R.drawable.ic_launcher_fg)
+                .setContentTitle("Update Available")
+                .setContentText("A new version of Iconify is available.")
+                .setContentIntent(pendingIntent)
+                .setOnlyAlertOnce(true)
+                .setAutoCancel(true);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        createChannel(notificationManager);
+        notificationManager.notify(0, notificationBuilder.build());
+    }
+
+    public void createChannel(NotificationManager notificationManager) {
+        NotificationChannel channel = new NotificationChannel("Updates", "Updates", NotificationManager.IMPORTANCE_DEFAULT);
+        channel.setDescription("This channel shows notification about the latest updates.");
+        notificationManager.createNotificationChannel(channel);
+    }
+
     @SuppressLint("StaticFieldLeak")
     private class CheckForUpdate extends AsyncTask<Integer, Integer, String> {
 
@@ -297,30 +322,5 @@ public class HomePage extends AppCompatActivity {
                 }
             }
         }
-    }
-
-    private void showUpdateNotification() {
-        Intent notificationIntent = new Intent(this, AppUpdates.class);
-        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_MUTABLE);
-
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "Updates")
-                .setSmallIcon(R.drawable.ic_launcher_fg)
-                .setContentTitle("Update Available")
-                .setContentText("A new version of Iconify is available.")
-                .setContentIntent(pendingIntent)
-                .setOnlyAlertOnce(true)
-                .setAutoCancel(true);
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        createChannel(notificationManager);
-        notificationManager.notify(0, notificationBuilder.build());
-    }
-
-    public void createChannel(NotificationManager notificationManager) {
-        NotificationChannel channel = new NotificationChannel("Updates", "Updates", NotificationManager.IMPORTANCE_DEFAULT);
-        channel.setDescription("This channel shows notification about the latest updates.");
-        notificationManager.createNotificationChannel(channel);
     }
 }

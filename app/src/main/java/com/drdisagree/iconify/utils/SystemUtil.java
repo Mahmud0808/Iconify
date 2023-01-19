@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.utils;
 
+import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -28,7 +30,7 @@ public class SystemUtil {
     }
 
     public static void restartSystemUI() {
-        Shell.cmd("killall com.android.systemui").exec();
+        Shell.cmd("killall " + SYSTEM_UI_PACKAGE).exec();
     }
 
     public static void restartDevice() {

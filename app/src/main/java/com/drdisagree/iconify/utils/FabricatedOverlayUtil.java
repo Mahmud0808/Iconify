@@ -29,13 +29,12 @@ public class FabricatedOverlayUtil {
         if (target == null || name == null || type == null || resourceName == null || val == null)
             return;
 
-        SharedPreferences prefs = Iconify.getAppContext().getSharedPreferences(Iconify.getAppContext().getPackageName(), Context.MODE_PRIVATE);
-        prefs.edit().putBoolean("fabricated" + name, true).apply();
-        prefs.edit().putString("FOCMDtarget" + name, target).apply();
-        prefs.edit().putString("FOCMDname" + name, name).apply();
-        prefs.edit().putString("FOCMDtype" + name, type).apply();
-        prefs.edit().putString("FOCMDresourceName" + name, resourceName).apply();
-        prefs.edit().putString("FOCMDval" + name, val).apply();
+        Prefs.putBoolean("fabricated" + name, true);
+        Prefs.putString("FOCMDtarget" + name, target);
+        Prefs.putString("FOCMDname" + name, name);
+        Prefs.putString("FOCMDtype" + name, type);
+        Prefs.putString("FOCMDresourceName" + name, resourceName);
+        Prefs.putString("FOCMDval" + name, val);
 
         String resourceType = "0x1c";
 

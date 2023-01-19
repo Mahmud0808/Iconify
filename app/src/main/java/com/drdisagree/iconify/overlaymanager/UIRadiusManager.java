@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.overlaymanager;
 
+import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
 import static com.drdisagree.iconify.common.References.TOTAL_RADIUS;
 
 import com.drdisagree.iconify.config.Prefs;
@@ -24,7 +25,7 @@ public class UIRadiusManager {
             if (!Prefs.getBoolean(overlay))
                 OverlayUtil.enableOverlay(overlay);
 
-            FabricatedOverlayUtil.buildAndEnableOverlay("com.android.systemui", "qsScrimCornerRadius", "dimen", "notification_scrim_corner_radius", (n + 8) + "dp");
+            FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEM_UI_PACKAGE, "qsScrimCornerRadius", "dimen", "notification_scrim_corner_radius", (n + 8) + "dp");
         }
     }
 

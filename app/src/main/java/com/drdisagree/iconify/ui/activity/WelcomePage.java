@@ -31,8 +31,8 @@ import java.io.IOException;
 
 public class WelcomePage extends AppCompatActivity {
 
-    LoadingDialog loadingDialog;
     private static boolean hasErroredOut = false;
+    LoadingDialog loadingDialog;
 
     @SuppressLint("SetTextI18n")
     @Override

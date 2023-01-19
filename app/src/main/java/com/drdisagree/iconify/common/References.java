@@ -38,8 +38,8 @@ public class References {
     public static final String QSTRANSPARENCY_SWITCH = "xposed_qstransparency";
     public static final String QSALPHA_LEVEL = "xposed_qsalpha";
     public static final String STATUSBAR_CLOCKBG = "xposed_qsclockbg";
-    // Notification service checker
-    public static boolean isNotificationServiceRunning = false;
     // Parse new update
     public static final String LATEST_VERSION = "https://raw.githubusercontent.com/Mahmud0808/Iconify/stable/latestVersion.json";
+    // Notification service checker
+    public static boolean isNotificationServiceRunning = false;
 }

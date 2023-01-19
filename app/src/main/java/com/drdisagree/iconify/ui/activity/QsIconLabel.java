@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
@@ -77,7 +79,7 @@ public class QsIconLabel extends AppCompatActivity {
                 Prefs.putString("qsTextSize", String.valueOf(finalTextSize[0]));
                 Prefs.putBoolean("fabricatedqsTextSize", true);
 
-                FabricatedOverlayUtil.buildAndEnableOverlay("com.android.systemui", "qsTextSize", "dimen", "qs_tile_text_size", finalTextSize[0] + "sp");
+                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEM_UI_PACKAGE, "qsTextSize", "dimen", "qs_tile_text_size", finalTextSize[0] + "sp");
 
                 Toast.makeText(Iconify.getAppContext(), finalTextSize[0] + "sp " + getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
             }
@@ -122,7 +124,7 @@ public class QsIconLabel extends AppCompatActivity {
                 Prefs.putString("qsIconSize", String.valueOf(finalIconSize[0]));
                 Prefs.putBoolean("fabricatedqsIconSize", true);
 
-                FabricatedOverlayUtil.buildAndEnableOverlay("com.android.systemui", "qsIconSize", "dimen", "qs_icon_size", finalIconSize[0] + "dp");
+                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEM_UI_PACKAGE, "qsIconSize", "dimen", "qs_icon_size", finalIconSize[0] + "dp");
 
                 Toast.makeText(Iconify.getAppContext(), finalIconSize[0] + "dp " + getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
             }
@@ -298,7 +300,7 @@ public class QsIconLabel extends AppCompatActivity {
                 Prefs.putString("qsMoveIcon", String.valueOf(finalMoveIcon[0]));
                 Prefs.putBoolean("fabricatedqsMoveIcon", true);
 
-                FabricatedOverlayUtil.buildAndEnableOverlay("com.android.systemui", "qsMoveIcon", "dimen", "qs_tile_start_padding", finalMoveIcon[0] + "dp");
+                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEM_UI_PACKAGE, "qsMoveIcon", "dimen", "qs_tile_start_padding", finalMoveIcon[0] + "dp");
 
                 Toast.makeText(Iconify.getAppContext(), finalMoveIcon[0] + "dp " + getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
             }
