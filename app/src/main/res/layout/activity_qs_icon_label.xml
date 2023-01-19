@@ -230,7 +230,7 @@
                         android:background="@null"
                         android:hapticFeedbackEnabled="true"
                         android:max="100"
-                        android:min="0"
+                        android:min="8"
                         android:progress="16"
                         android:progressDrawable="@drawable/seekbar"
                         android:splitTrack="false"

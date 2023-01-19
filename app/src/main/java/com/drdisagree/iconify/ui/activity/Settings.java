@@ -29,6 +29,7 @@ import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class Settings extends AppCompatActivity {
@@ -36,39 +37,25 @@ public class Settings extends AppCompatActivity {
     private static final int REQUESTCODE_IMPORT = 1;
     private static final int REQUESTCODE_EXPORT = 2;
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
-    public static List<String> FabricatedEnabledOverlays = FabricatedOverlayUtil.getEnabledOverlayList();
     LoadingDialog loadingDialog;
 
     public static void disableEverything() {
+        SharedPreferences prefs = Iconify.getAppContext().getSharedPreferences(Iconify.getAppContext().getPackageName(), Context.MODE_PRIVATE);
+        Map<String, ?> map = prefs.getAll();
+
+        for (Map.Entry<String, ?> item : map.entrySet()) {
+            if (item.getValue() instanceof Boolean && ((Boolean) item.getValue()) && item.getKey().contains("fabricated")) {
+                Prefs.putBoolean(item.getKey(), (Boolean) item.getValue());
+                FabricatedOverlayUtil.disableOverlay(item.getKey().replace("fabricated", ""));
+            }
+        }
+
         for (String overlay : EnabledOverlays) {
             OverlayUtil.disableOverlay(overlay);
             Prefs.clearPref(overlay);
-            Prefs.clearPref("cornerRadius");
-            Prefs.clearPref("qsTextSize");
-            Prefs.clearPref("qsIconSize");
-            Prefs.clearPref("qsMoveIcon");
         }
 
-        for (String fabricatedOverlay : FabricatedEnabledOverlays) {
-            FabricatedOverlayUtil.disableOverlay(fabricatedOverlay);
-            Prefs.clearPref(fabricatedOverlay);
-            Prefs.clearPref("fabricatedqsRowColumn");
-            Prefs.clearPref("customColor");
-            Prefs.clearPref("colorAccentPrimary");
-            Prefs.clearPref("colorAccentSecondary");
-            Prefs.clearPref("fabricatedqsTextSize");
-            Prefs.clearPref("fabricatedqsIconSize");
-            Prefs.clearPref("fabricatedqsMoveIcon");
-        }
-
-        Prefs.putString("colorAccentPrimary", "null");
-        Prefs.putString("colorAccentSecondary", "null");
-        Prefs.putString("dialogCornerRadius", "null");
-        Prefs.putString("insetCornerRadius2", "null");
-        Prefs.putString("insetCornerRadius4", "null");
-        Prefs.putBoolean("fabricatedcolorAccentPrimary", false);
-        Prefs.putBoolean("fabricatedcolorAccentSecondary", false);
-        Prefs.putBoolean("fabricatedcornerRadius", false);
+        Prefs.clearPref("cornerRadius");
     }
 
     @SuppressLint({"SetTextI18n", "WorldReadableFiles"})
@@ -220,6 +207,7 @@ public class Settings extends AppCompatActivity {
                                     Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.imported_settings), Toast.LENGTH_LONG).show();
                                 } catch (Exception e) {
                                     Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                    e.printStackTrace();
                                 }
                             });
                     alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.negative),
@@ -232,6 +220,7 @@ public class Settings extends AppCompatActivity {
                         Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.exported_settings), Toast.LENGTH_LONG).show();
                     } catch (Exception e) {
                         Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
                     }
                     break;
             }

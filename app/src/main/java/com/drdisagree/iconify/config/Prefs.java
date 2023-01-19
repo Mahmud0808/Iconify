@@ -13,7 +13,6 @@ import androidx.core.graphics.ColorUtils;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.ui.activity.ColorPicker;
-import com.drdisagree.iconify.ui.activity.QsRowColumn;
 import com.drdisagree.iconify.ui.activity.Settings;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
@@ -135,6 +134,18 @@ public class Prefs {
                 if ((Boolean) item.getValue()) {
                     if (item.getKey().contains("IconifyComponent") && item.getKey().contains(".overlay"))
                         OverlayUtil.enableOverlay(item.getKey());
+                    else if (item.getKey().contains("fabricated")) {
+                        Log.e("Import", item.getKey());
+                        FabricatedOverlayUtil.buildAndEnableOverlay((String) map.get("FOCMDtarget" + item.getKey().replace("fabricated", "")),
+                                (String) map.get("FOCMDname" + item.getKey().replace("fabricated", "")),
+                                (String) map.get("FOCMDtype" + item.getKey().replace("fabricated", "")),
+                                (String) map.get("FOCMDresourceName" + item.getKey().replace("fabricated", "")),
+                                (String) map.get("FOCMDval" + item.getKey().replace("fabricated", "")));
+                    }
+                } else {
+                    if (item.getKey().contains("fabricated")) {
+                        FabricatedOverlayUtil.disableOverlay(item.getKey().replace("fabricated", ""));
+                    }
                 }
             } else if (item.getValue() instanceof String) {
                 if (Objects.equals(item.getKey(), "boot_id"))
@@ -166,15 +177,6 @@ public class Prefs {
                     } catch (NumberFormatException ignored) {
                     }
                 }
-                if (item.getKey().equals("qsTextSize") && getBoolean("fabricatedqsTextSize")) {
-                    FabricatedOverlayUtil.buildAndEnableOverlay("com.android.systemui", "qsTextSize", "dimen", "qs_tile_text_size", item.getValue() + "sp");
-                }
-                if (item.getKey().equals("qsIconSize") && getBoolean("fabricatedqsIconSize")) {
-                    FabricatedOverlayUtil.buildAndEnableOverlay("com.android.systemui", "qsIconSize", "dimen", "qs_icon_size", item.getValue() + "dp");
-                }
-                if (item.getKey().equals("qsMoveIcon") && getBoolean("fabricatedqsMoveIcon")) {
-                    FabricatedOverlayUtil.buildAndEnableOverlay("com.android.systemui", "qsMoveIcon", "dimen", "qs_tile_start_padding", item.getValue() + "dp");
-                }
             } else if (item.getValue() instanceof Integer) {
                 if (Objects.equals(item.getKey(), "versionCode"))
                     putInt(item.getKey(), BuildConfig.VERSION_CODE);
@@ -182,7 +184,5 @@ public class Prefs {
                     putInt(item.getKey(), (Integer) item.getValue());
             }
         }
-        if (Prefs.getBoolean("fabricatedqsRowColumn"))
-            QsRowColumn.applyRowColumn();
     }
 }

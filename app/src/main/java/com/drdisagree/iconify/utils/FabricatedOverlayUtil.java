@@ -1,7 +1,10 @@
 package com.drdisagree.iconify.utils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.TypedValue;
 
+import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.References;
 import com.drdisagree.iconify.config.Prefs;
 import com.topjohnwu.superuser.Shell;
@@ -23,9 +26,20 @@ public class FabricatedOverlayUtil {
     }
 
     public static void buildAndEnableOverlay(String target, String name, String type, String resourceName, String val) {
+        if (target == null || name == null || type == null || resourceName == null || val == null)
+            return;
+
+        SharedPreferences prefs = Iconify.getAppContext().getSharedPreferences(Iconify.getAppContext().getPackageName(), Context.MODE_PRIVATE);
+        prefs.edit().putBoolean("fabricated" + name, true).apply();
+        prefs.edit().putString("FOCMDtarget" + name, target).apply();
+        prefs.edit().putString("FOCMDname" + name, name).apply();
+        prefs.edit().putString("FOCMDtype" + name, type).apply();
+        prefs.edit().putString("FOCMDresourceName" + name, resourceName).apply();
+        prefs.edit().putString("FOCMDval" + name, val).apply();
+
         String resourceType = "0x1c";
 
-        if (target.equals("systemui"))
+        if (target.equals("systemui") || target.equals("sysui"))
             target = "com.android.systemui";
 
         switch (type) {
@@ -74,24 +88,27 @@ public class FabricatedOverlayUtil {
         String build_cmd = "cmd overlay fabricate --target " + target + " --name IconifyComponent" + name + " " + target + ":" + type + "/" + resourceName + " " + resourceType + " " + val;
         String enable_cmd = "cmd overlay enable --user current com.android.shell:IconifyComponent" + name;
 
-        Shell.cmd("grep -v \"IconifyComponent" + name + "\" " + References.MODULE_DIR + "/service.sh > " + References.MODULE_DIR + "/iconify_temp.sh && mv " + References.MODULE_DIR + "/iconify_temp.sh " + References.MODULE_DIR + "/service.sh").exec();
-        Shell.cmd("echo \"" + build_cmd + "\" >> " + References.MODULE_DIR + "/service.sh").exec();
-        Shell.cmd("echo \"" + enable_cmd + "\" >> " + References.MODULE_DIR + "/service.sh").exec();
+        Shell.cmd("grep -v \"IconifyComponent" + name + "\" " + References.MODULE_DIR + "/service.sh > " + References.MODULE_DIR + "/iconify_temp.sh && mv " + References.MODULE_DIR + "/iconify_temp.sh " + References.MODULE_DIR + "/service.sh").submit();
+        Shell.cmd("echo \"" + build_cmd + "\" >> " + References.MODULE_DIR + "/service.sh").submit();
+        Shell.cmd("echo \"" + enable_cmd + "\" >> " + References.MODULE_DIR + "/service.sh").submit();
 
-        Shell.cmd(build_cmd).exec();
-        Shell.cmd(enable_cmd).exec();
-
-        Prefs.putBoolean("fabricated" + name, true);
+        Shell.cmd(build_cmd).submit();
+        Shell.cmd(enable_cmd).submit();
     }
 
     public static void disableOverlay(String name) {
+        Prefs.putBoolean("fabricated" + name, false);
+        Prefs.clearPref("FOCMDtarget" + name);
+        Prefs.clearPref("FOCMDname" + name);
+        Prefs.clearPref("FOCMDtype" + name);
+        Prefs.clearPref("FOCMDresourceName" + name);
+        Prefs.clearPref("FOCMDval" + name);
+
         String disable_cmd = "cmd overlay disable --user current com.android.shell:IconifyComponent" + name;
 
-        Shell.cmd("grep -v \"IconifyComponent" + name + "\" " + References.MODULE_DIR + "/service.sh > " + References.MODULE_DIR + "/iconify_temp.sh && mv " + References.MODULE_DIR + "/iconify_temp.sh " + References.MODULE_DIR + "/service.sh").exec();
+        Shell.cmd("grep -v \"IconifyComponent" + name + "\" " + References.MODULE_DIR + "/service.sh > " + References.MODULE_DIR + "/iconify_temp.sh && mv " + References.MODULE_DIR + "/iconify_temp.sh " + References.MODULE_DIR + "/service.sh").submit();
 
-        Shell.cmd(disable_cmd).exec();
-
-        Prefs.putBoolean("fabricated" + name, false);
+        Shell.cmd(disable_cmd).submit();
     }
 
     public static boolean isOverlayEnabled(List<String> overlays, String name) {
