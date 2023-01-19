@@ -54,6 +54,10 @@ public class SystemUtil {
         Shell.cmd("mount -o remount,ro /").exec();
     }
 
+    /*
+     * From AOSPMods
+     * https://github.com/siavash79/AOSPMods/blob/canary/app/src/main/java/sh/siava/AOSPMods/utils/SystemUtils.java
+     */
     public static void doubleToggleDarkMode() {
         boolean isDark = isDarkMode();
         new Thread(() -> {
