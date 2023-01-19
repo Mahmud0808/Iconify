@@ -210,4 +210,5 @@
     <string name="update_schedule5">Never</string>
     <!-- do not change {latestVersionName} -->
     <string name="update_dialog_desc">Update {latestVersionName} is available to download.</string>
+    <string name="checking_for_update">Checking For Update</string>
 </resources>

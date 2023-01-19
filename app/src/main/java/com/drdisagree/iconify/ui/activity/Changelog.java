@@ -1,11 +1,14 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.OLDER_CHANGELOGS;
+
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +35,8 @@ public class Changelog extends AppCompatActivity {
     private static LoadingDialog loadingDialog;
     private final ArrayList<String> changelogs = new ArrayList<>();
     private ViewGroup container;
+    @SuppressLint("StaticFieldLeak")
+    private static LinearLayout grabbing_changelogs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +51,7 @@ public class Changelog extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // Loading dialog while checking for connectivity
-        loadingDialog = new LoadingDialog(this);
+        grabbing_changelogs = findViewById(R.id.grabbing_changelogs);
 
         // List of changelog
         container = findViewById(R.id.changelog_list);
@@ -81,25 +85,24 @@ public class Changelog extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
+            ;
         }
 
         @Override
         protected String doInBackground(Integer... integers) {
             try {
-                URL myUrl = new URL("https://raw.githubusercontent.com/Mahmud0808/Iconify/stable/fastlane/metadata/android/en-US/changelogs/" + BuildConfig.VERSION_CODE + ".txt");
+                URL myUrl = new URL(OLDER_CHANGELOGS.replace("{VersionCode}", String.valueOf(BuildConfig.VERSION_CODE)));
                 URLConnection connection = myUrl.openConnection();
                 connection.setConnectTimeout(5000);
                 connection.connect();
                 connectionAvailable = true;
             } catch (Exception e) {
                 connectionAvailable = false;
-                e.printStackTrace();
             }
 
             if (connectionAvailable) {
                 for (int i = BuildConfig.VERSION_CODE; i >= 1; i--) {
-                    String parseChangelog = "https://raw.githubusercontent.com/Mahmud0808/Iconify/stable/fastlane/metadata/android/en-US/changelogs/" + i + ".txt";
+                    String parseChangelog = OLDER_CHANGELOGS.replace("{VersionCode}", String.valueOf(i));
                     HttpURLConnection urlConnection = null;
                     BufferedReader bufferedReader = null;
 
@@ -149,8 +152,7 @@ public class Changelog extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String string) {
-            loadingDialog.hide();
-
+            grabbing_changelogs.setVisibility(View.GONE);
             if (connectionAvailable) {
                 if (!changelogs.isEmpty()) {
                     addChangelog(changelogs);

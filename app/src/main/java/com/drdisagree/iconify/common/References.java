@@ -40,6 +40,8 @@ public class References {
     public static final String STATUSBAR_CLOCKBG = "xposed_qsclockbg";
     // Parse new update
     public static final String LATEST_VERSION = "https://raw.githubusercontent.com/Mahmud0808/Iconify/stable/latestVersion.json";
+    // Parse changelogs
+    public static final String OLDER_CHANGELOGS = "https://raw.githubusercontent.com/Mahmud0808/Iconify/stable/fastlane/metadata/android/en-US/changelogs/{VersionCode}.txt";
     // Notification service checker
     public static boolean isNotificationServiceRunning = false;
 }
