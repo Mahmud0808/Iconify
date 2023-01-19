@@ -12,6 +12,7 @@ import com.drdisagree.iconify.config.XPrefs;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.xposed.mods.QSTransparency;
 import com.drdisagree.iconify.xposed.mods.StatusbarClock;
+import com.drdisagree.iconify.xposed.mods.VerticalQSTile;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,6 +32,7 @@ public class HookEntry implements IXposedHookLoadPackage {
     public HookEntry() {
         modPacks.add(QSTransparency.class);
         modPacks.add(StatusbarClock.class);
+        modPacks.add(VerticalQSTile.class);
     }
 
     @SuppressLint("ApplySharedPref")

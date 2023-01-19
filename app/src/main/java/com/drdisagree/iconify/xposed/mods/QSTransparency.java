@@ -25,11 +25,11 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class QSTransparency extends ModPack {
 
-    private static final String TAG = "Iconify - QSTransparency";
+    private static final String TAG = "Iconify - QSTransparency: ";
     private static final String CLASS_SCRIMCONTROLLER = SYSTEM_UI_PACKAGE + ".statusbar.phone.ScrimController";
     private static final String CLASS_SCRIMSTATE = SYSTEM_UI_PACKAGE + ".statusbar.phone.ScrimState";
     private static final String CLASS_SCRIMVIEW = SYSTEM_UI_PACKAGE + ".scrim.ScrimView";
-    public static float mCustomScrimAlpha = 0.6f;
+    private static float mCustomScrimAlpha = 0.6f;
     boolean QsTransparencyActive = false;
     float behindFraction;
     private String rootPackagePath = "";
@@ -44,12 +44,12 @@ public class QSTransparency extends ModPack {
     @Override
     public void updatePrefs(String... Key) {
         if (Xprefs == null) return;
+
         QsTransparencyActive = Xprefs.getBoolean(QSTRANSPARENCY_SWITCH, false);
         alpha = (float) ((float) Xprefs.getInt(QSALPHA_LEVEL, 60) / 100.0);
 
         if (Key.length > 0 && (Objects.equals(Key[0], QSTRANSPARENCY_SWITCH) || Objects.equals(Key[0], QSALPHA_LEVEL))) {
             XposedHelpers.callMethod(Scrims, "updateScrims");
-            log("Method called");
         }
     }
 

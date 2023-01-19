@@ -4,6 +4,7 @@ import static com.drdisagree.iconify.common.References.QSALPHA_LEVEL;
 import static com.drdisagree.iconify.common.References.QSTRANSPARENCY_SWITCH;
 import static com.drdisagree.iconify.common.References.STATUSBAR_CLOCKBG;
 import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
+import static com.drdisagree.iconify.common.References.VERTICAL_QSTILE_SWITCH;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -135,6 +136,14 @@ public class Experimental extends AppCompatActivity {
         enable_clock_bg_chip.setChecked(RemotePrefs.getBoolean(STATUSBAR_CLOCKBG, false));
         enable_clock_bg_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RemotePrefs.putBoolean(STATUSBAR_CLOCKBG, isChecked);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+        });
+
+        // Vertical QS Tile
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_vertical_tile = findViewById(R.id.enable_vertical_tile);
+        enable_vertical_tile.setChecked(RemotePrefs.getBoolean(VERTICAL_QSTILE_SWITCH, false));
+        enable_vertical_tile.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RemotePrefs.putBoolean(VERTICAL_QSTILE_SWITCH, isChecked);
             new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
     }

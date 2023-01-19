@@ -30,7 +30,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class StatusbarClock extends ModPack implements IXposedHookLoadPackage {
 
-    private static final String TAG = "Iconify - StatusbarClock";
+    private static final String TAG = "Iconify - StatusbarClock: ";
     private static final String CLASS_CLOCK = SYSTEM_UI_PACKAGE + ".statusbar.policy.Clock";
     boolean showClockChip = false;
     private String rootPackagePath = "";
@@ -43,6 +43,7 @@ public class StatusbarClock extends ModPack implements IXposedHookLoadPackage {
     @Override
     public void updatePrefs(String... Key) {
         if (Xprefs == null) return;
+
         showClockChip = Xprefs.getBoolean(STATUSBAR_CLOCKBG, false);
         setResources();
     }
