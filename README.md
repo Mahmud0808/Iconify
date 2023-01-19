@@ -13,6 +13,10 @@ Iconify was mainly created as a substratum theme to change the system icons of a
 
 ### 🌟STAR THIS REPOSITORY TO SUPPORT THE DEVELOPER AND ENCOURAGE THE DEVELOPMENT OF THE APPLICATION!
 <p align="center">
+<a href="https://apt.izzysoft.de/fdroid/index/apk/com.drdisagree.iconify"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" width="30%" /></a>
+</p>
+
+<p align="center">
 <a href="https://www.buymeacoffee.com/DrDisagree"><img src="https://i.ibb.co/VCKD9MD/buymeacoffee.png" width="30%" /></a>
 </p>
 
