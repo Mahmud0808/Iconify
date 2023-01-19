@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.xposed.mods;
 
+import static com.drdisagree.iconify.common.References.HIDE_QSLABEL_SWITCH;
 import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
 import static com.drdisagree.iconify.common.References.VERTICAL_QSTILE_SWITCH;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
@@ -30,6 +31,7 @@ public class VerticalQSTile extends ModPack {
     private static final String TAG = "Iconify - VerticalQSTile: ";
     private String rootPackagePath = "";
     private static boolean isVerticalQSTileActive = false;
+    private static boolean isHideLabelActive = false;
     private static final String CLASS_QSTILEVIEWIMPL = SYSTEM_UI_PACKAGE + ".qs.tileimpl.QSTileViewImpl";
     private static final String CLASS_FONTSIZEUTILS = SYSTEM_UI_PACKAGE + ".FontSizeUtils";
     private Object mParam = null;
@@ -45,8 +47,9 @@ public class VerticalQSTile extends ModPack {
         if (Xprefs == null) return;
 
         isVerticalQSTileActive = Xprefs.getBoolean(VERTICAL_QSTILE_SWITCH, false);
+        isHideLabelActive = Xprefs.getBoolean(HIDE_QSLABEL_SWITCH, false);
 
-        if (Key.length > 0 && Key[0].equals(VERTICAL_QSTILE_SWITCH))
+        if (Key.length > 0 && (Key[0].equals(VERTICAL_QSTILE_SWITCH) || Key[0].equals(HIDE_QSLABEL_SWITCH)))
             SystemUtil.doubleToggleDarkMode();
     }
 
@@ -95,14 +98,17 @@ public class VerticalQSTile extends ModPack {
                     newQSTile.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
                     ((LinearLayout) param.thisObject).removeView(((LinearLayout) getObjectField(param.thisObject, "labelContainer")));
-                    newQSTile.addView(((LinearLayout) getObjectField(param.thisObject, "labelContainer")));
+                    if (!isHideLabelActive) {
+                        newQSTile.addView(((LinearLayout) getObjectField(param.thisObject, "labelContainer")));
+                        ((LinearLayout) getObjectField(param.thisObject, "labelContainer")).setGravity(Gravity.CENTER_HORIZONTAL);
+                    }
 
-                    ((LinearLayout) getObjectField(param.thisObject, "labelContainer")).setGravity(Gravity.CENTER_HORIZONTAL);
                     ((LinearLayout) param.thisObject).removeView((View) getObjectField(param.thisObject, "sideView"));
 
                     fixTileLayout(((LinearLayout) param.thisObject), mParam);
 
-                    ((LinearLayout) param.thisObject).addView(newQSTile);
+                    if (!isHideLabelActive)
+                        ((LinearLayout) param.thisObject).addView(newQSTile);
                 } catch (Throwable t) {
                     log(TAG + t.toString());
                 }

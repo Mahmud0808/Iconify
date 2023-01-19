@@ -42,6 +42,7 @@ public class References {
     public static final String QSALPHA_LEVEL = "xposed_qsalpha";
     public static final String STATUSBAR_CLOCKBG = "xposed_qsclockbg";
     public static final String VERTICAL_QSTILE_SWITCH = "xposed_verticalqstile";
+    public static final String HIDE_QSLABEL_SWITCH = "xposed_showqslabel";
 
     // Parse new update
     public static final String LATEST_VERSION = "https://raw.githubusercontent.com/Mahmud0808/Iconify/stable/latestVersion.json";
