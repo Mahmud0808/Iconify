@@ -82,16 +82,15 @@ public class WelcomePage extends AppCompatActivity {
                                     loadingDialog.hide();
 
                                     if (!hasErroredOut) {
-                                        if (Prefs.getInt("versionCode") == 0) {
-                                            Prefs.putBoolean("firstInstall", true);
-                                            Prefs.putBoolean("updateDetected", false);
-                                        } else {
-                                            Prefs.putBoolean("firstInstall", false);
-                                            Prefs.putBoolean("updateDetected", true);
-                                        }
-                                        Prefs.putInt("versionCode", BuildConfig.VERSION_CODE);
-
                                         if (OverlayUtil.overlayExists()) {
+                                            if (Prefs.getInt("versionCode") == 0) {
+                                                Prefs.putBoolean("firstInstall", true);
+                                                Prefs.putBoolean("updateDetected", false);
+                                            } else {
+                                                Prefs.putBoolean("firstInstall", false);
+                                                Prefs.putBoolean("updateDetected", true);
+                                            }
+                                            Prefs.putInt("versionCode", BuildConfig.VERSION_CODE);
                                             new Handler().postDelayed(() -> {
                                                 Intent intent = new Intent(WelcomePage.this, HomePage.class);
                                                 startActivity(intent);
