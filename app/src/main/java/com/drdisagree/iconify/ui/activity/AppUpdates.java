@@ -243,4 +243,11 @@ public class AppUpdates extends AppCompatActivity {
             checked_for_update.setVisibility(View.VISIBLE);
         }
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
 }
