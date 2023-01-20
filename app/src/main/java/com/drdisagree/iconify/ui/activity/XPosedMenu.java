@@ -1,6 +1,8 @@
 package com.drdisagree.iconify.ui.activity;
 
 import static com.drdisagree.iconify.common.References.HIDE_QSLABEL_SWITCH;
+import static com.drdisagree.iconify.common.References.QSALPHA_LEVEL;
+import static com.drdisagree.iconify.common.References.QSTRANSPARENCY_SWITCH;
 import static com.drdisagree.iconify.common.References.STATUSBAR_CLOCKBG;
 import static com.drdisagree.iconify.common.References.VERTICAL_QSTILE_SWITCH;
 
@@ -10,7 +12,9 @@ import androidx.appcompat.widget.Toolbar;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.SeekBar;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RemotePrefs;
@@ -34,12 +38,39 @@ public class XPosedMenu extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // Clock Background Chip
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_clock_bg_chip = findViewById(R.id.enable_clock_bg_chip);
-        enable_clock_bg_chip.setChecked(RemotePrefs.getBoolean(STATUSBAR_CLOCKBG, false));
-        enable_clock_bg_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RemotePrefs.putBoolean(STATUSBAR_CLOCKBG, isChecked);
+        // Qs Panel Transparency
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_qs_transparency = findViewById(R.id.enable_qs_transparency);
+        enable_qs_transparency.setChecked(RemotePrefs.getBoolean(QSTRANSPARENCY_SWITCH, false));
+        enable_qs_transparency.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RemotePrefs.putBoolean(QSTRANSPARENCY_SWITCH, isChecked);
+            // Restart SystemUI
             new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+        });
+
+        SeekBar transparency_seekbar = findViewById(R.id.transparency_seekbar);
+        transparency_seekbar.setPadding(0, 0, 0, 0);
+        TextView transparency_output = findViewById(R.id.transparency_output);
+        final int[] transparency = {RemotePrefs.getInt(QSALPHA_LEVEL, 60)};
+        transparency_output.setText(getResources().getString(R.string.opt_selected) + ' ' + transparency[0] + "%");
+        transparency_seekbar.setProgress(transparency[0]);
+        transparency_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                transparency[0] = progress;
+                transparency_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "%");
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                RemotePrefs.putInt(QSALPHA_LEVEL, transparency[0]);
+                // Restart SystemUI
+                new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+            }
         });
 
         // Vertical QS Tile
@@ -54,6 +85,14 @@ public class XPosedMenu extends AppCompatActivity {
         hide_tile_label.setChecked(RemotePrefs.getBoolean(HIDE_QSLABEL_SWITCH, false));
         hide_tile_label.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RemotePrefs.putBoolean(HIDE_QSLABEL_SWITCH, isChecked);
+        });
+
+        // Clock Background Chip
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_clock_bg_chip = findViewById(R.id.enable_clock_bg_chip);
+        enable_clock_bg_chip.setChecked(RemotePrefs.getBoolean(STATUSBAR_CLOCKBG, false));
+        enable_clock_bg_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RemotePrefs.putBoolean(STATUSBAR_CLOCKBG, isChecked);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
     }
 

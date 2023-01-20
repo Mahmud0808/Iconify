@@ -5,16 +5,12 @@
     <!-- <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> -->
     <!-- <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> -->
     <!-- To notify about new iconify updates -->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-
-    <!-- Access phone storage for installation of overlays in temporary folder -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- Access phone storage for installation of overlays in temporary folder -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
-
-    <!-- For checking new updates -->
+        tools:ignore="ScopedStorage" /> <!-- For checking new updates -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <queries>
@@ -64,6 +60,9 @@
             android:exported="true"
             tools:ignore="ExportedContentProvider" />
 
+        <activity
+            android:name=".ui.activity.Miscellaneous"
+            android:exported="false" />
         <activity
             android:name=".ui.activity.XPosedMenu"
             android:exported="false" />

@@ -32,6 +32,8 @@
     <string name="activity_title_changelog">Changelog</string>
     <string name="activity_title_xposed_menu">XPosed Menu</string>
     <string name="activity_desc_xposed_menu">LSPosed required for these options</string>
+    <string name="activity_title_miscellaneous">Miscellaneous</string>
+    <string name="activity_desc_miscellaneous">Miscellaneous tweaks and options</string>
 
     <!-- Extras page activites -->
     <string name="activity_title_ui_roundness">UI Roundness</string>
@@ -56,7 +58,6 @@
     <string name="btn_continue">CONTINUE</string>
     <string name="iconify_logo">Iconify Logo</string>
     <string name="hey_there">Hey There!</string>
-    <string name="recommend_repainter_desc">It\'s recommended to use Repainter for changing monet colors as the options below are very basic and might not fulfill your needs properly. :(</string>
     <string name="btn_restart">Restart</string>
     <string name="btn_disable">Disable</string>
     <string name="btn_enable">Enable</string>
@@ -150,7 +151,7 @@
     <string name="use_magisk">Use Magisk to root your device!</string>
     <string name="root_not_found">Looks like your device is not rooted!</string>
     <string name="disable_everything_title">Disable Everything</string>
-    <string name="disable_everything_desc">Disable all the applied UI, colors and miscellaneous changes done by Iconify.</string>
+    <string name="disable_everything_desc">Disable all the applied overlays, colors and miscellaneous changes done by Iconify.</string>
     <string name="toast_disable_everything">Long press to disable everything</string>
     <string name="toast_disabled_everything">Everything is disabled</string>
     <string name="restart_sysui_title">Restart SystemUI</string>
