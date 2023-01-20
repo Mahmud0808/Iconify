@@ -24,7 +24,7 @@
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_marginEnd="@dimen/container_padding"
-            android:background="@drawable/ic_restart_large"
+            android:background="@drawable/ic_restart_device"
             android:contentDescription="@string/icon" />
 
         <LinearLayout
