@@ -19,14 +19,17 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.config.RemotePrefs;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
 import java.util.Map;
@@ -52,10 +55,15 @@ public class Settings extends AppCompatActivity {
 
         for (String overlay : EnabledOverlays) {
             OverlayUtil.disableOverlay(overlay);
-            Prefs.clearPref(overlay);
         }
 
-        Prefs.clearPref("cornerRadius");
+        Prefs.clearAllPrefs();
+        Prefs.putString("boot_id", Shell.cmd("cat /proc/sys/kernel/random/boot_id").exec().getOut().toString());
+        Prefs.putInt("versionCode", BuildConfig.VERSION_CODE);
+
+        RemotePrefs.clearAllPrefs();
+
+        SystemUtil.restartSystemUI();
     }
 
     @SuppressLint({"SetTextI18n", "WorldReadableFiles"})

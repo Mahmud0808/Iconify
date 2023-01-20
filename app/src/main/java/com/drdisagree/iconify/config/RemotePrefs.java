@@ -61,7 +61,7 @@ public class RemotePrefs {
     }
 
     // Clear all sharedPref config
-    public static void clearAllPref() {
+    public static void clearAllPrefs() {
         editor.clear().apply();
     }
 }

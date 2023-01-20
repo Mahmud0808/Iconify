@@ -88,7 +88,7 @@ public class Prefs {
     }
 
     // Clear all sharedPref config
-    public static void clearAllPref() {
+    public static void clearAllPrefs() {
         editor.clear().apply();
     }
 
@@ -123,7 +123,7 @@ public class Prefs {
         }
 
         Settings.disableEverything();
-        clearAllPref();
+        clearAllPrefs();
 
         boolean primaryColorApplied = false;
         boolean secondaryColorApplied = false;
