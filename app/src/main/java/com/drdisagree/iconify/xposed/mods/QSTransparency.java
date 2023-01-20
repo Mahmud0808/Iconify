@@ -79,7 +79,7 @@ public class QSTransparency extends ModPack {
                 Object mScrimInFront = methodHookParam.args[2];
                 boolean mClipsQsScrim = (boolean) getObjectField(methodHookParam.thisObject, "mClipsQsScrim");
                 Runnable mScrimBehindChangeRunnable = (Runnable) getObjectField(methodHookParam.thisObject, "mScrimBehindChangeRunnable");
-                Executor mMainExecutor = (Executor) getObjectField(methodHookParam.thisObject, "mMainExecutor;");
+                Executor mMainExecutor = (Executor) getObjectField(methodHookParam.thisObject, "mMainExecutor");
                 Object mDozeParameters = getObjectField(methodHookParam.thisObject, "mDozeParameters");
                 Object mDockManager = getObjectField(methodHookParam.thisObject, "mDockManager");
                 float mScrimBehindAlphaKeyguard = 0.2f;
