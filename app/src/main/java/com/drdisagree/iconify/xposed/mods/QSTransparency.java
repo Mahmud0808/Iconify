@@ -27,13 +27,9 @@ public class QSTransparency extends ModPack {
 
     private static final String TAG = "Iconify - QSTransparency: ";
     private static final String CLASS_SCRIMCONTROLLER = SYSTEM_UI_PACKAGE + ".statusbar.phone.ScrimController";
-    private static final String CLASS_SCRIMSTATE = SYSTEM_UI_PACKAGE + ".statusbar.phone.ScrimState";
-    private static final String CLASS_SCRIMVIEW = SYSTEM_UI_PACKAGE + ".scrim.ScrimView";
-    private static float mCustomScrimAlpha = 0.6f;
     boolean QsTransparencyActive = false;
-    float behindFraction;
+    private Float behindFraction = null;
     private String rootPackagePath = "";
-    private Object Scrims;
     private float alpha;
 
     public QSTransparency(Context context) {
@@ -47,10 +43,6 @@ public class QSTransparency extends ModPack {
 
         QsTransparencyActive = Xprefs.getBoolean(QSTRANSPARENCY_SWITCH, false);
         alpha = (float) ((float) Xprefs.getInt(QSALPHA_LEVEL, 60) / 100.0);
-
-        if (Key.length > 0 && (Objects.equals(Key[0], QSTRANSPARENCY_SWITCH) || Objects.equals(Key[0], QSALPHA_LEVEL))) {
-            XposedHelpers.callMethod(Scrims, "updateScrims");
-        }
     }
 
     @Override
@@ -67,53 +59,6 @@ public class QSTransparency extends ModPack {
         rootPackagePath = lpParam.appInfo.sourceDir;
 
         final Class<?> ScrimController = XposedHelpers.findClass(CLASS_SCRIMCONTROLLER, lpParam.classLoader);
-        final Class<?> ScrimState = XposedHelpers.findClass(CLASS_SCRIMSTATE, lpParam.classLoader);
-
-        hookAllMethods(ScrimController, "attachViews", new XC_MethodReplacement() {
-            @Override
-            protected Object replaceHookedMethod(MethodHookParam methodHookParam) {
-                if (!QsTransparencyActive) return false;
-
-                Object mNotificationsScrim = methodHookParam.args[1];
-                Object mScrimBehind = methodHookParam.args[0];
-                Object mScrimInFront = methodHookParam.args[2];
-                boolean mClipsQsScrim = (boolean) getObjectField(methodHookParam.thisObject, "mClipsQsScrim");
-                Runnable mScrimBehindChangeRunnable = (Runnable) getObjectField(methodHookParam.thisObject, "mScrimBehindChangeRunnable");
-                Executor mMainExecutor = (Executor) getObjectField(methodHookParam.thisObject, "mMainExecutor");
-                Object mDozeParameters = getObjectField(methodHookParam.thisObject, "mDozeParameters");
-                Object mDockManager = getObjectField(methodHookParam.thisObject, "mDockManager");
-                float mScrimBehindAlphaKeyguard = 0.2f;
-                Object mKeyguardUpdateMonitor = getObjectField(methodHookParam.thisObject, "mKeyguardUpdateMonitor");
-                Object mKeyguardVisibilityCallback = getObjectField(methodHookParam.thisObject, "mKeyguardVisibilityCallback");
-
-                callMethod(methodHookParam.thisObject, "updateThemeColors");
-                callMethod(methodHookParam.args[0], "enableBottomEdgeConcave", mClipsQsScrim);
-
-                if (mScrimBehindChangeRunnable != null) {
-                    callMethod(mScrimBehind, "setChangeRunnable", mScrimBehindChangeRunnable, mMainExecutor);
-                    mScrimBehindChangeRunnable = null;
-                }
-
-                if (mScrimBehind != null) {
-                    mCustomScrimAlpha = alpha;
-                }
-
-                final Object[] states = (Object[]) callMethod(Array.newInstance(ScrimState), "values");
-                for (Object state : states) {
-                    callMethod(state, "init", mScrimInFront, mScrimBehind, mDozeParameters, mDockManager);
-                    callMethod(state, "setScrimBehindAlphaKeyguard", mScrimBehindAlphaKeyguard);
-                    callMethod(state, "setDefaultScrimAlpha", 0.2f);
-                }
-
-                callMethod(mScrimBehind, "setDefaultFocusHighlightEnabled", false);
-                callMethod(mNotificationsScrim, "setDefaultFocusHighlightEnabled", false);
-                callMethod(mScrimInFront, "setDefaultFocusHighlightEnabled", false);
-                callMethod(methodHookParam.thisObject, "updateScrims");
-                callMethod(mKeyguardUpdateMonitor, "registerCallback", mKeyguardVisibilityCallback);
-
-                return true;
-            }
-        });
 
         hookAllMethods(ScrimController, "getInterpolatedFraction", new XC_MethodHook() {
             @Override
@@ -133,7 +78,8 @@ public class QSTransparency extends ModPack {
 
                 if (mClipsQsScrim) {
                     setObjectField(param.thisObject, "mBehindAlpha", alpha);
-                    setObjectField(param.thisObject, "mNotificationsAlpha", behindFraction * alpha);
+                    if (behindFraction != null)
+                        setObjectField(param.thisObject, "mNotificationsAlpha", behindFraction * alpha);
                 }
             }
         });
