@@ -30,6 +30,8 @@
     <string name="activity_desc_color_table">Show full table of system colors</string>
     <string name="activity_title_experimental">Experimental</string>
     <string name="activity_title_changelog">Changelog</string>
+    <string name="activity_title_xposed_menu">XPosed Menu</string>
+    <string name="activity_desc_xposed_menu">LSPosed required for these options</string>
 
     <!-- Extras page activites -->
     <string name="activity_title_ui_roundness">UI Roundness</string>
