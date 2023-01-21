@@ -49,9 +49,9 @@ public class QsIconLabel extends AppCompatActivity {
 
         if (!Prefs.getString("qsTextSize").equals("null")) {
             if (Integer.parseInt(Prefs.getString("qsTextSize")) == 14)
-                text_size_output.setText(getResources().getString(R.string.opt_selected) + Integer.parseInt(Prefs.getString("qsTextSize")) + "sp " + getResources().getString(R.string.opt_default));
+                text_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString("qsTextSize")) + "sp " + getResources().getString(R.string.opt_default));
             else
-                text_size_output.setText(getResources().getString(R.string.opt_selected) + Integer.parseInt(Prefs.getString("qsTextSize")) + "sp");
+                text_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString("qsTextSize")) + "sp");
             finalTextSize[0] = Integer.parseInt(Prefs.getString("qsTextSize"));
             text_size.setProgress(finalTextSize[0]);
         } else
@@ -95,9 +95,9 @@ public class QsIconLabel extends AppCompatActivity {
 
         if (!Prefs.getString("qsIconSize").equals("null")) {
             if (Integer.parseInt(Prefs.getString("qsIconSize")) == 20)
-                icon_size_output.setText(getResources().getString(R.string.opt_selected) + Integer.parseInt(Prefs.getString("qsIconSize")) + "dp " + getResources().getString(R.string.opt_default));
+                icon_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString("qsIconSize")) + "dp " + getResources().getString(R.string.opt_default));
             else
-                icon_size_output.setText(getResources().getString(R.string.opt_selected) + Integer.parseInt(Prefs.getString("qsIconSize")) + "dp");
+                icon_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString("qsIconSize")) + "dp");
             finalIconSize[0] = Integer.parseInt(Prefs.getString("qsIconSize"));
             icon_size.setProgress(finalIconSize[0]);
         } else
@@ -271,9 +271,9 @@ public class QsIconLabel extends AppCompatActivity {
 
         if (!Prefs.getString("qsMoveIcon").equals("null")) {
             if (Integer.parseInt(Prefs.getString("qsMoveIcon")) == 16)
-                move_icon_output.setText(getResources().getString(R.string.opt_selected) + Integer.parseInt(Prefs.getString("qsMoveIcon")) + "dp " + getResources().getString(R.string.opt_default));
+                move_icon_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString("qsMoveIcon")) + "dp " + getResources().getString(R.string.opt_default));
             else
-                move_icon_output.setText(getResources().getString(R.string.opt_selected) + Integer.parseInt(Prefs.getString("qsMoveIcon")) + "dp");
+                move_icon_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString("qsMoveIcon")) + "dp");
             finalMoveIcon[0] = Integer.parseInt(Prefs.getString("qsMoveIcon"));
             move_icon.setProgress(finalMoveIcon[0]);
         } else
