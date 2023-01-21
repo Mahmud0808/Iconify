@@ -90,7 +90,7 @@ What you can change using Iconify:
 
 - Or, Use this adb command
 
-```adb shell magisk --remove-module```
+```adb wait-for-device shell magisk --remove-modules```
 
 #### XPosed Related Bootloop:
 
