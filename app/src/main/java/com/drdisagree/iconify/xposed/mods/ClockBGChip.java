@@ -9,17 +9,16 @@ import static de.robv.android.xposed.XposedBridge.log;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RoundRectShape;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.core.content.res.ResourcesCompat;
-
-import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.XPrefs;
 import com.drdisagree.iconify.xposed.ModPack;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -29,14 +28,14 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LayoutInflated;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-public class StatusbarClock extends ModPack implements IXposedHookLoadPackage {
+public class ClockBGChip extends ModPack implements IXposedHookLoadPackage {
 
-    private static final String TAG = "Iconify - StatusbarClock: ";
+    private static final String TAG = "Iconify - ClockBGChip: ";
     private static final String CLASS_CLOCK = SYSTEM_UI_PACKAGE + ".statusbar.policy.Clock";
     boolean showClockChip = false;
     private String rootPackagePath = "";
 
-    public StatusbarClock(Context context) {
+    public ClockBGChip(Context context) {
         super(context);
         if (!listensTo(context.getPackageName())) return;
     }
@@ -78,10 +77,16 @@ public class StatusbarClock extends ModPack implements IXposedHookLoadPackage {
                     ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) clock.getLayoutParams();
                     params.setMarginEnd((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6, mContext.getResources().getDisplayMetrics()));
 
-                    Drawable clock_bg = ResourcesCompat.getDrawable(XPrefs.modRes, R.drawable.xposed_status_bar_clock_bg, mContext.getTheme());
-                    clock.setBackground(clock_bg);
+                    float corner = (Xprefs.getInt("cornerRadius", 16) + 8) * mContext.getResources().getDisplayMetrics().density;
+                    ShapeDrawable mDrawable = new ShapeDrawable(new RoundRectShape(
+                            new float[]{corner, corner,
+                                    corner, corner,
+                                    corner, corner,
+                                    corner, corner}, null, null));
+                    mDrawable.getPaint().setShader(new LinearGradient(0, 0, clock.getWidth(), clock.getHeight(), mContext.getResources().getColor(android.R.color.holo_blue_light), mContext.getResources().getColor(android.R.color.holo_green_light), Shader.TileMode.MIRROR));
+                    clock.setBackgroundDrawable(mDrawable);
                 } catch (Throwable t) {
-                    log(t);
+                    log(TAG + t);
                 }
             }
         });
@@ -104,7 +109,7 @@ public class StatusbarClock extends ModPack implements IXposedHookLoadPackage {
                 }
             });
         } catch (Throwable t) {
-            log("Failed to change height: " + t);
+            log(TAG + t);
         }
 
         try {
@@ -127,7 +132,7 @@ public class StatusbarClock extends ModPack implements IXposedHookLoadPackage {
                 }
             });
         } catch (Throwable t) {
-            log("Failed to change height: " + t);
+            log(TAG + t);
         }
     }
 }

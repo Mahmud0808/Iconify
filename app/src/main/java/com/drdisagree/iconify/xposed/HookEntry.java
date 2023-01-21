@@ -27,8 +27,8 @@ import android.content.Context;
 
 import com.drdisagree.iconify.config.XPrefs;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.xposed.mods.ClockBGChip;
 import com.drdisagree.iconify.xposed.mods.QSTransparency;
-import com.drdisagree.iconify.xposed.mods.StatusbarClock;
 import com.drdisagree.iconify.xposed.mods.VerticalQSTile;
 
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class HookEntry implements IXposedHookLoadPackage {
 
     public HookEntry() {
         modPacks.add(QSTransparency.class);
-        modPacks.add(StatusbarClock.class);
+        modPacks.add(ClockBGChip.class);
         modPacks.add(VerticalQSTile.class);
     }
 
