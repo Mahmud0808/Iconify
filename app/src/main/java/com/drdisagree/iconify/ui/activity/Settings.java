@@ -60,6 +60,7 @@ public class Settings extends AppCompatActivity {
         Prefs.clearAllPrefs();
         Prefs.putString("boot_id", Shell.cmd("cat /proc/sys/kernel/random/boot_id").exec().getOut().toString());
         Prefs.putInt("versionCode", BuildConfig.VERSION_CODE);
+        Prefs.putBoolean("firstInstall", false);
 
         RemotePrefs.clearAllPrefs();
 
