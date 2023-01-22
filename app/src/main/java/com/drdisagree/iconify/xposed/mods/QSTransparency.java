@@ -94,6 +94,8 @@ public class QSTransparency extends ModPack {
         hookAllConstructors(ScrimController, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
+                if (!QsTransparencyActive) return;
+
                 setFloatField(param.thisObject, "mDefaultScrimAlpha", alpha);
                 setFloatField(param.thisObject, "mInFrontAlpha", alpha);
                 setFloatField(param.thisObject, "mBehindAlpha", alpha);
@@ -112,6 +114,8 @@ public class QSTransparency extends ModPack {
             hookAllMethods(ScrimController, "setCustomScrimAlpha", new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) {
+                    if (!QsTransparencyActive) return;
+
                     param.args[0] = (int) (alpha * 100);
                 }
             });
