@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -64,7 +65,7 @@ public class WelcomePage extends AppCompatActivity {
                         intent.setData(uri);
                         startActivity(intent);
                     } else {
-                        if ((Prefs.getInt("versionCode") < BuildConfig.VERSION_CODE) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
+                        if ((Prefs.getInt("versionCode") != BuildConfig.VERSION_CODE) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
                             warn.setVisibility(View.INVISIBLE);
                             // Show loading dialog
                             loadingDialog.show(getResources().getString(R.string.installing));
@@ -82,14 +83,16 @@ public class WelcomePage extends AppCompatActivity {
                                     loadingDialog.hide();
 
                                     if (!hasErroredOut) {
-                                        if (Prefs.getInt("versionCode") == 0 && Prefs.getBoolean("firstInstall", true)) {
-                                            Prefs.putBoolean("firstInstall", true);
-                                            Prefs.putBoolean("updateDetected", false);
-                                        } else {
-                                            Prefs.putBoolean("firstInstall", false);
-                                            Prefs.putBoolean("updateDetected", true);
+                                        if (BuildConfig.VERSION_CODE != Prefs.getInt("versionCode", -1)) {
+                                            if (Prefs.getBoolean("firstInstall", true)) {
+                                                Prefs.putBoolean("firstInstall", true);
+                                                Prefs.putBoolean("updateDetected", false);
+                                            } else {
+                                                Prefs.putBoolean("firstInstall", false);
+                                                Prefs.putBoolean("updateDetected", true);
+                                            }
+                                            Prefs.putInt("versionCode", BuildConfig.VERSION_CODE);
                                         }
-                                        Prefs.putInt("versionCode", BuildConfig.VERSION_CODE);
 
                                         if (OverlayUtil.overlayExists()) {
                                             new Handler().postDelayed(() -> {

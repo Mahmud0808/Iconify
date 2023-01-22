@@ -97,9 +97,6 @@ public class HomePage extends AppCompatActivity {
         reboot_reminder.setVisibility(View.GONE);
 
         if (!Prefs.getBoolean("firstInstall") && Prefs.getBoolean("updateDetected")) {
-            Prefs.putBoolean("firstInstall", false);
-            Prefs.putBoolean("updateDetected", false);
-
             reboot_reminder.setVisibility(View.VISIBLE);
             Button reboot_now = findViewById(R.id.reboot_phone);
             reboot_now.setOnClickListener(v -> {
@@ -114,6 +111,8 @@ public class HomePage extends AppCompatActivity {
             });
         }
 
+        Prefs.putBoolean("firstInstall", false);
+        Prefs.putBoolean("updateDetected", false);
         Prefs.putInt("versionCode", BuildConfig.VERSION_CODE);
         getBootId();
 
