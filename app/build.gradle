@@ -60,6 +60,9 @@ dependencies {
     implementation 'org.bouncycastle:bc-fips:1.0.2.3'
     implementation 'org.bouncycastle:bcpkix-fips:1.0.7'
 
+    // Zip Util
+    implementation 'org.zeroturnaround:zt-zip:1.15'
+
     // Remote Preference
     implementation 'com.crossbowffs.remotepreferences:remotepreferences:0.8'
 

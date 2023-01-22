@@ -90,9 +90,10 @@ public class CompilerUtil {
 
         // Create temp directory
         Shell.cmd("rm -rf " + References.TEMP_DIR + "; mkdir -p " + References.TEMP_DIR).exec();
-        Shell.cmd("rm -rf " + References.UNSIGNED_UNALIGNED_DIR + "; mkdir -p " + References.UNSIGNED_UNALIGNED_DIR).exec();
-        Shell.cmd("rm -rf " + References.UNSIGNED_DIR + "; mkdir -p " + References.UNSIGNED_DIR).exec();
-        Shell.cmd("rm -rf " + References.SIGNED_DIR + "; mkdir -p " + References.SIGNED_DIR).exec();
+        Shell.cmd("mkdir -p " + References.TEMP_OVERLAY_DIR).exec();
+        Shell.cmd("mkdir -p " + References.UNSIGNED_UNALIGNED_DIR).exec();
+        Shell.cmd("mkdir -p " + References.UNSIGNED_DIR).exec();
+        Shell.cmd("mkdir -p " + References.SIGNED_DIR).exec();
     }
 
     private static void postExecute(boolean hasErroredOut) {
@@ -110,8 +111,8 @@ public class CompilerUtil {
             RootUtil.setPermissionsRecursively(644, References.OVERLAY_DIR + '/');
     }
 
-    private static boolean createManifest(String pkgName, String target, String destination) {
-        return !Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + pkgName + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + target + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + destination + "/AndroidManifest.xml;").exec().isSuccess();
+    private static boolean createManifest(String pkgName, String target, String source) {
+        return !Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + pkgName + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + target + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + source + "/AndroidManifest.xml;").exec().isSuccess();
     }
 
     private static boolean runAapt(String source, String name) {

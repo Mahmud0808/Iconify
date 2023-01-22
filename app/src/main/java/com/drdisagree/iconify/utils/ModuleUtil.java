@@ -99,6 +99,7 @@ public class ModuleUtil {
         Log.d("ModuleCheck", "Magisk module successfully created!");
 
         extractTools();
+
         return CompilerUtil.buildOverlays();
     }
 
@@ -128,12 +129,13 @@ public class ModuleUtil {
             folderName = "armeabi-v7a";
 
         try {
-            FileUtil.copyAssets("Tools/" + folderName);
+            FileUtil.copyAssets("Tools");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             Shell.cmd("cp -a " + References.DATA_DIR + "/Tools/" + folderName + "/. " + References.MODULE_DIR + "/tools").exec();
-            //FileUtil.cleanDir("Tools");
+            Shell.cmd("cp " + References.DATA_DIR + "/Tools/zip " + References.MODULE_DIR + "/tools").exec();
+            FileUtil.cleanDir("Tools");
             RootUtil.setPermissionsRecursively(755, References.MODULE_DIR + "/tools");
         }
     }

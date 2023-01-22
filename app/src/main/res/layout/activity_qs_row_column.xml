@@ -23,7 +23,6 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/color_picker_warn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/container_marginSide"

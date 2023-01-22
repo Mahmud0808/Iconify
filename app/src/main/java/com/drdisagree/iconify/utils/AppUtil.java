@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -22,6 +23,7 @@ public class AppUtil {
         }
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     public static Drawable getAppIcon(String packageName) {
         Drawable appIcon = null;
         try {
@@ -52,5 +54,14 @@ public class AppUtil {
         } else {
             Toast.makeText(Iconify.getAppContext(), "Application not found!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public static String[] getSplitLocations(String packageName) {
+        try {
+            return new String[]{Iconify.getAppContext().getPackageManager().getApplicationInfo(packageName, 0).sourceDir};
+        } catch (PackageManager.NameNotFoundException ignored) {
+            ;
+        }
+        return new String[0];
     }
 }
