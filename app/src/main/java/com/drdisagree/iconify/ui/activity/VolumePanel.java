@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -104,7 +103,7 @@ public class VolumePanel extends AppCompatActivity {
 
                 Runnable runnable = () -> {
                     try {
-                        hasErroredOut.set(VolumeCompilerUtil.buildOverlay("VolumeGradient", SYSTEM_UI_PACKAGE));
+                        hasErroredOut.set(VolumeCompilerUtil.buildModule("VolumeGradient", SYSTEM_UI_PACKAGE));
                     } catch (IOException e) {
                         hasErroredOut.set(true);
                         e.printStackTrace();
@@ -115,7 +114,147 @@ public class VolumePanel extends AppCompatActivity {
                         if (hasErroredOut.get()) {
                             Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_module_generated), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_module_created), Toast.LENGTH_SHORT).show();
+                        }
+                    }, 2000));
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
+            }
+        });
+
+        Button double_layer_volume = findViewById(R.id.double_layer_volume);
+        double_layer_volume.setOnClickListener(v -> {
+            AtomicBoolean hasErroredOut = new AtomicBoolean(false);
+
+            if (!Environment.isExternalStorageManager()) {
+                Intent intent = new Intent();
+                intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                Uri uri = Uri.fromParts("package", Iconify.getAppContext().getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+            } else {
+                loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
+
+                Runnable runnable = () -> {
+                    try {
+                        hasErroredOut.set(VolumeCompilerUtil.buildModule("VolumeDoubleLayer", SYSTEM_UI_PACKAGE));
+                    } catch (IOException e) {
+                        hasErroredOut.set(true);
+                        e.printStackTrace();
+                    }
+                    runOnUiThread(() -> new Handler().postDelayed(() -> {
+                        loadingDialog.hide();
+
+                        if (hasErroredOut.get()) {
+                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_module_created), Toast.LENGTH_SHORT).show();
+                        }
+                    }, 2000));
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
+            }
+        });
+
+        Button shaded_layer_volume = findViewById(R.id.shaded_layer_volume);
+        shaded_layer_volume.setOnClickListener(v -> {
+            AtomicBoolean hasErroredOut = new AtomicBoolean(false);
+
+            if (!Environment.isExternalStorageManager()) {
+                Intent intent = new Intent();
+                intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                Uri uri = Uri.fromParts("package", Iconify.getAppContext().getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+            } else {
+                loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
+
+                Runnable runnable = () -> {
+                    try {
+                        hasErroredOut.set(VolumeCompilerUtil.buildModule("VolumeShadedLayer", SYSTEM_UI_PACKAGE));
+                    } catch (IOException e) {
+                        hasErroredOut.set(true);
+                        e.printStackTrace();
+                    }
+                    runOnUiThread(() -> new Handler().postDelayed(() -> {
+                        loadingDialog.hide();
+
+                        if (hasErroredOut.get()) {
+                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_module_created), Toast.LENGTH_SHORT).show();
+                        }
+                    }, 2000));
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
+            }
+        });
+
+        Button neumorph_volume = findViewById(R.id.neumorph_volume);
+        neumorph_volume.setOnClickListener(v -> {
+            AtomicBoolean hasErroredOut = new AtomicBoolean(false);
+
+            if (!Environment.isExternalStorageManager()) {
+                Intent intent = new Intent();
+                intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                Uri uri = Uri.fromParts("package", Iconify.getAppContext().getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+            } else {
+                loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
+
+                Runnable runnable = () -> {
+                    try {
+                        hasErroredOut.set(VolumeCompilerUtil.buildModule("VolumeNeumorph", SYSTEM_UI_PACKAGE));
+                    } catch (IOException e) {
+                        hasErroredOut.set(true);
+                        e.printStackTrace();
+                    }
+                    runOnUiThread(() -> new Handler().postDelayed(() -> {
+                        loadingDialog.hide();
+
+                        if (hasErroredOut.get()) {
+                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_module_created), Toast.LENGTH_SHORT).show();
+                        }
+                    }, 2000));
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
+            }
+        });
+
+        Button outline_volume = findViewById(R.id.outline_volume);
+        outline_volume.setOnClickListener(v -> {
+            AtomicBoolean hasErroredOut = new AtomicBoolean(false);
+
+            if (!Environment.isExternalStorageManager()) {
+                Intent intent = new Intent();
+                intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                Uri uri = Uri.fromParts("package", Iconify.getAppContext().getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+            } else {
+                loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
+
+                Runnable runnable = () -> {
+                    try {
+                        hasErroredOut.set(VolumeCompilerUtil.buildModule("VolumeOutline", SYSTEM_UI_PACKAGE));
+                    } catch (IOException e) {
+                        hasErroredOut.set(true);
+                        e.printStackTrace();
+                    }
+                    runOnUiThread(() -> new Handler().postDelayed(() -> {
+                        loadingDialog.hide();
+
+                        if (hasErroredOut.get()) {
+                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_module_created), Toast.LENGTH_SHORT).show();
                         }
                     }, 2000));
                 };

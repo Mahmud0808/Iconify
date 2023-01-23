@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingMode="stack">
+    <item
+        android:id="@android:id/background"
+        android:gravity="fill_horizontal|center">
+        <inset
+            android:insetLeft="@*com.android.systemui:dimen/rounded_slider_track_inset"
+            android:insetRight="@*com.android.systemui:dimen/rounded_slider_track_inset">
+            <shape>
+                <size android:height="@*com.android.systemui:dimen/volume_dialog_track_width" />
+                <corners android:radius="@*com.android.systemui:dimen/volume_dialog_track_corner_radius" />
+                <solid android:color="?android:colorBackground" />
+            </shape>
+        </inset>
+    </item>
+    <item
+        android:id="@android:id/progress"
+        android:gravity="fill_horizontal|center">
+        <com.android.systemui.util.RoundedCornerProgressDrawable android:drawable="@*com.android.systemui:drawable/volume_row_seekbar_progress" />
+    </item>
+</layer-list>

@@ -215,10 +215,14 @@
     <!-- do not change {latestVersionName} -->
     <string name="update_dialog_desc">Update {latestVersionName} is available to download.</string>
     <string name="checking_for_update">Checking For Update</string>
-    <string name="toast_module_generated">Module generated</string>
+    <string name="toast_module_created">Module created successfully</string>
     <string name="volume_styles">Volume Styles</string>
-    <string name="volume_module_desc">Create a magisk module for gradient style</string>
-    <string name="volume_module_installation_guide">The following option will create a magisk module inside Downloads folder in your Internal Storage. Flash the module named IconifyCompanion in Magisk. Always uninstall previous IconifyCompanion module (if installed) and reboot before flashing new one.</string>
+    <string name="volume_module_desc">Creates a magisk flashable module for this style</string>
+    <string name="volume_module_installation_guide">The following options will create a magisk module inside Download folder in your Internal Storage. Flash the module named IconifyCompanion in Magisk. Always uninstall previous IconifyCompanion module (if installed) and reboot before flashing new one.</string>
     <string name="btn_create_module">Create Module</string>
     <string name="gradient_volume">Gradient Volume</string>
+    <string name="double_layer_volume">Double Layer Volume</string>
+    <string name="shaded_layer_volume">Shaded Layer Volume</string>
+    <string name="neumorph_volume">Neumorph Volume</string>
+    <string name="outline_volume">Outline Volume</string>
 </resources>

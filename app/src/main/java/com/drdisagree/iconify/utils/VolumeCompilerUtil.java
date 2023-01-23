@@ -3,7 +3,6 @@ package com.drdisagree.iconify.utils;
 import android.os.Environment;
 import android.util.Log;
 
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.References;
 import com.topjohnwu.superuser.Shell;
 
@@ -11,14 +10,13 @@ import org.zeroturnaround.zip.ZipUtil;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 public class VolumeCompilerUtil {
 
     private static final String TAG = "VolumeCompilerUtil";
     private static final String aapt = References.TOOLS_DIR + "/libaapt.so";
 
-    public static boolean buildOverlay(String overlayName, String packageName) throws IOException {
+    public static boolean buildModule(String overlayName, String packageName) throws IOException {
         preExecute(overlayName, packageName);
 
         // Create AndroidManifest.xml and build APK using AAPT
