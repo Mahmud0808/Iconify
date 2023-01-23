@@ -19,7 +19,7 @@ public class InfoDialog extends AppCompatActivity {
         this.context = context;
     }
 
-    public void show(String title, String description) {
+    public void show(int title, int description) {
         if (dialog != null)
             dialog.dismiss();
 
@@ -31,10 +31,10 @@ public class InfoDialog extends AppCompatActivity {
         dialog.setCanceledOnTouchOutside(true);
 
         TextView text = dialog.findViewById(R.id.title);
-        text.setText(title);
+        text.setText(context.getResources().getText(title));
 
         TextView desc = dialog.findViewById(R.id.description);
-        desc.setText(description);
+        desc.setText(context.getResources().getText(description));
 
         dialog.create();
         dialog.show();

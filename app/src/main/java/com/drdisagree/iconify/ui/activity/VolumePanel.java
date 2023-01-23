@@ -9,10 +9,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,10 +31,15 @@ import com.drdisagree.iconify.utils.VolumeCompilerUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class VolumePanel extends AppCompatActivity {
+
+    private ViewGroup container;
+    LoadingDialog loadingDialog;
+    InfoDialog infoDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +53,6 @@ public class VolumePanel extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        LoadingDialog loadingDialog = new LoadingDialog(this);
 
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch thin_bg = findViewById(R.id.thin_bg);
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch thick_bg = findViewById(R.id.thick_bg);
@@ -91,195 +97,74 @@ public class VolumePanel extends AppCompatActivity {
             }
         });
 
+        // Loading dialog while creating modules
+        loadingDialog = new LoadingDialog(this);
+
         // Info dialog for volume style modules
-        InfoDialog infoDialog = new InfoDialog(this);
+        infoDialog = new InfoDialog(this);
 
-        int[] volume_info_img = {
-                R.id.gradient_volume_info,
-                R.id.double_layer_volume_info,
-                R.id.shaded_layer_volume_info,
-                R.id.neumorph_volume_info,
-                R.id.outline_volume_info
-        };
-        for (int id : volume_info_img) {
-            ImageView info_img = findViewById(id);
-            info_img.setOnClickListener(v -> infoDialog.show(getResources().getString(R.string.read_carefully), getResources().getString(R.string.volume_module_installation_guide)));
+        // Volume Style list items
+        container = findViewById(R.id.volume_style_list);
+        ArrayList<Object[]> vol_style_list = new ArrayList<>();
+
+        // Volume Style add items in list
+        vol_style_list.add(new Object[]{"Gradient Volume", "VolumeGradient"});
+        vol_style_list.add(new Object[]{"Double Layer Volume", "VolumeDoubleLayer"});
+        vol_style_list.add(new Object[]{"Shaded Layer Volume", "VolumeShadedLayer"});
+        vol_style_list.add(new Object[]{"Neumorph Volume", "VolumeNeumorph"});
+        vol_style_list.add(new Object[]{"Outline Volume", "VolumeOutline"});
+
+        addItem(vol_style_list);
+    }
+
+    private void addItem(ArrayList<Object[]> pack) {
+        for (int i = 0; i < pack.size(); i++) {
+            View list = LayoutInflater.from(this).inflate(R.layout.list_option_volume_style, container, false);
+
+            TextView name = list.findViewById(R.id.volume_style_title);
+            name.setText((String) pack.get(i)[0]);
+
+            ImageView info_img = list.findViewById(R.id.volume_style_info);
+            info_img.setOnClickListener(v -> infoDialog.show(R.string.read_carefully, R.string.volume_module_installation_guide));
+
+            Button create_module = list.findViewById(R.id.volume_style_create_module);
+            int finalI = i;
+            create_module.setOnClickListener(v -> {
+                AtomicBoolean hasErroredOut = new AtomicBoolean(false);
+
+                if (!Environment.isExternalStorageManager()) {
+                    Intent intent = new Intent();
+                    intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                    Uri uri = Uri.fromParts("package", Iconify.getAppContext().getPackageName(), null);
+                    intent.setData(uri);
+                    startActivity(intent);
+                } else {
+                    loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
+
+                    Runnable runnable = () -> {
+                        try {
+                            hasErroredOut.set(VolumeCompilerUtil.buildModule((String) pack.get(finalI)[1], SYSTEM_UI_PACKAGE));
+                        } catch (IOException e) {
+                            hasErroredOut.set(true);
+                            e.printStackTrace();
+                        }
+                        runOnUiThread(() -> new Handler().postDelayed(() -> {
+                            loadingDialog.hide();
+
+                            if (hasErroredOut.get()) {
+                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_module_created), Toast.LENGTH_SHORT).show();
+                            }
+                        }, 2000));
+                    };
+                    Thread thread = new Thread(runnable);
+                    thread.start();
+                }
+            });
+
+            container.addView(list);
         }
-
-        Button gradient_volume = findViewById(R.id.gradient_volume);
-        gradient_volume.setOnClickListener(v -> {
-            AtomicBoolean hasErroredOut = new AtomicBoolean(false);
-
-            if (!Environment.isExternalStorageManager()) {
-                Intent intent = new Intent();
-                intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                Uri uri = Uri.fromParts("package", Iconify.getAppContext().getPackageName(), null);
-                intent.setData(uri);
-                startActivity(intent);
-            } else {
-                loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
-
-                Runnable runnable = () -> {
-                    try {
-                        hasErroredOut.set(VolumeCompilerUtil.buildModule("VolumeGradient", SYSTEM_UI_PACKAGE));
-                    } catch (IOException e) {
-                        hasErroredOut.set(true);
-                        e.printStackTrace();
-                    }
-                    runOnUiThread(() -> new Handler().postDelayed(() -> {
-                        loadingDialog.hide();
-
-                        if (hasErroredOut.get()) {
-                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_module_created), Toast.LENGTH_SHORT).show();
-                        }
-                    }, 2000));
-                };
-                Thread thread = new Thread(runnable);
-                thread.start();
-            }
-        });
-
-        Button double_layer_volume = findViewById(R.id.double_layer_volume);
-        double_layer_volume.setOnClickListener(v -> {
-            AtomicBoolean hasErroredOut = new AtomicBoolean(false);
-
-            if (!Environment.isExternalStorageManager()) {
-                Intent intent = new Intent();
-                intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                Uri uri = Uri.fromParts("package", Iconify.getAppContext().getPackageName(), null);
-                intent.setData(uri);
-                startActivity(intent);
-            } else {
-                loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
-
-                Runnable runnable = () -> {
-                    try {
-                        hasErroredOut.set(VolumeCompilerUtil.buildModule("VolumeDoubleLayer", SYSTEM_UI_PACKAGE));
-                    } catch (IOException e) {
-                        hasErroredOut.set(true);
-                        e.printStackTrace();
-                    }
-                    runOnUiThread(() -> new Handler().postDelayed(() -> {
-                        loadingDialog.hide();
-
-                        if (hasErroredOut.get()) {
-                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_module_created), Toast.LENGTH_SHORT).show();
-                        }
-                    }, 2000));
-                };
-                Thread thread = new Thread(runnable);
-                thread.start();
-            }
-        });
-
-        Button shaded_layer_volume = findViewById(R.id.shaded_layer_volume);
-        shaded_layer_volume.setOnClickListener(v -> {
-            AtomicBoolean hasErroredOut = new AtomicBoolean(false);
-
-            if (!Environment.isExternalStorageManager()) {
-                Intent intent = new Intent();
-                intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                Uri uri = Uri.fromParts("package", Iconify.getAppContext().getPackageName(), null);
-                intent.setData(uri);
-                startActivity(intent);
-            } else {
-                loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
-
-                Runnable runnable = () -> {
-                    try {
-                        hasErroredOut.set(VolumeCompilerUtil.buildModule("VolumeShadedLayer", SYSTEM_UI_PACKAGE));
-                    } catch (IOException e) {
-                        hasErroredOut.set(true);
-                        e.printStackTrace();
-                    }
-                    runOnUiThread(() -> new Handler().postDelayed(() -> {
-                        loadingDialog.hide();
-
-                        if (hasErroredOut.get()) {
-                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_module_created), Toast.LENGTH_SHORT).show();
-                        }
-                    }, 2000));
-                };
-                Thread thread = new Thread(runnable);
-                thread.start();
-            }
-        });
-
-        Button neumorph_volume = findViewById(R.id.neumorph_volume);
-        neumorph_volume.setOnClickListener(v -> {
-            AtomicBoolean hasErroredOut = new AtomicBoolean(false);
-
-            if (!Environment.isExternalStorageManager()) {
-                Intent intent = new Intent();
-                intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                Uri uri = Uri.fromParts("package", Iconify.getAppContext().getPackageName(), null);
-                intent.setData(uri);
-                startActivity(intent);
-            } else {
-                loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
-
-                Runnable runnable = () -> {
-                    try {
-                        hasErroredOut.set(VolumeCompilerUtil.buildModule("VolumeNeumorph", SYSTEM_UI_PACKAGE));
-                    } catch (IOException e) {
-                        hasErroredOut.set(true);
-                        e.printStackTrace();
-                    }
-                    runOnUiThread(() -> new Handler().postDelayed(() -> {
-                        loadingDialog.hide();
-
-                        if (hasErroredOut.get()) {
-                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_module_created), Toast.LENGTH_SHORT).show();
-                        }
-                    }, 2000));
-                };
-                Thread thread = new Thread(runnable);
-                thread.start();
-            }
-        });
-
-        Button outline_volume = findViewById(R.id.outline_volume);
-        outline_volume.setOnClickListener(v -> {
-            AtomicBoolean hasErroredOut = new AtomicBoolean(false);
-
-            if (!Environment.isExternalStorageManager()) {
-                Intent intent = new Intent();
-                intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                Uri uri = Uri.fromParts("package", Iconify.getAppContext().getPackageName(), null);
-                intent.setData(uri);
-                startActivity(intent);
-            } else {
-                loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
-
-                Runnable runnable = () -> {
-                    try {
-                        hasErroredOut.set(VolumeCompilerUtil.buildModule("VolumeOutline", SYSTEM_UI_PACKAGE));
-                    } catch (IOException e) {
-                        hasErroredOut.set(true);
-                        e.printStackTrace();
-                    }
-                    runOnUiThread(() -> new Handler().postDelayed(() -> {
-                        loadingDialog.hide();
-
-                        if (hasErroredOut.get()) {
-                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_module_created), Toast.LENGTH_SHORT).show();
-                        }
-                    }, 2000));
-                };
-                Thread thread = new Thread(runnable);
-                thread.start();
-            }
-        });
     }
 
     @Override
