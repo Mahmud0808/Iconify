@@ -31,6 +31,7 @@ public class QSTransparency extends ModPack {
     private String SYSTEM_UI_PACKAGEPath = "";
     private Object lpparamCustom = null;
     private float alpha;
+    private Object mNotificationsScrim = null;
 
     public QSTransparency(Context context) {
         super(context);
@@ -45,8 +46,22 @@ public class QSTransparency extends ModPack {
         alpha = (float) ((float) Xprefs.getInt(QSALPHA_LEVEL, 60) / 100.0);
 
         if (Key.length > 0 && (Objects.equals(Key[0], QSTRANSPARENCY_SWITCH) || Objects.equals(Key[0], QSALPHA_LEVEL))) {
-            if (lpparamCustom != null)
-                callMethod(lpparamCustom, "applyState");
+            if (lpparamCustom != null) {
+                try {
+                    setFloatField(lpparamCustom, "mDefaultScrimAlpha", alpha);
+                    setFloatField(lpparamCustom, "mBehindAlpha", alpha);
+
+                    try {
+                        setFloatField(lpparamCustom, "mCustomScrimAlpha", alpha);
+                    } catch (Throwable ignored) {
+                        ;
+                    }
+
+                    callMethod(lpparamCustom, "updateScrims");
+                } catch (Throwable ignored) {
+                    ;
+                }
+            }
         }
     }
 
@@ -65,14 +80,34 @@ public class QSTransparency extends ModPack {
 
         final Class<?> ScrimController = XposedHelpers.findClass(CLASS_SCRIMCONTROLLER, lpParam.classLoader);
 
+        hookAllConstructors(ScrimController, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                if (!QsTransparencyActive) return;
+
+                lpparamCustom = param.thisObject;
+
+                mNotificationsScrim = getObjectField(param.thisObject, "mNotificationsScrim");
+
+                setFloatField(param.thisObject, "mDefaultScrimAlpha", alpha);
+                setFloatField(param.thisObject, "mBehindAlpha", alpha);
+                setFloatField(param.thisObject, "mNotificationsAlpha", alpha);
+
+                try {
+                    setFloatField(param.thisObject, "BUSY_SCRIM_ALPHA", alpha);
+                    setFloatField(param.thisObject, "mCustomScrimAlpha", alpha);
+                } catch (Throwable ignored) {
+                    ;
+                }
+            }
+        });
+
         hookAllMethods(ScrimController, "getInterpolatedFraction", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
                 if (!QsTransparencyActive) return;
 
                 behindFraction = (float) param.getResult();
-
-                lpparamCustom = param.thisObject;
             }
         });
 
@@ -87,25 +122,6 @@ public class QSTransparency extends ModPack {
                     setObjectField(param.thisObject, "mBehindAlpha", alpha);
                     if (behindFraction != null)
                         setObjectField(param.thisObject, "mNotificationsAlpha", behindFraction * alpha);
-                }
-            }
-        });
-
-        hookAllConstructors(ScrimController, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) {
-                if (!QsTransparencyActive) return;
-
-                setFloatField(param.thisObject, "mDefaultScrimAlpha", alpha);
-                setFloatField(param.thisObject, "mInFrontAlpha", alpha);
-                setFloatField(param.thisObject, "mBehindAlpha", alpha);
-                setFloatField(param.thisObject, "mNotificationsAlpha", alpha);
-
-                try {
-                    setFloatField(param.thisObject, "BUSY_SCRIM_ALPHA", alpha);
-                    setFloatField(param.thisObject, "mCustomScrimAlpha", alpha);
-                } catch (Throwable ignored) {
-                    ;
                 }
             }
         });

@@ -25,6 +25,7 @@ import java.util.Objects;
 
 public class XPosedMenu extends AppCompatActivity {
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,8 +69,6 @@ public class XPosedMenu extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RemotePrefs.putInt(QSALPHA_LEVEL, transparency[0]);
-                // Restart SystemUI
-                new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
             }
         });
 
