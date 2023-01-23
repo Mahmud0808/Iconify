@@ -74,6 +74,7 @@ public class QsShapesPixel extends AppCompatActivity {
         qsshape_list.add(new Object[]{"Bottom Outline", R.drawable.qs_shape_bottom_outline_enabled_pixel, R.drawable.qs_shape_bottom_outline_disabled_pixel});
         qsshape_list.add(new Object[]{"Cyberponk", R.drawable.qs_shape_cyberponk_enabled_pixel, R.drawable.qs_shape_cyberponk_disabled_pixel});
         qsshape_list.add(new Object[]{"Cyberponk v2", R.drawable.qs_shape_cyberponk_v2_enabled_pixel, R.drawable.qs_shape_cyberponk_v2_disabled_pixel});
+        qsshape_list.add(new Object[]{"Semi Transparent", R.drawable.qs_shape_semi_transparent_enabled_pixel, R.drawable.qs_shape_semi_transparent_disabled_pixel});
 
         addItem(qsshape_list);
 
