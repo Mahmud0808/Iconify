@@ -214,50 +214,37 @@
                 android:layout_marginEnd="@dimen/container_marginSide"
                 android:layout_marginBottom="@dimen/container_margin"
                 android:background="@drawable/container"
-                android:gravity="start|center"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/container_paddingSide"
                 android:paddingTop="@dimen/container_padding"
                 android:paddingEnd="@dimen/container_paddingSide"
                 android:paddingBottom="@dimen/container_padding">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/hey_there"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:justificationMode="inter_word"
-                    android:text="@string/volume_module_installation_guide"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_desc_size" />
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/gradient_volume"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/container_marginSide"
-                android:layout_marginEnd="@dimen/container_marginSide"
-                android:layout_marginBottom="@dimen/container_margin"
-                android:background="@drawable/container"
-                android:orientation="vertical"
-                android:paddingStart="@dimen/container_paddingSide"
-                android:paddingTop="@dimen/container_padding"
-                android:paddingEnd="@dimen/container_paddingSide"
-                android:paddingBottom="@dimen/container_padding">
+                    <ImageView
+                        android:id="@+id/gradient_volume_info"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/ic_info"
+                        android:contentDescription="@string/icon"
+                        app:tint="@color/textColorPrimary" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/gradient_volume"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -297,13 +284,31 @@
                 android:paddingEnd="@dimen/container_paddingSide"
                 android:paddingBottom="@dimen/container_padding">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/double_layer_volume"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/double_layer_volume"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/double_layer_volume_info"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/ic_info"
+                        android:contentDescription="@string/icon"
+                        app:tint="@color/textColorPrimary" />
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -343,13 +348,31 @@
                 android:paddingEnd="@dimen/container_paddingSide"
                 android:paddingBottom="@dimen/container_padding">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/shaded_layer_volume"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/shaded_layer_volume"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/shaded_layer_volume_info"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/ic_info"
+                        android:contentDescription="@string/icon"
+                        app:tint="@color/textColorPrimary" />
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -389,13 +412,31 @@
                 android:paddingEnd="@dimen/container_paddingSide"
                 android:paddingBottom="@dimen/container_padding">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/neumorph_volume"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/neumorph_volume"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/neumorph_volume_info"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/ic_info"
+                        android:contentDescription="@string/icon"
+                        app:tint="@color/textColorPrimary" />
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -435,13 +476,31 @@
                 android:paddingEnd="@dimen/container_paddingSide"
                 android:paddingBottom="@dimen/container_padding">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/outline_volume"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/outline_volume"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/outline_volume_info"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/ic_info"
+                        android:contentDescription="@string/icon"
+                        app:tint="@color/textColorPrimary" />
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"

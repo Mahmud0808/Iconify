@@ -9,7 +9,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -19,6 +21,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.ui.fragment.InfoDialog;
 import com.drdisagree.iconify.ui.fragment.LoadingDialog;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.VolumeCompilerUtil;
@@ -87,6 +90,21 @@ public class VolumePanel extends AppCompatActivity {
                 OverlayUtil.disableOverlay("IconifyComponentVPBG3.overlay");
             }
         });
+
+        // Info dialog for volume style modules
+        InfoDialog infoDialog = new InfoDialog(this);
+
+        int[] volume_info_img = {
+                R.id.gradient_volume_info,
+                R.id.double_layer_volume_info,
+                R.id.shaded_layer_volume_info,
+                R.id.neumorph_volume_info,
+                R.id.outline_volume_info
+        };
+        for (int id : volume_info_img) {
+            ImageView info_img = findViewById(id);
+            info_img.setOnClickListener(v -> infoDialog.show(getResources().getString(R.string.read_carefully), getResources().getString(R.string.volume_module_installation_guide)));
+        }
 
         Button gradient_volume = findViewById(R.id.gradient_volume);
         gradient_volume.setOnClickListener(v -> {
