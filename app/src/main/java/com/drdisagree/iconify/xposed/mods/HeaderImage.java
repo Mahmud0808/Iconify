@@ -151,8 +151,22 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
                     @SuppressLint("DiscouragedApi") LinearLayout batteryRemainingIcon = liparam.view.findViewById(liparam.res.getIdentifier("batteryRemainingIcon", "id", SYSTEM_UI_PACKAGE));
                     batteryRemainingIcon.getLayoutParams().height = 0;
                     batteryRemainingIcon.getLayoutParams().width = 0;
+                }
+            });
+        } catch (Throwable t) {
+            log(TAG + t);
+        }
 
-                    log("Header image added successfully.");
+        try {
+            ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "quick_status_bar_header_date_privacy", new XC_LayoutInflated() {
+                @SuppressLint({"DiscouragedApi"})
+                @Override
+                public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
+                    @SuppressLint("DiscouragedApi") TextView date = liparam.view.findViewById(liparam.res.getIdentifier("date", "id", SYSTEM_UI_PACKAGE));
+                    date.setTextColor(0);
+                    date.setTextAppearance(0);
+                    date.getLayoutParams().height = 0;
+                    date.getLayoutParams().width = 0;
                 }
             });
         } catch (Throwable t) {
