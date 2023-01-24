@@ -110,6 +110,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
 
             Drawable drawable = ImageDecoder.decodeDrawable(source);
             iv.setImageDrawable(drawable);
+            iv.setScaleType(ImageView.ScaleType.FIT_XY);
 
             if (drawable instanceof AnimatedImageDrawable) {
                 ((AnimatedImageDrawable) drawable).start();
