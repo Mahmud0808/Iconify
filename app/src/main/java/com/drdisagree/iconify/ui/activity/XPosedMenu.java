@@ -14,10 +14,12 @@ import static com.drdisagree.iconify.common.References.VERTICAL_QSTILE_SWITCH;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,17 +34,46 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RemotePrefs;
-import com.drdisagree.iconify.utils.RealPathUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.Objects;
 
 public class XPosedMenu extends AppCompatActivity {
 
     private static final int PICKFILE_RESULT_CODE = 100;
     private Button enable_header_image;
+
+    private static String getRealPathFromURI(Uri uri) {
+        @SuppressLint("Recycle") Cursor returnCursor = Iconify.getAppContext().getContentResolver().query(uri, null, null, null, null);
+        int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+        int sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE);
+        returnCursor.moveToFirst();
+        String name = returnCursor.getString(nameIndex);
+        String size = Long.toString(returnCursor.getLong(sizeIndex));
+        File file = new File(Iconify.getAppContext().getFilesDir(), name);
+        try {
+            @SuppressLint("Recycle") InputStream inputStream = Iconify.getAppContext().getContentResolver().openInputStream(uri);
+            FileOutputStream outputStream = new FileOutputStream(file);
+            int read = 0;
+            int maxBufferSize = 1024 * 1024;
+            int bytesAvailable = inputStream.available();
+            int bufferSize = Math.min(bytesAvailable, maxBufferSize);
+            final byte[] buffers = new byte[bufferSize];
+            while ((read = inputStream.read(buffers)) != -1) {
+                outputStream.write(buffers, 0, read);
+            }
+            inputStream.close();
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return file.getPath();
+    }
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -221,7 +252,7 @@ public class XPosedMenu extends AppCompatActivity {
 
         if (requestCode == PICKFILE_RESULT_CODE && resultCode == Activity.RESULT_OK) {
             Uri uri = data.getData();
-            String source = RealPathUtil.getRealPath(Iconify.getAppContext(), uri);
+            String source = getRealPathFromURI(uri);
             Log.d("Header image source:", source);
 
             String destination = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.iconify_headerimg/header_image.png";
