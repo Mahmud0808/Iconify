@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.xposed.mods;
 
+import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_ALPHA;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_HEIGHT;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_SWITCH;
@@ -97,7 +98,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
                     ((LinearLayout.LayoutParams) headerImage.getLayoutParams()).setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -16, mContext.getResources().getDisplayMetrics()), 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -16, mContext.getResources().getDisplayMetrics()), 0);
                     loadGif(headerImage);
                     headerImage.setAlpha((int) (headerImageAlpha / 100.0 * 255.0));
-                    header.addView(headerImage, header.getChildCount() - 1);
+                    header.addView(headerImage, header.getChildCount() - (Xprefs.getBoolean(HEADER_CLOCK_SWITCH, false) ? 2 : 1));
 
                     ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "dimen", "qs_panel_padding_top", new XResources.DimensionReplacement(headerImageHeight - 30, TypedValue.COMPLEX_UNIT_DIP));
                     ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "dimen", "qqs_layout_margin_top", new XResources.DimensionReplacement(headerImageHeight - 30, TypedValue.COMPLEX_UNIT_DIP));
