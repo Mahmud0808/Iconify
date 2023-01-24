@@ -1,46 +1,36 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
-import static com.drdisagree.iconify.common.References.HEADER_IMAGE_ALPHA;
-import static com.drdisagree.iconify.common.References.HEADER_IMAGE_HEIGHT;
-import static com.drdisagree.iconify.common.References.HEADER_IMAGE_SWITCH;
 import static com.drdisagree.iconify.common.References.HIDE_QSLABEL_SWITCH;
-import static com.drdisagree.iconify.common.References.HIDE_STATUS_ICONS_SWITCH;
+import static com.drdisagree.iconify.common.References.LSCLOCK_CLOCK_SWITCH;
+import static com.drdisagree.iconify.common.References.LSCLOCK_STYLE;
 import static com.drdisagree.iconify.common.References.QSALPHA_LEVEL;
 import static com.drdisagree.iconify.common.References.QSTRANSPARENCY_SWITCH;
 import static com.drdisagree.iconify.common.References.STATUSBAR_CLOCKBG;
 import static com.drdisagree.iconify.common.References.VERTICAL_QSTILE_SWITCH;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
-import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RemotePrefs;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.topjohnwu.superuser.Shell;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class XPosedMenu extends AppCompatActivity {
@@ -112,6 +102,36 @@ public class XPosedMenu extends AppCompatActivity {
         enable_clock_bg_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RemotePrefs.putBoolean(STATUSBAR_CLOCKBG, isChecked);
             new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+        });
+
+        // Lockscreen clock
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_locksreen_clock = findViewById(R.id.enable_lockscreen_clock);
+        enable_locksreen_clock.setChecked(RemotePrefs.getBoolean(LSCLOCK_CLOCK_SWITCH, false));
+        enable_locksreen_clock.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RemotePrefs.putBoolean(LSCLOCK_CLOCK_SWITCH, isChecked);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+        });
+
+        // Lockscreen clock style
+        final Spinner locksreen_clock_style = findViewById(R.id.locksreen_clock_style);
+        List<String> lsclock_styles = new ArrayList<>();
+        lsclock_styles.add("Style 1");
+        lsclock_styles.add("Style 2");
+
+        ArrayAdapter<String> lsclock_styles_adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_item, lsclock_styles);
+        lsclock_styles_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+        locksreen_clock_style.setAdapter(lsclock_styles_adapter);
+
+        locksreen_clock_style.setSelection(RemotePrefs.getInt(LSCLOCK_STYLE, 0));
+        locksreen_clock_style.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                RemotePrefs.putInt(LSCLOCK_STYLE, position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 

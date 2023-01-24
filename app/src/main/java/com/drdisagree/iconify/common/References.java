@@ -56,6 +56,10 @@ public class References {
     public static final String HEADER_CLOCK_TOPMARGIN = "xposed_headerclocktopmargin";
     public static final String HEADER_CLOCK_QSTOPMARGIN = "xposed_headerclockqstopmargin";
     public static final String HEADER_CLOCK_STYLE = "xposed_headerclockstyle";
+    public static final String LSCLOCK_CLOCK_SWITCH = "xposed_lockscreenclock";
+    public static final String LSCLOCK_STYLE = "xposed_lockscreenclockstyle";
+    public static final String LSCLOCK_TOPMARGIN = "xposed_lockscreenclocktopmargin";
+    public static final String LSCLOCK_BOTTOMMARGIN = "xposed_lockscreenclockbottommargin";
 
     // Parse new update
     public static final String LATEST_VERSION = "https://raw.githubusercontent.com/Mahmud0808/Iconify/stable/latestVersion.json";

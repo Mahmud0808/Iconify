@@ -36,7 +36,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
 
-    private static final String TAG = "Iconify - HeaderImage: ";
+    private static final String TAG = "Iconify - HeaderClock: ";
     boolean showHeaderClock = false;
     int sideMargin = 0;
     int topMargin = 8;
