@@ -181,7 +181,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                             final TextClock clock = new TextClock(mContext);
                             clock.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                             clock.setFormat12Hour("h:mm");
-                            clock.setFormat24Hour("HH:mm");
+                            clock.setFormat24Hour("H:mm");
                             clock.setTextColor(getColorResCompat(mContext, android.R.attr.textColorPrimary));
                             clock.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40);
                             clock.setTypeface(clock.getTypeface(), Typeface.BOLD);
@@ -189,7 +189,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                             final TextClock clockOverlay = new TextClock(mContext);
                             clockOverlay.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                             clockOverlay.setFormat12Hour("h");
-                            clockOverlay.setFormat24Hour("HH");
+                            clockOverlay.setFormat24Hour("H");
                             clockOverlay.setTextColor(mContext.getResources().getColor(android.R.color.system_accent1_200));
                             clockOverlay.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40);
                             clockOverlay.setTypeface(clockOverlay.getTypeface(), Typeface.BOLD);
