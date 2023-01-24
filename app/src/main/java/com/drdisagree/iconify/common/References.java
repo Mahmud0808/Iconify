@@ -54,6 +54,7 @@ public class References {
     public static final String HEADER_CLOCK_SWITCH = "xposed_headerclock";
     public static final String HEADER_CLOCK_SIDEMARGIN = "xposed_headerclocksidemargin";
     public static final String HEADER_CLOCK_TOPMARGIN = "xposed_headerclocktopmargin";
+    public static final String HEADER_CLOCK_QSTOPMARGIN = "xposed_headerclockqstopmargin";
     public static final String HEADER_CLOCK_STYLE = "xposed_headerclockstyle";
 
     // Parse new update

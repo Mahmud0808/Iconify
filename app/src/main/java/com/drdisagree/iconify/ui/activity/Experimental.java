@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.activity;
 
 import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
+import static com.drdisagree.iconify.common.References.HEADER_CLOCK_QSTOPMARGIN;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SIDEMARGIN;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_STYLE;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
@@ -222,6 +223,32 @@ public class Experimental extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RemotePrefs.putInt(HEADER_CLOCK_TOPMARGIN, topMargin[0]);
+                new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+            }
+        });
+
+        // QS panel top margin
+        SeekBar header_clock_qs_top_margin_seekbar = findViewById(R.id.header_clock_qs_top_margin_seekbar);
+        header_clock_qs_top_margin_seekbar.setPadding(0, 0, 0, 0);
+        TextView header_clock_qs_top_margin_output = findViewById(R.id.header_clock_qs_top_margin_output);
+        header_clock_qs_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RemotePrefs.getInt(HEADER_CLOCK_QSTOPMARGIN, 0) + "dp");
+        header_clock_qs_top_margin_seekbar.setProgress(RemotePrefs.getInt(HEADER_CLOCK_QSTOPMARGIN, 0));
+        final int[] qsTopMargin = {RemotePrefs.getInt(HEADER_CLOCK_QSTOPMARGIN, 0)};
+        header_clock_qs_top_margin_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                qsTopMargin[0] = progress;
+                header_clock_qs_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                RemotePrefs.putInt(HEADER_CLOCK_QSTOPMARGIN, qsTopMargin[0]);
                 new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
             }
         });

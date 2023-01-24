@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.xposed.mods;
 
+import static com.drdisagree.iconify.common.References.HEADER_CLOCK_QSTOPMARGIN;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SIDEMARGIN;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_STYLE;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
@@ -39,6 +40,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
     boolean showHeaderClock = false;
     int sideMargin = 0;
     int topMargin = 8;
+    int qsTopMargin = 0;
     boolean headerClockStyle = false;
     private String rootPackagePath = "";
 
@@ -55,6 +57,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         sideMargin = Xprefs.getInt(HEADER_CLOCK_SIDEMARGIN, 0);
         topMargin = Xprefs.getInt(HEADER_CLOCK_TOPMARGIN, 8);
         headerClockStyle = Xprefs.getBoolean(HEADER_CLOCK_STYLE, false);
+        qsTopMargin = Xprefs.getInt(HEADER_CLOCK_QSTOPMARGIN, 0);
 
         setHeaderClock();
         hideStockClockDate();
@@ -168,8 +171,8 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
 
                         header.addView(clockContainer, header.getChildCount() - 1);
 
-                        ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "dimen", "qs_panel_padding_top", new XResources.DimensionReplacement(topMargin + 28, TypedValue.COMPLEX_UNIT_DIP));
-                        ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "dimen", "qqs_layout_margin_top", new XResources.DimensionReplacement(topMargin + 28, TypedValue.COMPLEX_UNIT_DIP));
+                        ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "dimen", "qs_panel_padding_top", new XResources.DimensionReplacement(topMargin + 28 + qsTopMargin, TypedValue.COMPLEX_UNIT_DIP));
+                        ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "dimen", "qqs_layout_margin_top", new XResources.DimensionReplacement(topMargin + 28 + qsTopMargin, TypedValue.COMPLEX_UNIT_DIP));
                     } else {
                         final TextClock clock = new TextClock(mContext);
                         clock.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -226,8 +229,8 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
 
                         header.addView(container, header.getChildCount() - 1);
 
-                        ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "dimen", "qs_panel_padding_top", new XResources.DimensionReplacement(topMargin + 40, TypedValue.COMPLEX_UNIT_DIP));
-                        ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "dimen", "qqs_layout_margin_top", new XResources.DimensionReplacement(topMargin + 40, TypedValue.COMPLEX_UNIT_DIP));
+                        ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "dimen", "qs_panel_padding_top", new XResources.DimensionReplacement(topMargin + 40 + qsTopMargin, TypedValue.COMPLEX_UNIT_DIP));
+                        ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "dimen", "qqs_layout_margin_top", new XResources.DimensionReplacement(topMargin + 40 + qsTopMargin, TypedValue.COMPLEX_UNIT_DIP));
                     }
                     log("Header clock added successfully.");
                 }
