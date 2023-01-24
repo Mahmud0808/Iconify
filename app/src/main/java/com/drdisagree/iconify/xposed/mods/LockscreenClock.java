@@ -158,7 +158,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
 
                             final TextClock clockOverlay = new TextClock(mContext);
                             clockOverlay.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            clockOverlay.setFormat12Hour("h");
+                            clockOverlay.setFormat12Hour("hh");
                             clockOverlay.setFormat24Hour("HH");
                             clockOverlay.setTextColor(mContext.getResources().getColor(android.R.color.system_accent1_200));
                             clockOverlay.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50);
