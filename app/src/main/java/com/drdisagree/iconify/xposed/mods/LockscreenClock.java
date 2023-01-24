@@ -183,7 +183,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                             month.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                             month.setFormat12Hour("MMMM d");
                             month.setFormat12Hour("MMMM d");
-                            month.setTextColor(mContext.getResources().getColor(android.R.color.system_accent1_100));
+                            month.setTextColor(mContext.getResources().getColor(android.R.color.white));
                             month.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 
                             final LinearLayout wholeContainer = new LinearLayout(mContext);
