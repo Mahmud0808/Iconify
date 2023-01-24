@@ -174,7 +174,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                                     0,
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -12, mContext.getResources().getDisplayMetrics()),
                                     0,
-                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -12, mContext.getResources().getDisplayMetrics()));
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -8, mContext.getResources().getDisplayMetrics()));
 
                             timeContainer.addView(clockWhite);
                             timeContainer.addView(clockOverlay);
