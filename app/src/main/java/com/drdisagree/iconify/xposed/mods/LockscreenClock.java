@@ -100,7 +100,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                             final TextClock date = new TextClock(mContext);
                             date.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                             date.setFormat12Hour("EEEE, MMMM d");
-                            date.setFormat12Hour("EEEE, MMMM d");
+                            date.setFormat24Hour("EEEE, MMMM d");
                             date.setTextColor(mContext.getResources().getColor(android.R.color.system_accent1_100));
                             date.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
                             date.setTypeface(date.getTypeface(), Typeface.BOLD);
@@ -182,7 +182,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                             final TextClock month = new TextClock(mContext);
                             month.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                             month.setFormat12Hour("MMMM d");
-                            month.setFormat12Hour("MMMM d");
+                            month.setFormat24Hour("MMMM d");
                             month.setTextColor(mContext.getResources().getColor(android.R.color.white));
                             month.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 
