@@ -238,4 +238,8 @@
     <string name="hide_status_icons_desc">Remove time, date and battery icons</string>
     <string name="image_alpha">Image Alpha</string>
     <string name="toast_rename_file">Rename file to something simpler</string>
+    <string name="custom_lockscreen_clock_title">Custom Lockscreen Clock</string>
+    <string name="custom_lockscreen_clock_desc">Enable custom lockscreen clock</string>
+    <string name="custom_lockscreen_clock_style_title">Clock Style</string>
+    <string name="needs_systemui_restart">Needs SystemUI restart</string>
 </resources>

@@ -370,6 +370,54 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/container_mid"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/container_paddingSide"
+                    android:paddingTop="@dimen/container_padding"
+                    android:paddingEnd="@dimen/container_paddingSide"
+                    android:paddingBottom="@dimen/container_padding">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center"
+                        android:layout_marginEnd="@dimen/container_padding"
+                        android:layout_weight="1.0"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Clock Style"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/needs_systemui_restart"
+                            android:textColor="@color/textColorSecondary"
+                            android:textSize="@dimen/cont_desc_size" />
+
+                    </LinearLayout>
+
+                    <Spinner
+                        android:id="@+id/header_clock_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/colorBackground" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/container_mid"
                     android:orientation="vertical"
                     android:paddingStart="@dimen/container_paddingSide"
                     android:paddingTop="@dimen/container_padding"
@@ -465,7 +513,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/container_mid"
+                    android:layout_marginBottom="@dimen/container_margin"
+                    android:background="@drawable/container_bottom"
                     android:orientation="vertical"
                     android:paddingStart="@dimen/container_paddingSide"
                     android:paddingTop="@dimen/container_padding"
@@ -502,57 +551,6 @@
                         android:splitTrack="false"
                         android:theme="@style/SeekBar.Iconify"
                         android:thumb="@drawable/seek_thumb" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/container_bottom"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:layout_marginEnd="@dimen/container_padding"
-                        android:layout_weight="1.0"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Switch to Different Clock"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="You can choose between two clocks"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
-
-                    </LinearLayout>
-
-                    <Switch
-                        android:id="@+id/switch_header_clock"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:thumb="@drawable/switch_thumb"
-                        android:track="@drawable/switch_track"
-                        tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                 </LinearLayout>
             </LinearLayout>

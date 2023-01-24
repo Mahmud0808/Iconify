@@ -10,6 +10,7 @@ import static com.drdisagree.iconify.common.References.HEADER_IMAGE_ALPHA;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_HEIGHT;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_SWITCH;
 import static com.drdisagree.iconify.common.References.HIDE_STATUS_ICONS_SWITCH;
+import static com.drdisagree.iconify.common.References.LSCLOCK_STYLE;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -22,8 +23,11 @@ import android.os.Handler;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +45,7 @@ import com.topjohnwu.superuser.Shell;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -175,6 +180,28 @@ public class Experimental extends AppCompatActivity {
             new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
 
+        // Header clock style
+        final Spinner header_clock_style = findViewById(R.id.header_clock_style);
+        List<String> hcclock_styles = new ArrayList<>();
+        hcclock_styles.add("Style 1");
+        hcclock_styles.add("Style 2");
+
+        ArrayAdapter<String> hcclock_styles_adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_item, hcclock_styles);
+        hcclock_styles_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+        header_clock_style.setAdapter(hcclock_styles_adapter);
+
+        header_clock_style.setSelection(RemotePrefs.getInt(HEADER_CLOCK_STYLE, 0));
+        header_clock_style.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                RemotePrefs.putInt(HEADER_CLOCK_STYLE, position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
         // Header clock side margin
         SeekBar header_clock_side_margin_seekbar = findViewById(R.id.header_clock_side_margin_seekbar);
         header_clock_side_margin_seekbar.setPadding(0, 0, 0, 0);
@@ -251,14 +278,6 @@ public class Experimental extends AppCompatActivity {
                 RemotePrefs.putInt(HEADER_CLOCK_QSTOPMARGIN, qsTopMargin[0]);
                 new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
             }
-        });
-
-        // Switch header clock style
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_header_clock = findViewById(R.id.switch_header_clock);
-        switch_header_clock.setChecked(RemotePrefs.getBoolean(HEADER_CLOCK_STYLE, false));
-        switch_header_clock.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RemotePrefs.putBoolean(HEADER_CLOCK_STYLE, isChecked);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
     }
 
