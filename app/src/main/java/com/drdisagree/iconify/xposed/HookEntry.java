@@ -28,6 +28,7 @@ import android.content.Context;
 import com.drdisagree.iconify.config.XPrefs;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.xposed.mods.ClockBGChip;
+import com.drdisagree.iconify.xposed.mods.HeaderImage;
 import com.drdisagree.iconify.xposed.mods.QSTransparency;
 import com.drdisagree.iconify.xposed.mods.VerticalQSTile;
 
@@ -50,6 +51,7 @@ public class HookEntry implements IXposedHookLoadPackage {
         modPacks.add(QSTransparency.class);
         modPacks.add(ClockBGChip.class);
         modPacks.add(VerticalQSTile.class);
+        modPacks.add(HeaderImage.class);
     }
 
     @SuppressLint("ApplySharedPref")

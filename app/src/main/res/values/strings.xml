@@ -221,4 +221,20 @@
     <string name="btn_create_module">Create Module</string>
     <string name="read_carefully">Read Carefully!</string>
     <string name="volume_module_installation_guide">This option will create a magisk module inside Download folder in your Internal Storage. Flash the module named IconifyCompanion.zip in Magisk. Always uninstall previous Iconify Companion module (if installed) and reboot before flashing new one.\n\n<b>Note:</b>\n• Uninstall the module before updating rom.\n• Recreate the module if you change or update rom.\n• Do not flash a module which wasn\'t created based on your rom.</string>
+    <string name="transparent_qs_panel_title">Transparent QS Panel</string>
+    <string name="transparent_qs_panel_desc">Make QS panel background transparent</string>
+    <string name="transparency_alpha_title">Transparency Alpha</string>
+    <string name="vertical_qs_tile_title">Vertical QS Tile</string>
+    <string name="vertical_qs_tile_desc">Show label below QS icon</string>
+    <string name="hide_qs_tile_label_title">Hide QS Tile Label</string>
+    <string name="hide_qs_tile_label_desc">Use only with vertical tiles</string>
+    <string name="clock_background_chip_title">Clock Background Chip</string>
+    <string name="clock_background_chip_desc">Display gradient chip behind clock\nWait a minute after enabling</string>
+    <string name="header_image_title">Header Image</string>
+    <string name="header_image_desc">Add header image on QS Panel</string>
+    <string name="btn_pick_image">Pick Image</string>
+    <string name="image_height_title">Image Height</string>
+    <string name="hide_status_icons_title">Hide Status Icons</string>
+    <string name="hide_status_icons_desc">Remove time, date and battery icons</string>
+    <string name="image_alpha">Image Alpha</string>
 </resources>
