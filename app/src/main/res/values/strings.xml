@@ -237,4 +237,5 @@
     <string name="hide_status_icons_title">Hide Status Icons</string>
     <string name="hide_status_icons_desc">Remove time, date and battery icons</string>
     <string name="image_alpha">Image Alpha</string>
+    <string name="toast_rename_file">Rename file to something simpler</string>
 </resources>

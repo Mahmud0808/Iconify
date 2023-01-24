@@ -279,6 +279,10 @@ public class Experimental extends AppCompatActivity {
         if (requestCode == PICKFILE_RESULT_CODE && resultCode == Activity.RESULT_OK) {
             Uri uri = data.getData();
             String source = getRealPathFromURI(uri);
+            if (source == null) {
+                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
+                return;
+            }
             Log.d("Header image source:", source);
 
             String destination = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.iconify_headerimg/header_image.png";
@@ -294,14 +298,13 @@ public class Experimental extends AppCompatActivity {
     }
 
     private static String getRealPathFromURI(Uri uri) {
-        @SuppressLint("Recycle") Cursor returnCursor = Iconify.getAppContext().getContentResolver().query(uri, null, null, null, null);
-        int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-        int sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE);
-        returnCursor.moveToFirst();
-        String name = returnCursor.getString(nameIndex);
-        String size = Long.toString(returnCursor.getLong(sizeIndex));
-        File file = new File(Iconify.getAppContext().getFilesDir(), name);
+        File file = null;
         try {
+            @SuppressLint("Recycle") Cursor returnCursor = Iconify.getAppContext().getContentResolver().query(uri, null, null, null, null);
+            int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+            returnCursor.moveToFirst();
+            String name = returnCursor.getString(nameIndex);
+            file = new File(Iconify.getAppContext().getFilesDir(), name);
             @SuppressLint("Recycle") InputStream inputStream = Iconify.getAppContext().getContentResolver().openInputStream(uri);
             FileOutputStream outputStream = new FileOutputStream(file);
             int read = 0;
@@ -316,6 +319,7 @@ public class Experimental extends AppCompatActivity {
             outputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
         return file.getPath();
     }
