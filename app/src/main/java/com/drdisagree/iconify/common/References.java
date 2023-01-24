@@ -51,6 +51,10 @@ public class References {
     public static final String HEADER_IMAGE_HEIGHT = "xposed_headerimageheight";
     public static final String HEADER_IMAGE_ALPHA = "xposed_headerimagealpha";
     public static final String HIDE_STATUS_ICONS_SWITCH = "xposed_hidestatusicons";
+    public static final String HEADER_CLOCK_SWITCH = "xposed_headerclock";
+    public static final String HEADER_CLOCK_SIDEMARGIN = "xposed_headerclocksidemargin";
+    public static final String HEADER_CLOCK_TOPMARGIN = "xposed_headerclocktopmargin";
+    public static final String HEADER_CLOCK_STYLE = "xposed_headerclockstyle";
 
     // Parse new update
     public static final String LATEST_VERSION = "https://raw.githubusercontent.com/Mahmud0808/Iconify/stable/latestVersion.json";

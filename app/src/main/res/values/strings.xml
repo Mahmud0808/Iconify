@@ -231,7 +231,7 @@
     <string name="clock_background_chip_title">Clock Background Chip</string>
     <string name="clock_background_chip_desc">Display gradient chip behind clock\nWait a minute after enabling</string>
     <string name="header_image_title">Header Image</string>
-    <string name="header_image_desc">Add header image on QS Panel\nLandscape is buggy</string>
+    <string name="header_image_desc">Add header image on QS Panel\nLandscape is buggy at this moment</string>
     <string name="btn_pick_image">Pick Image</string>
     <string name="image_height_title">Image Height</string>
     <string name="hide_status_icons_title">Hide Status Icons</string>

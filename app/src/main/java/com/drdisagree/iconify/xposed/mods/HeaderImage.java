@@ -80,6 +80,12 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
             return;
 
         try {
+            ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "bool", "config_use_large_screen_shade_header", false);
+        } catch (Throwable t) {
+            log(TAG + t);
+        }
+
+        try {
             ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "quick_status_bar_expanded_header", new XC_LayoutInflated() {
                 @SuppressLint({"DiscouragedApi"})
                 @Override
