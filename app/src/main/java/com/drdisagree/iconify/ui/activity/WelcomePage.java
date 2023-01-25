@@ -105,7 +105,7 @@ public class WelcomePage extends AppCompatActivity {
                                             warn.setVisibility(View.VISIBLE);
                                         }
                                     } else {
-                                        Shell.cmd("rm -rf " + References.MODULE_DIR);
+                                        Shell.cmd("rm -rf " + References.MODULE_DIR).exec();
                                         warning.setText(getResources().getString(R.string.installation_failed));
                                         warn.setVisibility(View.VISIBLE);
                                     }
