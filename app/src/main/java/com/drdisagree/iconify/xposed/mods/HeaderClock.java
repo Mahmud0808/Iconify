@@ -102,7 +102,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                             clockHour.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                             clockHour.setFormat12Hour("hh");
                             clockHour.setFormat24Hour("HH");
-                            clockHour.setTextColor(mContext.getResources().getColor(android.R.color.system_accent1_200));
+                            clockHour.setTextColor(mContext.getResources().getColor(android.R.color.holo_blue_light));
                             clockHour.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40);
                             clockHour.setTypeface(clockHour.getTypeface(), Typeface.BOLD);
 
@@ -124,7 +124,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()),
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()));
                             divider.setLayoutParams(dividerParams);
-                            divider.setBackgroundColor(mContext.getResources().getColor(android.R.color.system_accent3_200));
+                            divider.setBackgroundColor(mContext.getResources().getColor(android.R.color.holo_green_light));
 
                             final TextClock clockDay = new TextClock(mContext);
                             clockDay.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -190,7 +190,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                             clockOverlay.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                             clockOverlay.setFormat12Hour("h");
                             clockOverlay.setFormat24Hour("H");
-                            clockOverlay.setTextColor(mContext.getResources().getColor(android.R.color.system_accent1_200));
+                            clockOverlay.setTextColor(mContext.getResources().getColor(android.R.color.holo_blue_light));
                             clockOverlay.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40);
                             clockOverlay.setTypeface(clockOverlay.getTypeface(), Typeface.BOLD);
                             clockOverlay.setMaxLines(1);
