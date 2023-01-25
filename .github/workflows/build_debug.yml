@@ -34,6 +34,7 @@ jobs:
           versionName: "${{ env.VERSION_NAME }} Dev (#${{github.run_number}})"
 
       - name: Write sign info
+        if: github.repository == 'Mahmud0808/Iconify'
         run: |
           if [ ! -z "${{ secrets.KEYSTORE }}" ]; then
             echo storePassword='${{ secrets.KEYSTORE_PASSWORD }}' >> keystore.properties
