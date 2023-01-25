@@ -6,6 +6,7 @@ import static com.drdisagree.iconify.common.References.LSCLOCK_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.LSCLOCK_FONT_LINEHEIGHT;
 import static com.drdisagree.iconify.common.References.LSCLOCK_FONT_SWITCH;
 import static com.drdisagree.iconify.common.References.LSCLOCK_STYLE;
+import static com.drdisagree.iconify.common.References.LSCLOCK_TEXT_WHITE;
 import static com.drdisagree.iconify.common.References.LSCLOCK_TOPMARGIN;
 
 import android.annotation.SuppressLint;
@@ -228,6 +229,14 @@ public class Lockscreen extends AppCompatActivity {
                 RemotePrefs.putInt(LSCLOCK_BOTTOMMARGIN, bottomMargin[0]);
             }
         });
+
+        // Force white text
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_force_white_text = findViewById(R.id.enable_force_white_text);
+        enable_force_white_text.setChecked(RemotePrefs.getBoolean(LSCLOCK_TEXT_WHITE, false));
+        enable_force_white_text.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RemotePrefs.putBoolean(LSCLOCK_TEXT_WHITE, isChecked);
+        });
+
 
         // Restart systemui
         Button restart_sysui = findViewById(R.id.restart_sysui);
