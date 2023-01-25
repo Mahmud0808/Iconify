@@ -123,6 +123,12 @@ public class AppUpdates extends AppCompatActivity {
         checkForUpdate.execute();
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
     @SuppressLint("StaticFieldLeak")
     private class CheckForUpdate extends AsyncTask<Integer, Integer, String> {
 
@@ -242,12 +248,6 @@ public class AppUpdates extends AppCompatActivity {
             checking_for_update.setVisibility(View.GONE);
             checked_for_update.setVisibility(View.VISIBLE);
         }
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 
 }

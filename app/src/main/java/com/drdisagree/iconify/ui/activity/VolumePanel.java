@@ -37,9 +37,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class VolumePanel extends AppCompatActivity {
 
-    private ViewGroup container;
     LoadingDialog loadingDialog;
     InfoDialog infoDialog;
+    private ViewGroup container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

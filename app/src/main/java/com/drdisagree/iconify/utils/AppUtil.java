@@ -60,7 +60,6 @@ public class AppUtil {
         try {
             return new String[]{Iconify.getAppContext().getPackageManager().getApplicationInfo(packageName, 0).sourceDir};
         } catch (PackageManager.NameNotFoundException ignored) {
-            ;
         }
         return new String[0];
     }

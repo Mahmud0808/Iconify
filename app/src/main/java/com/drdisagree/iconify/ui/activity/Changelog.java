@@ -33,10 +33,10 @@ public class Changelog extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
     private static LoadingDialog loadingDialog;
-    private final ArrayList<String> changelogs = new ArrayList<>();
-    private ViewGroup container;
     @SuppressLint("StaticFieldLeak")
     private static LinearLayout grabbing_changelogs;
+    private final ArrayList<String> changelogs = new ArrayList<>();
+    private ViewGroup container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +85,6 @@ public class Changelog extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            ;
         }
 
         @Override

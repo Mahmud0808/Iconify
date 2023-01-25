@@ -46,13 +46,13 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class VerticalQSTile extends ModPack {
 
     private static final String TAG = "Iconify - VerticalQSTile: ";
-    private String rootPackagePath = "";
-    private static boolean isVerticalQSTileActive = false;
-    private static boolean isHideLabelActive = false;
     private static final String CLASS_QSTILEVIEWIMPL = SYSTEM_UI_PACKAGE + ".qs.tileimpl.QSTileViewImpl";
     private static final String CLASS_FONTSIZEUTILS = SYSTEM_UI_PACKAGE + ".FontSizeUtils";
-    private Object mParam = null;
+    private static boolean isVerticalQSTileActive = false;
+    private static boolean isHideLabelActive = false;
     private static Float QsTilePrimaryTextSize = null, QsTileSecondaryTextSize = null;
+    private String rootPackagePath = "";
+    private Object mParam = null;
 
     public VerticalQSTile(Context context) {
         super(context);

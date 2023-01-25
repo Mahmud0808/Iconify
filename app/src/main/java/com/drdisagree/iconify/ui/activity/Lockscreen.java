@@ -51,6 +51,33 @@ public class Lockscreen extends AppCompatActivity {
     private static final int PICKFILE_RESULT_CODE = 100;
     private Button enable_lsclock_font;
 
+    private static String getRealPathFromURI(Uri uri) {
+        File file = null;
+        try {
+            @SuppressLint("Recycle") Cursor returnCursor = Iconify.getAppContext().getContentResolver().query(uri, null, null, null, null);
+            int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+            returnCursor.moveToFirst();
+            String name = returnCursor.getString(nameIndex);
+            file = new File(Iconify.getAppContext().getFilesDir(), name);
+            @SuppressLint("Recycle") InputStream inputStream = Iconify.getAppContext().getContentResolver().openInputStream(uri);
+            FileOutputStream outputStream = new FileOutputStream(file);
+            int read = 0;
+            int maxBufferSize = 1024 * 1024;
+            int bytesAvailable = inputStream.available();
+            int bufferSize = Math.min(bytesAvailable, maxBufferSize);
+            final byte[] buffers = new byte[bufferSize];
+            while ((read = inputStream.read(buffers)) != -1) {
+                outputStream.write(buffers, 0, read);
+            }
+            inputStream.close();
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return file.getPath();
+    }
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -242,33 +269,6 @@ public class Lockscreen extends AppCompatActivity {
         } else {
             Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private static String getRealPathFromURI(Uri uri) {
-        File file = null;
-        try {
-            @SuppressLint("Recycle") Cursor returnCursor = Iconify.getAppContext().getContentResolver().query(uri, null, null, null, null);
-            int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-            returnCursor.moveToFirst();
-            String name = returnCursor.getString(nameIndex);
-            file = new File(Iconify.getAppContext().getFilesDir(), name);
-            @SuppressLint("Recycle") InputStream inputStream = Iconify.getAppContext().getContentResolver().openInputStream(uri);
-            FileOutputStream outputStream = new FileOutputStream(file);
-            int read = 0;
-            int maxBufferSize = 1024 * 1024;
-            int bytesAvailable = inputStream.available();
-            int bufferSize = Math.min(bytesAvailable, maxBufferSize);
-            final byte[] buffers = new byte[bufferSize];
-            while ((read = inputStream.read(buffers)) != -1) {
-                outputStream.write(buffers, 0, read);
-            }
-            inputStream.close();
-            outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        return file.getPath();
     }
 
     @Override

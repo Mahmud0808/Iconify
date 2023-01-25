@@ -49,6 +49,14 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         if (!listensTo(context.getPackageName())) return;
     }
 
+    private static int getColorResCompat(Context context, @AttrRes int id) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(android.R.attr.textColorPrimary, typedValue, false);
+        @SuppressLint("Recycle") TypedArray arr = context.obtainStyledAttributes(typedValue.data, new int[]{android.R.attr.textColorPrimary});
+        return arr.getColor(0, -1);
+    }
+
     @Override
     public void updatePrefs(String... Key) {
         if (Xprefs == null) return;
@@ -244,14 +252,6 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         } catch (Throwable t) {
             log(TAG + t);
         }
-    }
-
-    private static int getColorResCompat(Context context, @AttrRes int id) {
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = context.getTheme();
-        theme.resolveAttribute(android.R.attr.textColorPrimary, typedValue, false);
-        @SuppressLint("Recycle") TypedArray arr = context.obtainStyledAttributes(typedValue.data, new int[]{android.R.attr.textColorPrimary});
-        return arr.getColor(0, -1);
     }
 
     private void hideStockClockDate() {

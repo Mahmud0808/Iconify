@@ -1,30 +1,18 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.HIDE_QSLABEL_SWITCH;
-import static com.drdisagree.iconify.common.References.QSALPHA_LEVEL;
-import static com.drdisagree.iconify.common.References.QSTRANSPARENCY_SWITCH;
-import static com.drdisagree.iconify.common.References.STATUSBAR_CLOCKBG;
-import static com.drdisagree.iconify.common.References.VERTICAL_QSTILE_SWITCH;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.RemotePrefs;
-import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;

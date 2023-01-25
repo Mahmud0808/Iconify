@@ -54,12 +54,10 @@ public class QSTransparency extends ModPack {
                     try {
                         setFloatField(lpparamCustom, "mCustomScrimAlpha", alpha);
                     } catch (Throwable ignored) {
-                        ;
                     }
 
                     callMethod(lpparamCustom, "updateScrims");
                 } catch (Throwable ignored) {
-                    ;
                 }
             }
         }
@@ -97,7 +95,6 @@ public class QSTransparency extends ModPack {
                     setFloatField(param.thisObject, "BUSY_SCRIM_ALPHA", alpha);
                     setFloatField(param.thisObject, "mCustomScrimAlpha", alpha);
                 } catch (Throwable ignored) {
-                    ;
                 }
             }
         });
@@ -136,7 +133,6 @@ public class QSTransparency extends ModPack {
                 }
             });
         } catch (Throwable ignored) {
-            ;
         }
 
         log("Qs Transparency: " + alpha + "\nTransparency isActive: " + QsTransparencyActive);
