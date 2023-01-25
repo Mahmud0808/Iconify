@@ -39,8 +39,7 @@ android {
         release {
             resValue("string", "derived_app_name", "Iconify")
             signingConfig releaseSigning
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
             proguardFiles "proguard-android-optimize.txt", "proguard.pro"
         }
     }
