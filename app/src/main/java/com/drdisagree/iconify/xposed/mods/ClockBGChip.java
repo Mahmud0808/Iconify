@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.xposed.mods;
 
+import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.STATUSBAR_CLOCKBG;
 import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
@@ -9,8 +10,10 @@ import static de.robv.android.xposed.XposedBridge.log;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.util.TypedValue;
@@ -110,6 +113,12 @@ public class ClockBGChip extends ModPack implements IXposedHookLoadPackage {
                 @Override
                 public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
                     @SuppressLint("DiscouragedApi") LinearLayout clock_container = liparam.view.findViewById(liparam.res.getIdentifier("clock_container", "id", SYSTEM_UI_PACKAGE));
+                    if (Xprefs.getBoolean(HEADER_CLOCK_SWITCH, false)) {
+                        clock_container.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        clock_container.getLayoutParams().height = 0;
+                        clock_container.getLayoutParams().width = 0;
+                        return;
+                    }
                     clock_container.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, mContext.getResources().getDisplayMetrics());
                     clock_container.requestLayout();
                 }
