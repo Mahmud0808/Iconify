@@ -4,7 +4,6 @@ import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SIDEMARGIN;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_STYLE;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_TOPMARGIN;
-import static com.drdisagree.iconify.common.References.HEADER_SIZE;
 import static com.drdisagree.iconify.common.References.QS_TOPMARGIN;
 import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
@@ -15,7 +14,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.content.res.XResources;
 import android.graphics.Typeface;
 import android.text.InputFilter;
 import android.util.TypedValue;
@@ -41,9 +39,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
     boolean showHeaderClock = false;
     int sideMargin = 0;
     int topMargin = 8;
-    int headerSize = 16;
     int headerClockStyle = 0;
-    int qsTopMargin = 0;
     private String rootPackagePath = "";
 
     public HeaderClock(Context context) {
@@ -67,8 +63,6 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         sideMargin = Xprefs.getInt(HEADER_CLOCK_SIDEMARGIN, 0);
         topMargin = Xprefs.getInt(HEADER_CLOCK_TOPMARGIN, 8);
         headerClockStyle = Xprefs.getInt(HEADER_CLOCK_STYLE, 0);
-        headerSize = Xprefs.getInt(HEADER_SIZE, 16);
-        qsTopMargin = Xprefs.getInt(QS_TOPMARGIN, 0);
 
         setHeaderClock();
         hideStockClockDate();
@@ -90,9 +84,6 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
     private void setHeaderClock() {
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEM_UI_PACKAGE);
         if (ourResparam == null) return;
-
-        ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "dimen", "qs_panel_padding_top", new XResources.DimensionReplacement(headerSize + 32  + qsTopMargin, TypedValue.COMPLEX_UNIT_DIP));
-        ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "dimen", "qqs_layout_margin_top", new XResources.DimensionReplacement(headerSize + qsTopMargin, TypedValue.COMPLEX_UNIT_DIP));
 
         if (!showHeaderClock)
             return;

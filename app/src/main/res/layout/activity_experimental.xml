@@ -170,29 +170,29 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/header_size_title"
+                        android:text="@string/header_image_height_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/header_size_output"
+                        android:id="@+id/header_image_height_output"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_desc_size" />
 
                     <SeekBar
-                        android:id="@+id/header_size_seekbar"
+                        android:id="@+id/header_image_height_seekbar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/container_padding"
                         android:layout_marginBottom="8dp"
                         android:background="@null"
                         android:hapticFeedbackEnabled="true"
-                        android:max="400"
-                        android:min="16"
-                        android:progress="16"
+                        android:max="240"
+                        android:min="48"
+                        android:progress="140"
                         android:progressDrawable="@drawable/seekbar"
                         android:splitTrack="false"
                         android:theme="@style/SeekBar.Iconify"
@@ -457,7 +457,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/container_mid"
+                    android:layout_marginBottom="@dimen/container_margin"
+                    android:background="@drawable/container_bottom"
                     android:orientation="vertical"
                     android:paddingStart="@dimen/container_paddingSide"
                     android:paddingTop="@dimen/container_padding"
@@ -497,6 +498,52 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/container_top"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/container_paddingSide"
+                    android:paddingTop="@dimen/container_padding"
+                    android:paddingEnd="@dimen/container_paddingSide"
+                    android:paddingBottom="@dimen/container_padding">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center"
+                        android:layout_marginEnd="@dimen/container_padding"
+                        android:layout_weight="1.0"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Custom QS Margin"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Enable custom margin for QS panel"
+                            android:textColor="@color/textColorSecondary"
+                            android:textSize="@dimen/cont_desc_size" />
+
+                    </LinearLayout>
+
+                    <Switch
+                        android:id="@+id/enable_panel_top_margin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center"
+                        android:thumb="@drawable/switch_thumb"
+                        android:track="@drawable/switch_track"
+                        tools:ignore="RtlHardcoded,UseSwitchCompatOrMaterialXml" />
+
+                </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
@@ -521,23 +568,23 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/header_clock_qs_top_margin_output"
+                        android:id="@+id/qs_top_margin_output"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_desc_size" />
 
                     <SeekBar
-                        android:id="@+id/header_clock_qs_top_margin_seekbar"
+                        android:id="@+id/qs_top_margin_seekbar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/container_padding"
                         android:layout_marginBottom="8dp"
                         android:background="@null"
                         android:hapticFeedbackEnabled="true"
-                        android:max="120"
-                        android:min="-120"
-                        android:progress="0"
+                        android:max="280"
+                        android:min="-180"
+                        android:progress="16"
                         android:progressDrawable="@drawable/seekbar"
                         android:splitTrack="false"
                         android:theme="@style/SeekBar.Iconify"

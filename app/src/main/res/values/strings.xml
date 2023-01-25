@@ -237,7 +237,7 @@
     <string name="header_image_title">Header Image</string>
     <string name="header_image_desc">Add header image on QS Panel\nLandscape is buggy at this moment</string>
     <string name="btn_pick_image">Pick Image</string>
-    <string name="header_size_title">Header Size</string>
+    <string name="header_image_height_title">Image Height</string>
     <string name="hide_status_icons_title">Hide Status Icons</string>
     <string name="hide_status_icons_desc">Remove time, date and battery icons</string>
     <string name="image_alpha">Image Alpha</string>

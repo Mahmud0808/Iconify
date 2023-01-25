@@ -1,15 +1,16 @@
 package com.drdisagree.iconify.ui.activity;
 
 import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
-import static com.drdisagree.iconify.common.References.QS_TOPMARGIN;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SIDEMARGIN;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_STYLE;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_TOPMARGIN;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_ALPHA;
-import static com.drdisagree.iconify.common.References.HEADER_SIZE;
+import static com.drdisagree.iconify.common.References.HEADER_IMAGE_HEIGHT;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_SWITCH;
 import static com.drdisagree.iconify.common.References.HIDE_STATUS_ICONS_SWITCH;
+import static com.drdisagree.iconify.common.References.PANEL_TOPMARGIN_SWITCH;
+import static com.drdisagree.iconify.common.References.QS_TOPMARGIN;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -139,14 +140,14 @@ public class Experimental extends AppCompatActivity {
             disable_header_image.setVisibility(View.GONE);
         });
 
-        // Header size
-        SeekBar header_size_seekbar = findViewById(R.id.header_size_seekbar);
-        header_size_seekbar.setPadding(0, 0, 0, 0);
-        TextView header_size_output = findViewById(R.id.header_size_output);
-        header_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RemotePrefs.getInt(HEADER_SIZE, 16) + "dp");
-        header_size_seekbar.setProgress(RemotePrefs.getInt(HEADER_SIZE, 16));
-        final int[] imageHeight = {RemotePrefs.getInt(HEADER_SIZE, 16)};
-        header_size_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        // Image height
+        SeekBar header_image_height = findViewById(R.id.header_image_height_seekbar);
+        header_image_height.setPadding(0, 0, 0, 0);
+        TextView header_image_height_output = findViewById(R.id.header_image_height_output);
+        header_image_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RemotePrefs.getInt(HEADER_IMAGE_HEIGHT, 140) + "dp");
+        header_image_height.setProgress(RemotePrefs.getInt(HEADER_IMAGE_HEIGHT, 140));
+        final int[] imageHeight = {RemotePrefs.getInt(HEADER_IMAGE_HEIGHT, 140)};
+        header_image_height.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -155,12 +156,12 @@ public class Experimental extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 imageHeight[0] = progress;
-                header_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+                header_image_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                RemotePrefs.putInt(HEADER_SIZE, imageHeight[0]);
+                RemotePrefs.putInt(HEADER_IMAGE_HEIGHT, imageHeight[0]);
             }
         });
 
@@ -276,14 +277,21 @@ public class Experimental extends AppCompatActivity {
             }
         });
 
+        // Enable panel top margin
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_panel_top_margin = findViewById(R.id.enable_panel_top_margin);
+        enable_panel_top_margin.setChecked(RemotePrefs.getBoolean(PANEL_TOPMARGIN_SWITCH, false));
+        enable_panel_top_margin.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RemotePrefs.putBoolean(PANEL_TOPMARGIN_SWITCH, isChecked);
+        });
+
         // QS panel top margin
-        SeekBar header_clock_qs_top_margin_seekbar = findViewById(R.id.header_clock_qs_top_margin_seekbar);
-        header_clock_qs_top_margin_seekbar.setPadding(0, 0, 0, 0);
-        TextView header_clock_qs_top_margin_output = findViewById(R.id.header_clock_qs_top_margin_output);
-        header_clock_qs_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RemotePrefs.getInt(QS_TOPMARGIN, 0) + "dp");
-        header_clock_qs_top_margin_seekbar.setProgress(RemotePrefs.getInt(QS_TOPMARGIN, 0));
-        final int[] qsTopMargin = {RemotePrefs.getInt(QS_TOPMARGIN, 0)};
-        header_clock_qs_top_margin_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        SeekBar qs_top_margin_seekbar = findViewById(R.id.qs_top_margin_seekbar);
+        qs_top_margin_seekbar.setPadding(0, 0, 0, 0);
+        TextView qs_top_margin_output = findViewById(R.id.qs_top_margin_output);
+        qs_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RemotePrefs.getInt(QS_TOPMARGIN, 16) + "dp");
+        qs_top_margin_seekbar.setProgress(RemotePrefs.getInt(QS_TOPMARGIN, 16));
+        final int[] qsTopMargin = {RemotePrefs.getInt(QS_TOPMARGIN, 16)};
+        qs_top_margin_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -292,7 +300,7 @@ public class Experimental extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 qsTopMargin[0] = progress;
-                header_clock_qs_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+                qs_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
             }
 
             @Override
