@@ -113,7 +113,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
 
     private void loadGif(ImageView iv) {
         try {
-            ImageDecoder.Source source = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.iconify_headerimg/header_image.png"));
+            ImageDecoder.Source source = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.iconify_files/header_image.png"));
 
             Drawable drawable = ImageDecoder.decodeDrawable(source);
             iv.setImageDrawable(drawable);

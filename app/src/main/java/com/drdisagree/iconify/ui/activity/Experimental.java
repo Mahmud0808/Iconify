@@ -10,7 +10,6 @@ import static com.drdisagree.iconify.common.References.HEADER_IMAGE_ALPHA;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_HEIGHT;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_SWITCH;
 import static com.drdisagree.iconify.common.References.HIDE_STATUS_ICONS_SWITCH;
-import static com.drdisagree.iconify.common.References.LSCLOCK_STYLE;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -37,6 +36,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.common.References;
 import com.drdisagree.iconify.config.RemotePrefs;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -304,13 +304,15 @@ public class Experimental extends AppCompatActivity {
             }
             Log.d("Header image source:", source);
 
-            String destination = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.iconify_headerimg/header_image.png";
+            String destination = References.RESOURCE_TEMP_DIR + "/header_image.png";
             Log.d("Header image destination:", destination);
 
-            Shell.cmd("mkdir -p " + Environment.getExternalStorageDirectory().getAbsolutePath() + "/.iconify_headerimg").exec();
+            Shell.cmd("mkdir -p " + References.RESOURCE_TEMP_DIR).exec();
 
             if (Shell.cmd("cp " + source + ' ' + destination).exec().isSuccess())
                 enable_header_image.setVisibility(View.VISIBLE);
+            else
+                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
         }

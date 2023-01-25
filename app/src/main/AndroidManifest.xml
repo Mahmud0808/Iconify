@@ -39,7 +39,20 @@
         android:theme="@style/Theme.Iconify"
         tools:replace="android:allowBackup"
         tools:targetApi="tiramisu">
-        <!-- xposed meta data -->
+        <activity
+            android:name=".ui.activity.QuickSettings"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.activity.Lockscreen"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity> <!-- xposed meta data -->
         <meta-data
             android:name="xposedmodule"
             android:value="true" />

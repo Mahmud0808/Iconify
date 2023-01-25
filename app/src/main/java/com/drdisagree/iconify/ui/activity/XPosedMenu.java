@@ -1,22 +1,21 @@
 package com.drdisagree.iconify.ui.activity;
 
 import static com.drdisagree.iconify.common.References.HIDE_QSLABEL_SWITCH;
-import static com.drdisagree.iconify.common.References.LSCLOCK_CLOCK_SWITCH;
-import static com.drdisagree.iconify.common.References.LSCLOCK_STYLE;
 import static com.drdisagree.iconify.common.References.QSALPHA_LEVEL;
 import static com.drdisagree.iconify.common.References.QSTRANSPARENCY_SWITCH;
 import static com.drdisagree.iconify.common.References.STATUSBAR_CLOCKBG;
 import static com.drdisagree.iconify.common.References.VERTICAL_QSTILE_SWITCH;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -24,18 +23,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RemotePrefs;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class XPosedMenu extends AppCompatActivity {
 
-    @SuppressLint("SetTextI18n")
+    private ViewGroup container;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,90 +47,42 @@ public class XPosedMenu extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // Qs Panel Transparency
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_qs_transparency = findViewById(R.id.enable_qs_transparency);
-        enable_qs_transparency.setChecked(RemotePrefs.getBoolean(QSTRANSPARENCY_SWITCH, false));
-        enable_qs_transparency.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RemotePrefs.putBoolean(QSTRANSPARENCY_SWITCH, isChecked);
-            // Restart SystemUI
-            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
-        });
+        // Xposed menu list items
+        container = findViewById(R.id.xposed_list);
+        ArrayList<Object[]> xposed_menu = new ArrayList<>();
 
-        SeekBar transparency_seekbar = findViewById(R.id.transparency_seekbar);
-        transparency_seekbar.setPadding(0, 0, 0, 0);
-        TextView transparency_output = findViewById(R.id.transparency_output);
-        final int[] transparency = {RemotePrefs.getInt(QSALPHA_LEVEL, 60)};
-        transparency_output.setText(getResources().getString(R.string.opt_selected) + ' ' + transparency[0] + "%");
-        transparency_seekbar.setProgress(transparency[0]);
-        transparency_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        xposed_menu.add(new Object[]{QuickSettings.class, getResources().getString(R.string.activity_title_quicksettings), getResources().getString(R.string.activity_desc_quicksettings), R.drawable.ic_xposed_quicksettings});
+        xposed_menu.add(new Object[]{Lockscreen.class, getResources().getString(R.string.activity_title_lockscreen), getResources().getString(R.string.activity_desc_lockscreen), R.drawable.ic_xposed_lockscreen});
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
+        addItem(xposed_menu);
 
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                transparency[0] = progress;
-                transparency_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "%");
-            }
+        // Enable onClick event
+        for (int i = 0; i < xposed_menu.size(); i++) {
+            LinearLayout child = container.getChildAt(i).findViewById(R.id.list_item);
+            int finalI = i;
+            child.setOnClickListener(v -> {
+                Intent intent = new Intent(XPosedMenu.this, (Class<?>) xposed_menu.get(finalI)[0]);
+                startActivity(intent);
+            });
+        }
+    }
 
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                RemotePrefs.putInt(QSALPHA_LEVEL, transparency[0]);
-            }
-        });
+    // Function to add new item in list
+    private void addItem(ArrayList<Object[]> pack) {
+        for (int i = 0; i < pack.size(); i++) {
+            View list = LayoutInflater.from(this).inflate(R.layout.list_view, container, false);
 
-        // Vertical QS Tile
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_vertical_tile = findViewById(R.id.enable_vertical_tile);
-        enable_vertical_tile.setChecked(RemotePrefs.getBoolean(VERTICAL_QSTILE_SWITCH, false));
-        enable_vertical_tile.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RemotePrefs.putBoolean(VERTICAL_QSTILE_SWITCH, isChecked);
-        });
+            TextView title = list.findViewById(R.id.list_title);
+            title.setText((String) pack.get(i)[1]);
 
-        // Hide label for vertical tiles
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_tile_label = findViewById(R.id.hide_tile_label);
-        hide_tile_label.setChecked(RemotePrefs.getBoolean(HIDE_QSLABEL_SWITCH, false));
-        hide_tile_label.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RemotePrefs.putBoolean(HIDE_QSLABEL_SWITCH, isChecked);
-        });
+            TextView desc = list.findViewById(R.id.list_desc);
+            desc.setText((String) pack.get(i)[2]);
 
-        // Clock Background Chip
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_clock_bg_chip = findViewById(R.id.enable_clock_bg_chip);
-        enable_clock_bg_chip.setChecked(RemotePrefs.getBoolean(STATUSBAR_CLOCKBG, false));
-        enable_clock_bg_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RemotePrefs.putBoolean(STATUSBAR_CLOCKBG, isChecked);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
-        });
+            ImageView preview = list.findViewById(R.id.list_preview);
+            preview.setImageResource((int) pack.get(i)[3]);
 
-        // Lockscreen clock
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_locksreen_clock = findViewById(R.id.enable_lockscreen_clock);
-        enable_locksreen_clock.setChecked(RemotePrefs.getBoolean(LSCLOCK_CLOCK_SWITCH, false));
-        enable_locksreen_clock.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RemotePrefs.putBoolean(LSCLOCK_CLOCK_SWITCH, isChecked);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
-        });
-
-        // Lockscreen clock style
-        final Spinner locksreen_clock_style = findViewById(R.id.locksreen_clock_style);
-        List<String> lsclock_styles = new ArrayList<>();
-        lsclock_styles.add("Style 1");
-        lsclock_styles.add("Style 2");
-
-        ArrayAdapter<String> lsclock_styles_adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_item, lsclock_styles);
-        lsclock_styles_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
-        locksreen_clock_style.setAdapter(lsclock_styles_adapter);
-
-        locksreen_clock_style.setSelection(RemotePrefs.getInt(LSCLOCK_STYLE, 0));
-        locksreen_clock_style.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                RemotePrefs.putInt(LSCLOCK_STYLE, position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+            container.addView(list);
+        }
     }
 
     @Override

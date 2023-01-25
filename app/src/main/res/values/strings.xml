@@ -34,6 +34,10 @@
     <string name="activity_desc_xposed_menu">LSPosed required for these options</string>
     <string name="activity_title_miscellaneous">Miscellaneous</string>
     <string name="activity_desc_miscellaneous">Miscellaneous tweaks and customization</string>
+    <string name="activity_title_quicksettings">Quick Settings</string>
+    <string name="activity_desc_quicksettings">Customize quick settings panel</string>
+    <string name="activity_title_lockscreen">Lock Screen</string>
+    <string name="activity_desc_lockscreen">Customize lock screen items</string>
 
     <!-- Extras page activites -->
     <string name="activity_title_ui_roundness">UI Roundness</string>

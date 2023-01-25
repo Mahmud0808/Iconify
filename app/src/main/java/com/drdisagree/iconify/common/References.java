@@ -42,6 +42,7 @@ public class References {
     public static final String SharedXPref = Iconify.getAppContext().getPackageName() + "_xpreference";
 
     // Xposed mods
+    public static final String RESOURCE_TEMP_DIR = Environment.getExternalStorageDirectory() + "/.iconify_files";
     public static final String QSTRANSPARENCY_SWITCH = "xposed_qstransparency";
     public static final String QSALPHA_LEVEL = "xposed_qsalpha";
     public static final String STATUSBAR_CLOCKBG = "xposed_qsclockbg";
@@ -60,6 +61,8 @@ public class References {
     public static final String LSCLOCK_STYLE = "xposed_lockscreenclockstyle";
     public static final String LSCLOCK_TOPMARGIN = "xposed_lockscreenclocktopmargin";
     public static final String LSCLOCK_BOTTOMMARGIN = "xposed_lockscreenclockbottommargin";
+    public static final String LSCLOCK_FONT_SWITCH = "xposed_lockscreenclockfont";
+    public static final String LSCLOCK_FONT_LINEHEIGHT = "xposed_lockscreenclockfontlineheight";
 
     // Parse new update
     public static final String LATEST_VERSION = "https://raw.githubusercontent.com/Mahmud0808/Iconify/stable/latestVersion.json";
