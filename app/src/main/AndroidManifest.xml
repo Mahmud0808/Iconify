@@ -55,7 +55,7 @@
 
         <provider
             android:name=".utils.RemotePrefProvider"
-            android:authorities="com.drdisagree.iconify"
+            android:authorities="${applicationId}"
             android:directBootAware="true"
             android:exported="true"
             tools:ignore="ExportedContentProvider" />
