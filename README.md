@@ -129,8 +129,6 @@ What you can change using Iconify:
 
 - [GitHub Issues](https://github.com/Mahmud0808/Iconify/issues/new/choose)
 
-- [Telegram Bot](https://t.me/IconifyBot)
-
 ## Thanks To
 
 - [Android Open Source Project (AOSP)](https://source.android.com)
