@@ -1,13 +1,13 @@
 package com.drdisagree.iconify.ui.activity;
 
 import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
-import static com.drdisagree.iconify.common.References.HEADER_CLOCK_QSTOPMARGIN;
+import static com.drdisagree.iconify.common.References.QS_TOPMARGIN;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SIDEMARGIN;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_STYLE;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_TOPMARGIN;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_ALPHA;
-import static com.drdisagree.iconify.common.References.HEADER_IMAGE_HEIGHT;
+import static com.drdisagree.iconify.common.References.HEADER_SIZE;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_SWITCH;
 import static com.drdisagree.iconify.common.References.HIDE_STATUS_ICONS_SWITCH;
 
@@ -139,13 +139,13 @@ public class Experimental extends AppCompatActivity {
             disable_header_image.setVisibility(View.GONE);
         });
 
-        // Image height
+        // Header size
         SeekBar image_height_seekbar = findViewById(R.id.image_height_seekbar);
         image_height_seekbar.setPadding(0, 0, 0, 0);
         TextView image_height_output = findViewById(R.id.image_height_output);
-        image_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RemotePrefs.getInt(HEADER_IMAGE_HEIGHT, 108) + "dp");
-        image_height_seekbar.setProgress(RemotePrefs.getInt(HEADER_IMAGE_HEIGHT, 108));
-        final int[] imageHeight = {RemotePrefs.getInt(HEADER_IMAGE_HEIGHT, 108)};
+        image_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RemotePrefs.getInt(HEADER_SIZE, 108) + "dp");
+        image_height_seekbar.setProgress(RemotePrefs.getInt(HEADER_SIZE, 108));
+        final int[] imageHeight = {RemotePrefs.getInt(HEADER_SIZE, 108)};
         image_height_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
@@ -160,8 +160,7 @@ public class Experimental extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                RemotePrefs.putInt(HEADER_IMAGE_HEIGHT, imageHeight[0]);
-                new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+                RemotePrefs.putInt(HEADER_SIZE, imageHeight[0]);
             }
         });
 
@@ -187,7 +186,6 @@ public class Experimental extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RemotePrefs.putInt(HEADER_IMAGE_ALPHA, imageAlpha[0]);
-                new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
             }
         });
 
@@ -196,7 +194,6 @@ public class Experimental extends AppCompatActivity {
         hide_status_icons.setChecked(RemotePrefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false));
         hide_status_icons.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RemotePrefs.putBoolean(HIDE_STATUS_ICONS_SWITCH, isChecked);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
 
         // Custom header clock
@@ -251,7 +248,6 @@ public class Experimental extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RemotePrefs.putInt(HEADER_CLOCK_SIDEMARGIN, sideMargin[0]);
-                new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
             }
         });
 
@@ -277,7 +273,6 @@ public class Experimental extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RemotePrefs.putInt(HEADER_CLOCK_TOPMARGIN, topMargin[0]);
-                new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
             }
         });
 
@@ -285,9 +280,9 @@ public class Experimental extends AppCompatActivity {
         SeekBar header_clock_qs_top_margin_seekbar = findViewById(R.id.header_clock_qs_top_margin_seekbar);
         header_clock_qs_top_margin_seekbar.setPadding(0, 0, 0, 0);
         TextView header_clock_qs_top_margin_output = findViewById(R.id.header_clock_qs_top_margin_output);
-        header_clock_qs_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RemotePrefs.getInt(HEADER_CLOCK_QSTOPMARGIN, 0) + "dp");
-        header_clock_qs_top_margin_seekbar.setProgress(RemotePrefs.getInt(HEADER_CLOCK_QSTOPMARGIN, 0));
-        final int[] qsTopMargin = {RemotePrefs.getInt(HEADER_CLOCK_QSTOPMARGIN, 0)};
+        header_clock_qs_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RemotePrefs.getInt(QS_TOPMARGIN, 0) + "dp");
+        header_clock_qs_top_margin_seekbar.setProgress(RemotePrefs.getInt(QS_TOPMARGIN, 0));
+        final int[] qsTopMargin = {RemotePrefs.getInt(QS_TOPMARGIN, 0)};
         header_clock_qs_top_margin_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
@@ -302,10 +297,13 @@ public class Experimental extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                RemotePrefs.putInt(HEADER_CLOCK_QSTOPMARGIN, qsTopMargin[0]);
-                new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+                RemotePrefs.putInt(QS_TOPMARGIN, qsTopMargin[0]);
             }
         });
+
+        // Restart systemui
+        Button restart_sysui = findViewById(R.id.restart_sysui);
+        restart_sysui.setOnClickListener(v -> new Handler().postDelayed(SystemUtil::restartSystemUI, 200));
     }
 
     public void browseHeaderImage() {

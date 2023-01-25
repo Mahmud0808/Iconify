@@ -237,7 +237,6 @@ public class Lockscreen extends AppCompatActivity {
             RemotePrefs.putBoolean(LSCLOCK_TEXT_WHITE, isChecked);
         });
 
-
         // Restart systemui
         Button restart_sysui = findViewById(R.id.restart_sysui);
         restart_sysui.setOnClickListener(v -> new Handler().postDelayed(SystemUtil::restartSystemUI, 200));

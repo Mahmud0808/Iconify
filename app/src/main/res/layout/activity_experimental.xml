@@ -170,7 +170,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/image_height_title"
+                        android:text="@string/header_size_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -190,7 +190,7 @@
                         android:layout_marginBottom="8dp"
                         android:background="@null"
                         android:hapticFeedbackEnabled="true"
-                        android:max="300"
+                        android:max="400"
                         android:min="48"
                         android:progress="108"
                         android:progressDrawable="@drawable/seekbar"
@@ -487,7 +487,7 @@
                         android:layout_marginBottom="8dp"
                         android:background="@null"
                         android:hapticFeedbackEnabled="true"
-                        android:max="80"
+                        android:max="120"
                         android:min="0"
                         android:progress="8"
                         android:progressDrawable="@drawable/seekbar"
@@ -505,8 +505,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/container_margin"
-                    android:background="@drawable/container_bottom"
+                    android:background="@drawable/container_mid"
                     android:orientation="vertical"
                     android:paddingStart="@dimen/container_paddingSide"
                     android:paddingTop="@dimen/container_padding"
@@ -536,13 +535,45 @@
                         android:layout_marginBottom="8dp"
                         android:background="@null"
                         android:hapticFeedbackEnabled="true"
-                        android:max="40"
-                        android:min="0"
+                        android:max="120"
+                        android:min="-120"
                         android:progress="0"
                         android:progressDrawable="@drawable/seekbar"
                         android:splitTrack="false"
                         android:theme="@style/SeekBar.Iconify"
                         android:thumb="@drawable/seek_thumb" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/colorBackground" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/container_margin"
+                    android:background="@drawable/container_bottom"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/container_paddingSide"
+                    android:paddingTop="@dimen/container_padding"
+                    android:paddingEnd="@dimen/container_paddingSide"
+                    android:paddingBottom="@dimen/container_padding">
+
+                    <Button
+                        android:id="@+id/restart_sysui"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button"
+                        android:fontFamily="@font/semibold"
+                        android:letterSpacing="0.1"
+                        android:stateListAnimator="@null"
+                        android:text="Restart SystemUI"
+                        android:textColor="@color/colorBackground"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold"
+                        app:backgroundTint="@null" />
 
                 </LinearLayout>
             </LinearLayout>

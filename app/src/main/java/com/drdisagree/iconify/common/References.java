@@ -49,13 +49,13 @@ public class References {
     public static final String VERTICAL_QSTILE_SWITCH = "xposed_verticalqstile";
     public static final String HIDE_QSLABEL_SWITCH = "xposed_showqslabel";
     public static final String HEADER_IMAGE_SWITCH = "xposed_headerimage";
-    public static final String HEADER_IMAGE_HEIGHT = "xposed_headerimageheight";
+    public static final String HEADER_SIZE = "xposed_headersize";
     public static final String HEADER_IMAGE_ALPHA = "xposed_headerimagealpha";
     public static final String HIDE_STATUS_ICONS_SWITCH = "xposed_hidestatusicons";
     public static final String HEADER_CLOCK_SWITCH = "xposed_headerclock";
     public static final String HEADER_CLOCK_SIDEMARGIN = "xposed_headerclocksidemargin";
     public static final String HEADER_CLOCK_TOPMARGIN = "xposed_headerclocktopmargin";
-    public static final String HEADER_CLOCK_QSTOPMARGIN = "xposed_headerclockqstopmargin";
+    public static final String QS_TOPMARGIN = "xposed_qstopmargin";
     public static final String HEADER_CLOCK_STYLE = "xposed_headerclockstyle";
     public static final String LSCLOCK_CLOCK_SWITCH = "xposed_lockscreenclock";
     public static final String LSCLOCK_STYLE = "xposed_lockscreenclockstyle";

@@ -2,7 +2,8 @@ package com.drdisagree.iconify.xposed.mods;
 
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_ALPHA;
-import static com.drdisagree.iconify.common.References.HEADER_IMAGE_HEIGHT;
+import static com.drdisagree.iconify.common.References.QS_TOPMARGIN;
+import static com.drdisagree.iconify.common.References.HEADER_SIZE;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_SWITCH;
 import static com.drdisagree.iconify.common.References.HIDE_STATUS_ICONS_SWITCH;
 import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
@@ -37,8 +38,9 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
 
     private static final String TAG = "Iconify - HeaderImage: ";
     boolean showHeaderImage = false;
-    int headerImageHeight = 108;
     boolean hideStatusIcons = false;
+    int headerSize = 108;
+    int qsTopMargin = 0;
     int headerImageAlpha = 100;
     private String rootPackagePath = "";
 
@@ -52,9 +54,10 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
         if (Xprefs == null) return;
 
         showHeaderImage = Xprefs.getBoolean(HEADER_IMAGE_SWITCH, false);
-        headerImageHeight = Xprefs.getInt(HEADER_IMAGE_HEIGHT, 108);
         headerImageAlpha = Xprefs.getInt(HEADER_IMAGE_ALPHA, 100);
         hideStatusIcons = Xprefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false);
+        headerSize = Xprefs.getInt(HEADER_SIZE, 108);
+        qsTopMargin = Xprefs.getInt(QS_TOPMARGIN, 0);
 
         setHeaderImage();
         setStatusIcons();
@@ -94,14 +97,19 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
                     @SuppressLint("DiscouragedApi") FrameLayout header = liparam.view.findViewById(liparam.res.getIdentifier("header", "id", SYSTEM_UI_PACKAGE));
 
                     final ImageView headerImage = new ImageView(mContext);
-                    headerImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, headerImageHeight, mContext.getResources().getDisplayMetrics())));
-                    ((LinearLayout.LayoutParams) headerImage.getLayoutParams()).setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -16, mContext.getResources().getDisplayMetrics()), 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -16, mContext.getResources().getDisplayMetrics()), 0);
+                    headerImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, headerSize, mContext.getResources().getDisplayMetrics())));
+                    ((LinearLayout.LayoutParams) headerImage.getLayoutParams()).setMargins(
+                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -16, mContext.getResources().getDisplayMetrics()),
+                            0,
+                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -16, mContext.getResources().getDisplayMetrics()),
+                            0);
                     loadGif(headerImage);
                     headerImage.setAlpha((int) (headerImageAlpha / 100.0 * 255.0));
                     header.addView(headerImage, header.getChildCount() - (Xprefs.getBoolean(HEADER_CLOCK_SWITCH, false) ? 2 : 1));
 
-                    ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "dimen", "qs_panel_padding_top", new XResources.DimensionReplacement(headerImageHeight - 30, TypedValue.COMPLEX_UNIT_DIP));
-                    ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "dimen", "qqs_layout_margin_top", new XResources.DimensionReplacement(headerImageHeight - 30, TypedValue.COMPLEX_UNIT_DIP));
+                    ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "dimen", "qs_panel_padding_top", new XResources.DimensionReplacement(headerSize + qsTopMargin, TypedValue.COMPLEX_UNIT_DIP));
+                    ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "dimen", "qqs_layout_margin_top", new XResources.DimensionReplacement(headerSize + qsTopMargin, TypedValue.COMPLEX_UNIT_DIP));
 
                     log("Header image added successfully.");
                 }
