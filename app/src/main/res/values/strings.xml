@@ -103,7 +103,7 @@
     <string name="label_follow_system_v2_desc">Title System, Text Accent</string>
     <string name="label_fix_text_color_title">Fix Text Color</string>
     <string name="for_a13">- A13</string>
-    <string name="label_fix_text_color_desc">No Fix For Pixel Variant :(</string>
+    <string name="label_fix_text_color_desc">Fix unreadable text color</string>
     <string name="qs_row_column_warn_desc">Some of the combinations might not work in some roms. In that case, just try some other combinations and choose which fits the best for you.</string>
     <string name="quick_qspanel_row_title">Quick QsPanel Row</string>
     <string name="qspanel_row_title">QsPanel Row</string>
