@@ -10,22 +10,51 @@ android {
         minSdk 31
         targetSdk 33
         versionCode 6
-        versionName "5.0"
+        versionName "5.0-Stable"
         setProperty("archivesBaseName", "Iconify-v" + versionName)
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    final def keystorePropertiesFile = rootProject.file("keystore.properties")
+    def releaseSigning = signingConfigs.debug
+    if (keystorePropertiesFile.exists()) {
+        final def keystoreProperties = new Properties()
+        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+        releaseSigning = signingConfigs.create("release") {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile rootProject.file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
         }
     }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            resValue("string", "derived_app_name", "Iconify (Debug)")
+            signingConfig releaseSigning
+        }
+
+        release {
+            resValue("string", "derived_app_name", "Iconify")
+            signingConfig releaseSigning
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles "proguard-android-optimize.txt", "proguard.pro"
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
     namespace 'com.drdisagree.iconify'
 }
 
@@ -70,6 +99,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.work:work-runtime:2.7.1'
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
+    implementation 'org.slf4j:slf4j-api:2.0.6'
 
     // Test Implementation
     testImplementation 'junit:junit:4.13.2'
@@ -78,5 +108,5 @@ dependencies {
 }
 
 task printVersionName {
-    println android.defaultConfig.versionName
+    println android.defaultConfig.versionName.replace("-Stable", "").replace("-Beta", "")
 }

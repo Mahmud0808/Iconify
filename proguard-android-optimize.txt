@@ -1,0 +1,18 @@
+-allowaccessmodification
+-dontoptimize
+-dontpreverify
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-verbose
+
+-keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable
+
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}

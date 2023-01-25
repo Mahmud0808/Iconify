@@ -1,0 +1,3 @@
+-keep class com.jaredrummler.android.colorpicker.**
+-dontwarn sun.security.internal.spec.**
+-dontwarn sun.security.provider.**
