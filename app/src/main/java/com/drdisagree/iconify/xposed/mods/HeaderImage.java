@@ -2,10 +2,10 @@ package com.drdisagree.iconify.xposed.mods;
 
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_ALPHA;
-import static com.drdisagree.iconify.common.References.QS_TOPMARGIN;
-import static com.drdisagree.iconify.common.References.HEADER_SIZE;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_SWITCH;
+import static com.drdisagree.iconify.common.References.HEADER_SIZE;
 import static com.drdisagree.iconify.common.References.HIDE_STATUS_ICONS_SWITCH;
+import static com.drdisagree.iconify.common.References.QS_TOPMARGIN;
 import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
@@ -39,7 +39,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
     private static final String TAG = "Iconify - HeaderImage: ";
     boolean showHeaderImage = false;
     boolean hideStatusIcons = false;
-    int headerSize = 108;
+    int headerSize = 16;
     int qsTopMargin = 0;
     int headerImageAlpha = 100;
     private String rootPackagePath = "";
@@ -56,7 +56,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
         showHeaderImage = Xprefs.getBoolean(HEADER_IMAGE_SWITCH, false);
         headerImageAlpha = Xprefs.getInt(HEADER_IMAGE_ALPHA, 100);
         hideStatusIcons = Xprefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false);
-        headerSize = Xprefs.getInt(HEADER_SIZE, 108);
+        headerSize = Xprefs.getInt(HEADER_SIZE, 16);
         qsTopMargin = Xprefs.getInt(QS_TOPMARGIN, 0);
 
         setHeaderImage();
@@ -79,6 +79,9 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
     private void setHeaderImage() {
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEM_UI_PACKAGE);
         if (ourResparam == null) return;
+
+        ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "dimen", "qs_panel_padding_top", new XResources.DimensionReplacement(headerSize + 32  + qsTopMargin, TypedValue.COMPLEX_UNIT_DIP));
+        ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "dimen", "qqs_layout_margin_top", new XResources.DimensionReplacement(headerSize + qsTopMargin, TypedValue.COMPLEX_UNIT_DIP));
 
         if (!showHeaderImage)
             return;
@@ -107,9 +110,6 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
                     loadGif(headerImage);
                     headerImage.setAlpha((int) (headerImageAlpha / 100.0 * 255.0));
                     header.addView(headerImage, header.getChildCount() - (Xprefs.getBoolean(HEADER_CLOCK_SWITCH, false) ? 2 : 1));
-
-                    ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "dimen", "qs_panel_padding_top", new XResources.DimensionReplacement(headerSize + qsTopMargin, TypedValue.COMPLEX_UNIT_DIP));
-                    ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "dimen", "qqs_layout_margin_top", new XResources.DimensionReplacement(headerSize + qsTopMargin, TypedValue.COMPLEX_UNIT_DIP));
 
                     log("Header image added successfully.");
                 }

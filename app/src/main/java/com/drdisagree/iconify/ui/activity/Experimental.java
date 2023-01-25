@@ -140,13 +140,13 @@ public class Experimental extends AppCompatActivity {
         });
 
         // Header size
-        SeekBar image_height_seekbar = findViewById(R.id.image_height_seekbar);
-        image_height_seekbar.setPadding(0, 0, 0, 0);
-        TextView image_height_output = findViewById(R.id.image_height_output);
-        image_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RemotePrefs.getInt(HEADER_SIZE, 108) + "dp");
-        image_height_seekbar.setProgress(RemotePrefs.getInt(HEADER_SIZE, 108));
-        final int[] imageHeight = {RemotePrefs.getInt(HEADER_SIZE, 108)};
-        image_height_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        SeekBar header_size_seekbar = findViewById(R.id.header_size_seekbar);
+        header_size_seekbar.setPadding(0, 0, 0, 0);
+        TextView header_size_output = findViewById(R.id.header_size_output);
+        header_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RemotePrefs.getInt(HEADER_SIZE, 16) + "dp");
+        header_size_seekbar.setProgress(RemotePrefs.getInt(HEADER_SIZE, 16));
+        final int[] imageHeight = {RemotePrefs.getInt(HEADER_SIZE, 16)};
+        header_size_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -155,7 +155,7 @@ public class Experimental extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 imageHeight[0] = progress;
-                image_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+                header_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
             }
 
             @Override
