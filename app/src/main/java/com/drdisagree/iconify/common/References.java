@@ -45,7 +45,9 @@ public class References {
     public static final String RESOURCE_TEMP_DIR = Environment.getExternalStorageDirectory() + "/.iconify_files";
     public static final String QSTRANSPARENCY_SWITCH = "xposed_qstransparency";
     public static final String QSALPHA_LEVEL = "xposed_qsalpha";
-    public static final String STATUSBAR_CLOCKBG = "xposed_qsclockbg";
+    public static final String STATUSBAR_CLOCKBG = "xposed_sbclockbg";
+    public static final String QSPANEL_CLOCKBG = "xposed_qsclockbg";
+    public static final String QSPANEL_STATUSICONSBG = "xposed_qsstatusiconsbg";
     public static final String VERTICAL_QSTILE_SWITCH = "xposed_verticalqstile";
     public static final String HIDE_QSLABEL_SWITCH = "xposed_showqslabel";
     public static final String HEADER_IMAGE_SWITCH = "xposed_headerimage";
