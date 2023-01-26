@@ -123,13 +123,13 @@ What you can change using Iconify:
 
 - [Telegram Group](https://t.me/IconifyDiscussion)
 
-## Bug Report
+## Bug Report & Feature Request
 
 > Make sure to mention as much details as possible.
 
 - [GitHub Issues](https://github.com/Mahmud0808/Iconify/issues/new/choose)
 
-## Thanks To
+## Special Thanks To
 
 - [Android Open Source Project (AOSP)](https://source.android.com)
 
