@@ -6,7 +6,6 @@ import static com.drdisagree.iconify.common.References.QSPANEL_STATUSICONSBG;
 import static com.drdisagree.iconify.common.References.STATUSBAR_CLOCKBG;
 import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
-import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedBridge.log;
@@ -17,26 +16,16 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.LinearGradient;
-import android.graphics.Paint;
-import android.graphics.Shader;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RoundRectShape;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.drdisagree.iconify.xposed.ModPack;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedHelpers;
-import de.robv.android.xposed.callbacks.XC_InitPackageResources;
-import de.robv.android.xposed.callbacks.XC_LayoutInflated;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
@@ -159,24 +148,22 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
             return;
 
         float corner = (Xprefs.getInt("cornerRadius", 16) + 8) * mContext.getResources().getDisplayMetrics().density;
-        ShapeDrawable mDrawable = new ShapeDrawable(new RoundRectShape(
-                new float[]{
-                        corner, corner,
-                        corner, corner,
-                        corner, corner,
-                        corner, corner}, null, null));
+        GradientDrawable mDrawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                new int[]{
+                        mContext.getResources().getColor(android.R.color.holo_blue_light),
+                        mContext.getResources().getColor(android.R.color.holo_green_light)
+                });
+        mDrawable.setCornerRadius(corner);
 
         if (mShowSBClockBg && clockWidth != -1 && clockHeight != -1) {
-            mDrawable.getPaint().setShader(new LinearGradient(0, 0, clockWidth, clockHeight, mContext.getResources().getColor(android.R.color.holo_blue_light), mContext.getResources().getColor(android.R.color.holo_blue_light), Shader.TileMode.MIRROR));
-
             mClockView.setPadding(14, 2, 14, 2);
-            mClockView.setBackgroundDrawable(mDrawable);
+            mClockView.setBackground(mDrawable);
 
             mCenterClockView.setPadding(14, 2, 14, 2);
-            mCenterClockView.setBackgroundDrawable(mDrawable);
+            mCenterClockView.setBackground(mDrawable);
 
             mRightClockView.setPadding(14, 2, 14, 2);
-            mRightClockView.setBackgroundDrawable(mDrawable);
+            mRightClockView.setBackground(mDrawable);
             log(TAG + "added clock bg");
         } else {
             @SuppressLint("DiscouragedApi") int clockPaddingStart = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_clock_starting_padding", "dimen", mContext.getPackageName()));
