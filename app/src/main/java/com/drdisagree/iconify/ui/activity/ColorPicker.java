@@ -120,7 +120,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         FabricatedOverlayUtil.disableOverlay("colorAccentSecondary2");
         FabricatedOverlayUtil.disableOverlay("colorAccentSecondary3");
 
-        if (OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMC.overlay")) {
+        if (OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMAC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMGC.overlay")) {
             FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
             FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimaryDark", "color", "holo_blue_dark", "0xFF122530");
             FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentSecondary", "color", "holo_green_light", "0xFF387BFF");
@@ -145,15 +145,17 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
 
         if (!Objects.equals(Prefs.getString("colorAccentPrimary"), "null"))
             accentPrimary = Prefs.getString("colorAccentPrimary");
-        else if (!Prefs.getBoolean("IconifyComponentAMC.overlay"))
+        else if (!Prefs.getBoolean("IconifyComponentAMAC.overlay") && !Prefs.getBoolean("IconifyComponentAMGC.overlay"))
             accentPrimary = String.valueOf(Color.parseColor("#FF50A6D7"));
         else
             accentPrimary = String.valueOf(getResources().getColor(android.R.color.system_accent1_200));
 
         if (!Objects.equals(Prefs.getString("colorAccentSecondary"), "null"))
             accentSecondary = Prefs.getString("colorAccentSecondary");
-        else if (!Prefs.getBoolean("IconifyComponentAMC.overlay"))
+        else if (!Prefs.getBoolean("IconifyComponentAMAC.overlay") && !Prefs.getBoolean("IconifyComponentAMGC.overlay"))
             accentSecondary = String.valueOf(Color.parseColor("#FF387BFF"));
+        else if (Prefs.getBoolean("IconifyComponentAMAC.overlay"))
+            accentSecondary = String.valueOf(getResources().getColor(android.R.color.system_accent1_200));
         else
             accentSecondary = String.valueOf(getResources().getColor(android.R.color.system_accent3_200));
 
