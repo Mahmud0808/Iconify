@@ -38,15 +38,15 @@
     <string name="activity_desc_quicksettings">Customize quick settings panel</string>
     <string name="activity_title_lockscreen">Lock Screen</string>
     <string name="activity_desc_lockscreen">Customize lock screen items</string>
-
-    <!-- Extras page activites -->
     <string name="activity_title_ui_roundness">UI Roundness</string>
     <string name="activity_desc_ui_roundness">Change corner radius of interface</string>
     <string name="activity_title_navigation_bar">Navigation Bar</string>
     <string name="activity_desc_navigation_bar">Tweak navigation options</string>
 
-    <string name="link_monet_title">Link to Monet</string>
-    <string name="link_monet_desc">Link iconify colors to monet</string>
+    <string name="apply_monet_accent_title">Monet Accent</string>
+    <string name="apply_monet_accent_desc">Link iconify colors to accent</string>
+    <string name="apply_monet_gradient_title">Monet Gradient</string>
+    <string name="apply_monet_gradient_desc">Link iconify colors to gradient</string>
     <string name="color_picker_title">Color Picker</string>
     <string name="color_picker_desc">Pick your desired colors here</string>
     <string name="color_picker_preview">Color Picker Preview</string>
