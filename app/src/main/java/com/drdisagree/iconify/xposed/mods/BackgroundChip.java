@@ -2,6 +2,7 @@ package com.drdisagree.iconify.xposed.mods;
 
 import static com.drdisagree.iconify.common.References.CHIP_QSSTATUSICONS_STYLE;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
+import static com.drdisagree.iconify.common.References.HIDE_STATUS_ICONS_SWITCH;
 import static com.drdisagree.iconify.common.References.QSPANEL_CLOCKBG;
 import static com.drdisagree.iconify.common.References.QSPANEL_DATEBG;
 import static com.drdisagree.iconify.common.References.QSPANEL_HIDE_CARRIER;
@@ -49,6 +50,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     boolean mShowSBClockBg = false;
     boolean mShowQSClockBg = false;
     boolean mShowQSDateBg = false;
+    boolean hideStatusIcons = false;
     boolean mShowQSStatusIconsBg = false;
     boolean QSCarrierGroupHidden = false;
     private Object mCollapsedStatusBarFragment = null;
@@ -78,6 +80,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         QSCarrierGroupHidden = Xprefs.getBoolean(QSPANEL_HIDE_CARRIER, false);
         mShowQSStatusIconsBg = Xprefs.getBoolean(QSPANEL_STATUSICONSBG, false);
         QSStatusIconsChipStyle = Xprefs.getInt(CHIP_QSSTATUSICONS_STYLE, 0);
+        hideStatusIcons = Xprefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false);
 
         updateStatusBarClock();
         setQSStatusIconsBg();
@@ -261,7 +264,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEM_UI_PACKAGE);
         if (ourResparam == null) return;
 
-        if (!mShowQSStatusIconsBg)
+        if (!mShowQSStatusIconsBg || hideStatusIcons)
             return;
 
         try {
