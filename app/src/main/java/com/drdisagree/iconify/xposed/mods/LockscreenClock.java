@@ -257,7 +257,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                             clockHour2.setFormat12Hour("hh");
                             clockHour2.setFormat24Hour("HH");
                             clockHour2.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
-                            clockHour2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 180);
+                            clockHour2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 160);
                             clockHour2.setTypeface(typeface != null ? typeface : clockHour2.getTypeface(), Typeface.BOLD);
                             ViewGroup.MarginLayoutParams clockHourParams2 = new ViewGroup.MarginLayoutParams(
                                     ViewGroup.MarginLayoutParams.WRAP_CONTENT,
@@ -274,7 +274,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                             clockMinute2.setFormat12Hour("mm");
                             clockMinute2.setFormat24Hour("mm");
                             clockMinute2.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
-                            clockMinute2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 180);
+                            clockMinute2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 160);
                             clockMinute2.setTypeface(typeface != null ? typeface : clockMinute2.getTypeface(), Typeface.BOLD);
                             ViewGroup.MarginLayoutParams clockMinuteParams2 = new ViewGroup.MarginLayoutParams(
                                     ViewGroup.MarginLayoutParams.WRAP_CONTENT,
