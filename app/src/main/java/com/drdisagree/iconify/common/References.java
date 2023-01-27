@@ -61,6 +61,7 @@ public class References {
     public static final String HEADER_CLOCK_TEXT_WHITE = "xposed_headerclocktextwhite";
     public static final String PANEL_TOPMARGIN_SWITCH = "xposed_paneltopmargin";
     public static final String QS_TOPMARGIN = "xposed_qstopmargin";
+    public static final String QSPANEL_HIDE_CARRIER = "xposed_qspanelhidecarrier";
     public static final String HEADER_CLOCK_STYLE = "xposed_headerclockstyle";
     public static final String LSCLOCK_CLOCK_SWITCH = "xposed_lockscreenclock";
     public static final String LSCLOCK_STYLE = "xposed_lockscreenclockstyle";
@@ -69,6 +70,7 @@ public class References {
     public static final String LSCLOCK_FONT_SWITCH = "xposed_lockscreenclockfont";
     public static final String LSCLOCK_FONT_LINEHEIGHT = "xposed_lockscreenclockfontlineheight";
     public static final String LSCLOCK_TEXT_WHITE = "xposed_lockscreenclocktextwhite";
+    public static final String CHIP_QSSTATUSICONS_STYLE = "xposed_chipqsstatusicons";
 
     // Parse new update
     public static final String LATEST_VERSION = "https://raw.githubusercontent.com/Mahmud0808/Iconify/stable/latestVersion.json";

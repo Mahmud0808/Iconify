@@ -1,7 +1,10 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.CHIP_QSSTATUSICONS_STYLE;
 import static com.drdisagree.iconify.common.References.HIDE_QSLABEL_SWITCH;
 import static com.drdisagree.iconify.common.References.QSALPHA_LEVEL;
+import static com.drdisagree.iconify.common.References.QSPANEL_HIDE_CARRIER;
+import static com.drdisagree.iconify.common.References.QSPANEL_STATUSICONSBG;
 import static com.drdisagree.iconify.common.References.QSTRANSPARENCY_SWITCH;
 import static com.drdisagree.iconify.common.References.STATUSBAR_CLOCKBG;
 import static com.drdisagree.iconify.common.References.VERTICAL_QSTILE_SWITCH;
@@ -9,7 +12,11 @@ import static com.drdisagree.iconify.common.References.VERTICAL_QSTILE_SWITCH;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -21,6 +28,8 @@ import com.drdisagree.iconify.config.RemotePrefs;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class QuickSettings extends AppCompatActivity {
@@ -92,6 +101,47 @@ public class QuickSettings extends AppCompatActivity {
         enable_clock_bg_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RemotePrefs.putBoolean(STATUSBAR_CLOCKBG, isChecked);
             new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+        });
+
+        // Hide carrier group
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_qs_carrier_group = findViewById(R.id.hide_qs_carrier_group);
+        hide_qs_carrier_group.setChecked(RemotePrefs.getBoolean(QSPANEL_HIDE_CARRIER, false));
+        hide_qs_carrier_group.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RemotePrefs.putBoolean(QSPANEL_HIDE_CARRIER, isChecked);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+        });
+
+        // Status icons chip
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_status_icons_chip = findViewById(R.id.enable_status_icons_chip);
+        enable_status_icons_chip.setChecked(RemotePrefs.getBoolean(QSPANEL_STATUSICONSBG, false));
+        enable_status_icons_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RemotePrefs.putBoolean(QSPANEL_STATUSICONSBG, isChecked);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+        });
+
+        // Header clock style
+        final Spinner status_icons_chip_style = findViewById(R.id.status_icons_chip_style);
+        List<String> status_icons_chip_styles = new ArrayList<>();
+        status_icons_chip_styles.add("Style 1");
+        status_icons_chip_styles.add("Style 2");
+        status_icons_chip_styles.add("Style 3");
+        status_icons_chip_styles.add("Style 4");
+        status_icons_chip_styles.add("Style 5");
+
+        ArrayAdapter<String> status_icons_chip_styles_adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_item, status_icons_chip_styles);
+        status_icons_chip_styles_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+        status_icons_chip_style.setAdapter(status_icons_chip_styles_adapter);
+
+        status_icons_chip_style.setSelection(RemotePrefs.getInt(CHIP_QSSTATUSICONS_STYLE, 0));
+        status_icons_chip_style.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                RemotePrefs.putInt(CHIP_QSSTATUSICONS_STYLE, position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
