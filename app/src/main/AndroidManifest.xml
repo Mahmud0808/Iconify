@@ -41,38 +41,10 @@
         tools:targetApi="tiramisu">
         <activity
             android:name=".ui.activity.QuickSettings"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".ui.activity.Lockscreen"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity> <!-- xposed meta data -->
-        <meta-data
-            android:name="xposedmodule"
-            android:value="true" />
-        <meta-data
-            android:name="xposeddescription"
-            android:value="@string/iconify_slogan" />
-        <meta-data
-            android:name="xposedminversion"
-            android:value="82" />
-        <meta-data
-            android:name="xposedscope"
-            android:resource="@array/module_scope" />
-
-        <provider
-            android:name=".utils.RemotePrefProvider"
-            android:authorities="${applicationId}"
-            android:directBootAware="true"
-            android:exported="true"
-            tools:ignore="ExportedContentProvider" />
-
+            android:exported="false" />
         <activity
             android:name=".ui.activity.Miscellaneous"
             android:exported="false" />
@@ -114,20 +86,6 @@
             android:name=".ui.activity.QsRowColumn"
             android:exported="false" />
 
-        <receiver
-            android:name=".services.BootCompletedReceiver"
-            android:exported="true">
-            <intent-filter android:priority="999">
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-            </intent-filter>
-        </receiver>
-
-        <service
-            android:name=".services.BackgroundService"
-            android:enabled="true"
-            android:exported="true" />
-
         <activity
             android:name=".ui.activity.ColorPicker"
             android:exported="false" />
@@ -139,6 +97,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.activity.UiRoundness"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />
         <activity
             android:name=".ui.activity.Info"
@@ -175,6 +134,41 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".services.BootCompletedReceiver"
+            android:exported="true">
+            <intent-filter android:priority="999">
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".services.BackgroundService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <!-- xposed meta data -->
+        <meta-data
+            android:name="xposedmodule"
+            android:value="true" />
+        <meta-data
+            android:name="xposeddescription"
+            android:value="@string/iconify_slogan" />
+        <meta-data
+            android:name="xposedminversion"
+            android:value="82" />
+        <meta-data
+            android:name="xposedscope"
+            android:resource="@array/module_scope" />
+
+        <provider
+            android:name=".utils.RemotePrefProvider"
+            android:authorities="${applicationId}"
+            android:directBootAware="true"
+            android:exported="true"
+            tools:ignore="ExportedContentProvider" />
     </application>
 
 </manifest>
