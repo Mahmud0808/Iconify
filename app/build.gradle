@@ -72,9 +72,6 @@ dependencies {
     // Optional: Provides remote file system support
     implementation "com.github.topjohnwu.libsu:nio:${libsuVersion}"
 
-    // Android Shell
-    implementation "com.jaredrummler:android-shell:1.0.0"
-
     // Color Picker
     implementation 'com.github.PolideaInternal:ColorPicker:1.0.0'
 
