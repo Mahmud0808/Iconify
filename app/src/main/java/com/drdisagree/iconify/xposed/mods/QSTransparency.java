@@ -31,7 +31,6 @@ public class QSTransparency extends ModPack {
     private String SYSTEM_UI_PACKAGEPath = "";
     private Object lpparamCustom = null;
     private float alpha;
-    private Object mNotificationsScrim = null;
 
     public QSTransparency(Context context) {
         super(context);
@@ -85,17 +84,22 @@ public class QSTransparency extends ModPack {
 
                 lpparamCustom = param.thisObject;
 
-                mNotificationsScrim = getObjectField(param.thisObject, "mNotificationsScrim");
-
-                setFloatField(param.thisObject, "mDefaultScrimAlpha", alpha);
-                setFloatField(param.thisObject, "mBehindAlpha", alpha);
-                setFloatField(param.thisObject, "mNotificationsAlpha", alpha);
+                try {
+                    setFloatField(param.thisObject, "mDefaultScrimAlpha", alpha);
+                } catch (Throwable ignored) {}
+                try {
+                    setFloatField(param.thisObject, "mBehindAlpha", alpha);
+                } catch (Throwable ignored) {}
+                try {
+                    setFloatField(param.thisObject, "mNotificationsAlpha", alpha);
+                } catch (Throwable ignored) {}
 
                 try {
                     setFloatField(param.thisObject, "BUSY_SCRIM_ALPHA", alpha);
+                } catch (Throwable ignored) {}
+                try {
                     setFloatField(param.thisObject, "mCustomScrimAlpha", alpha);
-                } catch (Throwable ignored) {
-                }
+                } catch (Throwable ignored) {}
             }
         });
 

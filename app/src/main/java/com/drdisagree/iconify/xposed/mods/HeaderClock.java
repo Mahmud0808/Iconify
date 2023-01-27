@@ -92,9 +92,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
 
         try {
             ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "bool", "config_use_large_screen_shade_header", false);
-        } catch (Throwable t) {
-            log(TAG + t);
-        }
+        } catch (Throwable ignored) {}
 
         try {
             ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "quick_status_bar_expanded_header", new XC_LayoutInflated() {
