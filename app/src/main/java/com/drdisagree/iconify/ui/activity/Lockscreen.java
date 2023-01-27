@@ -2,7 +2,7 @@ package com.drdisagree.iconify.ui.activity;
 
 import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
 import static com.drdisagree.iconify.common.References.LSCLOCK_BOTTOMMARGIN;
-import static com.drdisagree.iconify.common.References.LSCLOCK_CLOCK_SWITCH;
+import static com.drdisagree.iconify.common.References.LSCLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.LSCLOCK_FONT_LINEHEIGHT;
 import static com.drdisagree.iconify.common.References.LSCLOCK_FONT_SWITCH;
 import static com.drdisagree.iconify.common.References.LSCLOCK_STYLE;
@@ -95,9 +95,9 @@ public class Lockscreen extends AppCompatActivity {
 
         // Lockscreen clock
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_locksreen_clock = findViewById(R.id.enable_lockscreen_clock);
-        enable_locksreen_clock.setChecked(RemotePrefs.getBoolean(LSCLOCK_CLOCK_SWITCH, false));
+        enable_locksreen_clock.setChecked(RemotePrefs.getBoolean(LSCLOCK_SWITCH, false));
         enable_locksreen_clock.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RemotePrefs.putBoolean(LSCLOCK_CLOCK_SWITCH, isChecked);
+            RemotePrefs.putBoolean(LSCLOCK_SWITCH, isChecked);
             new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
 

@@ -1,13 +1,15 @@
 package com.drdisagree.iconify.xposed.mods;
 
+import static com.drdisagree.iconify.common.References.CHIP_QSCLOCK_STYLE;
+import static com.drdisagree.iconify.common.References.CHIP_QSDATE_STYLE;
 import static com.drdisagree.iconify.common.References.CHIP_QSSTATUSICONS_STYLE;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.HIDE_STATUS_ICONS_SWITCH;
-import static com.drdisagree.iconify.common.References.QSPANEL_CLOCKBG;
-import static com.drdisagree.iconify.common.References.QSPANEL_DATEBG;
+import static com.drdisagree.iconify.common.References.QSPANEL_CLOCKBG_SWITCH;
+import static com.drdisagree.iconify.common.References.QSPANEL_DATEBG_SWITCH;
 import static com.drdisagree.iconify.common.References.QSPANEL_HIDE_CARRIER;
-import static com.drdisagree.iconify.common.References.QSPANEL_STATUSICONSBG;
-import static com.drdisagree.iconify.common.References.STATUSBAR_CLOCKBG;
+import static com.drdisagree.iconify.common.References.QSPANEL_STATUSICONSBG_SWITCH;
+import static com.drdisagree.iconify.common.References.STATUSBAR_CLOCKBG_SWITCH;
 import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
@@ -62,6 +64,8 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     int clockWidth = -1;
     int clockHeight = 1;
     int QSStatusIconsChipStyle = 0;
+    int QSClockChipStyle = 0;
+    int QSDateChipStyle = 0;
     private String rootPackagePath = "";
 
     public BackgroundChip(Context context) {
@@ -73,16 +77,24 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     public void updatePrefs(String... Key) {
         if (Xprefs == null) return;
 
-        mShowSBClockBg = Xprefs.getBoolean(STATUSBAR_CLOCKBG, false);
-        mShowQSClockBg = Xprefs.getBoolean(QSPANEL_CLOCKBG, false);
-        mShowQSDateBg = Xprefs.getBoolean(QSPANEL_DATEBG, false);
+        mShowSBClockBg = Xprefs.getBoolean(STATUSBAR_CLOCKBG_SWITCH, false);
+
+        mShowQSClockBg = Xprefs.getBoolean(QSPANEL_CLOCKBG_SWITCH, false);
+        QSClockChipStyle = Xprefs.getInt(CHIP_QSCLOCK_STYLE, 0);
+
+        mShowQSDateBg = Xprefs.getBoolean(QSPANEL_DATEBG_SWITCH, false);
+        QSDateChipStyle = Xprefs.getInt(CHIP_QSDATE_STYLE, 0);
+
+        mShowQSStatusIconsBg = Xprefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false);
+        QSStatusIconsChipStyle = Xprefs.getInt(CHIP_QSSTATUSICONS_STYLE, 0);
+
         showHeaderClock = Xprefs.getBoolean(HEADER_CLOCK_SWITCH, false);
         QSCarrierGroupHidden = Xprefs.getBoolean(QSPANEL_HIDE_CARRIER, false);
-        mShowQSStatusIconsBg = Xprefs.getBoolean(QSPANEL_STATUSICONSBG, false);
-        QSStatusIconsChipStyle = Xprefs.getInt(CHIP_QSSTATUSICONS_STYLE, 0);
         hideStatusIcons = Xprefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false);
 
         updateStatusBarClock();
+        setQSClockBg();
+        setQSDateBg();
         setQSStatusIconsBg();
         hideQSCarrierGroup();
     }
@@ -170,6 +182,12 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                     TextView clock = (TextView) param.thisObject;
                     clockWidth = clock.getWidth();
                     clockHeight = clock.getHeight();
+
+                    if (mShowQSClockBg && !hideStatusIcons) {
+                        int paddingStartEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
+                        int paddingTopBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3, mContext.getResources().getDisplayMetrics());
+                        clock.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
+                    }
                 } catch (Throwable t) {
                     log(TAG + t);
                 }
@@ -190,17 +208,17 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
 
         if (mShowSBClockBg && clockWidth != -1 && clockHeight != -1) {
             if (mClockView != null) {
-                mClockView.setPadding(14, 2, 14, 2);
+                mClockView.setPadding(12, 2, 12, 2);
                 mClockView.setBackground(mDrawable);
             }
 
             if (mCenterClockView != null) {
-                mCenterClockView.setPadding(14, 2, 14, 2);
+                mCenterClockView.setPadding(12, 2, 12, 2);
                 mCenterClockView.setBackground(mDrawable);
             }
 
             if (mRightClockView != null) {
-                mRightClockView.setPadding(14, 2, 14, 2);
+                mRightClockView.setPadding(12, 2, 12, 2);
                 mRightClockView.setBackground(mDrawable);
             }
         } else {
@@ -225,10 +243,8 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
             }
         }
 
-
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEM_UI_PACKAGE);
         if (ourResparam == null || !mShowSBClockBg) return;
-
 
         ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "status_bar", new XC_LayoutInflated() {
             @Override
@@ -258,6 +274,521 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                 }
             }
         });
+    }
+
+    private void setQSClockBg() {
+        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEM_UI_PACKAGE);
+        if (ourResparam == null) return;
+
+        if (!mShowQSClockBg || hideStatusIcons)
+            return;
+
+        try {
+            ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
+                @Override
+                public void handleLayoutInflated(LayoutInflatedParam liparam) {
+                    @SuppressLint("DiscouragedApi") TextView clock = liparam.view.findViewById(liparam.res.getIdentifier("clock", "id", SYSTEM_UI_PACKAGE));
+                    ((LinearLayout.LayoutParams) clock.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.START;
+                    clock.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics());
+                    ((LinearLayout.LayoutParams) clock.getLayoutParams()).setMarginEnd((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()));
+                    clock.requestLayout();
+
+                    int paddingTopBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
+                    int paddingStartEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
+                    clock.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
+
+                    float corner1 = (Xprefs.getInt("cornerRadius", 16) + 8) * mContext.getResources().getDisplayMetrics().density;
+                    float corner2 = (Xprefs.getInt("cornerRadius", 16) + 6) * mContext.getResources().getDisplayMetrics().density;
+                    float corner3 = (Xprefs.getInt("cornerRadius", 16) + 4) * mContext.getResources().getDisplayMetrics().density;
+                    int px2dp2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
+                    int px2dp4 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics());
+
+                    GradientDrawable mDrawable1;
+                    GradientDrawable mDrawable2;
+                    GradientDrawable mDrawable3;
+                    LayerDrawable layerDrawable;
+                    switch (QSClockChipStyle) {
+                        case 0:
+                            mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.holo_blue_light),
+                                            mContext.getResources().getColor(android.R.color.holo_green_light)
+                                    });
+                            mDrawable1.setCornerRadius(corner1);
+
+                            clock.setBackground(mDrawable1);
+                            break;
+                        case 1:
+                            mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.holo_blue_light),
+                                            mContext.getResources().getColor(android.R.color.holo_green_light)
+                                    });
+                            mDrawable1.setCornerRadius(corner1);
+
+                            mDrawable2 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                                    new int[]{
+                                            Color.parseColor("#FFD4D4D4"),
+                                            Color.parseColor("#FFF0F0F0")
+                                    });
+                            mDrawable2.setCornerRadius(corner2);
+
+                            mDrawable3 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
+                                    new int[]{
+                                            Color.parseColor("#FFD4D4D4"),
+                                            Color.parseColor("#FFF0F0F0")
+                                    });
+                            mDrawable3.setCornerRadius(corner3);
+                            clock.setBackground(mDrawable3);
+
+                            layerDrawable = new LayerDrawable(new Drawable[]{
+                                    mDrawable1,
+                                    mDrawable2,
+                                    mDrawable3
+                            });
+                            layerDrawable.setLayerInset(0, 0, 0, 0, 0);
+                            layerDrawable.setLayerInset(1, px2dp2, px2dp2, px2dp2, px2dp2);
+                            layerDrawable.setLayerInset(2, px2dp4, px2dp4, px2dp4, px2dp4);
+
+                            clock.setBackground(layerDrawable);
+                            break;
+                        case 2:
+                            mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.holo_blue_light),
+                                            mContext.getResources().getColor(android.R.color.holo_green_light)
+                                    });
+                            mDrawable1.setCornerRadius(corner1);
+
+                            mDrawable2 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                                    new int[]{
+                                            Color.parseColor("#FF363636"),
+                                            Color.parseColor("#FF0F0F0F")
+                                    });
+                            mDrawable2.setCornerRadius(corner2);
+
+                            mDrawable3 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
+                                    new int[]{
+                                            Color.parseColor("#FF363636"),
+                                            Color.parseColor("#FF0F0F0F")
+                                    });
+                            mDrawable3.setCornerRadius(corner3);
+                            clock.setBackground(mDrawable3);
+
+                            layerDrawable = new LayerDrawable(new Drawable[]{
+                                    mDrawable1,
+                                    mDrawable2,
+                                    mDrawable3
+                            });
+                            layerDrawable.setLayerInset(0, 0, 0, 0, 0);
+                            layerDrawable.setLayerInset(1, px2dp2, px2dp2, px2dp2, px2dp2);
+                            layerDrawable.setLayerInset(2, px2dp4, px2dp4, px2dp4, px2dp4);
+
+                            clock.setBackground(layerDrawable);
+                            break;
+                        case 3:
+                            mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.holo_blue_light),
+                                            mContext.getResources().getColor(android.R.color.holo_green_light)
+                                    });
+                            mDrawable1.setCornerRadius(corner1);
+
+                            mDrawable2 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.holo_blue_light),
+                                            mContext.getResources().getColor(android.R.color.holo_green_light)
+                                    });
+                            mDrawable2.setCornerRadius(corner2);
+
+                            layerDrawable = new LayerDrawable(new Drawable[]{
+                                    mDrawable1,
+                                    mDrawable2
+                            });
+                            layerDrawable.setLayerInset(0, 0, 0, 0, 0);
+                            layerDrawable.setLayerInset(1, px2dp2, px2dp2, px2dp2, px2dp2);
+
+                            clock.setBackground(layerDrawable);
+                            break;
+                        case 4:
+                            mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.holo_blue_light),
+                                            mContext.getResources().getColor(android.R.color.holo_green_light)
+                                    });
+                            mDrawable1.setCornerRadius(corner1);
+
+                            mDrawable2 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                                    new int[]{
+                                            Color.parseColor("#40000000"),
+                                            Color.parseColor("#40000000")
+                                    });
+                            mDrawable2.setCornerRadius(corner2);
+
+                            mDrawable3 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.holo_blue_light),
+                                            mContext.getResources().getColor(android.R.color.holo_green_light)
+                                    });
+                            mDrawable3.setCornerRadius(corner3);
+
+                            layerDrawable = new LayerDrawable(new Drawable[]{
+                                    mDrawable1,
+                                    mDrawable2,
+                                    mDrawable3
+                            });
+                            layerDrawable.setLayerInset(0, 0, 0, 0, 0);
+                            layerDrawable.setLayerInset(1, 0, 0, 0, 0);
+                            layerDrawable.setLayerInset(2, px2dp2, px2dp2, px2dp2, px2dp2);
+
+                            clock.setBackground(layerDrawable);
+                            break;
+                    }
+                }
+            });
+        } catch (Throwable t) {
+            log(TAG + t);
+        }
+    }
+
+    private void setQSDateBg() {
+        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEM_UI_PACKAGE);
+        if (ourResparam == null) return;
+
+        if (!mShowQSDateBg || hideStatusIcons)
+            return;
+
+        try {
+            ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
+                @Override
+                public void handleLayoutInflated(LayoutInflatedParam liparam) {
+                    @SuppressLint("DiscouragedApi") TextView date_clock = liparam.view.findViewById(liparam.res.getIdentifier("date_clock", "id", SYSTEM_UI_PACKAGE));
+                    ((LinearLayout.LayoutParams) date_clock.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.START;
+                    date_clock.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics());
+                    date_clock.requestLayout();
+
+                    int paddingTopBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
+                    int paddingStartEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
+                    date_clock.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
+
+                    float corner1 = (Xprefs.getInt("cornerRadius", 16) + 8) * mContext.getResources().getDisplayMetrics().density;
+                    float corner2 = (Xprefs.getInt("cornerRadius", 16) + 6) * mContext.getResources().getDisplayMetrics().density;
+                    float corner3 = (Xprefs.getInt("cornerRadius", 16) + 4) * mContext.getResources().getDisplayMetrics().density;
+                    int px2dp2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
+                    int px2dp4 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics());
+
+                    GradientDrawable mDrawable1;
+                    GradientDrawable mDrawable2;
+                    GradientDrawable mDrawable3;
+                    LayerDrawable layerDrawable;
+                    switch (QSDateChipStyle) {
+                        case 0:
+                            mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.holo_blue_light),
+                                            mContext.getResources().getColor(android.R.color.holo_green_light)
+                                    });
+                            mDrawable1.setCornerRadius(corner1);
+
+                            date_clock.setBackground(mDrawable1);
+                            break;
+                        case 1:
+                            mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.holo_blue_light),
+                                            mContext.getResources().getColor(android.R.color.holo_green_light)
+                                    });
+                            mDrawable1.setCornerRadius(corner1);
+
+                            mDrawable2 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                                    new int[]{
+                                            Color.parseColor("#FFD4D4D4"),
+                                            Color.parseColor("#FFF0F0F0")
+                                    });
+                            mDrawable2.setCornerRadius(corner2);
+
+                            mDrawable3 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
+                                    new int[]{
+                                            Color.parseColor("#FFD4D4D4"),
+                                            Color.parseColor("#FFF0F0F0")
+                                    });
+                            mDrawable3.setCornerRadius(corner3);
+                            date_clock.setBackground(mDrawable3);
+
+                            layerDrawable = new LayerDrawable(new Drawable[]{
+                                    mDrawable1,
+                                    mDrawable2,
+                                    mDrawable3
+                            });
+                            layerDrawable.setLayerInset(0, 0, 0, 0, 0);
+                            layerDrawable.setLayerInset(1, px2dp2, px2dp2, px2dp2, px2dp2);
+                            layerDrawable.setLayerInset(2, px2dp4, px2dp4, px2dp4, px2dp4);
+
+                            date_clock.setBackground(layerDrawable);
+                            break;
+                        case 2:
+                            mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.holo_blue_light),
+                                            mContext.getResources().getColor(android.R.color.holo_green_light)
+                                    });
+                            mDrawable1.setCornerRadius(corner1);
+
+                            mDrawable2 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                                    new int[]{
+                                            Color.parseColor("#FF363636"),
+                                            Color.parseColor("#FF0F0F0F")
+                                    });
+                            mDrawable2.setCornerRadius(corner2);
+
+                            mDrawable3 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
+                                    new int[]{
+                                            Color.parseColor("#FF363636"),
+                                            Color.parseColor("#FF0F0F0F")
+                                    });
+                            mDrawable3.setCornerRadius(corner3);
+                            date_clock.setBackground(mDrawable3);
+
+                            layerDrawable = new LayerDrawable(new Drawable[]{
+                                    mDrawable1,
+                                    mDrawable2,
+                                    mDrawable3
+                            });
+                            layerDrawable.setLayerInset(0, 0, 0, 0, 0);
+                            layerDrawable.setLayerInset(1, px2dp2, px2dp2, px2dp2, px2dp2);
+                            layerDrawable.setLayerInset(2, px2dp4, px2dp4, px2dp4, px2dp4);
+
+                            date_clock.setBackground(layerDrawable);
+                            break;
+                        case 3:
+                            mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.holo_blue_light),
+                                            mContext.getResources().getColor(android.R.color.holo_green_light)
+                                    });
+                            mDrawable1.setCornerRadius(corner1);
+
+                            mDrawable2 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.holo_blue_light),
+                                            mContext.getResources().getColor(android.R.color.holo_green_light)
+                                    });
+                            mDrawable2.setCornerRadius(corner2);
+
+                            layerDrawable = new LayerDrawable(new Drawable[]{
+                                    mDrawable1,
+                                    mDrawable2
+                            });
+                            layerDrawable.setLayerInset(0, 0, 0, 0, 0);
+                            layerDrawable.setLayerInset(1, px2dp2, px2dp2, px2dp2, px2dp2);
+
+                            date_clock.setBackground(layerDrawable);
+                            break;
+                        case 4:
+                            mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.holo_blue_light),
+                                            mContext.getResources().getColor(android.R.color.holo_green_light)
+                                    });
+                            mDrawable1.setCornerRadius(corner1);
+
+                            mDrawable2 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                                    new int[]{
+                                            Color.parseColor("#40000000"),
+                                            Color.parseColor("#40000000")
+                                    });
+                            mDrawable2.setCornerRadius(corner2);
+
+                            mDrawable3 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.holo_blue_light),
+                                            mContext.getResources().getColor(android.R.color.holo_green_light)
+                                    });
+                            mDrawable3.setCornerRadius(corner3);
+
+                            layerDrawable = new LayerDrawable(new Drawable[]{
+                                    mDrawable1,
+                                    mDrawable2,
+                                    mDrawable3
+                            });
+                            layerDrawable.setLayerInset(0, 0, 0, 0, 0);
+                            layerDrawable.setLayerInset(1, 0, 0, 0, 0);
+                            layerDrawable.setLayerInset(2, px2dp2, px2dp2, px2dp2, px2dp2);
+
+                            date_clock.setBackground(layerDrawable);
+                            break;
+                    }
+                }
+            });
+        } catch (Throwable t) {
+            log(TAG + t);
+        }
+
+        try {
+            ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "quick_status_bar_header_date_privacy", new XC_LayoutInflated() {
+                @Override
+                public void handleLayoutInflated(LayoutInflatedParam liparam) {
+                    @SuppressLint("DiscouragedApi") TextView date = liparam.view.findViewById(liparam.res.getIdentifier("date", "id", SYSTEM_UI_PACKAGE));
+                    ((FrameLayout.LayoutParams) date.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.START;
+                    date.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics());
+                    date.requestLayout();
+
+                    int paddingTopBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
+                    int paddingStartEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
+                    date.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
+
+                    float corner1 = (Xprefs.getInt("cornerRadius", 16) + 8) * mContext.getResources().getDisplayMetrics().density;
+                    float corner2 = (Xprefs.getInt("cornerRadius", 16) + 6) * mContext.getResources().getDisplayMetrics().density;
+                    float corner3 = (Xprefs.getInt("cornerRadius", 16) + 4) * mContext.getResources().getDisplayMetrics().density;
+                    int px2dp2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
+                    int px2dp4 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics());
+
+                    GradientDrawable mDrawable1;
+                    GradientDrawable mDrawable2;
+                    GradientDrawable mDrawable3;
+                    LayerDrawable layerDrawable;
+                    switch (QSDateChipStyle) {
+                        case 0:
+                            mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.holo_blue_light),
+                                            mContext.getResources().getColor(android.R.color.holo_green_light)
+                                    });
+                            mDrawable1.setCornerRadius(corner1);
+
+                            date.setBackground(mDrawable1);
+                            break;
+                        case 1:
+                            mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.holo_blue_light),
+                                            mContext.getResources().getColor(android.R.color.holo_green_light)
+                                    });
+                            mDrawable1.setCornerRadius(corner1);
+
+                            mDrawable2 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                                    new int[]{
+                                            Color.parseColor("#FFD4D4D4"),
+                                            Color.parseColor("#FFF0F0F0")
+                                    });
+                            mDrawable2.setCornerRadius(corner2);
+
+                            mDrawable3 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
+                                    new int[]{
+                                            Color.parseColor("#FFD4D4D4"),
+                                            Color.parseColor("#FFF0F0F0")
+                                    });
+                            mDrawable3.setCornerRadius(corner3);
+                            date.setBackground(mDrawable3);
+
+                            layerDrawable = new LayerDrawable(new Drawable[]{
+                                    mDrawable1,
+                                    mDrawable2,
+                                    mDrawable3
+                            });
+                            layerDrawable.setLayerInset(0, 0, 0, 0, 0);
+                            layerDrawable.setLayerInset(1, px2dp2, px2dp2, px2dp2, px2dp2);
+                            layerDrawable.setLayerInset(2, px2dp4, px2dp4, px2dp4, px2dp4);
+
+                            date.setBackground(layerDrawable);
+                            break;
+                        case 2:
+                            mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.holo_blue_light),
+                                            mContext.getResources().getColor(android.R.color.holo_green_light)
+                                    });
+                            mDrawable1.setCornerRadius(corner1);
+
+                            mDrawable2 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                                    new int[]{
+                                            Color.parseColor("#FF363636"),
+                                            Color.parseColor("#FF0F0F0F")
+                                    });
+                            mDrawable2.setCornerRadius(corner2);
+
+                            mDrawable3 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
+                                    new int[]{
+                                            Color.parseColor("#FF363636"),
+                                            Color.parseColor("#FF0F0F0F")
+                                    });
+                            mDrawable3.setCornerRadius(corner3);
+                            date.setBackground(mDrawable3);
+
+                            layerDrawable = new LayerDrawable(new Drawable[]{
+                                    mDrawable1,
+                                    mDrawable2,
+                                    mDrawable3
+                            });
+                            layerDrawable.setLayerInset(0, 0, 0, 0, 0);
+                            layerDrawable.setLayerInset(1, px2dp2, px2dp2, px2dp2, px2dp2);
+                            layerDrawable.setLayerInset(2, px2dp4, px2dp4, px2dp4, px2dp4);
+
+                            date.setBackground(layerDrawable);
+                            break;
+                        case 3:
+                            mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.holo_blue_light),
+                                            mContext.getResources().getColor(android.R.color.holo_green_light)
+                                    });
+                            mDrawable1.setCornerRadius(corner1);
+
+                            mDrawable2 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.holo_blue_light),
+                                            mContext.getResources().getColor(android.R.color.holo_green_light)
+                                    });
+                            mDrawable2.setCornerRadius(corner2);
+
+                            layerDrawable = new LayerDrawable(new Drawable[]{
+                                    mDrawable1,
+                                    mDrawable2
+                            });
+                            layerDrawable.setLayerInset(0, 0, 0, 0, 0);
+                            layerDrawable.setLayerInset(1, px2dp2, px2dp2, px2dp2, px2dp2);
+
+                            date.setBackground(layerDrawable);
+                            break;
+                        case 4:
+                            mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.holo_blue_light),
+                                            mContext.getResources().getColor(android.R.color.holo_green_light)
+                                    });
+                            mDrawable1.setCornerRadius(corner1);
+
+                            mDrawable2 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                                    new int[]{
+                                            Color.parseColor("#40000000"),
+                                            Color.parseColor("#40000000")
+                                    });
+                            mDrawable2.setCornerRadius(corner2);
+
+                            mDrawable3 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.holo_blue_light),
+                                            mContext.getResources().getColor(android.R.color.holo_green_light)
+                                    });
+                            mDrawable3.setCornerRadius(corner3);
+
+                            layerDrawable = new LayerDrawable(new Drawable[]{
+                                    mDrawable1,
+                                    mDrawable2,
+                                    mDrawable3
+                            });
+                            layerDrawable.setLayerInset(0, 0, 0, 0, 0);
+                            layerDrawable.setLayerInset(1, 0, 0, 0, 0);
+                            layerDrawable.setLayerInset(2, px2dp2, px2dp2, px2dp2, px2dp2);
+
+                            date.setBackground(layerDrawable);
+                            break;
+                    }
+                }
+            });
+        } catch (Throwable t) {
+            log(TAG + t);
+        }
     }
 
     private void setQSStatusIconsBg() {

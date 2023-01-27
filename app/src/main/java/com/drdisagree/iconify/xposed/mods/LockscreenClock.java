@@ -1,7 +1,7 @@
 package com.drdisagree.iconify.xposed.mods;
 
 import static com.drdisagree.iconify.common.References.LSCLOCK_BOTTOMMARGIN;
-import static com.drdisagree.iconify.common.References.LSCLOCK_CLOCK_SWITCH;
+import static com.drdisagree.iconify.common.References.LSCLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.LSCLOCK_FONT_LINEHEIGHT;
 import static com.drdisagree.iconify.common.References.LSCLOCK_FONT_SWITCH;
 import static com.drdisagree.iconify.common.References.LSCLOCK_STYLE;
@@ -68,7 +68,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
     public void updatePrefs(String... Key) {
         if (Xprefs == null) return;
 
-        showLockscreenClock = Xprefs.getBoolean(LSCLOCK_CLOCK_SWITCH, false);
+        showLockscreenClock = Xprefs.getBoolean(LSCLOCK_SWITCH, false);
         lockscreenClockStyle = Xprefs.getInt(LSCLOCK_STYLE, 0);
         topMargin = Xprefs.getInt(LSCLOCK_TOPMARGIN, 100);
         bottomMargin = Xprefs.getInt(LSCLOCK_BOTTOMMARGIN, 40);

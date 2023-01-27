@@ -45,10 +45,13 @@ public class References {
     public static final String RESOURCE_TEMP_DIR = Environment.getExternalStorageDirectory() + "/.iconify_files";
     public static final String QSTRANSPARENCY_SWITCH = "xposed_qstransparency";
     public static final String QSALPHA_LEVEL = "xposed_qsalpha";
-    public static final String STATUSBAR_CLOCKBG = "xposed_sbclockbg";
-    public static final String QSPANEL_CLOCKBG = "xposed_qsclockbg";
-    public static final String QSPANEL_DATEBG = "xposed_qsdatebg";
-    public static final String QSPANEL_STATUSICONSBG = "xposed_qsstatusiconsbg";
+    public static final String STATUSBAR_CLOCKBG_SWITCH = "xposed_sbclockbg";
+    public static final String QSPANEL_CLOCKBG_SWITCH = "xposed_qsclockbg";
+    public static final String CHIP_QSCLOCK_STYLE = "xposed_chipqsclockstyle";
+    public static final String QSPANEL_DATEBG_SWITCH = "xposed_qsdatebg";
+    public static final String CHIP_QSDATE_STYLE = "xposed_chipqsdatestyle";
+    public static final String QSPANEL_STATUSICONSBG_SWITCH = "xposed_qsstatusiconsbg";
+    public static final String CHIP_QSSTATUSICONS_STYLE = "xposed_chipqsstatusiconsstyle";
     public static final String VERTICAL_QSTILE_SWITCH = "xposed_verticalqstile";
     public static final String HIDE_QSLABEL_SWITCH = "xposed_showqslabel";
     public static final String HEADER_IMAGE_SWITCH = "xposed_headerimage";
@@ -63,14 +66,13 @@ public class References {
     public static final String QS_TOPMARGIN = "xposed_qstopmargin";
     public static final String QSPANEL_HIDE_CARRIER = "xposed_qspanelhidecarrier";
     public static final String HEADER_CLOCK_STYLE = "xposed_headerclockstyle";
-    public static final String LSCLOCK_CLOCK_SWITCH = "xposed_lockscreenclock";
+    public static final String LSCLOCK_SWITCH = "xposed_lockscreenclock";
     public static final String LSCLOCK_STYLE = "xposed_lockscreenclockstyle";
     public static final String LSCLOCK_TOPMARGIN = "xposed_lockscreenclocktopmargin";
     public static final String LSCLOCK_BOTTOMMARGIN = "xposed_lockscreenclockbottommargin";
     public static final String LSCLOCK_FONT_SWITCH = "xposed_lockscreenclockfont";
     public static final String LSCLOCK_FONT_LINEHEIGHT = "xposed_lockscreenclockfontlineheight";
     public static final String LSCLOCK_TEXT_WHITE = "xposed_lockscreenclocktextwhite";
-    public static final String CHIP_QSSTATUSICONS_STYLE = "xposed_chipqsstatusicons";
 
     // Parse new update
     public static final String LATEST_VERSION = "https://raw.githubusercontent.com/Mahmud0808/Iconify/stable/latestVersion.json";
