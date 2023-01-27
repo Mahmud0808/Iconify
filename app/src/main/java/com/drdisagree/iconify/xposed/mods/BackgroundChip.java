@@ -55,7 +55,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     public void updatePrefs(String... Key) {
         if (Xprefs == null) return;
 
-        mShowSBClockBg = Xprefs.getBoolean(STATUSBAR_CLOCKBG, true);
+        mShowSBClockBg = Xprefs.getBoolean(STATUSBAR_CLOCKBG, false);
         mShowQSClockBg = Xprefs.getBoolean(QSPANEL_CLOCKBG, true);
         mShowQSStatusIcongBg = Xprefs.getBoolean(QSPANEL_STATUSICONSBG, true);
         showHeaderClock = Xprefs.getBoolean(HEADER_CLOCK_SWITCH, false);
@@ -95,7 +95,11 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                         Object mClockController = getObjectField(param.thisObject, "mClockController");
                         mClockView = (View) callMethod(mClockController, "getClock");
                     } catch (Throwable th) {
-                        mClockView = (View) getObjectField(param.thisObject, "mLeftClock");
+                        try {
+                            mClockView = (View) getObjectField(param.thisObject, "mLeftClock");
+                        } catch (Throwable thr) {
+                            mClockView = null;
+                        }
                     }
                 }
                 try {
@@ -105,7 +109,11 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                         Object mClockController = getObjectField(param.thisObject, "mClockController");
                         mCenterClockView = (View) callMethod(mClockController, "mCenterClockView");
                     } catch (Throwable th) {
-                        mCenterClockView = (View) getObjectField(param.thisObject, "mCenterClock");
+                        try {
+                            mCenterClockView = (View) getObjectField(param.thisObject, "mCenterClock");
+                        } catch (Throwable thr) {
+                            mCenterClockView = null;
+                        }
                     }
                 }
                 try {
@@ -115,7 +123,11 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                         Object mClockController = getObjectField(param.thisObject, "mClockController");
                         mRightClockView = (View) callMethod(mClockController, "mRightClockView");
                     } catch (Throwable th) {
-                        mRightClockView = (View) getObjectField(param.thisObject, "mRightClock");
+                        try {
+                            mRightClockView = (View) getObjectField(param.thisObject, "mRightClock");
+                        } catch (Throwable thr) {
+                            mRightClockView = null;
+                        }
                     }
                 }
 
@@ -144,9 +156,6 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     }
 
     private void updateStatusBarClock() {
-        if (mStatusBar == null || mClockView == null || mCenterClockView == null || mRightClockView == null)
-            return;
-
         float corner = (Xprefs.getInt("cornerRadius", 16) + 8) * mContext.getResources().getDisplayMetrics().density;
         GradientDrawable mDrawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
                 new int[]{
@@ -156,28 +165,40 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         mDrawable.setCornerRadius(corner);
 
         if (mShowSBClockBg && clockWidth != -1 && clockHeight != -1) {
-            mClockView.setPadding(14, 2, 14, 2);
-            mClockView.setBackground(mDrawable);
+            if (mClockView != null) {
+                mClockView.setPadding(14, 2, 14, 2);
+                mClockView.setBackground(mDrawable);
+            }
 
-            mCenterClockView.setPadding(14, 2, 14, 2);
-            mCenterClockView.setBackground(mDrawable);
+            if (mCenterClockView != null) {
+                mCenterClockView.setPadding(14, 2, 14, 2);
+                mCenterClockView.setBackground(mDrawable);
+            }
 
-            mRightClockView.setPadding(14, 2, 14, 2);
-            mRightClockView.setBackground(mDrawable);
-            log(TAG + "added clock bg");
+            if (mRightClockView != null) {
+                mRightClockView.setPadding(14, 2, 14, 2);
+                mRightClockView.setBackground(mDrawable);
+            }
         } else {
             @SuppressLint("DiscouragedApi") int clockPaddingStart = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_clock_starting_padding", "dimen", mContext.getPackageName()));
             @SuppressLint("DiscouragedApi") int clockPaddingEnd = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_clock_end_padding", "dimen", mContext.getPackageName()));
             @SuppressLint("DiscouragedApi") int leftClockPaddingStart = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_left_clock_starting_padding", "dimen", mContext.getPackageName()));
             @SuppressLint("DiscouragedApi") int leftClockPaddingEnd = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_left_clock_end_padding", "dimen", mContext.getPackageName()));
 
-            mClockView.setBackgroundResource(0);
-            mClockView.setPaddingRelative(leftClockPaddingStart, 0, leftClockPaddingEnd, 0);
-            mCenterClockView.setBackgroundResource(0);
-            mCenterClockView.setPaddingRelative(0, 0, 0, 0);
-            mRightClockView.setBackgroundResource(0);
-            mRightClockView.setPaddingRelative(clockPaddingStart, 0, clockPaddingEnd, 0);
-            log(TAG + "no clock bg");
+            if (mClockView != null) {
+                mClockView.setBackgroundResource(0);
+                mClockView.setPaddingRelative(leftClockPaddingStart, 0, leftClockPaddingEnd, 0);
+            }
+
+            if (mCenterClockView != null) {
+                mCenterClockView.setBackgroundResource(0);
+                mCenterClockView.setPaddingRelative(0, 0, 0, 0);
+            }
+
+            if (mRightClockView != null) {
+                mRightClockView.setBackgroundResource(0);
+                mRightClockView.setPaddingRelative(clockPaddingStart, 0, clockPaddingEnd, 0);
+            }
         }
     }
 }
