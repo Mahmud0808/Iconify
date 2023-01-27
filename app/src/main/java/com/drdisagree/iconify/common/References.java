@@ -47,6 +47,7 @@ public class References {
     public static final String QSALPHA_LEVEL = "xposed_qsalpha";
     public static final String STATUSBAR_CLOCKBG = "xposed_sbclockbg";
     public static final String QSPANEL_CLOCKBG = "xposed_qsclockbg";
+    public static final String QSPANEL_DATEBG = "xposed_qsdatebg";
     public static final String QSPANEL_STATUSICONSBG = "xposed_qsstatusiconsbg";
     public static final String VERTICAL_QSTILE_SWITCH = "xposed_verticalqstile";
     public static final String HIDE_QSLABEL_SWITCH = "xposed_showqslabel";
@@ -57,6 +58,7 @@ public class References {
     public static final String HEADER_CLOCK_SWITCH = "xposed_headerclock";
     public static final String HEADER_CLOCK_SIDEMARGIN = "xposed_headerclocksidemargin";
     public static final String HEADER_CLOCK_TOPMARGIN = "xposed_headerclocktopmargin";
+    public static final String HEADER_CLOCK_TEXT_WHITE = "xposed_headerclocktextwhite";
     public static final String PANEL_TOPMARGIN_SWITCH = "xposed_paneltopmargin";
     public static final String QS_TOPMARGIN = "xposed_qstopmargin";
     public static final String HEADER_CLOCK_STYLE = "xposed_headerclockstyle";

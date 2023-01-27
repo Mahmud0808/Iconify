@@ -4,6 +4,7 @@ import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMI
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SIDEMARGIN;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_STYLE;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
+import static com.drdisagree.iconify.common.References.HEADER_CLOCK_TEXT_WHITE;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_TOPMARGIN;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_ALPHA;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_HEIGHT;
@@ -308,6 +309,13 @@ public class Experimental extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RemotePrefs.putInt(QS_TOPMARGIN, qsTopMargin[0]);
             }
+        });
+
+        // Force white text
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_force_white_text = findViewById(R.id.enable_force_white_text);
+        enable_force_white_text.setChecked(RemotePrefs.getBoolean(HEADER_CLOCK_TEXT_WHITE, false));
+        enable_force_white_text.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RemotePrefs.putBoolean(HEADER_CLOCK_TEXT_WHITE, isChecked);
         });
 
         // Restart systemui
