@@ -58,6 +58,8 @@ What you can change using Iconify:
 
 - Magisk Latest Stable Version
 
+- LSPosed (Optional)
+
 - Decryption Supported Custom Recovery (Just in case)
 
 ## Instructions
