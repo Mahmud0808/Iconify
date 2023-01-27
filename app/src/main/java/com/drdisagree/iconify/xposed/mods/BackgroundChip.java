@@ -1,11 +1,10 @@
 package com.drdisagree.iconify.xposed.mods;
 
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
-import static com.drdisagree.iconify.common.References.QSPANEL_CLOCKBG;
-import static com.drdisagree.iconify.common.References.QSPANEL_STATUSICONSBG;
 import static com.drdisagree.iconify.common.References.STATUSBAR_CLOCKBG;
 import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
+import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedBridge.log;
@@ -18,14 +17,19 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.drdisagree.iconify.xposed.ModPack;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.callbacks.XC_InitPackageResources;
+import de.robv.android.xposed.callbacks.XC_LayoutInflated;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
@@ -34,8 +38,6 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     private static final String CLASS_CLOCK = SYSTEM_UI_PACKAGE + ".statusbar.policy.Clock";
     private static final String CollapsedStatusBarFragmentClass = SYSTEM_UI_PACKAGE + ".statusbar.phone.fragment.CollapsedStatusBarFragment";
     boolean mShowSBClockBg = false;
-    boolean mShowQSClockBg = false;
-    boolean mShowQSStatusIcongBg = false;
     private Object mCollapsedStatusBarFragment = null;
     private ViewGroup mStatusBar = null;
     private View mClockView = null;
@@ -56,8 +58,6 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         if (Xprefs == null) return;
 
         mShowSBClockBg = Xprefs.getBoolean(STATUSBAR_CLOCKBG, false);
-        mShowQSClockBg = Xprefs.getBoolean(QSPANEL_CLOCKBG, true);
-        mShowQSStatusIcongBg = Xprefs.getBoolean(QSPANEL_STATUSICONSBG, true);
         showHeaderClock = Xprefs.getBoolean(HEADER_CLOCK_SWITCH, false);
 
         updateStatusBarClock();
@@ -200,5 +200,39 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                 mRightClockView.setPaddingRelative(clockPaddingStart, 0, clockPaddingEnd, 0);
             }
         }
+
+
+        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEM_UI_PACKAGE);
+        if (ourResparam == null || !mShowSBClockBg) return;
+
+
+        ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "status_bar", new XC_LayoutInflated() {
+            @Override
+            public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
+                try {
+                    @SuppressLint("DiscouragedApi") TextView clock = liparam.view.findViewById(liparam.res.getIdentifier("clock", "id", SYSTEM_UI_PACKAGE));
+                    ((LinearLayout.LayoutParams) clock.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.START;
+                    clock.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, mContext.getResources().getDisplayMetrics());
+                    clock.setGravity(Gravity.CENTER_VERTICAL);
+                    clock.requestLayout();
+                } catch (Throwable t) {
+                    log(TAG + t);
+                }
+            }
+        });
+
+        ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "status_bar", new XC_LayoutInflated() {
+            @Override
+            public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
+                try {
+                    @SuppressLint("DiscouragedApi") TextView clock_center = liparam.view.findViewById(liparam.res.getIdentifier("clock_center", "id", SYSTEM_UI_PACKAGE));
+                    ((LinearLayout.LayoutParams) clock_center.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.START;
+                    clock_center.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, mContext.getResources().getDisplayMetrics());
+                    clock_center.setGravity(Gravity.CENTER_VERTICAL);
+                    clock_center.requestLayout();
+                } catch (Throwable ignored) {
+                }
+            }
+        });
     }
 }
