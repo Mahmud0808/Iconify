@@ -31,6 +31,7 @@ import com.drdisagree.iconify.xposed.mods.BackgroundChip;
 import com.drdisagree.iconify.xposed.mods.HeaderClock;
 import com.drdisagree.iconify.xposed.mods.HeaderImage;
 import com.drdisagree.iconify.xposed.mods.LockscreenClock;
+import com.drdisagree.iconify.xposed.mods.Miscellaneous;
 import com.drdisagree.iconify.xposed.mods.QSPanel;
 import com.drdisagree.iconify.xposed.mods.QSTransparency;
 import com.drdisagree.iconify.xposed.mods.VerticalQSTile;
@@ -58,6 +59,7 @@ public class HookEntry implements IXposedHookLoadPackage {
         modPacks.add(HeaderImage.class);
         modPacks.add(HeaderClock.class);
         modPacks.add(LockscreenClock.class);
+        modPacks.add(Miscellaneous.class);
     }
 
     @SuppressLint("ApplySharedPref")

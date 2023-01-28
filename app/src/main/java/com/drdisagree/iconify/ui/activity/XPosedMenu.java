@@ -45,6 +45,7 @@ public class XPosedMenu extends AppCompatActivity {
         xposed_menu.add(new Object[]{HeaderClock.class, getResources().getString(R.string.activity_title_header_clock), getResources().getString(R.string.activity_desc_header_clock), R.drawable.ic_xposed_header_clock});
         xposed_menu.add(new Object[]{Lockscreen.class, getResources().getString(R.string.activity_title_lockscreen), getResources().getString(R.string.activity_desc_lockscreen), R.drawable.ic_xposed_lockscreen});
         xposed_menu.add(new Object[]{BackgroundChip.class, getResources().getString(R.string.activity_title_background_chip), getResources().getString(R.string.activity_desc_background_chip), R.drawable.ic_xposed_background_chip});
+        xposed_menu.add(new Object[]{XposedOthers.class, getResources().getString(R.string.activity_title_xposed_others), getResources().getString(R.string.activity_desc_xposed_others), R.drawable.ic_xposed_misc});
 
         addItem(xposed_menu);
 

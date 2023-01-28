@@ -141,13 +141,6 @@ public class HeaderImage extends AppCompatActivity {
             }
         });
 
-        // Hide status icons
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_status_icons = findViewById(R.id.hide_status_icons);
-        hide_status_icons.setChecked(RemotePrefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false));
-        hide_status_icons.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RemotePrefs.putBoolean(HIDE_STATUS_ICONS_SWITCH, isChecked);
-        });
-
         // Enable panel top margin
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_panel_top_margin = findViewById(R.id.enable_panel_top_margin);
         enable_panel_top_margin.setChecked(RemotePrefs.getBoolean(PANEL_TOPMARGIN_SWITCH, false));

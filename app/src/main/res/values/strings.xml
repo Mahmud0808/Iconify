@@ -52,6 +52,8 @@
     <string name="activity_desc_vertical_tiles">Enable vertical QS tiles</string>
     <string name="activity_title_colored_battery">Colored Battery</string>
     <string name="activity_desc_colored_battery">Change battery icon color</string>
+    <string name="activity_title_xposed_others">Others</string>
+    <string name="activity_desc_xposed_others">Other xposed tweaks and customization</string>
 
     <string name="apply_monet_accent_title">Monet Accent</string>
     <string name="apply_monet_accent_desc">Link iconify colors to accent</string>

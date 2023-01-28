@@ -54,7 +54,6 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     boolean mShowQSDateBg = false;
     boolean hideStatusIcons = false;
     boolean mShowQSStatusIconsBg = false;
-    boolean QSCarrierGroupHidden = false;
     private Object mCollapsedStatusBarFragment = null;
     private ViewGroup mStatusBar = null;
     private View mClockView = null;
@@ -89,14 +88,12 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         QSStatusIconsChipStyle = Xprefs.getInt(CHIP_QSSTATUSICONS_STYLE, 0);
 
         showHeaderClock = Xprefs.getBoolean(HEADER_CLOCK_SWITCH, false);
-        QSCarrierGroupHidden = Xprefs.getBoolean(QSPANEL_HIDE_CARRIER, false);
         hideStatusIcons = Xprefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false);
 
         updateStatusBarClock();
         setQSClockBg();
         setQSDateBg();
         setQSStatusIconsBg();
-        hideQSCarrierGroup();
     }
 
     @Override
@@ -959,27 +956,6 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                             statusIcons.setBackground(layerDrawable);
                             break;
                     }
-                }
-            });
-        } catch (Throwable t) {
-            log(TAG + t);
-        }
-    }
-
-    private void hideQSCarrierGroup() {
-        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEM_UI_PACKAGE);
-        if (ourResparam == null) return;
-
-        if (!QSCarrierGroupHidden)
-            return;
-
-        try {
-            ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
-                @Override
-                public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
-                    @SuppressLint("DiscouragedApi") LinearLayout carrier_group = liparam.view.findViewById(liparam.res.getIdentifier("carrier_group", "id", SYSTEM_UI_PACKAGE));
-                    carrier_group.getLayoutParams().height = 0;
-                    carrier_group.getLayoutParams().width = 0;
                 }
             });
         } catch (Throwable t) {
