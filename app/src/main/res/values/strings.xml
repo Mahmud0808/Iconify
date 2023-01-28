@@ -232,7 +232,7 @@
     <string name="vertical_qs_tile_desc">Show label below QS icon</string>
     <string name="hide_qs_tile_label_title">Hide QS Tile Label</string>
     <string name="hide_qs_tile_label_desc">Use only with vertical tiles</string>
-    <string name="sb_clock_background_chip_title">Statusbsar Clock Chip</string>
+    <string name="sb_clock_background_chip_title">Statusbar Clock Chip</string>
     <string name="sb_clock_background_chip_desc">Display chip behind statusbar clock</string>
     <string name="header_image_title">Header Image</string>
     <string name="header_image_desc">Add header image on QS Panel\nLandscape is buggy at this moment</string>
