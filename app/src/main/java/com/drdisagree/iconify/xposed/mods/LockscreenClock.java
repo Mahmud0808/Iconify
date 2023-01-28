@@ -77,9 +77,8 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
         forceWhiteText = Xprefs.getBoolean(LSCLOCK_TEXT_WHITE, false);
 
         if (status_view_container != null) {
-            if (status_view_container.getChildCount() >= 3) {
-                status_view_container.removeViewAt(0);
-            }
+            if (status_view_container.getChildCount() >= 3)
+                return;
         }
         setHeaderClock();
         hideStockClockDate();
