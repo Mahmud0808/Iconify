@@ -1,0 +1,37 @@
+Iconify v6.0.0 has arrived! It has the following new changes:
+
+Feature Changes:
+• Icon Packs:
+>> Custom battery colors
+• Brightness Bars:
+>> Semi Transparent style added
+• QS Panel Tiles:
+>> Semi Transparent style added
+>> Fixed crash issue on Ancient 12L
+>> Fixed texts becoming invisible on pixel variant
+• Notification:
+>> Added Immersive/Fullscreen and many other customizations. (Thanks to HideNavBar)
+• Volume Panel:
+>> Added 5 new volume panel style (Tap on info button beside volume styles and READ!!!)
+• UI Roundness:
+>> Now UI roundness also changes QS scrim roundness
+
+• XPosed Menu: (LSPosed recommended)
+>> Transparent Qs Panel (Improved and works on more roms)
+>> Force enable blur (For roms which don't support blur)
+>> Vertical QS Tiles
+>> Custom Header Image (GIF supported)
+>> 3 styles of custom Header Clock
+>> 3 styles of custom Lockscreen Clock (Custom font supported)
+>> Background chip for clock and status icons
+>> and more...
+
+App Changes:
+• Reduced installation time.
+• Improved disabling everything.
+• Improved import/export settings.
+• In-app update checker.
+• In-app changelog viewer.
+• Some other minor changes.
+
+Also included in this version are bug fixes and other improvements."
