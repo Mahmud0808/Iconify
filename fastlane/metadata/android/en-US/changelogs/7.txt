@@ -34,4 +34,4 @@ App Changes:
 • In-app changelog viewer.
 • Some other minor changes.
 
-Also included in this version are bug fixes and other improvements."
+Also included in this version are bug fixes and other improvements.
