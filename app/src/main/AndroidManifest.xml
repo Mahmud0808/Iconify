@@ -40,6 +40,9 @@
         tools:replace="android:allowBackup"
         tools:targetApi="tiramisu">
         <activity
+            android:name=".ui.activity.ColoredBattery"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.VerticalTiles"
             android:exported="false" />
         <activity

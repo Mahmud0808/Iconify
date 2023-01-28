@@ -50,6 +50,8 @@
     <string name="activity_desc_background_chip">Add colored chip behind clock</string>
     <string name="activity_title_vertical_tiles">Vertical Tiles</string>
     <string name="activity_desc_vertical_tiles">Enable vertical QS tiles</string>
+    <string name="activity_title_colored_battery">Colored Battery</string>
+    <string name="activity_desc_colored_battery">Change battery icon color</string>
 
     <string name="apply_monet_accent_title">Monet Accent</string>
     <string name="apply_monet_accent_desc">Link iconify colors to accent</string>
@@ -254,4 +256,6 @@
     <string name="custom_lockscreen_clock_desc">Enable custom lockscreen clock</string>
     <string name="custom_lockscreen_clock_style_title">Clock Style</string>
     <string name="needs_systemui_restart">Needs SystemUI restart</string>
+    <string name="toast_lorn_colored_battery">Lorn uses colored battery by default</string>
+    <string name="toast_plumpy_colored_battery">Plumpy uses colored battery by default</string>
 </resources>
