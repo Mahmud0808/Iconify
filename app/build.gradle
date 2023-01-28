@@ -9,8 +9,8 @@ android {
         applicationId "com.drdisagree.iconify"
         minSdk 31
         targetSdk 33
-        versionCode 6
-        versionName "5.0-Stable"
+        versionCode 7
+        versionName "6.0.0"
         setProperty("archivesBaseName", "Iconify-v" + versionName)
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
