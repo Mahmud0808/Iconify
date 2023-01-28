@@ -40,7 +40,19 @@
         tools:replace="android:allowBackup"
         tools:targetApi="tiramisu">
         <activity
-            android:name=".ui.activity.QuickSettings"
+            android:name=".ui.activity.VerticalTiles"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.BackgroundChip"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.HeaderClock"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.HeaderImage"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.TransparencyBlur"
             android:exported="false" />
         <activity
             android:name=".ui.activity.Lockscreen"
@@ -85,7 +97,6 @@
         <activity
             android:name=".ui.activity.QsRowColumn"
             android:exported="false" />
-
         <activity
             android:name=".ui.activity.ColorPicker"
             android:exported="false" />
@@ -147,9 +158,7 @@
         <service
             android:name=".services.BackgroundService"
             android:enabled="true"
-            android:exported="true" />
-
-        <!-- xposed meta data -->
+            android:exported="true" /> <!-- xposed meta data -->
         <meta-data
             android:name="xposedmodule"
             android:value="true" />

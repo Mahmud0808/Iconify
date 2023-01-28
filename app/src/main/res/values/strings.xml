@@ -34,14 +34,22 @@
     <string name="activity_desc_xposed_menu">LSPosed required for these options</string>
     <string name="activity_title_miscellaneous">Miscellaneous</string>
     <string name="activity_desc_miscellaneous">Miscellaneous tweaks and customization</string>
-    <string name="activity_title_quicksettings">Quick Settings</string>
-    <string name="activity_desc_quicksettings">Customize quick settings panel</string>
+    <string name="activity_title_transparency_blur">Transparency &amp; Blur</string>
+    <string name="activity_desc_transparency_blur">Enable QS blur and transparency</string>
     <string name="activity_title_lockscreen">Lock Screen</string>
     <string name="activity_desc_lockscreen">Customize lock screen items</string>
     <string name="activity_title_ui_roundness">UI Roundness</string>
     <string name="activity_desc_ui_roundness">Change corner radius of interface</string>
     <string name="activity_title_navigation_bar">Navigation Bar</string>
     <string name="activity_desc_navigation_bar">Tweak navigation options</string>
+    <string name="activity_title_header_image">Header Image</string>
+    <string name="activity_desc_header_image">Add custom image on QS panel</string>
+    <string name="activity_title_header_clock">Header Clock</string>
+    <string name="activity_desc_header_clock">Add custom clock on QS panel</string>
+    <string name="activity_title_background_chip">Background Chip</string>
+    <string name="activity_desc_background_chip">Add colored chip behind clock</string>
+    <string name="activity_title_vertical_tiles">Vertical Tiles</string>
+    <string name="activity_desc_vertical_tiles">Enable vertical QS tiles</string>
 
     <string name="apply_monet_accent_title">Monet Accent</string>
     <string name="apply_monet_accent_desc">Link iconify colors to accent</string>
@@ -234,8 +242,8 @@
     <string name="hide_qs_tile_label_desc">Use only with vertical tiles</string>
     <string name="sb_clock_background_chip_title">Statusbar Clock Chip</string>
     <string name="sb_clock_background_chip_desc">Display chip behind statusbar clock</string>
-    <string name="header_image_title">Header Image</string>
-    <string name="header_image_desc">Add header image on QS Panel\nLandscape is buggy at this moment</string>
+    <string name="header_image_title">Pick Header Image</string>
+    <string name="header_image_desc">Add header image on QS Panel\nDo not select file from Recent</string>
     <string name="btn_pick_image">Pick Image</string>
     <string name="header_image_height_title">Image Height</string>
     <string name="hide_status_icons_title">Hide Status Icons</string>
