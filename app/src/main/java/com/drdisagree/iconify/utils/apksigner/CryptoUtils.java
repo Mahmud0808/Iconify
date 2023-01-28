@@ -1,5 +1,9 @@
 package com.drdisagree.iconify.utils.apksigner;
 
+/* From
+ * https://github.com/topjohnwu/Magisk/blob/master/app/signing/src/main/java/com/topjohnwu/signing/CryptoUtils.java
+ */
+
 import org.bouncycastle.asn1.ASN1InputStream;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 

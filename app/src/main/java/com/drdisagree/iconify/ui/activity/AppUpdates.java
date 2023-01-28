@@ -46,6 +46,13 @@ public class AppUpdates extends AppCompatActivity {
     private static TextView update_title, current_version, latest_version, changelog_text, show_changelog;
     Button download_update;
 
+    @SuppressLint("SetTextI18n")
+    private static void failedToCheck() {
+        update_title.setText(Iconify.getAppContext().getResources().getString(R.string.update_checking_failed));
+        current_version.setText(Iconify.getAppContext().getResources().getString(R.string.current_version) + " " + BuildConfig.VERSION_NAME);
+        latest_version.setText(Iconify.getAppContext().getResources().getString(R.string.latest_version) + " " + Iconify.getAppContext().getResources().getString(R.string.not_available));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,12 +116,17 @@ public class AppUpdates extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                ;
             }
         });
 
         AppUpdates.CheckForUpdate checkForUpdate = new AppUpdates.CheckForUpdate();
         checkForUpdate.execute();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -238,10 +250,4 @@ public class AppUpdates extends AppCompatActivity {
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    private static void failedToCheck() {
-        update_title.setText(Iconify.getAppContext().getResources().getString(R.string.update_checking_failed));
-        current_version.setText(Iconify.getAppContext().getResources().getString(R.string.current_version) + " " + BuildConfig.VERSION_NAME);
-        latest_version.setText(Iconify.getAppContext().getResources().getString(R.string.latest_version) + " " + Iconify.getAppContext().getResources().getString(R.string.not_available));
-    }
 }

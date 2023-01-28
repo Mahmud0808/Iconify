@@ -9,23 +9,51 @@ android {
         applicationId "com.drdisagree.iconify"
         minSdk 31
         targetSdk 33
-        versionCode 6
-        versionName "5.0-Stable"
+        versionCode 7
+        versionName "6.0.0"
         setProperty("archivesBaseName", "Iconify-v" + versionName)
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    final def keystorePropertiesFile = rootProject.file("keystore.properties")
+    def releaseSigning = signingConfigs.debug
+    if (keystorePropertiesFile.exists()) {
+        final def keystoreProperties = new Properties()
+        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+        releaseSigning = signingConfigs.create("release") {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile rootProject.file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
         }
     }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            resValue("string", "derived_app_name", "Iconify (Debug)")
+            signingConfig releaseSigning
+        }
+
+        release {
+            resValue("string", "derived_app_name", "Iconify")
+            signingConfig releaseSigning
+            minifyEnabled false
+            proguardFiles "proguard-android-optimize.txt", "proguard.pro"
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
     namespace 'com.drdisagree.iconify'
 }
 
@@ -44,9 +72,6 @@ dependencies {
     // Optional: Provides remote file system support
     implementation "com.github.topjohnwu.libsu:nio:${libsuVersion}"
 
-    // Android Shell
-    implementation "com.jaredrummler:android-shell:1.0.0"
-
     // Color Picker
     implementation 'com.github.PolideaInternal:ColorPicker:1.0.0'
 
@@ -60,6 +85,9 @@ dependencies {
     implementation 'org.bouncycastle:bc-fips:1.0.2.3'
     implementation 'org.bouncycastle:bcpkix-fips:1.0.7'
 
+    // Zip Util
+    implementation 'org.zeroturnaround:zt-zip:1.15'
+
     // Remote Preference
     implementation 'com.crossbowffs.remotepreferences:remotepreferences:0.8'
 
@@ -67,6 +95,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.work:work-runtime:2.7.1'
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
+    implementation 'org.slf4j:slf4j-api:2.0.6'
 
     // Test Implementation
     testImplementation 'junit:junit:4.13.2'
@@ -75,5 +104,5 @@ dependencies {
 }
 
 task printVersionName {
-    println android.defaultConfig.versionName
+    println android.defaultConfig.versionName.replace("-Stable", "").replace("-Beta", "")
 }

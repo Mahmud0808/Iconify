@@ -6,12 +6,16 @@
   <a href="https://telegram.me/IconifyOfficial"><img src="https://img.shields.io/badge/Telegram-3K+-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram"></a>
   <a href="https://github.com/Mahmud0808/Iconify/releases"><img src="https://img.shields.io/github/downloads/Mahmud0808/Iconify/total?color=%233DDC84&logo=android&logoColor=%23fff&style=for-the-badge" alt="Downloads"></a>
 <br><br>
-<img src="https://github.com/Mahmud0808/Iconify/raw/beta/banner.png" width="100%" alt="Banner">
+<img src="https://github.com/Mahmud0808/Iconify/raw/stable/banner.png" width="100%" alt="Banner">
 </p>
 
 Iconify was mainly created as a substratum theme to change the system icons of any aosp rom. After some time, I converted it to use as magisk module with Terminal GUI integration. But then I got bored of using substratum and terminal gui. Applying overlays without any previews made me frustrated. So I decided to make it easier for me by creating an application where I can see the previews and change anything I want. This was totally for my personal use but as people showed interest, I decided to release it in public.
 
 ### 🌟STAR THIS REPOSITORY TO SUPPORT THE DEVELOPER AND ENCOURAGE THE DEVELOPMENT OF THE APPLICATION!
+<p align="center">
+<a href="https://apt.izzysoft.de/fdroid/index/apk/com.drdisagree.iconify"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" width="30%" /></a>
+</p>
+
 <p align="center">
 <a href="https://www.buymeacoffee.com/DrDisagree"><img src="https://i.ibb.co/VCKD9MD/buymeacoffee.png" width="30%" /></a>
 </p>
@@ -43,9 +47,9 @@ What you can change using Iconify:
 ## Preview
 
 <p align="center">
-<a href="https://ibb.co/RhVSwt7" target=”_blank”><img src="https://i.ibb.co/5Yf9HC2/Screenshot-20221111-151910-Iconify.png" alt="Screenshot-20221111-151910-Iconify" border="0" style="width: 24%; margin: 32px;"></a>
-<a href="https://ibb.co/PjWVFhX" target=”_blank”><img src="https://i.ibb.co/yPkxdyv/Screenshot-20221111-145557-Lawnchair.png" alt="Image-1" border="0" style="width: 24%; margin: 32px;"></a>
-<a href="https://ibb.co/VLW2fpv" target=”_blank”><img src="https://i.ibb.co/WHWgmpc/Screenshot-20221111-145720-Iconify.png" alt="Image-2" border="0" style="width: 24%; margin: 32px;"></a>
+<a href="https://i.ibb.co/kxCmBVX/1.png" target=”_blank”><img src="https://i.ibb.co/kxCmBVX/1.png" alt="Preview 1" border="0" style="width: 24%; margin: 32px;"></a>
+<a href="https://i.ibb.co/q7rWVhN/2.png" target=”_blank”><img src="https://i.ibb.co/q7rWVhN/2.png" alt="Preview 2" border="0" style="width: 24%; margin: 32px;"></a>
+<a href="https://i.ibb.co/Vw9s0gR/3.png" target=”_blank”><img src="https://i.ibb.co/Vw9s0gR/3.png" alt="Preview 3" border="0" style="width: 24%; margin: 32px;"></a>
 </p>
 
 ## Requirements
@@ -53,6 +57,8 @@ What you can change using Iconify:
 - Android 12+ AOSP Based Rom
 
 - Magisk Latest Stable Version
+
+- LSPosed (Optional)
 
 - Decryption Supported Custom Recovery (Just in case)
 
@@ -86,7 +92,7 @@ What you can change using Iconify:
 
 - Or, Use this adb command
 
-```adb shell magisk --remove-module```
+```adb wait-for-device shell magisk --remove-modules```
 
 #### XPosed Related Bootloop:
 
@@ -119,15 +125,13 @@ What you can change using Iconify:
 
 - [Telegram Group](https://t.me/IconifyDiscussion)
 
-## Bug Report
+## Bug Report & Feature Request
 
 > Make sure to mention as much details as possible.
 
 - [GitHub Issues](https://github.com/Mahmud0808/Iconify/issues/new/choose)
 
-- [Telegram Bot](https://t.me/IconifyBot)
-
-## Thanks To
+## Special Thanks To
 
 - [Android Open Source Project (AOSP)](https://source.android.com)
 

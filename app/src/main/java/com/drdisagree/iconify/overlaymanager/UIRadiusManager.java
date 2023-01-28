@@ -1,8 +1,11 @@
 package com.drdisagree.iconify.overlaymanager;
 
+import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
 import static com.drdisagree.iconify.common.References.TOTAL_RADIUS;
 
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.config.RemotePrefs;
+import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 
 import java.io.File;
@@ -22,6 +25,9 @@ public class UIRadiusManager {
 
             if (!Prefs.getBoolean(overlay))
                 OverlayUtil.enableOverlay(overlay);
+
+            FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEM_UI_PACKAGE, "qsScrimCornerRadius", "dimen", "notification_scrim_corner_radius", (n + 8) + "dp");
+            RemotePrefs.putInt("cornerRadius", n);
         }
     }
 

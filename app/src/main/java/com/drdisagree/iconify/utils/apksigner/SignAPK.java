@@ -1,5 +1,11 @@
 package com.drdisagree.iconify.utils.apksigner;
 
+/*
+ * Modified from AOSP
+ * https://android.googlesource.com/platform/build/+/refs/heads/marshmallow-release/tools/signapk/SignApk.java
+ * https://github.com/topjohnwu/Magisk/blob/master/app/signing/src/main/java/com/topjohnwu/signing/SignAPK.java
+ */
+
 import org.bouncycastle.asn1.ASN1Encoding;
 import org.bouncycastle.asn1.ASN1InputStream;
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingMode="stack">
+    <size
+        android:width="@*com.android.systemui:dimen/volume_ringer_drawer_item_size"
+        android:height="@*com.android.systemui:dimen/volume_ringer_drawer_item_size" />
+    <gradient
+        android:angle="270.0"
+        android:endColor="@*android:color/holo_green_light"
+        android:startColor="@*android:color/holo_blue_light" />
+    <corners android:radius="@*com.android.systemui:dimen/volume_ringer_drawer_item_size_half" />
+</shape>

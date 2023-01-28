@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:autoMirrored="true">
+    <item android:id="@*com.android.systemui:id/volume_seekbar_progress_solid">
+        <shape>
+            <size android:height="@*com.android.systemui:dimen/volume_dialog_slider_width" />
+            <solid android:color="#00000000" />
+            <corners android:radius="@*com.android.systemui:dimen/volume_dialog_slider_corner_radius" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <size android:height="@*com.android.systemui:dimen/volume_dialog_slider_width" />
+            <gradient
+                android:angle="180.0"
+                android:endColor="@*android:color/holo_green_light"
+                android:startColor="@*android:color/holo_blue_light" />
+            <corners android:radius="@*com.android.systemui:dimen/volume_dialog_slider_corner_radius" />
+        </shape>
+    </item>
+    <item
+        android:id="@*com.android.systemui:id/volume_seekbar_progress_icon"
+        android:width="@*com.android.systemui:dimen/rounded_slider_icon_size"
+        android:height="@*com.android.systemui:dimen/rounded_slider_icon_size"
+        android:gravity="center|right"
+        android:right="@*com.android.systemui:dimen/volume_slider_icon_inset">
+        <rotate
+            android:fromDegrees="-270.0"
+            android:toDegrees="-270.0">
+            <com.android.systemui.util.AlphaTintDrawableWrapper
+                android:drawable="@*com.android.systemui:drawable/ic_volume_media"
+                android:tint="?android:textColorPrimaryInverse" />
+        </rotate>
+    </item>
+</layer-list>

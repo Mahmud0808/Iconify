@@ -26,6 +26,10 @@ public class RemotePrefs {
         editor.putInt(key, val).commit();
     }
 
+    public static void putFloat(String key, float val) {
+        editor.putFloat(key, val).commit();
+    }
+
     public static void putString(String key, String val) {
         editor.putString(key, val).commit();
     }
@@ -47,6 +51,14 @@ public class RemotePrefs {
         return prefs.getInt(key, defValue);
     }
 
+    public static float getFloat(String key) {
+        return prefs.getFloat(key, 0);
+    }
+
+    public static float getFloat(String key, float defValue) {
+        return prefs.getFloat(key, defValue);
+    }
+
     public static String getString(String key) {
         return prefs.getString(key, "null");
     }
@@ -61,7 +73,7 @@ public class RemotePrefs {
     }
 
     // Clear all sharedPref config
-    public static void clearAllPref() {
+    public static void clearAllPrefs() {
         editor.clear().apply();
     }
 }

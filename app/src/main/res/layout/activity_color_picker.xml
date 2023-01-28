@@ -85,8 +85,7 @@
                 android:id="@+id/preview_coloraccentprimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/container_margin"
-                android:background="@drawable/container"
+                android:background="@drawable/container_top"
                 android:baselineAligned="false"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/container_paddingSide"
@@ -131,12 +130,17 @@
 
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorBackground" />
+
             <LinearLayout
                 android:id="@+id/preview_coloraccentsecondary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/container_margin"
-                android:background="@drawable/container"
+                android:background="@drawable/container_bottom"
                 android:baselineAligned="false"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/container_paddingSide"

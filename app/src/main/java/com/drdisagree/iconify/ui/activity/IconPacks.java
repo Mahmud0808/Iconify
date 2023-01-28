@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -49,6 +50,13 @@ public class IconPacks extends AppCompatActivity {
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
+
+        // Colored battery item on click
+        LinearLayout colored_battery = findViewById(R.id.colored_battery);
+        colored_battery.setOnClickListener(v -> {
+            Intent intent = new Intent(IconPacks.this, ColoredBattery.class);
+            startActivity(intent);
+        });
 
         // Icon Pack list items
         container = findViewById(R.id.icon_packs_list);

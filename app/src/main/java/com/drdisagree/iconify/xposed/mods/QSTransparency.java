@@ -4,36 +4,32 @@ import static com.drdisagree.iconify.common.References.QSALPHA_LEVEL;
 import static com.drdisagree.iconify.common.References.QSTRANSPARENCY_SWITCH;
 import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
+import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import static de.robv.android.xposed.XposedHelpers.setFloatField;
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 import android.content.Context;
 
 import com.drdisagree.iconify.xposed.ModPack;
 
-import java.lang.reflect.Array;
 import java.util.Objects;
-import java.util.concurrent.Executor;
 
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class QSTransparency extends ModPack {
 
-    private static final String TAG = "Iconify - QSTransparency";
+    private static final String TAG = "Iconify - QSTransparency: ";
     private static final String CLASS_SCRIMCONTROLLER = SYSTEM_UI_PACKAGE + ".statusbar.phone.ScrimController";
-    private static final String CLASS_SCRIMSTATE = SYSTEM_UI_PACKAGE + ".statusbar.phone.ScrimState";
-    private static final String CLASS_SCRIMVIEW = SYSTEM_UI_PACKAGE + ".scrim.ScrimView";
-    public static float mCustomScrimAlpha = 0.6f;
     boolean QsTransparencyActive = false;
-    float behindFraction;
-    private String rootPackagePath = "";
-    private Object Scrims;
+    private Float behindFraction = null;
+    private String SYSTEM_UI_PACKAGEPath = "";
+    private Object lpparamCustom = null;
     private float alpha;
 
     public QSTransparency(Context context) {
@@ -44,12 +40,25 @@ public class QSTransparency extends ModPack {
     @Override
     public void updatePrefs(String... Key) {
         if (Xprefs == null) return;
+
         QsTransparencyActive = Xprefs.getBoolean(QSTRANSPARENCY_SWITCH, false);
         alpha = (float) ((float) Xprefs.getInt(QSALPHA_LEVEL, 60) / 100.0);
 
         if (Key.length > 0 && (Objects.equals(Key[0], QSTRANSPARENCY_SWITCH) || Objects.equals(Key[0], QSALPHA_LEVEL))) {
-            XposedHelpers.callMethod(Scrims, "updateScrims");
-            log("Method called");
+            if (lpparamCustom != null) {
+                try {
+                    setFloatField(lpparamCustom, "mDefaultScrimAlpha", alpha);
+                    setFloatField(lpparamCustom, "mBehindAlpha", alpha);
+
+                    try {
+                        setFloatField(lpparamCustom, "mCustomScrimAlpha", alpha);
+                    } catch (Throwable ignored) {
+                    }
+
+                    callMethod(lpparamCustom, "updateScrims");
+                } catch (Throwable ignored) {
+                }
+            }
         }
     }
 
@@ -64,54 +73,33 @@ public class QSTransparency extends ModPack {
         if (!lpParam.packageName.equals(SYSTEM_UI_PACKAGE))
             return;
 
-        rootPackagePath = lpParam.appInfo.sourceDir;
+        SYSTEM_UI_PACKAGEPath = lpParam.appInfo.sourceDir;
 
         final Class<?> ScrimController = XposedHelpers.findClass(CLASS_SCRIMCONTROLLER, lpParam.classLoader);
-        final Class<?> ScrimState = XposedHelpers.findClass(CLASS_SCRIMSTATE, lpParam.classLoader);
 
-        hookAllMethods(ScrimController, "attachViews", new XC_MethodReplacement() {
+        hookAllConstructors(ScrimController, new XC_MethodHook() {
             @Override
-            protected Object replaceHookedMethod(MethodHookParam methodHookParam) {
-                if (!QsTransparencyActive) return false;
+            protected void afterHookedMethod(MethodHookParam param) {
+                if (!QsTransparencyActive) return;
 
-                Object mNotificationsScrim = methodHookParam.args[1];
-                Object mScrimBehind = methodHookParam.args[0];
-                Object mScrimInFront = methodHookParam.args[2];
-                boolean mClipsQsScrim = (boolean) getObjectField(methodHookParam.thisObject, "mClipsQsScrim");
-                Runnable mScrimBehindChangeRunnable = (Runnable) getObjectField(methodHookParam.thisObject, "mScrimBehindChangeRunnable");
-                Executor mMainExecutor = (Executor) getObjectField(methodHookParam.thisObject, "mMainExecutor;");
-                Object mDozeParameters = getObjectField(methodHookParam.thisObject, "mDozeParameters");
-                Object mDockManager = getObjectField(methodHookParam.thisObject, "mDockManager");
-                float mScrimBehindAlphaKeyguard = 0.2f;
-                Object mKeyguardUpdateMonitor = getObjectField(methodHookParam.thisObject, "mKeyguardUpdateMonitor");
-                Object mKeyguardVisibilityCallback = getObjectField(methodHookParam.thisObject, "mKeyguardVisibilityCallback");
+                lpparamCustom = param.thisObject;
 
-                callMethod(methodHookParam.thisObject, "updateThemeColors");
-                callMethod(methodHookParam.args[0], "enableBottomEdgeConcave", mClipsQsScrim);
+                try {
+                    setFloatField(param.thisObject, "mDefaultScrimAlpha", alpha);
+                } catch (Throwable ignored) {}
+                try {
+                    setFloatField(param.thisObject, "mBehindAlpha", alpha);
+                } catch (Throwable ignored) {}
+                try {
+                    setFloatField(param.thisObject, "mNotificationsAlpha", alpha);
+                } catch (Throwable ignored) {}
 
-                if (mScrimBehindChangeRunnable != null) {
-                    callMethod(mScrimBehind, "setChangeRunnable", mScrimBehindChangeRunnable, mMainExecutor);
-                    mScrimBehindChangeRunnable = null;
-                }
-
-                if (mScrimBehind != null) {
-                    mCustomScrimAlpha = alpha;
-                }
-
-                final Object[] states = (Object[]) callMethod(Array.newInstance(ScrimState), "values");
-                for (Object state : states) {
-                    callMethod(state, "init", mScrimInFront, mScrimBehind, mDozeParameters, mDockManager);
-                    callMethod(state, "setScrimBehindAlphaKeyguard", mScrimBehindAlphaKeyguard);
-                    callMethod(state, "setDefaultScrimAlpha", 0.2f);
-                }
-
-                callMethod(mScrimBehind, "setDefaultFocusHighlightEnabled", false);
-                callMethod(mNotificationsScrim, "setDefaultFocusHighlightEnabled", false);
-                callMethod(mScrimInFront, "setDefaultFocusHighlightEnabled", false);
-                callMethod(methodHookParam.thisObject, "updateScrims");
-                callMethod(mKeyguardUpdateMonitor, "registerCallback", mKeyguardVisibilityCallback);
-
-                return true;
+                try {
+                    setFloatField(param.thisObject, "BUSY_SCRIM_ALPHA", alpha);
+                } catch (Throwable ignored) {}
+                try {
+                    setFloatField(param.thisObject, "mCustomScrimAlpha", alpha);
+                } catch (Throwable ignored) {}
             }
         });
 
@@ -133,10 +121,23 @@ public class QSTransparency extends ModPack {
 
                 if (mClipsQsScrim) {
                     setObjectField(param.thisObject, "mBehindAlpha", alpha);
-                    setObjectField(param.thisObject, "mNotificationsAlpha", behindFraction * alpha);
+                    if (behindFraction != null)
+                        setObjectField(param.thisObject, "mNotificationsAlpha", behindFraction * alpha);
                 }
             }
         });
+
+        try {
+            hookAllMethods(ScrimController, "setCustomScrimAlpha", new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) {
+                    if (!QsTransparencyActive) return;
+
+                    param.args[0] = (int) (alpha * 100);
+                }
+            });
+        } catch (Throwable ignored) {
+        }
 
         log("Qs Transparency: " + alpha + "\nTransparency isActive: " + QsTransparencyActive);
     }

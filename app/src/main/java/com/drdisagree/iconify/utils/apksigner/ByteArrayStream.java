@@ -1,5 +1,9 @@
 package com.drdisagree.iconify.utils.apksigner;
 
+/* From
+ * https://github.com/topjohnwu/Magisk/blob/master/app/signing/src/main/java/com/topjohnwu/signing/ByteArrayStream.java
+ */
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

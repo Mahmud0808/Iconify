@@ -1,28 +1,53 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.QSALPHA_LEVEL;
-import static com.drdisagree.iconify.common.References.QSTRANSPARENCY_SWITCH;
-import static com.drdisagree.iconify.common.References.STATUSBAR_CLOCKBG;
-import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
+import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
+import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SIDEMARGIN;
+import static com.drdisagree.iconify.common.References.HEADER_CLOCK_STYLE;
+import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
+import static com.drdisagree.iconify.common.References.HEADER_CLOCK_TEXT_WHITE;
+import static com.drdisagree.iconify.common.References.HEADER_CLOCK_TOPMARGIN;
+import static com.drdisagree.iconify.common.References.HEADER_IMAGE_ALPHA;
+import static com.drdisagree.iconify.common.References.HEADER_IMAGE_HEIGHT;
+import static com.drdisagree.iconify.common.References.HEADER_IMAGE_SWITCH;
+import static com.drdisagree.iconify.common.References.HIDE_STATUS_ICONS_SWITCH;
+import static com.drdisagree.iconify.common.References.PANEL_TOPMARGIN_SWITCH;
+import static com.drdisagree.iconify.common.References.QS_TOPMARGIN;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.OpenableColumns;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.common.References;
 import com.drdisagree.iconify.config.RemotePrefs;
-import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,88 +79,6 @@ public class Experimental extends AppCompatActivity {
             } else {
                 Shell.cmd("settings put secure monet_engine_accurate_shades 0").exec();
             }
-        });
-
-        // Qs Panel Transparency
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_qs_transparency = findViewById(R.id.enable_qs_transparency);
-        enable_qs_transparency.setChecked(RemotePrefs.getBoolean(QSTRANSPARENCY_SWITCH, false));
-        enable_qs_transparency.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RemotePrefs.putBoolean(QSTRANSPARENCY_SWITCH, isChecked);
-            // Restart SystemUI
-            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
-        });
-
-        SeekBar transparency_seekbar = findViewById(R.id.transparency_seekbar);
-        transparency_seekbar.setPadding(0, 0, 0, 0);
-        TextView transparency_output = findViewById(R.id.transparency_output);
-        final int[] transparency = {RemotePrefs.getInt(QSALPHA_LEVEL, 60)};
-        transparency_output.setText(getResources().getString(R.string.opt_selected) + ' ' + transparency[0] + "%");
-        transparency_seekbar.setProgress(transparency[0]);
-        transparency_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                transparency[0] = progress;
-                transparency_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "%");
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                RemotePrefs.putInt(QSALPHA_LEVEL, transparency[0]);
-            }
-        });
-
-        // Qs Panel Blur
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_blur = findViewById(R.id.enable_blur);
-        Prefs.putBoolean("qsBlurSwitch", SystemUtil.supportsBlur());
-        enable_blur.setChecked(Prefs.getBoolean("qsBlurSwitch", false));
-        enable_blur.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Prefs.putBoolean("qsBlurSwitch", isChecked);
-            if (isChecked)
-                SystemUtil.enableBlur();
-            else {
-                SystemUtil.disableBlur();
-                FabricatedOverlayUtil.disableOverlay("qsBlurRadius");
-            }
-        });
-
-        SeekBar blur_seekbar = findViewById(R.id.blur_seekbar);
-        blur_seekbar.setPadding(0, 0, 0, 0);
-        TextView blur_output = findViewById(R.id.blur_output);
-        final int[] blur_radius = {Prefs.getInt("qsBlurRadius", 23)};
-        blur_output.setText(getResources().getString(R.string.opt_selected) + ' ' + blur_radius[0] + "px");
-        blur_seekbar.setProgress(blur_radius[0]);
-        blur_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                blur_radius[0] = progress;
-                blur_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "px");
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                Prefs.putInt("qsBlurRadius", blur_radius[0]);
-                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEM_UI_PACKAGE, "qsBlurRadius", "dimen", "max_window_blur_radius", blur_radius[0] + "px");
-                // Restart SystemUI
-                new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
-            }
-        });
-
-        // Clock Background Chip
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_clock_bg_chip = findViewById(R.id.enable_clock_bg_chip);
-        enable_clock_bg_chip.setChecked(RemotePrefs.getBoolean(STATUSBAR_CLOCKBG, false));
-        enable_clock_bg_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RemotePrefs.putBoolean(STATUSBAR_CLOCKBG, isChecked);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
     }
 

@@ -2,7 +2,7 @@ name: Build Debug APK
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "beta" ]
   
   workflow_dispatch:
 
@@ -32,6 +32,17 @@ jobs:
           gradlePath: app/build.gradle
           versionCode: ${{github.run_number}}
           versionName: "${{ env.VERSION_NAME }} Dev (#${{github.run_number}})"
+
+      - name: Write sign info
+        if: github.repository == 'Mahmud0808/Iconify'
+        run: |
+          if [ ! -z "${{ secrets.KEYSTORE }}" ]; then
+            echo storePassword='${{ secrets.KEYSTORE_PASSWORD }}' >> keystore.properties
+            echo keyAlias='${{ secrets.KEY_ALIAS }}' >> keystore.properties
+            echo keyPassword='${{ secrets.KEY_PASSWORD }}' >> keystore.properties
+            echo storeFile='${{ github.workspace }}/key.jks' >> keystore.properties
+            echo ${{ secrets.KEYSTORE }} | base64 --decode > ${{ github.workspace }}/key.jks
+          fi
 
       - name: Build with Gradle
         run: ./gradlew assembleDebug

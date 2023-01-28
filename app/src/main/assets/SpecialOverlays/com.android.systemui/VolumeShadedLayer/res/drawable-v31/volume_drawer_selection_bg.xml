@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingMode="stack">
+    <item
+        android:width="@*com.android.systemui:dimen/volume_ringer_drawer_item_size"
+        android:height="@*com.android.systemui:dimen/volume_ringer_drawer_item_size">
+        <layer-list>
+            <item>
+                <shape>
+                    <gradient
+                        android:angle="270.0"
+                        android:endColor="@*android:color/holo_green_light"
+                        android:startColor="@*android:color/holo_blue_light" />
+                    <corners android:radius="@*com.android.systemui:dimen/volume_ringer_drawer_item_size_half" />
+                </shape>
+            </item>
+            <item
+                android:bottom="4.0dip"
+                android:end="4.0dip"
+                android:gravity="fill_horizontal|center"
+                android:start="4.0dip"
+                android:top="4.0dip">
+                <shape>
+                    <gradient
+                        android:angle="270.0"
+                        android:centerColor="#00000000"
+                        android:endColor="#00000000"
+                        android:startColor="#40000000" />
+                    <corners android:radius="@*com.android.systemui:dimen/volume_ringer_drawer_item_size_half" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</layer-list>

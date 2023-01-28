@@ -58,7 +58,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="12dp"
                         android:gravity="center"
-                        android:text="Checking For Update"
+                        android:text="@string/checking_for_update"
                         android:textAlignment="center"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="18sp"
