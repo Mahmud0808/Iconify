@@ -24,6 +24,7 @@
 <ul>
 	<li>Android 12+ AOSP Based Rom</li>
 	<li>Magisk Latest Stable Version</li>
+	<li>LSPosed (Optional)</li>
 	<li>Decryption Supported Custom Recovery (Just in case)</li>
 </ul>
 <p>
