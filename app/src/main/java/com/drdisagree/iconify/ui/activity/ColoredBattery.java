@@ -91,8 +91,8 @@ public class ColoredBattery extends AppCompatActivity implements ColorPickerDial
         colorPickerDialogBackground = ColorPickerDialog.newBuilder();
         colorPickerDialogFilled = ColorPickerDialog.newBuilder();
 
-        colorPickerDialogBackground.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(colorBackground)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(true).setShowColorShades(true);
-        colorPickerDialogFilled.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(colorFilled)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(true).setShowColorShades(true);
+        colorPickerDialogBackground.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(colorBackground)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);
+        colorPickerDialogFilled.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(colorFilled)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(false).setShowColorShades(true);
 
         LinearLayout battery_background_color = findViewById(R.id.battery_background_color);
         battery_background_color.setOnClickListener(v -> colorPickerDialogBackground.show(ColoredBattery.this));
@@ -112,7 +112,7 @@ public class ColoredBattery extends AppCompatActivity implements ColorPickerDial
                 Prefs.putString("batteryColorBackground", colorBackground);
                 updateColorPreview();
                 FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEM_UI_PACKAGE, "batteryColorBackground", "color", "light_mode_icon_color_dual_tone_background", ColorToSpecialHex(Integer.parseInt(colorBackground)));
-                colorPickerDialogBackground.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(colorBackground)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(true).setShowColorShades(true);
+                colorPickerDialogBackground.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(colorBackground)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);
 
                 break;
             case 2:
@@ -121,7 +121,7 @@ public class ColoredBattery extends AppCompatActivity implements ColorPickerDial
                 Prefs.putString("batteryColorFilled", colorFilled);
                 updateColorPreview();
                 FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEM_UI_PACKAGE, "batteryColorFilled", "color", "light_mode_icon_color_dual_tone_fill", ColorToSpecialHex(Integer.parseInt(colorFilled)));
-                colorPickerDialogFilled.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(colorFilled)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(true).setShowColorShades(true);
+                colorPickerDialogFilled.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(colorFilled)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(false).setShowColorShades(true);
 
                 break;
         }
