@@ -11,7 +11,7 @@ android {
         targetSdk 33
         versionCode 7
         versionName "6.0.0"
-        setProperty("archivesBaseName", "Iconify-v" + versionName)
+        setProperty("archivesBaseName", "Iconify v" + versionName)
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
