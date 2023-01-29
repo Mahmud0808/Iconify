@@ -164,7 +164,10 @@
         <service
             android:name=".services.BackgroundService"
             android:enabled="true"
-            android:exported="true" /> <!-- xposed meta data -->
+            android:exported="true"
+            tools:ignore="ExportedService" />
+
+        <!-- xposed meta data -->
         <meta-data
             android:name="xposedmodule"
             android:value="true" />
