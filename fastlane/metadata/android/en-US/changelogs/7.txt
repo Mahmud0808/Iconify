@@ -10,7 +10,7 @@ Feature Changes:
 >> Fixed crash issue on Ancient 12L
 >> Fixed texts becoming invisible on pixel variant
 • Notification:
->> Added Immersive/Fullscreen and many other customizations. (Thanks to HideNavBar)
+>> Semi Transparent style added
 • Volume Panel:
 >> Added 5 new volume panel style (Tap on info button beside volume styles and READ!!!)
 • UI Roundness:
