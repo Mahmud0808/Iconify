@@ -115,21 +115,9 @@
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_desc_size" />
 
-                    <SeekBar
+                    <include
                         android:id="@+id/text_size"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/container_padding"
-                        android:layout_marginBottom="8dp"
-                        android:background="@null"
-                        android:hapticFeedbackEnabled="true"
-                        android:max="18"
-                        android:min="10"
-                        android:progress="14"
-                        android:progressDrawable="@drawable/seekbar"
-                        android:splitTrack="false"
-                        android:theme="@style/SeekBar.Iconify"
-                        android:thumb="@drawable/seek_thumb" />
+                        layout="@layout/view_seekbar" />
 
                 </LinearLayout>
 
@@ -140,7 +128,6 @@
                     android:background="@color/colorBackground" />
 
                 <LinearLayout
-                    android:id="@+id/icon_size_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/container_mid"
@@ -169,21 +156,9 @@
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_desc_size" />
 
-                    <SeekBar
+                    <include
                         android:id="@+id/icon_size"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/container_padding"
-                        android:layout_marginBottom="8dp"
-                        android:background="@null"
-                        android:hapticFeedbackEnabled="true"
-                        android:max="30"
-                        android:min="0"
-                        android:progress="20"
-                        android:progressDrawable="@drawable/seekbar"
-                        android:splitTrack="false"
-                        android:theme="@style/SeekBar.Iconify"
-                        android:thumb="@drawable/seek_thumb" />
+                        layout="@layout/view_seekbar" />
 
                 </LinearLayout>
 
@@ -221,21 +196,9 @@
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_desc_size" />
 
-                    <SeekBar
+                    <include
                         android:id="@+id/move_icon"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/container_padding"
-                        android:layout_marginBottom="8dp"
-                        android:background="@null"
-                        android:hapticFeedbackEnabled="true"
-                        android:max="100"
-                        android:min="8"
-                        android:progress="16"
-                        android:progressDrawable="@drawable/seekbar"
-                        android:splitTrack="false"
-                        android:theme="@style/SeekBar.Iconify"
-                        android:thumb="@drawable/seek_thumb" />
+                        layout="@layout/view_seekbar" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -279,35 +242,15 @@
                         android:layout_weight="1.0"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/label_always_white_title"
-                                android:textColor="@color/textColorPrimary"
-                                android:textSize="@dimen/cont_title_size"
-                                android:textStyle="bold" />
-
-                            <View
-                                android:layout_width="4dp"
-                                android:layout_height="wrap_content" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/for_a12"
-                                android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/cont_title_size" />
-
-                        </LinearLayout>
+                            android:layout_gravity="start|center"
+                            android:paddingTop="3dp"
+                            android:text="@string/label_always_white_title"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -354,35 +297,15 @@
                         android:layout_weight="1.0"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/label_always_white_v2_title"
-                                android:textColor="@color/textColorPrimary"
-                                android:textSize="@dimen/cont_title_size"
-                                android:textStyle="bold" />
-
-                            <View
-                                android:layout_width="4dp"
-                                android:layout_height="wrap_content" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/for_a12"
-                                android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/cont_title_size" />
-
-                        </LinearLayout>
+                            android:layout_gravity="start|center"
+                            android:paddingTop="3dp"
+                            android:text="@string/label_always_white_v2_title"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -429,35 +352,15 @@
                         android:layout_weight="1.0"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/label_follow_system_title"
-                                android:textColor="@color/textColorPrimary"
-                                android:textSize="@dimen/cont_title_size"
-                                android:textStyle="bold" />
-
-                            <View
-                                android:layout_width="4dp"
-                                android:layout_height="wrap_content" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/for_a12"
-                                android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/cont_title_size" />
-
-                        </LinearLayout>
+                            android:layout_gravity="start|center"
+                            android:paddingTop="3dp"
+                            android:text="@string/label_follow_system_title"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -504,35 +407,15 @@
                         android:layout_weight="1.0"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/label_follow_system_v2_title"
-                                android:textColor="@color/textColorPrimary"
-                                android:textSize="@dimen/cont_title_size"
-                                android:textStyle="bold" />
-
-                            <View
-                                android:layout_width="4dp"
-                                android:layout_height="wrap_content" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/for_a12"
-                                android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/cont_title_size" />
-
-                        </LinearLayout>
+                            android:layout_gravity="start|center"
+                            android:paddingTop="3dp"
+                            android:text="@string/label_follow_system_v2_title"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -579,35 +462,15 @@
                         android:layout_weight="1.0"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/label_fix_text_color_title"
-                                android:textColor="@color/textColorPrimary"
-                                android:textSize="@dimen/cont_title_size"
-                                android:textStyle="bold" />
-
-                            <View
-                                android:layout_width="4dp"
-                                android:layout_height="wrap_content" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/for_a13"
-                                android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/cont_title_size" />
-
-                        </LinearLayout>
+                            android:layout_gravity="start|center"
+                            android:paddingTop="3dp"
+                            android:text="@string/label_fix_text_color_title"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"

@@ -16,6 +16,7 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.view.LoadingDialog;
+import com.drdisagree.iconify.ui.view.SeekBarView;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -61,21 +62,16 @@ public class QsRowColumn extends AppCompatActivity {
         loadingDialog = new LoadingDialog(this);
 
         // Quick QsPanel Row
-
-        SeekBar qqs_row_seekbar = findViewById(R.id.qqs_row_seekbar);
         TextView qqs_row_output = findViewById(R.id.qqs_row_output);
-
-        qqs_row_seekbar.setPadding(0, 0, 0, 0);
         final int[] finalQqsRow = {1};
 
         if (!Prefs.getString("qqsRow").equals("null")) {
             qqs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString("qqsRow")) + 1));
             finalQqsRow[0] = Integer.parseInt(Prefs.getString("qqsRow"));
-            qqs_row_seekbar.setProgress(finalQqsRow[0]);
         } else
             qqs_row_output.setText(getResources().getString(R.string.opt_selected) + " 2");
 
-        qqs_row_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        SeekBarView.setCustomSeekbar(findViewById(R.id.qqs_row_seekbar), 0, 1, finalQqsRow[0], new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 finalQqsRow[0] = progress;
@@ -92,21 +88,16 @@ public class QsRowColumn extends AppCompatActivity {
         });
 
         // QsPanel Row
-
-        SeekBar qs_row_seekbar = findViewById(R.id.qs_row_seekbar);
         TextView qs_row_output = findViewById(R.id.qs_row_output);
-
-        qs_row_seekbar.setPadding(0, 0, 0, 0);
         final int[] finalQsRow = {3};
 
         if (!Prefs.getString("qsRow").equals("null")) {
             qs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString("qsRow")) + 1));
             finalQsRow[0] = Integer.parseInt(Prefs.getString("qsRow"));
-            qs_row_seekbar.setProgress(finalQsRow[0]);
         } else
             qs_row_output.setText(getResources().getString(R.string.opt_selected) + " 4");
 
-        qs_row_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        SeekBarView.setCustomSeekbar(findViewById(R.id.qs_row_seekbar), 0, 5, finalQsRow[0], new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 finalQsRow[0] = progress;
@@ -123,21 +114,16 @@ public class QsRowColumn extends AppCompatActivity {
         });
 
         // QsPanel Column
-
-        SeekBar qs_column_seekbar = findViewById(R.id.qs_column_seekbar);
         TextView qs_column_output = findViewById(R.id.qs_column_output);
-
-        qs_column_seekbar.setPadding(0, 0, 0, 0);
         final int[] finalQsColumn = {1};
 
         if (!Prefs.getString("qsColumn").equals("null")) {
             qs_column_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString("qsColumn")) + 1));
             finalQsColumn[0] = Integer.parseInt(Prefs.getString("qsColumn"));
-            qs_column_seekbar.setProgress(finalQsColumn[0]);
         } else
             qs_column_output.setText(getResources().getString(R.string.opt_selected) + " 2");
 
-        qs_column_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        SeekBarView.setCustomSeekbar(findViewById(R.id.qs_column_seekbar), 0, 4, finalQsColumn[0], new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 finalQsColumn[0] = progress;

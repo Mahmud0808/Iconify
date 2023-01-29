@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +19,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.UIRadiusManager;
 import com.drdisagree.iconify.ui.view.LoadingDialog;
+import com.drdisagree.iconify.ui.view.SeekBarView;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.Objects;
@@ -56,11 +56,9 @@ public class UiRoundness extends AppCompatActivity {
                 (GradientDrawable) findViewById(R.id.auto_brightness).getBackground()
         };
 
-        SeekBar corner_radius_seekbar = findViewById(R.id.corner_radius_seekbar);
         TextView corner_radius_output = findViewById(R.id.corner_radius_output);
-
-        corner_radius_seekbar.setPadding(0, 0, 0, 0);
         final int[] finalUiCornerRadius = {16};
+
         if (!Prefs.getString("cornerRadius").equals("null"))
             finalUiCornerRadius[0] = Integer.parseInt(Prefs.getString("cornerRadius"));
 
@@ -74,7 +72,6 @@ public class UiRoundness extends AppCompatActivity {
                 drawable.setCornerRadius((Integer.parseInt(Prefs.getString("cornerRadius")) + 8) * getResources().getDisplayMetrics().density);
             }
             finalUiCornerRadius[0] = Integer.parseInt(Prefs.getString("cornerRadius"));
-            corner_radius_seekbar.setProgress(finalUiCornerRadius[0]);
         } else {
             corner_radius_output.setText(getResources().getString(R.string.opt_selected) + " 24dp " + getResources().getString(R.string.opt_default));
             for (GradientDrawable drawable : drawables) {
@@ -82,14 +79,13 @@ public class UiRoundness extends AppCompatActivity {
             }
         }
 
-        corner_radius_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
+        SeekBarView.setCustomSeekbar(findViewById(R.id.corner_radius_seekbar), 0, 36, finalUiCornerRadius[0], new android.widget.SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(android.widget.SeekBar seekBar) {
             }
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            public void onProgressChanged(android.widget.SeekBar seekBar, int progress, boolean fromUser) {
                 finalUiCornerRadius[0] = progress;
                 if (progress + 8 == 24)
                     corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 8) + "dp " + getResources().getString(R.string.opt_default));
@@ -101,7 +97,7 @@ public class UiRoundness extends AppCompatActivity {
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(android.widget.SeekBar seekBar) {
             }
         });
 
