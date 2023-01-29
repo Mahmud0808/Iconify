@@ -171,4 +171,10 @@ public class HeaderClock extends AppCompatActivity {
         Button restart_sysui = findViewById(R.id.restart_sysui);
         restart_sysui.setOnClickListener(v -> new Handler().postDelayed(SystemUtil::restartSystemUI, 200));
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 }
