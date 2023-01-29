@@ -50,6 +50,6 @@ jobs:
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: "${{ env.VERSION_NAME }} Dev (#${{github.run_number}})"
+          name: "Iconify v${{ env.VERSION_NAME }} Dev (#${{github.run_number}})"
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
