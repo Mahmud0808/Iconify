@@ -1,49 +1,40 @@
-package com.drdisagree.iconify.ui.fragment;
+package com.drdisagree.iconify.ui.view;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.drdisagree.iconify.R;
 
-public class InfoDialog extends AppCompatActivity {
+public class LoadingDialog extends AppCompatActivity {
+
     Context context;
     Dialog dialog;
 
-    public InfoDialog(Context context) {
+    public LoadingDialog(Context context) {
         this.context = context;
     }
 
-    public void show(int title, int description) {
+    public void show(String title) {
         if (dialog != null)
             dialog.dismiss();
 
         dialog = new Dialog(context);
-        dialog.setContentView(R.layout.info_dialog);
+        dialog.setContentView(R.layout.view_loading_dialog);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setCancelable(true);
+        dialog.setCancelable(false);
         dialog.setOnCancelListener(null);
-        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCanceledOnTouchOutside(false);
 
         TextView text = dialog.findViewById(R.id.title);
-        text.setText(context.getResources().getText(title));
-
-        TextView desc = dialog.findViewById(R.id.description);
-        desc.setText(context.getResources().getText(description));
+        text.setText(title);
 
         dialog.create();
         dialog.show();
-
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.copyFrom(dialog.getWindow().getAttributes());
-        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        dialog.getWindow().setAttributes(layoutParams);
     }
 
     public void hide() {

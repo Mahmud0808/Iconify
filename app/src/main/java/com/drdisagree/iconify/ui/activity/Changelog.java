@@ -16,7 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.ui.fragment.LoadingDialog;
+import com.drdisagree.iconify.ui.view.LoadingDialog;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.io.BufferedReader;
@@ -63,7 +63,7 @@ public class Changelog extends AppCompatActivity {
     // Function to add new changelog in list
     private void addChangelog(ArrayList<String> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(this).inflate(R.layout.list_changelog, container, false);
+            View list = LayoutInflater.from(this).inflate(R.layout.view_list_changelog, container, false);
 
             TextView changes = list.findViewById(R.id.changelog_text);
             changes.setText(pack.get(i));

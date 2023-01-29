@@ -8,9 +8,9 @@
         </shape>
     </item>
     <item
+        android:end="2.5dp"
         android:gravity="fill_horizontal|center"
-        android:start="2.0dp"
-        android:end="2.5dp">
+        android:start="2.0dp">
         <shape android:shape="rectangle">
             <gradient
                 android:angle="270"
@@ -22,9 +22,9 @@
         </shape>
     </item>
     <item
+        android:end="4.5dp"
         android:gravity="fill_horizontal|center"
-        android:start="4.0dp"
-        android:end="4.5dp">
+        android:start="4.0dp">
         <shape android:shape="rectangle">
             <gradient
                 android:angle="90"
@@ -36,8 +36,8 @@
         </shape>
     </item>
     <item
-        android:gravity="fill_horizontal|center"
-        android:end="80.0dp">
+        android:end="80.0dp"
+        android:gravity="fill_horizontal|center">
         <shape android:shape="rectangle">
             <gradient
                 android:angle="0.0"
@@ -48,9 +48,9 @@
         </shape>
     </item>
     <item
+        android:end="82.5dp"
         android:gravity="fill_horizontal|center"
-        android:start="2.0dp"
-        android:end="82.5dp">
+        android:start="2.0dp">
         <shape android:shape="rectangle">
             <gradient
                 android:angle="270"
@@ -62,9 +62,9 @@
         </shape>
     </item>
     <item
+        android:end="84.5dp"
         android:gravity="fill_horizontal|center"
-        android:start="4.0dp"
-        android:end="84.5dp">
+        android:start="4.0dp">
         <shape android:shape="rectangle">
             <gradient
                 android:angle="90"

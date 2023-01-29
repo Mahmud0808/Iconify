@@ -60,7 +60,7 @@ public class Extras extends AppCompatActivity {
     // Function to add new item in list
     private void addItem(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(this).inflate(R.layout.list_view, container, false);
+            View list = LayoutInflater.from(this).inflate(R.layout.view_list_menu, container, false);
 
             TextView title = list.findViewById(R.id.list_title);
             title.setText((String) pack.get(i)[1]);

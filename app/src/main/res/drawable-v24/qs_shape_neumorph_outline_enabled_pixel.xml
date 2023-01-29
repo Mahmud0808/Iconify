@@ -11,8 +11,8 @@
     </item>
     <item
         android:bottom="2.0dp"
-        android:start="2.0dp"
         android:end="2.0dp"
+        android:start="2.0dp"
         android:top="2.0dp">
         <shape android:shape="rectangle">
             <gradient
@@ -25,8 +25,8 @@
     </item>
     <item
         android:bottom="4.0dp"
-        android:start="4.0dp"
         android:end="4.0dp"
+        android:start="4.0dp"
         android:top="4.0dp">
         <shape android:shape="rectangle">
             <gradient

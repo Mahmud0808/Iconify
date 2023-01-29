@@ -8,8 +8,8 @@
         </shape>
     </item>
     <item
-        android:gravity="fill_horizontal|center"
-        android:end="80.0dip">
+        android:end="80.0dip"
+        android:gravity="fill_horizontal|center">
         <shape android:shape="rectangle">
             <corners android:radius="24.0dip" />
             <size android:height="24.0dip" />
@@ -17,8 +17,8 @@
         </shape>
     </item>
     <item
-        android:gravity="fill_horizontal|center"
-        android:end="80.0dip">
+        android:end="80.0dip"
+        android:gravity="fill_horizontal|center">
         <shape android:shape="rectangle">
             <corners android:radius="24.0dip" />
             <size android:height="4.0dip" />
@@ -29,8 +29,8 @@
         </shape>
     </item>
     <item
-        android:gravity="end|center"
-        android:end="80.0dip">
+        android:end="80.0dip"
+        android:gravity="end|center">
         <vector
             android:width="24.0dp"
             android:height="16.0dp"
@@ -46,8 +46,8 @@
         </vector>
     </item>
     <item
-        android:gravity="end|center"
-        android:end="85.0dip">
+        android:end="85.0dip"
+        android:gravity="end|center">
         <shape android:shape="rectangle">
             <corners android:radius="24.0dip" />
             <size

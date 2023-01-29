@@ -193,7 +193,7 @@ public class MediaPlayer extends AppCompatActivity {
     }
 
     private void addItem(String appName, String packageName, Drawable appIcon, int viewId) {
-        View list = LayoutInflater.from(this).inflate(R.layout.list_option_mediaplayer_icons, container, false);
+        View list = LayoutInflater.from(this).inflate(R.layout.view_list_option_mediaplayer_icons, container, false);
         list.setId(viewId);
 
         LinearLayout launch = list.findViewById(R.id.launch_app);

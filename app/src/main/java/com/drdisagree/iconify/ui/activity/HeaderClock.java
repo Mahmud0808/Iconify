@@ -8,9 +8,6 @@ import static com.drdisagree.iconify.common.References.HEADER_CLOCK_TOPMARGIN;
 import static com.drdisagree.iconify.common.References.PANEL_TOPMARGIN_SWITCH;
 import static com.drdisagree.iconify.common.References.QS_TOPMARGIN;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,6 +19,9 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RemotePrefs;

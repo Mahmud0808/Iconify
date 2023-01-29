@@ -14,9 +14,9 @@
     </item>
     <item
         android:id="@*android:id/progress"
+        android:end="4.5dp"
         android:gravity="fill_horizontal|center"
-        android:start="4.5dp"
-        android:end="4.5dp">
+        android:start="4.5dp">
         <com.android.systemui.util.RoundedCornerProgressDrawable android:drawable="@drawable/brightness_progress_full_drawable" />
     </item>
 </layer-list>

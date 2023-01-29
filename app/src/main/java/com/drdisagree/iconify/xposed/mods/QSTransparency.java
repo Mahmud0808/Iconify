@@ -86,20 +86,25 @@ public class QSTransparency extends ModPack {
 
                 try {
                     setFloatField(param.thisObject, "mDefaultScrimAlpha", alpha);
-                } catch (Throwable ignored) {}
+                } catch (Throwable ignored) {
+                }
                 try {
                     setFloatField(param.thisObject, "mBehindAlpha", alpha);
-                } catch (Throwable ignored) {}
+                } catch (Throwable ignored) {
+                }
                 try {
                     setFloatField(param.thisObject, "mNotificationsAlpha", alpha);
-                } catch (Throwable ignored) {}
+                } catch (Throwable ignored) {
+                }
 
                 try {
                     setFloatField(param.thisObject, "BUSY_SCRIM_ALPHA", alpha);
-                } catch (Throwable ignored) {}
+                } catch (Throwable ignored) {
+                }
                 try {
                     setFloatField(param.thisObject, "mCustomScrimAlpha", alpha);
-                } catch (Throwable ignored) {}
+                } catch (Throwable ignored) {
+                }
             }
         });
 

@@ -11,8 +11,8 @@
     </item>
     <item
         android:bottom="1dp"
-        android:start="1dp"
         android:end="1dp"
+        android:start="1dp"
         android:top="1dp">
         <shape android:shape="oval">
             <solid android:color="?android:attr/colorBackgroundFloating" />

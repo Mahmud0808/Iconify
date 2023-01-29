@@ -3,12 +3,12 @@ package com.drdisagree.iconify.ui.activity;
 import static com.drdisagree.iconify.common.References.HIDE_QSLABEL_SWITCH;
 import static com.drdisagree.iconify.common.References.VERTICAL_QSTILE_SWITCH;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.Switch;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RemotePrefs;

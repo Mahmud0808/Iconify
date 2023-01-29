@@ -7,8 +7,8 @@
         </shape>
     </item>
     <item
-        android:top="6dp"
-        android:end="120dp">
+        android:end="120dp"
+        android:top="6dp">
         <shape android:shape="rectangle">
             <solid android:color="@*android:color/system_neutral2_800" />
             <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
@@ -23,17 +23,17 @@
         </shape>
     </item>
     <item
-        android:start="48dp"
-        android:gravity="start|top">
+        android:gravity="start|top"
+        android:start="48dp">
         <shape android:shape="rectangle">
             <gradient
-                android:startColor="@*android:color/holo_blue_light"
+                android:angle="0.0"
                 android:endColor="@*android:color/holo_green_light"
-                android:angle="0.0" />
+                android:startColor="@*android:color/holo_blue_light" />
             <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
             <size
-                android:height="3dp"
-                android:width="70dp" />
+                android:width="70dp"
+                android:height="3dp" />
         </shape>
     </item>
     <item
@@ -41,13 +41,13 @@
         android:gravity="end|bottom">
         <shape android:shape="rectangle">
             <gradient
-                android:startColor="@*android:color/holo_blue_light"
+                android:angle="0.0"
                 android:endColor="@*android:color/holo_green_light"
-                android:angle="0.0" />
+                android:startColor="@*android:color/holo_blue_light" />
             <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
             <size
-                android:height="3dp"
-                android:width="70dp" />
+                android:width="70dp"
+                android:height="3dp" />
         </shape>
     </item>
 </ripple>

@@ -21,7 +21,7 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.IconPackManager;
-import com.drdisagree.iconify.ui.fragment.LoadingDialog;
+import com.drdisagree.iconify.ui.view.LoadingDialog;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
@@ -202,7 +202,7 @@ public class IconPacks extends AppCompatActivity {
     // Function to add new item in list
     private void addItem(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(this).inflate(R.layout.list_option_iconpack, container, false);
+            View list = LayoutInflater.from(this).inflate(R.layout.view_list_option_iconpack, container, false);
 
             TextView name = list.findViewById(R.id.list_title_iconpack);
             name.setText((String) pack.get(i)[0]);

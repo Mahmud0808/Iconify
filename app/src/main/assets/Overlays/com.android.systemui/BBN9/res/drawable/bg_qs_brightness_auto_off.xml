@@ -10,9 +10,9 @@
         </shape>
     </item>
     <item
+        android:end="2.5dip"
         android:gravity="fill_horizontal|center"
-        android:start="2.5dip"
-        android:end="2.5dip">
+        android:start="2.5dip">
         <shape>
             <corners android:radius="@*android:dimen/harmful_app_name_padding_right" />
             <gradient
@@ -25,9 +25,9 @@
         </shape>
     </item>
     <item
+        android:end="4.5dip"
         android:gravity="fill_horizontal|center"
-        android:start="4.5dip"
-        android:end="4.5dip">
+        android:start="4.5dip">
         <shape>
             <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
             <gradient

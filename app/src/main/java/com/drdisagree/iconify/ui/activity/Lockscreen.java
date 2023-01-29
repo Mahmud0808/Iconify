@@ -2,10 +2,10 @@ package com.drdisagree.iconify.ui.activity;
 
 import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
 import static com.drdisagree.iconify.common.References.LSCLOCK_BOTTOMMARGIN;
-import static com.drdisagree.iconify.common.References.LSCLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.LSCLOCK_FONT_LINEHEIGHT;
 import static com.drdisagree.iconify.common.References.LSCLOCK_FONT_SWITCH;
 import static com.drdisagree.iconify.common.References.LSCLOCK_STYLE;
+import static com.drdisagree.iconify.common.References.LSCLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.LSCLOCK_TEXT_WHITE;
 import static com.drdisagree.iconify.common.References.LSCLOCK_TOPMARGIN;
 

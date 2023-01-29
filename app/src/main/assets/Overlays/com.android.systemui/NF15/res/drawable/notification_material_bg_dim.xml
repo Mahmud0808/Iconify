@@ -8,7 +8,10 @@
     </item>
     <item>
         <shape android:shape="rectangle">
-            <gradient android:startColor="@*android:color/system_neutral2_50" android:endColor="#00000000" android:angle="270.0" />
+            <gradient
+                android:angle="270.0"
+                android:endColor="#00000000"
+                android:startColor="@*android:color/system_neutral2_50" />
             <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
         </shape>
     </item>

@@ -1,10 +1,8 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.HIDE_QSLABEL_SWITCH;
 import static com.drdisagree.iconify.common.References.QSALPHA_LEVEL;
 import static com.drdisagree.iconify.common.References.QSTRANSPARENCY_SWITCH;
 import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
-import static com.drdisagree.iconify.common.References.VERTICAL_QSTILE_SWITCH;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

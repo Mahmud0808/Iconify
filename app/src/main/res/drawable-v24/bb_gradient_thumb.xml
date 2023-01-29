@@ -42,8 +42,8 @@
         </shape>
     </item>
     <item
-        android:gravity="end|center"
-        android:end="82.0dip">
+        android:end="82.0dip"
+        android:gravity="end|center">
         <shape android:shape="rectangle">
             <corners android:radius="24.0dip" />
             <size

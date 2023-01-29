@@ -9,9 +9,6 @@ import static com.drdisagree.iconify.common.References.QSPANEL_HIDE_CARRIER;
 import static com.drdisagree.iconify.common.References.QSPANEL_STATUSICONSBG_SWITCH;
 import static com.drdisagree.iconify.common.References.STATUSBAR_CLOCKBG_SWITCH;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,6 +17,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Switch;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RemotePrefs;

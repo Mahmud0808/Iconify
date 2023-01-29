@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:start="8.0dip"
+        android:bottom="8.0dip"
         android:end="8.0dip"
-        android:top="8.0dip"
-        android:bottom="8.0dip">
+        android:start="8.0dip"
+        android:top="8.0dip">
         <shape>
             <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
             <gradient

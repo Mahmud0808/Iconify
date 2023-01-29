@@ -2,8 +2,8 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:bottom="8.0dip"
-        android:start="8.0dip"
         android:end="8.0dip"
+        android:start="8.0dip"
         android:top="8.0dip">
         <shape>
             <corners android:radius="24.0dip" />

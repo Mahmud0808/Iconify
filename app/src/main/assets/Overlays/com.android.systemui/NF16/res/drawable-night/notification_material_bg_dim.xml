@@ -8,11 +8,16 @@
     </item>
     <item>
         <shape android:shape="rectangle">
-            <gradient android:startColor="@*android:color/holo_blue_light" android:endColor="@*android:color/holo_green_light" android:angle="0.0" />
+            <gradient
+                android:angle="0.0"
+                android:endColor="@*android:color/holo_green_light"
+                android:startColor="@*android:color/holo_blue_light" />
             <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
         </shape>
     </item>
-    <item android:top="4.0dp" android:bottom="4.0dp">
+    <item
+        android:bottom="4.0dp"
+        android:top="4.0dp">
         <shape android:shape="rectangle">
             <solid android:color="@*android:color/system_neutral2_50" />
             <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />

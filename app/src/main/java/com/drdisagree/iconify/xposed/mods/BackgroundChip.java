@@ -7,7 +7,6 @@ import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.HIDE_STATUS_ICONS_SWITCH;
 import static com.drdisagree.iconify.common.References.QSPANEL_CLOCKBG_SWITCH;
 import static com.drdisagree.iconify.common.References.QSPANEL_DATEBG_SWITCH;
-import static com.drdisagree.iconify.common.References.QSPANEL_HIDE_CARRIER;
 import static com.drdisagree.iconify.common.References.QSPANEL_STATUSICONSBG_SWITCH;
 import static com.drdisagree.iconify.common.References.STATUSBAR_CLOCKBG_SWITCH;
 import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
@@ -54,17 +53,17 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     boolean mShowQSDateBg = false;
     boolean hideStatusIcons = false;
     boolean mShowQSStatusIconsBg = false;
-    private Object mCollapsedStatusBarFragment = null;
-    private ViewGroup mStatusBar = null;
-    private View mClockView = null;
-    private View mCenterClockView = null;
-    private View mRightClockView = null;
     boolean showHeaderClock = false;
     int clockWidth = -1;
     int clockHeight = 1;
     int QSStatusIconsChipStyle = 0;
     int QSClockChipStyle = 0;
     int QSDateChipStyle = 0;
+    private Object mCollapsedStatusBarFragment = null;
+    private ViewGroup mStatusBar = null;
+    private View mClockView = null;
+    private View mCenterClockView = null;
+    private View mRightClockView = null;
     private String rootPackagePath = "";
 
     public BackgroundChip(Context context) {

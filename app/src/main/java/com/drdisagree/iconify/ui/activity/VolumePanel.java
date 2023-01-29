@@ -24,8 +24,8 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.ui.fragment.InfoDialog;
-import com.drdisagree.iconify.ui.fragment.LoadingDialog;
+import com.drdisagree.iconify.ui.view.InfoDialog;
+import com.drdisagree.iconify.ui.view.LoadingDialog;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.VolumeCompilerUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -119,7 +119,7 @@ public class VolumePanel extends AppCompatActivity {
 
     private void addItem(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(this).inflate(R.layout.list_option_volume_style, container, false);
+            View list = LayoutInflater.from(this).inflate(R.layout.view_list_option_volume_style, container, false);
 
             TextView name = list.findViewById(R.id.volume_style_title);
             name.setText((String) pack.get(i)[0]);

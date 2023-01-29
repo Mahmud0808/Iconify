@@ -7,7 +7,7 @@
     android:fillViewport="true"
     tools:context=".ui.activity.QsIconLabel">
 
-    <include layout="@layout/header" />
+    <include layout="@layout/view_header" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

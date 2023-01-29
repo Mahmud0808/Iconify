@@ -34,7 +34,7 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.services.BackgroundService;
-import com.drdisagree.iconify.ui.fragment.LoadingDialog;
+import com.drdisagree.iconify.ui.view.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
@@ -76,7 +76,7 @@ public class HomePage extends AppCompatActivity {
         container = findViewById(R.id.home_page_list);
 
         // New update available dialog
-        View list_view1 = LayoutInflater.from(this).inflate(R.layout.dialog_new_update, container, false);
+        View list_view1 = LayoutInflater.from(this).inflate(R.layout.view_new_update, container, false);
         check_update = list_view1.findViewById(R.id.check_update);
         container.addView(list_view1);
         check_update.setVisibility(View.GONE);
@@ -91,7 +91,7 @@ public class HomePage extends AppCompatActivity {
         }
 
         // Reboot needed dialog
-        View list_view2 = LayoutInflater.from(this).inflate(R.layout.dialog_reboot, container, false);
+        View list_view2 = LayoutInflater.from(this).inflate(R.layout.view_reboot, container, false);
         LinearLayout reboot_reminder = list_view2.findViewById(R.id.reboot_reminder);
         container.addView(list_view2);
         reboot_reminder.setVisibility(View.GONE);
@@ -198,7 +198,7 @@ public class HomePage extends AppCompatActivity {
     // Function to add new item in list
     private void addItem(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(this).inflate(R.layout.list_view, container, false);
+            View list = LayoutInflater.from(this).inflate(R.layout.view_list_menu, container, false);
 
             TextView title = list.findViewById(R.id.list_title);
             title.setText((String) pack.get(i)[1]);

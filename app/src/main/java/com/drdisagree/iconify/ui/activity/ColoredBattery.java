@@ -31,8 +31,8 @@ import java.util.Objects;
 public class ColoredBattery extends AppCompatActivity implements ColorPickerDialogListener {
 
     private static String colorBackground, colorFilled;
-    ColorPickerDialog.Builder colorPickerDialogBackground, colorPickerDialogFilled;
     private final List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
+    ColorPickerDialog.Builder colorPickerDialogBackground, colorPickerDialogFilled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

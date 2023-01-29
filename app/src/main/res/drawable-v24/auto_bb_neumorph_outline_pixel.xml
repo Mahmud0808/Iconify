@@ -13,9 +13,9 @@
         </shape>
     </item>
     <item
+        android:end="2.0dp"
         android:gravity="fill_horizontal|center"
-        android:start="2.0dp"
-        android:end="2.0dp">
+        android:start="2.0dp">
         <shape>
             <gradient
                 android:angle="270"
@@ -27,9 +27,9 @@
         </shape>
     </item>
     <item
+        android:end="4.0dp"
         android:gravity="fill_horizontal|center"
-        android:start="4.0dp"
-        android:end="4.0dp">
+        android:start="4.0dp">
         <shape>
             <gradient
                 android:angle="90"
