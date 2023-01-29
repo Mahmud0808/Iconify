@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.activity;
 
 import static com.drdisagree.iconify.common.References.HIDE_STATUS_ICONS_SWITCH;
+import static com.drdisagree.iconify.common.References.QSPANEL_HIDE_CARRIER;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -46,6 +47,14 @@ public class XposedOthers extends AppCompatActivity {
                 SystemUtil.disableForcedBlur();
                 FabricatedOverlayUtil.disableOverlay("qsBlurRadius");
             }
+        });
+
+        // Hide carrier group
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_qs_carrier_group = findViewById(R.id.hide_qs_carrier_group);
+        hide_qs_carrier_group.setChecked(RemotePrefs.getBoolean(QSPANEL_HIDE_CARRIER, false));
+        hide_qs_carrier_group.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RemotePrefs.putBoolean(QSPANEL_HIDE_CARRIER, isChecked);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
 
         // Hide status icons

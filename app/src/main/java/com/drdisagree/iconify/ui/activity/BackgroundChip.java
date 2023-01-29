@@ -5,7 +5,6 @@ import static com.drdisagree.iconify.common.References.CHIP_QSDATE_STYLE;
 import static com.drdisagree.iconify.common.References.CHIP_QSSTATUSICONS_STYLE;
 import static com.drdisagree.iconify.common.References.QSPANEL_CLOCKBG_SWITCH;
 import static com.drdisagree.iconify.common.References.QSPANEL_DATEBG_SWITCH;
-import static com.drdisagree.iconify.common.References.QSPANEL_HIDE_CARRIER;
 import static com.drdisagree.iconify.common.References.QSPANEL_STATUSICONSBG_SWITCH;
 import static com.drdisagree.iconify.common.References.STATUSBAR_CLOCKBG_SWITCH;
 
@@ -50,14 +49,6 @@ public class BackgroundChip extends AppCompatActivity {
         enable_clock_bg_chip.setChecked(RemotePrefs.getBoolean(STATUSBAR_CLOCKBG_SWITCH, false));
         enable_clock_bg_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RemotePrefs.putBoolean(STATUSBAR_CLOCKBG_SWITCH, isChecked);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
-        });
-
-        // Hide carrier group
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_qs_carrier_group = findViewById(R.id.hide_qs_carrier_group);
-        hide_qs_carrier_group.setChecked(RemotePrefs.getBoolean(QSPANEL_HIDE_CARRIER, false));
-        hide_qs_carrier_group.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RemotePrefs.putBoolean(QSPANEL_HIDE_CARRIER, isChecked);
             new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
 
