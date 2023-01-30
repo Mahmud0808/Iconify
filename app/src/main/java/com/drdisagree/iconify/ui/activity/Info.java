@@ -192,6 +192,36 @@ public class Info extends AppCompatActivity {
         azure_helperName.setText("Azure-Helper");
         TextView azure_helperDesc = findViewById(R.id.azure_helperDesc);
         azure_helperDesc.setText(getResources().getString(R.string.info_contributor_desc));
+
+        // HiFIi
+        ViewGroup HiFIi = findViewById(R.id.HiFIi);
+        HiFIi.setOnClickListener(v -> {
+            String url = "https://github.com/HiFIi";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
+        });
+        ImageView img_HiFIi = findViewById(R.id.img_HiFIi);
+        img_HiFIi.setBackgroundResource(R.drawable.ic_user);
+        TextView HiFIiName = findViewById(R.id.HiFIiName);
+        HiFIiName.setText("HiFIi");
+        TextView HiFIiDesc = findViewById(R.id.HiFIiDesc);
+        HiFIiDesc.setText(getResources().getString(R.string.info_contributor_desc));
+
+        // IzzySoft
+        ViewGroup IzzySoft = findViewById(R.id.IzzySoft);
+        IzzySoft.setOnClickListener(v -> {
+            String url = "https://github.com/IzzySoft";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
+        });
+        ImageView img_IzzySoft = findViewById(R.id.img_IzzySoft);
+        img_IzzySoft.setBackgroundResource(R.drawable.ic_user);
+        TextView IzzySoftName = findViewById(R.id.IzzySoftName);
+        IzzySoftName.setText("IzzySoft");
+        TextView IzzySoftDesc = findViewById(R.id.IzzySoftDesc);
+        IzzySoftDesc.setText(getResources().getString(R.string.info_contributor_desc));
     }
 
     @Override
