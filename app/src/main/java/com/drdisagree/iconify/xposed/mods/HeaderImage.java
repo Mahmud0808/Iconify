@@ -4,6 +4,7 @@ import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_ALPHA;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_HEIGHT;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_SWITCH;
+import static com.drdisagree.iconify.common.References.HEADER_IMAGE_ZOOMTOFIT;
 import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
@@ -16,10 +17,12 @@ import android.graphics.drawable.AnimatedImageDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.util.TypedValue;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.drdisagree.iconify.xposed.ModPack;
 
@@ -36,6 +39,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
     boolean showHeaderImage = false;
     int imageHeight = 140;
     int headerImageAlpha = 100;
+    boolean zoomToFit = false;
     private String rootPackagePath = "";
 
     public HeaderImage(Context context) {
@@ -50,6 +54,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
         showHeaderImage = Xprefs.getBoolean(HEADER_IMAGE_SWITCH, false);
         headerImageAlpha = Xprefs.getInt(HEADER_IMAGE_ALPHA, 100);
         imageHeight = Xprefs.getInt(HEADER_IMAGE_HEIGHT, 140);
+        zoomToFit = Xprefs.getBoolean(HEADER_IMAGE_ZOOMTOFIT, false);
 
         setHeaderImage();
     }
@@ -124,13 +129,16 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
 
             Drawable drawable = ImageDecoder.decodeDrawable(source);
             iv.setImageDrawable(drawable);
-            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            iv.setAdjustViewBounds(false);
-            iv.setCropToPadding(false);
-            iv.setClipToOutline(true);
-            // iv.setMinimumHeight(140);
-            iv.setMinimumWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-            addOrRemoveProperty(iv, RelativeLayout.CENTER_IN_PARENT, true);
+            if (!zoomToFit)
+                iv.setScaleType(ImageView.ScaleType.FIT_XY);
+            else {
+                iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                iv.setAdjustViewBounds(false);
+                iv.setCropToPadding(false);
+                iv.setClipToOutline(true);
+                iv.setMinimumWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+                addOrRemoveProperty(iv, RelativeLayout.CENTER_IN_PARENT, true);
+            }
 
             if (drawable instanceof AnimatedImageDrawable) {
                 ((AnimatedImageDrawable) drawable).start();

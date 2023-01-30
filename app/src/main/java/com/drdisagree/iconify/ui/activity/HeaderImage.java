@@ -4,6 +4,7 @@ import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMI
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_ALPHA;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_HEIGHT;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_SWITCH;
+import static com.drdisagree.iconify.common.References.HEADER_IMAGE_ZOOMTOFIT;
 import static com.drdisagree.iconify.common.References.PANEL_TOPMARGIN_SWITCH;
 import static com.drdisagree.iconify.common.References.QS_TOPMARGIN;
 
@@ -165,6 +166,13 @@ public class HeaderImage extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RemotePrefs.putInt(HEADER_IMAGE_ALPHA, imageAlpha[0]);
             }
+        });
+
+        // Header image zoom to fit
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_zoom_to_fit = findViewById(R.id.enable_zoom_to_fit);
+        enable_zoom_to_fit.setChecked(RemotePrefs.getBoolean(HEADER_IMAGE_ZOOMTOFIT, false));
+        enable_zoom_to_fit.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RemotePrefs.putBoolean(HEADER_IMAGE_ZOOMTOFIT, isChecked);
         });
 
         // Enable panel top margin
