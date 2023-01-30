@@ -79,7 +79,7 @@ dependencies {
     implementation 'androidx.core:core-splashscreen:1.0.0'
 
     // Material Components
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'com.google.android.material:material:1.8.0'
 
     // APK Signer
     implementation 'org.bouncycastle:bc-fips:1.0.2.3'

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="ColorPicker" parent="Theme.Material3.Light.Dialog">
+    <style name="ColorPicker" parent="Theme.MaterialComponents.Light.Dialog">
         <item name="android:colorAccent">@color/colorAccent</item>
         <item name="android:windowTitleStyle">@style/LightPickerDialogTitleStyle</item>
         <item name="android:dialogCornerRadius">24dp</item>
@@ -34,7 +34,7 @@
         <item name="android:thumbTint">@color/colorAccent</item>
     </style>
 
-    <style name="MenuLightTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="MenuLightTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:background">@color/colorContainer</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>

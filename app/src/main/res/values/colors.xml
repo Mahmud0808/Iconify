@@ -36,4 +36,37 @@
     <color name="switch_track_inactive">@color/material_dynamic_neutral_variant90</color>
     <color name="switch_thumb_active">@color/white</color>
     <color name="switch_thumb_inactive">@color/material_dynamic_neutral_variant50</color>
+
+    <color name="colorPrimaryLight">@color/material_dynamic_primary40</color>
+    <color name="colorPrimaryDark">@color/material_dynamic_primary80</color>
+    <color name="colorPrimaryContainerLight">@color/material_dynamic_primary90</color>
+    <color name="colorPrimaryContainerDark">@color/material_dynamic_primary30</color>
+    <color name="colorOnPrimaryContainerLight">@color/material_dynamic_primary10</color>
+    <color name="colorOnPrimaryContainerDark">@color/material_dynamic_primary90</color>
+    <color name="colorSecondaryContainerLight">@color/material_dynamic_secondary90</color>
+    <color name="colorSecondaryContainerDark">@color/material_dynamic_secondary90</color>
+    <color name="colorOnSecondaryContainerLight">@color/material_dynamic_secondary10</color>
+    <color name="colorOnSecondaryContainerDark">@color/material_dynamic_secondary10</color>
+    <color name="colorTertiaryLight">@color/material_dynamic_tertiary40</color>
+    <color name="colorTertiaryDark">@color/material_dynamic_tertiary80</color>
+    <color name="colorOnTertiaryLight">@color/material_dynamic_primary100</color>
+    <color name="colorOnTertiaryDark">@color/material_dynamic_tertiary20</color>
+    <color name="colorTertiaryContainerLight">@color/material_dynamic_tertiary90</color>
+    <color name="colorTertiaryContainerDark">@color/material_dynamic_tertiary30</color>
+    <color name="colorOnTertiaryContainerLight">@color/material_dynamic_tertiary10</color>
+    <color name="colorOnTertiaryContainerDark">@color/material_dynamic_tertiary90</color>
+    <color name="colorSurfaceLight">@color/material_dynamic_neutral99</color>
+    <color name="colorSurfaceDark">@color/material_dynamic_neutral10</color>
+    <color name="colorOnSurfaceLight">@color/material_dynamic_neutral10</color>
+    <color name="colorOnSurfaceDark">@color/material_dynamic_neutral90</color>
+    <color name="colorSurfaceVariantLight">@color/material_dynamic_neutral_variant90</color>
+    <color name="colorSurfaceVariantDark">@color/material_dynamic_neutral_variant30</color>
+    <color name="colorOnSurfaceVariantLight">@color/material_dynamic_neutral_variant30</color>
+    <color name="colorOnSurfaceVariantDark">@color/material_dynamic_neutral_variant80</color>
+    <color name="colorOutlineLight">@color/material_dynamic_neutral_variant50</color>
+    <color name="colorOutlineDark">@color/material_dynamic_neutral_variant60</color>
+    <color name="colorErrorContainerLight">#FFF9DEDC</color>
+    <color name="colorErrorContainerDark">#FF8C1D18</color>
+    <color name="colorOnErrorContainerLight">#FF410E0B</color>
+    <color name="colorOnErrorContainerDark">#FFF9DEDC</color>
 </resources>
