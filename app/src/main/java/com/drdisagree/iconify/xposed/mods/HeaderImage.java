@@ -106,13 +106,31 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
         }
     }
 
+
+    private void addOrRemoveProperty(View view, int property, boolean flag) {
+        RelativeLayout.LayoutParams layoutParams =
+                (RelativeLayout.LayoutParams) view.getLayoutParams();
+        if (flag) {
+            layoutParams.addRule(property);
+        } else {
+            layoutParams.removeRule(property);
+        }
+        view.setLayoutParams(layoutParams);
+    }
+
     private void loadGif(ImageView iv) {
         try {
             ImageDecoder.Source source = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.iconify_files/header_image.png"));
 
             Drawable drawable = ImageDecoder.decodeDrawable(source);
             iv.setImageDrawable(drawable);
-            iv.setScaleType(ImageView.ScaleType.FIT_XY);
+            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            iv.setAdjustViewBounds(false);
+            iv.setCropToPadding(false);
+            iv.setClipToOutline(true);
+            // iv.setMinimumHeight(140);
+            iv.setMinimumWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+            addOrRemoveProperty(iv, RelativeLayout.CENTER_IN_PARENT, true);
 
             if (drawable instanceof AnimatedImageDrawable) {
                 ((AnimatedImageDrawable) drawable).start();
