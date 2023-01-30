@@ -106,6 +106,18 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
         }
     }
 
+
+    private void addOrRemoveProperty(View view, int property, boolean flag) {
+        RelativeLayout.LayoutParams layoutParams =
+                (RelativeLayout.LayoutParams) view.getLayoutParams();
+        if (flag) {
+            layoutParams.addRule(property);
+        } else {
+            layoutParams.removeRule(property);
+        }
+        view.setLayoutParams(layoutParams);
+    }
+
     private void loadGif(ImageView iv) {
         try {
             ImageDecoder.Source source = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.iconify_files/header_image.png"));
