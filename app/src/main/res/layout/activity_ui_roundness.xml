@@ -33,7 +33,8 @@
                 android:paddingStart="@dimen/container_paddingSide"
                 android:paddingTop="@dimen/container_padding"
                 android:paddingEnd="@dimen/container_paddingSide"
-                android:paddingBottom="@dimen/container_padding">
+                android:paddingBottom="@dimen/container_padding"
+                tools:ignore="UselessParent">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -126,7 +127,8 @@
                             android:paddingStart="16dp"
                             android:paddingTop="18dp"
                             android:paddingEnd="16dp"
-                            android:paddingBottom="18dp">
+                            android:paddingBottom="18dp"
+                            tools:ignore="NestedWeights">
 
                             <ImageView
                                 android:id="@+id/qs_icon1"

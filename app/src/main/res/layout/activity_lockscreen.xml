@@ -136,7 +136,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Clock Font"
+                    android:text="@string/lockscreen_clock_font_title"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/cont_title_size"
                     android:textStyle="bold" />
@@ -144,7 +144,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Use custom font for lockscreen clock\nDo not select file from Recent"
+                    android:text="@string/lockscreen_clock_font_desc"
                     android:textColor="@color/textColorSecondary"
                     android:textSize="@dimen/cont_desc_size" />
 
@@ -157,7 +157,7 @@
                     android:fontFamily="@font/semibold"
                     android:letterSpacing="0.2"
                     android:stateListAnimator="@null"
-                    android:text="Pick Font"
+                    android:text="@string/btn_pick_font"
                     android:textColor="@color/colorBackground"
                     android:textSize="@dimen/cont_title_size"
                     android:textStyle="bold"
@@ -222,7 +222,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Line Height"
+                        android:text="@string/lockscreen_font_line_height_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -278,7 +278,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Top Margin"
+                        android:text="@string/lockscreen_clock_top_margin_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -334,7 +334,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Bottom Margin"
+                        android:text="@string/lockscreen_clock_bottom_margin_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -391,7 +391,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="White Text"
+                        android:text="@string/lockscreen_clock_white_text_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -399,7 +399,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Force all colors to be white"
+                        android:text="@string/lockscreen_clock_white_text_desc"
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_desc_size" />
 
@@ -440,7 +440,7 @@
                     android:fontFamily="@font/semibold"
                     android:letterSpacing="0.1"
                     android:stateListAnimator="@null"
-                    android:text="Restart SystemUI"
+                    android:text="@string/btn_restart_systemui"
                     android:textColor="@color/colorBackground"
                     android:textSize="@dimen/cont_title_size"
                     android:textStyle="bold"
