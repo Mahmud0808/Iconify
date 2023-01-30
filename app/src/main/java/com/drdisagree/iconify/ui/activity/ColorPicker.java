@@ -90,7 +90,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary4", "color", "system_accent2_100", ColorToSpecialHex(ColorUtils.blendARGB(Integer.parseInt(Prefs.getString("colorAccentPrimary")), Color.WHITE, 0.16f)));
         FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary5", "color", "system_accent2_200", ColorToSpecialHex(ColorUtils.blendARGB(Integer.parseInt(Prefs.getString("colorAccentPrimary")), Color.WHITE, 0.16f)));
         FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary6", "color", "system_accent2_300", ColorToSpecialHex(ColorUtils.blendARGB(Integer.parseInt(Prefs.getString("colorAccentPrimary")), Color.WHITE, 0.16f)));
-        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimaryDark", "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(Integer.parseInt(Prefs.getString("colorAccentPrimary")), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
+        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorPixelBackgroundDark", "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(Integer.parseInt(Prefs.getString("colorAccentPrimary")), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
     }
 
     public static void applySecondaryColors() {
@@ -114,7 +114,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         FabricatedOverlayUtil.disableOverlay("colorAccentPrimary4");
         FabricatedOverlayUtil.disableOverlay("colorAccentPrimary5");
         FabricatedOverlayUtil.disableOverlay("colorAccentPrimary6");
-        FabricatedOverlayUtil.disableOverlay("colorAccentPrimaryDark");
+        FabricatedOverlayUtil.disableOverlay("colorPixelBackgroundDark");
         FabricatedOverlayUtil.disableOverlay("colorAccentSecondary");
         FabricatedOverlayUtil.disableOverlay("colorAccentSecondary1");
         FabricatedOverlayUtil.disableOverlay("colorAccentSecondary2");
@@ -122,7 +122,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
 
         if (OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMAC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMGC.overlay")) {
             FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
-            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimaryDark", "color", "holo_blue_dark", "0xFF122530");
+            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorPixelBackgroundDark", "color", "holo_blue_dark", "0xFF122530");
             FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentSecondary", "color", "holo_green_light", "0xFF387BFF");
         }
     }

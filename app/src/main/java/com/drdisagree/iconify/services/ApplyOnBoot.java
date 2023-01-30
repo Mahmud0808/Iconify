@@ -48,7 +48,7 @@ public class ApplyOnBoot {
                         FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary2_100", "color", "system_accent2_100", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
                         FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary2_200", "color", "system_accent2_200", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
                         FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary3_200", "color", "system_accent2_300", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimaryDark", "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(Integer.parseInt(colorAccentPrimary), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
+                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorPixelBackgroundDark", "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(Integer.parseInt(colorAccentPrimary), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
                     } else {
                         FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
                         FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary1_100", "color", "system_accent1_100", "0xFF50A6D7");
@@ -57,7 +57,7 @@ public class ApplyOnBoot {
                         FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary2_100", "color", "system_accent2_100", "0xFF50A6D7");
                         FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary2_200", "color", "system_accent2_200", "0xFF50A6D7");
                         FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary3_200", "color", "system_accent2_300", "0xFF50A6D7");
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimaryDark", "color", "holo_blue_dark", "0xFF122530");
+                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorPixelBackgroundDark", "color", "holo_blue_dark", "0xFF122530");
                     }
                 }
                 if (Prefs.getBoolean("customSecondaryColor") && FabricatedOverlayUtil.isOverlayDisabled(FabricatedEnabledOverlays, "colorAccentSecondary")) {

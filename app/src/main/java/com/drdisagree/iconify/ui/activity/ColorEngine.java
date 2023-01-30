@@ -88,7 +88,7 @@ public class ColorEngine extends AppCompatActivity {
 
                         if (Prefs.getString("colorAccentPrimary").equals("null")) {
                             FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
-                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimaryDark", "color", "holo_blue_dark", "0xFF122530");
+                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorPixelBackgroundDark", "color", "holo_blue_dark", "0xFF122530");
                         }
 
                         if (Prefs.getString("colorAccentSecondary").equals("null")) {
@@ -150,7 +150,7 @@ public class ColorEngine extends AppCompatActivity {
 
                         if (Prefs.getString("colorAccentPrimary").equals("null")) {
                             FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
-                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimaryDark", "color", "holo_blue_dark", "0xFF122530");
+                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorPixelBackgroundDark", "color", "holo_blue_dark", "0xFF122530");
                         }
 
                         if (Prefs.getString("colorAccentSecondary").equals("null")) {

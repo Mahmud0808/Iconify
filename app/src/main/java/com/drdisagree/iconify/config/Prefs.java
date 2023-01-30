@@ -164,7 +164,7 @@ public class Prefs {
                         FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary4", "color", "system_accent2_100", ColorPicker.ColorToSpecialHex(ColorUtils.blendARGB(Integer.parseInt((String) item.getValue()), Color.WHITE, 0.16f)));
                         FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary5", "color", "system_accent2_200", ColorPicker.ColorToSpecialHex(ColorUtils.blendARGB(Integer.parseInt((String) item.getValue()), Color.WHITE, 0.16f)));
                         FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary6", "color", "system_accent2_300", ColorPicker.ColorToSpecialHex(ColorUtils.blendARGB(Integer.parseInt((String) item.getValue()), Color.WHITE, 0.16f)));
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimaryDark", "color", "holo_blue_dark", ColorPicker.ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(Integer.parseInt((String) item.getValue()), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
+                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorPixelBackgroundDark", "color", "holo_blue_dark", ColorPicker.ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(Integer.parseInt((String) item.getValue()), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
                     } catch (NumberFormatException ignored) {
                     }
                 }
