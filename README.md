@@ -149,7 +149,7 @@ What you can change using Iconify:
 
 - [ɦʏքɛʀ.sɦ](https://t.me/hyp3r_sh)
 
-- [AOSPMods](https://github.com/siavash79/AOSPMods/tree/canary/app/src/main/java/sh/siava/AOSPMods)
+- [AOSPMods](https://github.com/siavash79/AOSPMods)
 
 - [HideNavBar](https://github.com/Magisk-Modules-Repo/HideNavBar)
 
