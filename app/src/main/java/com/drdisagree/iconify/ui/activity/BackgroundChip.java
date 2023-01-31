@@ -21,7 +21,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RemotePrefs;
+import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -57,6 +59,8 @@ public class BackgroundChip extends AppCompatActivity {
         enable_qs_clock_chip.setChecked(RemotePrefs.getBoolean(QSPANEL_CLOCKBG_SWITCH, false));
         enable_qs_clock_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RemotePrefs.putBoolean(QSPANEL_CLOCKBG_SWITCH, isChecked);
+            if (!Prefs.getBoolean("IconifyComponentIXCC.overlay"))
+                OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
             new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
 
@@ -67,7 +71,6 @@ public class BackgroundChip extends AppCompatActivity {
         qs_clock_chip_styles.add("Style 2");
         qs_clock_chip_styles.add("Style 3");
         qs_clock_chip_styles.add("Style 4");
-        qs_clock_chip_styles.add("Style 5");
 
         ArrayAdapter<String> qs_clock_chip_styles_adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_item, qs_clock_chip_styles);
         qs_clock_chip_styles_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
@@ -90,6 +93,8 @@ public class BackgroundChip extends AppCompatActivity {
         enable_qs_date_chip.setChecked(RemotePrefs.getBoolean(QSPANEL_DATEBG_SWITCH, false));
         enable_qs_date_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RemotePrefs.putBoolean(QSPANEL_DATEBG_SWITCH, isChecked);
+            if (!Prefs.getBoolean("IconifyComponentIXCC.overlay"))
+                OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
             new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
 
@@ -100,7 +105,6 @@ public class BackgroundChip extends AppCompatActivity {
         qs_date_chip_styles.add("Style 2");
         qs_date_chip_styles.add("Style 3");
         qs_date_chip_styles.add("Style 4");
-        qs_date_chip_styles.add("Style 5");
 
         ArrayAdapter<String> qs_date_chip_styles_adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_item, qs_date_chip_styles);
         qs_date_chip_styles_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
@@ -123,6 +127,8 @@ public class BackgroundChip extends AppCompatActivity {
         enable_status_icons_chip.setChecked(RemotePrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false));
         enable_status_icons_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RemotePrefs.putBoolean(QSPANEL_STATUSICONSBG_SWITCH, isChecked);
+            if (!Prefs.getBoolean("IconifyComponentIXCC.overlay"))
+                OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
             new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
 
@@ -133,7 +139,6 @@ public class BackgroundChip extends AppCompatActivity {
         status_icons_chip_styles.add("Style 2");
         status_icons_chip_styles.add("Style 3");
         status_icons_chip_styles.add("Style 4");
-        status_icons_chip_styles.add("Style 5");
 
         ArrayAdapter<String> status_icons_chip_styles_adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_item, status_icons_chip_styles);
         status_icons_chip_styles_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);

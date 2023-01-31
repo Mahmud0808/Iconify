@@ -97,7 +97,7 @@ public class AppUpdates extends AppCompatActivity {
                 // Save update checking time
                 switch (position) {
                     case 0:
-                        Prefs.putLong("UPDATE_CHECK_TIME", (long) 0); // Every Time
+                        Prefs.putLong("UPDATE_CHECK_TIME", 0); // Every Time
                         break;
                     case 1:
                         Prefs.putLong("UPDATE_CHECK_TIME", (long) 1000 * 60 * 60); // Every Hour
