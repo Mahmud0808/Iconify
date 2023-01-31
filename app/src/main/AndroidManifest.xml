@@ -40,6 +40,9 @@
         tools:replace="android:allowBackup"
         tools:targetApi="tiramisu">
         <activity
+            android:name=".ui.activity.Statusbar"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.XposedOthers"
             android:exported="false" />
         <activity
@@ -165,9 +168,7 @@
             android:name=".services.BackgroundService"
             android:enabled="true"
             android:exported="true"
-            tools:ignore="ExportedService" />
-
-        <!-- xposed meta data -->
+            tools:ignore="ExportedService" /> <!-- xposed meta data -->
         <meta-data
             android:name="xposedmodule"
             android:value="true" />

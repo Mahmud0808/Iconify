@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Iconify</string>
 
-    <!-- Home page activities -->
+    <!-- Activities -->
     <string name="activity_title_brightness_bar">Brightness Bar</string>
     <string name="activity_desc_brightness_bar">Customize brightness slider</string>
     <string name="activity_title_color_engine">Color Engine</string>
@@ -54,6 +54,8 @@
     <string name="activity_desc_colored_battery">Change battery icon color</string>
     <string name="activity_title_xposed_others">Others</string>
     <string name="activity_desc_xposed_others">Other xposed tweaks and customization</string>
+    <string name="activity_title_statusbar">Statusbar</string>
+    <string name="activity_desc_statusbar">Modify statusbar interface</string>
 
     <string name="apply_monet_accent_title">Monet Accent</string>
     <string name="apply_monet_accent_desc">Link iconify colors to accent</string>
@@ -302,4 +304,9 @@
     <string name="force_enable_blur_desc">Force enable blur for unsupported roms</string>
     <string name="hide_carrier_group_title">Hide Carrier Group</string>
     <string name="hide_carrier_group_desc">Hide carrier group from QS panel</string>
+    <string name="sb_left_padding">Left Padding</string>
+    <string name="sb_right_padding">Right Padding</string>
+    <string name="sb_color_tint_title">Color Tint</string>
+    <string name="sb_color_tint_desc">Tint statusbar icons and texts</string>
+    <string name="btn_reset_tint">Reset Tint</string>
 </resources>

@@ -80,12 +80,12 @@ public class ColoredBattery extends AppCompatActivity implements ColorPickerDial
         if (!Objects.equals(Prefs.getString("batteryColorBackground"), "null"))
             colorBackground = Prefs.getString("batteryColorBackground");
         else
-            colorBackground = String.valueOf(Color.parseColor("#FFf0f0f0"));
+            colorBackground = String.valueOf(Color.parseColor("#FFF0F0F0"));
 
         if (!Objects.equals(Prefs.getString("batteryColorFilled"), "null"))
             colorFilled = Prefs.getString("batteryColorFilled");
         else
-            colorFilled = String.valueOf(Color.parseColor("#FFf0f0f0"));
+            colorFilled = String.valueOf(Color.parseColor("#FFF0F0F0"));
 
         // Battery background and filled color
         colorPickerDialogBackground = ColorPickerDialog.newBuilder();
