@@ -4,6 +4,12 @@
         <layer-list>
             <item>
                 <shape android:tintMode="src_atop">
+                    <solid android:color="@*android:color/system_neutral2_800" />
+                    <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+                </shape>
+            </item>
+            <item>
+                <shape android:tintMode="src_atop">
                     <solid android:color="#1AFFFFFF" />
                     <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
                 </shape>

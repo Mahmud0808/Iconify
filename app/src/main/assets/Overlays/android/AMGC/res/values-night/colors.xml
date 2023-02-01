@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="accent_device_default">@*android:color/holo_blue_light</color>
+    <color name="accent_device_default_700">@*android:color/holo_blue_light</color>
+    <color name="background_light">@*android:color/background_dark</color>
+    <color name="BottomBarBackground">@*android:color/background_dark</color>
+    <color name="chooser_row_divider">@*android:color/background_dark</color>
+    <color name="highlighted_text_holo_light">@*android:color/white</color>
+    <color name="highlighted_text_light">@*android:color/highlighted_text_holo_dark</color>
+    <color name="holo_button_normal">@*android:color/button_material_light</color>
+    <color name="holo_light_primary_dark">@*android:color/instant_app_badge</color>
+    <color name="notification_material_background_color">@*android:color/background_dark</color>
+    <color name="notification_primary_text_color_dark">@*android:color/white</color>
+    <color name="notification_secondary_text_color_dark">#BFFFFFFF</color>
+</resources>
