@@ -111,7 +111,6 @@
     <string name="move_icon_title">Move Icon</string>
     <string name="section_title_qs_text_color">QS Text Color</string>
     <string name="label_always_white_title">Always White</string>
-    <string name="for_a12">- A12</string>
     <string name="label_always_white_desc">Title White, Text White</string>
     <string name="label_always_white_v2_title">Always White v2</string>
     <string name="label_always_white_v2_desc">Title White, Text Accent</string>
@@ -120,8 +119,7 @@
     <string name="label_follow_system_v2_title">Follow System v2</string>
     <string name="label_follow_system_v2_desc">Title System, Text Accent</string>
     <string name="label_fix_text_color_title">Fix Text Color</string>
-    <string name="for_a13">- A13</string>
-    <string name="label_fix_text_color_desc">Fix unreadable text color</string>
+    <string name="label_fix_text_color_desc">Use if above ones did not work</string>
     <string name="qs_row_column_warn_desc">Some of the combinations might not work in some roms. In that case, just try some other combinations and choose which fits the best for you.</string>
     <string name="quick_qspanel_row_title">Quick QsPanel Row</string>
     <string name="qspanel_row_title">QsPanel Row</string>

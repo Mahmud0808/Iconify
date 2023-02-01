@@ -279,35 +279,15 @@
                         android:layout_weight="1.0"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/label_always_white_title"
-                                android:textColor="@color/textColorPrimary"
-                                android:textSize="@dimen/cont_title_size"
-                                android:textStyle="bold" />
-
-                            <View
-                                android:layout_width="4dp"
-                                android:layout_height="wrap_content" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/for_a12"
-                                android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/cont_title_size" />
-
-                        </LinearLayout>
+                            android:layout_gravity="start|center"
+                            android:paddingTop="3dp"
+                            android:text="@string/label_always_white_title"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -354,35 +334,15 @@
                         android:layout_weight="1.0"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/label_always_white_v2_title"
-                                android:textColor="@color/textColorPrimary"
-                                android:textSize="@dimen/cont_title_size"
-                                android:textStyle="bold" />
-
-                            <View
-                                android:layout_width="4dp"
-                                android:layout_height="wrap_content" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/for_a12"
-                                android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/cont_title_size" />
-
-                        </LinearLayout>
+                            android:layout_gravity="start|center"
+                            android:paddingTop="3dp"
+                            android:text="@string/label_always_white_v2_title"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -429,35 +389,15 @@
                         android:layout_weight="1.0"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/label_follow_system_title"
-                                android:textColor="@color/textColorPrimary"
-                                android:textSize="@dimen/cont_title_size"
-                                android:textStyle="bold" />
-
-                            <View
-                                android:layout_width="4dp"
-                                android:layout_height="wrap_content" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/for_a12"
-                                android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/cont_title_size" />
-
-                        </LinearLayout>
+                            android:layout_gravity="start|center"
+                            android:paddingTop="3dp"
+                            android:text="@string/label_follow_system_title"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -504,35 +444,15 @@
                         android:layout_weight="1.0"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/label_follow_system_v2_title"
-                                android:textColor="@color/textColorPrimary"
-                                android:textSize="@dimen/cont_title_size"
-                                android:textStyle="bold" />
-
-                            <View
-                                android:layout_width="4dp"
-                                android:layout_height="wrap_content" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/for_a12"
-                                android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/cont_title_size" />
-
-                        </LinearLayout>
+                            android:layout_gravity="start|center"
+                            android:paddingTop="3dp"
+                            android:text="@string/label_follow_system_v2_title"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -579,35 +499,15 @@
                         android:layout_weight="1.0"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/label_fix_text_color_title"
-                                android:textColor="@color/textColorPrimary"
-                                android:textSize="@dimen/cont_title_size"
-                                android:textStyle="bold" />
-
-                            <View
-                                android:layout_width="4dp"
-                                android:layout_height="wrap_content" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/for_a13"
-                                android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/cont_title_size" />
-
-                        </LinearLayout>
+                            android:layout_gravity="start|center"
+                            android:paddingTop="3dp"
+                            android:text="@string/label_fix_text_color_title"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
