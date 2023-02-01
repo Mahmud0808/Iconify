@@ -85,15 +85,4 @@
     <color name="suggestion_highlight_text">@*android:color/accent_device_default</color>
     <color name="system_accent1_500">@*android:color/accent_device_default</color>
     <color name="system_accent1_600">@*android:color/accent_device_default</color>
-    <color name="system_neutral1_100">@*android:color/button_normal_device_default_dark</color>
-    <color name="system_neutral1_50">@*android:color/background_material_light</color>
-    <color name="system_neutral1_700">@*android:color/system_accent1_100</color>
-    <color name="system_neutral1_800">@*android:color/system_accent1_100</color>
-    <color name="system_neutral1_900">@*android:color/background_dark</color>
-    <color name="system_neutral2_100">@*android:color/button_normal_device_default_dark</color>
-    <color name="system_neutral2_50">@*android:color/background_material_light</color>
-    <color name="system_neutral2_700">@*android:color/system_accent1_100</color>
-    <color name="system_neutral2_800">@*android:color/system_accent1_100</color>
-    <color name="system_neutral2_900">@*android:color/background_dark</color>
-    <color name="system_notification_accent_color">@*android:color/accent_device_default</color>
 </resources>
