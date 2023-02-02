@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ColorSchemeUtil {
 
-    private static final int[] tones = {100, 99, 95, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0};
+    public static final int[] tones = {100, 99, 95, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0};
 
     public static List<List<Object>> GenerateColorPalette(String style, int color) {
         List<List<Object>> palette = new ArrayList<>();

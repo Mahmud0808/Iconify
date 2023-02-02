@@ -21,6 +21,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -258,10 +259,21 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
     @SuppressLint("UseCompatLoadingForDrawables")
     private void assignCustomColorToPalette(List<List<Object>> palette) {
         for (int i = 0; i < colorTableRows.length; i++) {
-            for (int j = 0; j < colorTableRows[i].getChildCount(); j++) {
-                GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{(int) palette.get(i).get(j), (int) palette.get(i).get(j)});
-                colorbg.setCornerRadius(8 * getResources().getDisplayMetrics().density);
-                colorTableRows[i].getChildAt(j).setBackgroundDrawable(colorbg);
+            if (i == 2 && (Prefs.getBoolean("customSecondaryColor") || isSelectedSecondary)) {
+                List<List<Object>> secondaryPalette = new ArrayList<>();
+                secondaryPalette = GenerateColorPalette(selectedStyle, Integer.parseInt(accentSecondary));
+
+                for (int j = 0; j < colorTableRows[i].getChildCount(); j++) {
+                    GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{(int) secondaryPalette.get(0).get(j), (int) secondaryPalette.get(0).get(j)});
+                    colorbg.setCornerRadius(8 * getResources().getDisplayMetrics().density);
+                    colorTableRows[i].getChildAt(j).setBackgroundDrawable(colorbg);
+                }
+            } else {
+                for (int j = 0; j < colorTableRows[i].getChildCount(); j++) {
+                    GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{(int) palette.get(i).get(j), (int) palette.get(i).get(j)});
+                    colorbg.setCornerRadius(8 * getResources().getDisplayMetrics().density);
+                    colorTableRows[i].getChildAt(j).setBackgroundDrawable(colorbg);
+                }
             }
         }
     }
