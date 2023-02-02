@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.utils.ColorUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
@@ -55,7 +56,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                 findViewById(R.id.color_table).findViewById(R.id.system_neutral2)
         };
 
-        getSystemColors();
+        systemColors = ColorUtil.getSystemColors();
         assignColorToPalette();
 
         selectedStyle = "Neutral";
@@ -160,89 +161,6 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentSecondary), Integer.parseInt(accentSecondary)});
         gd.setCornerRadius(24 * getResources().getDisplayMetrics().density);
         preview_color_picker_secondary.setBackgroundDrawable(gd);
-    }
-
-    private void getSystemColors() {
-        systemColors = new int[][]{
-                new int[]{
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_primary100),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_primary99),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_primary95),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_primary90),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_primary80),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_primary70),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_primary60),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_primary50),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_primary40),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_primary30),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_primary20),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_primary10),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_primary0)
-                },
-
-                new int[]{
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary100),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary99),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary95),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary90),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary80),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary70),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary60),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary50),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary40),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary30),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary20),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary10),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary0)
-                },
-
-                new int[]{
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary100),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary99),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary95),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary90),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary80),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary70),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary60),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary50),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary40),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary30),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary20),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary10),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary0)
-                },
-
-                new int[]{
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral100),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral99),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral95),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral90),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral80),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral70),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral60),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral50),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral40),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral30),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral20),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral10),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral0)
-                },
-
-                new int[]{
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant100),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant99),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant95),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant90),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant80),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant70),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant60),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant50),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant40),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant30),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant20),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant10),
-                        getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant0)
-                }};
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

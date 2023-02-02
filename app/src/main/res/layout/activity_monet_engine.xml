@@ -264,7 +264,7 @@
                 android:fontFamily="@font/semibold"
                 android:letterSpacing="0.2"
                 android:stateListAnimator="@null"
-                android:text="@string/btn_enable"
+                android:text="Generate"
                 android:textColor="@color/colorBackground"
                 android:textSize="@dimen/cont_title_size"
                 android:textStyle="bold"
