@@ -20,7 +20,8 @@
             android:layout_height="match_parent"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="12dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -76,157 +77,12 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/app_info_section"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/container_marginSide"
                 android:layout_marginEnd="@dimen/container_marginSide"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/appInfo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/container_top"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
-
-                    <ImageView
-                        android:id="@+id/ic_appVersion"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="start|center"
-                        android:backgroundTint="@color/textColorSecondary"
-                        android:contentDescription="@string/icon" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:layout_marginStart="@dimen/container_padding"
-                        android:layout_weight="1.0"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/appVersion"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/versionCodeAndName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
-
-                <LinearLayout
-                    android:id="@+id/githubRepo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/container_mid"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
-
-                    <ImageView
-                        android:id="@+id/ic_github"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="start|center"
-                        android:backgroundTint="@color/textColorSecondary"
-                        android:contentDescription="@string/icon" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:layout_marginStart="@dimen/container_padding"
-                        android:layout_weight="1.0"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/githubTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/githubDesc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
-
-                <LinearLayout
-                    android:id="@+id/telegramChannel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/container_bottom"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
-
-                    <ImageView
-                        android:id="@+id/ic_telegram"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="start|center"
-                        android:backgroundTint="@color/textColorSecondary"
-                        android:contentDescription="@string/icon" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:layout_marginStart="@dimen/container_padding"
-                        android:layout_weight="1.0"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/telegramTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/telegramDesc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
-
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
+                android:orientation="vertical" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -240,307 +96,12 @@
                 android:textStyle="bold" />
 
             <LinearLayout
+                android:id="@+id/credits_section"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/container_marginSide"
                 android:layout_marginEnd="@dimen/container_marginSide"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/creditIcons8"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/container_top"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
-
-                    <ImageView
-                        android:id="@+id/ic_link_icons8"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="start|center"
-                        android:backgroundTint="@color/textColorSecondary"
-                        android:contentDescription="@string/icon" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:layout_marginStart="@dimen/container_padding"
-                        android:layout_weight="1.0"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/credits"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/creditsTo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
-
-                <LinearLayout
-                    android:id="@+id/jai"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/container_mid"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
-
-                    <ImageView
-                        android:id="@+id/img_jai"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="start|center"
-                        android:backgroundTint="@color/textColorSecondary"
-                        android:contentDescription="@string/icon" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:layout_marginStart="@dimen/container_padding"
-                        android:layout_weight="1.0"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/jaiName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/jaiDesc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
-
-                <LinearLayout
-                    android:id="@+id/iperialf"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/container_mid"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
-
-                    <ImageView
-                        android:id="@+id/img_iperialf"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="start|center"
-                        android:backgroundTint="@color/textColorSecondary"
-                        android:contentDescription="@string/icon" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:layout_marginStart="@dimen/container_padding"
-                        android:layout_weight="1.0"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/iperialfName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/iperialfDesc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
-
-                <LinearLayout
-                    android:id="@+id/ritesh"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/container_mid"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
-
-                    <ImageView
-                        android:id="@+id/img_ritesh"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="start|center"
-                        android:backgroundTint="@color/textColorSecondary"
-                        android:contentDescription="@string/icon" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:layout_marginStart="@dimen/container_padding"
-                        android:layout_weight="1.0"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/riteshName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/riteshDesc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
-
-                <LinearLayout
-                    android:id="@+id/sanely_insane"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/container_mid"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
-
-                    <ImageView
-                        android:id="@+id/img_sanely_insane"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="start|center"
-                        android:backgroundTint="@color/textColorSecondary"
-                        android:contentDescription="@string/icon" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:layout_marginStart="@dimen/container_padding"
-                        android:layout_weight="1.0"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/sanelyInsaneName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/sanelyInsaneDesc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
-
-                <LinearLayout
-                    android:id="@+id/jaguar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/container_bottom"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
-
-                    <ImageView
-                        android:id="@+id/img_jaguar"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="start|center"
-                        android:backgroundTint="@color/textColorSecondary"
-                        android:contentDescription="@string/icon" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:layout_marginStart="@dimen/container_padding"
-                        android:layout_weight="1.0"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/jaguarName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/jaguarDesc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
-
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
+                android:orientation="vertical" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -554,158 +115,31 @@
                 android:textStyle="bold" />
 
             <LinearLayout
+                android:id="@+id/contributors_sections"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/container_marginSide"
                 android:layout_marginEnd="@dimen/container_marginSide"
-                android:layout_marginBottom="@dimen/container_margin"
-                android:orientation="vertical">
+                android:orientation="vertical" />
 
-                <LinearLayout
-                    android:id="@+id/azure_helper"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/container_top"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="@dimen/container_marginSide"
+                android:layout_marginBottom="@dimen/container_marginSide"
+                android:text="@string/translators"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-                    <ImageView
-                        android:id="@+id/img_azure_helper"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="start|center"
-                        android:backgroundTint="@color/textColorSecondary"
-                        android:contentDescription="@string/icon" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:layout_marginStart="@dimen/container_padding"
-                        android:layout_weight="1.0"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/azure_helperName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/azure_helperDesc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
-
-                <LinearLayout
-                    android:id="@+id/HiFIi"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/container_mid"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
-
-                    <ImageView
-                        android:id="@+id/img_HiFIi"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="start|center"
-                        android:backgroundTint="@color/textColorSecondary"
-                        android:contentDescription="@string/icon" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:layout_marginStart="@dimen/container_padding"
-                        android:layout_weight="1.0"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/HiFIiName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/HiFIiDesc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
-
-                <LinearLayout
-                    android:id="@+id/IzzySoft"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/container_bottom"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
-
-                    <ImageView
-                        android:id="@+id/img_IzzySoft"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="start|center"
-                        android:backgroundTint="@color/textColorSecondary"
-                        android:contentDescription="@string/icon" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:layout_marginStart="@dimen/container_padding"
-                        android:layout_weight="1.0"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/IzzySoftName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/IzzySoftDesc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
-
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/translators_section"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/container_marginSide"
+                android:layout_marginEnd="@dimen/container_marginSide"
+                android:orientation="vertical" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
