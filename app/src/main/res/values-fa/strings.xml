@@ -18,7 +18,7 @@
     <string name="activity_desc_media_player">تغییر ظاهر مدیا پلیر</string>
     <string name="activity_title_notification">نوتیفیکیشن‌ها</string>
     <string name="activity_desc_notification">تغییر ظاهر نوتیفیکیشن‌ها</string>
-    <string name="activity_title_qs_icon_label">آیکون و متن گزینه‌های نوار‌ابزار</string>
+    <string name="activity_title_qs_icon_label">تنظیم آیکون‌ها و متن</string>
     <string name="activity_title_qs_row_column">تنظیم ردیف و ستون</string>
     <string name="activity_title_qs_shape">کلید‌های نوار‌ابزار</string>
     <string name="activity_desc_qs_shape">تغییر ظاهر کلید‌های نوار‌ابزار</string>
@@ -45,7 +45,7 @@
     <string name="activity_title_header_image">عکس هدر نوارابزار</string>
     <string name="activity_desc_header_image">اضافه کردن تصویر سفارشی به هدر نوار‌ابزار</string>
     <string name="activity_title_header_clock">ساعت هدر نوارابزار</string>
-    <string name="activity_desc_header_clock">اصافه کردن ساعت سفارشی به نوارابزار</string>
+    <string name="activity_desc_header_clock">اضافه کردن ساعت سفارشی به نوارابزار</string>
     <string name="activity_title_background_chip">پس‌زمینه رنگی</string>
     <string name="activity_desc_background_chip">اضافه کردن پس‌زمینه رنگی به پشت ساعت</string>
     <string name="activity_title_vertical_tiles">کلید‌های عمودی</string>
@@ -57,10 +57,10 @@
     <string name="activity_title_statusbar">نوار اعلان</string>
     <string name="activity_desc_statusbar">تغییر ظاهر نوار اعلان</string>
 
-    <string name="apply_monet_accent_title">استفاده از رنگ آکسان مونت</string>
-    <string name="apply_monet_accent_desc">همگام کردن رنگ‌های آیکونیفای با رنگ آکسان مونت</string>
-    <string name="apply_monet_gradient_title">استفاده از رنگ گرادیان مونت</string>
-    <string name="apply_monet_gradient_desc">همگام کردن رنگ‌های آیکونیفای با رنگ گرادیان مونت</string>
+    <string name="apply_monet_accent_title">استفاده از رنگ آکسان Monet</string>
+    <string name="apply_monet_accent_desc">همگام کردن رنگ‌های آیکونیفای با رنگ آکسان Monet</string>
+    <string name="apply_monet_gradient_title">استفاده از رنگ گرادیان Monet</string>
+    <string name="apply_monet_gradient_desc">همگام کردن رنگ‌های آیکونیفای با رنگ گرادیان Monet</string>
     <string name="color_picker_title">بخش انتخاب رنگ</string>
     <string name="color_picker_desc">رنگ مورد نظر خود را در این قسمت انتخاب کنید</string>
     <string name="color_picker_preview">پیش‌نمایش رنگ انتخابی</string>
@@ -76,13 +76,13 @@
     <string name="btn_continue">ادامه دادن</string>
     <string name="iconify_logo">Iconify Logo</string>
     <string name="hey_there">توجه!</string>
-    <string name="btn_restart">ریستارت</string>
+    <string name="btn_restart">ریستارت کن</string>
     <string name="btn_disable">غیرفعال کردن</string>
     <string name="btn_enable">فعال‌سازی</string>
-    <string name="btn_apply">اعمال کردن</string>
+    <string name="btn_apply">اعمال تنظیمات</string>
     <string name="corner_radius_title">میزان گرد بودن گوشه‌ها</string>
     <string name="pixel_variant_title">نسخه پیکسل</string>
-    <string name="pixel_variant_desc">برای رام‌هایی که نوارابزارشان سیاه است</string>
+    <string name="pixel_variant_desc">مناسب رام‌هایی که نوارابزارشان سیاه است</string>
     <string name="icon">آيکون</string>
     <string name="btn_disable_custom_colors">غیرفعال کردن رنگ‌های انتخاب شده</string>
     <string name="btn_enable_custom_colors">فعال کردن رنگ‌های انتخاب شده</string>
@@ -114,15 +114,15 @@
     <string name="for_a12">- مناسب آندروید ۱۲</string>
     <string name="label_always_white_desc">هم متن و هم عنوان سفید</string>
     <string name="label_always_white_v2_title">همیشه سفید نسخه ۲</string>
-    <string name="label_always_white_v2_desc">عنوان سفید و متن رنگی</string>
+    <string name="label_always_white_v2_desc">عنوان سفید - متن رنگی</string>
     <string name="label_follow_system_title">پیروی از سیستم</string>
     <string name="label_follow_system_desc">پیروی از سیستم هم در عنوان و هم در متن</string>
     <string name="label_follow_system_v2_title">پیروی از سیستم نسخه ۲</string>
-    <string name="label_follow_system_v2_desc">پیروی از سیستم در عنوان و متن رنگی</string>
-    <string name="label_fix_text_color_title">رفع مشکل رنگ </string>
+    <string name="label_follow_system_v2_desc">پیروی از سیستم در عنوان - متن رنگی</string>
+    <string name="label_fix_text_color_title">رفع مشکل خوانا نبودن </string>
     <string name="for_a13">- مناسب اندروید ۱۳</string>
     <string name="label_fix_text_color_desc">حل مشکل خوانا نبودن متن</string>
-    <string name="qs_row_column_warn_desc">برخی از این ترکیب‌ها ممکن است در برخی رام‌هل به درستی کار نکنند. در این صورت از گزینه‌های دیگر که مناسب شما است اسفاده کنید</string>
+    <string name="qs_row_column_warn_desc">برخی از این ترکیب‌ها ممکن است در برخی رام‌هل به درستی کار نکنند. در این صورت از گزینه‌های دیگر که مناسب رام شما است اسفاده کنید</string>
     <string name="quick_qspanel_row_title">تعداد ردیف‌های نوارابزار در حالت کامل باز نشده</string>
     <string name="qspanel_row_title">تعداد ردیف‌های نوارابزار</string>
     <string name="qspanel_column_title">تعداد ستون‌های نوارابزار</string>
@@ -132,7 +132,7 @@
     <string name="icon_and_label_title">تنظیمات آیکون‌ها و متن</string>
     <string name="icon_and_label_desc">تغییر تنظیمات مربوط به آیکون‌ها و متن</string>
     <string name="cont_desc_volume_panel">پیش‌نمایش پنل تنظیم صدا</string>
-    <string name="vp_thin_background_title">پیش‌زمینه لاغر</string>
+    <string name="vp_thin_background_title">پیش‌زمینه باریک</string>
     <string name="vp_thick_background_title">پیش‌زمینه ضخیم</string>
     <string name="vp_no_background_title">بدون پیش‌زمینه</string>
     <string name="iconify_updated_title">برنامه آیکونیفای آپدیت شد!</string>
@@ -143,8 +143,8 @@
     <string name="iconpack_plumpy">Plumpy</string>
     <string name="notif_preview_desc">پیش‌نمایش نوتیفیکشن.\nبرای اعمال این گزینه آن را لمس کنید.</string>
     <string name="loading_dialog_wait">لطفا صبر کنید</string>
-    <string name="toast_applied">اعمال شد</string>
-    <string name="toast_disabled">غیرفعال شد</string>
+    <string name="toast_applied">فعال</string>
+    <string name="toast_disabled">غیرفعال</string>
     <string name="toast_reset">بازنشانی</string>
     <string name="toast_reboot">ریستارت کردن دستگاه الزامی است</string>
     <string name="rebooting_desc">5 ثانیه دیگر دستگاه ریستارت می‌شود</string>
@@ -170,7 +170,7 @@
     <string name="use_magisk">ابتدا با Magisk دستگاه خود را روت کنید!</string>
     <string name="root_not_found">ظاهرا دستگاه شما روت نشده است!</string>
     <string name="disable_everything_title">غیرفعال کردن همه چیز</string>
-    <string name="disable_everything_desc">تمام مواردی که توسط آیکونفای تغییر پیدا کرده به حالت اولیه باز می‌گردد.</string>
+    <string name="disable_everything_desc">تمام مواردی که توسط آیکونیفای تغییر پیدا کرده به حالت اولیه باز می‌گردد.</string>
     <string name="toast_disable_everything">انگشت خود را روی گزینه نگه دارید</string>
     <string name="toast_disabled_everything">همه موارد غیرفعال شدند</string>
     <string name="restart_sysui_title">ریستارت کردن رابط کاربری</string>
@@ -187,7 +187,7 @@
     <string name="navbar_hide_pill_title">مخفی کردن میله</string>
     <string name="navbar_hide_pill_desc">مخفی کردن میله نوار ناوبری</string>
     <string name="navbar_monet_pill_title">رنگی کردن میله نوار ناوبری</string>
-    <string name="navbar_monet_pill_desc">همگام کردن رنگ میله با رنگ آکسان مونت</string>
+    <string name="navbar_monet_pill_desc">همگام کردن رنگ میله با رنگ آکسان Monet</string>
     <string name="navbar_disable_left_gesture_title">غیرفعال کردن حرکات اشاره‌ای سمت چپ صفحه</string>
     <string name="navbar_disable_left_gesture_desc">غیرفعال کردن حرکت اشاره‌ای بازگشت در سمت چپ صفحه</string>
     <string name="navbar_disable_right_gesture_title">غیرفعال کردن حرکات اشاره‌ای سمت راست صفحه</string>
@@ -233,12 +233,12 @@
     <!-- do not change {latestVersionName} -->
     <string name="update_dialog_desc">آپدیت {latestVersionName} آماده دانلود است.</string>
     <string name="checking_for_update">درحال بررسی وجود آپدیت</string>
-    <string name="toast_module_created">ماژول با موفقیت ساخته شد</string>
+    <string name="toast_module_created">Module با موفقیت ساخته شد</string>
     <string name="volume_styles">ظاهر نوار تنظیم صدا</string>
-    <string name="volume_module_desc">ساخت ماژول قابل فلش در مجیسک برای این استایل</string>
-    <string name="btn_create_module">ساختن ماژول</string>
+    <string name="volume_module_desc">ساخت Module قابل فلش در Magisk برای این استایل</string>
+    <string name="btn_create_module">ساختن Module</string>
     <string name="read_carefully">توجه!</string>
-    <string name="volume_module_installation_guide">با استفاده از این گزینه فایل ماژول در درون پوشه دانلود در حافظه داخلی ساخته می‌شود. فایل ماژول را که نام آن IconifyCompanion.zip است را باید در مجیسک فلش بزنید. همیشه قبل از نصب ماژول جدید نسخه قبلی را (در صورت وجود) از مجیسک پاک کرده و دستگاه خود را یکبار ریستارت کنید.\n\n<b>نکات:</b>\n• قبل از آپدیت کردن رام خود ماژول را حتما پاک کنید.\n• در صورت آپدیت رام و یا تغییر دادن ماژول آن را دوباره بسازید.\n• به هیچ وجه ماژولی را که مخصوص رام شما ساخته نشده فلش نرنید.</string>
+    <string name="volume_module_installation_guide">با استفاده از این گزینه فایل Module در درون پوشه دانلود در حافظه داخلی ساخته می‌شود. فایل Module را که نام آن IconifyCompanion.zip است را باید در Magisk فلش بزنید. همیشه قبل از نصب Module جدید نسخه قبلی را (در صورت وجود) از Magisk پاک کرده و دستگاه خود را یکبار ریستارت کنید.\n\n<b>نکات:</b>\n• قبل از آپدیت کردن رام Module را حتما پاک کنید.\n• در صورت آپدیت کردن رام و یا تغییر دادن Module آن را دوباره از نو بسازید.\n• به هیچ وجه Moduleی را که مخصوص رام شما ساخته نشده فلش نرنید.</string>
     <string name="transparent_qs_panel_title">شفاف کردن پنل نوارابزار</string>
     <string name="transparent_qs_panel_desc">با استفاده از این قسمت پیش‌زمینه نوارابزار خود را شفاف (محو) کنید</string>
     <string name="transparency_alpha_title">میزان شفافیت</string>
@@ -249,7 +249,7 @@
     <string name="sb_clock_background_chip_title">پیش‌زمینه رنگی برای ساعت نوار اعلان</string>
     <string name="sb_clock_background_chip_desc">نمایش دادن پیش‌زمینه رنگی پشت ساعت نوار اعلان</string>
     <string name="header_image_title">انتخاب فایل تصویر هدر</string>
-    <string name="header_image_desc">اصافه کردن تصویر به هدر نوارابزار\nفایل تصویر را از بخش فایل‌های اخیر انتخاب نکنید</string>
+    <string name="header_image_desc">اضافه کردن تصویر به هدر نوارابزار\nفایل تصویر را از بخش فایل‌های اخیر انتخاب نکنید</string>
     <string name="btn_pick_image">انتخاب فایل تصویر</string>
     <string name="header_image_height_title">ارتفاع تصویر</string>
     <string name="hide_status_icons_title">مخفی کردن آیکون‌های نوار اعلان</string>
@@ -288,7 +288,7 @@
     <string name="qs_panel_top_margin_title">تنظیم حاشیه بالای نوارابزار</string>
     <string name="btn_restart_systemui">ریستارت کردن رابط کاربری</string>
     <string name="header_image_zoom_to_fit_title">بزرگنمایی تصویر هدر</string>
-    <string name="header_image_zoom_to_fit_desc">به صورت پیش‌فرض توصیر کشیده می‌شود تا به درستی قرار بگیرد</string>
+    <string name="header_image_zoom_to_fit_desc">به صورت پیش‌فرض تصویر کشیده می‌شود تا به درستی در جای خود قرار بگیرد</string>
     <string name="lockscreen_clock_font_title">فونت ساعت</string>
     <string name="lockscreen_clock_font_desc">استفاده از فونت سفارشی برای ساعت صفحه قفل\nفایل را از قسمت فایل‌های اخیر انتخاب نکنید</string>
     <string name="btn_pick_font">انتخاب فونت</string>
@@ -306,7 +306,7 @@
     <string name="hide_carrier_group_desc">مخفی کردن اپراتور از نوارابزار</string>
     <string name="sb_left_padding">تنظیم حاشیه سمت چپ</string>
     <string name="sb_right_padding">تنظیم حاشیه سمت راست</string>
-    <string name="sb_color_tint_title">افکت ته رنگ</string>
-    <string name="sb_color_tint_desc">فعال کردن افکت ته رنگ برای آیکون‌ها و متن‌های نوارابزار</string>
+    <string name="sb_color_tint_title">افکت ته‌رنگ</string>
+    <string name="sb_color_tint_desc">فعال کردن افکت ته‌رنگ برای پیش‌زمینه آیکون‌ها و متن‌ها در نوارابزار</string>
     <string name="btn_reset_tint">بازنشانی ته رنگ به حالت اولیه</string>
 </resources>
