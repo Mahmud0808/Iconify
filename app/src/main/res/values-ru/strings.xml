@@ -1,13 +1,12 @@
 <resources>
-
     <string name="app_name">Iconify</string>
+
     <!-- Activities -->
     <string name="accurate_shades_desc">Отключите это для ярких цветов</string>
     <string name="accurate_shades_title">Точные оттенки</string>
     <string name="activity_desc_background_chip">Добавить цветную фишку позади элементов интерфейса</string>
     <string name="activity_desc_brightness_bar">Изменить слайдер яркости</string>
     <string name="activity_desc_color_engine">Получите контроль над цветами</string>
-    <string name="activity_desc_color_table">Показать всю таблицу системных цветов</string>
     <string name="activity_desc_colored_battery">Поменять цвет иконки батареи</string>
     <string name="activity_desc_extras">Дополнительные настройки и параметры</string>
     <string name="activity_desc_header_clock">Добавить кастомные часы на панель быстрых настроек</string>
@@ -33,7 +32,6 @@
     <string name="activity_title_changelog">Журнал изменеий</string>
     <string name="activity_title_color_engine">Редактор цветов</string>
     <string name="activity_title_color_picker">Выбор цвета</string>
-    <string name="activity_title_color_table">Таблица цветов</string>
     <string name="activity_title_colored_battery">Цветная батарея</string>
     <string name="activity_title_experimental">Экспериментальные</string>
     <string name="activity_title_extras">Дополнительные</string>
@@ -58,6 +56,7 @@
     <string name="activity_title_volume_panel">Панель громкости</string>
     <string name="activity_title_xposed_menu">Меню XPosed</string>
     <string name="activity_title_xposed_others">Другое</string>
+
     <string name="already_up_to_date">Вы уже в курсе.</string>
     <string name="app_updates">Обновления приложения</string>
     <string name="apply_monet_accent_desc">Привязать цвета iconify к акценту системы</string>
@@ -292,7 +291,7 @@
     <string name="view_changelog">Показать Журнал Изменений</string>
     <string name="volume_module_desc">Создать Magisk модуль для применения этого стиля</string>
     <string name="volume_module_installation_guide">Эта опция создаст Magisk модуль в папке \"Download\". Установите этот модуль (IconifyCompanion.zip) в Magisk manager. Всегда удаляйте прошлую версию IconifyCompanion и выполняйте перезагрузку перед установкой новой версии.\n\nЗаметки:\n• Удалите модуль перед обновлением прошивки.\n• Пересоздайте модуль после обновления или смены прошивки.\n• Не устанавливает модуль созданный не для вашей прошивки.</string>
-    <string name="volume_styles">Стиль громкости</string>
+    <string name="volume_style">Стиль громкости</string>
     <string name="vp_no_background_title">Без фона</string>
     <string name="vp_thick_background_title">Широкий фон</string>
     <string name="vp_thin_background_title">Тонкий фон</string>

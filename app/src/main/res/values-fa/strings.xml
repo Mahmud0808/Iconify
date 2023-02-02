@@ -26,8 +26,6 @@
     <string name="activity_desc_settings">تنظیمات متفرقه برنامه</string>
     <string name="activity_title_volume_panel">پنل تنظیم صدا</string>
     <string name="activity_desc_volume_panel">تغییر ظاهر پنل تنظیم صدا</string>
-    <string name="activity_title_color_table">جدول رنگبندی</string>
-    <string name="activity_desc_color_table">نشان دادن کامل جدول رنگبندی سیستم</string>
     <string name="activity_title_experimental">گزینه‌های آزمایشی</string>
     <string name="activity_title_changelog">تغییرات اخیر برنامه</string>
     <string name="activity_title_xposed_menu">XPosed منو</string>
@@ -111,7 +109,6 @@
     <string name="move_icon_title">جا‌به‌جا کردن آیکون</string>
     <string name="section_title_qs_text_color">رنگ متن در نوارابزار</string>
     <string name="label_always_white_title">همیشه سفید</string>
-    <string name="for_a12">- مناسب آندروید ۱۲</string>
     <string name="label_always_white_desc">هم متن و هم عنوان سفید</string>
     <string name="label_always_white_v2_title">همیشه سفید نسخه ۲</string>
     <string name="label_always_white_v2_desc">عنوان سفید و متن رنگی</string>
@@ -120,7 +117,6 @@
     <string name="label_follow_system_v2_title">پیروی از سیستم نسخه ۲</string>
     <string name="label_follow_system_v2_desc">پیروی از سیستم در عنوان و متن رنگی</string>
     <string name="label_fix_text_color_title">رفع مشکل رنگ </string>
-    <string name="for_a13">- مناسب اندروید ۱۳</string>
     <string name="label_fix_text_color_desc">حل مشکل خوانا نبودن متن</string>
     <string name="qs_row_column_warn_desc">برخی از این ترکیب‌ها ممکن است در برخی رام‌هل به درستی کار نکنند. در این صورت از گزینه‌های دیگر که مناسب شما است اسفاده کنید</string>
     <string name="quick_qspanel_row_title">تعداد ردیف‌های نوارابزار در حالت کامل باز نشده</string>
@@ -234,7 +230,7 @@
     <string name="update_dialog_desc">آپدیت {latestVersionName} آماده دانلود است.</string>
     <string name="checking_for_update">درحال بررسی وجود آپدیت</string>
     <string name="toast_module_created">ماژول با موفقیت ساخته شد</string>
-    <string name="volume_styles">ظاهر نوار تنظیم صدا</string>
+    <string name="volume_style">ظاهر نوار تنظیم صدا</string>
     <string name="volume_module_desc">ساخت ماژول قابل فلش در مجیسک برای این استایل</string>
     <string name="btn_create_module">ساختن ماژول</string>
     <string name="read_carefully">توجه!</string>
