@@ -9,13 +9,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,7 +30,6 @@ import com.drdisagree.iconify.utils.VolumeCompilerUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -39,7 +37,8 @@ public class VolumePanel extends AppCompatActivity {
 
     LoadingDialog loadingDialog;
     InfoDialog infoDialog;
-    private ViewGroup container;
+    RadioGroup rg1, rg2;
+    private int checkedId1 = -1, checkedId2 = -1, realCheckedId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,35 +102,26 @@ public class VolumePanel extends AppCompatActivity {
         // Info dialog for volume style modules
         infoDialog = new InfoDialog(this);
 
-        // Volume Style list items
-        container = findViewById(R.id.volume_style_list);
-        ArrayList<Object[]> vol_style_list = new ArrayList<>();
+        // Volume style
+        LinearLayout volume_style = findViewById(R.id.volume_style);
 
-        // Volume Style add items in list
-        vol_style_list.add(new Object[]{"Gradient Volume", "VolumeGradient"});
-        vol_style_list.add(new Object[]{"Double Layer Volume", "VolumeDoubleLayer"});
-        vol_style_list.add(new Object[]{"Shaded Layer Volume", "VolumeShadedLayer"});
-        vol_style_list.add(new Object[]{"Neumorph Volume", "VolumeNeumorph"});
-        vol_style_list.add(new Object[]{"Outline Volume", "VolumeOutline"});
+        ImageView info_img = volume_style.findViewById(R.id.volume_style_info);
+        info_img.setOnClickListener(v -> infoDialog.show(R.string.read_carefully, R.string.volume_module_installation_guide));
 
-        addItem(vol_style_list);
-    }
+        rg1 = volume_style.findViewById(R.id.volume_style1);
+        rg2 = volume_style.findViewById(R.id.volume_style2);
+        rg1.clearCheck();
+        rg2.clearCheck();
+        rg1.setOnCheckedChangeListener(listener1);
+        rg2.setOnCheckedChangeListener(listener2);
+        checkedId1 = rg1.getCheckedRadioButtonId();
+        checkedId2 = rg2.getCheckedRadioButtonId();
+        realCheckedId = checkedId1 == -1 ? checkedId2 : checkedId1;
 
-    private void addItem(ArrayList<Object[]> pack) {
-        for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(this).inflate(R.layout.view_list_option_volume_style, container, false);
-
-            TextView name = list.findViewById(R.id.volume_style_title);
-            name.setText((String) pack.get(i)[0]);
-
-            ImageView info_img = list.findViewById(R.id.volume_style_info);
-            info_img.setOnClickListener(v -> infoDialog.show(R.string.read_carefully, R.string.volume_module_installation_guide));
-
-            Button create_module = list.findViewById(R.id.volume_style_create_module);
-            int finalI = i;
-            create_module.setOnClickListener(v -> {
-                AtomicBoolean hasErroredOut = new AtomicBoolean(false);
-
+        Button create_module = volume_style.findViewById(R.id.volume_style_create_module);
+        create_module.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 if (!Environment.isExternalStorageManager()) {
                     Intent intent = new Intent();
                     intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
@@ -139,32 +129,85 @@ public class VolumePanel extends AppCompatActivity {
                     intent.setData(uri);
                     startActivity(intent);
                 } else {
-                    loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
-
-                    Runnable runnable = () -> {
-                        try {
-                            hasErroredOut.set(VolumeCompilerUtil.buildModule((String) pack.get(finalI)[1], SYSTEM_UI_PACKAGE));
-                        } catch (IOException e) {
-                            hasErroredOut.set(true);
-                            e.printStackTrace();
-                        }
-                        runOnUiThread(() -> new Handler().postDelayed(() -> {
-                            loadingDialog.hide();
-
-                            if (hasErroredOut.get()) {
-                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_module_created), Toast.LENGTH_SHORT).show();
-                            }
-                        }, 2000));
-                    };
-                    Thread thread = new Thread(runnable);
-                    thread.start();
+                    if (realCheckedId == -1) {
+                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    installVolumeModule(realCheckedId);
                 }
-            });
+            }
+        });
+    }
 
-            container.addView(list);
+    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId != -1) {
+                rg2.setOnCheckedChangeListener(null);
+                rg2.clearCheck();
+                rg2.setOnCheckedChangeListener(listener2);
+                realCheckedId = checkedId;
+            }
         }
+    };
+
+    private final RadioGroup.OnCheckedChangeListener listener2 = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId != -1) {
+                rg1.setOnCheckedChangeListener(null);
+                rg1.clearCheck();
+                rg1.setOnCheckedChangeListener(listener1);
+                realCheckedId = checkedId;
+            }
+        }
+    };
+
+    @SuppressLint("NonConstantResourceId")
+    private void installVolumeModule(int volume) {
+        loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
+
+        AtomicBoolean hasErroredOut = new AtomicBoolean(false);
+        String selectedStyle = null;
+
+        switch (volume) {
+            case R.id.gradient_style:
+                selectedStyle = "VolumeGradient";
+                break;
+            case R.id.doublelayer_style:
+                selectedStyle = "VolumeDoubleLayer";
+                break;
+            case R.id.shadedlayer_style:
+                selectedStyle = "VolumeShadedLayer";
+                break;
+            case R.id.neumorph_style:
+                selectedStyle = "VolumeNeumorph";
+                break;
+            case R.id.outline_style:
+                selectedStyle = "VolumeOutline";
+                break;
+        }
+
+        String finalSelectedStyle = selectedStyle;
+        Runnable runnable = () -> {
+            try {
+                hasErroredOut.set(VolumeCompilerUtil.buildModule(finalSelectedStyle, SYSTEM_UI_PACKAGE));
+            } catch (IOException e) {
+                hasErroredOut.set(true);
+                e.printStackTrace();
+            }
+            runOnUiThread(() -> new Handler().postDelayed(() -> {
+                loadingDialog.hide();
+
+                if (hasErroredOut.get()) {
+                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_module_created), Toast.LENGTH_SHORT).show();
+                }
+            }, 2000));
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
 
     @Override

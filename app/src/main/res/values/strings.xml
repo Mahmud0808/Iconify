@@ -26,8 +26,8 @@
     <string name="activity_desc_settings">Miscellaneous settings</string>
     <string name="activity_title_volume_panel">Volume Panel</string>
     <string name="activity_desc_volume_panel">Customize volume panel design</string>
-    <string name="activity_title_color_table">Color Table</string>
-    <string name="activity_desc_color_table">Show full table of system colors</string>
+    <string name="activity_title_monet_engine">Monet Engine</string>
+    <string name="activity_desc_monet_engine">Override monet color styles</string>
     <string name="activity_title_experimental">Experimental</string>
     <string name="activity_title_changelog">Changelog</string>
     <string name="activity_title_xposed_menu">XPosed Menu</string>
@@ -232,7 +232,7 @@
     <string name="update_dialog_desc">Update {latestVersionName} is available to download.</string>
     <string name="checking_for_update">Checking For Update</string>
     <string name="toast_module_created">Module created successfully</string>
-    <string name="volume_styles">Volume Styles</string>
+    <string name="volume_style">Volume Style</string>
     <string name="volume_module_desc">Creates a magisk flashable module for this style</string>
     <string name="btn_create_module">Create Module</string>
     <string name="read_carefully">Read Carefully!</string>
@@ -307,4 +307,11 @@
     <string name="sb_color_tint_title">Color Tint</string>
     <string name="sb_color_tint_desc">Tint statusbar icons and texts</string>
     <string name="btn_reset_tint">Reset Tint</string>
+    <string name="toast_select_style">Select a style first</string>
+    <string name="volume_style_gradient">Gradient</string>
+    <string name="volume_style_doublelayer">Double Layer</string>
+    <string name="volume_style_shadedlayer">Shaded Layer</string>
+    <string name="volume_style_neumorph">Neumorph</string>
+    <string name="volume_style_outline">Outline</string>
+    <string name="volume_style_neumorphoutline">Neumorph Outline</string>
 </resources>
