@@ -1,7 +1,9 @@
 package com.drdisagree.iconify.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,6 +44,13 @@ public class Experimental extends AppCompatActivity {
             } else {
                 Shell.cmd("settings put secure monet_engine_accurate_shades 0").exec();
             }
+        });
+
+        // Color table
+        LinearLayout color_table = findViewById(R.id.color_table);
+        color_table.setOnClickListener(v -> {
+            Intent intent = new Intent(Experimental.this, MonetEngine.class);
+            startActivity(intent);
         });
     }
 

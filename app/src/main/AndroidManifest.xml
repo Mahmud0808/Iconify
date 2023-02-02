@@ -82,7 +82,7 @@
             android:name=".ui.activity.Experimental"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.ColorTable"
+            android:name=".ui.activity.MonetEngine"
             android:exported="false" />
         <activity
             android:name=".ui.activity.NavigationBar"
