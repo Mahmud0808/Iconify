@@ -48,7 +48,7 @@
                     android:centerColor="#00000000"
                     android:endColor="#00000000"
                     android:startColor="#1A000000" />
-                <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+                <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
             </shape>
         </item>
     </ripple>
