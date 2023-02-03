@@ -275,7 +275,6 @@ public class HomePage extends AppCompatActivity {
                     return stringBuffer.toString();
                 }
             } catch (Exception e) {
-                e.printStackTrace();
                 return null;
             } finally {
                 if (urlConnection != null) {
@@ -284,8 +283,7 @@ public class HomePage extends AppCompatActivity {
                 if (bufferedReader != null) {
                     try {
                         bufferedReader.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } catch (Exception ignored) {
                     }
                 }
             }
@@ -316,8 +314,7 @@ public class HomePage extends AppCompatActivity {
                             check_update.setVisibility(View.VISIBLE);
                         }
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (Exception ignored) {
                 }
             }
         }
