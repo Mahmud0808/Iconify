@@ -1,7 +1,7 @@
 package com.drdisagree.iconify.ui.activity;
 
 import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
-import static com.drdisagree.iconify.ui.activity.ColorPicker.ColorToSpecialHex;
+import static com.drdisagree.iconify.utils.ColorUtil.ColorToSpecialHex;
 
 import android.annotation.SuppressLint;
 import android.graphics.drawable.GradientDrawable;
@@ -116,8 +116,7 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
         // Statusbar color tint
         if (!Objects.equals(Prefs.getString("colorSBTint"), "null"))
             colorSBTint = Prefs.getString("colorSBTint");
-        else
-            colorSBTint = String.valueOf(getResources().getColor(R.color.colorAccent));
+        else colorSBTint = String.valueOf(getResources().getColor(R.color.colorAccent));
 
         // Color preview
         colorPickerSBTint = ColorPickerDialog.newBuilder();

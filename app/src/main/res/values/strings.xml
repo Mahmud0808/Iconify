@@ -315,4 +315,5 @@
     <string name="volume_style_outline">Outline</string>
     <string name="volume_style_neumorphoutline">Neumorph Outline</string>
     <string name="translators">Translators</string>
+    <string name="toast_reboot_required">Reboot required</string>
 </resources>

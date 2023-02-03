@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.utils;
 
+import static com.drdisagree.iconify.common.References.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readCertificate;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;
 
@@ -17,61 +18,51 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
-import java.util.Objects;
 
-public class CompilerUtil {
+public class MonetCompilerUtil {
 
-    private static final String TAG = "CompilerUtil";
+    private static final String TAG = "MonetCompilerUtil";
     private static final String aapt = References.TOOLS_DIR + "/libaapt.so";
     private static final String zipalign = References.TOOLS_DIR + "/libzipalign.so";
 
-    public static boolean buildOverlays() throws IOException {
+    public static boolean buildMonetPalette(String resources) throws IOException {
         preExecute();
 
-        // Create AndroidManifest.xml and build APK using AAPT
-        File dir = new File(References.DATA_DIR + "/Overlays");
-        for (File pkg : Objects.requireNonNull(dir.listFiles())) {
-            if (pkg.isDirectory()) {
-                for (File overlay : Objects.requireNonNull(pkg.listFiles())) {
-                    if (overlay.isDirectory()) {
-                        String overlay_name = overlay.toString().replace(pkg.toString() + '/', "");
-                        if (createManifest(overlay_name, pkg.toString().replace(References.DATA_DIR + "/Overlays/", ""), overlay.getAbsolutePath())) {
-                            Log.e(TAG, "Failed to create Manifest for " + overlay_name + "! Exiting...");
-                            postExecute(true);
-                            return true;
-                        }
-                        if (runAapt(overlay.getAbsolutePath(), overlay_name)) {
-                            Log.e(TAG, "Failed to build " + overlay_name + "! Exiting...");
-                            postExecute(true);
-                            return true;
-                        }
-                    }
-                }
-            }
+        // Create AndroidManifest.xml
+        String overlay_name = "ME";
+
+        if (createManifest(overlay_name, FRAMEWORK_PACKAGE, References.DATA_DIR + "/Overlays/android/ME")) {
+            Log.e(TAG, "Failed to create Manifest for " + overlay_name + "! Exiting...");
+            postExecute(true);
+            return true;
+        }
+
+        // Write color resources
+        if (writeResources(References.DATA_DIR + "/Overlays/android/ME", resources)) {
+            Log.e(TAG, "Failed to write resource for " + overlay_name + "! Exiting...");
+            postExecute(true);
+            return true;
+        }
+
+        // Build APK using AAPT
+        if (runAapt(References.DATA_DIR + "/Overlays/android/ME", overlay_name)) {
+            Log.e(TAG, "Failed to build " + overlay_name + "! Exiting...");
+            postExecute(true);
+            return true;
         }
 
         // ZipAlign the APK
-        dir = new File(References.UNSIGNED_UNALIGNED_DIR);
-        for (File overlay : Objects.requireNonNull(dir.listFiles())) {
-            if (!overlay.isDirectory()) {
-                if (zipAlign(overlay.getAbsolutePath(), overlay.toString().replace(References.UNSIGNED_UNALIGNED_DIR + '/', "").replace("-unaligned", ""))) {
-                    Log.e(TAG, "Failed to align " + overlay + "! Exiting...");
-                    postExecute(true);
-                    return true;
-                }
-            }
+        if (zipAlign(References.UNSIGNED_UNALIGNED_DIR + "/ME-unsigned-unaligned.apk")) {
+            Log.e(TAG, "Failed to align ME-unsigned-unaligned.apk! Exiting...");
+            postExecute(true);
+            return true;
         }
 
         // Sign the APK
-        dir = new File(References.UNSIGNED_DIR);
-        for (File overlay : Objects.requireNonNull(dir.listFiles())) {
-            if (!overlay.isDirectory()) {
-                if (apkSigner(overlay.getAbsolutePath(), overlay.toString().replace(References.UNSIGNED_DIR + '/', "").replace("-unsigned", ""))) {
-                    Log.e(TAG, "Failed to sign " + overlay + "! Exiting...");
-                    postExecute(true);
-                    return true;
-                }
-            }
+        if (apkSigner(References.UNSIGNED_DIR + "/ME-unsigned.apk")) {
+            Log.e(TAG, "Failed to sign ME-unsigned.apk! Exiting...");
+            postExecute(true);
+            return true;
         }
 
         postExecute(false);
@@ -84,9 +75,9 @@ public class CompilerUtil {
         Shell.cmd("rm -rf " + References.DATA_DIR + "/Keystore").exec();
         Shell.cmd("rm -rf " + References.DATA_DIR + "/Overlays").exec();
 
-        // Extract keystore and overlays from assets
+        // Extract keystore and overlay from assets
         FileUtil.copyAssets("Keystore");
-        FileUtil.copyAssets("Overlays");
+        FileUtil.copyAssets("Overlays/android/ME");
 
         // Create temp directory
         Shell.cmd("rm -rf " + References.TEMP_DIR + "; mkdir -p " + References.TEMP_DIR).exec();
@@ -94,13 +85,23 @@ public class CompilerUtil {
         Shell.cmd("mkdir -p " + References.UNSIGNED_UNALIGNED_DIR).exec();
         Shell.cmd("mkdir -p " + References.UNSIGNED_DIR).exec();
         Shell.cmd("mkdir -p " + References.SIGNED_DIR).exec();
+
+        // Disable the overlay in case it is already enabled
+        OverlayUtil.disableOverlay("IconifyComponentME.overlay");
     }
 
     private static void postExecute(boolean hasErroredOut) {
         // Move all generated overlays to module
         if (!hasErroredOut) {
-            Shell.cmd("cp -a " + References.SIGNED_DIR + "/. " + References.OVERLAY_DIR).exec();
-            RootUtil.setPermissionsRecursively(644, References.OVERLAY_DIR + '/');
+            Shell.cmd("cp -rf " + References.SIGNED_DIR + "/IconifyComponentME.apk " + References.OVERLAY_DIR + "/IconifyComponentME.apk").exec();
+            RootUtil.setPermissions(644, References.OVERLAY_DIR + "/IconifyComponentME.apk");
+
+            SystemUtil.mountRW();
+            Shell.cmd("cp -rf " + References.SIGNED_DIR + "/IconifyComponentME.apk " + "/system/product/overlay/IconifyComponentME.apk").exec();
+            RootUtil.setPermissions(644, "/system/product/overlay/IconifyComponentME.apk");
+            SystemUtil.mountRO();
+
+            OverlayUtil.enableOverlay("IconifyComponentME.overlay");
         }
 
         // Clean temp directory
@@ -113,15 +114,19 @@ public class CompilerUtil {
         return !Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + pkgName + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + target + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + source + "/AndroidManifest.xml;").exec().isSuccess();
     }
 
+    private static boolean writeResources(String source, String resources) {
+        return !Shell.cmd("rm -rf " + source + "/res/values/colors.xml", "printf '" + resources + "' > " + source + "/res/values/colors.xml;").exec().isSuccess();
+    }
+
     private static boolean runAapt(String source, String name) {
         return !Shell.cmd(aapt + " p -f -v -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + References.UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk >/dev/null;").exec().isSuccess();
     }
 
-    private static boolean zipAlign(String source, String name) {
-        return !Shell.cmd(zipalign + " 4 " + source + ' ' + References.UNSIGNED_DIR + '/' + name).exec().isSuccess();
+    private static boolean zipAlign(String source) {
+        return !Shell.cmd(zipalign + " 4 " + source + ' ' + References.UNSIGNED_DIR + "/ME-unsigned.apk").exec().isSuccess();
     }
 
-    private static boolean apkSigner(String source, String name) {
+    private static boolean apkSigner(String source) {
         File testKey = new File(References.DATA_DIR + "/Keystore/testkey.pk8");
         File certificate = new File(References.DATA_DIR + "/Keystore/testkey.x509.pem");
 
@@ -143,7 +148,7 @@ public class CompilerUtil {
             X509Certificate cert = readCertificate(certFile);
 
             JarMap jar = JarMap.open(new FileInputStream(source), true);
-            FileOutputStream out = new FileOutputStream(References.SIGNED_DIR + "/IconifyComponent" + name);
+            FileOutputStream out = new FileOutputStream(References.SIGNED_DIR + "/IconifyComponentME.apk");
 
             SignAPK.sign(cert, key, jar, out);
         } catch (Exception e) {

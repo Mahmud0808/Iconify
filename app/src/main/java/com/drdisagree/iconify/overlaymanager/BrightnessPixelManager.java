@@ -2,6 +2,7 @@ package com.drdisagree.iconify.overlaymanager;
 
 import static com.drdisagree.iconify.common.References.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.References.TOTAL_BRIGHTNESSBARSPIXEL;
+import static com.drdisagree.iconify.utils.ColorUtil.ColorToSpecialHex;
 
 import android.graphics.Color;
 
@@ -11,7 +12,6 @@ import androidx.core.graphics.ColorUtils;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.services.ApplyOnBoot;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 
@@ -22,7 +22,7 @@ public class BrightnessPixelManager {
     public static void install_pack(int n) {
         disable_others(n);
         enable_pack(n);
-        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorPixelBackgroundDark", "color", "holo_blue_dark", ApplyOnBoot.ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(ContextCompat.getColor(Iconify.getAppContext(), R.color.holo_blue_light), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
+        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorPixelBackgroundDark", "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(ContextCompat.getColor(Iconify.getAppContext(), R.color.holo_blue_light), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
 
         if (Prefs.getString("cornerRadius").equals("null"))
             OverlayUtil.enableOverlay("IconifyComponentCR16.overlay");

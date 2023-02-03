@@ -4,13 +4,18 @@
     <!-- Notification service on boot -->
     <!-- <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> -->
     <!-- <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> -->
+
     <!-- To notify about new iconify updates -->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- Access phone storage for installation of overlays in temporary folder -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Access phone storage for installation of overlays in temporary folder -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" /> <!-- For checking new updates -->
+        tools:ignore="ScopedStorage" />
+
+    <!-- For checking new updates -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <queries>
@@ -169,7 +174,9 @@
             android:name=".services.BackgroundService"
             android:enabled="true"
             android:exported="true"
-            tools:ignore="ExportedService" /> <!-- xposed meta data -->
+            tools:ignore="ExportedService" />
+
+        <!-- xposed meta data -->
         <meta-data
             android:name="xposedmodule"
             android:value="true" />
@@ -183,6 +190,7 @@
             android:name="xposedscope"
             android:resource="@array/module_scope" />
 
+        <!-- Remote Preferences Provider -->
         <provider
             android:name=".utils.RemotePrefProvider"
             android:authorities="${applicationId}"

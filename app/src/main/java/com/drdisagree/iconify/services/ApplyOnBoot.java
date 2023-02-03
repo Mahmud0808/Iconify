@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.services;
 
 import static com.drdisagree.iconify.common.References.FRAMEWORK_PACKAGE;
+import static com.drdisagree.iconify.utils.ColorUtil.ColorToSpecialHex;
 
 import android.graphics.Color;
 
@@ -92,51 +93,5 @@ public class ApplyOnBoot {
         };
         Thread thread = new Thread(runnable);
         thread.start();
-    }
-
-    public static String ColorToHex(int color, boolean opacity, boolean hash) {
-        int alpha = android.graphics.Color.alpha(color);
-        int blue = android.graphics.Color.blue(color);
-        int green = android.graphics.Color.green(color);
-        int red = android.graphics.Color.red(color);
-
-        String alphaHex = To00Hex(alpha);
-        String blueHex = To00Hex(blue);
-        String greenHex = To00Hex(green);
-        String redHex = To00Hex(red);
-
-        StringBuilder str;
-
-        if (hash)
-            str = new StringBuilder("#");
-        else
-            str = new StringBuilder();
-
-        if (opacity)
-            str.append(alphaHex);
-        str.append(redHex);
-        str.append(greenHex);
-        str.append(blueHex);
-        return str.toString();
-    }
-
-    public static String ColorToSpecialHex(int color) {
-        int alpha = android.graphics.Color.alpha(color);
-        int blue = android.graphics.Color.blue(color);
-        int green = android.graphics.Color.green(color);
-        int red = android.graphics.Color.red(color);
-
-        String alphaHex = To00Hex(alpha);
-        String blueHex = To00Hex(blue);
-        String greenHex = To00Hex(green);
-        String redHex = To00Hex(red);
-
-        //      str.append(alphaHex);
-        return "0xFF" + redHex + greenHex + blueHex;
-    }
-
-    private static String To00Hex(int value) {
-        String hex = "00".concat(Integer.toHexString(value));
-        return hex.substring(hex.length() - 2);
     }
 }

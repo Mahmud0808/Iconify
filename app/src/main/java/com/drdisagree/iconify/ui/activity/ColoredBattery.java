@@ -2,7 +2,7 @@ package com.drdisagree.iconify.ui.activity;
 
 import static com.drdisagree.iconify.common.References.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
-import static com.drdisagree.iconify.ui.activity.ColorPicker.ColorToSpecialHex;
+import static com.drdisagree.iconify.utils.ColorUtil.ColorToSpecialHex;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
