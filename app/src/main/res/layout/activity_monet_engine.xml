@@ -25,6 +25,109 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/preview_coloraccentprimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/container_top"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/container_paddingSide"
+                android:paddingTop="@dimen/container_padding"
+                android:paddingEnd="@dimen/container_paddingSide"
+                android:paddingBottom="@dimen/container_padding">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center"
+                    android:layout_marginEnd="@dimen/container_padding"
+                    android:layout_weight="1.0"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/primary_color"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/primary_color_desc"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="@dimen/cont_desc_size"
+                        tools:ignore="TooManyViews" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/preview_color_picker_primary"
+                    android:layout_width="48.0dp"
+                    android:layout_height="48.0dp"
+                    android:layout_gravity="start|center"
+                    android:layout_margin="2.0dp"
+                    android:background="@drawable/preview_color_picker_primary"
+                    android:contentDescription="@string/color_picker_preview" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorBackground" />
+
+            <LinearLayout
+                android:id="@+id/preview_coloraccentsecondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/container_margin"
+                android:background="@drawable/container_bottom"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/container_paddingSide"
+                android:paddingTop="@dimen/container_padding"
+                android:paddingEnd="@dimen/container_paddingSide"
+                android:paddingBottom="@dimen/container_padding">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center"
+                    android:layout_marginEnd="@dimen/container_padding"
+                    android:layout_weight="1.0"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/secondary_color"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/secondary_color_desc"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="@dimen/cont_desc_size" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/preview_color_picker_secondary"
+                    android:layout_width="48.0dp"
+                    android:layout_height="48.0dp"
+                    android:layout_gravity="start|center"
+                    android:layout_margin="2.0dp"
+                    android:background="@drawable/preview_color_picker_secondary"
+                    android:contentDescription="@string/color_picker_preview" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/container_margin"
@@ -153,51 +256,45 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/preview_coloraccentprimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/container_top"
-                android:baselineAligned="false"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:paddingStart="@dimen/container_paddingSide"
                 android:paddingTop="@dimen/container_padding"
                 android:paddingEnd="@dimen/container_paddingSide"
                 android:paddingBottom="@dimen/container_padding">
 
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:layout_marginEnd="@dimen/container_padding"
-                    android:layout_weight="1.0"
-                    android:orientation="vertical">
+                    android:text="Saturation"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/cont_title_size"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/primary_color"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/monet_saturation_output"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColorSecondary"
+                    android:textSize="@dimen/cont_desc_size" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/primary_color_desc"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_desc_size"
-                        tools:ignore="TooManyViews" />
-
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/preview_color_picker_primary"
-                    android:layout_width="48.0dp"
-                    android:layout_height="48.0dp"
-                    android:layout_gravity="start|center"
-                    android:layout_margin="2.0dp"
-                    android:background="@drawable/preview_color_picker_primary"
-                    android:contentDescription="@string/color_picker_preview" />
+                <SeekBar
+                    android:id="@+id/monet_saturation_seekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/container_padding"
+                    android:layout_marginBottom="8dp"
+                    android:background="@null"
+                    android:hapticFeedbackEnabled="true"
+                    android:max="200"
+                    android:min="0"
+                    android:progress="100"
+                    android:progressDrawable="@drawable/seekbar"
+                    android:splitTrack="false"
+                    android:theme="@style/SeekBar.Iconify"
+                    android:thumb="@drawable/seek_thumb" />
 
             </LinearLayout>
 
@@ -207,68 +304,48 @@
                 android:background="@color/colorBackground" />
 
             <LinearLayout
-                android:id="@+id/preview_coloraccentsecondary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/container_margin"
                 android:background="@drawable/container_bottom"
-                android:baselineAligned="false"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:paddingStart="@dimen/container_paddingSide"
                 android:paddingTop="@dimen/container_padding"
                 android:paddingEnd="@dimen/container_paddingSide"
                 android:paddingBottom="@dimen/container_padding">
 
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:layout_marginEnd="@dimen/container_padding"
-                    android:layout_weight="1.0"
-                    android:orientation="vertical">
+                    android:text="Lightness"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/cont_title_size"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/secondary_color"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/monet_lightness_output"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColorSecondary"
+                    android:textSize="@dimen/cont_desc_size" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/secondary_color_desc"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_desc_size" />
-
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/preview_color_picker_secondary"
-                    android:layout_width="48.0dp"
-                    android:layout_height="48.0dp"
-                    android:layout_gravity="start|center"
-                    android:layout_margin="2.0dp"
-                    android:background="@drawable/preview_color_picker_secondary"
-                    android:contentDescription="@string/color_picker_preview" />
+                <SeekBar
+                    android:id="@+id/monet_lightness_seekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/container_padding"
+                    android:layout_marginBottom="8dp"
+                    android:background="@null"
+                    android:hapticFeedbackEnabled="true"
+                    android:max="200"
+                    android:min="0"
+                    android:progress="100"
+                    android:progressDrawable="@drawable/seekbar"
+                    android:splitTrack="false"
+                    android:theme="@style/SeekBar.Iconify"
+                    android:thumb="@drawable/seek_thumb" />
 
             </LinearLayout>
-
-            <Button
-                android:id="@+id/monet_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/container_margin"
-                android:background="@drawable/button"
-                android:fontFamily="@font/semibold"
-                android:letterSpacing="0.2"
-                android:stateListAnimator="@null"
-                android:text="Generate"
-                android:textColor="@color/colorBackground"
-                android:textSize="@dimen/cont_title_size"
-                android:textStyle="bold"
-                app:backgroundTint="@null" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

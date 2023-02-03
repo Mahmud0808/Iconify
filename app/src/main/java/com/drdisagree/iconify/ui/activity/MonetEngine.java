@@ -7,10 +7,11 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -22,7 +23,6 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,6 +35,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
     private static boolean isSelectedPrimary = false, isSelectedSecondary = false;
     ColorPickerDialog.Builder colorPickerDialogPrimary, colorPickerDialogSecondary;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,13 +49,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        colorTableRows = new LinearLayout[]{
-                findViewById(R.id.color_table).findViewById(R.id.system_accent1),
-                findViewById(R.id.color_table).findViewById(R.id.system_accent2),
-                findViewById(R.id.color_table).findViewById(R.id.system_accent3),
-                findViewById(R.id.color_table).findViewById(R.id.system_neutral1),
-                findViewById(R.id.color_table).findViewById(R.id.system_neutral2)
-        };
+        colorTableRows = new LinearLayout[]{findViewById(R.id.color_table).findViewById(R.id.system_accent1), findViewById(R.id.color_table).findViewById(R.id.system_accent2), findViewById(R.id.color_table).findViewById(R.id.system_accent3), findViewById(R.id.color_table).findViewById(R.id.system_neutral1), findViewById(R.id.color_table).findViewById(R.id.system_neutral2)};
 
         systemColors = ColorUtil.getSystemColors();
         assignColorToPalette();
@@ -99,8 +94,55 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         LinearLayout preview_coloraccentsecondary = findViewById(R.id.preview_coloraccentsecondary);
         preview_coloraccentsecondary.setOnClickListener(v -> colorPickerDialogSecondary.show(MonetEngine.this));
 
-        Button monet_content = findViewById(R.id.monet_content);
-        monet_content.setOnClickListener(v -> assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary))));
+        // Monet saturation
+        SeekBar monet_saturation_seekbar = findViewById(R.id.monet_saturation_seekbar);
+        monet_saturation_seekbar.setPadding(0, 0, 0, 0);
+        TextView monet_saturation_output = findViewById(R.id.monet_saturation_output);
+        monet_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt("monetSaturation", 100) - 100) + "%");
+        monet_saturation_seekbar.setProgress(Prefs.getInt("monetSaturation", 100));
+        final int[] monetSaturation = {Prefs.getInt("monetSaturation", 100)};
+        monet_saturation_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                monetSaturation[0] = progress;
+                monet_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress - 100) + "%");
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Prefs.putInt("monetSaturation", monetSaturation[0]);
+                assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
+            }
+        });
+
+        // Monet lightness
+        SeekBar monet_lightness_seekbar = findViewById(R.id.monet_lightness_seekbar);
+        monet_lightness_seekbar.setPadding(0, 0, 0, 0);
+        TextView monet_lightness_output = findViewById(R.id.monet_lightness_output);
+        monet_lightness_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt("monetLightness", 100) - 100) + "%");
+        monet_lightness_seekbar.setProgress(Prefs.getInt("monetLightness", 100));
+        final int[] monetLightness = {Prefs.getInt("monetLightness", 100)};
+        monet_lightness_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                monetLightness[0] = progress;
+                monet_lightness_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress - 100) + "%");
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Prefs.putInt("monetLightness", monetLightness[0]);
+                assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
+            }
+        });
     }
 
     private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
@@ -111,6 +153,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                 radioGroup2.setOnCheckedChangeListener(null);
                 radioGroup2.clearCheck();
                 radioGroup2.setOnCheckedChangeListener(listener2);
+                assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
             }
         }
     };
@@ -123,6 +166,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                 radioGroup1.setOnCheckedChangeListener(null);
                 radioGroup1.clearCheck();
                 radioGroup1.setOnCheckedChangeListener(listener1);
+                assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
             }
         }
     };
@@ -134,12 +178,14 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                 isSelectedPrimary = true;
                 accentPrimary = String.valueOf(color);
                 updatePrimaryColor();
+                assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
                 colorPickerDialogPrimary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentPrimary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);
                 break;
             case 2:
                 isSelectedSecondary = true;
                 accentSecondary = String.valueOf(color);
                 updateSecondaryColor();
+                assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
                 colorPickerDialogSecondary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentSecondary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(false).setShowColorShades(true);
                 break;
         }
@@ -176,10 +222,31 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void assignCustomColorToPalette(List<List<Object>> palette) {
+        // Set saturation
+        for (int i = 0; i < palette.size(); i++) {
+            for (int j = 1; j < palette.get(i).size() - 1; j++) {
+                int color;
+                if (j == 1)
+                    color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j + 1))), ((float) (Prefs.getInt("monetSaturation", 100) - 100) / 1000.0F) * 1.5F);
+                else
+                    color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), ((float) (Prefs.getInt("monetSaturation", 100) - 100) / 1000.0F) * 3.0F);
+
+                palette.get(i).set(j, color);
+            }
+        }
+
+        // Set lightness
+        for (int i = 3; i < palette.size(); i++) {
+            for (int j = 1; j < palette.get(i).size() - 1; j++) {
+                int color = ColorUtil.setLightness(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), (float) (Prefs.getInt("monetLightness", 100) - 100) / 1000.0F);
+
+                palette.get(i).set(j, color);
+            }
+        }
+
         for (int i = 0; i < colorTableRows.length; i++) {
             if (i == 2 && (Prefs.getBoolean("customSecondaryColor") || isSelectedSecondary)) {
-                List<List<Object>> secondaryPalette = new ArrayList<>();
-                secondaryPalette = GenerateColorPalette(selectedStyle, Integer.parseInt(accentSecondary));
+                List<List<Object>> secondaryPalette = GenerateColorPalette(selectedStyle, Integer.parseInt(accentSecondary));
 
                 for (int j = 0; j < colorTableRows[i].getChildCount(); j++) {
                     GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{(int) secondaryPalette.get(0).get(j), (int) secondaryPalette.get(0).get(j)});

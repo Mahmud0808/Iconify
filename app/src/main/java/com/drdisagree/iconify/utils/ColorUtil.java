@@ -1,8 +1,56 @@
 package com.drdisagree.iconify.utils;
 
+import android.graphics.Color;
+
 import com.drdisagree.iconify.Iconify;
 
 public class ColorUtil {
+
+    public static int setSaturation(int color, float saturation) {
+        int r = Color.red(color);
+        int g = Color.green(color);
+        int b = Color.blue(color);
+
+        float[] hsv = new float[3];
+        Color.RGBToHSV(r, g, b, hsv);
+        hsv[1] += saturation;
+
+        return Color.HSVToColor(hsv);
+    }
+
+    public static float getSaturation(int color) {
+        int r = Color.red(color);
+        int g = Color.green(color);
+        int b = Color.blue(color);
+
+        float[] hsv = new float[3];
+        Color.RGBToHSV(r, g, b, hsv);
+
+        return hsv[1];
+    }
+
+    public static int setLightness(int color, float lightness) {
+        int r = Color.red(color);
+        int g = Color.green(color);
+        int b = Color.blue(color);
+
+        float[] hsv = new float[3];
+        Color.RGBToHSV(r, g, b, hsv);
+        hsv[2] += lightness;
+
+        return Color.HSVToColor(hsv);
+    }
+
+    public static float getLightness(int color) {
+        int r = Color.red(color);
+        int g = Color.green(color);
+        int b = Color.blue(color);
+
+        float[] hsv = new float[3];
+        Color.RGBToHSV(r, g, b, hsv);
+
+        return hsv[2];
+    }
 
     public static int[][] getSystemColors() {
         return new int[][]{
