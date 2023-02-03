@@ -223,20 +223,22 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
     @SuppressLint("UseCompatLoadingForDrawables")
     private void assignCustomColorToPalette(List<List<Object>> palette) {
         // Set saturation
-        for (int i = 0; i < palette.size(); i++) {
-            for (int j = 1; j < palette.get(i).size() - 1; j++) {
-                int color;
-                if (j == 1)
-                    color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j + 1))), ((float) (Prefs.getInt("monetSaturation", 100) - 100) / 1000.0F) * 1.5F);
-                else
-                    color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), ((float) (Prefs.getInt("monetSaturation", 100) - 100) / 1000.0F) * 3.0F);
+        if (!Objects.equals(selectedStyle, "Monochrome")) {
+            for (int i = 0; i < palette.size() - 2; i++) {
+                for (int j = 1; j < palette.get(i).size() - 1; j++) {
+                    int color;
+                    if (j == 1)
+                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j + 1))), ((float) (Prefs.getInt("monetSaturation", 100) - 100) / 1000.0F) * 1.5F);
+                    else
+                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), ((float) (Prefs.getInt("monetSaturation", 100) - 100) / 1000.0F) * 3.0F);
 
-                palette.get(i).set(j, color);
+                    palette.get(i).set(j, color);
+                }
             }
         }
 
         // Set lightness
-        for (int i = 3; i < palette.size(); i++) {
+        for (int i = Objects.equals(selectedStyle, "Monochrome") ? 0 : 3; i < palette.size(); i++) {
             for (int j = 1; j < palette.get(i).size() - 1; j++) {
                 int color = ColorUtil.setLightness(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), (float) (Prefs.getInt("monetLightness", 100) - 100) / 1000.0F);
 
