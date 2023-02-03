@@ -347,6 +347,23 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     @SuppressLint("DiscouragedApi") LinearLayout carrier_group = liparam.view.findViewById(liparam.res.getIdentifier("carrier_group", "id", SYSTEM_UI_PACKAGE));
                     carrier_group.getLayoutParams().height = 0;
                     carrier_group.getLayoutParams().width = 0;
+
+                    // Nusantara clock
+                    try {
+                        @SuppressLint("DiscouragedApi") TextView jr_clock = liparam.view.findViewById(liparam.res.getIdentifier("jr_clock", "id", SYSTEM_UI_PACKAGE));
+                        jr_clock.getLayoutParams().height = 0;
+                        jr_clock.getLayoutParams().width = 0;
+                    } catch (Throwable ignored) {
+                    }
+
+                    // Nusantara date
+                    try {
+                        @SuppressLint("DiscouragedApi") LinearLayout jr_date_container = liparam.view.findViewById(liparam.res.getIdentifier("jr_date_container", "id", SYSTEM_UI_PACKAGE));
+                        TextView jr_date = (TextView) jr_date_container.getChildAt(0);
+                        jr_date.getLayoutParams().height = 0;
+                        jr_date.getLayoutParams().width = 0;
+                    } catch (Throwable ignored) {
+                    }
                 }
             });
         } catch (Throwable t) {
