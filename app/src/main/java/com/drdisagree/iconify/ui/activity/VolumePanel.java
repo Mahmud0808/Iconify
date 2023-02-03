@@ -119,24 +119,25 @@ public class VolumePanel extends AppCompatActivity {
         realCheckedId = checkedId1 == -1 ? checkedId2 : checkedId1;
 
         Button create_module = volume_style.findViewById(R.id.volume_style_create_module);
-        create_module.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!Environment.isExternalStorageManager()) {
-                    Intent intent = new Intent();
-                    intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                    Uri uri = Uri.fromParts("package", Iconify.getAppContext().getPackageName(), null);
-                    intent.setData(uri);
-                    startActivity(intent);
+        create_module.setOnClickListener(v -> {
+            if (!Environment.isExternalStorageManager()) {
+                Intent intent = new Intent();
+                intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                Uri uri = Uri.fromParts("package", Iconify.getAppContext().getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+            } else {
+                if (realCheckedId == -1) {
+                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
                 } else {
-                    if (realCheckedId == -1) {
-                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
-                        return;
-                    }
                     installVolumeModule(realCheckedId);
                 }
             }
         });
+    }
+
+    public void enableColors(View view) {
+        OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
     }
 
     private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
@@ -186,6 +187,9 @@ public class VolumePanel extends AppCompatActivity {
             case R.id.outline_style:
                 selectedStyle = "VolumeOutline";
                 break;
+            case R.id.neumorphoutline_style:
+                selectedStyle = "VolumeNeumorphOutline";
+                break;
         }
 
         String finalSelectedStyle = selectedStyle;
@@ -208,6 +212,12 @@ public class VolumePanel extends AppCompatActivity {
         };
         Thread thread = new Thread(runnable);
         thread.start();
+    }
+
+    @Override
+    public void onDestroy() {
+        loadingDialog.hide();
+        super.onDestroy();
     }
 
     @Override

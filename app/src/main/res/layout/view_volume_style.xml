@@ -124,6 +124,18 @@
                 android:textColor="@color/textColorPrimary"
                 android:textSize="@dimen/cont_desc_size" />
 
+            <RadioButton
+                android:id="@+id/neumorphoutline_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:onClick="enableColors"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                android:text="@string/volume_style_neumorphoutline"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/cont_desc_size" />
+
         </RadioGroup>
     </LinearLayout>
 
