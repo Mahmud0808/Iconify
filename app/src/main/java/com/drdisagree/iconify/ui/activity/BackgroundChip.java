@@ -21,7 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RemotePrefs;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
@@ -59,9 +58,10 @@ public class BackgroundChip extends AppCompatActivity {
         enable_qs_clock_chip.setChecked(RemotePrefs.getBoolean(QSPANEL_CLOCKBG_SWITCH, false));
         enable_qs_clock_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RemotePrefs.putBoolean(QSPANEL_CLOCKBG_SWITCH, isChecked);
-            if (!Prefs.getBoolean("IconifyComponentIXCC.overlay"))
+            new Handler().postDelayed(() -> {
                 OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
-            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+                SystemUtil.restartSystemUI();
+            }, 200);
         });
 
         // QS clock chip style
@@ -93,9 +93,10 @@ public class BackgroundChip extends AppCompatActivity {
         enable_qs_date_chip.setChecked(RemotePrefs.getBoolean(QSPANEL_DATEBG_SWITCH, false));
         enable_qs_date_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RemotePrefs.putBoolean(QSPANEL_DATEBG_SWITCH, isChecked);
-            if (!Prefs.getBoolean("IconifyComponentIXCC.overlay"))
+            new Handler().postDelayed(() -> {
                 OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
-            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+                SystemUtil.restartSystemUI();
+            }, 200);
         });
 
         // QS date chip style
@@ -127,9 +128,10 @@ public class BackgroundChip extends AppCompatActivity {
         enable_status_icons_chip.setChecked(RemotePrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false));
         enable_status_icons_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RemotePrefs.putBoolean(QSPANEL_STATUSICONSBG_SWITCH, isChecked);
-            if (!Prefs.getBoolean("IconifyComponentIXCC.overlay"))
+            new Handler().postDelayed(() -> {
                 OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
-            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+                SystemUtil.restartSystemUI();
+            }, 200);
         });
 
         // Status icons chip style
