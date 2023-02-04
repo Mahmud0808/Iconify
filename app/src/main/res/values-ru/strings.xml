@@ -33,6 +33,8 @@
     <string name="activity_title_color_engine">Редактор цветов</string>
     <string name="activity_title_color_picker">Выбор цвета</string>
     <string name="activity_title_colored_battery">Цветная батарея</string>
+    <string name="activity_title_monet_engine">Движок тем Monet</string>
+    <string name="activity_desc_monet_engine">Переопределить стиль цветов Monet</string>
     <string name="activity_title_experimental">Экспериментальные</string>
     <string name="activity_title_extras">Дополнительные</string>
     <string name="activity_title_header_clock">Часы в заголовке</string>
@@ -78,6 +80,7 @@
     <string name="btn_enable_custom_colors">Применить цвета</string>
     <string name="btn_pick_font">Выбрать шрифт</string>
     <string name="btn_pick_image">Выбрать изображение</string>
+    <string name="iconify_updated_desc">Перезагрузите телефон, для использования последних добавленных функций и опций.</string>
     <string name="btn_reboot_now">Перезагрузить сейчас</string>
     <string name="btn_reset">СБРОСИТЬ</string>
     <string name="btn_reset_tint">Сбросить оттенок</string>
@@ -142,7 +145,6 @@
     <string name="iconify_clipboard_label_version_name">Имя версия:</string>
     <string name="iconify_logo">Логотип Iconify</string>
     <string name="iconify_slogan">Улучшить скучный интерфейс Андроид</string>
-    <string name="iconify_updated_desc">Reboot your phone to use the latest added features and options.</string>
     <string name="iconify_updated_title">Iconify только что обновился!</string>
     <string name="iconpack_aurora">Aurora</string>
     <string name="iconpack_gradicon">Gradicon</string>
@@ -188,8 +190,8 @@
     <string name="navbar_disable_right_gesture_title">Отключить правый жест</string>
     <string name="navbar_fullscreen_desc">Скрыть строку навигации и отступ клавиатуры</string>
     <string name="navbar_fullscreen_title">Во весь экран</string>
-    <string name="navbar_hide_kb_buttons_desc">Hide keyboard back/switcher buttons</string>
-    <string name="navbar_hide_kb_buttons_title">Hide Keyboard Buttons</string>
+    <string name="navbar_hide_kb_buttons_desc">Скрыть кнопки возврата/переключателя клавиатуры</string>
+    <string name="navbar_hide_kb_buttons_title">Скрыть кнопки клавиатуры</string>
     <string name="navbar_hide_pill_desc">Скрыть строку навигации</string>
     <string name="navbar_hide_pill_title">Скрывает строку навигации</string>
     <string name="navbar_immersive_desc">Стандартная высота клавиатуры</string>
@@ -227,18 +229,19 @@
     <string name="qs_row_column_warn_desc">Некоторые комбинации могут не работать в некоторых прошивках. В таком случае, попробуйте другие комбинации, которые подходят вам больше всего.</string>
     <string name="qspanel_column_title">Столбцов в быстрых настройках</string>
     <string name="qspanel_row_title">Строк в быстрых настройках</string>
-    <string name="qstile_btn1_desc">RIP in Peace</string>
     <string name="qstile_btn1_title">Internet</string>
-    <string name="qstile_btn2_desc">Off</string>
-    <string name="qstile_btn2_title">Airplane</string>
-    <string name="qstile_btn3_desc">Off</string>
-    <string name="qstile_btn3_title">Location</string>
-    <string name="qstile_btn4_desc">On</string>
+    <string name="qstile_btn2_title">В самолёте</string>
+    <string name="qstile_btn1_desc">Покойся с миром</string>
+    <string name="qstile_btn3_title">Геолокация</string>
+    <string name="qstile_btn3_desc">Выкл.</string>
+    <string name="qstile_btn2_desc">Выкл.</string>
+    <string name="qstile_btn4_desc">Вкл.</string>
     <string name="qstile_btn4_title">Bluetooth</string>
     <string name="quick_qspanel_row_title">Строк у свёрнутой панели задач</string>
     <string name="read_carefully">Прочитайте внимательно!</string>
     <string name="reboot_needed">Сначала перезагрузите устройство!</string>
     <string name="rebooting_desc">Перезагрузка через 5 секунд</string>
+    <string name="minimal_qspanel">Минималистичная панель быстрых настроек</string>
     <string name="remove_top_shade_of_qspanel">Удалить верхнюю тень панели быстрых настроек</string>
     <string name="restart_sysui_desc">Некоторые опции могут быть применены, но не отображаться, пока System UI не будет перезапущен. В таком случае используйте эту функцию для перезапуска System UI.</string>
     <string name="restart_sysui_title">Перезапустить System UI</string>
@@ -256,6 +259,7 @@
     <string name="section_title_contributors">Участники проекта</string>
     <string name="section_title_credits">Благодарности</string>
     <string name="section_title_media_player_icons">Иконки медиаплееров</string>
+    <string name="move_icon_title">Переместить иконку</string>
     <string name="section_title_qs_text_color">Цвет текста в быстрых настройках</string>
     <string name="status_icons_chip_desc">Показывать фишку позади иконок статусбара</string>
     <string name="status_icons_chip_title">Фишка иконок статусбара</string>
@@ -266,8 +270,8 @@
     <string name="toast_disabled">Отключено</string>
     <string name="toast_disabled_everything">Всё отключено</string>
     <string name="toast_error">Что-то пошло не так</string>
-    <string name="toast_lorn_colored_battery">Lorn uses colored battery by default</string>
     <string name="toast_module_created">Модуль успешно создан</string>
+    <string name="toast_lorn_colored_battery">В Lorn по умолчанию включена цветная батарея</string>
     <string name="toast_plumpy_colored_battery">Plumpy по умолчанию использует цветную батарею</string>
     <string name="toast_reboot">Необходима перезагрузка</string>
     <string name="toast_rename_file">Переименуйте файл на что-то более простое</string>
@@ -290,7 +294,7 @@
     <string name="vertical_qs_tile_title">Вертикальные плитки быстрых настроек</string>
     <string name="view_changelog">Показать Журнал Изменений</string>
     <string name="volume_module_desc">Создать Magisk модуль для применения этого стиля</string>
-    <string name="volume_module_installation_guide">Эта опция создаст Magisk модуль в папке \"Download\". Установите этот модуль (IconifyCompanion.zip) в Magisk manager. Всегда удаляйте прошлую версию IconifyCompanion и выполняйте перезагрузку перед установкой новой версии.\n\nЗаметки:\n• Удалите модуль перед обновлением прошивки.\n• Пересоздайте модуль после обновления или смены прошивки.\n• Не устанавливает модуль созданный не для вашей прошивки.</string>
+    <string name="volume_module_installation_guide">Эта опция создаст Magisk модуль в папке \"Download\". Установите этот модуль (IconifyCompanion.zip) в Magisk manager. Всегда удаляйте прошлую версию IconifyCompanion и выполняйте перезагрузку перед установкой новой версии. \n\nЗаметки:\n• Удалите модуль перед обновлением прошивки.\n• Пересоздайте модуль после обновления или смены прошивки.\n• Не устанавливайте модуль, созданный не для вашей прошивки.</string>
     <string name="volume_style">Стиль громкости</string>
     <string name="vp_no_background_title">Без фона</string>
     <string name="vp_thick_background_title">Широкий фон</string>
@@ -299,9 +303,11 @@
     <string name="window_level_blur_desc">Для начала работы необходимо выполнить перезагрузку</string>
     <string name="window_level_blur_title">Уровень размытия окна</string>
     <string name="you_will_loose_current_setup">Вы потеряете текущие установки и настройки.</string>
-    <string name="minimal_qspanel">Minimal QsPanel</string>
-    <string name="move_icon_title">Move Icon</string>
-    <string name="mp_accent_background_title">Accent Background</string>
-    <string name="mp_pb_background_title">Pitch Black Background</string>
-    <string name="mp_system_background_title">System Background</string>
+    <string name="mp_pb_background_title">Pitch Black фон</string>
+    <string name="mp_accent_background_title">Фон из цветового Акцента</string>
+    <string name="mp_system_background_title">Системный фон</string>
+    <string name="toast_select_style">Сначала выберите стиль</string>
+    <string name="volume_style_gradient">Градиент</string>
+    <string name="translators">Переводчики</string>
+    <string name="toast_reboot_required">Необхрдима перезагрузка</string>
 </resources>
