@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <layer-list>
+            <item>
+                <shape android:tintMode="src_atop">
+                    <solid android:color="#1AFFFFFF" />
+                    <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+                </shape>
+            </item>
+            <item
+                android:bottom="2.0dp"
+                android:end="2.0dp"
+                android:start="2.0dp"
+                android:top="2.0dp">
+                <shape android:tintMode="src_atop">
+                    <solid android:color="?android:colorBackgroundFloating" />
+                    <corners android:radius="@*android:dimen/harmful_app_name_padding_right" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <item>
+        <layer-list>
+            <item>
+                <shape android:tintMode="multiply">
+                    <gradient
+                        android:angle="0.0"
+                        android:endColor="?android:colorSecondary"
+                        android:startColor="?android:colorPrimary" />
+                    <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+                </shape>
+            </item>
+            <item
+                android:bottom="2.0dp"
+                android:end="2.0dp"
+                android:start="2.0dp"
+                android:top="2.0dp">
+                <shape android:tintMode="multiply">
+                    <solid android:color="?android:colorBackgroundFloating" />
+                    <corners android:radius="@*android:dimen/harmful_app_name_padding_right" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</layer-list>
