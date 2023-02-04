@@ -156,27 +156,53 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         LinearLayout preview_coloraccentsecondary = findViewById(R.id.preview_coloraccentsecondary);
         preview_coloraccentsecondary.setOnClickListener(v -> colorPickerDialogSecondary.show(MonetEngine.this));
 
-        // Monet saturation
-        SeekBar monet_saturation_seekbar = findViewById(R.id.monet_saturation_seekbar);
-        monet_saturation_seekbar.setPadding(0, 0, 0, 0);
-        TextView monet_saturation_output = findViewById(R.id.monet_saturation_output);
-        monet_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt("monetSaturation", 100) - 100) + "%");
-        monet_saturation_seekbar.setProgress(Prefs.getInt("monetSaturation", 100));
-        final int[] monetSaturation = {Prefs.getInt("monetSaturation", 100)};
-        monet_saturation_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        // Monet accent saturation
+        SeekBar monet_accent_saturation_seekbar = findViewById(R.id.monet_accent_saturation_seekbar);
+        monet_accent_saturation_seekbar.setPadding(0, 0, 0, 0);
+        TextView monet_accent_saturation_output = findViewById(R.id.monet_accent_saturation_output);
+        monet_accent_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt("monetAccentSaturation", 100) - 100) + "%");
+        monet_accent_saturation_seekbar.setProgress(Prefs.getInt("monetAccentSaturation", 100));
+        final int[] monetAccentSaturation = {Prefs.getInt("monetAccentSaturation", 100)};
+        monet_accent_saturation_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                monetSaturation[0] = progress;
-                monet_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress - 100) + "%");
+                monetAccentSaturation[0] = progress;
+                monet_accent_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress - 100) + "%");
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Prefs.putInt("monetSaturation", monetSaturation[0]);
+                Prefs.putInt("monetAccentSaturation", monetAccentSaturation[0]);
+                assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
+                enable_custom_monet.setVisibility(View.VISIBLE);
+            }
+        });
+
+        // Monet background saturation
+        SeekBar monet_background_saturation_seekbar = findViewById(R.id.monet_background_saturation_seekbar);
+        monet_background_saturation_seekbar.setPadding(0, 0, 0, 0);
+        TextView monet_background_saturation_output = findViewById(R.id.monet_background_saturation_output);
+        monet_background_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt("monetBackgroundSaturation", 100) - 100) + "%");
+        monet_background_saturation_seekbar.setProgress(Prefs.getInt("monetBackgroundSaturation", 100));
+        final int[] monetBackgroundSaturation = {Prefs.getInt("monetBackgroundSaturation", 100)};
+        monet_background_saturation_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                monetBackgroundSaturation[0] = progress;
+                monet_background_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress - 100) + "%");
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Prefs.putInt("monetBackgroundSaturation", monetBackgroundSaturation[0]);
                 assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
                 enable_custom_monet.setVisibility(View.VISIBLE);
             }
@@ -259,13 +285,16 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         disable_custom_monet.setOnClickListener(v -> {
             disable_custom_monet.setVisibility(View.GONE);
             Runnable runnable2 = () -> {
-                disable_custom_monet.setVisibility(View.GONE);
                 Prefs.putBoolean("customMonet", false);
+                Prefs.putString("colorAccentPrimary", "null");
+                Prefs.putString("colorAccentSecondary", "null");
                 OverlayUtil.disableOverlay("IconifyComponentME.overlay");
 
                 runOnUiThread(() -> {
                     new Handler().postDelayed(() -> {
                         Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
+                        enable_custom_monet.setVisibility(View.GONE);
+                        disable_custom_monet.setVisibility(View.VISIBLE);
                     }, 2000);
                 });
             };
@@ -355,15 +384,30 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void assignCustomColorToPalette(List<List<Object>> palette) {
-        // Set saturation
+        // Set accent saturation
         if (!Objects.equals(selectedStyle, "Monochrome")) {
             for (int i = 0; i < palette.size() - 2; i++) {
                 for (int j = 1; j < palette.get(i).size() - 1; j++) {
                     int color;
                     if (j == 1)
-                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j + 1))), ((float) (Prefs.getInt("monetSaturation", 100) - 100) / 1000.0F) * (Math.max((1.5F - j / 8F), 1.5F)));
+                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j + 1))), ((float) (Prefs.getInt("monetAccentSaturation", 100) - 100) / 1000.0F) * (Math.max((1.5F - j / 8F), 1.5F)));
                     else
-                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), ((float) (Prefs.getInt("monetSaturation", 100) - 100) / 1000.0F) * (Math.max((3.0F - j / 5F), 3.0F)));
+                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), ((float) (Prefs.getInt("monetAccentSaturation", 100) - 100) / 1000.0F) * (Math.max((3.0F - j / 5F), 3.0F)));
+
+                    palette.get(i).set(j, color);
+                }
+            }
+        }
+
+        // Set background saturation
+        if (!Objects.equals(selectedStyle, "Monochrome")) {
+            for (int i = 3; i < palette.size(); i++) {
+                for (int j = 1; j < palette.get(i).size() - 1; j++) {
+                    int color;
+                    if (j == 1)
+                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j + 1))), ((float) (Prefs.getInt("monetBackgroundSaturation", 100) - 100) / 1000.0F) * (Math.max((1.5F - j / 8F), 1.5F)));
+                    else
+                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), ((float) (Prefs.getInt("monetBackgroundSaturation", 100) - 100) / 1000.0F) * (Math.max((3.0F - j / 5F), 3.0F)));
 
                     palette.get(i).set(j, color);
                 }
@@ -380,7 +424,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         }
 
         for (int i = 0; i < colorTableRows.length; i++) {
-            if (i == 2 && (Prefs.getBoolean("customSecondaryColor") || isSelectedSecondary)) {
+            if (i == 2 && (Prefs.getBoolean("customSecondaryColor") || isSelectedSecondary) && !Objects.equals(selectedStyle, "Monochrome")) {
                 Prefs.putBoolean("customSecondaryColor", true);
                 List<List<Object>> secondaryPalette = GenerateColorPalette(selectedStyle, Integer.parseInt(accentSecondary));
 
@@ -388,9 +432,9 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                     if (j == 0 || j == colorTableRows[i].getChildCount() - 1)
                         palette.get(i).set(j, secondaryPalette.get(0).get(j));
                     else if (j == 1)
-                        palette.get(i).set(j, ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) secondaryPalette.get(0).get(j + 1))), ((float) (Prefs.getInt("monetSaturation", 100) - 100) / 1000.0F) * (Math.max((1.5F - j / 8F), 1.5F))));
+                        palette.get(i).set(j, ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) secondaryPalette.get(0).get(j + 1))), ((float) (Prefs.getInt("monetAccentSaturation", 100) - 100) / 1000.0F) * (Math.max((1.5F - j / 8F), 1.5F))));
                     else
-                        palette.get(i).set(j, ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) secondaryPalette.get(0).get(j))), ((float) (Prefs.getInt("monetSaturation", 100) - 100) / 1000.0F) * (Math.max((3.0F - j / 5F), 3.0F))));
+                        palette.get(i).set(j, ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) secondaryPalette.get(0).get(j))), ((float) (Prefs.getInt("monetAccentSaturation", 100) - 100) / 1000.0F) * (Math.max((3.0F - j / 5F), 3.0F))));
 
                     GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{(int) palette.get(i).get(j), (int) palette.get(i).get(j)});
                     colorbg.setCornerRadius(8 * getResources().getDisplayMetrics().density);
