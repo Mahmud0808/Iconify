@@ -148,6 +148,8 @@ public class HomePage extends AppCompatActivity {
             List<String> FabricatedEnabledOverlays = FabricatedOverlayUtil.getEnabledOverlayList();
             for (String overlay : FabricatedEnabledOverlays)
                 Prefs.putBoolean("fabricated" + overlay, true);
+
+            Prefs.putBoolean("customMonet", OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentME.overlay"));
         };
         Thread thread1 = new Thread(runnable1);
         thread1.start();

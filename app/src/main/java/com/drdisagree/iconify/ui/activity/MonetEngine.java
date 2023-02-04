@@ -137,8 +137,12 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
 
         if (Prefs.getBoolean("customMonet"))
             assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
-        else
-            assignColorToPalette();
+        else {
+            selectedStyle = "null";
+            radioGroup1.clearCheck();
+            radioGroup2.clearCheck();
+            assignStockColorToPalette();
+        }
 
         colorPickerDialogPrimary = ColorPickerDialog.newBuilder();
         colorPickerDialogSecondary = ColorPickerDialog.newBuilder();
@@ -174,6 +178,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
             public void onStopTrackingTouch(SeekBar seekBar) {
                 Prefs.putInt("monetSaturation", monetSaturation[0]);
                 assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
+                enable_custom_monet.setVisibility(View.VISIBLE);
             }
         });
 
@@ -199,10 +204,12 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
             public void onStopTrackingTouch(SeekBar seekBar) {
                 Prefs.putInt("monetLightness", monetLightness[0]);
                 assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
+                enable_custom_monet.setVisibility(View.VISIBLE);
             }
         });
 
         // Enable custom colors button
+        enable_custom_monet.setVisibility(View.GONE);
         enable_custom_monet.setOnClickListener(v -> {
             if (!Environment.isExternalStorageManager()) {
                 Intent intent = new Intent();
@@ -210,8 +217,11 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                 Uri uri = Uri.fromParts("package", Iconify.getAppContext().getPackageName(), null);
                 intent.setData(uri);
                 startActivity(intent);
+            } else if (Objects.equals(selectedStyle, "null")) {
+                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
             } else {
-                enable_custom_monet.setVisibility(View.GONE);
+                if (isSelectedPrimary) Prefs.putString("colorAccentPrimary", accentPrimary);
+                if (isSelectedSecondary) Prefs.putString("colorAccentSecondary", accentSecondary);
                 AtomicBoolean hasErroredOut = new AtomicBoolean(false);
 
                 Runnable runnable1 = () -> {
@@ -229,8 +239,11 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                             Prefs.putBoolean("customMonet", true);
 
                         new Handler().postDelayed(() -> {
-                            if (!hasErroredOut.get())
+                            if (!hasErroredOut.get()) {
                                 Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                                enable_custom_monet.setVisibility(View.GONE);
+                                disable_custom_monet.setVisibility(View.VISIBLE);
+                            }
                             else
                                 Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                         }, 2000);
@@ -242,16 +255,13 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         });
 
         // Disable custom colors button
-        Prefs.putBoolean("customMonet", OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentME.overlay"));
-        if (Prefs.getBoolean("customMonet")) disable_custom_monet.setVisibility(View.VISIBLE);
-        else disable_custom_monet.setVisibility(View.GONE);
-
+        disable_custom_monet.setVisibility(Prefs.getBoolean("customMonet") ? View.VISIBLE : View.GONE);
         disable_custom_monet.setOnClickListener(v -> {
             disable_custom_monet.setVisibility(View.GONE);
             Runnable runnable2 = () -> {
                 disable_custom_monet.setVisibility(View.GONE);
-                OverlayUtil.disableOverlay("IconifyComponentME.overlay");
                 Prefs.putBoolean("customMonet", false);
+                OverlayUtil.disableOverlay("IconifyComponentME.overlay");
 
                 runOnUiThread(() -> {
                     new Handler().postDelayed(() -> {
@@ -333,7 +343,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    private void assignColorToPalette() {
+    private void assignStockColorToPalette() {
         for (int i = 0; i < colorTableRows.length; i++) {
             for (int j = 0; j < colorTableRows[i].getChildCount(); j++) {
                 GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{systemColors[i][j], systemColors[i][j]});
@@ -345,8 +355,6 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void assignCustomColorToPalette(List<List<Object>> palette) {
-        enable_custom_monet.setVisibility(View.VISIBLE);
-
         // Set saturation
         if (!Objects.equals(selectedStyle, "Monochrome")) {
             for (int i = 0; i < palette.size() - 2; i++) {

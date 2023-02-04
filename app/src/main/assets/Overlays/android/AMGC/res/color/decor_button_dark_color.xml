@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:color="@*android:color/background_dark"
-        android:state_window_focused="true" />
-    <item android:color="#33000000" />
-</selector>
