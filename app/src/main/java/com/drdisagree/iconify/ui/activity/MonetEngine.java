@@ -224,7 +224,6 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                 disable_custom_monet.setVisibility(View.GONE);
                 OverlayUtil.disableOverlay("IconifyComponentME.overlay");
                 Prefs.putBoolean("customMonet", false);
-                Prefs.putBoolean("customSecondaryColor", false);
 
                 runOnUiThread(() -> {
                     new Handler().postDelayed(() -> {
