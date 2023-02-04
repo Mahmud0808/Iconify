@@ -29,11 +29,9 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.ColorUtil;
 import com.drdisagree.iconify.utils.MonetCompilerUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
-import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
-import com.topjohnwu.superuser.Shell;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -325,9 +323,9 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                 for (int j = 1; j < palette.get(i).size() - 1; j++) {
                     int color;
                     if (j == 1)
-                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j + 1))), ((float) (Prefs.getInt("monetSaturation", 100) - 100) / 1000.0F) * 1.5F);
+                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j + 1))), ((float) (Prefs.getInt("monetSaturation", 100) - 100) / 1000.0F) * (Math.max((1.5F - j / 8F), 1.5F)));
                     else
-                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), ((float) (Prefs.getInt("monetSaturation", 100) - 100) / 1000.0F) * (3.0F - j / 5F));
+                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), ((float) (Prefs.getInt("monetSaturation", 100) - 100) / 1000.0F) * (Math.max((3.0F - j / 5F), 3.0F)));
 
                     palette.get(i).set(j, color);
                 }
@@ -348,8 +346,11 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                 Prefs.putBoolean("customSecondaryColor", true);
                 List<List<Object>> secondaryPalette = GenerateColorPalette(selectedStyle, Integer.parseInt(accentSecondary));
 
-                for (int j = 0; j < colorTableRows[i].getChildCount(); j++) {
-                    palette.get(i).set(j, secondaryPalette.get(0).get(j));
+                for (int j = 1; j < colorTableRows[i].getChildCount() - 1; j++) {
+                    if (j == 1)
+                        palette.get(i).set(j, ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) secondaryPalette.get(0).get(j + 1))), ((float) (Prefs.getInt("monetSaturation", 100) - 100) / 1000.0F) * (Math.max((1.5F - j / 8F), 1.5F))));
+                    else
+                        palette.get(i).set(j, ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) secondaryPalette.get(0).get(j))), ((float) (Prefs.getInt("monetSaturation", 100) - 100) / 1000.0F) * (Math.max((3.0F - j / 5F), 3.0F))));
 
                     GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{(int) palette.get(i).get(j), (int) palette.get(i).get(j)});
                     colorbg.setCornerRadius(8 * getResources().getDisplayMetrics().density);
