@@ -10,8 +10,7 @@ import java.util.List;
 
 public class TileCustomMonet extends TileService {
 
-    public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
-    private boolean isCustomMonetEnabled = OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentME.overlay");
+    private boolean isCustomMonetEnabled = Prefs.getBoolean("IconifyComponentME.overlay");
 
     @Override
     public void onTileAdded() {
@@ -36,8 +35,10 @@ public class TileCustomMonet extends TileService {
         super.onClick();
 
         if (isCustomMonetEnabled) {
+            Prefs.putBoolean("IconifyComponentME.overlay", false);
             OverlayUtil.disableOverlay("IconifyComponentME.overlay");
         } else {
+            Prefs.putBoolean("IconifyComponentME.overlay", true);
             OverlayUtil.enableOverlay("IconifyComponentME.overlay");
         }
 

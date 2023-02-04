@@ -10,8 +10,7 @@ import java.util.List;
 
 public class TilePitchBlack extends TileService {
 
-    public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
-    private boolean isPitchBlackEnabled = OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentQSPB.overlay");
+    private boolean isPitchBlackEnabled = Prefs.getBoolean("IconifyComponentQSPB.overlay");
 
     @Override
     public void onTileAdded() {
@@ -36,8 +35,10 @@ public class TilePitchBlack extends TileService {
         super.onClick();
 
         if (isPitchBlackEnabled) {
+            Prefs.putBoolean("IconifyComponentQSPB.overlay", false);
             OverlayUtil.disableOverlay("IconifyComponentQSPB.overlay");
         } else {
+            Prefs.putBoolean("IconifyComponentQSPB.overlay", true);
             OverlayUtil.enableOverlay("IconifyComponentQSPB.overlay");
         }
 
