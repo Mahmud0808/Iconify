@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.utils;
 
-import static com.drdisagree.iconify.common.References.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readCertificate;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;
 
@@ -31,7 +30,7 @@ public class MonetCompilerUtil {
         // Create AndroidManifest.xml
         String overlay_name = "ME";
 
-        if (createManifest(overlay_name, FRAMEWORK_PACKAGE, References.DATA_DIR + "/Overlays/android/ME")) {
+        if (createManifest(overlay_name, References.DATA_DIR + "/Overlays/android/ME")) {
             Log.e(TAG, "Failed to create Manifest for " + overlay_name + "! Exiting...");
             postExecute(true);
             return true;
@@ -110,8 +109,8 @@ public class MonetCompilerUtil {
         Shell.cmd("rm -rf " + References.DATA_DIR + "/Overlays").exec();
     }
 
-    private static boolean createManifest(String pkgName, String target, String source) {
-        return !Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + pkgName + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + target + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + source + "/AndroidManifest.xml;").exec().isSuccess();
+    private static boolean createManifest(String pkgName, String source) {
+        return !Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + pkgName + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + References.FRAMEWORK_PACKAGE + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + source + "/AndroidManifest.xml;").exec().isSuccess();
     }
 
     private static boolean writeResources(String source, String resources) {
