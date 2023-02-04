@@ -3,8 +3,10 @@ package com.drdisagree.iconify.utils;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readCertificate;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;
 
+import android.os.Build;
 import android.util.Log;
 
+import com.android.apksig.ApkSigner;
 import com.drdisagree.iconify.common.References;
 import com.drdisagree.iconify.utils.apksigner.JarMap;
 import com.drdisagree.iconify.utils.apksigner.SignAPK;
@@ -15,8 +17,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class CompilerUtil {
@@ -122,34 +127,60 @@ public class CompilerUtil {
     }
 
     private static boolean apkSigner(String source, String name) {
-        File testKey = new File(References.DATA_DIR + "/Keystore/testkey.pk8");
-        File certificate = new File(References.DATA_DIR + "/Keystore/testkey.x509.pem");
+        try {
+            File key = new File(References.DATA_DIR + "/Keystore/key");
+            char[] keyPass = "overlay".toCharArray();
 
-        if (!testKey.exists() || !certificate.exists()) {
-            Log.d("KeyStore", "Loading keystore from assets...");
-            try {
+            if (!key.exists()) {
+                Log.d("KeyStore", "Loading keystore from assets...");
                 FileUtil.copyAssets("Keystore");
-            } catch (Exception e) {
+            }
+
+            KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            keyStore.load(new FileInputStream(key), keyPass);
+            PrivateKey privateKey = (PrivateKey) keyStore.getKey("key", keyPass);
+            List<X509Certificate> certs = new ArrayList<>();
+            certs.add((X509Certificate) keyStore.getCertificateChain("key")[0]);
+
+            ApkSigner.SignerConfig signerConfig = new ApkSigner.SignerConfig.Builder("overlay", privateKey, certs).build();
+            List<ApkSigner.SignerConfig> signerConfigs = new ArrayList<>();
+            signerConfigs.add(signerConfig);
+            new ApkSigner.Builder(signerConfigs)
+                    .setV1SigningEnabled(true)
+                    .setV2SigningEnabled(true)
+                    .setV3SigningEnabled(true)
+                    .setInputApk(new File(source))
+                    .setOutputApk(new File(References.SIGNED_DIR + "/IconifyComponent" + name))
+                    .setMinSdkVersion(Build.VERSION.SDK_INT)
+                    .build()
+                    .sign();
+        } catch (Exception e) {
+            Log.e(TAG, "Signature scheme v1 + v2 + v3 signing method failed! Using only v1 instead...\n" + e);
+
+            try {
+                File testKey = new File(References.DATA_DIR + "/Keystore/testkey.pk8");
+                File certificate = new File(References.DATA_DIR + "/Keystore/testkey.x509.pem");
+
+                if (!testKey.exists() || !certificate.exists()) {
+                    Log.d("KeyStore", "Loading keystore from assets...");
+                    FileUtil.copyAssets("Keystore");
+                }
+
+                InputStream keyFile = new FileInputStream(testKey);
+                PrivateKey key = readPrivateKey(keyFile);
+
+                InputStream certFile = new FileInputStream(certificate);
+                X509Certificate cert = readCertificate(certFile);
+
+                JarMap jar = JarMap.open(new FileInputStream(source), true);
+                FileOutputStream out = new FileOutputStream(References.SIGNED_DIR + "/IconifyComponent" + name);
+
+                SignAPK.sign(cert, key, jar, out);
+            } catch (Exception exception) {
+                Log.e(TAG, exception.toString());
                 postExecute(true);
                 return true;
             }
-        }
-
-        try {
-            InputStream keyFile = new FileInputStream(testKey);
-            PrivateKey key = readPrivateKey(keyFile);
-
-            InputStream certFile = new FileInputStream(certificate);
-            X509Certificate cert = readCertificate(certFile);
-
-            JarMap jar = JarMap.open(new FileInputStream(source), true);
-            FileOutputStream out = new FileOutputStream(References.SIGNED_DIR + "/IconifyComponent" + name);
-
-            SignAPK.sign(cert, key, jar, out);
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
-            postExecute(true);
-            return true;
         }
         return false;
     }
