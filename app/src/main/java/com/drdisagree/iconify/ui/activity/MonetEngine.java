@@ -44,7 +44,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
     private LinearLayout[] colorTableRows;
     private int[][] systemColors;
     private RadioGroup radioGroup1, radioGroup2;
-    private Button enable_custom_monet;
+    private Button enable_custom_monet, disable_custom_monet;
     private static String accentPrimary, accentSecondary, selectedStyle;
     private static boolean isSelectedPrimary = false, isSelectedSecondary = false;
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
@@ -65,6 +65,10 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        // Enable/Disable monet button
+        enable_custom_monet = findViewById(R.id.enable_custom_monet);
+        disable_custom_monet = findViewById(R.id.disable_custom_monet);
+
         colorTableRows = new LinearLayout[]{findViewById(R.id.color_table).findViewById(R.id.system_accent1), findViewById(R.id.color_table).findViewById(R.id.system_accent2), findViewById(R.id.color_table).findViewById(R.id.system_accent3), findViewById(R.id.color_table).findViewById(R.id.system_neutral1), findViewById(R.id.color_table).findViewById(R.id.system_neutral2)};
         systemColors = ColorUtil.getSystemColors();
 
@@ -80,15 +84,37 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         Thread thread = new Thread(runnable);
         thread.start();
 
-        assignColorToPalette();
-
-        selectedStyle = "Neutral";
+        selectedStyle = Prefs.getString("customMonetStyle").equals("null") ? "Neutral" : Prefs.getString("customMonetStyle");
 
         radioGroup1 = findViewById(R.id.monet_styles1);
         radioGroup2 = findViewById(R.id.monet_styles2);
 
         radioGroup1.clearCheck();
         radioGroup2.clearCheck();
+
+        switch (selectedStyle) {
+            case "Neutral":
+                ((RadioButton) findViewById(R.id.neutral_style)).setChecked(true);
+                break;
+            case "Monochrome":
+                ((RadioButton) findViewById(R.id.monochrome_style)).setChecked(true);
+                break;
+            case "Tonal Spot":
+                ((RadioButton) findViewById(R.id.tonalspot_style)).setChecked(true);
+                break;
+            case "Vibrant":
+                ((RadioButton) findViewById(R.id.vibrant_style)).setChecked(true);
+                break;
+            case "Expressive":
+                ((RadioButton) findViewById(R.id.expressive_style)).setChecked(true);
+                break;
+            case "Fidelity":
+                ((RadioButton) findViewById(R.id.fidelity_style)).setChecked(true);
+                break;
+            case "Content":
+                ((RadioButton) findViewById(R.id.content_style)).setChecked(true);
+                break;
+        }
 
         radioGroup1.setOnCheckedChangeListener(listener1);
         radioGroup2.setOnCheckedChangeListener(listener2);
@@ -108,6 +134,11 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
             accentSecondary = String.valueOf(getResources().getColor(android.R.color.system_accent1_200));
         else
             accentSecondary = String.valueOf(getResources().getColor(android.R.color.system_accent3_200));
+
+        if (Prefs.getBoolean("customMonet"))
+            assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
+        else
+            assignColorToPalette();
 
         colorPickerDialogPrimary = ColorPickerDialog.newBuilder();
         colorPickerDialogSecondary = ColorPickerDialog.newBuilder();
@@ -172,8 +203,6 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         });
 
         // Enable custom colors button
-        enable_custom_monet = findViewById(R.id.enable_custom_monet);
-
         enable_custom_monet.setOnClickListener(v -> {
             if (!Environment.isExternalStorageManager()) {
                 Intent intent = new Intent();
@@ -189,6 +218,8 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                     try {
                         if (applyCustomMonet())
                             hasErroredOut.set(true);
+                        else
+                            Prefs.putString("customMonetStyle", selectedStyle);
                     } catch (Exception e) {
                         hasErroredOut.set(true);
                     }
@@ -211,7 +242,6 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         });
 
         // Disable custom colors button
-        Button disable_custom_monet = findViewById(R.id.disable_custom_monet);
         Prefs.putBoolean("customMonet", OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentME.overlay"));
         if (Prefs.getBoolean("customMonet")) disable_custom_monet.setVisibility(View.VISIBLE);
         else disable_custom_monet.setVisibility(View.GONE);
@@ -346,8 +376,10 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                 Prefs.putBoolean("customSecondaryColor", true);
                 List<List<Object>> secondaryPalette = GenerateColorPalette(selectedStyle, Integer.parseInt(accentSecondary));
 
-                for (int j = 1; j < colorTableRows[i].getChildCount() - 1; j++) {
-                    if (j == 1)
+                for (int j = 0; j < colorTableRows[i].getChildCount(); j++) {
+                    if (j == 0 || j == colorTableRows[i].getChildCount() - 1)
+                        palette.get(i).set(j, secondaryPalette.get(0).get(j));
+                    else if (j == 1)
                         palette.get(i).set(j, ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) secondaryPalette.get(0).get(j + 1))), ((float) (Prefs.getInt("monetSaturation", 100) - 100) / 1000.0F) * (Math.max((1.5F - j / 8F), 1.5F))));
                     else
                         palette.get(i).set(j, ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) secondaryPalette.get(0).get(j))), ((float) (Prefs.getInt("monetSaturation", 100) - 100) / 1000.0F) * (Math.max((3.0F - j / 5F), 3.0F))));
