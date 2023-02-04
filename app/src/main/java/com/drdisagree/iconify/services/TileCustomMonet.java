@@ -21,6 +21,9 @@ public class TileCustomMonet extends TileService {
     @Override
     public void onStartListening() {
         super.onStartListening();
+        Tile customMonetTile = getQsTile();
+        customMonetTile.setState(isCustomMonetEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
+        customMonetTile.updateTile();
     }
 
     @Override
@@ -42,7 +45,6 @@ public class TileCustomMonet extends TileService {
         Prefs.putBoolean("customMonet", isCustomMonetEnabled);
 
         Tile customMonetTile = getQsTile();
-        customMonetTile.setContentDescription("Door Lock");
         customMonetTile.setState(isCustomMonetEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
         customMonetTile.setLabel("Custom Monet");
         customMonetTile.setContentDescription(isCustomMonetEnabled ? "On" : "Off");
