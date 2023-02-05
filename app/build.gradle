@@ -31,6 +31,11 @@ android {
 
     buildTypes {
         debug {
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            crunchPngs true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             applicationIdSuffix ".debug"
             resValue("string", "derived_app_name", "Iconify (Debug)")
             signingConfig releaseSigning
