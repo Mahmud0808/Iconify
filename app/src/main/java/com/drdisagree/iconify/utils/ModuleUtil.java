@@ -76,7 +76,7 @@ public class ModuleUtil {
                 "do\n" +
                 " sleep 1\n" +
                 "done\n" +
-                "sleep 5\n\n" +
+                "sleep 15\n\n" +
                 "qspb=$(cmd overlay list |  grep -E '^.x..IconifyComponentQSPB.overlay' | sed -E 's/^.x..//')\n" +
                 "if [ -z \"$qspb\" ]\n" +
                 "then\n" +
@@ -85,6 +85,16 @@ public class ModuleUtil {
                 " cmd overlay disable --user current IconifyComponentQSPB.overlay\n" +
                 " cmd overlay enable --user current IconifyComponentQSPB.overlay\n" +
                 " cmd overlay set-priority IconifyComponentQSPB.overlay highest\n" +
+                "fi\n\n" +
+                "sleep 5\n\n" +
+                "me=$(cmd overlay list |  grep -E '^.x..IconifyComponentME.overlay' | sed -E 's/^.x..//')\n" +
+                "if [ -z \"$me\" ]\n" +
+                "then\n" +
+                " :\n" +
+                "else\n" +
+                " cmd overlay disable --user current IconifyComponentME.overlay\n" +
+                " cmd overlay enable --user current IconifyComponentME.overlay\n" +
+                " cmd overlay set-priority IconifyComponentME.overlay highest\n" +
                 "fi\n\n";
 
         service_sh += fabricated_cmd;
