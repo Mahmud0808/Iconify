@@ -8,14 +8,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.topjohnwu.superuser.Shell;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class XPosedMenu extends AppCompatActivity {
@@ -26,6 +31,12 @@ public class XPosedMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_xposed_menu);
+
+        // Return to previous activity if LSPosed not installed
+        if (!lsposedExists()) {
+            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_lsposed_not_found), Toast.LENGTH_SHORT).show();
+            finish();
+        }
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
@@ -58,6 +69,16 @@ public class XPosedMenu extends AppCompatActivity {
                 startActivity(intent);
             });
         }
+    }
+
+    public static boolean lsposedExists() {
+        List<String> lines = Shell.cmd("test -f /data/adb/lspd/manager.apk && echo '1'").exec().getOut();
+
+        for (String line : lines) {
+            if (line.contains("1"))
+                return true;
+        }
+        return false;
     }
 
     // Function to add new item in list
