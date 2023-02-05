@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.activity;
 
 import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
+import static com.drdisagree.iconify.common.References.VER_CODE;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -64,7 +65,7 @@ public class WelcomePage extends AppCompatActivity {
                         intent.setData(uri);
                         startActivity(intent);
                     } else {
-                        if ((Prefs.getInt("versionCode") != BuildConfig.VERSION_CODE) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
+                        if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
                             warn.setVisibility(View.INVISIBLE);
                             // Show loading dialog
                             loadingDialog.show(getResources().getString(R.string.installing));
@@ -82,7 +83,7 @@ public class WelcomePage extends AppCompatActivity {
                                     loadingDialog.hide();
 
                                     if (!hasErroredOut) {
-                                        if (BuildConfig.VERSION_CODE != Prefs.getInt("versionCode", -1)) {
+                                        if (BuildConfig.VERSION_CODE != Prefs.getInt(VER_CODE, -1)) {
                                             if (Prefs.getBoolean("firstInstall", true)) {
                                                 Prefs.putBoolean("firstInstall", true);
                                                 Prefs.putBoolean("updateDetected", false);
@@ -90,7 +91,7 @@ public class WelcomePage extends AppCompatActivity {
                                                 Prefs.putBoolean("firstInstall", false);
                                                 Prefs.putBoolean("updateDetected", true);
                                             }
-                                            Prefs.putInt("versionCode", BuildConfig.VERSION_CODE);
+                                            Prefs.putInt(VER_CODE, BuildConfig.VERSION_CODE);
                                         }
 
                                         if (OverlayUtil.overlayExists()) {

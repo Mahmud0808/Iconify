@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.LSPOSED_CHECK_CMD;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,7 +17,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
@@ -26,6 +27,16 @@ import java.util.Objects;
 public class XPosedMenu extends AppCompatActivity {
 
     private ViewGroup container;
+
+    public static boolean lsposedExists() {
+        List<String> lines = Shell.cmd(LSPOSED_CHECK_CMD).exec().getOut();
+
+        for (String line : lines) {
+            if (line.contains("1"))
+                return true;
+        }
+        return false;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,16 +80,6 @@ public class XPosedMenu extends AppCompatActivity {
                 startActivity(intent);
             });
         }
-    }
-
-    public static boolean lsposedExists() {
-        List<String> lines = Shell.cmd("test -f /data/adb/lspd/manager.apk && echo '1'").exec().getOut();
-
-        for (String line : lines) {
-            if (line.contains("1"))
-                return true;
-        }
-        return false;
     }
 
     // Function to add new item in list

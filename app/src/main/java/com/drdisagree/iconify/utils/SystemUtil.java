@@ -1,12 +1,21 @@
 package com.drdisagree.iconify.utils;
 
+import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
+import static com.drdisagree.iconify.common.References.BOOT_ID;
+import static com.drdisagree.iconify.common.References.DEVICE_BOOT_ID_CMD;
 import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
+import static com.drdisagree.iconify.common.References.VER_CODE;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 
+import com.drdisagree.iconify.BuildConfig;
+import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.References;
+import com.drdisagree.iconify.config.Prefs;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
@@ -89,7 +98,24 @@ public class SystemUtil {
         return Objects.equals(outs.get(0), "1");
     }
 
+    // Save unique id of each boot
+    public static void getBootId() {
+        Prefs.putString(BOOT_ID, Shell.cmd(DEVICE_BOOT_ID_CMD).exec().getOut().toString());
+    }
+
+    public static void getVersionCode() {
+        Prefs.putInt(VER_CODE, BuildConfig.VERSION_CODE);
+    }
+
     private boolean getIsDark() {
         return (mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
+    }
+
+    public static void getStoragePermission(Context context) {
+        Intent intent = new Intent();
+        intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+        Uri uri = Uri.fromParts("package", Iconify.getAppContext().getPackageName(), null);
+        intent.setData(uri);
+        context.startActivity(intent);
     }
 }

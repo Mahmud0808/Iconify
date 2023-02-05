@@ -1,5 +1,14 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.FABRICATED_QQS_COLUMN;
+import static com.drdisagree.iconify.common.References.FABRICATED_QQS_ROW;
+import static com.drdisagree.iconify.common.References.FABRICATED_QQS_TILE;
+import static com.drdisagree.iconify.common.References.FABRICATED_QS_COLUMN;
+import static com.drdisagree.iconify.common.References.FABRICATED_QS_ROW;
+import static com.drdisagree.iconify.common.References.FABRICATED_QS_TILE;
+import static com.drdisagree.iconify.common.References.QS_ROW_COLUMN_SWITCH;
+import static com.drdisagree.iconify.common.References.STR_NULL;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,21 +35,21 @@ public class QsRowColumn extends AppCompatActivity {
     LoadingDialog loadingDialog;
 
     public static void applyRowColumn() {
-        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", "qqsRow", "integer", "quick_qs_panel_max_rows", String.valueOf(Integer.parseInt(Prefs.getString("qqsRow")) + 1));
-        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", "qsRow", "integer", "quick_settings_max_rows", String.valueOf(Integer.parseInt(Prefs.getString("qsRow")) + 1));
-        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", "qqsColumn", "integer", "quick_qs_panel_max_columns", String.valueOf(Integer.parseInt(Prefs.getString("qsColumn")) + 1));
-        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", "qsColumn", "integer", "quick_settings_num_columns", String.valueOf(Integer.parseInt(Prefs.getString("qsColumn")) + 1));
-        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", "qqsTile", "integer", "quick_qs_panel_max_tiles", String.valueOf((Integer.parseInt(Prefs.getString("qqsRow")) + 1) * (Integer.parseInt(Prefs.getString("qsColumn")) + 1)));
-        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", "qsTile", "integer", "quick_settings_min_num_tiles", String.valueOf((Integer.parseInt(Prefs.getString("qsColumn")) + 1) * (Integer.parseInt(Prefs.getString("qsRow")) + 1)));
+        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", FABRICATED_QQS_ROW, "integer", "quick_qs_panel_max_rows", String.valueOf(Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW)) + 1));
+        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", FABRICATED_QS_ROW, "integer", "quick_settings_max_rows", String.valueOf(Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW)) + 1));
+        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", FABRICATED_QQS_COLUMN, "integer", "quick_qs_panel_max_columns", String.valueOf(Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1));
+        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", FABRICATED_QS_COLUMN, "integer", "quick_settings_num_columns", String.valueOf(Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1));
+        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", FABRICATED_QQS_TILE, "integer", "quick_qs_panel_max_tiles", String.valueOf((Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW)) + 1) * (Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1)));
+        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", FABRICATED_QS_TILE, "integer", "quick_settings_min_num_tiles", String.valueOf((Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1) * (Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW)) + 1)));
     }
 
     public static void resetRowColumn() {
-        FabricatedOverlayUtil.disableOverlay("qqsRow");
-        FabricatedOverlayUtil.disableOverlay("qsRow");
-        FabricatedOverlayUtil.disableOverlay("qqsColumn");
-        FabricatedOverlayUtil.disableOverlay("qsColumn");
-        FabricatedOverlayUtil.disableOverlay("qqsTile");
-        FabricatedOverlayUtil.disableOverlay("qsTile");
+        FabricatedOverlayUtil.disableOverlay(FABRICATED_QQS_ROW);
+        FabricatedOverlayUtil.disableOverlay(FABRICATED_QS_ROW);
+        FabricatedOverlayUtil.disableOverlay(FABRICATED_QQS_COLUMN);
+        FabricatedOverlayUtil.disableOverlay(FABRICATED_QS_COLUMN);
+        FabricatedOverlayUtil.disableOverlay(FABRICATED_QQS_TILE);
+        FabricatedOverlayUtil.disableOverlay(FABRICATED_QS_TILE);
     }
 
     @SuppressLint("SetTextI18n")
@@ -68,9 +77,9 @@ public class QsRowColumn extends AppCompatActivity {
         qqs_row_seekbar.setPadding(0, 0, 0, 0);
         final int[] finalQqsRow = {1};
 
-        if (!Prefs.getString("qqsRow").equals("null")) {
-            qqs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString("qqsRow")) + 1));
-            finalQqsRow[0] = Integer.parseInt(Prefs.getString("qqsRow"));
+        if (!Prefs.getString(FABRICATED_QQS_ROW).equals(STR_NULL)) {
+            qqs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW)) + 1));
+            finalQqsRow[0] = Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW));
             qqs_row_seekbar.setProgress(finalQqsRow[0]);
         } else
             qqs_row_output.setText(getResources().getString(R.string.opt_selected) + " 2");
@@ -99,9 +108,9 @@ public class QsRowColumn extends AppCompatActivity {
         qs_row_seekbar.setPadding(0, 0, 0, 0);
         final int[] finalQsRow = {3};
 
-        if (!Prefs.getString("qsRow").equals("null")) {
-            qs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString("qsRow")) + 1));
-            finalQsRow[0] = Integer.parseInt(Prefs.getString("qsRow"));
+        if (!Prefs.getString(FABRICATED_QS_ROW).equals(STR_NULL)) {
+            qs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW)) + 1));
+            finalQsRow[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW));
             qs_row_seekbar.setProgress(finalQsRow[0]);
         } else
             qs_row_output.setText(getResources().getString(R.string.opt_selected) + " 4");
@@ -130,9 +139,9 @@ public class QsRowColumn extends AppCompatActivity {
         qs_column_seekbar.setPadding(0, 0, 0, 0);
         final int[] finalQsColumn = {1};
 
-        if (!Prefs.getString("qsColumn").equals("null")) {
-            qs_column_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString("qsColumn")) + 1));
-            finalQsColumn[0] = Integer.parseInt(Prefs.getString("qsColumn"));
+        if (!Prefs.getString(FABRICATED_QS_COLUMN).equals(STR_NULL)) {
+            qs_column_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1));
+            finalQsColumn[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN));
             qs_column_seekbar.setProgress(finalQsColumn[0]);
         } else
             qs_column_output.setText(getResources().getString(R.string.opt_selected) + " 2");
@@ -165,14 +174,14 @@ public class QsRowColumn extends AppCompatActivity {
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
-                Prefs.putBoolean("fabricatedqsRowColumn", true);
+                Prefs.putBoolean(QS_ROW_COLUMN_SWITCH, true);
 
-                Prefs.putString("qqsRow", String.valueOf(finalQqsRow[0]));
-                Prefs.putString("qsRow", String.valueOf(finalQsRow[0]));
-                Prefs.putString("qqsColumn", String.valueOf(finalQsColumn[0]));
-                Prefs.putString("qsColumn", String.valueOf(finalQsColumn[0]));
-                Prefs.putString("qqsTile", String.valueOf((finalQqsRow[0] + 1) * (finalQsColumn[0] + 1)));
-                Prefs.putString("qsTile", String.valueOf((finalQsColumn[0] + 1) * (finalQsRow[0] + 1)));
+                Prefs.putString(FABRICATED_QQS_ROW, String.valueOf(finalQqsRow[0]));
+                Prefs.putString(FABRICATED_QS_ROW, String.valueOf(finalQsRow[0]));
+                Prefs.putString(FABRICATED_QQS_COLUMN, String.valueOf(finalQsColumn[0]));
+                Prefs.putString(FABRICATED_QS_COLUMN, String.valueOf(finalQsColumn[0]));
+                Prefs.putString(FABRICATED_QQS_TILE, String.valueOf((finalQqsRow[0] + 1) * (finalQsColumn[0] + 1)));
+                Prefs.putString(FABRICATED_QS_TILE, String.valueOf((finalQsColumn[0] + 1) * (finalQsRow[0] + 1)));
 
                 applyRowColumn();
 
@@ -194,7 +203,7 @@ public class QsRowColumn extends AppCompatActivity {
         });
 
         // Reset button
-        if (Prefs.getBoolean("fabricatedqsRowColumn"))
+        if (Prefs.getBoolean(QS_ROW_COLUMN_SWITCH))
             qs_row_column_reset.setVisibility(View.VISIBLE);
         else
             qs_row_column_reset.setVisibility(View.GONE);
@@ -207,7 +216,7 @@ public class QsRowColumn extends AppCompatActivity {
                 resetRowColumn();
 
                 runOnUiThread(() -> {
-                    Prefs.putBoolean("fabricatedqsRowColumn", false);
+                    Prefs.putBoolean(QS_ROW_COLUMN_SWITCH, false);
 
                     new Handler().postDelayed(() -> {
                         // Hide loading dialog

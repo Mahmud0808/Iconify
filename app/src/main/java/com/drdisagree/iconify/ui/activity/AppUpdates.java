@@ -1,6 +1,9 @@
 package com.drdisagree.iconify.ui.activity;
 
 import static com.drdisagree.iconify.common.References.LATEST_VERSION;
+import static com.drdisagree.iconify.common.References.UPDATE_CHECK_TIME;
+import static com.drdisagree.iconify.common.References.UPDATE_SCHEDULE;
+import static com.drdisagree.iconify.common.References.VER_CODE;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -89,27 +92,27 @@ public class AppUpdates extends AppCompatActivity {
         update_schedule_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
         check_update_every.setAdapter(update_schedule_adapter);
 
-        check_update_every.setSelection(Prefs.getInt("UPDATE_SCHEDULE", 0));
+        check_update_every.setSelection(Prefs.getInt(UPDATE_SCHEDULE, 0));
         check_update_every.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Prefs.putInt("UPDATE_SCHEDULE", position);
+                Prefs.putInt(UPDATE_SCHEDULE, position);
                 // Save update checking time
                 switch (position) {
                     case 0:
-                        Prefs.putLong("UPDATE_CHECK_TIME", 0); // Every Time
+                        Prefs.putLong(UPDATE_CHECK_TIME, 0); // Every Time
                         break;
                     case 1:
-                        Prefs.putLong("UPDATE_CHECK_TIME", (long) 1000 * 60 * 60); // Every Hour
+                        Prefs.putLong(UPDATE_CHECK_TIME, (long) 1000 * 60 * 60); // Every Hour
                         break;
                     case 2:
-                        Prefs.putLong("UPDATE_CHECK_TIME", (long) 1000 * 60 * 60 * 24); // Every Day
+                        Prefs.putLong(UPDATE_CHECK_TIME, (long) 1000 * 60 * 60 * 24); // Every Day
                         break;
                     case 3:
-                        Prefs.putLong("UPDATE_CHECK_TIME", (long) 1000 * 60 * 60 * 24 * 7); // Every Week
+                        Prefs.putLong(UPDATE_CHECK_TIME, (long) 1000 * 60 * 60 * 24 * 7); // Every Week
                         break;
                     case 4:
-                        Prefs.putLong("UPDATE_CHECK_TIME", -1); // Never
+                        Prefs.putLong(UPDATE_CHECK_TIME, -1); // Never
                         break;
                 }
             }
@@ -192,7 +195,7 @@ public class AppUpdates extends AppCompatActivity {
                 try {
                     JSONObject latestVersion = new JSONObject(jsonStr);
 
-                    if (Integer.parseInt(latestVersion.getString("versionCode")) > BuildConfig.VERSION_CODE) {
+                    if (Integer.parseInt(latestVersion.getString(VER_CODE)) > BuildConfig.VERSION_CODE) {
                         check_update.setBackgroundResource(R.drawable.container_outline);
                         update_title.setText(getResources().getString(R.string.new_update_available));
                         download_update.setOnClickListener(v -> {

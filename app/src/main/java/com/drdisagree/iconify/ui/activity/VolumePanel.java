@@ -26,6 +26,7 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.view.InfoDialog;
 import com.drdisagree.iconify.ui.view.LoadingDialog;
 import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.VolumeCompilerUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -121,11 +122,7 @@ public class VolumePanel extends AppCompatActivity {
         Button create_module = volume_style.findViewById(R.id.volume_style_create_module);
         create_module.setOnClickListener(v -> {
             if (!Environment.isExternalStorageManager()) {
-                Intent intent = new Intent();
-                intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                Uri uri = Uri.fromParts("package", Iconify.getAppContext().getPackageName(), null);
-                intent.setData(uri);
-                startActivity(intent);
+                SystemUtil.getStoragePermission(this);
             } else {
                 if (realCheckedId == -1) {
                     Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
@@ -139,30 +136,6 @@ public class VolumePanel extends AppCompatActivity {
     public void enableColors(View view) {
         OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
     }
-
-    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            if (checkedId != -1) {
-                rg2.setOnCheckedChangeListener(null);
-                rg2.clearCheck();
-                rg2.setOnCheckedChangeListener(listener2);
-                realCheckedId = checkedId;
-            }
-        }
-    };
-
-    private final RadioGroup.OnCheckedChangeListener listener2 = new RadioGroup.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            if (checkedId != -1) {
-                rg1.setOnCheckedChangeListener(null);
-                rg1.clearCheck();
-                rg1.setOnCheckedChangeListener(listener1);
-                realCheckedId = checkedId;
-            }
-        }
-    };
 
     @SuppressLint("NonConstantResourceId")
     private void installVolumeModule(int volume) {
@@ -225,4 +198,31 @@ public class VolumePanel extends AppCompatActivity {
         onBackPressed();
         return true;
     }
+
+    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId != -1) {
+                rg2.setOnCheckedChangeListener(null);
+                rg2.clearCheck();
+                rg2.setOnCheckedChangeListener(listener2);
+                realCheckedId = checkedId;
+            }
+        }
+    };
+
+
+    private final RadioGroup.OnCheckedChangeListener listener2 = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId != -1) {
+                rg1.setOnCheckedChangeListener(null);
+                rg1.clearCheck();
+                rg1.setOnCheckedChangeListener(listener1);
+                realCheckedId = checkedId;
+            }
+        }
+    };
+
+
 }

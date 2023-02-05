@@ -1,7 +1,13 @@
 package com.drdisagree.iconify.config;
 
+import static com.drdisagree.iconify.common.References.BOOT_ID;
+import static com.drdisagree.iconify.common.References.COLOR_ACCENT_PRIMARY;
+import static com.drdisagree.iconify.common.References.COLOR_ACCENT_SECONDARY;
+import static com.drdisagree.iconify.common.References.COLOR_PIXEL_DARK_BG;
 import static com.drdisagree.iconify.common.References.FRAMEWORK_PACKAGE;
+import static com.drdisagree.iconify.common.References.STR_NULL;
 import static com.drdisagree.iconify.common.References.SharedPref;
+import static com.drdisagree.iconify.common.References.VER_CODE;
 import static com.drdisagree.iconify.utils.ColorUtil.ColorToSpecialHex;
 
 import android.content.Context;
@@ -17,7 +23,7 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.ui.activity.Settings;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
-import com.topjohnwu.superuser.Shell;
+import com.drdisagree.iconify.utils.SystemUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -75,7 +81,7 @@ public class Prefs {
     }
 
     public static String getString(String key) {
-        return pref.getString(key, "null");
+        return pref.getString(key, STR_NULL);
     }
 
     public static String getString(String key, String defValue) {
@@ -149,37 +155,28 @@ public class Prefs {
                     }
                 }
             } else if (item.getValue() instanceof String) {
-                if (Objects.equals(item.getKey(), "boot_id"))
-                    Prefs.putString(item.getKey(), Shell.cmd("cat /proc/sys/kernel/random/boot_id").exec().getOut().toString());
+                if (Objects.equals(item.getKey(), BOOT_ID))
+                    SystemUtil.getBootId();
                 else
                     putString(item.getKey(), (String) item.getValue());
 
-                if (item.getKey().contains("colorAccentPrimary") && !primaryColorApplied && getBoolean("fabricated" + item.getKey())) {
+                if (item.getKey().contains(COLOR_ACCENT_PRIMARY) && !primaryColorApplied && getBoolean("fabricated" + item.getKey())) {
                     primaryColorApplied = true;
                     try {
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary", "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt((String) item.getValue())));
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary1", "color", "system_accent1_100", ColorToSpecialHex(Integer.parseInt((String) item.getValue())));
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary2", "color", "system_accent1_200", ColorToSpecialHex(Integer.parseInt((String) item.getValue())));
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary3", "color", "system_accent1_300", ColorToSpecialHex(Integer.parseInt((String) item.getValue())));
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary4", "color", "system_accent2_100", ColorToSpecialHex(ColorUtils.blendARGB(Integer.parseInt((String) item.getValue()), Color.WHITE, 0.16f)));
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary5", "color", "system_accent2_200", ColorToSpecialHex(ColorUtils.blendARGB(Integer.parseInt((String) item.getValue()), Color.WHITE, 0.16f)));
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary6", "color", "system_accent2_300", ColorToSpecialHex(ColorUtils.blendARGB(Integer.parseInt((String) item.getValue()), Color.WHITE, 0.16f)));
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorPixelBackgroundDark", "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(Integer.parseInt((String) item.getValue()), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
+                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt((String) item.getValue())));
+                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(Integer.parseInt((String) item.getValue()), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
                     } catch (NumberFormatException ignored) {
                     }
                 }
-                if (item.getKey().contains("colorAccentSecondary") && !secondaryColorApplied && !primaryColorApplied && getBoolean("fabricated" + item.getKey())) {
+                if (item.getKey().contains(COLOR_ACCENT_SECONDARY) && !secondaryColorApplied && !primaryColorApplied && getBoolean("fabricated" + item.getKey())) {
                     secondaryColorApplied = true;
                     try {
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentSecondary", "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt((String) item.getValue())));
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentSecondary1", "color", "system_accent3_100", ColorToSpecialHex(Integer.parseInt((String) item.getValue())));
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentSecondary2", "color", "system_accent3_200", ColorToSpecialHex(Integer.parseInt((String) item.getValue())));
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentSecondary3", "color", "system_accent3_300", ColorToSpecialHex(Integer.parseInt((String) item.getValue())));
+                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt((String) item.getValue())));
                     } catch (NumberFormatException ignored) {
                     }
                 }
             } else if (item.getValue() instanceof Integer) {
-                if (Objects.equals(item.getKey(), "versionCode"))
+                if (Objects.equals(item.getKey(), VER_CODE))
                     putInt(item.getKey(), BuildConfig.VERSION_CODE);
                 else
                     putInt(item.getKey(), (Integer) item.getValue());

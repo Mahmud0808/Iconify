@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.services;
 
+import static com.drdisagree.iconify.common.References.MONET_ENGINE_SWITCH;
+
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 
@@ -41,7 +43,7 @@ public class TileMonetEngine extends TileService {
         }
 
         isCustomMonetEnabled = !isCustomMonetEnabled;
-        Prefs.putBoolean("customMonet", isCustomMonetEnabled);
+        Prefs.putBoolean(MONET_ENGINE_SWITCH, isCustomMonetEnabled);
 
         Tile customMonetTile = getQsTile();
         customMonetTile.setState(isCustomMonetEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);

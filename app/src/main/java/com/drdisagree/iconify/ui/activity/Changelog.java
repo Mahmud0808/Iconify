@@ -16,7 +16,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.ui.view.LoadingDialog;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.io.BufferedReader;
@@ -31,8 +30,6 @@ import java.util.Objects;
 
 public class Changelog extends AppCompatActivity {
 
-    @SuppressLint("StaticFieldLeak")
-    private static LoadingDialog loadingDialog;
     @SuppressLint("StaticFieldLeak")
     private static LinearLayout grabbing_changelogs;
     private final ArrayList<String> changelogs = new ArrayList<>();

@@ -1,6 +1,8 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.FABRICATED_QSPANEL_BLUR_RADIUS;
 import static com.drdisagree.iconify.common.References.QSALPHA_LEVEL;
+import static com.drdisagree.iconify.common.References.QSPANEL_BLUR_SWITCH;
 import static com.drdisagree.iconify.common.References.QSTRANSPARENCY_SWITCH;
 import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
 
@@ -74,22 +76,22 @@ public class TransparencyBlur extends AppCompatActivity {
 
         // Qs Panel Blur
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_blur = findViewById(R.id.enable_blur);
-        Prefs.putBoolean("qsBlurSwitch", SystemUtil.supportsBlur());
-        enable_blur.setChecked(Prefs.getBoolean("qsBlurSwitch", false));
+        Prefs.putBoolean(QSPANEL_BLUR_SWITCH, SystemUtil.supportsBlur());
+        enable_blur.setChecked(Prefs.getBoolean(QSPANEL_BLUR_SWITCH, false));
         enable_blur.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Prefs.putBoolean("qsBlurSwitch", isChecked);
+            Prefs.putBoolean(QSPANEL_BLUR_SWITCH, isChecked);
             if (isChecked)
                 SystemUtil.enableBlur();
             else {
                 SystemUtil.disableBlur();
-                FabricatedOverlayUtil.disableOverlay("qsBlurRadius");
+                FabricatedOverlayUtil.disableOverlay(FABRICATED_QSPANEL_BLUR_RADIUS);
             }
         });
 
         SeekBar blur_seekbar = findViewById(R.id.blur_seekbar);
         blur_seekbar.setPadding(0, 0, 0, 0);
         TextView blur_output = findViewById(R.id.blur_output);
-        final int[] blur_radius = {Prefs.getInt("qsBlurRadius", 23)};
+        final int[] blur_radius = {Prefs.getInt(FABRICATED_QSPANEL_BLUR_RADIUS, 23)};
         blur_output.setText(getResources().getString(R.string.opt_selected) + ' ' + blur_radius[0] + "px");
         blur_seekbar.setProgress(blur_radius[0]);
         blur_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -106,8 +108,8 @@ public class TransparencyBlur extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Prefs.putInt("qsBlurRadius", blur_radius[0]);
-                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEM_UI_PACKAGE, "qsBlurRadius", "dimen", "max_window_blur_radius", blur_radius[0] + "px");
+                Prefs.putInt(FABRICATED_QSPANEL_BLUR_RADIUS, blur_radius[0]);
+                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEM_UI_PACKAGE, FABRICATED_QSPANEL_BLUR_RADIUS, "dimen", "max_window_blur_radius", blur_radius[0] + "px");
                 // Restart SystemUI
                 new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
             }

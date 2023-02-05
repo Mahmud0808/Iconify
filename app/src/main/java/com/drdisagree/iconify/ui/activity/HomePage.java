@@ -1,6 +1,8 @@
 package com.drdisagree.iconify.ui.activity;
 
 import static com.drdisagree.iconify.common.References.LATEST_VERSION;
+import static com.drdisagree.iconify.common.References.MONET_ENGINE_SWITCH;
+import static com.drdisagree.iconify.common.References.VER_CODE;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -39,7 +41,6 @@ import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.topjohnwu.superuser.Shell;
 
 import org.json.JSONObject;
 
@@ -60,11 +61,6 @@ public class HomePage extends AppCompatActivity {
     private ViewGroup container;
     @SuppressLint("StaticFieldLeak")
     private HomePage.CheckForUpdate checkForUpdate = null;
-
-    // Save unique id of each boot
-    public static void getBootId() {
-        Prefs.putString("boot_id", Shell.cmd("cat /proc/sys/kernel/random/boot_id").exec().getOut().toString());
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,8 +109,8 @@ public class HomePage extends AppCompatActivity {
 
         Prefs.putBoolean("firstInstall", false);
         Prefs.putBoolean("updateDetected", false);
-        Prefs.putInt("versionCode", BuildConfig.VERSION_CODE);
-        getBootId();
+        Prefs.putInt(VER_CODE, BuildConfig.VERSION_CODE);
+        SystemUtil.getBootId();
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
@@ -149,7 +145,7 @@ public class HomePage extends AppCompatActivity {
             for (String overlay : FabricatedEnabledOverlays)
                 Prefs.putBoolean("fabricated" + overlay, true);
 
-            Prefs.putBoolean("customMonet", OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentME.overlay"));
+            Prefs.putBoolean(MONET_ENGINE_SWITCH, OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentME.overlay"));
         };
         Thread thread1 = new Thread(runnable1);
         thread1.start();
@@ -300,7 +296,7 @@ public class HomePage extends AppCompatActivity {
                 try {
                     JSONObject latestVersion = new JSONObject(jsonStr);
 
-                    if (Integer.parseInt(latestVersion.getString("versionCode")) > BuildConfig.VERSION_CODE) {
+                    if (Integer.parseInt(latestVersion.getString(VER_CODE)) > BuildConfig.VERSION_CODE) {
                         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                         createChannel(notificationManager);
                         NotificationManager manager = (NotificationManager) Iconify.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);

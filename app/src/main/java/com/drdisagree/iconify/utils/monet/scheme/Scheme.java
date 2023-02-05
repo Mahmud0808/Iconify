@@ -740,11 +740,7 @@ public class Scheme {
         if (inverseOnSurface != scheme.inverseOnSurface) {
             return false;
         }
-        if (inversePrimary != scheme.inversePrimary) {
-            return false;
-        }
-
-        return true;
+        return inversePrimary == scheme.inversePrimary;
     }
 
     @Override

@@ -1,5 +1,8 @@
 package com.drdisagree.iconify.utils;
 
+import static com.drdisagree.iconify.common.References.COLOR_ACCENT_PRIMARY;
+import static com.drdisagree.iconify.common.References.COLOR_ACCENT_SECONDARY;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -52,9 +55,9 @@ public class ModuleUtil {
                         Prefs.getString("FOCMDtype" + item.getKey().replace("fabricated", "")),
                         Prefs.getString("FOCMDresourceName" + item.getKey().replace("fabricated", "")),
                         Prefs.getString("FOCMDval" + item.getKey().replace("fabricated", ""))));
-                if (item.getKey().contains("colorAccentPrimary"))
+                if (item.getKey().contains(COLOR_ACCENT_PRIMARY))
                     primaryColorEnabled = true;
-                else if (item.getKey().contains("colorAccentSecondary"))
+                else if (item.getKey().contains(COLOR_ACCENT_SECONDARY))
                     secondaryColorEnabled = true;
             }
         }

@@ -91,11 +91,7 @@ public class HeaderImage extends AppCompatActivity {
         Button pick_header_image = findViewById(R.id.pick_header_image);
         pick_header_image.setOnClickListener(v -> {
             if (!Environment.isExternalStorageManager()) {
-                Intent intent = new Intent();
-                intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                Uri uri = Uri.fromParts("package", Iconify.getAppContext().getPackageName(), null);
-                intent.setData(uri);
-                startActivity(intent);
+                SystemUtil.getStoragePermission(this);
             } else {
                 browseHeaderImage();
             }
