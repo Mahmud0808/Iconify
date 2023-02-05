@@ -42,6 +42,11 @@ android {
         }
 
         release {
+minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            crunchPngs true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             resValue("string", "derived_app_name", "Iconify")
             signingConfig releaseSigning
             minifyEnabled false
