@@ -73,6 +73,7 @@ public class Notifications extends AppCompatActivity {
         notif_list.add(new Object[]{"Dumbbell", R.drawable.notif_dumbbell});
         notif_list.add(new Object[]{"Semi Transparent", R.drawable.notif_semi_transparent});
         notif_list.add(new Object[]{"Pitch Black", R.drawable.notif_pitch_black});
+        notif_list.add(new Object[]{"Duoline", R.drawable.notif_duoline});
 
         addItem(notif_list);
 

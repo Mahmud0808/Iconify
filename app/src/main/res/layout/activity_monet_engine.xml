@@ -365,7 +365,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Lightness"
+                    android:text="Background Lightness"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/cont_title_size"
                     android:textStyle="bold" />

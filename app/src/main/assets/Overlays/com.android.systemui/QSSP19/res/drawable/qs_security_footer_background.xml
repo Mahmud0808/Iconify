@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:insetTop="4.0dip"
+    android:insetBottom="4.0dip">
+    <ripple android:color="?android:colorControlHighlight">
+        <item android:id="@*android:id/mask">
+            <shape android:shape="rectangle">
+                <solid android:color="#00000000" />
+                <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+            </shape>
+        </item>
+        <item>
+            <shape android:shape="rectangle">
+                <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+                <solid android:color="@*android:color/system_neutral2_800" />
+            </shape>
+        </item>
+        <item
+            android:bottom="2.0dp"
+            android:end="2.0dp"
+            android:start="2.0dp"
+            android:top="2.0dp">
+            <shape android:shape="rectangle">
+                <corners android:radius="@*android:dimen/harmful_app_name_padding_right" />
+                <gradient
+                    android:angle="0.0"
+                    android:endColor="#B3000000"
+                    android:startColor="#99000000" />
+            </shape>
+        </item>
+    </ripple>
+</inset>

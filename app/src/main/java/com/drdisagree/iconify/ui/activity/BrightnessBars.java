@@ -79,6 +79,7 @@ public class BrightnessBars extends AppCompatActivity {
         bb_list.add(new Object[]{"Lighty", R.drawable.bb_lighty, R.drawable.auto_bb_lighty});
         bb_list.add(new Object[]{"Semi Transparent", R.drawable.bb_semi_transparent, R.drawable.auto_bb_semi_transparent});
         bb_list.add(new Object[]{"Thin Outline", R.drawable.bb_thin_outline, R.drawable.auto_bb_thin_outline});
+        bb_list.add(new Object[]{"Purfect", R.drawable.bb_purfect, R.drawable.auto_bb_purfect});
 
         addItem(bb_list);
 
