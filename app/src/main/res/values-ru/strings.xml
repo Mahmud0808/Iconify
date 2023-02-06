@@ -231,7 +231,6 @@
     <string name="qspanel_row_title">Строк в быстрых настройках</string>
     <string name="qstile_btn2_title">В самолёте</string>
     <string name="qstile_btn1_title">Интернет</string>
-    <string name="qstile_btn1_title">И</string>
     <string name="qstile_btn1_desc">Покойся с миром</string>
     <string name="qstile_btn3_title">Геолокация</string>
     <string name="qstile_btn3_desc">Выкл.</string>
