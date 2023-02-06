@@ -1,5 +1,8 @@
 package com.drdisagree.iconify.utils;
 
+import static com.drdisagree.iconify.common.References.COLOR_ACCENT_PRIMARY;
+import static com.drdisagree.iconify.common.References.COLOR_ACCENT_SECONDARY;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -52,9 +55,9 @@ public class ModuleUtil {
                         Prefs.getString("FOCMDtype" + item.getKey().replace("fabricated", "")),
                         Prefs.getString("FOCMDresourceName" + item.getKey().replace("fabricated", "")),
                         Prefs.getString("FOCMDval" + item.getKey().replace("fabricated", ""))));
-                if (item.getKey().contains("colorAccentPrimary"))
+                if (item.getKey().contains(COLOR_ACCENT_PRIMARY))
                     primaryColorEnabled = true;
-                else if (item.getKey().contains("colorAccentSecondary"))
+                else if (item.getKey().contains(COLOR_ACCENT_SECONDARY))
                     secondaryColorEnabled = true;
             }
         }
@@ -76,7 +79,7 @@ public class ModuleUtil {
                 "do\n" +
                 " sleep 1\n" +
                 "done\n" +
-                "sleep 5\n\n" +
+                "sleep 15\n\n" +
                 "qspb=$(cmd overlay list |  grep -E '^.x..IconifyComponentQSPB.overlay' | sed -E 's/^.x..//')\n" +
                 "if [ -z \"$qspb\" ]\n" +
                 "then\n" +
@@ -85,6 +88,16 @@ public class ModuleUtil {
                 " cmd overlay disable --user current IconifyComponentQSPB.overlay\n" +
                 " cmd overlay enable --user current IconifyComponentQSPB.overlay\n" +
                 " cmd overlay set-priority IconifyComponentQSPB.overlay highest\n" +
+                "fi\n\n" +
+                "sleep 5\n\n" +
+                "me=$(cmd overlay list |  grep -E '^.x..IconifyComponentME.overlay' | sed -E 's/^.x..//')\n" +
+                "if [ -z \"$me\" ]\n" +
+                "then\n" +
+                " :\n" +
+                "else\n" +
+                " cmd overlay disable --user current IconifyComponentME.overlay\n" +
+                " cmd overlay enable --user current IconifyComponentME.overlay\n" +
+                " cmd overlay set-priority IconifyComponentME.overlay highest\n" +
                 "fi\n\n";
 
         service_sh += fabricated_cmd;

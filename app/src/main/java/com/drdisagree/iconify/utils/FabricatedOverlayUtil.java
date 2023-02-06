@@ -84,7 +84,7 @@ public class FabricatedOverlayUtil {
         String build_cmd = "cmd overlay fabricate --target " + target + " --name IconifyComponent" + name + " " + target + ":" + type + "/" + resourceName + " " + resourceType + " " + val;
         String enable_cmd = "cmd overlay enable --user current com.android.shell:IconifyComponent" + name;
 
-        Shell.cmd("grep -v \"IconifyComponent" + name + "\" " + References.MODULE_DIR + "/service.sh > " + References.MODULE_DIR + "/iconify_temp.sh && mv " + References.MODULE_DIR + "/iconify_temp.sh " + References.MODULE_DIR + "/service.sh").submit();
+        Shell.cmd("grep -v \"IconifyComponent" + name + "\" " + References.MODULE_DIR + "/service.sh > " + References.MODULE_DIR + "/service.sh.tmp && mv " + References.MODULE_DIR + "/service.sh.tmp " + References.MODULE_DIR + "/service.sh").submit();
         Shell.cmd("echo \"" + build_cmd + "\" >> " + References.MODULE_DIR + "/service.sh").submit();
         Shell.cmd("echo \"" + enable_cmd + "\" >> " + References.MODULE_DIR + "/service.sh").submit();
 
@@ -143,7 +143,7 @@ public class FabricatedOverlayUtil {
         String enable_cmd = "cmd overlay enable --user current com.android.shell:IconifyComponent" + name;
 
         String cmd = "";
-        cmd += "grep -v \"IconifyComponent" + name + "\" " + References.MODULE_DIR + "/service.sh > " + References.MODULE_DIR + "/iconify_temp.sh && mv " + References.MODULE_DIR + "/iconify_temp.sh " + References.MODULE_DIR + "/service.sh";
+        cmd += "grep -v \"IconifyComponent" + name + "\" " + References.MODULE_DIR + "/service.sh > " + References.MODULE_DIR + "/service.sh.tmp && mv " + References.MODULE_DIR + "/service.sh.tmp " + References.MODULE_DIR + "/service.sh";
         cmd += "\n";
         cmd += "echo \"" + build_cmd + "\" >> " + References.MODULE_DIR + "/service.sh";
         cmd += "\n";
@@ -163,7 +163,7 @@ public class FabricatedOverlayUtil {
 
         String disable_cmd = "cmd overlay disable --user current com.android.shell:IconifyComponent" + name;
 
-        Shell.cmd("grep -v \"IconifyComponent" + name + "\" " + References.MODULE_DIR + "/service.sh > " + References.MODULE_DIR + "/iconify_temp.sh && mv " + References.MODULE_DIR + "/iconify_temp.sh " + References.MODULE_DIR + "/service.sh").submit();
+        Shell.cmd("grep -v \"IconifyComponent" + name + "\" " + References.MODULE_DIR + "/service.sh > " + References.MODULE_DIR + "/service.sh.tmp && mv " + References.MODULE_DIR + "/service.sh.tmp " + References.MODULE_DIR + "/service.sh").submit();
 
         Shell.cmd(disable_cmd).submit();
     }

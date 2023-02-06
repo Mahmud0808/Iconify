@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.config;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.drdisagree.iconify.common.References.STR_NULL;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -60,7 +61,7 @@ public class RemotePrefs {
     }
 
     public static String getString(String key) {
-        return prefs.getString(key, "null");
+        return prefs.getString(key, STR_NULL);
     }
 
     public static String getString(String key, String defValue) {

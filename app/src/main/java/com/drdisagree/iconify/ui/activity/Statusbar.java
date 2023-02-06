@@ -1,5 +1,9 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.FABRICATED_SB_COLOR_TINT;
+import static com.drdisagree.iconify.common.References.FABRICATED_SB_LEFT_PADDING;
+import static com.drdisagree.iconify.common.References.FABRICATED_SB_RIGHT_PADDING;
+import static com.drdisagree.iconify.common.References.STR_NULL;
 import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
 import static com.drdisagree.iconify.utils.ColorUtil.ColorToSpecialHex;
 
@@ -54,8 +58,8 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
         sb_left_padding_seekbar.setPadding(0, 0, 0, 0);
         final int[] finalSBLeftPadding = {8};
 
-        if (Prefs.getInt("sbLeftPadding", -1) != -1) {
-            finalSBLeftPadding[0] = Prefs.getInt("sbLeftPadding");
+        if (Prefs.getInt(FABRICATED_SB_LEFT_PADDING, -1) != -1) {
+            finalSBLeftPadding[0] = Prefs.getInt(FABRICATED_SB_LEFT_PADDING);
             sb_left_padding_output.setText(getResources().getString(R.string.opt_selected) + ' ' + finalSBLeftPadding[0] + "dp");
             sb_left_padding_seekbar.setProgress(finalSBLeftPadding[0]);
         } else
@@ -74,7 +78,7 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEM_UI_PACKAGE, "sbLeftPadding", "dimen", "status_bar_padding_start", finalSBLeftPadding[0] + "dp");
+                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEM_UI_PACKAGE, FABRICATED_SB_LEFT_PADDING, "dimen", "status_bar_padding_start", finalSBLeftPadding[0] + "dp");
 
                 Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
             }
@@ -87,8 +91,8 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
         sb_right_padding_seekbar.setPadding(0, 0, 0, 0);
         final int[] finalSBRightPadding = {8};
 
-        if (Prefs.getInt("sbRightPadding", -1) != -1) {
-            finalSBRightPadding[0] = Prefs.getInt("sbRightPadding");
+        if (Prefs.getInt(FABRICATED_SB_RIGHT_PADDING, -1) != -1) {
+            finalSBRightPadding[0] = Prefs.getInt(FABRICATED_SB_RIGHT_PADDING);
             sb_right_padding_output.setText(getResources().getString(R.string.opt_selected) + ' ' + finalSBRightPadding[0] + "dp");
             sb_right_padding_seekbar.setProgress(finalSBRightPadding[0]);
         } else
@@ -107,15 +111,15 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEM_UI_PACKAGE, "sbRightPadding", "dimen", "status_bar_padding_end", finalSBRightPadding[0] + "dp");
+                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEM_UI_PACKAGE, FABRICATED_SB_RIGHT_PADDING, "dimen", "status_bar_padding_end", finalSBRightPadding[0] + "dp");
 
                 Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
             }
         });
 
         // Statusbar color tint
-        if (!Objects.equals(Prefs.getString("colorSBTint"), "null"))
-            colorSBTint = Prefs.getString("colorSBTint");
+        if (!Objects.equals(Prefs.getString(FABRICATED_SB_COLOR_TINT), STR_NULL))
+            colorSBTint = Prefs.getString(FABRICATED_SB_COLOR_TINT);
         else colorSBTint = String.valueOf(getResources().getColor(R.color.colorAccent));
 
         // Color preview
@@ -130,10 +134,10 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
 
         // Reset statusbar color tint
         Button sb_reset_tint = findViewById(R.id.sb_reset_tint);
-        sb_reset_tint.setVisibility(!Objects.equals(Prefs.getString("colorSBTint"), "null") ? View.VISIBLE : View.GONE);
+        sb_reset_tint.setVisibility(!Objects.equals(Prefs.getString(FABRICATED_SB_COLOR_TINT), STR_NULL) ? View.VISIBLE : View.GONE);
 
         sb_reset_tint.setOnClickListener(v -> {
-            Prefs.putString("colorSBTint", "null");
+            Prefs.putString(FABRICATED_SB_COLOR_TINT, STR_NULL);
             resetSBColor();
         });
     }
@@ -142,7 +146,7 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
     public void onColorSelected(int dialogId, int color) {
         if (dialogId == 1) {
             colorSBTint = String.valueOf(color);
-            Prefs.putString("colorSBTint", colorSBTint);
+            Prefs.putString(FABRICATED_SB_COLOR_TINT, colorSBTint);
             updateSBColorPreview();
             applySBColor();
             colorPickerSBTint.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(colorSBTint)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);

@@ -1,6 +1,13 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.COLOR_ACCENT_PRIMARY;
+import static com.drdisagree.iconify.common.References.COLOR_ACCENT_SECONDARY;
+import static com.drdisagree.iconify.common.References.COLOR_PIXEL_DARK_BG;
 import static com.drdisagree.iconify.common.References.FRAMEWORK_PACKAGE;
+import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_PRIMARY;
+import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECONDARY;
+import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_PIXEL_DARK_BG;
+import static com.drdisagree.iconify.common.References.STR_NULL;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -38,6 +45,20 @@ public class ColorEngine extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        // Basic colors
+        LinearLayout basic_colors = findViewById(R.id.basic_colors);
+        basic_colors.setOnClickListener(v -> {
+            Intent intent = new Intent(ColorEngine.this, ColorPicker.class);
+            startActivity(intent);
+        });
+
+        // Monet engine
+        LinearLayout monet_engine = findViewById(R.id.monet_engine);
+        monet_engine.setOnClickListener(v -> {
+            Intent intent = new Intent(ColorEngine.this, MonetEngine.class);
+            startActivity(intent);
+        });
+
         // Apply monet accent and gradient
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_monet_accent = findViewById(R.id.apply_monet_accent);
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_monet_gradient = findViewById(R.id.apply_monet_gradient);
@@ -49,25 +70,16 @@ public class ColorEngine extends AppCompatActivity {
             if (isChecked) {
                 OverlayUtil.enableOverlay("IconifyComponentAMAC.overlay");
 
-                if (!Objects.equals(Prefs.getString("colorAccentPrimary"), "null")) {
+                if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL)) {
                     ColorPicker.applyPrimaryColors();
                 } else {
-                    FabricatedOverlayUtil.disableOverlay("colorAccentPrimary");
-                    FabricatedOverlayUtil.disableOverlay("colorAccentPrimary1");
-                    FabricatedOverlayUtil.disableOverlay("colorAccentPrimary2");
-                    FabricatedOverlayUtil.disableOverlay("colorAccentPrimary3");
-                    FabricatedOverlayUtil.disableOverlay("colorAccentPrimary4");
-                    FabricatedOverlayUtil.disableOverlay("colorAccentPrimary5");
-                    FabricatedOverlayUtil.disableOverlay("colorAccentPrimary6");
+                    FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
                 }
 
-                if (!Objects.equals(Prefs.getString("colorAccentSecondary"), "null")) {
+                if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL)) {
                     ColorPicker.applySecondaryColors();
                 } else {
-                    FabricatedOverlayUtil.disableOverlay("colorAccentSecondary");
-                    FabricatedOverlayUtil.disableOverlay("colorAccentSecondary1");
-                    FabricatedOverlayUtil.disableOverlay("colorAccentSecondary2");
-                    FabricatedOverlayUtil.disableOverlay("colorAccentSecondary3");
+                    FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
                 }
 
                 apply_monet_accent.postDelayed(() -> {
@@ -76,23 +88,13 @@ public class ColorEngine extends AppCompatActivity {
             } else {
                 Runnable runnable = () -> {
                     if (!apply_monet_gradient.isChecked()) {
-                        FabricatedOverlayUtil.disableOverlay("colorAccentPrimary1");
-                        FabricatedOverlayUtil.disableOverlay("colorAccentPrimary2");
-                        FabricatedOverlayUtil.disableOverlay("colorAccentPrimary3");
-                        FabricatedOverlayUtil.disableOverlay("colorAccentPrimary4");
-                        FabricatedOverlayUtil.disableOverlay("colorAccentPrimary5");
-                        FabricatedOverlayUtil.disableOverlay("colorAccentPrimary6");
-                        FabricatedOverlayUtil.disableOverlay("colorAccentSecondary1");
-                        FabricatedOverlayUtil.disableOverlay("colorAccentSecondary2");
-                        FabricatedOverlayUtil.disableOverlay("colorAccentSecondary3");
-
-                        if (Prefs.getString("colorAccentPrimary").equals("null")) {
-                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
-                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorPixelBackgroundDark", "color", "holo_blue_dark", "0xFF122530");
+                        if (Prefs.getString(COLOR_ACCENT_PRIMARY).equals(STR_NULL)) {
+                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
+                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ICONIFY_COLOR_PIXEL_DARK_BG);
                         }
 
-                        if (Prefs.getString("colorAccentSecondary").equals("null")) {
-                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentSecondary", "color", "holo_green_light", "0xFF387BFF");
+                        if (Prefs.getString(COLOR_ACCENT_SECONDARY).equals(STR_NULL)) {
+                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
                         }
                     }
 
@@ -111,25 +113,16 @@ public class ColorEngine extends AppCompatActivity {
             if (isChecked) {
                 OverlayUtil.enableOverlay("IconifyComponentAMGC.overlay");
 
-                if (!Objects.equals(Prefs.getString("colorAccentPrimary"), "null")) {
+                if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL)) {
                     ColorPicker.applyPrimaryColors();
                 } else {
-                    FabricatedOverlayUtil.disableOverlay("colorAccentPrimary");
-                    FabricatedOverlayUtil.disableOverlay("colorAccentPrimary1");
-                    FabricatedOverlayUtil.disableOverlay("colorAccentPrimary2");
-                    FabricatedOverlayUtil.disableOverlay("colorAccentPrimary3");
-                    FabricatedOverlayUtil.disableOverlay("colorAccentPrimary4");
-                    FabricatedOverlayUtil.disableOverlay("colorAccentPrimary5");
-                    FabricatedOverlayUtil.disableOverlay("colorAccentPrimary6");
+                    FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
                 }
 
-                if (!Objects.equals(Prefs.getString("colorAccentSecondary"), "null")) {
+                if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL)) {
                     ColorPicker.applySecondaryColors();
                 } else {
-                    FabricatedOverlayUtil.disableOverlay("colorAccentSecondary");
-                    FabricatedOverlayUtil.disableOverlay("colorAccentSecondary1");
-                    FabricatedOverlayUtil.disableOverlay("colorAccentSecondary2");
-                    FabricatedOverlayUtil.disableOverlay("colorAccentSecondary3");
+                    FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
                 }
 
                 apply_monet_gradient.postDelayed(() -> {
@@ -138,23 +131,13 @@ public class ColorEngine extends AppCompatActivity {
             } else {
                 Runnable runnable = () -> {
                     if (!apply_monet_accent.isChecked()) {
-                        FabricatedOverlayUtil.disableOverlay("colorAccentPrimary1");
-                        FabricatedOverlayUtil.disableOverlay("colorAccentPrimary2");
-                        FabricatedOverlayUtil.disableOverlay("colorAccentPrimary3");
-                        FabricatedOverlayUtil.disableOverlay("colorAccentPrimary4");
-                        FabricatedOverlayUtil.disableOverlay("colorAccentPrimary5");
-                        FabricatedOverlayUtil.disableOverlay("colorAccentPrimary6");
-                        FabricatedOverlayUtil.disableOverlay("colorAccentSecondary1");
-                        FabricatedOverlayUtil.disableOverlay("colorAccentSecondary2");
-                        FabricatedOverlayUtil.disableOverlay("colorAccentSecondary3");
-
-                        if (Prefs.getString("colorAccentPrimary").equals("null")) {
-                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentPrimary", "color", "holo_blue_light", "0xFF50A6D7");
-                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorPixelBackgroundDark", "color", "holo_blue_dark", "0xFF122530");
+                        if (Prefs.getString(COLOR_ACCENT_PRIMARY).equals(STR_NULL)) {
+                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
+                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ICONIFY_COLOR_PIXEL_DARK_BG);
                         }
 
-                        if (Prefs.getString("colorAccentSecondary").equals("null")) {
-                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "colorAccentSecondary", "color", "holo_green_light", "0xFF387BFF");
+                        if (Prefs.getString(COLOR_ACCENT_SECONDARY).equals(STR_NULL)) {
+                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
                         }
                     }
 
@@ -167,13 +150,6 @@ public class ColorEngine extends AppCompatActivity {
                     findViewById(R.id.page_color_engine).invalidate();
                 }, 1000);
             }
-        });
-
-        // Color Picker
-        LinearLayout custom_color_picker = findViewById(R.id.custom_color_picker);
-        custom_color_picker.setOnClickListener(v -> {
-            Intent intent = new Intent(ColorEngine.this, ColorPicker.class);
-            startActivity(intent);
         });
 
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_minimal_qspanel = findViewById(R.id.apply_minimal_qspanel);

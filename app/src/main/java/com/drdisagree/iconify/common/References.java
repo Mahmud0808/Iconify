@@ -81,6 +81,55 @@ public class References {
     // Parse changelogs
     public static final String OLDER_CHANGELOGS = "https://raw.githubusercontent.com/Mahmud0808/Iconify/stable/fastlane/metadata/android/en-US/changelogs/{VersionCode}.txt";
 
+    // Preference keys
+    public static final String STR_NULL = "null";
+    public static final String UPDATE_SCHEDULE = "iconify_update_schedule";
+    public static final String UPDATE_CHECK_TIME = "iconify_update_check_time";
+    public static final String COLORED_BATTERY_SWITCH = "isColoredBatteryEnabled";
+    public static final String COLOR_ACCENT_PRIMARY = "colorAccentPrimary";
+    public static final String COLOR_ACCENT_SECONDARY = "colorAccentSecondary";
+    public static final String CUSTOM_PRIMARY_COLOR_SWITCH = "customPrimaryColor";
+    public static final String CUSTOM_SECONDARY_COLOR_SWITCH = "customSecondaryColor";
+    public static final String COLOR_PIXEL_DARK_BG = "colorPixelBackgroundDark";
+    public static final String QS_ROW_COLUMN_SWITCH = "fabricatedqsRowColumn";
+    public static final String MONET_ENGINE_SWITCH = "customMonet";
+    public static final String QSPANEL_BLUR_SWITCH = "qsBlurSwitch";
+    public static final String UI_CORNER_RADIUS = "cornerRadius";
+    public static final String MONET_STYLE = "customMonetStyle";
+    public static final String MONET_ACCENT_SATURATION = "monetAccentSaturation";
+    public static final String MONET_BACKGROUND_SATURATION = "monetBackgroundSaturation";
+    public static final String MONET_BACKGROUND_LIGHTNESS = "monetBackgroundLightness";
+
+    // Fabricated overlays
+    public static final String ICONIFY_COLOR_ACCENT_PRIMARY = "0xFF50A6D7";
+    public static final String ICONIFY_COLOR_ACCENT_SECONDARY = "0xFF387BFF";
+    public static final String ICONIFY_COLOR_PIXEL_DARK_BG = "0xFF122530";
+    public static final String FABRICATED_COLORED_BATTERY = "coloredBattery";
+    public static final String FABRICATED_BATTERY_COLOR_BG = "batteryColorBackground";
+    public static final String FABRICATED_BATTERY_COLOR_FG = "batteryColorFilled";
+    public static final String FABRICATED_QS_ROW = "qsRow";
+    public static final String FABRICATED_QQS_ROW = "qqsRow";
+    public static final String FABRICATED_QQS_COLUMN = "qqsColumn";
+    public static final String FABRICATED_QS_COLUMN = "qsColumn";
+    public static final String FABRICATED_QQS_TILE = "qqsTile";
+    public static final String FABRICATED_QS_TILE = "qsTile";
+    public static final String FABRICATED_QS_TEXT_SIZE = "qsTextSize";
+    public static final String FABRICATED_QS_ICON_SIZE = "qsIconSize";
+    public static final String FABRICATED_QS_MOVE_ICON = "qsMoveIcon";
+    public static final String FABRICATED_SB_LEFT_PADDING = "sbLeftPadding";
+    public static final String FABRICATED_SB_RIGHT_PADDING = "sbRightPadding";
+    public static final String FABRICATED_SB_COLOR_TINT = "colorSBTint";
+    public static final String FABRICATED_QSPANEL_BLUR_RADIUS = "qsBlurRadius";
+
+    // Commands
+    public static final String DEVICE_BOOT_ID_CMD = "cat /proc/sys/kernel/random/boot_id";
+    public static final String LSPOSED_CHECK_CMD = "test -f /data/adb/lspd/manager.apk && echo '1'";
+
+    // Others
+    public static final String BOOT_ID = "boot_id";
+    public static final String VER_CODE = "versionCode";
+    public static final String EASTER_EGG = "iconify_easter_egg";
+
     // Notification service checker
     public static boolean isNotificationServiceRunning = false;
 }

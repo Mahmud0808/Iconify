@@ -27,7 +27,7 @@
     <string name="activity_title_volume_panel">Volume Panel</string>
     <string name="activity_desc_volume_panel">Customize volume panel design</string>
     <string name="activity_title_monet_engine">Monet Engine</string>
-    <string name="activity_desc_monet_engine">Override monet color styles</string>
+    <string name="activity_desc_monet_engine">Override monet color palette</string>
     <string name="activity_title_experimental">Experimental</string>
     <string name="activity_title_changelog">Changelog</string>
     <string name="activity_title_xposed_menu">XPosed Menu</string>
@@ -56,13 +56,13 @@
     <string name="activity_desc_xposed_others">Other xposed tweaks and customization</string>
     <string name="activity_title_statusbar">Statusbar</string>
     <string name="activity_desc_statusbar">Modify statusbar interface</string>
+    <string name="activity_title_basic_colors">Basic Colors</string>
+    <string name="activity_desc_basic_colors">Change primary and secondary color</string>
 
     <string name="apply_monet_accent_title">Monet Accent</string>
     <string name="apply_monet_accent_desc">Link iconify colors to accent</string>
     <string name="apply_monet_gradient_title">Monet Gradient</string>
     <string name="apply_monet_gradient_desc">Link iconify colors to gradient</string>
-    <string name="color_picker_title">Color Picker</string>
-    <string name="color_picker_desc">Pick your desired colors here</string>
     <string name="color_picker_preview">Color Picker Preview</string>
     <string name="accurate_shades_title">Accurate Shades</string>
     <string name="accurate_shades_desc">Disable this for vibrant colors</string>
@@ -316,4 +316,9 @@
     <string name="volume_style_neumorphoutline">Neumorph Outline</string>
     <string name="translators">Translators</string>
     <string name="toast_reboot_required">Reboot required</string>
+    <string name="toast_lsposed_not_found">LSPosed not found!</string>
+    <string name="toast_easter_egg">How did you know that?</string>
+    <string name="toast_easter_egg_activated">Why are you still doing that?</string>
+    <string name="individual_changelog_not_found">Something went wrong.\nThis changelog might not be available on the server.</string>
+    <string name="monet_engine_warn_desc">Colors might go away if you restart SystemUI or change Dark/Light mode. To overcome this issue, add Iconify QS Tiles on your QS Panel. Disable and enable from there to retrieve colors.</string>
 </resources>

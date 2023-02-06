@@ -1,5 +1,8 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.STR_NULL;
+import static com.drdisagree.iconify.common.References.UI_CORNER_RADIUS;
+
 import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.graphics.drawable.GradientDrawable;
@@ -61,19 +64,19 @@ public class UiRoundness extends AppCompatActivity {
 
         corner_radius_seekbar.setPadding(0, 0, 0, 0);
         final int[] finalUiCornerRadius = {16};
-        if (!Prefs.getString("cornerRadius").equals("null"))
-            finalUiCornerRadius[0] = Integer.parseInt(Prefs.getString("cornerRadius"));
+        if (!Prefs.getString(UI_CORNER_RADIUS).equals(STR_NULL))
+            finalUiCornerRadius[0] = Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS));
 
-        if (!Prefs.getString("cornerRadius").equals("null")) {
-            if ((Integer.parseInt(Prefs.getString("cornerRadius")) + 8) == 24) {
-                corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString("cornerRadius")) + 8) + "dp " + getResources().getString(R.string.opt_default));
+        if (!Prefs.getString(UI_CORNER_RADIUS).equals(STR_NULL)) {
+            if ((Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS)) + 8) == 24) {
+                corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS)) + 8) + "dp " + getResources().getString(R.string.opt_default));
             } else {
-                corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString("cornerRadius")) + 8) + "dp");
+                corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS)) + 8) + "dp");
             }
             for (GradientDrawable drawable : drawables) {
-                drawable.setCornerRadius((Integer.parseInt(Prefs.getString("cornerRadius")) + 8) * getResources().getDisplayMetrics().density);
+                drawable.setCornerRadius((Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS)) + 8) * getResources().getDisplayMetrics().density);
             }
-            finalUiCornerRadius[0] = Integer.parseInt(Prefs.getString("cornerRadius"));
+            finalUiCornerRadius[0] = Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS));
             corner_radius_seekbar.setProgress(finalUiCornerRadius[0]);
         } else {
             corner_radius_output.setText(getResources().getString(R.string.opt_selected) + " 24dp " + getResources().getString(R.string.opt_default));
@@ -114,7 +117,7 @@ public class UiRoundness extends AppCompatActivity {
                 UIRadiusManager.install_pack(finalUiCornerRadius[0]);
 
                 runOnUiThread(() -> {
-                    Prefs.putString("cornerRadius", String.valueOf(finalUiCornerRadius[0]));
+                    Prefs.putString(UI_CORNER_RADIUS, String.valueOf(finalUiCornerRadius[0]));
 
                     new Handler().postDelayed(() -> {
                         // Hide loading dialog

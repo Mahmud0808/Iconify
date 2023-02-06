@@ -45,13 +45,6 @@ public class Experimental extends AppCompatActivity {
                 Shell.cmd("settings put secure monet_engine_accurate_shades 0").exec();
             }
         });
-
-        // Color table
-        LinearLayout color_table = findViewById(R.id.color_table);
-        color_table.setOnClickListener(v -> {
-            Intent intent = new Intent(Experimental.this, MonetEngine.class);
-            startActivity(intent);
-        });
     }
 
     @Override

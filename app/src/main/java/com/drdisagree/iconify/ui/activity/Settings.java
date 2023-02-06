@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.EASTER_EGG;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +21,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
@@ -29,7 +30,6 @@ import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
 import java.util.Map;
@@ -58,8 +58,8 @@ public class Settings extends AppCompatActivity {
         }
 
         Prefs.clearAllPrefs();
-        Prefs.putString("boot_id", Shell.cmd("cat /proc/sys/kernel/random/boot_id").exec().getOut().toString());
-        Prefs.putInt("versionCode", BuildConfig.VERSION_CODE);
+        SystemUtil.getBootId();
+        SystemUtil.getVersionCode();
         Prefs.putBoolean("firstInstall", false);
 
         RemotePrefs.clearAllPrefs();
@@ -152,6 +152,8 @@ public class Settings extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.settings_menu, menu);
+
+        menu.findItem(R.id.menu_experimental_features).setVisible(Prefs.getBoolean(EASTER_EGG));
 
         return super.onCreateOptionsMenu(menu);
     }

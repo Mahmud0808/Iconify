@@ -34,6 +34,7 @@ import java.util.Objects;
 
 public class HeaderClock extends AppCompatActivity {
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

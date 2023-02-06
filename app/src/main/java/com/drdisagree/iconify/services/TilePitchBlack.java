@@ -6,8 +6,6 @@ import android.service.quicksettings.TileService;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.OverlayUtil;
 
-import java.util.List;
-
 public class TilePitchBlack extends TileService {
 
     private boolean isPitchBlackEnabled = Prefs.getBoolean("IconifyComponentQSPB.overlay");

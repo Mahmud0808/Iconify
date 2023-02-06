@@ -25,6 +25,35 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/container_margin"
+                android:background="@drawable/container"
+                android:gravity="start|center"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/container_paddingSide"
+                android:paddingTop="@dimen/container_padding"
+                android:paddingEnd="@dimen/container_paddingSide"
+                android:paddingBottom="@dimen/container_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hey_there"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/cont_title_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:justificationMode="inter_word"
+                    android:text="@string/monet_engine_warn_desc"
+                    android:textColor="@color/textColorSecondary"
+                    android:textSize="@dimen/cont_desc_size" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/preview_coloraccentprimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -139,7 +168,7 @@
                 android:paddingBottom="@dimen/container_padding">
 
                 <include
-                    android:id="@+id/color_table"
+                    android:id="@+id/monet_engine"
                     layout="@layout/view_color_table" />
 
             </LinearLayout>
@@ -365,20 +394,20 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Lightness"
+                    android:text="Background Lightness"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/cont_title_size"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/monet_lightness_output"
+                    android:id="@+id/monet_background_lightness_output"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/textColorSecondary"
                     android:textSize="@dimen/cont_desc_size" />
 
                 <SeekBar
-                    android:id="@+id/monet_lightness_seekbar"
+                    android:id="@+id/monet_background_lightness_seekbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/container_padding"

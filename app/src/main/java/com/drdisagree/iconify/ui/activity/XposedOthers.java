@@ -12,9 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RemotePrefs;
-import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -34,20 +32,6 @@ public class XposedOthers extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        // Force enable blur
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch force_enable_blur = findViewById(R.id.force_enable_blur);
-        Prefs.putBoolean("qsForceBlurSwitch", SystemUtil.supportsForcedBlur());
-        force_enable_blur.setChecked(Prefs.getBoolean("qsForceBlurSwitch", false));
-        force_enable_blur.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Prefs.putBoolean("qsForceBlurSwitch", isChecked);
-            if (isChecked)
-                SystemUtil.forceEnableBlur();
-            else {
-                SystemUtil.disableForcedBlur();
-                FabricatedOverlayUtil.disableOverlay("qsBlurRadius");
-            }
-        });
 
         // Hide carrier group
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_qs_carrier_group = findViewById(R.id.hide_qs_carrier_group);
