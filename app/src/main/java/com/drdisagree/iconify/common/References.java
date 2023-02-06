@@ -101,8 +101,6 @@ public class References {
     public static final String MONET_BACKGROUND_LIGHTNESS = "monetBackgroundLightness";
 
     // Fabricated overlays
-    public static final String FABRICATED = "fabricated";
-    public static final String EASTER_EGG = "iconify_easter_egg";
     public static final String ICONIFY_COLOR_ACCENT_PRIMARY = "0xFF50A6D7";
     public static final String ICONIFY_COLOR_ACCENT_SECONDARY = "0xFF387BFF";
     public static final String ICONIFY_COLOR_PIXEL_DARK_BG = "0xFF122530";
@@ -130,6 +128,7 @@ public class References {
     // Others
     public static final String BOOT_ID = "boot_id";
     public static final String VER_CODE = "versionCode";
+    public static final String EASTER_EGG = "iconify_easter_egg";
 
     // Notification service checker
     public static boolean isNotificationServiceRunning = false;
