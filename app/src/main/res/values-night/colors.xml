@@ -9,9 +9,11 @@
     <color name="colorContainer">@color/material_dynamic_secondary20</color>
     <color name="colorContainerOverlay">#4D000000</color>
     <color name="textColorPrimary">@color/material_dynamic_neutral95</color>
+    <color name="textColorPrimaryNoTint">@color/white</color>
     <color name="textColorPrimaryError">#fff2f2</color>
     <color name="textColorPrimaryInverse">@color/material_dynamic_neutral10</color>
     <color name="textColorSecondary">@color/material_dynamic_neutral_variant80</color>
+    <color name="textColorSecondaryNoTint">#BFFFFFFF</color>
     <color name="textColorSecondaryError">#fedada</color>
     <color name="textColorSecondaryLight">@color/material_dynamic_neutral90</color>
     <color name="colorSuccess">@color/material_dynamic_primary80</color>

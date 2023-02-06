@@ -59,19 +59,19 @@
                     android:layout_width="20dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
+                    android:contentDescription="@string/icon"
                     android:src="@drawable/ic_qs_internet"
-                    app:tint="@color/textColorPrimary"
-                    tools:ignore="ContentDescription" />
+                    app:tint="@color/textColorPrimaryNoTint" />
 
                 <TextView
                     android:id="@+id/qs_text1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="1dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/qstile_btn1_title"
-                    android:textColor="@color/textColorPrimary"
+                    android:textColor="@color/textColorPrimaryNoTint"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -93,19 +93,19 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginEnd="10dp"
+                    android:contentDescription="@string/icon"
                     android:src="@drawable/ic_qs_airplane"
-                    app:tint="@color/textColorPrimary"
-                    tools:ignore="ContentDescription" />
+                    app:tint="@color/textColorPrimaryNoTint" />
 
                 <TextView
                     android:id="@+id/qs_text2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="1dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/qstile_btn2_title"
-                    android:textColor="@color/textColorPrimary"
+                    android:textColor="@color/textColorPrimaryNoTint"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -136,19 +136,19 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginEnd="10dp"
+                    android:contentDescription="@string/icon"
                     android:src="@drawable/ic_qs_location"
-                    app:tint="@color/textColorPrimary"
-                    tools:ignore="ContentDescription" />
+                    app:tint="@color/textColorPrimaryNoTint" />
 
                 <TextView
                     android:id="@+id/qs_text3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="1dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/qstile_btn3_title"
-                    android:textColor="@color/textColorPrimary"
+                    android:textColor="@color/textColorPrimaryNoTint"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -170,19 +170,19 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginEnd="10dp"
+                    android:contentDescription="@string/icon"
                     android:src="@drawable/ic_qs_bluetooth"
-                    app:tint="@color/textColorPrimary"
-                    tools:ignore="ContentDescription" />
+                    app:tint="@color/textColorPrimaryNoTint" />
 
                 <TextView
                     android:id="@+id/qs_text4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="1dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/qstile_btn4_title"
-                    android:textColor="@color/textColorPrimary"
+                    android:textColor="@color/textColorPrimaryNoTint"
                     android:textStyle="bold" />
 
             </LinearLayout>

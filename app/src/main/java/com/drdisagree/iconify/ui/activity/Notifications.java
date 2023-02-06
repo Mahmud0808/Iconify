@@ -121,7 +121,7 @@ public class Notifications extends AppCompatActivity {
                 title.setTextColor(getResources().getColor(R.color.colorSuccess));
             } else {
                 title.setText(title.getText().toString().replace(' ' + getResources().getString(R.string.opt_applied), ""));
-                title.setTextColor(getResources().getColor(R.color.textColorPrimary));
+                title.setTextColor(getResources().getColor(R.color.textColorPrimaryNoTint));
             }
         }
     }
@@ -201,7 +201,7 @@ public class Notifications extends AppCompatActivity {
                         // Change name back to original
                         TextView title = layout.findViewById(R.id.notif_title);
                         title.setText(title.getText().toString().replace(' ' + getResources().getString(R.string.opt_applied), ""));
-                        title.setTextColor(getResources().getColor(R.color.textColorPrimary));
+                        title.setTextColor(getResources().getColor(R.color.textColorPrimaryNoTint));
 
                         // Change button visibility
                         disable.setVisibility(View.GONE);
