@@ -400,14 +400,14 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/monet_lightness_output"
+                    android:id="@+id/monet_background_lightness_output"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/textColorSecondary"
                     android:textSize="@dimen/cont_desc_size" />
 
                 <SeekBar
-                    android:id="@+id/monet_lightness_seekbar"
+                    android:id="@+id/monet_background_lightness_seekbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/container_padding"

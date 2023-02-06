@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.ColorUtils;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -181,7 +182,6 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Prefs.putInt(MONET_ACCENT_SATURATION, monetAccentSaturation[0]);
                 assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
                 enable_custom_monet.setVisibility(View.VISIBLE);
             }
@@ -207,33 +207,31 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Prefs.putInt(MONET_BACKGROUND_SATURATION, monetBackgroundSaturation[0]);
                 assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
                 enable_custom_monet.setVisibility(View.VISIBLE);
             }
         });
 
-        // Monet lightness
-        SeekBar monet_lightness_seekbar = findViewById(R.id.monet_lightness_seekbar);
-        monet_lightness_seekbar.setPadding(0, 0, 0, 0);
-        TextView monet_lightness_output = findViewById(R.id.monet_lightness_output);
-        monet_lightness_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100) - 100) + "%");
-        monet_lightness_seekbar.setProgress(Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100));
-        final int[] monetLightness = {Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100)};
-        monet_lightness_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        // Monet background lightness
+        SeekBar monet_background_lightness_seekbar = findViewById(R.id.monet_background_lightness_seekbar);
+        monet_background_lightness_seekbar.setPadding(0, 0, 0, 0);
+        TextView monet_background_lightness_output = findViewById(R.id.monet_background_lightness_output);
+        monet_background_lightness_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100) - 100) + "%");
+        monet_background_lightness_seekbar.setProgress(Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100));
+        final int[] monetBackgroundLightness = {Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100)};
+        monet_background_lightness_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                monetLightness[0] = progress;
-                monet_lightness_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress - 100) + "%");
+                monetBackgroundLightness[0] = progress;
+                monet_background_lightness_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress - 100) + "%");
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Prefs.putInt(MONET_BACKGROUND_LIGHTNESS, monetLightness[0]);
                 assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
                 enable_custom_monet.setVisibility(View.VISIBLE);
             }
@@ -247,6 +245,10 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
             } else if (Objects.equals(selectedStyle, STR_NULL)) {
                 Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
             } else {
+                Prefs.putInt(MONET_ACCENT_SATURATION, monetAccentSaturation[0]);
+                Prefs.putInt(MONET_BACKGROUND_SATURATION, monetBackgroundSaturation[0]);
+                Prefs.putInt(MONET_BACKGROUND_LIGHTNESS, monetBackgroundLightness[0]);
+
                 if (isSelectedPrimary) Prefs.putString(COLOR_ACCENT_PRIMARY, accentPrimary);
                 if (isSelectedSecondary) Prefs.putString(COLOR_ACCENT_SECONDARY, accentSecondary);
                 AtomicBoolean hasErroredOut = new AtomicBoolean(false);
@@ -461,6 +463,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         }
         resources.append("    <color name=\"holo_blue_light\">").append(ColorUtil.ColorToHex((int) generatedColorPalette.get(0).get(4), false, true)).append("</color>\n");
         resources.append("    <color name=\"holo_green_light\">").append(ColorUtil.ColorToHex((int) generatedColorPalette.get(2).get(4), false, true)).append("</color>\n");
+        resources.append("    <color name=\"holo_blue_dark\">").append(ColorUtil.ColorToHex(ColorUtils.blendARGB(ColorUtils.blendARGB((int) generatedColorPalette.get(0).get(4), Color.BLACK, 0.8f), Color.WHITE, 0.12f), false, true)).append("</color>\n");
         resources.append("</resources>\n");
 
         return MonetCompilerUtil.buildMonetPalette(resources.toString());
