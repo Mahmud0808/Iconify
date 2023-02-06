@@ -67,10 +67,10 @@ public class BackgroundChip extends AppCompatActivity {
         // QS clock chip style
         final Spinner qs_clock_chip_style = findViewById(R.id.qs_clock_chip_style);
         List<String> qs_clock_chip_styles = new ArrayList<>();
-        qs_clock_chip_styles.add("Style 1");
-        qs_clock_chip_styles.add("Style 2");
-        qs_clock_chip_styles.add("Style 3");
-        qs_clock_chip_styles.add("Style 4");
+        qs_clock_chip_styles.add(getResources().getString(R.string.style_1));
+        qs_clock_chip_styles.add(getResources().getString(R.string.style_2));
+        qs_clock_chip_styles.add(getResources().getString(R.string.style_3));
+        qs_clock_chip_styles.add(getResources().getString(R.string.style_4));
 
         ArrayAdapter<String> qs_clock_chip_styles_adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_item, qs_clock_chip_styles);
         qs_clock_chip_styles_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
@@ -102,10 +102,10 @@ public class BackgroundChip extends AppCompatActivity {
         // QS date chip style
         final Spinner qs_date_chip_style = findViewById(R.id.qs_date_chip_style);
         List<String> qs_date_chip_styles = new ArrayList<>();
-        qs_date_chip_styles.add("Style 1");
-        qs_date_chip_styles.add("Style 2");
-        qs_date_chip_styles.add("Style 3");
-        qs_date_chip_styles.add("Style 4");
+        qs_date_chip_styles.add(getResources().getString(R.string.style_1));
+        qs_date_chip_styles.add(getResources().getString(R.string.style_2));
+        qs_date_chip_styles.add(getResources().getString(R.string.style_3));
+        qs_date_chip_styles.add(getResources().getString(R.string.style_4));
 
         ArrayAdapter<String> qs_date_chip_styles_adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_item, qs_date_chip_styles);
         qs_date_chip_styles_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
@@ -137,10 +137,10 @@ public class BackgroundChip extends AppCompatActivity {
         // Status icons chip style
         final Spinner status_icons_chip_style = findViewById(R.id.status_icons_chip_style);
         List<String> status_icons_chip_styles = new ArrayList<>();
-        status_icons_chip_styles.add("Style 1");
-        status_icons_chip_styles.add("Style 2");
-        status_icons_chip_styles.add("Style 3");
-        status_icons_chip_styles.add("Style 4");
+        status_icons_chip_styles.add(getResources().getString(R.string.style_1));
+        status_icons_chip_styles.add(getResources().getString(R.string.style_2));
+        status_icons_chip_styles.add(getResources().getString(R.string.style_3));
+        status_icons_chip_styles.add(getResources().getString(R.string.style_4));
 
         ArrayAdapter<String> status_icons_chip_styles_adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_item, status_icons_chip_styles);
         status_icons_chip_styles_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);

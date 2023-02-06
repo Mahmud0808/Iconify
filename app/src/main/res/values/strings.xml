@@ -323,4 +323,18 @@
     <string name="monet_engine_warn_desc">Colors might go away if you restart SystemUI or change Dark/Light mode. To overcome this issue, add Iconify QS Tiles on your QS Panel. Disable and enable from there to retrieve colors.</string>
     <string name="info_translators_fa">Persian translation.</string>
     <string name="info_translators_ru">Russian translation.</string>
+    <string name="Monet_neutral">Neutral</string>
+    <string name="Monet_monochrome">Monochrome</string>
+    <string name="Monet_tonal_spot">Tonal Spot</string>
+    <string name="Monet_vibrant">Vibrant</string>
+    <string name="Monet_expressive">Expressive</string>
+    <string name="Monet_fidelity">Fidelity</string>
+    <string name="Monet_content">Content</string>
+    <string name="Monet_accent_saturation">Accent Saturation</string>
+    <string name="Monet_background_saturation">Background Saturation</string>
+    <string name="Monet_background_lightness">Background Lightness</string>
+    <string name="style_1">Style 1</string>
+    <string name="style_2">Style 2</string>
+    <string name="style_3">Style 3</string>
+    <string name="style_4">Style 4</string>
 </resources>

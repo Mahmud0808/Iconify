@@ -202,7 +202,7 @@
                             android:checked="false"
                             android:paddingStart="6dp"
                             android:paddingEnd="6dp"
-                            android:text="Neutral"
+                            android:text="@string/Monet_neutral"
                             android:textColor="@color/textColorPrimary"
                             android:textSize="@dimen/cont_desc_size" />
 
@@ -213,7 +213,7 @@
                             android:checked="false"
                             android:paddingStart="6dp"
                             android:paddingEnd="6dp"
-                            android:text="Monochrome"
+                            android:text="@string/Monet_monochrome"
                             android:textColor="@color/textColorPrimary"
                             android:textSize="@dimen/cont_desc_size" />
 
@@ -224,7 +224,7 @@
                             android:checked="false"
                             android:paddingStart="6dp"
                             android:paddingEnd="6dp"
-                            android:text="Tonal Spot"
+                            android:text="@string/Monet_tonal_spot"
                             android:textColor="@color/textColorPrimary"
                             android:textSize="@dimen/cont_desc_size" />
 
@@ -235,7 +235,7 @@
                             android:checked="false"
                             android:paddingStart="6dp"
                             android:paddingEnd="6dp"
-                            android:text="Vibrant"
+                            android:text="@string/Monet_vibrant"
                             android:textColor="@color/textColorPrimary"
                             android:textSize="@dimen/cont_desc_size" />
 
@@ -254,7 +254,7 @@
                             android:checked="false"
                             android:paddingStart="6dp"
                             android:paddingEnd="6dp"
-                            android:text="Expressive"
+                            android:text="@string/Monet_expressive"
                             android:textColor="@color/textColorPrimary"
                             android:textSize="@dimen/cont_desc_size" />
 
@@ -265,7 +265,7 @@
                             android:checked="false"
                             android:paddingStart="6dp"
                             android:paddingEnd="6dp"
-                            android:text="Fidelity"
+                            android:text="@string/Monet_fidelity"
                             android:textColor="@color/textColorPrimary"
                             android:textSize="@dimen/cont_desc_size" />
 
@@ -276,7 +276,7 @@
                             android:checked="false"
                             android:paddingStart="6dp"
                             android:paddingEnd="6dp"
-                            android:text="Content"
+                            android:text="@string/Monet_content"
                             android:textColor="@color/textColorPrimary"
                             android:textSize="@dimen/cont_desc_size" />
 
@@ -297,7 +297,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Accent Saturation"
+                    android:text="@string/Monet_accent_saturation"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/cont_title_size"
                     android:textStyle="bold" />
@@ -345,7 +345,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Background Saturation"
+                    android:text="@string/Monet_background_saturation"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/cont_title_size"
                     android:textStyle="bold" />
@@ -394,7 +394,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Background Lightness"
+                    android:text="@string/Monet_background_lightness"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/cont_title_size"
                     android:textStyle="bold" />

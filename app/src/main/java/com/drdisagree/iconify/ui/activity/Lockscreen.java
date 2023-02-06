@@ -104,9 +104,9 @@ public class Lockscreen extends AppCompatActivity {
         // Lockscreen clock style
         final Spinner locksreen_clock_style = findViewById(R.id.locksreen_clock_style);
         List<String> lsclock_styles = new ArrayList<>();
-        lsclock_styles.add("Style 1");
-        lsclock_styles.add("Style 2");
-        lsclock_styles.add("Style 3");
+        lsclock_styles.add(getResources().getString(R.string.style_1));
+        lsclock_styles.add(getResources().getString(R.string.style_2));
+        lsclock_styles.add(getResources().getString(R.string.style_3));
 
         ArrayAdapter<String> lsclock_styles_adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_item, lsclock_styles);
         lsclock_styles_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
