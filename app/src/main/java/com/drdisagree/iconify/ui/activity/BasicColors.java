@@ -12,6 +12,7 @@ import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_PIXEL_DARK_
 import static com.drdisagree.iconify.common.References.STR_NULL;
 import static com.drdisagree.iconify.utils.ColorUtil.ColorToSpecialHex;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,7 +40,7 @@ import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import java.util.List;
 import java.util.Objects;
 
-public class ColorPicker extends AppCompatActivity implements ColorPickerDialogListener {
+public class BasicColors extends AppCompatActivity implements ColorPickerDialogListener {
 
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
     private static boolean isSelectedPrimary = false, isSelectedSecondary = false;
@@ -77,7 +79,7 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_color_picker);
+        setContentView(R.layout.activity_basic_colors);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
@@ -89,6 +91,99 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
 
         // Loading dialog
         loadingDialog = new LoadingDialog(this);
+
+        // Apply monet accent and gradient
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_monet_accent = findViewById(R.id.apply_monet_accent);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_monet_gradient = findViewById(R.id.apply_monet_gradient);
+
+        apply_monet_accent.setChecked(Prefs.getBoolean("IconifyComponentAMAC.overlay"));
+        apply_monet_gradient.setChecked(Prefs.getBoolean("IconifyComponentAMGC.overlay"));
+
+        apply_monet_accent.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                OverlayUtil.enableOverlay("IconifyComponentAMAC.overlay");
+
+                if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL)) {
+                    BasicColors.applyPrimaryColors();
+                } else {
+                    FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
+                }
+
+                if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL)) {
+                    BasicColors.applySecondaryColors();
+                } else {
+                    FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
+                }
+
+                apply_monet_accent.postDelayed(() -> {
+                    findViewById(R.id.activity_basic_colors).invalidate();
+                }, 1000);
+            } else {
+                Runnable runnable = () -> {
+                    if (!apply_monet_gradient.isChecked()) {
+                        if (Prefs.getString(COLOR_ACCENT_PRIMARY).equals(STR_NULL)) {
+                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
+                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ICONIFY_COLOR_PIXEL_DARK_BG);
+                        }
+
+                        if (Prefs.getString(COLOR_ACCENT_SECONDARY).equals(STR_NULL)) {
+                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
+                        }
+                    }
+
+                    OverlayUtil.disableOverlay("IconifyComponentAMAC.overlay");
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
+
+                apply_monet_accent.postDelayed(() -> {
+                    findViewById(R.id.activity_basic_colors).invalidate();
+                }, 1000);
+            }
+        });
+
+        apply_monet_gradient.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                OverlayUtil.enableOverlay("IconifyComponentAMGC.overlay");
+
+                if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL)) {
+                    BasicColors.applyPrimaryColors();
+                } else {
+                    FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
+                }
+
+                if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL)) {
+                    BasicColors.applySecondaryColors();
+                } else {
+                    FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
+                }
+
+                apply_monet_gradient.postDelayed(() -> {
+                    findViewById(R.id.activity_basic_colors).invalidate();
+                }, 1000);
+            } else {
+                Runnable runnable = () -> {
+                    if (!apply_monet_accent.isChecked()) {
+                        if (Prefs.getString(COLOR_ACCENT_PRIMARY).equals(STR_NULL)) {
+                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
+                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ICONIFY_COLOR_PIXEL_DARK_BG);
+                        }
+
+                        if (Prefs.getString(COLOR_ACCENT_SECONDARY).equals(STR_NULL)) {
+                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
+                        }
+                    }
+
+                    OverlayUtil.disableOverlay("IconifyComponentAMGC.overlay");
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
+
+                apply_monet_gradient.postDelayed(() -> {
+                    findViewById(R.id.activity_basic_colors).invalidate();
+                }, 1000);
+            }
+        });
 
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL))
             accentPrimary = Prefs.getString(COLOR_ACCENT_PRIMARY);
@@ -114,10 +209,10 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         colorPickerDialogSecondary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentSecondary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(false).setShowColorShades(true);
 
         LinearLayout preview_coloraccentprimary = findViewById(R.id.preview_coloraccentprimary);
-        preview_coloraccentprimary.setOnClickListener(v -> colorPickerDialogPrimary.show(ColorPicker.this));
+        preview_coloraccentprimary.setOnClickListener(v -> colorPickerDialogPrimary.show(BasicColors.this));
 
         LinearLayout preview_coloraccentsecondary = findViewById(R.id.preview_coloraccentsecondary);
-        preview_coloraccentsecondary.setOnClickListener(v -> colorPickerDialogSecondary.show(ColorPicker.this));
+        preview_coloraccentsecondary.setOnClickListener(v -> colorPickerDialogSecondary.show(BasicColors.this));
 
         // Enable custom colors button
         enable_custom_color = findViewById(R.id.enable_custom_color);
