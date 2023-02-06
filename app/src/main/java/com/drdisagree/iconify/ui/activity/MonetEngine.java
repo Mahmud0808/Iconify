@@ -350,19 +350,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                 colorTableRows[i].getChildAt(j).setBackgroundDrawable(colorbg);
             }
         }
-    }    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            if (checkedId != -1) {
-                selectedStyle = ((RadioButton) findViewById(checkedId)).getText().toString();
-                radioGroup2.setOnCheckedChangeListener(null);
-                radioGroup2.clearCheck();
-                radioGroup2.setOnCheckedChangeListener(listener2);
-                assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
-                enable_custom_monet.setVisibility(View.VISIBLE);
-            }
-        }
-    };
+    }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void assignCustomColorToPalette(List<List<Object>> palette) {
@@ -432,19 +420,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         }
 
         generatedColorPalette = palette;
-    }    private final RadioGroup.OnCheckedChangeListener listener2 = new RadioGroup.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            if (checkedId != -1) {
-                selectedStyle = ((RadioButton) findViewById(checkedId)).getText().toString();
-                radioGroup1.setOnCheckedChangeListener(null);
-                radioGroup1.clearCheck();
-                radioGroup1.setOnCheckedChangeListener(listener1);
-                assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
-                enable_custom_monet.setVisibility(View.VISIBLE);
-            }
-        }
-    };
+    }
 
     private boolean applyCustomMonet() throws IOException {
         String[][] colors = ColorUtil.getColorNames();
@@ -462,7 +438,19 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         resources.append("</resources>\n");
 
         return MonetCompilerUtil.buildMonetPalette(resources.toString());
-    }
+    }    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId != -1) {
+                selectedStyle = ((RadioButton) findViewById(checkedId)).getText().toString();
+                radioGroup2.setOnCheckedChangeListener(null);
+                radioGroup2.clearCheck();
+                radioGroup2.setOnCheckedChangeListener(listener2);
+                assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
+                enable_custom_monet.setVisibility(View.VISIBLE);
+            }
+        }
+    };
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -472,6 +460,19 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
 
 
 
+    private final RadioGroup.OnCheckedChangeListener listener2 = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId != -1) {
+                selectedStyle = ((RadioButton) findViewById(checkedId)).getText().toString();
+                radioGroup1.setOnCheckedChangeListener(null);
+                radioGroup1.clearCheck();
+                radioGroup1.setOnCheckedChangeListener(listener1);
+                assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
+                enable_custom_monet.setVisibility(View.VISIBLE);
+            }
+        }
+    };
 
 
 }

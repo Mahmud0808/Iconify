@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.utils;
 
-import com.drdisagree.iconify.common.References;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.List;

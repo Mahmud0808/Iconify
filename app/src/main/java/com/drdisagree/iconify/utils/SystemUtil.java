@@ -107,15 +107,15 @@ public class SystemUtil {
         Prefs.putInt(VER_CODE, BuildConfig.VERSION_CODE);
     }
 
-    private boolean getIsDark() {
-        return (mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
-    }
-
     public static void getStoragePermission(Context context) {
         Intent intent = new Intent();
         intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
         Uri uri = Uri.fromParts("package", Iconify.getAppContext().getPackageName(), null);
         intent.setData(uri);
         context.startActivity(intent);
+    }
+
+    private boolean getIsDark() {
+        return (mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
     }
 }

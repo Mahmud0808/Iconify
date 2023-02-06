@@ -77,6 +77,18 @@ public class Changelog extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onDestroy() {
+        if (grabChangelog != null)
+            grabChangelog.cancel(true);
+        super.onDestroy();
+    }
+
+    public void onBackPressed() {
+        if (grabChangelog != null)
+            grabChangelog.cancel(true);
+    }
+
     @SuppressLint("StaticFieldLeak")
     private class GrabChangelog extends AsyncTask<Integer, Integer, ArrayList<String[]>> {
 
@@ -186,17 +198,5 @@ public class Changelog extends AppCompatActivity {
                 addChangelog(changelogs);
             }
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        if (grabChangelog != null)
-            grabChangelog.cancel(true);
-        super.onDestroy();
-    }
-
-    public void onBackPressed() {
-        if (grabChangelog != null)
-            grabChangelog.cancel(true);
     }
 }

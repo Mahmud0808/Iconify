@@ -34,6 +34,11 @@ public class Info extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
     private static ViewGroup app_info_container, credits_container, contributors_container, translators_container;
+    final double SECONDS_FOR_CLICKS = 3;
+    final int NUM_CLICKS_REQUIRED = 7;
+    long[] clickTimestamps = new long[NUM_CLICKS_REQUIRED];
+    int oldestIndex = 0;
+    int nextIndex = 0;
 
     @SuppressLint({"SetTextI18n"})
     @Override
@@ -148,13 +153,6 @@ public class Info extends AppCompatActivity {
             container.addView(list);
         }
     }
-
-    final double SECONDS_FOR_CLICKS = 3;
-    final int NUM_CLICKS_REQUIRED = 7;
-
-    long[] clickTimestamps = new long[NUM_CLICKS_REQUIRED];
-    int oldestIndex = 0;
-    int nextIndex = 0;
 
     private void onSecretViewClicked(View v) {
         long timeMillis = (new Date()).getTime();

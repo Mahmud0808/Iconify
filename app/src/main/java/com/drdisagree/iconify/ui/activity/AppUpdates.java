@@ -116,6 +116,18 @@ public class AppUpdates extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onDestroy() {
+        if (checkForUpdate != null)
+            checkForUpdate.cancel(true);
+        super.onDestroy();
+    }
+
+    public void onBackPressed() {
+        if (checkForUpdate != null)
+            checkForUpdate.cancel(true);
+    }
+
     @SuppressLint("StaticFieldLeak")
     private class CheckForUpdate extends AsyncTask<Integer, Integer, String> {
 
@@ -235,11 +247,11 @@ public class AppUpdates extends AppCompatActivity {
                                 ((TextView) findViewById(R.id.changelog_text)).setText(Html.fromHtml(changes.toString()));
                             } else {
                                 ((TextView) findViewById(R.id.changelog_title)).setText(Html.fromHtml(getResources().getString(R.string.individual_changelog_not_found)));
-                                ((TextView) findViewById(R.id.changelog_text)).setVisibility(View.GONE);
+                                findViewById(R.id.changelog_text).setVisibility(View.GONE);
                             }
                         }
                         ((TextView) findViewById(R.id.show_changelog)).setText(getResources().getString(R.string.view_changelog));
-                        ((TextView) findViewById(R.id.show_changelog)).setOnClickListener(v -> {
+                        findViewById(R.id.show_changelog).setOnClickListener(v -> {
                             if (findViewById(R.id.changelog).getVisibility() == View.GONE) {
                                 ((TextView) findViewById(R.id.show_changelog)).setText(getResources().getString(R.string.hide_changelog));
                                 findViewById(R.id.changelog).setVisibility(View.VISIBLE);
@@ -248,7 +260,7 @@ public class AppUpdates extends AppCompatActivity {
                                 findViewById(R.id.changelog).setVisibility(View.GONE);
                             }
                         });
-                        ((TextView) findViewById(R.id.show_changelog)).setVisibility(View.VISIBLE);
+                        findViewById(R.id.show_changelog).setVisibility(View.VISIBLE);
                     } else {
                         ((TextView) findViewById(R.id.update_title)).setText(getResources().getString(R.string.already_up_to_date));
                     }
@@ -265,18 +277,6 @@ public class AppUpdates extends AppCompatActivity {
             findViewById(R.id.checking_for_update).setVisibility(View.GONE);
             findViewById(R.id.checked_for_update).setVisibility(View.VISIBLE);
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        if (checkForUpdate != null)
-            checkForUpdate.cancel(true);
-        super.onDestroy();
-    }
-
-    public void onBackPressed() {
-        if (checkForUpdate != null)
-            checkForUpdate.cancel(true);
     }
 
 }

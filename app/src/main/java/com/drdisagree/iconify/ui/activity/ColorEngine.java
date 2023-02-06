@@ -1,14 +1,5 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.COLOR_ACCENT_PRIMARY;
-import static com.drdisagree.iconify.common.References.COLOR_ACCENT_SECONDARY;
-import static com.drdisagree.iconify.common.References.COLOR_PIXEL_DARK_BG;
-import static com.drdisagree.iconify.common.References.FRAMEWORK_PACKAGE;
-import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_PRIMARY;
-import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECONDARY;
-import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_PIXEL_DARK_BG;
-import static com.drdisagree.iconify.common.References.STR_NULL;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,16 +11,12 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
-import java.util.List;
 import java.util.Objects;
 
 public class ColorEngine extends AppCompatActivity {
-
-    public static List<String> FabricatedEnabledOverlays = FabricatedOverlayUtil.getEnabledOverlayList();
 
     @SuppressLint("SetTextI18n")
     @Override
