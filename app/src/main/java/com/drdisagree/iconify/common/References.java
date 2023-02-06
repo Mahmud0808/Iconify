@@ -102,6 +102,7 @@ public class References {
 
     // Fabricated overlays
     public static final String FABRICATED = "fabricated";
+    public static final String EASTER_EGG = "iconify_easter_egg";
     public static final String ICONIFY_COLOR_ACCENT_PRIMARY = "0xFF50A6D7";
     public static final String ICONIFY_COLOR_ACCENT_SECONDARY = "0xFF387BFF";
     public static final String ICONIFY_COLOR_PIXEL_DARK_BG = "0xFF122530";

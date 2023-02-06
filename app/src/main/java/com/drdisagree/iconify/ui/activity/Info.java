@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.EASTER_EGG;
+
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -21,13 +23,16 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.config.Prefs;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 public class Info extends AppCompatActivity {
 
+    @SuppressLint("StaticFieldLeak")
     private static ViewGroup app_info_container, credits_container, contributors_container, translators_container;
 
     @SuppressLint({"SetTextI18n"})
@@ -43,6 +48,9 @@ public class Info extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        LinearLayout easter_egg = findViewById(R.id.easter_egg);
+        easter_egg.setOnClickListener(this::onSecretViewClicked);
 
         // List of containers
         app_info_container = findViewById(R.id.app_info_section);
@@ -139,6 +147,39 @@ public class Info extends AppCompatActivity {
 
             container.addView(list);
         }
+    }
+
+    final double SECONDS_FOR_CLICKS = 3;
+    final int NUM_CLICKS_REQUIRED = 7;
+
+    long[] clickTimestamps = new long[NUM_CLICKS_REQUIRED];
+    int oldestIndex = 0;
+    int nextIndex = 0;
+
+    private void onSecretViewClicked(View v) {
+        long timeMillis = (new Date()).getTime();
+
+        if (nextIndex == (NUM_CLICKS_REQUIRED - 1) || oldestIndex > 0) {
+            int diff = (int) (timeMillis - clickTimestamps[oldestIndex]);
+            if (diff < SECONDS_FOR_CLICKS * 1000) {
+                if (!Prefs.getBoolean(EASTER_EGG)) {
+                    Prefs.putBoolean(EASTER_EGG, true);
+                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_easter_egg), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_easter_egg_activated), Toast.LENGTH_SHORT).show();
+                }
+            }
+            oldestIndex++;
+        }
+
+        clickTimestamps[nextIndex] = timeMillis;
+        nextIndex++;
+
+        if (nextIndex == NUM_CLICKS_REQUIRED)
+            nextIndex = 0;
+
+        if (oldestIndex == NUM_CLICKS_REQUIRED)
+            oldestIndex = 0;
     }
 
     @Override

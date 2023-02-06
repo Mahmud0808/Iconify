@@ -317,4 +317,6 @@
     <string name="translators">Translators</string>
     <string name="toast_reboot_required">Reboot required</string>
     <string name="toast_lsposed_not_found">LSPosed not found!</string>
+    <string name="toast_easter_egg">How did you know that?</string>
+    <string name="toast_easter_egg_activated">Why are you still doing that?</string>
 </resources>
