@@ -93,14 +93,14 @@ public class ColorPicker extends AppCompatActivity implements ColorPickerDialogL
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL))
             accentPrimary = Prefs.getString(COLOR_ACCENT_PRIMARY);
         else if (!Prefs.getBoolean("IconifyComponentAMAC.overlay") && !Prefs.getBoolean("IconifyComponentAMGC.overlay"))
-            accentPrimary = String.valueOf(Color.parseColor("#FF50A6D7"));
+            accentPrimary = String.valueOf(Color.parseColor(ICONIFY_COLOR_ACCENT_PRIMARY.replace("0x", "#")));
         else
             accentPrimary = String.valueOf(getResources().getColor(android.R.color.system_accent1_200));
 
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL))
             accentSecondary = Prefs.getString(COLOR_ACCENT_SECONDARY);
         else if (!Prefs.getBoolean("IconifyComponentAMAC.overlay") && !Prefs.getBoolean("IconifyComponentAMGC.overlay"))
-            accentSecondary = String.valueOf(Color.parseColor("#FF387BFF"));
+            accentSecondary = String.valueOf(Color.parseColor(ICONIFY_COLOR_ACCENT_SECONDARY.replace("0x", "#")));
         else if (Prefs.getBoolean("IconifyComponentAMAC.overlay"))
             accentSecondary = String.valueOf(getResources().getColor(android.R.color.system_accent1_200));
         else
