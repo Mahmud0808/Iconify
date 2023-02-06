@@ -33,6 +33,8 @@
     <string name="activity_title_color_engine">Редактор цветов</string>
     <string name="activity_title_color_picker">Выбор цвета</string>
     <string name="activity_title_colored_battery">Цветная батарея</string>
+    <string name="activity_title_basic_colors">Базовые цвета</string>
+    <string name="activity_desc_basic_colors">Поменять первичный и вторичный базовый цвет</string>
     <string name="activity_title_monet_engine">Движок тем Monet</string>
     <string name="activity_desc_monet_engine">Переопределить стиль цветов Monet</string>
     <string name="activity_title_experimental">Экспериментальные</string>
@@ -91,9 +93,7 @@
     <string name="checked">Проверено</string>
     <string name="checking_for_update">Проверка обновлений</string>
     <string name="chip_style_title">Стиль фишки</string>
-    <string name="color_picker_desc">Выберите желаемые цвета</string>
     <string name="color_picker_preview">Превью выбора цвета</string>
-    <string name="color_picker_title">Выбор цвета</string>
     <string name="confirmation">Вы, уверены?</string>
     <string name="cont_desc_media_player">Превью медиаплеера</string>
     <string name="cont_desc_volume_panel">Превью панели громкости</string>
@@ -309,5 +309,12 @@
     <string name="toast_select_style">Сначала выберите стиль</string>
     <string name="volume_style_gradient">Градиент</string>
     <string name="translators">Переводчики</string>
-    <string name="toast_reboot_required">Необхрдима перезагрузка</string>
+    <string name="toast_reboot_required">Необходима перезагрузка</string>
+    <string name="toast_lsposed_not_found">LSPosed не найден!</string>
+    <string name="toast_easter_egg">Откуда ты это знаешь?</string>
+    <string name="toast_easter_egg_activated">Почему ты все ещё это делаешь?</string>
+    <string name="individual_changelog_not_found">Что-то пошло не так. Этот журнал изменений может быть не доступен на этом сервере.</string>
+    <string name="monet_engine_warn_desc">Цвета могут исчезнуть, если вы перезапустите System UI или измените тёмный/светлый режим темы. Чтобы решить эту проблему, добавьте плитки Iconify на панель быстрых настроек. Отключите и включите опцию оттуда, чтобы вернуть цвета.</string>
+    <string name="info_translators_fa">Перевод на персидский.</string>
+    <string name="info_translators_ru">Перевод на русский.</string>
 </resources>

@@ -321,4 +321,6 @@
     <string name="toast_easter_egg_activated">Why are you still doing that?</string>
     <string name="individual_changelog_not_found">Something went wrong.\nThis changelog might not be available on the server.</string>
     <string name="monet_engine_warn_desc">Colors might go away if you restart SystemUI or change Dark/Light mode. To overcome this issue, add Iconify QS Tiles on your QS Panel. Disable and enable from there to retrieve colors.</string>
+    <string name="info_translators_fa">Persian translation.</string>
+    <string name="info_translators_ru">Russian translation.</string>
 </resources>

@@ -82,8 +82,8 @@ public class Info extends AppCompatActivity {
         contributors.add(new Object[]{"IzzySoft", getResources().getString(R.string.info_contributor_desc), "https://github.com/IzzySoft", R.drawable.ic_user});
 
         // Translators section
-        translators.add(new Object[]{"Faceless1999", "Persian translation.", "https://github.com/Faceless1999", R.drawable.ic_user});
-        translators.add(new Object[]{"B1ays", "Russian translation.", "https://github.com/B1ays", R.drawable.ic_user});
+        translators.add(new Object[]{"Faceless1999", getResources().getString(R.string.info_translators_fa), "https://github.com/Faceless1999", R.drawable.ic_user});
+        translators.add(new Object[]{"Blays", getResources().getString(R.string.info_translators_ru), "https://github.com/B1ays", R.drawable.ic_user});
 
         addItem(app_info, app_info_container);
         addItem(credits, credits_container);
