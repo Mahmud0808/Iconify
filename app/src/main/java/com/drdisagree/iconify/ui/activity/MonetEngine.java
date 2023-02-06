@@ -59,6 +59,9 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
     private Button enable_custom_monet, disable_custom_monet;
     private ColorPickerDialog.Builder colorPickerDialogPrimary, colorPickerDialogSecondary;
     private List<List<Object>> generatedColorPalette = new ArrayList<>();
+    int[] monetAccentSaturation = new int[]{Prefs.getInt(MONET_ACCENT_SATURATION, 100)};
+    int[] monetBackgroundSaturation = new int[]{Prefs.getInt(MONET_BACKGROUND_SATURATION, 100)};
+    int[] monetBackgroundLightness = new int[]{Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100)};
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -168,7 +171,6 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         TextView monet_accent_saturation_output = findViewById(R.id.monet_accent_saturation_output);
         monet_accent_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt(MONET_ACCENT_SATURATION, 100) - 100) + "%");
         monet_accent_saturation_seekbar.setProgress(Prefs.getInt(MONET_ACCENT_SATURATION, 100));
-        final int[] monetAccentSaturation = {Prefs.getInt(MONET_ACCENT_SATURATION, 100)};
         monet_accent_saturation_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -193,7 +195,6 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         TextView monet_background_saturation_output = findViewById(R.id.monet_background_saturation_output);
         monet_background_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt(MONET_BACKGROUND_SATURATION, 100) - 100) + "%");
         monet_background_saturation_seekbar.setProgress(Prefs.getInt(MONET_BACKGROUND_SATURATION, 100));
-        final int[] monetBackgroundSaturation = {Prefs.getInt(MONET_BACKGROUND_SATURATION, 100)};
         monet_background_saturation_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -218,7 +219,6 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         TextView monet_background_lightness_output = findViewById(R.id.monet_background_lightness_output);
         monet_background_lightness_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100) - 100) + "%");
         monet_background_lightness_seekbar.setProgress(Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100));
-        final int[] monetBackgroundLightness = {Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100)};
         monet_background_lightness_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -386,12 +386,12 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         // Set accent saturation
         if (!Objects.equals(selectedStyle, "Monochrome")) {
             for (int i = 0; i < palette.size() - 2; i++) {
-                for (int j = 1; j < palette.get(i).size() - 1; j++) {
+                for (int j = palette.get(i).size() - 2; j >= 1; j--) {
                     int color;
                     if (j == 1)
-                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j + 1))), ((float) (Prefs.getInt(MONET_ACCENT_SATURATION, 100) - 100) / 1000.0F) * (Math.max((1.5F - j / 8F), 1.5F)));
+                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j + 1))), -0.1F);
                     else
-                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), ((float) (Prefs.getInt(MONET_ACCENT_SATURATION, 100) - 100) / 1000.0F) * (Math.max((3.0F - j / 5F), 3.0F)));
+                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), ((float) (monetAccentSaturation[0] - 100) / 1000.0F) * (Math.min((3.0F - j / 5F), 3.0F)));
 
                     palette.get(i).set(j, color);
                 }
@@ -401,12 +401,12 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         // Set background saturation
         if (!Objects.equals(selectedStyle, "Monochrome")) {
             for (int i = 3; i < palette.size(); i++) {
-                for (int j = 1; j < palette.get(i).size() - 1; j++) {
+                for (int j = palette.get(i).size() - 2; j >= 1; j--) {
                     int color;
                     if (j == 1)
-                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j + 1))), ((float) (Prefs.getInt(MONET_BACKGROUND_SATURATION, 100) - 100) / 1000.0F) * (Math.max((1.5F - j / 8F), 1.5F)));
+                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j + 1))), -0.1F);
                     else
-                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), ((float) (Prefs.getInt(MONET_BACKGROUND_SATURATION, 100) - 100) / 1000.0F) * (Math.max((3.0F - j / 5F), 3.0F)));
+                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), ((float) (monetBackgroundSaturation[0] - 100) / 1000.0F) * (Math.min((3.0F - j / 5F), 3.0F)));
 
                     palette.get(i).set(j, color);
                 }
@@ -416,7 +416,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         // Set lightness
         for (int i = Objects.equals(selectedStyle, "Monochrome") ? 0 : 3; i < palette.size(); i++) {
             for (int j = 1; j < palette.get(i).size() - 1; j++) {
-                int color = ColorUtil.setLightness(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), (float) (Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100) - 100) / 1000.0F);
+                int color = ColorUtil.setLightness(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), (float) (monetBackgroundLightness[0] - 100) / 1000.0F);
 
                 palette.get(i).set(j, color);
             }
@@ -427,13 +427,13 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                 Prefs.putBoolean(CUSTOM_SECONDARY_COLOR_SWITCH, true);
                 List<List<Object>> secondaryPalette = GenerateColorPalette(selectedStyle, Integer.parseInt(accentSecondary));
 
-                for (int j = 0; j < colorTableRows[i].getChildCount(); j++) {
+                for (int j = colorTableRows[i].getChildCount() - 1; j >= 0; j--) {
                     if (j == 0 || j == colorTableRows[i].getChildCount() - 1)
                         palette.get(i).set(j, secondaryPalette.get(0).get(j));
                     else if (j == 1)
-                        palette.get(i).set(j, ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) secondaryPalette.get(0).get(j + 1))), ((float) (Prefs.getInt(MONET_ACCENT_SATURATION, 100) - 100) / 1000.0F) * (Math.max((1.5F - j / 8F), 1.5F))));
+                        palette.get(i).set(j, ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j + 1))), -0.1F));
                     else
-                        palette.get(i).set(j, ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) secondaryPalette.get(0).get(j))), ((float) (Prefs.getInt(MONET_ACCENT_SATURATION, 100) - 100) / 1000.0F) * (Math.max((3.0F - j / 5F), 3.0F))));
+                        palette.get(i).set(j, ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) secondaryPalette.get(0).get(j))), ((float) (monetAccentSaturation[0] - 100) / 1000.0F) * (Math.min((3.0F - j / 5F), 3.0F))));
 
                     GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{(int) palette.get(i).get(j), (int) palette.get(i).get(j)});
                     colorbg.setCornerRadius(8 * getResources().getDisplayMetrics().density);

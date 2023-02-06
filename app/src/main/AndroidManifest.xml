@@ -113,7 +113,7 @@
             android:name=".ui.activity.QsRowColumn"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.ColorPicker"
+            android:name=".ui.activity.BasicColors"
             android:exported="false" />
         <activity
             android:name=".ui.activity.ColorEngine"
