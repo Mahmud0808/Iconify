@@ -59,8 +59,8 @@
     <string name="apply_monet_accent_desc">همگام کردن رنگ‌های آیکونیفای با رنگ آکسان مونت</string>
     <string name="apply_monet_gradient_title">استفاده از رنگ گرادیان مونت</string>
     <string name="apply_monet_gradient_desc">همگام کردن رنگ‌های آیکونیفای با رنگ گرادیان مونت</string>
-    <string name="color_picker_title">بخش انتخاب رنگ</string>
-    <string name="color_picker_desc">رنگ مورد نظر خود را در این قسمت انتخاب کنید</string>
+    <string name="activity_title_basic_colors">بخش انتخاب رنگ</string>
+    <string name="activity_desc_basic_colors">رنگ مورد نظر خود را در این قسمت انتخاب کنید</string>
     <string name="color_picker_preview">پیش‌نمایش رنگ انتخابی</string>
     <string name="accurate_shades_title">سایه‌های دقیق در رنگ‌ها</string>
     <string name="accurate_shades_desc">برای پررنگ تر شدن رنگ‌ها این گزینه را غیرفعال کنید</string>

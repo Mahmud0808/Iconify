@@ -45,6 +45,20 @@ public class ColorEngine extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        // Basic colors
+        LinearLayout basic_colors = findViewById(R.id.basic_colors);
+        basic_colors.setOnClickListener(v -> {
+            Intent intent = new Intent(ColorEngine.this, ColorPicker.class);
+            startActivity(intent);
+        });
+
+        // Monet engine
+        LinearLayout monet_engine = findViewById(R.id.monet_engine);
+        monet_engine.setOnClickListener(v -> {
+            Intent intent = new Intent(ColorEngine.this, MonetEngine.class);
+            startActivity(intent);
+        });
+
         // Apply monet accent and gradient
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_monet_accent = findViewById(R.id.apply_monet_accent);
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_monet_gradient = findViewById(R.id.apply_monet_gradient);
@@ -136,13 +150,6 @@ public class ColorEngine extends AppCompatActivity {
                     findViewById(R.id.page_color_engine).invalidate();
                 }, 1000);
             }
-        });
-
-        // Color Picker
-        LinearLayout custom_color_picker = findViewById(R.id.custom_color_picker);
-        custom_color_picker.setOnClickListener(v -> {
-            Intent intent = new Intent(ColorEngine.this, ColorPicker.class);
-            startActivity(intent);
         });
 
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_minimal_qspanel = findViewById(R.id.apply_minimal_qspanel);

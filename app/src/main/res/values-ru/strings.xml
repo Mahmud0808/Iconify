@@ -91,9 +91,9 @@
     <string name="checked">Проверено</string>
     <string name="checking_for_update">Проверка обновлений</string>
     <string name="chip_style_title">Стиль фишки</string>
-    <string name="color_picker_desc">Выберите желаемые цвета</string>
+    <string name="activity_desc_basic_colors">Выберите желаемые цвета</string>
     <string name="color_picker_preview">Превью выбора цвета</string>
-    <string name="color_picker_title">Выбор цвета</string>
+    <string name="activity_title_basic_colors">Выбор цвета</string>
     <string name="confirmation">Вы, уверены?</string>
     <string name="cont_desc_media_player">Превью медиаплеера</string>
     <string name="cont_desc_volume_panel">Превью панели громкости</string>

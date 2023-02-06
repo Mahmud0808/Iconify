@@ -77,7 +77,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         enable_custom_monet = findViewById(R.id.enable_custom_monet);
         disable_custom_monet = findViewById(R.id.disable_custom_monet);
 
-        colorTableRows = new LinearLayout[]{findViewById(R.id.color_table).findViewById(R.id.system_accent1), findViewById(R.id.color_table).findViewById(R.id.system_accent2), findViewById(R.id.color_table).findViewById(R.id.system_accent3), findViewById(R.id.color_table).findViewById(R.id.system_neutral1), findViewById(R.id.color_table).findViewById(R.id.system_neutral2)};
+        colorTableRows = new LinearLayout[]{findViewById(R.id.monet_engine).findViewById(R.id.system_accent1), findViewById(R.id.monet_engine).findViewById(R.id.system_accent2), findViewById(R.id.monet_engine).findViewById(R.id.system_accent3), findViewById(R.id.monet_engine).findViewById(R.id.system_neutral1), findViewById(R.id.monet_engine).findViewById(R.id.system_neutral2)};
         systemColors = ColorUtil.getSystemColors();
 
         Runnable runnable = () -> {
@@ -145,7 +145,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         radioGroup1.setOnCheckedChangeListener(listener1);
         radioGroup2.setOnCheckedChangeListener(listener2);
 
-        if (Prefs.getBoolean(MONET_ENGINE_SWITCH))
+        if (Prefs.getBoolean(MONET_ENGINE_SWITCH) && !Objects.equals(selectedStyle, STR_NULL))
             assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
         else assignStockColorToPalette();
 
@@ -381,8 +381,6 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void assignCustomColorToPalette(List<List<Object>> palette) {
-
-
         // Set accent saturation
         if (!Objects.equals(selectedStyle, "Monochrome")) {
             for (int i = 0; i < palette.size() - 2; i++) {
@@ -461,7 +459,8 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                 resources.append("    <color name=\"").append(colors[i][j]).append("\">").append(ColorUtil.ColorToHex((int) generatedColorPalette.get(i).get(j), false, true)).append("</color>\n");
             }
         }
-
+        resources.append("    <color name=\"holo_blue_light\">").append(ColorUtil.ColorToHex((int) generatedColorPalette.get(0).get(4), false, true)).append("</color>\n");
+        resources.append("    <color name=\"holo_green_light\">").append(ColorUtil.ColorToHex((int) generatedColorPalette.get(2).get(4), false, true)).append("</color>\n");
         resources.append("</resources>\n");
 
         return MonetCompilerUtil.buildMonetPalette(resources.toString());
