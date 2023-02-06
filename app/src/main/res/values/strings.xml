@@ -319,4 +319,5 @@
     <string name="toast_lsposed_not_found">LSPosed not found!</string>
     <string name="toast_easter_egg">How did you know that?</string>
     <string name="toast_easter_egg_activated">Why are you still doing that?</string>
+    <string name="individual_changelog_not_found">Something went wrong.\nThis changelog might not be available on the server.</string>
 </resources>
