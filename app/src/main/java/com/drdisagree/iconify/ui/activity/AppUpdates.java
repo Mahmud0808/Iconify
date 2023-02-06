@@ -43,17 +43,13 @@ import java.util.Objects;
 
 public class AppUpdates extends AppCompatActivity {
 
-    @SuppressLint("StaticFieldLeak")
-    private static LinearLayout check_update, changelog, checking_for_update, checked_for_update;
-    @SuppressLint("StaticFieldLeak")
-    private static TextView update_title, current_version, latest_version, changelog_text, show_changelog;
-    Button download_update;
+    AppUpdates.CheckForUpdate checkForUpdate = null;
 
     @SuppressLint("SetTextI18n")
-    private static void failedToCheck() {
-        update_title.setText(Iconify.getAppContext().getResources().getString(R.string.update_checking_failed));
-        current_version.setText(Iconify.getAppContext().getResources().getString(R.string.current_version) + " " + BuildConfig.VERSION_NAME);
-        latest_version.setText(Iconify.getAppContext().getResources().getString(R.string.latest_version) + " " + Iconify.getAppContext().getResources().getString(R.string.not_available));
+    private void failedToCheck() {
+        ((TextView) findViewById(R.id.update_title)).setText(Iconify.getAppContext().getResources().getString(R.string.update_checking_failed));
+        ((TextView) findViewById(R.id.current_version)).setText(Iconify.getAppContext().getResources().getString(R.string.current_version) + " " + BuildConfig.VERSION_NAME);
+        ((TextView) findViewById(R.id.latest_version)).setText(Iconify.getAppContext().getResources().getString(R.string.latest_version) + " " + Iconify.getAppContext().getResources().getString(R.string.not_available));
     }
 
     @Override
@@ -68,17 +64,6 @@ public class AppUpdates extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        checking_for_update = findViewById(R.id.checking_for_update);
-        checked_for_update = findViewById(R.id.checked_for_update);
-        check_update = findViewById(R.id.check_update);
-        update_title = findViewById(R.id.update_title);
-        current_version = findViewById(R.id.current_version);
-        latest_version = findViewById(R.id.latest_version);
-        download_update = findViewById(R.id.download_update);
-        changelog = findViewById(R.id.changelog);
-        changelog_text = findViewById(R.id.changelog_text);
-        show_changelog = findViewById(R.id.show_changelog);
 
         final Spinner check_update_every = findViewById(R.id.check_update_every);
         List<String> update_schedule = new ArrayList<>();
@@ -122,7 +107,7 @@ public class AppUpdates extends AppCompatActivity {
             }
         });
 
-        AppUpdates.CheckForUpdate checkForUpdate = new AppUpdates.CheckForUpdate();
+        checkForUpdate = new AppUpdates.CheckForUpdate();
         checkForUpdate.execute();
     }
 
@@ -139,8 +124,8 @@ public class AppUpdates extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            checking_for_update.setVisibility(View.VISIBLE);
-            checked_for_update.setVisibility(View.GONE);
+            findViewById(R.id.checking_for_update).setVisibility(View.VISIBLE);
+            findViewById(R.id.checked_for_update).setVisibility(View.GONE);
         }
 
         @Override
@@ -196,9 +181,9 @@ public class AppUpdates extends AppCompatActivity {
                     JSONObject latestVersion = new JSONObject(jsonStr);
 
                     if (Integer.parseInt(latestVersion.getString(VER_CODE)) > BuildConfig.VERSION_CODE) {
-                        check_update.setBackgroundResource(R.drawable.container_outline);
-                        update_title.setText(getResources().getString(R.string.new_update_available));
-                        download_update.setOnClickListener(v -> {
+                        findViewById(R.id.check_update).setBackgroundResource(R.drawable.container_outline);
+                        ((TextView) findViewById(R.id.update_title)).setText(getResources().getString(R.string.new_update_available));
+                        findViewById(R.id.download_update).setOnClickListener(v -> {
                             try {
                                 String apkUrl = latestVersion.getString("apkUrl");
                                 Intent i = new Intent(Intent.ACTION_VIEW);
@@ -209,7 +194,7 @@ public class AppUpdates extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         });
-                        download_update.setVisibility(View.VISIBLE);
+                        findViewById(R.id.download_update).setVisibility(View.VISIBLE);
 
                         try {
                             JSONArray latestChangelog = latestVersion.getJSONArray("changelog");
@@ -220,27 +205,27 @@ public class AppUpdates extends AppCompatActivity {
                                 if (i != latestChangelog.length() - 1)
                                     builder.append("\n");
                             }
-                            changelog_text.setText(builder.toString().replace(">>", "\t\t>>"));
+                            ((TextView) findViewById(R.id.changelog_text)).setText(builder.toString().replace(">>", "\t\t>>"));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        show_changelog.setText(getResources().getString(R.string.view_changelog));
-                        show_changelog.setOnClickListener(v -> {
-                            if (changelog.getVisibility() == View.GONE) {
-                                show_changelog.setText(getResources().getString(R.string.hide_changelog));
-                                changelog.setVisibility(View.VISIBLE);
+                        ((TextView) findViewById(R.id.show_changelog)).setText(getResources().getString(R.string.view_changelog));
+                        ((TextView) findViewById(R.id.show_changelog)).setOnClickListener(v -> {
+                            if (findViewById(R.id.changelog).getVisibility() == View.GONE) {
+                                ((TextView) findViewById(R.id.show_changelog)).setText(getResources().getString(R.string.hide_changelog));
+                                findViewById(R.id.changelog).setVisibility(View.VISIBLE);
                             } else {
-                                show_changelog.setText(getResources().getString(R.string.view_changelog));
-                                changelog.setVisibility(View.GONE);
+                                ((TextView) findViewById(R.id.show_changelog)).setText(getResources().getString(R.string.view_changelog));
+                                findViewById(R.id.changelog).setVisibility(View.GONE);
                             }
                         });
-                        show_changelog.setVisibility(View.VISIBLE);
+                        ((TextView) findViewById(R.id.show_changelog)).setVisibility(View.VISIBLE);
                     } else {
-                        update_title.setText(getResources().getString(R.string.already_up_to_date));
+                        ((TextView) findViewById(R.id.update_title)).setText(getResources().getString(R.string.already_up_to_date));
                     }
 
-                    current_version.setText(getResources().getString(R.string.current_version) + " " + BuildConfig.VERSION_NAME);
-                    latest_version.setText(getResources().getString(R.string.latest_version) + " " + latestVersion.getString("versionName"));
+                    ((TextView) findViewById(R.id.current_version)).setText(getResources().getString(R.string.current_version) + " " + BuildConfig.VERSION_NAME);
+                    ((TextView) findViewById(R.id.latest_version)).setText(getResources().getString(R.string.latest_version) + " " + latestVersion.getString("versionName"));
                 } catch (Exception e) {
                     failedToCheck();
                     e.printStackTrace();
@@ -248,9 +233,21 @@ public class AppUpdates extends AppCompatActivity {
             } else {
                 failedToCheck();
             }
-            checking_for_update.setVisibility(View.GONE);
-            checked_for_update.setVisibility(View.VISIBLE);
+            findViewById(R.id.checking_for_update).setVisibility(View.GONE);
+            findViewById(R.id.checked_for_update).setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (checkForUpdate != null)
+            checkForUpdate.cancel(true);
+        super.onDestroy();
+    }
+
+    public void onBackPressed() {
+        if (checkForUpdate != null)
+            checkForUpdate.cancel(true);
     }
 
 }

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,9 +29,7 @@ import java.util.Objects;
 
 public class Changelog extends AppCompatActivity {
 
-    @SuppressLint("StaticFieldLeak")
-    private static LinearLayout grabbing_changelogs;
-    private final ArrayList<String> changelogs = new ArrayList<>();
+    Changelog.GrabChangelog grabChangelog = null;
     private ViewGroup container;
 
     @Override
@@ -48,12 +45,10 @@ public class Changelog extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        grabbing_changelogs = findViewById(R.id.grabbing_changelogs);
-
         // List of changelog
         container = findViewById(R.id.changelog_list);
 
-        Changelog.GrabChangelog grabChangelog = new Changelog.GrabChangelog();
+        grabChangelog = new Changelog.GrabChangelog();
         grabChangelog.execute();
     }
 
@@ -79,6 +74,7 @@ public class Changelog extends AppCompatActivity {
     private class GrabChangelog extends AsyncTask<Integer, Integer, String> {
 
         boolean connectionAvailable = false;
+        ArrayList<String> changelogs = new ArrayList<>();
 
         @Override
         protected void onPreExecute() {
@@ -148,7 +144,7 @@ public class Changelog extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String string) {
-            grabbing_changelogs.setVisibility(View.GONE);
+            findViewById(R.id.grabbing_changelogs).setVisibility(View.GONE);
             if (connectionAvailable) {
                 if (!changelogs.isEmpty()) {
                     addChangelog(changelogs);
@@ -161,5 +157,17 @@ public class Changelog extends AppCompatActivity {
                 addChangelog(changelogs);
             }
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (grabChangelog != null)
+            grabChangelog.cancel(true);
+        super.onDestroy();
+    }
+
+    public void onBackPressed() {
+        if (grabChangelog != null)
+            grabChangelog.cancel(true);
     }
 }

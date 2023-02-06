@@ -21,8 +21,6 @@ import com.topjohnwu.superuser.Shell;
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
 
-    private static SplashActivity mContext;
-
     static {
         Shell.enableVerboseLogging = BuildConfig.DEBUG;
         if (Shell.getCachedShell() == null)
@@ -34,8 +32,6 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         public void run() {
             Shell.getShell(shell -> {
-                mContext = SplashActivity.this;
-
                 Intent intent;
 
                 if (RootUtil.isDeviceRooted() && RootUtil.isMagiskInstalled() && ModuleUtil.moduleExists() && OverlayUtil.overlayExists() && (BuildConfig.VERSION_CODE == Prefs.getInt(VER_CODE))) {
@@ -51,10 +47,6 @@ public class SplashActivity extends AppCompatActivity {
             });
         }
     };
-
-    public static SplashActivity getContext() {
-        return mContext;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
