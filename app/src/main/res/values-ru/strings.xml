@@ -294,7 +294,7 @@
     <string name="vertical_qs_tile_title">Вертикальные плитки быстрых настроек</string>
     <string name="view_changelog">Показать Журнал Изменений</string>
     <string name="volume_module_desc">Создать Magisk модуль для применения этого стиля</string>
-    <string name="volume_module_installation_guide">Эта опция создаст Magisk модуль в папке \"Download\". Установите этот модуль (IconifyCompanion.zip) в Magisk manager. Всегда удаляйте прошлую версию IconifyCompanion и выполняйте перезагрузку перед установкой новой версии.  Заметки: • Удалите модуль перед обновлением прошивки. • Пересоздайте модуль после обновления или смены прошивки. • Не устанавливайте модуль созданный не для вашей прошивки.</string>
+    <string name="volume_module_installation_guide">Эта опция создаст Magisk модуль в папке \"Download\". Установите этот модуль (IconifyCompanion.zip) в Magisk manager. Всегда удаляйте прошлую версию IconifyCompanion и выполняйте перезагрузку перед установкой новой версии. \n\nЗаметки:\n• Удалите модуль перед обновлением прошивки.\n• Пересоздайте модуль после обновления или смены прошивки.\n• Не устанавливайте модуль, созданный не для вашей прошивки.</string>
     <string name="volume_style">Стиль громкости</string>
     <string name="vp_no_background_title">Без фона</string>
     <string name="vp_thick_background_title">Широкий фон</string>
