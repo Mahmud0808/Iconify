@@ -30,7 +30,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.ColorUtils;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -53,15 +52,15 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
 
     private static String accentPrimary, accentSecondary, selectedStyle;
     private static boolean isSelectedPrimary = false, isSelectedSecondary = false;
+    int[] monetAccentSaturation = new int[]{Prefs.getInt(MONET_ACCENT_SATURATION, 100)};
+    int[] monetBackgroundSaturation = new int[]{Prefs.getInt(MONET_BACKGROUND_SATURATION, 100)};
+    int[] monetBackgroundLightness = new int[]{Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100)};
     private LinearLayout[] colorTableRows;
     private int[][] systemColors;
     private RadioGroup radioGroup1, radioGroup2;
     private Button enable_custom_monet, disable_custom_monet;
     private ColorPickerDialog.Builder colorPickerDialogPrimary, colorPickerDialogSecondary;
     private List<List<Object>> generatedColorPalette = new ArrayList<>();
-    int[] monetAccentSaturation = new int[]{Prefs.getInt(MONET_ACCENT_SATURATION, 100)};
-    int[] monetBackgroundSaturation = new int[]{Prefs.getInt(MONET_BACKGROUND_SATURATION, 100)};
-    int[] monetBackgroundLightness = new int[]{Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100)};
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -342,7 +341,16 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         preview_color_picker_secondary.setBackgroundDrawable(gd);
     }
 
-    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private void assignStockColorToPalette() {
+        for (int i = 0; i < colorTableRows.length; i++) {
+            for (int j = 0; j < colorTableRows[i].getChildCount(); j++) {
+                GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{systemColors[i][j], systemColors[i][j]});
+                colorbg.setCornerRadius(8 * getResources().getDisplayMetrics().density);
+                colorTableRows[i].getChildAt(j).setBackgroundDrawable(colorbg);
+            }
+        }
+    }    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if (checkedId != -1) {
@@ -355,31 +363,6 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
             }
         }
     };
-
-    private final RadioGroup.OnCheckedChangeListener listener2 = new RadioGroup.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            if (checkedId != -1) {
-                selectedStyle = ((RadioButton) findViewById(checkedId)).getText().toString();
-                radioGroup1.setOnCheckedChangeListener(null);
-                radioGroup1.clearCheck();
-                radioGroup1.setOnCheckedChangeListener(listener1);
-                assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
-                enable_custom_monet.setVisibility(View.VISIBLE);
-            }
-        }
-    };
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private void assignStockColorToPalette() {
-        for (int i = 0; i < colorTableRows.length; i++) {
-            for (int j = 0; j < colorTableRows[i].getChildCount(); j++) {
-                GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{systemColors[i][j], systemColors[i][j]});
-                colorbg.setCornerRadius(8 * getResources().getDisplayMetrics().density);
-                colorTableRows[i].getChildAt(j).setBackgroundDrawable(colorbg);
-            }
-        }
-    }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void assignCustomColorToPalette(List<List<Object>> palette) {
@@ -449,7 +432,19 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         }
 
         generatedColorPalette = palette;
-    }
+    }    private final RadioGroup.OnCheckedChangeListener listener2 = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId != -1) {
+                selectedStyle = ((RadioButton) findViewById(checkedId)).getText().toString();
+                radioGroup1.setOnCheckedChangeListener(null);
+                radioGroup1.clearCheck();
+                radioGroup1.setOnCheckedChangeListener(listener1);
+                assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
+                enable_custom_monet.setVisibility(View.VISIBLE);
+            }
+        }
+    };
 
     private boolean applyCustomMonet() throws IOException {
         String[][] colors = ColorUtil.getColorNames();
@@ -463,7 +458,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         }
         resources.append("    <color name=\"holo_blue_light\">").append(ColorUtil.ColorToHex((int) generatedColorPalette.get(0).get(4), false, true)).append("</color>\n");
         resources.append("    <color name=\"holo_green_light\">").append(ColorUtil.ColorToHex((int) generatedColorPalette.get(2).get(4), false, true)).append("</color>\n");
-        resources.append("    <color name=\"holo_blue_dark\">").append(ColorUtil.ColorToHex(ColorUtils.blendARGB(ColorUtils.blendARGB((int) generatedColorPalette.get(0).get(4), Color.BLACK, 0.8f), Color.WHITE, 0.12f), false, true)).append("</color>\n");
+        resources.append("    <color name=\"holo_blue_dark\">").append(ColorUtil.ColorToHex((int) generatedColorPalette.get(1).get(10), false, true)).append("</color>\n");
         resources.append("</resources>\n");
 
         return MonetCompilerUtil.buildMonetPalette(resources.toString());
@@ -474,5 +469,9 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         onBackPressed();
         return true;
     }
+
+
+
+
 
 }

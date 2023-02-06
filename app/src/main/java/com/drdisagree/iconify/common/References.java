@@ -21,6 +21,7 @@ public class References {
     public static final String DATA_DIR = Iconify.getAppContext().getFilesDir().toString();
     public static final String OVERLAY_DIR = MODULE_DIR + "/system/product/overlay";
     public static final String TOOLS_DIR = MODULE_DIR + "/tools";
+    public static final String BACKUP_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.iconify_backup";
     public static final String TEMP_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.iconify";
     public static final String TEMP_OVERLAY_DIR = TEMP_DIR + "/overlays";
     public static final String UNSIGNED_UNALIGNED_DIR = TEMP_DIR + "/overlays/unsigned_unaligned";
@@ -123,7 +124,6 @@ public class References {
 
     // Commands
     public static final String DEVICE_BOOT_ID_CMD = "cat /proc/sys/kernel/random/boot_id";
-    public static final String LSPOSED_CHECK_CMD = "test -f /data/adb/lspd/manager.apk && echo '1'";
 
     // Others
     public static final String BOOT_ID = "boot_id";

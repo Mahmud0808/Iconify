@@ -2,6 +2,9 @@ package com.drdisagree.iconify.utils;
 
 import static com.drdisagree.iconify.common.References.COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.References.COLOR_ACCENT_SECONDARY;
+import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_PRIMARY;
+import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECONDARY;
+import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_PIXEL_DARK_BG;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -24,6 +27,10 @@ public class ModuleUtil {
 
     public static boolean handleModule() throws IOException {
         if (moduleExists()) {
+            // Backup necessary files
+            Shell.cmd("rm -rf " + References.BACKUP_DIR, "mkdir -p " + References.BACKUP_DIR).exec();
+            HelperUtil.backupFiles();
+
             Shell.cmd("rm -rf " + References.MODULE_DIR).exec();
         }
         return installModule();
@@ -62,15 +69,15 @@ public class ModuleUtil {
             }
         }
 
-        if (!primaryColorEnabled && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMAC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMGC.overlay")) {
-            fabricated_cmd.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimary android:color/holo_blue_light 0x1c 0xFF50A6D7\n");
+        if (!primaryColorEnabled && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMAC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMGC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay")) {
+            fabricated_cmd.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimary android:color/holo_blue_light 0x1c" + ICONIFY_COLOR_ACCENT_PRIMARY + "\n");
             fabricated_cmd.append("cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentPrimary\n");
-            fabricated_cmd.append("cmd overlay fabricate --target android --name IconifyComponentcolorPixelBackgroundDark android:color/holo_blue_dark 0x1c 0xFF122530\n");
+            fabricated_cmd.append("cmd overlay fabricate --target android --name IconifyComponentcolorPixelBackgroundDark android:color/holo_blue_dark 0x1c" + ICONIFY_COLOR_PIXEL_DARK_BG + "\n");
             fabricated_cmd.append("cmd overlay enable --user current com.android.shell:IconifyComponentcolorPixelBackgroundDark\n");
         }
 
-        if (!secondaryColorEnabled && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMAC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMGC.overlay")) {
-            fabricated_cmd.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary android:color/holo_green_light 0x1c 0xFF387BFF\n");
+        if (!secondaryColorEnabled && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMAC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMGC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay")) {
+            fabricated_cmd.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary android:color/holo_green_light 0x1c" + ICONIFY_COLOR_ACCENT_SECONDARY + "\n");
             fabricated_cmd.append("cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentSecondary\n");
         }
 
@@ -79,7 +86,7 @@ public class ModuleUtil {
                 "do\n" +
                 " sleep 1\n" +
                 "done\n" +
-                "sleep 15\n\n" +
+                "sleep 10\n\n" +
                 "qspb=$(cmd overlay list |  grep -E '^.x..IconifyComponentQSPB.overlay' | sed -E 's/^.x..//')\n" +
                 "if [ -z \"$qspb\" ]\n" +
                 "then\n" +
@@ -117,12 +124,7 @@ public class ModuleUtil {
     }
 
     public static boolean moduleExists() {
-        List<String> lines = Shell.cmd("test -d " + References.MODULE_DIR + " && echo '1'").exec().getOut();
-        for (String line : lines) {
-            if (line.contains("1"))
-                return true;
-        }
-        return false;
+        return RootUtil.folderExists(References.MODULE_DIR);
     }
 
     static void extractTools() {

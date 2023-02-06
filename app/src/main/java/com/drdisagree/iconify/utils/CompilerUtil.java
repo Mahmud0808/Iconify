@@ -112,6 +112,12 @@ public class CompilerUtil {
         Shell.cmd("rm -rf " + References.TEMP_DIR).exec();
         Shell.cmd("rm -rf " + References.DATA_DIR + "/Keystore").exec();
         Shell.cmd("rm -rf " + References.DATA_DIR + "/Overlays").exec();
+
+        // Restore backups
+        HelperUtil.restoreFiles();
+
+        // Remove backup directory
+        Shell.cmd("rm -rf " + References.BACKUP_DIR).exec();
     }
 
     private static boolean createManifest(String pkgName, String target, String source) {
