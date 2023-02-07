@@ -126,13 +126,6 @@ public class MediaPlayer extends AppCompatActivity {
         musicPlayerIconList();
     }
 
-    private void reloadPage() {
-        Intent intent = new Intent(MediaPlayer.this, MediaPlayer.class);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(0, 0);
-    }
-
     private void refreshPreview() {
         findViewById(R.id.preview_mp_accent).setVisibility(View.GONE);
         findViewById(R.id.preview_mp_black).setVisibility(View.GONE);
