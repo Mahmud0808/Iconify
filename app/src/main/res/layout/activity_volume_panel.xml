@@ -27,44 +27,40 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/container_marginSide"
                 android:layout_marginEnd="@dimen/container_marginSide"
+                android:layout_marginBottom="@dimen/container_margin"
+                android:background="@drawable/container"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/container_paddingSide"
+                android:paddingTop="@dimen/container_padding"
+                android:paddingEnd="@dimen/container_paddingSide"
+                android:paddingBottom="@dimen/container_padding">
 
-                <ImageView
-                    android:id="@+id/volumepanel_preview_thin_bg"
-                    android:layout_width="58dp"
-                    android:layout_height="303dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginBottom="@dimen/container_margin"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/cont_desc_volume_panel"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/volume_panel_preview_thin_bg" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1.0" />
 
-                <ImageView
-                    android:id="@+id/volumepanel_preview_thick_bg"
-                    android:layout_width="58dp"
-                    android:layout_height="303dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginBottom="@dimen/container_margin"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/cont_desc_volume_panel"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/volume_panel_preview_thick_bg" />
+                <include layout="@layout/view_volume_panel_preview_thin_bg" />
 
-                <ImageView
-                    android:id="@+id/volumepanel_preview_no_bg"
-                    android:layout_width="58dp"
-                    android:layout_height="303dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginBottom="@dimen/container_margin"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/cont_desc_volume_panel"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/volume_panel_preview_no_bg" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1.0" />
+
+                <include layout="@layout/view_volume_panel_preview_thick_bg" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1.0" />
+
+                <include layout="@layout/view_volume_panel_preview_no_bg" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1.0" />
 
             </LinearLayout>
 
@@ -113,7 +109,6 @@
                 </LinearLayout>
 
                 <View
-                    android:id="@+id/text_size_divider"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:background="@color/colorBackground" />

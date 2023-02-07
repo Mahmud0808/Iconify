@@ -96,7 +96,6 @@
     <string name="activity_title_basic_colors">Выбор цвета</string>
     <string name="confirmation">Вы, уверены?</string>
     <string name="cont_desc_media_player">Превью медиаплеера</string>
-    <string name="cont_desc_volume_panel">Превью панели громкости</string>
     <string name="corner_radius_title">Радиус углов</string>
     <string name="current_version">Текущая версия:</string>
     <string name="custom_header_clock_desc">Добавить кастомные часы на панель быстрых настроек</string>

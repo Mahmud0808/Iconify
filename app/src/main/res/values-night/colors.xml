@@ -10,6 +10,7 @@
     <color name="colorContainerOverlay">#4D000000</color>
     <color name="textColorPrimary">@color/material_dynamic_neutral95</color>
     <color name="textColorPrimaryNoTint">@color/white</color>
+    <color name="textColorPrimaryNoTintInverse">@color/black</color>
     <color name="textColorPrimaryError">#fff2f2</color>
     <color name="textColorPrimaryInverse">@color/material_dynamic_neutral10</color>
     <color name="textColorSecondary">@color/material_dynamic_neutral_variant80</color>

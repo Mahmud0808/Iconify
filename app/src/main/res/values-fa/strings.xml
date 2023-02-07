@@ -127,7 +127,6 @@
     <string name="row_and_column_desc">تغییر تعداد ردیف و ستون در نوارابزار</string>
     <string name="icon_and_label_title">تنظیمات آیکون‌ها و متن</string>
     <string name="icon_and_label_desc">تغییر تنظیمات مربوط به آیکون‌ها و متن</string>
-    <string name="cont_desc_volume_panel">پیش‌نمایش پنل تنظیم صدا</string>
     <string name="vp_thin_background_title">پیش‌زمینه لاغر</string>
     <string name="vp_thick_background_title">پیش‌زمینه ضخیم</string>
     <string name="vp_no_background_title">بدون پیش‌زمینه</string>

@@ -129,7 +129,6 @@
     <string name="row_and_column_desc">Change Qs tile rows and columns</string>
     <string name="icon_and_label_title">Icon and Label</string>
     <string name="icon_and_label_desc">Change icon and label options</string>
-    <string name="cont_desc_volume_panel">Volume Panel Preview</string>
     <string name="vp_thin_background_title">Thin Background</string>
     <string name="vp_thick_background_title">Thick Background</string>
     <string name="vp_no_background_title">No Background</string>
