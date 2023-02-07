@@ -1,7 +1,6 @@
 package com.drdisagree.iconify.ui.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -26,7 +25,6 @@ import com.drdisagree.iconify.utils.OverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class MediaPlayer extends AppCompatActivity {
@@ -189,8 +187,14 @@ public class MediaPlayer extends AppCompatActivity {
         list.setId(viewId);
 
         LinearLayout launch = list.findViewById(R.id.launch_app);
-        if (packageName != null)
-            launch.setOnClickListener(v -> AppUtil.launchApp(MediaPlayer.this, packageName));
+        if (packageName != null) {
+            if (packageName.equals("defaultA13"))
+                launch.setOnClickListener(v -> {
+                    // do nothing
+                });
+            else
+                launch.setOnClickListener(v -> AppUtil.launchApp(MediaPlayer.this, packageName));
+        }
 
         list.findViewById(R.id.app_icon).setBackground(appIcon);
 
