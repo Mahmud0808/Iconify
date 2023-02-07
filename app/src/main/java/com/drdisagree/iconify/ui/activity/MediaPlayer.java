@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -9,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -26,6 +26,7 @@ import com.drdisagree.iconify.utils.OverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class MediaPlayer extends AppCompatActivity {
@@ -115,36 +116,34 @@ public class MediaPlayer extends AppCompatActivity {
 
         // Generate keys for preference
         for (int i = 0; i < mpip_list.size(); i++) {
-            MPIP_KEY.add(new String[]{"IconifyComponentMPIP" + i + 1 + ".overlay",
+            MPIP_KEY.add(new String[]{
+                    "IconifyComponentMPIP" + i + 1 + ".overlay",
                     "IconifyComponentMPIP" + i + 2 + ".overlay",
-                    "IconifyComponentMPIP" + i + 3 + ".overlay"});
+                    "IconifyComponentMPIP" + i + 3 + ".overlay"
+            });
         }
 
         musicPlayerIconList();
     }
 
+    private void reloadPage() {
+        Intent intent = new Intent(MediaPlayer.this, MediaPlayer.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(0, 0);
+    }
+
     private void refreshPreview() {
-        String[] preview_mp_overlay = {"IconifyComponentMPA.overlay",
-                "IconifyComponentMPB.overlay",
-                "IconifyComponentMPS.overlay"};
+        findViewById(R.id.preview_mp_accent).setVisibility(View.GONE);
+        findViewById(R.id.preview_mp_black).setVisibility(View.GONE);
+        findViewById(R.id.preview_mp_system).setVisibility(View.GONE);
 
-        ImageView[] preview_mp = {findViewById(R.id.media_player_preview_accent),
-                findViewById(R.id.media_player_preview_system),
-                findViewById(R.id.media_player_preview_black)};
-
-        boolean mediaPlayerShown = false;
-
-        for (int i = 0; i < 3; i++) {
-            if (Prefs.getBoolean(preview_mp_overlay[i])) {
-                preview_mp[i].setVisibility(View.VISIBLE);
-                mediaPlayerShown = true;
-            } else {
-                preview_mp[i].setVisibility(View.GONE);
-            }
-        }
-
-        if (!mediaPlayerShown)
-            preview_mp[1].setVisibility(View.VISIBLE);
+        if (Prefs.getBoolean("IconifyComponentMPA.overlay"))
+            findViewById(R.id.preview_mp_accent).setVisibility(View.VISIBLE);
+        else if (Prefs.getBoolean("IconifyComponentMPB.overlay"))
+            findViewById(R.id.preview_mp_black).setVisibility(View.VISIBLE);
+        else
+            findViewById(R.id.preview_mp_system).setVisibility(View.VISIBLE);
     }
 
     private void musicPlayerIconList() {

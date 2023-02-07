@@ -2,6 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="offwhite">#BFFFFFFF</color>
     <color name="red">#FFF44336</color>
     <color name="transparent">#00000000</color>
     <color name="colorAccent">@color/material_dynamic_primary80</color>
@@ -21,6 +22,7 @@
     <color name="textColorPrimaryInverse">@color/material_dynamic_neutral95</color>
     <color name="textColorSecondary">@color/material_dynamic_neutral_variant30</color>
     <color name="textColorSecondaryNoTint">#BF000000</color>
+    <color name="textColorSecondaryInverse">@color/material_dynamic_neutral_variant80</color>
     <color name="textColorSecondaryError">#490000</color>
     <color name="textColorSecondaryLight">@color/material_dynamic_neutral20</color>
     <color name="colorSuccess">@color/material_dynamic_primary60</color>
