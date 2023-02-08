@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -159,8 +160,17 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         SeekBar monet_accent_saturation_seekbar = findViewById(R.id.monet_accent_saturation_seekbar);
         monet_accent_saturation_seekbar.setPadding(0, 0, 0, 0);
         TextView monet_accent_saturation_output = findViewById(R.id.monet_accent_saturation_output);
+        TextView monet_accent_saturation_title = findViewById(R.id.monet_accent_saturation_title);
         monet_accent_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt(MONET_ACCENT_SATURATION, 100) - 100) + "%");
         monet_accent_saturation_seekbar.setProgress(Prefs.getInt(MONET_ACCENT_SATURATION, 100));
+
+        monet_accent_saturation_title.setOnLongClickListener(v -> {
+            monetAccentSaturation[0] = 0;
+            monet_accent_saturation_seekbar.setProgress(0);
+            return false;
+        });
+
+
         monet_accent_saturation_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
