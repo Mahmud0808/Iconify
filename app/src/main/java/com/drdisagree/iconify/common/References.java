@@ -74,6 +74,7 @@ public class References {
     public static final String LSCLOCK_BOTTOMMARGIN = "xposed_lockscreenclockbottommargin";
     public static final String LSCLOCK_FONT_SWITCH = "xposed_lockscreenclockfont";
     public static final String LSCLOCK_FONT_LINEHEIGHT = "xposed_lockscreenclockfontlineheight";
+    public static final String LSCLOCK_FONT_TEXT_SCALING = "xposed_lockscreenclocktextscaling";
     public static final String LSCLOCK_TEXT_WHITE = "xposed_lockscreenclocktextwhite";
 
     // Parse new update

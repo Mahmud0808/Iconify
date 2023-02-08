@@ -3,6 +3,7 @@ package com.drdisagree.iconify.ui.activity;
 import static com.drdisagree.iconify.common.References.LSCLOCK_BOTTOMMARGIN;
 import static com.drdisagree.iconify.common.References.LSCLOCK_FONT_LINEHEIGHT;
 import static com.drdisagree.iconify.common.References.LSCLOCK_FONT_SWITCH;
+import static com.drdisagree.iconify.common.References.LSCLOCK_FONT_TEXT_SCALING;
 import static com.drdisagree.iconify.common.References.LSCLOCK_STYLE;
 import static com.drdisagree.iconify.common.References.LSCLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.LSCLOCK_TEXT_WHITE;
@@ -41,6 +42,7 @@ import com.topjohnwu.superuser.Shell;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -171,6 +173,31 @@ public class Lockscreen extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RemotePrefs.putInt(LSCLOCK_FONT_LINEHEIGHT, lineHeight[0]);
+            }
+        });
+
+        // Text Scaling
+        SeekBar lsclock_textscaling_seekbar = findViewById(R.id.lsclock_textscaling_seekbar);
+        lsclock_textscaling_seekbar.setPadding(0, 0, 0, 0);
+        TextView lsclock_textscaling_output = findViewById(R.id.lsclock_textscaling_output);
+        final int[] textScaling = {RemotePrefs.getInt(LSCLOCK_FONT_TEXT_SCALING, 10)};
+        lsclock_textscaling_output.setText(getResources().getString(R.string.opt_selected) + ' ' + new DecimalFormat("#.#").format(textScaling[0] / 10.0) + "x");
+        lsclock_textscaling_seekbar.setProgress(RemotePrefs.getInt(LSCLOCK_FONT_TEXT_SCALING, 10));
+        lsclock_textscaling_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                textScaling[0] = progress;
+                lsclock_textscaling_output.setText(getResources().getString(R.string.opt_selected) + ' ' + new DecimalFormat("#.#").format(progress / 10.0) + "x");
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                RemotePrefs.putInt(LSCLOCK_FONT_TEXT_SCALING, textScaling[0]);
             }
         });
 

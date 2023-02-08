@@ -353,4 +353,5 @@
     <string name="media_player_preview_music_title">Music Title</string>
     <string name="media_player_preview_artist_name">Artist Name</string>
     <string name="media_player_preview_playing_on">Phone speaker</string>
+    <string name="lockscreen_font_text_scaling_title">Text Scaling</string>
 </resources>
