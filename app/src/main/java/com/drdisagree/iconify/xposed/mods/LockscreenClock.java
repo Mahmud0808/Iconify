@@ -59,8 +59,8 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
     private static int getColorResCompat(Context context, @AttrRes int id) {
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = context.getTheme();
-        theme.resolveAttribute(android.R.attr.textColorPrimary, typedValue, false);
-        @SuppressLint("Recycle") TypedArray arr = context.obtainStyledAttributes(typedValue.data, new int[]{android.R.attr.textColorPrimary});
+        theme.resolveAttribute(id, typedValue, false);
+        @SuppressLint("Recycle") TypedArray arr = context.obtainStyledAttributes(typedValue.data, new int[]{id});
         return arr.getColor(0, -1);
     }
 

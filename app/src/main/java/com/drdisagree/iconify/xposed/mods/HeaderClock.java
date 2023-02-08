@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.text.InputFilter;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -51,8 +52,8 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
     private static int getColorResCompat(Context context, @AttrRes int id) {
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = context.getTheme();
-        theme.resolveAttribute(android.R.attr.textColorPrimary, typedValue, false);
-        @SuppressLint("Recycle") TypedArray arr = context.obtainStyledAttributes(typedValue.data, new int[]{android.R.attr.textColorPrimary});
+        theme.resolveAttribute(id, typedValue, false);
+        @SuppressLint("Recycle") TypedArray arr = context.obtainStyledAttributes(typedValue.data, new int[]{id});
         return arr.getColor(0, -1);
     }
 
@@ -130,7 +131,13 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()),
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()));
                             divider0.setLayoutParams(dividerParams0);
-                            divider0.setBackgroundColor(mContext.getResources().getColor(android.R.color.holo_green_light));
+                            GradientDrawable mDrawable0 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.holo_green_light),
+                                            mContext.getResources().getColor(android.R.color.holo_green_light)
+                                    });
+                            mDrawable0.setCornerRadius(8);
+                            divider0.setBackground(mDrawable0);
 
                             final TextClock clockDay0 = new TextClock(mContext);
                             clockDay0.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
