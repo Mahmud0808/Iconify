@@ -339,6 +339,7 @@
                 android:paddingBottom="@dimen/container_padding">
 
                 <TextView
+                    android:id="@+id/monet_background_saturation_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/monet_background_saturation_title"
@@ -388,6 +389,7 @@
                 android:paddingBottom="@dimen/container_padding">
 
                 <TextView
+                    android:id="@+id/monet_background_lightness_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/monet_background_lightness_title"

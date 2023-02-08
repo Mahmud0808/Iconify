@@ -162,13 +162,15 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         monet_accent_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt(MONET_ACCENT_SATURATION, 100) - 100) + "%");
         monet_accent_saturation_seekbar.setProgress(Prefs.getInt(MONET_ACCENT_SATURATION, 100));
 
+        // Long Click Reset
         TextView monet_accent_saturation_title = findViewById(R.id.monet_accent_saturation_title);
         monet_accent_saturation_title.setOnLongClickListener(v -> {
             monetAccentSaturation[0] = 100;
             monet_accent_saturation_seekbar.setProgress(100);
+            assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
+            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_value_reset), Toast.LENGTH_SHORT).show();
             return false;
         });
-
 
         monet_accent_saturation_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -194,6 +196,17 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         TextView monet_background_saturation_output = findViewById(R.id.monet_background_saturation_output);
         monet_background_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt(MONET_BACKGROUND_SATURATION, 100) - 100) + "%");
         monet_background_saturation_seekbar.setProgress(Prefs.getInt(MONET_BACKGROUND_SATURATION, 100));
+
+        // Long Click Reset
+        TextView monet_background_saturation_title = findViewById(R.id.monet_background_saturation_title);
+        monet_background_saturation_title.setOnLongClickListener(v -> {
+            monetBackgroundSaturation[0] = 100;
+            monet_background_saturation_seekbar.setProgress(100);
+            assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
+            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_value_reset), Toast.LENGTH_SHORT).show();
+            return false;
+        });
+
         monet_background_saturation_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -218,6 +231,17 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         TextView monet_background_lightness_output = findViewById(R.id.monet_background_lightness_output);
         monet_background_lightness_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100) - 100) + "%");
         monet_background_lightness_seekbar.setProgress(Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100));
+
+        // Long Click Reset
+        TextView monet_background_lightness_title = findViewById(R.id.monet_background_lightness_title);
+        monet_background_lightness_title.setOnLongClickListener(v -> {
+            monetBackgroundLightness[0] = 100;
+            monet_background_lightness_seekbar.setProgress(100);
+            assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
+            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_value_reset), Toast.LENGTH_SHORT).show();
+            return false;
+        });
+
         monet_background_lightness_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
