@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.HEADER_CLOCK_FONT_TEXT_SCALING;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SIDEMARGIN;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_STYLE;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
@@ -28,6 +29,7 @@ import com.drdisagree.iconify.config.RemotePrefs;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -76,6 +78,31 @@ public class HeaderClock extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        // Text Scaling
+        SeekBar header_clock_textscaling_seekbar = findViewById(R.id.header_clock_textscaling_seekbar);
+        header_clock_textscaling_seekbar.setPadding(0, 0, 0, 0);
+        TextView header_clock_textscaling_output = findViewById(R.id.header_clock_textscaling_output);
+        final int[] textScaling = {RemotePrefs.getInt(HEADER_CLOCK_FONT_TEXT_SCALING, 10)};
+        header_clock_textscaling_output.setText(getResources().getString(R.string.opt_selected) + ' ' + new DecimalFormat("#.#").format(textScaling[0] / 10.0) + "x");
+        header_clock_textscaling_seekbar.setProgress(RemotePrefs.getInt(HEADER_CLOCK_FONT_TEXT_SCALING, 10));
+        header_clock_textscaling_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                textScaling[0] = progress;
+                header_clock_textscaling_output.setText(getResources().getString(R.string.opt_selected) + ' ' + new DecimalFormat("#.#").format(progress / 10.0) + "x");
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                RemotePrefs.putInt(HEADER_CLOCK_FONT_TEXT_SCALING, textScaling[0]);
             }
         });
 

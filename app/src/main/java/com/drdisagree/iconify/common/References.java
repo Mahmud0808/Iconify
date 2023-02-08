@@ -68,6 +68,7 @@ public class References {
     public static final String QS_TOPMARGIN = "xposed_qstopmargin";
     public static final String QSPANEL_HIDE_CARRIER = "xposed_qspanelhidecarrier";
     public static final String HEADER_CLOCK_STYLE = "xposed_headerclockstyle";
+    public static final String HEADER_CLOCK_FONT_TEXT_SCALING = "xposed_headerclocktextscaling";
     public static final String LSCLOCK_SWITCH = "xposed_lockscreenclock";
     public static final String LSCLOCK_STYLE = "xposed_lockscreenclockstyle";
     public static final String LSCLOCK_TOPMARGIN = "xposed_lockscreenclocktopmargin";

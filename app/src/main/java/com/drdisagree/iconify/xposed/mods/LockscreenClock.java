@@ -174,6 +174,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                             clockContainer0.addView(clock0);
 
                             status_view_container.addView(clockContainer0, status_view_container.getChildCount() - 1);
+
                             log("Custom lockscreen clock1 added successfully.");
                             break;
                         case 1:
@@ -242,6 +243,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                             wholeContainer1.addView(month1);
 
                             status_view_container.addView(wholeContainer1, status_view_container.getChildCount() - 1);
+
                             log("Custom lockscreen clock2 added successfully.");
                             break;
                         case 2:
@@ -304,6 +306,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                             clockContainer2.addView(clockMinute2);
 
                             status_view_container.addView(clockContainer2, status_view_container.getChildCount() - 1);
+
                             log("Custom lockscreen clock3 added successfully.");
                             break;
                     }
