@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Environment;
 import android.text.InputFilter;
 import android.util.TypedValue;
@@ -324,16 +325,15 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                             day3.setTextColor(mContext.getResources().getColor(android.R.color.system_neutral1_200));
                             day3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 32 * textScaling);
                             day3.setTypeface(typeface != null ? typeface : day3.getTypeface(), Typeface.BOLD);
-
-                            final FrameLayout monthContainer3 = new FrameLayout(mContext);
-                            monthContainer3.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            ((FrameLayout.LayoutParams) monthContainer3.getLayoutParams()).setMargins(
+                            ViewGroup.MarginLayoutParams dayParams3 = new ViewGroup.MarginLayoutParams(
+                                    ViewGroup.MarginLayoutParams.WRAP_CONTENT,
+                                    ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                            dayParams3.setMargins(
                                     0,
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6 + lineHeight, mContext.getResources().getDisplayMetrics()),
                                     0,
                                     0);
-
-                            monthContainer3.addView(day3);
+                            day3.setLayoutParams(dayParams3);
 
                             final LinearLayout clockContainer3 = new LinearLayout(mContext);
                             LinearLayout.LayoutParams layoutParams3 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -348,11 +348,152 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                             clockContainer3.setOrientation(LinearLayout.VERTICAL);
 
                             clockContainer3.addView(analogClock3);
-                            clockContainer3.addView(monthContainer3);
+                            clockContainer3.addView(day3);
 
                             status_view_container.addView(clockContainer3, status_view_container.getChildCount() - 1);
 
                             log("Custom lockscreen clock4 added successfully.");
+                            break;
+                        case 4:
+                            final TextClock hour4 = new TextClock(mContext);
+                            hour4.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            hour4.setFormat12Hour("hh");
+                            hour4.setFormat24Hour("HH");
+                            hour4.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                            hour4.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40 * textScaling);
+                            hour4.setTypeface(typeface != null ? typeface : hour4.getTypeface(), Typeface.BOLD);
+
+                            final TextClock minute4 = new TextClock(mContext);
+                            minute4.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            minute4.setFormat12Hour("mm");
+                            minute4.setFormat24Hour("mm");
+                            minute4.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                            minute4.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40 * textScaling);
+                            minute4.setTypeface(typeface != null ? typeface : minute4.getTypeface(), Typeface.BOLD);
+                            ViewGroup.MarginLayoutParams minuteParams4 = new ViewGroup.MarginLayoutParams(
+                                    ViewGroup.MarginLayoutParams.WRAP_CONTENT,
+                                    ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                            minuteParams4.setMargins(
+                                    0,
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4 + lineHeight, mContext.getResources().getDisplayMetrics()),
+                                    0,
+                                    0);
+                            minute4.setLayoutParams(minuteParams4);
+
+                            final LinearLayout time4 = new LinearLayout(mContext);
+                            LinearLayout.LayoutParams timeLayoutParams4 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                            timeLayoutParams4.gravity = Gravity.CENTER;
+                            time4.setLayoutParams(timeLayoutParams4);
+                            time4.setOrientation(LinearLayout.VERTICAL);
+                            time4.setPadding(
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()),
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()),
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()),
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()));
+                            GradientDrawable timeDrawable4 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.black),
+                                            mContext.getResources().getColor(android.R.color.black)
+                                    });
+                            timeDrawable4.setCornerRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()));
+                            time4.setBackground(timeDrawable4);
+                            time4.setGravity(Gravity.CENTER);
+
+                            time4.addView(hour4);
+                            time4.addView(minute4);
+
+                            final TextClock day4 = new TextClock(mContext);
+                            day4.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            day4.setFormat12Hour("EEE");
+                            day4.setFormat24Hour("EEE");
+                            day4.setAllCaps(true);
+                            day4.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                            day4.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
+                            day4.setTypeface(typeface != null ? typeface : day4.getTypeface(), Typeface.BOLD);
+                            day4.setLetterSpacing(0.2f);
+
+                            final TextClock date4 = new TextClock(mContext);
+                            date4.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            date4.setFormat12Hour("dd");
+                            date4.setFormat24Hour("dd");
+                            date4.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                            date4.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
+                            date4.setTypeface(typeface != null ? typeface : date4.getTypeface(), Typeface.BOLD);
+                            date4.setLetterSpacing(0.2f);
+                            ViewGroup.MarginLayoutParams dateParams4 = new ViewGroup.MarginLayoutParams(
+                                    ViewGroup.MarginLayoutParams.WRAP_CONTENT,
+                                    ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                            dateParams4.setMargins(
+                                    0,
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -2 + lineHeight, mContext.getResources().getDisplayMetrics()),
+                                    0,
+                                    0);
+                            date4.setLayoutParams(dateParams4);
+
+                            final TextClock month4 = new TextClock(mContext);
+                            month4.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            month4.setFormat12Hour("MMM");
+                            month4.setFormat24Hour("MMM");
+                            month4.setAllCaps(true);
+                            month4.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                            month4.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
+                            month4.setTypeface(typeface != null ? typeface : month4.getTypeface(), Typeface.BOLD);
+                            month4.setLetterSpacing(0.2f);
+                            ViewGroup.MarginLayoutParams monthParams4 = new ViewGroup.MarginLayoutParams(
+                                    ViewGroup.MarginLayoutParams.WRAP_CONTENT,
+                                    ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                            monthParams4.setMargins(
+                                    0,
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -2 + lineHeight, mContext.getResources().getDisplayMetrics()),
+                                    0,
+                                    0);
+                            month4.setLayoutParams(monthParams4);
+
+                            final LinearLayout right4 = new LinearLayout(mContext);
+                            LinearLayout.LayoutParams rightLayoutParams4 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                            rightLayoutParams4.gravity = Gravity.CENTER;
+                            right4.setLayoutParams(rightLayoutParams4);
+                            right4.setOrientation(LinearLayout.VERTICAL);
+                            right4.setPadding(
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()),
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()),
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()),
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()));
+                            right4.setGravity(Gravity.CENTER);
+
+                            right4.addView(day4);
+                            right4.addView(date4);
+                            right4.addView(month4);
+
+                            final LinearLayout container4 = new LinearLayout(mContext);
+                            LinearLayout.LayoutParams layoutParams4 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            layoutParams4.gravity = Gravity.CENTER_HORIZONTAL;
+                            layoutParams4.setMargins(
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, mContext.getResources().getDisplayMetrics()),
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()),
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, mContext.getResources().getDisplayMetrics()),
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, bottomMargin, mContext.getResources().getDisplayMetrics()));
+                            container4.setLayoutParams(layoutParams4);
+                            container4.setOrientation(LinearLayout.HORIZONTAL);
+                            container4.setPadding(
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, mContext.getResources().getDisplayMetrics()),
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, mContext.getResources().getDisplayMetrics()),
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, mContext.getResources().getDisplayMetrics()),
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, mContext.getResources().getDisplayMetrics()));
+                            GradientDrawable mDrawable4 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                                    new int[]{
+                                            mContext.getResources().getColor(android.R.color.holo_blue_light),
+                                            mContext.getResources().getColor(android.R.color.holo_blue_light)
+                                    });
+                            mDrawable4.setCornerRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics()));
+                            container4.setBackground(mDrawable4);
+
+                            container4.addView(time4);
+                            container4.addView(right4);
+
+                            status_view_container.addView(container4, status_view_container.getChildCount() - 1);
+
+                            log("Custom lockscreen clock5 added successfully.");
                             break;
                     }
                 }
