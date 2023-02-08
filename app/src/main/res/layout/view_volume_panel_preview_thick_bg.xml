@@ -49,8 +49,8 @@
                 android:background="@drawable/media_player_bg_accent" />
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
                 android:layout_gravity="center|top"
                 android:layout_margin="11dp"
                 android:background="@drawable/ic_volume_media"

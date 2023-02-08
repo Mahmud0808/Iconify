@@ -1,6 +1,8 @@
 package com.drdisagree.iconify.ui.activity;
 
 import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
+import static com.drdisagree.iconify.common.References.FIRST_INSTALL;
+import static com.drdisagree.iconify.common.References.UPDATE_DETECTED;
 import static com.drdisagree.iconify.common.References.VER_CODE;
 
 import android.annotation.SuppressLint;
@@ -84,12 +86,12 @@ public class WelcomePage extends AppCompatActivity {
 
                                     if (!hasErroredOut) {
                                         if (BuildConfig.VERSION_CODE != Prefs.getInt(VER_CODE, -1)) {
-                                            if (Prefs.getBoolean("firstInstall", true)) {
-                                                Prefs.putBoolean("firstInstall", true);
-                                                Prefs.putBoolean("updateDetected", false);
+                                            if (Prefs.getBoolean(FIRST_INSTALL, true)) {
+                                                Prefs.putBoolean(FIRST_INSTALL, true);
+                                                Prefs.putBoolean(UPDATE_DETECTED, false);
                                             } else {
-                                                Prefs.putBoolean("firstInstall", false);
-                                                Prefs.putBoolean("updateDetected", true);
+                                                Prefs.putBoolean(FIRST_INSTALL, false);
+                                                Prefs.putBoolean(UPDATE_DETECTED, true);
                                             }
                                             Prefs.putInt(VER_CODE, BuildConfig.VERSION_CODE);
                                         }

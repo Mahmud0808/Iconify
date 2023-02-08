@@ -86,6 +86,9 @@ public class References {
     public static final String STR_NULL = "null";
     public static final String UPDATE_SCHEDULE = "iconify_update_schedule";
     public static final String UPDATE_CHECK_TIME = "iconify_update_check_time";
+    public static final String LAST_UPDATE_CHECK_TIME = "iconify_last_update_check_time";
+    public static final String FIRST_INSTALL = "firstInstall";
+    public static final String UPDATE_DETECTED = "updateDetected";
     public static final String COLORED_BATTERY_SWITCH = "isColoredBatteryEnabled";
     public static final String COLOR_ACCENT_PRIMARY = "colorAccentPrimary";
     public static final String COLOR_ACCENT_SECONDARY = "colorAccentSecondary";

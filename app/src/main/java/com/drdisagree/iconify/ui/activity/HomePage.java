@@ -1,7 +1,11 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.FIRST_INSTALL;
+import static com.drdisagree.iconify.common.References.LAST_UPDATE_CHECK_TIME;
 import static com.drdisagree.iconify.common.References.LATEST_VERSION;
 import static com.drdisagree.iconify.common.References.MONET_ENGINE_SWITCH;
+import static com.drdisagree.iconify.common.References.UPDATE_CHECK_TIME;
+import static com.drdisagree.iconify.common.References.UPDATE_DETECTED;
 import static com.drdisagree.iconify.common.References.VER_CODE;
 
 import android.Manifest;
@@ -78,10 +82,10 @@ public class HomePage extends AppCompatActivity {
         check_update.setVisibility(View.GONE);
         update_desc = findViewById(R.id.update_desc);
 
-        long lastChecked = Prefs.getLong("LAST_UPDATE_CHECK_TIME", -1);
+        long lastChecked = Prefs.getLong(LAST_UPDATE_CHECK_TIME, -1);
 
-        if (Prefs.getLong("UPDATE_CHECK_TIME", 0) != -1 && (lastChecked == -1 || (System.currentTimeMillis() - lastChecked >= Prefs.getLong("UPDATE_CHECK_TIME", 0)))) {
-            Prefs.putLong("LAST_UPDATE_CHECK_TIME", System.currentTimeMillis());
+        if (Prefs.getLong(UPDATE_CHECK_TIME, 0) != -1 && (lastChecked == -1 || (System.currentTimeMillis() - lastChecked >= Prefs.getLong("UPDATE_CHECK_TIME", 0)))) {
+            Prefs.putLong(LAST_UPDATE_CHECK_TIME, System.currentTimeMillis());
             checkForUpdate = new HomePage.CheckForUpdate();
             checkForUpdate.execute();
         }
@@ -92,7 +96,7 @@ public class HomePage extends AppCompatActivity {
         container.addView(list_view2);
         reboot_reminder.setVisibility(View.GONE);
 
-        if (!Prefs.getBoolean("firstInstall") && Prefs.getBoolean("updateDetected")) {
+        if (!Prefs.getBoolean(FIRST_INSTALL) && Prefs.getBoolean(UPDATE_DETECTED)) {
             reboot_reminder.setVisibility(View.VISIBLE);
             Button reboot_now = findViewById(R.id.reboot_phone);
             reboot_now.setOnClickListener(v -> {
@@ -107,8 +111,8 @@ public class HomePage extends AppCompatActivity {
             });
         }
 
-        Prefs.putBoolean("firstInstall", false);
-        Prefs.putBoolean("updateDetected", false);
+        Prefs.putBoolean(FIRST_INSTALL, false);
+        Prefs.putBoolean(UPDATE_DETECTED, false);
         Prefs.putInt(VER_CODE, BuildConfig.VERSION_CODE);
         SystemUtil.getBootId();
 
@@ -217,10 +221,10 @@ public class HomePage extends AppCompatActivity {
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_MUTABLE);
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "Updates")
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, getResources().getString(R.string.update_notification_channel_name))
                 .setSmallIcon(R.drawable.ic_launcher_fg)
-                .setContentTitle("Update Available")
-                .setContentText("A new version of Iconify is available.")
+                .setContentTitle(getResources().getString(R.string.new_update_title))
+                .setContentText(getResources().getString(R.string.new_update_desc))
                 .setContentIntent(pendingIntent)
                 .setOnlyAlertOnce(true)
                 .setAutoCancel(true);
@@ -231,8 +235,8 @@ public class HomePage extends AppCompatActivity {
     }
 
     public void createChannel(NotificationManager notificationManager) {
-        NotificationChannel channel = new NotificationChannel("Updates", "Updates", NotificationManager.IMPORTANCE_DEFAULT);
-        channel.setDescription("This channel shows notification about the latest updates.");
+        NotificationChannel channel = new NotificationChannel(getResources().getString(R.string.update_notification_channel_name), getResources().getString(R.string.update_notification_channel_name), NotificationManager.IMPORTANCE_DEFAULT);
+        channel.setDescription(getResources().getString(R.string.update_notification_channel_desc));
         notificationManager.createNotificationChannel(channel);
     }
 
@@ -300,7 +304,7 @@ public class HomePage extends AppCompatActivity {
                         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                         createChannel(notificationManager);
                         NotificationManager manager = (NotificationManager) Iconify.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
-                        NotificationChannel channel = manager.getNotificationChannel("Updates");
+                        NotificationChannel channel = manager.getNotificationChannel(getResources().getString(R.string.update_notification_channel_name));
                         if (ContextCompat.checkSelfPermission(HomePage.this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED && channel.getImportance() != NotificationManager.IMPORTANCE_NONE) {
                             showUpdateNotification();
                         } else {

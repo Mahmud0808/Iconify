@@ -17,7 +17,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.OpenableColumns;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -103,9 +102,9 @@ public class Lockscreen extends AppCompatActivity {
         // Lockscreen clock style
         final Spinner locksreen_clock_style = findViewById(R.id.locksreen_clock_style);
         List<String> lsclock_styles = new ArrayList<>();
-        lsclock_styles.add("Style 1");
-        lsclock_styles.add("Style 2");
-        lsclock_styles.add("Style 3");
+        lsclock_styles.add(getResources().getString(R.string.style_1));
+        lsclock_styles.add(getResources().getString(R.string.style_2));
+        lsclock_styles.add(getResources().getString(R.string.style_3));
 
         ArrayAdapter<String> lsclock_styles_adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_item, lsclock_styles);
         lsclock_styles_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
@@ -241,7 +240,7 @@ public class Lockscreen extends AppCompatActivity {
         Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
         chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
         chooseFile.setType("font/ttf");
-        startActivityForResult(Intent.createChooser(chooseFile, "Choose Clock Font"), PICKFILE_RESULT_CODE);
+        startActivityForResult(Intent.createChooser(chooseFile, getResources().getString(R.string.choose_clock_font)), PICKFILE_RESULT_CODE);
     }
 
     @Override
@@ -258,10 +257,8 @@ public class Lockscreen extends AppCompatActivity {
                 Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
                 return;
             }
-            Log.d("Header image source:", source);
 
             String destination = References.RESOURCE_TEMP_DIR + "/lsclock_font.ttf";
-            Log.d("Header image destination:", destination);
 
             Shell.cmd("mkdir -p " + References.RESOURCE_TEMP_DIR).exec();
 

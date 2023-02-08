@@ -59,7 +59,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Music Title"
+            android:text="@string/media_player_preview_music_title"
             android:textColor="@color/white"
             android:textSize="@dimen/cont_title_size"
             android:textStyle="bold" />
@@ -68,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="-4dp"
-            android:text="Artist Name"
+            android:text="@string/media_player_preview_artist_name"
             android:textColor="@color/offwhite"
             android:textSize="16sp" />
 
@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="1dp"
-                android:text="Phone speaker"
+                android:text="@string/media_player_preview_playing_on"
                 android:textColor="@color/textColorPrimaryNoTint"
                 android:textSize="14sp" />
 

@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.activity;
 
 import static com.drdisagree.iconify.common.References.EASTER_EGG;
+import static com.drdisagree.iconify.common.References.FIRST_INSTALL;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -60,7 +61,7 @@ public class Settings extends AppCompatActivity {
         Prefs.clearAllPrefs();
         SystemUtil.getBootId();
         SystemUtil.getVersionCode();
-        Prefs.putBoolean("firstInstall", false);
+        Prefs.putBoolean(FIRST_INSTALL, false);
 
         RemotePrefs.clearAllPrefs();
 

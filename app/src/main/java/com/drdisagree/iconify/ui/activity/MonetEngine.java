@@ -95,35 +95,26 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         Thread thread = new Thread(runnable);
         thread.start();
 
-        selectedStyle = Prefs.getString(MONET_STYLE, "Neutral");
+        selectedStyle = Prefs.getString(MONET_STYLE, getResources().getString(R.string.monet_neutral));
 
-        switch (selectedStyle) {
-            case "Neutral":
-                ((RadioButton) findViewById(R.id.neutral_style)).setChecked(true);
-                break;
-            case "Monochrome":
-                ((RadioButton) findViewById(R.id.monochrome_style)).setChecked(true);
-                break;
-            case "Tonal Spot":
-                ((RadioButton) findViewById(R.id.tonalspot_style)).setChecked(true);
-                break;
-            case "Vibrant":
-                ((RadioButton) findViewById(R.id.vibrant_style)).setChecked(true);
-                break;
-            case "Expressive":
-                ((RadioButton) findViewById(R.id.expressive_style)).setChecked(true);
-                break;
-            case "Fidelity":
-                ((RadioButton) findViewById(R.id.fidelity_style)).setChecked(true);
-                break;
-            case "Content":
-                ((RadioButton) findViewById(R.id.content_style)).setChecked(true);
-                break;
-            default:
-                Prefs.putBoolean(MONET_ENGINE_SWITCH, false);
-                radioGroup1.clearCheck();
-                radioGroup2.clearCheck();
-                break;
+        if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_neutral)))
+            ((RadioButton) findViewById(R.id.neutral_style)).setChecked(true);
+        else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_monochrome)))
+            ((RadioButton) findViewById(R.id.monochrome_style)).setChecked(true);
+        else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_tonalspot)))
+            ((RadioButton) findViewById(R.id.tonalspot_style)).setChecked(true);
+        else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_vibrant)))
+            ((RadioButton) findViewById(R.id.vibrant_style)).setChecked(true);
+        else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_expressive)))
+            ((RadioButton) findViewById(R.id.expressive_style)).setChecked(true);
+        else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_fidelity)))
+            ((RadioButton) findViewById(R.id.fidelity_style)).setChecked(true);
+        else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_content)))
+            ((RadioButton) findViewById(R.id.content_style)).setChecked(true);
+        else {
+            Prefs.putBoolean(MONET_ENGINE_SWITCH, false);
+            radioGroup1.clearCheck();
+            radioGroup2.clearCheck();
         }
 
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL))
@@ -355,7 +346,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
     @SuppressLint("UseCompatLoadingForDrawables")
     private void assignCustomColorToPalette(List<List<Object>> palette) {
         // Set accent saturation
-        if (!Objects.equals(selectedStyle, "Monochrome")) {
+        if (!Objects.equals(selectedStyle, getResources().getString(R.string.monet_monochrome))) {
             for (int i = 0; i < palette.size() - 2; i++) {
                 for (int j = palette.get(i).size() - 2; j >= 1; j--) {
                     int color;
@@ -370,7 +361,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         }
 
         // Set background saturation
-        if (!Objects.equals(selectedStyle, "Monochrome")) {
+        if (!Objects.equals(selectedStyle, getResources().getString(R.string.monet_monochrome))) {
             for (int i = 3; i < palette.size(); i++) {
                 for (int j = palette.get(i).size() - 2; j >= 1; j--) {
                     int color;
@@ -385,7 +376,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         }
 
         // Set lightness
-        for (int i = Objects.equals(selectedStyle, "Monochrome") ? 0 : 3; i < palette.size(); i++) {
+        for (int i = Objects.equals(selectedStyle, getResources().getString(R.string.monet_monochrome)) ? 0 : 3; i < palette.size(); i++) {
             for (int j = 1; j < palette.get(i).size() - 1; j++) {
                 int color = ColorUtil.setLightness(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), (float) (monetBackgroundLightness[0] - 100) / 1000.0F);
 
@@ -394,7 +385,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         }
 
         for (int i = 0; i < colorTableRows.length; i++) {
-            if (i == 2 && (Prefs.getBoolean(CUSTOM_SECONDARY_COLOR_SWITCH) || isSelectedSecondary) && !Objects.equals(selectedStyle, "Monochrome")) {
+            if (i == 2 && (Prefs.getBoolean(CUSTOM_SECONDARY_COLOR_SWITCH) || isSelectedSecondary) && !Objects.equals(selectedStyle, getResources().getString(R.string.monet_monochrome))) {
                 Prefs.putBoolean(CUSTOM_SECONDARY_COLOR_SWITCH, true);
                 List<List<Object>> secondaryPalette = GenerateColorPalette(selectedStyle, Integer.parseInt(accentSecondary));
 
@@ -438,6 +429,12 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         resources.append("</resources>\n");
 
         return MonetCompilerUtil.buildMonetPalette(resources.toString());
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -452,11 +449,6 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         }
     };
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 
 
 

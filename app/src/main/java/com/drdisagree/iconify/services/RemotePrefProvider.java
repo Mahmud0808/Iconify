@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.utils;
+package com.drdisagree.iconify.services;
 
 /* Modified from AOSPMods
  * https://github.com/siavash79/AOSPMods/blob/canary/app/src/main/java/sh/siava/AOSPMods/utils/RemotePrefProvider.java

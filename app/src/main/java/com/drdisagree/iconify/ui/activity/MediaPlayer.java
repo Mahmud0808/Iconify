@@ -247,7 +247,7 @@ public class MediaPlayer extends AppCompatActivity {
 
                 if ((Boolean) mpip_list.get(i)[1]) {
                     if (i == 0) {
-                        addItem("Android 13 Default Player", (String) mpip_list.get(i)[0], ContextCompat.getDrawable(MediaPlayer.this, R.drawable.ic_android), (int) mpip_list.get(i)[2]);
+                        addItem(getResources().getString(R.string.a13_default_media_player), (String) mpip_list.get(i)[0], ContextCompat.getDrawable(MediaPlayer.this, R.drawable.ic_android), (int) mpip_list.get(i)[2]);
                     } else {
                         addItem(AppUtil.getAppName((String) mpip_list.get(i)[0]), (String) mpip_list.get(i)[0], AppUtil.getAppIcon((String) mpip_list.get(i)[0]), (int) mpip_list.get(i)[2]);
                     }

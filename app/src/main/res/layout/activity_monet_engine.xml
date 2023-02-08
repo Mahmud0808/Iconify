@@ -178,110 +178,104 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/container_margin"
                 android:background="@drawable/container"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:paddingStart="@dimen/container_paddingSide"
                 android:paddingTop="@dimen/container_padding"
                 android:paddingEnd="@dimen/container_paddingSide"
                 android:paddingBottom="@dimen/container_padding">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <RadioGroup
+                    android:id="@+id/monet_styles1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_weight="1.0">
 
-                    <RadioGroup
-                        android:id="@+id/monet_styles1"
-                        android:layout_width="0dp"
+                    <RadioButton
+                        android:id="@+id/neutral_style"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1.0">
+                        android:checked="false"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="6dp"
+                        android:text="@string/monet_neutral"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_desc_size" />
 
-                        <RadioButton
-                            android:id="@+id/neutral_style"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="false"
-                            android:paddingStart="6dp"
-                            android:paddingEnd="6dp"
-                            android:text="Neutral"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_desc_size" />
-
-                        <RadioButton
-                            android:id="@+id/monochrome_style"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="false"
-                            android:paddingStart="6dp"
-                            android:paddingEnd="6dp"
-                            android:text="Monochrome"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_desc_size" />
-
-                        <RadioButton
-                            android:id="@+id/tonalspot_style"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="false"
-                            android:paddingStart="6dp"
-                            android:paddingEnd="6dp"
-                            android:text="Tonal Spot"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_desc_size" />
-
-                        <RadioButton
-                            android:id="@+id/vibrant_style"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="false"
-                            android:paddingStart="6dp"
-                            android:paddingEnd="6dp"
-                            android:text="Vibrant"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_desc_size" />
-
-                    </RadioGroup>
-
-                    <RadioGroup
-                        android:id="@+id/monet_styles2"
-                        android:layout_width="0dp"
+                    <RadioButton
+                        android:id="@+id/monochrome_style"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1.0">
+                        android:checked="false"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="6dp"
+                        android:text="@string/monet_monochrome"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_desc_size" />
 
-                        <RadioButton
-                            android:id="@+id/expressive_style"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="false"
-                            android:paddingStart="6dp"
-                            android:paddingEnd="6dp"
-                            android:text="Expressive"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_desc_size" />
+                    <RadioButton
+                        android:id="@+id/tonalspot_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="6dp"
+                        android:text="@string/monet_tonalspot"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_desc_size" />
 
-                        <RadioButton
-                            android:id="@+id/fidelity_style"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="false"
-                            android:paddingStart="6dp"
-                            android:paddingEnd="6dp"
-                            android:text="Fidelity"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_desc_size" />
+                    <RadioButton
+                        android:id="@+id/vibrant_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="6dp"
+                        android:text="@string/monet_vibrant"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_desc_size" />
 
-                        <RadioButton
-                            android:id="@+id/content_style"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="false"
-                            android:paddingStart="6dp"
-                            android:paddingEnd="6dp"
-                            android:text="Content"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_desc_size" />
+                </RadioGroup>
 
-                    </RadioGroup>
-                </LinearLayout>
+                <RadioGroup
+                    android:id="@+id/monet_styles2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0">
+
+                    <RadioButton
+                        android:id="@+id/expressive_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="6dp"
+                        android:text="@string/monet_expressive"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_desc_size" />
+
+                    <RadioButton
+                        android:id="@+id/fidelity_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="6dp"
+                        android:text="@string/monet_fidelity"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_desc_size" />
+
+                    <RadioButton
+                        android:id="@+id/content_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="6dp"
+                        android:text="@string/monet_content"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_desc_size" />
+
+                </RadioGroup>
             </LinearLayout>
 
             <LinearLayout
@@ -297,7 +291,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Accent Saturation"
+                    android:text="@string/monet_accent_saturation_title"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/cont_title_size"
                     android:textStyle="bold" />
@@ -345,7 +339,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Background Saturation"
+                    android:text="@string/monet_background_saturation_title"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/cont_title_size"
                     android:textStyle="bold" />
@@ -394,7 +388,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Background Lightness"
+                    android:text="@string/monet_background_lightness_title"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/cont_title_size"
                     android:textStyle="bold" />

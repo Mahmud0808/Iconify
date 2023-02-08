@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.OpenableColumns;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -211,7 +210,7 @@ public class HeaderImage extends AppCompatActivity {
         Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
         chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
         chooseFile.setType("image/*");
-        startActivityForResult(Intent.createChooser(chooseFile, "Choose Header Image"), PICKFILE_RESULT_CODE);
+        startActivityForResult(Intent.createChooser(chooseFile, getResources().getString(R.string.choose_header_image)), PICKFILE_RESULT_CODE);
     }
 
     @Override
@@ -228,10 +227,8 @@ public class HeaderImage extends AppCompatActivity {
                 Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
                 return;
             }
-            Log.d("Header image source:", source);
 
             String destination = References.RESOURCE_TEMP_DIR + "/header_image.png";
-            Log.d("Header image destination:", destination);
 
             Shell.cmd("mkdir -p " + References.RESOURCE_TEMP_DIR).exec();
 

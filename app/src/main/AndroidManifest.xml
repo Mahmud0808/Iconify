@@ -220,7 +220,7 @@
 
         <!-- Remote Preferences Provider -->
         <provider
-            android:name=".utils.RemotePrefProvider"
+            android:name=".services.RemotePrefProvider"
             android:authorities="${applicationId}"
             android:directBootAware="true"
             android:exported="true"
