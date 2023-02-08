@@ -3,9 +3,9 @@ package com.drdisagree.iconify.xposed.mods;
 import static com.drdisagree.iconify.common.References.LSCLOCK_BOTTOMMARGIN;
 import static com.drdisagree.iconify.common.References.LSCLOCK_FONT_LINEHEIGHT;
 import static com.drdisagree.iconify.common.References.LSCLOCK_FONT_SWITCH;
+import static com.drdisagree.iconify.common.References.LSCLOCK_FONT_TEXT_SCALING;
 import static com.drdisagree.iconify.common.References.LSCLOCK_STYLE;
 import static com.drdisagree.iconify.common.References.LSCLOCK_SWITCH;
-import static com.drdisagree.iconify.common.References.LSCLOCK_FONT_TEXT_SCALING;
 import static com.drdisagree.iconify.common.References.LSCLOCK_TEXT_WHITE;
 import static com.drdisagree.iconify.common.References.LSCLOCK_TOPMARGIN;
 import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
@@ -23,6 +23,7 @@ import android.text.InputFilter;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.ViewGroup;
+import android.widget.AnalogClock;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -290,14 +291,14 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                             clockMinute2.setLayoutParams(clockMinuteParams2);
 
                             final LinearLayout clockContainer2 = new LinearLayout(mContext);
-                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                            layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
-                            layoutParams.setMargins(
+                            LinearLayout.LayoutParams layoutParams2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            layoutParams2.gravity = Gravity.CENTER_HORIZONTAL;
+                            layoutParams2.setMargins(
                                     0,
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()),
                                     0,
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, bottomMargin, mContext.getResources().getDisplayMetrics()));
-                            clockContainer2.setLayoutParams(layoutParams);
+                            clockContainer2.setLayoutParams(layoutParams2);
                             clockContainer2.setGravity(Gravity.CENTER_HORIZONTAL);
                             clockContainer2.setOrientation(LinearLayout.VERTICAL);
 
@@ -308,6 +309,50 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                             status_view_container.addView(clockContainer2, status_view_container.getChildCount() - 1);
 
                             log("Custom lockscreen clock3 added successfully.");
+                            break;
+                        case 3:
+                            final AnalogClock analogClock3 = new AnalogClock(mContext);
+                            analogClock3.setLayoutParams(new LinearLayout.LayoutParams(
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 180 * textScaling, mContext.getResources().getDisplayMetrics()),
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 180 * textScaling, mContext.getResources().getDisplayMetrics())));
+                            ((LinearLayout.LayoutParams) analogClock3.getLayoutParams()).gravity = Gravity.CENTER_HORIZONTAL;
+
+                            final TextClock day3 = new TextClock(mContext);
+                            day3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            day3.setFormat12Hour("EEE dd MMM");
+                            day3.setFormat24Hour("EEE dd MMM");
+                            day3.setTextColor(mContext.getResources().getColor(android.R.color.system_neutral1_200));
+                            day3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 32 * textScaling);
+                            day3.setTypeface(typeface != null ? typeface : day3.getTypeface(), Typeface.BOLD);
+
+                            final FrameLayout monthContainer3 = new FrameLayout(mContext);
+                            monthContainer3.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            ((FrameLayout.LayoutParams) monthContainer3.getLayoutParams()).setMargins(
+                                    0,
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6 + lineHeight, mContext.getResources().getDisplayMetrics()),
+                                    0,
+                                    0);
+
+                            monthContainer3.addView(day3);
+
+                            final LinearLayout clockContainer3 = new LinearLayout(mContext);
+                            LinearLayout.LayoutParams layoutParams3 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            layoutParams3.gravity = Gravity.CENTER_HORIZONTAL;
+                            layoutParams3.setMargins(
+                                    0,
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()),
+                                    0,
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, bottomMargin, mContext.getResources().getDisplayMetrics()));
+                            clockContainer3.setLayoutParams(layoutParams3);
+                            clockContainer3.setGravity(Gravity.CENTER_HORIZONTAL);
+                            clockContainer3.setOrientation(LinearLayout.VERTICAL);
+
+                            clockContainer3.addView(analogClock3);
+                            clockContainer3.addView(monthContainer3);
+
+                            status_view_container.addView(clockContainer3, status_view_container.getChildCount() - 1);
+
+                            log("Custom lockscreen clock4 added successfully.");
                             break;
                     }
                 }

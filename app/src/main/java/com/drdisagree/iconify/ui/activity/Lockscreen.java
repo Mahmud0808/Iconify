@@ -107,6 +107,7 @@ public class Lockscreen extends AppCompatActivity {
         lsclock_styles.add(getResources().getString(R.string.style_1));
         lsclock_styles.add(getResources().getString(R.string.style_2));
         lsclock_styles.add(getResources().getString(R.string.style_3));
+        lsclock_styles.add(getResources().getString(R.string.style_4));
 
         ArrayAdapter<String> lsclock_styles_adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_item, lsclock_styles);
         lsclock_styles_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
