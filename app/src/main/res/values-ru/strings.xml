@@ -344,4 +344,6 @@
     <string name="monet_accent_saturation_title">Насыщенность акцента</string>
     <string name="monet_background_saturation_title">Насыщенность фона</string>
     <string name="monet_background_lightness_title">Яркость фона</string>
+    <string name="lockscreen_font_text_scaling_title">Масштабирование текста</string>
+    <string name="toast_value_reset">Значение сброшено</string>
 </resources>
