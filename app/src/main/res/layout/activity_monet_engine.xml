@@ -301,17 +301,20 @@
                         android:text="@string/monet_accent_saturation_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold"
-                        tools:ignore="TouchTargetSizeCheck" />
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:id="@+id/reset_accent_saturation"
                         android:layout_width="@dimen/reset_button_size"
                         android:layout_height="@dimen/reset_button_size"
-                        android:layout_gravity="start|top"
-                        android:layout_marginStart="10dp"
+                        android:layout_gravity="start|center"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
                         android:clickable="true"
-                        app:srcCompat="@drawable/ic_reset" />
+                        android:contentDescription="@string/icon"
+                        app:srcCompat="@drawable/ic_reset"
+                        app:tint="@color/textColorSecondary" />
+
                 </LinearLayout>
 
                 <TextView
@@ -371,10 +374,14 @@
                         android:id="@+id/reset_background_saturation"
                         android:layout_width="@dimen/reset_button_size"
                         android:layout_height="@dimen/reset_button_size"
-                        android:layout_gravity="start|top"
-                        android:layout_marginStart="10dp"
+                        android:layout_gravity="start|center"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
                         android:clickable="true"
-                        app:srcCompat="@drawable/ic_reset" />
+                        android:contentDescription="@string/icon"
+                        app:srcCompat="@drawable/ic_reset"
+                        app:tint="@color/textColorSecondary" />
+
                 </LinearLayout>
 
                 <TextView
@@ -436,11 +443,15 @@
                         android:id="@+id/reset_background_lightness"
                         android:layout_width="@dimen/reset_button_size"
                         android:layout_height="@dimen/reset_button_size"
-                        android:layout_gravity="start|top"
-                        android:layout_marginStart="10dp"
+                        android:layout_gravity="start|center"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
                         android:clickable="true"
-                        app:srcCompat="@drawable/ic_reset" />
-            </LinearLayout>
+                        android:contentDescription="@string/icon"
+                        app:srcCompat="@drawable/ic_reset"
+                        app:tint="@color/textColorSecondary" />
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/monet_background_lightness_output"

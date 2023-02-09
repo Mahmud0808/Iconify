@@ -355,5 +355,4 @@
     <string name="media_player_preview_playing_on">Phone speaker</string>
     <string name="lockscreen_font_text_scaling_title">Text Scaling</string>
     <string name="header_clock_font_text_scaling_title">Text Scaling</string>
-    <string name="toast_value_reset">Value reseted!</string>
 </resources>

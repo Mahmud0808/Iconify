@@ -165,21 +165,15 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
 
         // Long Click Reset
         ImageView reset_accent_saturation = findViewById(R.id.reset_accent_saturation);
+        reset_accent_saturation.setVisibility(Prefs.getInt(MONET_ACCENT_SATURATION, 100) == 100 ? View.INVISIBLE : View.VISIBLE);
 
-
-        if (Prefs.getInt(MONET_ACCENT_SATURATION) == 100) {
-            reset_accent_saturation.setVisibility(View.INVISIBLE);
-        } else {
-            reset_accent_saturation.setVisibility(View.VISIBLE);
-        }
-
-        reset_accent_saturation.setOnClickListener(v -> {
+        reset_accent_saturation.setOnLongClickListener(v -> {
             monetAccentSaturation[0] = 100;
             monet_accent_saturation_seekbar.setProgress(100);
             assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
-            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_value_reset), Toast.LENGTH_SHORT).show();
             reset_accent_saturation.setVisibility(View.INVISIBLE);
             enable_custom_monet.setVisibility(View.VISIBLE);
+            return true;
         });
 
         monet_accent_saturation_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -190,6 +184,8 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 monetAccentSaturation[0] = progress;
+                if (progress == 100)
+                    reset_accent_saturation.setVisibility(View.INVISIBLE);
                 monet_accent_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress - 100) + "%");
             }
 
@@ -210,20 +206,15 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
 
         // Reset button
         ImageView reset_background_saturation = findViewById(R.id.reset_background_saturation);
+        reset_background_saturation.setVisibility(Prefs.getInt(MONET_BACKGROUND_SATURATION, 100) == 100 ? View.INVISIBLE : View.VISIBLE);
 
-        if (Prefs.getInt(MONET_BACKGROUND_SATURATION) == 100) {
-            reset_background_saturation.setVisibility(View.INVISIBLE);
-        } else {
-            reset_background_saturation.setVisibility(View.VISIBLE);
-        }
-
-        reset_background_saturation.setOnClickListener(v -> {
+        reset_background_saturation.setOnLongClickListener(v -> {
             monetBackgroundSaturation[0] = 100;
             monet_background_saturation_seekbar.setProgress(100);
             assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
-            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_value_reset), Toast.LENGTH_SHORT).show();
             reset_background_saturation.setVisibility(View.INVISIBLE);
             enable_custom_monet.setVisibility(View.VISIBLE);
+            return true;
         });
 
         monet_background_saturation_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -234,6 +225,8 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 monetBackgroundSaturation[0] = progress;
+                if (progress == 100)
+                    reset_background_saturation.setVisibility(View.INVISIBLE);
                 monet_background_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress - 100) + "%");
             }
 
@@ -254,20 +247,15 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
 
         // Long Click Reset
         ImageView reset_background_lightness = findViewById(R.id.reset_background_lightness);
+        reset_background_lightness.setVisibility(Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100) == 100 ? View.INVISIBLE : View.VISIBLE);
 
-        if (Prefs.getInt(MONET_BACKGROUND_LIGHTNESS) == 100) {
-            reset_background_lightness.setVisibility(View.INVISIBLE);
-        } else {
-            reset_background_lightness.setVisibility(View.VISIBLE);
-        }
-
-        reset_background_lightness.setOnClickListener(v -> {
+        reset_background_lightness.setOnLongClickListener(v -> {
             monetBackgroundLightness[0] = 100;
             monet_background_lightness_seekbar.setProgress(100);
             assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
-            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_value_reset), Toast.LENGTH_SHORT).show();
             reset_background_lightness.setVisibility(View.INVISIBLE);
             enable_custom_monet.setVisibility(View.VISIBLE);
+            return true;
         });
 
         monet_background_lightness_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -278,6 +266,8 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 monetBackgroundLightness[0] = progress;
+                if (progress == 100)
+                    reset_background_lightness.setVisibility(View.INVISIBLE);
                 monet_background_lightness_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress - 100) + "%");
             }
 
