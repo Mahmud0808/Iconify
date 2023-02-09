@@ -65,6 +65,7 @@ public class HeaderClock extends AppCompatActivity {
         hcclock_styles.add(getResources().getString(R.string.style_2));
         hcclock_styles.add(getResources().getString(R.string.style_3));
         hcclock_styles.add(getResources().getString(R.string.style_4));
+        hcclock_styles.add(getResources().getString(R.string.style_5));
 
         ArrayAdapter<String> hcclock_styles_adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_item, hcclock_styles);
         hcclock_styles_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
