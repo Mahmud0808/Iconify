@@ -323,7 +323,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                             day3.setFormat12Hour("EEE dd MMM");
                             day3.setFormat24Hour("EEE dd MMM");
                             day3.setTextColor(mContext.getResources().getColor(android.R.color.system_neutral1_200));
-                            day3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 32 * textScaling);
+                            day3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
                             day3.setTypeface(typeface != null ? typeface : day3.getTypeface(), Typeface.BOLD);
                             ViewGroup.MarginLayoutParams dayParams3 = new ViewGroup.MarginLayoutParams(
                                     ViewGroup.MarginLayoutParams.WRAP_CONTENT,
