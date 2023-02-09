@@ -493,6 +493,14 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     carrier_group.getLayoutParams().height = 0;
                     carrier_group.getLayoutParams().width = 0;
 
+                    // Ricedroid date
+                    try {
+                        @SuppressLint("DiscouragedApi") TextView date = liparam.view.findViewById(liparam.res.getIdentifier("date", "id", SYSTEMUI_PACKAGE));
+                        date.getLayoutParams().height = 0;
+                        date.getLayoutParams().width = 0;
+                    } catch (Throwable ignored) {
+                    }
+
                     // Nusantara clock
                     try {
                         @SuppressLint("DiscouragedApi") TextView jr_clock = liparam.view.findViewById(liparam.res.getIdentifier("jr_clock", "id", SYSTEMUI_PACKAGE));

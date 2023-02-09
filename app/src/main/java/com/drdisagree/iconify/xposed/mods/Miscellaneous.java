@@ -107,6 +107,35 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                     @SuppressLint("DiscouragedApi") LinearLayout batteryRemainingIcon = liparam.view.findViewById(liparam.res.getIdentifier("batteryRemainingIcon", "id", SYSTEMUI_PACKAGE));
                     batteryRemainingIcon.getLayoutParams().height = 0;
                     batteryRemainingIcon.getLayoutParams().width = 0;
+
+                    @SuppressLint("DiscouragedApi") LinearLayout rightLayout = liparam.view.findViewById(liparam.res.getIdentifier("rightLayout", "id", SYSTEMUI_PACKAGE));
+                    rightLayout.getLayoutParams().height = 0;
+                    rightLayout.getLayoutParams().width = 0;
+
+                    // Ricedroid date
+                    try {
+                        @SuppressLint("DiscouragedApi") TextView date = liparam.view.findViewById(liparam.res.getIdentifier("date", "id", SYSTEMUI_PACKAGE));
+                        date.getLayoutParams().height = 0;
+                        date.getLayoutParams().width = 0;
+                    } catch (Throwable ignored) {
+                    }
+
+                    // Nusantara clock
+                    try {
+                        @SuppressLint("DiscouragedApi") TextView jr_clock = liparam.view.findViewById(liparam.res.getIdentifier("jr_clock", "id", SYSTEMUI_PACKAGE));
+                        jr_clock.getLayoutParams().height = 0;
+                        jr_clock.getLayoutParams().width = 0;
+                    } catch (Throwable ignored) {
+                    }
+
+                    // Nusantara date
+                    try {
+                        @SuppressLint("DiscouragedApi") LinearLayout jr_date_container = liparam.view.findViewById(liparam.res.getIdentifier("jr_date_container", "id", SYSTEMUI_PACKAGE));
+                        TextView jr_date = (TextView) jr_date_container.getChildAt(0);
+                        jr_date.getLayoutParams().height = 0;
+                        jr_date.getLayoutParams().width = 0;
+                    } catch (Throwable ignored) {
+                    }
                 }
             });
         } catch (Throwable t) {
