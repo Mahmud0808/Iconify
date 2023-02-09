@@ -93,7 +93,8 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
 
         rootPackagePath = lpparam.appInfo.sourceDir;
 
-        final Class<?> Clock = findClass(CLASS_CLOCK, lpparam.classLoader);
+        initDrawables();
+
         final Class<?> CollapsedStatusBarFragment = findClass(CollapsedStatusBarFragmentClass, lpparam.classLoader);
 
         hookAllConstructors(CollapsedStatusBarFragment, new XC_MethodHook() {
