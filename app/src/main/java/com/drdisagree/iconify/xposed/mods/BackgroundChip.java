@@ -312,7 +312,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
 
             if (mRightClockView != null) {
                 mRightClockView.setPadding(12, 2, 12, 2);
-                mRightClockView.setBackground(layerDrawable2);
+                mRightClockView.setBackground(layerDrawable1);
             }
         } else {
             @SuppressLint("DiscouragedApi") int clockPaddingStart = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_clock_starting_padding", "dimen", mContext.getPackageName()));
