@@ -2,12 +2,12 @@ package com.drdisagree.iconify.config;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.drdisagree.iconify.common.References.STR_NULL;
+import static com.drdisagree.iconify.common.References.SharedXPref;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 
 public class RemotePrefs {
@@ -15,7 +15,7 @@ public class RemotePrefs {
     @SuppressLint("StaticFieldLeak")
     private static final Context prefContext = Iconify.getAppContext().createDeviceProtectedStorageContext();
 
-    static SharedPreferences prefs = prefContext.getSharedPreferences(BuildConfig.APPLICATION_ID + "_xpreferences", MODE_PRIVATE);
+    static SharedPreferences prefs = prefContext.getSharedPreferences(SharedXPref, MODE_PRIVATE);
     static SharedPreferences.Editor editor = prefs.edit();
 
     // Save sharedPref config

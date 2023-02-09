@@ -435,7 +435,9 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
-    }    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
+    }
+
+    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if (checkedId != -1) {
@@ -448,8 +450,6 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
             }
         }
     };
-
-
 
 
     private final RadioGroup.OnCheckedChangeListener listener2 = new RadioGroup.OnCheckedChangeListener() {

@@ -1,12 +1,8 @@
 package com.drdisagree.iconify.xposed.mods;
 
-import static com.drdisagree.iconify.common.References.CHIP_QSCLOCK_STYLE;
-import static com.drdisagree.iconify.common.References.CHIP_QSDATE_STYLE;
 import static com.drdisagree.iconify.common.References.CHIP_QSSTATUSICONS_STYLE;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.HIDE_STATUS_ICONS_SWITCH;
-import static com.drdisagree.iconify.common.References.QSPANEL_CLOCKBG_SWITCH;
-import static com.drdisagree.iconify.common.References.QSPANEL_DATEBG_SWITCH;
 import static com.drdisagree.iconify.common.References.QSPANEL_STATUSICONSBG_SWITCH;
 import static com.drdisagree.iconify.common.References.STATUSBAR_CLOCKBG_SWITCH;
 import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
@@ -49,14 +45,10 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     private static final String CLASS_CLOCK = SYSTEMUI_PACKAGE + ".statusbar.policy.Clock";
     private static final String CollapsedStatusBarFragmentClass = SYSTEMUI_PACKAGE + ".statusbar.phone.fragment.CollapsedStatusBarFragment";
     boolean mShowSBClockBg = false;
-    boolean mShowQSClockBg = false;
-    boolean mShowQSDateBg = false;
     boolean hideStatusIcons = false;
     boolean mShowQSStatusIconsBg = false;
     boolean showHeaderClock = false;
     int QSStatusIconsChipStyle = 0;
-    int QSClockChipStyle = 0;
-    int QSDateChipStyle = 0;
     float corner1, corner2, corner3;
     int px2dp2, px2dp4;
     GradientDrawable mDrawable1, mDrawable2, mDrawable3;
@@ -78,12 +70,6 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         if (Xprefs == null) return;
 
         mShowSBClockBg = Xprefs.getBoolean(STATUSBAR_CLOCKBG_SWITCH, false);
-
-        mShowQSClockBg = Xprefs.getBoolean(QSPANEL_CLOCKBG_SWITCH, false);
-        QSClockChipStyle = Xprefs.getInt(CHIP_QSCLOCK_STYLE, 0);
-
-        mShowQSDateBg = Xprefs.getBoolean(QSPANEL_DATEBG_SWITCH, false);
-        QSDateChipStyle = Xprefs.getInt(CHIP_QSDATE_STYLE, 0);
 
         mShowQSStatusIconsBg = Xprefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false);
         QSStatusIconsChipStyle = Xprefs.getInt(CHIP_QSSTATUSICONS_STYLE, 0);

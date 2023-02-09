@@ -2,6 +2,7 @@ package com.drdisagree.iconify.common;
 
 import android.os.Environment;
 
+import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.topjohnwu.superuser.Shell;
 
@@ -40,17 +41,13 @@ public class References {
 
     // Preference files
     public static final String SharedPref = Iconify.getAppContext().getPackageName();
-    public static final String SharedXPref = Iconify.getAppContext().getPackageName() + "_xpreference";
+    public static final String SharedXPref = BuildConfig.APPLICATION_ID + "_xpreference";
 
     // Xposed mods
     public static final String RESOURCE_TEMP_DIR = Environment.getExternalStorageDirectory() + "/.iconify_files";
     public static final String QSTRANSPARENCY_SWITCH = "xposed_qstransparency";
     public static final String QSALPHA_LEVEL = "xposed_qsalpha";
     public static final String STATUSBAR_CLOCKBG_SWITCH = "xposed_sbclockbg";
-    public static final String QSPANEL_CLOCKBG_SWITCH = "xposed_qsclockbg";
-    public static final String CHIP_QSCLOCK_STYLE = "xposed_chipqsclockstyle";
-    public static final String QSPANEL_DATEBG_SWITCH = "xposed_qsdatebg";
-    public static final String CHIP_QSDATE_STYLE = "xposed_chipqsdatestyle";
     public static final String QSPANEL_STATUSICONSBG_SWITCH = "xposed_qsstatusiconsbg";
     public static final String CHIP_QSSTATUSICONS_STYLE = "xposed_chipqsstatusiconsstyle";
     public static final String VERTICAL_QSTILE_SWITCH = "xposed_verticalqstile";

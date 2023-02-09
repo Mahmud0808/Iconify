@@ -17,6 +17,7 @@ package com.drdisagree.iconify.config;
  * along with this program.  If not, see [http://www.gnu.org/licenses/].
  */
 
+import static com.drdisagree.iconify.common.References.SharedXPref;
 import static de.robv.android.xposed.XposedBridge.log;
 
 import android.content.Context;
@@ -40,7 +41,7 @@ public class XPrefs implements IXposedHookZygoteInit {
 
     public static void init(Context context) {
         packageName = context.getPackageName();
-        Xprefs = new RemotePreferences(context, BuildConfig.APPLICATION_ID, BuildConfig.APPLICATION_ID + "_xpreferences", true);
+        Xprefs = new RemotePreferences(context, BuildConfig.APPLICATION_ID, SharedXPref, true);
         log("Iconify Version: " + BuildConfig.VERSION_NAME);
         log("Iconify Records: " + Xprefs.getAll().keySet().size());
         Xprefs.registerOnSharedPreferenceChangeListener(listener);
