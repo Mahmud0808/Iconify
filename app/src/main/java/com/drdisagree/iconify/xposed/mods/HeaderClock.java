@@ -159,8 +159,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                             clockDate0.setTypeface(clockMinute0.getTypeface(), Typeface.BOLD);
 
                             final LinearLayout dateContainer0 = new LinearLayout(mContext);
-                            dateContainer0.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                            dateContainer0.setGravity(Gravity.BOTTOM);
+                            dateContainer0.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
                             dateContainer0.setOrientation(LinearLayout.VERTICAL);
                             ((LinearLayout.LayoutParams) dateContainer0.getLayoutParams()).setMargins(
                                     0,
