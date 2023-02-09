@@ -295,9 +295,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     }
 
     private void updateStatusBarClock() {
-        if (layerDrawable1 == null || layerDrawable2 == null || layerDrawable3 == null || layerDrawable4 == null) {
-            initDrawables();
-        }
+        initDrawables();
 
         if (mShowSBClockBg && clockWidth != -1 && clockHeight != -1) {
             if (mClockView != null) {
@@ -373,12 +371,10 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEM_UI_PACKAGE);
         if (ourResparam == null) return;
 
+        initDrawables();
+
         if (!mShowQSClockBg || hideStatusIcons)
             return;
-
-        if (layerDrawable1 == null || layerDrawable2 == null || layerDrawable3 == null || layerDrawable4 == null) {
-            initDrawables();
-        }
 
         try {
             ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
@@ -419,12 +415,10 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEM_UI_PACKAGE);
         if (ourResparam == null) return;
 
+        initDrawables();
+
         if (!mShowQSDateBg || hideStatusIcons)
             return;
-
-        if (layerDrawable1 == null || layerDrawable2 == null || layerDrawable3 == null || layerDrawable4 == null) {
-            initDrawables();
-        }
 
         try {
             ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
@@ -497,12 +491,10 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEM_UI_PACKAGE);
         if (ourResparam == null) return;
 
+        initDrawables();
+
         if (!mShowQSStatusIconsBg || hideStatusIcons)
             return;
-
-        if (layerDrawable1 == null || layerDrawable2 == null || layerDrawable3 == null || layerDrawable4 == null) {
-            initDrawables();
-        }
 
         try {
             ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
