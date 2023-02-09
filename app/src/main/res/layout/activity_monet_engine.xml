@@ -288,15 +288,31 @@
                 android:paddingEnd="@dimen/container_paddingSide"
                 android:paddingBottom="@dimen/container_padding">
 
-                <TextView
-                    android:id="@+id/monet_accent_saturation_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:longClickable="true"
-                    android:text="@string/monet_accent_saturation_title"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/monet_accent_saturation_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:longClickable="true"
+                        android:text="@string/monet_accent_saturation_title"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <ImageView
+                        android:id="@+id/reset_accent_saturation"
+                        android:layout_width="@dimen/reset_button_size"
+                        android:layout_height="@dimen/reset_button_size"
+                        android:layout_gravity="start|top"
+                        android:layout_marginStart="10dp"
+                        android:clickable="true"
+                        app:srcCompat="@drawable/ic_reset" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/monet_accent_saturation_output"
@@ -338,14 +354,28 @@
                 android:paddingEnd="@dimen/container_paddingSide"
                 android:paddingBottom="@dimen/container_padding">
 
-                <TextView
-                    android:id="@+id/monet_background_saturation_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/monet_background_saturation_title"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/monet_background_saturation_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/monet_background_saturation_title"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/reset_background_saturation"
+                        android:layout_width="@dimen/reset_button_size"
+                        android:layout_height="@dimen/reset_button_size"
+                        android:layout_gravity="start|top"
+                        android:layout_marginStart="10dp"
+                        android:clickable="true"
+                        app:srcCompat="@drawable/ic_reset" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/monet_background_saturation_output"
@@ -388,14 +418,29 @@
                 android:paddingEnd="@dimen/container_paddingSide"
                 android:paddingBottom="@dimen/container_padding">
 
-                <TextView
-                    android:id="@+id/monet_background_lightness_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/monet_background_lightness_title"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/monet_background_lightness_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/monet_background_lightness_title"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/reset_background_lightness"
+                        android:layout_width="@dimen/reset_button_size"
+                        android:layout_height="@dimen/reset_button_size"
+                        android:layout_gravity="start|top"
+                        android:layout_marginStart="10dp"
+                        android:clickable="true"
+                        app:srcCompat="@drawable/ic_reset" />
+            </LinearLayout>
 
                 <TextView
                     android:id="@+id/monet_background_lightness_output"

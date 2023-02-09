@@ -21,6 +21,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -163,13 +164,22 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         monet_accent_saturation_seekbar.setProgress(Prefs.getInt(MONET_ACCENT_SATURATION, 100));
 
         // Long Click Reset
-        TextView monet_accent_saturation_title = findViewById(R.id.monet_accent_saturation_title);
-        monet_accent_saturation_title.setOnLongClickListener(v -> {
+        ImageView reset_accent_saturation = findViewById(R.id.reset_accent_saturation);
+
+
+        if (Prefs.getInt(MONET_ACCENT_SATURATION) == 100) {
+            reset_accent_saturation.setVisibility(View.INVISIBLE);
+        } else {
+            reset_accent_saturation.setVisibility(View.VISIBLE);
+        }
+
+        reset_accent_saturation.setOnClickListener(v -> {
             monetAccentSaturation[0] = 100;
             monet_accent_saturation_seekbar.setProgress(100);
             assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
             Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_value_reset), Toast.LENGTH_SHORT).show();
-            return false;
+            reset_accent_saturation.setVisibility(View.INVISIBLE);
+            enable_custom_monet.setVisibility(View.VISIBLE);
         });
 
         monet_accent_saturation_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -187,6 +197,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
             public void onStopTrackingTouch(SeekBar seekBar) {
                 assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
                 enable_custom_monet.setVisibility(View.VISIBLE);
+                reset_accent_saturation.setVisibility(View.VISIBLE);
             }
         });
 
@@ -197,14 +208,22 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         monet_background_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt(MONET_BACKGROUND_SATURATION, 100) - 100) + "%");
         monet_background_saturation_seekbar.setProgress(Prefs.getInt(MONET_BACKGROUND_SATURATION, 100));
 
-        // Long Click Reset
-        TextView monet_background_saturation_title = findViewById(R.id.monet_background_saturation_title);
-        monet_background_saturation_title.setOnLongClickListener(v -> {
+        // Reset button
+        ImageView reset_background_saturation = findViewById(R.id.reset_background_saturation);
+
+        if (Prefs.getInt(MONET_BACKGROUND_SATURATION) == 100) {
+            reset_background_saturation.setVisibility(View.INVISIBLE);
+        } else {
+            reset_background_saturation.setVisibility(View.VISIBLE);
+        }
+
+        reset_background_saturation.setOnClickListener(v -> {
             monetBackgroundSaturation[0] = 100;
             monet_background_saturation_seekbar.setProgress(100);
             assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
             Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_value_reset), Toast.LENGTH_SHORT).show();
-            return false;
+            reset_background_saturation.setVisibility(View.INVISIBLE);
+            enable_custom_monet.setVisibility(View.VISIBLE);
         });
 
         monet_background_saturation_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -222,6 +241,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
             public void onStopTrackingTouch(SeekBar seekBar) {
                 assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
                 enable_custom_monet.setVisibility(View.VISIBLE);
+                reset_background_saturation.setVisibility(View.VISIBLE);
             }
         });
 
@@ -233,13 +253,21 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         monet_background_lightness_seekbar.setProgress(Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100));
 
         // Long Click Reset
-        TextView monet_background_lightness_title = findViewById(R.id.monet_background_lightness_title);
-        monet_background_lightness_title.setOnLongClickListener(v -> {
+        ImageView reset_background_lightness = findViewById(R.id.reset_background_lightness);
+
+        if (Prefs.getInt(MONET_BACKGROUND_LIGHTNESS) == 100) {
+            reset_background_lightness.setVisibility(View.INVISIBLE);
+        } else {
+            reset_background_lightness.setVisibility(View.VISIBLE);
+        }
+
+        reset_background_lightness.setOnClickListener(v -> {
             monetBackgroundLightness[0] = 100;
             monet_background_lightness_seekbar.setProgress(100);
             assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
             Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_value_reset), Toast.LENGTH_SHORT).show();
-            return false;
+            reset_background_lightness.setVisibility(View.INVISIBLE);
+            enable_custom_monet.setVisibility(View.VISIBLE);
         });
 
         monet_background_lightness_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -257,6 +285,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
             public void onStopTrackingTouch(SeekBar seekBar) {
                 assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
                 enable_custom_monet.setVisibility(View.VISIBLE);
+                reset_background_lightness.setVisibility(View.VISIBLE);
             }
         });
 
