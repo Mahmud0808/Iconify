@@ -4,7 +4,7 @@ import static com.drdisagree.iconify.common.References.HEADER_IMAGE_HEIGHT;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_SWITCH;
 import static com.drdisagree.iconify.common.References.PANEL_TOPMARGIN_SWITCH;
 import static com.drdisagree.iconify.common.References.QS_TOPMARGIN;
-import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
+import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
 
@@ -46,25 +46,25 @@ public class QSPanel extends ModPack implements IXposedHookLoadPackage {
 
     @Override
     public boolean listensTo(String packageName) {
-        return packageName.equals(SYSTEM_UI_PACKAGE);
+        return packageName.equals(SYSTEMUI_PACKAGE);
     }
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (!lpparam.packageName.equals(SYSTEM_UI_PACKAGE))
+        if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE))
             return;
 
         rootPackagePath = lpparam.appInfo.sourceDir;
     }
 
     private void setPanelTopMargin() {
-        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEM_UI_PACKAGE);
+        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
         if (ourResparam == null) return;
 
         if (!enabledTopMargin)
             return;
 
-        ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "dimen", "qs_panel_padding_top", new XResources.DimensionReplacement(showHeaderImage ? (headerImageHeight + qsTopMargin) : qsTopMargin, TypedValue.COMPLEX_UNIT_DIP));
-        ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "dimen", "qqs_layout_margin_top", new XResources.DimensionReplacement(showHeaderImage ? (headerImageHeight + qsTopMargin) : qsTopMargin, TypedValue.COMPLEX_UNIT_DIP));
+        ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "dimen", "qs_panel_padding_top", new XResources.DimensionReplacement(showHeaderImage ? (headerImageHeight + qsTopMargin) : qsTopMargin, TypedValue.COMPLEX_UNIT_DIP));
+        ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "dimen", "qqs_layout_margin_top", new XResources.DimensionReplacement(showHeaderImage ? (headerImageHeight + qsTopMargin) : qsTopMargin, TypedValue.COMPLEX_UNIT_DIP));
     }
 }

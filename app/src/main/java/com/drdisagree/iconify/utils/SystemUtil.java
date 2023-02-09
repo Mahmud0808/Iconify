@@ -3,14 +3,19 @@ package com.drdisagree.iconify.utils;
 import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
 import static com.drdisagree.iconify.common.References.BOOT_ID;
 import static com.drdisagree.iconify.common.References.DEVICE_BOOT_ID_CMD;
-import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
+import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.References.VER_CODE;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.net.Uri;
+import android.util.TypedValue;
+
+import androidx.annotation.AttrRes;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
@@ -39,7 +44,7 @@ public class SystemUtil {
     }
 
     public static void restartSystemUI() {
-        Shell.cmd("killall " + SYSTEM_UI_PACKAGE).exec();
+        Shell.cmd("killall " + SYSTEMUI_PACKAGE).exec();
     }
 
     public static void restartDevice() {
@@ -121,5 +126,13 @@ public class SystemUtil {
 
     private boolean getIsDark() {
         return (mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
+    }
+
+    public static int getColorResCompat(Context context, @AttrRes int id) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(id, typedValue, false);
+        @SuppressLint("Recycle") TypedArray arr = context.obtainStyledAttributes(typedValue.data, new int[]{id});
+        return arr.getColor(0, -1);
     }
 }

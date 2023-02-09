@@ -18,7 +18,7 @@ package com.drdisagree.iconify.xposed.mods;
  */
 
 import static com.drdisagree.iconify.common.References.HIDE_QSLABEL_SWITCH;
-import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
+import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.References.VERTICAL_QSTILE_SWITCH;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
@@ -46,8 +46,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class VerticalQSTile extends ModPack {
 
     private static final String TAG = "Iconify - VerticalQSTile: ";
-    private static final String CLASS_QSTILEVIEWIMPL = SYSTEM_UI_PACKAGE + ".qs.tileimpl.QSTileViewImpl";
-    private static final String CLASS_FONTSIZEUTILS = SYSTEM_UI_PACKAGE + ".FontSizeUtils";
+    private static final String CLASS_QSTILEVIEWIMPL = SYSTEMUI_PACKAGE + ".qs.tileimpl.QSTileViewImpl";
+    private static final String CLASS_FONTSIZEUTILS = SYSTEMUI_PACKAGE + ".FontSizeUtils";
     private static boolean isVerticalQSTileActive = false;
     private static boolean isHideLabelActive = false;
     private static Float QsTilePrimaryTextSize = null, QsTileSecondaryTextSize = null;
@@ -72,12 +72,12 @@ public class VerticalQSTile extends ModPack {
 
     @Override
     public boolean listensTo(String packageName) {
-        return packageName.equals(SYSTEM_UI_PACKAGE);
+        return packageName.equals(SYSTEMUI_PACKAGE);
     }
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (!lpparam.packageName.equals(SYSTEM_UI_PACKAGE))
+        if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE))
             return;
 
         rootPackagePath = lpparam.appInfo.sourceDir;

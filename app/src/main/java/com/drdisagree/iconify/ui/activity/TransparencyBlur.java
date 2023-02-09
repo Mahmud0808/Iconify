@@ -4,7 +4,7 @@ import static com.drdisagree.iconify.common.References.FABRICATED_QSPANEL_BLUR_R
 import static com.drdisagree.iconify.common.References.QSALPHA_LEVEL;
 import static com.drdisagree.iconify.common.References.QSPANEL_BLUR_SWITCH;
 import static com.drdisagree.iconify.common.References.QSTRANSPARENCY_SWITCH;
-import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
+import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -109,7 +109,7 @@ public class TransparencyBlur extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 Prefs.putInt(FABRICATED_QSPANEL_BLUR_RADIUS, blur_radius[0]);
-                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEM_UI_PACKAGE, FABRICATED_QSPANEL_BLUR_RADIUS, "dimen", "max_window_blur_radius", blur_radius[0] + "px");
+                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_QSPANEL_BLUR_RADIUS, "dimen", "max_window_blur_radius", blur_radius[0] + "px");
                 // Restart SystemUI
                 new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
             }

@@ -8,15 +8,13 @@ import static com.drdisagree.iconify.common.References.LSCLOCK_STYLE;
 import static com.drdisagree.iconify.common.References.LSCLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.LSCLOCK_TEXT_WHITE;
 import static com.drdisagree.iconify.common.References.LSCLOCK_TOPMARGIN;
-import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
+import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static de.robv.android.xposed.XposedBridge.log;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Environment;
@@ -29,8 +27,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextClock;
-
-import androidx.annotation.AttrRes;
 
 import com.drdisagree.iconify.xposed.ModPack;
 
@@ -60,14 +56,6 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
         if (!listensTo(context.getPackageName())) return;
     }
 
-    private static int getColorResCompat(Context context, @AttrRes int id) {
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = context.getTheme();
-        theme.resolveAttribute(id, typedValue, false);
-        @SuppressLint("Recycle") TypedArray arr = context.obtainStyledAttributes(typedValue.data, new int[]{id});
-        return arr.getColor(0, -1);
-    }
-
     @Override
     public void updatePrefs(String... Key) {
         if (Xprefs == null) return;
@@ -91,30 +79,30 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
 
     @Override
     public boolean listensTo(String packageName) {
-        return packageName.equals(SYSTEM_UI_PACKAGE);
+        return packageName.equals(SYSTEMUI_PACKAGE);
     }
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (!lpparam.packageName.equals(SYSTEM_UI_PACKAGE))
+        if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE))
             return;
 
         rootPackagePath = lpparam.appInfo.sourceDir;
     }
 
     private void setHeaderClock() {
-        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEM_UI_PACKAGE);
+        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
         if (ourResparam == null) return;
 
         if (!showLockscreenClock)
             return;
 
         try {
-            ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "keyguard_status_view", new XC_LayoutInflated() {
+            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "keyguard_status_view", new XC_LayoutInflated() {
                 @SuppressLint({"DiscouragedApi"})
                 @Override
                 public void handleLayoutInflated(LayoutInflatedParam liparam) {
-                    status_view_container = liparam.view.findViewById(liparam.res.getIdentifier("status_view_container", "id", SYSTEM_UI_PACKAGE));
+                    status_view_container = liparam.view.findViewById(liparam.res.getIdentifier("status_view_container", "id", SYSTEMUI_PACKAGE));
                     if (status_view_container.getChildCount() >= 3) {
                         return;
                     }
@@ -504,22 +492,22 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
     }
 
     private void hideStockClockDate() {
-        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEM_UI_PACKAGE);
+        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
         if (ourResparam == null) return;
 
         if (!showLockscreenClock)
             return;
 
         try {
-            ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "keyguard_status_view", new XC_LayoutInflated() {
+            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "keyguard_status_view", new XC_LayoutInflated() {
                 @SuppressLint({"DiscouragedApi"})
                 @Override
                 public void handleLayoutInflated(LayoutInflatedParam liparam) {
-                    @SuppressLint("DiscouragedApi") RelativeLayout keyguard_clock_container = liparam.view.findViewById(liparam.res.getIdentifier("keyguard_clock_container", "id", SYSTEM_UI_PACKAGE));
+                    @SuppressLint("DiscouragedApi") RelativeLayout keyguard_clock_container = liparam.view.findViewById(liparam.res.getIdentifier("keyguard_clock_container", "id", SYSTEMUI_PACKAGE));
                     keyguard_clock_container.getLayoutParams().height = 0;
                     keyguard_clock_container.getLayoutParams().width = 0;
 
-                    @SuppressLint("DiscouragedApi") FrameLayout status_view_media_container = liparam.view.findViewById(liparam.res.getIdentifier("status_view_media_container", "id", SYSTEM_UI_PACKAGE));
+                    @SuppressLint("DiscouragedApi") FrameLayout status_view_media_container = liparam.view.findViewById(liparam.res.getIdentifier("status_view_media_container", "id", SYSTEMUI_PACKAGE));
                     status_view_media_container.getLayoutParams().height = 0;
                     status_view_media_container.getLayoutParams().width = 0;
                     log("Stock lockscreen clock hidden");

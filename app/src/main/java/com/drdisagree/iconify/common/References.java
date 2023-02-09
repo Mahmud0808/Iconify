@@ -35,7 +35,7 @@ public class References {
     public static final String COMPANION_LAYOUT_DIR = COMPANION_RES_DIR + "/layout";
 
     // System packages
-    public static final String SYSTEM_UI_PACKAGE = "com.android.systemui";
+    public static final String SYSTEMUI_PACKAGE = "com.android.systemui";
     public static final String FRAMEWORK_PACKAGE = "android";
 
     // Preference files

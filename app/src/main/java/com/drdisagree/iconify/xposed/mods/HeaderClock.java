@@ -6,7 +6,7 @@ import static com.drdisagree.iconify.common.References.HEADER_CLOCK_STYLE;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_TEXT_WHITE;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_TOPMARGIN;
-import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
+import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.References.UI_CORNER_RADIUS;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
@@ -14,8 +14,6 @@ import static de.robv.android.xposed.XposedBridge.log;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.text.InputFilter;
@@ -29,8 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
 
-import androidx.annotation.AttrRes;
-
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.xposed.ModPack;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -54,14 +51,6 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         if (!listensTo(context.getPackageName())) return;
     }
 
-    private static int getColorResCompat(Context context, @AttrRes int id) {
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = context.getTheme();
-        theme.resolveAttribute(id, typedValue, false);
-        @SuppressLint("Recycle") TypedArray arr = context.obtainStyledAttributes(typedValue.data, new int[]{id});
-        return arr.getColor(0, -1);
-    }
-
     @Override
     public void updatePrefs(String... Key) {
         if (Xprefs == null) return;
@@ -79,35 +68,35 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
 
     @Override
     public boolean listensTo(String packageName) {
-        return packageName.equals(SYSTEM_UI_PACKAGE);
+        return packageName.equals(SYSTEMUI_PACKAGE);
     }
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (!lpparam.packageName.equals(SYSTEM_UI_PACKAGE))
+        if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE))
             return;
 
         rootPackagePath = lpparam.appInfo.sourceDir;
     }
 
     private void setHeaderClock() {
-        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEM_UI_PACKAGE);
+        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
         if (ourResparam == null) return;
 
         if (!showHeaderClock)
             return;
 
         try {
-            ourResparam.res.setReplacement(SYSTEM_UI_PACKAGE, "bool", "config_use_large_screen_shade_header", false);
+            ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "bool", "config_use_large_screen_shade_header", false);
         } catch (Throwable ignored) {
         }
 
         try {
-            ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "quick_status_bar_expanded_header", new XC_LayoutInflated() {
+            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_status_bar_expanded_header", new XC_LayoutInflated() {
                 @SuppressLint({"DiscouragedApi"})
                 @Override
                 public void handleLayoutInflated(LayoutInflatedParam liparam) {
-                    @SuppressLint("DiscouragedApi") FrameLayout header = liparam.view.findViewById(liparam.res.getIdentifier("header", "id", SYSTEM_UI_PACKAGE));
+                    @SuppressLint("DiscouragedApi") FrameLayout header = liparam.view.findViewById(liparam.res.getIdentifier("header", "id", SYSTEMUI_PACKAGE));
 
                     switch (headerClockStyle) {
                         case 0:
@@ -123,7 +112,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                             clockMinute0.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                             clockMinute0.setFormat12Hour(":mm");
                             clockMinute0.setFormat24Hour(":mm");
-                            clockMinute0.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                            clockMinute0.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                             clockMinute0.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40 * textScaling);
                             clockMinute0.setTypeface(clockMinute0.getTypeface(), Typeface.BOLD);
 
@@ -149,7 +138,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                             clockDay0.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                             clockDay0.setFormat12Hour("EEEE");
                             clockDay0.setFormat24Hour("EEEE");
-                            clockDay0.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                            clockDay0.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                             clockDay0.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14 * textScaling);
                             clockDay0.setTypeface(clockDay0.getTypeface(), Typeface.BOLD);
 
@@ -157,7 +146,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                             clockDate0.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                             clockDate0.setFormat12Hour("dd MMMM");
                             clockDate0.setFormat24Hour("dd MMMM");
-                            clockDate0.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                            clockDate0.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                             clockDate0.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14 * textScaling);
                             clockDate0.setTypeface(clockDate0.getTypeface(), Typeface.BOLD);
 
@@ -197,7 +186,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                             clock1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                             clock1.setFormat12Hour("h:mm");
                             clock1.setFormat24Hour("H:mm");
-                            clock1.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                            clock1.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                             clock1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40 * textScaling);
                             clock1.setTypeface(clock1.getTypeface(), Typeface.BOLD);
 
@@ -229,7 +218,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                             dayDate1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                             dayDate1.setFormat12Hour("EEEE, MMM dd");
                             dayDate1.setFormat24Hour("EEEE, MMM dd");
-                            dayDate1.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                            dayDate1.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                             dayDate1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * textScaling);
                             dayDate1.setTypeface(clockOverlay1.getTypeface(), Typeface.BOLD);
 
@@ -255,7 +244,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                             clock2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                             clock2.setFormat12Hour("hh:mm");
                             clock2.setFormat24Hour("HH:mm");
-                            clock2.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                            clock2.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                             clock2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
                             clock2.setTypeface(clock2.getTypeface(), Typeface.BOLD);
 
@@ -285,7 +274,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                             dayDate2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                             dayDate2.setFormat12Hour("EEE, MMM dd");
                             dayDate2.setFormat24Hour("EEE, MMM dd");
-                            dayDate2.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                            dayDate2.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                             dayDate2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * textScaling);
                             dayDate2.setTypeface(clockOverlay2.getTypeface(), Typeface.BOLD);
 
@@ -347,7 +336,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                             clockDate3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                             clockDate3.setFormat12Hour("dd MMMM");
                             clockDate3.setFormat24Hour("dd MMMM");
-                            clockDate3.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                            clockDate3.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                             clockDate3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16 * textScaling);
                             clockDate3.setTypeface(clockDate3.getTypeface(), Typeface.BOLD);
 
@@ -388,16 +377,16 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         }
 
         try {
-            ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
+            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
                 @SuppressLint({"DiscouragedApi"})
                 @Override
                 public void handleLayoutInflated(LayoutInflatedParam liparam) {
-                    @SuppressLint("DiscouragedApi") LinearLayout clock_container = liparam.view.findViewById(liparam.res.getIdentifier("clock_container", "id", SYSTEM_UI_PACKAGE));
+                    @SuppressLint("DiscouragedApi") LinearLayout clock_container = liparam.view.findViewById(liparam.res.getIdentifier("clock_container", "id", SYSTEMUI_PACKAGE));
 
                     if (clock_container.getChildCount() >= 3)
                         return;
 
-                    @SuppressLint("DiscouragedApi") View separator = liparam.view.findViewById(liparam.res.getIdentifier("separator", "id", SYSTEM_UI_PACKAGE));
+                    @SuppressLint("DiscouragedApi") View separator = liparam.view.findViewById(liparam.res.getIdentifier("separator", "id", SYSTEMUI_PACKAGE));
                     separator.setVisibility(View.GONE);
 
                     switch (headerClockStyle) {
@@ -436,7 +425,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                             date4.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                             date4.setFormat12Hour("EEE, MMM dd");
                             date4.setFormat24Hour("EEE, MMM dd");
-                            date4.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                            date4.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                             date4.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14 * textScaling);
                             date4.setTypeface(date4.getTypeface(), Typeface.BOLD);
                             ViewGroup.MarginLayoutParams dateParams4 = new ViewGroup.MarginLayoutParams(
@@ -481,32 +470,32 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
     }
 
     private void hideStockClockDate() {
-        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEM_UI_PACKAGE);
+        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
         if (ourResparam == null) return;
 
         if (!showHeaderClock)
             return;
 
         try {
-            ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
+            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
                 @SuppressLint({"DiscouragedApi"})
                 @Override
                 public void handleLayoutInflated(LayoutInflatedParam liparam) {
-                    @SuppressLint("DiscouragedApi") TextView clock = liparam.view.findViewById(liparam.res.getIdentifier("clock", "id", SYSTEM_UI_PACKAGE));
+                    @SuppressLint("DiscouragedApi") TextView clock = liparam.view.findViewById(liparam.res.getIdentifier("clock", "id", SYSTEMUI_PACKAGE));
                     clock.getLayoutParams().height = 0;
                     clock.getLayoutParams().width = 0;
 
-                    @SuppressLint("DiscouragedApi") TextView date_clock = liparam.view.findViewById(liparam.res.getIdentifier("date_clock", "id", SYSTEM_UI_PACKAGE));
+                    @SuppressLint("DiscouragedApi") TextView date_clock = liparam.view.findViewById(liparam.res.getIdentifier("date_clock", "id", SYSTEMUI_PACKAGE));
                     date_clock.getLayoutParams().height = 0;
                     date_clock.getLayoutParams().width = 0;
 
-                    @SuppressLint("DiscouragedApi") LinearLayout carrier_group = liparam.view.findViewById(liparam.res.getIdentifier("carrier_group", "id", SYSTEM_UI_PACKAGE));
+                    @SuppressLint("DiscouragedApi") LinearLayout carrier_group = liparam.view.findViewById(liparam.res.getIdentifier("carrier_group", "id", SYSTEMUI_PACKAGE));
                     carrier_group.getLayoutParams().height = 0;
                     carrier_group.getLayoutParams().width = 0;
 
                     // Nusantara clock
                     try {
-                        @SuppressLint("DiscouragedApi") TextView jr_clock = liparam.view.findViewById(liparam.res.getIdentifier("jr_clock", "id", SYSTEM_UI_PACKAGE));
+                        @SuppressLint("DiscouragedApi") TextView jr_clock = liparam.view.findViewById(liparam.res.getIdentifier("jr_clock", "id", SYSTEMUI_PACKAGE));
                         jr_clock.getLayoutParams().height = 0;
                         jr_clock.getLayoutParams().width = 0;
                     } catch (Throwable ignored) {
@@ -514,7 +503,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
 
                     // Nusantara date
                     try {
-                        @SuppressLint("DiscouragedApi") LinearLayout jr_date_container = liparam.view.findViewById(liparam.res.getIdentifier("jr_date_container", "id", SYSTEM_UI_PACKAGE));
+                        @SuppressLint("DiscouragedApi") LinearLayout jr_date_container = liparam.view.findViewById(liparam.res.getIdentifier("jr_date_container", "id", SYSTEMUI_PACKAGE));
                         TextView jr_date = (TextView) jr_date_container.getChildAt(0);
                         jr_date.getLayoutParams().height = 0;
                         jr_date.getLayoutParams().width = 0;
@@ -527,11 +516,11 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         }
 
         try {
-            ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "quick_status_bar_header_date_privacy", new XC_LayoutInflated() {
+            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_status_bar_header_date_privacy", new XC_LayoutInflated() {
                 @SuppressLint({"DiscouragedApi"})
                 @Override
                 public void handleLayoutInflated(LayoutInflatedParam liparam) {
-                    @SuppressLint("DiscouragedApi") TextView date = liparam.view.findViewById(liparam.res.getIdentifier("date", "id", SYSTEM_UI_PACKAGE));
+                    @SuppressLint("DiscouragedApi") TextView date = liparam.view.findViewById(liparam.res.getIdentifier("date", "id", SYSTEMUI_PACKAGE));
                     date.setTextColor(0);
                     date.setTextAppearance(0);
                     date.getLayoutParams().height = 0;

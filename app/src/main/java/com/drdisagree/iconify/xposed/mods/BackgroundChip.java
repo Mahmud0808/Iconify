@@ -9,12 +9,11 @@ import static com.drdisagree.iconify.common.References.QSPANEL_CLOCKBG_SWITCH;
 import static com.drdisagree.iconify.common.References.QSPANEL_DATEBG_SWITCH;
 import static com.drdisagree.iconify.common.References.QSPANEL_STATUSICONSBG_SWITCH;
 import static com.drdisagree.iconify.common.References.STATUSBAR_CLOCKBG_SWITCH;
-import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
+import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.References.UI_CORNER_RADIUS;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
-import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
@@ -47,23 +46,21 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
 
     private static final String TAG = "Iconify - BackgroundChip: ";
-    private static final String CLASS_CLOCK = SYSTEM_UI_PACKAGE + ".statusbar.policy.Clock";
-    private static final String CollapsedStatusBarFragmentClass = SYSTEM_UI_PACKAGE + ".statusbar.phone.fragment.CollapsedStatusBarFragment";
+    private static final String CLASS_CLOCK = SYSTEMUI_PACKAGE + ".statusbar.policy.Clock";
+    private static final String CollapsedStatusBarFragmentClass = SYSTEMUI_PACKAGE + ".statusbar.phone.fragment.CollapsedStatusBarFragment";
     boolean mShowSBClockBg = false;
     boolean mShowQSClockBg = false;
     boolean mShowQSDateBg = false;
     boolean hideStatusIcons = false;
     boolean mShowQSStatusIconsBg = false;
     boolean showHeaderClock = false;
-    int clockWidth = -1;
-    int clockHeight = 1;
     int QSStatusIconsChipStyle = 0;
     int QSClockChipStyle = 0;
     int QSDateChipStyle = 0;
     float corner1, corner2, corner3;
     int px2dp2, px2dp4;
     GradientDrawable mDrawable1, mDrawable2, mDrawable3;
-    LayerDrawable layerDrawable1 = null, layerDrawable2 = null, layerDrawable3 = null, layerDrawable4 = null;
+    LayerDrawable layerDrawable1, layerDrawable2, layerDrawable3, layerDrawable4, layerDrawable5;
     private Object mCollapsedStatusBarFragment = null;
     private ViewGroup mStatusBar = null;
     private View mClockView = null;
@@ -95,19 +92,17 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         hideStatusIcons = Xprefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false);
 
         updateStatusBarClock();
-        setQSClockBg();
-        setQSDateBg();
         setQSStatusIconsBg();
     }
 
     @Override
     public boolean listensTo(String packageName) {
-        return packageName.equals(SYSTEM_UI_PACKAGE);
+        return packageName.equals(SYSTEMUI_PACKAGE);
     }
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (!lpparam.packageName.equals(SYSTEM_UI_PACKAGE))
+        if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE))
             return;
 
         rootPackagePath = lpparam.appInfo.sourceDir;
@@ -173,25 +168,6 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                 mStatusBar.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
                     updateStatusBarClock();
                 });
-            }
-        });
-
-        hookAllMethods(Clock, "updateClock", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) {
-                try {
-                    TextView clock = (TextView) param.thisObject;
-                    clockWidth = clock.getWidth();
-                    clockHeight = clock.getHeight();
-
-                    if (mShowQSClockBg && !hideStatusIcons) {
-                        int paddingStartEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
-                        int paddingTopBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3, mContext.getResources().getDisplayMetrics());
-                        clock.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
-                    }
-                } catch (Throwable t) {
-                    log(TAG + t);
-                }
             }
         });
 
@@ -292,12 +268,25 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         layerDrawable4.setLayerInset(0, 0, 0, 0, 0);
         layerDrawable4.setLayerInset(1, 0, 0, 0, 0);
         layerDrawable4.setLayerInset(2, px2dp2, px2dp2, px2dp2, px2dp2);
+
+        // Style 5
+        mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                new int[]{
+                        mContext.getResources().getColor(android.R.color.transparent),
+                        mContext.getResources().getColor(android.R.color.transparent)
+                });
+        mDrawable1.setCornerRadius(corner1);
+        mDrawable1.setStroke(px2dp2, mContext.getResources().getColor(android.R.color.holo_blue_light));
+        layerDrawable5 = new LayerDrawable(new Drawable[]{
+                mDrawable1
+        });
+        layerDrawable5.setLayerInset(0, 0, 0, 0, 0);
     }
 
     private void updateStatusBarClock() {
         initDrawables();
 
-        if (mShowSBClockBg && clockWidth != -1 && clockHeight != -1) {
+        if (mShowSBClockBg) {
             if (mClockView != null) {
                 mClockView.setPadding(12, 2, 12, 2);
                 mClockView.setBackground(layerDrawable1);
@@ -334,14 +323,14 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
             }
         }
 
-        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEM_UI_PACKAGE);
+        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
         if (ourResparam == null || !mShowSBClockBg) return;
 
-        ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "status_bar", new XC_LayoutInflated() {
+        ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "status_bar", new XC_LayoutInflated() {
             @Override
             public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
                 try {
-                    @SuppressLint("DiscouragedApi") TextView clock = liparam.view.findViewById(liparam.res.getIdentifier("clock", "id", SYSTEM_UI_PACKAGE));
+                    @SuppressLint("DiscouragedApi") TextView clock = liparam.view.findViewById(liparam.res.getIdentifier("clock", "id", SYSTEMUI_PACKAGE));
                     ((LinearLayout.LayoutParams) clock.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.START;
                     clock.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, mContext.getResources().getDisplayMetrics());
                     clock.setGravity(Gravity.CENTER_VERTICAL);
@@ -352,11 +341,11 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
             }
         });
 
-        ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "status_bar", new XC_LayoutInflated() {
+        ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "status_bar", new XC_LayoutInflated() {
             @Override
             public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
                 try {
-                    @SuppressLint("DiscouragedApi") TextView clock_center = liparam.view.findViewById(liparam.res.getIdentifier("clock_center", "id", SYSTEM_UI_PACKAGE));
+                    @SuppressLint("DiscouragedApi") TextView clock_center = liparam.view.findViewById(liparam.res.getIdentifier("clock_center", "id", SYSTEMUI_PACKAGE));
                     ((LinearLayout.LayoutParams) clock_center.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.START;
                     clock_center.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, mContext.getResources().getDisplayMetrics());
                     clock_center.setGravity(Gravity.CENTER_VERTICAL);
@@ -367,128 +356,8 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         });
     }
 
-    private void setQSClockBg() {
-        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEM_UI_PACKAGE);
-        if (ourResparam == null) return;
-
-        initDrawables();
-
-        if (!mShowQSClockBg || hideStatusIcons)
-            return;
-
-        try {
-            ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
-                @Override
-                public void handleLayoutInflated(LayoutInflatedParam liparam) {
-                    @SuppressLint("DiscouragedApi") TextView clock = liparam.view.findViewById(liparam.res.getIdentifier("clock", "id", SYSTEM_UI_PACKAGE));
-                    ((LinearLayout.LayoutParams) clock.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.START;
-                    clock.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics());
-                    ((LinearLayout.LayoutParams) clock.getLayoutParams()).setMarginEnd((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()));
-                    clock.requestLayout();
-
-                    int paddingTopBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
-                    int paddingStartEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
-                    clock.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
-
-                    switch (QSClockChipStyle) {
-                        case 0:
-                            clock.setBackground(layerDrawable1);
-                            break;
-                        case 1:
-                            clock.setBackground(layerDrawable2);
-                            break;
-                        case 2:
-                            clock.setBackground(layerDrawable3);
-                            break;
-                        case 3:
-                            clock.setBackground(layerDrawable4);
-                            break;
-                    }
-                }
-            });
-        } catch (Throwable t) {
-            log(TAG + t);
-        }
-    }
-
-    private void setQSDateBg() {
-        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEM_UI_PACKAGE);
-        if (ourResparam == null) return;
-
-        initDrawables();
-
-        if (!mShowQSDateBg || hideStatusIcons)
-            return;
-
-        try {
-            ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
-                @Override
-                public void handleLayoutInflated(LayoutInflatedParam liparam) {
-                    @SuppressLint("DiscouragedApi") TextView date_clock = liparam.view.findViewById(liparam.res.getIdentifier("date_clock", "id", SYSTEM_UI_PACKAGE));
-                    ((LinearLayout.LayoutParams) date_clock.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.START;
-                    date_clock.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics());
-                    date_clock.requestLayout();
-
-                    int paddingTopBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
-                    int paddingStartEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
-                    date_clock.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
-
-                    switch (QSDateChipStyle) {
-                        case 0:
-                            date_clock.setBackground(layerDrawable1);
-                            break;
-                        case 1:
-                            date_clock.setBackground(layerDrawable2);
-                            break;
-                        case 2:
-                            date_clock.setBackground(layerDrawable3);
-                            break;
-                        case 3:
-                            date_clock.setBackground(layerDrawable4);
-                            break;
-                    }
-                }
-            });
-        } catch (Throwable t) {
-            log(TAG + t);
-        }
-
-        try {
-            ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "quick_status_bar_header_date_privacy", new XC_LayoutInflated() {
-                @Override
-                public void handleLayoutInflated(LayoutInflatedParam liparam) {
-                    @SuppressLint("DiscouragedApi") TextView date = liparam.view.findViewById(liparam.res.getIdentifier("date", "id", SYSTEM_UI_PACKAGE));
-                    ((FrameLayout.LayoutParams) date.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.START;
-                    date.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics());
-                    date.requestLayout();
-
-                    int paddingTopBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
-                    int paddingStartEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
-                    date.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
-
-                    switch (QSDateChipStyle) {
-                        case 0:
-                            date.setBackground(layerDrawable1);
-                            break;
-                        case 1:
-                            date.setBackground(layerDrawable2);
-                            break;
-                        case 2:
-                            date.setBackground(layerDrawable3);
-                            break;
-                        case 3:
-                            date.setBackground(layerDrawable4);
-                            break;
-                    }
-                }
-            });
-        } catch (Throwable t) {
-            log(TAG + t);
-        }
-    }
-
     private void setQSStatusIconsBg() {
-        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEM_UI_PACKAGE);
+        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
         if (ourResparam == null) return;
 
         initDrawables();
@@ -497,10 +366,10 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
             return;
 
         try {
-            ourResparam.res.hookLayout(SYSTEM_UI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
+            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
                 @Override
                 public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
-                    @SuppressLint("DiscouragedApi") FrameLayout rightLayout = liparam.view.findViewById(liparam.res.getIdentifier("rightLayout", "id", SYSTEM_UI_PACKAGE));
+                    @SuppressLint("DiscouragedApi") FrameLayout rightLayout = liparam.view.findViewById(liparam.res.getIdentifier("rightLayout", "id", SYSTEMUI_PACKAGE));
                     LinearLayout statusIcons = (LinearLayout) rightLayout.getChildAt(0);
                     ((FrameLayout.LayoutParams) statusIcons.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.END;
                     statusIcons.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics());
@@ -522,6 +391,9 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                             break;
                         case 3:
                             statusIcons.setBackground(layerDrawable4);
+                            break;
+                        case 4:
+                            statusIcons.setBackground(layerDrawable5);
                             break;
                     }
                 }

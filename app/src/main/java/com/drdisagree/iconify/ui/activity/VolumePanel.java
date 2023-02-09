@@ -1,6 +1,6 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
+import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -165,7 +165,7 @@ public class VolumePanel extends AppCompatActivity {
         String finalSelectedStyle = selectedStyle;
         Runnable runnable = () -> {
             try {
-                hasErroredOut.set(VolumeCompilerUtil.buildModule(finalSelectedStyle, SYSTEM_UI_PACKAGE));
+                hasErroredOut.set(VolumeCompilerUtil.buildModule(finalSelectedStyle, SYSTEMUI_PACKAGE));
             } catch (IOException e) {
                 hasErroredOut.set(true);
                 e.printStackTrace();

@@ -2,7 +2,7 @@ package com.drdisagree.iconify.xposed.mods;
 
 import static com.drdisagree.iconify.common.References.QSALPHA_LEVEL;
 import static com.drdisagree.iconify.common.References.QSTRANSPARENCY_SWITCH;
-import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
+import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
@@ -25,7 +25,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class QSTransparency extends ModPack {
 
     private static final String TAG = "Iconify - QSTransparency: ";
-    private static final String CLASS_SCRIMCONTROLLER = SYSTEM_UI_PACKAGE + ".statusbar.phone.ScrimController";
+    private static final String CLASS_SCRIMCONTROLLER = SYSTEMUI_PACKAGE + ".statusbar.phone.ScrimController";
     boolean QsTransparencyActive = false;
     private Float behindFraction = null;
     private String SYSTEM_UI_PACKAGEPath = "";
@@ -64,13 +64,13 @@ public class QSTransparency extends ModPack {
 
     @Override
     public boolean listensTo(String packageName) {
-        return packageName.equals(SYSTEM_UI_PACKAGE);
+        return packageName.equals(SYSTEMUI_PACKAGE);
     }
 
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpParam) {
         log("Loaded App: " + lpParam.packageName);
 
-        if (!lpParam.packageName.equals(SYSTEM_UI_PACKAGE))
+        if (!lpParam.packageName.equals(SYSTEMUI_PACKAGE))
             return;
 
         SYSTEM_UI_PACKAGEPath = lpParam.appInfo.sourceDir;
