@@ -492,6 +492,8 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     @SuppressLint("DiscouragedApi") LinearLayout carrier_group = liparam.view.findViewById(liparam.res.getIdentifier("carrier_group", "id", SYSTEMUI_PACKAGE));
                     carrier_group.getLayoutParams().height = 0;
                     carrier_group.getLayoutParams().width = 0;
+                    carrier_group.setMinimumWidth(0);
+                    carrier_group.setVisibility(View.INVISIBLE);
 
                     // Ricedroid date
                     try {

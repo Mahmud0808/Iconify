@@ -9,6 +9,7 @@ import static de.robv.android.xposed.XposedBridge.log;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -69,6 +70,8 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                     @SuppressLint("DiscouragedApi") LinearLayout carrier_group = liparam.view.findViewById(liparam.res.getIdentifier("carrier_group", "id", SYSTEMUI_PACKAGE));
                     carrier_group.getLayoutParams().height = 0;
                     carrier_group.getLayoutParams().width = 0;
+                    carrier_group.setMinimumWidth(0);
+                    carrier_group.setVisibility(View.INVISIBLE);
                 }
             });
         } catch (Throwable t) {
@@ -99,6 +102,8 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                     @SuppressLint("DiscouragedApi") LinearLayout carrier_group = liparam.view.findViewById(liparam.res.getIdentifier("carrier_group", "id", SYSTEMUI_PACKAGE));
                     carrier_group.getLayoutParams().height = 0;
                     carrier_group.getLayoutParams().width = 0;
+                    carrier_group.setMinimumWidth(0);
+                    carrier_group.setVisibility(View.INVISIBLE);
 
                     @SuppressLint("DiscouragedApi") LinearLayout statusIcons = liparam.view.findViewById(liparam.res.getIdentifier("statusIcons", "id", SYSTEMUI_PACKAGE));
                     statusIcons.getLayoutParams().height = 0;
