@@ -193,7 +193,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
             public void onStopTrackingTouch(SeekBar seekBar) {
                 assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
                 enable_custom_monet.setVisibility(View.VISIBLE);
-                reset_accent_saturation.setVisibility(View.VISIBLE);
+                reset_accent_saturation.setVisibility(monetAccentSaturation[0] == 100 ? View.INVISIBLE : View.VISIBLE);
             }
         });
 
@@ -234,7 +234,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
             public void onStopTrackingTouch(SeekBar seekBar) {
                 assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
                 enable_custom_monet.setVisibility(View.VISIBLE);
-                reset_background_saturation.setVisibility(View.VISIBLE);
+                reset_background_saturation.setVisibility(monetBackgroundSaturation[0] == 100 ? View.INVISIBLE : View.VISIBLE);
             }
         });
 
@@ -275,7 +275,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
             public void onStopTrackingTouch(SeekBar seekBar) {
                 assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
                 enable_custom_monet.setVisibility(View.VISIBLE);
-                reset_background_lightness.setVisibility(View.VISIBLE);
+                reset_background_lightness.setVisibility(monetBackgroundLightness[0] == 100 ? View.INVISIBLE : View.VISIBLE);
             }
         });
 
