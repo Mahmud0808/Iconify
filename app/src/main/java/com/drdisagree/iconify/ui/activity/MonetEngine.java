@@ -3,8 +3,6 @@ package com.drdisagree.iconify.ui.activity;
 import static com.drdisagree.iconify.common.References.COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.References.COLOR_ACCENT_SECONDARY;
 import static com.drdisagree.iconify.common.References.CUSTOM_SECONDARY_COLOR_SWITCH;
-import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_PRIMARY;
-import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECONDARY;
 import static com.drdisagree.iconify.common.References.MONET_ACCENT_SATURATION;
 import static com.drdisagree.iconify.common.References.MONET_BACKGROUND_LIGHTNESS;
 import static com.drdisagree.iconify.common.References.MONET_BACKGROUND_SATURATION;
@@ -14,7 +12,6 @@ import static com.drdisagree.iconify.common.References.STR_NULL;
 import static com.drdisagree.iconify.utils.ColorSchemeUtil.GenerateColorPalette;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Environment;
@@ -475,6 +472,47 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         resources.append("    <color name=\"holo_blue_light\">").append(ColorUtil.ColorToHex((int) generatedColorPalette.get(0).get(4), false, true)).append("</color>\n");
         resources.append("    <color name=\"holo_green_light\">").append(ColorUtil.ColorToHex((int) generatedColorPalette.get(2).get(4), false, true)).append("</color>\n");
         resources.append("    <color name=\"holo_blue_dark\">").append(ColorUtil.ColorToHex((int) generatedColorPalette.get(1).get(10), false, true)).append("</color>\n");
+        resources.append("<color name=\"accent_device_default\">@*android:color/holo_blue_light</color>\n" +
+                "    <color name=\"accent_device_default_dark\">@*android:color/holo_blue_light</color>\n" +
+                "    <color name=\"accent_device_default_light\">@*android:color/holo_blue_light</color>\n" +
+                "    <color name=\"accent_material_dark\">@*android:color/holo_blue_light</color>\n" +
+                "    <color name=\"accent_material_light\">@*android:color/holo_blue_light</color>\n" +
+                "    <color name=\"accent_primary_device_default\">@*android:color/holo_blue_light</color>\n" +
+                "    <color name=\"accent_secondary_device_default\">@*android:color/system_accent2_200</color>\n" +
+                "    <color name=\"accent_tertiary_device_default\">@*android:color/system_accent3_200</color>\n" +
+                "    <color name=\"autofill_background_material_dark\">@*android:color/background_dark</color>\n" +
+                "    <color name=\"background_dark\">@*android:color/system_neutral1_900</color>\n" +
+                "    <color name=\"background_light\">@*android:color/system_neutral1_50</color>\n" +
+                "    <color name=\"background_device_default_dark\">@*android:color/background_dark</color>\n" +
+                "    <color name=\"background_device_default_light\">@*android:color/background_light</color>\n" +
+                "    <color name=\"background_floating_device_default_dark\">@*android:color/background_dark</color>\n" +
+                "    <color name=\"background_floating_device_default_light\">@*android:color/background_light</color>\n" +
+                "    <color name=\"background_floating_material_dark\">@*android:color/background_dark</color>\n" +
+                "    <color name=\"background_floating_material_light\">@*android:color/background_light</color>\n" +
+                "    <color name=\"background_leanback_dark\">@*android:color/background_dark</color>\n" +
+                "    <color name=\"background_material_dark\">@*android:color/background_dark</color>\n" +
+                "    <color name=\"background_material_light\">@*android:color/background_light</color>\n" +
+                "    <color name=\"BottomBarBackground\">@*android:color/background_material_light</color>\n" +
+                "    <color name=\"button_material_dark\">@*android:color/background_dark</color>\n" +
+                "    <color name=\"floating_popup_divider_dark\">@*android:color/background_dark</color>\n" +
+                "    <color name=\"GM2_grey_800\">@*android:color/background_dark</color>\n" +
+                "    <color name=\"holo_light_button_normal\">@*android:color/background_material_light</color>\n" +
+                "    <color name=\"holo_primary_dark\">@*android:color/background_material_dark</color>\n" +
+                "    <color name=\"list_divider_color_dark\">@*android:color/background_dark</color>\n" +
+                "    <color name=\"material_blue_grey_800\">@*android:color/background_dark</color>\n" +
+                "    <color name=\"material_blue_grey_900\">@*android:color/background_dark</color>\n" +
+                "    <color name=\"material_blue_grey_950\">@*android:color/background_dark</color>\n" +
+                "    <color name=\"material_grey_800\">@*android:color/background_dark</color>\n" +
+                "    <color name=\"material_grey_850\">@*android:color/background_dark</color>\n" +
+                "    <color name=\"material_grey_900\">@*android:color/background_dark</color>\n" +
+                "    <color name=\"primary_dark_device_default_dark\">@*android:color/background_dark</color>\n" +
+                "    <color name=\"primary_dark_device_default_settings\">@*android:color/background_dark</color>\n" +
+                "    <color name=\"primary_dark_material_dark\">@*android:color/background_dark</color>\n" +
+                "    <color name=\"primary_dark_material_settings\">@*android:color/background_dark</color>\n" +
+                "    <color name=\"primary_device_default_dark\">@*android:color/background_dark</color>\n" +
+                "    <color name=\"primary_device_default_settings\">@*android:color/background_dark</color>\n" +
+                "    <color name=\"primary_material_dark\">@*android:color/background_dark</color>\n" +
+                "    <color name=\"primary_material_settings\">@*android:color/background_dark</color>\n");
         resources.append("</resources>\n");
 
         return MonetCompilerUtil.buildMonetPalette(resources.toString());
