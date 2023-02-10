@@ -3,7 +3,7 @@
     <item android:gravity="fill_horizontal|center">
         <shape>
             <gradient
-                android:angle="0.0"
+                android:angle="270.0"
                 android:endColor="@color/colorAccentVariant"
                 android:startColor="@color/colorAccent" />
             <corners android:radius="24.0dp" />
@@ -17,7 +17,7 @@
         android:top="2.0dp">
         <shape>
             <gradient
-                android:angle="270"
+                android:angle="0.0"
                 android:endColor="@color/neumorph_outline_end"
                 android:startColor="@color/neumorph_outline_start"
                 android:type="linear" />
@@ -32,7 +32,7 @@
         android:top="4.0dp">
         <shape>
             <gradient
-                android:angle="90"
+                android:angle="180.0"
                 android:endColor="@color/neumorph_outline_end"
                 android:startColor="@color/neumorph_outline_start"
                 android:type="linear" />
