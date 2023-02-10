@@ -5,33 +5,30 @@ import com.topjohnwu.superuser.Shell;
 
 public class HelperUtil {
 
-    public static boolean monetBackupExists() {
-        return RootUtil.fileExists(References.BACKUP_DIR + "/IconifyComponentME.apk");
-    }
-
-    public static boolean propBackupExists() {
-        return RootUtil.fileExists(References.BACKUP_DIR + "/system.prop");
-    }
-
     public static void backupFiles() {
-        if (RootUtil.fileExists(References.MODULE_DIR + "/common/system.prop"))
-            Shell.cmd("cp -rf " + References.MODULE_DIR + "/common/system.prop " + References.BACKUP_DIR + "/").exec();
-
-        if (RootUtil.fileExists(References.OVERLAY_DIR + "/IconifyComponentME.apk"))
-            Shell.cmd("cp -rf " + References.OVERLAY_DIR + "/IconifyComponentME.apk " + References.BACKUP_DIR + "/").exec();
+        backupFile(References.MODULE_DIR + "/common/system.prop");
+        backupFile(References.OVERLAY_DIR + "/IconifyComponentME.apk");
     }
 
     public static void restoreFiles() {
-        if (HelperUtil.monetBackupExists()) {
-            Shell.cmd("rm -rf " + References.OVERLAY_DIR + "/IconifyComponentME.apk").exec();
-            Shell.cmd("cp -rf " + References.BACKUP_DIR + "/IconifyComponentME.apk " + References.OVERLAY_DIR + "/").exec();
-            RootUtil.setPermissions(644, References.OVERLAY_DIR + "/IconifyComponentME.apk");
-        }
+        restoreFile("IconifyComponentME.apk", References.OVERLAY_DIR);
+        restoreFile("system.prop", References.MODULE_DIR + "/common");
+    }
 
-        if (HelperUtil.propBackupExists()) {
-            Shell.cmd("rm -rf " + References.MODULE_DIR + "/common/system.prop").exec();
-            Shell.cmd("cp -rf " + References.BACKUP_DIR + "/system.prop " + References.MODULE_DIR + "/common/").exec();
-            RootUtil.setPermissions(644, References.MODULE_DIR + "/common/system.prop");
+    public static boolean backupExists(String fileName) {
+        return RootUtil.fileExists(References.BACKUP_DIR + "/" + fileName);
+    }
+
+    public static void backupFile(String source) {
+        if (RootUtil.fileExists(source))
+            Shell.cmd("cp -rf " + source + " " + References.BACKUP_DIR + "/").exec();
+    }
+
+    public static void restoreFile(String fileName, String dest) {
+        if (HelperUtil.backupExists(fileName)) {
+            Shell.cmd("rm -rf " + dest + "/" + fileName).exec();
+            Shell.cmd("cp -rf " + References.BACKUP_DIR + "/" + fileName + " " + dest + "/").exec();
+            RootUtil.setPermissions(644, dest + "/" + fileName);
         }
     }
 }
