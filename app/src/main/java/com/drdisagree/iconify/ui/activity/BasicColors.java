@@ -187,19 +187,16 @@ public class BasicColors extends AppCompatActivity implements ColorPickerDialogL
 
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL))
             accentPrimary = Prefs.getString(COLOR_ACCENT_PRIMARY);
-        else if (!Prefs.getBoolean("IconifyComponentAMAC.overlay") && !Prefs.getBoolean("IconifyComponentAMGC.overlay"))
-            accentPrimary = String.valueOf(Color.parseColor(ICONIFY_COLOR_ACCENT_PRIMARY.replace("0x", "#")));
         else
-            accentPrimary = String.valueOf(getResources().getColor(android.R.color.system_accent1_200));
+            accentPrimary = String.valueOf(getResources().getColor(android.R.color.holo_blue_light));
 
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL))
             accentSecondary = Prefs.getString(COLOR_ACCENT_SECONDARY);
-        else if (!Prefs.getBoolean("IconifyComponentAMAC.overlay") && !Prefs.getBoolean("IconifyComponentAMGC.overlay"))
-            accentSecondary = String.valueOf(Color.parseColor(ICONIFY_COLOR_ACCENT_SECONDARY.replace("0x", "#")));
-        else if (Prefs.getBoolean("IconifyComponentAMAC.overlay"))
-            accentSecondary = String.valueOf(getResources().getColor(android.R.color.system_accent1_200));
         else
-            accentSecondary = String.valueOf(getResources().getColor(android.R.color.system_accent3_200));
+            accentSecondary = String.valueOf(getResources().getColor(android.R.color.holo_green_light));
+
+        updatePrimaryColor();
+        updateSecondaryColor();
 
         // Primary and Secondary color
         colorPickerDialogPrimary = ColorPickerDialog.newBuilder();
