@@ -9,12 +9,14 @@
     android:orientation="vertical">
 
     <FrameLayout
+        android:id="@+id/volume_ringer_bg"
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:layout_margin="7dp"
         android:background="@drawable/media_player_bg_accent">
 
         <ImageView
+            android:id="@+id/volume_ringer_icon"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_gravity="center"
@@ -43,16 +45,18 @@
             android:layout_gravity="bottom">
 
             <View
+                android:id="@+id/volume_progress_drawable"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:background="@drawable/media_player_bg_accent" />
 
             <ImageView
+                android:id="@+id/volume_progress_icon"
                 android:layout_width="21dp"
                 android:layout_height="21dp"
                 android:layout_gravity="center|top"
-                android:layout_margin="11dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/ic_volume_media"
                 android:backgroundTint="@color/textColorPrimaryNoTintInverse"
                 android:contentDescription="@string/icon" />

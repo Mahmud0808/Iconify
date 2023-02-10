@@ -41,21 +41,27 @@
                     android:layout_height="1dp"
                     android:layout_weight="1.0" />
 
-                <include layout="@layout/view_volume_panel_preview_thin_bg" />
+                <include
+                    android:id="@+id/volume_thin_bg"
+                    layout="@layout/view_volume_panel_preview_thin_bg" />
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1.0" />
 
-                <include layout="@layout/view_volume_panel_preview_thick_bg" />
+                <include
+                    android:id="@+id/volume_thick_bg"
+                    layout="@layout/view_volume_panel_preview_thick_bg" />
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1.0" />
 
-                <include layout="@layout/view_volume_panel_preview_no_bg" />
+                <include
+                    android:id="@+id/volume_no_bg"
+                    layout="@layout/view_volume_panel_preview_no_bg" />
 
                 <View
                     android:layout_width="0dp"

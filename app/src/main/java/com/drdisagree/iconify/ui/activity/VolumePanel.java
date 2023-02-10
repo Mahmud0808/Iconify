@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -134,7 +135,7 @@ public class VolumePanel extends AppCompatActivity {
         OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
     }
 
-    @SuppressLint("NonConstantResourceId")
+    @SuppressLint({"NonConstantResourceId"})
     private void installVolumeModule(int volume) {
         loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
@@ -205,6 +206,7 @@ public class VolumePanel extends AppCompatActivity {
                 rg2.setOnCheckedChangeListener(listener2);
                 realCheckedId = checkedId;
             }
+            updateVolumePreview(checkedId);
         }
     };
 
@@ -218,8 +220,52 @@ public class VolumePanel extends AppCompatActivity {
                 rg1.setOnCheckedChangeListener(listener1);
                 realCheckedId = checkedId;
             }
+            updateVolumePreview(checkedId);
         }
     };
 
+    private void updateVolumePreview(int id) {
+        if (id == R.id.gradient_style)
+            setVolumeDrawable(R.drawable.volume_gradient, R.drawable.volume_gradient, false, false);
+        else if (id == R.id.doublelayer_style)
+            setVolumeDrawable(R.drawable.volume_double_layer, R.drawable.volume_double_layer, false, false);
+        else if (id == R.id.shadedlayer_style)
+            setVolumeDrawable(R.drawable.volume_shaded_layer, R.drawable.volume_shaded_layer, false, false);
+        else if (id == R.id.neumorph_style)
+            setVolumeDrawable(R.drawable.volume_neumorph, R.drawable.volume_neumorph, false, false);
+        else if (id == R.id.outline_style)
+            setVolumeDrawable(R.drawable.volume_outline_ringer, R.drawable.volume_outline, true, false);
+        else if (id == R.id.neumorphoutline_style)
+            setVolumeDrawable(R.drawable.volume_neumorph_outline, R.drawable.volume_neumorph_outline, true, true);
+    }
+
+    private void setVolumeDrawable(int ringerDrawable, int progressDrawable, boolean ringerInverse, boolean progressInverse) {
+        findViewById(R.id.volume_thin_bg).findViewById(R.id.volume_ringer_bg).setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), ringerDrawable));
+        findViewById(R.id.volume_thin_bg).findViewById(R.id.volume_progress_drawable).setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), progressDrawable));
+        findViewById(R.id.volume_thick_bg).findViewById(R.id.volume_ringer_bg).setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), ringerDrawable));
+        findViewById(R.id.volume_thick_bg).findViewById(R.id.volume_progress_drawable).setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), progressDrawable));
+        findViewById(R.id.volume_no_bg).findViewById(R.id.volume_ringer_bg).setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), ringerDrawable));
+        findViewById(R.id.volume_no_bg).findViewById(R.id.volume_progress_drawable).setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), progressDrawable));
+
+        if (ringerInverse) {
+            findViewById(R.id.volume_thin_bg).findViewById(R.id.volume_ringer_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimary));
+            findViewById(R.id.volume_thick_bg).findViewById(R.id.volume_ringer_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimary));
+            findViewById(R.id.volume_no_bg).findViewById(R.id.volume_ringer_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimary));
+        } else {
+            findViewById(R.id.volume_thin_bg).findViewById(R.id.volume_ringer_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimaryInverse));
+            findViewById(R.id.volume_thick_bg).findViewById(R.id.volume_ringer_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimaryInverse));
+            findViewById(R.id.volume_no_bg).findViewById(R.id.volume_ringer_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimaryInverse));
+        }
+
+        if (progressInverse) {
+            findViewById(R.id.volume_thin_bg).findViewById(R.id.volume_progress_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimary));
+            findViewById(R.id.volume_thick_bg).findViewById(R.id.volume_progress_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimary));
+            findViewById(R.id.volume_no_bg).findViewById(R.id.volume_progress_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimary));
+        } else {
+            findViewById(R.id.volume_thin_bg).findViewById(R.id.volume_progress_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimaryInverse));
+            findViewById(R.id.volume_thick_bg).findViewById(R.id.volume_progress_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimaryInverse));
+            findViewById(R.id.volume_no_bg).findViewById(R.id.volume_progress_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimaryInverse));
+        }
+    }
 
 }
