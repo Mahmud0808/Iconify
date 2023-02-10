@@ -28,6 +28,7 @@ import com.drdisagree.iconify.ui.view.LoadingDialog;
 import com.drdisagree.iconify.utils.ModuleUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.RootUtil;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.IOException;
@@ -48,14 +49,18 @@ public class WelcomePage extends AppCompatActivity {
         loadingDialog = new LoadingDialog(this);
 
         // Continue button
-        Button checkRoot = findViewById(R.id.checkRoot);
+        Button install_module = findViewById(R.id.install_module);
+
+        // Reboot button
+        Button reboot_phone = findViewById(R.id.reboot_phone);
+        reboot_phone.setOnClickListener(v -> new Handler().postDelayed(SystemUtil::restartDevice, 200));
 
         // Dialog to show warns
         LinearLayout warn = findViewById(R.id.warn);
         TextView warning = findViewById(R.id.warning);
 
         // Check for root onClick
-        checkRoot.setOnClickListener(v -> {
+        install_module.setOnClickListener(v -> {
             if (RootUtil.isDeviceRooted()) {
                 if (RootUtil.isMagiskInstalled()) {
                     if (!Environment.isExternalStorageManager()) {
@@ -105,6 +110,8 @@ public class WelcomePage extends AppCompatActivity {
                                         } else {
                                             warning.setText(getResources().getString(R.string.reboot_needed));
                                             warn.setVisibility(View.VISIBLE);
+                                            install_module.setVisibility(View.GONE);
+                                            reboot_phone.setVisibility(View.VISIBLE);
                                         }
                                     } else {
                                         Shell.cmd("rm -rf " + References.MODULE_DIR).exec();

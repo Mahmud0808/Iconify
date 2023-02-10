@@ -116,7 +116,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/checkRoot"
+            android:id="@+id/install_module"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -132,6 +132,26 @@
             android:textColor="@color/colorBackground"
             android:textSize="22sp"
             android:textStyle="bold"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/reboot_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/button_dark"
+            android:fontFamily="@font/semibold"
+            android:letterSpacing="0.15"
+            android:paddingStart="32dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="32dp"
+            android:paddingBottom="1dp"
+            android:stateListAnimator="@null"
+            android:text="@string/btn_reboot"
+            android:textColor="@color/colorBackground"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:visibility="gone"
             app:backgroundTint="@null" />
 
     </LinearLayout>
