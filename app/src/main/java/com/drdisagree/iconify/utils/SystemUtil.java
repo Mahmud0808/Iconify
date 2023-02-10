@@ -53,6 +53,7 @@ public class SystemUtil {
 
     public static void disableBlur() {
         Shell.cmd("rm -rf " + References.MODULE_DIR + "/common/system.prop").submit();
+        Shell.cmd("touch " + References.MODULE_DIR + "/common/system.prop").submit();
         Shell.cmd("grep -v \"ro.surface_flinger.supports_background_blur\" " + References.MODULE_DIR + "/service.sh > " + References.MODULE_DIR + "/service.sh.tmp && mv " + References.MODULE_DIR + "/service.sh.tmp " + References.MODULE_DIR + "/service.sh").submit();
     }
 
@@ -62,6 +63,7 @@ public class SystemUtil {
         String blur_cmd1 = "ro.surface_flinger.supports_background_blur=1";
         String blur_cmd2 = "resetprop ro.surface_flinger.supports_background_blur 1 && killall surfaceflinger";
 
+        Shell.cmd("rm -rf " + References.MODULE_DIR + "/common/system.prop").submit();
         Shell.cmd("echo \"" + blur_cmd1 + "\" >> " + References.MODULE_DIR + "/common/system.prop").submit();
         Shell.cmd("sed '/*}/a " + blur_cmd2 + "' " + References.MODULE_DIR + "/service.sh > " + References.MODULE_DIR + "/service.sh.tmp && mv " + References.MODULE_DIR + "/service.sh.tmp " + References.MODULE_DIR + "/service.sh").submit();
     }
@@ -98,9 +100,9 @@ public class SystemUtil {
         }).start();
     }
 
-    public static boolean supportsBlur() {
-        List<String> outs = Shell.cmd("getprop ro.surface_flinger.supports_background_blur").exec().getOut();
-        return Objects.equals(outs.get(0), "1");
+    public static boolean enabledBlur() {
+        List<String> outs = Shell.cmd("if grep -q \"ro.surface_flinger.supports_background_blur=1\" " + References.MODULE_DIR + "/common/system.prop; then echo yes; else echo no; fi").exec().getOut();
+        return Objects.equals(outs.get(0), "yes");
     }
 
     // Save unique id of each boot
