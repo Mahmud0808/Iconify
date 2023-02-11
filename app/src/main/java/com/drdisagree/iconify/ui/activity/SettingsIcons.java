@@ -150,7 +150,7 @@ public class SettingsIcons extends AppCompatActivity {
                         refreshBackground();
 
                         Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
-                    }, 3000);
+                    }, 1000);
                 });
             };
             Thread thread = new Thread(runnable);
@@ -176,7 +176,7 @@ public class SettingsIcons extends AppCompatActivity {
                         refreshBackground();
 
                         Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
-                    }, 3000);
+                    }, 1000);
                 });
             };
             Thread thread = new Thread(runnable);
