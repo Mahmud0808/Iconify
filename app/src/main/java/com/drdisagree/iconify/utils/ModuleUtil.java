@@ -28,7 +28,6 @@ public class ModuleUtil {
     public static boolean handleModule() throws IOException {
         if (moduleExists()) {
             // Backup necessary files
-            Shell.cmd("rm -rf " + References.BACKUP_DIR, "mkdir -p " + References.BACKUP_DIR).exec();
             HelperUtil.backupFiles();
 
             Shell.cmd("rm -rf " + References.MODULE_DIR).exec();

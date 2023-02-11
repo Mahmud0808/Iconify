@@ -115,9 +115,6 @@ public class CompilerUtil {
 
         // Restore backups
         HelperUtil.restoreFiles();
-
-        // Remove backup directory
-        Shell.cmd("rm -rf " + References.BACKUP_DIR).exec();
     }
 
     private static boolean createManifest(String pkgName, String target, String source) {
