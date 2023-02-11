@@ -76,7 +76,7 @@ public class TransparencyBlur extends AppCompatActivity {
 
         // Qs Panel Blur
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_blur = findViewById(R.id.enable_blur);
-        Prefs.putBoolean(QSPANEL_BLUR_SWITCH, SystemUtil.enabledBlur());
+        Prefs.putBoolean(QSPANEL_BLUR_SWITCH, SystemUtil.isBlurEnabled());
         enable_blur.setChecked(Prefs.getBoolean(QSPANEL_BLUR_SWITCH, false));
         enable_blur.setOnCheckedChangeListener((buttonView, isChecked) -> {
             Prefs.putBoolean(QSPANEL_BLUR_SWITCH, isChecked);
