@@ -95,6 +95,12 @@ apkname=MtkSystemUI
 ui_print " " 
 ui_print " Processing..... "
 ui_print " Mtk A11+ Detected..." 
+elif [ -f "/system/system_ext/priv-app/ParanoidSystemUI/ParanoidSystemUI.apk" ]; then
+spath=system/system_ext/priv-app/ParanoidSystemUI
+apkname=ParanoidSystemUI
+ui_print " " 
+ui_print " Processing..... "
+ui_print " Paranoid rom Detected..." 
 elif [ -f "/system/priv-app/AsusSystemUI/AsusSystemUI.apk" ]; then
 spath=system/priv-app/AsusSystemUI
 apkname=AsusSystemUI
