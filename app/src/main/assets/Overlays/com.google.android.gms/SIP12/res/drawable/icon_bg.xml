@@ -3,7 +3,7 @@
     <item>
         <shape
             android:shape="rectangle"
-            android:tintMode="multiply">
+            android:tintMode="screen">
             <size
                 android:width="38.0dip"
                 android:height="38.0dip" />
@@ -22,7 +22,7 @@
         android:top="@dimen/bg_inset">
         <shape
             android:shape="rectangle"
-            android:tintMode="multiply">
+            android:tintMode="screen">
             <size
                 android:width="38.0dip"
                 android:height="38.0dip" />
