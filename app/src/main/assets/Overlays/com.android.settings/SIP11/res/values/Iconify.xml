@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_end_color">@color/holo_green_light</color>
+    <color name="bg_start_color">@color/holo_blue_light</color>
+    <color name="holo_blue_light">@*android:color/holo_blue_light</color>
+    <color name="holo_green_light">@*android:color/holo_green_light</color>
+    <color name="icon_tint">?android:textColorPrimary</color>
+    <color name="outline_color">#00000000</color>
+    <color name="outline_end_color">#00000000</color>
+    <color name="outline_start_color">#00000000</color>
+    <dimen name="bg_inset">0.0dip</dimen>
+    <dimen name="bg_inset2">0.0dip</dimen>
+    <dimen name="bg_roundness">@*android:dimen/harmful_app_name_padding_right</dimen>
+    <dimen name="dashboard_tile_foreground_image_inset">-1.0dip</dimen>
+    <dimen name="dashboard_tile_foreground_image_size">20.0dip</dimen>
+    <dimen name="dashboard_tile_image_size">38.0dip</dimen>
+    <dimen name="outline_roundness">@*android:dimen/harmful_app_name_padding_top</dimen>
+    <item name="icon_scale" format="float" type="dimen">0.5</item>
+</resources>

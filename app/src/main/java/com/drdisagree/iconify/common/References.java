@@ -16,6 +16,7 @@ public class References {
     public static final int TOTAL_QSSHAPES = Shell.cmd("cmd overlay list |  grep -E '^....IconifyComponentQSSN' | sed -E 's/^....//'").exec().getOut().size();
     public static final int TOTAL_QSSHAPESPIXEL = Shell.cmd("cmd overlay list |  grep -E '^....IconifyComponentQSSP' | sed -E 's/^....//'").exec().getOut().size();
     public static final int TOTAL_RADIUS = Shell.cmd("cmd overlay list |  grep -E '^....IconifyComponentCR' | sed -E 's/^....//'").exec().getOut().size();
+    public static final int TOTAL_SETTINGSICONPACKS = Shell.cmd("cmd overlay list |  grep -E '^....IconifyComponentSIP' | sed -E 's/^....//'").exec().getOut().size();
 
     // Storage location
     public static final String MODULE_DIR = "/data/adb/modules/Iconify";

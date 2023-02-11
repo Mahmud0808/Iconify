@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/icon_bg"
+        android:gravity="center" />
+    <item>
+        <vector
+            android:width="24dp"
+            android:height="24dp"
+            android:tint="@color/icon_tint"
+            android:tintMode="multiply"
+            android:viewportWidth="24"
+            android:viewportHeight="24">
+            <group
+                android:pivotX="12.0"
+                android:pivotY="12.0"
+                android:scaleX="@dimen/icon_scale"
+                android:scaleY="@dimen/icon_scale">
+                <path
+                    android:fillAlpha="0.4"
+                    android:fillColor="@color/icon_tint"
+                    android:pathData="M12 6c1 0 1.941 0.247 2.769 0.681c0.79 0.414 1.75 0.301 2.381 -0.33l0 0c0.945 -0.945 0.72 -2.545 -0.459 -3.176C15.293 2.426 13.697 2 12 2C8.163 2 4.834 4.164 3.157 7.337L6.458 9.7C7.361 7.528 9.501 6 12 6z" />
+                <path
+                    android:fillColor="@color/icon_tint"
+                    android:pathData="M6 12c0 -0.815 0.164 -1.591 0.458 -2.3L3.157 7.337C2.421 8.73 2 10.315 2 12c0 1.642 0.403 3.187 1.104 4.554l3.248 -2.542C6.128 13.382 6 12.707 6 12z" />
+                <path
+                    android:fillAlpha="0.4"
+                    android:fillColor="@color/icon_tint"
+                    android:pathData="M12 18c-2.607 0 -4.819 -1.666 -5.647 -3.989l-3.248 2.542C4.762 19.784 8.119 22 12 22c2.579 0 4.922 -0.984 6.695 -2.587l-3.111 -2.614C14.584 17.549 13.347 18 12 18z" />
+                <path
+                    android:fillColor="@color/icon_tint"
+                    android:pathData="M22 12c0 -0.671 -0.069 -1.325 -0.195 -1.958L21.795 10H21h-7c-1.105 0 -2 0.895 -2 2v0c0 1.105 0.895 2 2 2h3.651c-0.399 1.127 -1.129 2.095 -2.067 2.799l3.111 2.614C20.72 17.583 22 14.944 22 12z" />
+            </group>
+        </vector>
+    </item>
+</layer-list>

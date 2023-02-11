@@ -58,6 +58,8 @@
     <string name="activity_desc_statusbar">Modify statusbar interface</string>
     <string name="activity_title_basic_colors">Basic Colors</string>
     <string name="activity_desc_basic_colors">Change primary and secondary color</string>
+    <string name="activity_title_settings_icons">Settings Icons</string>
+    <string name="activity_desc_settings_icons">Change settings icon pack</string>
 
     <string name="apply_monet_accent_title">Monet Accent</string>
     <string name="apply_monet_accent_desc">Link colors to monet accent</string>

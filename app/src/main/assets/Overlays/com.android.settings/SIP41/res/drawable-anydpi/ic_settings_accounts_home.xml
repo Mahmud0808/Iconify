@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/icon_bg"
+        android:gravity="center" />
+    <item>
+        <vector
+            android:width="24.0dp"
+            android:height="24.0dp"
+            android:tint="@color/icon_tint"
+            android:tintMode="multiply"
+            android:viewportWidth="24.0"
+            android:viewportHeight="24.0">
+            <group
+                android:pivotX="12.0"
+                android:pivotY="12.0"
+                android:scaleX="@dimen/icon_scale"
+                android:scaleY="@dimen/icon_scale">
+                <path
+                    android:fillAlpha="0.4"
+                    android:fillColor="@color/icon_tint"
+                    android:fillType="nonZero"
+                    android:pathData="M5.71,15.67L18.29,15.67A3.14 3.14 0 0 1 21.43,18.81L21.43,18.81A3.14 3.14 0 0 1 18.29,21.96L5.71,21.96A3.14 3.14 0 0 1 2.57,18.81L2.57,18.81A3.14 3.14 0 0 1 5.71,15.67z"
+                    android:strokeLineCap="square"
+                    android:strokeLineJoin="miter" />
+                <path
+                    android:fillColor="@color/icon_tint"
+                    android:fillType="nonZero"
+                    android:pathData="M5.71,15.67L18.29,15.67A3.14 3.14 0 0 1 21.43,18.81L21.43,18.81A3.14 3.14 0 0 1 18.29,21.96L5.71,21.96A3.14 3.14 0 0 1 2.57,18.81L2.57,18.81A3.14 3.14 0 0 1 5.71,15.67zM8.86,15.67L12.00,19.86L15.14,15.67z"
+                    android:strokeLineCap="square"
+                    android:strokeLineJoin="miter" />
+                <path
+                    android:fillAlpha="0.4"
+                    android:fillColor="@color/icon_tint"
+                    android:fillType="nonZero"
+                    android:pathData="M12.00,2.04C14.89,2.04,17.24,4.39,17.24,7.28C17.24,10.18,14.89,12.52,12.00,12.52C9.11,12.52,6.76,10.18,6.76,7.28C6.76,4.39,9.11,2.04,12.00,2.04z"
+                    android:strokeLineCap="square"
+                    android:strokeLineJoin="miter" />
+            </group>
+        </vector>
+    </item>
+</layer-list>
