@@ -5,8 +5,8 @@
             <corners android:radius="24.0dp" />
             <gradient
                 android:angle="270.0"
-                android:endColor="@color/colorAccentVariant"
-                android:startColor="@color/colorAccent" />
+                android:endColor="@color/holo_green_light"
+                android:startColor="@color/holo_blue_light" />
         </shape>
     </item>
     <item>
@@ -24,8 +24,8 @@
             <corners android:radius="20.0dp" />
             <gradient
                 android:angle="270.0"
-                android:endColor="@color/colorAccentVariant"
-                android:startColor="@color/colorAccent" />
+                android:endColor="@color/holo_green_light"
+                android:startColor="@color/holo_blue_light" />
         </shape>
     </item>
 </layer-list>

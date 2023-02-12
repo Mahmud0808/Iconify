@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_item_chip"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/icon_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/chip_status_icons_1"
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="6dp">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/preview_plumpy_vibrate"
+            android:backgroundTint="@color/textColorPrimary"
+            android:contentDescription="@string/icon" />
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/preview_plumpy_wifi"
+            android:backgroundTint="@color/textColorPrimary"
+            android:contentDescription="@string/icon" />
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center"
+            android:background="@drawable/preview_plumpy_signal"
+            android:backgroundTint="@color/textColorPrimary"
+            android:contentDescription="@string/icon" />
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center"
+            android:background="@drawable/preview_plumpy_battery"
+            android:backgroundTint="@color/textColorPrimary"
+            android:contentDescription="@string/icon" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/style_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/container"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:textColor="@color/textColorSecondary"
+        android:textSize="@dimen/cont_desc_size"
+        android:textStyle="bold" />
+
+</LinearLayout>

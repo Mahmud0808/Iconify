@@ -110,7 +110,7 @@ public class Notifications extends AppCompatActivity {
         }
     }
 
-    // Function to check for bg drawable changes
+    // Function to check for applied options
     @SuppressLint("SetTextI18n")
     private void refreshBackground() {
         for (int i = 0; i < container.getChildCount(); i++) {

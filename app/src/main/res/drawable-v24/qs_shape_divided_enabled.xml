@@ -2,13 +2,13 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:tintMode="multiply">
-            <solid android:color="@color/colorAccentVariant" />
+            <solid android:color="@color/holo_green_light" />
             <corners android:radius="24dp" />
         </shape>
     </item>
     <item android:gravity="left|center">
         <shape android:tintMode="multiply">
-            <solid android:color="@color/colorAccent" />
+            <solid android:color="@color/holo_blue_light" />
             <corners
                 android:bottomLeftRadius="24dp"
                 android:topLeftRadius="24dp" />

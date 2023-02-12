@@ -31,8 +31,8 @@
             <size android:height="48.0dip" />
             <gradient
                 android:angle="315.0"
-                android:endColor="@color/colorAccentVariant"
-                android:startColor="@color/colorAccent" />
+                android:endColor="@color/holo_green_light"
+                android:startColor="@color/holo_blue_light" />
         </shape>
     </item>
     <item

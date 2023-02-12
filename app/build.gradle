@@ -92,6 +92,9 @@ dependencies {
     // Remote Preference
     implementation 'com.crossbowffs.remotepreferences:remotepreferences:0.8'
 
+    // Flexbox
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+
     implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.work:work-runtime:2.7.1'

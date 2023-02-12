@@ -24,8 +24,8 @@
             <size android:height="4.0dip" />
             <gradient
                 android:angle="0.0"
-                android:endColor="@color/colorAccentVariant"
-                android:startColor="@color/colorAccent" />
+                android:endColor="@color/holo_green_light"
+                android:startColor="@color/holo_blue_light" />
         </shape>
     </item>
     <item
@@ -34,7 +34,7 @@
         <vector
             android:width="24.0dp"
             android:height="16.0dp"
-            android:tint="@color/colorAccentVariant"
+            android:tint="@color/holo_green_light"
             android:viewportWidth="42.0"
             android:viewportHeight="24.0">
             <path
