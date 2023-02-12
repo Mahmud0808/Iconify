@@ -3,7 +3,7 @@
     <item>
         <shape>
             <gradient
-                android:angle="90.0"
+                android:angle="270.0"
                 android:endColor="@color/holo_green_light"
                 android:startColor="@color/holo_blue_light" />
             <corners android:radius="24.0dp" />
@@ -16,7 +16,7 @@
         android:top="2.0dp">
         <shape>
             <gradient
-                android:angle="270.0"
+                android:angle="90.0"
                 android:endColor="@color/holo_green_light"
                 android:startColor="@color/holo_blue_light" />
             <corners android:radius="22.0dp" />
