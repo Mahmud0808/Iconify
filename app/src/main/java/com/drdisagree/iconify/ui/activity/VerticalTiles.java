@@ -45,4 +45,10 @@ public class VerticalTiles extends AppCompatActivity {
             RemotePrefs.putBoolean(HIDE_QSLABEL_SWITCH, isChecked);
         });
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 }

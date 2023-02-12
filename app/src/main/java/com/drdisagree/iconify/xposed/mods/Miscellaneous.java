@@ -1,5 +1,8 @@
 package com.drdisagree.iconify.xposed.mods;
 
+import static com.drdisagree.iconify.common.References.FIXED_STATUS_ICONS_SIDEMARGIN;
+import static com.drdisagree.iconify.common.References.FIXED_STATUS_ICONS_SWITCH;
+import static com.drdisagree.iconify.common.References.FIXED_STATUS_ICONS_TOPMARGIN;
 import static com.drdisagree.iconify.common.References.HIDE_STATUS_ICONS_SWITCH;
 import static com.drdisagree.iconify.common.References.QSPANEL_HIDE_CARRIER;
 import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
@@ -9,7 +12,11 @@ import static de.robv.android.xposed.XposedBridge.log;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,6 +32,11 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
     private static final String TAG = "Iconify - Miscellaneous: ";
     boolean QSCarrierGroupHidden = false;
     boolean hideStatusIcons = false;
+    boolean fixedStatusIcons = false;
+    int sideMarginStatusIcons = 0;
+    int topMarginStatusIcons = 8;
+    LinearLayout statusIcons = null;
+    LinearLayout statusIconContainer = null;
     private String rootPackagePath = "";
 
     public Miscellaneous(Context context) {
@@ -38,9 +50,13 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
 
         QSCarrierGroupHidden = Xprefs.getBoolean(QSPANEL_HIDE_CARRIER, false);
         hideStatusIcons = Xprefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false);
+        fixedStatusIcons = Xprefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false);
+        topMarginStatusIcons = Xprefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0);
+        sideMarginStatusIcons = Xprefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0);
 
         hideQSCarrierGroup();
         hideStatusIcons();
+        fixedStatusIcons();
     }
 
     @Override
@@ -116,6 +132,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                     @SuppressLint("DiscouragedApi") LinearLayout rightLayout = liparam.view.findViewById(liparam.res.getIdentifier("rightLayout", "id", SYSTEMUI_PACKAGE));
                     rightLayout.getLayoutParams().height = 0;
                     rightLayout.getLayoutParams().width = 0;
+                    rightLayout.setVisibility(View.INVISIBLE);
 
                     // Ricedroid date
                     try {
@@ -161,6 +178,87 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
             });
         } catch (Throwable t) {
             log(TAG + t);
+        }
+    }
+
+    private void fixedStatusIcons() {
+        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
+        if (ourResparam == null) return;
+
+        if (!fixedStatusIcons || hideStatusIcons)
+            return;
+
+        try {
+            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
+                @SuppressLint("DiscouragedApi")
+                @Override
+                public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
+                    statusIcons = liparam.view.findViewById(liparam.res.getIdentifier("statusIcons", "id", SYSTEMUI_PACKAGE));
+                    LinearLayout batteryRemainingIcon = liparam.view.findViewById(liparam.res.getIdentifier("batteryRemainingIcon", "id", SYSTEMUI_PACKAGE));
+
+                    if (statusIcons != null) {
+                        statusIconContainer = (LinearLayout) statusIcons.getParent();
+                        statusIcons.getLayoutParams().height = 0;
+                        statusIcons.getLayoutParams().width = 0;
+                        statusIcons.setVisibility(View.GONE);
+                        statusIcons.requestLayout();
+                    }
+
+                    if (batteryRemainingIcon != null) {
+                        ((LinearLayout.LayoutParams) batteryRemainingIcon.getLayoutParams()).weight = 0;
+                        batteryRemainingIcon.getLayoutParams().height = 0;
+                        batteryRemainingIcon.getLayoutParams().width = 0;
+                        batteryRemainingIcon.setVisibility(View.GONE);
+                        batteryRemainingIcon.requestLayout();
+                    }
+                }
+            });
+        } catch (Throwable t) {
+            log(TAG + t);
+        }
+
+        try {
+            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_status_bar_header_date_privacy", new XC_LayoutInflated() {
+                @Override
+                public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
+                    @SuppressLint("DiscouragedApi") FrameLayout privacy_container = liparam.view.findViewById(liparam.res.getIdentifier("privacy_container", "id", SYSTEMUI_PACKAGE));
+
+                    if (statusIconContainer != null && statusIconContainer.getParent() != null && statusIcons != null) {
+                        try {
+                            ((FrameLayout) statusIconContainer.getParent()).removeView(statusIconContainer);
+                        } catch (Throwable ignored) {
+                            ((LinearLayout) statusIconContainer.getParent()).removeView(statusIconContainer);
+                        }
+
+                        LinearLayout statusIcons = (LinearLayout) statusIconContainer.getChildAt(0);
+                        statusIcons.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics());
+                        statusIcons.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                        statusIcons.setVisibility(View.VISIBLE);
+                        statusIcons.requestLayout();
+
+                        LinearLayout batteryRemainingIcon = (LinearLayout) statusIconContainer.getChildAt(1);
+                        ((LinearLayout.LayoutParams) batteryRemainingIcon.getLayoutParams()).weight = 1;
+                        batteryRemainingIcon.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics());
+                        batteryRemainingIcon.getLayoutParams().width = 0;
+                        batteryRemainingIcon.setVisibility(View.VISIBLE);
+                        batteryRemainingIcon.requestLayout();
+
+                        statusIconContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.END));
+                        statusIconContainer.setGravity(Gravity.CENTER);
+                        ((FrameLayout.LayoutParams) statusIconContainer.getLayoutParams()).setMargins(0,
+                                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMarginStatusIcons, mContext.getResources().getDisplayMetrics()),
+                                0,
+                                0);
+                        ((FrameLayout.LayoutParams) statusIconContainer.getLayoutParams()).setMarginEnd((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMarginStatusIcons, mContext.getResources().getDisplayMetrics()));
+                        statusIconContainer.requestLayout();
+
+                        privacy_container.addView(statusIconContainer);
+
+                        log("Successfully moved status icons to header.");
+                    }
+                }
+            });
+        } catch (Throwable ignored) {
         }
     }
 }

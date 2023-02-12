@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.xposed.mods;
 
-import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_ALPHA;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_HEIGHT;
 import static com.drdisagree.iconify.common.References.HEADER_IMAGE_SWITCH;
@@ -101,7 +100,8 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
                             0);
                     loadGif(headerImage);
                     headerImage.setAlpha((int) (headerImageAlpha / 100.0 * 255.0));
-                    header.addView(headerImage, header.getChildCount() - (Xprefs.getBoolean(HEADER_CLOCK_SWITCH, false) ? 2 : 1));
+
+                    header.addView(headerImage, 0);
 
                     log("Header image added successfully.");
                 }

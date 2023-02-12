@@ -1,18 +1,26 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.FIXED_STATUS_ICONS_SIDEMARGIN;
+import static com.drdisagree.iconify.common.References.FIXED_STATUS_ICONS_SWITCH;
+import static com.drdisagree.iconify.common.References.FIXED_STATUS_ICONS_TOPMARGIN;
+import static com.drdisagree.iconify.common.References.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.References.HIDE_STATUS_ICONS_SWITCH;
 import static com.drdisagree.iconify.common.References.QSPANEL_HIDE_CARRIER;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RemotePrefs;
+import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -20,6 +28,7 @@ import java.util.Objects;
 
 public class XposedOthers extends AppCompatActivity {
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +47,6 @@ public class XposedOthers extends AppCompatActivity {
         hide_qs_carrier_group.setChecked(RemotePrefs.getBoolean(QSPANEL_HIDE_CARRIER, false));
         hide_qs_carrier_group.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RemotePrefs.putBoolean(QSPANEL_HIDE_CARRIER, isChecked);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
 
         // Hide status icons
@@ -46,7 +54,80 @@ public class XposedOthers extends AppCompatActivity {
         hide_status_icons.setChecked(RemotePrefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false));
         hide_status_icons.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RemotePrefs.putBoolean(HIDE_STATUS_ICONS_SWITCH, isChecked);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
+
+        // Fixed status icons
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_fixed_status_icons = findViewById(R.id.enable_fixed_status_icons);
+        enable_fixed_status_icons.setChecked(RemotePrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false));
+        enable_fixed_status_icons.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RemotePrefs.putBoolean(FIXED_STATUS_ICONS_SWITCH, isChecked);
+            if (!isChecked)
+                FabricatedOverlayUtil.disableOverlay("quickQsOffsetHeight");
+            else if (RemotePrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0) > 32)
+                FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (48 + RemotePrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0)) + "dp");
+        });
+
+        // Status icons top margin
+        SeekBar status_icons_top_margin_seekbar = findViewById(R.id.status_icons_top_margin_seekbar);
+        status_icons_top_margin_seekbar.setPadding(0, 0, 0, 0);
+        TextView status_icons_top_margin_output = findViewById(R.id.status_icons_top_margin_output);
+        status_icons_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RemotePrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0) + "dp");
+        status_icons_top_margin_seekbar.setProgress(RemotePrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0));
+        final int[] topMarginStatusIcons = {RemotePrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0)};
+        status_icons_top_margin_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                topMarginStatusIcons[0] = progress;
+                status_icons_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                RemotePrefs.putInt(FIXED_STATUS_ICONS_TOPMARGIN, topMarginStatusIcons[0]);
+                if (RemotePrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false) && topMarginStatusIcons[0] > 32) {
+                    FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (48 + topMarginStatusIcons[0]) + "dp");
+                }
+            }
+        });
+
+        // Status icons side margin
+        SeekBar status_icons_side_margin_seekbar = findViewById(R.id.status_icons_side_margin_seekbar);
+        status_icons_side_margin_seekbar.setPadding(0, 0, 0, 0);
+        TextView status_icons_side_margin_output = findViewById(R.id.status_icons_side_margin_output);
+        status_icons_side_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RemotePrefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0) + "dp");
+        status_icons_side_margin_seekbar.setProgress(RemotePrefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0));
+        final int[] sideMarginStatusIcons = {RemotePrefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0)};
+        status_icons_side_margin_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                sideMarginStatusIcons[0] = progress;
+                status_icons_side_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                RemotePrefs.putInt(FIXED_STATUS_ICONS_SIDEMARGIN, sideMarginStatusIcons[0]);
+            }
+        });
+
+        // Restart systemui
+        Button restart_sysui = findViewById(R.id.restart_sysui);
+        restart_sysui.setOnClickListener(v -> new Handler().postDelayed(SystemUtil::restartSystemUI, 200));
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

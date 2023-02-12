@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.xposed.mods;
 
 import static com.drdisagree.iconify.common.References.CHIP_QSSTATUSICONS_STYLE;
+import static com.drdisagree.iconify.common.References.FIXED_STATUS_ICONS_SWITCH;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.HIDE_STATUS_ICONS_SWITCH;
 import static com.drdisagree.iconify.common.References.QSPANEL_STATUSICONSBG_SWITCH;
@@ -53,6 +54,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     int px2dp2, px2dp4;
     GradientDrawable mDrawable1, mDrawable2, mDrawable3;
     LayerDrawable layerDrawable1, layerDrawable2, layerDrawable3, layerDrawable4, layerDrawable5;
+    boolean fixedStatusIcons = false;
     private Object mCollapsedStatusBarFragment = null;
     private ViewGroup mStatusBar = null;
     private View mClockView = null;
@@ -70,12 +72,11 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         if (Xprefs == null) return;
 
         mShowSBClockBg = Xprefs.getBoolean(STATUSBAR_CLOCKBG_SWITCH, false);
-
         mShowQSStatusIconsBg = Xprefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false);
         QSStatusIconsChipStyle = Xprefs.getInt(CHIP_QSSTATUSICONS_STYLE, 0);
-
         showHeaderClock = Xprefs.getBoolean(HEADER_CLOCK_SWITCH, false);
         hideStatusIcons = Xprefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false);
+        fixedStatusIcons = Xprefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false);
 
         updateStatusBarClock();
         setQSStatusIconsBg();
@@ -352,41 +353,66 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         if (!mShowQSStatusIconsBg || hideStatusIcons)
             return;
 
-        try {
+        if (!fixedStatusIcons) {
             ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
                 @Override
                 public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
-                    @SuppressLint("DiscouragedApi") FrameLayout rightLayout = liparam.view.findViewById(liparam.res.getIdentifier("rightLayout", "id", SYSTEMUI_PACKAGE));
-                    LinearLayout statusIcons = (LinearLayout) rightLayout.getChildAt(0);
-                    ((FrameLayout.LayoutParams) statusIcons.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.END;
-                    statusIcons.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics());
-                    statusIcons.requestLayout();
+                    try {
+                        @SuppressLint("DiscouragedApi") FrameLayout rightLayout = liparam.view.findViewById(liparam.res.getIdentifier("rightLayout", "id", SYSTEMUI_PACKAGE));
+                        LinearLayout statusIcons = (LinearLayout) rightLayout.getChildAt(0);
+                        ((FrameLayout.LayoutParams) statusIcons.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.END;
+                        statusIcons.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics());
+                        statusIcons.requestLayout();
 
-                    int paddingTopBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
-                    int paddingStartEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
-                    statusIcons.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
+                        int paddingTopBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
+                        int paddingStartEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
+                        statusIcons.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
 
-                    switch (QSStatusIconsChipStyle) {
-                        case 0:
-                            statusIcons.setBackground(layerDrawable1);
-                            break;
-                        case 1:
-                            statusIcons.setBackground(layerDrawable2);
-                            break;
-                        case 2:
-                            statusIcons.setBackground(layerDrawable3);
-                            break;
-                        case 3:
-                            statusIcons.setBackground(layerDrawable4);
-                            break;
-                        case 4:
-                            statusIcons.setBackground(layerDrawable5);
-                            break;
+                        setBackgroundChip(statusIcons);
+                    } catch (Throwable ignored) {
                     }
                 }
             });
-        } catch (Throwable t) {
-            log(TAG + t);
+        } else {
+            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_status_bar_header_date_privacy", new XC_LayoutInflated() {
+                @Override
+                public void handleLayoutInflated(LayoutInflatedParam liparam) {
+                    try {
+                        @SuppressLint("DiscouragedApi") LinearLayout statusIcons = liparam.view.findViewById(liparam.res.getIdentifier("statusIcons", "id", SYSTEMUI_PACKAGE));
+                        if (statusIcons != null) {
+                            LinearLayout statusIconContainer = (LinearLayout) statusIcons.getParent();
+
+                            int paddingTopBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
+                            int paddingStartEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
+                            statusIconContainer.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
+
+                            setBackgroundChip(statusIconContainer);
+                        }
+                    } catch (Throwable t) {
+                        log(t);
+                    }
+                }
+            });
+        }
+    }
+
+    private void setBackgroundChip(LinearLayout layout) {
+        switch (QSStatusIconsChipStyle) {
+            case 0:
+                layout.setBackground(layerDrawable1);
+                break;
+            case 1:
+                layout.setBackground(layerDrawable2);
+                break;
+            case 2:
+                layout.setBackground(layerDrawable3);
+                break;
+            case 3:
+                layout.setBackground(layerDrawable4);
+                break;
+            case 4:
+                layout.setBackground(layerDrawable5);
+                break;
         }
     }
 }

@@ -54,7 +54,7 @@ public class ModuleUtil {
         boolean secondaryColorEnabled = false;
         StringBuilder fabricated_cmd = new StringBuilder();
         for (Map.Entry<String, ?> item : map.entrySet()) {
-            if (item.getValue() instanceof Boolean && ((Boolean) item.getValue()) && item.getKey().contains("fabricated")) {
+            if (item.getValue() instanceof Boolean && ((Boolean) item.getValue()) && item.getKey().contains("fabricated") && !item.getKey().contains("quickQsOffsetHeight")) {
                 fabricated_cmd.append(FabricatedOverlayUtil.buildCommand(
                         Prefs.getString("FOCMDtarget" + item.getKey().replace("fabricated", "")),
                         Prefs.getString("FOCMDname" + item.getKey().replace("fabricated", "")),

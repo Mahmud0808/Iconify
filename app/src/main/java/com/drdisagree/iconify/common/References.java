@@ -52,7 +52,7 @@ public class References {
     public static final String QSPANEL_STATUSICONSBG_SWITCH = "xposed_qsstatusiconsbg";
     public static final String CHIP_QSSTATUSICONS_STYLE = "xposed_chipqsstatusiconsstyle";
     public static final String VERTICAL_QSTILE_SWITCH = "xposed_verticalqstile";
-    public static final String HIDE_QSLABEL_SWITCH = "xposed_showqslabel";
+    public static final String HIDE_QSLABEL_SWITCH = "xposed_hideqslabel";
     public static final String HEADER_IMAGE_SWITCH = "xposed_headerimage";
     public static final String HEADER_IMAGE_HEIGHT = "xposed_headerimageheight";
     public static final String HEADER_IMAGE_ALPHA = "xposed_headerimagealpha";
@@ -75,6 +75,9 @@ public class References {
     public static final String LSCLOCK_FONT_LINEHEIGHT = "xposed_lockscreenclockfontlineheight";
     public static final String LSCLOCK_FONT_TEXT_SCALING = "xposed_lockscreenclocktextscaling";
     public static final String LSCLOCK_TEXT_WHITE = "xposed_lockscreenclocktextwhite";
+    public static final String FIXED_STATUS_ICONS_SWITCH = "xposed_fixedstatusicons";
+    public static final String FIXED_STATUS_ICONS_SIDEMARGIN = "xposed_fixedstatusiconssidemargin";
+    public static final String FIXED_STATUS_ICONS_TOPMARGIN = "xposed_fixedstatusiconstopmargin";
 
     // Parse new update
     public static final String LATEST_VERSION = "https://raw.githubusercontent.com/Mahmud0808/Iconify/stable/latestVersion.json";

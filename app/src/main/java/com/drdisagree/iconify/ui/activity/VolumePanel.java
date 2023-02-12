@@ -197,33 +197,6 @@ public class VolumePanel extends AppCompatActivity {
         return true;
     }
 
-    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            if (checkedId != -1) {
-                rg2.setOnCheckedChangeListener(null);
-                rg2.clearCheck();
-                rg2.setOnCheckedChangeListener(listener2);
-                realCheckedId = checkedId;
-            }
-            updateVolumePreview(checkedId);
-        }
-    };
-
-
-    private final RadioGroup.OnCheckedChangeListener listener2 = new RadioGroup.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            if (checkedId != -1) {
-                rg1.setOnCheckedChangeListener(null);
-                rg1.clearCheck();
-                rg1.setOnCheckedChangeListener(listener1);
-                realCheckedId = checkedId;
-            }
-            updateVolumePreview(checkedId);
-        }
-    };
-
     private void updateVolumePreview(int id) {
         if (id == R.id.gradient_style)
             setVolumeDrawable(R.drawable.volume_gradient, R.drawable.volume_gradient, false, false);
@@ -267,5 +240,31 @@ public class VolumePanel extends AppCompatActivity {
             findViewById(R.id.volume_no_bg).findViewById(R.id.volume_progress_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimaryInverse));
         }
     }
+
+    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId != -1) {
+                rg2.setOnCheckedChangeListener(null);
+                rg2.clearCheck();
+                rg2.setOnCheckedChangeListener(listener2);
+                realCheckedId = checkedId;
+            }
+            updateVolumePreview(checkedId);
+        }
+    };
+
+    private final RadioGroup.OnCheckedChangeListener listener2 = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId != -1) {
+                rg1.setOnCheckedChangeListener(null);
+                rg1.clearCheck();
+                rg1.setOnCheckedChangeListener(listener1);
+                realCheckedId = checkedId;
+            }
+            updateVolumePreview(checkedId);
+        }
+    };
 
 }

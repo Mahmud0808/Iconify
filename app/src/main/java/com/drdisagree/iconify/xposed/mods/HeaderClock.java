@@ -177,7 +177,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                             clockContainer0.addView(divider0);
                             clockContainer0.addView(dateContainer0);
 
-                            header.addView(clockContainer0, header.getChildCount() - 1);
+                            header.addView(clockContainer0);
 
                             log("Custom header clock1 added successfully.");
                             break;
@@ -235,7 +235,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                             container1.addView(clockContainer1);
                             container1.addView(dayDate1);
 
-                            header.addView(container1, header.getChildCount() - 1);
+                            header.addView(container1);
 
                             log("Custom header clock2 added successfully.");
                             break;
@@ -313,7 +313,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                             container2.addView(clockContainer2);
                             container2.addView(dayDateContainer2);
 
-                            header.addView(container2, header.getChildCount() - 1);
+                            header.addView(container2);
 
                             log("Custom header clock3 added successfully.");
                             break;
@@ -365,31 +365,10 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                             clockContainer3.addView(analogClock3);
                             clockContainer3.addView(dateContainer3);
 
-                            header.addView(clockContainer3, header.getChildCount() - 1);
+                            header.addView(clockContainer3);
 
                             log("Custom header clock4 added successfully.");
                             break;
-                    }
-                }
-            });
-        } catch (Throwable t) {
-            log(TAG + t);
-        }
-
-        try {
-            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
-                @SuppressLint({"DiscouragedApi"})
-                @Override
-                public void handleLayoutInflated(LayoutInflatedParam liparam) {
-                    @SuppressLint("DiscouragedApi") LinearLayout clock_container = liparam.view.findViewById(liparam.res.getIdentifier("clock_container", "id", SYSTEMUI_PACKAGE));
-
-                    if (clock_container.getChildCount() >= 3)
-                        return;
-
-                    @SuppressLint("DiscouragedApi") View separator = liparam.view.findViewById(liparam.res.getIdentifier("separator", "id", SYSTEMUI_PACKAGE));
-                    separator.setVisibility(View.GONE);
-
-                    switch (headerClockStyle) {
                         case 4:
                             final TextClock time4 = new TextClock(mContext);
                             time4.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -451,13 +430,18 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                                             mContext.getResources().getColor(android.R.color.holo_blue_light),
                                             mContext.getResources().getColor(android.R.color.holo_green_light)
                                     });
+                            ((LinearLayout.LayoutParams) container4.getLayoutParams()).setMargins(
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMargin, mContext.getResources().getDisplayMetrics()),
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()),
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMargin, mContext.getResources().getDisplayMetrics()),
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()));
                             mDrawable4.setCornerRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (Xprefs.getInt(UI_CORNER_RADIUS, 16) + 8) * mContext.getResources().getDisplayMetrics().density, mContext.getResources().getDisplayMetrics()));
                             container4.setBackground(mDrawable4);
 
                             container4.addView(timeContainer4);
                             container4.addView(date4);
 
-                            clock_container.addView(container4, clock_container.getChildCount() - 1);
+                            header.addView(container4);
 
                             log("Custom header clock5 added successfully.");
                             break;
