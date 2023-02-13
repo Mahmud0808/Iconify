@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="config_icon_mask">M50,0L100,0 100,100 0,100 0,0z</string>
+</resources>

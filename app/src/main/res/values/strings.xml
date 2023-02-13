@@ -60,6 +60,8 @@
     <string name="activity_desc_basic_colors">Change primary and secondary color</string>
     <string name="activity_title_settings_icons">Settings Icons</string>
     <string name="activity_desc_settings_icons">Change settings icon pack</string>
+    <string name="activity_title_icon_mask">Icon Mask</string>
+    <string name="activity_desc_icon_mask">Change system icon shapes</string>
 
     <string name="apply_monet_accent_title">Monet Accent</string>
     <string name="apply_monet_accent_desc">Link colors to monet accent</string>
@@ -358,4 +360,16 @@
     <string name="lockscreen_font_text_scaling_title">Text Scaling</string>
     <string name="header_clock_font_text_scaling_title">Text Scaling</string>
     <string name="btn_reboot">Reboot</string>
+    <string name="status_icons_chip_style_title">Chip Style</string>
+    <string name="fixed_status_icons_title">Fixed Status Icons</string>
+    <string name="fixed_status_icons_desc">Set status icons in fixed position</string>
+    <string name="fixed_status_icons_top_margin">Top Margin</string>
+    <string name="fixed_status_icons_side_margin">Side Margin</string>
+    <string name="icon_mask_style_none">None</string>
+    <string name="icon_mask_style_pebble">Pebble</string>
+    <string name="icon_mask_style_hexagon">Hexagon</string>
+    <string name="icon_mask_style_samsung">Samsung</string>
+    <string name="icon_mask_style_scroll">Scroll</string>
+    <string name="icon_mask_style_square">Square</string>
+    <string name="icon_mask_style_teardrop">Teardrop</string>
 </resources>

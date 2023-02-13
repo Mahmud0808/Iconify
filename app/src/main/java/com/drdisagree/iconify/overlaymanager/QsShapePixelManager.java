@@ -44,7 +44,6 @@ public class QsShapePixelManager {
     }
 
     public static void disable_pack(int n) {
-
         String path = "/system/product/overlay/IconifyComponentQSSP" + n + ".apk";
 
         if (new File(path).exists()) {
@@ -56,7 +55,6 @@ public class QsShapePixelManager {
     }
 
     protected static void disable_others(int n) {
-
         for (int i = 1; i <= TOTAL_QSSHAPESPIXEL; i++) {
             if (i != n) {
                 String path = "/system/product/overlay/IconifyComponentQSSP" + i + ".apk";

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="config_icon_mask">M4.8 33V67c0 5.8 3 11 8 13.7l29.4 17c4.9 2.7 11 2.7 15.9 0l29.4 -17c4.9 -2.7 8 -8 8 -13.7V33c0 -5.8 -3 -11 -8 -13.7l-29.4 -17c-4.9 -2.7 -11 -2.7 -15.9 0l-29.7 17C7.8 22.2 4.8 27.5 4.8 33z</string>
+</resources>

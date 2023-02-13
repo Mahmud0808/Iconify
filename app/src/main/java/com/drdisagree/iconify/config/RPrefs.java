@@ -10,7 +10,7 @@ import android.content.SharedPreferences;
 
 import com.drdisagree.iconify.Iconify;
 
-public class RemotePrefs {
+public class RPrefs {
 
     @SuppressLint("StaticFieldLeak")
     private static final Context prefContext = Iconify.getAppContext().createDeviceProtectedStorageContext();

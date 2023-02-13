@@ -17,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.RemotePrefs;
+import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.flexbox.FlexboxLayout;
@@ -45,17 +45,17 @@ public class BackgroundChip extends AppCompatActivity {
 
         // Clock Background Chip
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_clock_bg_chip = findViewById(R.id.enable_clock_bg_chip);
-        enable_clock_bg_chip.setChecked(RemotePrefs.getBoolean(STATUSBAR_CLOCKBG_SWITCH, false));
+        enable_clock_bg_chip.setChecked(RPrefs.getBoolean(STATUSBAR_CLOCKBG_SWITCH, false));
         enable_clock_bg_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RemotePrefs.putBoolean(STATUSBAR_CLOCKBG_SWITCH, isChecked);
+            RPrefs.putBoolean(STATUSBAR_CLOCKBG_SWITCH, isChecked);
             new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
 
         // Status icons chip
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_status_icons_chip = findViewById(R.id.enable_status_icons_chip);
-        enable_status_icons_chip.setChecked(RemotePrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false));
+        enable_status_icons_chip.setChecked(RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false));
         enable_status_icons_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RemotePrefs.putBoolean(QSPANEL_STATUSICONSBG_SWITCH, isChecked);
+            RPrefs.putBoolean(QSPANEL_STATUSICONSBG_SWITCH, isChecked);
             new Handler().postDelayed(() -> {
                 OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
                 SystemUtil.restartSystemUI();
@@ -91,7 +91,7 @@ public class BackgroundChip extends AppCompatActivity {
 
             int finalI = i;
             list.setOnClickListener(v -> {
-                RemotePrefs.putInt(CHIP_QSSTATUSICONS_STYLE, finalI);
+                RPrefs.putInt(CHIP_QSSTATUSICONS_STYLE, finalI);
                 refreshBackground();
             });
 
@@ -105,7 +105,7 @@ public class BackgroundChip extends AppCompatActivity {
         for (int i = 0; i < container.getChildCount(); i++) {
             LinearLayout child = container.getChildAt(i).findViewById(R.id.list_item_chip);
             TextView title = child.findViewById(R.id.style_name);
-            if (i == RemotePrefs.getInt(CHIP_QSSTATUSICONS_STYLE, 0)) {
+            if (i == RPrefs.getInt(CHIP_QSSTATUSICONS_STYLE, 0)) {
                 title.setTextColor(getResources().getColor(R.color.colorSuccess));
             } else {
                 title.setTextColor(getResources().getColor(R.color.textColorSecondary));

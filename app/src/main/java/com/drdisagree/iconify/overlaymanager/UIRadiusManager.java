@@ -5,7 +5,7 @@ import static com.drdisagree.iconify.common.References.TOTAL_RADIUS;
 import static com.drdisagree.iconify.common.References.UI_CORNER_RADIUS;
 
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.config.RemotePrefs;
+import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 
@@ -28,12 +28,11 @@ public class UIRadiusManager {
                 OverlayUtil.enableOverlay(overlay);
 
             FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "qsScrimCornerRadius", "dimen", "notification_scrim_corner_radius", (n + 8) + "dp");
-            RemotePrefs.putInt(UI_CORNER_RADIUS, n);
+            RPrefs.putInt(UI_CORNER_RADIUS, n);
         }
     }
 
     public static void disable_pack(int n) {
-
         String path = "/system/product/overlay/IconifyComponentCR" + n + ".apk";
 
         if (new File(path).exists()) {

@@ -143,7 +143,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Fixed Status Icons"
+                        android:text="@string/fixed_status_icons_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -151,7 +151,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Set status icons in fixed position"
+                        android:text="@string/fixed_status_icons_desc"
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_desc_size" />
 
@@ -186,7 +186,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Top Margin"
+                    android:text="@string/fixed_status_icons_top_margin"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/cont_title_size"
                     android:textStyle="bold" />
@@ -234,7 +234,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Side Margin"
+                    android:text="@string/fixed_status_icons_side_margin"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/cont_title_size"
                     android:textStyle="bold" />

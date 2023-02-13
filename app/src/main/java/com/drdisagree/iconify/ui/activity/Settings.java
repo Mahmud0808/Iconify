@@ -25,7 +25,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.config.RemotePrefs;
+import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.view.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
@@ -63,7 +63,7 @@ public class Settings extends AppCompatActivity {
         SystemUtil.getVersionCode();
         Prefs.putBoolean(FIRST_INSTALL, false);
 
-        RemotePrefs.clearAllPrefs();
+        RPrefs.clearAllPrefs();
 
         SystemUtil.restartSystemUI();
     }

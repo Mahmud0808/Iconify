@@ -37,7 +37,6 @@ public class SettingsIconManager {
     }
 
     public static void disable_pack(int n) {
-
         String path = "/system/product/overlay/IconifyComponentSIP" + n + '1' + ".apk";
 
         if (new File(path).exists()) {

@@ -18,7 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.config.RemotePrefs;
+import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -43,9 +43,9 @@ public class TransparencyBlur extends AppCompatActivity {
 
         // Qs Panel Transparency
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_qs_transparency = findViewById(R.id.enable_qs_transparency);
-        enable_qs_transparency.setChecked(RemotePrefs.getBoolean(QSTRANSPARENCY_SWITCH, false));
+        enable_qs_transparency.setChecked(RPrefs.getBoolean(QSTRANSPARENCY_SWITCH, false));
         enable_qs_transparency.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RemotePrefs.putBoolean(QSTRANSPARENCY_SWITCH, isChecked);
+            RPrefs.putBoolean(QSTRANSPARENCY_SWITCH, isChecked);
             // Restart SystemUI
             new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
@@ -53,7 +53,7 @@ public class TransparencyBlur extends AppCompatActivity {
         SeekBar transparency_seekbar = findViewById(R.id.transparency_seekbar);
         transparency_seekbar.setPadding(0, 0, 0, 0);
         TextView transparency_output = findViewById(R.id.transparency_output);
-        final int[] transparency = {RemotePrefs.getInt(QSALPHA_LEVEL, 60)};
+        final int[] transparency = {RPrefs.getInt(QSALPHA_LEVEL, 60)};
         transparency_output.setText(getResources().getString(R.string.opt_selected) + ' ' + transparency[0] + "%");
         transparency_seekbar.setProgress(transparency[0]);
         transparency_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -70,7 +70,7 @@ public class TransparencyBlur extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                RemotePrefs.putInt(QSALPHA_LEVEL, transparency[0]);
+                RPrefs.putInt(QSALPHA_LEVEL, transparency[0]);
             }
         });
 

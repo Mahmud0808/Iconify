@@ -29,7 +29,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.References;
-import com.drdisagree.iconify.config.RemotePrefs;
+import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
@@ -96,18 +96,18 @@ public class HeaderImage extends AppCompatActivity {
         });
 
         Button disable_header_image = findViewById(R.id.disable_header_image);
-        disable_header_image.setVisibility(RemotePrefs.getBoolean(HEADER_IMAGE_SWITCH, false) ? View.VISIBLE : View.GONE);
+        disable_header_image.setVisibility(RPrefs.getBoolean(HEADER_IMAGE_SWITCH, false) ? View.VISIBLE : View.GONE);
 
         enable_header_image = findViewById(R.id.enable_header_image);
         enable_header_image.setOnClickListener(v -> {
-            RemotePrefs.putBoolean(HEADER_IMAGE_SWITCH, true);
+            RPrefs.putBoolean(HEADER_IMAGE_SWITCH, true);
             new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
             enable_header_image.setVisibility(View.GONE);
             disable_header_image.setVisibility(View.VISIBLE);
         });
 
         disable_header_image.setOnClickListener(v -> {
-            RemotePrefs.putBoolean(HEADER_IMAGE_SWITCH, false);
+            RPrefs.putBoolean(HEADER_IMAGE_SWITCH, false);
             new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
             disable_header_image.setVisibility(View.GONE);
         });
@@ -116,9 +116,9 @@ public class HeaderImage extends AppCompatActivity {
         SeekBar header_image_height = findViewById(R.id.header_image_height_seekbar);
         header_image_height.setPadding(0, 0, 0, 0);
         TextView header_image_height_output = findViewById(R.id.header_image_height_output);
-        header_image_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RemotePrefs.getInt(HEADER_IMAGE_HEIGHT, 140) + "dp");
-        header_image_height.setProgress(RemotePrefs.getInt(HEADER_IMAGE_HEIGHT, 140));
-        final int[] imageHeight = {RemotePrefs.getInt(HEADER_IMAGE_HEIGHT, 140)};
+        header_image_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RPrefs.getInt(HEADER_IMAGE_HEIGHT, 140) + "dp");
+        header_image_height.setProgress(RPrefs.getInt(HEADER_IMAGE_HEIGHT, 140));
+        final int[] imageHeight = {RPrefs.getInt(HEADER_IMAGE_HEIGHT, 140)};
         header_image_height.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
@@ -133,7 +133,7 @@ public class HeaderImage extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                RemotePrefs.putInt(HEADER_IMAGE_HEIGHT, imageHeight[0]);
+                RPrefs.putInt(HEADER_IMAGE_HEIGHT, imageHeight[0]);
             }
         });
 
@@ -141,9 +141,9 @@ public class HeaderImage extends AppCompatActivity {
         SeekBar image_alpha_seekbar = findViewById(R.id.image_alpha_seekbar);
         image_alpha_seekbar.setPadding(0, 0, 0, 0);
         TextView image_alpha_output = findViewById(R.id.image_alpha_output);
-        image_alpha_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RemotePrefs.getInt(HEADER_IMAGE_ALPHA, 100) + "%");
-        image_alpha_seekbar.setProgress(RemotePrefs.getInt(HEADER_IMAGE_ALPHA, 100));
-        final int[] imageAlpha = {RemotePrefs.getInt(HEADER_IMAGE_ALPHA, 100)};
+        image_alpha_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RPrefs.getInt(HEADER_IMAGE_ALPHA, 100) + "%");
+        image_alpha_seekbar.setProgress(RPrefs.getInt(HEADER_IMAGE_ALPHA, 100));
+        final int[] imageAlpha = {RPrefs.getInt(HEADER_IMAGE_ALPHA, 100)};
         image_alpha_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
@@ -158,31 +158,31 @@ public class HeaderImage extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                RemotePrefs.putInt(HEADER_IMAGE_ALPHA, imageAlpha[0]);
+                RPrefs.putInt(HEADER_IMAGE_ALPHA, imageAlpha[0]);
             }
         });
 
         // Header image zoom to fit
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_zoom_to_fit = findViewById(R.id.enable_zoom_to_fit);
-        enable_zoom_to_fit.setChecked(RemotePrefs.getBoolean(HEADER_IMAGE_ZOOMTOFIT, false));
+        enable_zoom_to_fit.setChecked(RPrefs.getBoolean(HEADER_IMAGE_ZOOMTOFIT, false));
         enable_zoom_to_fit.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RemotePrefs.putBoolean(HEADER_IMAGE_ZOOMTOFIT, isChecked);
+            RPrefs.putBoolean(HEADER_IMAGE_ZOOMTOFIT, isChecked);
         });
 
         // Enable panel top margin
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_panel_top_margin = findViewById(R.id.enable_panel_top_margin);
-        enable_panel_top_margin.setChecked(RemotePrefs.getBoolean(PANEL_TOPMARGIN_SWITCH, false));
+        enable_panel_top_margin.setChecked(RPrefs.getBoolean(PANEL_TOPMARGIN_SWITCH, false));
         enable_panel_top_margin.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RemotePrefs.putBoolean(PANEL_TOPMARGIN_SWITCH, isChecked);
+            RPrefs.putBoolean(PANEL_TOPMARGIN_SWITCH, isChecked);
         });
 
         // QS panel top margin
         SeekBar qs_top_margin_seekbar = findViewById(R.id.qs_top_margin_seekbar);
         qs_top_margin_seekbar.setPadding(0, 0, 0, 0);
         TextView qs_top_margin_output = findViewById(R.id.qs_top_margin_output);
-        qs_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RemotePrefs.getInt(QS_TOPMARGIN, 16) + "dp");
-        qs_top_margin_seekbar.setProgress(RemotePrefs.getInt(QS_TOPMARGIN, 16));
-        final int[] qsTopMargin = {RemotePrefs.getInt(QS_TOPMARGIN, 16)};
+        qs_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RPrefs.getInt(QS_TOPMARGIN, 16) + "dp");
+        qs_top_margin_seekbar.setProgress(RPrefs.getInt(QS_TOPMARGIN, 16));
+        final int[] qsTopMargin = {RPrefs.getInt(QS_TOPMARGIN, 16)};
         qs_top_margin_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
@@ -197,7 +197,7 @@ public class HeaderImage extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                RemotePrefs.putInt(QS_TOPMARGIN, qsTopMargin[0]);
+                RPrefs.putInt(QS_TOPMARGIN, qsTopMargin[0]);
             }
         });
 

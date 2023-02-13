@@ -34,7 +34,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.References;
-import com.drdisagree.iconify.config.RemotePrefs;
+import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
@@ -95,9 +95,9 @@ public class Lockscreen extends AppCompatActivity {
 
         // Lockscreen clock
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_locksreen_clock = findViewById(R.id.enable_lockscreen_clock);
-        enable_locksreen_clock.setChecked(RemotePrefs.getBoolean(LSCLOCK_SWITCH, false));
+        enable_locksreen_clock.setChecked(RPrefs.getBoolean(LSCLOCK_SWITCH, false));
         enable_locksreen_clock.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RemotePrefs.putBoolean(LSCLOCK_SWITCH, isChecked);
+            RPrefs.putBoolean(LSCLOCK_SWITCH, isChecked);
             new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
 
@@ -114,11 +114,11 @@ public class Lockscreen extends AppCompatActivity {
         lsclock_styles_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
         locksreen_clock_style.setAdapter(lsclock_styles_adapter);
 
-        locksreen_clock_style.setSelection(RemotePrefs.getInt(LSCLOCK_STYLE, 0));
+        locksreen_clock_style.setSelection(RPrefs.getInt(LSCLOCK_STYLE, 0));
         locksreen_clock_style.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                RemotePrefs.putInt(LSCLOCK_STYLE, position);
+                RPrefs.putInt(LSCLOCK_STYLE, position);
             }
 
             @Override
@@ -137,18 +137,18 @@ public class Lockscreen extends AppCompatActivity {
         });
 
         Button disable_lsclock_font = findViewById(R.id.disable_lsclock_font);
-        disable_lsclock_font.setVisibility(RemotePrefs.getBoolean(LSCLOCK_FONT_SWITCH, false) ? View.VISIBLE : View.GONE);
+        disable_lsclock_font.setVisibility(RPrefs.getBoolean(LSCLOCK_FONT_SWITCH, false) ? View.VISIBLE : View.GONE);
 
         enable_lsclock_font = findViewById(R.id.enable_lsclock_font);
         enable_lsclock_font.setOnClickListener(v -> {
-            RemotePrefs.putBoolean(LSCLOCK_FONT_SWITCH, true);
+            RPrefs.putBoolean(LSCLOCK_FONT_SWITCH, true);
             new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
             enable_lsclock_font.setVisibility(View.GONE);
             disable_lsclock_font.setVisibility(View.VISIBLE);
         });
 
         disable_lsclock_font.setOnClickListener(v -> {
-            RemotePrefs.putBoolean(LSCLOCK_FONT_SWITCH, false);
+            RPrefs.putBoolean(LSCLOCK_FONT_SWITCH, false);
             new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
             disable_lsclock_font.setVisibility(View.GONE);
         });
@@ -157,7 +157,7 @@ public class Lockscreen extends AppCompatActivity {
         SeekBar lsclock_lineheight_seekbar = findViewById(R.id.lsclock_lineheight_seekbar);
         lsclock_lineheight_seekbar.setPadding(0, 0, 0, 0);
         TextView lsclock_lineheight_output = findViewById(R.id.lsclock_lineheight_output);
-        final int[] lineHeight = {RemotePrefs.getInt(LSCLOCK_FONT_LINEHEIGHT, 0)};
+        final int[] lineHeight = {RPrefs.getInt(LSCLOCK_FONT_LINEHEIGHT, 0)};
         lsclock_lineheight_output.setText(getResources().getString(R.string.opt_selected) + ' ' + lineHeight[0] + "dp");
         lsclock_lineheight_seekbar.setProgress(lineHeight[0]);
         lsclock_lineheight_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -174,7 +174,7 @@ public class Lockscreen extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                RemotePrefs.putInt(LSCLOCK_FONT_LINEHEIGHT, lineHeight[0]);
+                RPrefs.putInt(LSCLOCK_FONT_LINEHEIGHT, lineHeight[0]);
             }
         });
 
@@ -182,9 +182,9 @@ public class Lockscreen extends AppCompatActivity {
         SeekBar lsclock_textscaling_seekbar = findViewById(R.id.lsclock_textscaling_seekbar);
         lsclock_textscaling_seekbar.setPadding(0, 0, 0, 0);
         TextView lsclock_textscaling_output = findViewById(R.id.lsclock_textscaling_output);
-        final int[] textScaling = {RemotePrefs.getInt(LSCLOCK_FONT_TEXT_SCALING, 10)};
+        final int[] textScaling = {RPrefs.getInt(LSCLOCK_FONT_TEXT_SCALING, 10)};
         lsclock_textscaling_output.setText(getResources().getString(R.string.opt_selected) + ' ' + new DecimalFormat("#.#").format(textScaling[0] / 10.0) + "x");
-        lsclock_textscaling_seekbar.setProgress(RemotePrefs.getInt(LSCLOCK_FONT_TEXT_SCALING, 10));
+        lsclock_textscaling_seekbar.setProgress(RPrefs.getInt(LSCLOCK_FONT_TEXT_SCALING, 10));
         lsclock_textscaling_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
@@ -199,7 +199,7 @@ public class Lockscreen extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                RemotePrefs.putInt(LSCLOCK_FONT_TEXT_SCALING, textScaling[0]);
+                RPrefs.putInt(LSCLOCK_FONT_TEXT_SCALING, textScaling[0]);
             }
         });
 
@@ -207,7 +207,7 @@ public class Lockscreen extends AppCompatActivity {
         SeekBar lsclock_topmargin_seekbar = findViewById(R.id.lsclock_topmargin_seekbar);
         lsclock_topmargin_seekbar.setPadding(0, 0, 0, 0);
         TextView lsclock_topmargin_output = findViewById(R.id.lsclock_topmargin_output);
-        final int[] topMargin = {RemotePrefs.getInt(LSCLOCK_TOPMARGIN, 100)};
+        final int[] topMargin = {RPrefs.getInt(LSCLOCK_TOPMARGIN, 100)};
         lsclock_topmargin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + topMargin[0] + "dp");
         lsclock_topmargin_seekbar.setProgress(topMargin[0]);
         lsclock_topmargin_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -224,7 +224,7 @@ public class Lockscreen extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                RemotePrefs.putInt(LSCLOCK_TOPMARGIN, topMargin[0]);
+                RPrefs.putInt(LSCLOCK_TOPMARGIN, topMargin[0]);
             }
         });
 
@@ -232,7 +232,7 @@ public class Lockscreen extends AppCompatActivity {
         SeekBar lsclock_bottommargin_seekbar = findViewById(R.id.lsclock_bottommargin_seekbar);
         lsclock_bottommargin_seekbar.setPadding(0, 0, 0, 0);
         TextView lsclock_bottommargin_output = findViewById(R.id.lsclock_bottommargin_output);
-        final int[] bottomMargin = {RemotePrefs.getInt(LSCLOCK_BOTTOMMARGIN, 40)};
+        final int[] bottomMargin = {RPrefs.getInt(LSCLOCK_BOTTOMMARGIN, 40)};
         lsclock_bottommargin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + bottomMargin[0] + "dp");
         lsclock_bottommargin_seekbar.setProgress(bottomMargin[0]);
         lsclock_bottommargin_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -249,15 +249,15 @@ public class Lockscreen extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                RemotePrefs.putInt(LSCLOCK_BOTTOMMARGIN, bottomMargin[0]);
+                RPrefs.putInt(LSCLOCK_BOTTOMMARGIN, bottomMargin[0]);
             }
         });
 
         // Force white text
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_force_white_text = findViewById(R.id.enable_force_white_text);
-        enable_force_white_text.setChecked(RemotePrefs.getBoolean(LSCLOCK_TEXT_WHITE, false));
+        enable_force_white_text.setChecked(RPrefs.getBoolean(LSCLOCK_TEXT_WHITE, false));
         enable_force_white_text.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RemotePrefs.putBoolean(LSCLOCK_TEXT_WHITE, isChecked);
+            RPrefs.putBoolean(LSCLOCK_TEXT_WHITE, isChecked);
         });
 
         // Restart systemui

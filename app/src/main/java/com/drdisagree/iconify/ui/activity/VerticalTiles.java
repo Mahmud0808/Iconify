@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.RemotePrefs;
+import com.drdisagree.iconify.config.RPrefs;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.Objects;
@@ -33,16 +33,16 @@ public class VerticalTiles extends AppCompatActivity {
 
         // Vertical QS Tile
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_vertical_tile = findViewById(R.id.enable_vertical_tile);
-        enable_vertical_tile.setChecked(RemotePrefs.getBoolean(VERTICAL_QSTILE_SWITCH, false));
+        enable_vertical_tile.setChecked(RPrefs.getBoolean(VERTICAL_QSTILE_SWITCH, false));
         enable_vertical_tile.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RemotePrefs.putBoolean(VERTICAL_QSTILE_SWITCH, isChecked);
+            RPrefs.putBoolean(VERTICAL_QSTILE_SWITCH, isChecked);
         });
 
         // Hide label for vertical tiles
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_tile_label = findViewById(R.id.hide_tile_label);
-        hide_tile_label.setChecked(RemotePrefs.getBoolean(HIDE_QSLABEL_SWITCH, false));
+        hide_tile_label.setChecked(RPrefs.getBoolean(HIDE_QSLABEL_SWITCH, false));
         hide_tile_label.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RemotePrefs.putBoolean(HIDE_QSLABEL_SWITCH, isChecked);
+            RPrefs.putBoolean(HIDE_QSLABEL_SWITCH, isChecked);
         });
     }
 
