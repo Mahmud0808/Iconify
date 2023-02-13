@@ -86,6 +86,7 @@ public class Info extends AppCompatActivity {
         contributors.add(new Object[]{"HiFIi", getResources().getString(R.string.info_contributor_desc), "https://github.com/HiFIi", R.drawable.ic_user});
         contributors.add(new Object[]{"IzzySoft", getResources().getString(R.string.info_contributor_desc), "https://github.com/IzzySoft", R.drawable.ic_user});
         contributors.add(new Object[]{"Blays", getResources().getString(R.string.info_contributor_desc), "https://github.com/B1ays", R.drawable.ic_user});
+        contributors.add(new Object[]{"Libra420T", getResources().getString(R.string.info_contributor_desc_2), "https://t.me/Libra420T", R.drawable.ic_user});
 
         // Translators section
         translators.add(new Object[]{"Faceless1999", getResources().getString(R.string.fa_translation), "https://github.com/Faceless1999", R.drawable.ic_user});
