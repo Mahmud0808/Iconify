@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.xposed.mods;
 
 import static com.drdisagree.iconify.common.References.CHIP_QSSTATUSICONS_STYLE;
+import static com.drdisagree.iconify.common.References.CHIP_STATUSBAR_CLOCKBG_STYLE;
 import static com.drdisagree.iconify.common.References.FIXED_STATUS_ICONS_SWITCH;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.HIDE_STATUS_ICONS_SWITCH;
@@ -50,10 +51,12 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     boolean mShowQSStatusIconsBg = false;
     boolean showHeaderClock = false;
     int QSStatusIconsChipStyle = 0;
+    int statusBarClockChipStyle = 0;
     float corner1, corner2, corner3;
     int px2dp2, px2dp4;
     GradientDrawable mDrawable1, mDrawable2, mDrawable3;
-    LayerDrawable layerDrawable1, layerDrawable2, layerDrawable3, layerDrawable4, layerDrawable5;
+    LayerDrawable statusIconsDrawable1, statusIconsDrawable2, statusIconsDrawable3, statusIconsDrawable4, statusIconsDrawable5;
+    LayerDrawable statusBarDrawable1, statusBarDrawable2, statusBarDrawable3, statusBarDrawable4, statusBarDrawable5;
     boolean fixedStatusIcons = false;
     private Object mCollapsedStatusBarFragment = null;
     private ViewGroup mStatusBar = null;
@@ -74,6 +77,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         mShowSBClockBg = Xprefs.getBoolean(STATUSBAR_CLOCKBG_SWITCH, false);
         mShowQSStatusIconsBg = Xprefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false);
         QSStatusIconsChipStyle = Xprefs.getInt(CHIP_QSSTATUSICONS_STYLE, 0);
+        statusBarClockChipStyle = Xprefs.getInt(CHIP_STATUSBAR_CLOCKBG_STYLE, 0);
         showHeaderClock = Xprefs.getBoolean(HEADER_CLOCK_SWITCH, false);
         hideStatusIcons = Xprefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false);
         fixedStatusIcons = Xprefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false);
@@ -94,7 +98,8 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
 
         rootPackagePath = lpparam.appInfo.sourceDir;
 
-        initDrawables();
+        initStatusBarDrawables();
+        initStatusIconsDrawables();
 
         final Class<?> CollapsedStatusBarFragment = findClass(CollapsedStatusBarFragmentClass, lpparam.classLoader);
 
@@ -162,54 +167,42 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         updateStatusBarClock();
     }
 
-    private void initDrawables() {
+    private void initStatusBarDrawables() {
         corner1 = (Xprefs.getInt(UI_CORNER_RADIUS, 16) + 8) * mContext.getResources().getDisplayMetrics().density;
         corner2 = (Xprefs.getInt(UI_CORNER_RADIUS, 16) + 6) * mContext.getResources().getDisplayMetrics().density;
         corner3 = (Xprefs.getInt(UI_CORNER_RADIUS, 16) + 4) * mContext.getResources().getDisplayMetrics().density;
         px2dp2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
         px2dp4 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics());
 
-        // Style 1
+        // Status Icons Chip Style 1
         mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
                 new int[]{
                         mContext.getResources().getColor(android.R.color.holo_blue_light),
                         mContext.getResources().getColor(android.R.color.holo_green_light)
                 });
         mDrawable1.setCornerRadius(corner1);
-        layerDrawable1 = new LayerDrawable(new Drawable[]{
+        statusBarDrawable1 = new LayerDrawable(new Drawable[]{
                 mDrawable1
         });
-        layerDrawable1.setLayerInset(0, 0, 0, 0, 0);
+        statusBarDrawable1.setLayerInset(0, 0, 0, 0, 0);
 
-        // Style 2
+        // Status Icons Chip Style 2
         mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
                 new int[]{
                         mContext.getResources().getColor(android.R.color.holo_blue_light),
                         mContext.getResources().getColor(android.R.color.holo_green_light)
                 });
-        mDrawable1.setCornerRadius(corner1);
-        mDrawable2 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{
-                        mContext.getResources().getColor(android.R.color.holo_red_light),
-                        mContext.getResources().getColor(android.R.color.holo_red_dark)
-                });
-        mDrawable2.setCornerRadius(corner2);
-        mDrawable3 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
-                new int[]{
-                        mContext.getResources().getColor(android.R.color.holo_red_light),
-                        mContext.getResources().getColor(android.R.color.holo_red_dark)
-                });
-        mDrawable3.setCornerRadius(corner3);
-        layerDrawable2 = new LayerDrawable(new Drawable[]{
-                mDrawable1,
-                mDrawable2,
-                mDrawable3
+        mDrawable1.setCornerRadii(new float[]{
+                corner1, corner1,
+                8 * mContext.getResources().getDisplayMetrics().density, 8 * mContext.getResources().getDisplayMetrics().density,
+                corner1, corner1,
+                8 * mContext.getResources().getDisplayMetrics().density, 8 * mContext.getResources().getDisplayMetrics().density});
+        statusBarDrawable2 = new LayerDrawable(new Drawable[]{
+                mDrawable1
         });
-        layerDrawable2.setLayerInset(0, 0, 0, 0, 0);
-        layerDrawable2.setLayerInset(1, px2dp2, px2dp2, px2dp2, px2dp2);
-        layerDrawable2.setLayerInset(2, px2dp4, px2dp4, px2dp4, px2dp4);
+        statusBarDrawable2.setLayerInset(0, 0, 0, 0, 0);
 
-        // Style 3
+        // Status Icons Chip Style 3
         mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
                 new int[]{
                         mContext.getResources().getColor(android.R.color.holo_blue_light),
@@ -222,14 +215,14 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                         mContext.getResources().getColor(android.R.color.holo_green_light)
                 });
         mDrawable2.setCornerRadius(corner2);
-        layerDrawable3 = new LayerDrawable(new Drawable[]{
+        statusBarDrawable3 = new LayerDrawable(new Drawable[]{
                 mDrawable1,
                 mDrawable2
         });
-        layerDrawable3.setLayerInset(0, 0, 0, 0, 0);
-        layerDrawable3.setLayerInset(1, px2dp2, px2dp2, px2dp2, px2dp2);
+        statusBarDrawable3.setLayerInset(0, 0, 0, 0, 0);
+        statusBarDrawable3.setLayerInset(1, px2dp2, px2dp2, px2dp2, px2dp2);
 
-        // Style 4
+        // Status Icons Chip Style 4
         mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
                 new int[]{
                         mContext.getResources().getColor(android.R.color.holo_blue_light),
@@ -248,16 +241,16 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                         mContext.getResources().getColor(android.R.color.holo_green_light)
                 });
         mDrawable3.setCornerRadius(corner3);
-        layerDrawable4 = new LayerDrawable(new Drawable[]{
+        statusBarDrawable4 = new LayerDrawable(new Drawable[]{
                 mDrawable1,
                 mDrawable2,
                 mDrawable3
         });
-        layerDrawable4.setLayerInset(0, 0, 0, 0, 0);
-        layerDrawable4.setLayerInset(1, 0, 0, 0, 0);
-        layerDrawable4.setLayerInset(2, px2dp2, px2dp2, px2dp2, px2dp2);
+        statusBarDrawable4.setLayerInset(0, 0, 0, 0, 0);
+        statusBarDrawable4.setLayerInset(1, 0, 0, 0, 0);
+        statusBarDrawable4.setLayerInset(2, px2dp2, px2dp2, px2dp2, px2dp2);
 
-        // Style 5
+        // Status Icons Chip Style 5
         mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
                 new int[]{
                         mContext.getResources().getColor(android.R.color.transparent),
@@ -265,29 +258,138 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                 });
         mDrawable1.setCornerRadius(corner1);
         mDrawable1.setStroke(px2dp2, mContext.getResources().getColor(android.R.color.holo_blue_light));
-        layerDrawable5 = new LayerDrawable(new Drawable[]{
+        statusBarDrawable5 = new LayerDrawable(new Drawable[]{
                 mDrawable1
         });
-        layerDrawable5.setLayerInset(0, 0, 0, 0, 0);
+        statusBarDrawable5.setLayerInset(0, 0, 0, 0, 0);
+    }
+
+    private void initStatusIconsDrawables() {
+        corner1 = (Xprefs.getInt(UI_CORNER_RADIUS, 16) + 8) * mContext.getResources().getDisplayMetrics().density;
+        corner2 = (Xprefs.getInt(UI_CORNER_RADIUS, 16) + 6) * mContext.getResources().getDisplayMetrics().density;
+        corner3 = (Xprefs.getInt(UI_CORNER_RADIUS, 16) + 4) * mContext.getResources().getDisplayMetrics().density;
+        px2dp2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
+        px2dp4 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics());
+
+        // Status Icons Chip Style 1
+        mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                new int[]{
+                        mContext.getResources().getColor(android.R.color.holo_blue_light),
+                        mContext.getResources().getColor(android.R.color.holo_green_light)
+                });
+        mDrawable1.setCornerRadius(corner1);
+        statusIconsDrawable1 = new LayerDrawable(new Drawable[]{
+                mDrawable1
+        });
+        statusIconsDrawable1.setLayerInset(0, 0, 0, 0, 0);
+
+        // Status Icons Chip Style 2
+        mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                new int[]{
+                        mContext.getResources().getColor(android.R.color.holo_blue_light),
+                        mContext.getResources().getColor(android.R.color.holo_green_light)
+                });
+        mDrawable1.setCornerRadius(corner1);
+        mDrawable2 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                new int[]{
+                        mContext.getResources().getColor(android.R.color.holo_red_light),
+                        mContext.getResources().getColor(android.R.color.holo_red_dark)
+                });
+        mDrawable2.setCornerRadius(corner2);
+        mDrawable3 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
+                new int[]{
+                        mContext.getResources().getColor(android.R.color.holo_red_light),
+                        mContext.getResources().getColor(android.R.color.holo_red_dark)
+                });
+        mDrawable3.setCornerRadius(corner3);
+        statusIconsDrawable2 = new LayerDrawable(new Drawable[]{
+                mDrawable1,
+                mDrawable2,
+                mDrawable3
+        });
+        statusIconsDrawable2.setLayerInset(0, 0, 0, 0, 0);
+        statusIconsDrawable2.setLayerInset(1, px2dp2, px2dp2, px2dp2, px2dp2);
+        statusIconsDrawable2.setLayerInset(2, px2dp4, px2dp4, px2dp4, px2dp4);
+
+        // Status Icons Chip Style 3
+        mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                new int[]{
+                        mContext.getResources().getColor(android.R.color.holo_blue_light),
+                        mContext.getResources().getColor(android.R.color.holo_green_light)
+                });
+        mDrawable1.setCornerRadius(corner1);
+        mDrawable2 = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
+                new int[]{
+                        mContext.getResources().getColor(android.R.color.holo_blue_light),
+                        mContext.getResources().getColor(android.R.color.holo_green_light)
+                });
+        mDrawable2.setCornerRadius(corner2);
+        statusIconsDrawable3 = new LayerDrawable(new Drawable[]{
+                mDrawable1,
+                mDrawable2
+        });
+        statusIconsDrawable3.setLayerInset(0, 0, 0, 0, 0);
+        statusIconsDrawable3.setLayerInset(1, px2dp2, px2dp2, px2dp2, px2dp2);
+
+        // Status Icons Chip Style 4
+        mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                new int[]{
+                        mContext.getResources().getColor(android.R.color.holo_blue_light),
+                        mContext.getResources().getColor(android.R.color.holo_green_light)
+                });
+        mDrawable1.setCornerRadius(corner1);
+        mDrawable2 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                new int[]{
+                        Color.parseColor("#40000000"),
+                        Color.parseColor("#40000000")
+                });
+        mDrawable2.setCornerRadius(corner2);
+        mDrawable3 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                new int[]{
+                        mContext.getResources().getColor(android.R.color.holo_blue_light),
+                        mContext.getResources().getColor(android.R.color.holo_green_light)
+                });
+        mDrawable3.setCornerRadius(corner3);
+        statusIconsDrawable4 = new LayerDrawable(new Drawable[]{
+                mDrawable1,
+                mDrawable2,
+                mDrawable3
+        });
+        statusIconsDrawable4.setLayerInset(0, 0, 0, 0, 0);
+        statusIconsDrawable4.setLayerInset(1, 0, 0, 0, 0);
+        statusIconsDrawable4.setLayerInset(2, px2dp2, px2dp2, px2dp2, px2dp2);
+
+        // Status Icons Chip Style 5
+        mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                new int[]{
+                        mContext.getResources().getColor(android.R.color.transparent),
+                        mContext.getResources().getColor(android.R.color.transparent)
+                });
+        mDrawable1.setCornerRadius(corner1);
+        mDrawable1.setStroke(px2dp2, mContext.getResources().getColor(android.R.color.holo_blue_light));
+        statusIconsDrawable5 = new LayerDrawable(new Drawable[]{
+                mDrawable1
+        });
+        statusIconsDrawable5.setLayerInset(0, 0, 0, 0, 0);
     }
 
     private void updateStatusBarClock() {
-        initDrawables();
-
         if (mShowSBClockBg) {
+            initStatusBarDrawables();
+
             if (mClockView != null) {
                 mClockView.setPadding(12, 2, 12, 2);
-                mClockView.setBackground(layerDrawable1);
+                setStatusBarBackgroundChip(mClockView);
             }
 
             if (mCenterClockView != null) {
                 mCenterClockView.setPadding(12, 2, 12, 2);
-                mCenterClockView.setBackground(layerDrawable1);
+                setStatusBarBackgroundChip(mCenterClockView);
             }
 
             if (mRightClockView != null) {
                 mRightClockView.setPadding(12, 2, 12, 2);
-                mRightClockView.setBackground(layerDrawable1);
+                setStatusBarBackgroundChip(mRightClockView);
             }
         } else {
             @SuppressLint("DiscouragedApi") int clockPaddingStart = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_clock_starting_padding", "dimen", mContext.getPackageName()));
@@ -348,7 +450,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
         if (ourResparam == null) return;
 
-        initDrawables();
+        initStatusIconsDrawables();
 
         if (!mShowQSStatusIconsBg || hideStatusIcons)
             return;
@@ -368,7 +470,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                         int paddingStartEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
                         statusIcons.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
 
-                        setBackgroundChip(statusIcons);
+                        setStatusIconsBackgroundChip(statusIcons);
                     } catch (Throwable ignored) {
                     }
                 }
@@ -386,7 +488,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                             int paddingStartEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
                             statusIconContainer.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
 
-                            setBackgroundChip(statusIconContainer);
+                            setStatusIconsBackgroundChip(statusIconContainer);
                         }
                     } catch (Throwable t) {
                         log(t);
@@ -396,22 +498,42 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         }
     }
 
-    private void setBackgroundChip(LinearLayout layout) {
-        switch (QSStatusIconsChipStyle) {
+    private void setStatusBarBackgroundChip(View view) {
+        switch (statusBarClockChipStyle) {
             case 0:
-                layout.setBackground(layerDrawable1);
+                view.setBackground(statusBarDrawable1);
                 break;
             case 1:
-                layout.setBackground(layerDrawable2);
+                view.setBackground(statusBarDrawable2);
                 break;
             case 2:
-                layout.setBackground(layerDrawable3);
+                view.setBackground(statusBarDrawable3);
                 break;
             case 3:
-                layout.setBackground(layerDrawable4);
+                view.setBackground(statusBarDrawable4);
                 break;
             case 4:
-                layout.setBackground(layerDrawable5);
+                view.setBackground(statusBarDrawable5);
+                break;
+        }
+    }
+
+    private void setStatusIconsBackgroundChip(LinearLayout layout) {
+        switch (QSStatusIconsChipStyle) {
+            case 0:
+                layout.setBackground(statusIconsDrawable1);
+                break;
+            case 1:
+                layout.setBackground(statusIconsDrawable2);
+                break;
+            case 2:
+                layout.setBackground(statusIconsDrawable3);
+                break;
+            case 3:
+                layout.setBackground(statusIconsDrawable4);
+                break;
+            case 4:
+                layout.setBackground(statusIconsDrawable5);
                 break;
         }
     }

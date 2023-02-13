@@ -50,6 +50,7 @@ public class References {
     public static final String QSTRANSPARENCY_SWITCH = "xposed_qstransparency";
     public static final String QSALPHA_LEVEL = "xposed_qsalpha";
     public static final String STATUSBAR_CLOCKBG_SWITCH = "xposed_sbclockbg";
+    public static final String CHIP_STATUSBAR_CLOCKBG_STYLE = "xposed_chipstatusbarclockbgstyle";
     public static final String QSPANEL_STATUSICONSBG_SWITCH = "xposed_qsstatusiconsbg";
     public static final String CHIP_QSSTATUSICONS_STYLE = "xposed_chipqsstatusiconsstyle";
     public static final String VERTICAL_QSTILE_SWITCH = "xposed_verticalqstile";

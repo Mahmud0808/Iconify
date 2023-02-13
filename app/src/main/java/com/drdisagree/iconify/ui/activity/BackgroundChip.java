@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.activity;
 
 import static com.drdisagree.iconify.common.References.CHIP_QSSTATUSICONS_STYLE;
+import static com.drdisagree.iconify.common.References.CHIP_STATUSBAR_CLOCKBG_STYLE;
 import static com.drdisagree.iconify.common.References.QSPANEL_STATUSICONSBG_SWITCH;
 import static com.drdisagree.iconify.common.References.STATUSBAR_CLOCKBG_SWITCH;
 
@@ -28,7 +29,7 @@ import java.util.Objects;
 
 public class BackgroundChip extends AppCompatActivity {
 
-    private FlexboxLayout container;
+    private FlexboxLayout containerStatusBar, containerStatusIcons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +44,27 @@ public class BackgroundChip extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // Clock Background Chip
+        // Statusbar clock Chip
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_clock_bg_chip = findViewById(R.id.enable_clock_bg_chip);
         enable_clock_bg_chip.setChecked(RPrefs.getBoolean(STATUSBAR_CLOCKBG_SWITCH, false));
         enable_clock_bg_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(STATUSBAR_CLOCKBG_SWITCH, isChecked);
             new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
+
+        // Statusbar clock chip style
+        containerStatusBar = findViewById(R.id.status_bar_chip_container);
+        ArrayList<Object[]> status_bar_chip_style = new ArrayList<>();
+
+        status_bar_chip_style.add(new Object[]{R.drawable.chip_status_bar_1, R.string.style_1});
+        status_bar_chip_style.add(new Object[]{R.drawable.chip_status_bar_2, R.string.style_2});
+        status_bar_chip_style.add(new Object[]{R.drawable.chip_status_bar_3, R.string.style_3});
+        status_bar_chip_style.add(new Object[]{R.drawable.chip_status_bar_4, R.string.style_4});
+        status_bar_chip_style.add(new Object[]{R.drawable.chip_status_bar_5, R.string.style_5});
+
+        addItemStatusBar(status_bar_chip_style);
+
+        refreshBackgroundStatusBar();
 
         // Status icons chip
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_status_icons_chip = findViewById(R.id.enable_status_icons_chip);
@@ -63,7 +78,7 @@ public class BackgroundChip extends AppCompatActivity {
         });
 
         // Status icons chip style
-        container = findViewById(R.id.status_icons_chip_container);
+        containerStatusIcons = findViewById(R.id.status_icons_chip_container);
         ArrayList<Object[]> status_icons_chip_style = new ArrayList<>();
 
         status_icons_chip_style.add(new Object[]{R.drawable.chip_status_icons_1, R.string.style_1});
@@ -72,18 +87,54 @@ public class BackgroundChip extends AppCompatActivity {
         status_icons_chip_style.add(new Object[]{R.drawable.chip_status_icons_4, R.string.style_4});
         status_icons_chip_style.add(new Object[]{R.drawable.chip_status_icons_5, R.string.style_5});
 
-        addItem(status_icons_chip_style);
+        addItemStatusIcons(status_icons_chip_style);
 
-        refreshBackground();
+        refreshBackgroundStatusIcons();
     }
 
     // Function to add new item in list
     @SuppressLint("UseCompatLoadingForDrawables")
-    private void addItem(ArrayList<Object[]> pack) {
+    private void addItemStatusBar(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(this).inflate(R.layout.view_status_icons_chip, container, false);
+            View list = LayoutInflater.from(this).inflate(R.layout.view_status_bar_chip, containerStatusBar, false);
 
-            LinearLayout icon_container = list.findViewById(R.id.icon_container);
+            LinearLayout clock_container = list.findViewById(R.id.clock_container);
+            clock_container.setBackground(getResources().getDrawable((int) pack.get(i)[0]));
+
+            TextView style_name = list.findViewById(R.id.style_name);
+            style_name.setText(getResources().getString((int) pack.get(i)[1]));
+
+            int finalI = i;
+            list.setOnClickListener(v -> {
+                RPrefs.putInt(CHIP_STATUSBAR_CLOCKBG_STYLE, finalI);
+                refreshBackgroundStatusBar();
+            });
+
+            containerStatusBar.addView(list);
+        }
+    }
+
+    // Function to check for bg drawable changes
+    @SuppressLint("SetTextI18n")
+    private void refreshBackgroundStatusBar() {
+        for (int i = 0; i < containerStatusBar.getChildCount(); i++) {
+            LinearLayout child = containerStatusBar.getChildAt(i).findViewById(R.id.list_item_chip);
+            TextView title = child.findViewById(R.id.style_name);
+            if (i == RPrefs.getInt(CHIP_STATUSBAR_CLOCKBG_STYLE, 0)) {
+                title.setTextColor(getResources().getColor(R.color.colorSuccess));
+            } else {
+                title.setTextColor(getResources().getColor(R.color.textColorSecondary));
+            }
+        }
+    }
+
+    // Function to add new item in list
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private void addItemStatusIcons(ArrayList<Object[]> pack) {
+        for (int i = 0; i < pack.size(); i++) {
+            View list = LayoutInflater.from(this).inflate(R.layout.view_status_icons_chip, containerStatusIcons, false);
+
+            LinearLayout icon_container = list.findViewById(R.id.clock_container);
             icon_container.setBackground(getResources().getDrawable((int) pack.get(i)[0]));
 
             TextView style_name = list.findViewById(R.id.style_name);
@@ -92,18 +143,18 @@ public class BackgroundChip extends AppCompatActivity {
             int finalI = i;
             list.setOnClickListener(v -> {
                 RPrefs.putInt(CHIP_QSSTATUSICONS_STYLE, finalI);
-                refreshBackground();
+                refreshBackgroundStatusIcons();
             });
 
-            container.addView(list);
+            containerStatusIcons.addView(list);
         }
     }
 
     // Function to check for bg drawable changes
     @SuppressLint("SetTextI18n")
-    private void refreshBackground() {
-        for (int i = 0; i < container.getChildCount(); i++) {
-            LinearLayout child = container.getChildAt(i).findViewById(R.id.list_item_chip);
+    private void refreshBackgroundStatusIcons() {
+        for (int i = 0; i < containerStatusIcons.getChildCount(); i++) {
+            LinearLayout child = containerStatusIcons.getChildAt(i).findViewById(R.id.list_item_chip);
             TextView title = child.findViewById(R.id.style_name);
             if (i == RPrefs.getInt(CHIP_QSSTATUSICONS_STYLE, 0)) {
                 title.setTextColor(getResources().getColor(R.color.colorSuccess));
