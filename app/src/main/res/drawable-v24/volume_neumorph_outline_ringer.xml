@@ -39,24 +39,4 @@
             <corners android:radius="20.0dp" />
         </shape>
     </item>
-    <item
-        android:width="42dp"
-        android:height="42dp">
-        <layer-list>
-            <item
-                android:bottom="6dp"
-                android:gravity="center|top"
-                android:left="6dp"
-                android:right="6dp"
-                android:top="6dp">
-                <shape android:shape="rectangle">
-                    <corners android:radius="18.0dp" />
-                    <gradient
-                        android:angle="270.0"
-                        android:endColor="@color/holo_green_light"
-                        android:startColor="@color/holo_blue_light" />
-                </shape>
-            </item>
-        </layer-list>
-    </item>
 </layer-list>

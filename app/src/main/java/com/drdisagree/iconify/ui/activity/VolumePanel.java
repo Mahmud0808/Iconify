@@ -209,7 +209,7 @@ public class VolumePanel extends AppCompatActivity {
         else if (id == R.id.outline_style)
             setVolumeDrawable(R.drawable.volume_outline_ringer, R.drawable.volume_outline, true, false);
         else if (id == R.id.neumorphoutline_style)
-            setVolumeDrawable(R.drawable.volume_neumorph_outline, R.drawable.volume_neumorph_outline, true, true);
+            setVolumeDrawable(R.drawable.volume_neumorph_outline_ringer, R.drawable.volume_neumorph_outline, true, false);
     }
 
     private void setVolumeDrawable(int ringerDrawable, int progressDrawable, boolean ringerInverse, boolean progressInverse) {
