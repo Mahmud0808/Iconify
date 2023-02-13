@@ -362,7 +362,7 @@
     <string name="btn_reboot">Reboot</string>
     <string name="status_icons_chip_style_title">Chip Style</string>
     <string name="fixed_status_icons_title">Fixed Status Icons</string>
-    <string name="fixed_status_icons_desc">Set status icons in fixed position/nMight be buggy on some rom</string>
+    <string name="fixed_status_icons_desc">Set status icons in fixed position\nMight be buggy on some rom</string>
     <string name="fixed_status_icons_top_margin">Top Margin</string>
     <string name="fixed_status_icons_side_margin">Side Margin</string>
     <string name="icon_mask_style_none">None</string>
