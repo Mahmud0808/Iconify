@@ -243,7 +243,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                         batteryRemainingIcon.setVisibility(View.VISIBLE);
                         batteryRemainingIcon.requestLayout();
 
-                        statusIconContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.END));
+                        statusIconContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics()), Gravity.END));
                         statusIconContainer.setGravity(Gravity.CENTER);
                         ((FrameLayout.LayoutParams) statusIconContainer.getLayoutParams()).setMargins(0,
                                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMarginStatusIcons, mContext.getResources().getDisplayMetrics()),
