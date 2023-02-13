@@ -104,7 +104,7 @@
 
     <style name="Theme.Iconify.SplashScreen" parent="Theme.SplashScreen">
         <item name="android:windowSplashScreenBackground">@color/colorBackground</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
         <item name="android:windowSplashScreenIconBackgroundColor">@color/colorAccentDark</item>
         <item name="android:windowSplashScreenBrandingImage">@drawable/ic_branding</item>
         <item name="postSplashScreenTheme">@style/Theme.Iconify</item>
