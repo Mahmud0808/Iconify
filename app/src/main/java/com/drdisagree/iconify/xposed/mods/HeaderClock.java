@@ -373,7 +373,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                             final TextClock time4 = new TextClock(mContext);
                             time4.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                             time4.setFormat12Hour("hh:mm");
-                            time4.setFormat24Hour("HH:MM");
+                            time4.setFormat24Hour("HH:mm");
                             time4.setTextColor(mContext.getResources().getColor(android.R.color.white));
                             time4.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14 * textScaling);
                             time4.setTypeface(time4.getTypeface(), Typeface.BOLD);
