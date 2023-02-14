@@ -100,6 +100,7 @@ public class MonetCompilerUtil {
             RootUtil.setPermissions(644, "/system/product/overlay/IconifyComponentME.apk");
             SystemUtil.mountRO();
 
+            OverlayUtil.enableOverlay("IconifyComponentDM.overlay");
             OverlayUtil.enableOverlay("IconifyComponentME.overlay");
         }
 

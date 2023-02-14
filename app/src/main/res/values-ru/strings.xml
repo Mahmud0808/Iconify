@@ -313,7 +313,6 @@
     <string name="toast_easter_egg">Как ты об этом догадался?</string>
     <string name="toast_easter_egg_activated">Почему ты продолжаешь это делать?</string>
     <string name="individual_changelog_not_found">Что-то пошло не так. Этот журнал изменений может быть не доступен на сервере.</string>
-    <string name="monet_engine_warn_desc">Цвета могут исчезнуть, если вы перезапустите System UI или поменяйте темный/светлый режим интерфейса. Чтобы решить эту проблему, добавьте плитку Iconify в панель быстрых настроек. Отключите и включите функцию оттуда для возвращения цветов.</string>
     <string name="style_1">Стиль 1</string>
     <string name="style_2">Стиль 2</string>
     <string name="style_3">Стиль 3</string>

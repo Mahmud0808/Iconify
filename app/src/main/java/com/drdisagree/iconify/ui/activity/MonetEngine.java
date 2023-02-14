@@ -322,6 +322,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                 Prefs.putBoolean(MONET_ENGINE_SWITCH, false);
                 Prefs.putString(COLOR_ACCENT_PRIMARY, STR_NULL);
                 Prefs.putString(COLOR_ACCENT_SECONDARY, STR_NULL);
+                OverlayUtil.disableOverlay("IconifyComponentDM.overlay");
                 OverlayUtil.disableOverlay("IconifyComponentME.overlay");
 
                 runOnUiThread(() -> {
