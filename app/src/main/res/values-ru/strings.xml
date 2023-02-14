@@ -58,7 +58,6 @@
     <string name="activity_title_volume_panel">Панель громкости</string>
     <string name="activity_title_xposed_menu">Меню XPosed</string>
     <string name="activity_title_xposed_others">Другое</string>
-
     <string name="already_up_to_date">Вы уже в курсе.</string>
     <string name="app_updates">Обновления приложения</string>
     <string name="apply_monet_accent_desc">Привязать цвета iconify к акценту системы</string>
@@ -305,6 +304,10 @@
     <string name="mp_pb_background_title">Pitch Black фон</string>
     <string name="mp_accent_background_title">Фон из цветового Акцента</string>
     <string name="mp_system_background_title">Системный фон</string>
+    <string name="activity_title_settings_icons">Иконки в настройках</string>
+    <string name="activity_desc_settings_icons">Сменить набор иконок в настройках</string>
+    <string name="activity_title_icon_mask">Маска иконок</string>
+    <string name="activity_desc_icon_mask">Сменить системную форму иконок</string>
     <string name="toast_select_style">Сначала выберите стиль</string>
     <string name="volume_style_gradient">Градиент</string>
     <string name="translators">Переводчики</string>
@@ -344,4 +347,20 @@
     <string name="monet_background_saturation_title">Насыщенность фона</string>
     <string name="monet_background_lightness_title">Яркость фона</string>
     <string name="lockscreen_font_text_scaling_title">Масштабирование текста</string>
+    <string name="header_clock_font_text_scaling_title">Масштабирование текста</string>
+    <string name="btn_reboot">Перезагрузка</string>
+    <string name="status_icons_chip_style_title">Стиль фишки</string>
+    <string name="fixed_status_icons_title">Фиксированные иконки статусбара</string>
+    <string name="fixed_status_icons_desc">Установка иконок в фиксирваную позицию может приводить к багам на некоторых прошивках</string>
+    <string name="fixed_status_icons_top_margin">Верхнее поле</string>
+    <string name="fixed_status_icons_side_margin">Боковое поле</string>
+    <string name="icon_mask_style_none">Нет</string>
+    <string name="icon_mask_style_pebble">Галька</string>
+    <string name="icon_mask_style_hexagon">Шестиугольник</string>
+    <string name="icon_mask_style_samsung">Samsung</string>
+    <string name="icon_mask_style_scroll">Свиток</string>
+    <string name="icon_mask_style_square">Квадрат</string>
+    <string name="icon_mask_style_teardrop">Капля</string>
+    <string name="pick_style">Выберите стиль по своему вкусу</string>
+    <string name="info_contributor_desc_2">За помощь мне в Telegram</string>
 </resources>
