@@ -59,9 +59,6 @@ public class WelcomePage extends AppCompatActivity {
         LinearLayout warn = findViewById(R.id.warn);
         TextView warning = findViewById(R.id.warning);
 
-        Intent intent = new Intent(WelcomePage.this, HomePage.class);
-        startActivity(intent);
-        finish();/*
         // Check for root onClick
         install_module.setOnClickListener(v -> {
             if (RootUtil.isDeviceRooted()) {
@@ -139,7 +136,7 @@ public class WelcomePage extends AppCompatActivity {
                 warning.setText(getResources().getString(R.string.root_not_found));
                 warn.setVisibility(View.VISIBLE);
             }
-        });*/
+        });
     }
 
     @Override

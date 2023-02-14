@@ -79,8 +79,8 @@
     <string name="btn_enable">فعال‌سازی</string>
     <string name="btn_apply">اعمال کردن</string>
     <string name="corner_radius_title">میزان گرد بودن گوشه‌ها</string>
-    <string name="pixel_variant_title">نسخه پیکسل</string>
-    <string name="pixel_variant_desc">برای رام‌هایی که نوارابزارشان سیاه است</string>
+    <string name="activity_title_pixel_variant">نسخه پیکسل</string>
+    <string name="activity_desc_pixel_variant">برای رام‌هایی که نوارابزارشان سیاه است</string>
     <string name="icon">آيکون</string>
     <string name="btn_disable_custom_colors">غیرفعال کردن رنگ‌های انتخاب شده</string>
     <string name="btn_enable_custom_colors">فعال کردن رنگ‌های انتخاب شده</string>

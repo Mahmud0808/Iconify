@@ -21,7 +21,7 @@
     <string name="activity_title_qs_icon_label">Icon and Label</string>
     <string name="activity_title_qs_row_column">Row and Column</string>
     <string name="activity_title_qs_shape">QS Panel Tiles</string>
-    <string name="activity_desc_qs_shape">Customize qs panel tiles</string>
+    <string name="activity_desc_qs_shape">Customize QS panel tiles</string>
     <string name="activity_title_settings">Settings</string>
     <string name="activity_desc_settings">Miscellaneous settings</string>
     <string name="activity_title_volume_panel">Volume Panel</string>
@@ -62,6 +62,8 @@
     <string name="activity_desc_settings_icons">Change settings icon pack</string>
     <string name="activity_title_icon_mask">Icon Mask</string>
     <string name="activity_desc_icon_mask">Change system icon shapes</string>
+    <string name="activity_title_pixel_variant">Pixel Variant</string>
+    <string name="activity_desc_pixel_variant">For roms with black QS panel</string>
 
     <string name="apply_monet_accent_title">Monet Accent</string>
     <string name="apply_monet_accent_desc">Link colors to monet accent</string>
@@ -73,9 +75,9 @@
     <string name="primary_color">Primary Color</string>
     <string name="secondary_color">Secondary Color</string>
     <string name="minimal_qspanel">Minimal QS Panel</string>
-    <string name="remove_top_shade_of_qspanel">Remove top shade of QS Panel</string>
+    <string name="remove_top_shade_of_qspanel">Remove top shade of QS panel</string>
     <string name="pitch_black_theme">Pitch Black Theme</string>
-    <string name="enable_pitch_black_colored_theme">Enable pitch black colored theme</string>
+    <string name="enable_pitch_black_colored_theme">Enable pitch black theme</string>
     <string name="warning">Warning</string>
     <string name="btn_continue">CONTINUE</string>
     <string name="iconify_logo">Iconify Logo</string>
@@ -85,8 +87,6 @@
     <string name="btn_enable">Enable</string>
     <string name="btn_apply">APPLY</string>
     <string name="corner_radius_title">Corner Radius</string>
-    <string name="pixel_variant_title">Pixel Variant</string>
-    <string name="pixel_variant_desc">For roms with black QS Panel</string>
     <string name="icon">Icon</string>
     <string name="btn_disable_custom_colors">Disable Custom Colors</string>
     <string name="btn_enable_custom_colors">Apply Colors</string>
@@ -107,7 +107,7 @@
     <string name="mp_pb_background_title">Pitch Black Background</string>
     <string name="section_title_media_player_icons">Media Player Icons</string>
     <string name="hide_label_title">Hide Label</string>
-    <string name="hide_label_desc">Remove QS Tile Titles</string>
+    <string name="hide_label_desc">Remove QS tile labels</string>
     <string name="text_size_title">Text Size</string>
     <string name="opt_selected">Selected:</string>
     <string name="opt_default">(Default)</string>
@@ -115,13 +115,13 @@
     <string name="move_icon_title">Move Icon</string>
     <string name="section_title_qs_text_color">QS Text Color</string>
     <string name="label_always_white_title">Always White</string>
-    <string name="label_always_white_desc">Title White, Text White</string>
+    <string name="label_always_white_desc">Title white, subtitle white</string>
     <string name="label_always_white_v2_title">Always White v2</string>
-    <string name="label_always_white_v2_desc">Title White, Text Accent</string>
+    <string name="label_always_white_v2_desc">Title white, subtitle accent</string>
     <string name="label_follow_system_title">Follow System</string>
-    <string name="label_follow_system_desc">Title System, Text System</string>
+    <string name="label_follow_system_desc">Title system, subtitle system</string>
     <string name="label_follow_system_v2_title">Follow System v2</string>
-    <string name="label_follow_system_v2_desc">Title System, Text Accent</string>
+    <string name="label_follow_system_v2_desc">Title system, subtitle accent</string>
     <string name="label_fix_text_color_title">Fix Text Color</string>
     <string name="label_fix_text_color_desc">Use if above ones did not work</string>
     <string name="qs_row_column_warn_desc">Some of the combinations might not work in some roms. In that case, just try some other combinations and choose which fits the best for you.</string>
@@ -250,7 +250,7 @@
     <string name="sb_clock_background_chip_title">Statusbar Clock Chip</string>
     <string name="sb_clock_background_chip_desc">Display chip behind statusbar clock</string>
     <string name="header_image_title">Pick Header Image</string>
-    <string name="header_image_desc">Add header image on QS Panel\nDo not select file from Recent</string>
+    <string name="header_image_desc">Add header image on QS panel\nDo not select file from Recent</string>
     <string name="btn_pick_image">Pick Image</string>
     <string name="header_image_height_title">Image Height</string>
     <string name="hide_status_icons_title">Hide Status Icons</string>
@@ -278,7 +278,7 @@
     <string name="battery_filled_color_title">Filled Color</string>
     <string name="battery_filled_color_desc">Battery level indicator color</string>
     <string name="custom_header_clock_title">Custom Header Clock</string>
-    <string name="custom_header_clock_desc">Add a custom clock on QS Panel</string>
+    <string name="custom_header_clock_desc">Add a custom clock on QS panel</string>
     <string name="header_clock_style_title">Clock Style</string>
     <string name="header_clock_side_margin_title">Clock Side Margin</string>
     <string name="header_clock_top_margin_title">Clock Top Margin</string>

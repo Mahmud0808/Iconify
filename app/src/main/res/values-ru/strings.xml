@@ -214,8 +214,8 @@
     <string name="opt_selected">Выбрано:</string>
     <string name="perm_storage_access">Сначала представьте доступ к хранилищу!</string>
     <string name="pitch_black_theme">Тема Pitch Black</string>
-    <string name="pixel_variant_desc">Для прошивок с черной панелью быстрых настроек</string>
-    <string name="pixel_variant_title">Вариант Pixel</string>
+    <string name="activity_desc_pixel_variant">Для прошивок с черной панелью быстрых настроек</string>
+    <string name="activity_title_pixel_variant">Вариант Pixel</string>
     <string name="positive">Да</string>
     <string name="primary_color">Первичный цвет</string>
     <string name="primary_color_desc">Выбрать первичный цвет акцента</string>
