@@ -341,6 +341,7 @@
     <string name="update_notification_channel_desc">This channel shows notification about the latest updates.</string>
     <string name="fa_translation">Persian translation.</string>
     <string name="ru_translation">Russian translation.</string>
+    <string name="tr_translation">Turkish translation.</string>
     <string name="a13_default_media_player">Android 13 Default Player</string>
     <string name="monet_neutral">Neutral</string>
     <string name="monet_monochrome">Monochrome</string>
