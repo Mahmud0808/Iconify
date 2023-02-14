@@ -108,6 +108,7 @@ public class References {
     public static final String MONET_ACCENT_SATURATION = "monetAccentSaturation";
     public static final String MONET_BACKGROUND_SATURATION = "monetBackgroundSaturation";
     public static final String MONET_BACKGROUND_LIGHTNESS = "monetBackgroundLightness";
+    public static final String MONET_ACCURATE_SHADES = "monetAccurateShades";
 
     // Fabricated overlays
     public static final String ICONIFY_COLOR_ACCENT_PRIMARY = "0xFF50A6D7";

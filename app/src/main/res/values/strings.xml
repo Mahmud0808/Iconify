@@ -71,7 +71,7 @@
     <string name="apply_monet_gradient_desc">Link colors to monet gradient</string>
     <string name="color_picker_preview">Color Picker Preview</string>
     <string name="accurate_shades_title">Accurate Shades</string>
-    <string name="accurate_shades_desc">Disable this for vibrant colors</string>
+    <string name="accurate_shades_desc">Disable this to get exact choosen colors</string>
     <string name="primary_color">Primary Color</string>
     <string name="secondary_color">Secondary Color</string>
     <string name="minimal_qspanel">Minimal QS Panel</string>

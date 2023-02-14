@@ -4,6 +4,7 @@ import static com.drdisagree.iconify.common.References.COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.References.COLOR_ACCENT_SECONDARY;
 import static com.drdisagree.iconify.common.References.CUSTOM_SECONDARY_COLOR_SWITCH;
 import static com.drdisagree.iconify.common.References.MONET_ACCENT_SATURATION;
+import static com.drdisagree.iconify.common.References.MONET_ACCURATE_SHADES;
 import static com.drdisagree.iconify.common.References.MONET_BACKGROUND_LIGHTNESS;
 import static com.drdisagree.iconify.common.References.MONET_BACKGROUND_SATURATION;
 import static com.drdisagree.iconify.common.References.MONET_ENGINE_SWITCH;
@@ -23,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,7 +51,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class MonetEngine extends AppCompatActivity implements ColorPickerDialogListener {
 
     private static String accentPrimary, accentSecondary, selectedStyle;
-    private static boolean isSelectedPrimary = false, isSelectedSecondary = false;
+    private static boolean isSelectedPrimary = false, isSelectedSecondary = false, accurateShades = true;
     int[] monetAccentSaturation = new int[]{Prefs.getInt(MONET_ACCENT_SATURATION, 100)};
     int[] monetBackgroundSaturation = new int[]{Prefs.getInt(MONET_BACKGROUND_SATURATION, 100)};
     int[] monetBackgroundLightness = new int[]{Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100)};
@@ -149,6 +151,16 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
 
         LinearLayout preview_coloraccentsecondary = findViewById(R.id.preview_coloraccentsecondary);
         preview_coloraccentsecondary.setOnClickListener(v -> colorPickerDialogSecondary.show(MonetEngine.this));
+
+        // Monet Accurate Shades
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch monet_accurate_shades = findViewById(R.id.monet_accurate_shades);
+        monet_accurate_shades.setChecked(Prefs.getBoolean(MONET_ACCURATE_SHADES, true));
+        accurateShades = Prefs.getBoolean(MONET_ACCURATE_SHADES, true);
+        monet_accurate_shades.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            accurateShades = isChecked;
+            assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
+            enable_custom_monet.setVisibility(View.VISIBLE);
+        });
 
         // Monet accent saturation
         SeekBar monet_accent_saturation_seekbar = findViewById(R.id.monet_accent_saturation_seekbar);
@@ -281,6 +293,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
             } else if (Objects.equals(selectedStyle, STR_NULL)) {
                 Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
             } else {
+                Prefs.putBoolean(MONET_ACCURATE_SHADES, accurateShades);
                 Prefs.putInt(MONET_ACCENT_SATURATION, monetAccentSaturation[0]);
                 Prefs.putInt(MONET_BACKGROUND_SATURATION, monetBackgroundSaturation[0]);
                 Prefs.putInt(MONET_BACKGROUND_LIGHTNESS, monetBackgroundLightness[0]);
@@ -402,6 +415,13 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                     else
                         color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), ((float) (monetAccentSaturation[0] - 100) / 1000.0F) * (Math.min((3.0F - j / 5F), 3.0F)));
 
+                    if (!accurateShades) {
+                        if (i == 0 && j == 4)
+                            color = Integer.parseInt(accentPrimary);
+                        else if (i == 2 && j == 4)
+                            color = Integer.parseInt(String.valueOf((int) palette.get(i).get(6)));
+                    }
+
                     palette.get(i).set(j, color);
                 }
             }
@@ -443,6 +463,11 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                         palette.get(i).set(j, ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j + 1))), -0.1F));
                     else
                         palette.get(i).set(j, ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) secondaryPalette.get(0).get(j))), ((float) (monetAccentSaturation[0] - 100) / 1000.0F) * (Math.min((3.0F - j / 5F), 3.0F))));
+
+                    if (!accurateShades) {
+                        if (j == 4)
+                            palette.get(i).set(j, Integer.parseInt(accentSecondary));
+                    }
 
                     GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{(int) palette.get(i).get(j), (int) palette.get(i).get(j)});
                     colorbg.setCornerRadius(8 * getResources().getDisplayMetrics().density);
