@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.HEADER_CLOCK_STYLE;
+import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.LSCLOCK_BOTTOMMARGIN;
 import static com.drdisagree.iconify.common.References.LSCLOCK_FONT_LINEHEIGHT;
 import static com.drdisagree.iconify.common.References.LSCLOCK_FONT_SWITCH;
@@ -87,13 +89,13 @@ public class XposedLockscreenClock extends AppCompatActivity {
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_lockscreen));
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_lockscreen_clock));
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // XposedLockscreenClock clock
+        // Enable lockscreen clock
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_locksreen_clock = findViewById(R.id.enable_lockscreen_clock);
         enable_locksreen_clock.setChecked(RPrefs.getBoolean(LSCLOCK_SWITCH, false));
         enable_locksreen_clock.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -101,9 +103,10 @@ public class XposedLockscreenClock extends AppCompatActivity {
             new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
 
-        // XposedLockscreenClock clock style
+        // Lockscreen clock style
         final Spinner locksreen_clock_style = findViewById(R.id.locksreen_clock_style);
         List<String> lsclock_styles = new ArrayList<>();
+        lsclock_styles.add(getResources().getString(R.string.style_0));
         lsclock_styles.add(getResources().getString(R.string.style_1));
         lsclock_styles.add(getResources().getString(R.string.style_2));
         lsclock_styles.add(getResources().getString(R.string.style_3));
@@ -114,11 +117,12 @@ public class XposedLockscreenClock extends AppCompatActivity {
         lsclock_styles_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
         locksreen_clock_style.setAdapter(lsclock_styles_adapter);
 
-        locksreen_clock_style.setSelection(RPrefs.getInt(LSCLOCK_STYLE, 0));
+        final int[] selectedLockscreenClock = {RPrefs.getInt(LSCLOCK_STYLE, 0)};
+        locksreen_clock_style.setSelection(selectedLockscreenClock[0]);
         locksreen_clock_style.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                RPrefs.putInt(LSCLOCK_STYLE, position);
+                selectedLockscreenClock[0] = position;
             }
 
             @Override
@@ -126,7 +130,14 @@ public class XposedLockscreenClock extends AppCompatActivity {
             }
         });
 
-        // XposedLockscreenClock clock font picker
+        // Apply clock
+        Button apply_clock = findViewById(R.id.apply_clock);
+        apply_clock.setOnClickListener(v -> {
+            RPrefs.putInt(LSCLOCK_STYLE, selectedLockscreenClock[0]);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+        });
+
+        // Lockscreen clock font picker
         Button pick_lsclock_font = findViewById(R.id.pick_lsclock_font);
         pick_lsclock_font.setOnClickListener(v -> {
             if (!Environment.isExternalStorageManager()) {

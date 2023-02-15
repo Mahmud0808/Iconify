@@ -36,8 +36,8 @@
     <string name="activity_desc_miscellaneous">Çeşitli tasarımlar, düzenlemeler ve özelleştirmeler</string>
     <string name="activity_title_transparency_blur">Şeffaflık &amp; Bulanıklık</string>
     <string name="activity_desc_transparency_blur">Hızlı ayarlar panelinde şeffaflık ve bulanıklığı etkinleştir</string>
-    <string name="activity_title_lockscreen">Kilit Ekranı</string>
-    <string name="activity_desc_lockscreen">Kilit ekranını özelleştir</string>
+    <string name="activity_title_lockscreen_clock">Kilit Ekranı</string>
+    <string name="activity_desc_lockscreen_clock">Kilit ekranını özelleştir</string>
     <string name="activity_title_ui_roundness">Arayüz Yuvarlaklığı</string>
     <string name="activity_desc_ui_roundness">Arayüzdeki nesnelerin köşelerinin yuvarlaklığını değiştir</string>
     <string name="activity_title_navigation_bar">Gezinti Çubuğu</string>

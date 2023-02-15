@@ -10,7 +10,6 @@ import static com.drdisagree.iconify.common.References.HEADER_CLOCK_TOPMARGIN;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -88,7 +87,9 @@ public class XposedHeaderClock extends AppCompatActivity {
         Button apply_clock = findViewById(R.id.apply_clock);
         apply_clock.setOnClickListener(v -> {
             RPrefs.putInt(HEADER_CLOCK_STYLE, selectedHeaderClock[0]);
-            new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+            if (RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false)) {
+                new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+            }
         });
 
         // Text Scaling
@@ -113,7 +114,9 @@ public class XposedHeaderClock extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(HEADER_CLOCK_FONT_TEXT_SCALING, textScaling[0]);
-                new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+                if (RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false)) {
+                    new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+                }
             }
         });
 
@@ -139,7 +142,9 @@ public class XposedHeaderClock extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(HEADER_CLOCK_SIDEMARGIN, sideMargin[0]);
-                new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+                if (RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false)) {
+                    new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+                }
             }
         });
 
@@ -165,7 +170,9 @@ public class XposedHeaderClock extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(HEADER_CLOCK_TOPMARGIN, topMargin[0]);
-                new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+                if (RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false)) {
+                    new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+                }
             }
         });
 
@@ -174,7 +181,9 @@ public class XposedHeaderClock extends AppCompatActivity {
         enable_force_white_text.setChecked(RPrefs.getBoolean(HEADER_CLOCK_TEXT_WHITE, false));
         enable_force_white_text.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HEADER_CLOCK_TEXT_WHITE, isChecked);
-            new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+            if (RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false)) {
+                new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+            }
         });
     }
 

@@ -458,10 +458,14 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     @SuppressLint("DiscouragedApi") TextView clock = liparam.view.findViewById(liparam.res.getIdentifier("clock", "id", SYSTEMUI_PACKAGE));
                     clock.getLayoutParams().height = 0;
                     clock.getLayoutParams().width = 0;
+                    clock.setTextAppearance(0);
+                    clock.setTextColor(0);
 
                     @SuppressLint("DiscouragedApi") TextView date_clock = liparam.view.findViewById(liparam.res.getIdentifier("date_clock", "id", SYSTEMUI_PACKAGE));
                     date_clock.getLayoutParams().height = 0;
                     date_clock.getLayoutParams().width = 0;
+                    date_clock.setTextAppearance(0);
+                    date_clock.setTextColor(0);
 
                     @SuppressLint("DiscouragedApi") LinearLayout carrier_group = liparam.view.findViewById(liparam.res.getIdentifier("carrier_group", "id", SYSTEMUI_PACKAGE));
                     carrier_group.getLayoutParams().height = 0;
@@ -474,6 +478,18 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                         @SuppressLint("DiscouragedApi") TextView date = liparam.view.findViewById(liparam.res.getIdentifier("date", "id", SYSTEMUI_PACKAGE));
                         date.getLayoutParams().height = 0;
                         date.getLayoutParams().width = 0;
+                        date.setTextAppearance(0);
+                        date.setTextColor(0);
+                    } catch (Throwable ignored) {
+                    }
+
+                    // Awaken clock
+                    try {
+                        @SuppressLint("DiscouragedApi") TextView clock_eqs = liparam.view.findViewById(liparam.res.getIdentifier("clock_eqs", "id", SYSTEMUI_PACKAGE));
+                        clock_eqs.getLayoutParams().height = 0;
+                        clock_eqs.getLayoutParams().width = 0;
+                        clock_eqs.setTextAppearance(0);
+                        clock_eqs.setTextColor(0);
                     } catch (Throwable ignored) {
                     }
 
@@ -482,6 +498,8 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                         @SuppressLint("DiscouragedApi") TextView jr_clock = liparam.view.findViewById(liparam.res.getIdentifier("jr_clock", "id", SYSTEMUI_PACKAGE));
                         jr_clock.getLayoutParams().height = 0;
                         jr_clock.getLayoutParams().width = 0;
+                        jr_clock.setTextAppearance(0);
+                        jr_clock.setTextColor(0);
                     } catch (Throwable ignored) {
                     }
 
@@ -491,6 +509,8 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                         TextView jr_date = (TextView) jr_date_container.getChildAt(0);
                         jr_date.getLayoutParams().height = 0;
                         jr_date.getLayoutParams().width = 0;
+                        jr_date.setTextAppearance(0);
+                        jr_date.setTextColor(0);
                     } catch (Throwable ignored) {
                     }
                 }
@@ -507,10 +527,10 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                         return;
 
                     @SuppressLint("DiscouragedApi") TextView date = liparam.view.findViewById(liparam.res.getIdentifier("date", "id", SYSTEMUI_PACKAGE));
-                    date.setTextColor(0);
-                    date.setTextAppearance(0);
                     date.getLayoutParams().height = 0;
                     date.getLayoutParams().width = 0;
+                    date.setTextAppearance(0);
+                    date.setTextColor(0);
                 }
             });
         } catch (Throwable ignored) {

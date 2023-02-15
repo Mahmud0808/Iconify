@@ -34,8 +34,8 @@
     <string name="activity_desc_miscellaneous">گزینه‌های اضافه شخصی سازی</string>
     <string name="activity_title_transparency_blur">افکت شفافیت و محو کردن نوار‌ابزار</string>
     <string name="activity_desc_transparency_blur">فعال‌سازی افکت شفافیت و محو بودن در نوارابزار</string>
-    <string name="activity_title_lockscreen">قفل صفحه</string>
-    <string name="activity_desc_lockscreen">تغییر ظاهر قفل صفحه</string>
+    <string name="activity_title_lockscreen_clock">قفل صفحه</string>
+    <string name="activity_desc_lockscreen_clock">تغییر ظاهر قفل صفحه</string>
     <string name="activity_title_ui_roundness">میزان گرد بودن گوشه‌ها</string>
     <string name="activity_desc_ui_roundness">تغییر میزان گرد بودن گوشه‌ها در رباط کاربری</string>
     <string name="activity_title_navigation_bar">نوار ناوبری</string>

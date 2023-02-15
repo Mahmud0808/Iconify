@@ -11,7 +11,6 @@ import static com.drdisagree.iconify.common.References.LSCLOCK_TOPMARGIN;
 import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
-import static de.robv.android.xposed.XposedBridge.log;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -48,8 +47,8 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
     float textScaling = 1;
     boolean customFontEnabled = false;
     boolean forceWhiteText = false;
-    private String rootPackagePath = "";
     private LinearLayout status_view_container = null;
+    private String rootPackagePath = "";
 
     public LockscreenClock(Context context) {
         super(context);
@@ -113,209 +112,167 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                         typeface = Typeface.createFromFile(new File(Environment.getExternalStorageDirectory() + "/.iconify_files/lsclock_font.ttf"));
 
                     switch (lockscreenClockStyle) {
-                        case 0:
-                            final TextClock date0 = new TextClock(mContext);
-                            date0.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            date0.setFormat12Hour("EEEE d MMMM");
-                            date0.setFormat24Hour("EEEE d MMMM");
-                            date0.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
-                            date0.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20 * textScaling);
-                            date0.setTypeface(typeface != null ? typeface : date0.getTypeface(), Typeface.BOLD);
-                            ViewGroup.MarginLayoutParams dateParams0 = new ViewGroup.MarginLayoutParams(
+                        case 1:
+                            final TextClock date1 = new TextClock(mContext);
+                            date1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            date1.setFormat12Hour("EEEE d MMMM");
+                            date1.setFormat24Hour("EEEE d MMMM");
+                            date1.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
+                            date1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20 * textScaling);
+                            date1.setTypeface(typeface != null ? typeface : date1.getTypeface(), Typeface.BOLD);
+                            ViewGroup.MarginLayoutParams dateParams1 = new ViewGroup.MarginLayoutParams(
                                     ViewGroup.MarginLayoutParams.WRAP_CONTENT,
                                     ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                            dateParams0.setMargins(
+                            dateParams1.setMargins(
                                     0,
                                     0,
                                     0,
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -16, mContext.getResources().getDisplayMetrics()));
-                            date0.setLayoutParams(dateParams0);
-
-                            final TextClock clock0 = new TextClock(mContext);
-                            clock0.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            clock0.setFormat12Hour("hh:mm");
-                            clock0.setFormat24Hour("HH:mm");
-                            clock0.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
-                            clock0.setTextSize(TypedValue.COMPLEX_UNIT_SP, 100 * textScaling);
-                            clock0.setTypeface(typeface != null ? typeface : clock0.getTypeface(), Typeface.BOLD);
-                            ViewGroup.MarginLayoutParams clockParams0 = new ViewGroup.MarginLayoutParams(
-                                    ViewGroup.MarginLayoutParams.WRAP_CONTENT,
-                                    ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                            clockParams0.setMargins(
-                                    0,
-                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, lineHeight, mContext.getResources().getDisplayMetrics()),
-                                    0,
-                                    0);
-                            clock0.setLayoutParams(clockParams0);
-
-                            final LinearLayout clockContainer0 = new LinearLayout(mContext);
-                            LinearLayout.LayoutParams layoutParams0 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                            layoutParams0.gravity = Gravity.CENTER_HORIZONTAL;
-                            layoutParams0.setMargins(
-                                    0,
-                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()),
-                                    0,
-                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, bottomMargin, mContext.getResources().getDisplayMetrics()));
-                            clockContainer0.setLayoutParams(layoutParams0);
-                            clockContainer0.setGravity(Gravity.CENTER);
-                            clockContainer0.setOrientation(LinearLayout.VERTICAL);
-
-                            clockContainer0.addView(date0);
-                            clockContainer0.addView(clock0);
-
-                            status_view_container.addView(clockContainer0, status_view_container.getChildCount() - 1);
-                            break;
-                        case 1:
-                            final TextClock day1 = new TextClock(mContext);
-                            day1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            day1.setFormat12Hour("EEEE");
-                            day1.setFormat24Hour("EEEE");
-                            day1.setTextColor(mContext.getResources().getColor(android.R.color.white));
-                            day1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50 * textScaling);
-                            day1.setTypeface(typeface != null ? typeface : day1.getTypeface());
+                            date1.setLayoutParams(dateParams1);
 
                             final TextClock clock1 = new TextClock(mContext);
                             clock1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                             clock1.setFormat12Hour("hh:mm");
                             clock1.setFormat24Hour("HH:mm");
-                            clock1.setTextColor(mContext.getResources().getColor(android.R.color.white));
-                            clock1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50 * textScaling);
-                            clock1.setTypeface(typeface != null ? typeface : clock1.getTypeface());
+                            clock1.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
+                            clock1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 100 * textScaling);
+                            clock1.setTypeface(typeface != null ? typeface : clock1.getTypeface(), Typeface.BOLD);
+                            ViewGroup.MarginLayoutParams clockParams1 = new ViewGroup.MarginLayoutParams(
+                                    ViewGroup.MarginLayoutParams.WRAP_CONTENT,
+                                    ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                            clockParams1.setMargins(
+                                    0,
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, lineHeight, mContext.getResources().getDisplayMetrics()),
+                                    0,
+                                    0);
+                            clock1.setLayoutParams(clockParams1);
 
-                            final TextClock clockOverlay1 = new TextClock(mContext);
-                            clockOverlay1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            clockOverlay1.setFormat12Hour("hh");
-                            clockOverlay1.setFormat24Hour("HH");
-                            clockOverlay1.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
-                            clockOverlay1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50 * textScaling);
-                            clockOverlay1.setMaxLines(1);
-                            clockOverlay1.setTypeface(typeface != null ? typeface : clockOverlay1.getTypeface());
-                            int maxLength = 1;
-                            InputFilter[] fArray = new InputFilter[1];
-                            fArray[0] = new InputFilter.LengthFilter(maxLength);
-                            clockOverlay1.setFilters(fArray);
+                            final LinearLayout clockContainer1 = new LinearLayout(mContext);
+                            LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            layoutParams1.gravity = Gravity.CENTER_HORIZONTAL;
+                            layoutParams1.setMargins(
+                                    0,
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()),
+                                    0,
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, bottomMargin, mContext.getResources().getDisplayMetrics()));
+                            clockContainer1.setLayoutParams(layoutParams1);
+                            clockContainer1.setGravity(Gravity.CENTER);
+                            clockContainer1.setOrientation(LinearLayout.VERTICAL);
 
-                            final FrameLayout clockContainer1 = new FrameLayout(mContext);
-                            clockContainer1.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            ((FrameLayout.LayoutParams) clockContainer1.getLayoutParams()).setMargins(
+                            clockContainer1.addView(date1);
+                            clockContainer1.addView(clock1);
+
+                            status_view_container.addView(clockContainer1, status_view_container.getChildCount() - 1);
+                            break;
+                        case 2:
+                            final TextClock day2 = new TextClock(mContext);
+                            day2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            day2.setFormat12Hour("EEEE");
+                            day2.setFormat24Hour("EEEE");
+                            day2.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                            day2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50 * textScaling);
+                            day2.setTypeface(typeface != null ? typeface : day2.getTypeface());
+
+                            final TextClock clock2 = new TextClock(mContext);
+                            clock2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            clock2.setFormat12Hour("hh:mm");
+                            clock2.setFormat24Hour("HH:mm");
+                            clock2.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                            clock2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50 * textScaling);
+                            clock2.setTypeface(typeface != null ? typeface : clock2.getTypeface());
+
+                            final TextClock clockOverlay2 = new TextClock(mContext);
+                            clockOverlay2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            clockOverlay2.setFormat12Hour("hh");
+                            clockOverlay2.setFormat24Hour("HH");
+                            clockOverlay2.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
+                            clockOverlay2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50 * textScaling);
+                            clockOverlay2.setMaxLines(1);
+                            clockOverlay2.setTypeface(typeface != null ? typeface : clockOverlay2.getTypeface());
+                            int maxLength2 = 1;
+                            InputFilter[] fArray2 = new InputFilter[1];
+                            fArray2[0] = new InputFilter.LengthFilter(maxLength2);
+                            clockOverlay2.setFilters(fArray2);
+
+                            final FrameLayout clockContainer2 = new FrameLayout(mContext);
+                            clockContainer2.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            ((FrameLayout.LayoutParams) clockContainer2.getLayoutParams()).setMargins(
                                     0,
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -12 + lineHeight, mContext.getResources().getDisplayMetrics()),
                                     0,
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -8 + lineHeight, mContext.getResources().getDisplayMetrics()));
 
-                            clockContainer1.addView(clock1);
-                            clockContainer1.addView(clockOverlay1);
+                            clockContainer2.addView(clock2);
+                            clockContainer2.addView(clockOverlay2);
 
-                            final TextClock month1 = new TextClock(mContext);
-                            month1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            month1.setFormat12Hour("MMMM d");
-                            month1.setFormat24Hour("MMMM d");
-                            month1.setTextColor(mContext.getResources().getColor(android.R.color.white));
-                            month1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20 * textScaling);
-                            month1.setTypeface(typeface != null ? typeface : month1.getTypeface());
+                            final TextClock month2 = new TextClock(mContext);
+                            month2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            month2.setFormat12Hour("MMMM d");
+                            month2.setFormat24Hour("MMMM d");
+                            month2.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                            month2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20 * textScaling);
+                            month2.setTypeface(typeface != null ? typeface : month2.getTypeface());
 
-                            final LinearLayout wholeContainer1 = new LinearLayout(mContext);
-                            LinearLayout.LayoutParams layoutparams1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                            layoutparams1.gravity = Gravity.START;
-                            layoutparams1.setMargins(
+                            final LinearLayout wholeContainer2 = new LinearLayout(mContext);
+                            LinearLayout.LayoutParams layoutparams2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            layoutparams2.gravity = Gravity.START;
+                            layoutparams2.setMargins(
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, mContext.getResources().getDisplayMetrics()),
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()),
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, mContext.getResources().getDisplayMetrics()),
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, bottomMargin, mContext.getResources().getDisplayMetrics()));
-                            wholeContainer1.setLayoutParams(layoutparams1);
-                            wholeContainer1.setGravity(Gravity.START);
-                            wholeContainer1.setOrientation(LinearLayout.VERTICAL);
+                            wholeContainer2.setLayoutParams(layoutparams2);
+                            wholeContainer2.setGravity(Gravity.START);
+                            wholeContainer2.setOrientation(LinearLayout.VERTICAL);
 
-                            wholeContainer1.addView(day1);
-                            wholeContainer1.addView(clockContainer1);
-                            wholeContainer1.addView(month1);
+                            wholeContainer2.addView(day2);
+                            wholeContainer2.addView(clockContainer2);
+                            wholeContainer2.addView(month2);
 
-                            status_view_container.addView(wholeContainer1, status_view_container.getChildCount() - 1);
+                            status_view_container.addView(wholeContainer2, status_view_container.getChildCount() - 1);
                             break;
-                        case 2:
-                            final TextClock date2 = new TextClock(mContext);
-                            date2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            date2.setFormat12Hour("EEE, MMM dd");
-                            date2.setFormat24Hour("EEE, MMM dd");
-                            date2.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
-                            date2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24 * textScaling);
-                            date2.setTypeface(typeface != null ? typeface : date2.getTypeface(), Typeface.BOLD);
+                        case 3:
+                            final TextClock date3 = new TextClock(mContext);
+                            date3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            date3.setFormat12Hour("EEE, MMM dd");
+                            date3.setFormat24Hour("EEE, MMM dd");
+                            date3.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
+                            date3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24 * textScaling);
+                            date3.setTypeface(typeface != null ? typeface : date3.getTypeface(), Typeface.BOLD);
 
-                            final TextClock clockHour2 = new TextClock(mContext);
-                            clockHour2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            clockHour2.setFormat12Hour("hh");
-                            clockHour2.setFormat24Hour("HH");
-                            clockHour2.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
-                            clockHour2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 160 * textScaling);
-                            clockHour2.setTypeface(typeface != null ? typeface : clockHour2.getTypeface(), Typeface.BOLD);
-                            ViewGroup.MarginLayoutParams clockHourParams2 = new ViewGroup.MarginLayoutParams(
+                            final TextClock clockHour3 = new TextClock(mContext);
+                            clockHour3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            clockHour3.setFormat12Hour("hh");
+                            clockHour3.setFormat24Hour("HH");
+                            clockHour3.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
+                            clockHour3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 160 * textScaling);
+                            clockHour3.setTypeface(typeface != null ? typeface : clockHour3.getTypeface(), Typeface.BOLD);
+                            ViewGroup.MarginLayoutParams clockHourParams3 = new ViewGroup.MarginLayoutParams(
                                     ViewGroup.MarginLayoutParams.WRAP_CONTENT,
                                     ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                            clockHourParams2.setMargins(
+                            clockHourParams3.setMargins(
                                     0,
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -30 + lineHeight, mContext.getResources().getDisplayMetrics()),
                                     0,
                                     0);
-                            clockHour2.setLayoutParams(clockHourParams2);
+                            clockHour3.setLayoutParams(clockHourParams3);
 
-                            final TextClock clockMinute2 = new TextClock(mContext);
-                            clockMinute2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            clockMinute2.setFormat12Hour("mm");
-                            clockMinute2.setFormat24Hour("mm");
-                            clockMinute2.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
-                            clockMinute2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 160 * textScaling);
-                            clockMinute2.setTypeface(typeface != null ? typeface : clockMinute2.getTypeface(), Typeface.BOLD);
-                            ViewGroup.MarginLayoutParams clockMinuteParams2 = new ViewGroup.MarginLayoutParams(
+                            final TextClock clockMinute3 = new TextClock(mContext);
+                            clockMinute3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            clockMinute3.setFormat12Hour("mm");
+                            clockMinute3.setFormat24Hour("mm");
+                            clockMinute3.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
+                            clockMinute3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 160 * textScaling);
+                            clockMinute3.setTypeface(typeface != null ? typeface : clockMinute3.getTypeface(), Typeface.BOLD);
+                            ViewGroup.MarginLayoutParams clockMinuteParams3 = new ViewGroup.MarginLayoutParams(
                                     ViewGroup.MarginLayoutParams.WRAP_CONTENT,
                                     ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                            clockMinuteParams2.setMargins(
+                            clockMinuteParams3.setMargins(
                                     0,
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -80 + lineHeight, mContext.getResources().getDisplayMetrics()),
                                     0,
                                     0);
-                            clockMinute2.setLayoutParams(clockMinuteParams2);
-
-                            final LinearLayout clockContainer2 = new LinearLayout(mContext);
-                            LinearLayout.LayoutParams layoutParams2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                            layoutParams2.gravity = Gravity.CENTER_HORIZONTAL;
-                            layoutParams2.setMargins(
-                                    0,
-                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()),
-                                    0,
-                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, bottomMargin, mContext.getResources().getDisplayMetrics()));
-                            clockContainer2.setLayoutParams(layoutParams2);
-                            clockContainer2.setGravity(Gravity.CENTER_HORIZONTAL);
-                            clockContainer2.setOrientation(LinearLayout.VERTICAL);
-
-                            clockContainer2.addView(date2);
-                            clockContainer2.addView(clockHour2);
-                            clockContainer2.addView(clockMinute2);
-
-                            status_view_container.addView(clockContainer2, status_view_container.getChildCount() - 1);
-                            break;
-                        case 3:
-                            final AnalogClock analogClock3 = new AnalogClock(mContext);
-                            analogClock3.setLayoutParams(new LinearLayout.LayoutParams(
-                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 180 * textScaling, mContext.getResources().getDisplayMetrics()),
-                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 180 * textScaling, mContext.getResources().getDisplayMetrics())));
-                            ((LinearLayout.LayoutParams) analogClock3.getLayoutParams()).gravity = Gravity.CENTER_HORIZONTAL;
-
-                            final TextClock day3 = new TextClock(mContext);
-                            day3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            day3.setFormat12Hour("EEE dd MMM");
-                            day3.setFormat24Hour("EEE dd MMM");
-                            day3.setTextColor(mContext.getResources().getColor(android.R.color.system_neutral1_200));
-                            day3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
-                            day3.setTypeface(typeface != null ? typeface : day3.getTypeface(), Typeface.BOLD);
-                            ViewGroup.MarginLayoutParams dayParams3 = new ViewGroup.MarginLayoutParams(
-                                    ViewGroup.MarginLayoutParams.WRAP_CONTENT,
-                                    ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                            dayParams3.setMargins(
-                                    0,
-                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6 + lineHeight, mContext.getResources().getDisplayMetrics()),
-                                    0,
-                                    0);
-                            day3.setLayoutParams(dayParams3);
+                            clockMinute3.setLayoutParams(clockMinuteParams3);
 
                             final LinearLayout clockContainer3 = new LinearLayout(mContext);
                             LinearLayout.LayoutParams layoutParams3 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -329,149 +286,191 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                             clockContainer3.setGravity(Gravity.CENTER_HORIZONTAL);
                             clockContainer3.setOrientation(LinearLayout.VERTICAL);
 
-                            clockContainer3.addView(analogClock3);
-                            clockContainer3.addView(day3);
+                            clockContainer3.addView(date3);
+                            clockContainer3.addView(clockHour3);
+                            clockContainer3.addView(clockMinute3);
 
                             status_view_container.addView(clockContainer3, status_view_container.getChildCount() - 1);
                             break;
                         case 4:
-                            final TextClock hour4 = new TextClock(mContext);
-                            hour4.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            hour4.setFormat12Hour("hh");
-                            hour4.setFormat24Hour("HH");
-                            hour4.setTextColor(mContext.getResources().getColor(android.R.color.white));
-                            hour4.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40 * textScaling);
-                            hour4.setTypeface(typeface != null ? typeface : hour4.getTypeface(), Typeface.BOLD);
+                            final AnalogClock analogClock4 = new AnalogClock(mContext);
+                            analogClock4.setLayoutParams(new LinearLayout.LayoutParams(
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 180 * textScaling, mContext.getResources().getDisplayMetrics()),
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 180 * textScaling, mContext.getResources().getDisplayMetrics())));
+                            ((LinearLayout.LayoutParams) analogClock4.getLayoutParams()).gravity = Gravity.CENTER_HORIZONTAL;
 
-                            final TextClock minute4 = new TextClock(mContext);
-                            minute4.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            minute4.setFormat12Hour("mm");
-                            minute4.setFormat24Hour("mm");
-                            minute4.setTextColor(mContext.getResources().getColor(android.R.color.white));
-                            minute4.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40 * textScaling);
-                            minute4.setTypeface(typeface != null ? typeface : minute4.getTypeface(), Typeface.BOLD);
-                            ViewGroup.MarginLayoutParams minuteParams4 = new ViewGroup.MarginLayoutParams(
+                            final TextClock day4 = new TextClock(mContext);
+                            day4.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            day4.setFormat12Hour("EEE dd MMM");
+                            day4.setFormat24Hour("EEE dd MMM");
+                            day4.setTextColor(mContext.getResources().getColor(android.R.color.system_neutral1_200));
+                            day4.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
+                            day4.setTypeface(typeface != null ? typeface : day4.getTypeface(), Typeface.BOLD);
+                            ViewGroup.MarginLayoutParams dayParams4 = new ViewGroup.MarginLayoutParams(
                                     ViewGroup.MarginLayoutParams.WRAP_CONTENT,
                                     ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                            minuteParams4.setMargins(
+                            dayParams4.setMargins(
+                                    0,
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6 + lineHeight, mContext.getResources().getDisplayMetrics()),
+                                    0,
+                                    0);
+                            day4.setLayoutParams(dayParams4);
+
+                            final LinearLayout clockContainer4 = new LinearLayout(mContext);
+                            LinearLayout.LayoutParams layoutParams4 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            layoutParams4.gravity = Gravity.CENTER_HORIZONTAL;
+                            layoutParams4.setMargins(
+                                    0,
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()),
+                                    0,
+                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, bottomMargin, mContext.getResources().getDisplayMetrics()));
+                            clockContainer4.setLayoutParams(layoutParams4);
+                            clockContainer4.setGravity(Gravity.CENTER_HORIZONTAL);
+                            clockContainer4.setOrientation(LinearLayout.VERTICAL);
+
+                            clockContainer4.addView(analogClock4);
+                            clockContainer4.addView(day4);
+
+                            status_view_container.addView(clockContainer4, status_view_container.getChildCount() - 1);
+                            break;
+                        case 5:
+                            final TextClock hour5 = new TextClock(mContext);
+                            hour5.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            hour5.setFormat12Hour("hh");
+                            hour5.setFormat24Hour("HH");
+                            hour5.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                            hour5.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40 * textScaling);
+                            hour5.setTypeface(typeface != null ? typeface : hour5.getTypeface(), Typeface.BOLD);
+
+                            final TextClock minute5 = new TextClock(mContext);
+                            minute5.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            minute5.setFormat12Hour("mm");
+                            minute5.setFormat24Hour("mm");
+                            minute5.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                            minute5.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40 * textScaling);
+                            minute5.setTypeface(typeface != null ? typeface : minute5.getTypeface(), Typeface.BOLD);
+                            ViewGroup.MarginLayoutParams minuteParams5 = new ViewGroup.MarginLayoutParams(
+                                    ViewGroup.MarginLayoutParams.WRAP_CONTENT,
+                                    ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                            minuteParams5.setMargins(
                                     0,
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4 + lineHeight, mContext.getResources().getDisplayMetrics()),
                                     0,
                                     0);
-                            minute4.setLayoutParams(minuteParams4);
+                            minute5.setLayoutParams(minuteParams5);
 
-                            final LinearLayout time4 = new LinearLayout(mContext);
-                            LinearLayout.LayoutParams timeLayoutParams4 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                            timeLayoutParams4.gravity = Gravity.CENTER;
-                            time4.setLayoutParams(timeLayoutParams4);
-                            time4.setOrientation(LinearLayout.VERTICAL);
-                            time4.setPadding(
+                            final LinearLayout time5 = new LinearLayout(mContext);
+                            LinearLayout.LayoutParams timeLayoutParams5 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                            timeLayoutParams5.gravity = Gravity.CENTER;
+                            time5.setLayoutParams(timeLayoutParams5);
+                            time5.setOrientation(LinearLayout.VERTICAL);
+                            time5.setPadding(
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()),
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()),
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()),
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()));
-                            GradientDrawable timeDrawable4 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                            GradientDrawable timeDrawable5 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
                                     new int[]{
                                             mContext.getResources().getColor(android.R.color.black),
                                             mContext.getResources().getColor(android.R.color.black)
                                     });
-                            timeDrawable4.setCornerRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()));
-                            time4.setBackground(timeDrawable4);
-                            time4.setGravity(Gravity.CENTER);
+                            timeDrawable5.setCornerRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()));
+                            time5.setBackground(timeDrawable5);
+                            time5.setGravity(Gravity.CENTER);
 
-                            time4.addView(hour4);
-                            time4.addView(minute4);
+                            time5.addView(hour5);
+                            time5.addView(minute5);
 
-                            final TextClock day4 = new TextClock(mContext);
-                            day4.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            day4.setFormat12Hour("EEE");
-                            day4.setFormat24Hour("EEE");
-                            day4.setAllCaps(true);
-                            day4.setTextColor(mContext.getResources().getColor(android.R.color.white));
-                            day4.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
-                            day4.setTypeface(typeface != null ? typeface : day4.getTypeface(), Typeface.BOLD);
-                            day4.setLetterSpacing(0.2f);
+                            final TextClock day5 = new TextClock(mContext);
+                            day5.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            day5.setFormat12Hour("EEE");
+                            day5.setFormat24Hour("EEE");
+                            day5.setAllCaps(true);
+                            day5.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                            day5.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
+                            day5.setTypeface(typeface != null ? typeface : day5.getTypeface(), Typeface.BOLD);
+                            day5.setLetterSpacing(0.2f);
 
-                            final TextClock date4 = new TextClock(mContext);
-                            date4.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            date4.setFormat12Hour("dd");
-                            date4.setFormat24Hour("dd");
-                            date4.setTextColor(mContext.getResources().getColor(android.R.color.white));
-                            date4.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
-                            date4.setTypeface(typeface != null ? typeface : date4.getTypeface(), Typeface.BOLD);
-                            date4.setLetterSpacing(0.2f);
-                            ViewGroup.MarginLayoutParams dateParams4 = new ViewGroup.MarginLayoutParams(
+                            final TextClock date5 = new TextClock(mContext);
+                            date5.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            date5.setFormat12Hour("dd");
+                            date5.setFormat24Hour("dd");
+                            date5.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                            date5.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
+                            date5.setTypeface(typeface != null ? typeface : date5.getTypeface(), Typeface.BOLD);
+                            date5.setLetterSpacing(0.2f);
+                            ViewGroup.MarginLayoutParams dateParams5 = new ViewGroup.MarginLayoutParams(
                                     ViewGroup.MarginLayoutParams.WRAP_CONTENT,
                                     ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                            dateParams4.setMargins(
+                            dateParams5.setMargins(
                                     0,
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -2 + lineHeight, mContext.getResources().getDisplayMetrics()),
                                     0,
                                     0);
-                            date4.setLayoutParams(dateParams4);
+                            date5.setLayoutParams(dateParams5);
 
-                            final TextClock month4 = new TextClock(mContext);
-                            month4.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            month4.setFormat12Hour("MMM");
-                            month4.setFormat24Hour("MMM");
-                            month4.setAllCaps(true);
-                            month4.setTextColor(mContext.getResources().getColor(android.R.color.white));
-                            month4.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
-                            month4.setTypeface(typeface != null ? typeface : month4.getTypeface(), Typeface.BOLD);
-                            month4.setLetterSpacing(0.2f);
-                            ViewGroup.MarginLayoutParams monthParams4 = new ViewGroup.MarginLayoutParams(
+                            final TextClock month5 = new TextClock(mContext);
+                            month5.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            month5.setFormat12Hour("MMM");
+                            month5.setFormat24Hour("MMM");
+                            month5.setAllCaps(true);
+                            month5.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                            month5.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
+                            month5.setTypeface(typeface != null ? typeface : month5.getTypeface(), Typeface.BOLD);
+                            month5.setLetterSpacing(0.2f);
+                            ViewGroup.MarginLayoutParams monthParams5 = new ViewGroup.MarginLayoutParams(
                                     ViewGroup.MarginLayoutParams.WRAP_CONTENT,
                                     ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                            monthParams4.setMargins(
+                            monthParams5.setMargins(
                                     0,
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -2 + lineHeight, mContext.getResources().getDisplayMetrics()),
                                     0,
                                     0);
-                            month4.setLayoutParams(monthParams4);
+                            month5.setLayoutParams(monthParams5);
 
-                            final LinearLayout right4 = new LinearLayout(mContext);
-                            LinearLayout.LayoutParams rightLayoutParams4 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                            rightLayoutParams4.gravity = Gravity.CENTER;
-                            right4.setLayoutParams(rightLayoutParams4);
-                            right4.setOrientation(LinearLayout.VERTICAL);
-                            right4.setPadding(
+                            final LinearLayout right5 = new LinearLayout(mContext);
+                            LinearLayout.LayoutParams rightLayoutParams5 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                            rightLayoutParams5.gravity = Gravity.CENTER;
+                            right5.setLayoutParams(rightLayoutParams5);
+                            right5.setOrientation(LinearLayout.VERTICAL);
+                            right5.setPadding(
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()),
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()),
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()),
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()));
-                            right4.setGravity(Gravity.CENTER);
+                            right5.setGravity(Gravity.CENTER);
 
-                            right4.addView(day4);
-                            right4.addView(date4);
-                            right4.addView(month4);
+                            right5.addView(day5);
+                            right5.addView(date5);
+                            right5.addView(month5);
 
-                            final LinearLayout container4 = new LinearLayout(mContext);
-                            LinearLayout.LayoutParams layoutParams4 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                            layoutParams4.gravity = Gravity.CENTER_HORIZONTAL;
-                            layoutParams4.setMargins(
+                            final LinearLayout container5 = new LinearLayout(mContext);
+                            LinearLayout.LayoutParams layoutParams5 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            layoutParams5.gravity = Gravity.CENTER_HORIZONTAL;
+                            layoutParams5.setMargins(
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, mContext.getResources().getDisplayMetrics()),
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()),
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, mContext.getResources().getDisplayMetrics()),
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, bottomMargin, mContext.getResources().getDisplayMetrics()));
-                            container4.setLayoutParams(layoutParams4);
-                            container4.setOrientation(LinearLayout.HORIZONTAL);
-                            container4.setPadding(
+                            container5.setLayoutParams(layoutParams5);
+                            container5.setOrientation(LinearLayout.HORIZONTAL);
+                            container5.setPadding(
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, mContext.getResources().getDisplayMetrics()),
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, mContext.getResources().getDisplayMetrics()),
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, mContext.getResources().getDisplayMetrics()),
                                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, mContext.getResources().getDisplayMetrics()));
-                            GradientDrawable mDrawable4 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                            GradientDrawable mDrawable5 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
                                     new int[]{
                                             mContext.getResources().getColor(android.R.color.holo_blue_light),
                                             mContext.getResources().getColor(android.R.color.holo_blue_light)
                                     });
-                            mDrawable4.setCornerRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics()));
-                            container4.setBackground(mDrawable4);
+                            mDrawable5.setCornerRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics()));
+                            container5.setBackground(mDrawable5);
 
-                            container4.addView(time4);
-                            container4.addView(right4);
+                            container5.addView(time5);
+                            container5.addView(right5);
 
-                            status_view_container.addView(container4, status_view_container.getChildCount() - 1);
+                            status_view_container.addView(container5, status_view_container.getChildCount() - 1);
                             break;
                     }
                 }

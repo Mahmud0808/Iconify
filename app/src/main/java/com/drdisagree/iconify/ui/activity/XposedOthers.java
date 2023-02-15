@@ -10,7 +10,6 @@ import static com.drdisagree.iconify.common.References.QSPANEL_HIDE_CARRIER;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -93,8 +92,9 @@ public class XposedOthers extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(FIXED_STATUS_ICONS_TOPMARGIN, topMarginStatusIcons[0]);
-                if (RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false) && topMarginStatusIcons[0] > 32) {
+                if (RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)) {
                     FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (48 + topMarginStatusIcons[0]) + "dp");
+                    new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
                 }
             }
         });
@@ -121,12 +121,11 @@ public class XposedOthers extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(FIXED_STATUS_ICONS_SIDEMARGIN, sideMarginStatusIcons[0]);
+                if (RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)) {
+                    new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+                }
             }
         });
-
-        // Restart systemui
-        Button restart_sysui = findViewById(R.id.restart_sysui);
-        restart_sysui.setOnClickListener(v -> new Handler().postDelayed(SystemUtil::restartSystemUI, 200));
     }
 
     @Override

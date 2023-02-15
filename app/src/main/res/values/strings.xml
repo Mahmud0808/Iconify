@@ -36,8 +36,8 @@
     <string name="activity_desc_miscellaneous">Miscellaneous tweaks and customization</string>
     <string name="activity_title_transparency_blur">Transparency &amp; Blur</string>
     <string name="activity_desc_transparency_blur">Enable QS blur and transparency</string>
-    <string name="activity_title_lockscreen">Lock Screen</string>
-    <string name="activity_desc_lockscreen">Customize lock screen items</string>
+    <string name="activity_title_lockscreen_clock">Lockscreen Clock</string>
+    <string name="activity_desc_lockscreen_clock">Add custom clock on lockscreen</string>
     <string name="activity_title_ui_roundness">UI Roundness</string>
     <string name="activity_desc_ui_roundness">Change corner radius of interface</string>
     <string name="activity_title_navigation_bar">Navigation Bar</string>
@@ -375,4 +375,6 @@
     <string name="icon_mask_style_teardrop">Teardrop</string>
     <string name="pick_style">Pick a style of your choice</string>
     <string name="info_contributor_desc_2">For assisting me on telegram.</string>
+    <string name="attention">Attention!</string>
+    <string name="lsposed_warn">Before enabling Iconify from LSPosed modules, long press on Iconify and click on Re-optimize. After that enable Iconify and restart your SystemUI. This is necessary for a smooth experience.</string>
 </resources>

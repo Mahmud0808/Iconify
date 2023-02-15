@@ -87,7 +87,9 @@ public class XposedQuickSettings extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(QS_TOPMARGIN, qsTopMargin[0]);
-                new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+                if (RPrefs.getBoolean(PANEL_TOPMARGIN_SWITCH, false)) {
+                    new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+                }
             }
         });
     }

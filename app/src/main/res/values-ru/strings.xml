@@ -13,7 +13,7 @@
     <string name="activity_desc_header_image">Добавить своё изображение на панель быстрых настроек</string>
     <string name="activity_desc_icon_pack">Поменять набор иконок системы</string>
     <string name="activity_desc_info">Информация о приложении</string>
-    <string name="activity_desc_lockscreen">Изменить элементы экрана блокировки</string>
+    <string name="activity_desc_lockscreen_clock">Изменить элементы экрана блокировки</string>
     <string name="activity_desc_media_player">Изменить внешний вид плеера</string>
     <string name="activity_desc_miscellaneous">Различные настройки и кастомизации</string>
     <string name="activity_desc_navigation_bar">Изменить опции навигации</string>
@@ -42,7 +42,7 @@
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Набор иконок</string>
     <string name="activity_title_info">О приложении</string>
-    <string name="activity_title_lockscreen">Экран блокировки</string>
+    <string name="activity_title_lockscreen_clock">Экран блокировки</string>
     <string name="activity_title_media_player">Медиаплеер</string>
     <string name="activity_title_miscellaneous">Разное</string>
     <string name="activity_title_navigation_bar">Строка навигации</string>
