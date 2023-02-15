@@ -27,14 +27,14 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class BackgroundChip extends AppCompatActivity {
+public class XposedBackgroundChip extends AppCompatActivity {
 
     private FlexboxLayout containerStatusBar, containerStatusIcons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_background_chip);
+        setContentView(R.layout.activity_xposed_background_chip);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);

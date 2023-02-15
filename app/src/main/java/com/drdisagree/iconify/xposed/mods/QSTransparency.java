@@ -145,7 +145,5 @@ public class QSTransparency extends ModPack {
             });
         } catch (Throwable ignored) {
         }
-
-        log("Qs Transparency: " + alpha + "\nTransparency isActive: " + QsTransparencyActive);
     }
 }

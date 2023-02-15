@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Lockscreen extends AppCompatActivity {
+public class XposedLockscreenClock extends AppCompatActivity {
 
     private static final int PICKFILE_RESULT_CODE = 100;
     private Button enable_lsclock_font;
@@ -83,7 +83,7 @@ public class Lockscreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lockscreen);
+        setContentView(R.layout.activity_xposed_lockscreen_clock);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
@@ -93,7 +93,7 @@ public class Lockscreen extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // Lockscreen clock
+        // XposedLockscreenClock clock
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_locksreen_clock = findViewById(R.id.enable_lockscreen_clock);
         enable_locksreen_clock.setChecked(RPrefs.getBoolean(LSCLOCK_SWITCH, false));
         enable_locksreen_clock.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -101,7 +101,7 @@ public class Lockscreen extends AppCompatActivity {
             new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
 
-        // Lockscreen clock style
+        // XposedLockscreenClock clock style
         final Spinner locksreen_clock_style = findViewById(R.id.locksreen_clock_style);
         List<String> lsclock_styles = new ArrayList<>();
         lsclock_styles.add(getResources().getString(R.string.style_1));
@@ -126,7 +126,7 @@ public class Lockscreen extends AppCompatActivity {
             }
         });
 
-        // Lockscreen clock font picker
+        // XposedLockscreenClock clock font picker
         Button pick_lsclock_font = findViewById(R.id.pick_lsclock_font);
         pick_lsclock_font.setOnClickListener(v -> {
             if (!Environment.isExternalStorageManager()) {

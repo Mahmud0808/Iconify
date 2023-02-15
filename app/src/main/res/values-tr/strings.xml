@@ -48,8 +48,8 @@
     <string name="activity_desc_header_clock">Hızlı ayarlar paneline özel saat ekle</string>
     <string name="activity_title_background_chip">Arka Plan</string>
     <string name="activity_desc_background_chip">Saatin arkasına renkli arka plan ekle</string>
-    <string name="activity_title_vertical_tiles">Dikey Butonlar</string>
-    <string name="activity_desc_vertical_tiles">Hızlı ayarlar panelinde dikey butonları etkinleştir</string>
+    <string name="activity_title_quick_settings">Hızlı Ayarlar</string>
+    <string name="activity_desc_quick_settings">Hızlı ayarlarla ilgili ince ayarlar</string>
     <string name="activity_title_colored_battery">Renkli Batarya</string>
     <string name="activity_desc_colored_battery">Batarya ikonu rengini değiştir</string>
     <string name="activity_title_xposed_others">Diğer</string>
@@ -318,6 +318,7 @@
     <string name="toast_easter_egg">Bunu nasıl bildin?</string>
     <string name="toast_easter_egg_activated">Neden hala bunu yapıyorsun?</string>
     <string name="individual_changelog_not_found">Bir şeyler ters gitti.\nBu değişim günlüğü sunucuda bulunmuyor olabilir.</string>
+    <string name="style_0">Hiçbiri</string>
     <string name="style_1">Stil 1</string>
     <string name="style_2">Stil 2</string>
     <string name="style_3">Stil 3</string>

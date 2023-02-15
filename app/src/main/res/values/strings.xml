@@ -48,8 +48,8 @@
     <string name="activity_desc_header_clock">Add custom clock on QS panel</string>
     <string name="activity_title_background_chip">Background Chip</string>
     <string name="activity_desc_background_chip">Add colored chip behind clock</string>
-    <string name="activity_title_vertical_tiles">Vertical Tiles</string>
-    <string name="activity_desc_vertical_tiles">Enable vertical QS tiles</string>
+    <string name="activity_title_quick_settings">Quick Settings</string>
+    <string name="activity_desc_quick_settings">Tweaks related to QS panel</string>
     <string name="activity_title_colored_battery">Colored Battery</string>
     <string name="activity_desc_colored_battery">Change battery icon color</string>
     <string name="activity_title_xposed_others">Others</string>
@@ -323,6 +323,7 @@
     <string name="toast_easter_egg">How did you know that?</string>
     <string name="toast_easter_egg_activated">Why are you still doing that?</string>
     <string name="individual_changelog_not_found">Something went wrong.\nThis changelog might not be available on the server.</string>
+    <string name="style_0">None</string>
     <string name="style_1">Style 1</string>
     <string name="style_2">Style 2</string>
     <string name="style_3">Style 3</string>

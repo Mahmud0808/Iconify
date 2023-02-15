@@ -17,10 +17,15 @@ package com.drdisagree.iconify.xposed.mods;
  * along with this program.  If not, see [http://www.gnu.org/licenses/].
  */
 
+import static com.drdisagree.iconify.common.References.HEADER_IMAGE_HEIGHT;
+import static com.drdisagree.iconify.common.References.HEADER_IMAGE_SWITCH;
 import static com.drdisagree.iconify.common.References.HIDE_QSLABEL_SWITCH;
+import static com.drdisagree.iconify.common.References.PANEL_TOPMARGIN_SWITCH;
+import static com.drdisagree.iconify.common.References.QS_TOPMARGIN;
 import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.References.VERTICAL_QSTILE_SWITCH;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
+import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedBridge.log;
@@ -31,6 +36,8 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.XResources;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,20 +48,25 @@ import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.xposed.ModPack;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-public class VerticalQSTile extends ModPack {
+public class QuickSettings extends ModPack {
 
-    private static final String TAG = "Iconify - VerticalQSTile: ";
+    private static final String TAG = "Iconify - QuickSettings: ";
     private static final String CLASS_QSTILEVIEWIMPL = SYSTEMUI_PACKAGE + ".qs.tileimpl.QSTileViewImpl";
     private static final String CLASS_FONTSIZEUTILS = SYSTEMUI_PACKAGE + ".FontSizeUtils";
     private static boolean isVerticalQSTileActive = false;
     private static boolean isHideLabelActive = false;
     private static Float QsTilePrimaryTextSize = null, QsTileSecondaryTextSize = null;
+    boolean enabledTopMargin = false;
+    boolean showHeaderImage = false;
+    int headerImageHeight = 0;
+    int qsTopMargin = 0;
     private String rootPackagePath = "";
     private Object mParam = null;
 
-    public VerticalQSTile(Context context) {
+    public QuickSettings(Context context) {
         super(context);
         if (!listensTo(context.getPackageName())) return;
     }
@@ -63,11 +75,14 @@ public class VerticalQSTile extends ModPack {
     public void updatePrefs(String... Key) {
         if (Xprefs == null) return;
 
+        showHeaderImage = Xprefs.getBoolean(HEADER_IMAGE_SWITCH, false);
+        enabledTopMargin = Xprefs.getBoolean(PANEL_TOPMARGIN_SWITCH, false);
+        headerImageHeight = Xprefs.getInt(HEADER_IMAGE_HEIGHT, 0);
+        qsTopMargin = Xprefs.getInt(QS_TOPMARGIN, 0);
         isVerticalQSTileActive = Xprefs.getBoolean(VERTICAL_QSTILE_SWITCH, false);
         isHideLabelActive = Xprefs.getBoolean(HIDE_QSLABEL_SWITCH, false);
 
-        if (Key.length > 0 && (Key[0].equals(VERTICAL_QSTILE_SWITCH) || Key[0].equals(HIDE_QSLABEL_SWITCH)))
-            SystemUtil.doubleToggleDarkMode();
+        setPanelTopMargin();
     }
 
     @Override
@@ -126,8 +141,7 @@ public class VerticalQSTile extends ModPack {
 
                     if (!isHideLabelActive)
                         ((LinearLayout) param.thisObject).addView(newQSTile);
-                } catch (Throwable t) {
-                    log(TAG + t.toString());
+                } catch (Throwable ignored) {
                 }
 
                 if (QsTilePrimaryTextSize == null || QsTileSecondaryTextSize == null) {
@@ -157,5 +171,16 @@ public class VerticalQSTile extends ModPack {
             ((TextView) getObjectField(param, "label")).setGravity(Gravity.CENTER_HORIZONTAL);
             ((TextView) getObjectField(param, "secondaryLabel")).setGravity(Gravity.CENTER_HORIZONTAL);
         }
+    }
+
+    private void setPanelTopMargin() {
+        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
+        if (ourResparam == null) return;
+
+        if (!enabledTopMargin)
+            return;
+
+        ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "dimen", "qs_panel_padding_top", new XResources.DimensionReplacement(showHeaderImage ? (headerImageHeight + qsTopMargin) : qsTopMargin, TypedValue.COMPLEX_UNIT_DIP));
+        ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "dimen", "qqs_layout_margin_top", new XResources.DimensionReplacement(showHeaderImage ? (headerImageHeight + qsTopMargin) : qsTopMargin, TypedValue.COMPLEX_UNIT_DIP));
     }
 }

@@ -34,7 +34,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
 
-    private static final String TAG = "Iconify - HeaderImage: ";
+    private static final String TAG = "Iconify - XposedHeaderImage: ";
     boolean showHeaderImage = false;
     int imageHeight = 140;
     int headerImageAlpha = 100;
@@ -102,8 +102,6 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
                     headerImage.setAlpha((int) (headerImageAlpha / 100.0 * 255.0));
 
                     header.addView(headerImage, 0);
-
-                    log("Header image added successfully.");
                 }
             });
         } catch (Throwable ignored) {

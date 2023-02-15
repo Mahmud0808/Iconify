@@ -164,8 +164,6 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                             clockContainer0.addView(clock0);
 
                             status_view_container.addView(clockContainer0, status_view_container.getChildCount() - 1);
-
-                            log("Custom lockscreen clock1 added successfully.");
                             break;
                         case 1:
                             final TextClock day1 = new TextClock(mContext);
@@ -233,8 +231,6 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                             wholeContainer1.addView(month1);
 
                             status_view_container.addView(wholeContainer1, status_view_container.getChildCount() - 1);
-
-                            log("Custom lockscreen clock2 added successfully.");
                             break;
                         case 2:
                             final TextClock date2 = new TextClock(mContext);
@@ -296,8 +292,6 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                             clockContainer2.addView(clockMinute2);
 
                             status_view_container.addView(clockContainer2, status_view_container.getChildCount() - 1);
-
-                            log("Custom lockscreen clock3 added successfully.");
                             break;
                         case 3:
                             final AnalogClock analogClock3 = new AnalogClock(mContext);
@@ -339,8 +333,6 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                             clockContainer3.addView(day3);
 
                             status_view_container.addView(clockContainer3, status_view_container.getChildCount() - 1);
-
-                            log("Custom lockscreen clock4 added successfully.");
                             break;
                         case 4:
                             final TextClock hour4 = new TextClock(mContext);
@@ -480,8 +472,6 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                             container4.addView(right4);
 
                             status_view_container.addView(container4, status_view_container.getChildCount() - 1);
-
-                            log("Custom lockscreen clock5 added successfully.");
                             break;
                     }
                 }
@@ -509,7 +499,6 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     @SuppressLint("DiscouragedApi") FrameLayout status_view_media_container = liparam.view.findViewById(liparam.res.getIdentifier("status_view_media_container", "id", SYSTEMUI_PACKAGE));
                     status_view_media_container.getLayoutParams().height = 0;
                     status_view_media_container.getLayoutParams().width = 0;
-                    log("Stock lockscreen clock hidden");
                 }
             });
         } catch (Throwable ignored) {

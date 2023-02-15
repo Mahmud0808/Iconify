@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.activity.TransparencyBlur">
+    tools:context=".ui.activity.XposedBackgroundChip">
 
     <include layout="@layout/view_header" />
 
@@ -45,7 +45,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/transparent_qs_panel_title"
+                        android:text="@string/sb_clock_background_chip_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -53,14 +53,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/transparent_qs_panel_desc"
+                        android:text="@string/sb_clock_background_chip_desc"
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_desc_size" />
 
                 </LinearLayout>
 
                 <Switch
-                    android:id="@+id/enable_qs_transparency"
+                    android:id="@+id/enable_clock_bg_chip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|center"
@@ -87,7 +87,7 @@
                 android:paddingBottom="@dimen/container_padding">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|center"
                     android:layout_marginEnd="@dimen/container_padding"
@@ -96,34 +96,32 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/transparency_alpha_title"
+                        android:text="@string/status_icons_chip_style_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/transparency_output"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@string/pick_style"
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_desc_size" />
 
                 </LinearLayout>
 
-                <SeekBar
-                    android:id="@+id/transparency_seekbar"
-                    android:layout_width="match_parent"
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/status_bar_chip_container"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginTop="@dimen/container_padding"
-                    android:background="@null"
-                    android:hapticFeedbackEnabled="true"
-                    android:max="100"
-                    android:min="0"
-                    android:progress="60"
-                    android:progressDrawable="@drawable/seekbar"
-                    android:splitTrack="false"
-                    android:theme="@style/SeekBar.Iconify"
-                    android:thumb="@drawable/seek_thumb" />
+                    android:layout_marginBottom="8dp"
+                    app:dividerDrawable="@drawable/flexbox_divider"
+                    app:flexDirection="row"
+                    app:flexWrap="wrap"
+                    app:justifyContent="center"
+                    app:showDivider="middle" />
 
             </LinearLayout>
 
@@ -148,7 +146,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/window_level_blur_title"
+                        android:text="@string/status_icons_chip_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -156,14 +154,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/window_level_blur_desc"
+                        android:text="@string/status_icons_chip_desc"
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_desc_size" />
 
                 </LinearLayout>
 
                 <Switch
-                    android:id="@+id/enable_blur"
+                    android:id="@+id/enable_status_icons_chip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|center"
@@ -190,7 +188,7 @@
                 android:paddingBottom="@dimen/container_padding">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|center"
                     android:layout_marginEnd="@dimen/container_padding"
@@ -199,34 +197,32 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/blur_radius_title"
+                        android:text="@string/status_icons_chip_style_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/blur_output"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@string/pick_style"
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_desc_size" />
 
                 </LinearLayout>
 
-                <SeekBar
-                    android:id="@+id/blur_seekbar"
-                    android:layout_width="match_parent"
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/status_icons_chip_container"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginTop="@dimen/container_padding"
-                    android:background="@null"
-                    android:hapticFeedbackEnabled="true"
-                    android:max="100"
-                    android:min="0"
-                    android:progress="23"
-                    android:progressDrawable="@drawable/seekbar"
-                    android:splitTrack="false"
-                    android:theme="@style/SeekBar.Iconify"
-                    android:thumb="@drawable/seek_thumb" />
+                    android:layout_marginBottom="8dp"
+                    app:dividerDrawable="@drawable/flexbox_divider"
+                    app:flexDirection="row"
+                    app:flexWrap="wrap"
+                    app:justifyContent="center"
+                    app:showDivider="middle" />
 
             </LinearLayout>
         </LinearLayout>

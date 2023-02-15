@@ -43,7 +43,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
 
-    private static final String TAG = "Iconify - BackgroundChip: ";
+    private static final String TAG = "Iconify - XposedBackgroundChip: ";
     private static final String CLASS_CLOCK = SYSTEMUI_PACKAGE + ".statusbar.policy.Clock";
     private static final String CollapsedStatusBarFragmentClass = SYSTEMUI_PACKAGE + ".statusbar.phone.fragment.CollapsedStatusBarFragment";
     boolean mShowSBClockBg = false;
@@ -432,8 +432,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                     clock.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, mContext.getResources().getDisplayMetrics());
                     clock.setGravity(Gravity.CENTER_VERTICAL);
                     clock.requestLayout();
-                } catch (Throwable t) {
-                    log(TAG + t);
+                } catch (Throwable ignored) {
                 }
             }
         });

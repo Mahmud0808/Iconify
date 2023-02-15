@@ -5,16 +5,12 @@
     <!-- <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> -->
     <!-- <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> -->
     <!-- To notify about new iconify updates -->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-
-    <!-- Access phone storage for installation of overlays in temporary folder -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- Access phone storage for installation of overlays in temporary folder -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
-
-    <!-- For checking new updates -->
+        tools:ignore="ScopedStorage" /> <!-- For checking new updates -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <queries>
@@ -60,22 +56,22 @@
             android:name=".ui.activity.ColoredBattery"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.VerticalTiles"
+            android:name=".ui.activity.XposedQuickSettings"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.BackgroundChip"
+            android:name=".ui.activity.XposedBackgroundChip"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.HeaderClock"
+            android:name=".ui.activity.XposedHeaderClock"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.HeaderImage"
+            android:name=".ui.activity.XposedHeaderImage"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.TransparencyBlur"
+            android:name=".ui.activity.XposedTransparencyBlur"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.Lockscreen"
+            android:name=".ui.activity.XposedLockscreenClock"
             android:exported="false" />
         <activity
             android:name=".ui.activity.Miscellaneous"
@@ -207,9 +203,7 @@
             <meta-data
                 android:name="android.service.quicksettings.TOGGLEABLE_TILE"
                 android:value="true" />
-        </service>
-
-        <!-- xposed meta data -->
+        </service> <!-- xposed meta data -->
         <meta-data
             android:name="xposedmodule"
             android:value="true" />
@@ -221,9 +215,7 @@
             android:value="82" />
         <meta-data
             android:name="xposedscope"
-            android:resource="@array/module_scope" />
-
-        <!-- Remote Preferences Provider -->
+            android:resource="@array/module_scope" /> <!-- Remote Preferences Provider -->
         <provider
             android:name=".services.RemotePrefProvider"
             android:authorities="${applicationId}"

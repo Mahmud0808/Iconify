@@ -6,12 +6,11 @@ import static com.drdisagree.iconify.common.References.HEADER_CLOCK_STYLE;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_TEXT_WHITE;
 import static com.drdisagree.iconify.common.References.HEADER_CLOCK_TOPMARGIN;
-import static com.drdisagree.iconify.common.References.PANEL_TOPMARGIN_SWITCH;
-import static com.drdisagree.iconify.common.References.QS_TOPMARGIN;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -34,13 +33,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class HeaderClock extends AppCompatActivity {
+public class XposedHeaderClock extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_header_clock);
+        setContentView(R.layout.activity_xposed_header_clock);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
@@ -55,12 +54,13 @@ public class HeaderClock extends AppCompatActivity {
         enable_header_clock.setChecked(RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false));
         enable_header_clock.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HEADER_CLOCK_SWITCH, isChecked);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+            new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
         });
 
         // Header clock style
         final Spinner header_clock_style = findViewById(R.id.header_clock_style);
         List<String> hcclock_styles = new ArrayList<>();
+        hcclock_styles.add(getResources().getString(R.string.style_0));
         hcclock_styles.add(getResources().getString(R.string.style_1));
         hcclock_styles.add(getResources().getString(R.string.style_2));
         hcclock_styles.add(getResources().getString(R.string.style_3));
@@ -71,16 +71,24 @@ public class HeaderClock extends AppCompatActivity {
         hcclock_styles_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
         header_clock_style.setAdapter(hcclock_styles_adapter);
 
-        header_clock_style.setSelection(RPrefs.getInt(HEADER_CLOCK_STYLE, 0));
+        final int[] selectedHeaderClock = {RPrefs.getInt(HEADER_CLOCK_STYLE, 0)};
+        header_clock_style.setSelection(selectedHeaderClock[0]);
         header_clock_style.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                RPrefs.putInt(HEADER_CLOCK_STYLE, position);
+                selectedHeaderClock[0] = position;
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
+        });
+
+        // Apply clock
+        Button apply_clock = findViewById(R.id.apply_clock);
+        apply_clock.setOnClickListener(v -> {
+            RPrefs.putInt(HEADER_CLOCK_STYLE, selectedHeaderClock[0]);
+            new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
         });
 
         // Text Scaling
@@ -105,6 +113,7 @@ public class HeaderClock extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(HEADER_CLOCK_FONT_TEXT_SCALING, textScaling[0]);
+                new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
             }
         });
 
@@ -130,6 +139,7 @@ public class HeaderClock extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(HEADER_CLOCK_SIDEMARGIN, sideMargin[0]);
+                new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
             }
         });
 
@@ -155,6 +165,7 @@ public class HeaderClock extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(HEADER_CLOCK_TOPMARGIN, topMargin[0]);
+                new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
             }
         });
 
@@ -163,43 +174,8 @@ public class HeaderClock extends AppCompatActivity {
         enable_force_white_text.setChecked(RPrefs.getBoolean(HEADER_CLOCK_TEXT_WHITE, false));
         enable_force_white_text.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HEADER_CLOCK_TEXT_WHITE, isChecked);
+            new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
         });
-
-        // Enable panel top margin
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_panel_top_margin = findViewById(R.id.enable_panel_top_margin);
-        enable_panel_top_margin.setChecked(RPrefs.getBoolean(PANEL_TOPMARGIN_SWITCH, false));
-        enable_panel_top_margin.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RPrefs.putBoolean(PANEL_TOPMARGIN_SWITCH, isChecked);
-        });
-
-        // QS panel top margin
-        SeekBar qs_top_margin_seekbar = findViewById(R.id.qs_top_margin_seekbar);
-        qs_top_margin_seekbar.setPadding(0, 0, 0, 0);
-        TextView qs_top_margin_output = findViewById(R.id.qs_top_margin_output);
-        qs_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RPrefs.getInt(QS_TOPMARGIN, 16) + "dp");
-        qs_top_margin_seekbar.setProgress(RPrefs.getInt(QS_TOPMARGIN, 16));
-        final int[] qsTopMargin = {RPrefs.getInt(QS_TOPMARGIN, 16)};
-        qs_top_margin_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                qsTopMargin[0] = progress;
-                qs_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                RPrefs.putInt(QS_TOPMARGIN, qsTopMargin[0]);
-            }
-        });
-
-        // Restart systemui
-        Button restart_sysui = findViewById(R.id.restart_sysui);
-        restart_sysui.setOnClickListener(v -> new Handler().postDelayed(SystemUtil::restartSystemUI, 200));
     }
 
     @Override

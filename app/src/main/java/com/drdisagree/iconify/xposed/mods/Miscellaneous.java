@@ -294,8 +294,6 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                         statusIconContainer.requestLayout();
 
                         privacy_container.addView(statusIconContainer);
-
-                        log("Successfully moved status icons to header.");
                     }
                 }
             });
