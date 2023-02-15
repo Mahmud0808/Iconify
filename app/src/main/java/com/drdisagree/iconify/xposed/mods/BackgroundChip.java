@@ -12,7 +12,6 @@ import static com.drdisagree.iconify.common.References.UI_CORNER_RADIUS;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
-import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
@@ -82,10 +81,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         hideStatusIcons = Xprefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false);
         fixedStatusIcons = Xprefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false);
 
-        initStatusBarDrawables();
         updateStatusBarClock();
-
-        initStatusIconsDrawables();
         setQSStatusIconsBg();
     }
 
@@ -100,9 +96,6 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
             return;
 
         rootPackagePath = lpparam.appInfo.sourceDir;
-
-        initStatusBarDrawables();
-        initStatusIconsDrawables();
 
         final Class<?> CollapsedStatusBarFragment = findClass(CollapsedStatusBarFragmentClass, lpparam.classLoader);
 
@@ -378,8 +371,6 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     }
 
     private void updateStatusBarClock() {
-        initStatusBarDrawables();
-
         if (mShowSBClockBg) {
             if (mClockView != null) {
                 mClockView.setPadding(12, 2, 12, 2);
@@ -459,8 +450,6 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
         if (ourResparam == null) return;
 
-        initStatusIconsDrawables();
-
         ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
             @Override
             public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
@@ -469,17 +458,18 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
 
                 if (!fixedStatusIcons) {
                     try {
-                        @SuppressLint("DiscouragedApi") FrameLayout rightLayout = liparam.view.findViewById(liparam.res.getIdentifier("rightLayout", "id", SYSTEMUI_PACKAGE));
-                        LinearLayout statusIcons = (LinearLayout) rightLayout.getChildAt(0);
-                        ((FrameLayout.LayoutParams) statusIcons.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.END;
-                        statusIcons.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics());
-                        statusIcons.requestLayout();
+                        @SuppressLint("DiscouragedApi") LinearLayout statusIcons = liparam.view.findViewById(liparam.res.getIdentifier("statusIcons", "id", SYSTEMUI_PACKAGE));
+                        LinearLayout statusIconContainer = (LinearLayout) statusIcons.getParent();
+
+                        ((FrameLayout.LayoutParams) statusIconContainer.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.END;
+                        statusIconContainer.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics());
+                        statusIconContainer.requestLayout();
 
                         int paddingTopBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
                         int paddingStartEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
-                        statusIcons.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
+                        statusIconContainer.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
 
-                        setStatusIconsBackgroundChip(statusIcons);
+                        setStatusIconsBackgroundChip(statusIconContainer);
                     } catch (Throwable ignored) {
                     }
                 }
@@ -512,6 +502,8 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     }
 
     private void setStatusBarBackgroundChip(View view) {
+        initStatusBarDrawables();
+
         switch (statusBarClockChipStyle) {
             case 0:
                 view.setBackground(statusBarDrawable1);
@@ -532,6 +524,8 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     }
 
     private void setStatusIconsBackgroundChip(LinearLayout layout) {
+        initStatusIconsDrawables();
+
         switch (QSStatusIconsChipStyle) {
             case 0:
                 layout.setBackground(statusIconsDrawable1);

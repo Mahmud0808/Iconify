@@ -376,5 +376,5 @@
     <string name="pick_style">Pick a style of your choice</string>
     <string name="info_contributor_desc_2">For assisting me on telegram.</string>
     <string name="attention">Attention!</string>
-    <string name="lsposed_warn">Before enabling Iconify from LSPosed modules, long press on Iconify and click on Re-optimize. After that enable Iconify and restart your SystemUI. This is necessary for a smooth experience.</string>
+    <string name="lsposed_warn">Before enabling Iconify from LSPosed modules, long press on Iconify and click on Re-optimize. After that enable Iconify and restart your SystemUI. This is necessary for a smoother experience.</string>
 </resources>
