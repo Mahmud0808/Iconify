@@ -108,7 +108,7 @@ public class ModuleUtil {
 
         extractTools();
         extractPregeneratedOverlays();
-        return CompilerUtil.buildOverlays();
+        return OverlayCompilerUtil.buildOverlays();
     }
 
     public static boolean moduleExists() {

@@ -205,7 +205,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/needs_systemui_restart"
+                        android:text="@string/pick_style"
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_desc_size" />
 

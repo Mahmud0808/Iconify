@@ -19,9 +19,9 @@ import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.util.Objects;
 
-public class CompilerUtil {
+public class OverlayCompilerUtil {
 
-    private static final String TAG = "CompilerUtil";
+    private static final String TAG = "OverlayCompilerUtil";
     private static final String aapt = References.TOOLS_DIR + "/libaapt.so";
     private static final String zipalign = References.TOOLS_DIR + "/libzipalign.so";
 

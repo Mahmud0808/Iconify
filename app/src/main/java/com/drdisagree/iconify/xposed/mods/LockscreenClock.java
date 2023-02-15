@@ -94,14 +94,14 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
         if (ourResparam == null) return;
 
-        if (!showLockscreenClock)
-            return;
-
         try {
             ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "keyguard_status_view", new XC_LayoutInflated() {
                 @SuppressLint({"DiscouragedApi"})
                 @Override
                 public void handleLayoutInflated(LayoutInflatedParam liparam) {
+                    if (!showLockscreenClock)
+                        return;
+
                     status_view_container = liparam.view.findViewById(liparam.res.getIdentifier("status_view_container", "id", SYSTEMUI_PACKAGE));
                     if (status_view_container.getChildCount() >= 3) {
                         return;
@@ -486,8 +486,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     }
                 }
             });
-        } catch (Throwable t) {
-            log(TAG + t);
+        } catch (Throwable ignored) {
         }
     }
 
@@ -495,14 +494,14 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
         if (ourResparam == null) return;
 
-        if (!showLockscreenClock)
-            return;
-
         try {
             ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "keyguard_status_view", new XC_LayoutInflated() {
                 @SuppressLint({"DiscouragedApi"})
                 @Override
                 public void handleLayoutInflated(LayoutInflatedParam liparam) {
+                    if (!showLockscreenClock)
+                        return;
+
                     @SuppressLint("DiscouragedApi") RelativeLayout keyguard_clock_container = liparam.view.findViewById(liparam.res.getIdentifier("keyguard_clock_container", "id", SYSTEMUI_PACKAGE));
                     keyguard_clock_container.getLayoutParams().height = 0;
                     keyguard_clock_container.getLayoutParams().width = 0;
@@ -513,8 +512,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     log("Stock lockscreen clock hidden");
                 }
             });
-        } catch (Throwable t) {
-            log(TAG + t);
+        } catch (Throwable ignored) {
         }
     }
 }

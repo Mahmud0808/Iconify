@@ -135,4 +135,24 @@ public class SystemUtil {
     private boolean getIsDark() {
         return (mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
     }
+
+    public static void doubleToggleDarkTheme() {
+        boolean isDark = (Iconify.getAppContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
+        new Thread(() -> {
+            try {
+                while (darkSwitching) {
+                    Thread.currentThread().wait(100);
+                }
+                darkSwitching = true;
+
+                Shell.cmd("cmd uimode night " + (isDark ? "no" : "yes")).exec();
+                Thread.sleep(1000);
+                Shell.cmd("cmd uimode night " + (isDark ? "yes" : "no")).exec();
+                Thread.sleep(500);
+
+                darkSwitching = false;
+            } catch (Exception ignored) {
+            }
+        }).start();
+    }
 }

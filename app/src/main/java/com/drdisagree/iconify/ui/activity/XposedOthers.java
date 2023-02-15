@@ -47,6 +47,7 @@ public class XposedOthers extends AppCompatActivity {
         hide_qs_carrier_group.setChecked(RPrefs.getBoolean(QSPANEL_HIDE_CARRIER, false));
         hide_qs_carrier_group.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(QSPANEL_HIDE_CARRIER, isChecked);
+            new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
         });
 
         // Hide status icons
@@ -54,6 +55,7 @@ public class XposedOthers extends AppCompatActivity {
         hide_status_icons.setChecked(RPrefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false));
         hide_status_icons.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_STATUS_ICONS_SWITCH, isChecked);
+            new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
         });
 
         // Fixed status icons
@@ -65,6 +67,8 @@ public class XposedOthers extends AppCompatActivity {
                 FabricatedOverlayUtil.disableOverlay("quickQsOffsetHeight");
             else if (RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0) > 32)
                 FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (48 + RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0)) + "dp");
+
+            new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
         });
 
         // Status icons top margin

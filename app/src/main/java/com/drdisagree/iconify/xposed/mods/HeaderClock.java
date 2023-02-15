@@ -83,19 +83,20 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
         if (ourResparam == null) return;
 
-        if (!showHeaderClock)
-            return;
 
         try {
-            ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "bool", "config_use_large_screen_shade_header", false);
-        } catch (Throwable ignored) {
-        }
+            if (showHeaderClock) try {
+                ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "bool", "config_use_large_screen_shade_header", false);
+            } catch (Throwable ignored) {
+            }
 
-        try {
             ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_status_bar_expanded_header", new XC_LayoutInflated() {
                 @SuppressLint({"DiscouragedApi"})
                 @Override
                 public void handleLayoutInflated(LayoutInflatedParam liparam) {
+                    if (!showHeaderClock)
+                        return;
+
                     @SuppressLint("DiscouragedApi") FrameLayout header = liparam.view.findViewById(liparam.res.getIdentifier("header", "id", SYSTEMUI_PACKAGE));
 
                     switch (headerClockStyle) {
@@ -448,8 +449,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     }
                 }
             });
-        } catch (Throwable t) {
-            log(TAG + t);
+        } catch (Throwable ignored) {
         }
     }
 
@@ -457,14 +457,14 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
         if (ourResparam == null) return;
 
-        if (!showHeaderClock)
-            return;
-
         try {
             ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
                 @SuppressLint({"DiscouragedApi"})
                 @Override
                 public void handleLayoutInflated(LayoutInflatedParam liparam) {
+                    if (!showHeaderClock)
+                        return;
+
                     @SuppressLint("DiscouragedApi") TextView clock = liparam.view.findViewById(liparam.res.getIdentifier("clock", "id", SYSTEMUI_PACKAGE));
                     clock.getLayoutParams().height = 0;
                     clock.getLayoutParams().width = 0;
@@ -505,8 +505,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     }
                 }
             });
-        } catch (Throwable t) {
-            log(TAG + t);
+        } catch (Throwable ignored) {
         }
 
         try {
@@ -514,6 +513,9 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                 @SuppressLint({"DiscouragedApi"})
                 @Override
                 public void handleLayoutInflated(LayoutInflatedParam liparam) {
+                    if (!showHeaderClock)
+                        return;
+
                     @SuppressLint("DiscouragedApi") TextView date = liparam.view.findViewById(liparam.res.getIdentifier("date", "id", SYSTEMUI_PACKAGE));
                     date.setTextColor(0);
                     date.setTextAppearance(0);
@@ -521,8 +523,27 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     date.getLayoutParams().width = 0;
                 }
             });
-        } catch (Throwable t) {
-            log(TAG + t);
+        } catch (Throwable ignored) {
+        }
+
+        try {
+            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "qs_carrier", new XC_LayoutInflated() {
+                @Override
+                public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
+                    if (!showHeaderClock)
+                        return;
+
+                    @SuppressLint("DiscouragedApi") LinearLayout linear_carrier = liparam.view.findViewById(liparam.res.getIdentifier("linear_carrier", "id", SYSTEMUI_PACKAGE));
+                    if (linear_carrier != null) {
+                        linear_carrier.getLayoutParams().height = 0;
+                        linear_carrier.getLayoutParams().width = 0;
+                        linear_carrier.setMinimumWidth(0);
+                        linear_carrier.setFocusable(false);
+                        linear_carrier.setVisibility(View.INVISIBLE);
+                    }
+                }
+            });
+        } catch (Throwable ignored) {
         }
     }
 }

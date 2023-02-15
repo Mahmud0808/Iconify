@@ -53,13 +53,13 @@ public class HookEntry implements IXposedHookLoadPackage {
 
     public HookEntry() {
         modPacks.add(QSPanel.class);
+        modPacks.add(Miscellaneous.class);
         modPacks.add(QSTransparency.class);
-        modPacks.add(BackgroundChip.class);
         modPacks.add(VerticalQSTile.class);
         modPacks.add(HeaderImage.class);
         modPacks.add(HeaderClock.class);
         modPacks.add(LockscreenClock.class);
-        modPacks.add(Miscellaneous.class);
+        modPacks.add(BackgroundChip.class);
     }
 
     @SuppressLint("ApplySharedPref")

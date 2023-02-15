@@ -68,8 +68,6 @@ public class QSTransparency extends ModPack {
     }
 
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpParam) {
-        log("Loaded App: " + lpParam.packageName);
-
         if (!lpParam.packageName.equals(SYSTEMUI_PACKAGE))
             return;
 
@@ -80,7 +78,8 @@ public class QSTransparency extends ModPack {
         hookAllConstructors(ScrimController, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
-                if (!QsTransparencyActive) return;
+                if (!QsTransparencyActive)
+                    return;
 
                 lpparamCustom = param.thisObject;
 
@@ -111,7 +110,8 @@ public class QSTransparency extends ModPack {
         hookAllMethods(ScrimController, "getInterpolatedFraction", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
-                if (!QsTransparencyActive) return;
+                if (!QsTransparencyActive)
+                    return;
 
                 behindFraction = (float) param.getResult();
             }
@@ -120,7 +120,8 @@ public class QSTransparency extends ModPack {
         hookAllMethods(ScrimController, "applyState", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
-                if (!QsTransparencyActive) return;
+                if (!QsTransparencyActive)
+                    return;
 
                 boolean mClipsQsScrim = (boolean) getObjectField(param.thisObject, "mClipsQsScrim");
 
@@ -136,7 +137,8 @@ public class QSTransparency extends ModPack {
             hookAllMethods(ScrimController, "setCustomScrimAlpha", new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) {
-                    if (!QsTransparencyActive) return;
+                    if (!QsTransparencyActive)
+                        return;
 
                     param.args[0] = (int) (alpha * 100);
                 }

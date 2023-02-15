@@ -82,7 +82,10 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         hideStatusIcons = Xprefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false);
         fixedStatusIcons = Xprefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false);
 
+        initStatusBarDrawables();
         updateStatusBarClock();
+
+        initStatusIconsDrawables();
         setQSStatusIconsBg();
     }
 
@@ -165,6 +168,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         });
 
         updateStatusBarClock();
+        setQSStatusIconsBg();
     }
 
     private void initStatusBarDrawables() {
@@ -374,9 +378,9 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     }
 
     private void updateStatusBarClock() {
-        if (mShowSBClockBg) {
-            initStatusBarDrawables();
+        initStatusBarDrawables();
 
+        if (mShowSBClockBg) {
             if (mClockView != null) {
                 mClockView.setPadding(12, 2, 12, 2);
                 setStatusBarBackgroundChip(mClockView);
@@ -414,11 +418,14 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         }
 
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
-        if (ourResparam == null || !mShowSBClockBg) return;
+        if (ourResparam == null) return;
 
         ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "status_bar", new XC_LayoutInflated() {
             @Override
             public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
+                if (!mShowSBClockBg)
+                    return;
+
                 try {
                     @SuppressLint("DiscouragedApi") TextView clock = liparam.view.findViewById(liparam.res.getIdentifier("clock", "id", SYSTEMUI_PACKAGE));
                     ((LinearLayout.LayoutParams) clock.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.START;
@@ -434,6 +441,9 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "status_bar", new XC_LayoutInflated() {
             @Override
             public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
+                if (!mShowSBClockBg)
+                    return;
+
                 try {
                     @SuppressLint("DiscouragedApi") TextView clock_center = liparam.view.findViewById(liparam.res.getIdentifier("clock_center", "id", SYSTEMUI_PACKAGE));
                     ((LinearLayout.LayoutParams) clock_center.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.START;
@@ -452,13 +462,13 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
 
         initStatusIconsDrawables();
 
-        if (!mShowQSStatusIconsBg || hideStatusIcons)
-            return;
+        ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
+            @Override
+            public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
+                if (!mShowQSStatusIconsBg || hideStatusIcons)
+                    return;
 
-        if (!fixedStatusIcons) {
-            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
-                @Override
-                public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
+                if (!fixedStatusIcons) {
                     try {
                         @SuppressLint("DiscouragedApi") FrameLayout rightLayout = liparam.view.findViewById(liparam.res.getIdentifier("rightLayout", "id", SYSTEMUI_PACKAGE));
                         LinearLayout statusIcons = (LinearLayout) rightLayout.getChildAt(0);
@@ -474,11 +484,16 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                     } catch (Throwable ignored) {
                     }
                 }
-            });
-        } else {
-            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_status_bar_header_date_privacy", new XC_LayoutInflated() {
-                @Override
-                public void handleLayoutInflated(LayoutInflatedParam liparam) {
+            }
+        });
+
+        ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_status_bar_header_date_privacy", new XC_LayoutInflated() {
+            @Override
+            public void handleLayoutInflated(LayoutInflatedParam liparam) {
+                if (!mShowQSStatusIconsBg || hideStatusIcons)
+                    return;
+
+                if (fixedStatusIcons) {
                     try {
                         @SuppressLint("DiscouragedApi") LinearLayout statusIcons = liparam.view.findViewById(liparam.res.getIdentifier("statusIcons", "id", SYSTEMUI_PACKAGE));
                         if (statusIcons != null) {
@@ -490,12 +505,11 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
 
                             setStatusIconsBackgroundChip(statusIconContainer);
                         }
-                    } catch (Throwable t) {
-                        log(t);
+                    } catch (Throwable ignored) {
                     }
                 }
-            });
-        }
+            }
+        });
     }
 
     private void setStatusBarBackgroundChip(View view) {

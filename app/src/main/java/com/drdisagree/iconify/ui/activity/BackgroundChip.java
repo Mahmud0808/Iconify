@@ -49,7 +49,8 @@ public class BackgroundChip extends AppCompatActivity {
         enable_clock_bg_chip.setChecked(RPrefs.getBoolean(STATUSBAR_CLOCKBG_SWITCH, false));
         enable_clock_bg_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(STATUSBAR_CLOCKBG_SWITCH, isChecked);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+            if (isChecked)
+                new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
         });
 
         // Statusbar clock chip style
@@ -73,7 +74,7 @@ public class BackgroundChip extends AppCompatActivity {
             RPrefs.putBoolean(QSPANEL_STATUSICONSBG_SWITCH, isChecked);
             new Handler().postDelayed(() -> {
                 OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
-                SystemUtil.restartSystemUI();
+                SystemUtil.doubleToggleDarkTheme();
             }, 200);
         });
 
@@ -144,6 +145,7 @@ public class BackgroundChip extends AppCompatActivity {
             list.setOnClickListener(v -> {
                 RPrefs.putInt(CHIP_QSSTATUSICONS_STYLE, finalI);
                 refreshBackgroundStatusIcons();
+                new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
             });
 
             containerStatusIcons.addView(list);
