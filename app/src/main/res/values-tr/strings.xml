@@ -6,7 +6,7 @@
     <string name="activity_desc_brightness_bar">Parlaklık barını özelleştir</string>
     <string name="activity_title_color_engine">Renk Seçenekleri</string>
     <string name="activity_desc_color_engine">Renkleri özelleştir</string>
-    <string name="activity_title_color_picker">Renk Seçici</string>
+    <string name="color_picker_title">Renk Seçici</string>
     <string name="activity_title_extras">Ekstralar</string>
     <string name="activity_desc_extras">Ek özelleştirmeler ve seçenekler</string>
     <string name="activity_title_home_page">Iconify</string>

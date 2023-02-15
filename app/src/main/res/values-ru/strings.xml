@@ -31,7 +31,7 @@
     <string name="activity_title_brightness_bar">Слайдер яркости</string>
     <string name="activity_title_changelog">Журнал изменеий</string>
     <string name="activity_title_color_engine">Редактор цветов</string>
-    <string name="activity_title_color_picker">Выбор цвета</string>
+    <string name="color_picker_title">Выбор цвета</string>
     <string name="activity_title_colored_battery">Цветная батарея</string>
     <string name="activity_title_monet_engine">Движок тем Monet</string>
     <string name="activity_desc_monet_engine">Переопределить стиль цветов Monet</string>

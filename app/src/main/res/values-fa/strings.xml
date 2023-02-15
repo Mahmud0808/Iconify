@@ -6,7 +6,7 @@
     <string name="activity_desc_brightness_bar">تغییر ظاهر نوار تنظیم نور صفحه</string>
     <string name="activity_title_color_engine">انتخاب رنگبندی</string>
     <string name="activity_desc_color_engine">تغییر رنگبندی بخش‌های مختلف</string>
-    <string name="activity_title_color_picker">انتخاب رنگ</string>
+    <string name="color_picker_title">انتخاب رنگ</string>
     <string name="activity_title_extras">موارد بیشتر</string>
     <string name="activity_desc_extras">تنظیمات و گزینه‌های اضافه</string>
     <string name="activity_title_home_page">آیکونیفای</string>

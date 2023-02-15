@@ -83,7 +83,7 @@ public class BasicColors extends AppCompatActivity implements ColorPickerDialogL
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_color_picker));
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_basic_colors));
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
