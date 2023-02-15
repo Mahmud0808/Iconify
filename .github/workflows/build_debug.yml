@@ -8,9 +8,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK 11
@@ -53,3 +51,21 @@ jobs:
           name: "Iconify v${{ env.VERSION_NAME }} Dev (#${{github.run_number}})"
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
+
+      - name: Copy apk
+        id: copy_apk
+        run: |
+          APK="Iconify_v${{ env.VERSION_NAME }}_Dev_${{github.run_number}}.apk"
+          find app/build/outputs/apk/ -name '*.apk' -type f -exec cp {} $APK \;
+          echo "apk=$APK" >> $GITHUB_OUTPUT
+          echo "md5=$(cat $APK 2>/dev/null | md5sum | cut -d ' ' -f1)" >> $GITHUB_OUTPUT
+
+      - name: SendTo Telegram
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          document: ${{ steps.copy_apk.outputs.apk }}
+          message: |
+            Apk ${{ steps.copy_apk.outputs.apk }}
+            Hash md5 `${{ steps.copy_apk.outputs.md5 }}`
