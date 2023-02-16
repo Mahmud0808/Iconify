@@ -2,6 +2,7 @@ package com.drdisagree.iconify.ui.activity;
 
 import static com.drdisagree.iconify.common.References.EASTER_EGG;
 import static com.drdisagree.iconify.common.References.FIRST_INSTALL;
+import static com.drdisagree.iconify.common.References.SHOW_XPOSED_WARN;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -84,6 +86,11 @@ public class Settings extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        // Show xposed warn
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_warn_message = findViewById(R.id.hide_warn_message);
+        hide_warn_message.setChecked(Prefs.getBoolean(SHOW_XPOSED_WARN, true));
+        hide_warn_message.setOnCheckedChangeListener((buttonView, isChecked) -> Prefs.putBoolean(SHOW_XPOSED_WARN, isChecked));
 
         // Disable Everything
         TextView list_title_disableEverything = findViewById(R.id.list_title_disableEverything);

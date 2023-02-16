@@ -110,6 +110,7 @@ public class References {
     public static final String MONET_BACKGROUND_SATURATION = "monetBackgroundSaturation";
     public static final String MONET_BACKGROUND_LIGHTNESS = "monetBackgroundLightness";
     public static final String MONET_ACCURATE_SHADES = "monetAccurateShades";
+    public static final String SHOW_XPOSED_WARN = "showXposedMenuWarn";
 
     // Fabricated overlays
     public static final String ICONIFY_COLOR_ACCENT_PRIMARY = "0xFF50A6D7";

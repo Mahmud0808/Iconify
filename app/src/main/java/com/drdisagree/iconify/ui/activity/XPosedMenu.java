@@ -1,11 +1,14 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.SHOW_XPOSED_WARN;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,6 +19,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.RootUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -49,6 +53,16 @@ public class XPosedMenu extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        // Xposed warn
+        LinearLayout xposed_warn = findViewById(R.id.xposed_warn);
+        xposed_warn.setVisibility(Prefs.getBoolean(SHOW_XPOSED_WARN, true) ? View.VISIBLE : View.GONE);
+
+        FrameLayout close_xposed_warn = findViewById(R.id.close_xposed_warn);
+        close_xposed_warn.setOnClickListener(v -> {
+            Prefs.putBoolean(SHOW_XPOSED_WARN, false);
+            xposed_warn.setVisibility(View.GONE);
+        });
 
         // Restart SystemUI
         Button button_restartSysui = findViewById(R.id.button_restartSysui);

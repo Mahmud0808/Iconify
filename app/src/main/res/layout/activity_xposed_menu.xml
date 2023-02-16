@@ -23,6 +23,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/xposed_warn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/container_marginSide"
@@ -32,21 +33,51 @@
                 android:gravity="start|center"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/container_paddingSide"
-                android:paddingTop="@dimen/container_padding"
-                android:paddingEnd="@dimen/container_paddingSide"
+                android:paddingTop="14dp"
+                android:paddingEnd="18dp"
                 android:paddingBottom="@dimen/container_padding">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/attention"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|top"
+                        android:layout_marginTop="6dp"
+                        android:layout_weight="1.0"
+                        android:text="@string/attention"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
+
+                    <FrameLayout
+                        android:id="@+id/close_xposed_warn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="-6dp"
+                        android:background="@drawable/container"
+                        android:padding="6dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="end|center"
+                            android:background="@drawable/ic_close"
+                            android:backgroundTint="@color/textColorPrimary"
+                            android:contentDescription="@string/icon"
+                            android:padding="12dp" />
+
+                    </FrameLayout>
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="6dp"
                     android:justificationMode="inter_word"
                     android:text="@string/lsposed_warn"
                     android:textColor="@color/textColorSecondary"
@@ -57,6 +88,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/container_padding"
+                    android:layout_marginEnd="6dp"
                     android:background="@drawable/button"
                     android:fontFamily="@font/semibold"
                     android:letterSpacing="0.1"
