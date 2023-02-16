@@ -2,6 +2,8 @@ package com.drdisagree.iconify.ui.activity;
 
 import static com.drdisagree.iconify.common.References.COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.References.COLOR_ACCENT_SECONDARY;
+import static com.drdisagree.iconify.common.References.COLOR_PIXEL_DARK_BG;
+import static com.drdisagree.iconify.common.References.CUSTOM_PRIMARY_COLOR_SWITCH;
 import static com.drdisagree.iconify.common.References.CUSTOM_SECONDARY_COLOR_SWITCH;
 import static com.drdisagree.iconify.common.References.MONET_ACCENT_SATURATION;
 import static com.drdisagree.iconify.common.References.MONET_ACCURATE_SHADES;
@@ -35,6 +37,7 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.ColorUtil;
+import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.MonetCompilerUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
@@ -300,6 +303,9 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
 
                 if (isSelectedPrimary) Prefs.putString(COLOR_ACCENT_PRIMARY, accentPrimary);
                 if (isSelectedSecondary) Prefs.putString(COLOR_ACCENT_SECONDARY, accentSecondary);
+
+                disableBasicColors();
+
                 AtomicBoolean hasErroredOut = new AtomicBoolean(false);
 
                 Runnable runnable1 = () -> {
@@ -579,5 +585,13 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         }
     };
 
+    private void disableBasicColors() {
+        Prefs.clearPref("customMonetColor");
+        Prefs.clearPref(CUSTOM_PRIMARY_COLOR_SWITCH);
+        Prefs.clearPref(CUSTOM_SECONDARY_COLOR_SWITCH);
 
+        FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
+        FabricatedOverlayUtil.disableOverlay(COLOR_PIXEL_DARK_BG);
+        FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
+    }
 }
