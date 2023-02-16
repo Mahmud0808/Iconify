@@ -1,19 +1,17 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.FABRICATED_SB_COLOR_SOURCE;
 import static com.drdisagree.iconify.common.References.FABRICATED_SB_COLOR_TINT;
 import static com.drdisagree.iconify.common.References.FABRICATED_SB_LEFT_PADDING;
 import static com.drdisagree.iconify.common.References.FABRICATED_SB_RIGHT_PADDING;
-import static com.drdisagree.iconify.common.References.STR_NULL;
 import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.utils.ColorUtil.ColorToSpecialHex;
 
 import android.annotation.SuppressLint;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +23,7 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
+import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
@@ -35,6 +34,11 @@ import java.util.Objects;
 public class Statusbar extends AppCompatActivity implements ColorPickerDialogListener {
 
     private static String colorSBTint;
+
+    private static String selectedStyle;
+
+    private RadioGroup tint_selector;
+    
     ColorPickerDialog.Builder colorPickerSBTint;
 
     @SuppressLint("SetTextI18n")
@@ -50,6 +54,17 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        //set cuurent choosed style
+        selectedStyle = Prefs.getString(FABRICATED_SB_COLOR_SOURCE);
+
+        if (Objects.equals(selectedStyle, "System"))
+            ((RadioButton) findViewById(R.id.sb_tint_system)).setChecked(true);
+        else if (Objects.equals(selectedStyle, "Monet"))
+            ((RadioButton) findViewById(R.id.sb_tint_monet)).setChecked(true);
+        else if (Objects.equals(selectedStyle, "Custom"))
+            ((RadioButton) findViewById(R.id.sb_tint_custom)).setChecked(true);
+
 
         // Statusbar left padding
         SeekBar sb_left_padding_seekbar = findViewById(R.id.sb_left_padding_seekbar);
@@ -117,28 +132,28 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
             }
         });
 
-        // Statusbar color tint
-        if (!Objects.equals(Prefs.getString(FABRICATED_SB_COLOR_TINT), STR_NULL))
-            colorSBTint = Prefs.getString(FABRICATED_SB_COLOR_TINT);
-        else colorSBTint = String.valueOf(getResources().getColor(R.color.colorAccent));
+        colorSBTint = String.valueOf(getResources().getColor(R.color.colorAccent));
 
-        // Color preview
-        colorPickerSBTint = ColorPickerDialog.newBuilder();
+        // Statusbar color source select
+        tint_selector = findViewById(R.id.sb_tint_source_selector);
 
-        colorPickerSBTint.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(colorSBTint)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);
-
-        LinearLayout sb_color_tint = findViewById(R.id.sb_color_tint);
-        sb_color_tint.setOnClickListener(v -> colorPickerSBTint.show(Statusbar.this));
-
-        updateSBColorPreview();
-
-        // Reset statusbar color tint
-        Button sb_reset_tint = findViewById(R.id.sb_reset_tint);
-        sb_reset_tint.setVisibility(!Objects.equals(Prefs.getString(FABRICATED_SB_COLOR_TINT), STR_NULL) ? View.VISIBLE : View.GONE);
-
-        sb_reset_tint.setOnClickListener(v -> {
-            Prefs.putString(FABRICATED_SB_COLOR_TINT, STR_NULL);
-            resetSBColor();
+        tint_selector.setOnCheckedChangeListener((group, checkedId) -> {
+            if (Objects.equals(checkedId, R.id.sb_tint_system)) {
+                if (!Objects.equals(selectedStyle, "System")) {
+                    Prefs.putString(FABRICATED_SB_COLOR_SOURCE, "System");
+                    resetSBColor();
+                }
+            } else if (Objects.equals(checkedId, R.id.sb_tint_monet)) {
+                if (!Objects.equals(selectedStyle, "Monet")) {
+                    OverlayUtil.enableOverlay("IconifyComponentSbTint.overlay");
+                    Prefs.putString(FABRICATED_SB_COLOR_SOURCE, "Monet");
+                    SystemUtil.restartSystemUI();
+                }
+            } else if (Objects.equals(checkedId, R.id.sb_tint_custom)) {
+                colorPickerSBTint = ColorPickerDialog.newBuilder();
+                colorPickerSBTint.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(colorSBTint)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);
+                colorPickerSBTint.show(Statusbar.this);
+            }
         });
     }
 
@@ -147,14 +162,18 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
         if (dialogId == 1) {
             colorSBTint = String.valueOf(color);
             Prefs.putString(FABRICATED_SB_COLOR_TINT, colorSBTint);
-            updateSBColorPreview();
             applySBColor();
+            OverlayUtil.disableOverlay("IconifyComponentSbTint.overlay");
             colorPickerSBTint.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(colorSBTint)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);
+            Prefs.putString(FABRICATED_SB_COLOR_SOURCE, "Custom");
         }
     }
 
     @Override
     public void onDialogDismissed(int dialogId) {
+        selectedStyle = Prefs.getString(FABRICATED_SB_COLOR_SOURCE);
+         if (Objects.equals(selectedStyle, "System")) ((RadioButton) findViewById(R.id.sb_tint_system)).setChecked(true);
+        else if (Objects.equals(selectedStyle, "Monet")) ((RadioButton) findViewById(R.id.sb_tint_monet)).setChecked(true);
     }
 
     private void applySBColor() {
@@ -177,16 +196,9 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
         FabricatedOverlayUtil.disableOverlay("colorSBTint5");
         FabricatedOverlayUtil.disableOverlay("colorSBTint6");
         FabricatedOverlayUtil.disableOverlay("colorSBTint7");
+        OverlayUtil.disableOverlay("IconifyComponentSbTint.overlay");
 
         new Handler().postDelayed(SystemUtil::restartSystemUI, 2000);
-    }
-
-    private void updateSBColorPreview() {
-        View sb_color_preview = findViewById(R.id.sb_color_preview);
-
-        GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(colorSBTint), Integer.parseInt(colorSBTint)});
-        gd.setCornerRadius(24 * getResources().getDisplayMetrics().density);
-        sb_color_preview.setBackgroundDrawable(gd);
     }
 
     @Override

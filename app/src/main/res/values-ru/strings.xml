@@ -364,4 +364,7 @@
     <string name="icon_mask_style_teardrop">Капля</string>
     <string name="pick_style">Выберите стиль по своему вкусу</string>
     <string name="info_contributor_desc_2">За помощь мне в Telegram</string>
+    <string name="sb_tint_system">Стандартный системный оттенок</string>
+    <string name="sb_tint_monet">Monet оттенок</string>
+    <string name="sb_tint_custom">Свой оттенок</string>
 </resources>
