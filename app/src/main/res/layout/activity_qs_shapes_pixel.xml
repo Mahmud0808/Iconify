@@ -21,6 +21,8 @@
             android:layout_height="match_parent"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
+            android:layout_marginStart="@dimen/container_marginSide"
+            android:layout_marginEnd="@dimen/container_marginSide"
             android:orientation="vertical" />
 
     </androidx.core.widget.NestedScrollView>

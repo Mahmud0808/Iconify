@@ -70,10 +70,7 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/colorBackground" />
+            <View style="@style/divider_transparent"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -121,10 +118,7 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/colorBackground" />
+            <View style="@style/divider_transparent"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -172,10 +166,7 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/colorBackground" />
+            <View style="@style/divider_transparent"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -223,10 +214,7 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/colorBackground" />
+            <View style="@style/divider_transparent"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -280,10 +268,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
+                <View style="@style/divider_transparent"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -338,10 +323,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="@color/colorBackground" />
+                    <View style="@style/divider_transparent"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -399,10 +381,7 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
+                <View style="@style/divider_transparent"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -451,10 +430,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/colorBackground" />
+            <View style="@style/divider_transparent"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -502,10 +478,7 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/colorBackground" />
+            <View style="@style/divider_transparent"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

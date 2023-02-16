@@ -20,15 +20,14 @@
             android:layout_height="match_parent"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
+            android:layout_marginStart="@dimen/container_marginSide"
+            android:layout_marginEnd="@dimen/container_marginSide"
             android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/colored_battery"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/container_marginSide"
-                android:layout_marginEnd="@dimen/container_marginSide"
-                android:layout_marginBottom="@dimen/container_margin"
                 android:background="@drawable/container"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/container_paddingSide"
@@ -70,11 +69,12 @@
 
             </LinearLayout>
 
+            <View style="@style/divider_accent" />
+
             <LinearLayout
                 android:id="@+id/icon_packs_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp"
                 android:orientation="vertical" />
 

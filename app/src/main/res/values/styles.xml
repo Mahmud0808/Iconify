@@ -50,4 +50,18 @@
         <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:background">@color/colorContainer</item>
     </style>
+
+    <style name="divider_accent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2dp</item>
+        <item name="android:background">@drawable/divider_accent</item>
+        <item name="android:layout_marginTop">@dimen/container_paddingSide</item>
+        <item name="android:layout_marginBottom">@dimen/container_paddingSide</item>
+    </style>
+
+    <style name="divider_transparent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2dp</item>
+        <item name="android:background">@color/transparent</item>
+    </style>
 </resources>

@@ -80,10 +80,7 @@
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
+                <View style="@style/divider_transparent"/>
 
                 <LinearLayout
                     android:id="@+id/text_size_container"
@@ -187,10 +184,7 @@
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
+                <View style="@style/divider_transparent"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -311,10 +305,7 @@
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
+                <View style="@style/divider_transparent"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -366,10 +357,7 @@
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
+                <View style="@style/divider_transparent"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -421,10 +409,7 @@
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
+                <View style="@style/divider_transparent"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -476,10 +461,7 @@
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
+                <View style="@style/divider_transparent"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"

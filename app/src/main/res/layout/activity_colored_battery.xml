@@ -70,10 +70,7 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/colorBackground" />
+            <View style="@style/divider_transparent"/>
 
             <LinearLayout
                 android:id="@+id/battery_background_color"
@@ -122,10 +119,7 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/colorBackground" />
+            <View style="@style/divider_transparent"/>
 
             <LinearLayout
                 android:id="@+id/battery_filled_color"

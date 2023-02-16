@@ -20,14 +20,14 @@
             android:layout_height="match_parent"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
+            android:layout_marginStart="@dimen/container_marginSide"
+            android:layout_marginEnd="@dimen/container_marginSide"
             android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/qs_row_column"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/container_marginSide"
-                android:layout_marginEnd="@dimen/container_marginSide"
                 android:layout_marginBottom="@dimen/container_margin"
                 android:background="@drawable/container"
                 android:orientation="horizontal"
@@ -74,8 +74,6 @@
                 android:id="@+id/qs_text_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/container_marginSide"
-                android:layout_marginEnd="@dimen/container_marginSide"
                 android:layout_marginBottom="@dimen/container_margin"
                 android:background="@drawable/container"
                 android:orientation="horizontal"
@@ -122,9 +120,6 @@
                 android:id="@+id/qs_shape_pixel_variant"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/container_marginSide"
-                android:layout_marginEnd="@dimen/container_marginSide"
-                android:layout_marginBottom="@dimen/container_margin"
                 android:background="@drawable/container"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/container_paddingSide"
@@ -166,11 +161,12 @@
 
             </LinearLayout>
 
+            <View style="@style/divider_accent" />
+
             <LinearLayout
                 android:id="@+id/qs_shape_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp"
                 android:orientation="vertical" />
 
