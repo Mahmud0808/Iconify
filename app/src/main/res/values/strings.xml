@@ -373,6 +373,7 @@
     <string name="icon_mask_style_scroll">Scroll</string>
     <string name="icon_mask_style_square">Square</string>
     <string name="icon_mask_style_teardrop">Teardrop</string>
+    <string name="icon_mask_style_rounded_rectangle">Rounded\nRectangle</string>
     <string name="pick_style">Pick a style of your choice</string>
     <string name="info_contributor_desc_2">For assisting me on telegram.</string>
     <string name="attention">Attention!</string>

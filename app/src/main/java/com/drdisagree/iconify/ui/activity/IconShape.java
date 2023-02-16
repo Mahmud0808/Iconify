@@ -47,6 +47,7 @@ public class IconShape extends AppCompatActivity {
         icon_masking_preview_styles.add(new Object[]{R.drawable.shape_scroll, R.string.icon_mask_style_scroll});
         icon_masking_preview_styles.add(new Object[]{R.drawable.shape_square, R.string.icon_mask_style_square});
         icon_masking_preview_styles.add(new Object[]{R.drawable.shape_teardrops, R.string.icon_mask_style_teardrop});
+        icon_masking_preview_styles.add(new Object[]{R.drawable.shape_rounded_rectangle, R.string.icon_mask_style_rounded_rectangle});
 
         addItem(icon_masking_preview_styles);
 
