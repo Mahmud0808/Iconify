@@ -364,6 +364,10 @@
     <string name="icon_mask_style_teardrop">Капля</string>
     <string name="pick_style">Выберите стиль по своему вкусу</string>
     <string name="info_contributor_desc_2">За помощь мне в Telegram</string>
+    <string name="tr_translation">Перевод на турецкий.</string>
+    <string name="attention">Внимание!</string>
+    <string name="lsposed_warn">Перед включением Iconify в LSPosed, сделайте долгий клик по приложению и нажмите Re-optimize. После этого включите Iconify и перезапустите System UI. Это необходимо для лучшей работы.</string>
+    <string name="icon_mask_style_rounded_rectangle">Скруглённый\nпрямоугольник</string>
     <string name="sb_tint_system">Стандартный системный оттенок</string>
     <string name="sb_tint_monet">Monet оттенок</string>
     <string name="sb_tint_custom">Свой оттенок</string>
