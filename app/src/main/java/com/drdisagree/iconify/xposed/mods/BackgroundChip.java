@@ -423,18 +423,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                     clock.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, mContext.getResources().getDisplayMetrics());
                     clock.setGravity(Gravity.CENTER_VERTICAL);
                     clock.requestLayout();
-                } catch (Throwable ignored) {
-                }
-            }
-        });
 
-        ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "status_bar", new XC_LayoutInflated() {
-            @Override
-            public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
-                if (!mShowSBClockBg)
-                    return;
-
-                try {
                     @SuppressLint("DiscouragedApi") TextView clock_center = liparam.view.findViewById(liparam.res.getIdentifier("clock_center", "id", SYSTEMUI_PACKAGE));
                     ((LinearLayout.LayoutParams) clock_center.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.START;
                     clock_center.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, mContext.getResources().getDisplayMetrics());

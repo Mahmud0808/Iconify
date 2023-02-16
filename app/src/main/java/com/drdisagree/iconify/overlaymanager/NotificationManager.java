@@ -20,10 +20,10 @@ public class NotificationManager {
     }
 
     protected static void enable_pack(int n) {
-        String path = "/system/product/overlay/IconifyComponentNF" + n + ".apk";
+        String path = "/system/product/overlay/IconifyComponentNFN" + n + ".apk";
 
         if (new File(path).exists()) {
-            String overlay = "IconifyComponentNF" + n + ".overlay";
+            String overlay = "IconifyComponentNFN" + n + ".overlay";
 
             if (!Prefs.getBoolean(overlay))
                 OverlayUtil.enableOverlay(overlay);
@@ -31,10 +31,10 @@ public class NotificationManager {
     }
 
     public static void disable_pack(int n) {
-        String path = "/system/product/overlay/IconifyComponentNF" + n + ".apk";
+        String path = "/system/product/overlay/IconifyComponentNFN" + n + ".apk";
 
         if (new File(path).exists()) {
-            String overlay = "IconifyComponentNF" + n + ".overlay";
+            String overlay = "IconifyComponentNFN" + n + ".overlay";
 
             if (Prefs.getBoolean(overlay))
                 OverlayUtil.disableOverlay(overlay);
@@ -44,10 +44,10 @@ public class NotificationManager {
     protected static void disable_others(int n) {
         for (int i = 1; i <= TOTAL_NOTIFICATIONS; i++) {
             if (i != n) {
-                String path = "/system/product/overlay/IconifyComponentNF" + i + ".apk";
+                String path = "/system/product/overlay/IconifyComponentNFN" + i + ".apk";
 
                 if (new File(path).exists()) {
-                    String overlay = "IconifyComponentNF" + i + ".overlay";
+                    String overlay = "IconifyComponentNFN" + i + ".overlay";
 
                     if (Prefs.getBoolean(overlay))
                         OverlayUtil.disableOverlay(overlay);

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="0.0"
+                android:endColor="@*android:color/holo_green_light"
+                android:startColor="@*android:color/holo_blue_light" />
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+        </shape>
+    </item>
+    <item android:bottom="4dp">
+        <shape android:shape="rectangle">
+            <solid android:color="?android:attr/colorBackgroundFloating" />
+            <corners
+                android:bottomLeftRadius="@*android:dimen/harmful_app_name_padding_top"
+                android:bottomRightRadius="@*android:dimen/harmful_app_name_padding_top"
+                android:topLeftRadius="@*android:dimen/harmful_app_name_padding_right"
+                android:topRightRadius="@*android:dimen/harmful_app_name_padding_right" />
+        </shape>
+    </item>
+</layer-list>

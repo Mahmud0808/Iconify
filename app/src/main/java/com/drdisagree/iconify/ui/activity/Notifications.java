@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -47,6 +48,13 @@ public class Notifications extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        // Notifications pixel item on click
+        LinearLayout notifications_pixel = findViewById(R.id.notifications_pixel);
+        notifications_pixel.setOnClickListener(v -> {
+            Intent intent = new Intent(Notifications.this, NotificationsPixel.class);
+            startActivity(intent);
+        });
+
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
 
@@ -79,7 +87,7 @@ public class Notifications extends AppCompatActivity {
 
         // Generate keys for preference
         for (int i = 0; i < container.getChildCount(); i++) {
-            NOTIFICATION_KEY.add("IconifyComponentNF" + (i + 1) + ".overlay");
+            NOTIFICATION_KEY.add("IconifyComponentNFN" + (i + 1) + ".overlay");
         }
 
         // Enable onClick event
