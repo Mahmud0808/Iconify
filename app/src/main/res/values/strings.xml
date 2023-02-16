@@ -373,4 +373,7 @@
     <string name="icon_mask_style_teardrop">Teardrop</string>
     <string name="pick_style">Pick a style of your choice</string>
     <string name="info_contributor_desc_2">For assisting me on telegram.</string>
+    <string name="sb_tint_system">Default system tint</string>
+    <string name="sb_tint_monet">Monet tint</string>
+    <string name="sb_tint_custom">Custom tint</string>
 </resources>

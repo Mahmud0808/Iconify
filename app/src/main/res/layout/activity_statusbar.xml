@@ -170,14 +170,6 @@
 
                         </LinearLayout>
 
-                        <View
-                            android:id="@+id/sb_color_preview"
-                            android:layout_width="48.0dp"
-                            android:layout_height="47dp"
-                            android:layout_gravity="start|center"
-                            android:layout_margin="2.0dp"
-                            android:contentDescription="@string/color_picker_preview" />
-
                     </LinearLayout>
 
                     <RadioGroup
@@ -198,7 +190,7 @@
                             android:checked="false"
                             android:paddingStart="12dp"
                             android:paddingEnd="10dp"
-                            android:text="Default system tint"
+                            android:text="@string/sb_tint_system"
                             android:textColor="@drawable/radio_sb_text_color"
                             android:textSize="@dimen/cont_desc_size" />
 
@@ -212,7 +204,7 @@
                             android:checked="false"
                             android:paddingStart="12dp"
                             android:paddingEnd="10dp"
-                            android:text="Monet tint"
+                            android:text="@string/sb_tint_monet"
                             android:textColor="@drawable/radio_sb_text_color"
                             android:textSize="@dimen/cont_desc_size" />
 
@@ -225,7 +217,7 @@
                             android:checked="false"
                             android:paddingStart="12dp"
                             android:paddingEnd="10dp"
-                            android:text="Custom tint"
+                            android:text="@string/sb_tint_custom"
                             android:textColor="@drawable/radio_sb_text_color"
                             android:textSize="@dimen/cont_desc_size" />
 
