@@ -3,6 +3,7 @@ package com.drdisagree.iconify.ui.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
@@ -53,32 +54,36 @@ public class ColorEngine extends AppCompatActivity {
         apply_minimal_qspanel.setChecked(Prefs.getBoolean("IconifyComponentQSST.overlay"));
 
         apply_minimal_qspanel.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                apply_pitch_black_theme.setChecked(false);
-                OverlayUtil.disableOverlay("IconifyComponentQSPB.overlay");
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    apply_pitch_black_theme.setChecked(false);
+                    OverlayUtil.disableOverlay("IconifyComponentQSPB.overlay");
 
-                apply_minimal_qspanel.postDelayed(() -> {
-                    OverlayUtil.enableOverlay("IconifyComponentQSST.overlay");
-                }, 200);
-            } else {
-                OverlayUtil.disableOverlay("IconifyComponentQSST.overlay");
-            }
+                    apply_minimal_qspanel.postDelayed(() -> {
+                        OverlayUtil.enableOverlay("IconifyComponentQSST.overlay");
+                    }, 200);
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentQSST.overlay");
+                }
+            }, 200);
         });
 
         // Pitch Black QsPanel
         apply_pitch_black_theme.setChecked(Prefs.getBoolean("IconifyComponentQSPB.overlay"));
 
         apply_pitch_black_theme.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                apply_minimal_qspanel.setChecked(false);
-                OverlayUtil.disableOverlay("IconifyComponentQSST.overlay");
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    apply_minimal_qspanel.setChecked(false);
+                    OverlayUtil.disableOverlay("IconifyComponentQSST.overlay");
 
-                apply_pitch_black_theme.postDelayed(() -> {
-                    OverlayUtil.enableOverlay("IconifyComponentQSPB.overlay");
-                }, 200);
-            } else {
-                OverlayUtil.disableOverlay("IconifyComponentQSPB.overlay");
-            }
+                    apply_pitch_black_theme.postDelayed(() -> {
+                        OverlayUtil.enableOverlay("IconifyComponentQSPB.overlay");
+                    }, 200);
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentQSPB.overlay");
+                }
+            }, 200);
         });
     }
 

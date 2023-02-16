@@ -8,6 +8,7 @@ import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -145,102 +146,112 @@ public class QsIconLabel extends AppCompatActivity {
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_whiteV2 = findViewById(R.id.label_whiteV2);
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_systemInverse = findViewById(R.id.label_systemInverse);
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_systemInverseV2 = findViewById(R.id.label_systemInverseV2);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_fixtexta13 = findViewById(R.id.label_fixtexta13);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_fixtextcolor = findViewById(R.id.label_fixtextcolor);
 
         label_white.setChecked(Prefs.getBoolean("IconifyComponentQST1.overlay"));
 
         label_white.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                label_whiteV2.setChecked(false);
-                label_systemInverse.setChecked(false);
-                label_systemInverseV2.setChecked(false);
-                label_fixtexta13.setChecked(false);
-                OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    label_whiteV2.setChecked(false);
+                    label_systemInverse.setChecked(false);
+                    label_systemInverseV2.setChecked(false);
+                    label_fixtextcolor.setChecked(false);
+                    OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
 
-                OverlayUtil.enableOverlay("IconifyComponentQST1.overlay");
-            } else {
-                OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
-            }
+                    OverlayUtil.enableOverlay("IconifyComponentQST1.overlay");
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
+                }
+            }, 200);
         });
 
         label_whiteV2.setChecked(Prefs.getBoolean("IconifyComponentQST2.overlay"));
 
         label_whiteV2.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                label_white.setChecked(false);
-                label_systemInverse.setChecked(false);
-                label_systemInverseV2.setChecked(false);
-                label_fixtexta13.setChecked(false);
-                OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    label_white.setChecked(false);
+                    label_systemInverse.setChecked(false);
+                    label_systemInverseV2.setChecked(false);
+                    label_fixtextcolor.setChecked(false);
+                    OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
 
-                OverlayUtil.enableOverlay("IconifyComponentQST2.overlay");
-            } else {
-                OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
-            }
+                    OverlayUtil.enableOverlay("IconifyComponentQST2.overlay");
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
+                }
+            }, 200);
         });
 
         label_systemInverse.setChecked(Prefs.getBoolean("IconifyComponentQST3.overlay"));
 
         label_systemInverse.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                label_white.setChecked(false);
-                label_whiteV2.setChecked(false);
-                label_systemInverseV2.setChecked(false);
-                label_fixtexta13.setChecked(false);
-                OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    label_white.setChecked(false);
+                    label_whiteV2.setChecked(false);
+                    label_systemInverseV2.setChecked(false);
+                    label_fixtextcolor.setChecked(false);
+                    OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
 
-                OverlayUtil.enableOverlay("IconifyComponentQST3.overlay");
-            } else {
-                OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
-            }
+                    OverlayUtil.enableOverlay("IconifyComponentQST3.overlay");
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
+                }
+            }, 200);
         });
 
         label_systemInverseV2.setChecked(Prefs.getBoolean("IconifyComponentQST4.overlay"));
 
         label_systemInverseV2.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                label_white.setChecked(false);
-                label_whiteV2.setChecked(false);
-                label_systemInverse.setChecked(false);
-                label_fixtexta13.setChecked(false);
-                OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    label_white.setChecked(false);
+                    label_whiteV2.setChecked(false);
+                    label_systemInverse.setChecked(false);
+                    label_fixtextcolor.setChecked(false);
+                    OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
 
-                OverlayUtil.enableOverlay("IconifyComponentQST4.overlay");
-            } else {
-                OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
-            }
+                    OverlayUtil.enableOverlay("IconifyComponentQST4.overlay");
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
+                }
+            }, 200);
         });
 
-        label_fixtexta13.setChecked(Prefs.getBoolean("IconifyComponentQST5.overlay"));
+        label_fixtextcolor.setChecked(Prefs.getBoolean("IconifyComponentQST5.overlay"));
 
-        label_fixtexta13.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                label_white.setChecked(false);
-                label_whiteV2.setChecked(false);
-                label_systemInverse.setChecked(false);
-                label_systemInverseV2.setChecked(false);
+        label_fixtextcolor.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    label_white.setChecked(false);
+                    label_whiteV2.setChecked(false);
+                    label_systemInverse.setChecked(false);
+                    label_systemInverseV2.setChecked(false);
 
-                OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
 
-                OverlayUtil.enableOverlay("IconifyComponentQST5.overlay");
-            } else {
-                OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
-            }
+                    OverlayUtil.enableOverlay("IconifyComponentQST5.overlay");
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
+                }
+            }, 200);
         });
 
         // Hide Label

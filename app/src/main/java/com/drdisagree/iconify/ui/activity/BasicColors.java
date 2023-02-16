@@ -100,89 +100,93 @@ public class BasicColors extends AppCompatActivity implements ColorPickerDialogL
         apply_monet_gradient.setChecked(Prefs.getBoolean("IconifyComponentAMGC.overlay"));
 
         apply_monet_accent.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                OverlayUtil.enableOverlay("IconifyComponentAMAC.overlay");
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    OverlayUtil.enableOverlay("IconifyComponentAMAC.overlay");
 
-                if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL)) {
-                    BasicColors.applyPrimaryColors();
-                } else {
-                    FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
-                }
-
-                if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL)) {
-                    BasicColors.applySecondaryColors();
-                } else {
-                    FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
-                }
-
-                apply_monet_accent.postDelayed(() -> {
-                    findViewById(R.id.activity_basic_colors).invalidate();
-                }, 1000);
-            } else {
-                Runnable runnable = () -> {
-                    if (!apply_monet_gradient.isChecked() && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay")) {
-                        if (Prefs.getString(COLOR_ACCENT_PRIMARY).equals(STR_NULL)) {
-                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
-                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ICONIFY_COLOR_PIXEL_DARK_BG);
-                        }
-
-                        if (Prefs.getString(COLOR_ACCENT_SECONDARY).equals(STR_NULL)) {
-                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
-                        }
+                    if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL)) {
+                        BasicColors.applyPrimaryColors();
+                    } else {
+                        FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
                     }
 
-                    OverlayUtil.disableOverlay("IconifyComponentAMAC.overlay");
-                };
-                Thread thread = new Thread(runnable);
-                thread.start();
+                    if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL)) {
+                        BasicColors.applySecondaryColors();
+                    } else {
+                        FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
+                    }
 
-                apply_monet_accent.postDelayed(() -> {
-                    findViewById(R.id.activity_basic_colors).invalidate();
-                }, 1000);
-            }
+                    apply_monet_accent.postDelayed(() -> {
+                        findViewById(R.id.activity_basic_colors).invalidate();
+                    }, 1000);
+                } else {
+                    Runnable runnable = () -> {
+                        if (!apply_monet_gradient.isChecked() && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay")) {
+                            if (Prefs.getString(COLOR_ACCENT_PRIMARY).equals(STR_NULL)) {
+                                FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
+                                FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ICONIFY_COLOR_PIXEL_DARK_BG);
+                            }
+
+                            if (Prefs.getString(COLOR_ACCENT_SECONDARY).equals(STR_NULL)) {
+                                FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
+                            }
+                        }
+
+                        OverlayUtil.disableOverlay("IconifyComponentAMAC.overlay");
+                    };
+                    Thread thread = new Thread(runnable);
+                    thread.start();
+
+                    apply_monet_accent.postDelayed(() -> {
+                        findViewById(R.id.activity_basic_colors).invalidate();
+                    }, 1000);
+                }
+            }, 200);
         });
 
         apply_monet_gradient.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                OverlayUtil.enableOverlay("IconifyComponentAMGC.overlay");
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    OverlayUtil.enableOverlay("IconifyComponentAMGC.overlay");
 
-                if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL)) {
-                    BasicColors.applyPrimaryColors();
-                } else {
-                    FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
-                }
-
-                if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL)) {
-                    BasicColors.applySecondaryColors();
-                } else {
-                    FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
-                }
-
-                apply_monet_gradient.postDelayed(() -> {
-                    findViewById(R.id.activity_basic_colors).invalidate();
-                }, 1000);
-            } else {
-                Runnable runnable = () -> {
-                    if (!apply_monet_accent.isChecked() && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay")) {
-                        if (Prefs.getString(COLOR_ACCENT_PRIMARY).equals(STR_NULL)) {
-                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
-                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ICONIFY_COLOR_PIXEL_DARK_BG);
-                        }
-
-                        if (Prefs.getString(COLOR_ACCENT_SECONDARY).equals(STR_NULL)) {
-                            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
-                        }
+                    if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL)) {
+                        BasicColors.applyPrimaryColors();
+                    } else {
+                        FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
                     }
 
-                    OverlayUtil.disableOverlay("IconifyComponentAMGC.overlay");
-                };
-                Thread thread = new Thread(runnable);
-                thread.start();
+                    if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL)) {
+                        BasicColors.applySecondaryColors();
+                    } else {
+                        FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
+                    }
 
-                apply_monet_gradient.postDelayed(() -> {
-                    findViewById(R.id.activity_basic_colors).invalidate();
-                }, 1000);
-            }
+                    apply_monet_gradient.postDelayed(() -> {
+                        findViewById(R.id.activity_basic_colors).invalidate();
+                    }, 1000);
+                } else {
+                    Runnable runnable = () -> {
+                        if (!apply_monet_accent.isChecked() && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay")) {
+                            if (Prefs.getString(COLOR_ACCENT_PRIMARY).equals(STR_NULL)) {
+                                FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
+                                FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ICONIFY_COLOR_PIXEL_DARK_BG);
+                            }
+
+                            if (Prefs.getString(COLOR_ACCENT_SECONDARY).equals(STR_NULL)) {
+                                FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
+                            }
+                        }
+
+                        OverlayUtil.disableOverlay("IconifyComponentAMGC.overlay");
+                    };
+                    Thread thread = new Thread(runnable);
+                    thread.start();
+
+                    apply_monet_gradient.postDelayed(() -> {
+                        findViewById(R.id.activity_basic_colors).invalidate();
+                    }, 1000);
+                }
+            }, 200);
         });
 
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL))

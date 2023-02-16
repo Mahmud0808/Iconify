@@ -26,7 +26,9 @@
                 android:id="@+id/icon_packs_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/container_marginSide"
                 android:layout_marginTop="24dp"
+                android:layout_marginEnd="@dimen/container_marginSide"
                 android:layout_marginBottom="24dp"
                 android:orientation="vertical" />
 

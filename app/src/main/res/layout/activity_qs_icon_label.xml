@@ -503,7 +503,7 @@
                     </LinearLayout>
 
                     <Switch
-                        android:id="@+id/label_fixtexta13"
+                        android:id="@+id/label_fixtextcolor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
