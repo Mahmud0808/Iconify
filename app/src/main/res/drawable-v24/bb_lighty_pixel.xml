@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:gravity="fill_horizontal|center">
-        <shape android:shape="rectangle">
-            <corners android:radius="24.0dip" />
-            <size android:height="48.0dip" />
-            <gradient
-                android:angle="315.0"
-                android:endColor="@color/holo_green_light"
-                android:startColor="@color/holo_blue_light" />
-        </shape>
-    </item>
-    <item
-        android:end="2.5dip"
-        android:gravity="fill_horizontal|center"
-        android:start="2.5dip">
-        <shape android:shape="rectangle">
-            <corners android:radius="24.0dip" />
-            <size android:height="44.0dip" />
-            <gradient
-                android:endColor="#B3000000"
-                android:startColor="#99000000" />
-        </shape>
+        <layer-list>
+            <item android:gravity="fill_horizontal|center">
+                <shape android:shape="rectangle">
+                    <corners android:radius="24.0dip" />
+                    <size android:height="48.0dip" />
+                    <solid android:color="@color/offStateColor" />
+                </shape>
+            </item>
+            <item
+                android:end="2.5dip"
+                android:gravity="fill_horizontal|center"
+                android:start="2.5dip">
+                <shape android:shape="rectangle">
+                    <corners android:radius="24.0dip" />
+                    <size android:height="44.0dip" />
+                    <gradient
+                        android:endColor="#B3000000"
+                        android:startColor="#99000000" />
+                </shape>
+            </item>
+        </layer-list>
     </item>
     <item
         android:end="80.0dip"
@@ -32,6 +33,18 @@
                 android:angle="315.0"
                 android:endColor="@color/holo_green_light"
                 android:startColor="@color/holo_blue_light" />
+        </shape>
+    </item>
+    <item
+        android:end="82.5dip"
+        android:gravity="fill_horizontal|center"
+        android:start="2.5dip">
+        <shape android:shape="rectangle">
+            <corners android:radius="24.0dip" />
+            <size android:height="44.0dip" />
+            <gradient
+                android:endColor="#B3000000"
+                android:startColor="#99000000" />
         </shape>
     </item>
 </layer-list>

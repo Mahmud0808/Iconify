@@ -22,4 +22,14 @@
             <size android:height="44.0dp" />
         </shape>
     </item>
+    <item
+        android:end="2.0dp"
+        android:gravity="fill_horizontal|center"
+        android:start="2.0dp">
+        <shape>
+            <corners android:radius="22.0dip" />
+            <solid android:color="@color/colorContainerOverlay" />
+            <size android:height="44.0dp" />
+        </shape>
+    </item>
 </layer-list>

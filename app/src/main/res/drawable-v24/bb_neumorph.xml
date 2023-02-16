@@ -4,7 +4,7 @@
         <shape android:shape="rectangle">
             <corners android:radius="24.0dp" />
             <size android:height="48.0dp" />
-            <solid android:color="@color/colorBackground" />
+            <solid android:color="@color/offStateColor" />
         </shape>
     </item>
     <item android:gravity="fill_horizontal|center">
@@ -25,7 +25,7 @@
         <shape android:shape="rectangle">
             <corners android:radius="20.0dp" />
             <size android:height="40.0dp" />
-            <solid android:color="@color/colorBackground" />
+            <solid android:color="@color/offStateColor" />
         </shape>
     </item>
     <item

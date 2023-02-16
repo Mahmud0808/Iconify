@@ -20,7 +20,9 @@
     <color name="textColorSecondaryLight">@color/material_dynamic_neutral90</color>
     <color name="colorSuccess">@color/material_dynamic_primary80</color>
     <color name="colorBackground2">#14FFFFFF</color>
+    <color name="offStateColor">@android:color/system_neutral2_800</color>
     <color name="offStateColor2">#1AFFFFFF</color>
+    <color name="offStateColor4">@android:color/system_neutral2_900</color>
     <color name="shadow">#40000000</color>
     <color name="neumorph_outline_start">#FF363636</color>
     <color name="neumorph_outline_end">#FF0F0F0F</color>

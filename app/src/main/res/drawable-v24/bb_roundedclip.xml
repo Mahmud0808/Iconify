@@ -20,7 +20,7 @@
             <size
                 android:width="80.0dp"
                 android:height="48.0dp" />
-            <solid android:color="@color/colorBackground" />
+            <solid android:color="@color/offStateColor" />
         </shape>
     </item>
 </layer-list>
