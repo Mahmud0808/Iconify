@@ -128,6 +128,8 @@ public class References {
     public static final String FABRICATED_QS_MOVE_ICON = "qsMoveIcon";
     public static final String FABRICATED_SB_LEFT_PADDING = "sbLeftPadding";
     public static final String FABRICATED_SB_RIGHT_PADDING = "sbRightPadding";
+
+    public static final String FABRICATED_SB_COLOR_SOURCE = "colorSBSorce";
     public static final String FABRICATED_SB_COLOR_TINT = "colorSBTint";
     public static final String FABRICATED_QSPANEL_BLUR_RADIUS = "qsBlurRadius";
 
