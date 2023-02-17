@@ -151,6 +151,7 @@ public class ModuleUtil {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            Shell.cmd("rm " + References.DATA_DIR + "/PremadeOverlays/cheatsheet").exec();
             Shell.cmd("cp -a " + References.DATA_DIR + "/PremadeOverlays/. " + References.OVERLAY_DIR).exec();
             FileUtil.cleanDir("PremadeOverlays");
             RootUtil.setPermissionsRecursively(644, References.OVERLAY_DIR + '/');
