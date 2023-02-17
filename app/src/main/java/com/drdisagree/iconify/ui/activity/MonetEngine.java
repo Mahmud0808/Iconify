@@ -556,7 +556,15 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         return true;
     }
 
-    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
+    private void disableBasicColors() {
+        Prefs.clearPref("customMonetColor");
+        Prefs.clearPref(CUSTOM_PRIMARY_COLOR_SWITCH);
+        Prefs.clearPref(CUSTOM_SECONDARY_COLOR_SWITCH);
+
+        FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
+        FabricatedOverlayUtil.disableOverlay(COLOR_PIXEL_DARK_BG);
+        FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
+    }    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if (checkedId != -1) {
@@ -585,13 +593,5 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         }
     };
 
-    private void disableBasicColors() {
-        Prefs.clearPref("customMonetColor");
-        Prefs.clearPref(CUSTOM_PRIMARY_COLOR_SWITCH);
-        Prefs.clearPref(CUSTOM_SECONDARY_COLOR_SWITCH);
 
-        FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
-        FabricatedOverlayUtil.disableOverlay(COLOR_PIXEL_DARK_BG);
-        FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
-    }
 }

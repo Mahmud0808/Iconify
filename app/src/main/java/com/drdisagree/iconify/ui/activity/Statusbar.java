@@ -34,11 +34,7 @@ import java.util.Objects;
 public class Statusbar extends AppCompatActivity implements ColorPickerDialogListener {
 
     private static String colorSBTint;
-
     private static String selectedStyle;
-
-    private RadioGroup tint_selector;
-    
     ColorPickerDialog.Builder colorPickerSBTint;
 
     @SuppressLint("SetTextI18n")
@@ -135,7 +131,7 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
         colorSBTint = String.valueOf(getResources().getColor(R.color.colorAccent));
 
         // Statusbar color source select
-        tint_selector = findViewById(R.id.sb_tint_source_selector);
+        RadioGroup tint_selector = findViewById(R.id.sb_tint_source_selector);
 
         tint_selector.setOnCheckedChangeListener((group, checkedId) -> {
             if (Objects.equals(checkedId, R.id.sb_tint_system)) {
@@ -172,8 +168,10 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
     @Override
     public void onDialogDismissed(int dialogId) {
         selectedStyle = Prefs.getString(FABRICATED_SB_COLOR_SOURCE);
-         if (Objects.equals(selectedStyle, "System")) ((RadioButton) findViewById(R.id.sb_tint_system)).setChecked(true);
-        else if (Objects.equals(selectedStyle, "Monet")) ((RadioButton) findViewById(R.id.sb_tint_monet)).setChecked(true);
+        if (Objects.equals(selectedStyle, "System"))
+            ((RadioButton) findViewById(R.id.sb_tint_system)).setChecked(true);
+        else if (Objects.equals(selectedStyle, "Monet"))
+            ((RadioButton) findViewById(R.id.sb_tint_monet)).setChecked(true);
     }
 
     private void applySBColor() {

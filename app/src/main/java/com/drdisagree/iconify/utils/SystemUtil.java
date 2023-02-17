@@ -132,10 +132,6 @@ public class SystemUtil {
         return arr.getColor(0, -1);
     }
 
-    private boolean getIsDark() {
-        return (mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
-    }
-
     public static void doubleToggleDarkTheme() {
         boolean isDark = (Iconify.getAppContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
         new Thread(() -> {
@@ -154,5 +150,9 @@ public class SystemUtil {
             } catch (Exception ignored) {
             }
         }).start();
+    }
+
+    private boolean getIsDark() {
+        return (mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
     }
 }
