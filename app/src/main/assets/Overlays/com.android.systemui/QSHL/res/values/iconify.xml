@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="qs_tile_text_size">0.0sp</dimen>
+    <dimen name="qs_label_container_margin">-60.0dp</dimen>
+</resources>
