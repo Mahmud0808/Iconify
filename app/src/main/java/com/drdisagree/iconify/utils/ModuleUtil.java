@@ -107,7 +107,7 @@ public class ModuleUtil {
         Log.d("ModuleCheck", "Magisk module successfully created!");
 
         extractTools();
-        extractPregeneratedOverlays();
+        extractPremadeOverlays();
         return OverlayCompilerUtil.buildOverlays();
     }
 
@@ -143,14 +143,14 @@ public class ModuleUtil {
         }
     }
 
-    static void extractPregeneratedOverlays() {
+    static void extractPremadeOverlays() {
         try {
-            FileUtil.copyAssets("PregeneratedOverlays");
+            FileUtil.copyAssets("PremadeOverlays");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            Shell.cmd("cp -a " + References.DATA_DIR + "/PregeneratedOverlays/. " + References.OVERLAY_DIR).exec();
-            FileUtil.cleanDir("PregeneratedOverlays");
+            Shell.cmd("cp -a " + References.DATA_DIR + "/PremadeOverlays/. " + References.OVERLAY_DIR).exec();
+            FileUtil.cleanDir("PremadeOverlays");
             RootUtil.setPermissionsRecursively(644, References.OVERLAY_DIR + '/');
         }
     }
