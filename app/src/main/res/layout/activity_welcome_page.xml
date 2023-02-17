@@ -19,20 +19,11 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <FrameLayout
+        <ImageView
             android:layout_width="108dp"
             android:layout_height="108dp"
-            android:layout_gravity="center"
-            android:background="@drawable/ic_launcher_bg"
-            android:padding="12dp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/iconify_logo"
-                android:foreground="@drawable/ic_launcher_fg" />
-
-        </FrameLayout>
+            android:contentDescription="@string/iconify_logo"
+            android:foreground="@mipmap/ic_launcher_round" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,6 +49,7 @@
             android:text="@string/iconify_slogan"
             android:textColor="@color/textColorSecondary"
             android:textSize="22sp" />
+
     </LinearLayout>
 
     <LinearLayout
