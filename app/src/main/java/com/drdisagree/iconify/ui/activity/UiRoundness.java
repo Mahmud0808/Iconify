@@ -1,12 +1,17 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
 import static com.drdisagree.iconify.common.References.STR_NULL;
+import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.References.UI_CORNER_RADIUS;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -21,8 +26,10 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.overlaymanager.RoundnessManager;
 import com.drdisagree.iconify.ui.view.LoadingDialog;
+import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.io.IOException;
@@ -112,35 +119,46 @@ public class UiRoundness extends AppCompatActivity {
 
         Button apply_radius = findViewById(R.id.apply_radius);
         apply_radius.setOnClickListener(v -> {
-            // Show loading dialog
-            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
-            AtomicBoolean hasErroredOut = new AtomicBoolean(false);
+            if (!Environment.isExternalStorageManager()) {
+                Intent intent = new Intent();
+                intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                Uri uri = Uri.fromParts("package", this.getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+            } else {
+                // Show loading dialog
+                loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
+                AtomicBoolean hasErroredOut = new AtomicBoolean(false);
 
-            Runnable runnable = () -> {
-                try {
-                    hasErroredOut.set(RoundnessManager.enable_roundness(finalUiCornerRadius[0]));
-                } catch (IOException e) {
-                    hasErroredOut.set(true);
-                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                }
+                Runnable runnable = () -> {
+                    try {
+                        hasErroredOut.set(RoundnessManager.enable_roundness(finalUiCornerRadius[0]));
+                    } catch (IOException e) {
+                        hasErroredOut.set(true);
+                    }
 
-                runOnUiThread(() -> {
-                    if (!hasErroredOut.get())
-                        Prefs.putString(UI_CORNER_RADIUS, String.valueOf(finalUiCornerRadius[0]));
+                    runOnUiThread(() -> {
+                        if (!hasErroredOut.get()) {
+                            Prefs.putString(UI_CORNER_RADIUS, String.valueOf(finalUiCornerRadius[0]));
 
-                    new Handler().postDelayed(() -> {
-                        // Hide loading dialog
-                        loadingDialog.hide();
+                            FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "qsScrimCornerRadius", "dimen", "notification_scrim_corner_radius", (finalUiCornerRadius[0] + 8) + "dp");
+                            RPrefs.putInt(UI_CORNER_RADIUS, finalUiCornerRadius[0]);
+                        }
 
-                        if (hasErroredOut.get())
-                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                        else
-                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
-                    }, 2000);
-                });
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
+                        new Handler().postDelayed(() -> {
+                            // Hide loading dialog
+                            loadingDialog.hide();
+
+                            if (hasErroredOut.get())
+                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                            else
+                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                        }, 2000);
+                    });
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
+            }
         });
 
         // Change orientation in landscape / portrait mode
