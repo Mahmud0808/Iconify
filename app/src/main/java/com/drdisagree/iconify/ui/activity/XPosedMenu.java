@@ -4,6 +4,7 @@ import static com.drdisagree.iconify.common.References.SHOW_XPOSED_WARN;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,8 +61,10 @@ public class XPosedMenu extends AppCompatActivity {
 
         FrameLayout close_xposed_warn = findViewById(R.id.close_xposed_warn);
         close_xposed_warn.setOnClickListener(v -> {
-            Prefs.putBoolean(SHOW_XPOSED_WARN, false);
-            xposed_warn.setVisibility(View.GONE);
+            new Handler().postDelayed(() -> {
+                Prefs.putBoolean(SHOW_XPOSED_WARN, false);
+                xposed_warn.animate().translationX(xposed_warn.getWidth() * 2f).alpha(0f).withEndAction(() -> xposed_warn.setVisibility(View.GONE)).start();
+            }, 50);
         });
 
         // Restart SystemUI
