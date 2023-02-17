@@ -21,11 +21,13 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.overlaymanager.UIRadiusManager;
+import com.drdisagree.iconify.overlaymanager.RoundnessManager;
 import com.drdisagree.iconify.ui.view.LoadingDialog;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
+import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class UiRoundness extends AppCompatActivity {
 
@@ -112,18 +114,28 @@ public class UiRoundness extends AppCompatActivity {
         apply_radius.setOnClickListener(v -> {
             // Show loading dialog
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
+            AtomicBoolean hasErroredOut = new AtomicBoolean(false);
 
             Runnable runnable = () -> {
-                UIRadiusManager.install_pack(finalUiCornerRadius[0]);
+                try {
+                    hasErroredOut.set(RoundnessManager.enable_roundness(finalUiCornerRadius[0]));
+                } catch (IOException e) {
+                    hasErroredOut.set(true);
+                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                }
 
                 runOnUiThread(() -> {
-                    Prefs.putString(UI_CORNER_RADIUS, String.valueOf(finalUiCornerRadius[0]));
+                    if (!hasErroredOut.get())
+                        Prefs.putString(UI_CORNER_RADIUS, String.valueOf(finalUiCornerRadius[0]));
 
                     new Handler().postDelayed(() -> {
                         // Hide loading dialog
                         loadingDialog.hide();
 
-                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                        if (hasErroredOut.get())
+                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                        else
+                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                     }, 2000);
                 });
             };

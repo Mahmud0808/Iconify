@@ -10,5 +10,6 @@
     <dimen name="progress_bar_corner_material">24.0dip</dimen>
     <dimen name="harmful_app_name_padding_right">22.0dip</dimen>
     <dimen name="harmful_app_name_padding_left">20.0dip</dimen>
+    <dimen name="harmful_app_name_padding_bottom">18.0dip</dimen>
     <dimen name="harmful_app_name_padding_top">24.0dip</dimen>
 </resources>
