@@ -64,6 +64,16 @@ public class SettingsIcons extends AppCompatActivity {
 
         addItem(iconpack_list);
 
+        for (int i = 0; i < container.getChildCount(); i++) {
+            LinearLayout child = container.getChildAt(i).findViewById(R.id.icon_pack_child);
+            if (((TextView) child.findViewById(R.id.list_title_iconpack)).getText() == "Bubble" || ((TextView) child.findViewById(R.id.list_title_iconpack)).getText() == "Bubble v2") {
+                ((ImageView) child.findViewById(R.id.list_preview1_iconpack)).setColorFilter(0);
+                ((ImageView) child.findViewById(R.id.list_preview2_iconpack)).setColorFilter(0);
+                ((ImageView) child.findViewById(R.id.list_preview3_iconpack)).setColorFilter(0);
+                ((ImageView) child.findViewById(R.id.list_preview4_iconpack)).setColorFilter(0);
+            }
+        }
+
         // Generate keys for preference
         for (int i = 0; i < container.getChildCount(); i++) {
             ICONPACK_KEY.add("IconifyComponentSIP" + (i + 1) + '1' + ".overlay");
