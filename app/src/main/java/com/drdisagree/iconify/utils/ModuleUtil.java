@@ -25,17 +25,17 @@ public class ModuleUtil {
 
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
 
-    public static boolean handleModule() throws IOException {
+    public static void handleModule() throws IOException {
         if (moduleExists()) {
             // Backup necessary files
             HelperUtil.backupFiles();
 
             Shell.cmd("rm -rf " + References.MODULE_DIR).exec();
         }
-        return installModule();
+        installModule();
     }
 
-    static boolean installModule() throws IOException {
+    static void installModule() throws IOException {
         Log.e("ModuleCheck", "Magisk module does not exist, creating!");
         // Clean temporary directory
         Shell.cmd("mkdir -p " + References.MODULE_DIR).exec();
@@ -100,22 +100,19 @@ public class ModuleUtil {
 
         Shell.cmd("printf '" + service_sh + "' > " + References.MODULE_DIR + "/service.sh").exec();
         Shell.cmd("touch " + References.MODULE_DIR + "/common/system.prop").exec();
+        Shell.cmd("touch " + References.MODULE_DIR + "/auto_mount").exec();
         Shell.cmd("mkdir -p " + References.MODULE_DIR + "/tools").exec();
         Shell.cmd("mkdir -p " + References.MODULE_DIR + "/system").exec();
         Shell.cmd("mkdir -p " + References.MODULE_DIR + "/system/product").exec();
         Shell.cmd("mkdir -p " + References.MODULE_DIR + "/system/product/overlay").exec();
         Log.d("ModuleUtil", "Magisk module successfully created!");
-
-        extractTools();
-        extractPremadeOverlays();
-        return OverlayCompilerUtil.buildOverlays();
     }
 
     public static boolean moduleExists() {
         return RootUtil.folderExists(References.MODULE_DIR);
     }
 
-    static void extractTools() {
+    public static void extractTools() {
         Log.d("ModuleUtil", "Extracting tools...");
         String[] supported_abis = Build.SUPPORTED_ABIS;
         boolean isArm64 = false;
@@ -144,7 +141,7 @@ public class ModuleUtil {
         }
     }
 
-    static void extractPremadeOverlays() {
+    public static void extractPremadeOverlays() {
         Log.d("ModuleUtil", "Extracting pre-made overlays...");
         try {
             FileUtil.copyAssets("PremadeOverlays");

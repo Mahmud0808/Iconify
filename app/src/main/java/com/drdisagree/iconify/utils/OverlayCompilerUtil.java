@@ -25,9 +25,7 @@ public class OverlayCompilerUtil {
     private static final String aapt = References.TOOLS_DIR + "/libaapt.so";
     private static final String zipalign = References.TOOLS_DIR + "/libzipalign.so";
 
-    public static boolean buildOverlays() throws IOException {
-        preExecute();
-
+    public static boolean buildAPK() {
         // Create AndroidManifest.xml and build APK using AAPT
         File dir = new File(References.DATA_DIR + "/Overlays");
         for (File pkg : Objects.requireNonNull(dir.listFiles())) {
@@ -49,9 +47,12 @@ public class OverlayCompilerUtil {
                 }
             }
         }
+        return false;
+    }
 
+    public static boolean alignAPK() {
         // ZipAlign the APK
-        dir = new File(References.UNSIGNED_UNALIGNED_DIR);
+        File dir = new File(References.UNSIGNED_UNALIGNED_DIR);
         for (File overlay : Objects.requireNonNull(dir.listFiles())) {
             if (!overlay.isDirectory()) {
                 if (zipAlign(overlay.getAbsolutePath(), overlay.toString().replace(References.UNSIGNED_UNALIGNED_DIR + '/', "").replace("-unaligned", ""))) {
@@ -61,9 +62,12 @@ public class OverlayCompilerUtil {
                 }
             }
         }
+        return false;
+    }
 
+    public static boolean signAPK() {
         // Sign the APK
-        dir = new File(References.UNSIGNED_DIR);
+        File dir = new File(References.UNSIGNED_DIR);
         for (File overlay : Objects.requireNonNull(dir.listFiles())) {
             if (!overlay.isDirectory()) {
                 if (apkSigner(overlay.getAbsolutePath(), overlay.toString().replace(References.UNSIGNED_DIR + '/', "").replace("-unsigned", ""))) {
@@ -73,12 +77,10 @@ public class OverlayCompilerUtil {
                 }
             }
         }
-
-        postExecute(false);
         return false;
     }
 
-    private static void preExecute() throws IOException {
+    public static void preExecute() throws IOException {
         // Clean data directory
         Shell.cmd("rm -rf " + References.TEMP_DIR).exec();
         Shell.cmd("rm -rf " + References.DATA_DIR + "/Keystore").exec();
@@ -96,7 +98,7 @@ public class OverlayCompilerUtil {
         Shell.cmd("mkdir -p " + References.SIGNED_DIR).exec();
     }
 
-    private static void postExecute(boolean hasErroredOut) {
+    public static void postExecute(boolean hasErroredOut) {
         // Move all generated overlays to module
         if (!hasErroredOut) {
             Shell.cmd("cp -a " + References.SIGNED_DIR + "/. " + References.OVERLAY_DIR).exec();
