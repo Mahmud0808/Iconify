@@ -32,7 +32,7 @@ public class IconPacks extends AppCompatActivity {
     ArrayList<String> ICONPACK_KEY = new ArrayList<>();
 
     LoadingDialog loadingDialog;
-    private ViewGroup container;
+    private ViewGroup container, container_activity;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -51,12 +51,26 @@ public class IconPacks extends AppCompatActivity {
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
 
-        // Colored battery item on click
-        LinearLayout colored_battery = findViewById(R.id.colored_battery);
-        colored_battery.setOnClickListener(v -> {
-            Intent intent = new Intent(IconPacks.this, ColoredBattery.class);
-            startActivity(intent);
-        });
+        // Activities list
+        container_activity = findViewById(R.id.icon_packs_list_activity);
+        ArrayList<Object[]> iconpack_list_activity = new ArrayList<>();
+
+        // Activities add items in list
+        iconpack_list_activity.add(new Object[]{ColoredBattery.class, getResources().getString(R.string.activity_title_colored_battery), getResources().getString(R.string.activity_desc_colored_battery), R.drawable.ic_colored_battery});
+        iconpack_list_activity.add(new Object[]{SettingsIcons.class, getResources().getString(R.string.activity_title_settings_icons), getResources().getString(R.string.activity_desc_settings_icons), R.drawable.ic_settings_icon_pack});
+
+        addActivityItem(iconpack_list_activity);
+        fixViewGroup(container_activity);
+
+        // Enable onClick event
+        for (int i = 0; i < iconpack_list_activity.size(); i++) {
+            LinearLayout child = container_activity.getChildAt(i).findViewById(R.id.list_item);
+            int finalI = i;
+            child.setOnClickListener(v -> {
+                Intent intent = new Intent(IconPacks.this, (Class<?>) iconpack_list_activity.get(finalI)[0]);
+                startActivity(intent);
+            });
+        }
 
         // Icon Pack list items
         container = findViewById(R.id.icon_packs_list);
@@ -224,6 +238,28 @@ public class IconPacks extends AppCompatActivity {
 
             container.addView(list);
         }
+    }
+
+    // Function to add new item in list
+    private void addActivityItem(ArrayList<Object[]> pack) {
+        for (int i = 0; i < pack.size(); i++) {
+            View list = LayoutInflater.from(this).inflate(R.layout.view_list_menu, container_activity, false);
+
+            TextView title = list.findViewById(R.id.list_title);
+            title.setText((String) pack.get(i)[1]);
+
+            TextView desc = list.findViewById(R.id.list_desc);
+            desc.setText((String) pack.get(i)[2]);
+
+            ImageView preview = list.findViewById(R.id.list_preview);
+            preview.setImageResource((int) pack.get(i)[3]);
+
+            container_activity.addView(list);
+        }
+    }
+
+    private void fixViewGroup(ViewGroup viewGroup) {
+        ((ViewGroup.MarginLayoutParams) viewGroup.getChildAt(viewGroup.getChildCount() - 1).getLayoutParams()).setMargins(0, 0, 0, 0);
     }
 
     @Override

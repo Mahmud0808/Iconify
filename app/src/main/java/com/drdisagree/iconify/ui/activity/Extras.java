@@ -43,7 +43,6 @@ public class Extras extends AppCompatActivity {
         extras_page.add(new Object[]{Statusbar.class, getResources().getString(R.string.activity_title_statusbar), getResources().getString(R.string.activity_desc_statusbar), R.drawable.ic_statusbar});
         extras_page.add(new Object[]{NavigationBar.class, getResources().getString(R.string.activity_title_navigation_bar), getResources().getString(R.string.activity_desc_navigation_bar), R.drawable.ic_extras_navbar});
         extras_page.add(new Object[]{IconShape.class, getResources().getString(R.string.activity_title_icon_mask), getResources().getString(R.string.activity_desc_icon_mask), R.drawable.ic_icon_mask});
-        extras_page.add(new Object[]{SettingsIcons.class, getResources().getString(R.string.activity_title_settings_icons), getResources().getString(R.string.activity_desc_settings_icons), R.drawable.ic_settings_icon_pack});
         extras_page.add(new Object[]{XPosedMenu.class, getResources().getString(R.string.activity_title_xposed_menu), getResources().getString(R.string.activity_desc_xposed_menu), R.drawable.ic_extras_xposed_menu});
         //extras_page.add(new Object[]{Miscellaneous.class, getResources().getString(R.string.activity_title_miscellaneous), getResources().getString(R.string.activity_desc_miscellaneous), R.drawable.ic_extras_miscellaneous});
 
