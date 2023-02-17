@@ -164,34 +164,58 @@
 
                         </LinearLayout>
 
-                        <View
-                            android:id="@+id/sb_color_preview"
-                            android:layout_width="48.0dp"
-                            android:layout_height="48.0dp"
-                            android:layout_gravity="start|center"
-                            android:layout_margin="2.0dp"
-                            android:contentDescription="@string/color_picker_preview" />
-
                     </LinearLayout>
 
-                    <Button
-                        android:id="@+id/sb_reset_tint"
+                    <RadioGroup
+                        android:id="@+id/sb_tint_source_selector"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/container_paddingSide"
-                        android:layout_marginEnd="@dimen/container_paddingSide"
-                        android:layout_marginBottom="@dimen/container_padding"
-                        android:background="@drawable/button_red"
-                        android:fontFamily="@font/semibold"
-                        android:letterSpacing="0.2"
-                        android:stateListAnimator="@null"
-                        android:text="@string/btn_reset_tint"
-                        android:textColor="@color/colorBackground"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold"
-                        android:visibility="gone"
-                        app:backgroundTint="@null" />
+                        android:paddingStart="24dp"
+                        android:paddingEnd="24dp"
+                        android:paddingBottom="20dp">
 
+                        <RadioButton
+                            android:id="@+id/sb_tint_system"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/radio_sb_button_bg"
+                            android:button="@null"
+                            android:checked="false"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="10dp"
+                            android:text="@string/sb_tint_system"
+                            android:textColor="@drawable/radio_sb_text_color"
+                            android:textSize="@dimen/cont_desc_size" />
+
+                        <RadioButton
+                            android:id="@+id/sb_tint_monet"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/radio_sb_button_bg"
+                            android:button="@null"
+                            android:checked="false"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="10dp"
+                            android:text="@string/sb_tint_monet"
+                            android:textColor="@drawable/radio_sb_text_color"
+                            android:textSize="@dimen/cont_desc_size" />
+
+                        <RadioButton
+                            android:id="@+id/sb_tint_custom"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/radio_sb_button_bg"
+                            android:button="@null"
+                            android:checked="false"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="10dp"
+                            android:text="@string/sb_tint_custom"
+                            android:textColor="@drawable/radio_sb_text_color"
+                            android:textSize="@dimen/cont_desc_size" />
+
+                    </RadioGroup>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
