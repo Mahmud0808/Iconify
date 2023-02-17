@@ -294,7 +294,7 @@
     <string name="lockscreen_clock_white_text_desc">فونت ساعت همیشه سفید رنگ باشد</string>
     <string name="window_level_blur_title">اعمال شفافیت در سطح پنجره‌ها</string>
     <string name="window_level_blur_desc">برای اعمال لازم است دستگاه ریستارت شود</string>
-    <string name="blur_radius_title">شعاع شفاف شدن</string>
+    <string name="blur_intensity_title">شعاع شفاف شدن</string>
     <string name="force_enable_blur_title"> افکت شفافیت به صورت اجباری فعال شود</string>
     <string name="force_enable_blur_desc">در رام‌هایی که به صورت پیش‌فرض این ویژگی را نپارند افک شفافیت به صورت اجباری فعال می‌شود</string>
     <string name="hide_carrier_group_title">مخفی کردن اپراتور</string>

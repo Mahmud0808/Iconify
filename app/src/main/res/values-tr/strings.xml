@@ -300,7 +300,7 @@
     <string name="lockscreen_clock_white_text_desc">Tüm renkleri beyaza zorla</string>
     <string name="window_level_blur_title">Pencere Bulanıklıkları</string>
     <string name="window_level_blur_desc">Çalışması için yeniden başlatma gerekli</string>
-    <string name="blur_radius_title">Bulanıklık Seviyesi</string>
+    <string name="blur_intensity_title">Bulanıklık Seviyesi</string>
     <string name="force_enable_blur_title">Bluru Zorla Etkinleştir</string>
     <string name="force_enable_blur_desc">Desteklenmeyen romlarda bluru etkinleştirmeye zorla</string>
     <string name="hide_carrier_group_title">Taşıyıcı Grubunu Gizle</string>

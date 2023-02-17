@@ -68,7 +68,7 @@
     <string name="battery_background_color_title">Цвет фона</string>
     <string name="battery_filled_color_desc">Цвет уровня заряда батареи</string>
     <string name="battery_filled_color_title">Цвет заливки</string>
-    <string name="blur_radius_title">Радиус размытия</string>
+    <string name="blur_intensity_title">Радиус размытия</string>
     <string name="btn_apply">ПРИМЕНИТЬ</string>
     <string name="btn_continue">ПРОДОЛЖИТЬ</string>
     <string name="btn_create_module">Создать модуль</string>

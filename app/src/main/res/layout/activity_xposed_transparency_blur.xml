@@ -193,7 +193,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/blur_radius_title"
+                        android:text="@string/blur_intensity_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -214,7 +214,7 @@
                     android:layout_marginTop="@dimen/container_padding"
                     android:background="@null"
                     android:hapticFeedbackEnabled="true"
-                    android:max="100"
+                    android:max="600"
                     android:min="0"
                     android:progress="23"
                     android:progressDrawable="@drawable/seekbar"

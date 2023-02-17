@@ -300,7 +300,7 @@
     <string name="lockscreen_clock_white_text_desc">Force all colors to be white</string>
     <string name="window_level_blur_title">Window Level Blur</string>
     <string name="window_level_blur_desc">Requires reboot to work</string>
-    <string name="blur_radius_title">Blur Radius</string>
+    <string name="blur_intensity_title">Blur Intensity</string>
     <string name="force_enable_blur_title">Force Enable Blur</string>
     <string name="force_enable_blur_desc">Force enable blur for unsupported roms</string>
     <string name="hide_carrier_group_title">Hide Carrier Group</string>
