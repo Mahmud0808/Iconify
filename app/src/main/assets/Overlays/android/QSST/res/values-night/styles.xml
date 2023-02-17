@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="Theme.DeviceDefault.SystemUI" parent="@*android:style/Theme.DeviceDefault">
-        <item name="@*android:colorSurfaceHeader">@*android:color/system_neutral1_900</item>
-    </style>
-</resources>

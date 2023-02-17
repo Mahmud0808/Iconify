@@ -104,7 +104,7 @@ public class ModuleUtil {
         Shell.cmd("mkdir -p " + References.MODULE_DIR + "/system").exec();
         Shell.cmd("mkdir -p " + References.MODULE_DIR + "/system/product").exec();
         Shell.cmd("mkdir -p " + References.MODULE_DIR + "/system/product/overlay").exec();
-        Log.d("ModuleCheck", "Magisk module successfully created!");
+        Log.d("ModuleUtil", "Magisk module successfully created!");
 
         extractTools();
         extractPremadeOverlays();
@@ -116,6 +116,7 @@ public class ModuleUtil {
     }
 
     static void extractTools() {
+        Log.d("ModuleUtil", "Extracting tools...");
         String[] supported_abis = Build.SUPPORTED_ABIS;
         boolean isArm64 = false;
         for (String abi : supported_abis) {
@@ -144,6 +145,7 @@ public class ModuleUtil {
     }
 
     static void extractPremadeOverlays() {
+        Log.d("ModuleUtil", "Extracting pre-made overlays...");
         try {
             FileUtil.copyAssets("PremadeOverlays");
         } catch (Exception e) {

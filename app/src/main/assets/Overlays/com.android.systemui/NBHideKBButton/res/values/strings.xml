@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="config_navBarLayoutHandle" translatable="false">;home_handle;</string>
-    <string name="config_navBarLayout" translatable="false" />
-</resources>
