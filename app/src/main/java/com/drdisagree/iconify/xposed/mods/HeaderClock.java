@@ -42,7 +42,6 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
 
     private static final String TAG = "Iconify - XposedHeaderClock: ";
     private static final String QuickStatusBarHeaderClass = SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader";
-    private static final String QuickQSPanelClass = SYSTEMUI_PACKAGE + ".qs.QuickQSPanel";
     boolean showHeaderClock = false;
     int sideMargin = 0;
     int topMargin = 8;
@@ -85,37 +84,46 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
 
         final Class<?> QuickStatusBarHeader = findClass(QuickStatusBarHeaderClass, lpparam.classLoader);
 
-        hookAllMethods(QuickStatusBarHeader, "onFinishInflate", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) {
-                if (!showHeaderClock)
-                    return;
+        try {
+            hookAllMethods(QuickStatusBarHeader, "onFinishInflate", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!showHeaderClock)
+                        return;
 
-                try {
-                    View mDateView = (View) getObjectField(param.thisObject, "mDateView");
-                    mDateView.getLayoutParams().height = 0;
-                    mDateView.getLayoutParams().width = 0;
-                    mDateView.setVisibility(View.INVISIBLE);
-                } catch (Throwable ignored) {
-                }
+                    try {
+                        View mDateView = (View) getObjectField(param.thisObject, "mDateView");
+                        mDateView.getLayoutParams().height = 0;
+                        mDateView.getLayoutParams().width = 0;
+                        mDateView.setVisibility(View.INVISIBLE);
+                    } catch (Throwable ignored) {
+                    }
 
-                try {
-                    TextView mClockDateView = (TextView) getObjectField(param.thisObject, "mClockDateView");
-                    mClockDateView.setVisibility(View.INVISIBLE);
-                    mClockDateView.setTextAppearance(0);
-                    mClockDateView.setTextColor(0);
-                } catch (Throwable ignored) {
-                }
+                    try {
+                        View mQSCarriers = (View) getObjectField(param.thisObject, "mQSCarriers");
+                        mQSCarriers.setVisibility(View.INVISIBLE);
+                    } catch (Throwable ignored) {
+                    }
 
-                try {
-                    TextView mClockView = (TextView) getObjectField(param.thisObject, "mClockView");
-                    mClockView.setVisibility(View.INVISIBLE);
-                    mClockView.setTextAppearance(0);
-                    mClockView.setTextColor(0);
-                } catch (Throwable ignored) {
+                    try {
+                        TextView mClockDateView = (TextView) getObjectField(param.thisObject, "mClockDateView");
+                        mClockDateView.setVisibility(View.INVISIBLE);
+                        mClockDateView.setTextAppearance(0);
+                        mClockDateView.setTextColor(0);
+                    } catch (Throwable ignored) {
+                    }
+
+                    try {
+                        TextView mClockView = (TextView) getObjectField(param.thisObject, "mClockView");
+                        mClockView.setVisibility(View.INVISIBLE);
+                        mClockView.setTextAppearance(0);
+                        mClockView.setTextColor(0);
+                    } catch (Throwable ignored) {
+                    }
                 }
-            }
-        });
+            });
+        } catch (Throwable ignored) {
+        }
     }
 
     private void setHeaderClock() {
@@ -533,16 +541,6 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     } catch (Throwable ignored) {
                     }
 
-                    // Awaken clock
-                    try {
-                        @SuppressLint("DiscouragedApi") TextView clock_eqs = liparam.view.findViewById(liparam.res.getIdentifier("clock_eqs", "id", SYSTEMUI_PACKAGE));
-                        clock_eqs.getLayoutParams().height = 0;
-                        clock_eqs.getLayoutParams().width = 0;
-                        clock_eqs.setTextAppearance(0);
-                        clock_eqs.setTextColor(0);
-                    } catch (Throwable ignored) {
-                    }
-
                     // Nusantara clock
                     try {
                         @SuppressLint("DiscouragedApi") TextView jr_clock = liparam.view.findViewById(liparam.res.getIdentifier("jr_clock", "id", SYSTEMUI_PACKAGE));
@@ -582,29 +580,6 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                         date.getLayoutParams().width = 0;
                         date.setTextAppearance(0);
                         date.setTextColor(0);
-                    } catch (Throwable ignored) {
-                    }
-                }
-            });
-        } catch (Throwable ignored) {
-        }
-
-        try {
-            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "qs_carrier", new XC_LayoutInflated() {
-                @Override
-                public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
-                    if (!showHeaderClock)
-                        return;
-
-                    try {
-                        @SuppressLint("DiscouragedApi") LinearLayout linear_carrier = liparam.view.findViewById(liparam.res.getIdentifier("linear_carrier", "id", SYSTEMUI_PACKAGE));
-                        if (linear_carrier != null) {
-                            linear_carrier.getLayoutParams().height = 0;
-                            linear_carrier.getLayoutParams().width = 0;
-                            linear_carrier.setMinimumWidth(0);
-                            linear_carrier.setFocusable(false);
-                            linear_carrier.setVisibility(View.INVISIBLE);
-                        }
                     } catch (Throwable ignored) {
                     }
                 }
