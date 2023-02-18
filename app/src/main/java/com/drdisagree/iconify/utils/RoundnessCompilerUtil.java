@@ -1,14 +1,11 @@
 package com.drdisagree.iconify.utils;
 
-import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
-import static com.drdisagree.iconify.common.References.UI_CORNER_RADIUS;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readCertificate;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;
 
 import android.util.Log;
 
 import com.drdisagree.iconify.common.References;
-import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.utils.apksigner.JarMap;
 import com.drdisagree.iconify.utils.apksigner.SignAPK;
 import com.topjohnwu.superuser.Shell;
@@ -27,7 +24,7 @@ public class RoundnessCompilerUtil {
     private static final String aapt = References.TOOLS_DIR + "/libaapt.so";
     private static final String zipalign = References.TOOLS_DIR + "/libzipalign.so";
 
-    public static boolean buildCornerRadius(String resources) throws IOException {
+    public static boolean buildOverlay(String resources) throws IOException {
         preExecute();
 
         // Create AndroidManifest.xml

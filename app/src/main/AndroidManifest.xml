@@ -41,8 +41,11 @@
         tools:replace="android:allowBackup"
         tools:targetApi="tiramisu">
         <activity
+            android:name=".ui.activity.QsTileSize"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.NotificationsPixel"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".ui.activity.IconShape"
             android:exported="false" />

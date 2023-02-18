@@ -62,6 +62,7 @@ public class QsShapes extends AppCompatActivity {
         // Activities add items in list
         qs_shape_list_activity.add(new Object[]{QsRowColumn.class, getResources().getString(R.string.row_and_column_title), getResources().getString(R.string.row_and_column_desc), R.drawable.ic_qs_row_column});
         qs_shape_list_activity.add(new Object[]{QsIconLabel.class, getResources().getString(R.string.icon_and_label_title), getResources().getString(R.string.icon_and_label_desc), R.drawable.ic_qs_icon_and_label});
+        qs_shape_list_activity.add(new Object[]{QsTileSize.class, getResources().getString(R.string.activity_title_qs_tile_size), getResources().getString(R.string.activity_desc_qs_tile_size), R.drawable.ic_qs_tile_size});
         qs_shape_list_activity.add(new Object[]{QsShapesPixel.class, getResources().getString(R.string.activity_title_pixel_variant), getResources().getString(R.string.activity_desc_pixel_variant), R.drawable.ic_pixel_device});
 
         addActivityItem(qs_shape_list_activity);

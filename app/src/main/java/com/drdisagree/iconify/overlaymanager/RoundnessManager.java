@@ -24,6 +24,6 @@ public class RoundnessManager {
                 "    <dimen name=\"harmful_app_name_padding_top\">" + cornerRadius + "dip</dimen>\n" +
                 "</resources>\n";
 
-        return RoundnessCompilerUtil.buildCornerRadius(resources);
+        return RoundnessCompilerUtil.buildOverlay(resources);
     }
 }

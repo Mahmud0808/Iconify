@@ -547,7 +547,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                 "    <color name=\"primary_material_settings\">@*android:color/background_dark</color>\n");
         resources.append("</resources>\n");
 
-        return MonetCompilerUtil.buildMonetPalette(resources.toString());
+        return MonetCompilerUtil.buildOverlay(resources.toString());
     }
 
     @Override
