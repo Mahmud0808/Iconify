@@ -1,14 +1,18 @@
 package com.drdisagree.iconify.services;
 
+import static com.drdisagree.iconify.common.References.BOOT_ID;
 import static com.drdisagree.iconify.common.References.COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.References.COLOR_ACCENT_SECONDARY;
 import static com.drdisagree.iconify.common.References.COLOR_PIXEL_DARK_BG;
 import static com.drdisagree.iconify.common.References.CUSTOM_PRIMARY_COLOR_SWITCH;
 import static com.drdisagree.iconify.common.References.CUSTOM_SECONDARY_COLOR_SWITCH;
+import static com.drdisagree.iconify.common.References.DEVICE_BOOT_ID_CMD;
+import static com.drdisagree.iconify.common.References.FABRICATED_QS_ROW;
 import static com.drdisagree.iconify.common.References.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECONDARY;
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_PIXEL_DARK_BG;
+import static com.drdisagree.iconify.common.References.QS_ROW_COLUMN_SWITCH;
 import static com.drdisagree.iconify.common.References.STR_NULL;
 import static com.drdisagree.iconify.utils.ColorUtil.ColorToSpecialHex;
 
@@ -17,8 +21,11 @@ import android.graphics.Color;
 import androidx.core.graphics.ColorUtils;
 
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.ui.activity.QsRowColumn;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.SystemUtil;
+import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
 import java.util.Objects;
@@ -68,6 +75,22 @@ public class ApplyOnBoot {
                 }
                 Prefs.putBoolean("customColor", true);
             }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+    }
+
+    public static void applyQsCustomization() {
+        Runnable runnable = () -> {
+            if (!Objects.equals(Prefs.getString(BOOT_ID), Shell.cmd(DEVICE_BOOT_ID_CMD).exec().getOut().toString()) && OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentQSPB.overlay")) {
+                OverlayUtil.disableOverlay("IconifyComponentQSPB.overlay");
+                OverlayUtil.enableOverlay("IconifyComponentQSPB.overlay");
+            }
+            SystemUtil.getBootId();
+
+            if (Prefs.getBoolean(QS_ROW_COLUMN_SWITCH) && FabricatedOverlayUtil.isOverlayDisabled(FabricatedEnabledOverlays, FABRICATED_QS_ROW))
+                QsRowColumn.applyRowColumn();
+
         };
         Thread thread = new Thread(runnable);
         thread.start();

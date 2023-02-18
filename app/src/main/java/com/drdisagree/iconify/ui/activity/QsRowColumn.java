@@ -1,18 +1,16 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
-import static com.drdisagree.iconify.common.References.LAND_QQS_ROW;
-import static com.drdisagree.iconify.common.References.LAND_QS_COLUMN;
-import static com.drdisagree.iconify.common.References.LAND_QS_ROW;
-import static com.drdisagree.iconify.common.References.PORT_QQS_ROW;
-import static com.drdisagree.iconify.common.References.PORT_QS_COLUMN;
-import static com.drdisagree.iconify.common.References.PORT_QS_ROW;
+import static com.drdisagree.iconify.common.References.FABRICATED_QQS_COLUMN;
+import static com.drdisagree.iconify.common.References.FABRICATED_QQS_ROW;
+import static com.drdisagree.iconify.common.References.FABRICATED_QQS_TILE;
+import static com.drdisagree.iconify.common.References.FABRICATED_QS_COLUMN;
+import static com.drdisagree.iconify.common.References.FABRICATED_QS_ROW;
+import static com.drdisagree.iconify.common.References.FABRICATED_QS_TILE;
+import static com.drdisagree.iconify.common.References.QS_ROW_COLUMN_SWITCH;
+import static com.drdisagree.iconify.common.References.STR_NULL;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
@@ -26,18 +24,33 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.overlaymanager.QsRowColumnManager;
 import com.drdisagree.iconify.ui.view.LoadingDialog;
-import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
-import java.io.IOException;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class QsRowColumn extends AppCompatActivity {
 
     LoadingDialog loadingDialog;
+
+    public static void applyRowColumn() {
+        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", FABRICATED_QQS_ROW, "integer", "quick_qs_panel_max_rows", String.valueOf(Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW)) + 1));
+        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", FABRICATED_QS_ROW, "integer", "quick_settings_max_rows", String.valueOf(Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW)) + 1));
+        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", FABRICATED_QQS_COLUMN, "integer", "quick_qs_panel_max_columns", String.valueOf(Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1));
+        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", FABRICATED_QS_COLUMN, "integer", "quick_settings_num_columns", String.valueOf(Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1));
+        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", FABRICATED_QQS_TILE, "integer", "quick_qs_panel_max_tiles", String.valueOf((Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW)) + 1) * (Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1)));
+        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", FABRICATED_QS_TILE, "integer", "quick_settings_min_num_tiles", String.valueOf((Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1) * (Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW)) + 1)));
+    }
+
+    public static void resetRowColumn() {
+        FabricatedOverlayUtil.disableOverlay(FABRICATED_QQS_ROW);
+        FabricatedOverlayUtil.disableOverlay(FABRICATED_QS_ROW);
+        FabricatedOverlayUtil.disableOverlay(FABRICATED_QQS_COLUMN);
+        FabricatedOverlayUtil.disableOverlay(FABRICATED_QS_COLUMN);
+        FabricatedOverlayUtil.disableOverlay(FABRICATED_QQS_TILE);
+        FabricatedOverlayUtil.disableOverlay(FABRICATED_QS_TILE);
+    }
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -56,20 +69,26 @@ public class QsRowColumn extends AppCompatActivity {
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
 
-        // Portrait Quick QsPanel Row
-        SeekBar port_qqs_row_seekbar = findViewById(R.id.port_qqs_row_seekbar);
-        TextView port_qqs_row_output = findViewById(R.id.port_qqs_row_output);
+        // Quick QsPanel Row
 
-        port_qqs_row_seekbar.setPadding(0, 0, 0, 0);
-        final int[] portQqsRow = {Prefs.getInt(PORT_QQS_ROW, 2)};
-        port_qqs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + portQqsRow[0]);
-        port_qqs_row_seekbar.setProgress(portQqsRow[0]);
+        SeekBar qqs_row_seekbar = findViewById(R.id.qqs_row_seekbar);
+        TextView qqs_row_output = findViewById(R.id.qqs_row_output);
 
-        port_qqs_row_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        qqs_row_seekbar.setPadding(0, 0, 0, 0);
+        final int[] finalQqsRow = {1};
+
+        if (!Prefs.getString(FABRICATED_QQS_ROW).equals(STR_NULL)) {
+            qqs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW)) + 1));
+            finalQqsRow[0] = Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW));
+            qqs_row_seekbar.setProgress(finalQqsRow[0]);
+        } else
+            qqs_row_output.setText(getResources().getString(R.string.opt_selected) + " 2");
+
+        qqs_row_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                portQqsRow[0] = progress;
-                port_qqs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress);
+                finalQqsRow[0] = progress;
+                qqs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 1));
             }
 
             @Override
@@ -81,20 +100,26 @@ public class QsRowColumn extends AppCompatActivity {
             }
         });
 
-        // Portrait QsPanel Row
-        SeekBar port_qs_row_seekbar = findViewById(R.id.port_qs_row_seekbar);
-        TextView port_qs_row_output = findViewById(R.id.port_qs_row_output);
+        // QsPanel Row
 
-        port_qs_row_seekbar.setPadding(0, 0, 0, 0);
-        final int[] portQsRow = {Prefs.getInt(PORT_QS_ROW, 4)};
-        port_qs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + portQsRow[0]);
-        port_qs_row_seekbar.setProgress(portQsRow[0]);
+        SeekBar qs_row_seekbar = findViewById(R.id.qs_row_seekbar);
+        TextView qs_row_output = findViewById(R.id.qs_row_output);
 
-        port_qs_row_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        qs_row_seekbar.setPadding(0, 0, 0, 0);
+        final int[] finalQsRow = {3};
+
+        if (!Prefs.getString(FABRICATED_QS_ROW).equals(STR_NULL)) {
+            qs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW)) + 1));
+            finalQsRow[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW));
+            qs_row_seekbar.setProgress(finalQsRow[0]);
+        } else
+            qs_row_output.setText(getResources().getString(R.string.opt_selected) + " 4");
+
+        qs_row_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                portQsRow[0] = progress;
-                port_qs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress);
+                finalQsRow[0] = progress;
+                qs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 1));
             }
 
             @Override
@@ -106,20 +131,26 @@ public class QsRowColumn extends AppCompatActivity {
             }
         });
 
-        // Portrait QsPanel Column
-        SeekBar port_qs_column_seekbar = findViewById(R.id.port_qs_column_seekbar);
-        TextView port_qs_column_output = findViewById(R.id.port_qs_column_output);
+        // QsPanel Column
 
-        port_qs_column_seekbar.setPadding(0, 0, 0, 0);
-        final int[] portQsColumn = {Prefs.getInt(PORT_QS_COLUMN, 2)};
-        port_qs_column_output.setText(getResources().getString(R.string.opt_selected) + ' ' + portQsColumn[0]);
-        port_qs_column_seekbar.setProgress(portQsColumn[0]);
+        SeekBar qs_column_seekbar = findViewById(R.id.qs_column_seekbar);
+        TextView qs_column_output = findViewById(R.id.qs_column_output);
 
-        port_qs_column_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        qs_column_seekbar.setPadding(0, 0, 0, 0);
+        final int[] finalQsColumn = {1};
+
+        if (!Prefs.getString(FABRICATED_QS_COLUMN).equals(STR_NULL)) {
+            qs_column_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1));
+            finalQsColumn[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN));
+            qs_column_seekbar.setProgress(finalQsColumn[0]);
+        } else
+            qs_column_output.setText(getResources().getString(R.string.opt_selected) + " 2");
+
+        qs_column_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                portQsColumn[0] = progress;
-                port_qs_column_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress);
+                finalQsColumn[0] = progress;
+                qs_column_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 1));
             }
 
             @Override
@@ -131,167 +162,75 @@ public class QsRowColumn extends AppCompatActivity {
             }
         });
 
-        // Landscape Quick QsPanel Row
-        SeekBar land_qqs_row_seekbar = findViewById(R.id.land_qqs_row_seekbar);
-        TextView land_qqs_row_output = findViewById(R.id.land_qqs_row_output);
-
-        land_qqs_row_seekbar.setPadding(0, 0, 0, 0);
-        final int[] landQqsRow = {Prefs.getInt(LAND_QQS_ROW, 2)};
-        land_qqs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + landQqsRow[0]);
-        land_qqs_row_seekbar.setProgress(landQqsRow[0]);
-
-        land_qqs_row_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                landQqsRow[0] = progress;
-                land_qqs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
-
-        // Landscape QsPanel Row
-        SeekBar land_qs_row_seekbar = findViewById(R.id.land_qs_row_seekbar);
-        TextView land_qs_row_output = findViewById(R.id.land_qs_row_output);
-
-        land_qs_row_seekbar.setPadding(0, 0, 0, 0);
-        final int[] landQsRow = {Prefs.getInt(LAND_QS_ROW, 4)};
-        land_qs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + landQsRow[0]);
-        land_qs_row_seekbar.setProgress(landQsRow[0]);
-
-        land_qs_row_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                landQsRow[0] = progress;
-                land_qs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
-
-        // Landscape QsPanel Column
-        SeekBar land_qs_column_seekbar = findViewById(R.id.land_qs_column_seekbar);
-        TextView land_qs_column_output = findViewById(R.id.land_qs_column_output);
-
-        land_qs_column_seekbar.setPadding(0, 0, 0, 0);
-        final int[] landQsColumn = {Prefs.getInt(LAND_QS_COLUMN, 2)};
-        land_qs_column_output.setText(getResources().getString(R.string.opt_selected) + ' ' + landQsColumn[0]);
-        land_qs_column_seekbar.setProgress(landQsColumn[0]);
-
-        land_qs_column_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                landQsColumn[0] = progress;
-                land_qs_column_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
-
-        // Apply and reset button
+        // Apply button declaration
         Button qs_row_column_apply = findViewById(R.id.qs_row_column_apply);
+
+        // Reset button declaration
         Button qs_row_column_reset = findViewById(R.id.qs_row_column_reset);
 
-        if (Prefs.getBoolean("IconifyComponentQSRC.overlay"))
-            qs_row_column_reset.setVisibility(View.VISIBLE);
-
+        // Apply button
         qs_row_column_apply.setOnClickListener(v -> {
-            if (!Environment.isExternalStorageManager()) {
-                Intent intent = new Intent();
-                intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                Uri uri = Uri.fromParts("package", this.getPackageName(), null);
-                intent.setData(uri);
-                startActivity(intent);
-            } else {
-                // Show loading dialog
-                loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
-                AtomicBoolean hasErroredOut = new AtomicBoolean(false);
+            // Show loading dialog
+            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
-                Runnable runnable = () -> {
-                    try {
-                        hasErroredOut.set(QsRowColumnManager.buildOverlay(portQqsRow[0], portQsRow[0], portQsColumn[0], landQqsRow[0], landQsRow[0], landQsColumn[0]));
-                    } catch (IOException e) {
-                        hasErroredOut.set(true);
-                    }
+            Runnable runnable = () -> {
+                Prefs.putBoolean(QS_ROW_COLUMN_SWITCH, true);
 
-                    runOnUiThread(() -> {
-                        if (!hasErroredOut.get()) {
-                            Prefs.putInt(PORT_QQS_ROW, portQqsRow[0]);
-                            Prefs.putInt(PORT_QS_ROW, portQsRow[0]);
-                            Prefs.putInt(PORT_QS_COLUMN, portQsColumn[0]);
-                            Prefs.putInt(LAND_QQS_ROW, landQqsRow[0]);
-                            Prefs.putInt(LAND_QS_ROW, landQsRow[0]);
-                            Prefs.putInt(LAND_QS_COLUMN, landQsColumn[0]);
+                Prefs.putString(FABRICATED_QQS_ROW, String.valueOf(finalQqsRow[0]));
+                Prefs.putString(FABRICATED_QS_ROW, String.valueOf(finalQsRow[0]));
+                Prefs.putString(FABRICATED_QQS_COLUMN, String.valueOf(finalQsColumn[0]));
+                Prefs.putString(FABRICATED_QS_COLUMN, String.valueOf(finalQsColumn[0]));
+                Prefs.putString(FABRICATED_QQS_TILE, String.valueOf((finalQqsRow[0] + 1) * (finalQsColumn[0] + 1)));
+                Prefs.putString(FABRICATED_QS_TILE, String.valueOf((finalQsColumn[0] + 1) * (finalQsRow[0] + 1)));
 
-                            qs_row_column_reset.setVisibility(View.VISIBLE);
-                        }
+                applyRowColumn();
 
-                        new Handler().postDelayed(() -> {
-                            // Hide loading dialog
-                            loadingDialog.hide();
+                runOnUiThread(() -> {
 
-                            if (hasErroredOut.get())
-                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                            else
-                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
-                        }, 2000);
-                    });
-                };
-                Thread thread = new Thread(runnable);
-                thread.start();
-            }
+                    new Handler().postDelayed(() -> {
+                        // Hide loading dialog
+                        loadingDialog.hide();
+
+                        // Reset button visibility
+                        qs_row_column_reset.setVisibility(View.VISIBLE);
+
+                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                    }, 2000);
+                });
+            };
+            Thread thread = new Thread(runnable);
+            thread.start();
         });
 
-        qs_row_column_reset.setOnClickListener(v -> {
-            Prefs.clearPref(PORT_QQS_ROW);
-            Prefs.clearPref(PORT_QS_ROW);
-            Prefs.clearPref(PORT_QS_COLUMN);
-            Prefs.clearPref(LAND_QQS_ROW);
-            Prefs.clearPref(LAND_QS_ROW);
-            Prefs.clearPref(LAND_QS_COLUMN);
-
-            portQqsRow[0] = 2;
-            portQsRow[0] = 4;
-            portQsColumn[0] = 2;
-            landQqsRow[0] = 2;
-            landQsRow[0] = 4;
-            landQsColumn[0] = 2;
-
-            port_qqs_row_output.setText(getResources().getString(R.string.opt_selected) + "2");
-            port_qs_row_output.setText(getResources().getString(R.string.opt_selected) + "4");
-            port_qs_column_output.setText(getResources().getString(R.string.opt_selected) + "2");
-            land_qqs_row_output.setText(getResources().getString(R.string.opt_selected) + "2");
-            land_qs_row_output.setText(getResources().getString(R.string.opt_selected) + "4");
-            land_qs_column_output.setText(getResources().getString(R.string.opt_selected) + "2");
-
-            port_qqs_row_seekbar.setProgress(2);
-            port_qs_row_seekbar.setProgress(4);
-            port_qs_column_seekbar.setProgress(2);
-            land_qqs_row_seekbar.setProgress(2);
-            land_qs_row_seekbar.setProgress(4);
-            land_qs_column_seekbar.setProgress(2);
-
+        // Reset button
+        if (Prefs.getBoolean(QS_ROW_COLUMN_SWITCH))
+            qs_row_column_reset.setVisibility(View.VISIBLE);
+        else
             qs_row_column_reset.setVisibility(View.GONE);
 
-            OverlayUtil.disableOverlay("IconifyComponentQSRC.overlay");
+        qs_row_column_reset.setOnClickListener(v -> {
+            // Show loading dialog
+            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
+
+            Runnable runnable = () -> {
+                resetRowColumn();
+
+                runOnUiThread(() -> {
+                    Prefs.putBoolean(QS_ROW_COLUMN_SWITCH, false);
+
+                    new Handler().postDelayed(() -> {
+                        // Hide loading dialog
+                        loadingDialog.hide();
+
+                        // Reset button visibility
+                        qs_row_column_reset.setVisibility(View.GONE);
+
+                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_reset), Toast.LENGTH_SHORT).show();
+                    }, 2000);
+                });
+            };
+            Thread thread = new Thread(runnable);
+            thread.start();
         });
     }
 

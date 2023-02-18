@@ -100,6 +100,7 @@ public class References {
     public static final String CUSTOM_PRIMARY_COLOR_SWITCH = "customPrimaryColor";
     public static final String CUSTOM_SECONDARY_COLOR_SWITCH = "customSecondaryColor";
     public static final String COLOR_PIXEL_DARK_BG = "colorPixelBackgroundDark";
+    public static final String QS_ROW_COLUMN_SWITCH = "fabricatedqsRowColumn";
     public static final String MONET_ENGINE_SWITCH = "customMonet";
     public static final String QSPANEL_BLUR_SWITCH = "qsBlurSwitch";
     public static final String UI_CORNER_RADIUS = "cornerRadius";
@@ -113,12 +114,6 @@ public class References {
     public static final String PORT_QSTILE_NONEXPANDED_HEIGHT = "portraitQsTileNonExpandedHeight";
     public static final String LAND_QSTILE_EXPANDED_HEIGHT = "landscapeQsTileExpandedHeight";
     public static final String LAND_QSTILE_NONEXPANDED_HEIGHT = "landscapeQsTileNonExpandedHeight";
-    public static final String PORT_QS_ROW = "portraitQsRow";
-    public static final String PORT_QQS_ROW = "portraitQqsRow";
-    public static final String PORT_QS_COLUMN = "portraitQsColumn";
-    public static final String LAND_QS_ROW = "landscapeQsRow";
-    public static final String LAND_QQS_ROW = "landscapeQqsRow";
-    public static final String LAND_QS_COLUMN = "landscapeQsColumn";
 
     // Fabricated overlays
     public static final String ICONIFY_COLOR_ACCENT_PRIMARY = "0xFF50A6D7";
@@ -127,6 +122,12 @@ public class References {
     public static final String FABRICATED_COLORED_BATTERY = "coloredBattery";
     public static final String FABRICATED_BATTERY_COLOR_BG = "batteryColorBackground";
     public static final String FABRICATED_BATTERY_COLOR_FG = "batteryColorFilled";
+    public static final String FABRICATED_QS_ROW = "qsRow";
+    public static final String FABRICATED_QQS_ROW = "qqsRow";
+    public static final String FABRICATED_QQS_COLUMN = "qqsColumn";
+    public static final String FABRICATED_QS_COLUMN = "qsColumn";
+    public static final String FABRICATED_QQS_TILE = "qqsTile";
+    public static final String FABRICATED_QS_TILE = "qsTile";
     public static final String FABRICATED_QS_TEXT_SIZE = "qsTextSize";
     public static final String FABRICATED_QS_ICON_SIZE = "qsIconSize";
     public static final String FABRICATED_QS_MOVE_ICON = "qsMoveIcon";
