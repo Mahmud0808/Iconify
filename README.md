@@ -22,21 +22,23 @@ What you can change using Iconify:
 
 - Solid or Gradient Colors
 
-- System Icon Packs
+- System & Settings Icon Packs
 
-- Brightness Bar Style
+- Custom Brightness Bar Styles
 
-- QS Tile Shapes
+- Custom QS Tile Shapes
 
-- QS Panel Row & Column
+- Custom QS Rows & Columns
 
-- QS Panel Icon & Label
+- Custom Notification Styles
 
-- Notification Style
+- Media Player Styles (A12 / A12.1)
 
-- Media Player Style
+- Volume Panel Styles
 
-- Volume Panel Style
+- QS Transparency & Blur
+
+- Custom QS & Lockscreen Clocks
 
 - And many more...
 
@@ -52,7 +54,7 @@ What you can change using Iconify:
 
 - Android 12+ AOSP Based Rom
 
-- Magisk Latest Stable Version
+- Official Magisk Latest Stable Version
 
 - LSPosed (Optional)
 

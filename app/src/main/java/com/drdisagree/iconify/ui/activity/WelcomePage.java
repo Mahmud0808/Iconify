@@ -14,7 +14,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -40,13 +39,11 @@ public class WelcomePage extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     private static LinearLayout warn;
     @SuppressLint("StaticFieldLeak")
-    private static TextView title, warning;
+    private static TextView warning;
     @SuppressLint("StaticFieldLeak")
     private static Button install_module, reboot_phone;
-    @SuppressLint("StaticFieldLeak")
-    private static ImageView warn_icon;
     private static startInstallationProcess installModule = null;
-    LoadingDialogAlt loadingDialog;
+    private LoadingDialogAlt loadingDialog;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -103,8 +100,7 @@ public class WelcomePage extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
-        if (installModule != null)
-            installModule.cancel(true);
+        if (installModule != null) installModule.cancel(true);
         super.onDestroy();
     }
 
@@ -118,7 +114,7 @@ public class WelcomePage extends AppCompatActivity {
             warn.setVisibility(View.INVISIBLE);
             reboot_phone.setVisibility(View.GONE);
 
-            loadingDialog.show(getResources().getString(R.string.installing), "Initializing setup");
+            loadingDialog.show(getResources().getString(R.string.installing), getResources().getString(R.string.init_module_installation));
         }
 
         @SuppressLint("SetTextI18n")
@@ -126,27 +122,27 @@ public class WelcomePage extends AppCompatActivity {
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
 
-            String title = "Step " + values[0] + "/6";
+            String title = getResources().getString(R.string.step) + ' ' + values[0] + "/6";
             String desc = getResources().getString(R.string.loading_dialog_wait);
 
             switch (values[0]) {
                 case 1:
-                    desc = "Creating module shell";
+                    desc = getResources().getString(R.string.module_installation_step1);
                     break;
                 case 2:
-                    desc = "Extracting necessary files";
+                    desc = getResources().getString(R.string.module_installation_step2);
                     break;
                 case 3:
-                    desc = "Creating overlay APKs";
+                    desc = getResources().getString(R.string.module_installation_step3);
                     break;
                 case 4:
-                    desc = "Aligning overlay APKs";
+                    desc = getResources().getString(R.string.module_installation_step4);
                     break;
                 case 5:
-                    desc = "Signing overlay APKs";
+                    desc = getResources().getString(R.string.module_installation_step5);
                     break;
                 case 6:
-                    desc = "Cleaning temporary directories";
+                    desc = getResources().getString(R.string.module_installation_step6);
                     break;
             }
 
