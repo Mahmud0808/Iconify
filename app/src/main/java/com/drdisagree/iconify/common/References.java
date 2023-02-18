@@ -124,7 +124,6 @@ public class References {
     public static final String FABRICATED_BATTERY_COLOR_FG = "batteryColorFilled";
     public static final String FABRICATED_QS_ROW = "qsRow";
     public static final String FABRICATED_QQS_ROW = "qqsRow";
-    public static final String FABRICATED_QQS_COLUMN = "qqsColumn";
     public static final String FABRICATED_QS_COLUMN = "qsColumn";
     public static final String FABRICATED_QQS_TILE = "qqsTile";
     public static final String FABRICATED_QS_TILE = "qsTile";

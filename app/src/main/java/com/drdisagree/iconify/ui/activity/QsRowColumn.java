@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.FABRICATED_QQS_COLUMN;
 import static com.drdisagree.iconify.common.References.FABRICATED_QQS_ROW;
 import static com.drdisagree.iconify.common.References.FABRICATED_QQS_TILE;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_COLUMN;
@@ -37,7 +36,6 @@ public class QsRowColumn extends AppCompatActivity {
     public static void applyRowColumn() {
         FabricatedOverlayUtil.buildAndEnableOverlay("systemui", FABRICATED_QQS_ROW, "integer", "quick_qs_panel_max_rows", String.valueOf(Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW)) + 1));
         FabricatedOverlayUtil.buildAndEnableOverlay("systemui", FABRICATED_QS_ROW, "integer", "quick_settings_max_rows", String.valueOf(Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW)) + 1));
-        FabricatedOverlayUtil.buildAndEnableOverlay("systemui", FABRICATED_QQS_COLUMN, "integer", "quick_qs_panel_max_columns", String.valueOf(Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1));
         FabricatedOverlayUtil.buildAndEnableOverlay("systemui", FABRICATED_QS_COLUMN, "integer", "quick_settings_num_columns", String.valueOf(Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1));
         FabricatedOverlayUtil.buildAndEnableOverlay("systemui", FABRICATED_QQS_TILE, "integer", "quick_qs_panel_max_tiles", String.valueOf((Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW)) + 1) * (Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1)));
         FabricatedOverlayUtil.buildAndEnableOverlay("systemui", FABRICATED_QS_TILE, "integer", "quick_settings_min_num_tiles", String.valueOf((Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1) * (Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW)) + 1)));
@@ -46,7 +44,6 @@ public class QsRowColumn extends AppCompatActivity {
     public static void resetRowColumn() {
         FabricatedOverlayUtil.disableOverlay(FABRICATED_QQS_ROW);
         FabricatedOverlayUtil.disableOverlay(FABRICATED_QS_ROW);
-        FabricatedOverlayUtil.disableOverlay(FABRICATED_QQS_COLUMN);
         FabricatedOverlayUtil.disableOverlay(FABRICATED_QS_COLUMN);
         FabricatedOverlayUtil.disableOverlay(FABRICATED_QQS_TILE);
         FabricatedOverlayUtil.disableOverlay(FABRICATED_QS_TILE);
@@ -178,7 +175,6 @@ public class QsRowColumn extends AppCompatActivity {
 
                 Prefs.putString(FABRICATED_QQS_ROW, String.valueOf(finalQqsRow[0]));
                 Prefs.putString(FABRICATED_QS_ROW, String.valueOf(finalQsRow[0]));
-                Prefs.putString(FABRICATED_QQS_COLUMN, String.valueOf(finalQsColumn[0]));
                 Prefs.putString(FABRICATED_QS_COLUMN, String.valueOf(finalQsColumn[0]));
                 Prefs.putString(FABRICATED_QQS_TILE, String.valueOf((finalQqsRow[0] + 1) * (finalQsColumn[0] + 1)));
                 Prefs.putString(FABRICATED_QS_TILE, String.valueOf((finalQsColumn[0] + 1) * (finalQsRow[0] + 1)));

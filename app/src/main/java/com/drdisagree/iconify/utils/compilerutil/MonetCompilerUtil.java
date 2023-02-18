@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.utils;
+package com.drdisagree.iconify.utils.compilerutil;
 
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readCertificate;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;
@@ -6,6 +6,10 @@ import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;
 import android.util.Log;
 
 import com.drdisagree.iconify.common.References;
+import com.drdisagree.iconify.utils.FileUtil;
+import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.RootUtil;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.apksigner.JarMap;
 import com.drdisagree.iconify.utils.apksigner.SignAPK;
 import com.topjohnwu.superuser.Shell;
@@ -18,7 +22,7 @@ import java.io.InputStream;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 
-public class RoundnessCompilerUtil {
+public class MonetCompilerUtil {
 
     private static final String TAG = "MonetCompilerUtil";
     private static final String aapt = References.TOOLS_DIR + "/libaapt.so";
@@ -28,38 +32,38 @@ public class RoundnessCompilerUtil {
         preExecute();
 
         // Create AndroidManifest.xml
-        String overlay_name = "CR";
+        String overlay_name = "ME";
 
-        if (createManifest(overlay_name, References.DATA_DIR + "/Overlays/android/CR")) {
+        if (createManifest(overlay_name, References.DATA_DIR + "/Overlays/android/ME")) {
             Log.e(TAG, "Failed to create Manifest for " + overlay_name + "! Exiting...");
             postExecute(true);
             return true;
         }
 
         // Write color resources
-        if (writeResources(References.DATA_DIR + "/Overlays/android/CR", resources)) {
+        if (writeResources(References.DATA_DIR + "/Overlays/android/ME", resources)) {
             Log.e(TAG, "Failed to write resource for " + overlay_name + "! Exiting...");
             postExecute(true);
             return true;
         }
 
         // Build APK using AAPT
-        if (runAapt(References.DATA_DIR + "/Overlays/android/CR", overlay_name)) {
+        if (runAapt(References.DATA_DIR + "/Overlays/android/ME", overlay_name)) {
             Log.e(TAG, "Failed to build " + overlay_name + "! Exiting...");
             postExecute(true);
             return true;
         }
 
         // ZipAlign the APK
-        if (zipAlign(References.UNSIGNED_UNALIGNED_DIR + "/CR-unsigned-unaligned.apk")) {
-            Log.e(TAG, "Failed to align CR-unsigned-unaligned.apk! Exiting...");
+        if (zipAlign(References.UNSIGNED_UNALIGNED_DIR + "/ME-unsigned-unaligned.apk")) {
+            Log.e(TAG, "Failed to align ME-unsigned-unaligned.apk! Exiting...");
             postExecute(true);
             return true;
         }
 
         // Sign the APK
-        if (apkSigner(References.UNSIGNED_DIR + "/CR-unsigned.apk")) {
-            Log.e(TAG, "Failed to sign CR-unsigned.apk! Exiting...");
+        if (apkSigner(References.UNSIGNED_DIR + "/ME-unsigned.apk")) {
+            Log.e(TAG, "Failed to sign ME-unsigned.apk! Exiting...");
             postExecute(true);
             return true;
         }
@@ -76,7 +80,7 @@ public class RoundnessCompilerUtil {
 
         // Extract keystore and overlay from assets
         FileUtil.copyAssets("Keystore");
-        FileUtil.copyAssets("Overlays/android/CR");
+        FileUtil.copyAssets("Overlays/android/ME");
 
         // Create temp directory
         Shell.cmd("rm -rf " + References.TEMP_DIR + "; mkdir -p " + References.TEMP_DIR).exec();
@@ -86,21 +90,22 @@ public class RoundnessCompilerUtil {
         Shell.cmd("mkdir -p " + References.SIGNED_DIR).exec();
 
         // Disable the overlay in case it is already enabled
-        OverlayUtil.disableOverlay("IconifyComponentCR.overlay");
+        OverlayUtil.disableOverlay("IconifyComponentME.overlay");
     }
 
     private static void postExecute(boolean hasErroredOut) {
         // Move all generated overlays to module
         if (!hasErroredOut) {
-            Shell.cmd("cp -rf " + References.SIGNED_DIR + "/IconifyComponentCR.apk " + References.OVERLAY_DIR + "/IconifyComponentCR.apk").exec();
-            RootUtil.setPermissions(644, References.OVERLAY_DIR + "/IconifyComponentCR.apk");
+            Shell.cmd("cp -rf " + References.SIGNED_DIR + "/IconifyComponentME.apk " + References.OVERLAY_DIR + "/IconifyComponentME.apk").exec();
+            RootUtil.setPermissions(644, References.OVERLAY_DIR + "/IconifyComponentME.apk");
 
             SystemUtil.mountRW();
-            Shell.cmd("cp -rf " + References.SIGNED_DIR + "/IconifyComponentCR.apk " + "/system/product/overlay/IconifyComponentCR.apk").exec();
-            RootUtil.setPermissions(644, "/system/product/overlay/IconifyComponentCR.apk");
+            Shell.cmd("cp -rf " + References.SIGNED_DIR + "/IconifyComponentME.apk " + "/system/product/overlay/IconifyComponentME.apk").exec();
+            RootUtil.setPermissions(644, "/system/product/overlay/IconifyComponentME.apk");
             SystemUtil.mountRO();
 
-            OverlayUtil.enableOverlay("IconifyComponentCR.overlay");
+            OverlayUtil.enableOverlay("IconifyComponentDM.overlay");
+            OverlayUtil.enableOverlay("IconifyComponentME.overlay");
         }
 
         // Clean temp directory
@@ -114,7 +119,7 @@ public class RoundnessCompilerUtil {
     }
 
     private static boolean writeResources(String source, String resources) {
-        return !Shell.cmd("rm -rf " + source + "/res/values/dimens.xml", "printf '" + resources + "' > " + source + "/res/values/dimens.xml;").exec().isSuccess();
+        return !Shell.cmd("rm -rf " + source + "/res/values/colors.xml", "printf '" + resources + "' > " + source + "/res/values/colors.xml;").exec().isSuccess();
     }
 
     private static boolean runAapt(String source, String name) {
@@ -122,7 +127,7 @@ public class RoundnessCompilerUtil {
     }
 
     private static boolean zipAlign(String source) {
-        return !Shell.cmd(zipalign + " 4 " + source + ' ' + References.UNSIGNED_DIR + "/CR-unsigned.apk").exec().isSuccess();
+        return !Shell.cmd(zipalign + " 4 " + source + ' ' + References.UNSIGNED_DIR + "/ME-unsigned.apk").exec().isSuccess();
     }
 
     private static boolean apkSigner(String source) {
@@ -147,7 +152,7 @@ public class RoundnessCompilerUtil {
             X509Certificate cert = readCertificate(certFile);
 
             JarMap jar = JarMap.open(new FileInputStream(source), true);
-            FileOutputStream out = new FileOutputStream(References.SIGNED_DIR + "/IconifyComponentCR.apk");
+            FileOutputStream out = new FileOutputStream(References.SIGNED_DIR + "/IconifyComponentME.apk");
 
             SignAPK.sign(cert, key, jar, out);
         } catch (Exception e) {

@@ -1,9 +1,11 @@
-package com.drdisagree.iconify.utils;
+package com.drdisagree.iconify.utils.compilerutil;
 
 import android.os.Environment;
 import android.util.Log;
 
 import com.drdisagree.iconify.common.References;
+import com.drdisagree.iconify.utils.AppUtil;
+import com.drdisagree.iconify.utils.FileUtil;
 import com.topjohnwu.superuser.Shell;
 
 import org.zeroturnaround.zip.ZipUtil;

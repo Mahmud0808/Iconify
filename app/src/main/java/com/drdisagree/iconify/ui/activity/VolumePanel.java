@@ -25,7 +25,7 @@ import com.drdisagree.iconify.ui.view.InfoDialog;
 import com.drdisagree.iconify.ui.view.LoadingDialog;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.VolumeCompilerUtil;
+import com.drdisagree.iconify.utils.compilerutil.VolumeCompilerUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.io.IOException;

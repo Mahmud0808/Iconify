@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.utils;
+package com.drdisagree.iconify.utils.compilerutil;
 
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readCertificate;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;
@@ -6,6 +6,9 @@ import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;
 import android.util.Log;
 
 import com.drdisagree.iconify.common.References;
+import com.drdisagree.iconify.utils.FileUtil;
+import com.drdisagree.iconify.utils.HelperUtil;
+import com.drdisagree.iconify.utils.RootUtil;
 import com.drdisagree.iconify.utils.apksigner.JarMap;
 import com.drdisagree.iconify.utils.apksigner.SignAPK;
 import com.topjohnwu.superuser.Shell;
