@@ -381,4 +381,12 @@
     <string name="sb_tint_system">Default system tint</string>
     <string name="sb_tint_monet">Monet tint</string>
     <string name="sb_tint_custom">Custom tint</string>
+    <string name="init_module_installation">Initializing setup</string>
+    <string name="step">Step</string>
+    <string name="module_installation_step1">Creating module shell</string>
+    <string name="module_installation_step2">Extracting necessary files</string>
+    <string name="module_installation_step3">Creating overlay APKs</string>
+    <string name="module_installation_step4">Aligning overlay APKs</string>
+    <string name="module_installation_step5">Signing overlay APKs</string>
+    <string name="module_installation_step6">Cleaning temporary directories</string>
 </resources>
