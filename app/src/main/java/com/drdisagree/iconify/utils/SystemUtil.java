@@ -89,9 +89,9 @@ public class SystemUtil {
                 darkSwitching = true;
 
                 Shell.cmd("cmd uimode night " + (isDark ? "no" : "yes")).exec();
-                Thread.sleep(1000);
+                Thread.sleep(800);
                 Shell.cmd("cmd uimode night " + (isDark ? "yes" : "no")).exec();
-                Thread.sleep(500);
+                Thread.sleep(800);
 
                 darkSwitching = false;
             } catch (Exception ignored) {
