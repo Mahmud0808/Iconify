@@ -25,10 +25,10 @@ import com.drdisagree.iconify.common.References;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.view.LoadingDialogAlt;
 import com.drdisagree.iconify.utils.ModuleUtil;
-import com.drdisagree.iconify.utils.OverlayCompilerUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.RootUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.utils.compilerutil.OverlayCompilerUtil;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.IOException;

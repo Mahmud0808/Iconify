@@ -31,6 +31,7 @@ public class SystemUtil {
     @SuppressLint("StaticFieldLeak")
     static SystemUtil instance;
     static boolean darkSwitching = false;
+    static boolean darkSwitching2 = false;
     Context mContext;
 
     public SystemUtil(Context context) {
@@ -136,17 +137,17 @@ public class SystemUtil {
         boolean isDark = (Iconify.getAppContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
         new Thread(() -> {
             try {
-                while (darkSwitching) {
+                while (darkSwitching2) {
                     Thread.currentThread().wait(100);
                 }
-                darkSwitching = true;
+                darkSwitching2 = true;
 
                 Shell.cmd("cmd uimode night " + (isDark ? "no" : "yes")).exec();
-                Thread.sleep(1000);
+                Thread.sleep(800);
                 Shell.cmd("cmd uimode night " + (isDark ? "yes" : "no")).exec();
-                Thread.sleep(500);
+                Thread.sleep(800);
 
-                darkSwitching = false;
+                darkSwitching2 = false;
             } catch (Exception ignored) {
             }
         }).start();

@@ -200,7 +200,7 @@
                     android:layout_marginBottom="8dp"
                     android:background="@null"
                     android:hapticFeedbackEnabled="true"
-                    android:max="200"
+                    android:max="48"
                     android:min="0"
                     android:progress="0"
                     android:progressDrawable="@drawable/seekbar"
