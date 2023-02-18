@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +36,7 @@ public class QsShapes extends AppCompatActivity {
     LoadingDialog loadingDialog;
     ViewGroup.MarginLayoutParams marginParams;
     LinearLayout.LayoutParams layoutParams;
-    private ViewGroup container;
+    private ViewGroup container, container_activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,26 +55,27 @@ public class QsShapes extends AppCompatActivity {
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
 
-        // Qs row column item on click
-        LinearLayout qs_row_column = findViewById(R.id.qs_row_column);
-        qs_row_column.setOnClickListener(v -> {
-            Intent intent = new Intent(QsShapes.this, QsRowColumn.class);
-            startActivity(intent);
-        });
+        // Activities list
+        container_activity = findViewById(R.id.qs_shape_list_activity);
+        ArrayList<Object[]> qs_shape_list_activity = new ArrayList<>();
 
-        // Qs text color item on click
-        LinearLayout qs_text_color = findViewById(R.id.qs_text_color);
-        qs_text_color.setOnClickListener(v -> {
-            Intent intent = new Intent(QsShapes.this, QsIconLabel.class);
-            startActivity(intent);
-        });
+        // Activities add items in list
+        qs_shape_list_activity.add(new Object[]{QsRowColumn.class, getResources().getString(R.string.row_and_column_title), getResources().getString(R.string.row_and_column_desc), R.drawable.ic_qs_row_column});
+        qs_shape_list_activity.add(new Object[]{QsIconLabel.class, getResources().getString(R.string.icon_and_label_title), getResources().getString(R.string.icon_and_label_desc), R.drawable.ic_qs_icon_and_label});
+        qs_shape_list_activity.add(new Object[]{QsShapesPixel.class, getResources().getString(R.string.activity_title_pixel_variant), getResources().getString(R.string.activity_desc_pixel_variant), R.drawable.ic_pixel_device});
 
-        // Pixel variant item on click
-        LinearLayout qs_shape_pixel_variant = findViewById(R.id.qs_shape_pixel_variant);
-        qs_shape_pixel_variant.setOnClickListener(v -> {
-            Intent intent = new Intent(QsShapes.this, QsShapesPixel.class);
-            startActivity(intent);
-        });
+        addActivityItem(qs_shape_list_activity);
+        fixViewGroup(container_activity);
+
+        // Enable onClick event
+        for (int i = 0; i < qs_shape_list_activity.size(); i++) {
+            LinearLayout child = container_activity.getChildAt(i).findViewById(R.id.list_item);
+            int finalI = i;
+            child.setOnClickListener(v -> {
+                Intent intent = new Intent(QsShapes.this, (Class<?>) qs_shape_list_activity.get(finalI)[0]);
+                startActivity(intent);
+            });
+        }
 
         // Qs Shapes list items
         container = findViewById(R.id.qs_shape_list);
@@ -302,6 +304,28 @@ public class QsShapes extends AppCompatActivity {
 
             container.addView(list);
         }
+    }
+
+    // Function to add new item in list
+    private void addActivityItem(ArrayList<Object[]> pack) {
+        for (int i = 0; i < pack.size(); i++) {
+            View list = LayoutInflater.from(this).inflate(R.layout.view_list_menu, container_activity, false);
+
+            TextView title = list.findViewById(R.id.list_title);
+            title.setText((String) pack.get(i)[1]);
+
+            TextView desc = list.findViewById(R.id.list_desc);
+            desc.setText((String) pack.get(i)[2]);
+
+            ImageView preview = list.findViewById(R.id.list_preview);
+            preview.setImageResource((int) pack.get(i)[3]);
+
+            container_activity.addView(list);
+        }
+    }
+
+    private void fixViewGroup(ViewGroup viewGroup) {
+        ((ViewGroup.MarginLayoutParams) viewGroup.getChildAt(viewGroup.getChildCount() - 1).getLayoutParams()).setMargins(0, 0, 0, 0);
     }
 
     @Override
