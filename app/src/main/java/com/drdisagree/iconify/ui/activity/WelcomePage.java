@@ -1,13 +1,11 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
 import static com.drdisagree.iconify.common.References.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.References.UPDATE_DETECTED;
 import static com.drdisagree.iconify.common.References.VER_CODE;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -28,7 +26,7 @@ import com.drdisagree.iconify.utils.ModuleUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.RootUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.compilerutil.OverlayCompilerUtil;
+import com.drdisagree.iconify.utils.compiler.OverlayCompilerUtil;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.IOException;
@@ -72,11 +70,10 @@ public class WelcomePage extends AppCompatActivity {
                     if (!Environment.isExternalStorageManager()) {
                         warning.setText(getResources().getString(R.string.perm_storage_access));
                         warn.setVisibility(View.VISIBLE);
-                        Intent intent = new Intent();
-                        intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                        Uri uri = Uri.fromParts("package", this.getPackageName(), null);
-                        intent.setData(uri);
-                        startActivity(intent);
+
+                        new Handler().postDelayed(() -> {
+                            SystemUtil.getStoragePermission(this);
+                        }, 1500);
                     } else {
                         if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
                             installModule = new startInstallationProcess();

@@ -179,7 +179,7 @@
                             android:paddingTop="18dp"
                             android:paddingEnd="16dp"
                             android:paddingBottom="18dp"
-                            tools:ignore="RtlHardcoded,RtlSymmetry">
+                            tools:ignore="RtlSymmetry">
 
                             <ImageView
                                 android:id="@+id/qs_icon2"
@@ -342,11 +342,7 @@
                     android:hapticFeedbackEnabled="true"
                     android:max="36"
                     android:min="0"
-                    android:progress="16"
-                    android:progressDrawable="@drawable/seekbar"
-                    android:splitTrack="false"
-                    android:theme="@style/SeekBar.Iconify"
-                    android:thumb="@drawable/seek_thumb" />
+                    android:progress="16" />
 
                 <Button
                     android:id="@+id/apply_radius"

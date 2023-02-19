@@ -27,13 +27,11 @@ public class QSTransparency extends ModPack {
     private static final String CLASS_SCRIMCONTROLLER = SYSTEMUI_PACKAGE + ".statusbar.phone.ScrimController";
     boolean QsTransparencyActive = false;
     private Float behindFraction = null;
-    private String SYSTEM_UI_PACKAGEPath = "";
     private Object lpparamCustom = null;
     private float alpha;
 
     public QSTransparency(Context context) {
         super(context);
-        if (!listensTo(context.getPackageName())) return;
     }
 
     @Override
@@ -48,11 +46,6 @@ public class QSTransparency extends ModPack {
                 try {
                     setFloatField(lpparamCustom, "mDefaultScrimAlpha", alpha);
                     setFloatField(lpparamCustom, "mBehindAlpha", alpha);
-
-                    try {
-                        setFloatField(lpparamCustom, "mCustomScrimAlpha", alpha);
-                    } catch (Throwable ignored) {
-                    }
 
                     callMethod(lpparamCustom, "updateScrims");
                 } catch (Throwable ignored) {
@@ -69,8 +62,6 @@ public class QSTransparency extends ModPack {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpParam) {
         if (!lpParam.packageName.equals(SYSTEMUI_PACKAGE))
             return;
-
-        SYSTEM_UI_PACKAGEPath = lpParam.appInfo.sourceDir;
 
         final Class<?> ScrimController = XposedHelpers.findClass(CLASS_SCRIMCONTROLLER, lpParam.classLoader);
 
@@ -97,10 +88,6 @@ public class QSTransparency extends ModPack {
 
                 try {
                     setFloatField(param.thisObject, "BUSY_SCRIM_ALPHA", alpha);
-                } catch (Throwable ignored) {
-                }
-                try {
-                    setFloatField(param.thisObject, "mCustomScrimAlpha", alpha);
                 } catch (Throwable ignored) {
                 }
             }

@@ -65,8 +65,6 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
         // Statusbar left padding
         SeekBar sb_left_padding_seekbar = findViewById(R.id.sb_left_padding_seekbar);
         TextView sb_left_padding_output = findViewById(R.id.sb_left_padding_output);
-
-        sb_left_padding_seekbar.setPadding(0, 0, 0, 0);
         final int[] finalSBLeftPadding = {8};
 
         if (Prefs.getInt(FABRICATED_SB_LEFT_PADDING, -1) != -1) {
@@ -98,8 +96,6 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
         // Statusbar right padding
         SeekBar sb_right_padding_seekbar = findViewById(R.id.sb_right_padding_seekbar);
         TextView sb_right_padding_output = findViewById(R.id.sb_right_padding_output);
-
-        sb_right_padding_seekbar.setPadding(0, 0, 0, 0);
         final int[] finalSBRightPadding = {8};
 
         if (Prefs.getInt(FABRICATED_SB_RIGHT_PADDING, -1) != -1) {

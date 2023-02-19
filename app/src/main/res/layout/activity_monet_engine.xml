@@ -62,12 +62,8 @@
 
                 <Switch
                     android:id="@+id/monet_accurate_shades"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:thumb="@drawable/switch_thumb"
-                    android:track="@drawable/switch_track"
-                    tools:ignore="RtlHardcoded,UseSwitchCompatOrMaterialXml" />
+                    style="@style/customSwitch"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </LinearLayout>
 
@@ -120,7 +116,7 @@
 
             </LinearLayout>
 
-            <View style="@style/divider_transparent"/>
+            <View style="@style/dividerTransparent" />
 
             <LinearLayout
                 android:id="@+id/preview_coloraccentsecondary"
@@ -341,23 +337,14 @@
 
                 <SeekBar
                     android:id="@+id/monet_accent_saturation_seekbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/container_padding"
-                    android:layout_marginBottom="8dp"
-                    android:background="@null"
-                    android:hapticFeedbackEnabled="true"
+                    style="@style/customSeekBar"
                     android:max="200"
                     android:min="0"
-                    android:progress="100"
-                    android:progressDrawable="@drawable/seekbar"
-                    android:splitTrack="false"
-                    android:theme="@style/SeekBar.Iconify"
-                    android:thumb="@drawable/seek_thumb" />
+                    android:progress="100" />
 
             </LinearLayout>
 
-            <View style="@style/divider_transparent"/>
+            <View style="@style/dividerTransparent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -405,23 +392,14 @@
 
                 <SeekBar
                     android:id="@+id/monet_background_saturation_seekbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/container_padding"
-                    android:layout_marginBottom="8dp"
-                    android:background="@null"
-                    android:hapticFeedbackEnabled="true"
+                    style="@style/customSeekBar"
                     android:max="200"
                     android:min="0"
-                    android:progress="100"
-                    android:progressDrawable="@drawable/seekbar"
-                    android:splitTrack="false"
-                    android:theme="@style/SeekBar.Iconify"
-                    android:thumb="@drawable/seek_thumb" />
+                    android:progress="100" />
 
             </LinearLayout>
 
-            <View style="@style/divider_transparent"/>
+            <View style="@style/dividerTransparent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -471,19 +449,10 @@
 
                 <SeekBar
                     android:id="@+id/monet_background_lightness_seekbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/container_padding"
-                    android:layout_marginBottom="8dp"
-                    android:background="@null"
-                    android:hapticFeedbackEnabled="true"
+                    style="@style/customSeekBar"
                     android:max="200"
                     android:min="0"
-                    android:progress="100"
-                    android:progressDrawable="@drawable/seekbar"
-                    android:splitTrack="false"
-                    android:theme="@style/SeekBar.Iconify"
-                    android:thumb="@drawable/seek_thumb" />
+                    android:progress="100" />
 
             </LinearLayout>
 

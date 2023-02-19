@@ -46,7 +46,6 @@ public class QsIconLabel extends AppCompatActivity {
 
         // Text Size
         SeekBar text_size = findViewById(R.id.text_size);
-        text_size.setPadding(0, 0, 0, 0);
 
         TextView text_size_output = findViewById(R.id.text_size_output);
 
@@ -91,7 +90,6 @@ public class QsIconLabel extends AppCompatActivity {
 
         // Icon Size
         SeekBar icon_size = findViewById(R.id.icon_size);
-        icon_size.setPadding(0, 0, 0, 0);
 
         TextView icon_size_output = findViewById(R.id.icon_size_output);
 
@@ -277,8 +275,6 @@ public class QsIconLabel extends AppCompatActivity {
         // Move Icon
         SeekBar move_icon = findViewById(R.id.move_icon);
         TextView move_icon_output = findViewById(R.id.move_icon_output);
-
-        move_icon.setPadding(0, 0, 0, 0);
         final int[] finalMoveIcon = {16};
 
         if (!Prefs.getString(FABRICATED_QS_MOVE_ICON).equals(STR_NULL)) {

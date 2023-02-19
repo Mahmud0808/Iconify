@@ -45,6 +45,8 @@ import android.widget.TextView;
 
 import com.drdisagree.iconify.xposed.ModPack;
 
+import java.util.Objects;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -61,12 +63,10 @@ public class QuickSettings extends ModPack {
     boolean showHeaderImage = false;
     int headerImageHeight = 0;
     int qsTopMargin = 0;
-    private String rootPackagePath = "";
     private Object mParam = null;
 
     public QuickSettings(Context context) {
         super(context);
-        if (!listensTo(context.getPackageName())) return;
     }
 
     @Override
@@ -80,7 +80,8 @@ public class QuickSettings extends ModPack {
         isVerticalQSTileActive = Xprefs.getBoolean(VERTICAL_QSTILE_SWITCH, false);
         isHideLabelActive = Xprefs.getBoolean(HIDE_QSLABEL_SWITCH, false);
 
-        setPanelTopMargin();
+        if (Key.length > 0 && (Objects.equals(Key[0], PANEL_TOPMARGIN_SWITCH) || Objects.equals(Key[0], QS_TOPMARGIN) || Objects.equals(Key[0], HEADER_IMAGE_SWITCH) || Objects.equals(Key[0], HEADER_IMAGE_HEIGHT)))
+            setPanelTopMargin();
     }
 
     @Override
@@ -92,8 +93,6 @@ public class QuickSettings extends ModPack {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE))
             return;
-
-        rootPackagePath = lpparam.appInfo.sourceDir;
 
         Class<?> QSTileViewImpl = findClass(CLASS_QSTILEVIEWIMPL, lpparam.classLoader);
         Class<?> FontSizeUtils = findClass(CLASS_FONTSIZEUTILS, lpparam.classLoader);
@@ -155,6 +154,8 @@ public class QuickSettings extends ModPack {
                 }
             }
         });
+
+        setPanelTopMargin();
     }
 
     private void fixTileLayout(LinearLayout tile, Object param) {

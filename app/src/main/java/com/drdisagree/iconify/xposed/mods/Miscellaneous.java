@@ -24,6 +24,8 @@ import android.widget.TextView;
 
 import com.drdisagree.iconify.xposed.ModPack;
 
+import java.util.Objects;
+
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
@@ -41,11 +43,9 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
     int topMarginStatusIcons = 8;
     LinearLayout statusIcons = null;
     LinearLayout statusIconContainer = null;
-    private String rootPackagePath = "";
 
     public Miscellaneous(Context context) {
         super(context);
-        if (!listensTo(context.getPackageName())) return;
     }
 
     @Override
@@ -58,9 +58,14 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
         topMarginStatusIcons = Xprefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0);
         sideMarginStatusIcons = Xprefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0);
 
-        hideQSCarrierGroup();
-        hideStatusIcons();
-        fixedStatusIcons();
+        if (Key.length > 0) {
+            if (Objects.equals(Key[0], QSPANEL_HIDE_CARRIER)) hideQSCarrierGroup();
+
+            if (Objects.equals(Key[0], HIDE_STATUS_ICONS_SWITCH)) hideStatusIcons();
+
+            if (Objects.equals(Key[0], FIXED_STATUS_ICONS_SWITCH) || Objects.equals(Key[0], HIDE_STATUS_ICONS_SWITCH) || Objects.equals(Key[0], FIXED_STATUS_ICONS_TOPMARGIN) || Objects.equals(Key[0], FIXED_STATUS_ICONS_SIDEMARGIN))
+                fixedStatusIcons();
+        }
     }
 
     @Override
@@ -70,10 +75,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE))
-            return;
-
-        rootPackagePath = lpparam.appInfo.sourceDir;
+        if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE)) return;
 
         final Class<?> QuickStatusBarHeader = findClass(QuickStatusBarHeaderClass, lpparam.classLoader);
 
@@ -124,6 +126,10 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
             });
         } catch (Throwable ignored) {
         }
+
+        hideQSCarrierGroup();
+        hideStatusIcons();
+        fixedStatusIcons();
     }
 
     private void hideQSCarrierGroup() {
@@ -134,8 +140,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
             ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
                 @Override
                 public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
-                    if (!QSCarrierGroupHidden)
-                        return;
+                    if (!QSCarrierGroupHidden) return;
 
                     @SuppressLint("DiscouragedApi") LinearLayout carrier_group = liparam.view.findViewById(liparam.res.getIdentifier("carrier_group", "id", SYSTEMUI_PACKAGE));
                     carrier_group.getLayoutParams().height = 0;
@@ -156,8 +161,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                 @SuppressLint({"DiscouragedApi"})
                 @Override
                 public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
-                    if (!hideStatusIcons)
-                        return;
+                    if (!hideStatusIcons) return;
 
                     try {
                         @SuppressLint("DiscouragedApi") TextView clock = liparam.view.findViewById(liparam.res.getIdentifier("clock", "id", SYSTEMUI_PACKAGE));
@@ -248,8 +252,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                 @SuppressLint({"DiscouragedApi"})
                 @Override
                 public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
-                    if (!hideStatusIcons)
-                        return;
+                    if (!hideStatusIcons) return;
 
                     try {
                         @SuppressLint("DiscouragedApi") TextView date = liparam.view.findViewById(liparam.res.getIdentifier("date", "id", SYSTEMUI_PACKAGE));
@@ -275,8 +278,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                 @SuppressLint("DiscouragedApi")
                 @Override
                 public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
-                    if (!fixedStatusIcons || hideStatusIcons)
-                        return;
+                    if (!fixedStatusIcons || hideStatusIcons) return;
 
                     try {
                         statusIcons = liparam.view.findViewById(liparam.res.getIdentifier("statusIcons", "id", SYSTEMUI_PACKAGE));
@@ -308,8 +310,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
             ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_status_bar_header_date_privacy", new XC_LayoutInflated() {
                 @Override
                 public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
-                    if (!fixedStatusIcons || hideStatusIcons)
-                        return;
+                    if (!fixedStatusIcons || hideStatusIcons) return;
 
                     try {
                         @SuppressLint("DiscouragedApi") FrameLayout privacy_container = liparam.view.findViewById(liparam.res.getIdentifier("privacy_container", "id", SYSTEMUI_PACKAGE));
@@ -336,10 +337,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
 
                             statusIconContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics()), Gravity.END));
                             statusIconContainer.setGravity(Gravity.CENTER);
-                            ((FrameLayout.LayoutParams) statusIconContainer.getLayoutParams()).setMargins(0,
-                                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMarginStatusIcons, mContext.getResources().getDisplayMetrics()),
-                                    0,
-                                    0);
+                            ((FrameLayout.LayoutParams) statusIconContainer.getLayoutParams()).setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMarginStatusIcons, mContext.getResources().getDisplayMetrics()), 0, 0);
                             ((FrameLayout.LayoutParams) statusIconContainer.getLayoutParams()).setMarginEnd((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMarginStatusIcons, mContext.getResources().getDisplayMetrics()));
                             statusIconContainer.requestLayout();
 

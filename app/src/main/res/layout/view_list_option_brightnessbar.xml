@@ -22,7 +22,7 @@
         android:textColor="@color/textColorPrimary"
         android:textSize="@dimen/cont_title_size"
         android:textStyle="bold"
-        tools:ignore="RtlHardcoded,SpUsage" />
+        tools:ignore="SpUsage" />
 
     <LinearLayout
         android:layout_width="match_parent"

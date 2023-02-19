@@ -20,7 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
-import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.utils.HelperUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.Objects;
@@ -46,7 +46,7 @@ public class XposedOthers extends AppCompatActivity {
         hide_qs_carrier_group.setChecked(RPrefs.getBoolean(QSPANEL_HIDE_CARRIER, false));
         hide_qs_carrier_group.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(QSPANEL_HIDE_CARRIER, isChecked);
-            new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+            new Handler().postDelayed(HelperUtil::forceApply, 200);
         });
 
         // Hide status icons
@@ -54,7 +54,7 @@ public class XposedOthers extends AppCompatActivity {
         hide_status_icons.setChecked(RPrefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false));
         hide_status_icons.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_STATUS_ICONS_SWITCH, isChecked);
-            new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+            new Handler().postDelayed(HelperUtil::forceApply, 200);
         });
 
         // Fixed status icons
@@ -67,12 +67,11 @@ public class XposedOthers extends AppCompatActivity {
             else if (RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0) > 32)
                 FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (48 + RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0)) + "dp");
 
-            new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+            new Handler().postDelayed(HelperUtil::forceApply, 200);
         });
 
         // Status icons top margin
         SeekBar status_icons_top_margin_seekbar = findViewById(R.id.status_icons_top_margin_seekbar);
-        status_icons_top_margin_seekbar.setPadding(0, 0, 0, 0);
         TextView status_icons_top_margin_output = findViewById(R.id.status_icons_top_margin_output);
         status_icons_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0) + "dp");
         status_icons_top_margin_seekbar.setProgress(RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0));
@@ -94,14 +93,13 @@ public class XposedOthers extends AppCompatActivity {
                 RPrefs.putInt(FIXED_STATUS_ICONS_TOPMARGIN, topMarginStatusIcons[0]);
                 if (RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)) {
                     FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (48 + topMarginStatusIcons[0]) + "dp");
-                    new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+                    new Handler().postDelayed(HelperUtil::forceApply, 200);
                 }
             }
         });
 
         // Status icons side margin
         SeekBar status_icons_side_margin_seekbar = findViewById(R.id.status_icons_side_margin_seekbar);
-        status_icons_side_margin_seekbar.setPadding(0, 0, 0, 0);
         TextView status_icons_side_margin_output = findViewById(R.id.status_icons_side_margin_output);
         status_icons_side_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RPrefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0) + "dp");
         status_icons_side_margin_seekbar.setProgress(RPrefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0));
@@ -122,7 +120,7 @@ public class XposedOthers extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(FIXED_STATUS_ICONS_SIDEMARGIN, sideMarginStatusIcons[0]);
                 if (RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)) {
-                    new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+                    new Handler().postDelayed(HelperUtil::forceApply, 200);
                 }
             }
         });

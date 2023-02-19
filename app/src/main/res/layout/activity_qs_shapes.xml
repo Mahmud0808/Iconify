@@ -30,7 +30,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical" />
 
-            <View style="@style/divider_accent" />
+            <View style="@style/dividerAccent" />
 
             <LinearLayout
                 android:id="@+id/qs_shape_list"

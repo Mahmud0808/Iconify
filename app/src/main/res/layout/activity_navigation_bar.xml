@@ -61,16 +61,12 @@
 
                 <Switch
                     android:id="@+id/nb_fullscreen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:thumb="@drawable/switch_thumb"
-                    android:track="@drawable/switch_track"
+                    style="@style/customSwitch"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </LinearLayout>
 
-            <View style="@style/divider_transparent"/>
+            <View style="@style/dividerTransparent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -109,16 +105,12 @@
 
                 <Switch
                     android:id="@+id/nb_immersive"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:thumb="@drawable/switch_thumb"
-                    android:track="@drawable/switch_track"
+                    style="@style/customSwitch"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </LinearLayout>
 
-            <View style="@style/divider_transparent"/>
+            <View style="@style/dividerTransparent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -157,16 +149,12 @@
 
                 <Switch
                     android:id="@+id/nb_immersivev2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:thumb="@drawable/switch_thumb"
-                    android:track="@drawable/switch_track"
+                    style="@style/customSwitch"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </LinearLayout>
 
-            <View style="@style/divider_transparent"/>
+            <View style="@style/dividerTransparent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -205,16 +193,12 @@
 
                 <Switch
                     android:id="@+id/nb_immersivev3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:thumb="@drawable/switch_thumb"
-                    android:track="@drawable/switch_track"
+                    style="@style/customSwitch"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </LinearLayout>
 
-            <View style="@style/divider_transparent"/>
+            <View style="@style/dividerTransparent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -253,11 +237,7 @@
 
                 <Switch
                     android:id="@+id/nb_lower_sens"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:thumb="@drawable/switch_thumb"
-                    android:track="@drawable/switch_track"
+                    style="@style/customSwitch"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </LinearLayout>
@@ -268,7 +248,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <View style="@style/divider_transparent"/>
+                <View style="@style/dividerTransparent" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -307,11 +287,7 @@
 
                     <Switch
                         android:id="@+id/nb_hide_pill"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:thumb="@drawable/switch_thumb"
-                        android:track="@drawable/switch_track"
+                        style="@style/customSwitch"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                 </LinearLayout>
@@ -323,7 +299,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <View style="@style/divider_transparent"/>
+                    <View style="@style/dividerTransparent" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -362,11 +338,7 @@
 
                         <Switch
                             android:id="@+id/nb_monet_pill"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start|center"
-                            android:thumb="@drawable/switch_thumb"
-                            android:track="@drawable/switch_track"
+                            style="@style/customSwitch"
                             tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                     </LinearLayout>
@@ -381,7 +353,7 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <View style="@style/divider_transparent"/>
+                <View style="@style/dividerTransparent" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -420,17 +392,13 @@
 
                     <Switch
                         android:id="@+id/nb_hide_kb_buttons"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:thumb="@drawable/switch_thumb"
-                        android:track="@drawable/switch_track"
+                        style="@style/customSwitch"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                 </LinearLayout>
             </LinearLayout>
 
-            <View style="@style/divider_transparent"/>
+            <View style="@style/dividerTransparent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -469,16 +437,12 @@
 
                 <Switch
                     android:id="@+id/nb_disable_left_gesture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:thumb="@drawable/switch_thumb"
-                    android:track="@drawable/switch_track"
+                    style="@style/customSwitch"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </LinearLayout>
 
-            <View style="@style/divider_transparent"/>
+            <View style="@style/dividerTransparent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -517,11 +481,7 @@
 
                 <Switch
                     android:id="@+id/nb_disable_right_gesture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:thumb="@drawable/switch_thumb"
-                    android:track="@drawable/switch_track"
+                    style="@style/customSwitch"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </LinearLayout>

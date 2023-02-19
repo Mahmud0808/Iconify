@@ -1,14 +1,11 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
 import static com.drdisagree.iconify.common.References.LAND_QSTILE_EXPANDED_HEIGHT;
 import static com.drdisagree.iconify.common.References.LAND_QSTILE_NONEXPANDED_HEIGHT;
 import static com.drdisagree.iconify.common.References.PORT_QSTILE_EXPANDED_HEIGHT;
 import static com.drdisagree.iconify.common.References.PORT_QSTILE_NONEXPANDED_HEIGHT;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -28,6 +25,7 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.QsTileHeightManager;
 import com.drdisagree.iconify.ui.view.LoadingDialog;
 import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.io.IOException;
@@ -57,7 +55,6 @@ public class QsTileSize extends AppCompatActivity {
 
         // Portrait Nonexpanded height
         SeekBar port_nonexpanded_height_seekbar = findViewById(R.id.port_nonexpanded_height_seekbar);
-        port_nonexpanded_height_seekbar.setPadding(0, 0, 0, 0);
         TextView port_nonexpanded_height_output = findViewById(R.id.port_nonexpanded_height_output);
         port_nonexpanded_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(PORT_QSTILE_NONEXPANDED_HEIGHT, 60) + "dp");
         port_nonexpanded_height_seekbar.setProgress(Prefs.getInt(PORT_QSTILE_NONEXPANDED_HEIGHT, 60));
@@ -94,7 +91,6 @@ public class QsTileSize extends AppCompatActivity {
 
         // Portrait Expanded height
         SeekBar port_expanded_height_seekbar = findViewById(R.id.port_expanded_height_seekbar);
-        port_expanded_height_seekbar.setPadding(0, 0, 0, 0);
         TextView port_expanded_height_output = findViewById(R.id.port_expanded_height_output);
         port_expanded_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(PORT_QSTILE_EXPANDED_HEIGHT, 80) + "dp");
         port_expanded_height_seekbar.setProgress(Prefs.getInt(PORT_QSTILE_EXPANDED_HEIGHT, 80));
@@ -131,7 +127,6 @@ public class QsTileSize extends AppCompatActivity {
 
         // Landscape Nonexpanded height
         SeekBar land_nonexpanded_height_seekbar = findViewById(R.id.land_nonexpanded_height_seekbar);
-        land_nonexpanded_height_seekbar.setPadding(0, 0, 0, 0);
         TextView land_nonexpanded_height_output = findViewById(R.id.land_nonexpanded_height_output);
         land_nonexpanded_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(LAND_QSTILE_NONEXPANDED_HEIGHT, 60) + "dp");
         land_nonexpanded_height_seekbar.setProgress(Prefs.getInt(LAND_QSTILE_NONEXPANDED_HEIGHT, 60));
@@ -168,7 +163,6 @@ public class QsTileSize extends AppCompatActivity {
 
         // Landscape Expanded height
         SeekBar land_expanded_height_seekbar = findViewById(R.id.land_expanded_height_seekbar);
-        land_expanded_height_seekbar.setPadding(0, 0, 0, 0);
         TextView land_expanded_height_output = findViewById(R.id.land_expanded_height_output);
         land_expanded_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(LAND_QSTILE_EXPANDED_HEIGHT, 80) + "dp");
         land_expanded_height_seekbar.setProgress(Prefs.getInt(LAND_QSTILE_EXPANDED_HEIGHT, 80));
@@ -212,11 +206,7 @@ public class QsTileSize extends AppCompatActivity {
 
         qs_tile_height_apply.setOnClickListener(v -> {
             if (!Environment.isExternalStorageManager()) {
-                Intent intent = new Intent();
-                intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                Uri uri = Uri.fromParts("package", this.getPackageName(), null);
-                intent.setData(uri);
-                startActivity(intent);
+                SystemUtil.getStoragePermission(this);
             } else {
                 // Show loading dialog
                 loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));

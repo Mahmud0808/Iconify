@@ -28,6 +28,7 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.References;
 import com.drdisagree.iconify.config.RPrefs;
+import com.drdisagree.iconify.utils.HelperUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
@@ -99,20 +100,19 @@ public class XposedHeaderImage extends AppCompatActivity {
         enable_header_image = findViewById(R.id.enable_header_image);
         enable_header_image.setOnClickListener(v -> {
             RPrefs.putBoolean(HEADER_IMAGE_SWITCH, true);
-            new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+            new Handler().postDelayed(HelperUtil::forceApply, 200);
             enable_header_image.setVisibility(View.GONE);
             disable_header_image.setVisibility(View.VISIBLE);
         });
 
         disable_header_image.setOnClickListener(v -> {
             RPrefs.putBoolean(HEADER_IMAGE_SWITCH, false);
-            new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+            new Handler().postDelayed(HelperUtil::forceApply, 200);
             disable_header_image.setVisibility(View.GONE);
         });
 
         // Image height
         SeekBar header_image_height = findViewById(R.id.header_image_height_seekbar);
-        header_image_height.setPadding(0, 0, 0, 0);
         TextView header_image_height_output = findViewById(R.id.header_image_height_output);
         header_image_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RPrefs.getInt(HEADER_IMAGE_HEIGHT, 140) + "dp");
         header_image_height.setProgress(RPrefs.getInt(HEADER_IMAGE_HEIGHT, 140));
@@ -133,14 +133,13 @@ public class XposedHeaderImage extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(HEADER_IMAGE_HEIGHT, imageHeight[0]);
                 if (RPrefs.getBoolean(HEADER_IMAGE_SWITCH, false)) {
-                    new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+                    new Handler().postDelayed(HelperUtil::forceApply, 200);
                 }
             }
         });
 
         // Image alpha
         SeekBar image_alpha_seekbar = findViewById(R.id.image_alpha_seekbar);
-        image_alpha_seekbar.setPadding(0, 0, 0, 0);
         TextView image_alpha_output = findViewById(R.id.image_alpha_output);
         image_alpha_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RPrefs.getInt(HEADER_IMAGE_ALPHA, 100) + "%");
         image_alpha_seekbar.setProgress(RPrefs.getInt(HEADER_IMAGE_ALPHA, 100));
@@ -161,7 +160,7 @@ public class XposedHeaderImage extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(HEADER_IMAGE_ALPHA, imageAlpha[0]);
                 if (RPrefs.getBoolean(HEADER_IMAGE_SWITCH, false)) {
-                    new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+                    new Handler().postDelayed(HelperUtil::forceApply, 200);
                 }
             }
         });
@@ -172,7 +171,7 @@ public class XposedHeaderImage extends AppCompatActivity {
         enable_zoom_to_fit.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HEADER_IMAGE_ZOOMTOFIT, isChecked);
             if (RPrefs.getBoolean(HEADER_IMAGE_SWITCH, false)) {
-                new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+                new Handler().postDelayed(HelperUtil::forceApply, 200);
             }
         });
     }
