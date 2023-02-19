@@ -109,12 +109,10 @@ public class References {
     public static final String MONET_BACKGROUND_SATURATION = "monetBackgroundSaturation";
     public static final String MONET_BACKGROUND_LIGHTNESS = "monetBackgroundLightness";
     public static final String MONET_ACCURATE_SHADES = "monetAccurateShades";
-    public static final String SHOW_XPOSED_WARN = "showXposedMenuWarn";
     public static final String PORT_QSTILE_EXPANDED_HEIGHT = "portraitQsTileExpandedHeight";
     public static final String PORT_QSTILE_NONEXPANDED_HEIGHT = "portraitQsTileNonExpandedHeight";
     public static final String LAND_QSTILE_EXPANDED_HEIGHT = "landscapeQsTileExpandedHeight";
     public static final String LAND_QSTILE_NONEXPANDED_HEIGHT = "landscapeQsTileNonExpandedHeight";
-    public static final String FORCE_APPLY_EFFECT_CHOICE = "optionForceApplyEffect";
 
     // Fabricated overlays
     public static final String ICONIFY_COLOR_ACCENT_PRIMARY = "0xFF50A6D7";
@@ -147,4 +145,8 @@ public class References {
 
     // Notification service checker
     public static boolean isNotificationServiceRunning = false;
+
+    // Settings
+    public static final String SHOW_XPOSED_WARN = "showXposedMenuWarn";
+    public static final String FORCE_APPLY_XPOSED_CHOICE = "optionForceApplyXposed";
 }

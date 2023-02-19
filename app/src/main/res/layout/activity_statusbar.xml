@@ -118,7 +118,8 @@
                         android:paddingStart="@dimen/container_paddingSide"
                         android:paddingTop="@dimen/container_padding"
                         android:paddingEnd="@dimen/container_paddingSide"
-                        android:paddingBottom="@dimen/container_padding">
+                        android:paddingBottom="@dimen/container_padding"
+                        android:baselineAligned="false">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -141,61 +142,34 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/sb_color_tint_desc"
                                 android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/cont_desc_size"
-                                tools:ignore="TooManyViews" />
+                                android:textSize="@dimen/cont_desc_size" />
 
                         </LinearLayout>
-
                     </LinearLayout>
 
                     <RadioGroup
                         android:id="@+id/sb_tint_source_selector"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingStart="24dp"
-                        android:paddingEnd="24dp"
-                        android:paddingBottom="20dp">
+                        android:paddingStart="@dimen/container_paddingSide"
+                        android:paddingEnd="@dimen/container_paddingSide"
+                        android:paddingBottom="@dimen/container_paddingSide">
 
                         <RadioButton
                             android:id="@+id/sb_tint_system"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:background="@drawable/radio_sb_button_bg"
-                            android:button="@null"
-                            android:checked="false"
-                            android:paddingStart="12dp"
-                            android:paddingEnd="10dp"
-                            android:text="@string/sb_tint_system"
-                            android:textColor="@drawable/radio_sb_text_color"
-                            android:textSize="@dimen/cont_desc_size" />
+                            style="@style/customRadioButtonColored"
+                            android:checked="true"
+                            android:text="@string/sb_tint_system" />
 
                         <RadioButton
                             android:id="@+id/sb_tint_monet"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:background="@drawable/radio_sb_button_bg"
-                            android:button="@null"
-                            android:checked="false"
-                            android:paddingStart="12dp"
-                            android:paddingEnd="10dp"
-                            android:text="@string/sb_tint_monet"
-                            android:textColor="@drawable/radio_sb_text_color"
-                            android:textSize="@dimen/cont_desc_size" />
+                            style="@style/customRadioButtonColored"
+                            android:text="@string/sb_tint_monet" />
 
                         <RadioButton
                             android:id="@+id/sb_tint_custom"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/radio_sb_button_bg"
-                            android:button="@null"
-                            android:checked="false"
-                            android:paddingStart="12dp"
-                            android:paddingEnd="10dp"
-                            android:text="@string/sb_tint_custom"
-                            android:textColor="@drawable/radio_sb_text_color"
-                            android:textSize="@dimen/cont_desc_size" />
+                            style="@style/customRadioButtonColored"
+                            android:text="@string/sb_tint_custom" />
 
                     </RadioGroup>
                 </LinearLayout>

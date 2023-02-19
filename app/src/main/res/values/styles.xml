@@ -86,4 +86,16 @@
         <item name="android:paddingStart">0dp</item>
         <item name="android:paddingEnd">0dp</item>
     </style>
+
+    <style name="customRadioButtonColored">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">@dimen/container_paddingSide</item>
+        <item name="android:paddingEnd">@dimen/container_paddingSide</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/radio_sb_button_bg</item>
+        <item name="android:textColor">@drawable/radio_sb_text_color</item>
+        <item name="android:textSize">@dimen/cont_desc_size</item>
+    </style>
 </resources>

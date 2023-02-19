@@ -380,9 +380,9 @@
     <string name="info_contributor_desc_2">For assisting me on telegram.</string>
     <string name="attention">Attention!</string>
     <string name="lsposed_warn">Before enabling Iconify from LSPosed modules, long press on Iconify and click on Re-optimize. After that enable Iconify and restart your SystemUI. This is necessary for a smoother experience.</string>
-    <string name="sb_tint_system">Default system tint</string>
-    <string name="sb_tint_monet">Monet tint</string>
-    <string name="sb_tint_custom">Custom tint</string>
+    <string name="sb_tint_system">Default System Tint</string>
+    <string name="sb_tint_monet">Monet/Accent Tint</string>
+    <string name="sb_tint_custom">Custom Tint (Color Picker)</string>
     <string name="init_module_installation">Initializing setup</string>
     <string name="step">Step</string>
     <string name="module_installation_step1">Creating module shell</string>

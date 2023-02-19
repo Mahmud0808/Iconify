@@ -38,8 +38,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/container_margin"
-                android:background="@drawable/container"
+                android:background="@drawable/container_top"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/container_paddingSide"
                 android:paddingTop="@dimen/container_padding"
@@ -79,13 +78,87 @@
 
             </LinearLayout>
 
+            <View style="@style/dividerTransparent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/container_bottom"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/sb_color_tint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/container_bottom"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/container_paddingSide"
+                    android:paddingTop="@dimen/container_padding"
+                    android:paddingEnd="@dimen/container_paddingSide"
+                    android:paddingBottom="@dimen/container_padding">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center"
+                        android:layout_marginEnd="@dimen/container_padding"
+                        android:layout_weight="1.0"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Force Apply Method"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Method to force apply the changes in xposed menu"
+                            android:textColor="@color/textColorSecondary"
+                            android:textSize="@dimen/cont_desc_size" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <RadioGroup
+                    android:id="@+id/force_apply_method_selector"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/container_paddingSide"
+                    android:paddingEnd="@dimen/container_paddingSide"
+                    android:paddingBottom="@dimen/container_paddingSide">
+
+                    <RadioButton
+                        android:id="@+id/apply_method_dark_mode"
+                        style="@style/customRadioButtonColored"
+                        android:checked="true"
+                        android:text="Double Toggle Dark Mode" />
+
+                    <RadioButton
+                        android:id="@+id/apply_method_restart_sysui"
+                        style="@style/customRadioButtonColored"
+                        android:text="Restart SystemUI" />
+
+                    <RadioButton
+                        android:id="@+id/apply_method_do_nothing"
+                        style="@style/customRadioButtonColored"
+                        android:text="Do Nothing (I will do it myself)" />
+
+                </RadioGroup>
+            </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="@dimen/container_marginSide"
                 android:layout_marginBottom="@dimen/container_marginSide"
-                android:text="Other Settings"
+                android:text="Miscellaneous Settings"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="20sp"
                 android:textStyle="bold" />
