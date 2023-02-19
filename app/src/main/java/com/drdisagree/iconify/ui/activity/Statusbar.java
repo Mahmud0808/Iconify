@@ -118,7 +118,7 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
         //set current choosen style
         selectedStyle = Prefs.getString(FABRICATED_SB_COLOR_SOURCE);
 
-        if (Objects.equals(selectedStyle, "Monet") || Prefs.getBoolean("IconifyComponentSbTint.overlay")) {
+        if (Objects.equals(selectedStyle, "Monet") || Prefs.getBoolean("IconifyComponentSBTint.overlay")) {
             ((RadioButton) findViewById(R.id.sb_tint_monet)).setChecked(true);
             Prefs.putString(FABRICATED_SB_COLOR_SOURCE, "Monet");
         } else if (Objects.equals(selectedStyle, "System"))
@@ -137,7 +137,7 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
                 }
             } else if (Objects.equals(checkedId, R.id.sb_tint_monet)) {
                 if (!Objects.equals(selectedStyle, "Monet")) {
-                    OverlayUtil.enableOverlay("IconifyComponentSbTint.overlay");
+                    OverlayUtil.enableOverlay("IconifyComponentSBTint.overlay");
                     Prefs.putString(FABRICATED_SB_COLOR_SOURCE, "Monet");
                     new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
                 }
@@ -155,7 +155,7 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
             colorSBTint = String.valueOf(color);
             Prefs.putString(FABRICATED_SB_COLOR_TINT, colorSBTint);
             applySBColor();
-            OverlayUtil.disableOverlay("IconifyComponentSbTint.overlay");
+            OverlayUtil.disableOverlay("IconifyComponentSBTint.overlay");
             colorPickerSBTint.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(colorSBTint)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);
             Prefs.putString(FABRICATED_SB_COLOR_SOURCE, "Custom");
         }
@@ -192,7 +192,7 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
         FabricatedOverlayUtil.disableOverlay("colorSBTint5");
         FabricatedOverlayUtil.disableOverlay("colorSBTint6");
         FabricatedOverlayUtil.disableOverlay("colorSBTint7");
-        OverlayUtil.disableOverlay("IconifyComponentSbTint.overlay");
+        OverlayUtil.disableOverlay("IconifyComponentSBTint.overlay");
 
         new Handler().postDelayed(SystemUtil::restartSystemUI, 1000);
     }
