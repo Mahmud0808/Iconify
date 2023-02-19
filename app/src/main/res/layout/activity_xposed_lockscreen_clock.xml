@@ -61,16 +61,12 @@
 
                 <Switch
                     android:id="@+id/enable_lockscreen_clock"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:thumb="@drawable/switch_thumb"
-                    android:track="@drawable/switch_track"
-                    tools:ignore="RtlHardcoded,UseSwitchCompatOrMaterialXml" />
+                    style="@style/customSwitch"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </LinearLayout>
 
-            <View style="@style/divider_transparent"/>
+            <View style="@style/dividerTransparent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -115,7 +111,7 @@
 
             </LinearLayout>
 
-            <View style="@style/divider_transparent"/>
+            <View style="@style/dividerTransparent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -144,7 +140,7 @@
             </LinearLayout>
 
 
-            <View style="@style/divider_transparent"/>
+            <View style="@style/dividerTransparent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -220,7 +216,7 @@
 
             </LinearLayout>
 
-            <View style="@style/divider_transparent"/>
+            <View style="@style/dividerTransparent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -265,15 +261,11 @@
                     android:hapticFeedbackEnabled="true"
                     android:max="120"
                     android:min="-120"
-                    android:progress="0"
-                    android:progressDrawable="@drawable/seekbar"
-                    android:splitTrack="false"
-                    android:theme="@style/SeekBar.Iconify"
-                    android:thumb="@drawable/seek_thumb" />
+                    android:progress="0" />
 
             </LinearLayout>
 
-            <View style="@style/divider_transparent"/>
+            <View style="@style/dividerTransparent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -318,15 +310,11 @@
                     android:hapticFeedbackEnabled="true"
                     android:max="15"
                     android:min="5"
-                    android:progress="10"
-                    android:progressDrawable="@drawable/seekbar"
-                    android:splitTrack="false"
-                    android:theme="@style/SeekBar.Iconify"
-                    android:thumb="@drawable/seek_thumb" />
+                    android:progress="10" />
 
             </LinearLayout>
 
-            <View style="@style/divider_transparent"/>
+            <View style="@style/dividerTransparent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -371,15 +359,11 @@
                     android:hapticFeedbackEnabled="true"
                     android:max="400"
                     android:min="0"
-                    android:progress="100"
-                    android:progressDrawable="@drawable/seekbar"
-                    android:splitTrack="false"
-                    android:theme="@style/SeekBar.Iconify"
-                    android:thumb="@drawable/seek_thumb" />
+                    android:progress="100" />
 
             </LinearLayout>
 
-            <View style="@style/divider_transparent"/>
+            <View style="@style/dividerTransparent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -424,15 +408,11 @@
                     android:hapticFeedbackEnabled="true"
                     android:max="400"
                     android:min="0"
-                    android:progress="40"
-                    android:progressDrawable="@drawable/seekbar"
-                    android:splitTrack="false"
-                    android:theme="@style/SeekBar.Iconify"
-                    android:thumb="@drawable/seek_thumb" />
+                    android:progress="40" />
 
             </LinearLayout>
 
-            <View style="@style/divider_transparent"/>
+            <View style="@style/dividerTransparent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -471,16 +451,12 @@
 
                 <Switch
                     android:id="@+id/enable_force_white_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:thumb="@drawable/switch_thumb"
-                    android:track="@drawable/switch_track"
-                    tools:ignore="RtlHardcoded,UseSwitchCompatOrMaterialXml" />
+                    style="@style/customSwitch"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </LinearLayout>
 
-            <View style="@style/divider_transparent"/>
+            <View style="@style/dividerTransparent" />
 
             <LinearLayout
                 android:layout_width="match_parent"

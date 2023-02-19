@@ -25,6 +25,7 @@ import android.widget.RelativeLayout;
 import com.drdisagree.iconify.xposed.ModPack;
 
 import java.io.File;
+import java.util.Objects;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
@@ -38,11 +39,9 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
     int imageHeight = 140;
     int headerImageAlpha = 100;
     boolean zoomToFit = false;
-    private String rootPackagePath = "";
 
     public HeaderImage(Context context) {
         super(context);
-        if (!listensTo(context.getPackageName())) return;
     }
 
     @Override
@@ -54,7 +53,8 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
         imageHeight = Xprefs.getInt(HEADER_IMAGE_HEIGHT, 140);
         zoomToFit = Xprefs.getBoolean(HEADER_IMAGE_ZOOMTOFIT, false);
 
-        setHeaderImage();
+        if (Key.length > 0 && (Objects.equals(Key[0], HEADER_IMAGE_SWITCH) || Objects.equals(Key[0], HEADER_IMAGE_ALPHA) || Objects.equals(Key[0], HEADER_IMAGE_HEIGHT) || Objects.equals(Key[0], HEADER_IMAGE_ZOOMTOFIT)))
+            setHeaderImage();
     }
 
     @Override
@@ -64,10 +64,9 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE))
-            return;
+        if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE)) return;
 
-        rootPackagePath = lpparam.appInfo.sourceDir;
+        setHeaderImage();
     }
 
     private void setHeaderImage() {
@@ -84,19 +83,13 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
                 @SuppressLint({"DiscouragedApi"})
                 @Override
                 public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
-                    if (!showHeaderImage)
-                        return;
+                    if (!showHeaderImage) return;
 
                     @SuppressLint("DiscouragedApi") FrameLayout header = liparam.view.findViewById(liparam.res.getIdentifier("header", "id", SYSTEMUI_PACKAGE));
 
                     final ImageView headerImage = new ImageView(mContext);
-                    headerImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, imageHeight, mContext.getResources().getDisplayMetrics())));
-                    ((LinearLayout.LayoutParams) headerImage.getLayoutParams()).setMargins(
-                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -16, mContext.getResources().getDisplayMetrics()),
-                            0,
-                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -16, mContext.getResources().getDisplayMetrics()),
-                            0);
+                    headerImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, imageHeight, mContext.getResources().getDisplayMetrics())));
+                    ((LinearLayout.LayoutParams) headerImage.getLayoutParams()).setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -16, mContext.getResources().getDisplayMetrics()), 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -16, mContext.getResources().getDisplayMetrics()), 0);
                     loadGif(headerImage);
                     headerImage.setAlpha((int) (headerImageAlpha / 100.0 * 255.0));
 
@@ -123,8 +116,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
 
             Drawable drawable = ImageDecoder.decodeDrawable(source);
             iv.setImageDrawable(drawable);
-            if (!zoomToFit)
-                iv.setScaleType(ImageView.ScaleType.FIT_XY);
+            if (!zoomToFit) iv.setScaleType(ImageView.ScaleType.FIT_XY);
             else {
                 iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 iv.setAdjustViewBounds(false);

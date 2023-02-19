@@ -26,7 +26,7 @@ import android.app.Instrumentation;
 import android.content.Context;
 
 import com.drdisagree.iconify.config.XPrefs;
-import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.utils.XSystemUtil;
 import com.drdisagree.iconify.xposed.mods.BackgroundChip;
 import com.drdisagree.iconify.xposed.mods.HeaderClock;
 import com.drdisagree.iconify.xposed.mods.HeaderImage;
@@ -97,7 +97,7 @@ public class HookEntry implements IXposedHookLoadPackage {
                         return;
                     }
 
-                    new SystemUtil(mContext);
+                    new XSystemUtil(mContext);
                     XPrefs.loadEverything(mContext.getPackageName());
                 }
 

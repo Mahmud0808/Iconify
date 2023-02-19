@@ -10,12 +10,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.net.Uri;
-import android.util.TypedValue;
-
-import androidx.annotation.AttrRes;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
@@ -29,19 +24,10 @@ import java.util.Objects;
 public class SystemUtil {
 
     @SuppressLint("StaticFieldLeak")
-    static SystemUtil instance;
     static boolean darkSwitching = false;
-    static boolean darkSwitching2 = false;
-    Context mContext;
-
-    public SystemUtil(Context context) {
-        mContext = context;
-        instance = this;
-    }
 
     public static boolean isDarkMode() {
-        if (instance == null) return false;
-        return instance.getIsDark();
+        return (Iconify.getAppContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
     }
 
     public static void restartSystemUI() {
@@ -89,9 +75,9 @@ public class SystemUtil {
                 darkSwitching = true;
 
                 Shell.cmd("cmd uimode night " + (isDark ? "no" : "yes")).exec();
-                Thread.sleep(800);
+                Thread.sleep(1000);
                 Shell.cmd("cmd uimode night " + (isDark ? "yes" : "no")).exec();
-                Thread.sleep(800);
+                Thread.sleep(500);
 
                 darkSwitching = false;
             } catch (Exception ignored) {
@@ -119,41 +105,5 @@ public class SystemUtil {
         Uri uri = Uri.fromParts("package", Iconify.getAppContext().getPackageName(), null);
         intent.setData(uri);
         context.startActivity(intent);
-    }
-
-    public static boolean isNightMode() {
-        return (Iconify.getAppContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
-    }
-
-    public static int getColorResCompat(Context context, @AttrRes int id) {
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = context.getTheme();
-        theme.resolveAttribute(id, typedValue, false);
-        @SuppressLint("Recycle") TypedArray arr = context.obtainStyledAttributes(typedValue.data, new int[]{id});
-        return arr.getColor(0, -1);
-    }
-
-    public static void doubleToggleDarkTheme() {
-        boolean isDark = (Iconify.getAppContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
-        new Thread(() -> {
-            try {
-                while (darkSwitching2) {
-                    Thread.currentThread().wait(100);
-                }
-                darkSwitching2 = true;
-
-                Shell.cmd("cmd uimode night " + (isDark ? "no" : "yes")).exec();
-                Thread.sleep(800);
-                Shell.cmd("cmd uimode night " + (isDark ? "yes" : "no")).exec();
-                Thread.sleep(800);
-
-                darkSwitching2 = false;
-            } catch (Exception ignored) {
-            }
-        }).start();
-    }
-
-    private boolean getIsDark() {
-        return (mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
     }
 }

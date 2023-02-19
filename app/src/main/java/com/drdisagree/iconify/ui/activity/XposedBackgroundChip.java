@@ -19,8 +19,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
+import com.drdisagree.iconify.utils.HelperUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
-import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -72,7 +72,7 @@ public class XposedBackgroundChip extends AppCompatActivity {
             RPrefs.putBoolean(QSPANEL_STATUSICONSBG_SWITCH, isChecked);
             new Handler().postDelayed(() -> {
                 OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
-                SystemUtil.doubleToggleDarkTheme();
+                HelperUtil.forceApply();
             }, 200);
         });
 
@@ -144,7 +144,7 @@ public class XposedBackgroundChip extends AppCompatActivity {
                 RPrefs.putInt(CHIP_QSSTATUSICONS_STYLE, finalI);
                 refreshBackgroundStatusIcons();
                 if (RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false)) {
-                    new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+                    new Handler().postDelayed(HelperUtil::forceApply, 200);
                 }
             });
 

@@ -61,16 +61,12 @@
 
                 <Switch
                     android:id="@+id/enable_qs_transparency"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:thumb="@drawable/switch_thumb"
-                    android:track="@drawable/switch_track"
-                    tools:ignore="RtlHardcoded,UseSwitchCompatOrMaterialXml" />
+                    style="@style/customSwitch"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </LinearLayout>
 
-            <View style="@style/divider_transparent"/>
+            <View style="@style/dividerTransparent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -109,18 +105,10 @@
 
                 <SeekBar
                     android:id="@+id/transparency_seekbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/container_padding"
-                    android:background="@null"
-                    android:hapticFeedbackEnabled="true"
+                    style="@style/customSeekBar"
                     android:max="100"
                     android:min="0"
-                    android:progress="60"
-                    android:progressDrawable="@drawable/seekbar"
-                    android:splitTrack="false"
-                    android:theme="@style/SeekBar.Iconify"
-                    android:thumb="@drawable/seek_thumb" />
+                    android:progress="60" />
 
             </LinearLayout>
 
@@ -161,16 +149,12 @@
 
                 <Switch
                     android:id="@+id/enable_blur"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:thumb="@drawable/switch_thumb"
-                    android:track="@drawable/switch_track"
-                    tools:ignore="RtlHardcoded,UseSwitchCompatOrMaterialXml" />
+                    style="@style/customSwitch"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </LinearLayout>
 
-            <View style="@style/divider_transparent"/>
+            <View style="@style/dividerTransparent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -216,11 +200,7 @@
                     android:hapticFeedbackEnabled="true"
                     android:max="600"
                     android:min="0"
-                    android:progress="23"
-                    android:progressDrawable="@drawable/seekbar"
-                    android:splitTrack="false"
-                    android:theme="@style/SeekBar.Iconify"
-                    android:thumb="@drawable/seek_thumb" />
+                    android:progress="23" />
 
             </LinearLayout>
         </LinearLayout>

@@ -1,15 +1,12 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
 import static com.drdisagree.iconify.common.References.STR_NULL;
 import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.References.UI_CORNER_RADIUS;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.GradientDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -30,6 +27,7 @@ import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.overlaymanager.RoundnessManager;
 import com.drdisagree.iconify.ui.view.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.io.IOException;
@@ -70,8 +68,6 @@ public class UiRoundness extends AppCompatActivity {
 
         SeekBar corner_radius_seekbar = findViewById(R.id.corner_radius_seekbar);
         TextView corner_radius_output = findViewById(R.id.corner_radius_output);
-
-        corner_radius_seekbar.setPadding(0, 0, 0, 0);
         final int[] finalUiCornerRadius = {16};
         if (!Prefs.getString(UI_CORNER_RADIUS).equals(STR_NULL))
             finalUiCornerRadius[0] = Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS));
@@ -120,11 +116,7 @@ public class UiRoundness extends AppCompatActivity {
         Button apply_radius = findViewById(R.id.apply_radius);
         apply_radius.setOnClickListener(v -> {
             if (!Environment.isExternalStorageManager()) {
-                Intent intent = new Intent();
-                intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                Uri uri = Uri.fromParts("package", this.getPackageName(), null);
-                intent.setData(uri);
-                startActivity(intent);
+                SystemUtil.getStoragePermission(this);
             } else {
                 // Show loading dialog
                 loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));

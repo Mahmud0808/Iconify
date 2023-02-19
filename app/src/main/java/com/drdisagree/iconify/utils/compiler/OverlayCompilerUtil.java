@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.utils.compilerutil;
+package com.drdisagree.iconify.utils.compiler;
 
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readCertificate;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;

@@ -164,7 +164,6 @@ public class XposedLockscreenClock extends AppCompatActivity {
 
         // Line height
         SeekBar lsclock_lineheight_seekbar = findViewById(R.id.lsclock_lineheight_seekbar);
-        lsclock_lineheight_seekbar.setPadding(0, 0, 0, 0);
         TextView lsclock_lineheight_output = findViewById(R.id.lsclock_lineheight_output);
         final int[] lineHeight = {RPrefs.getInt(LSCLOCK_FONT_LINEHEIGHT, 0)};
         lsclock_lineheight_output.setText(getResources().getString(R.string.opt_selected) + ' ' + lineHeight[0] + "dp");
@@ -189,7 +188,6 @@ public class XposedLockscreenClock extends AppCompatActivity {
 
         // Text Scaling
         SeekBar lsclock_textscaling_seekbar = findViewById(R.id.lsclock_textscaling_seekbar);
-        lsclock_textscaling_seekbar.setPadding(0, 0, 0, 0);
         TextView lsclock_textscaling_output = findViewById(R.id.lsclock_textscaling_output);
         final int[] textScaling = {RPrefs.getInt(LSCLOCK_FONT_TEXT_SCALING, 10)};
         lsclock_textscaling_output.setText(getResources().getString(R.string.opt_selected) + ' ' + new DecimalFormat("#.#").format(textScaling[0] / 10.0) + "x");
@@ -214,7 +212,6 @@ public class XposedLockscreenClock extends AppCompatActivity {
 
         // Top margin
         SeekBar lsclock_topmargin_seekbar = findViewById(R.id.lsclock_topmargin_seekbar);
-        lsclock_topmargin_seekbar.setPadding(0, 0, 0, 0);
         TextView lsclock_topmargin_output = findViewById(R.id.lsclock_topmargin_output);
         final int[] topMargin = {RPrefs.getInt(LSCLOCK_TOPMARGIN, 100)};
         lsclock_topmargin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + topMargin[0] + "dp");
@@ -239,7 +236,6 @@ public class XposedLockscreenClock extends AppCompatActivity {
 
         // Bottom margin
         SeekBar lsclock_bottommargin_seekbar = findViewById(R.id.lsclock_bottommargin_seekbar);
-        lsclock_bottommargin_seekbar.setPadding(0, 0, 0, 0);
         TextView lsclock_bottommargin_output = findViewById(R.id.lsclock_bottommargin_output);
         final int[] bottomMargin = {RPrefs.getInt(LSCLOCK_BOTTOMMARGIN, 40)};
         lsclock_bottommargin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + bottomMargin[0] + "dp");

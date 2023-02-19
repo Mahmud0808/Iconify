@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.utils.compilerutil;
+package com.drdisagree.iconify.utils.compiler;
 
 import android.os.Environment;
 import android.util.Log;

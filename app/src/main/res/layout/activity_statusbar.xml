@@ -58,23 +58,14 @@
 
                     <SeekBar
                         android:id="@+id/sb_left_padding_seekbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/container_padding"
-                        android:layout_marginBottom="8dp"
-                        android:background="@null"
-                        android:hapticFeedbackEnabled="true"
+                        style="@style/customSeekBar"
                         android:max="120"
                         android:min="0"
-                        android:progress="8"
-                        android:progressDrawable="@drawable/seekbar"
-                        android:splitTrack="false"
-                        android:theme="@style/SeekBar.Iconify"
-                        android:thumb="@drawable/seek_thumb" />
+                        android:progress="8" />
 
                 </LinearLayout>
 
-                <View style="@style/divider_transparent"/>
+                <View style="@style/dividerTransparent" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -103,23 +94,14 @@
 
                     <SeekBar
                         android:id="@+id/sb_right_padding_seekbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/container_padding"
-                        android:layout_marginBottom="8dp"
-                        android:background="@null"
-                        android:hapticFeedbackEnabled="true"
+                        style="@style/customSeekBar"
                         android:max="120"
                         android:min="0"
-                        android:progress="8"
-                        android:progressDrawable="@drawable/seekbar"
-                        android:splitTrack="false"
-                        android:theme="@style/SeekBar.Iconify"
-                        android:thumb="@drawable/seek_thumb" />
+                        android:progress="8" />
 
                 </LinearLayout>
 
-                <View style="@style/divider_transparent"/>
+                <View style="@style/dividerTransparent" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

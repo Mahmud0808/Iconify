@@ -40,7 +40,7 @@ import com.drdisagree.iconify.utils.ColorUtil;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.compilerutil.MonetCompilerUtil;
+import com.drdisagree.iconify.utils.compiler.MonetCompilerUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
@@ -167,7 +167,6 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
 
         // Monet accent saturation
         SeekBar monet_accent_saturation_seekbar = findViewById(R.id.monet_accent_saturation_seekbar);
-        monet_accent_saturation_seekbar.setPadding(0, 0, 0, 0);
         TextView monet_accent_saturation_output = findViewById(R.id.monet_accent_saturation_output);
         monet_accent_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt(MONET_ACCENT_SATURATION, 100) - 100) + "%");
         monet_accent_saturation_seekbar.setProgress(Prefs.getInt(MONET_ACCENT_SATURATION, 100));
@@ -208,7 +207,6 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
 
         // Monet background saturation
         SeekBar monet_background_saturation_seekbar = findViewById(R.id.monet_background_saturation_seekbar);
-        monet_background_saturation_seekbar.setPadding(0, 0, 0, 0);
         TextView monet_background_saturation_output = findViewById(R.id.monet_background_saturation_output);
         monet_background_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt(MONET_BACKGROUND_SATURATION, 100) - 100) + "%");
         monet_background_saturation_seekbar.setProgress(Prefs.getInt(MONET_BACKGROUND_SATURATION, 100));
@@ -249,7 +247,6 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
 
         // Monet background lightness
         SeekBar monet_background_lightness_seekbar = findViewById(R.id.monet_background_lightness_seekbar);
-        monet_background_lightness_seekbar.setPadding(0, 0, 0, 0);
         TextView monet_background_lightness_output = findViewById(R.id.monet_background_lightness_output);
         monet_background_lightness_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100) - 100) + "%");
         monet_background_lightness_seekbar.setProgress(Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100));

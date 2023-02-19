@@ -69,11 +69,7 @@
 
                     <Switch
                         android:id="@+id/mp_accent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:thumb="@drawable/switch_thumb"
-                        android:track="@drawable/switch_track"
+                        style="@style/customSwitch"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                 </LinearLayout>
@@ -112,16 +108,12 @@
 
                     <Switch
                         android:id="@+id/mp_system"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:thumb="@drawable/switch_thumb"
-                        android:track="@drawable/switch_track"
+                        style="@style/customSwitch"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                 </LinearLayout>
 
-                <View style="@style/divider_transparent"/>
+                <View style="@style/dividerTransparent" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -150,11 +142,7 @@
 
                     <Switch
                         android:id="@+id/mp_pitch_black"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:thumb="@drawable/switch_thumb"
-                        android:track="@drawable/switch_track"
+                        style="@style/customSwitch"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                 </LinearLayout>

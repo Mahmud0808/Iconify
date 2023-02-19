@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
+import com.drdisagree.iconify.utils.HelperUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -43,7 +44,7 @@ public class XposedQuickSettings extends AppCompatActivity {
         enable_vertical_tile.setChecked(RPrefs.getBoolean(VERTICAL_QSTILE_SWITCH, false));
         enable_vertical_tile.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(VERTICAL_QSTILE_SWITCH, isChecked);
-            new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+            new Handler().postDelayed(HelperUtil::forceApply, 200);
         });
 
         // Hide label for vertical tiles
@@ -51,7 +52,7 @@ public class XposedQuickSettings extends AppCompatActivity {
         hide_tile_label.setChecked(RPrefs.getBoolean(HIDE_QSLABEL_SWITCH, false));
         hide_tile_label.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_QSLABEL_SWITCH, isChecked);
-            new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+            new Handler().postDelayed(HelperUtil::forceApply, 200);
         });
 
         // QS panel top margin switch
@@ -60,14 +61,13 @@ public class XposedQuickSettings extends AppCompatActivity {
         enable_panel_top_margin.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(PANEL_TOPMARGIN_SWITCH, isChecked);
             if (isChecked)
-                new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+                new Handler().postDelayed(HelperUtil::forceApply, 200);
             else
                 new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
 
         // QS panel top margin slider
         SeekBar qs_top_margin_seekbar = findViewById(R.id.qs_top_margin_seekbar);
-        qs_top_margin_seekbar.setPadding(0, 0, 0, 0);
         TextView qs_top_margin_output = findViewById(R.id.qs_top_margin_output);
         qs_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RPrefs.getInt(QS_TOPMARGIN, 0) + "dp");
         qs_top_margin_seekbar.setProgress(RPrefs.getInt(QS_TOPMARGIN, 0));
@@ -88,7 +88,7 @@ public class XposedQuickSettings extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(QS_TOPMARGIN, qsTopMargin[0]);
                 if (RPrefs.getBoolean(PANEL_TOPMARGIN_SWITCH, false)) {
-                    new Handler().postDelayed(SystemUtil::doubleToggleDarkTheme, 200);
+                    new Handler().postDelayed(HelperUtil::forceApply, 200);
                 }
             }
         });

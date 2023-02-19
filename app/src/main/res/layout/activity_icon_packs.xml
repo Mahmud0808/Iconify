@@ -18,10 +18,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
             android:layout_marginStart="@dimen/container_marginSide"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="@dimen/container_marginSide"
+            android:layout_marginBottom="24dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -30,7 +30,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical" />
 
-            <View style="@style/divider_accent" />
+            <View style="@style/dividerAccent" />
 
             <LinearLayout
                 android:id="@+id/icon_packs_list"

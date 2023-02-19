@@ -70,8 +70,6 @@ public class QsRowColumn extends AppCompatActivity {
 
         SeekBar qqs_row_seekbar = findViewById(R.id.qqs_row_seekbar);
         TextView qqs_row_output = findViewById(R.id.qqs_row_output);
-
-        qqs_row_seekbar.setPadding(0, 0, 0, 0);
         final int[] finalQqsRow = {1};
 
         if (!Prefs.getString(FABRICATED_QQS_ROW).equals(STR_NULL)) {
@@ -101,8 +99,6 @@ public class QsRowColumn extends AppCompatActivity {
 
         SeekBar qs_row_seekbar = findViewById(R.id.qs_row_seekbar);
         TextView qs_row_output = findViewById(R.id.qs_row_output);
-
-        qs_row_seekbar.setPadding(0, 0, 0, 0);
         final int[] finalQsRow = {3};
 
         if (!Prefs.getString(FABRICATED_QS_ROW).equals(STR_NULL)) {
@@ -132,8 +128,6 @@ public class QsRowColumn extends AppCompatActivity {
 
         SeekBar qs_column_seekbar = findViewById(R.id.qs_column_seekbar);
         TextView qs_column_output = findViewById(R.id.qs_column_output);
-
-        qs_column_seekbar.setPadding(0, 0, 0, 0);
         final int[] finalQsColumn = {1};
 
         if (!Prefs.getString(FABRICATED_QS_COLUMN).equals(STR_NULL)) {

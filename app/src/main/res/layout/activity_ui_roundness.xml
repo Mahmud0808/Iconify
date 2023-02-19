@@ -179,7 +179,7 @@
                             android:paddingTop="18dp"
                             android:paddingEnd="16dp"
                             android:paddingBottom="18dp"
-                            tools:ignore="RtlHardcoded,RtlSymmetry">
+                            tools:ignore="RtlSymmetry">
 
                             <ImageView
                                 android:id="@+id/qs_icon2"
@@ -335,18 +335,10 @@
 
                 <SeekBar
                     android:id="@+id/corner_radius_seekbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/container_padding"
-                    android:background="@null"
-                    android:hapticFeedbackEnabled="true"
+                    style="@style/customSeekBar"
                     android:max="36"
                     android:min="0"
-                    android:progress="16"
-                    android:progressDrawable="@drawable/seekbar"
-                    android:splitTrack="false"
-                    android:theme="@style/SeekBar.Iconify"
-                    android:thumb="@drawable/seek_thumb" />
+                    android:progress="16" />
 
                 <Button
                     android:id="@+id/apply_radius"

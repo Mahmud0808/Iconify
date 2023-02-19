@@ -51,6 +51,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <View style="@style/divider_transparent"/>
+    <View style="@style/dividerTransparent" />
 
 </LinearLayout>

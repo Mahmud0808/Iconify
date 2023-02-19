@@ -51,7 +51,6 @@ public class XposedTransparencyBlur extends AppCompatActivity {
         });
 
         SeekBar transparency_seekbar = findViewById(R.id.transparency_seekbar);
-        transparency_seekbar.setPadding(0, 0, 0, 0);
         TextView transparency_output = findViewById(R.id.transparency_output);
         final int[] transparency = {RPrefs.getInt(QSALPHA_LEVEL, 60)};
         transparency_output.setText(getResources().getString(R.string.opt_selected) + ' ' + transparency[0] + "%");
@@ -89,7 +88,6 @@ public class XposedTransparencyBlur extends AppCompatActivity {
         });
 
         SeekBar blur_seekbar = findViewById(R.id.blur_seekbar);
-        blur_seekbar.setPadding(0, 0, 0, 0);
         TextView blur_output = findViewById(R.id.blur_output);
         final int[] blur_radius = {Prefs.getInt(FABRICATED_QSPANEL_BLUR_RADIUS, 23)};
         blur_output.setText(getResources().getString(R.string.opt_selected) + ' ' + blur_radius[0] + "px");
