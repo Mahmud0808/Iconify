@@ -1,7 +1,12 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.SELECTED_SETTINGS_ICONS_BG;
+import static com.drdisagree.iconify.common.References.SELECTED_SETTINGS_ICONS_COLOR;
+import static com.drdisagree.iconify.common.References.SELECTED_SETTINGS_ICONS_SET;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,17 +26,20 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.overlaymanager.SettingsIconManager;
+import com.drdisagree.iconify.overlaymanager.SettingsIconsManager;
 import com.drdisagree.iconify.ui.view.LoadingDialog;
+import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SettingsIcons extends AppCompatActivity {
 
-    ArrayList<String> ICONPACK_KEY = new ArrayList<>();
-
+    private static int selectedIconColor = 1, selectedBackground = 1, selectedIcon = 1;
     LoadingDialog loadingDialog;
     private ViewGroup container;
 
@@ -49,6 +59,29 @@ public class SettingsIcons extends AppCompatActivity {
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
+
+        // Retrieve previously saved preferenced
+        selectedIcon = Prefs.getInt(SELECTED_SETTINGS_ICONS_SET, 1);
+        selectedBackground = Prefs.getInt(SELECTED_SETTINGS_ICONS_BG, 1);
+        selectedIconColor = Prefs.getInt(SELECTED_SETTINGS_ICONS_COLOR, 1);
+
+        // Background style
+        RadioGroup bg_style = findViewById(R.id.bg_style);
+        ((RadioButton) bg_style.getChildAt(selectedBackground)).setChecked(true);
+
+        bg_style.setOnCheckedChangeListener((group, checkedId) -> {
+            View radioButton = bg_style.findViewById(checkedId);
+            selectedBackground = bg_style.indexOfChild(radioButton);
+        });
+
+        // Icon color
+        RadioGroup icon_color = findViewById(R.id.icon_color);
+        ((RadioButton) icon_color.getChildAt(selectedIconColor)).setChecked(true);
+
+        icon_color.setOnCheckedChangeListener((group, checkedId) -> {
+            View radioButton = icon_color.findViewById(checkedId);
+            selectedIconColor = icon_color.indexOfChild(radioButton);
+        });
 
         // Icon Pack list items
         container = findViewById(R.id.icon_packs_list);
@@ -74,20 +107,71 @@ public class SettingsIcons extends AppCompatActivity {
             }
         }
 
-        // Generate keys for preference
-        for (int i = 0; i < container.getChildCount(); i++) {
-            ICONPACK_KEY.add("IconifyComponentSIP" + (i + 1) + '1' + ".overlay");
-        }
-
         // Enable onClick event
         for (int i = 0; i < container.getChildCount(); i++) {
-            enableOnClickListener(container.getChildAt(i).findViewById(R.id.icon_pack_child),
-                    container.getChildAt(i).findViewById(R.id.list_button_enable_iconpack),
-                    container.getChildAt(i).findViewById(R.id.list_button_disable_iconpack),
-                    ICONPACK_KEY.get(i), i);
+            enableOnClickListener(container.getChildAt(i).findViewById(R.id.icon_pack_child), i);
         }
 
         refreshBackground();
+
+        // Enable and disable button
+        Button enable_settings_icons = findViewById(R.id.enable_settings_icons);
+        Button disable_settings_icons = findViewById(R.id.disable_settings_icons);
+
+        if (Prefs.getBoolean("IconifyComponentSIP1.overlay"))
+            disable_settings_icons.setVisibility(View.VISIBLE);
+
+        enable_settings_icons.setOnClickListener(v -> {
+            if (!Environment.isExternalStorageManager()) {
+                SystemUtil.getStoragePermission(this);
+            } else {
+                // Show loading dialog
+                loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
+                AtomicBoolean hasErroredOut = new AtomicBoolean(false);
+
+                Runnable runnable = () -> {
+                    try {
+                        hasErroredOut.set(SettingsIconsManager.enable_pack(selectedIcon, selectedBackground, selectedIconColor));
+                    } catch (IOException e) {
+                        hasErroredOut.set(true);
+                    }
+
+                    runOnUiThread(() -> {
+                        if (!hasErroredOut.get()) {
+                            Prefs.putInt(SELECTED_SETTINGS_ICONS_SET, selectedIcon);
+                            Prefs.putInt(SELECTED_SETTINGS_ICONS_BG, selectedBackground);
+                            Prefs.putInt(SELECTED_SETTINGS_ICONS_COLOR, selectedIconColor);
+
+                            disable_settings_icons.setVisibility(View.VISIBLE);
+                            OverlayUtil.enableOverlay("IconifyComponentCR.overlay");
+                        }
+
+                        new Handler().postDelayed(() -> {
+                            // Hide loading dialog
+                            loadingDialog.hide();
+
+                            if (hasErroredOut.get())
+                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                            else
+                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                        }, 2000);
+                    });
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
+            }
+        });
+
+        disable_settings_icons.setOnClickListener(v -> {
+            Prefs.clearPref(SELECTED_SETTINGS_ICONS_SET);
+            Prefs.clearPref(SELECTED_SETTINGS_ICONS_BG);
+            Prefs.clearPref(SELECTED_SETTINGS_ICONS_COLOR);
+
+            disable_settings_icons.setVisibility(View.GONE);
+
+            for (int i = 1; i <= 3; i++)
+                OverlayUtil.disableOverlay("IconifyComponentSIP" + i + ".overlay");
+        });
     }
 
     @Override
@@ -101,8 +185,7 @@ public class SettingsIcons extends AppCompatActivity {
         for (int i = 0; i < container.getChildCount(); i++) {
             LinearLayout child = container.getChildAt(i).findViewById(R.id.icon_pack_child);
             if (!(child == layout)) {
-                container.getChildAt(i).findViewById(R.id.list_button_enable_iconpack).setVisibility(View.GONE);
-                container.getChildAt(i).findViewById(R.id.list_button_disable_iconpack).setVisibility(View.GONE);
+                container.getChildAt(i).setBackground(ContextCompat.getDrawable(SettingsIcons.this, R.drawable.container));
             }
         }
     }
@@ -111,7 +194,7 @@ public class SettingsIcons extends AppCompatActivity {
     private void refreshBackground() {
         for (int i = 0; i < container.getChildCount(); i++) {
             LinearLayout child = container.getChildAt(i).findViewById(R.id.icon_pack_child);
-            if (Prefs.getBoolean(ICONPACK_KEY.get(i))) {
+            if (Prefs.getInt(SELECTED_SETTINGS_ICONS_SET, 1) == i + 1) {
                 child.setBackground(ContextCompat.getDrawable(SettingsIcons.this, R.drawable.container_selected));
             } else {
                 child.setBackground(ContextCompat.getDrawable(SettingsIcons.this, R.drawable.container));
@@ -120,83 +203,19 @@ public class SettingsIcons extends AppCompatActivity {
     }
 
     // Function for onClick events
-    private void enableOnClickListener(LinearLayout layout, Button enable, Button disable, String key, int index) {
+    private void enableOnClickListener(LinearLayout layout, int index) {
         // Set onClick operation for options in list
         layout.setOnClickListener(v -> {
             refreshLayout(layout);
-            if (!Prefs.getBoolean(key)) {
-                disable.setVisibility(View.GONE);
-                if (enable.getVisibility() == View.VISIBLE)
-                    enable.setVisibility(View.GONE);
-                else
-                    enable.setVisibility(View.VISIBLE);
-            } else {
-                enable.setVisibility(View.GONE);
-                if (disable.getVisibility() == View.VISIBLE)
-                    disable.setVisibility(View.GONE);
-                else
-                    disable.setVisibility(View.VISIBLE);
-            }
-        });
-
-        // Set onClick operation for Enable button
-        enable.setOnClickListener(v -> {
-            refreshLayout(layout);
-            // Show loading dialog
-            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
-
-            Runnable runnable = () -> {
-                SettingsIconManager.install_pack(index + 1);
-
-                runOnUiThread(() -> {
-                    new Handler().postDelayed(() -> {
-                        // Hide loading dialog
-                        loadingDialog.hide();
-
-                        // Change button visibility
-                        enable.setVisibility(View.GONE);
-                        disable.setVisibility(View.VISIBLE);
-                        refreshBackground();
-
-                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
-                    }, 1000);
-                });
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
-        });
-
-        // Set onClick operation for Disable button
-        disable.setOnClickListener(v -> {
-            // Show loading dialog
-            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
-
-            Runnable runnable = () -> {
-                SettingsIconManager.disable_pack(index + 1);
-
-                runOnUiThread(() -> {
-                    new Handler().postDelayed(() -> {
-                        // Hide loading dialog
-                        loadingDialog.hide();
-
-                        // Change button visibility
-                        disable.setVisibility(View.GONE);
-                        enable.setVisibility(View.VISIBLE);
-                        refreshBackground();
-
-                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
-                    }, 1000);
-                });
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
+            layout.setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), R.drawable.container_selected));
+            selectedIcon = index + 1;
         });
     }
 
     // Function to add new item in list
     private void addItem(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(this).inflate(R.layout.view_list_option_iconpack, container, false);
+            View list = LayoutInflater.from(this).inflate(R.layout.view_list_option_settings_icons, container, false);
 
             TextView name = list.findViewById(R.id.list_title_iconpack);
             name.setText((String) pack.get(i)[0]);

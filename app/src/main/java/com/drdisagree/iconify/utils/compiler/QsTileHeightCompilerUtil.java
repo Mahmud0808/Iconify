@@ -24,7 +24,7 @@ import java.security.cert.X509Certificate;
 
 public class QsTileHeightCompilerUtil {
 
-    private static final String TAG = "MonetCompilerUtil";
+    private static final String TAG = "QsTileHeightCompilerUtil";
     private static final String aapt = References.TOOLS_DIR + "/libaapt.so";
     private static final String zipalign = References.TOOLS_DIR + "/libzipalign.so";
 
@@ -40,7 +40,7 @@ public class QsTileHeightCompilerUtil {
             return true;
         }
 
-        // Write color resources
+        // Write resources
         if (writeResources(References.DATA_DIR + "/Overlays/com.android.systemui/QSTH", resources)) {
             Log.e(TAG, "Failed to write resource for " + overlay_name + "! Exiting...");
             postExecute(true);

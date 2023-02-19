@@ -24,7 +24,7 @@ import java.security.cert.X509Certificate;
 
 public class RoundnessCompilerUtil {
 
-    private static final String TAG = "MonetCompilerUtil";
+    private static final String TAG = "RoundnessCompilerUtil";
     private static final String aapt = References.TOOLS_DIR + "/libaapt.so";
     private static final String zipalign = References.TOOLS_DIR + "/libzipalign.so";
 
@@ -40,7 +40,7 @@ public class RoundnessCompilerUtil {
             return true;
         }
 
-        // Write color resources
+        // Write resources
         if (writeResources(References.DATA_DIR + "/Overlays/android/CR", resources)) {
             Log.e(TAG, "Failed to write resource for " + overlay_name + "! Exiting...");
             postExecute(true);

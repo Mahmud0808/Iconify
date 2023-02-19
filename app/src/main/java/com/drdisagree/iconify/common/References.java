@@ -27,6 +27,7 @@ public class References {
     public static final String BACKUP_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.iconify_backup";
     public static final String TEMP_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.iconify";
     public static final String TEMP_OVERLAY_DIR = TEMP_DIR + "/overlays";
+    public static final String TEMP_CACHE_DIR = TEMP_OVERLAY_DIR + "/cache";
     public static final String UNSIGNED_UNALIGNED_DIR = TEMP_DIR + "/overlays/unsigned_unaligned";
     public static final String UNSIGNED_DIR = TEMP_DIR + "/overlays/unsigned";
     public static final String SIGNED_DIR = TEMP_DIR + "/overlays/signed";
@@ -113,6 +114,9 @@ public class References {
     public static final String PORT_QSTILE_NONEXPANDED_HEIGHT = "portraitQsTileNonExpandedHeight";
     public static final String LAND_QSTILE_EXPANDED_HEIGHT = "landscapeQsTileExpandedHeight";
     public static final String LAND_QSTILE_NONEXPANDED_HEIGHT = "landscapeQsTileNonExpandedHeight";
+    public static final String SELECTED_SETTINGS_ICONS_COLOR = "selectedSettignsIconsColor";
+    public static final String SELECTED_SETTINGS_ICONS_BG = "selectedSettignsIconsBg";
+    public static final String SELECTED_SETTINGS_ICONS_SET = "selectedSettignsIconsSet";
 
     // Fabricated overlays
     public static final String ICONIFY_COLOR_ACCENT_PRIMARY = "0xFF50A6D7";
@@ -142,11 +146,9 @@ public class References {
     public static final String BOOT_ID = "boot_id";
     public static final String VER_CODE = "versionCode";
     public static final String EASTER_EGG = "iconify_easter_egg";
-
-    // Notification service checker
-    public static boolean isNotificationServiceRunning = false;
-
     // Settings
     public static final String SHOW_XPOSED_WARN = "showXposedMenuWarn";
     public static final String FORCE_APPLY_XPOSED_CHOICE = "optionForceApplyXposed";
+    // Notification service checker
+    public static boolean isNotificationServiceRunning = false;
 }
