@@ -60,10 +60,11 @@ public class WelcomePage extends AppCompatActivity {
         reboot_phone = findViewById(R.id.reboot_phone);
         reboot_phone.setOnClickListener(v -> new Handler().postDelayed(SystemUtil::restartDevice, 200));
 
+        // Warning messages
         warn = findViewById(R.id.warn);
         warning = findViewById(R.id.warning);
 
-        // Check for root onClick
+        // Start installation on click
         install_module.setOnClickListener(v -> {
             if (RootUtil.isDeviceRooted()) {
                 if (RootUtil.isMagiskInstalled()) {

@@ -51,17 +51,6 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        //set cuurent choosed style
-        selectedStyle = Prefs.getString(FABRICATED_SB_COLOR_SOURCE);
-
-        if (Objects.equals(selectedStyle, "System"))
-            ((RadioButton) findViewById(R.id.sb_tint_system)).setChecked(true);
-        else if (Objects.equals(selectedStyle, "Monet"))
-            ((RadioButton) findViewById(R.id.sb_tint_monet)).setChecked(true);
-        else if (Objects.equals(selectedStyle, "Custom"))
-            ((RadioButton) findViewById(R.id.sb_tint_custom)).setChecked(true);
-
-
         // Statusbar left padding
         SeekBar sb_left_padding_seekbar = findViewById(R.id.sb_left_padding_seekbar);
         TextView sb_left_padding_output = findViewById(R.id.sb_left_padding_output);
@@ -126,6 +115,17 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
 
         colorSBTint = String.valueOf(getResources().getColor(R.color.colorAccent));
 
+        //set current choosen style
+        selectedStyle = Prefs.getString(FABRICATED_SB_COLOR_SOURCE);
+
+        if (Objects.equals(selectedStyle, "Monet") || Prefs.getBoolean("IconifyComponentSbTint.overlay")) {
+            ((RadioButton) findViewById(R.id.sb_tint_monet)).setChecked(true);
+            Prefs.putString(FABRICATED_SB_COLOR_SOURCE, "Monet");
+        } else if (Objects.equals(selectedStyle, "System"))
+            ((RadioButton) findViewById(R.id.sb_tint_system)).setChecked(true);
+        else if (Objects.equals(selectedStyle, "Custom"))
+            ((RadioButton) findViewById(R.id.sb_tint_custom)).setChecked(true);
+
         // Statusbar color source select
         RadioGroup tint_selector = findViewById(R.id.sb_tint_source_selector);
 
@@ -139,7 +139,7 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
                 if (!Objects.equals(selectedStyle, "Monet")) {
                     OverlayUtil.enableOverlay("IconifyComponentSbTint.overlay");
                     Prefs.putString(FABRICATED_SB_COLOR_SOURCE, "Monet");
-                    SystemUtil.restartSystemUI();
+                    new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
                 }
             } else if (Objects.equals(checkedId, R.id.sb_tint_custom)) {
                 colorPickerSBTint = ColorPickerDialog.newBuilder();
@@ -168,6 +168,8 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
             ((RadioButton) findViewById(R.id.sb_tint_system)).setChecked(true);
         else if (Objects.equals(selectedStyle, "Monet"))
             ((RadioButton) findViewById(R.id.sb_tint_monet)).setChecked(true);
+        else if (Objects.equals(selectedStyle, "Custom"))
+            ((RadioButton) findViewById(R.id.sb_tint_custom)).setChecked(true);
     }
 
     private void applySBColor() {
@@ -179,7 +181,7 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
         FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "colorSBTint6", "color", "light_mode_icon_color_single_tone", ColorToSpecialHex(Integer.parseInt(colorSBTint)));
         FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "colorSBTint7", "color", "status_bar_clock_color", ColorToSpecialHex(Integer.parseInt(colorSBTint)));
 
-        new Handler().postDelayed(SystemUtil::restartSystemUI, 2000);
+        new Handler().postDelayed(SystemUtil::restartSystemUI, 1000);
     }
 
     private void resetSBColor() {
@@ -192,7 +194,7 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
         FabricatedOverlayUtil.disableOverlay("colorSBTint7");
         OverlayUtil.disableOverlay("IconifyComponentSbTint.overlay");
 
-        new Handler().postDelayed(SystemUtil::restartSystemUI, 2000);
+        new Handler().postDelayed(SystemUtil::restartSystemUI, 1000);
     }
 
     @Override

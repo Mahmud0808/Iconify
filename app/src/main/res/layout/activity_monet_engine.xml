@@ -100,8 +100,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/primary_color_desc"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_desc_size"
-                        tools:ignore="TooManyViews" />
+                        android:textSize="@dimen/cont_desc_size" />
 
                 </LinearLayout>
 
