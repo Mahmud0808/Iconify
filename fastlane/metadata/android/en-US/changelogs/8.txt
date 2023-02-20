@@ -1,0 +1,42 @@
+Iconify v6.1.0 has arrived! It has the following new changes:
+
+Feature Changes:
+• Color Engine:
+>> New Monet Engine
+>> Improved Pitch Black Theme
+>> Darker accent in light mode
+• Icon Pack:
+>> 6 new Icons packs for Settings
+• Brightness Bars:
+>> 2 new Brightness Bar style
+• QS Panel Tiles:
+>> 2 new QS Panel Tiles style
+• Notification:
+>> Pixel variant Notification styles
+>> 2 new Notification style
+• Volume Panel:
+>> 1 new Volume Panel style
+• Status Bar:
+>> Custom left/right padding
+>> Colored status bar
+• Icon Mask:
+>> System icon shape changer
+• XPosed Menu:
+>> Reduced necessity of restarting SystemUI
+>> Improved Blur Enabler (Hopefully no more bootloop!)
+>> 2 new custom Header Clock
+>> 2 new custom Lockscreen Clock
+>> 4 new Background Chip style
+>> and many improvements...
+
+App Changes:
+>> More accurate previews.
+>> Persian translation. (Incomplete)
+>> Russian translation. (Incomplete)
+>> Turkish translation. (Incomplete)
+
+Notes:
+>> Clean install is recommended as a lot has been changed internally in this build.
+>> Restart SystemUI after enabling Monet Engine for the first time.
+
+Also included in this version are bug fixes and other improvements.
