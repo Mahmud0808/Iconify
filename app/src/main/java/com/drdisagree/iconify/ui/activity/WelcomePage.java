@@ -74,7 +74,7 @@ public class WelcomePage extends AppCompatActivity {
 
                         new Handler().postDelayed(() -> {
                             SystemUtil.getStoragePermission(this);
-                        }, 1500);
+                        }, 1200);
                     } else {
                         if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
                             installModule = new startInstallationProcess();
