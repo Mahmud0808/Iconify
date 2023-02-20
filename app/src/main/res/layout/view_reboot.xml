@@ -4,8 +4,6 @@
     android:id="@+id/reboot_reminder"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/container_marginSide"
-    android:layout_marginEnd="@dimen/container_marginSide"
     android:layout_marginBottom="@dimen/container_margin"
     android:background="@drawable/container_outline"
     android:orientation="vertical"
