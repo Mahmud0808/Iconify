@@ -193,11 +193,7 @@
 
                 <SeekBar
                     android:id="@+id/blur_seekbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/container_padding"
-                    android:background="@null"
-                    android:hapticFeedbackEnabled="true"
+                    style="@style/customSeekBar"
                     android:max="600"
                     android:min="0"
                     android:progress="23" />
