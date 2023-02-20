@@ -31,6 +31,9 @@ public class OverlayCompilerUtil {
     public static boolean buildAPK() {
         // Create AndroidManifest.xml and build APK using AAPT
         File dir = new File(References.DATA_DIR + "/Overlays");
+        if (dir.listFiles() == null)
+            return true;
+
         for (File pkg : Objects.requireNonNull(dir.listFiles())) {
             if (pkg.isDirectory()) {
                 for (File overlay : Objects.requireNonNull(pkg.listFiles())) {
@@ -56,6 +59,9 @@ public class OverlayCompilerUtil {
     public static boolean alignAPK() {
         // ZipAlign the APK
         File dir = new File(References.UNSIGNED_UNALIGNED_DIR);
+        if (dir.listFiles() == null)
+            return true;
+
         for (File overlay : Objects.requireNonNull(dir.listFiles())) {
             if (!overlay.isDirectory()) {
                 if (zipAlign(overlay.getAbsolutePath(), overlay.toString().replace(References.UNSIGNED_UNALIGNED_DIR + '/', "").replace("-unaligned", ""))) {
@@ -71,6 +77,9 @@ public class OverlayCompilerUtil {
     public static boolean signAPK() {
         // Sign the APK
         File dir = new File(References.UNSIGNED_DIR);
+        if (dir.listFiles() == null)
+            return true;
+
         for (File overlay : Objects.requireNonNull(dir.listFiles())) {
             if (!overlay.isDirectory()) {
                 if (apkSigner(overlay.getAbsolutePath(), overlay.toString().replace(References.UNSIGNED_DIR + '/', "").replace("-unsigned", ""))) {

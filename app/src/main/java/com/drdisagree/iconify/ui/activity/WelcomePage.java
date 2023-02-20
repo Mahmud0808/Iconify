@@ -183,7 +183,7 @@ public class WelcomePage extends AppCompatActivity {
             hasErroredOut = OverlayCompilerUtil.signAPK();
 
             publishProgress(step);
-            OverlayCompilerUtil.postExecute(false);
+            OverlayCompilerUtil.postExecute(hasErroredOut);
 
             return null;
         }
