@@ -42,7 +42,7 @@ public class SettingsIconsCompilerUtil {
             String overlay_name = "SIP" + (i + 1);
 
             // Create AndroidManifest.xml
-            if (createManifest(overlay_name, References.TEMP_CACHE_DIR + "/" + packages[i] + "/" + overlay_name)) {
+            if (createManifest(overlay_name, packages[i], References.TEMP_CACHE_DIR + "/" + packages[i] + "/" + overlay_name)) {
                 Log.e(TAG, "Failed to create Manifest for " + overlay_name + "! Exiting...");
                 postExecute(true);
                 return true;
@@ -152,8 +152,8 @@ public class SettingsIconsCompilerUtil {
         }
     }
 
-    private static boolean createManifest(String pkgName, String source) {
-        return !Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + pkgName + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + References.FRAMEWORK_PACKAGE + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + source + "/AndroidManifest.xml;").exec().isSuccess();
+    private static boolean createManifest(String overlayName, String pkgName, String source) {
+        return !Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + overlayName + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + pkgName + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + source + "/AndroidManifest.xml;").exec().isSuccess();
     }
 
     private static boolean writeResources(String source, String resources) {
