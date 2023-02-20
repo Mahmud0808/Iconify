@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/icon_bg"
+        android:gravity="center" />
+    <item>
+        <vector
+            android:width="24.0dp"
+            android:height="24.0dp"
+            android:tint="@color/icon_tint"
+            android:tintMode="multiply"
+            android:viewportWidth="24.0"
+            android:viewportHeight="24.0">
+            <group
+                android:pivotX="12.0"
+                android:pivotY="12.0"
+                android:scaleX="@dimen/icon_scale"
+                android:scaleY="@dimen/icon_scale">
+                <path
+                    android:fillAlpha="0.4"
+                    android:fillColor="@color/icon_tint"
+                    android:fillType="nonZero"
+                    android:pathData="M8.00,1.85L15.38,1.85A2.77 2.77 0 0 1 18.15,4.61L18.15,19.39A2.77 2.77 0 0 1 15.38,22.15L8.00,22.15A2.77 2.77 0 0 1 5.23,19.39L5.23,4.61A2.77 2.77 0 0 1 8.00,1.85z"
+                    android:strokeLineCap="square"
+                    android:strokeLineJoin="miter" />
+                <path
+                    android:fillColor="@color/icon_tint"
+                    android:fillType="nonZero"
+                    android:pathData="M9.38,18.46L13.54,18.46A0.92 0.92 0 0 1 14.46,19.39L14.46,19.39A0.92 0.92 0 0 1 13.54,20.31L9.38,20.31A0.92 0.92 0 0 1 8.46,19.39L8.46,19.39A0.92 0.92 0 0 1 9.38,18.46z"
+                    android:strokeLineCap="square"
+                    android:strokeLineJoin="miter" />
+            </group>
+        </vector>
+    </item>
+</layer-list>

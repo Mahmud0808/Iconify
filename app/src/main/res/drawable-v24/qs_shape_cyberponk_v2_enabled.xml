@@ -6,8 +6,8 @@
             android:tintMode="multiply">
             <gradient
                 android:angle="315.0"
-                android:endColor="@color/colorAccentVariant"
-                android:startColor="@color/colorAccent" />
+                android:endColor="@color/holo_green_light"
+                android:startColor="@color/holo_blue_light" />
             <corners android:radius="24dp" />
         </shape>
     </item>

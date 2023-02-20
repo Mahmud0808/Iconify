@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@*android:color/system_neutral2_100" />
+    <solid android:color="?android:colorBackgroundFloating" />
     <corners
         android:bottomLeftRadius="14.0dp"
         android:bottomRightRadius="@*android:dimen/harmful_app_name_padding_top"

@@ -13,8 +13,8 @@ public class QsShapeManager {
         disable_others(n);
         enable_pack(n);
 
-        if (Prefs.getString("cornerRadius").equals("null"))
-            OverlayUtil.enableOverlay("IconifyComponentCR16.overlay");
+        if (!Prefs.getBoolean("IconifyComponentCR.overlay"))
+            OverlayUtil.enableOverlay("IconifyComponentCR.overlay");
     }
 
     protected static void enable_pack(int n) {
@@ -29,7 +29,6 @@ public class QsShapeManager {
     }
 
     public static void disable_pack(int n) {
-
         String path = "/system/product/overlay/IconifyComponentQSSN" + n + ".apk";
 
         if (new File(path).exists()) {
@@ -41,7 +40,6 @@ public class QsShapeManager {
     }
 
     protected static void disable_others(int n) {
-
         for (int i = 1; i <= TOTAL_QSSHAPES; i++) {
             if (i != n) {
                 String path = "/system/product/overlay/IconifyComponentQSSN" + i + ".apk";

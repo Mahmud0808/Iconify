@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -115,36 +114,27 @@ public class MediaPlayer extends AppCompatActivity {
 
         // Generate keys for preference
         for (int i = 0; i < mpip_list.size(); i++) {
-            MPIP_KEY.add(new String[]{"IconifyComponentMPIP" + i + 1 + ".overlay",
+            MPIP_KEY.add(new String[]{
+                    "IconifyComponentMPIP" + i + 1 + ".overlay",
                     "IconifyComponentMPIP" + i + 2 + ".overlay",
-                    "IconifyComponentMPIP" + i + 3 + ".overlay"});
+                    "IconifyComponentMPIP" + i + 3 + ".overlay"
+            });
         }
 
         musicPlayerIconList();
     }
 
     private void refreshPreview() {
-        String[] preview_mp_overlay = {"IconifyComponentMPA.overlay",
-                "IconifyComponentMPB.overlay",
-                "IconifyComponentMPS.overlay"};
+        findViewById(R.id.preview_mp_accent).setVisibility(View.GONE);
+        findViewById(R.id.preview_mp_black).setVisibility(View.GONE);
+        findViewById(R.id.preview_mp_system).setVisibility(View.GONE);
 
-        ImageView[] preview_mp = {findViewById(R.id.media_player_preview_accent),
-                findViewById(R.id.media_player_preview_system),
-                findViewById(R.id.media_player_preview_black)};
-
-        boolean mediaPlayerShown = false;
-
-        for (int i = 0; i < 3; i++) {
-            if (Prefs.getBoolean(preview_mp_overlay[i])) {
-                preview_mp[i].setVisibility(View.VISIBLE);
-                mediaPlayerShown = true;
-            } else {
-                preview_mp[i].setVisibility(View.GONE);
-            }
-        }
-
-        if (!mediaPlayerShown)
-            preview_mp[1].setVisibility(View.VISIBLE);
+        if (Prefs.getBoolean("IconifyComponentMPA.overlay"))
+            findViewById(R.id.preview_mp_accent).setVisibility(View.VISIBLE);
+        else if (Prefs.getBoolean("IconifyComponentMPB.overlay"))
+            findViewById(R.id.preview_mp_black).setVisibility(View.VISIBLE);
+        else
+            findViewById(R.id.preview_mp_system).setVisibility(View.VISIBLE);
     }
 
     private void musicPlayerIconList() {
@@ -193,12 +183,18 @@ public class MediaPlayer extends AppCompatActivity {
     }
 
     private void addItem(String appName, String packageName, Drawable appIcon, int viewId) {
-        View list = LayoutInflater.from(this).inflate(R.layout.list_option_mediaplayer_icons, container, false);
+        View list = LayoutInflater.from(this).inflate(R.layout.view_list_option_mediaplayer_icons, container, false);
         list.setId(viewId);
 
         LinearLayout launch = list.findViewById(R.id.launch_app);
-        if (packageName != null)
-            launch.setOnClickListener(v -> AppUtil.launchApp(MediaPlayer.this, packageName));
+        if (packageName != null) {
+            if (packageName.equals("defaultA13"))
+                launch.setOnClickListener(v -> {
+                    // do nothing
+                });
+            else
+                launch.setOnClickListener(v -> AppUtil.launchApp(MediaPlayer.this, packageName));
+        }
 
         list.findViewById(R.id.app_icon).setBackground(appIcon);
 
@@ -251,7 +247,7 @@ public class MediaPlayer extends AppCompatActivity {
 
                 if ((Boolean) mpip_list.get(i)[1]) {
                     if (i == 0) {
-                        addItem("Android 13 Default Player", (String) mpip_list.get(i)[0], ContextCompat.getDrawable(MediaPlayer.this, R.drawable.ic_android), (int) mpip_list.get(i)[2]);
+                        addItem(getResources().getString(R.string.a13_default_media_player), (String) mpip_list.get(i)[0], ContextCompat.getDrawable(MediaPlayer.this, R.drawable.ic_android), (int) mpip_list.get(i)[2]);
                     } else {
                         addItem(AppUtil.getAppName((String) mpip_list.get(i)[0]), (String) mpip_list.get(i)[0], AppUtil.getAppIcon((String) mpip_list.get(i)[0]), (int) mpip_list.get(i)[2]);
                     }

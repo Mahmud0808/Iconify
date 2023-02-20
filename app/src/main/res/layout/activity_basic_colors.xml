@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".ui.activity.BasicColors">
+
+    <include layout="@layout/view_header" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:id="@+id/activity_basic_colors"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/container_marginSide"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="@dimen/container_marginSide"
+            android:layout_marginBottom="24dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/container_top"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/container_paddingSide"
+                android:paddingTop="@dimen/container_padding"
+                android:paddingEnd="@dimen/container_paddingSide"
+                android:paddingBottom="@dimen/container_padding">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center"
+                    android:layout_marginEnd="@dimen/container_padding"
+                    android:layout_weight="1.0"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/apply_monet_accent_title"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/apply_monet_accent_desc"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="@dimen/cont_desc_size" />
+
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/apply_monet_accent"
+                    style="@style/customSwitch"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            </LinearLayout>
+
+            <View style="@style/dividerTransparent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/container_margin"
+                android:background="@drawable/container_bottom"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/container_paddingSide"
+                android:paddingTop="@dimen/container_padding"
+                android:paddingEnd="@dimen/container_paddingSide"
+                android:paddingBottom="@dimen/container_padding">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center"
+                    android:layout_marginEnd="@dimen/container_padding"
+                    android:layout_weight="1.0"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/apply_monet_gradient_title"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/apply_monet_gradient_desc"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="@dimen/cont_desc_size" />
+
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/apply_monet_gradient"
+                    style="@style/customSwitch"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/color_preview_large"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:layout_marginBottom="@dimen/container_margin"
+                android:background="@drawable/preview_color_picker_large"
+                android:contentDescription="@string/color_picker_preview" />
+
+            <LinearLayout
+                android:id="@+id/preview_coloraccentprimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/container_top"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/container_paddingSide"
+                android:paddingTop="@dimen/container_padding"
+                android:paddingEnd="@dimen/container_paddingSide"
+                android:paddingBottom="@dimen/container_padding">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center"
+                    android:layout_marginEnd="@dimen/container_padding"
+                    android:layout_weight="1.0"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/primary_color"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/primary_color_desc"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="@dimen/cont_desc_size" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/preview_color_picker_primary"
+                    android:layout_width="48.0dp"
+                    android:layout_height="48.0dp"
+                    android:layout_gravity="start|center"
+                    android:layout_margin="2.0dp"
+                    android:background="@drawable/preview_color_picker_primary"
+                    android:contentDescription="@string/color_picker_preview" />
+
+            </LinearLayout>
+
+            <View style="@style/dividerTransparent" />
+
+            <LinearLayout
+                android:id="@+id/preview_coloraccentsecondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/container_margin"
+                android:background="@drawable/container_bottom"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/container_paddingSide"
+                android:paddingTop="@dimen/container_padding"
+                android:paddingEnd="@dimen/container_paddingSide"
+                android:paddingBottom="@dimen/container_padding">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center"
+                    android:layout_marginEnd="@dimen/container_padding"
+                    android:layout_weight="1.0"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/secondary_color"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/secondary_color_desc"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="@dimen/cont_desc_size" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/preview_color_picker_secondary"
+                    android:layout_width="48.0dp"
+                    android:layout_height="48.0dp"
+                    android:layout_gravity="start|center"
+                    android:layout_margin="2.0dp"
+                    android:background="@drawable/preview_color_picker_secondary"
+                    android:contentDescription="@string/color_picker_preview" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/enable_custom_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/container_margin"
+                android:background="@drawable/button"
+                android:fontFamily="@font/semibold"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:stateListAnimator="@null"
+                android:text="@string/btn_enable_custom_colors"
+                android:textColor="@color/colorBackground"
+                android:textSize="@dimen/cont_title_size"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:backgroundTint="@null" />
+
+            <Button
+                android:id="@+id/disable_custom_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/container_margin"
+                android:background="@drawable/button_red"
+                android:fontFamily="@font/semibold"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:stateListAnimator="@null"
+                android:text="@string/btn_disable_custom_colors"
+                android:textColor="@color/colorBackground"
+                android:textSize="@dimen/cont_title_size"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:backgroundTint="@null" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@*android:id/background"
+        android:gravity="fill_horizontal|center">
+        <layer-list>
+            <item android:gravity="fill_horizontal|center">
+                <shape android:shape="rectangle">
+                    <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+                    <size android:height="48.0dip" />
+                    <solid android:color="#1A000000" />
+                </shape>
+            </item>
+            <item
+                android:end="2.5dip"
+                android:gravity="fill_horizontal|center"
+                android:start="2.5dip">
+                <shape android:shape="rectangle">
+                    <corners android:radius="@*android:dimen/harmful_app_name_padding_right" />
+                    <size android:height="44.0dip" />
+                    <solid android:color="?android:colorBackgroundFloating" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <item
+        android:id="@*android:id/progress"
+        android:gravity="fill_horizontal|center">
+        <com.android.systemui.util.RoundedCornerProgressDrawable android:drawable="@drawable/brightness_progress_full_drawable" />
+    </item>
+</layer-list>

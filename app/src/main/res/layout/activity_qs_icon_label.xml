@@ -7,7 +7,7 @@
     android:fillViewport="true"
     tools:context=".ui.activity.QsIconLabel">
 
-    <include layout="@layout/header" />
+    <include layout="@layout/view_header" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -71,19 +71,12 @@
 
                     <Switch
                         android:id="@+id/hide_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:thumb="@drawable/switch_thumb"
-                        android:track="@drawable/switch_track"
+                        style="@style/customSwitch"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
+                <View style="@style/dividerTransparent" />
 
                 <LinearLayout
                     android:id="@+id/text_size_container"
@@ -117,19 +110,10 @@
 
                     <SeekBar
                         android:id="@+id/text_size"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/container_padding"
-                        android:layout_marginBottom="8dp"
-                        android:background="@null"
-                        android:hapticFeedbackEnabled="true"
+                        style="@style/customSeekBar"
                         android:max="18"
                         android:min="10"
-                        android:progress="14"
-                        android:progressDrawable="@drawable/seekbar"
-                        android:splitTrack="false"
-                        android:theme="@style/SeekBar.Iconify"
-                        android:thumb="@drawable/seek_thumb" />
+                        android:progress="14" />
 
                 </LinearLayout>
 
@@ -171,26 +155,14 @@
 
                     <SeekBar
                         android:id="@+id/icon_size"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/container_padding"
-                        android:layout_marginBottom="8dp"
-                        android:background="@null"
-                        android:hapticFeedbackEnabled="true"
+                        style="@style/customSeekBar"
                         android:max="30"
                         android:min="0"
-                        android:progress="20"
-                        android:progressDrawable="@drawable/seekbar"
-                        android:splitTrack="false"
-                        android:theme="@style/SeekBar.Iconify"
-                        android:thumb="@drawable/seek_thumb" />
+                        android:progress="20" />
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
+                <View style="@style/dividerTransparent" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -223,19 +195,10 @@
 
                     <SeekBar
                         android:id="@+id/move_icon"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/container_padding"
-                        android:layout_marginBottom="8dp"
-                        android:background="@null"
-                        android:hapticFeedbackEnabled="true"
+                        style="@style/customSeekBar"
                         android:max="100"
                         android:min="8"
-                        android:progress="16"
-                        android:progressDrawable="@drawable/seekbar"
-                        android:splitTrack="false"
-                        android:theme="@style/SeekBar.Iconify"
-                        android:thumb="@drawable/seek_thumb" />
+                        android:progress="16" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -279,35 +242,15 @@
                         android:layout_weight="1.0"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/label_always_white_title"
-                                android:textColor="@color/textColorPrimary"
-                                android:textSize="@dimen/cont_title_size"
-                                android:textStyle="bold" />
-
-                            <View
-                                android:layout_width="4dp"
-                                android:layout_height="wrap_content" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/for_a12"
-                                android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/cont_title_size" />
-
-                        </LinearLayout>
+                            android:layout_gravity="start|center"
+                            android:paddingTop="3dp"
+                            android:text="@string/label_always_white_title"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -322,19 +265,12 @@
 
                     <Switch
                         android:id="@+id/label_white"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:thumb="@drawable/switch_thumb"
-                        android:track="@drawable/switch_track"
+                        style="@style/customSwitch"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
+                <View style="@style/dividerTransparent" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -354,35 +290,15 @@
                         android:layout_weight="1.0"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/label_always_white_v2_title"
-                                android:textColor="@color/textColorPrimary"
-                                android:textSize="@dimen/cont_title_size"
-                                android:textStyle="bold" />
-
-                            <View
-                                android:layout_width="4dp"
-                                android:layout_height="wrap_content" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/for_a12"
-                                android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/cont_title_size" />
-
-                        </LinearLayout>
+                            android:layout_gravity="start|center"
+                            android:paddingTop="3dp"
+                            android:text="@string/label_always_white_v2_title"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -397,19 +313,12 @@
 
                     <Switch
                         android:id="@+id/label_whiteV2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:thumb="@drawable/switch_thumb"
-                        android:track="@drawable/switch_track"
+                        style="@style/customSwitch"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
+                <View style="@style/dividerTransparent" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -429,35 +338,15 @@
                         android:layout_weight="1.0"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/label_follow_system_title"
-                                android:textColor="@color/textColorPrimary"
-                                android:textSize="@dimen/cont_title_size"
-                                android:textStyle="bold" />
-
-                            <View
-                                android:layout_width="4dp"
-                                android:layout_height="wrap_content" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/for_a12"
-                                android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/cont_title_size" />
-
-                        </LinearLayout>
+                            android:layout_gravity="start|center"
+                            android:paddingTop="3dp"
+                            android:text="@string/label_follow_system_title"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -472,19 +361,12 @@
 
                     <Switch
                         android:id="@+id/label_systemInverse"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:thumb="@drawable/switch_thumb"
-                        android:track="@drawable/switch_track"
+                        style="@style/customSwitch"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
+                <View style="@style/dividerTransparent" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -504,35 +386,15 @@
                         android:layout_weight="1.0"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/label_follow_system_v2_title"
-                                android:textColor="@color/textColorPrimary"
-                                android:textSize="@dimen/cont_title_size"
-                                android:textStyle="bold" />
-
-                            <View
-                                android:layout_width="4dp"
-                                android:layout_height="wrap_content" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/for_a12"
-                                android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/cont_title_size" />
-
-                        </LinearLayout>
+                            android:layout_gravity="start|center"
+                            android:paddingTop="3dp"
+                            android:text="@string/label_follow_system_v2_title"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -547,19 +409,12 @@
 
                     <Switch
                         android:id="@+id/label_systemInverseV2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:thumb="@drawable/switch_thumb"
-                        android:track="@drawable/switch_track"
+                        style="@style/customSwitch"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
+                <View style="@style/dividerTransparent" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -579,35 +434,15 @@
                         android:layout_weight="1.0"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/label_fix_text_color_title"
-                                android:textColor="@color/textColorPrimary"
-                                android:textSize="@dimen/cont_title_size"
-                                android:textStyle="bold" />
-
-                            <View
-                                android:layout_width="4dp"
-                                android:layout_height="wrap_content" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start|center"
-                                android:paddingTop="3dp"
-                                android:text="@string/for_a13"
-                                android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/cont_title_size" />
-
-                        </LinearLayout>
+                            android:layout_gravity="start|center"
+                            android:paddingTop="3dp"
+                            android:text="@string/label_fix_text_color_title"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -621,12 +456,8 @@
                     </LinearLayout>
 
                     <Switch
-                        android:id="@+id/label_fixtexta13"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:thumb="@drawable/switch_thumb"
-                        android:track="@drawable/switch_track"
+                        android:id="@+id/label_fixtextcolor"
+                        style="@style/customSwitch"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                 </LinearLayout>

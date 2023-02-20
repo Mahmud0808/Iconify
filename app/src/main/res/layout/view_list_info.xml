@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/list_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/list_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/container_mid"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/container_paddingSide"
+        android:paddingTop="@dimen/container_padding"
+        android:paddingEnd="@dimen/container_paddingSide"
+        android:paddingBottom="@dimen/container_padding">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="start|center"
+            android:contentDescription="@string/icon"
+            app:tint="@color/textColorSecondary" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:layout_marginStart="@dimen/container_padding"
+            android:layout_weight="1.0"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColorSecondary"
+                android:textSize="@dimen/cont_desc_size" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View style="@style/dividerTransparent" />
+
+</LinearLayout>

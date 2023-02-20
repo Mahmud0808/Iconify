@@ -6,16 +6,7 @@
             <gradient
                 android:angle="270.0"
                 android:endColor="#00000000"
-                android:startColor="@color/colorContainer" />
-            <corners android:radius="24dp" />
-        </shape>
-    </item>
-    <item>
-        <shape android:shape="rectangle">
-            <gradient
-                android:angle="270.0"
-                android:endColor="#00000000"
-                android:startColor="@color/colorContainerOverlay" />
+                android:startColor="@color/offStateColor" />
             <corners android:radius="24dp" />
         </shape>
     </item>

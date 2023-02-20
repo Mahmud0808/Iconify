@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/icon_bg"
+        android:gravity="center" />
+    <item>
+        <vector
+            android:width="24.0dp"
+            android:height="24.0dp"
+            android:tint="@color/icon_tint"
+            android:tintMode="multiply"
+            android:viewportWidth="24.0"
+            android:viewportHeight="24.0">
+            <group
+                android:pivotX="12.0"
+                android:pivotY="12.0"
+                android:scaleX="@dimen/icon_scale"
+                android:scaleY="@dimen/icon_scale">
+                <path
+                    android:fillColor="#00000000"
+                    android:fillType="nonZero"
+                    android:pathData="M12.00,3.28C13.69,4.97,17.06,6.09,19.88,6.09L19.88,12.84C19.88,16.78,15.94,19.59,12.00,20.72C8.06,19.59,4.13,16.78,4.13,12.84L4.13,6.09C6.94,6.09,10.31,4.97,12.00,3.28z"
+                    android:strokeWidth="2.22"
+                    android:strokeColor="@color/icon_tint"
+                    android:strokeLineCap="round"
+                    android:strokeLineJoin="round" />
+                <path
+                    android:fillColor="#00000000"
+                    android:fillType="nonZero"
+                    android:pathData="M12.00,10.00L12.00,14.50"
+                    android:strokeWidth="2.22"
+                    android:strokeColor="@color/icon_tint"
+                    android:strokeLineCap="round"
+                    android:strokeLineJoin="round" />
+            </group>
+        </vector>
+    </item>
+</layer-list>

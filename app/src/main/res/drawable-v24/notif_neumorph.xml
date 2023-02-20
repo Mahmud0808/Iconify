@@ -2,13 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/colorContainer" />
-            <corners android:radius="24dp" />
-        </shape>
-    </item>
-    <item>
-        <shape android:shape="rectangle">
-            <solid android:color="@color/colorContainerOverlay" />
+            <solid android:color="@color/offStateColor" />
             <corners android:radius="24dp" />
         </shape>
     </item>
@@ -24,28 +18,18 @@
     </item>
     <item
         android:bottom="4.0dp"
-        android:start="4.0dp"
         android:end="4.0dp"
+        android:start="4.0dp"
         android:top="4.0dp">
         <shape android:shape="rectangle">
-            <solid android:color="@color/colorContainer" />
+            <solid android:color="@color/offStateColor" />
             <corners android:radius="20dp" />
         </shape>
     </item>
     <item
         android:bottom="4.0dp"
-        android:start="4.0dp"
         android:end="4.0dp"
-        android:top="4.0dp">
-        <shape android:shape="rectangle">
-            <solid android:color="@color/colorContainerOverlay" />
-            <corners android:radius="20dp" />
-        </shape>
-    </item>
-    <item
-        android:bottom="4.0dp"
         android:start="4.0dp"
-        android:end="4.0dp"
         android:top="4.0dp">
         <shape android:shape="rectangle">
             <gradient

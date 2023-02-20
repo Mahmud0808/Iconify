@@ -13,15 +13,15 @@
         </shape>
     </item>
     <item
+        android:end="6.0dip"
         android:gravity="end|center"
-        android:start="6.0dip"
-        android:end="6.0dip">
+        android:start="6.0dip">
         <shape android:shape="rectangle">
             <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
             <size
-                android:height="20.0dip"
-                android:width="20.0dip" />
-            <solid android:color="@*android:color/system_neutral2_50" />
+                android:width="20.0dip"
+                android:height="20.0dip" />
+            <solid android:color="@*android:color/system_neutral2_10" />
         </shape>
     </item>
 </layer-list>

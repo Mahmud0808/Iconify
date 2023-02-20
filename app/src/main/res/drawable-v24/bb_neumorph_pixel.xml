@@ -19,9 +19,9 @@
         </shape>
     </item>
     <item
+        android:end="4.5dp"
         android:gravity="fill_horizontal|center"
-        android:start="4.0dp"
-        android:end="4.5dp">
+        android:start="4.0dp">
         <shape android:shape="rectangle">
             <corners android:radius="20.0dp" />
             <size android:height="40.0dp" />
@@ -29,9 +29,9 @@
         </shape>
     </item>
     <item
+        android:end="4.5dp"
         android:gravity="fill_horizontal|center"
-        android:start="4.0dp"
-        android:end="4.5dp">
+        android:start="4.0dp">
         <shape android:shape="rectangle">
             <corners android:radius="20.0dp" />
             <size android:height="40.0dp" />
@@ -43,28 +43,28 @@
         </shape>
     </item>
     <item
-        android:gravity="fill_horizontal|center"
-        android:end="80.0dp">
+        android:end="80.0dp"
+        android:gravity="fill_horizontal|center">
         <shape android:shape="rectangle">
             <corners android:radius="24.0dp" />
             <size android:height="48.0dp" />
             <gradient
                 android:angle="90.0"
-                android:endColor="@color/colorAccentVariant"
-                android:startColor="@color/colorAccent" />
+                android:endColor="@color/holo_green_light"
+                android:startColor="@color/holo_blue_light" />
         </shape>
     </item>
     <item
+        android:end="84.5dp"
         android:gravity="fill_horizontal|center"
-        android:start="4.0dp"
-        android:end="84.5dp">
+        android:start="4.0dp">
         <shape android:shape="rectangle">
             <corners android:radius="20.0dp" />
             <size android:height="40.0dp" />
             <gradient
                 android:angle="270.0"
-                android:endColor="@color/colorAccentVariant"
-                android:startColor="@color/colorAccent" />
+                android:endColor="@color/holo_green_light"
+                android:startColor="@color/holo_blue_light" />
         </shape>
     </item>
 </layer-list>

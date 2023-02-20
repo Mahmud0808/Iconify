@@ -9,10 +9,10 @@
                 </shape>
             </item>
             <item
-                android:end="12dp"
                 android:bottom="6dp"
-                android:gravity="end|bottom"
-                android:drawable="@drawable/ic_qstile_reflect_disabled_iconify" />
+                android:drawable="@drawable/ic_qstile_reflect_disabled_iconify"
+                android:end="12dp"
+                android:gravity="end|bottom" />
         </layer-list>
     </item>
     <item>
@@ -27,10 +27,10 @@
                 </shape>
             </item>
             <item
-                android:end="12dp"
                 android:bottom="6dp"
-                android:gravity="end|bottom"
-                android:drawable="@drawable/ic_qstile_reflect_iconify" />
+                android:drawable="@drawable/ic_qstile_reflect_iconify"
+                android:end="12dp"
+                android:gravity="end|bottom" />
         </layer-list>
     </item>
 </layer-list>

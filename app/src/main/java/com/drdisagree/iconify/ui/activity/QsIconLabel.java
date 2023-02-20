@@ -1,9 +1,14 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.SYSTEM_UI_PACKAGE;
+import static com.drdisagree.iconify.common.References.FABRICATED_QS_ICON_SIZE;
+import static com.drdisagree.iconify.common.References.FABRICATED_QS_MOVE_ICON;
+import static com.drdisagree.iconify.common.References.FABRICATED_QS_TEXT_SIZE;
+import static com.drdisagree.iconify.common.References.STR_NULL;
+import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -41,18 +46,17 @@ public class QsIconLabel extends AppCompatActivity {
 
         // Text Size
         SeekBar text_size = findViewById(R.id.text_size);
-        text_size.setPadding(0, 0, 0, 0);
 
         TextView text_size_output = findViewById(R.id.text_size_output);
 
         final int[] finalTextSize = {14};
 
-        if (!Prefs.getString("qsTextSize").equals("null")) {
-            if (Integer.parseInt(Prefs.getString("qsTextSize")) == 14)
-                text_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString("qsTextSize")) + "sp " + getResources().getString(R.string.opt_default));
+        if (!Prefs.getString(FABRICATED_QS_TEXT_SIZE).equals(STR_NULL)) {
+            if (Integer.parseInt(Prefs.getString(FABRICATED_QS_TEXT_SIZE)) == 14)
+                text_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_TEXT_SIZE)) + "sp " + getResources().getString(R.string.opt_default));
             else
-                text_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString("qsTextSize")) + "sp");
-            finalTextSize[0] = Integer.parseInt(Prefs.getString("qsTextSize"));
+                text_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_TEXT_SIZE)) + "sp");
+            finalTextSize[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_TEXT_SIZE));
             text_size.setProgress(finalTextSize[0]);
         } else
             text_size_output.setText(getResources().getString(R.string.opt_selected) + " 14sp " + getResources().getString(R.string.opt_default));
@@ -76,10 +80,9 @@ public class QsIconLabel extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Prefs.putString("qsTextSize", String.valueOf(finalTextSize[0]));
-                Prefs.putBoolean("fabricatedqsTextSize", true);
+                Prefs.putString(FABRICATED_QS_TEXT_SIZE, String.valueOf(finalTextSize[0]));
 
-                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEM_UI_PACKAGE, "qsTextSize", "dimen", "qs_tile_text_size", finalTextSize[0] + "sp");
+                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_QS_TEXT_SIZE, "dimen", "qs_tile_text_size", finalTextSize[0] + "sp");
 
                 Toast.makeText(Iconify.getAppContext(), finalTextSize[0] + "sp " + getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
             }
@@ -87,18 +90,17 @@ public class QsIconLabel extends AppCompatActivity {
 
         // Icon Size
         SeekBar icon_size = findViewById(R.id.icon_size);
-        icon_size.setPadding(0, 0, 0, 0);
 
         TextView icon_size_output = findViewById(R.id.icon_size_output);
 
         final int[] finalIconSize = {20};
 
-        if (!Prefs.getString("qsIconSize").equals("null")) {
-            if (Integer.parseInt(Prefs.getString("qsIconSize")) == 20)
-                icon_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString("qsIconSize")) + "dp " + getResources().getString(R.string.opt_default));
+        if (!Prefs.getString(FABRICATED_QS_ICON_SIZE).equals(STR_NULL)) {
+            if (Integer.parseInt(Prefs.getString(FABRICATED_QS_ICON_SIZE)) == 20)
+                icon_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_ICON_SIZE)) + "dp " + getResources().getString(R.string.opt_default));
             else
-                icon_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString("qsIconSize")) + "dp");
-            finalIconSize[0] = Integer.parseInt(Prefs.getString("qsIconSize"));
+                icon_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_ICON_SIZE)) + "dp");
+            finalIconSize[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_ICON_SIZE));
             icon_size.setProgress(finalIconSize[0]);
         } else
             icon_size_output.setText(getResources().getString(R.string.opt_selected) + " 20dp " + getResources().getString(R.string.opt_default));
@@ -121,10 +123,9 @@ public class QsIconLabel extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Prefs.putString("qsIconSize", String.valueOf(finalIconSize[0]));
-                Prefs.putBoolean("fabricatedqsIconSize", true);
+                Prefs.putString(FABRICATED_QS_ICON_SIZE, String.valueOf(finalIconSize[0]));
 
-                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEM_UI_PACKAGE, "qsIconSize", "dimen", "qs_icon_size", finalIconSize[0] + "dp");
+                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_QS_ICON_SIZE, "dimen", "qs_icon_size", finalIconSize[0] + "dp");
 
                 Toast.makeText(Iconify.getAppContext(), finalIconSize[0] + "dp " + getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
             }
@@ -132,7 +133,6 @@ public class QsIconLabel extends AppCompatActivity {
 
         // Hide text size if hide label is enabled
         LinearLayout text_size_container = findViewById(R.id.text_size_container);
-        LinearLayout icon_size_container = findViewById(R.id.icon_size_container);
         View text_size_divider = findViewById(R.id.text_size_divider);
 
         if (Prefs.getBoolean("IconifyComponentQSHL.overlay")) {
@@ -144,102 +144,112 @@ public class QsIconLabel extends AppCompatActivity {
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_whiteV2 = findViewById(R.id.label_whiteV2);
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_systemInverse = findViewById(R.id.label_systemInverse);
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_systemInverseV2 = findViewById(R.id.label_systemInverseV2);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_fixtexta13 = findViewById(R.id.label_fixtexta13);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_fixtextcolor = findViewById(R.id.label_fixtextcolor);
 
         label_white.setChecked(Prefs.getBoolean("IconifyComponentQST1.overlay"));
 
         label_white.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                label_whiteV2.setChecked(false);
-                label_systemInverse.setChecked(false);
-                label_systemInverseV2.setChecked(false);
-                label_fixtexta13.setChecked(false);
-                OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    label_whiteV2.setChecked(false);
+                    label_systemInverse.setChecked(false);
+                    label_systemInverseV2.setChecked(false);
+                    label_fixtextcolor.setChecked(false);
+                    OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
 
-                OverlayUtil.enableOverlay("IconifyComponentQST1.overlay");
-            } else {
-                OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
-            }
+                    OverlayUtil.enableOverlay("IconifyComponentQST1.overlay");
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
+                }
+            }, 200);
         });
 
         label_whiteV2.setChecked(Prefs.getBoolean("IconifyComponentQST2.overlay"));
 
         label_whiteV2.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                label_white.setChecked(false);
-                label_systemInverse.setChecked(false);
-                label_systemInverseV2.setChecked(false);
-                label_fixtexta13.setChecked(false);
-                OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    label_white.setChecked(false);
+                    label_systemInverse.setChecked(false);
+                    label_systemInverseV2.setChecked(false);
+                    label_fixtextcolor.setChecked(false);
+                    OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
 
-                OverlayUtil.enableOverlay("IconifyComponentQST2.overlay");
-            } else {
-                OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
-            }
+                    OverlayUtil.enableOverlay("IconifyComponentQST2.overlay");
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
+                }
+            }, 200);
         });
 
         label_systemInverse.setChecked(Prefs.getBoolean("IconifyComponentQST3.overlay"));
 
         label_systemInverse.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                label_white.setChecked(false);
-                label_whiteV2.setChecked(false);
-                label_systemInverseV2.setChecked(false);
-                label_fixtexta13.setChecked(false);
-                OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    label_white.setChecked(false);
+                    label_whiteV2.setChecked(false);
+                    label_systemInverseV2.setChecked(false);
+                    label_fixtextcolor.setChecked(false);
+                    OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
 
-                OverlayUtil.enableOverlay("IconifyComponentQST3.overlay");
-            } else {
-                OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
-            }
+                    OverlayUtil.enableOverlay("IconifyComponentQST3.overlay");
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
+                }
+            }, 200);
         });
 
         label_systemInverseV2.setChecked(Prefs.getBoolean("IconifyComponentQST4.overlay"));
 
         label_systemInverseV2.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                label_white.setChecked(false);
-                label_whiteV2.setChecked(false);
-                label_systemInverse.setChecked(false);
-                label_fixtexta13.setChecked(false);
-                OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    label_white.setChecked(false);
+                    label_whiteV2.setChecked(false);
+                    label_systemInverse.setChecked(false);
+                    label_fixtextcolor.setChecked(false);
+                    OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
 
-                OverlayUtil.enableOverlay("IconifyComponentQST4.overlay");
-            } else {
-                OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
-            }
+                    OverlayUtil.enableOverlay("IconifyComponentQST4.overlay");
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
+                }
+            }, 200);
         });
 
-        label_fixtexta13.setChecked(Prefs.getBoolean("IconifyComponentQST5.overlay"));
+        label_fixtextcolor.setChecked(Prefs.getBoolean("IconifyComponentQST5.overlay"));
 
-        label_fixtexta13.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                label_white.setChecked(false);
-                label_whiteV2.setChecked(false);
-                label_systemInverse.setChecked(false);
-                label_systemInverseV2.setChecked(false);
+        label_fixtextcolor.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    label_white.setChecked(false);
+                    label_whiteV2.setChecked(false);
+                    label_systemInverse.setChecked(false);
+                    label_systemInverseV2.setChecked(false);
 
-                OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
+                    OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
 
-                OverlayUtil.enableOverlay("IconifyComponentQST5.overlay");
-            } else {
-                OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
-            }
+                    OverlayUtil.enableOverlay("IconifyComponentQST5.overlay");
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
+                }
+            }, 200);
         });
 
         // Hide Label
@@ -265,16 +275,14 @@ public class QsIconLabel extends AppCompatActivity {
         // Move Icon
         SeekBar move_icon = findViewById(R.id.move_icon);
         TextView move_icon_output = findViewById(R.id.move_icon_output);
-
-        move_icon.setPadding(0, 0, 0, 0);
         final int[] finalMoveIcon = {16};
 
-        if (!Prefs.getString("qsMoveIcon").equals("null")) {
-            if (Integer.parseInt(Prefs.getString("qsMoveIcon")) == 16)
-                move_icon_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString("qsMoveIcon")) + "dp " + getResources().getString(R.string.opt_default));
+        if (!Prefs.getString(FABRICATED_QS_MOVE_ICON).equals(STR_NULL)) {
+            if (Integer.parseInt(Prefs.getString(FABRICATED_QS_MOVE_ICON)) == 16)
+                move_icon_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_MOVE_ICON)) + "dp " + getResources().getString(R.string.opt_default));
             else
-                move_icon_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString("qsMoveIcon")) + "dp");
-            finalMoveIcon[0] = Integer.parseInt(Prefs.getString("qsMoveIcon"));
+                move_icon_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_MOVE_ICON)) + "dp");
+            finalMoveIcon[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_MOVE_ICON));
             move_icon.setProgress(finalMoveIcon[0]);
         } else
             move_icon_output.setText(getResources().getString(R.string.opt_selected) + " 16dp " + getResources().getString(R.string.opt_default));
@@ -297,10 +305,9 @@ public class QsIconLabel extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Prefs.putString("qsMoveIcon", String.valueOf(finalMoveIcon[0]));
-                Prefs.putBoolean("fabricatedqsMoveIcon", true);
+                Prefs.putString(FABRICATED_QS_MOVE_ICON, String.valueOf(finalMoveIcon[0]));
 
-                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEM_UI_PACKAGE, "qsMoveIcon", "dimen", "qs_tile_start_padding", finalMoveIcon[0] + "dp");
+                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_QS_MOVE_ICON, "dimen", "qs_tile_start_padding", finalMoveIcon[0] + "dp");
 
                 Toast.makeText(Iconify.getAppContext(), finalMoveIcon[0] + "dp " + getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
             }

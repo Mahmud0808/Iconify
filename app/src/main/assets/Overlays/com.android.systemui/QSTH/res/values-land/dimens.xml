@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="qs_tile_height">80.0dip</dimen>
+    <dimen name="qs_quick_tile_size">60.0dip</dimen>
+</resources>

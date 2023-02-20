@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/icon_bg"
+        android:gravity="center" />
+    <item>
+        <vector
+            android:width="24.0dp"
+            android:height="24.0dp"
+            android:tint="@color/icon_tint"
+            android:tintMode="multiply"
+            android:viewportWidth="24.0"
+            android:viewportHeight="24.0">
+            <group
+                android:pivotX="12.0"
+                android:pivotY="12.0"
+                android:scaleX="@dimen/icon_scale"
+                android:scaleY="@dimen/icon_scale">
+                <path
+                    android:fillAlpha="0.4"
+                    android:fillColor="@color/icon_tint"
+                    android:fillType="nonZero"
+                    android:pathData="M4.00,16.00L20.00,16.00A3.00 3.00 0 0 1 23.00,19.00L23.00,19.00A3.00 3.00 0 0 1 20.00,22.00L4.00,22.00A3.00 3.00 0 0 1 1.00,19.00L1.00,19.00A3.00 3.00 0 0 1 4.00,16.00z"
+                    android:strokeLineCap="square"
+                    android:strokeLineJoin="miter" />
+                <path
+                    android:fillColor="@color/icon_tint"
+                    android:fillType="nonZero"
+                    android:pathData="M5.00,13.00L8.00,13.00L8.00,16.00L5.00,16.00zM6.50,5.00L6.50,5.00A1.50 1.50 0 0 1 8.00,6.50L8.00,14.50A1.50 1.50 0 0 1 6.50,16.00L6.50,16.00A1.50 1.50 0 0 1 5.00,14.50L5.00,6.50A1.50 1.50 0 0 1 6.50,5.00zM15.00,18.00C14.45,18.00,14.00,18.45,14.00,19.00C14.00,19.55,14.45,20.00,15.00,20.00C15.55,20.00,16.00,19.55,16.00,19.00C16.00,18.45,15.55,18.00,15.00,18.00zM19.00,18.00C18.45,18.00,18.00,18.45,18.00,19.00C18.00,19.55,18.45,20.00,19.00,20.00C19.55,20.00,20.00,19.55,20.00,19.00C20.00,18.45,19.55,18.00,19.00,18.00z"
+                    android:strokeLineCap="square"
+                    android:strokeLineJoin="miter" />
+                <path
+                    android:fillColor="#00000000"
+                    android:fillType="nonZero"
+                    android:pathData="M11.50,3.50C12.78,5.00,12.78,7.00,11.50,8.50M16.00,10.50C18.00,8.00,18.00,4.00,16.00,1.50"
+                    android:strokeWidth="2.784"
+                    android:strokeAlpha="0.4"
+                    android:strokeColor="@color/icon_tint"
+                    android:strokeLineCap="round"
+                    android:strokeLineJoin="round" />
+            </group>
+        </vector>
+    </item>
+</layer-list>

@@ -8,10 +8,16 @@
                     <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
                 </shape>
             </item>
+            <item>
+                <shape android:tintMode="src_atop">
+                    <solid android:color="#1AFFFFFF" />
+                    <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+                </shape>
+            </item>
             <item
                 android:bottom="4.0dp"
-                android:start="4.0dp"
                 android:end="4.0dp"
+                android:start="4.0dp"
                 android:top="4.0dp">
                 <shape android:tintMode="src_atop">
                     <solid android:color="?android:colorBackgroundFloating" />
@@ -19,10 +25,10 @@
                 </shape>
             </item>
             <item
-                android:end="12dp"
                 android:bottom="6dp"
-                android:gravity="end|bottom"
-                android:drawable="@drawable/ic_qstile_reflect_disabled_iconify" />
+                android:drawable="@drawable/ic_qstile_reflect_disabled_iconify"
+                android:end="12dp"
+                android:gravity="end|bottom" />
         </layer-list>
     </item>
     <item>
@@ -38,8 +44,8 @@
             </item>
             <item
                 android:bottom="4.0dp"
-                android:start="4.0dp"
                 android:end="4.0dp"
+                android:start="4.0dp"
                 android:top="4.0dp">
                 <shape android:tintMode="multiply">
                     <solid android:color="?android:colorBackgroundFloating" />
@@ -47,10 +53,10 @@
                 </shape>
             </item>
             <item
-                android:end="12dp"
                 android:bottom="6dp"
-                android:gravity="end|bottom"
-                android:drawable="@drawable/ic_qstile_reflect_iconify" />
+                android:drawable="@drawable/ic_qstile_reflect_iconify"
+                android:end="12dp"
+                android:gravity="end|bottom" />
         </layer-list>
     </item>
 </layer-list>

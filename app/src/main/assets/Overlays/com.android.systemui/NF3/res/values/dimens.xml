@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="notification_divider_height">3dp</dimen>
-    <dimen name="z_distance_between_notifications">3dp</dimen>
-    <dimen name="notification_children_container_divider_height">2dp</dimen>
-    <item name="notification_divider_alpha" format="float" type="dimen">0</item>
-</resources>

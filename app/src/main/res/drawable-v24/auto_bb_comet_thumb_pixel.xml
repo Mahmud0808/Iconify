@@ -2,15 +2,15 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:bottom="8.0dip"
-        android:start="8.0dip"
         android:end="8.0dip"
+        android:start="8.0dip"
         android:top="8.0dip">
         <shape>
             <corners android:radius="24.0dip" />
             <gradient
                 android:angle="0.0"
-                android:endColor="@color/colorAccentVariant"
-                android:startColor="@color/colorAccent" />
+                android:endColor="@color/holo_green_light"
+                android:startColor="@color/holo_blue_light" />
             <size
                 android:width="32.0dip"
                 android:height="32.0dip" />

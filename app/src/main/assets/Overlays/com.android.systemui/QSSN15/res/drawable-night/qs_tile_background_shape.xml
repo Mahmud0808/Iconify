@@ -1,109 +1,129 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
-    <layer-list>
-    <item
-        android:top="6dp"
-        android:end="40dp">
-        <shape android:tintMode="src_atop" android:shape="rectangle">
-            <solid android:color="@*android:color/system_neutral2_800" />
-            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
-        </shape>
-    </item>
-    <item
-        android:bottom="6dp"
-        android:start="40dp">
-        <shape android:tintMode="src_atop" android:shape="rectangle">
-            <solid android:color="@*android:color/system_neutral2_800" />
-            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
-        </shape>
-    </item>
-    <item
-        android:start="22dp"
-        android:gravity="start|top">
-        <shape android:tintMode="src_atop" android:shape="rectangle">
-            <solid android:color="@*android:color/system_neutral2_800" />
-            <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
-            <size
-                android:height="3dp"
-                android:width="22dp" />
-        </shape>
-    </item>
-    <item
-        android:start="22dp"
-        android:gravity="start|top">
-        <shape android:tintMode="src_atop" android:shape="rectangle">
-            <solid android:color="#1AFFFFFF" />
-            <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
-            <size
-                android:height="3dp"
-                android:width="22dp" />
-        </shape>
-    </item>
-    <item
-        android:end="22dp"
-        android:gravity="end|bottom">
-        <shape android:tintMode="src_atop" android:shape="rectangle">
-            <solid android:color="@*android:color/system_neutral2_800" />
-            <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
-            <size
-                android:height="3dp"
-                android:width="22dp" />
-        </shape>
-    </item>
-    <item
-        android:end="22dp"
-        android:gravity="end|bottom">
-        <shape android:tintMode="src_atop" android:shape="rectangle">
-            <solid android:color="#1AFFFFFF" />
-            <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
-            <size
-                android:height="3dp"
-                android:width="22dp" />
-        </shape>
-    </item>
-    </layer-list>
+        <layer-list>
+            <item
+                android:end="40dp"
+                android:top="6dp">
+                <shape
+                    android:shape="rectangle"
+                    android:tintMode="src_atop">
+                    <solid android:color="@*android:color/system_neutral2_800" />
+                    <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+                </shape>
+            </item>
+            <item
+                android:bottom="6dp"
+                android:start="40dp">
+                <shape
+                    android:shape="rectangle"
+                    android:tintMode="src_atop">
+                    <solid android:color="@*android:color/system_neutral2_800" />
+                    <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+                </shape>
+            </item>
+            <item
+                android:gravity="start|top"
+                android:start="22dp">
+                <shape
+                    android:shape="rectangle"
+                    android:tintMode="src_atop">
+                    <solid android:color="@*android:color/system_neutral2_800" />
+                    <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
+                    <size
+                        android:width="22dp"
+                        android:height="3dp" />
+                </shape>
+            </item>
+            <item
+                android:gravity="start|top"
+                android:start="22dp">
+                <shape
+                    android:shape="rectangle"
+                    android:tintMode="src_atop">
+                    <solid android:color="#1AFFFFFF" />
+                    <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
+                    <size
+                        android:width="22dp"
+                        android:height="3dp" />
+                </shape>
+            </item>
+            <item
+                android:end="22dp"
+                android:gravity="end|bottom">
+                <shape
+                    android:shape="rectangle"
+                    android:tintMode="src_atop">
+                    <solid android:color="@*android:color/system_neutral2_800" />
+                    <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
+                    <size
+                        android:width="22dp"
+                        android:height="3dp" />
+                </shape>
+            </item>
+            <item
+                android:end="22dp"
+                android:gravity="end|bottom">
+                <shape
+                    android:shape="rectangle"
+                    android:tintMode="src_atop">
+                    <solid android:color="#1AFFFFFF" />
+                    <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
+                    <size
+                        android:width="22dp"
+                        android:height="3dp" />
+                </shape>
+            </item>
+        </layer-list>
     </item>
     <item>
-    <layer-list>
-    <item
-        android:top="6dp"
-        android:end="40dp">
-        <shape android:tintMode="multiply" android:shape="rectangle">
-            <solid android:color="@*android:color/holo_blue_light" />
-            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
-        </shape>
-    </item>
-    <item
-        android:bottom="6dp"
-        android:start="40dp">
-        <shape android:tintMode="multiply" android:shape="rectangle">
-            <solid android:color="@*android:color/holo_blue_light" />
-            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
-        </shape>
-    </item>
-    <item
-        android:start="22dp"
-        android:gravity="start|top">
-        <shape android:tintMode="multiply" android:shape="rectangle">
-            <solid android:color="@*android:color/holo_green_light" />
-            <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
-            <size
-                android:height="3dp"
-                android:width="22dp" />
-        </shape>
-    </item>
-    <item
-        android:end="22dp"
-        android:gravity="end|bottom">
-        <shape android:tintMode="multiply" android:shape="rectangle">
-            <solid android:color="@*android:color/holo_green_light" />
-            <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
-            <size
-                android:height="3dp"
-                android:width="22dp" />
-        </shape>
-    </item>
-    </layer-list>
+        <layer-list>
+            <item
+                android:end="40dp"
+                android:top="6dp">
+                <shape
+                    android:shape="rectangle"
+                    android:tintMode="multiply">
+                    <solid android:color="@*android:color/holo_blue_light" />
+                    <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+                </shape>
+            </item>
+            <item
+                android:bottom="6dp"
+                android:start="40dp">
+                <shape
+                    android:shape="rectangle"
+                    android:tintMode="multiply">
+                    <solid android:color="@*android:color/holo_blue_light" />
+                    <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+                </shape>
+            </item>
+            <item
+                android:gravity="start|top"
+                android:start="22dp">
+                <shape
+                    android:shape="rectangle"
+                    android:tintMode="multiply">
+                    <solid android:color="@*android:color/holo_green_light" />
+                    <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
+                    <size
+                        android:width="22dp"
+                        android:height="3dp" />
+                </shape>
+            </item>
+            <item
+                android:end="22dp"
+                android:gravity="end|bottom">
+                <shape
+                    android:shape="rectangle"
+                    android:tintMode="multiply">
+                    <solid android:color="@*android:color/holo_green_light" />
+                    <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
+                    <size
+                        android:width="22dp"
+                        android:height="3dp" />
+                </shape>
+            </item>
+        </layer-list>
     </item>
 </layer-list>

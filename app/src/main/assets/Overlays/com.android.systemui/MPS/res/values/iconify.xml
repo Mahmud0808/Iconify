@@ -2,7 +2,7 @@
 <resources>
     <style name="MediaPlayer" parent="@*android:style/Theme.DeviceDefault.DayNight">
         <item name="android:textColor">?android:textColorPrimary</item>
-        <item name="android:backgroundTint">@*android:color/system_neutral2_50</item>
+        <item name="android:backgroundTint">@*android:color/system_neutral2_10</item>
     </style>
     <style name="MediaPlayer.ProgressBar" parent="@*android:style/Widget.ProgressBar.Horizontal">
         <item name="android:clickable">true</item>

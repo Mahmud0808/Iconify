@@ -19,7 +19,7 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.BrightnessPixelManager;
-import com.drdisagree.iconify.ui.fragment.LoadingDialog;
+import com.drdisagree.iconify.ui.view.LoadingDialog;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
@@ -70,6 +70,8 @@ public class BrightnessBarsPixel extends AppCompatActivity {
         bb_list.add(new Object[]{"Gradient Thumb", R.drawable.bb_gradient_thumb_pixel, R.drawable.auto_bb_gradient_thumb_pixel});
         bb_list.add(new Object[]{"Lighty", R.drawable.bb_lighty_pixel, R.drawable.auto_bb_lighty_pixel});
         bb_list.add(new Object[]{"Semi Transparent", R.drawable.bb_semi_transparent_pixel, R.drawable.auto_bb_semi_transparent_pixel});
+        bb_list.add(new Object[]{"Thin Outline", R.drawable.bb_thin_outline_pixel, R.drawable.auto_bb_thin_outline_pixel});
+        bb_list.add(new Object[]{"Purfect", R.drawable.bb_purfect_pixel, R.drawable.auto_bb_purfect_pixel});
 
         addItem(bb_list);
 
@@ -194,7 +196,7 @@ public class BrightnessBarsPixel extends AppCompatActivity {
 
     private void addItem(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(this).inflate(R.layout.list_option_brightnessbar_pixel, container, false);
+            View list = LayoutInflater.from(this).inflate(R.layout.view_list_option_brightnessbar_pixel, container, false);
 
             TextView name = list.findViewById(R.id.list_title_brightnessbar);
             name.setText((String) pack.get(i)[0]);

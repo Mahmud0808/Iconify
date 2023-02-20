@@ -5,17 +5,17 @@
             <corners android:radius="24.0dip" />
             <gradient
                 android:angle="315.0"
-                android:endColor="@color/colorAccentVariant"
-                android:startColor="@color/colorAccent" />
+                android:endColor="@color/holo_green_light"
+                android:startColor="@color/holo_blue_light" />
             <size
                 android:width="48.0dip"
                 android:height="48.0dip" />
         </shape>
     </item>
     <item
+        android:end="2.5dip"
         android:gravity="fill_horizontal|center"
-        android:start="2.5dip"
-        android:end="2.5dip">
+        android:start="2.5dip">
         <shape>
             <corners android:radius="24.0dip" />
             <gradient

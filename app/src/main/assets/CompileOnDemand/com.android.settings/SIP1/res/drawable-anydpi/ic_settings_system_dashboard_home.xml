@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/icon_bg"
+        android:gravity="center" />
+    <item>
+        <vector
+            android:width="24.0dp"
+            android:height="24.0dp"
+            android:tint="@color/icon_tint"
+            android:tintMode="multiply"
+            android:viewportWidth="24.0"
+            android:viewportHeight="24.0">
+            <group
+                android:pivotX="12.0"
+                android:pivotY="12.0"
+                android:scaleX="@dimen/icon_scale"
+                android:scaleY="@dimen/icon_scale">
+                <path
+                    android:fillColor="#00000000"
+                    android:fillType="nonZero"
+                    android:pathData="M8.00,2.00L16.00,2.00A6.00 6.00 0 0 1 22.00,8.00L22.00,16.00A6.00 6.00 0 0 1 16.00,22.00L8.00,22.00A6.00 6.00 0 0 1 2.00,16.00L2.00,8.00A6.00 6.00 0 0 1 8.00,2.00z"
+                    android:strokeWidth="2.016"
+                    android:strokeColor="@color/icon_tint"
+                    android:strokeLineCap="square"
+                    android:strokeLineJoin="round" />
+                <path
+                    android:fillColor="#00000000"
+                    android:fillType="nonZero"
+                    android:pathData="M8.50,5.50L8.50,9.00M8.50,11.50C7.12,11.50,6.00,12.62,6.00,14.00C6.00,15.38,7.12,16.50,8.50,16.50C9.88,16.50,11.00,15.38,11.00,14.00C11.00,12.62,9.88,11.50,8.50,11.50zM8.50,17.00L8.50,18.50M15.50,7.50C14.12,7.50,13.00,8.62,13.00,10.00C13.00,11.38,14.12,12.50,15.50,12.50C16.88,12.50,18.00,11.38,18.00,10.00C18.00,8.62,16.88,7.50,15.50,7.50zM15.50,7.00L15.50,5.50M15.50,15.00L15.50,18.50"
+                    android:strokeWidth="2.016"
+                    android:strokeAlpha="0.4"
+                    android:strokeColor="@color/icon_tint"
+                    android:strokeLineCap="round"
+                    android:strokeLineJoin="round" />
+            </group>
+        </vector>
+    </item>
+</layer-list>

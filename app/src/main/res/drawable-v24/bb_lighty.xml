@@ -6,13 +6,13 @@
                 <shape android:shape="rectangle">
                     <corners android:radius="24.0dip" />
                     <size android:height="48.0dip" />
-                    <solid android:color="@color/colorBackground" />
+                    <solid android:color="@color/offStateColor2" />
                 </shape>
             </item>
             <item
+                android:end="2.5dip"
                 android:gravity="fill_horizontal|center"
-                android:start="2.5dip"
-                android:end="2.5dip">
+                android:start="2.5dip">
                 <shape android:shape="rectangle">
                     <corners android:radius="24.0dip" />
                     <size android:height="44.0dip" />
@@ -31,14 +31,14 @@
             <size android:height="48.0dip" />
             <gradient
                 android:angle="315.0"
-                android:endColor="@color/colorAccentVariant"
-                android:startColor="@color/colorAccent" />
+                android:endColor="@color/holo_green_light"
+                android:startColor="@color/holo_blue_light" />
         </shape>
     </item>
     <item
+        android:end="82.5dip"
         android:gravity="fill_horizontal|center"
-        android:start="2.5dip"
-        android:end="82.5dip">
+        android:start="2.5dip">
         <shape android:shape="rectangle">
             <corners android:radius="24.0dip" />
             <size android:height="44.0dip" />

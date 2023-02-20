@@ -52,7 +52,7 @@ public class AppUtil {
         if (launchIntent != null) {
             activity.startActivity(launchIntent);
         } else {
-            Toast.makeText(Iconify.getAppContext(), "Application not found!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.app_not_found), Toast.LENGTH_SHORT).show();
         }
     }
 

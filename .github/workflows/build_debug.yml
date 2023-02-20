@@ -48,8 +48,8 @@ jobs:
         run: ./gradlew assembleDebug
 
       - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@v3
         with:
-          name: Debug APK
+          name: "Iconify v${{ env.VERSION_NAME }} Dev (#${{github.run_number}})"
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error

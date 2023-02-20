@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.EASTER_EGG;
+
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -7,8 +9,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,13 +23,24 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.config.Prefs;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 public class Info extends AppCompatActivity {
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("StaticFieldLeak")
+    private static ViewGroup app_info_container, credits_container, contributors_container, translators_container;
+    final double SECONDS_FOR_CLICKS = 3;
+    final int NUM_CLICKS_REQUIRED = 7;
+    long[] clickTimestamps = new long[NUM_CLICKS_REQUIRED];
+    int oldestIndex = 0;
+    int nextIndex = 0;
+
+    @SuppressLint({"SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,160 +54,133 @@ public class Info extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // App version
-        ViewGroup appInfo = findViewById(R.id.appInfo);
-        appInfo.setOnClickListener(v -> {
-            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText(getResources().getString(R.string.iconify_clipboard_label_version), getResources().getString(R.string.app_name) + "\n" + getResources().getString(R.string.iconify_clipboard_label_version_name) + ' ' + BuildConfig.VERSION_NAME + "\n" + getResources().getString(R.string.iconify_clipboard_label_version_code) + ' ' + BuildConfig.VERSION_CODE);
-            clipboard.setPrimaryClip(clip);
-            Toast toast = Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_copied), Toast.LENGTH_SHORT);
-            toast.show();
-        });
-        ImageView ic_appVersion = findViewById(R.id.ic_appVersion);
-        ic_appVersion.setBackgroundResource(R.drawable.ic_info);
-        TextView appVersion = findViewById(R.id.appVersion);
-        appVersion.setText(getResources().getString(R.string.info_version_title));
-        TextView versionCodeAndName = findViewById(R.id.versionCodeAndName);
-        versionCodeAndName.setText(BuildConfig.VERSION_NAME);
+        LinearLayout easter_egg = findViewById(R.id.easter_egg);
+        easter_egg.setOnClickListener(this::onSecretViewClicked);
 
-        // Github
-        ViewGroup githubRepo = findViewById(R.id.githubRepo);
-        githubRepo.setOnClickListener(v -> {
-            String url = "https://github.com/Mahmud0808/Iconify";
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
-            startActivity(i);
-        });
-        ImageView ic_github = findViewById(R.id.ic_github);
-        ic_github.setBackgroundResource(R.drawable.ic_github);
-        TextView githubTitle = findViewById(R.id.githubTitle);
-        githubTitle.setText(getResources().getString(R.string.info_github_title));
-        TextView githubDesc = findViewById(R.id.githubDesc);
-        githubDesc.setText(getResources().getString(R.string.info_github_desc));
+        // List of containers
+        app_info_container = findViewById(R.id.app_info_section);
+        credits_container = findViewById(R.id.credits_section);
+        contributors_container = findViewById(R.id.contributors_sections);
+        translators_container = findViewById(R.id.translators_section);
 
-        // Telegram
-        ViewGroup telegramChannel = findViewById(R.id.telegramChannel);
-        telegramChannel.setOnClickListener(v -> {
-            String url = "https://t.me/IconifyOfficial";
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
-            startActivity(i);
-        });
-        ImageView ic_telegram = findViewById(R.id.ic_telegram);
-        ic_telegram.setBackgroundResource(R.drawable.ic_telegram);
-        TextView telegramTitle = findViewById(R.id.telegramTitle);
-        telegramTitle.setText(getResources().getString(R.string.info_telegram_title));
-        TextView telegramDesc = findViewById(R.id.telegramDesc);
-        telegramDesc.setText(getResources().getString(R.string.info_telegram_desc));
+        ArrayList<Object[]> app_info = new ArrayList<>();
+        ArrayList<Object[]> credits = new ArrayList<>();
+        ArrayList<Object[]> contributors = new ArrayList<>();
+        ArrayList<Object[]> translators = new ArrayList<>();
 
-        // Credits
+        // App info section
+        app_info.add(new Object[]{getResources().getString(R.string.info_version_title), BuildConfig.VERSION_NAME, "", R.drawable.ic_info});
+        app_info.add(new Object[]{getResources().getString(R.string.info_github_title), getResources().getString(R.string.info_github_desc), "https://github.com/Mahmud0808/Iconify", R.drawable.ic_github});
+        app_info.add(new Object[]{getResources().getString(R.string.info_telegram_title), getResources().getString(R.string.info_telegram_desc), "https://t.me/IconifyOfficial", R.drawable.ic_telegram});
 
-        // Icons8
-        ViewGroup creditIcons8 = findViewById(R.id.creditIcons8);
-        creditIcons8.setOnClickListener(v -> {
-            String url = "https://icons8.com/";
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
-            startActivity(i);
-        });
-        ImageView ic_link_icons8 = findViewById(R.id.ic_link_icons8);
-        ic_link_icons8.setBackgroundResource(R.drawable.ic_link);
-        TextView credits = findViewById(R.id.credits);
-        credits.setText("Icons8.com");
-        TextView creditsTo = findViewById(R.id.creditsTo);
-        creditsTo.setText(getResources().getString(R.string.info_icons8_desc));
+        // Credits section
+        credits.add(new Object[]{"Icons8.com", getResources().getString(R.string.info_icons8_desc), "https://icons8.com/", R.drawable.ic_link});
+        credits.add(new Object[]{"Jai", getResources().getString(R.string.info_shell_desc), "https://t.me/Jai_08", R.drawable.ic_user});
+        credits.add(new Object[]{"1perialf", getResources().getString(R.string.info_rro_desc), "https://t.me/Rodolphe06", R.drawable.ic_user});
+        credits.add(new Object[]{"Ritesh", getResources().getString(R.string.info_rro_desc), "https://t.me/ModestCat03", R.drawable.ic_user});
+        credits.add(new Object[]{"Sanely Insane", getResources().getString(R.string.info_tester_desc), "https://t.me/sanely_insane", R.drawable.ic_user});
+        credits.add(new Object[]{"Jaguar", getResources().getString(R.string.info_tester_desc), "https://t.me/Jaguar0066", R.drawable.ic_user});
 
-        // Jai
-        ViewGroup jai = findViewById(R.id.jai);
-        jai.setOnClickListener(v -> {
-            String url = "https://t.me/Jai_08";
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
-            startActivity(i);
-        });
-        ImageView img_jai = findViewById(R.id.img_jai);
-        img_jai.setBackgroundResource(R.drawable.ic_user);
-        TextView jaiName = findViewById(R.id.jaiName);
-        jaiName.setText("Jai");
-        TextView jaiDesc = findViewById(R.id.jaiDesc);
-        jaiDesc.setText(getResources().getString(R.string.info_shell_desc));
+        // Contributors section
+        contributors.add(new Object[]{"Azure-Helper", getResources().getString(R.string.info_contributor_desc), "https://github.com/Azure-Helper", R.drawable.ic_user});
+        contributors.add(new Object[]{"HiFIi", getResources().getString(R.string.info_contributor_desc), "https://github.com/HiFIi", R.drawable.ic_user});
+        contributors.add(new Object[]{"IzzySoft", getResources().getString(R.string.info_contributor_desc), "https://github.com/IzzySoft", R.drawable.ic_user});
+        contributors.add(new Object[]{"Blays", getResources().getString(R.string.info_contributor_desc), "https://github.com/B1ays", R.drawable.ic_user});
+        contributors.add(new Object[]{"Libra420T", getResources().getString(R.string.info_contributor_desc_2), "https://t.me/Libra420T", R.drawable.ic_user});
 
-        // 1perialf
-        ViewGroup iperialf = findViewById(R.id.iperialf);
-        iperialf.setOnClickListener(v -> {
-            String url = "https://t.me/Rodolphe06";
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
-            startActivity(i);
-        });
-        ImageView img_iperialf = findViewById(R.id.img_iperialf);
-        img_iperialf.setBackgroundResource(R.drawable.ic_user);
-        TextView iperialfName = findViewById(R.id.iperialfName);
-        iperialfName.setText("1perialf");
-        TextView iperialfDesc = findViewById(R.id.iperialfDesc);
-        iperialfDesc.setText(getResources().getString(R.string.info_rro_desc));
+        // Translators section
+        translators.add(new Object[]{"Faceless1999", getResources().getString(R.string.fa_translation), "https://github.com/Faceless1999", R.drawable.ic_user});
+        translators.add(new Object[]{"Blays", getResources().getString(R.string.ru_translation), "https://github.com/B1ays", R.drawable.ic_user});
+        translators.add(new Object[]{"Serhat Demir", getResources().getString(R.string.tr_translation), "https://github.com/serhat-demir", R.drawable.ic_user});
 
-        // Ritesh
-        ViewGroup ritesh = findViewById(R.id.ritesh);
-        ritesh.setOnClickListener(v -> {
-            String url = "https://t.me/ModestCat03";
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
-            startActivity(i);
-        });
-        ImageView img_ritesh = findViewById(R.id.img_ritesh);
-        img_ritesh.setBackgroundResource(R.drawable.ic_user);
-        TextView riteshName = findViewById(R.id.riteshName);
-        riteshName.setText("Ritesh");
-        TextView riteshDesc = findViewById(R.id.riteshDesc);
-        riteshDesc.setText(getResources().getString(R.string.info_rro_desc));
+        addItem(app_info, app_info_container);
+        addItem(credits, credits_container);
+        addItem(contributors, contributors_container);
+        addItem(translators, translators_container);
 
-        // Insanely Insane
-        ViewGroup sanely_insane = findViewById(R.id.sanely_insane);
-        sanely_insane.setOnClickListener(v -> {
-            String url = "https://t.me/sanely_insane";
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
-            startActivity(i);
-        });
-        ImageView img_sanely_insane = findViewById(R.id.img_sanely_insane);
-        img_sanely_insane.setBackgroundResource(R.drawable.ic_user);
-        TextView sanelyInsaneName = findViewById(R.id.sanelyInsaneName);
-        sanelyInsaneName.setText("Sanely Insane");
-        TextView sanelyInsaneDesc = findViewById(R.id.sanelyInsaneDesc);
-        sanelyInsaneDesc.setText(getResources().getString(R.string.info_tester_desc));
+        fixViews();
+    }
 
-        // Jaguar
-        ViewGroup jaguar = findViewById(R.id.jaguar);
-        jaguar.setOnClickListener(v -> {
-            String url = "https://t.me/Jaguar0066";
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
-            startActivity(i);
-        });
-        ImageView img_jaguar = findViewById(R.id.img_jaguar);
-        img_jaguar.setBackgroundResource(R.drawable.ic_user);
-        TextView jaguarName = findViewById(R.id.jaguarName);
-        jaguarName.setText("Jaguar");
-        TextView jaguarDesc = findViewById(R.id.jaguarDesc);
-        jaguarDesc.setText(getResources().getString(R.string.info_tester_desc));
+    // Fix background drawable and remove extra divider
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private void fixViews() {
+        ViewGroup[] viewGroups = {app_info_container, credits_container, contributors_container, translators_container};
 
-        // Contributors
+        for (ViewGroup viewGroup : viewGroups) {
+            if (viewGroup.getChildCount() == 0)
+                continue;
 
-        // Azure-Helper
-        ViewGroup azure_helper = findViewById(R.id.azure_helper);
-        azure_helper.setOnClickListener(v -> {
-            String url = "https://github.com/Azure-Helper";
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
-            startActivity(i);
-        });
-        ImageView img_azure_helper = findViewById(R.id.img_azure_helper);
-        img_azure_helper.setBackgroundResource(R.drawable.ic_user);
-        TextView azure_helperName = findViewById(R.id.azure_helperName);
-        azure_helperName.setText("Azure-Helper");
-        TextView azure_helperDesc = findViewById(R.id.azure_helperDesc);
-        azure_helperDesc.setText(getResources().getString(R.string.info_contributor_desc));
+            if (viewGroup.getChildCount() == 1) {
+                ((LinearLayout) viewGroup.getChildAt(0)).getChildAt(0).setBackground(getResources().getDrawable(R.drawable.container));
+                ((LinearLayout) viewGroup.getChildAt(0)).removeViewAt(1);
+            } else {
+                ((LinearLayout) viewGroup.getChildAt(0)).getChildAt(0).setBackground(getResources().getDrawable(R.drawable.container_top));
+                ((LinearLayout) viewGroup.getChildAt(viewGroup.getChildCount() - 1)).removeViewAt(1);
+                ((LinearLayout) viewGroup.getChildAt(viewGroup.getChildCount() - 1)).getChildAt(0).setBackground(getResources().getDrawable(R.drawable.container_bottom));
+            }
+        }
+    }
+
+    // Function to add new item in list
+    private void addItem(ArrayList<Object[]> pack, ViewGroup container) {
+        for (int i = 0; i < pack.size(); i++) {
+            View list = LayoutInflater.from(this).inflate(R.layout.view_list_info, container, false);
+
+            TextView title = list.findViewById(R.id.title);
+            title.setText((String) pack.get(i)[0]);
+
+            TextView desc = list.findViewById(R.id.desc);
+            desc.setText((String) pack.get(i)[1]);
+
+            ImageView ic = list.findViewById(R.id.icon);
+            ic.setImageResource((int) pack.get(i)[3]);
+
+            int finalI = i;
+            if (container != app_info_container || app_info_container.getChildCount() != 0) {
+                list.setOnClickListener(v -> {
+                    String url = (String) pack.get(finalI)[2];
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(url));
+                    startActivity(intent);
+                });
+            } else {
+                list.setOnClickListener(v -> {
+                    ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText(getResources().getString(R.string.iconify_clipboard_label_version), getResources().getString(R.string.app_name) + "\n" + getResources().getString(R.string.iconify_clipboard_label_version_name) + ' ' + BuildConfig.VERSION_NAME + "\n" + getResources().getString(R.string.iconify_clipboard_label_version_code) + ' ' + BuildConfig.VERSION_CODE);
+                    clipboard.setPrimaryClip(clip);
+                    Toast toast = Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_copied), Toast.LENGTH_SHORT);
+                    toast.show();
+                });
+            }
+
+            container.addView(list);
+        }
+    }
+
+    private void onSecretViewClicked(View v) {
+        long timeMillis = (new Date()).getTime();
+
+        if (nextIndex == (NUM_CLICKS_REQUIRED - 1) || oldestIndex > 0) {
+            int diff = (int) (timeMillis - clickTimestamps[oldestIndex]);
+            if (diff < SECONDS_FOR_CLICKS * 1000) {
+                if (!Prefs.getBoolean(EASTER_EGG)) {
+                    Prefs.putBoolean(EASTER_EGG, true);
+                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_easter_egg), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_easter_egg_activated), Toast.LENGTH_SHORT).show();
+                }
+            }
+            oldestIndex++;
+        }
+
+        clickTimestamps[nextIndex] = timeMillis;
+        nextIndex++;
+
+        if (nextIndex == NUM_CLICKS_REQUIRED)
+            nextIndex = 0;
+
+        if (oldestIndex == NUM_CLICKS_REQUIRED)
+            oldestIndex = 0;
     }
 
     @Override

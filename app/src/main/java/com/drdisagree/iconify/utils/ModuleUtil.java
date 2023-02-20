@@ -1,5 +1,11 @@
 package com.drdisagree.iconify.utils;
 
+import static com.drdisagree.iconify.common.References.COLOR_ACCENT_PRIMARY;
+import static com.drdisagree.iconify.common.References.COLOR_ACCENT_SECONDARY;
+import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_PRIMARY;
+import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECONDARY;
+import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_PIXEL_DARK_BG;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -19,14 +25,17 @@ public class ModuleUtil {
 
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
 
-    public static boolean handleModule() throws IOException {
+    public static void handleModule() throws IOException {
         if (moduleExists()) {
+            // Backup necessary files
+            HelperUtil.backupFiles();
+
             Shell.cmd("rm -rf " + References.MODULE_DIR).exec();
         }
-        return installModule();
+        installModule();
     }
 
-    static boolean installModule() throws IOException {
+    static void installModule() throws IOException {
         Log.e("ModuleCheck", "Magisk module does not exist, creating!");
         // Clean temporary directory
         Shell.cmd("mkdir -p " + References.MODULE_DIR).exec();
@@ -45,29 +54,29 @@ public class ModuleUtil {
         boolean secondaryColorEnabled = false;
         StringBuilder fabricated_cmd = new StringBuilder();
         for (Map.Entry<String, ?> item : map.entrySet()) {
-            if (item.getValue() instanceof Boolean && ((Boolean) item.getValue()) && item.getKey().contains("fabricated")) {
+            if (item.getValue() instanceof Boolean && ((Boolean) item.getValue()) && item.getKey().contains("fabricated") && !item.getKey().contains("quickQsOffsetHeight")) {
                 fabricated_cmd.append(FabricatedOverlayUtil.buildCommand(
                         Prefs.getString("FOCMDtarget" + item.getKey().replace("fabricated", "")),
                         Prefs.getString("FOCMDname" + item.getKey().replace("fabricated", "")),
                         Prefs.getString("FOCMDtype" + item.getKey().replace("fabricated", "")),
                         Prefs.getString("FOCMDresourceName" + item.getKey().replace("fabricated", "")),
                         Prefs.getString("FOCMDval" + item.getKey().replace("fabricated", ""))));
-                if (item.getKey().contains("colorAccentPrimary"))
+                if (item.getKey().contains(COLOR_ACCENT_PRIMARY))
                     primaryColorEnabled = true;
-                else if (item.getKey().contains("colorAccentSecondary"))
+                else if (item.getKey().contains(COLOR_ACCENT_SECONDARY))
                     secondaryColorEnabled = true;
             }
         }
 
-        if (!primaryColorEnabled && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMAC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMGC.overlay")) {
-            fabricated_cmd.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimary android:color/holo_blue_light 0x1c 0xFF50A6D7\n");
+        if (!primaryColorEnabled && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMAC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMGC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay")) {
+            fabricated_cmd.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimary android:color/holo_blue_light 0x1c " + ICONIFY_COLOR_ACCENT_PRIMARY + "\n");
             fabricated_cmd.append("cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentPrimary\n");
-            fabricated_cmd.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimaryDark android:color/holo_blue_dark 0x1c 0xFF122530\n");
-            fabricated_cmd.append("cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentPrimaryDark\n");
+            fabricated_cmd.append("cmd overlay fabricate --target android --name IconifyComponentcolorPixelBackgroundDark android:color/holo_blue_dark 0x1c " + ICONIFY_COLOR_PIXEL_DARK_BG + "\n");
+            fabricated_cmd.append("cmd overlay enable --user current com.android.shell:IconifyComponentcolorPixelBackgroundDark\n");
         }
 
-        if (!secondaryColorEnabled && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMAC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMGC.overlay")) {
-            fabricated_cmd.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary android:color/holo_green_light 0x1c 0xFF387BFF\n");
+        if (!secondaryColorEnabled && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMAC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMGC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay")) {
+            fabricated_cmd.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary android:color/holo_green_light 0x1c " + ICONIFY_COLOR_ACCENT_SECONDARY + "\n");
             fabricated_cmd.append("cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentSecondary\n");
         }
 
@@ -76,12 +85,11 @@ public class ModuleUtil {
                 "do\n" +
                 " sleep 1\n" +
                 "done\n" +
-                "sleep 5\n\n" +
+                "sleep 10\n\n" +
                 "qspb=$(cmd overlay list |  grep -E '^.x..IconifyComponentQSPB.overlay' | sed -E 's/^.x..//')\n" +
-                "if [ -z \"$qspb\" ]\n" +
+                "dm=$(cmd overlay list |  grep -E '^.x..IconifyComponentDM.overlay' | sed -E 's/^.x..//')\n" +
+                "if ([ ! -z \"$qspb\" ] && [ -z \"$dm\" ])\n" +
                 "then\n" +
-                " :\n" +
-                "else\n" +
                 " cmd overlay disable --user current IconifyComponentQSPB.overlay\n" +
                 " cmd overlay enable --user current IconifyComponentQSPB.overlay\n" +
                 " cmd overlay set-priority IconifyComponentQSPB.overlay highest\n" +
@@ -92,27 +100,20 @@ public class ModuleUtil {
 
         Shell.cmd("printf '" + service_sh + "' > " + References.MODULE_DIR + "/service.sh").exec();
         Shell.cmd("touch " + References.MODULE_DIR + "/common/system.prop").exec();
+        Shell.cmd("touch " + References.MODULE_DIR + "/auto_mount").exec();
         Shell.cmd("mkdir -p " + References.MODULE_DIR + "/tools").exec();
         Shell.cmd("mkdir -p " + References.MODULE_DIR + "/system").exec();
         Shell.cmd("mkdir -p " + References.MODULE_DIR + "/system/product").exec();
         Shell.cmd("mkdir -p " + References.MODULE_DIR + "/system/product/overlay").exec();
-        Log.d("ModuleCheck", "Magisk module successfully created!");
-
-        extractTools();
-        extractPregeneratedOverlays();
-        return CompilerUtil.buildOverlays();
+        Log.d("ModuleUtil", "Magisk module successfully created!");
     }
 
     public static boolean moduleExists() {
-        List<String> lines = Shell.cmd("test -d " + References.MODULE_DIR + " && echo '1'").exec().getOut();
-        for (String line : lines) {
-            if (line.contains("1"))
-                return true;
-        }
-        return false;
+        return RootUtil.folderExists(References.MODULE_DIR);
     }
 
-    static void extractTools() {
+    public static void extractTools() {
+        Log.d("ModuleUtil", "Extracting tools...");
         String[] supported_abis = Build.SUPPORTED_ABIS;
         boolean isArm64 = false;
         for (String abi : supported_abis) {
@@ -140,14 +141,16 @@ public class ModuleUtil {
         }
     }
 
-    static void extractPregeneratedOverlays() {
+    public static void extractPremadeOverlays() {
+        Log.d("ModuleUtil", "Extracting pre-made overlays...");
         try {
-            FileUtil.copyAssets("PregeneratedOverlays");
+            FileUtil.copyAssets("PremadeOverlays");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            Shell.cmd("cp -a " + References.DATA_DIR + "/PregeneratedOverlays/. " + References.OVERLAY_DIR).exec();
-            FileUtil.cleanDir("PregeneratedOverlays");
+            Shell.cmd("rm " + References.DATA_DIR + "/PremadeOverlays/cheatsheet").exec();
+            Shell.cmd("cp -a " + References.DATA_DIR + "/PremadeOverlays/. " + References.OVERLAY_DIR).exec();
+            FileUtil.cleanDir("PremadeOverlays");
             RootUtil.setPermissionsRecursively(644, References.OVERLAY_DIR + '/');
         }
     }

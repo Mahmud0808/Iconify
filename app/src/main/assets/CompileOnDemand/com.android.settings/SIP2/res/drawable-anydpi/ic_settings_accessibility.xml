@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <item
+        android:drawable="@drawable/icon_bg"
+        android:gravity="center" />
+    <item>
+        <vector
+            android:width="24dp"
+            android:height="24dp"
+            android:tint="@color/icon_tint"
+            android:tintMode="multiply"
+            android:viewportWidth="24"
+            android:viewportHeight="24">
+            <group
+                android:pivotX="12.0"
+                android:pivotY="12.0"
+                android:scaleX="@dimen/icon_scale"
+                android:scaleY="@dimen/icon_scale">
+                <group
+                    android:pivotX="17.750"
+                    android:pivotY="6.250"
+                    android:rotation="-0.000"
+                    android:scaleY="1.000">
+
+                    <path
+                        android:fillType="nonZero"
+                        android:pathData="M16.50,2.00L19.00,2.00A3.00 3.00 0 0 1 22.00,5.00L22.00,7.50A3.00 3.00 0 0 1 19.00,10.50L16.50,10.50A3.00 3.00 0 0 1 13.50,7.50L13.50,5.00A3.00 3.00 0 0 1 16.50,2.00zM2.00,6.25L2.00,6.25A4.25 4.25 0 0 0 6.25,10.50L6.25,10.50A4.25 4.25 0 0 0 10.50,6.25L10.50,6.25A4.25 4.25 0 0 0 6.25,2.00L6.25,2.00A4.25 4.25 0 0 0 2.00,6.25zM2.00,16.50L2.00,19.00A3.00 3.00 0 0 0 5.00,22.00L7.50,22.00A3.00 3.00 0 0 0 10.50,19.00L10.50,16.50A3.00 3.00 0 0 0 7.50,13.50L5.00,13.50A3.00 3.00 0 0 0 2.00,16.50zM13.50,17.75L13.50,17.75A4.25 4.25 0 0 0 17.75,22.00L17.75,22.00A4.25 4.25 0 0 0 22.00,17.75L22.00,17.75A4.25 4.25 0 0 0 17.75,13.50L17.75,13.50A4.25 4.25 0 0 0 13.50,17.75z"
+                        android:strokeLineCap="square"
+                        android:strokeLineJoin="miter">
+                        <aapt:attr name="android:strokeColor">
+                            <gradient
+                                android:endX="22.000"
+                                android:endY="22.000"
+                                android:startX="2.000"
+                                android:startY="2.000"
+                                android:type="linear">
+                                <item
+                                    android:color="#00000000"
+                                    android:offset="0.000" />
+                                <item
+                                    android:color="#00000000"
+                                    android:offset="1.000" />
+                            </gradient>
+                        </aapt:attr>
+                        <aapt:attr name="android:fillColor">
+                            <gradient
+                                android:endX="12.000"
+                                android:endY="24.000"
+                                android:startX="12.000"
+                                android:startY="-0.000"
+                                android:type="linear">
+                                <item
+                                    android:color="@color/icon_tint"
+                                    android:offset="0.000" />
+                                <item
+                                    android:alpha="0.4"
+                                    android:color="@color/icon_tint"
+                                    android:offset="1.000" />
+                            </gradient>
+                        </aapt:attr>
+
+                    </path>
+                </group>
+            </group>
+        </vector>
+    </item>
+</layer-list>

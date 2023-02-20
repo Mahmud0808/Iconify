@@ -13,8 +13,8 @@ public class BrightnessManager {
         disable_others(n);
         enable_pack(n);
 
-        if (Prefs.getString("cornerRadius").equals("null"))
-            OverlayUtil.enableOverlay("IconifyComponentCR16.overlay");
+        if (!Prefs.getBoolean("IconifyComponentCR.overlay"))
+            OverlayUtil.enableOverlay("IconifyComponentCR.overlay");
     }
 
     protected static void enable_pack(int n) {

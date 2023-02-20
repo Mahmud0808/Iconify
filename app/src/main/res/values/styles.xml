@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ColorPicker" parent="Theme.Material3.Light.Dialog">
+    <style name="ColorPicker" parent="Theme.MaterialComponents.Light.Dialog">
         <item name="android:colorAccent">@color/colorAccent</item>
         <item name="android:windowTitleStyle">@style/LightPickerDialogTitleStyle</item>
         <item name="android:dialogCornerRadius">24dp</item>
@@ -35,19 +35,67 @@
         <item name="android:thumbTint">@color/colorAccent</item>
     </style>
 
-    <style name="MenuLightTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="MenuLightTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:background">@color/colorContainer</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
         <item name="android:colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
+    <style name="spinnerItemStyle" parent="android:Widget.Material.TextView.SpinnerItem">
         <item name="android:textColor">@color/textColorPrimary</item>
     </style>
 
-    <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
+    <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Material.Widget.TextView.SpinnerItem">
         <item name="android:textColor">@color/textColorPrimary</item>
-        <item name="android:background">@color/colorContainer</item>
+    </style>
+
+    <style name="dividerAccent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2dp</item>
+        <item name="android:background">@drawable/divider_accent</item>
+        <item name="android:layout_marginTop">@dimen/container_paddingSide</item>
+        <item name="android:layout_marginBottom">@dimen/container_paddingSide</item>
+    </style>
+
+    <style name="dividerTransparent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2dp</item>
+        <item name="android:background">@color/transparent</item>
+    </style>
+
+    <style name="customSwitch">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">start|center</item>
+        <item name="android:thumb">@drawable/switch_thumb</item>
+        <item name="android:track">@drawable/switch_track</item>
+    </style>
+
+    <style name="customSeekBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/container_padding</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:hapticFeedbackEnabled">true</item>
+        <item name="android:progressDrawable">@drawable/seekbar</item>
+        <item name="android:splitTrack">false</item>
+        <item name="android:theme">@style/SeekBar.Iconify</item>
+        <item name="android:thumb">@drawable/seek_thumb</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+    </style>
+
+    <style name="customRadioButtonColored">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">@dimen/container_paddingSide</item>
+        <item name="android:paddingEnd">@dimen/container_paddingSide</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/radio_sb_button_bg</item>
+        <item name="android:textColor">@drawable/radio_sb_text_color</item>
+        <item name="android:textSize">@dimen/cont_desc_size</item>
     </style>
 </resources>

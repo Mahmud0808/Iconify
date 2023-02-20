@@ -34,11 +34,27 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/derived_app_name"
+        android:localeConfig="@xml/locales_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Iconify"
         tools:replace="android:allowBackup"
         tools:targetApi="tiramisu">
+        <activity
+            android:name=".ui.activity.QsTileSize"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.NotificationsPixel"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.IconShape"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.SettingsIcons"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.Statusbar"
+            android:exported="false" />
         <activity
             android:name=".ui.activity.XposedOthers"
             android:exported="false" />
@@ -46,22 +62,22 @@
             android:name=".ui.activity.ColoredBattery"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.VerticalTiles"
+            android:name=".ui.activity.XposedQuickSettings"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.BackgroundChip"
+            android:name=".ui.activity.XposedBackgroundChip"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.HeaderClock"
+            android:name=".ui.activity.XposedHeaderClock"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.HeaderImage"
+            android:name=".ui.activity.XposedHeaderImage"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.TransparencyBlur"
+            android:name=".ui.activity.XposedTransparencyBlur"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.Lockscreen"
+            android:name=".ui.activity.XposedLockscreenClock"
             android:exported="false" />
         <activity
             android:name=".ui.activity.Miscellaneous"
@@ -79,7 +95,7 @@
             android:name=".ui.activity.Experimental"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.ColorTable"
+            android:name=".ui.activity.MonetEngine"
             android:exported="false" />
         <activity
             android:name=".ui.activity.NavigationBar"
@@ -104,7 +120,7 @@
             android:name=".ui.activity.QsRowColumn"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.ColorPicker"
+            android:name=".ui.activity.BasicColors"
             android:exported="false" />
         <activity
             android:name=".ui.activity.ColorEngine"
@@ -164,7 +180,36 @@
         <service
             android:name=".services.BackgroundService"
             android:enabled="true"
-            android:exported="true" /> <!-- xposed meta data -->
+            android:exported="true"
+            tools:ignore="ExportedService" />
+        <service
+            android:name=".services.TileMonetEngine"
+            android:exported="true"
+            android:icon="@drawable/ic_app_logo"
+            android:label="Monet Engine"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.service.quicksettings.TOGGLEABLE_TILE"
+                android:value="true" />
+        </service>
+        <service
+            android:name=".services.TilePitchBlack"
+            android:exported="true"
+            android:icon="@drawable/ic_app_logo"
+            android:label="Pitch Black"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.service.quicksettings.TOGGLEABLE_TILE"
+                android:value="true" />
+        </service> <!-- xposed meta data -->
         <meta-data
             android:name="xposedmodule"
             android:value="true" />
@@ -176,10 +221,9 @@
             android:value="82" />
         <meta-data
             android:name="xposedscope"
-            android:resource="@array/module_scope" />
-
+            android:resource="@array/module_scope" /> <!-- Remote Preferences Provider -->
         <provider
-            android:name=".utils.RemotePrefProvider"
+            android:name=".services.RemotePrefProvider"
             android:authorities="${applicationId}"
             android:directBootAware="true"
             android:exported="true"

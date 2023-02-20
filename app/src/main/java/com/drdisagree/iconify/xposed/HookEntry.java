@@ -26,15 +26,14 @@ import android.app.Instrumentation;
 import android.content.Context;
 
 import com.drdisagree.iconify.config.XPrefs;
-import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.utils.XSystemUtil;
 import com.drdisagree.iconify.xposed.mods.BackgroundChip;
 import com.drdisagree.iconify.xposed.mods.HeaderClock;
 import com.drdisagree.iconify.xposed.mods.HeaderImage;
 import com.drdisagree.iconify.xposed.mods.LockscreenClock;
 import com.drdisagree.iconify.xposed.mods.Miscellaneous;
-import com.drdisagree.iconify.xposed.mods.QSPanel;
 import com.drdisagree.iconify.xposed.mods.QSTransparency;
-import com.drdisagree.iconify.xposed.mods.VerticalQSTile;
+import com.drdisagree.iconify.xposed.mods.QuickSettings;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -52,14 +51,13 @@ public class HookEntry implements IXposedHookLoadPackage {
     public Context mContext = null;
 
     public HookEntry() {
-        modPacks.add(QSPanel.class);
+        modPacks.add(Miscellaneous.class);
         modPacks.add(QSTransparency.class);
-        modPacks.add(BackgroundChip.class);
-        modPacks.add(VerticalQSTile.class);
+        modPacks.add(QuickSettings.class);
         modPacks.add(HeaderImage.class);
         modPacks.add(HeaderClock.class);
         modPacks.add(LockscreenClock.class);
-        modPacks.add(Miscellaneous.class);
+        modPacks.add(BackgroundChip.class);
     }
 
     @SuppressLint("ApplySharedPref")
@@ -99,7 +97,7 @@ public class HookEntry implements IXposedHookLoadPackage {
                         return;
                     }
 
-                    new SystemUtil(mContext);
+                    new XSystemUtil(mContext);
                     XPrefs.loadEverything(mContext.getPackageName());
                 }
 

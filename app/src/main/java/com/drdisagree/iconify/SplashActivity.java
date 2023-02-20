@@ -1,5 +1,7 @@
 package com.drdisagree.iconify;
 
+import static com.drdisagree.iconify.common.References.VER_CODE;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,8 +21,6 @@ import com.topjohnwu.superuser.Shell;
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
 
-    private static SplashActivity mContext;
-
     static {
         Shell.enableVerboseLogging = BuildConfig.DEBUG;
         if (Shell.getCachedShell() == null)
@@ -32,11 +32,9 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         public void run() {
             Shell.getShell(shell -> {
-                mContext = SplashActivity.this;
-
                 Intent intent;
 
-                if (RootUtil.isDeviceRooted() && RootUtil.isMagiskInstalled() && ModuleUtil.moduleExists() && OverlayUtil.overlayExists() && (BuildConfig.VERSION_CODE == Prefs.getInt("versionCode"))) {
+                if (RootUtil.isDeviceRooted() && RootUtil.isMagiskInstalled() && ModuleUtil.moduleExists() && OverlayUtil.overlayExists() && (BuildConfig.VERSION_CODE == Prefs.getInt(VER_CODE))) {
                     keepShowing = false;
                     intent = new Intent(SplashActivity.this, HomePage.class);
                 } else {
@@ -49,10 +47,6 @@ public class SplashActivity extends AppCompatActivity {
             });
         }
     };
-
-    public static SplashActivity getContext() {
-        return mContext;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/icon_bg"
+        android:gravity="center" />
+    <item>
+        <vector
+            android:width="24dp"
+            android:height="24dp"
+            android:tint="@color/icon_tint"
+            android:tintMode="multiply"
+            android:viewportWidth="24"
+            android:viewportHeight="24">
+            <group
+                android:pivotX="12.0"
+                android:pivotY="12.0"
+                android:scaleX="@dimen/icon_scale"
+                android:scaleY="@dimen/icon_scale">
+                <path
+                    android:fillAlpha="0.4"
+                    android:fillColor="@color/icon_tint"
+                    android:pathData="M20.763 9.894C19.756 9.316 8.189 2.676 7.711 2.389C7.299 2.136 6.831 2 6.364 2C5.038 2 4 3.075 4 4.448v7.518v7.67C4 20.962 5.005 22 6.287 22c0.445 0 0.891 -0.13 1.291 -0.375c0.221 -0.132 3.391 -1.953 6.187 -3.559c4.636 -2.663 6.841 -3.93 7.031 -4.047c0.766 -0.472 1.217 -1.255 1.204 -2.095C21.987 11.091 21.525 10.332 20.763 9.894z" />
+                <path
+                    android:fillColor="@color/icon_tint"
+                    android:pathData="M5.92 21.963l7.222 -8.426l2.807 3.274c0.659 -0.379 1.245 -0.716 1.765 -1.014L14.46 12l3.289 -3.837c-0.551 -0.316 -1.147 -0.659 -1.765 -1.014l-2.841 3.314L5.926 2.044C5.224 2.176 4.648 2.62 4.313 3.236L11.825 12l-7.533 8.788C4.623 21.408 5.209 21.848 5.92 21.963z" />
+            </group>
+        </vector>
+    </item>
+</layer-list>

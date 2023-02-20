@@ -1,53 +1,16 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
-import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SIDEMARGIN;
-import static com.drdisagree.iconify.common.References.HEADER_CLOCK_STYLE;
-import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
-import static com.drdisagree.iconify.common.References.HEADER_CLOCK_TEXT_WHITE;
-import static com.drdisagree.iconify.common.References.HEADER_CLOCK_TOPMARGIN;
-import static com.drdisagree.iconify.common.References.HEADER_IMAGE_ALPHA;
-import static com.drdisagree.iconify.common.References.HEADER_IMAGE_HEIGHT;
-import static com.drdisagree.iconify.common.References.HEADER_IMAGE_SWITCH;
-import static com.drdisagree.iconify.common.References.HIDE_STATUS_ICONS_SWITCH;
-import static com.drdisagree.iconify.common.References.PANEL_TOPMARGIN_SWITCH;
-import static com.drdisagree.iconify.common.References.QS_TOPMARGIN;
-
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.provider.OpenableColumns;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.common.References;
-import com.drdisagree.iconify.config.RemotePrefs;
-import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 

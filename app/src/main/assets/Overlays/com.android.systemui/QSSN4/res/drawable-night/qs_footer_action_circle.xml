@@ -11,13 +11,13 @@
         <item>
             <shape android:shape="rectangle">
                 <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
-                <solid android:color="@*android:color/system_neutral2_800" />
+                <solid android:color="#1AFFFFFF" />
             </shape>
         </item>
         <item
             android:bottom="4.0dp"
-            android:start="4.0dp"
             android:end="4.0dp"
+            android:start="4.0dp"
             android:top="4.0dp">
             <shape android:shape="rectangle">
                 <solid android:color="?android:colorBackgroundFloating" />

@@ -3,6 +3,15 @@
     <item android:gravity="fill_horizontal|center">
         <shape>
             <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+            <solid android:color="@*android:color/system_neutral2_800" />
+            <size
+                android:width="48.0dip"
+                android:height="48.0dip" />
+        </shape>
+    </item>
+    <item android:gravity="fill_horizontal|center">
+        <shape>
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
             <solid android:color="#1AFFFFFF" />
             <size
                 android:width="48.0dip"
@@ -10,9 +19,9 @@
         </shape>
     </item>
     <item
+        android:end="4.5dp"
         android:gravity="fill_horizontal|center"
-        android:start="4.5dp"
-        android:end="4.5dp">
+        android:start="4.5dp">
         <shape>
             <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
             <solid android:color="@*android:color/system_neutral2_800" />

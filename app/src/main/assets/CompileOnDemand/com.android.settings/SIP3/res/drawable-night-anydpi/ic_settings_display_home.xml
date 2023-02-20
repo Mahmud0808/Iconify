@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/icon_bg"
+        android:gravity="center" />
+    <item>
+        <vector
+            android:width="24.0dp"
+            android:height="24.0dp"
+            android:tint="@color/icon_tint"
+            android:tintMode="multiply"
+            android:viewportWidth="24.0"
+            android:viewportHeight="24.0">
+            <group
+                android:pivotX="12.0"
+                android:pivotY="12.0"
+                android:scaleX="@dimen/icon_scale"
+                android:scaleY="@dimen/icon_scale">
+                <path
+                    android:fillColor="#00000000"
+                    android:fillType="nonZero"
+                    android:pathData="M3.50,7.54L3.50,12.74A3.31 3.31 0 0 0 6.81,16.04L17.19,16.04A3.31 3.31 0 0 0 20.50,12.74L20.50,7.54A3.31 3.31 0 0 0 17.19,4.24L6.81,4.24A3.31 3.31 0 0 0 3.50,7.54zM3.50,19.76L20.50,19.76"
+                    android:strokeWidth="2.22"
+                    android:strokeColor="@color/icon_tint"
+                    android:strokeLineCap="round"
+                    android:strokeLineJoin="round" />
+            </group>
+        </vector>
+    </item>
+</layer-list>

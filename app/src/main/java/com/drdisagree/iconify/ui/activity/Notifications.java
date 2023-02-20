@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -20,7 +21,8 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.NotificationManager;
-import com.drdisagree.iconify.ui.fragment.LoadingDialog;
+import com.drdisagree.iconify.ui.view.LoadingDialog;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
@@ -31,13 +33,20 @@ public class Notifications extends AppCompatActivity {
     ArrayList<String> NOTIFICATION_KEY = new ArrayList<>();
 
     LoadingDialog loadingDialog;
-    private ViewGroup container;
+    private ViewGroup container, container_activity;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!SystemUtil.isDarkMode()) {
+            getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.offStateColor4));
+            getWindow().setStatusBarColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.offStateColor4));
+            getWindow().setNavigationBarColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.offStateColor4));
+        }
         setContentView(R.layout.activity_notifications);
+        if (!SystemUtil.isDarkMode())
+            ((CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar)).setBackgroundColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.offStateColor4));
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
@@ -49,6 +58,26 @@ public class Notifications extends AppCompatActivity {
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
+
+        // Activities list
+        container_activity = findViewById(R.id.notification_list_activity);
+        ArrayList<Object[]> notification_list_activity = new ArrayList<>();
+
+        // Activities add items in list
+        notification_list_activity.add(new Object[]{NotificationsPixel.class, getResources().getString(R.string.activity_title_pixel_variant), getResources().getString(R.string.activity_desc_pixel_variant), R.drawable.ic_pixel_device});
+
+        addActivityItem(notification_list_activity);
+        fixViewGroup(container_activity);
+
+        // Enable onClick event
+        for (int i = 0; i < notification_list_activity.size(); i++) {
+            LinearLayout child = container_activity.getChildAt(i).findViewById(R.id.list_item);
+            int finalI = i;
+            child.setOnClickListener(v -> {
+                Intent intent = new Intent(Notifications.this, (Class<?>) notification_list_activity.get(finalI)[0]);
+                startActivity(intent);
+            });
+        }
 
         // Notifications list items
         container = findViewById(R.id.notification_list);
@@ -72,12 +101,14 @@ public class Notifications extends AppCompatActivity {
         notif_list.add(new Object[]{"Faded", R.drawable.notif_faded});
         notif_list.add(new Object[]{"Dumbbell", R.drawable.notif_dumbbell});
         notif_list.add(new Object[]{"Semi Transparent", R.drawable.notif_semi_transparent});
+        notif_list.add(new Object[]{"Pitch Black", R.drawable.notif_pitch_black});
+        notif_list.add(new Object[]{"Duoline", R.drawable.notif_duoline});
 
         addItem(notif_list);
 
         // Generate keys for preference
         for (int i = 0; i < container.getChildCount(); i++) {
-            NOTIFICATION_KEY.add("IconifyComponentNF" + (i + 1) + ".overlay");
+            NOTIFICATION_KEY.add("IconifyComponentNFN" + (i + 1) + ".overlay");
         }
 
         // Enable onClick event
@@ -108,7 +139,7 @@ public class Notifications extends AppCompatActivity {
         }
     }
 
-    // Function to check for bg drawable changes
+    // Function to check for applied options
     @SuppressLint("SetTextI18n")
     private void refreshBackground() {
         for (int i = 0; i < container.getChildCount(); i++) {
@@ -119,7 +150,7 @@ public class Notifications extends AppCompatActivity {
                 title.setTextColor(getResources().getColor(R.color.colorSuccess));
             } else {
                 title.setText(title.getText().toString().replace(' ' + getResources().getString(R.string.opt_applied), ""));
-                title.setTextColor(getResources().getColor(R.color.textColorPrimary));
+                title.setTextColor(getResources().getColor(R.color.textColorPrimaryNoTint));
             }
         }
     }
@@ -199,7 +230,7 @@ public class Notifications extends AppCompatActivity {
                         // Change name back to original
                         TextView title = layout.findViewById(R.id.notif_title);
                         title.setText(title.getText().toString().replace(' ' + getResources().getString(R.string.opt_applied), ""));
-                        title.setTextColor(getResources().getColor(R.color.textColorPrimary));
+                        title.setTextColor(getResources().getColor(R.color.textColorPrimaryNoTint));
 
                         // Change button visibility
                         disable.setVisibility(View.GONE);
@@ -217,7 +248,7 @@ public class Notifications extends AppCompatActivity {
 
     private void addItem(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(this).inflate(R.layout.list_option_notification, container, false);
+            View list = LayoutInflater.from(this).inflate(R.layout.view_list_option_notification, container, false);
             list.setBackground(ContextCompat.getDrawable(Notifications.this, (int) pack.get(i)[1]));
 
             TextView name = list.findViewById(R.id.notif_title);
@@ -228,6 +259,28 @@ public class Notifications extends AppCompatActivity {
 
             container.addView(list);
         }
+    }
+
+    // Function to add new item in list
+    private void addActivityItem(ArrayList<Object[]> pack) {
+        for (int i = 0; i < pack.size(); i++) {
+            View list = LayoutInflater.from(this).inflate(R.layout.view_list_menu, container_activity, false);
+
+            TextView title = list.findViewById(R.id.list_title);
+            title.setText((String) pack.get(i)[1]);
+
+            TextView desc = list.findViewById(R.id.list_desc);
+            desc.setText((String) pack.get(i)[2]);
+
+            ImageView preview = list.findViewById(R.id.list_preview);
+            preview.setImageResource((int) pack.get(i)[3]);
+
+            container_activity.addView(list);
+        }
+    }
+
+    private void fixViewGroup(ViewGroup viewGroup) {
+        ((ViewGroup.MarginLayoutParams) viewGroup.getChildAt(viewGroup.getChildCount() - 1).getLayoutParams()).setMargins(0, 0, 0, 0);
     }
 
     @Override

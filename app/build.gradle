@@ -9,9 +9,9 @@ android {
         applicationId "com.drdisagree.iconify"
         minSdk 31
         targetSdk 33
-        versionCode 7
-        versionName "6.0.0"
-        setProperty("archivesBaseName", "Iconify-v" + versionName)
+        versionCode 8
+        versionName "6.1.0"
+        setProperty("archivesBaseName", "Iconify v" + versionName)
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -79,7 +79,7 @@ dependencies {
     implementation 'androidx.core:core-splashscreen:1.0.0'
 
     // Material Components
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'com.google.android.material:material:1.8.0'
 
     // APK Signer
     implementation 'org.bouncycastle:bc-fips:1.0.2.3'
@@ -91,10 +91,13 @@ dependencies {
     // Remote Preference
     implementation 'com.crossbowffs.remotepreferences:remotepreferences:0.8'
 
-    implementation 'androidx.appcompat:appcompat:1.6.0'
+    // Flexbox
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.work:work-runtime:2.7.1'
-    implementation 'androidx.work:work-runtime-ktx:2.7.1'
+    implementation 'androidx.work:work-runtime:2.8.0'
+    implementation 'androidx.work:work-runtime-ktx:2.8.0'
     implementation 'org.slf4j:slf4j-api:2.0.6'
 
     // Test Implementation

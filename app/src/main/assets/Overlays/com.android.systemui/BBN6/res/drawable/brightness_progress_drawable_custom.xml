@@ -12,13 +12,13 @@
                         android:topLeftRadius="@*android:dimen/harmful_app_name_padding_top"
                         android:topRightRadius="14.0dp" />
                     <size android:height="48.0dip" />
-                    <solid android:color="@*android:color/system_neutral2_50" />
+                    <solid android:color="#1A000000" />
                 </shape>
             </item>
             <item
+                android:end="4.5dip"
                 android:gravity="fill_horizontal|center"
-                android:start="4.5dip"
-                android:end="4.5dip">
+                android:start="4.5dip">
                 <shape android:shape="rectangle">
                     <corners
                         android:bottomLeftRadius="10.0dp"
@@ -26,7 +26,7 @@
                         android:topLeftRadius="@*android:dimen/harmful_app_name_padding_left"
                         android:topRightRadius="10.0dp" />
                     <size android:height="40.0dip" />
-                    <solid android:color="@*android:color/system_neutral2_100" />
+                    <solid android:color="?android:colorBackgroundFloating" />
                 </shape>
             </item>
         </layer-list>

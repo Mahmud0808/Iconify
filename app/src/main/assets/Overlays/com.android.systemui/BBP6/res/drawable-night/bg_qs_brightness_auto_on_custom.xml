@@ -17,9 +17,9 @@
         </shape>
     </item>
     <item
+        android:end="4.5dip"
         android:gravity="fill_horizontal|center"
-        android:start="4.5dip"
-        android:end="4.5dip">
+        android:start="4.5dip">
         <shape>
             <corners
                 android:bottomLeftRadius="10.0dp"

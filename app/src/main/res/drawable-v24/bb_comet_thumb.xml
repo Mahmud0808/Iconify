@@ -4,12 +4,12 @@
         <shape android:shape="rectangle">
             <corners android:radius="24.0dip" />
             <size android:height="4.0dip" />
-            <solid android:color="@color/colorBackground" />
+            <solid android:color="@color/offStateColor" />
         </shape>
     </item>
     <item
-        android:gravity="fill_horizontal|center"
-        android:end="80.0dip">
+        android:end="80.0dip"
+        android:gravity="fill_horizontal|center">
         <shape android:shape="rectangle">
             <corners android:radius="24.0dip" />
             <size android:height="24.0dip" />
@@ -17,24 +17,24 @@
         </shape>
     </item>
     <item
-        android:gravity="fill_horizontal|center"
-        android:end="80.0dip">
+        android:end="80.0dip"
+        android:gravity="fill_horizontal|center">
         <shape android:shape="rectangle">
             <corners android:radius="24.0dip" />
             <size android:height="4.0dip" />
             <gradient
                 android:angle="0.0"
-                android:endColor="@color/colorAccentVariant"
-                android:startColor="@color/colorAccent" />
+                android:endColor="@color/holo_green_light"
+                android:startColor="@color/holo_blue_light" />
         </shape>
     </item>
     <item
-        android:gravity="end|center"
-        android:end="80.0dip">
+        android:end="80.0dip"
+        android:gravity="end|center">
         <vector
             android:width="24.0dp"
             android:height="16.0dp"
-            android:tint="@color/colorAccentVariant"
+            android:tint="@color/holo_green_light"
             android:viewportWidth="42.0"
             android:viewportHeight="24.0">
             <path
@@ -46,14 +46,14 @@
         </vector>
     </item>
     <item
-        android:gravity="end|center"
-        android:end="85.0dip">
+        android:end="85.0dip"
+        android:gravity="end|center">
         <shape android:shape="rectangle">
             <corners android:radius="24.0dip" />
             <size
                 android:width="6.0dip"
                 android:height="6.0dip" />
-            <solid android:color="@color/colorBackground" />
+            <solid android:color="@color/offStateColor" />
         </shape>
     </item>
 </layer-list>

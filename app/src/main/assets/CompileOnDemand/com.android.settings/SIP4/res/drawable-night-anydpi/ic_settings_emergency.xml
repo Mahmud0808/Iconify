@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/icon_bg"
+        android:gravity="center" />
+    <item>
+        <vector
+            android:width="24.0dp"
+            android:height="24.0dp"
+            android:tint="@color/icon_tint"
+            android:tintMode="multiply"
+            android:viewportWidth="24.0"
+            android:viewportHeight="24.0">
+            <group
+                android:pivotX="12.0"
+                android:pivotY="12.0"
+                android:scaleX="@dimen/icon_scale"
+                android:scaleY="@dimen/icon_scale">
+                <path
+                    android:fillAlpha="0.4"
+                    android:fillColor="@color/icon_tint"
+                    android:fillType="nonZero"
+                    android:pathData="M12.00,3.00C16.97,3.00,21.00,7.03,21.00,12.00C21.00,16.97,16.97,21.00,12.00,21.00C7.03,21.00,3.00,16.97,3.00,12.00C3.00,7.03,7.03,3.00,12.00,3.00zM12.00,8.00C9.79,8.00,8.00,9.79,8.00,12.00C8.00,14.21,9.79,16.00,12.00,16.00C14.21,16.00,16.00,14.21,16.00,12.00C16.00,9.79,14.21,8.00,12.00,8.00z"
+                    android:strokeLineCap="square"
+                    android:strokeLineJoin="miter" />
+                <path
+                    android:fillColor="@color/icon_tint"
+                    android:fillType="nonZero"
+                    android:pathData="M11.50,2.00L12.50,2.00A1.50 1.50 0 0 1 14.00,3.50L14.00,7.50A1.50 1.50 0 0 1 12.50,9.00L11.50,9.00A1.50 1.50 0 0 1 10.00,7.50L10.00,3.50A1.50 1.50 0 0 1 11.50,2.00zM16.50,14.00L20.50,14.00A1.50 1.50 0 0 0 22.00,12.50L22.00,11.50A1.50 1.50 0 0 0 20.50,10.00L16.50,10.00A1.50 1.50 0 0 0 15.00,11.50L15.00,12.50A1.50 1.50 0 0 0 16.50,14.00zM3.50,14.00L7.50,14.00A1.50 1.50 0 0 0 9.00,12.50L9.00,11.50A1.50 1.50 0 0 0 7.50,10.00L3.50,10.00A1.50 1.50 0 0 0 2.00,11.50L2.00,12.50A1.50 1.50 0 0 0 3.50,14.00zM10.00,16.50L10.00,20.50A1.50 1.50 0 0 0 11.50,22.00L12.50,22.00A1.50 1.50 0 0 0 14.00,20.50L14.00,16.50A1.50 1.50 0 0 0 12.50,15.00L11.50,15.00A1.50 1.50 0 0 0 10.00,16.50z"
+                    android:strokeLineCap="square"
+                    android:strokeLineJoin="miter" />
+            </group>
+        </vector>
+    </item>
+</layer-list>

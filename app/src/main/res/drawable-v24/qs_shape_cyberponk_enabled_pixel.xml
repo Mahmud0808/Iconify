@@ -6,7 +6,7 @@
         <shape
             android:shape="rectangle"
             android:tintMode="multiply">
-            <solid android:color="@color/colorAccent" />
+            <solid android:color="@color/holo_blue_light" />
             <corners android:radius="24dp" />
         </shape>
     </item>
@@ -16,7 +16,7 @@
         <shape
             android:shape="rectangle"
             android:tintMode="multiply">
-            <solid android:color="@color/colorAccent" />
+            <solid android:color="@color/holo_blue_light" />
             <corners android:radius="24dp" />
         </shape>
     </item>
@@ -26,7 +26,7 @@
         <shape
             android:shape="rectangle"
             android:tintMode="multiply">
-            <solid android:color="@color/colorAccentVariant" />
+            <solid android:color="@color/holo_green_light" />
             <corners android:radius="20dp" />
             <size
                 android:width="22dp"
@@ -39,7 +39,7 @@
         <shape
             android:shape="rectangle"
             android:tintMode="multiply">
-            <solid android:color="@color/colorAccentVariant" />
+            <solid android:color="@color/holo_green_light" />
             <corners android:radius="20dp" />
             <size
                 android:width="22dp"

@@ -2,6 +2,7 @@ package com.drdisagree.iconify.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -87,112 +88,132 @@ public class NavigationBar extends AppCompatActivity {
 
         // Fullscreen
         nb_fullscreen.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                nb_pill_menu.setVisibility(View.GONE);
-                nb_kb_buttons_menu.setVisibility(View.VISIBLE);
-                disableOthers("IconifyComponentNBFullScreen.overlay");
-                OverlayUtil.enableOverlay("IconifyComponentNBFullScreen.overlay");
-            } else {
-                nb_pill_menu.setVisibility(View.VISIBLE);
-                nb_kb_buttons_menu.setVisibility(View.GONE);
-                OverlayUtil.disableOverlay("IconifyComponentNBFullScreen.overlay");
-            }
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    nb_pill_menu.setVisibility(View.GONE);
+                    nb_kb_buttons_menu.setVisibility(View.VISIBLE);
+                    disableOthers("IconifyComponentNBFullScreen.overlay");
+                    OverlayUtil.enableOverlay("IconifyComponentNBFullScreen.overlay");
+                } else {
+                    nb_pill_menu.setVisibility(View.VISIBLE);
+                    nb_kb_buttons_menu.setVisibility(View.GONE);
+                    OverlayUtil.disableOverlay("IconifyComponentNBFullScreen.overlay");
+                }
+            }, 200);
         });
 
         // Immersive
         nb_immersive.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                nb_kb_buttons_menu.setVisibility(View.VISIBLE);
-                disableOthers("IconifyComponentNBImmersive.overlay");
-                OverlayUtil.enableOverlay("IconifyComponentNBImmersive.overlay");
-            } else {
-                nb_kb_buttons_menu.setVisibility(View.GONE);
-                OverlayUtil.disableOverlay("IconifyComponentNBImmersive.overlay");
-            }
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    nb_kb_buttons_menu.setVisibility(View.VISIBLE);
+                    disableOthers("IconifyComponentNBImmersive.overlay");
+                    OverlayUtil.enableOverlay("IconifyComponentNBImmersive.overlay");
+                } else {
+                    nb_kb_buttons_menu.setVisibility(View.GONE);
+                    OverlayUtil.disableOverlay("IconifyComponentNBImmersive.overlay");
+                }
+            }, 200);
         });
 
         // Immersive v2
         nb_immersivev2.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                nb_kb_buttons_menu.setVisibility(View.VISIBLE);
-                disableOthers("IconifyComponentNBImmersiveSmall.overlay");
-                OverlayUtil.enableOverlay("IconifyComponentNBImmersiveSmall.overlay");
-            } else {
-                nb_kb_buttons_menu.setVisibility(View.GONE);
-                OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmall.overlay");
-            }
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    nb_kb_buttons_menu.setVisibility(View.VISIBLE);
+                    disableOthers("IconifyComponentNBImmersiveSmall.overlay");
+                    OverlayUtil.enableOverlay("IconifyComponentNBImmersiveSmall.overlay");
+                } else {
+                    nb_kb_buttons_menu.setVisibility(View.GONE);
+                    OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmall.overlay");
+                }
+            }, 200);
         });
 
         // Immersive v3
         nb_immersivev3.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                nb_kb_buttons_menu.setVisibility(View.VISIBLE);
-                disableOthers("IconifyComponentNBImmersiveSmaller.overlay");
-                OverlayUtil.enableOverlay("IconifyComponentNBImmersiveSmaller.overlay");
-            } else {
-                nb_kb_buttons_menu.setVisibility(View.GONE);
-                OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmaller.overlay");
-            }
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    nb_kb_buttons_menu.setVisibility(View.VISIBLE);
+                    disableOthers("IconifyComponentNBImmersiveSmaller.overlay");
+                    OverlayUtil.enableOverlay("IconifyComponentNBImmersiveSmaller.overlay");
+                } else {
+                    nb_kb_buttons_menu.setVisibility(View.GONE);
+                    OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmaller.overlay");
+                }
+            }, 200);
         });
 
         // Lower Sensitivity
         nb_hide_pill.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                OverlayUtil.enableOverlay("IconifyComponentNBLowSens.overlay");
-            } else {
-                OverlayUtil.disableOverlay("IconifyComponentNBLowSens.overlay");
-            }
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    OverlayUtil.enableOverlay("IconifyComponentNBLowSens.overlay");
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentNBLowSens.overlay");
+                }
+            }, 200);
         });
 
         // Hide Pill
         nb_hide_pill.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                nb_monet_pill_menu.setVisibility(View.GONE);
-                OverlayUtil.enableOverlay("IconifyComponentNBHidePill.overlay");
-                SystemUtil.restartSystemUI();
-            } else {
-                nb_monet_pill_menu.setVisibility(View.VISIBLE);
-                OverlayUtil.disableOverlay("IconifyComponentNBHidePill.overlay");
-                SystemUtil.restartSystemUI();
-            }
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    nb_monet_pill_menu.setVisibility(View.GONE);
+                    OverlayUtil.enableOverlay("IconifyComponentNBHidePill.overlay");
+                    SystemUtil.restartSystemUI();
+                } else {
+                    nb_monet_pill_menu.setVisibility(View.VISIBLE);
+                    OverlayUtil.disableOverlay("IconifyComponentNBHidePill.overlay");
+                    SystemUtil.restartSystemUI();
+                }
+            }, 200);
         });
 
         // Monet Pill
         nb_monet_pill.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                OverlayUtil.enableOverlay("IconifyComponentNBMonetPill.overlay");
-                SystemUtil.restartSystemUI();
-            } else {
-                OverlayUtil.disableOverlay("IconifyComponentNBMonetPill.overlay");
-                SystemUtil.restartSystemUI();
-            }
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    OverlayUtil.enableOverlay("IconifyComponentNBMonetPill.overlay");
+                    SystemUtil.restartSystemUI();
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentNBMonetPill.overlay");
+                    SystemUtil.restartSystemUI();
+                }
+            }, 200);
         });
 
         // Hide Keyboard Buttons
         nb_hide_kb_buttons.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                OverlayUtil.enableOverlay("IconifyComponentNBHideKBButton.overlay");
-            } else {
-                OverlayUtil.disableOverlay("IconifyComponentNBHideKBButton.overlay");
-            }
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    OverlayUtil.enableOverlay("IconifyComponentNBHideKBButton.overlay");
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentNBHideKBButton.overlay");
+                }
+            }, 200);
         });
 
         // Disable left gesture
         nb_disable_left_gesture.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                Shell.cmd("settings put secure back_gesture_inset_scale_left -1 &>/dev/null").exec();
-            } else {
-                Shell.cmd("settings delete secure back_gesture_inset_scale_left &>/dev/null").exec();
-            }
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    Shell.cmd("settings put secure back_gesture_inset_scale_left -1 &>/dev/null").exec();
+                } else {
+                    Shell.cmd("settings delete secure back_gesture_inset_scale_left &>/dev/null").exec();
+                }
+            }, 200);
         });
 
         // Disable right gesture
         nb_disable_right_gesture.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                Shell.cmd("settings put secure back_gesture_inset_scale_right -1 &>/dev/null").exec();
-            } else {
-                Shell.cmd("settings delete secure back_gesture_inset_scale_right &>/dev/null").exec();
-            }
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    Shell.cmd("settings put secure back_gesture_inset_scale_right -1 &>/dev/null").exec();
+                } else {
+                    Shell.cmd("settings delete secure back_gesture_inset_scale_right &>/dev/null").exec();
+                }
+            }, 200);
         });
     }
 

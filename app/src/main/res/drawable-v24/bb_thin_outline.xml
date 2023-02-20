@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:gravity="fill_horizontal|center">
+        <shape android:shape="rectangle">
+            <corners android:radius="24.0dp" />
+            <size android:height="48.0dp" />
+            <solid android:color="@color/offStateColor2" />
+        </shape>
+    </item>
+    <item
+        android:end="2.0dp"
+        android:gravity="fill_horizontal|center"
+        android:start="2.0dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="22.0dp" />
+            <size android:height="44.0dp" />
+            <solid android:color="@color/colorContainer" />
+        </shape>
+    </item>
+    <item
+        android:end="2.0dp"
+        android:gravity="fill_horizontal|center"
+        android:start="2.0dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="22.0dp" />
+            <size android:height="44.0dp" />
+            <solid android:color="@color/colorContainerOverlay" />
+        </shape>
+    </item>
+    <item
+        android:end="80.0dp"
+        android:gravity="fill_horizontal|center">
+        <shape android:shape="rectangle">
+            <corners android:radius="24.0dp" />
+            <size android:height="48.0dp" />
+            <gradient
+                android:angle="0.0"
+                android:endColor="@color/holo_green_light"
+                android:startColor="@color/holo_blue_light" />
+        </shape>
+    </item>
+    <item
+        android:end="82.0dp"
+        android:gravity="fill_horizontal|center"
+        android:start="2.0dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="22.0dp" />
+            <size android:height="44.0dp" />
+            <solid android:color="@color/colorContainer" />
+        </shape>
+    </item>
+    <item
+        android:end="82.0dp"
+        android:gravity="fill_horizontal|center"
+        android:start="2.0dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="22.0dp" />
+            <size android:height="44.0dp" />
+            <solid android:color="@color/colorContainerOverlay" />
+        </shape>
+    </item>
+</layer-list>

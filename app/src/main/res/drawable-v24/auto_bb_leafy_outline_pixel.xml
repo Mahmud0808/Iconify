@@ -9,17 +9,17 @@
                 android:topRightRadius="14.0dp" />
             <gradient
                 android:angle="0.0"
-                android:endColor="@color/colorAccentVariant"
-                android:startColor="@color/colorAccent" />
+                android:endColor="@color/holo_green_light"
+                android:startColor="@color/holo_blue_light" />
             <size
                 android:width="48.0dp"
                 android:height="48.0dp" />
         </shape>
     </item>
     <item
+        android:end="4.0dp"
         android:gravity="fill_horizontal|center"
-        android:start="4.0dp"
-        android:end="4.0dp">
+        android:start="4.0dp">
         <shape>
             <corners
                 android:bottomLeftRadius="10.0dp"

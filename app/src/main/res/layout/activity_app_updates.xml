@@ -7,7 +7,7 @@
     android:fillViewport="true"
     tools:context=".ui.activity.AppUpdates">
 
-    <include layout="@layout/header" />
+    <include layout="@layout/view_header" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -48,8 +48,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:foregroundTint="@color/colorAccentDarker"
-                        android:indeterminateTint="@color/colorAccentDarker"
+                        android:foregroundTint="@color/colorAccent"
+                        android:indeterminateTint="@color/colorAccent"
                         android:progressDrawable="@drawable/circular_progress_bar" />
 
                     <TextView
@@ -157,31 +157,52 @@
                 android:layout_marginEnd="@dimen/container_marginSide"
                 android:layout_marginBottom="@dimen/container_margin"
                 android:background="@drawable/container"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:paddingStart="@dimen/container_paddingSide"
                 android:paddingTop="@dimen/container_padding"
                 android:paddingEnd="@dimen/container_paddingSide"
                 android:paddingBottom="@dimen/container_padding"
                 android:visibility="gone">
 
-                <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_marginEnd="@dimen/container_paddingSide"
-                    android:background="@drawable/ic_changelog"
-                    android:contentDescription="@string/icon"
-                    app:tint="@color/textColorPrimary" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_marginEnd="@dimen/container_paddingSide"
+                        android:background="@drawable/ic_changelog"
+                        android:contentDescription="@string/icon"
+                        android:gravity="start|center"
+                        app:tint="@color/textColorPrimary" />
+
+                    <TextView
+                        android:id="@+id/changelog_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-2dp"
+                        android:layout_marginBottom="-2dp"
+                        android:gravity="start|center"
+                        android:textColor="@color/textColorPrimary"
+                        android:textIsSelectable="true"
+                        android:textSize="@dimen/cont_desc_size"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/changelog_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="-2dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginBottom="-2dp"
                     android:textColor="@color/textColorSecondary"
                     android:textIsSelectable="true"
                     android:textSize="@dimen/cont_desc_size"
-                    android:textStyle="bold" />
+                    android:visibility="gone" />
 
             </LinearLayout>
 

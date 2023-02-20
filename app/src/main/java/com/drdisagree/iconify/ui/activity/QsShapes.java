@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,7 +22,7 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.QsShapeManager;
-import com.drdisagree.iconify.ui.fragment.LoadingDialog;
+import com.drdisagree.iconify.ui.view.LoadingDialog;
 import com.drdisagree.iconify.utils.DisplayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -35,7 +36,7 @@ public class QsShapes extends AppCompatActivity {
     LoadingDialog loadingDialog;
     ViewGroup.MarginLayoutParams marginParams;
     LinearLayout.LayoutParams layoutParams;
-    private ViewGroup container;
+    private ViewGroup container, container_activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,49 +55,53 @@ public class QsShapes extends AppCompatActivity {
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
 
-        // Qs row column item on click
-        LinearLayout qs_row_column = findViewById(R.id.qs_row_column);
-        qs_row_column.setOnClickListener(v -> {
-            Intent intent = new Intent(QsShapes.this, QsRowColumn.class);
-            startActivity(intent);
-        });
+        // Activities list
+        container_activity = findViewById(R.id.qs_shape_list_activity);
+        ArrayList<Object[]> qs_shape_list_activity = new ArrayList<>();
 
-        // Qs text color item on click
-        LinearLayout qs_text_color = findViewById(R.id.qs_text_color);
-        qs_text_color.setOnClickListener(v -> {
-            Intent intent = new Intent(QsShapes.this, QsIconLabel.class);
-            startActivity(intent);
-        });
+        // Activities add items in list
+        qs_shape_list_activity.add(new Object[]{QsRowColumn.class, getResources().getString(R.string.row_and_column_title), getResources().getString(R.string.row_and_column_desc), R.drawable.ic_qs_row_column});
+        qs_shape_list_activity.add(new Object[]{QsIconLabel.class, getResources().getString(R.string.icon_and_label_title), getResources().getString(R.string.icon_and_label_desc), R.drawable.ic_qs_icon_and_label});
+        qs_shape_list_activity.add(new Object[]{QsTileSize.class, getResources().getString(R.string.activity_title_qs_tile_size), getResources().getString(R.string.activity_desc_qs_tile_size), R.drawable.ic_qs_tile_size});
+        qs_shape_list_activity.add(new Object[]{QsShapesPixel.class, getResources().getString(R.string.activity_title_pixel_variant), getResources().getString(R.string.activity_desc_pixel_variant), R.drawable.ic_pixel_device});
 
-        // Pixel variant item on click
-        LinearLayout qs_shape_pixel_variant = findViewById(R.id.qs_shape_pixel_variant);
-        qs_shape_pixel_variant.setOnClickListener(v -> {
-            Intent intent = new Intent(QsShapes.this, QsShapesPixel.class);
-            startActivity(intent);
-        });
+        addActivityItem(qs_shape_list_activity);
+        fixViewGroup(container_activity);
+
+        // Enable onClick event
+        for (int i = 0; i < qs_shape_list_activity.size(); i++) {
+            LinearLayout child = container_activity.getChildAt(i).findViewById(R.id.list_item);
+            int finalI = i;
+            child.setOnClickListener(v -> {
+                Intent intent = new Intent(QsShapes.this, (Class<?>) qs_shape_list_activity.get(finalI)[0]);
+                startActivity(intent);
+            });
+        }
 
         // Qs Shapes list items
         container = findViewById(R.id.qs_shape_list);
         ArrayList<Object[]> qsshape_list = new ArrayList<>();
 
         // Qs Shape add items in list
-        qsshape_list.add(new Object[]{"Default", R.drawable.qs_shape_default_enabled, R.drawable.qs_shape_default_disabled});
-        qsshape_list.add(new Object[]{"Double Layer", R.drawable.qs_shape_doublelayer_enabled, R.drawable.qs_shape_doublelayer_disabled});
-        qsshape_list.add(new Object[]{"Shaded Layer", R.drawable.qs_shape_shadedlayer_enabled, R.drawable.qs_shape_shadedlayer_disabled});
-        qsshape_list.add(new Object[]{"Outline", R.drawable.qs_shape_outline_enabled, R.drawable.qs_shape_outline_disabled});
-        qsshape_list.add(new Object[]{"Leafy Outline", R.drawable.qs_shape_leafy_outline_enabled, R.drawable.qs_shape_leafy_outline_disabled});
-        qsshape_list.add(new Object[]{"Neumorph", R.drawable.qs_shape_neumorph_enabled, R.drawable.qs_shape_neumorph_disabled});
-        qsshape_list.add(new Object[]{"Surround", R.drawable.qs_shape_surround_enabled, R.drawable.qs_shape_surround_disabled});
-        qsshape_list.add(new Object[]{"Bookmark", R.drawable.qs_shape_bookmark_enabled, R.drawable.qs_shape_bookmark_disabled});
-        qsshape_list.add(new Object[]{"Neumorph Outline", R.drawable.qs_shape_neumorph_outline_enabled, R.drawable.qs_shape_neumorph_outline_disabled});
-        qsshape_list.add(new Object[]{"Reflected", R.drawable.qs_shape_reflected_enabled, R.drawable.qs_shape_reflected_disabled});
-        qsshape_list.add(new Object[]{"Reflected Fill", R.drawable.qs_shape_reflected_fill_enabled, R.drawable.qs_shape_reflected_fill_disabled});
-        qsshape_list.add(new Object[]{"Divided", R.drawable.qs_shape_divided_enabled, R.drawable.qs_shape_divided_disabled});
-        qsshape_list.add(new Object[]{"Lighty", R.drawable.qs_shape_lighty_enabled, R.drawable.qs_shape_lighty_disabled});
-        qsshape_list.add(new Object[]{"Bottom Outline", R.drawable.qs_shape_bottom_outline_enabled, R.drawable.qs_shape_bottom_outline_disabled});
-        qsshape_list.add(new Object[]{"Cyberponk", R.drawable.qs_shape_cyberponk_enabled, R.drawable.qs_shape_cyberponk_disabled});
-        qsshape_list.add(new Object[]{"Cyberponk v2", R.drawable.qs_shape_cyberponk_v2_enabled, R.drawable.qs_shape_cyberponk_v2_disabled});
-        qsshape_list.add(new Object[]{"Semi Transparent", R.drawable.qs_shape_semi_transparent_enabled, R.drawable.qs_shape_semi_transparent_disabled});
+        qsshape_list.add(new Object[]{"Default", R.drawable.qs_shape_default_enabled, R.drawable.qs_shape_default_disabled, false});
+        qsshape_list.add(new Object[]{"Double Layer", R.drawable.qs_shape_doublelayer_enabled, R.drawable.qs_shape_doublelayer_disabled, false});
+        qsshape_list.add(new Object[]{"Shaded Layer", R.drawable.qs_shape_shadedlayer_enabled, R.drawable.qs_shape_shadedlayer_disabled, false});
+        qsshape_list.add(new Object[]{"Outline", R.drawable.qs_shape_outline_enabled, R.drawable.qs_shape_outline_disabled, true});
+        qsshape_list.add(new Object[]{"Leafy Outline", R.drawable.qs_shape_leafy_outline_enabled, R.drawable.qs_shape_leafy_outline_disabled, true});
+        qsshape_list.add(new Object[]{"Neumorph", R.drawable.qs_shape_neumorph_enabled, R.drawable.qs_shape_neumorph_disabled, false});
+        qsshape_list.add(new Object[]{"Surround", R.drawable.qs_shape_surround_enabled, R.drawable.qs_shape_surround_disabled, false});
+        qsshape_list.add(new Object[]{"Bookmark", R.drawable.qs_shape_bookmark_enabled, R.drawable.qs_shape_bookmark_disabled, false});
+        qsshape_list.add(new Object[]{"Neumorph Outline", R.drawable.qs_shape_neumorph_outline_enabled, R.drawable.qs_shape_neumorph_outline_disabled, true});
+        qsshape_list.add(new Object[]{"Reflected", R.drawable.qs_shape_reflected_enabled, R.drawable.qs_shape_reflected_disabled, true});
+        qsshape_list.add(new Object[]{"Reflected Fill", R.drawable.qs_shape_reflected_fill_enabled, R.drawable.qs_shape_reflected_fill_disabled, false});
+        qsshape_list.add(new Object[]{"Divided", R.drawable.qs_shape_divided_enabled, R.drawable.qs_shape_divided_disabled, false});
+        qsshape_list.add(new Object[]{"Lighty", R.drawable.qs_shape_lighty_enabled, R.drawable.qs_shape_lighty_disabled, true});
+        qsshape_list.add(new Object[]{"Bottom Outline", R.drawable.qs_shape_bottom_outline_enabled, R.drawable.qs_shape_bottom_outline_disabled, false});
+        qsshape_list.add(new Object[]{"Cyberponk", R.drawable.qs_shape_cyberponk_enabled, R.drawable.qs_shape_cyberponk_disabled, false});
+        qsshape_list.add(new Object[]{"Cyberponk v2", R.drawable.qs_shape_cyberponk_v2_enabled, R.drawable.qs_shape_cyberponk_v2_disabled, true});
+        qsshape_list.add(new Object[]{"Semi Transparent", R.drawable.qs_shape_semi_transparent_enabled, R.drawable.qs_shape_semi_transparent_disabled, false});
+        qsshape_list.add(new Object[]{"Thin Outline", R.drawable.qs_shape_thin_outline_enabled, R.drawable.qs_shape_thin_outline_disabled, true});
+        qsshape_list.add(new Object[]{"Purfect", R.drawable.qs_shape_purfect_enabled, R.drawable.qs_shape_purfect_disabled, false});
 
         addItem(qsshape_list);
 
@@ -288,7 +293,7 @@ public class QsShapes extends AppCompatActivity {
 
     private void addItem(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(this).inflate(R.layout.list_option_qsshape, container, false);
+            View list = LayoutInflater.from(this).inflate(R.layout.view_list_option_qsshape, container, false);
 
             TextView name = list.findViewById(R.id.list_title_qsshape);
             name.setText((String) pack.get(i)[0]);
@@ -298,8 +303,38 @@ public class QsShapes extends AppCompatActivity {
             list.findViewById(R.id.qs_tile3).setBackground(ContextCompat.getDrawable(QsShapes.this, (int) pack.get(i)[2]));
             list.findViewById(R.id.qs_tile4).setBackground(ContextCompat.getDrawable(QsShapes.this, (int) pack.get(i)[1]));
 
+            if ((boolean) pack.get(i)[3]) {
+                ((TextView) list.findViewById(R.id.qs_text1)).setTextColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.textColorPrimary));
+                ((ImageView) list.findViewById(R.id.qs_icon1)).setColorFilter(ContextCompat.getColor(Iconify.getAppContext(), R.color.textColorPrimary), android.graphics.PorterDuff.Mode.SRC_IN);
+
+                ((TextView) list.findViewById(R.id.qs_text4)).setTextColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.textColorPrimary));
+                ((ImageView) list.findViewById(R.id.qs_icon4)).setColorFilter(ContextCompat.getColor(Iconify.getAppContext(), R.color.textColorPrimary), android.graphics.PorterDuff.Mode.SRC_IN);
+            }
+
             container.addView(list);
         }
+    }
+
+    // Function to add new item in list
+    private void addActivityItem(ArrayList<Object[]> pack) {
+        for (int i = 0; i < pack.size(); i++) {
+            View list = LayoutInflater.from(this).inflate(R.layout.view_list_menu, container_activity, false);
+
+            TextView title = list.findViewById(R.id.list_title);
+            title.setText((String) pack.get(i)[1]);
+
+            TextView desc = list.findViewById(R.id.list_desc);
+            desc.setText((String) pack.get(i)[2]);
+
+            ImageView preview = list.findViewById(R.id.list_preview);
+            preview.setImageResource((int) pack.get(i)[3]);
+
+            container_activity.addView(list);
+        }
+    }
+
+    private void fixViewGroup(ViewGroup viewGroup) {
+        ((ViewGroup.MarginLayoutParams) viewGroup.getChildAt(viewGroup.getChildCount() - 1).getLayoutParams()).setMargins(0, 0, 0, 0);
     }
 
     @Override

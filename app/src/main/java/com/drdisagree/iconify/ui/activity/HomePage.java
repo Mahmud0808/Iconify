@@ -1,6 +1,12 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.FIRST_INSTALL;
+import static com.drdisagree.iconify.common.References.LAST_UPDATE_CHECK_TIME;
 import static com.drdisagree.iconify.common.References.LATEST_VERSION;
+import static com.drdisagree.iconify.common.References.MONET_ENGINE_SWITCH;
+import static com.drdisagree.iconify.common.References.UPDATE_CHECK_TIME;
+import static com.drdisagree.iconify.common.References.UPDATE_DETECTED;
+import static com.drdisagree.iconify.common.References.VER_CODE;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -34,12 +40,11 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.services.BackgroundService;
-import com.drdisagree.iconify.ui.fragment.LoadingDialog;
+import com.drdisagree.iconify.ui.view.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.topjohnwu.superuser.Shell;
 
 import org.json.JSONObject;
 
@@ -61,11 +66,6 @@ public class HomePage extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     private HomePage.CheckForUpdate checkForUpdate = null;
 
-    // Save unique id of each boot
-    public static void getBootId() {
-        Prefs.putString("boot_id", Shell.cmd("cat /proc/sys/kernel/random/boot_id").exec().getOut().toString());
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,27 +76,27 @@ public class HomePage extends AppCompatActivity {
         container = findViewById(R.id.home_page_list);
 
         // New update available dialog
-        View list_view1 = LayoutInflater.from(this).inflate(R.layout.dialog_new_update, container, false);
+        View list_view1 = LayoutInflater.from(this).inflate(R.layout.view_new_update, container, false);
         check_update = list_view1.findViewById(R.id.check_update);
         container.addView(list_view1);
         check_update.setVisibility(View.GONE);
         update_desc = findViewById(R.id.update_desc);
 
-        long lastChecked = Prefs.getLong("LAST_UPDATE_CHECK_TIME", -1);
+        long lastChecked = Prefs.getLong(LAST_UPDATE_CHECK_TIME, -1);
 
-        if (Prefs.getLong("UPDATE_CHECK_TIME", 0) != -1 && (lastChecked == -1 || (System.currentTimeMillis() - lastChecked >= Prefs.getLong("UPDATE_CHECK_TIME", 0)))) {
-            Prefs.putLong("LAST_UPDATE_CHECK_TIME", System.currentTimeMillis());
+        if (Prefs.getLong(UPDATE_CHECK_TIME, 0) != -1 && (lastChecked == -1 || (System.currentTimeMillis() - lastChecked >= Prefs.getLong("UPDATE_CHECK_TIME", 0)))) {
+            Prefs.putLong(LAST_UPDATE_CHECK_TIME, System.currentTimeMillis());
             checkForUpdate = new HomePage.CheckForUpdate();
             checkForUpdate.execute();
         }
 
         // Reboot needed dialog
-        View list_view2 = LayoutInflater.from(this).inflate(R.layout.dialog_reboot, container, false);
+        View list_view2 = LayoutInflater.from(this).inflate(R.layout.view_reboot, container, false);
         LinearLayout reboot_reminder = list_view2.findViewById(R.id.reboot_reminder);
         container.addView(list_view2);
         reboot_reminder.setVisibility(View.GONE);
 
-        if (!Prefs.getBoolean("firstInstall") && Prefs.getBoolean("updateDetected")) {
+        if (!Prefs.getBoolean(FIRST_INSTALL) && Prefs.getBoolean(UPDATE_DETECTED)) {
             reboot_reminder.setVisibility(View.VISIBLE);
             Button reboot_now = findViewById(R.id.reboot_phone);
             reboot_now.setOnClickListener(v -> {
@@ -111,10 +111,10 @@ public class HomePage extends AppCompatActivity {
             });
         }
 
-        Prefs.putBoolean("firstInstall", false);
-        Prefs.putBoolean("updateDetected", false);
-        Prefs.putInt("versionCode", BuildConfig.VERSION_CODE);
-        getBootId();
+        Prefs.putBoolean(FIRST_INSTALL, false);
+        Prefs.putBoolean(UPDATE_DETECTED, false);
+        Prefs.putInt(VER_CODE, BuildConfig.VERSION_CODE);
+        SystemUtil.getBootId();
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
@@ -148,6 +148,8 @@ public class HomePage extends AppCompatActivity {
             List<String> FabricatedEnabledOverlays = FabricatedOverlayUtil.getEnabledOverlayList();
             for (String overlay : FabricatedEnabledOverlays)
                 Prefs.putBoolean("fabricated" + overlay, true);
+
+            Prefs.putBoolean(MONET_ENGINE_SWITCH, OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentME.overlay"));
         };
         Thread thread1 = new Thread(runnable1);
         thread1.start();
@@ -198,7 +200,7 @@ public class HomePage extends AppCompatActivity {
     // Function to add new item in list
     private void addItem(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(this).inflate(R.layout.list_view, container, false);
+            View list = LayoutInflater.from(this).inflate(R.layout.view_list_menu, container, false);
 
             TextView title = list.findViewById(R.id.list_title);
             title.setText((String) pack.get(i)[1]);
@@ -219,10 +221,10 @@ public class HomePage extends AppCompatActivity {
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_MUTABLE);
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "Updates")
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, getResources().getString(R.string.update_notification_channel_name))
                 .setSmallIcon(R.drawable.ic_launcher_fg)
-                .setContentTitle("Update Available")
-                .setContentText("A new version of Iconify is available.")
+                .setContentTitle(getResources().getString(R.string.new_update_title))
+                .setContentText(getResources().getString(R.string.new_update_desc))
                 .setContentIntent(pendingIntent)
                 .setOnlyAlertOnce(true)
                 .setAutoCancel(true);
@@ -233,8 +235,8 @@ public class HomePage extends AppCompatActivity {
     }
 
     public void createChannel(NotificationManager notificationManager) {
-        NotificationChannel channel = new NotificationChannel("Updates", "Updates", NotificationManager.IMPORTANCE_DEFAULT);
-        channel.setDescription("This channel shows notification about the latest updates.");
+        NotificationChannel channel = new NotificationChannel(getResources().getString(R.string.update_notification_channel_name), getResources().getString(R.string.update_notification_channel_name), NotificationManager.IMPORTANCE_DEFAULT);
+        channel.setDescription(getResources().getString(R.string.update_notification_channel_desc));
         notificationManager.createNotificationChannel(channel);
     }
 
@@ -275,7 +277,6 @@ public class HomePage extends AppCompatActivity {
                     return stringBuffer.toString();
                 }
             } catch (Exception e) {
-                e.printStackTrace();
                 return null;
             } finally {
                 if (urlConnection != null) {
@@ -284,8 +285,7 @@ public class HomePage extends AppCompatActivity {
                 if (bufferedReader != null) {
                     try {
                         bufferedReader.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } catch (Exception ignored) {
                     }
                 }
             }
@@ -300,11 +300,11 @@ public class HomePage extends AppCompatActivity {
                 try {
                     JSONObject latestVersion = new JSONObject(jsonStr);
 
-                    if (Integer.parseInt(latestVersion.getString("versionCode")) > BuildConfig.VERSION_CODE) {
+                    if (Integer.parseInt(latestVersion.getString(VER_CODE)) > BuildConfig.VERSION_CODE) {
                         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                         createChannel(notificationManager);
                         NotificationManager manager = (NotificationManager) Iconify.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
-                        NotificationChannel channel = manager.getNotificationChannel("Updates");
+                        NotificationChannel channel = manager.getNotificationChannel(getResources().getString(R.string.update_notification_channel_name));
                         if (ContextCompat.checkSelfPermission(HomePage.this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED && channel.getImportance() != NotificationManager.IMPORTANCE_NONE) {
                             showUpdateNotification();
                         } else {
@@ -316,8 +316,7 @@ public class HomePage extends AppCompatActivity {
                             check_update.setVisibility(View.VISIBLE);
                         }
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (Exception ignored) {
                 }
             }
         }

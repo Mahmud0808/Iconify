@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
         android:id="@null"
-        android:gravity="fill_horizontal|center"
         android:end="8.0dip"
+        android:gravity="fill_horizontal|center"
         android:top="8.0dip">
         <shape android:shape="rectangle">
             <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
@@ -15,7 +16,8 @@
         </shape>
     </item>
     <item
-        android:gravity="end|center"
+        android:bottom="24.0dip"
         android:drawable="@drawable/ic_iconify_bb_thumb"
-        android:bottom="24.0dip" />
+        android:gravity="end|center" />
+
 </layer-list>

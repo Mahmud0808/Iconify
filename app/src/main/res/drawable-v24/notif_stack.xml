@@ -2,13 +2,13 @@
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="@color/rippleAccent">
     <item
-        android:start="24dp"
-        android:end="24dp">
+        android:end="24dp"
+        android:start="24dp">
         <shape android:shape="rectangle">
             <gradient
                 android:angle="0.0"
-                android:endColor="@color/colorAccentVariant"
-                android:startColor="@color/colorAccent" />
+                android:endColor="@color/holo_green_light"
+                android:startColor="@color/holo_blue_light" />
             <corners
                 android:bottomLeftRadius="@dimen/cont_corner_radius"
                 android:bottomRightRadius="@dimen/cont_corner_radius"
@@ -17,8 +17,8 @@
         </shape>
     </item>
     <item
-        android:start="24dp"
-        android:end="24dp">
+        android:end="24dp"
+        android:start="24dp">
         <shape android:shape="rectangle">
             <solid android:color="@color/offStateColor3" />
             <corners
@@ -30,13 +30,13 @@
     </item>
     <item
         android:bottom="4dp"
-        android:start="12dp"
-        android:end="12dp">
+        android:end="12dp"
+        android:start="12dp">
         <shape android:shape="rectangle">
             <gradient
                 android:angle="0.0"
-                android:endColor="@color/colorAccentVariant"
-                android:startColor="@color/colorAccent" />
+                android:endColor="@color/holo_green_light"
+                android:startColor="@color/holo_blue_light" />
             <corners
                 android:bottomLeftRadius="@dimen/cont_corner_radius"
                 android:bottomRightRadius="@dimen/cont_corner_radius"
@@ -46,8 +46,8 @@
     </item>
     <item
         android:bottom="4dp"
-        android:start="12dp"
-        android:end="12dp">
+        android:end="12dp"
+        android:start="12dp">
         <shape android:shape="rectangle">
             <solid android:color="@color/offStateColor2" />
             <corners
@@ -59,13 +59,7 @@
     </item>
     <item android:bottom="8dp">
         <shape android:shape="rectangle">
-            <solid android:color="@color/colorContainer" />
-            <corners android:radius="@dimen/cont_corner_radius" />
-        </shape>
-    </item>
-    <item android:bottom="8dp">
-        <shape android:shape="rectangle">
-            <solid android:color="@color/colorContainerOverlay" />
+            <solid android:color="@color/offStateColor" />
             <corners android:radius="@dimen/cont_corner_radius" />
         </shape>
     </item>

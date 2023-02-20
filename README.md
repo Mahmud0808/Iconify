@@ -16,31 +16,29 @@ Iconify was mainly created as a substratum theme to change the system icons of a
 <a href="https://apt.izzysoft.de/fdroid/index/apk/com.drdisagree.iconify"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" width="30%" /></a>
 </p>
 
-<p align="center">
-<a href="https://www.buymeacoffee.com/DrDisagree"><img src="https://i.ibb.co/VCKD9MD/buymeacoffee.png" width="30%" /></a>
-</p>
-
 ## Features
 
 What you can change using Iconify:
 
 - Solid or Gradient Colors
 
-- System Icon Packs
+- System & Settings Icon Packs
 
-- Brightness Bar Style
+- Custom Brightness Bar Styles
 
-- QS Tile Shapes
+- Custom QS Tile Shapes
 
-- QS Panel Row & Column
+- Custom QS Rows & Columns
 
-- QS Panel Icon & Label
+- Custom Notification Styles
 
-- Notification Style
+- Media Player Styles (A12 / A12.1)
 
-- Media Player Style
+- Volume Panel Styles
 
-- Volume Panel Style
+- QS Transparency & Blur
+
+- Custom QS & Lockscreen Clocks
 
 - And many more...
 
@@ -56,7 +54,7 @@ What you can change using Iconify:
 
 - Android 12+ AOSP Based Rom
 
-- Magisk Latest Stable Version
+- Official Magisk Latest Stable Version
 
 - LSPosed (Optional)
 
@@ -153,7 +151,7 @@ What you can change using Iconify:
 
 - [ɦʏքɛʀ.sɦ](https://t.me/hyp3r_sh)
 
-- [AOSPMods](https://github.com/siavash79/AOSPMods/tree/canary/app/src/main/java/sh/siava/AOSPMods)
+- [AOSPMods](https://github.com/siavash79/AOSPMods)
 
 - [HideNavBar](https://github.com/Magisk-Modules-Repo/HideNavBar)
 

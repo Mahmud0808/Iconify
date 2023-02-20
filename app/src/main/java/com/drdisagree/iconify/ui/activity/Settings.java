@@ -1,5 +1,10 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.References.EASTER_EGG;
+import static com.drdisagree.iconify.common.References.FIRST_INSTALL;
+import static com.drdisagree.iconify.common.References.FORCE_APPLY_XPOSED_CHOICE;
+import static com.drdisagree.iconify.common.References.SHOW_XPOSED_WARN;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +16,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,17 +27,15 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.config.RemotePrefs;
-import com.drdisagree.iconify.ui.fragment.LoadingDialog;
+import com.drdisagree.iconify.config.RPrefs;
+import com.drdisagree.iconify.ui.view.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
 import java.util.Map;
@@ -58,11 +64,11 @@ public class Settings extends AppCompatActivity {
         }
 
         Prefs.clearAllPrefs();
-        Prefs.putString("boot_id", Shell.cmd("cat /proc/sys/kernel/random/boot_id").exec().getOut().toString());
-        Prefs.putInt("versionCode", BuildConfig.VERSION_CODE);
-        Prefs.putBoolean("firstInstall", false);
+        SystemUtil.getBootId();
+        SystemUtil.getVersionCode();
+        Prefs.putBoolean(FIRST_INSTALL, false);
 
-        RemotePrefs.clearAllPrefs();
+        RPrefs.clearAllPrefs();
 
         SystemUtil.restartSystemUI();
     }
@@ -83,6 +89,31 @@ public class Settings extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        // Show xposed warn
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_warn_message = findViewById(R.id.hide_warn_message);
+        hide_warn_message.setChecked(Prefs.getBoolean(SHOW_XPOSED_WARN, true));
+        hide_warn_message.setOnCheckedChangeListener((buttonView, isChecked) -> Prefs.putBoolean(SHOW_XPOSED_WARN, isChecked));
+
+        // Force apply method
+        if (Prefs.getInt(FORCE_APPLY_XPOSED_CHOICE, 0) == 0)
+            ((RadioButton) findViewById(R.id.apply_method_dark_mode)).setChecked(true);
+        else if (Prefs.getInt(FORCE_APPLY_XPOSED_CHOICE, 0) == 1)
+            ((RadioButton) findViewById(R.id.apply_method_restart_sysui)).setChecked(true);
+        else if (Prefs.getInt(FORCE_APPLY_XPOSED_CHOICE, 0) == -1)
+            ((RadioButton) findViewById(R.id.apply_method_do_nothing)).setChecked(true);
+
+        // Statusbar color source select
+        RadioGroup force_apply_method_selector = findViewById(R.id.force_apply_method_selector);
+
+        force_apply_method_selector.setOnCheckedChangeListener((group, checkedId) -> {
+            if (Objects.equals(checkedId, R.id.apply_method_dark_mode))
+                Prefs.putInt(FORCE_APPLY_XPOSED_CHOICE, 0);
+            else if (Objects.equals(checkedId, R.id.apply_method_restart_sysui))
+                Prefs.putInt(FORCE_APPLY_XPOSED_CHOICE, 1);
+            else if (Objects.equals(checkedId, R.id.apply_method_do_nothing))
+                Prefs.putInt(FORCE_APPLY_XPOSED_CHOICE, -1);
+        });
 
         // Disable Everything
         TextView list_title_disableEverything = findViewById(R.id.list_title_disableEverything);
@@ -153,6 +184,8 @@ public class Settings extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.settings_menu, menu);
 
+        menu.findItem(R.id.menu_experimental_features).setVisible(Prefs.getBoolean(EASTER_EGG));
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -198,8 +231,7 @@ public class Settings extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (data == null)
-            return;
+        if (data == null) return;
 
         if (resultCode == RESULT_OK) {
             SharedPreferences prefs = Iconify.getAppContext().getSharedPreferences(Iconify.getAppContext().getPackageName(), Context.MODE_PRIVATE);
@@ -208,19 +240,17 @@ public class Settings extends AppCompatActivity {
                     AlertDialog alertDialog = new AlertDialog.Builder(Settings.this).create();
                     alertDialog.setTitle(getResources().getString(R.string.confirmation));
                     alertDialog.setMessage(getResources().getString(R.string.you_will_loose_current_setup));
-                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.positive),
-                            (dialog, which) -> {
-                                dialog.dismiss();
-                                try {
-                                    Prefs.importPrefs(getContentResolver().openInputStream(data.getData()));
-                                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.imported_settings), Toast.LENGTH_LONG).show();
-                                } catch (Exception e) {
-                                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                                    e.printStackTrace();
-                                }
-                            });
-                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.negative),
-                            (dialog, which) -> dialog.dismiss());
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.positive), (dialog, which) -> {
+                        dialog.dismiss();
+                        try {
+                            Prefs.importPrefs(getContentResolver().openInputStream(data.getData()));
+                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.imported_settings), Toast.LENGTH_LONG).show();
+                        } catch (Exception e) {
+                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
+                    });
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.negative), (dialog, which) -> dialog.dismiss());
                     alertDialog.show();
                     break;
                 case REQUESTCODE_EXPORT:
