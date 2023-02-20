@@ -214,12 +214,14 @@ public class WelcomePage extends AppCompatActivity {
                     }, 10);
                 } else {
                     warning.setText(getResources().getString(R.string.reboot_needed));
+                    warn.setVisibility(View.VISIBLE);
                     install_module.setVisibility(View.GONE);
                     reboot_phone.setVisibility(View.VISIBLE);
                 }
             } else {
                 Shell.cmd("rm -rf " + References.MODULE_DIR).exec();
                 warning.setText(getResources().getString(R.string.installation_failed));
+                warn.setVisibility(View.VISIBLE);
                 install_module.setVisibility(View.VISIBLE);
                 reboot_phone.setVisibility(View.GONE);
             }
