@@ -24,7 +24,7 @@
             android:top="4.0dp">
             <shape>
                 <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
-                <solid android:color="@*android:color/system_neutral2_100" />
+                <solid android:color="?android:colorBackgroundFloating" />
             </shape>
         </item>
     </ripple>

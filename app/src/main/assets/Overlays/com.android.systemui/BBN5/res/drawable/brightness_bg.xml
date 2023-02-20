@@ -18,7 +18,7 @@
         android:start="4.5dip">
         <shape android:tintMode="multiply">
             <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
-            <solid android:color="@*android:color/system_neutral2_100" />
+            <solid android:color="?android:colorBackgroundFloating" />
             <size
                 android:width="40.0dip"
                 android:height="40.0dip" />

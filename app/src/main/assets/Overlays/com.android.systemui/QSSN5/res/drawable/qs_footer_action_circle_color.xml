@@ -36,7 +36,7 @@
                     android:bottomRightRadius="@*android:dimen/harmful_app_name_padding_left"
                     android:topLeftRadius="@*android:dimen/harmful_app_name_padding_left"
                     android:topRightRadius="10.0dp" />
-                <solid android:color="@*android:color/system_neutral2_100" />
+                <solid android:color="?android:colorBackgroundFloating" />
             </shape>
         </item>
     </ripple>

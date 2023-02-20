@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorAccent">@color/material_dynamic_primary70</color>
-    <color name="colorAccentVariant">@color/material_dynamic_tertiary90</color>
+    <color name="colorAccent">@android:color/system_accent1_300</color>
+    <color name="colorAccentVariant">@android:color/system_accent3_300</color>
     <color name="rippleAccent">#1AFFFFFF</color>
     <color name="holo_blue_light">@android:color/system_accent1_300</color>
     <color name="holo_green_light">@android:color/system_accent3_300</color>
-    <color name="colorBackground">@color/material_dynamic_neutral_variant10</color>
-    <color name="colorContainer">@color/material_dynamic_secondary20</color>
+    <color name="colorBackground">@android:color/system_neutral2_900</color>
+    <color name="colorContainer">@android:color/system_accent2_800</color>
     <color name="colorContainerOverlay">#4D000000</color>
-    <color name="textColorPrimary">@color/material_dynamic_neutral95</color>
+    <color name="textColorPrimary">@android:color/system_neutral1_50</color>
     <color name="textColorPrimaryNoTint">@color/white</color>
     <color name="textColorPrimaryNoTintInverse">@color/black</color>
     <color name="textColorPrimaryError">#fff2f2</color>
-    <color name="textColorPrimaryInverse">@color/material_dynamic_neutral10</color>
-    <color name="textColorSecondary">@color/material_dynamic_neutral_variant80</color>
+    <color name="textColorPrimaryInverse">@android:color/system_neutral1_900</color>
+    <color name="textColorSecondary">@android:color/system_neutral2_200</color>
     <color name="textColorSecondaryNoTint">#BFFFFFFF</color>
-    <color name="textColorSecondaryInverse">@color/material_dynamic_neutral_variant30</color>
+    <color name="textColorSecondaryInverse">@android:color/system_neutral2_700</color>
     <color name="textColorSecondaryError">#fedada</color>
-    <color name="textColorSecondaryLight">@color/material_dynamic_neutral90</color>
-    <color name="colorSuccess">@color/material_dynamic_primary80</color>
+    <color name="textColorSecondaryLight">@android:color/system_neutral1_100</color>
+    <color name="colorSuccess">@android:color/system_accent1_200</color>
     <color name="colorBackground2">#14FFFFFF</color>
     <color name="offStateColor">@android:color/system_neutral2_800</color>
     <color name="offStateColor2">#1AFFFFFF</color>
@@ -27,11 +27,11 @@
     <color name="neumorph_outline_start">#FF363636</color>
     <color name="neumorph_outline_end">#FF0F0F0F</color>
     <color name="switch_track_layer">#B3000000</color>
-    <color name="splash_logo">@color/material_dynamic_primary70</color>
+    <color name="splash_logo">@android:color/system_accent1_300</color>
     <color name="switch_track_active">@color/colorAccent</color>
-    <color name="switch_track_inactive">@color/material_dynamic_neutral_variant30</color>
-    <color name="switch_thumb_active">@color/material_dynamic_secondary20</color>
-    <color name="switch_thumb_inactive">@color/material_dynamic_neutral_variant60</color>
+    <color name="switch_track_inactive">@android:color/system_neutral2_700</color>
+    <color name="switch_thumb_active">@android:color/system_accent2_800</color>
+    <color name="switch_thumb_inactive">@android:color/system_neutral2_400</color>
 
     <color name="colorPrimaryLight">@color/material_dynamic_primary40</color>
     <color name="colorPrimaryDark">@color/material_dynamic_primary80</color>

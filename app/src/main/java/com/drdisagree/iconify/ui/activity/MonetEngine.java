@@ -507,10 +507,10 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                 resources.append("    <color name=\"").append(colors[i][j]).append("\">").append(ColorUtil.ColorToHex((int) generatedColorPalette.get(i).get(j), false, true)).append("</color>\n");
             }
         }
-        resources.append("    <color name=\"holo_blue_light\">").append(ColorUtil.ColorToHex((int) generatedColorPalette.get(0).get(8), false, true)).append("</color>\n");
-        resources.append("    <color name=\"holo_green_light\">").append(ColorUtil.ColorToHex((int) generatedColorPalette.get(2).get(8), false, true)).append("</color>\n");
-        resources.append("    <color name=\"holo_blue_dark\">").append(ColorUtil.ColorToHex((int) generatedColorPalette.get(1).get(10), false, true)).append("</color>\n");
-        resources.append("<color name=\"accent_device_default\">@*android:color/holo_blue_light</color>\n" +
+        resources.append("    <color name=\"holo_blue_light\">").append(ColorUtil.ColorToHex((int) generatedColorPalette.get(0).get(8), false, true)).append("</color>\n" +
+                "    <color name=\"holo_green_light\">").append(ColorUtil.ColorToHex((int) generatedColorPalette.get(2).get(8), false, true)).append("</color>\n" +
+                "    <color name=\"holo_blue_dark\">").append(ColorUtil.ColorToHex((int) generatedColorPalette.get(1).get(10), false, true)).append("</color>\n" +
+                "    <color name=\"accent_device_default\">@*android:color/holo_blue_light</color>\n" +
                 "    <color name=\"accent_device_default_dark\">@*android:color/holo_blue_light</color>\n" +
                 "    <color name=\"accent_device_default_light\">@*android:color/holo_blue_light</color>\n" +
                 "    <color name=\"accent_material_dark\">@*android:color/holo_blue_light</color>\n" +
@@ -553,10 +553,16 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                 "    <color name=\"primary_material_settings\">@*android:color/background_dark</color>\n");
         resources.append("</resources>\n");
 
-        String resources_night = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n" +
-                "    <color name=\"holo_blue_light\">" + ColorUtil.ColorToHex((int) generatedColorPalette.get(0).get(5), false, true) + "</color>\n" +
-                "    <color name=\"holo_green_light\">" + ColorUtil.ColorToHex((int) generatedColorPalette.get(2).get(5), false, true) + "</color>\n" +
-                "    <color name=\"holo_blue_dark\">" + ColorUtil.ColorToHex((int) generatedColorPalette.get(1).get(10), false, true) + "</color>\n" +
+        StringBuilder resources_night = new StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
+
+        for (int i = 0; i < colors.length; i++) {
+            for (int j = 0; j < colors[i].length; j++) {
+                resources_night.append("    <color name=\"").append(colors[i][j]).append("\">").append(ColorUtil.ColorToHex((int) generatedColorPalette.get(i).get(j), false, true)).append("</color>\n");
+            }
+        }
+        resources_night.append("    <color name=\"holo_blue_light\">").append(ColorUtil.ColorToHex((int) generatedColorPalette.get(0).get(5), false, true)).append("</color>\n" +
+                "    <color name=\"holo_green_light\">").append(ColorUtil.ColorToHex((int) generatedColorPalette.get(2).get(5), false, true)).append("</color>\n" +
+                "    <color name=\"holo_blue_dark\">").append(ColorUtil.ColorToHex((int) generatedColorPalette.get(1).get(10), false, true)).append("</color>\n" +
                 "    <color name=\"accent_device_default\">@*android:color/holo_blue_light</color>\n" +
                 "    <color name=\"accent_device_default_dark\">@*android:color/holo_blue_light</color>\n" +
                 "    <color name=\"accent_device_default_light\">@*android:color/holo_blue_light</color>\n" +
@@ -598,9 +604,9 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                 "    <color name=\"primary_device_default_settings\">@*android:color/background_dark</color>\n" +
                 "    <color name=\"primary_material_dark\">@*android:color/background_dark</color>\n" +
                 "    <color name=\"primary_material_settings\">@*android:color/background_dark</color>\n" +
-                "</resources>\n";
+                "</resources>\n");
 
-        return MonetCompilerUtil.buildOverlay(new String[]{resources.toString(), resources_night});
+        return MonetCompilerUtil.buildOverlay(new String[]{resources.toString(), resources_night.toString()});
     }
 
     @Override
