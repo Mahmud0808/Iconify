@@ -16,6 +16,9 @@ public class HelperUtil {
         backupFile(References.OVERLAY_DIR + "/IconifyComponentME.apk");
         backupFile(References.OVERLAY_DIR + "/IconifyComponentCR.apk");
         backupFile(References.OVERLAY_DIR + "/IconifyComponentQSTH.apk");
+        backupFile(References.OVERLAY_DIR + "/IconifyComponentSIP1.apk");
+        backupFile(References.OVERLAY_DIR + "/IconifyComponentSIP2.apk");
+        backupFile(References.OVERLAY_DIR + "/IconifyComponentSIP3.apk");
     }
 
     public static void restoreFiles() {
@@ -23,6 +26,9 @@ public class HelperUtil {
         restoreFile("IconifyComponentME.apk", References.OVERLAY_DIR);
         restoreFile("IconifyComponentCR.apk", References.OVERLAY_DIR);
         restoreFile("IconifyComponentQSTH.apk", References.OVERLAY_DIR);
+        restoreFile("IconifyComponentSIP1.apk", References.OVERLAY_DIR);
+        restoreFile("IconifyComponentSIP2.apk", References.OVERLAY_DIR);
+        restoreFile("IconifyComponentSIP3.apk", References.OVERLAY_DIR);
         restoreBlurSettings();
 
         // Remove backup directory
