@@ -27,7 +27,7 @@
     <color name="neumorph_outline_start">#FF363636</color>
     <color name="neumorph_outline_end">#FF0F0F0F</color>
     <color name="switch_track_layer">#B3000000</color>
-    <color name="splash_logo">@android:color/system_accent1_300</color>
+    <color name="splash_logo">@color/colorAccent</color>
     <color name="switch_track_active">@color/colorAccent</color>
     <color name="switch_track_inactive">@android:color/system_neutral2_700</color>
     <color name="switch_thumb_active">@android:color/system_accent2_800</color>
