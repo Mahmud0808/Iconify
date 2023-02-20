@@ -30,6 +30,7 @@ import com.drdisagree.iconify.utils.compiler.OverlayCompilerUtil;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WelcomePage extends AppCompatActivity {
 
@@ -64,6 +65,8 @@ public class WelcomePage extends AppCompatActivity {
         warn = findViewById(R.id.warn);
         warning = findViewById(R.id.warning);
 
+        AtomicBoolean clickedContinue = new AtomicBoolean(false);
+
         // Start installation on click
         install_module.setOnClickListener(v -> {
             if (RootUtil.isDeviceRooted()) {
@@ -73,8 +76,9 @@ public class WelcomePage extends AppCompatActivity {
                         warn.setVisibility(View.VISIBLE);
 
                         new Handler().postDelayed(() -> {
+                            clickedContinue.set(true);
                             SystemUtil.getStoragePermission(this);
-                        }, 1200);
+                        }, clickedContinue.get() ? 10 : 1200);
                     } else {
                         if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
                             installModule = new startInstallationProcess();
