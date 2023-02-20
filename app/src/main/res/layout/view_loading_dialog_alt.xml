@@ -22,8 +22,8 @@
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_marginEnd="12dp"
-            android:foregroundTint="@color/colorAccentDarker"
-            android:indeterminateTint="@color/colorAccentDarker"
+            android:foregroundTint="@color/colorAccent"
+            android:indeterminateTint="@color/colorAccent"
             android:progressDrawable="@drawable/circular_progress_bar" />
 
         <LinearLayout

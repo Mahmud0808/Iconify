@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="qs_media_album_background">@*android:color/system_neutral2_50</color>
+    <color name="qs_media_album_background">@*android:color/system_neutral2_10</color>
 </resources>

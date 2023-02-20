@@ -59,7 +59,7 @@
                     android:layout_marginEnd="10dp"
                     android:contentDescription="@string/icon"
                     android:src="@drawable/ic_qs_internet"
-                    app:tint="@color/textColorPrimaryNoTint" />
+                    app:tint="@color/white" />
 
                 <TextView
                     android:id="@+id/qs_text1"
@@ -69,7 +69,7 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/qstile_btn1_title"
-                    android:textColor="@color/textColorPrimaryNoTint"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -170,7 +170,7 @@
                     android:layout_marginEnd="10dp"
                     android:contentDescription="@string/icon"
                     android:src="@drawable/ic_qs_bluetooth"
-                    app:tint="@color/textColorPrimaryNoTint" />
+                    app:tint="@color/white" />
 
                 <TextView
                     android:id="@+id/qs_text4"
@@ -180,7 +180,7 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/qstile_btn4_title"
-                    android:textColor="@color/textColorPrimaryNoTint"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
             </LinearLayout>

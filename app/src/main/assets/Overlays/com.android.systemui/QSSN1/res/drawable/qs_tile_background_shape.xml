@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:tintMode="src_atop">
-            <solid android:color="@*android:color/system_neutral2_50" />
+            <solid android:color="@*android:color/system_neutral2_10" />
             <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
         </shape>
     </item>

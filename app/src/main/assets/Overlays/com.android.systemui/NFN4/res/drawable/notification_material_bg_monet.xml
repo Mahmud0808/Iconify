@@ -17,7 +17,7 @@
     </item>
     <item android:bottom="4dp">
         <shape android:shape="rectangle">
-            <solid android:color="@*android:color/system_neutral2_50" />
+            <solid android:color="@*android:color/system_neutral2_10" />
             <corners
                 android:bottomLeftRadius="@*android:dimen/harmful_app_name_padding_top"
                 android:bottomRightRadius="@*android:dimen/harmful_app_name_padding_top"

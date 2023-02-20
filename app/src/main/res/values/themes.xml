@@ -7,7 +7,7 @@
 
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorAccent</item>
-        <item name="colorPrimaryDark">@color/colorAccentDark</item>
+        <item name="colorPrimaryDark">@color/colorAccent</item>
         <item name="colorPrimaryVariant">@color/colorAccent</item>
         <item name="colorOnPrimary">@color/white</item>
 

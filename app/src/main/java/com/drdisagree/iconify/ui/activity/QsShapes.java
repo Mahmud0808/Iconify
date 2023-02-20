@@ -83,25 +83,25 @@ public class QsShapes extends AppCompatActivity {
         ArrayList<Object[]> qsshape_list = new ArrayList<>();
 
         // Qs Shape add items in list
-        qsshape_list.add(new Object[]{"Default", R.drawable.qs_shape_default_enabled, R.drawable.qs_shape_default_disabled});
-        qsshape_list.add(new Object[]{"Double Layer", R.drawable.qs_shape_doublelayer_enabled, R.drawable.qs_shape_doublelayer_disabled});
-        qsshape_list.add(new Object[]{"Shaded Layer", R.drawable.qs_shape_shadedlayer_enabled, R.drawable.qs_shape_shadedlayer_disabled});
-        qsshape_list.add(new Object[]{"Outline", R.drawable.qs_shape_outline_enabled, R.drawable.qs_shape_outline_disabled});
-        qsshape_list.add(new Object[]{"Leafy Outline", R.drawable.qs_shape_leafy_outline_enabled, R.drawable.qs_shape_leafy_outline_disabled});
-        qsshape_list.add(new Object[]{"Neumorph", R.drawable.qs_shape_neumorph_enabled, R.drawable.qs_shape_neumorph_disabled});
-        qsshape_list.add(new Object[]{"Surround", R.drawable.qs_shape_surround_enabled, R.drawable.qs_shape_surround_disabled});
-        qsshape_list.add(new Object[]{"Bookmark", R.drawable.qs_shape_bookmark_enabled, R.drawable.qs_shape_bookmark_disabled});
-        qsshape_list.add(new Object[]{"Neumorph Outline", R.drawable.qs_shape_neumorph_outline_enabled, R.drawable.qs_shape_neumorph_outline_disabled});
-        qsshape_list.add(new Object[]{"Reflected", R.drawable.qs_shape_reflected_enabled, R.drawable.qs_shape_reflected_disabled});
-        qsshape_list.add(new Object[]{"Reflected Fill", R.drawable.qs_shape_reflected_fill_enabled, R.drawable.qs_shape_reflected_fill_disabled});
-        qsshape_list.add(new Object[]{"Divided", R.drawable.qs_shape_divided_enabled, R.drawable.qs_shape_divided_disabled});
-        qsshape_list.add(new Object[]{"Lighty", R.drawable.qs_shape_lighty_enabled, R.drawable.qs_shape_lighty_disabled});
-        qsshape_list.add(new Object[]{"Bottom Outline", R.drawable.qs_shape_bottom_outline_enabled, R.drawable.qs_shape_bottom_outline_disabled});
-        qsshape_list.add(new Object[]{"Cyberponk", R.drawable.qs_shape_cyberponk_enabled, R.drawable.qs_shape_cyberponk_disabled});
-        qsshape_list.add(new Object[]{"Cyberponk v2", R.drawable.qs_shape_cyberponk_v2_enabled, R.drawable.qs_shape_cyberponk_v2_disabled});
-        qsshape_list.add(new Object[]{"Semi Transparent", R.drawable.qs_shape_semi_transparent_enabled, R.drawable.qs_shape_semi_transparent_disabled});
-        qsshape_list.add(new Object[]{"Thin Outline", R.drawable.qs_shape_thin_outline_enabled, R.drawable.qs_shape_thin_outline_disabled});
-        qsshape_list.add(new Object[]{"Purfect", R.drawable.qs_shape_purfect_enabled, R.drawable.qs_shape_purfect_disabled});
+        qsshape_list.add(new Object[]{"Default", R.drawable.qs_shape_default_enabled, R.drawable.qs_shape_default_disabled, false});
+        qsshape_list.add(new Object[]{"Double Layer", R.drawable.qs_shape_doublelayer_enabled, R.drawable.qs_shape_doublelayer_disabled, false});
+        qsshape_list.add(new Object[]{"Shaded Layer", R.drawable.qs_shape_shadedlayer_enabled, R.drawable.qs_shape_shadedlayer_disabled, false});
+        qsshape_list.add(new Object[]{"Outline", R.drawable.qs_shape_outline_enabled, R.drawable.qs_shape_outline_disabled, true});
+        qsshape_list.add(new Object[]{"Leafy Outline", R.drawable.qs_shape_leafy_outline_enabled, R.drawable.qs_shape_leafy_outline_disabled, true});
+        qsshape_list.add(new Object[]{"Neumorph", R.drawable.qs_shape_neumorph_enabled, R.drawable.qs_shape_neumorph_disabled, false});
+        qsshape_list.add(new Object[]{"Surround", R.drawable.qs_shape_surround_enabled, R.drawable.qs_shape_surround_disabled, false});
+        qsshape_list.add(new Object[]{"Bookmark", R.drawable.qs_shape_bookmark_enabled, R.drawable.qs_shape_bookmark_disabled, false});
+        qsshape_list.add(new Object[]{"Neumorph Outline", R.drawable.qs_shape_neumorph_outline_enabled, R.drawable.qs_shape_neumorph_outline_disabled, true});
+        qsshape_list.add(new Object[]{"Reflected", R.drawable.qs_shape_reflected_enabled, R.drawable.qs_shape_reflected_disabled, true});
+        qsshape_list.add(new Object[]{"Reflected Fill", R.drawable.qs_shape_reflected_fill_enabled, R.drawable.qs_shape_reflected_fill_disabled, false});
+        qsshape_list.add(new Object[]{"Divided", R.drawable.qs_shape_divided_enabled, R.drawable.qs_shape_divided_disabled, false});
+        qsshape_list.add(new Object[]{"Lighty", R.drawable.qs_shape_lighty_enabled, R.drawable.qs_shape_lighty_disabled, true});
+        qsshape_list.add(new Object[]{"Bottom Outline", R.drawable.qs_shape_bottom_outline_enabled, R.drawable.qs_shape_bottom_outline_disabled, false});
+        qsshape_list.add(new Object[]{"Cyberponk", R.drawable.qs_shape_cyberponk_enabled, R.drawable.qs_shape_cyberponk_disabled, false});
+        qsshape_list.add(new Object[]{"Cyberponk v2", R.drawable.qs_shape_cyberponk_v2_enabled, R.drawable.qs_shape_cyberponk_v2_disabled, true});
+        qsshape_list.add(new Object[]{"Semi Transparent", R.drawable.qs_shape_semi_transparent_enabled, R.drawable.qs_shape_semi_transparent_disabled, false});
+        qsshape_list.add(new Object[]{"Thin Outline", R.drawable.qs_shape_thin_outline_enabled, R.drawable.qs_shape_thin_outline_disabled, true});
+        qsshape_list.add(new Object[]{"Purfect", R.drawable.qs_shape_purfect_enabled, R.drawable.qs_shape_purfect_disabled, false});
 
         addItem(qsshape_list);
 
@@ -302,6 +302,14 @@ public class QsShapes extends AppCompatActivity {
             list.findViewById(R.id.qs_tile2).setBackground(ContextCompat.getDrawable(QsShapes.this, (int) pack.get(i)[2]));
             list.findViewById(R.id.qs_tile3).setBackground(ContextCompat.getDrawable(QsShapes.this, (int) pack.get(i)[2]));
             list.findViewById(R.id.qs_tile4).setBackground(ContextCompat.getDrawable(QsShapes.this, (int) pack.get(i)[1]));
+
+            if ((boolean) pack.get(i)[3]) {
+                ((TextView) list.findViewById(R.id.qs_text1)).setTextColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.textColorPrimary));
+                ((ImageView) list.findViewById(R.id.qs_icon1)).setColorFilter(ContextCompat.getColor(Iconify.getAppContext(), R.color.textColorPrimary), android.graphics.PorterDuff.Mode.SRC_IN);
+
+                ((TextView) list.findViewById(R.id.qs_text4)).setTextColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.textColorPrimary));
+                ((ImageView) list.findViewById(R.id.qs_icon4)).setColorFilter(ContextCompat.getColor(Iconify.getAppContext(), R.color.textColorPrimary), android.graphics.PorterDuff.Mode.SRC_IN);
+            }
 
             container.addView(list);
         }

@@ -49,7 +49,8 @@
             android:background="@drawable/brightness_bg"
             android:contentDescription="@null"
             android:padding="12.0dp"
-            android:src="@drawable/ic_brightness_off" />
+            android:src="@drawable/ic_brightness_off"
+            app:tint="@color/white" />
 
     </LinearLayout>
 

@@ -8,7 +8,7 @@
                 <shape
                     android:shape="rectangle"
                     android:tintMode="src_atop">
-                    <solid android:color="@*android:color/system_neutral2_50" />
+                    <solid android:color="@*android:color/system_neutral2_10" />
                     <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
                 </shape>
             </item>
@@ -18,7 +18,7 @@
                 <shape
                     android:shape="rectangle"
                     android:tintMode="src_atop">
-                    <solid android:color="@*android:color/system_neutral2_50" />
+                    <solid android:color="@*android:color/system_neutral2_10" />
                     <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
                 </shape>
             </item>
@@ -28,7 +28,7 @@
                 <shape
                     android:shape="rectangle"
                     android:tintMode="src_atop">
-                    <solid android:color="@*android:color/system_neutral2_50" />
+                    <solid android:color="@*android:color/system_neutral2_10" />
                     <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
                     <size
                         android:width="22dp"
@@ -54,7 +54,7 @@
                 <shape
                     android:shape="rectangle"
                     android:tintMode="src_atop">
-                    <solid android:color="@*android:color/system_neutral2_50" />
+                    <solid android:color="@*android:color/system_neutral2_10" />
                     <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
                     <size
                         android:width="22dp"

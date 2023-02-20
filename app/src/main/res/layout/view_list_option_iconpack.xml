@@ -59,7 +59,7 @@
                     android:layout_height="@dimen/preview_icon_size"
                     android:layout_margin="@dimen/preview_margin"
                     android:contentDescription="@string/icon"
-                    app:tint="@color/colorAccentDark" />
+                    app:tint="@color/colorAccent" />
 
                 <ImageView
                     android:id="@+id/list_preview2_iconpack"
@@ -67,7 +67,7 @@
                     android:layout_height="@dimen/preview_icon_size"
                     android:layout_margin="@dimen/preview_margin"
                     android:contentDescription="@string/icon"
-                    app:tint="@color/colorAccentDark" />
+                    app:tint="@color/colorAccent" />
             </LinearLayout>
 
             <LinearLayout
@@ -81,7 +81,7 @@
                     android:layout_height="@dimen/preview_icon_size"
                     android:layout_margin="@dimen/preview_margin"
                     android:contentDescription="@string/icon"
-                    app:tint="@color/colorAccentDark" />
+                    app:tint="@color/colorAccent" />
 
                 <ImageView
                     android:id="@+id/list_preview4_iconpack"
@@ -89,7 +89,7 @@
                     android:layout_height="@dimen/preview_icon_size"
                     android:layout_margin="@dimen/preview_margin"
                     android:contentDescription="@string/icon"
-                    app:tint="@color/colorAccentDark" />
+                    app:tint="@color/colorAccent" />
 
             </LinearLayout>
         </LinearLayout>

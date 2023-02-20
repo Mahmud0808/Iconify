@@ -5,7 +5,7 @@
         <shape
             android:shape="oval"
             android:tintMode="src_atop">
-            <solid android:color="@*android:color/system_neutral2_50" />
+            <solid android:color="@*android:color/system_neutral2_10" />
         </shape>
     </item>
     <item>
@@ -27,7 +27,7 @@
         <shape
             android:shape="oval"
             android:tintMode="src_atop">
-            <solid android:color="@*android:color/system_neutral2_50" />
+            <solid android:color="@*android:color/system_neutral2_10" />
         </shape>
     </item>
     <item

@@ -74,25 +74,25 @@ public class BrightnessBars extends AppCompatActivity {
         ArrayList<Object[]> bb_list = new ArrayList<>();
 
         // Brightness Bar add items in list
-        bb_list.add(new Object[]{"Rounded Clip", R.drawable.bb_roundedclip, R.drawable.auto_bb_roundedclip});
-        bb_list.add(new Object[]{"Rounded Bar", R.drawable.bb_rounded, R.drawable.auto_bb_rounded});
-        bb_list.add(new Object[]{"Double Layer", R.drawable.bb_double_layer, R.drawable.auto_bb_double_layer});
-        bb_list.add(new Object[]{"Shaded Layer", R.drawable.bb_shaded_layer, R.drawable.auto_bb_shaded_layer});
-        bb_list.add(new Object[]{"Outline", R.drawable.bb_outline, R.drawable.auto_bb_outline});
-        bb_list.add(new Object[]{"Leafy Outline", R.drawable.bb_leafy_outline, R.drawable.auto_bb_leafy_outline});
-        bb_list.add(new Object[]{"Neumorph", R.drawable.bb_neumorph, R.drawable.auto_bb_neumorph});
-        bb_list.add(new Object[]{"Inline", R.drawable.bb_inline, R.drawable.auto_bb_rounded});
-        bb_list.add(new Object[]{"Neumorph Outline", R.drawable.bb_neumorph_outline, R.drawable.auto_bb_neumorph_outline});
-        bb_list.add(new Object[]{"Neumorph Thumb", R.drawable.bb_neumorph_thumb, R.drawable.auto_bb_neumorph_thumb});
-        bb_list.add(new Object[]{"Blocky Thumb", R.drawable.bb_blocky_thumb, R.drawable.auto_bb_blocky_thumb});
-        bb_list.add(new Object[]{"Comet Thumb", R.drawable.bb_comet_thumb, R.drawable.auto_bb_comet_thumb});
-        bb_list.add(new Object[]{"Minimal Thumb", R.drawable.bb_minimal_thumb, R.drawable.auto_bb_minimal_thumb});
-        bb_list.add(new Object[]{"Old School Thumb", R.drawable.bb_oldschool_thumb, R.drawable.auto_bb_oldschool_thumb});
-        bb_list.add(new Object[]{"Gradient Thumb", R.drawable.bb_gradient_thumb, R.drawable.auto_bb_gradient_thumb});
-        bb_list.add(new Object[]{"Lighty", R.drawable.bb_lighty, R.drawable.auto_bb_lighty});
-        bb_list.add(new Object[]{"Semi Transparent", R.drawable.bb_semi_transparent, R.drawable.auto_bb_semi_transparent});
-        bb_list.add(new Object[]{"Thin Outline", R.drawable.bb_thin_outline, R.drawable.auto_bb_thin_outline});
-        bb_list.add(new Object[]{"Purfect", R.drawable.bb_purfect, R.drawable.auto_bb_purfect});
+        bb_list.add(new Object[]{"Rounded Clip", R.drawable.bb_roundedclip, R.drawable.auto_bb_roundedclip, false});
+        bb_list.add(new Object[]{"Rounded Bar", R.drawable.bb_rounded, R.drawable.auto_bb_rounded, false});
+        bb_list.add(new Object[]{"Double Layer", R.drawable.bb_double_layer, R.drawable.auto_bb_double_layer, false});
+        bb_list.add(new Object[]{"Shaded Layer", R.drawable.bb_shaded_layer, R.drawable.auto_bb_shaded_layer, false});
+        bb_list.add(new Object[]{"Outline", R.drawable.bb_outline, R.drawable.auto_bb_outline, true});
+        bb_list.add(new Object[]{"Leafy Outline", R.drawable.bb_leafy_outline, R.drawable.auto_bb_leafy_outline, true});
+        bb_list.add(new Object[]{"Neumorph", R.drawable.bb_neumorph, R.drawable.auto_bb_neumorph, false});
+        bb_list.add(new Object[]{"Inline", R.drawable.bb_inline, R.drawable.auto_bb_rounded, false});
+        bb_list.add(new Object[]{"Neumorph Outline", R.drawable.bb_neumorph_outline, R.drawable.auto_bb_neumorph_outline, true});
+        bb_list.add(new Object[]{"Neumorph Thumb", R.drawable.bb_neumorph_thumb, R.drawable.auto_bb_neumorph_thumb, false});
+        bb_list.add(new Object[]{"Blocky Thumb", R.drawable.bb_blocky_thumb, R.drawable.auto_bb_blocky_thumb, false});
+        bb_list.add(new Object[]{"Comet Thumb", R.drawable.bb_comet_thumb, R.drawable.auto_bb_comet_thumb, false});
+        bb_list.add(new Object[]{"Minimal Thumb", R.drawable.bb_minimal_thumb, R.drawable.auto_bb_minimal_thumb, false});
+        bb_list.add(new Object[]{"Old School Thumb", R.drawable.bb_oldschool_thumb, R.drawable.auto_bb_oldschool_thumb, false});
+        bb_list.add(new Object[]{"Gradient Thumb", R.drawable.bb_gradient_thumb, R.drawable.auto_bb_gradient_thumb, false});
+        bb_list.add(new Object[]{"Lighty", R.drawable.bb_lighty, R.drawable.auto_bb_lighty, true});
+        bb_list.add(new Object[]{"Semi Transparent", R.drawable.bb_semi_transparent, R.drawable.auto_bb_semi_transparent, false});
+        bb_list.add(new Object[]{"Thin Outline", R.drawable.bb_thin_outline, R.drawable.auto_bb_thin_outline, true});
+        bb_list.add(new Object[]{"Purfect", R.drawable.bb_purfect, R.drawable.auto_bb_purfect, false});
 
         addItem(bb_list);
 
@@ -227,6 +227,8 @@ public class BrightnessBars extends AppCompatActivity {
 
             ImageView auto_brightness_icon = list.findViewById(R.id.auto_brightness_icon);
             auto_brightness_icon.setBackground(ContextCompat.getDrawable(BrightnessBars.this, (int) pack.get(i)[2]));
+            if ((boolean) pack.get(i)[3])
+                auto_brightness_icon.setColorFilter(ContextCompat.getColor(Iconify.getAppContext(), R.color.textColorPrimary), android.graphics.PorterDuff.Mode.SRC_IN);
 
             container.addView(list);
         }

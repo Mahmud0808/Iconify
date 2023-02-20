@@ -7,7 +7,7 @@
         android:top="8.0dip">
         <shape android:tintMode="multiply">
             <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
-            <solid android:color="@*android:color/system_neutral2_50" />
+            <solid android:color="@*android:color/system_neutral2_10" />
             <size
                 android:width="32.0dip"
                 android:height="32.0dip" />

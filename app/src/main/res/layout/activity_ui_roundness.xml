@@ -94,7 +94,8 @@
                         android:background="@drawable/qs_shape_preview_enabled"
                         android:contentDescription="@null"
                         android:padding="12.0dp"
-                        android:src="@drawable/ic_brightness_off" />
+                        android:src="@drawable/ic_brightness_off"
+                        app:tint="@color/white" />
 
                 </LinearLayout>
 
@@ -137,7 +138,7 @@
                                 android:layout_marginEnd="10dp"
                                 android:contentDescription="@string/icon"
                                 android:src="@drawable/ic_qs_internet"
-                                app:tint="@color/textColorPrimaryNoTint" />
+                                app:tint="@color/white" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -151,7 +152,7 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn1_title"
-                                    android:textColor="@color/textColorPrimaryNoTint"
+                                    android:textColor="@color/white"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -161,7 +162,7 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn1_desc"
-                                    android:textColor="@color/textColorSecondaryNoTint" />
+                                    android:textColor="#BFFFFFFF" />
 
                             </LinearLayout>
                         </LinearLayout>
@@ -300,7 +301,7 @@
                                 android:layout_marginEnd="10dp"
                                 android:contentDescription="@string/icon"
                                 android:src="@drawable/ic_qs_bluetooth"
-                                app:tint="@color/textColorPrimaryNoTint" />
+                                app:tint="@color/white" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -314,7 +315,7 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn4_title"
-                                    android:textColor="@color/textColorPrimaryNoTint"
+                                    android:textColor="@color/white"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -324,12 +325,10 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn4_desc"
-                                    android:textColor="@color/textColorSecondaryNoTint" />
+                                    android:textColor="#BFFFFFFF" />
 
                             </LinearLayout>
-
                         </LinearLayout>
-
                     </LinearLayout>
                 </LinearLayout>
 

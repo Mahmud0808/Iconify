@@ -7,7 +7,7 @@
 
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorAccent</item>
-        <item name="colorPrimaryDark">@color/colorAccentDark</item>
+        <item name="colorPrimaryDark">@color/colorAccent</item>
         <item name="colorPrimaryVariant">@color/colorAccent</item>
         <item name="colorOnPrimary">@color/white</item>
 
@@ -105,7 +105,7 @@
     <style name="Theme.Iconify.SplashScreen" parent="Theme.SplashScreen">
         <item name="android:windowSplashScreenBackground">@color/colorBackground</item>
         <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
-        <item name="android:windowSplashScreenIconBackgroundColor">@color/colorAccentDark</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/colorAccent</item>
         <item name="android:windowSplashScreenBrandingImage">@drawable/ic_branding</item>
         <item name="postSplashScreenTheme">@style/Theme.Iconify</item>
     </style>

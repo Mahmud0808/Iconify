@@ -28,7 +28,7 @@ public class MonetCompilerUtil {
     private static final String aapt = References.TOOLS_DIR + "/libaapt.so";
     private static final String zipalign = References.TOOLS_DIR + "/libzipalign.so";
 
-    public static boolean buildOverlay(String resources) throws IOException {
+    public static boolean buildOverlay(String[] resources) throws IOException {
         preExecute();
 
         // Create AndroidManifest.xml
@@ -118,8 +118,8 @@ public class MonetCompilerUtil {
         return !Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + pkgName + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + References.FRAMEWORK_PACKAGE + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + source + "/AndroidManifest.xml;").exec().isSuccess();
     }
 
-    private static boolean writeResources(String source, String resources) {
-        return !Shell.cmd("rm -rf " + source + "/res/values/colors.xml", "printf '" + resources + "' > " + source + "/res/values/colors.xml;").exec().isSuccess();
+    private static boolean writeResources(String source, String[] resources) {
+        return !Shell.cmd("rm -rf " + source + "/res/values/colors.xml", "printf '" + resources[0] + "' > " + source + "/res/values/colors.xml;", "rm -rf " + source + "/res/values-night/colors.xml", "printf '" + resources[1] + "' > " + source + "/res/values-night/colors.xml;").exec().isSuccess();
     }
 
     private static boolean runAapt(String source, String name) {

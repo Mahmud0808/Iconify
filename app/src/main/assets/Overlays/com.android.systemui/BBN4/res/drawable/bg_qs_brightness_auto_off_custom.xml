@@ -18,7 +18,7 @@
             <size android:height="40.0dip" />
             <gradient
                 android:endColor="#00000000"
-                android:startColor="@*android:color/system_neutral2_50" />
+                android:startColor="@*android:color/system_neutral2_10" />
         </shape>
     </item>
 </layer-list>

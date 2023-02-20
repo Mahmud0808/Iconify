@@ -8,7 +8,7 @@
                 <shape android:shape="rectangle">
                     <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
                     <size android:height="48.0dip" />
-                    <solid android:color="@*android:color/system_neutral2_50" />
+                    <solid android:color="@*android:color/system_neutral2_10" />
                 </shape>
             </item>
             <item android:gravity="fill_horizontal|center">
@@ -29,7 +29,7 @@
                 <shape android:shape="rectangle">
                     <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
                     <size android:height="40.0dip" />
-                    <solid android:color="@*android:color/system_neutral2_50" />
+                    <solid android:color="@*android:color/system_neutral2_10" />
                 </shape>
             </item>
             <item

@@ -21,6 +21,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.NotificationPixelManager;
 import com.drdisagree.iconify.ui.view.LoadingDialog;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
@@ -37,7 +38,14 @@ public class NotificationsPixel extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!SystemUtil.isDarkMode()) {
+            getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.offStateColor4));
+            getWindow().setStatusBarColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.offStateColor4));
+            getWindow().setNavigationBarColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.offStateColor4));
+        }
         setContentView(R.layout.activity_notifications_pixel);
+        if (!SystemUtil.isDarkMode())
+            ((CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar)).setBackgroundColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.offStateColor4));
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);

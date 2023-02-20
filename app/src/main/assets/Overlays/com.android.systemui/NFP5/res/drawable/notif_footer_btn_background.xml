@@ -5,7 +5,7 @@
         android:bottom="2.0dp"
         android:top="2.0dp">
         <shape android:tintMode="src_atop">
-            <solid android:color="@*android:color/system_neutral2_50" />
+            <solid android:color="@*android:color/system_neutral2_10" />
             <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
         </shape>
     </item>
@@ -27,7 +27,7 @@
         android:start="4.0dp"
         android:top="6.0dp">
         <shape android:tintMode="src_atop">
-            <solid android:color="@*android:color/system_neutral2_50" />
+            <solid android:color="@*android:color/system_neutral2_10" />
             <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
         </shape>
     </item>

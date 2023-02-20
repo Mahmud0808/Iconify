@@ -15,7 +15,7 @@
         android:bottom="4dp"
         android:top="2dp">
         <shape android:shape="rectangle">
-            <solid android:color="@*android:color/system_neutral2_50" />
+            <solid android:color="@*android:color/system_neutral2_10" />
             <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
             <padding
                 android:left="20dp"
