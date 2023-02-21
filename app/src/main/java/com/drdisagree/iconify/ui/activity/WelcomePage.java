@@ -34,6 +34,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WelcomePage extends AppCompatActivity {
 
+    private static boolean SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES = false;
     private static boolean hasErroredOut = false;
     @SuppressLint("StaticFieldLeak")
     private static LinearLayout warn;
@@ -67,37 +68,44 @@ public class WelcomePage extends AppCompatActivity {
 
         AtomicBoolean clickedContinue = new AtomicBoolean(false);
 
-        // Start installation on click
-        install_module.setOnClickListener(v -> {
-            if (RootUtil.isDeviceRooted()) {
-                if (RootUtil.isMagiskInstalled()) {
-                    if (!Environment.isExternalStorageManager()) {
-                        warning.setText(getResources().getString(R.string.perm_storage_access));
-                        warn.setVisibility(View.VISIBLE);
+        if (SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES) {
+            // Skip installation process for testing purposes
+            Intent intent = new Intent(WelcomePage.this, HomePage.class);
+            startActivity(intent);
+            finish();
+        } else {
+            // Start installation on click
+            install_module.setOnClickListener(v -> {
+                if (RootUtil.isDeviceRooted()) {
+                    if (RootUtil.isMagiskInstalled()) {
+                        if (!Environment.isExternalStorageManager()) {
+                            warning.setText(getResources().getString(R.string.perm_storage_access));
+                            warn.setVisibility(View.VISIBLE);
 
-                        new Handler().postDelayed(() -> {
-                            clickedContinue.set(true);
-                            SystemUtil.getStoragePermission(this);
-                        }, clickedContinue.get() ? 10 : 1200);
-                    } else {
-                        if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
-                            installModule = new startInstallationProcess();
-                            installModule.execute();
+                            new Handler().postDelayed(() -> {
+                                clickedContinue.set(true);
+                                SystemUtil.getStoragePermission(this);
+                            }, clickedContinue.get() ? 10 : 1200);
                         } else {
-                            Intent intent = new Intent(WelcomePage.this, HomePage.class);
-                            startActivity(intent);
-                            finish();
+                            if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
+                                installModule = new startInstallationProcess();
+                                installModule.execute();
+                            } else {
+                                Intent intent = new Intent(WelcomePage.this, HomePage.class);
+                                startActivity(intent);
+                                finish();
+                            }
                         }
+                    } else {
+                        warning.setText(getResources().getString(R.string.use_magisk));
+                        warn.setVisibility(View.VISIBLE);
                     }
                 } else {
-                    warning.setText(getResources().getString(R.string.use_magisk));
+                    warning.setText(getResources().getString(R.string.root_not_found));
                     warn.setVisibility(View.VISIBLE);
                 }
-            } else {
-                warning.setText(getResources().getString(R.string.root_not_found));
-                warn.setVisibility(View.VISIBLE);
-            }
-        });
+            });
+        }
     }
 
     @Override
