@@ -391,8 +391,20 @@
     <string name="module_installation_step4">Aligning overlay APKs</string>
     <string name="module_installation_step5">Signing overlay APKs</string>
     <string name="module_installation_step6">Cleaning temporary directories</string>
-    <string name="qs_tile_non_expanded_height">Non-Expanded Height</string>
     <string name="portrait">(Portrait)</string>
     <string name="qs_tile_expanded_height">Expanded Height</string>
     <string name="landscape">(Landscape)</string>
+    <string name="qs_tile_non_expanded_height">Non-Expanded Height</string>
+    <string name="method_toggle_dark_mode">Double Toggle Dark Mode</string>
+    <string name="method_restart_systemui">Restart SystemUI</string>
+    <string name="method_do_nothing">Do Nothing (I will do it myself)</string>
+    <string name="list_title_xposed_settings">XPosed Settings</string>
+    <string name="list_title_show_warning">Show Warning</string>
+    <string name="list_desc_show_warning">Show warning on how to re-optimize module in XPosed Menu</string>
+    <string name="list_title_force_apply_method">Force Apply Method</string>
+    <string name="list_desc_force_apply_method">Method to force apply the changes in xposed menu</string>
+    <string name="list_title_miscellaneous_settings">Miscellaneous Settings</string>
+    <string name="list_title_general_settings">General Settings</string>
+    <string name="list_title_use_light_accent">Use Light Accent</string>
+    <string name="list_desc_use_light_accent">Use light accent color in light mode</string>
 </resources>

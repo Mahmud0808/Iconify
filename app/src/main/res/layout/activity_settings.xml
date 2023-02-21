@@ -30,7 +30,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="@dimen/container_marginSide"
                 android:layout_marginBottom="@dimen/container_marginSide"
-                android:text="General Settings"
+                android:text="@string/list_title_general_settings"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -56,7 +56,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Use Light Accent"
+                        android:text="@string/list_title_use_light_accent"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -64,7 +64,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Use light accent color in light mode"
+                        android:text="@string/list_desc_use_light_accent"
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_desc_size" />
 
@@ -83,7 +83,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="@dimen/container_marginSide"
                 android:layout_marginBottom="@dimen/container_marginSide"
-                android:text="XPosed Settings"
+                android:text="@string/list_title_xposed_settings"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -109,7 +109,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Show Warning"
+                        android:text="@string/list_title_show_warning"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -117,7 +117,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Show warning on how to re-optimize module in XPosed Menu"
+                        android:text="@string/list_desc_show_warning"
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_desc_size" />
 
@@ -162,7 +162,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Force Apply Method"
+                            android:text="@string/list_title_force_apply_method"
                             android:textColor="@color/textColorPrimary"
                             android:textSize="@dimen/cont_title_size"
                             android:textStyle="bold" />
@@ -170,7 +170,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Method to force apply the changes in xposed menu"
+                            android:text="@string/list_desc_force_apply_method"
                             android:textColor="@color/textColorSecondary"
                             android:textSize="@dimen/cont_desc_size" />
 
@@ -190,17 +190,17 @@
                         android:id="@+id/apply_method_dark_mode"
                         style="@style/customRadioButtonColored"
                         android:checked="true"
-                        android:text="Double Toggle Dark Mode" />
+                        android:text="@string/method_toggle_dark_mode" />
 
                     <RadioButton
                         android:id="@+id/apply_method_restart_sysui"
                         style="@style/customRadioButtonColored"
-                        android:text="Restart SystemUI" />
+                        android:text="@string/method_restart_systemui" />
 
                     <RadioButton
                         android:id="@+id/apply_method_do_nothing"
                         style="@style/customRadioButtonColored"
-                        android:text="Do Nothing (I will do it myself)" />
+                        android:text="@string/method_do_nothing" />
 
                 </RadioGroup>
             </LinearLayout>
@@ -211,7 +211,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="@dimen/container_marginSide"
                 android:layout_marginBottom="@dimen/container_marginSide"
-                android:text="Miscellaneous Settings"
+                android:text="@string/list_title_miscellaneous_settings"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="20sp"
                 android:textStyle="bold" />
