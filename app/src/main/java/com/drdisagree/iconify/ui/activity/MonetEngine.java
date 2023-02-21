@@ -316,6 +316,10 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
 
                     runOnUiThread(() -> {
                         if (!hasErroredOut.get()) Prefs.putBoolean(MONET_ENGINE_SWITCH, true);
+                        if (Prefs.getBoolean("IconifyComponentQSPB.overlay")) {
+                            OverlayUtil.disableOverlay("IconifyComponentQSPB.overlay");
+                            OverlayUtil.enableOverlay("IconifyComponentQSPB.overlay");
+                        }
 
                         new Handler().postDelayed(() -> {
                             if (!hasErroredOut.get()) {
@@ -324,7 +328,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                                 disable_custom_monet.setVisibility(View.VISIBLE);
                             } else
                                 Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                        }, 2000);
+                        }, 20);
                     });
                 };
                 Thread thread1 = new Thread(runnable1);
@@ -517,7 +521,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                 "    <color name=\"accent_material_dark\">@*android:color/holo_blue_light</color>\n" +
                 "    <color name=\"accent_material_light\">@*android:color/holo_blue_light</color>\n" +
                 "    <color name=\"accent_primary_device_default\">@*android:color/holo_blue_light</color>\n" +
-                "    <color name=\"accent_secondary_device_default\">@*android:color/system_accent2_" + (Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? 300: 600) + "</color>\n" +
+                "    <color name=\"accent_secondary_device_default\">@*android:color/system_accent2_" + (Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? 300 : 600) + "</color>\n" +
                 "    <color name=\"accent_tertiary_device_default\">@*android:color/system_accent3_" + (Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? 300 : 600) + "</color>\n" +
                 "    <color name=\"autofill_background_material_dark\">@*android:color/background_dark</color>\n" +
                 "    <color name=\"background_dark\">@*android:color/system_neutral1_900</color>\n" +
