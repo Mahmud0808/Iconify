@@ -45,4 +45,5 @@
 	<li>Some roms might not be fully compatible with Iconify.</li>
 	<li>I won't be responsible if anything happens to your device.</li>
 	<li>Make sure you have custom recovery installed to revert changes if anything goes wrong.</li>
+	<li>Note: PremadeOverlays are used as embedded APKs to reduce the overlay compilation time. For details, please <a href="https://github.com/Mahmud0808/Iconify/blob/stable/app/src/main/assets/PremadeOverlays/cheatsheet">see here</a>.</li>
 </ul>
