@@ -2,7 +2,10 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@*android:color/system_neutral2_900" />
+            <gradient
+                android:angle="270.0"
+                android:endColor="#00000000"
+                android:startColor="@*android:color/system_neutral2_900" />
             <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
         </shape>
     </item>
