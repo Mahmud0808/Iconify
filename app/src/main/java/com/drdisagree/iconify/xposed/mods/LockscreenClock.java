@@ -111,6 +111,14 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                         typeface = Typeface.createFromFile(new File(Environment.getExternalStorageDirectory() + "/.iconify_files/lsclock_font.ttf"));
 
                     switch (lockscreenClockStyle) {
+                        case 0:final LinearLayout blank0 = new LinearLayout(mContext);
+                            LinearLayout.LayoutParams blankParams0 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            blankParams0.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()), 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, bottomMargin, mContext.getResources().getDisplayMetrics()));
+                            blank0.setLayoutParams(blankParams0);
+                            blank0.setOrientation(LinearLayout.VERTICAL);
+
+                            status_view_container.addView(blank0, 0);
+                            break;
                         case 1:
                             final TextClock date1 = new TextClock(mContext);
                             date1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
