@@ -30,7 +30,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="@dimen/container_marginSide"
                 android:layout_marginBottom="@dimen/container_marginSide"
-                android:text="General Settings"
+                android:text="@string/list_title_general_settings"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -56,7 +56,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Use Light Accent"
+                        android:text="@string/list_title_use_light_accent"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -64,7 +64,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Use light accent color in light mode"
+                        android:text="@string/list_desc_use_light_accent"
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_desc_size" />
 

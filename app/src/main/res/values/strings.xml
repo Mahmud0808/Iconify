@@ -404,4 +404,7 @@
     <string name="list_title_force_apply_method">Force Apply Method</string>
     <string name="list_desc_force_apply_method">Method to force apply the changes in xposed menu</string>
     <string name="list_title_miscellaneous_settings">Miscellaneous Settings</string>
+    <string name="list_title_general_settings">General Settings</string>
+    <string name="list_title_use_light_accent">Use Light Accent</string>
+    <string name="list_desc_use_light_accent">Use light accent color in light mode</string>
 </resources>

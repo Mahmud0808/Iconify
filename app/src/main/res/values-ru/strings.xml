@@ -393,4 +393,7 @@
     <string name="list_title_force_apply_method">Метод применения изменений</string>
     <string name="list_desc_force_apply_method">Метод применения изменений в меню XPosed</string>
     <string name="list_title_miscellaneous_settings">Дополнительные настройки</string>
+    <string name="list_title_general_settings">Основыные настройки</string>
+    <string name="list_title_use_light_accent">Использовать светлый акцент</string>
+    <string name="list_desc_use_light_accent">Использовать светлый цвет акцента в светлом режиме</string>
 </resources>
