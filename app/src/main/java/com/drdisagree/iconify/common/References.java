@@ -146,9 +146,12 @@ public class References {
     public static final String BOOT_ID = "boot_id";
     public static final String VER_CODE = "versionCode";
     public static final String EASTER_EGG = "iconify_easter_egg";
+
     // Settings
+    public static final String USE_LIGHT_ACCENT = "useLightAccent";
     public static final String SHOW_XPOSED_WARN = "showXposedMenuWarn";
     public static final String FORCE_APPLY_XPOSED_CHOICE = "optionForceApplyXposed";
+
     // Notification service checker
     public static boolean isNotificationServiceRunning = false;
 }

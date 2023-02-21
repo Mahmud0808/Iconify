@@ -10,6 +10,7 @@ import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_PRIM
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECONDARY;
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_PIXEL_DARK_BG;
 import static com.drdisagree.iconify.common.References.STR_NULL;
+import static com.drdisagree.iconify.common.References.USE_LIGHT_ACCENT;
 import static com.drdisagree.iconify.utils.ColorUtil.ColorToSpecialHex;
 
 import android.annotation.SuppressLint;
@@ -69,11 +70,15 @@ public class BasicColors extends AppCompatActivity implements ColorPickerDialogL
         FabricatedOverlayUtil.disableOverlay(COLOR_PIXEL_DARK_BG);
         FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
 
-        if (OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMAC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMGC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay")) {
+        if (shouldUseDefaultColors()) {
             FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
             FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ICONIFY_COLOR_PIXEL_DARK_BG);
             FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
         }
+    }
+
+    private static boolean shouldUseDefaultColors() {
+        return OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMAC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMACL.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMGC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMGCL.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay");
     }
 
     @Override
@@ -96,13 +101,19 @@ public class BasicColors extends AppCompatActivity implements ColorPickerDialogL
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_monet_accent = findViewById(R.id.apply_monet_accent);
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_monet_gradient = findViewById(R.id.apply_monet_gradient);
 
-        apply_monet_accent.setChecked(Prefs.getBoolean("IconifyComponentAMAC.overlay"));
-        apply_monet_gradient.setChecked(Prefs.getBoolean("IconifyComponentAMGC.overlay"));
+        apply_monet_accent.setChecked(Prefs.getBoolean("IconifyComponentAMAC.overlay") || Prefs.getBoolean("IconifyComponentAMACL.overlay"));
+        apply_monet_gradient.setChecked(Prefs.getBoolean("IconifyComponentAMGC.overlay") || Prefs.getBoolean("IconifyComponentAMGCL.overlay"));
 
         apply_monet_accent.setOnCheckedChangeListener((buttonView, isChecked) -> {
             new Handler().postDelayed(() -> {
                 if (isChecked) {
-                    OverlayUtil.enableOverlay("IconifyComponentAMAC.overlay");
+                    if (Prefs.getBoolean(USE_LIGHT_ACCENT, false)) {
+                        OverlayUtil.disableOverlay("IconifyComponentAMAC.overlay");
+                        OverlayUtil.enableOverlay("IconifyComponentAMACL.overlay");
+                    } else {
+                        OverlayUtil.disableOverlay("IconifyComponentAMACL.overlay");
+                        OverlayUtil.enableOverlay("IconifyComponentAMAC.overlay");
+                    }
 
                     if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL)) {
                         BasicColors.applyPrimaryColors();
@@ -133,6 +144,7 @@ public class BasicColors extends AppCompatActivity implements ColorPickerDialogL
                         }
 
                         OverlayUtil.disableOverlay("IconifyComponentAMAC.overlay");
+                        OverlayUtil.disableOverlay("IconifyComponentAMACL.overlay");
                     };
                     Thread thread = new Thread(runnable);
                     thread.start();
@@ -147,7 +159,13 @@ public class BasicColors extends AppCompatActivity implements ColorPickerDialogL
         apply_monet_gradient.setOnCheckedChangeListener((buttonView, isChecked) -> {
             new Handler().postDelayed(() -> {
                 if (isChecked) {
-                    OverlayUtil.enableOverlay("IconifyComponentAMGC.overlay");
+                    if (Prefs.getBoolean(USE_LIGHT_ACCENT, false)) {
+                        OverlayUtil.disableOverlay("IconifyComponentAMGC.overlay");
+                        OverlayUtil.enableOverlay("IconifyComponentAMGCL.overlay");
+                    } else {
+                        OverlayUtil.disableOverlay("IconifyComponentAMGCL.overlay");
+                        OverlayUtil.enableOverlay("IconifyComponentAMGC.overlay");
+                    }
 
                     if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL)) {
                         BasicColors.applyPrimaryColors();
@@ -178,6 +196,7 @@ public class BasicColors extends AppCompatActivity implements ColorPickerDialogL
                         }
 
                         OverlayUtil.disableOverlay("IconifyComponentAMGC.overlay");
+                        OverlayUtil.disableOverlay("IconifyComponentAMGCL.overlay");
                     };
                     Thread thread = new Thread(runnable);
                     thread.start();

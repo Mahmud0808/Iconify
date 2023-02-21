@@ -166,14 +166,14 @@ public class WelcomePage extends AppCompatActivity {
             publishProgress(step++);
             ModuleUtil.extractTools();
             ModuleUtil.extractPremadeOverlays();
-
-            publishProgress(step++);
             try {
                 OverlayCompilerUtil.preExecute();
             } catch (IOException e) {
                 hasErroredOut = true;
                 e.printStackTrace();
             }
+
+            publishProgress(step++);
             hasErroredOut = OverlayCompilerUtil.buildAPK();
 
             publishProgress(step++);

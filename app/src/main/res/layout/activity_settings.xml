@@ -30,6 +30,59 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="@dimen/container_marginSide"
                 android:layout_marginBottom="@dimen/container_marginSide"
+                android:text="General Settings"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/container"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/container_paddingSide"
+                android:paddingTop="@dimen/container_padding"
+                android:paddingEnd="@dimen/container_paddingSide"
+                android:paddingBottom="@dimen/container_padding">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center"
+                    android:layout_marginEnd="@dimen/container_padding"
+                    android:layout_weight="1.0"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Use Light Accent"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Use light accent color in light mode"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="@dimen/cont_desc_size" />
+
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/use_light_accent"
+                    style="@style/customSwitch"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="@dimen/container_marginSide"
+                android:layout_marginBottom="@dimen/container_marginSide"
                 android:text="@string/list_title_xposed_settings"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="20sp"
