@@ -166,3 +166,5 @@ All contributions are welcome, from code to documentation to graphics to design 
 - I won't be responsible if anything happens to your device.
 
 - Make sure you have custom recovery installed to revert changes if anything goes wrong.
+
+- Note: PremadeOverlays are used as embedded APKs to reduce the overlay compilation time. For details, please [see here](https://github.com/Mahmud0808/Iconify/blob/beta/app/src/main/assets/PremadeOverlays/cheatsheet).
