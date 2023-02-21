@@ -42,6 +42,11 @@ public class TileMonetEngine extends TileService {
             Prefs.putBoolean("IconifyComponentME.overlay", true);
             OverlayUtil.enableOverlay("IconifyComponentDM.overlay");
             OverlayUtil.enableOverlay("IconifyComponentME.overlay");
+
+            if (Prefs.getBoolean("IconifyComponentQSPB.overlay")) {
+                OverlayUtil.disableOverlay("IconifyComponentQSPB.overlay");
+                OverlayUtil.enableOverlay("IconifyComponentQSPB.overlay");
+            }
         }
 
         isCustomMonetEnabled = !isCustomMonetEnabled;
