@@ -2,3 +2,8 @@ IPAS -> Icon Pack Android System
 IPSUI -> Icon Pack SystemUI
 MPIP -> Media Player Icon Pack
 SIS -> System Icon Shape
+
+
+PremadeOverlays are used to reduce the overlay compilation time.
+Source can be found here:
+https://github.com/Mahmud0808/IconifyComponent
