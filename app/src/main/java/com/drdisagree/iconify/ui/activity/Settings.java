@@ -4,6 +4,7 @@ import static com.drdisagree.iconify.common.References.EASTER_EGG;
 import static com.drdisagree.iconify.common.References.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.References.FORCE_APPLY_XPOSED_CHOICE;
 import static com.drdisagree.iconify.common.References.SHOW_XPOSED_WARN;
+import static com.drdisagree.iconify.common.References.USE_LIGHT_ACCENT;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -89,6 +90,36 @@ public class Settings extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        // Use light accent
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch use_light_accent = findViewById(R.id.use_light_accent);
+        if (Prefs.getBoolean(USE_LIGHT_ACCENT, false) || Prefs.getBoolean("IconifyComponentAMACL.overlay") || Prefs.getBoolean("IconifyComponentAMGCL.overlay")) {
+            Prefs.putBoolean(USE_LIGHT_ACCENT, true);
+            use_light_accent.setChecked(true);
+        } else {
+            Prefs.putBoolean(USE_LIGHT_ACCENT, false);
+            use_light_accent.setChecked(false);
+        }
+        use_light_accent.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            Prefs.putBoolean(USE_LIGHT_ACCENT, isChecked);
+            if (isChecked) {
+                if (Prefs.getBoolean("IconifyComponentAMAC.overlay")) {
+                    OverlayUtil.disableOverlay("IconifyComponentAMAC.overlay");
+                    OverlayUtil.enableOverlay("IconifyComponentAMACL.overlay");
+                } else if (Prefs.getBoolean("IconifyComponentAMGC.overlay")) {
+                    OverlayUtil.disableOverlay("IconifyComponentAMGC.overlay");
+                    OverlayUtil.enableOverlay("IconifyComponentAMGCL.overlay");
+                }
+            } else {
+                if (Prefs.getBoolean("IconifyComponentAMACL.overlay")) {
+                    OverlayUtil.disableOverlay("IconifyComponentAMACL.overlay");
+                    OverlayUtil.enableOverlay("IconifyComponentAMAC.overlay");
+                } else if (Prefs.getBoolean("IconifyComponentAMGCL.overlay")) {
+                    OverlayUtil.disableOverlay("IconifyComponentAMGCL.overlay");
+                    OverlayUtil.enableOverlay("IconifyComponentAMGC.overlay");
+                }
+            }
+        });
 
         // Show xposed warn
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_warn_message = findViewById(R.id.hide_warn_message);
