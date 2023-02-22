@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="@dimen/container_marginSide"
+        android:layout_marginBottom="@dimen/container_marginSide"
+        android:text="@string/list_title_xposed_settings"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/container_top"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/container_paddingSide"
+        android:paddingTop="@dimen/container_padding"
+        android:paddingEnd="@dimen/container_paddingSide"
+        android:paddingBottom="@dimen/container_padding">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:layout_marginEnd="@dimen/container_padding"
+            android:layout_weight="1.0"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/list_title_show_warning"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/cont_title_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/list_desc_show_warning"
+                android:textColor="@color/textColorSecondary"
+                android:textSize="@dimen/cont_desc_size" />
+
+        </LinearLayout>
+
+        <Switch
+            android:id="@+id/hide_warn_message"
+            style="@style/customSwitch"
+            android:checked="true"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    </LinearLayout>
+
+    <View style="@style/dividerTransparent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/container_bottom"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/sb_color_tint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/container_bottom"
+            android:baselineAligned="false"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/container_paddingSide"
+            android:paddingTop="@dimen/container_padding"
+            android:paddingEnd="@dimen/container_paddingSide"
+            android:paddingBottom="@dimen/container_padding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/list_title_force_apply_method"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/cont_title_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/list_desc_force_apply_method"
+                android:textColor="@color/textColorSecondary"
+                android:textSize="@dimen/cont_desc_size" />
+
+        </LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/force_apply_method_selector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/container_paddingSide"
+            android:paddingEnd="@dimen/container_paddingSide"
+            android:paddingBottom="@dimen/container_paddingSide">
+
+            <RadioButton
+                android:id="@+id/apply_method_dark_mode"
+                style="@style/customRadioButtonColored"
+                android:checked="true"
+                android:text="@string/method_toggle_dark_mode" />
+
+            <RadioButton
+                android:id="@+id/apply_method_restart_sysui"
+                style="@style/customRadioButtonColored"
+                android:text="@string/method_restart_systemui" />
+
+            <RadioButton
+                android:id="@+id/apply_method_do_nothing"
+                style="@style/customRadioButtonColored"
+                android:text="@string/method_do_nothing" />
+
+        </RadioGroup>
+    </LinearLayout>
+</LinearLayout>
