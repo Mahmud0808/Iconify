@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <item
+        android:drawable="@drawable/icon_bg"
+        android:gravity="center" />
+    <item>
+        <vector
+            android:width="24dp"
+            android:height="24dp"
+            android:tint="@color/icon_tint"
+            android:tintMode="multiply"
+            android:viewportWidth="24"
+            android:viewportHeight="24">
+            <group
+                android:pivotX="12.0"
+                android:pivotY="12.0"
+                android:scaleX="@dimen/icon_scale"
+                android:scaleY="@dimen/icon_scale">
+                <group
+                    android:pivotX="12.000"
+                    android:pivotY="18.167"
+                    android:rotation="-0.000"
+                    android:scaleY="1.000">
+
+                    <path
+                        android:fillType="nonZero"
+                        android:pathData="M9.50,18.29L9.50,19.79C9.50,22.79,14.50,22.79,14.50,19.79L14.50,18.29L19.50,18.29C22.25,18.29,22.25,14.29,19.50,14.29L4.50,14.29C1.75,14.29,1.75,18.29,4.50,18.29L9.50,18.29zM19.50,13.50L4.50,13.50L4.00,5.50C3.83,3.50,5.00,2.00,7.00,2.00L17.00,2.00C19.00,2.00,20.17,3.50,20.00,5.50L19.50,13.50zM13.00,4.00L13.00,2.00L11.00,2.00L11.00,4.00C11.00,5.25,13.00,5.25,13.00,4.00zM9.00,7.00L9.00,2.00L7.00,2.00L7.00,7.00C7.00,8.25,9.00,8.25,9.00,7.00z"
+                        android:strokeLineCap="round"
+                        android:strokeLineJoin="round">
+                        <aapt:attr name="android:strokeColor">
+                            <gradient
+                                android:endX="21.563"
+                                android:endY="22.042"
+                                android:startX="2.437"
+                                android:startY="2.000"
+                                android:type="linear">
+                                <item
+                                    android:color="#00000000"
+                                    android:offset="0.000" />
+                                <item
+                                    android:color="#00000000"
+                                    android:offset="1.000" />
+                            </gradient>
+                        </aapt:attr>
+                        <aapt:attr name="android:fillColor">
+                            <gradient
+                                android:endX="12.000"
+                                android:endY="23.206"
+                                android:startX="12.000"
+                                android:startY="0.072"
+                                android:type="linear">
+                                <item
+                                    android:color="@color/icon_tint"
+                                    android:offset="0.000" />
+                                <item
+                                    android:alpha="0.4"
+                                    android:color="@color/icon_tint"
+                                    android:offset="1.000" />
+                            </gradient>
+                        </aapt:attr>
+
+                    </path>
+                </group>
+            </group>
+        </vector>
+    </item>
+</layer-list>
