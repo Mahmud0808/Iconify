@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <item
+        android:drawable="@drawable/icon_bg"
+        android:gravity="center" />
+    <item>
+        <vector
+            android:width="24dp"
+            android:height="24dp"
+            android:tint="@color/icon_tint"
+            android:tintMode="multiply"
+            android:viewportWidth="24"
+            android:viewportHeight="24">
+            <group
+                android:pivotX="12.0"
+                android:pivotY="12.0"
+                android:scaleX="@dimen/icon_scale"
+                android:scaleY="@dimen/icon_scale">
+                <group
+                    android:pivotX="12.000"
+                    android:pivotY="12.000"
+                    android:rotation="-0.000"
+                    android:scaleY="1.000">
+
+                    <path
+                        android:fillType="nonZero"
+                        android:pathData="M15.22,21.74L19.52,18.51Q21.13,17.17,21.13,14.75L21.13,6.69Q21.13,4.72,19.52,4.01L14.15,1.86Q12.00,1.05,9.85,1.86L4.48,4.01Q2.87,4.72,2.87,6.69L2.87,14.75Q2.87,17.17,4.48,18.51L8.78,21.74C10.21,22.81,13.79,22.81,15.22,21.74zM12.00,13.58L12.00,13.58A1.05 1.05 0 0 1 13.05,14.63L13.05,15.68A1.05 1.05 0 0 1 12.00,16.73L12.00,16.73A1.05 1.05 0 0 1 10.95,15.68L10.95,14.63A1.05 1.05 0 0 1 12.00,13.58zM12.00,7.53C13.31,7.53,14.37,8.59,14.37,9.90C14.37,11.20,13.31,12.26,12.00,12.26C10.69,12.26,9.63,11.20,9.63,9.90C9.63,8.59,10.69,7.53,12.00,7.53z"
+                        android:strokeLineCap="round"
+                        android:strokeLineJoin="round">
+                        <aapt:attr name="android:strokeColor">
+                            <gradient
+                                android:endX="21.133"
+                                android:endY="22.544"
+                                android:startX="2.867"
+                                android:startY="1.456"
+                                android:type="linear">
+                                <item
+                                    android:color="#00000000"
+                                    android:offset="0.000" />
+                                <item
+                                    android:color="#00000000"
+                                    android:offset="1.000" />
+                            </gradient>
+                        </aapt:attr>
+                        <aapt:attr name="android:fillColor">
+                            <gradient
+                                android:endX="12.000"
+                                android:endY="24.292"
+                                android:startX="12.000"
+                                android:startY="-0.161"
+                                android:type="linear">
+                                <item
+                                    android:color="@color/icon_tint"
+                                    android:offset="0.000" />
+                                <item
+                                    android:alpha="0.4"
+                                    android:color="@color/icon_tint"
+                                    android:offset="1.000" />
+                            </gradient>
+                        </aapt:attr>
+
+                    </path>
+                </group>
+            </group>
+        </vector>
+    </item>
+</layer-list>
