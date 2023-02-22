@@ -124,7 +124,7 @@ public class UiRoundness extends AppCompatActivity {
 
                 Runnable runnable = () -> {
                     try {
-                        hasErroredOut.set(RoundnessManager.enable_roundness(finalUiCornerRadius[0]));
+                        hasErroredOut.set(RoundnessManager.enableOverlay(finalUiCornerRadius[0]));
                     } catch (IOException e) {
                         hasErroredOut.set(true);
                     }

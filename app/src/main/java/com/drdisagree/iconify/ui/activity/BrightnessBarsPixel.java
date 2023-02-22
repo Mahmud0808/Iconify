@@ -18,7 +18,7 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.overlaymanager.BrightnessPixelManager;
+import com.drdisagree.iconify.overlaymanager.BrightnessBarPixelManager;
 import com.drdisagree.iconify.ui.view.LoadingDialog;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -147,7 +147,7 @@ public class BrightnessBarsPixel extends AppCompatActivity {
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
-                BrightnessPixelManager.install_pack(index + 1);
+                BrightnessBarPixelManager.enableOverlay(index + 1);
 
                 runOnUiThread(() -> {
                     new Handler().postDelayed(() -> {
@@ -173,7 +173,7 @@ public class BrightnessBarsPixel extends AppCompatActivity {
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
-                BrightnessPixelManager.disable_pack(index + 1);
+                BrightnessBarPixelManager.disable_pack(index + 1);
 
                 runOnUiThread(() -> {
                     new Handler().postDelayed(() -> {

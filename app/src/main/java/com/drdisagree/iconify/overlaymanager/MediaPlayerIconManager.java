@@ -7,7 +7,7 @@ import java.io.File;
 
 public class MediaPlayerIconManager {
 
-    public static void install_pack(int m, int n) {
+    public static void enableOverlay(int m, int n) {
         disable_others(m, n);
         enable_pack(m, n);
     }

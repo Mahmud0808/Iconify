@@ -131,7 +131,7 @@ public class SettingsIcons extends AppCompatActivity {
 
                 Runnable runnable = () -> {
                     try {
-                        hasErroredOut.set(SettingsIconsManager.enable_pack(selectedIcon, selectedBackground, selectedIconColor));
+                        hasErroredOut.set(SettingsIconsManager.enableOverlay(selectedIcon, selectedBackground, selectedIconColor));
                     } catch (IOException e) {
                         hasErroredOut.set(true);
                     }

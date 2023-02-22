@@ -198,7 +198,7 @@ public class QsShapesPixel extends AppCompatActivity {
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
-                QsShapePixelManager.install_pack(index + 1);
+                QsShapePixelManager.enableOverlay(index + 1);
 
                 runOnUiThread(() -> {
                     new Handler().postDelayed(() -> {

@@ -175,7 +175,7 @@ public class MediaPlayer extends AppCompatActivity {
                 if (Prefs.getBoolean(("IconifyComponentMPIP" + idx + finalI + ".overlay"))) {
                     OverlayUtil.disableOverlay("IconifyComponentMPIP" + idx + finalI + ".overlay");
                 } else {
-                    MediaPlayerIconManager.install_pack(idx, finalI);
+                    MediaPlayerIconManager.enableOverlay(idx, finalI);
                 }
                 refreshBackground();
             });

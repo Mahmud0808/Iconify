@@ -18,9 +18,9 @@ import com.drdisagree.iconify.utils.OverlayUtil;
 
 import java.io.File;
 
-public class BrightnessPixelManager {
+public class BrightnessBarPixelManager {
 
-    public static void install_pack(int n) {
+    public static void enableOverlay(int n) {
         disable_others(n);
         enable_pack(n);
         FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(ContextCompat.getColor(Iconify.getAppContext(), R.color.holo_blue_light), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));

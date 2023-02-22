@@ -68,7 +68,7 @@ public class IconShape extends AppCompatActivity {
 
             int finalI = i;
             list.setOnClickListener(v -> {
-                IconShapeManager.install_pack(finalI);
+                IconShapeManager.enableOverlay(finalI);
                 refreshBackground();
             });
 

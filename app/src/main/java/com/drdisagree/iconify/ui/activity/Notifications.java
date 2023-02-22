@@ -46,7 +46,7 @@ public class Notifications extends AppCompatActivity {
         }
         setContentView(R.layout.activity_notifications);
         if (!SystemUtil.isDarkMode())
-            ((CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar)).setBackgroundColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.offStateColor4));
+            findViewById(R.id.collapsing_toolbar).setBackgroundColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.offStateColor4));
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
@@ -188,7 +188,7 @@ public class Notifications extends AppCompatActivity {
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             @SuppressLint("SetTextI18n") Runnable runnable = () -> {
-                NotificationManager.install_pack(index + 1);
+                NotificationManager.enableOverlay(index + 1);
 
                 runOnUiThread(() -> {
                     new Handler().postDelayed(() -> {

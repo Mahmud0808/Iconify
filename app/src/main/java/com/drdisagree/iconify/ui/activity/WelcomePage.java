@@ -34,7 +34,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WelcomePage extends AppCompatActivity {
 
-    private static boolean SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES = false;
+    private static final boolean SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES = false;
     private static boolean hasErroredOut = false;
     @SuppressLint("StaticFieldLeak")
     private static LinearLayout warn;

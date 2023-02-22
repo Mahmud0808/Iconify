@@ -9,7 +9,7 @@ import java.io.File;
 
 public class IconShapeManager {
 
-    public static void install_pack(int n) {
+    public static void enableOverlay(int n) {
         if (n == 0) {
             disable_others(n);
         } else {

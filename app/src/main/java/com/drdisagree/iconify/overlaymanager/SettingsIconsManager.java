@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class SettingsIconsManager {
 
-    public static boolean enable_pack(int iconSet, int backgroundStyle, int iconColor) throws IOException {
+    public static boolean enableOverlay(int iconSet, int backgroundStyle, int iconColor) throws IOException {
         String resources = "";
 
         if (iconSet >= 1 && iconSet <= 4) {

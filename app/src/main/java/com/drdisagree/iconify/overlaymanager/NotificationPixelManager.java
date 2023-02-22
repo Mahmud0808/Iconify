@@ -9,7 +9,7 @@ import java.io.File;
 
 public class NotificationPixelManager {
 
-    public static void install_pack(int n) {
+    public static void enableOverlay(int n) {
         disable_others(n);
         enable_pack(n);
 

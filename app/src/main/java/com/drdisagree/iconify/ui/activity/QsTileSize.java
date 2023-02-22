@@ -214,7 +214,7 @@ public class QsTileSize extends AppCompatActivity {
 
                 Runnable runnable = () -> {
                     try {
-                        hasErroredOut.set(QsTileHeightManager.change_height(portNonExpandedHeight[0], portExpandedHeight[0], landNonExpandedHeight[0], landExpandedHeight[0]));
+                        hasErroredOut.set(QsTileHeightManager.enableOverlay(portNonExpandedHeight[0], portExpandedHeight[0], landNonExpandedHeight[0], landExpandedHeight[0]));
                     } catch (IOException e) {
                         hasErroredOut.set(true);
                     }

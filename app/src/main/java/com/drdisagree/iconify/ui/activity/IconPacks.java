@@ -166,7 +166,7 @@ public class IconPacks extends AppCompatActivity {
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
-                IconPackManager.install_pack(index + 1);
+                IconPackManager.enableOverlay(index + 1);
 
                 runOnUiThread(() -> {
                     new Handler().postDelayed(() -> {

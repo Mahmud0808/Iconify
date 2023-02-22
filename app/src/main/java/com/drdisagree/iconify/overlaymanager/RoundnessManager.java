@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class RoundnessManager {
 
-    public static boolean enable_roundness(int n) throws IOException {
+    public static boolean enableOverlay(int n) throws IOException {
         int cornerRadius = n + 8;
 
         String resources = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n" +

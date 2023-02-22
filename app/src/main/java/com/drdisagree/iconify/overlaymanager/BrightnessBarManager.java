@@ -7,9 +7,9 @@ import com.drdisagree.iconify.utils.OverlayUtil;
 
 import java.io.File;
 
-public class BrightnessManager {
+public class BrightnessBarManager {
 
-    public static void install_pack(int n) {
+    public static void enableOverlay(int n) {
         disable_others(n);
         enable_pack(n);
 

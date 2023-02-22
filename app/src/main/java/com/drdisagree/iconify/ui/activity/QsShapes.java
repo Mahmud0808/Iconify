@@ -223,7 +223,7 @@ public class QsShapes extends AppCompatActivity {
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
-                QsShapeManager.install_pack(index + 1);
+                QsShapeManager.enableOverlay(index + 1);
 
                 runOnUiThread(() -> {
                     new Handler().postDelayed(() -> {

@@ -45,7 +45,7 @@ public class NotificationsPixel extends AppCompatActivity {
         }
         setContentView(R.layout.activity_notifications_pixel);
         if (!SystemUtil.isDarkMode())
-            ((CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar)).setBackgroundColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.offStateColor4));
+            findViewById(R.id.collapsing_toolbar).setBackgroundColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.offStateColor4));
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
@@ -167,7 +167,7 @@ public class NotificationsPixel extends AppCompatActivity {
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
             @SuppressLint("SetTextI18n") Runnable runnable = () -> {
-                NotificationPixelManager.install_pack(index + 1);
+                NotificationPixelManager.enableOverlay(index + 1);
 
                 runOnUiThread(() -> {
                     new Handler().postDelayed(() -> {
