@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.utils.compiler;
 
+import static com.drdisagree.iconify.utils.HelperUtil.writeLog;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readCertificate;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;
 
@@ -31,8 +32,7 @@ public class OverlayCompilerUtil {
     public static boolean buildAPK() {
         // Create AndroidManifest.xml and build APK using AAPT
         File dir = new File(References.DATA_DIR + "/Overlays");
-        if (dir.listFiles() == null)
-            return true;
+        if (dir.listFiles() == null) return true;
 
         for (File pkg : Objects.requireNonNull(dir.listFiles())) {
             if (pkg.isDirectory()) {
@@ -57,8 +57,7 @@ public class OverlayCompilerUtil {
     public static boolean alignAPK() {
         // ZipAlign the APK
         File dir = new File(References.UNSIGNED_UNALIGNED_DIR);
-        if (dir.listFiles() == null)
-            return true;
+        if (dir.listFiles() == null) return true;
 
         for (File overlay : Objects.requireNonNull(dir.listFiles())) {
             if (!overlay.isDirectory()) {
@@ -74,8 +73,7 @@ public class OverlayCompilerUtil {
     public static boolean signAPK() {
         // Sign the APK
         File dir = new File(References.UNSIGNED_DIR);
-        if (dir.listFiles() == null)
-            return true;
+        if (dir.listFiles() == null) return true;
 
         for (File overlay : Objects.requireNonNull(dir.listFiles())) {
             if (!overlay.isDirectory()) {
@@ -127,8 +125,10 @@ public class OverlayCompilerUtil {
 
         if (result.isSuccess())
             Log.i(TAG + " - Manifest", "Successfully created manifest for " + name);
-        else
+        else {
             Log.e(TAG + " - Manifest", "Failed to create manifest for " + name + '\n' + String.join("\n", result.getOut()));
+            writeLog(TAG + " - Manifest", "Failed to create manifest for " + name, result.getOut());
+        }
 
         return !result.isSuccess();
     }
@@ -136,10 +136,11 @@ public class OverlayCompilerUtil {
     private static boolean runAapt(String source, String name) {
         Shell.Result result = Shell.cmd(aapt + " p -f -v -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + References.UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk >/dev/null;").exec();
 
-        if (result.isSuccess())
-            Log.i(TAG + " - AAPT", "Successfully built APK for " + name);
-        else
+        if (result.isSuccess()) Log.i(TAG + " - AAPT", "Successfully built APK for " + name);
+        else {
             Log.e(TAG + " - AAPT", "Failed to build APK for " + name + '\n' + String.join("\n", result.getOut()));
+            writeLog(TAG + " - AAPT", "Failed to build APK for " + name, result.getOut());
+        }
 
         return !result.isSuccess();
     }
@@ -147,10 +148,11 @@ public class OverlayCompilerUtil {
     private static boolean zipAlign(String source, String name) {
         Shell.Result result = Shell.cmd(zipalign + " 4 " + source + ' ' + References.UNSIGNED_DIR + '/' + name).exec();
 
-        if (result.isSuccess())
-            Log.i(TAG + " - ZipAlign", "Successfully zip aligned " + name);
-        else
+        if (result.isSuccess()) Log.i(TAG + " - ZipAlign", "Successfully zip aligned " + name);
+        else {
             Log.e(TAG + " - ZipAlign", "Failed to zip align " + name + '\n' + String.join("\n", result.getOut()));
+            writeLog(TAG + " - ZipAlign", "Failed to zip align " + name, result.getOut());
+        }
 
         return !result.isSuccess();
     }
@@ -179,6 +181,7 @@ public class OverlayCompilerUtil {
             Log.i(TAG + " - APKSigner", "Successfully signed " + name.replace(".apk", ""));
         } catch (Exception e) {
             Log.e(TAG + " - APKSigner", "Failed to sign " + name.replace(".apk", "") + '\n' + e);
+            writeLog(TAG + " - APKSigner", "Failed to sign " + name, e.toString());
             postExecute(true);
             return true;
         }

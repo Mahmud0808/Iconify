@@ -23,7 +23,8 @@ import java.util.Map;
 
 public class ModuleUtil {
 
-    public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
+    private static final String TAG = "ModuleUtil";
+    private static final List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
 
     public static void handleModule() throws IOException {
         if (moduleExists()) {
@@ -36,7 +37,8 @@ public class ModuleUtil {
     }
 
     static void installModule() {
-        Log.e("ModuleCheck", "Magisk module does not exist, creating!");
+        Log.d(TAG, "Magisk module does not exist, creating...");
+
         // Clean temporary directory
         Shell.cmd("mkdir -p " + References.MODULE_DIR).exec();
         Shell.cmd("printf 'id=Iconify\n" + "name=Iconify\nversion=" + BuildConfig.VERSION_NAME + "\n" + "versionCode=" + BuildConfig.VERSION_CODE + "\n" + "" + "author=@DrDisagree\n" + "description=Systemless module for Iconify.\n' > " + References.MODULE_DIR + "/module.prop").exec();
@@ -82,7 +84,8 @@ public class ModuleUtil {
         Shell.cmd("mkdir -p " + References.MODULE_DIR + "/system").exec();
         Shell.cmd("mkdir -p " + References.MODULE_DIR + "/system/product").exec();
         Shell.cmd("mkdir -p " + References.MODULE_DIR + "/system/product/overlay").exec();
-        Log.d("ModuleUtil", "Magisk module successfully created!");
+
+        Log.i(TAG, "Magisk module successfully created.");
     }
 
     private static boolean shouldUseDefaultColors() {
@@ -94,7 +97,7 @@ public class ModuleUtil {
     }
 
     public static void extractTools() {
-        Log.d("ModuleUtil", "Extracting tools...");
+        Log.d(TAG, "Extracting tools...");
         String[] supported_abis = Build.SUPPORTED_ABIS;
         boolean isArm64 = false;
         for (String abi : supported_abis) {
@@ -121,7 +124,7 @@ public class ModuleUtil {
     }
 
     public static void extractPremadeOverlays() {
-        Log.d("ModuleUtil", "Extracting pre-made overlays...");
+        Log.d(TAG, "Extracting pre-made overlays...");
         try {
             FileUtil.copyAssets("PremadeOverlays");
         } catch (Exception e) {
