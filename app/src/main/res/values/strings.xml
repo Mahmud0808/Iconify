@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Iconify</string>
+    <string name="app_name" translatable="false">Iconify</string>
 
     <!-- Activities -->
     <string name="activity_title_brightness_bar">Brightness Bar</string>

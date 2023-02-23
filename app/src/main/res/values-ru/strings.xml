@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">Iconify</string>
-
     <!-- Activities -->
     <string name="accurate_shades_desc">Отключите это, чтобы получить точные оттенки</string>
     <string name="accurate_shades_title">Точные оттенки</string>

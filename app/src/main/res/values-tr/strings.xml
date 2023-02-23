@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">Iconify</string>
-
     <!-- Activities -->
     <string name="activity_title_brightness_bar">Parlaklık Barı</string>
     <string name="activity_desc_brightness_bar">Parlaklık barını özelleştir</string>

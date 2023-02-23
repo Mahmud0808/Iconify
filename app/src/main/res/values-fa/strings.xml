@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">Iconify</string>
-
     <!-- Activities -->
     <string name="activity_title_brightness_bar">نوار تنظیم نور صفحه</string>
     <string name="activity_desc_brightness_bar">تغییر ظاهر نوار تنظیم نور صفحه</string>
