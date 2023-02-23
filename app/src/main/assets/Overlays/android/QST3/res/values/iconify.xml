@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.SystemUI.QuickSettings" parent="@*android:style/Theme.DeviceDefault.SystemUI.Dialog">
-        <item name="android:textColorSecondary">#BFFFFFFF</item>
+    <style name="Theme.SystemUI.QuickSettings" parent="@*android:style/Theme.DeviceDefault">
+        <item name="android:textColorSecondary">#BF000000</item>
         <item name="android:textColorPrimaryInverse">?android:textColorPrimary</item>
         <item name="android:alertDialogTheme">@*android:style/Theme.DeviceDefault.Dialog.Alert
         </item>
