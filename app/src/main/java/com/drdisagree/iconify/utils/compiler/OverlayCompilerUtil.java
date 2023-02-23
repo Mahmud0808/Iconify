@@ -40,12 +40,10 @@ public class OverlayCompilerUtil {
                     if (overlay.isDirectory()) {
                         String overlay_name = overlay.toString().replace(pkg.toString() + '/', "");
                         if (createManifest(overlay_name, pkg.toString().replace(References.DATA_DIR + "/Overlays/", ""), overlay.getAbsolutePath())) {
-                            Log.e(TAG, "Failed to create Manifest for " + overlay_name + "! Exiting...");
                             postExecute(true);
                             return true;
                         }
                         if (runAapt(overlay.getAbsolutePath(), overlay_name)) {
-                            Log.e(TAG, "Failed to build " + overlay_name + "! Exiting...");
                             postExecute(true);
                             return true;
                         }
@@ -65,7 +63,6 @@ public class OverlayCompilerUtil {
         for (File overlay : Objects.requireNonNull(dir.listFiles())) {
             if (!overlay.isDirectory()) {
                 if (zipAlign(overlay.getAbsolutePath(), overlay.toString().replace(References.UNSIGNED_UNALIGNED_DIR + '/', "").replace("-unaligned", ""))) {
-                    Log.e(TAG, "Failed to align " + overlay + "! Exiting...");
                     postExecute(true);
                     return true;
                 }
@@ -83,7 +80,6 @@ public class OverlayCompilerUtil {
         for (File overlay : Objects.requireNonNull(dir.listFiles())) {
             if (!overlay.isDirectory()) {
                 if (apkSigner(overlay.getAbsolutePath(), overlay.toString().replace(References.UNSIGNED_DIR + '/', "").replace("-unsigned", ""))) {
-                    Log.e(TAG, "Failed to sign " + overlay + "! Exiting...");
                     postExecute(true);
                     return true;
                 }
@@ -126,16 +122,37 @@ public class OverlayCompilerUtil {
         HelperUtil.restoreFiles();
     }
 
-    private static boolean createManifest(String pkgName, String target, String source) {
-        return !Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + pkgName + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + target + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + source + "/AndroidManifest.xml;").exec().isSuccess();
+    private static boolean createManifest(String name, String target, String source) {
+        Shell.Result result = Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + name + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + target + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + source + "/AndroidManifest.xml;").exec();
+
+        if (result.isSuccess())
+            Log.i(TAG + " - Manifest", "Successfully created manifest for " + name);
+        else
+            Log.e(TAG + " - Manifest", "Failed to create manifest for " + name + '\n' + String.join("\n", result.getOut()));
+
+        return !result.isSuccess();
     }
 
     private static boolean runAapt(String source, String name) {
-        return !Shell.cmd(aapt + " p -f -v -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + References.UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk >/dev/null;").exec().isSuccess();
+        Shell.Result result = Shell.cmd(aapt + " p -f -v -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + References.UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk >/dev/null;").exec();
+
+        if (result.isSuccess())
+            Log.i(TAG + " - AAPT", "Successfully built APK for " + name);
+        else
+            Log.e(TAG + " - AAPT", "Failed to build APK for " + name + '\n' + String.join("\n", result.getOut()));
+
+        return !result.isSuccess();
     }
 
     private static boolean zipAlign(String source, String name) {
-        return !Shell.cmd(zipalign + " 4 " + source + ' ' + References.UNSIGNED_DIR + '/' + name).exec().isSuccess();
+        Shell.Result result = Shell.cmd(zipalign + " 4 " + source + ' ' + References.UNSIGNED_DIR + '/' + name).exec();
+
+        if (result.isSuccess())
+            Log.i(TAG + " - ZipAlign", "Successfully zip aligned " + name);
+        else
+            Log.e(TAG + " - ZipAlign", "Failed to zip align " + name + '\n' + String.join("\n", result.getOut()));
+
+        return !result.isSuccess();
     }
 
     private static boolean apkSigner(String source, String name) {
@@ -158,8 +175,10 @@ public class OverlayCompilerUtil {
             FileOutputStream out = new FileOutputStream(References.SIGNED_DIR + "/IconifyComponent" + name);
 
             SignAPK.sign(cert, key, jar, out);
+
+            Log.i(TAG + " - APKSigner", "Successfully signed " + name.replace(".apk", ""));
         } catch (Exception e) {
-            Log.e(TAG, "Failed to sign " + name + " APK...\n" + e);
+            Log.e(TAG + " - APKSigner", "Failed to sign " + name.replace(".apk", "") + '\n' + e);
             postExecute(true);
             return true;
         }
