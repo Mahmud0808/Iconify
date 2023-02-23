@@ -12,6 +12,7 @@
         android:background="@drawable/container"
         android:elevation="8dp"
         android:gravity="center"
+        android:layoutDirection="locale"
         android:orientation="horizontal"
         android:padding="28dp"
         tools:ignore="UselessParent">
@@ -37,9 +38,9 @@
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="start|center"
                 android:text="@string/installing"
-                android:textAlignment="center"
+                android:textAlignment="viewStart"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="17sp"
                 android:textStyle="bold" />
@@ -48,10 +49,10 @@
                 android:id="@+id/desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="start|center"
                 android:letterSpacing="0.1"
                 android:text="@string/loading_dialog_wait"
-                android:textAlignment="center"
+                android:textAlignment="viewStart"
                 android:textColor="@color/textColorSecondary"
                 android:textSize="16sp" />
 
