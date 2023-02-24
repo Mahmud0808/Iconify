@@ -9,7 +9,7 @@
     android:gravity="start|center"
     android:orientation="vertical"
     android:paddingStart="@dimen/container_paddingSide"
-    android:paddingTop="14dp"
+    android:paddingTop="@dimen/container_padding"
     android:paddingEnd="18dp"
     android:paddingBottom="@dimen/container_padding">
 
@@ -21,8 +21,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="start|top"
-            android:layout_marginTop="6dp"
+            android:layout_gravity="start|center"
             android:layout_weight="1.0"
             android:text="@string/attention"
             android:textColor="@color/textColorPrimary"
@@ -37,8 +36,8 @@
             android:padding="6dp">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="end|center"
                 android:background="@drawable/ic_close"
                 android:backgroundTint="@color/textColorPrimary"
