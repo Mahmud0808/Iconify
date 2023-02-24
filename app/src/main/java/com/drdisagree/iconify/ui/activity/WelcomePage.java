@@ -26,7 +26,7 @@ import com.drdisagree.iconify.utils.ModuleUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.RootUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.compiler.OverlayCompilerUtil;
+import com.drdisagree.iconify.utils.compiler.OverlayCompiler;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.IOException;
@@ -175,23 +175,23 @@ public class WelcomePage extends AppCompatActivity {
             ModuleUtil.extractTools();
             ModuleUtil.extractPremadeOverlays();
             try {
-                OverlayCompilerUtil.preExecute();
+                OverlayCompiler.preExecute();
             } catch (IOException e) {
                 hasErroredOut = true;
                 e.printStackTrace();
             }
 
             publishProgress(step++);
-            hasErroredOut = OverlayCompilerUtil.buildAPK();
+            hasErroredOut = OverlayCompiler.buildAPK();
 
             publishProgress(step++);
-            hasErroredOut = OverlayCompilerUtil.alignAPK();
+            hasErroredOut = OverlayCompiler.alignAPK();
 
             publishProgress(step++);
-            hasErroredOut = OverlayCompilerUtil.signAPK();
+            hasErroredOut = OverlayCompiler.signAPK();
 
             publishProgress(step);
-            OverlayCompilerUtil.postExecute(hasErroredOut);
+            OverlayCompiler.postExecute(hasErroredOut);
 
             return null;
         }

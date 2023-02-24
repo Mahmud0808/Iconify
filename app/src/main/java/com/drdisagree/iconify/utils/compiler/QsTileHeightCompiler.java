@@ -22,9 +22,9 @@ import java.io.InputStream;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 
-public class QsTileHeightCompilerUtil {
+public class QsTileHeightCompiler {
 
-    private static final String TAG = "QsTileHeightCompilerUtil";
+    private static final String TAG = "QsTileHeightCompiler";
     private static final String aapt = References.TOOLS_DIR + "/libaapt.so";
     private static final String zipalign = References.TOOLS_DIR + "/libzipalign.so";
 

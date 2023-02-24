@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.utils;
+package com.drdisagree.iconify.utils.helpers;
 
 import android.util.TypedValue;
 

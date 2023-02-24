@@ -15,6 +15,7 @@ import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.References;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.utils.helpers.BackupRestore;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class ModuleUtil {
     public static void handleModule() throws IOException {
         if (moduleExists()) {
             // Backup necessary files
-            HelperUtil.backupFiles();
+            BackupRestore.backupFiles();
 
             Shell.cmd("rm -rf " + References.MODULE_DIR).exec();
         }
@@ -53,7 +54,7 @@ public class ModuleUtil {
         StringBuilder fabricated_cmd = new StringBuilder();
         for (Map.Entry<String, ?> item : map.entrySet()) {
             if (item.getValue() instanceof Boolean && ((Boolean) item.getValue()) && item.getKey().contains("fabricated") && !item.getKey().contains("quickQsOffsetHeight")) {
-                fabricated_cmd.append(FabricatedOverlayUtil.buildCommand(Prefs.getString("FOCMDtarget" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDname" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDtype" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDresourceName" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDval" + item.getKey().replace("fabricated", ""))));
+                fabricated_cmd.append(FabricatedUtil.buildCommand(Prefs.getString("FOCMDtarget" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDname" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDtype" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDresourceName" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDval" + item.getKey().replace("fabricated", ""))));
                 if (item.getKey().contains(COLOR_ACCENT_PRIMARY)) primaryColorEnabled = true;
                 else if (item.getKey().contains(COLOR_ACCENT_SECONDARY))
                     secondaryColorEnabled = true;
@@ -113,13 +114,12 @@ public class ModuleUtil {
 
         try {
             FileUtil.copyAssets("Tools");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
             Shell.cmd("cp -a " + References.DATA_DIR + "/Tools/" + folderName + "/. " + References.MODULE_DIR + "/tools").exec();
             Shell.cmd("cp " + References.DATA_DIR + "/Tools/zip " + References.MODULE_DIR + "/tools").exec();
             FileUtil.cleanDir("Tools");
-            RootUtil.setPermissionsRecursively(755, References.MODULE_DIR + "/tools");
+            RootUtil.setPermissionsRecursively(777, References.MODULE_DIR + "/tools");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -127,13 +127,12 @@ public class ModuleUtil {
         Log.d(TAG, "Extracting pre-made overlays...");
         try {
             FileUtil.copyAssets("PremadeOverlays");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
             Shell.cmd("rm " + References.DATA_DIR + "/PremadeOverlays/cheatsheet").exec();
             Shell.cmd("cp -a " + References.DATA_DIR + "/PremadeOverlays/. " + References.OVERLAY_DIR).exec();
             FileUtil.cleanDir("PremadeOverlays");
             RootUtil.setPermissionsRecursively(644, References.OVERLAY_DIR + '/');
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

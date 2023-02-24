@@ -25,7 +25,7 @@ import com.drdisagree.iconify.ui.view.InfoDialog;
 import com.drdisagree.iconify.ui.view.LoadingDialog;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.compiler.VolumeCompilerUtil;
+import com.drdisagree.iconify.utils.compiler.VolumeCompiler;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.io.IOException;
@@ -166,7 +166,7 @@ public class VolumePanel extends AppCompatActivity {
         String finalSelectedStyle = selectedStyle;
         Runnable runnable = () -> {
             try {
-                hasErroredOut.set(VolumeCompilerUtil.buildModule(finalSelectedStyle, SYSTEMUI_PACKAGE));
+                hasErroredOut.set(VolumeCompiler.buildModule(finalSelectedStyle, SYSTEMUI_PACKAGE));
             } catch (IOException e) {
                 hasErroredOut.set(true);
                 e.printStackTrace();

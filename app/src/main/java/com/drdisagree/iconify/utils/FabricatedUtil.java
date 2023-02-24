@@ -4,11 +4,12 @@ import android.util.TypedValue;
 
 import com.drdisagree.iconify.common.References;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.utils.helpers.TypedValueUtil;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
 
-public class FabricatedOverlayUtil {
+public class FabricatedUtil {
 
     public static List<String> getOverlayList() {
         return Shell.cmd("cmd overlay list |  grep -E '^....com.android.shell:IconifyComponent' | sed -E 's/^....com.android.shell:IconifyComponent//'").exec().getOut();

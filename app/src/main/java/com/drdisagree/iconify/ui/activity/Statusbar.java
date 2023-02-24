@@ -22,7 +22,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
+import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -76,7 +76,7 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_SB_LEFT_PADDING, "dimen", "status_bar_padding_start", finalSBLeftPadding[0] + "dp");
+                FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_SB_LEFT_PADDING, "dimen", "status_bar_padding_start", finalSBLeftPadding[0] + "dp");
 
                 Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
             }
@@ -107,7 +107,7 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_SB_RIGHT_PADDING, "dimen", "status_bar_padding_end", finalSBRightPadding[0] + "dp");
+                FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_SB_RIGHT_PADDING, "dimen", "status_bar_padding_end", finalSBRightPadding[0] + "dp");
 
                 Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
             }
@@ -173,25 +173,25 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
     }
 
     private void applySBColor() {
-        FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "colorSBTint1", "color", "dark_mode_icon_color_dual_tone_fill", ColorToSpecialHex(Integer.parseInt(colorSBTint)));
-        FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "colorSBTint2", "color", "dark_mode_icon_color_single_tone", ColorToSpecialHex(Integer.parseInt(colorSBTint)));
-        FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "colorSBTint3", "color", "dark_mode_qs_icon_color_dual_tone_fill", ColorToSpecialHex(Integer.parseInt(colorSBTint)));
-        FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "colorSBTint4", "color", "dark_mode_qs_icon_color_single_tone", ColorToSpecialHex(Integer.parseInt(colorSBTint)));
-        FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "colorSBTint5", "color", "light_mode_icon_color_dual_tone_fill", ColorToSpecialHex(Integer.parseInt(colorSBTint)));
-        FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "colorSBTint6", "color", "light_mode_icon_color_single_tone", ColorToSpecialHex(Integer.parseInt(colorSBTint)));
-        FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "colorSBTint7", "color", "status_bar_clock_color", ColorToSpecialHex(Integer.parseInt(colorSBTint)));
+        FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "colorSBTint1", "color", "dark_mode_icon_color_dual_tone_fill", ColorToSpecialHex(Integer.parseInt(colorSBTint)));
+        FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "colorSBTint2", "color", "dark_mode_icon_color_single_tone", ColorToSpecialHex(Integer.parseInt(colorSBTint)));
+        FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "colorSBTint3", "color", "dark_mode_qs_icon_color_dual_tone_fill", ColorToSpecialHex(Integer.parseInt(colorSBTint)));
+        FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "colorSBTint4", "color", "dark_mode_qs_icon_color_single_tone", ColorToSpecialHex(Integer.parseInt(colorSBTint)));
+        FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "colorSBTint5", "color", "light_mode_icon_color_dual_tone_fill", ColorToSpecialHex(Integer.parseInt(colorSBTint)));
+        FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "colorSBTint6", "color", "light_mode_icon_color_single_tone", ColorToSpecialHex(Integer.parseInt(colorSBTint)));
+        FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "colorSBTint7", "color", "status_bar_clock_color", ColorToSpecialHex(Integer.parseInt(colorSBTint)));
 
         new Handler().postDelayed(SystemUtil::restartSystemUI, 1000);
     }
 
     private void resetSBColor() {
-        FabricatedOverlayUtil.disableOverlay("colorSBTint1");
-        FabricatedOverlayUtil.disableOverlay("colorSBTint2");
-        FabricatedOverlayUtil.disableOverlay("colorSBTint3");
-        FabricatedOverlayUtil.disableOverlay("colorSBTint4");
-        FabricatedOverlayUtil.disableOverlay("colorSBTint5");
-        FabricatedOverlayUtil.disableOverlay("colorSBTint6");
-        FabricatedOverlayUtil.disableOverlay("colorSBTint7");
+        FabricatedUtil.disableOverlay("colorSBTint1");
+        FabricatedUtil.disableOverlay("colorSBTint2");
+        FabricatedUtil.disableOverlay("colorSBTint3");
+        FabricatedUtil.disableOverlay("colorSBTint4");
+        FabricatedUtil.disableOverlay("colorSBTint5");
+        FabricatedUtil.disableOverlay("colorSBTint6");
+        FabricatedUtil.disableOverlay("colorSBTint7");
         OverlayUtil.disableOverlay("IconifyComponentSBTint.overlay");
 
         new Handler().postDelayed(SystemUtil::restartSystemUI, 1000);

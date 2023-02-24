@@ -21,7 +21,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.QsShapePixelManager;
 import com.drdisagree.iconify.ui.view.LoadingDialog;
-import com.drdisagree.iconify.utils.DisplayUtil;
+import com.drdisagree.iconify.utils.helpers.DisplayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;

@@ -23,9 +23,9 @@ import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.util.Objects;
 
-public class SettingsIconsCompilerUtil {
+public class SettingsIconsCompiler {
 
-    private static final String TAG = "SettingsIconsCompilerUtil";
+    private static final String TAG = "SettingsIconsCompiler";
     private static final String aapt = References.TOOLS_DIR + "/libaapt.so";
     private static final String zipalign = References.TOOLS_DIR + "/libzipalign.so";
     private static final String[] packages = new String[]{"com.android.settings", "com.google.android.apps.wellbeing", "com.google.android.gms"};

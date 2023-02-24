@@ -19,7 +19,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
-import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
+import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.HelperUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -63,9 +63,9 @@ public class XposedOthers extends AppCompatActivity {
         enable_fixed_status_icons.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(FIXED_STATUS_ICONS_SWITCH, isChecked);
             if (!isChecked)
-                FabricatedOverlayUtil.disableOverlay("quickQsOffsetHeight");
+                FabricatedUtil.disableOverlay("quickQsOffsetHeight");
             else if (RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0) > 32)
-                FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (48 + RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0)) + "dp");
+                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (48 + RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0)) + "dp");
 
             new Handler().postDelayed(HelperUtil::forceApply, 200);
         });
@@ -92,7 +92,7 @@ public class XposedOthers extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(FIXED_STATUS_ICONS_TOPMARGIN, topMarginStatusIcons[0]);
                 if (RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)) {
-                    FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (48 + topMarginStatusIcons[0]) + "dp");
+                    FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (48 + topMarginStatusIcons[0]) + "dp");
                     new Handler().postDelayed(HelperUtil::forceApply, 200);
                 }
             }

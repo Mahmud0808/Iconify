@@ -1,17 +1,17 @@
 package com.drdisagree.iconify.utils.compiler;
 
-import static com.drdisagree.iconify.utils.HelperUtil.writeLog;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readCertificate;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;
+import static com.drdisagree.iconify.utils.helpers.Logger.writeLog;
 
 import android.util.Log;
 
 import com.drdisagree.iconify.common.References;
 import com.drdisagree.iconify.utils.FileUtil;
-import com.drdisagree.iconify.utils.HelperUtil;
 import com.drdisagree.iconify.utils.RootUtil;
 import com.drdisagree.iconify.utils.apksigner.JarMap;
 import com.drdisagree.iconify.utils.apksigner.SignAPK;
+import com.drdisagree.iconify.utils.helpers.BackupRestore;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
@@ -23,9 +23,9 @@ import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.util.Objects;
 
-public class OverlayCompilerUtil {
+public class OverlayCompiler {
 
-    private static final String TAG = "OverlayCompilerUtil";
+    private static final String TAG = "OverlayCompiler";
     private static final String aapt = References.TOOLS_DIR + "/libaapt.so";
     private static final String zipalign = References.TOOLS_DIR + "/libzipalign.so";
 
@@ -117,7 +117,7 @@ public class OverlayCompilerUtil {
         Shell.cmd("rm -rf " + References.DATA_DIR + "/Overlays").exec();
 
         // Restore backups
-        HelperUtil.restoreFiles();
+        BackupRestore.restoreFiles();
     }
 
     private static boolean createManifest(String name, String target, String source) {

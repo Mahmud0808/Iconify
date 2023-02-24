@@ -21,7 +21,7 @@ import androidx.core.graphics.ColorUtils;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.ui.activity.Settings;
-import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
+import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 
@@ -143,7 +143,7 @@ public class Prefs {
                         OverlayUtil.enableOverlay(item.getKey());
                     else if (item.getKey().contains("fabricated")) {
                         Log.e("Import", item.getKey());
-                        FabricatedOverlayUtil.buildAndEnableOverlay((String) map.get("FOCMDtarget" + item.getKey().replace("fabricated", "")),
+                        FabricatedUtil.buildAndEnableOverlay((String) map.get("FOCMDtarget" + item.getKey().replace("fabricated", "")),
                                 (String) map.get("FOCMDname" + item.getKey().replace("fabricated", "")),
                                 (String) map.get("FOCMDtype" + item.getKey().replace("fabricated", "")),
                                 (String) map.get("FOCMDresourceName" + item.getKey().replace("fabricated", "")),
@@ -151,7 +151,7 @@ public class Prefs {
                     }
                 } else {
                     if (item.getKey().contains("fabricated")) {
-                        FabricatedOverlayUtil.disableOverlay(item.getKey().replace("fabricated", ""));
+                        FabricatedUtil.disableOverlay(item.getKey().replace("fabricated", ""));
                     }
                 }
             } else if (item.getValue() instanceof String) {
@@ -163,15 +163,15 @@ public class Prefs {
                 if (item.getKey().contains(COLOR_ACCENT_PRIMARY) && !primaryColorApplied && getBoolean("fabricated" + item.getKey())) {
                     primaryColorApplied = true;
                     try {
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt((String) item.getValue())));
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(Integer.parseInt((String) item.getValue()), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
+                        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt((String) item.getValue())));
+                        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(Integer.parseInt((String) item.getValue()), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
                     } catch (NumberFormatException ignored) {
                     }
                 }
                 if (item.getKey().contains(COLOR_ACCENT_SECONDARY) && !secondaryColorApplied && !primaryColorApplied && getBoolean("fabricated" + item.getKey())) {
                     secondaryColorApplied = true;
                     try {
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt((String) item.getValue())));
+                        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt((String) item.getValue())));
                     } catch (NumberFormatException ignored) {
                     }
                 }

@@ -1,6 +1,6 @@
 package com.drdisagree.iconify.overlaymanager;
 
-import com.drdisagree.iconify.utils.compiler.QsTileHeightCompilerUtil;
+import com.drdisagree.iconify.utils.compiler.QsTileHeightCompiler;
 
 import java.io.IOException;
 
@@ -19,6 +19,6 @@ public class QsTileHeightManager {
                 "   <dimen name=\"qs_quick_tile_size\">" + landNonex + "dip</dimen>\n" +
                 "</resources>\n";
 
-        return QsTileHeightCompilerUtil.buildOverlay(new String[]{resourcesPortrait, resourcesLanscape});
+        return QsTileHeightCompiler.buildOverlay(new String[]{resourcesPortrait, resourcesLanscape});
     }
 }

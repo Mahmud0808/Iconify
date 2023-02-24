@@ -41,7 +41,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.services.BackgroundService;
 import com.drdisagree.iconify.ui.view.LoadingDialog;
-import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
+import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -145,7 +145,7 @@ public class HomePage extends AppCompatActivity {
             for (String overlay : AllOverlays)
                 Prefs.putBoolean(overlay, OverlayUtil.isOverlayEnabled(EnabledOverlays, overlay));
 
-            List<String> FabricatedEnabledOverlays = FabricatedOverlayUtil.getEnabledOverlayList();
+            List<String> FabricatedEnabledOverlays = FabricatedUtil.getEnabledOverlayList();
             for (String overlay : FabricatedEnabledOverlays)
                 Prefs.putBoolean("fabricated" + overlay, true);
 

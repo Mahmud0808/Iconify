@@ -24,7 +24,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
+import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
@@ -58,7 +58,7 @@ public class ColoredBattery extends AppCompatActivity implements ColorPickerDial
         enable_colored_battery.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 if (OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentIPSUI2.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentIPSUI4.overlay")) {
-                    FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, FABRICATED_COLORED_BATTERY, "bool", "config_batterymeterDualTone", "1");
+                    FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, FABRICATED_COLORED_BATTERY, "bool", "config_batterymeterDualTone", "1");
                     Prefs.putBoolean(COLORED_BATTERY_SWITCH, true);
                 } else {
                     if (OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentIPSUI2.overlay"))
@@ -68,7 +68,7 @@ public class ColoredBattery extends AppCompatActivity implements ColorPickerDial
                 }
             } else {
                 if (OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentIPSUI2.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentIPSUI4.overlay")) {
-                    FabricatedOverlayUtil.disableOverlay(FABRICATED_COLORED_BATTERY);
+                    FabricatedUtil.disableOverlay(FABRICATED_COLORED_BATTERY);
                     Prefs.putBoolean(COLORED_BATTERY_SWITCH, false);
                 } else {
                     if (OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentIPSUI2.overlay"))
@@ -77,8 +77,8 @@ public class ColoredBattery extends AppCompatActivity implements ColorPickerDial
                         Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_plumpy_colored_battery), Toast.LENGTH_SHORT).show();
                 }
 
-                FabricatedOverlayUtil.disableOverlay(FABRICATED_BATTERY_COLOR_BG);
-                FabricatedOverlayUtil.disableOverlay(FABRICATED_BATTERY_COLOR_FG);
+                FabricatedUtil.disableOverlay(FABRICATED_BATTERY_COLOR_BG);
+                FabricatedUtil.disableOverlay(FABRICATED_BATTERY_COLOR_FG);
             }
         });
 
@@ -116,7 +116,7 @@ public class ColoredBattery extends AppCompatActivity implements ColorPickerDial
                 colorBackground = String.valueOf(color);
                 Prefs.putString(FABRICATED_BATTERY_COLOR_BG, colorBackground);
                 updateColorPreview();
-                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_BATTERY_COLOR_BG, "color", "light_mode_icon_color_dual_tone_background", ColorToSpecialHex(Integer.parseInt(colorBackground)));
+                FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_BATTERY_COLOR_BG, "color", "light_mode_icon_color_dual_tone_background", ColorToSpecialHex(Integer.parseInt(colorBackground)));
                 colorPickerDialogBackground.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(colorBackground)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);
 
                 break;
@@ -125,7 +125,7 @@ public class ColoredBattery extends AppCompatActivity implements ColorPickerDial
                 colorFilled = String.valueOf(color);
                 Prefs.putString(FABRICATED_BATTERY_COLOR_FG, colorFilled);
                 updateColorPreview();
-                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_BATTERY_COLOR_FG, "color", "light_mode_icon_color_dual_tone_fill", ColorToSpecialHex(Integer.parseInt(colorFilled)));
+                FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_BATTERY_COLOR_FG, "color", "light_mode_icon_color_dual_tone_fill", ColorToSpecialHex(Integer.parseInt(colorFilled)));
                 colorPickerDialogFilled.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(colorFilled)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(false).setShowColorShades(true);
 
                 break;

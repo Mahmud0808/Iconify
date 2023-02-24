@@ -1,6 +1,6 @@
 package com.drdisagree.iconify.overlaymanager;
 
-import com.drdisagree.iconify.utils.compiler.RoundnessCompilerUtil;
+import com.drdisagree.iconify.utils.compiler.RoundnessCompiler;
 
 import java.io.IOException;
 
@@ -24,6 +24,6 @@ public class RoundnessManager {
                 "    <dimen name=\"harmful_app_name_padding_top\">" + cornerRadius + "dip</dimen>\n" +
                 "</resources>\n";
 
-        return RoundnessCompilerUtil.buildOverlay(resources);
+        return RoundnessCompiler.buildOverlay(resources);
     }
 }

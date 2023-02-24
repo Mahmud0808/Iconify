@@ -33,7 +33,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.view.LoadingDialog;
-import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
+import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -56,7 +56,7 @@ public class Settings extends AppCompatActivity {
         for (Map.Entry<String, ?> item : map.entrySet()) {
             if (item.getValue() instanceof Boolean && ((Boolean) item.getValue()) && item.getKey().contains("fabricated")) {
                 Prefs.putBoolean(item.getKey(), (Boolean) item.getValue());
-                FabricatedOverlayUtil.disableOverlay(item.getKey().replace("fabricated", ""));
+                FabricatedUtil.disableOverlay(item.getKey().replace("fabricated", ""));
             }
         }
 

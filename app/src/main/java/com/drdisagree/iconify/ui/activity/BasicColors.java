@@ -32,7 +32,7 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.view.LoadingDialog;
-import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
+import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
@@ -51,12 +51,12 @@ public class BasicColors extends AppCompatActivity implements ColorPickerDialogL
     ColorPickerDialog.Builder colorPickerDialogPrimary, colorPickerDialogSecondary;
 
     public static void applyPrimaryColors() {
-        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_PRIMARY))));
-        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(Integer.parseInt(Prefs.getString(COLOR_ACCENT_PRIMARY)), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
+        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_PRIMARY))));
+        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(Integer.parseInt(Prefs.getString(COLOR_ACCENT_PRIMARY)), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
     }
 
     public static void applySecondaryColors() {
-        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_SECONDARY))));
+        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_SECONDARY))));
     }
 
     public static void disableMonetColors() {
@@ -66,14 +66,14 @@ public class BasicColors extends AppCompatActivity implements ColorPickerDialogL
         Prefs.clearPref(COLOR_ACCENT_PRIMARY);
         Prefs.clearPref(COLOR_ACCENT_SECONDARY);
 
-        FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
-        FabricatedOverlayUtil.disableOverlay(COLOR_PIXEL_DARK_BG);
-        FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
+        FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
+        FabricatedUtil.disableOverlay(COLOR_PIXEL_DARK_BG);
+        FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
 
         if (shouldUseDefaultColors()) {
-            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
-            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ICONIFY_COLOR_PIXEL_DARK_BG);
-            FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
+            FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
+            FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ICONIFY_COLOR_PIXEL_DARK_BG);
+            FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
         }
     }
 
@@ -118,13 +118,13 @@ public class BasicColors extends AppCompatActivity implements ColorPickerDialogL
                     if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL)) {
                         BasicColors.applyPrimaryColors();
                     } else {
-                        FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
+                        FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
                     }
 
                     if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL)) {
                         BasicColors.applySecondaryColors();
                     } else {
-                        FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
+                        FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
                     }
 
                     apply_monet_accent.postDelayed(() -> {
@@ -134,12 +134,12 @@ public class BasicColors extends AppCompatActivity implements ColorPickerDialogL
                     Runnable runnable = () -> {
                         if (!apply_monet_gradient.isChecked() && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay")) {
                             if (Prefs.getString(COLOR_ACCENT_PRIMARY).equals(STR_NULL)) {
-                                FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
-                                FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ICONIFY_COLOR_PIXEL_DARK_BG);
+                                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
+                                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ICONIFY_COLOR_PIXEL_DARK_BG);
                             }
 
                             if (Prefs.getString(COLOR_ACCENT_SECONDARY).equals(STR_NULL)) {
-                                FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
+                                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
                             }
                         }
 
@@ -170,13 +170,13 @@ public class BasicColors extends AppCompatActivity implements ColorPickerDialogL
                     if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL)) {
                         BasicColors.applyPrimaryColors();
                     } else {
-                        FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
+                        FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
                     }
 
                     if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL)) {
                         BasicColors.applySecondaryColors();
                     } else {
-                        FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
+                        FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
                     }
 
                     apply_monet_gradient.postDelayed(() -> {
@@ -186,12 +186,12 @@ public class BasicColors extends AppCompatActivity implements ColorPickerDialogL
                     Runnable runnable = () -> {
                         if (!apply_monet_accent.isChecked() && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay")) {
                             if (Prefs.getString(COLOR_ACCENT_PRIMARY).equals(STR_NULL)) {
-                                FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
-                                FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ICONIFY_COLOR_PIXEL_DARK_BG);
+                                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
+                                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ICONIFY_COLOR_PIXEL_DARK_BG);
                             }
 
                             if (Prefs.getString(COLOR_ACCENT_SECONDARY).equals(STR_NULL)) {
-                                FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
+                                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
                             }
                         }
 

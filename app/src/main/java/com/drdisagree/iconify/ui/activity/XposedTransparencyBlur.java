@@ -19,7 +19,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
-import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
+import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -83,7 +83,7 @@ public class XposedTransparencyBlur extends AppCompatActivity {
                 SystemUtil.enableBlur();
             else {
                 SystemUtil.disableBlur();
-                FabricatedOverlayUtil.disableOverlay(FABRICATED_QSPANEL_BLUR_RADIUS);
+                FabricatedUtil.disableOverlay(FABRICATED_QSPANEL_BLUR_RADIUS);
             }
         });
 
@@ -107,7 +107,7 @@ public class XposedTransparencyBlur extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 Prefs.putInt(FABRICATED_QSPANEL_BLUR_RADIUS, blur_radius[0]);
-                FabricatedOverlayUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_QSPANEL_BLUR_RADIUS, "dimen", "max_window_blur_radius", blur_radius[0] + "px");
+                FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_QSPANEL_BLUR_RADIUS, "dimen", "max_window_blur_radius", blur_radius[0] + "px");
                 // Restart SystemUI
                 new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
             }

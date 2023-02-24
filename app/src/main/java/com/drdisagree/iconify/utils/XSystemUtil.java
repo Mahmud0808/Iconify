@@ -1,5 +1,10 @@
 package com.drdisagree.iconify.utils;
 
+/*
+ * From AOSPMods
+ * https://github.com/siavash79/AOSPMods/blob/canary/app/src/main/java/sh/siava/AOSPMods/utils/SystemUtils.java
+ */
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -28,10 +33,6 @@ public class XSystemUtil {
         return instance.getIsDark();
     }
 
-    /*
-     * From AOSPMods
-     * https://github.com/siavash79/AOSPMods/blob/canary/app/src/main/java/sh/siava/AOSPMods/utils/SystemUtils.java
-     */
     public static void doubleToggleDarkMode() {
         boolean isDark = isDarkMode();
         new Thread(() -> {

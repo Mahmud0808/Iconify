@@ -39,7 +39,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.MonetEngineManager;
 import com.drdisagree.iconify.utils.ColorUtil;
-import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
+import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -509,9 +509,9 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         Prefs.clearPref(CUSTOM_PRIMARY_COLOR_SWITCH);
         Prefs.clearPref(CUSTOM_SECONDARY_COLOR_SWITCH);
 
-        FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
-        FabricatedOverlayUtil.disableOverlay(COLOR_PIXEL_DARK_BG);
-        FabricatedOverlayUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
+        FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
+        FabricatedUtil.disableOverlay(COLOR_PIXEL_DARK_BG);
+        FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
     }
 
     private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {

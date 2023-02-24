@@ -13,9 +13,9 @@ import org.zeroturnaround.zip.ZipUtil;
 import java.io.File;
 import java.io.IOException;
 
-public class VolumeCompilerUtil {
+public class VolumeCompiler {
 
-    private static final String TAG = "VolumeCompilerUtil";
+    private static final String TAG = "VolumeCompiler";
     private static final String aapt = References.TOOLS_DIR + "/libaapt.so";
 
     public static boolean buildModule(String overlayName, String packageName) throws IOException {

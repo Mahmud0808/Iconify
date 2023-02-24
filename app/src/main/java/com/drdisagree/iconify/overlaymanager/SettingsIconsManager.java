@@ -1,6 +1,6 @@
 package com.drdisagree.iconify.overlaymanager;
 
-import com.drdisagree.iconify.utils.compiler.SettingsIconsCompilerUtil;
+import com.drdisagree.iconify.utils.compiler.SettingsIconsCompiler;
 
 import java.io.IOException;
 
@@ -91,6 +91,6 @@ public class SettingsIconsManager {
             resources += "</resources>";
         }
 
-        return SettingsIconsCompilerUtil.buildOverlay(iconSet, backgroundStyle, resources);
+        return SettingsIconsCompiler.buildOverlay(iconSet, backgroundStyle, resources);
     }
 }
