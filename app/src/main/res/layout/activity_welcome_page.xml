@@ -107,44 +107,62 @@
             </LinearLayout>
         </LinearLayout>
 
-        <Button
-            android:id="@+id/install_module"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/button_dark"
-            android:fontFamily="@font/semibold"
-            android:letterSpacing="0.15"
-            android:paddingStart="32dp"
-            android:paddingTop="4dp"
-            android:paddingEnd="32dp"
-            android:paddingBottom="1dp"
-            android:stateListAnimator="@null"
-            android:text="@string/btn_continue"
-            android:textColor="@color/colorBackground"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            app:backgroundTint="@null" />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/reboot_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/button_dark"
-            android:fontFamily="@font/semibold"
-            android:letterSpacing="0.15"
-            android:paddingStart="32dp"
-            android:paddingTop="4dp"
-            android:paddingEnd="32dp"
-            android:paddingBottom="1dp"
-            android:stateListAnimator="@null"
-            android:text="@string/btn_reboot"
-            android:textColor="@color/colorBackground"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:visibility="gone"
-            app:backgroundTint="@null" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="0.2" />
+
+            <Button
+                android:id="@+id/install_module"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.6"
+                android:background="@drawable/button_dark"
+                android:fontFamily="@font/semibold"
+                android:letterSpacing="0.15"
+                android:paddingStart="32dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="32dp"
+                android:paddingBottom="1dp"
+                android:stateListAnimator="@null"
+                android:text="@string/btn_continue"
+                android:textColor="@color/colorBackground"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
+
+            <Button
+                android:id="@+id/reboot_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.6"
+                android:background="@drawable/button_dark"
+                android:fontFamily="@font/semibold"
+                android:letterSpacing="0.15"
+                android:paddingStart="32dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="32dp"
+                android:paddingBottom="1dp"
+                android:stateListAnimator="@null"
+                android:text="@string/btn_reboot"
+                android:textColor="@color/colorBackground"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:backgroundTint="@null" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="0.2" />
+        </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>
