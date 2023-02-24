@@ -170,8 +170,10 @@ public class Info extends AppCompatActivity {
                 } else {
                     Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_easter_egg_activated), Toast.LENGTH_SHORT).show();
                 }
-            }
-            oldestIndex++;
+                oldestIndex = 0;
+                nextIndex = 0;
+            } else
+                oldestIndex++;
         }
 
         clickTimestamps[nextIndex] = timeMillis;
