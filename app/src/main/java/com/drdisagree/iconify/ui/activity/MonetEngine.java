@@ -1,18 +1,18 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.COLOR_ACCENT_PRIMARY;
-import static com.drdisagree.iconify.common.References.COLOR_ACCENT_SECONDARY;
-import static com.drdisagree.iconify.common.References.COLOR_PIXEL_DARK_BG;
-import static com.drdisagree.iconify.common.References.CUSTOM_PRIMARY_COLOR_SWITCH;
-import static com.drdisagree.iconify.common.References.CUSTOM_SECONDARY_COLOR_SWITCH;
-import static com.drdisagree.iconify.common.References.MONET_ACCENT_SATURATION;
-import static com.drdisagree.iconify.common.References.MONET_ACCURATE_SHADES;
-import static com.drdisagree.iconify.common.References.MONET_BACKGROUND_LIGHTNESS;
-import static com.drdisagree.iconify.common.References.MONET_BACKGROUND_SATURATION;
-import static com.drdisagree.iconify.common.References.MONET_ENGINE_SWITCH;
-import static com.drdisagree.iconify.common.References.MONET_STYLE;
-import static com.drdisagree.iconify.common.References.STR_NULL;
-import static com.drdisagree.iconify.common.References.USE_LIGHT_ACCENT;
+import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY;
+import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
+import static com.drdisagree.iconify.common.Preferences.COLOR_PIXEL_DARK_BG;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_PRIMARY_COLOR_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_SECONDARY_COLOR_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.MONET_ACCENT_SATURATION;
+import static com.drdisagree.iconify.common.Preferences.MONET_ACCURATE_SHADES;
+import static com.drdisagree.iconify.common.Preferences.MONET_BACKGROUND_LIGHTNESS;
+import static com.drdisagree.iconify.common.Preferences.MONET_BACKGROUND_SATURATION;
+import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.MONET_STYLE;
+import static com.drdisagree.iconify.common.Preferences.STR_NULL;
+import static com.drdisagree.iconify.common.Preferences.USE_LIGHT_ACCENT;
 import static com.drdisagree.iconify.utils.ColorSchemeUtil.GenerateColorPalette;
 
 import android.annotation.SuppressLint;

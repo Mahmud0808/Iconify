@@ -1,6 +1,6 @@
 package com.drdisagree.iconify.overlaymanager;
 
-import static com.drdisagree.iconify.common.References.TOTAL_NOTIFICATIONS;
+import static com.drdisagree.iconify.common.Dynamic.TOTAL_NOTIFICATIONS;
 
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.OverlayUtil;

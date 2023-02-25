@@ -1,6 +1,6 @@
 package com.drdisagree.iconify.overlaymanager;
 
-import static com.drdisagree.iconify.common.References.TOTAL_BRIGHTNESSBARS;
+import static com.drdisagree.iconify.common.Dynamic.TOTAL_BRIGHTNESSBARS;
 
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.OverlayUtil;

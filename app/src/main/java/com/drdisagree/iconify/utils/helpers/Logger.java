@@ -67,7 +67,7 @@ public class Logger {
             Shell.cmd("mkdir -p " + Environment.getExternalStorageDirectory() + "/Download/").exec();
             SimpleDateFormat dF = new SimpleDateFormat("dd-MM-yy_HH_mm_ss", Locale.getDefault());
             String filename = "iconify_logcat_" + dF.format(new Date()) + ".txt";
-            Shell.cmd("printf '" + log + "' > " + Environment.getExternalStorageDirectory() + "/Download/" + filename).exec();
+            Shell.cmd("printf \"" + log + "\" > " + Environment.getExternalStorageDirectory() + "/Download/" + filename).exec();
         } catch (Exception e) {
             Log.e("HelperUtil", "Failed to write logs.\n" + e);
         }

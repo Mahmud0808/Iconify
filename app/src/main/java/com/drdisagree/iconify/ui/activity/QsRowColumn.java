@@ -1,12 +1,12 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.Preferences.QS_ROW_COLUMN_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.STR_NULL;
 import static com.drdisagree.iconify.common.References.FABRICATED_QQS_ROW;
 import static com.drdisagree.iconify.common.References.FABRICATED_QQS_TILE;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_COLUMN;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_ROW;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_TILE;
-import static com.drdisagree.iconify.common.References.QS_ROW_COLUMN_SWITCH;
-import static com.drdisagree.iconify.common.References.STR_NULL;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -76,8 +76,7 @@ public class QsRowColumn extends AppCompatActivity {
             qqs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW)) + 1));
             finalQqsRow[0] = Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW));
             qqs_row_seekbar.setProgress(finalQqsRow[0]);
-        } else
-            qqs_row_output.setText(getResources().getString(R.string.opt_selected) + " 2");
+        } else qqs_row_output.setText(getResources().getString(R.string.opt_selected) + " 2");
 
         qqs_row_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -105,8 +104,7 @@ public class QsRowColumn extends AppCompatActivity {
             qs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW)) + 1));
             finalQsRow[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW));
             qs_row_seekbar.setProgress(finalQsRow[0]);
-        } else
-            qs_row_output.setText(getResources().getString(R.string.opt_selected) + " 4");
+        } else qs_row_output.setText(getResources().getString(R.string.opt_selected) + " 4");
 
         qs_row_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -134,8 +132,7 @@ public class QsRowColumn extends AppCompatActivity {
             qs_column_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1));
             finalQsColumn[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN));
             qs_column_seekbar.setProgress(finalQsColumn[0]);
-        } else
-            qs_column_output.setText(getResources().getString(R.string.opt_selected) + " 2");
+        } else qs_column_output.setText(getResources().getString(R.string.opt_selected) + " 2");
 
         qs_column_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -193,10 +190,8 @@ public class QsRowColumn extends AppCompatActivity {
         });
 
         // Reset button
-        if (Prefs.getBoolean(QS_ROW_COLUMN_SWITCH))
-            qs_row_column_reset.setVisibility(View.VISIBLE);
-        else
-            qs_row_column_reset.setVisibility(View.GONE);
+        if (Prefs.getBoolean(QS_ROW_COLUMN_SWITCH)) qs_row_column_reset.setVisibility(View.VISIBLE);
+        else qs_row_column_reset.setVisibility(View.GONE);
 
         qs_row_column_reset.setOnClickListener(v -> {
             // Show loading dialog

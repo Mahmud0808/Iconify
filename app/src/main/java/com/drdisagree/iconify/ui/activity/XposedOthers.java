@@ -1,11 +1,11 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.FIXED_STATUS_ICONS_SIDEMARGIN;
-import static com.drdisagree.iconify.common.References.FIXED_STATUS_ICONS_SWITCH;
-import static com.drdisagree.iconify.common.References.FIXED_STATUS_ICONS_TOPMARGIN;
-import static com.drdisagree.iconify.common.References.FRAMEWORK_PACKAGE;
-import static com.drdisagree.iconify.common.References.HIDE_STATUS_ICONS_SWITCH;
-import static com.drdisagree.iconify.common.References.QSPANEL_HIDE_CARRIER;
+import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SIDEMARGIN;
+import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_TOPMARGIN;
+import static com.drdisagree.iconify.common.Preferences.HIDE_STATUS_ICONS_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.QSPANEL_HIDE_CARRIER;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -62,8 +62,7 @@ public class XposedOthers extends AppCompatActivity {
         enable_fixed_status_icons.setChecked(RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false));
         enable_fixed_status_icons.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(FIXED_STATUS_ICONS_SWITCH, isChecked);
-            if (!isChecked)
-                FabricatedUtil.disableOverlay("quickQsOffsetHeight");
+            if (!isChecked) FabricatedUtil.disableOverlay("quickQsOffsetHeight");
             else if (RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0) > 32)
                 FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (48 + RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0)) + "dp");
 

@@ -1,13 +1,13 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.LSCLOCK_BOTTOMMARGIN;
-import static com.drdisagree.iconify.common.References.LSCLOCK_FONT_LINEHEIGHT;
-import static com.drdisagree.iconify.common.References.LSCLOCK_FONT_SWITCH;
-import static com.drdisagree.iconify.common.References.LSCLOCK_FONT_TEXT_SCALING;
-import static com.drdisagree.iconify.common.References.LSCLOCK_STYLE;
-import static com.drdisagree.iconify.common.References.LSCLOCK_SWITCH;
-import static com.drdisagree.iconify.common.References.LSCLOCK_TEXT_WHITE;
-import static com.drdisagree.iconify.common.References.LSCLOCK_TOPMARGIN;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_BOTTOMMARGIN;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_LINEHEIGHT;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_TEXT_SCALING;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_STYLE;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_TEXT_WHITE;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_TOPMARGIN;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -33,7 +33,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.common.References;
+import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -281,8 +281,7 @@ public class XposedLockscreenClock extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (data == null)
-            return;
+        if (data == null) return;
 
         if (requestCode == PICKFILE_RESULT_CODE && resultCode == Activity.RESULT_OK) {
             Uri uri = data.getData();
@@ -292,9 +291,9 @@ public class XposedLockscreenClock extends AppCompatActivity {
                 return;
             }
 
-            String destination = References.RESOURCE_TEMP_DIR + "/lsclock_font.ttf";
+            String destination = Resources.XPOSED_RESOURCE_TEMP_DIR + "/lsclock_font.ttf";
 
-            Shell.cmd("mkdir -p " + References.RESOURCE_TEMP_DIR).exec();
+            Shell.cmd("mkdir -p " + Resources.XPOSED_RESOURCE_TEMP_DIR).exec();
 
             if (Shell.cmd("cp " + source + ' ' + destination).exec().isSuccess())
                 enable_lsclock_font.setVisibility(View.VISIBLE);

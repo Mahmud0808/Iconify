@@ -1,9 +1,9 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.HEADER_IMAGE_ALPHA;
-import static com.drdisagree.iconify.common.References.HEADER_IMAGE_HEIGHT;
-import static com.drdisagree.iconify.common.References.HEADER_IMAGE_SWITCH;
-import static com.drdisagree.iconify.common.References.HEADER_IMAGE_ZOOMTOFIT;
+import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ALPHA;
+import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_HEIGHT;
+import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ZOOMTOFIT;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -26,7 +26,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.common.References;
+import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.utils.HelperUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
@@ -187,8 +187,7 @@ public class XposedHeaderImage extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (data == null)
-            return;
+        if (data == null) return;
 
         if (requestCode == PICKFILE_RESULT_CODE && resultCode == Activity.RESULT_OK) {
             Uri uri = data.getData();
@@ -198,9 +197,9 @@ public class XposedHeaderImage extends AppCompatActivity {
                 return;
             }
 
-            String destination = References.RESOURCE_TEMP_DIR + "/header_image.png";
+            String destination = Resources.XPOSED_RESOURCE_TEMP_DIR + "/header_image.png";
 
-            Shell.cmd("mkdir -p " + References.RESOURCE_TEMP_DIR).exec();
+            Shell.cmd("mkdir -p " + Resources.XPOSED_RESOURCE_TEMP_DIR).exec();
 
             if (Shell.cmd("cp " + source + ' ' + destination).exec().isSuccess())
                 enable_header_image.setVisibility(View.VISIBLE);

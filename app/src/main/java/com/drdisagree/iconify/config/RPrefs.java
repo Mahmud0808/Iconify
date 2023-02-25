@@ -1,8 +1,8 @@
 package com.drdisagree.iconify.config;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.drdisagree.iconify.common.References.STR_NULL;
-import static com.drdisagree.iconify.common.References.SharedXPref;
+import static com.drdisagree.iconify.common.Preferences.STR_NULL;
+import static com.drdisagree.iconify.common.Resources.SharedXPref;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

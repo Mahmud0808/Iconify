@@ -1,6 +1,6 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.SHOW_XPOSED_WARN;
+import static com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN;
 
 import android.content.Intent;
 import android.os.Bundle;

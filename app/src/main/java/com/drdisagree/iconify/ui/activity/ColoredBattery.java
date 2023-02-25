@@ -1,12 +1,12 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.COLORED_BATTERY_SWITCH;
+import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
+import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.COLORED_BATTERY_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.STR_NULL;
 import static com.drdisagree.iconify.common.References.FABRICATED_BATTERY_COLOR_BG;
 import static com.drdisagree.iconify.common.References.FABRICATED_BATTERY_COLOR_FG;
 import static com.drdisagree.iconify.common.References.FABRICATED_COLORED_BATTERY;
-import static com.drdisagree.iconify.common.References.FRAMEWORK_PACKAGE;
-import static com.drdisagree.iconify.common.References.STR_NULL;
-import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.utils.ColorUtil.ColorToSpecialHex;
 
 import android.annotation.SuppressLint;
@@ -84,13 +84,11 @@ public class ColoredBattery extends AppCompatActivity implements ColorPickerDial
 
         if (!Objects.equals(Prefs.getString(FABRICATED_BATTERY_COLOR_BG), STR_NULL))
             colorBackground = Prefs.getString(FABRICATED_BATTERY_COLOR_BG);
-        else
-            colorBackground = String.valueOf(Color.parseColor("#FFF0F0F0"));
+        else colorBackground = String.valueOf(Color.parseColor("#FFF0F0F0"));
 
         if (!Objects.equals(Prefs.getString(FABRICATED_BATTERY_COLOR_FG), STR_NULL))
             colorFilled = Prefs.getString(FABRICATED_BATTERY_COLOR_FG);
-        else
-            colorFilled = String.valueOf(Color.parseColor("#FFF0F0F0"));
+        else colorFilled = String.valueOf(Color.parseColor("#FFF0F0F0"));
 
         // Battery background and filled color
         colorPickerDialogBackground = ColorPickerDialog.newBuilder();

@@ -1,9 +1,9 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.CHIP_QSSTATUSICONS_STYLE;
-import static com.drdisagree.iconify.common.References.CHIP_STATUSBAR_CLOCKBG_STYLE;
-import static com.drdisagree.iconify.common.References.QSPANEL_STATUSICONSBG_SWITCH;
-import static com.drdisagree.iconify.common.References.STATUSBAR_CLOCKBG_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.CHIP_QSSTATUSICONS_STYLE;
+import static com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCKBG_STYLE;
+import static com.drdisagree.iconify.common.Preferences.QSPANEL_STATUSICONSBG_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.STATUSBAR_CLOCKBG_SWITCH;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

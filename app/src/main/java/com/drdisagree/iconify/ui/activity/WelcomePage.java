@@ -1,8 +1,8 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.FIRST_INSTALL;
-import static com.drdisagree.iconify.common.References.UPDATE_DETECTED;
-import static com.drdisagree.iconify.common.References.VER_CODE;
+import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
+import static com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED;
+import static com.drdisagree.iconify.common.Preferences.VER_CODE;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -19,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.common.References;
+import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.view.LoadingDialogAlt;
 import com.drdisagree.iconify.utils.ModuleUtil;
@@ -172,7 +172,6 @@ public class WelcomePage extends AppCompatActivity {
             }
 
             publishProgress(step++);
-            ModuleUtil.extractTools();
             ModuleUtil.extractPremadeOverlays();
             try {
                 OverlayCompiler.preExecute();
@@ -227,7 +226,7 @@ public class WelcomePage extends AppCompatActivity {
                     reboot_phone.setVisibility(View.VISIBLE);
                 }
             } else {
-                Shell.cmd("rm -rf " + References.MODULE_DIR).exec();
+                Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
                 warning.setText(getResources().getString(R.string.installation_failed));
                 warn.setVisibility(View.VISIBLE);
                 install_module.setVisibility(View.VISIBLE);
@@ -238,10 +237,10 @@ public class WelcomePage extends AppCompatActivity {
         @Override
         protected void onCancelled() {
             super.onCancelled();
-            Shell.cmd("rm -rf " + References.DATA_DIR).exec();
-            Shell.cmd("rm -rf " + References.TEMP_DIR).exec();
-            Shell.cmd("rm -rf " + References.BACKUP_DIR).exec();
-            Shell.cmd("rm -rf " + References.MODULE_DIR).exec();
+            Shell.cmd("rm -rf " + Resources.DATA_DIR).exec();
+            Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
+            Shell.cmd("rm -rf " + Resources.BACKUP_DIR).exec();
+            Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
         }
     }
 }

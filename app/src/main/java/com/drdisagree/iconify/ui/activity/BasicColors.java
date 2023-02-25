@@ -1,16 +1,16 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.COLOR_ACCENT_PRIMARY;
-import static com.drdisagree.iconify.common.References.COLOR_ACCENT_SECONDARY;
-import static com.drdisagree.iconify.common.References.COLOR_PIXEL_DARK_BG;
-import static com.drdisagree.iconify.common.References.CUSTOM_PRIMARY_COLOR_SWITCH;
-import static com.drdisagree.iconify.common.References.CUSTOM_SECONDARY_COLOR_SWITCH;
-import static com.drdisagree.iconify.common.References.FRAMEWORK_PACKAGE;
+import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY;
+import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
+import static com.drdisagree.iconify.common.Preferences.COLOR_PIXEL_DARK_BG;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_PRIMARY_COLOR_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_SECONDARY_COLOR_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.STR_NULL;
+import static com.drdisagree.iconify.common.Preferences.USE_LIGHT_ACCENT;
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECONDARY;
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_PIXEL_DARK_BG;
-import static com.drdisagree.iconify.common.References.STR_NULL;
-import static com.drdisagree.iconify.common.References.USE_LIGHT_ACCENT;
 import static com.drdisagree.iconify.utils.ColorUtil.ColorToSpecialHex;
 
 import android.annotation.SuppressLint;

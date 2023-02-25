@@ -1,8 +1,8 @@
 package com.drdisagree.iconify.overlaymanager;
 
-import static com.drdisagree.iconify.common.References.COLOR_PIXEL_DARK_BG;
-import static com.drdisagree.iconify.common.References.FRAMEWORK_PACKAGE;
-import static com.drdisagree.iconify.common.References.TOTAL_BRIGHTNESSBARSPIXEL;
+import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
+import static com.drdisagree.iconify.common.Dynamic.TOTAL_BRIGHTNESSBARSPIXEL;
+import static com.drdisagree.iconify.common.Preferences.COLOR_PIXEL_DARK_BG;
 import static com.drdisagree.iconify.utils.ColorUtil.ColorToSpecialHex;
 
 import android.graphics.Color;
@@ -35,8 +35,7 @@ public class BrightnessBarPixelManager {
         if (new File(path).exists()) {
             String overlay = "IconifyComponentBBP" + n + ".overlay";
 
-            if (!Prefs.getBoolean(overlay))
-                OverlayUtil.enableOverlay(overlay);
+            if (!Prefs.getBoolean(overlay)) OverlayUtil.enableOverlay(overlay);
         }
     }
 
@@ -46,8 +45,7 @@ public class BrightnessBarPixelManager {
         if (new File(path).exists()) {
             String overlay = "IconifyComponentBBP" + n + ".overlay";
 
-            if (Prefs.getBoolean(overlay))
-                OverlayUtil.disableOverlay(overlay);
+            if (Prefs.getBoolean(overlay)) OverlayUtil.disableOverlay(overlay);
         }
     }
 
@@ -60,8 +58,7 @@ public class BrightnessBarPixelManager {
                 if (new File(path).exists()) {
                     String overlay = "IconifyComponentBBP" + i + ".overlay";
 
-                    if (Prefs.getBoolean(overlay))
-                        OverlayUtil.disableOverlay(overlay);
+                    if (Prefs.getBoolean(overlay)) OverlayUtil.disableOverlay(overlay);
                 }
             }
         }

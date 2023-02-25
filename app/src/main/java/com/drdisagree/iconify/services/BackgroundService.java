@@ -56,16 +56,9 @@ public class BackgroundService extends Service {
 
         PendingIntent pendingIntent = null;
 
-        pendingIntent = PendingIntent.getActivity(this, 0,
-                notificationIntent, PendingIntent.FLAG_MUTABLE);
+        pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_MUTABLE);
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-                .setOngoing(true)
-                .setSmallIcon(R.drawable.ic_launcher_fg)
-                .setContentTitle("Background Service")
-                .setContentText("Useless notification. Tap to disable.")
-                .setContentIntent(pendingIntent)
-                .setSound(null, AudioManager.STREAM_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID).setOngoing(true).setSmallIcon(R.drawable.ic_launcher_fg).setContentTitle("Background Service").setContentText("Useless notification. Tap to disable.").setContentIntent(pendingIntent).setSound(null, AudioManager.STREAM_NOTIFICATION);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         createChannel(notificationManager);

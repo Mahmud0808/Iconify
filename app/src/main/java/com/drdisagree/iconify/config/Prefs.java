@@ -1,13 +1,13 @@
 package com.drdisagree.iconify.config;
 
-import static com.drdisagree.iconify.common.References.BOOT_ID;
-import static com.drdisagree.iconify.common.References.COLOR_ACCENT_PRIMARY;
-import static com.drdisagree.iconify.common.References.COLOR_ACCENT_SECONDARY;
-import static com.drdisagree.iconify.common.References.COLOR_PIXEL_DARK_BG;
-import static com.drdisagree.iconify.common.References.FRAMEWORK_PACKAGE;
-import static com.drdisagree.iconify.common.References.STR_NULL;
-import static com.drdisagree.iconify.common.References.SharedPref;
-import static com.drdisagree.iconify.common.References.VER_CODE;
+import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.BOOT_ID;
+import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY;
+import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
+import static com.drdisagree.iconify.common.Preferences.COLOR_PIXEL_DARK_BG;
+import static com.drdisagree.iconify.common.Preferences.STR_NULL;
+import static com.drdisagree.iconify.common.Preferences.VER_CODE;
+import static com.drdisagree.iconify.common.Resources.SharedPref;
 import static com.drdisagree.iconify.utils.ColorUtil.ColorToSpecialHex;
 
 import android.content.Context;
@@ -107,8 +107,7 @@ public class Prefs {
         } catch (IOException ioException) {
             Log.e("ExportSettings", "Error serializing preferences", BuildConfig.DEBUG ? ioException : null);
         } finally {
-            if (objectOutputStream != null)
-                objectOutputStream.close();
+            if (objectOutputStream != null) objectOutputStream.close();
             outputStream.close();
         }
     }
@@ -123,8 +122,7 @@ public class Prefs {
             Log.e("ImportSettings", "Error deserializing preferences", BuildConfig.DEBUG ? exception : null);
             return;
         } finally {
-            if (objectInputStream != null)
-                objectInputStream.close();
+            if (objectInputStream != null) objectInputStream.close();
             inputStream.close();
         }
 
@@ -143,11 +141,7 @@ public class Prefs {
                         OverlayUtil.enableOverlay(item.getKey());
                     else if (item.getKey().contains("fabricated")) {
                         Log.e("Import", item.getKey());
-                        FabricatedUtil.buildAndEnableOverlay((String) map.get("FOCMDtarget" + item.getKey().replace("fabricated", "")),
-                                (String) map.get("FOCMDname" + item.getKey().replace("fabricated", "")),
-                                (String) map.get("FOCMDtype" + item.getKey().replace("fabricated", "")),
-                                (String) map.get("FOCMDresourceName" + item.getKey().replace("fabricated", "")),
-                                (String) map.get("FOCMDval" + item.getKey().replace("fabricated", "")));
+                        FabricatedUtil.buildAndEnableOverlay((String) map.get("FOCMDtarget" + item.getKey().replace("fabricated", "")), (String) map.get("FOCMDname" + item.getKey().replace("fabricated", "")), (String) map.get("FOCMDtype" + item.getKey().replace("fabricated", "")), (String) map.get("FOCMDresourceName" + item.getKey().replace("fabricated", "")), (String) map.get("FOCMDval" + item.getKey().replace("fabricated", "")));
                     }
                 } else {
                     if (item.getKey().contains("fabricated")) {
@@ -155,10 +149,8 @@ public class Prefs {
                     }
                 }
             } else if (item.getValue() instanceof String) {
-                if (Objects.equals(item.getKey(), BOOT_ID))
-                    SystemUtil.getBootId();
-                else
-                    putString(item.getKey(), (String) item.getValue());
+                if (Objects.equals(item.getKey(), BOOT_ID)) SystemUtil.getBootId();
+                else putString(item.getKey(), (String) item.getValue());
 
                 if (item.getKey().contains(COLOR_ACCENT_PRIMARY) && !primaryColorApplied && getBoolean("fabricated" + item.getKey())) {
                     primaryColorApplied = true;
@@ -178,8 +170,7 @@ public class Prefs {
             } else if (item.getValue() instanceof Integer) {
                 if (Objects.equals(item.getKey(), VER_CODE))
                     putInt(item.getKey(), BuildConfig.VERSION_CODE);
-                else
-                    putInt(item.getKey(), (Integer) item.getValue());
+                else putInt(item.getKey(), (Integer) item.getValue());
             }
         }
     }

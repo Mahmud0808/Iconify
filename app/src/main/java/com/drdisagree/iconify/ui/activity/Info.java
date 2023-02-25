@@ -1,6 +1,6 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.EASTER_EGG;
+import static com.drdisagree.iconify.common.Preferences.EASTER_EGG;
 
 import android.annotation.SuppressLint;
 import android.content.ClipData;
@@ -108,8 +108,7 @@ public class Info extends AppCompatActivity {
         ViewGroup[] viewGroups = {app_info_container, credits_container, contributors_container, translators_container};
 
         for (ViewGroup viewGroup : viewGroups) {
-            if (viewGroup.getChildCount() == 0)
-                continue;
+            if (viewGroup.getChildCount() == 0) continue;
 
             if (viewGroup.getChildCount() == 1) {
                 ((LinearLayout) viewGroup.getChildAt(0)).getChildAt(0).setBackground(getResources().getDrawable(R.drawable.container));
@@ -172,18 +171,15 @@ public class Info extends AppCompatActivity {
                 }
                 oldestIndex = 0;
                 nextIndex = 0;
-            } else
-                oldestIndex++;
+            } else oldestIndex++;
         }
 
         clickTimestamps[nextIndex] = timeMillis;
         nextIndex++;
 
-        if (nextIndex == NUM_CLICKS_REQUIRED)
-            nextIndex = 0;
+        if (nextIndex == NUM_CLICKS_REQUIRED) nextIndex = 0;
 
-        if (oldestIndex == NUM_CLICKS_REQUIRED)
-            oldestIndex = 0;
+        if (oldestIndex == NUM_CLICKS_REQUIRED) oldestIndex = 0;
     }
 
     @Override

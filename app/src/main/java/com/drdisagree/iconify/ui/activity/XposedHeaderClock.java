@@ -1,11 +1,11 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.HEADER_CLOCK_FONT_TEXT_SCALING;
-import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SIDEMARGIN;
-import static com.drdisagree.iconify.common.References.HEADER_CLOCK_STYLE;
-import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
-import static com.drdisagree.iconify.common.References.HEADER_CLOCK_TEXT_WHITE;
-import static com.drdisagree.iconify.common.References.HEADER_CLOCK_TOPMARGIN;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_FONT_TEXT_SCALING;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SIDEMARGIN;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_STYLE;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TEXT_WHITE;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TOPMARGIN;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

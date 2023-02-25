@@ -1,10 +1,10 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.EASTER_EGG;
-import static com.drdisagree.iconify.common.References.FIRST_INSTALL;
-import static com.drdisagree.iconify.common.References.FORCE_APPLY_XPOSED_CHOICE;
-import static com.drdisagree.iconify.common.References.SHOW_XPOSED_WARN;
-import static com.drdisagree.iconify.common.References.USE_LIGHT_ACCENT;
+import static com.drdisagree.iconify.common.Preferences.EASTER_EGG;
+import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
+import static com.drdisagree.iconify.common.Preferences.FORCE_APPLY_XPOSED_CHOICE;
+import static com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN;
+import static com.drdisagree.iconify.common.Preferences.USE_LIGHT_ACCENT;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

@@ -1,6 +1,6 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

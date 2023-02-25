@@ -1,8 +1,8 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.STR_NULL;
-import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
-import static com.drdisagree.iconify.common.References.UI_CORNER_RADIUS;
+import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.STR_NULL;
+import static com.drdisagree.iconify.common.Preferences.UI_CORNER_RADIUS;
 
 import android.annotation.SuppressLint;
 import android.content.res.Configuration;
@@ -56,15 +56,7 @@ public class UiRoundness extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Corner Radius
-        GradientDrawable[] drawables = new GradientDrawable[]{
-                (GradientDrawable) findViewById(R.id.qs_tile_preview1).getBackground(),
-                (GradientDrawable) findViewById(R.id.qs_tile_preview2).getBackground(),
-                (GradientDrawable) findViewById(R.id.qs_tile_preview3).getBackground(),
-                (GradientDrawable) findViewById(R.id.qs_tile_preview4).getBackground(),
-                (GradientDrawable) findViewById(R.id.brightness_bar_bg).getBackground(),
-                (GradientDrawable) findViewById(R.id.brightness_bar_fg).getBackground(),
-                (GradientDrawable) findViewById(R.id.auto_brightness).getBackground()
-        };
+        GradientDrawable[] drawables = new GradientDrawable[]{(GradientDrawable) findViewById(R.id.qs_tile_preview1).getBackground(), (GradientDrawable) findViewById(R.id.qs_tile_preview2).getBackground(), (GradientDrawable) findViewById(R.id.qs_tile_preview3).getBackground(), (GradientDrawable) findViewById(R.id.qs_tile_preview4).getBackground(), (GradientDrawable) findViewById(R.id.brightness_bar_bg).getBackground(), (GradientDrawable) findViewById(R.id.brightness_bar_fg).getBackground(), (GradientDrawable) findViewById(R.id.auto_brightness).getBackground()};
 
         SeekBar corner_radius_seekbar = findViewById(R.id.corner_radius_seekbar);
         TextView corner_radius_output = findViewById(R.id.corner_radius_output);
@@ -158,8 +150,7 @@ public class UiRoundness extends AppCompatActivity {
         LinearLayout qs_tile_orientation = findViewById(R.id.qs_tile_orientation);
         if (orientation == Configuration.ORIENTATION_LANDSCAPE)
             qs_tile_orientation.setOrientation(LinearLayout.HORIZONTAL);
-        else
-            qs_tile_orientation.setOrientation(LinearLayout.VERTICAL);
+        else qs_tile_orientation.setOrientation(LinearLayout.VERTICAL);
     }
 
     @Override
@@ -175,8 +166,7 @@ public class UiRoundness extends AppCompatActivity {
         LinearLayout qs_tile_orientation = findViewById(R.id.qs_tile_orientation);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
             qs_tile_orientation.setOrientation(LinearLayout.HORIZONTAL);
-        else
-            qs_tile_orientation.setOrientation(LinearLayout.VERTICAL);
+        else qs_tile_orientation.setOrientation(LinearLayout.VERTICAL);
     }
 
     @Override

@@ -1,10 +1,10 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.STR_NULL;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_ICON_SIZE;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_MOVE_ICON;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_TEXT_SIZE;
-import static com.drdisagree.iconify.common.References.STR_NULL;
-import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

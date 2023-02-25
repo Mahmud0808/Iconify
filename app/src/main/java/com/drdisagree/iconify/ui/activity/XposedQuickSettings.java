@@ -1,9 +1,9 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.HIDE_QSLABEL_SWITCH;
-import static com.drdisagree.iconify.common.References.PANEL_TOPMARGIN_SWITCH;
-import static com.drdisagree.iconify.common.References.QS_TOPMARGIN;
-import static com.drdisagree.iconify.common.References.VERTICAL_QSTILE_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.PANEL_TOPMARGIN_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.QS_TOPMARGIN;
+import static com.drdisagree.iconify.common.Preferences.VERTICAL_QSTILE_SWITCH;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -60,10 +60,8 @@ public class XposedQuickSettings extends AppCompatActivity {
         enable_panel_top_margin.setChecked(RPrefs.getBoolean(PANEL_TOPMARGIN_SWITCH, false));
         enable_panel_top_margin.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(PANEL_TOPMARGIN_SWITCH, isChecked);
-            if (isChecked)
-                new Handler().postDelayed(HelperUtil::forceApply, 200);
-            else
-                new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+            if (isChecked) new Handler().postDelayed(HelperUtil::forceApply, 200);
+            else new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
 
         // QS panel top margin slider

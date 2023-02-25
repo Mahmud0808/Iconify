@@ -1,19 +1,19 @@
 package com.drdisagree.iconify.services;
 
-import static com.drdisagree.iconify.common.References.BOOT_ID;
-import static com.drdisagree.iconify.common.References.COLOR_ACCENT_PRIMARY;
-import static com.drdisagree.iconify.common.References.COLOR_ACCENT_SECONDARY;
-import static com.drdisagree.iconify.common.References.COLOR_PIXEL_DARK_BG;
-import static com.drdisagree.iconify.common.References.CUSTOM_PRIMARY_COLOR_SWITCH;
-import static com.drdisagree.iconify.common.References.CUSTOM_SECONDARY_COLOR_SWITCH;
+import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.BOOT_ID;
+import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY;
+import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
+import static com.drdisagree.iconify.common.Preferences.COLOR_PIXEL_DARK_BG;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_PRIMARY_COLOR_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_SECONDARY_COLOR_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.QS_ROW_COLUMN_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.STR_NULL;
 import static com.drdisagree.iconify.common.References.DEVICE_BOOT_ID_CMD;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_ROW;
-import static com.drdisagree.iconify.common.References.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECONDARY;
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_PIXEL_DARK_BG;
-import static com.drdisagree.iconify.common.References.QS_ROW_COLUMN_SWITCH;
-import static com.drdisagree.iconify.common.References.STR_NULL;
 import static com.drdisagree.iconify.utils.ColorUtil.ColorToSpecialHex;
 
 import android.graphics.Color;

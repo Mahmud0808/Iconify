@@ -17,7 +17,7 @@ package com.drdisagree.iconify.config;
  * along with this program.  If not, see [http://www.gnu.org/licenses/].
  */
 
-import static com.drdisagree.iconify.common.References.SharedXPref;
+import static com.drdisagree.iconify.common.Resources.SharedXPref;
 import static de.robv.android.xposed.XposedBridge.log;
 
 import android.content.Context;

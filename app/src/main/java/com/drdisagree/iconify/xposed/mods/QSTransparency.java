@@ -1,8 +1,8 @@
 package com.drdisagree.iconify.xposed.mods;
 
-import static com.drdisagree.iconify.common.References.QSALPHA_LEVEL;
-import static com.drdisagree.iconify.common.References.QSTRANSPARENCY_SWITCH;
-import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.QSALPHA_LEVEL;
+import static com.drdisagree.iconify.common.Preferences.QSTRANSPARENCY_SWITCH;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
@@ -26,12 +26,12 @@ public class QSTransparency extends ModPack {
 
     private static final String TAG = "Iconify - QSTransparency: ";
     private static final String CLASS_SCRIMCONTROLLER = SYSTEMUI_PACKAGE + ".statusbar.phone.ScrimController";
+    private final int tint = Color.TRANSPARENT;
     boolean QsTransparencyActive = false;
     private Float behindFraction = null;
     private Object lpparamCustom = null;
     private Object mScrimInFront = null;
     private Object mNotificationsScrim = null;
-    private final int tint = Color.TRANSPARENT;
     private float alpha;
 
     public QSTransparency(Context context) {
@@ -72,16 +72,14 @@ public class QSTransparency extends ModPack {
     }
 
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpParam) {
-        if (!lpParam.packageName.equals(SYSTEMUI_PACKAGE))
-            return;
+        if (!lpParam.packageName.equals(SYSTEMUI_PACKAGE)) return;
 
         final Class<?> ScrimController = XposedHelpers.findClass(CLASS_SCRIMCONTROLLER, lpParam.classLoader);
 
         hookAllConstructors(ScrimController, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
-                if (!QsTransparencyActive)
-                    return;
+                if (!QsTransparencyActive) return;
 
                 lpparamCustom = param.thisObject;
                 mScrimInFront = getObjectField(param.thisObject, "mScrimInFront");
@@ -124,8 +122,7 @@ public class QSTransparency extends ModPack {
         hookAllMethods(ScrimController, "getInterpolatedFraction", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
-                if (!QsTransparencyActive)
-                    return;
+                if (!QsTransparencyActive) return;
 
                 behindFraction = (float) param.getResult();
             }
@@ -134,8 +131,7 @@ public class QSTransparency extends ModPack {
         hookAllMethods(ScrimController, "applyState", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
-                if (!QsTransparencyActive)
-                    return;
+                if (!QsTransparencyActive) return;
 
                 boolean mClipsQsScrim = (boolean) getObjectField(param.thisObject, "mClipsQsScrim");
 
@@ -153,8 +149,7 @@ public class QSTransparency extends ModPack {
         hookAllMethods(ScrimController, "updateScrimColor", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
-                if (!QsTransparencyActive)
-                    return;
+                if (!QsTransparencyActive) return;
 
                 if ((mScrimInFront != null && param.args[0] == mScrimInFront) || (mNotificationsScrim != null && param.args[0] == mNotificationsScrim)) {
                     param.args[1] = alpha;
@@ -167,8 +162,7 @@ public class QSTransparency extends ModPack {
             hookAllMethods(ScrimController, "setCustomScrimAlpha", new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) {
-                    if (!QsTransparencyActive)
-                        return;
+                    if (!QsTransparencyActive) return;
 
                     param.args[0] = (int) (alpha * 100);
                 }

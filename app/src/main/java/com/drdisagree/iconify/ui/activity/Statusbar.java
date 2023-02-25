@@ -1,10 +1,10 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.References.FABRICATED_SB_COLOR_SOURCE;
 import static com.drdisagree.iconify.common.References.FABRICATED_SB_COLOR_TINT;
 import static com.drdisagree.iconify.common.References.FABRICATED_SB_LEFT_PADDING;
 import static com.drdisagree.iconify.common.References.FABRICATED_SB_RIGHT_PADDING;
-import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.utils.ColorUtil.ColorToSpecialHex;
 
 import android.annotation.SuppressLint;

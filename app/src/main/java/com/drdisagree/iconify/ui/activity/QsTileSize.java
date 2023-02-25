@@ -1,9 +1,9 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.LAND_QSTILE_EXPANDED_HEIGHT;
-import static com.drdisagree.iconify.common.References.LAND_QSTILE_NONEXPANDED_HEIGHT;
-import static com.drdisagree.iconify.common.References.PORT_QSTILE_EXPANDED_HEIGHT;
-import static com.drdisagree.iconify.common.References.PORT_QSTILE_NONEXPANDED_HEIGHT;
+import static com.drdisagree.iconify.common.Preferences.LAND_QSTILE_EXPANDED_HEIGHT;
+import static com.drdisagree.iconify.common.Preferences.LAND_QSTILE_NONEXPANDED_HEIGHT;
+import static com.drdisagree.iconify.common.Preferences.PORT_QSTILE_EXPANDED_HEIGHT;
+import static com.drdisagree.iconify.common.Preferences.PORT_QSTILE_NONEXPANDED_HEIGHT;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

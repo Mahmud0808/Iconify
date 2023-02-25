@@ -1,10 +1,10 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.QSALPHA_LEVEL;
+import static com.drdisagree.iconify.common.Preferences.QSPANEL_BLUR_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.QSTRANSPARENCY_SWITCH;
 import static com.drdisagree.iconify.common.References.FABRICATED_QSPANEL_BLUR_RADIUS;
-import static com.drdisagree.iconify.common.References.QSALPHA_LEVEL;
-import static com.drdisagree.iconify.common.References.QSPANEL_BLUR_SWITCH;
-import static com.drdisagree.iconify.common.References.QSTRANSPARENCY_SWITCH;
-import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -79,8 +79,7 @@ public class XposedTransparencyBlur extends AppCompatActivity {
         enable_blur.setChecked(Prefs.getBoolean(QSPANEL_BLUR_SWITCH, false));
         enable_blur.setOnCheckedChangeListener((buttonView, isChecked) -> {
             Prefs.putBoolean(QSPANEL_BLUR_SWITCH, isChecked);
-            if (isChecked)
-                SystemUtil.enableBlur();
+            if (isChecked) SystemUtil.enableBlur();
             else {
                 SystemUtil.disableBlur();
                 FabricatedUtil.disableOverlay(FABRICATED_QSPANEL_BLUR_RADIUS);

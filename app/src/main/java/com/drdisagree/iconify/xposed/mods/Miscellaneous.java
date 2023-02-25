@@ -1,11 +1,11 @@
 package com.drdisagree.iconify.xposed.mods;
 
-import static com.drdisagree.iconify.common.References.FIXED_STATUS_ICONS_SIDEMARGIN;
-import static com.drdisagree.iconify.common.References.FIXED_STATUS_ICONS_SWITCH;
-import static com.drdisagree.iconify.common.References.FIXED_STATUS_ICONS_TOPMARGIN;
-import static com.drdisagree.iconify.common.References.HIDE_STATUS_ICONS_SWITCH;
-import static com.drdisagree.iconify.common.References.QSPANEL_HIDE_CARRIER;
-import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SIDEMARGIN;
+import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_TOPMARGIN;
+import static com.drdisagree.iconify.common.Preferences.HIDE_STATUS_ICONS_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.QSPANEL_HIDE_CARRIER;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;

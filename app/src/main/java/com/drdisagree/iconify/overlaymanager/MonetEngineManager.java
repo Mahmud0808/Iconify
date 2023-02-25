@@ -1,6 +1,6 @@
 package com.drdisagree.iconify.overlaymanager;
 
-import static com.drdisagree.iconify.common.References.USE_LIGHT_ACCENT;
+import static com.drdisagree.iconify.common.Preferences.USE_LIGHT_ACCENT;
 
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.ColorUtil;

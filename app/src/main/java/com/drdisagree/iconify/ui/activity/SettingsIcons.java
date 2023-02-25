@@ -1,8 +1,8 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.SELECTED_SETTINGS_ICONS_BG;
-import static com.drdisagree.iconify.common.References.SELECTED_SETTINGS_ICONS_COLOR;
-import static com.drdisagree.iconify.common.References.SELECTED_SETTINGS_ICONS_SET;
+import static com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_BG;
+import static com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_COLOR;
+import static com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_SET;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

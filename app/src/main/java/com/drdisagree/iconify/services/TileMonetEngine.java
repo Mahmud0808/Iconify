@@ -1,6 +1,6 @@
 package com.drdisagree.iconify.services;
 
-import static com.drdisagree.iconify.common.References.MONET_ENGINE_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
 
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;

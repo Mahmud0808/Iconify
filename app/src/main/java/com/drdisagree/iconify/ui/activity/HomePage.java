@@ -1,12 +1,12 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.FIRST_INSTALL;
-import static com.drdisagree.iconify.common.References.LAST_UPDATE_CHECK_TIME;
-import static com.drdisagree.iconify.common.References.LATEST_VERSION;
-import static com.drdisagree.iconify.common.References.MONET_ENGINE_SWITCH;
-import static com.drdisagree.iconify.common.References.UPDATE_CHECK_TIME;
-import static com.drdisagree.iconify.common.References.UPDATE_DETECTED;
-import static com.drdisagree.iconify.common.References.VER_CODE;
+import static com.drdisagree.iconify.common.Const.LATEST_VERSION;
+import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
+import static com.drdisagree.iconify.common.Preferences.LAST_UPDATE_CHECK_TIME;
+import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.UPDATE_CHECK_TIME;
+import static com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED;
+import static com.drdisagree.iconify.common.Preferences.VER_CODE;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -156,16 +156,14 @@ public class HomePage extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= 33) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NOTIFICATION_POLICY) != PackageManager.PERMISSION_GRANTED) {
-                ActivityResultLauncher<String> launcher = registerForActivityResult(
-                        new ActivityResultContracts.RequestPermission(), isGranted -> {
-                            Runnable runnable2 = () -> {
-                                if (!isServiceRunning)
-                                    startService(new Intent(Iconify.getAppContext(), BackgroundService.class));
-                            };
-                            Thread thread2 = new Thread(runnable2);
-                            thread2.start();
-                        }
-                );
+                ActivityResultLauncher<String> launcher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                    Runnable runnable2 = () -> {
+                        if (!isServiceRunning)
+                            startService(new Intent(Iconify.getAppContext(), BackgroundService.class));
+                    };
+                    Thread thread2 = new Thread(runnable2);
+                    thread2.start();
+                });
                 launcher.launch(Manifest.permission.POST_NOTIFICATIONS);
             }
         } else {
@@ -221,13 +219,7 @@ public class HomePage extends AppCompatActivity {
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_MUTABLE);
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, getResources().getString(R.string.update_notification_channel_name))
-                .setSmallIcon(R.drawable.ic_launcher_fg)
-                .setContentTitle(getResources().getString(R.string.new_update_title))
-                .setContentText(getResources().getString(R.string.new_update_desc))
-                .setContentIntent(pendingIntent)
-                .setOnlyAlertOnce(true)
-                .setAutoCancel(true);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, getResources().getString(R.string.update_notification_channel_name)).setSmallIcon(R.drawable.ic_launcher_fg).setContentTitle(getResources().getString(R.string.new_update_title)).setContentText(getResources().getString(R.string.new_update_desc)).setContentIntent(pendingIntent).setOnlyAlertOnce(true).setAutoCancel(true);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         createChannel(notificationManager);

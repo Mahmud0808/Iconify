@@ -1,6 +1,6 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.OLDER_CHANGELOGS;
+import static com.drdisagree.iconify.common.Const.OLDER_CHANGELOGS;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;

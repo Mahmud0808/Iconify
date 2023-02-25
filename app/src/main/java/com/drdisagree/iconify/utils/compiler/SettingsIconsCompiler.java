@@ -1,11 +1,14 @@
 package com.drdisagree.iconify.utils.compiler;
 
+import static com.drdisagree.iconify.common.Dynamic.AAPT;
+import static com.drdisagree.iconify.common.Dynamic.ZIPALIGN;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readCertificate;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;
 
 import android.util.Log;
 
-import com.drdisagree.iconify.common.References;
+import com.drdisagree.iconify.Iconify;
+import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.utils.FileUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.RootUtil;
@@ -14,7 +17,6 @@ import com.drdisagree.iconify.utils.apksigner.JarMap;
 import com.drdisagree.iconify.utils.apksigner.SignAPK;
 import com.topjohnwu.superuser.Shell;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -26,8 +28,8 @@ import java.util.Objects;
 public class SettingsIconsCompiler {
 
     private static final String TAG = "SettingsIconsCompiler";
-    private static final String aapt = References.TOOLS_DIR + "/libaapt.so";
-    private static final String zipalign = References.TOOLS_DIR + "/libzipalign.so";
+    private static final String aapt = AAPT.getAbsolutePath();
+    private static final String zipalign = ZIPALIGN.getAbsolutePath();
     private static final String[] packages = new String[]{"com.android.settings", "com.google.android.apps.wellbeing", "com.google.android.gms"};
     private static int mIconSet = 1, mIconBg = 1;
 
@@ -42,7 +44,7 @@ public class SettingsIconsCompiler {
             String overlay_name = "SIP" + (i + 1);
 
             // Create AndroidManifest.xml
-            if (createManifest(overlay_name, packages[i], References.TEMP_CACHE_DIR + "/" + packages[i] + "/" + overlay_name)) {
+            if (createManifest(overlay_name, packages[i], Resources.TEMP_CACHE_DIR + "/" + packages[i] + "/" + overlay_name)) {
                 Log.e(TAG, "Failed to create Manifest for " + overlay_name + "! Exiting...");
                 postExecute(true);
                 return true;
@@ -50,7 +52,7 @@ public class SettingsIconsCompiler {
 
             // Write resources
             if (!Objects.equals(resources, "")) {
-                if (writeResources(References.TEMP_CACHE_DIR + "/" + packages[i] + "/" + overlay_name, resources)) {
+                if (writeResources(Resources.TEMP_CACHE_DIR + "/" + packages[i] + "/" + overlay_name, resources)) {
                     Log.e(TAG, "Failed to write resource for " + overlay_name + "! Exiting...");
                     postExecute(true);
                     return true;
@@ -58,21 +60,21 @@ public class SettingsIconsCompiler {
             }
 
             // Build APK using AAPT
-            if (runAapt(References.TEMP_CACHE_DIR + "/" + packages[i] + "/" + overlay_name, overlay_name)) {
+            if (runAapt(Resources.TEMP_CACHE_DIR + "/" + packages[i] + "/" + overlay_name, overlay_name)) {
                 Log.e(TAG, "Failed to build " + overlay_name + "! Exiting...");
                 postExecute(true);
                 return true;
             }
 
             // ZipAlign the APK
-            if (zipAlign(References.UNSIGNED_UNALIGNED_DIR + "/" + overlay_name + "-unsigned-unaligned.apk", overlay_name)) {
+            if (zipAlign(Resources.UNSIGNED_UNALIGNED_DIR + "/" + overlay_name + "-unsigned-unaligned.apk", overlay_name)) {
                 Log.e(TAG, "Failed to align " + overlay_name + "-unsigned-unaligned.apk! Exiting...");
                 postExecute(true);
                 return true;
             }
 
             // Sign the APK
-            if (apkSigner(References.UNSIGNED_DIR + "/" + overlay_name + "-unsigned.apk", overlay_name)) {
+            if (apkSigner(Resources.UNSIGNED_DIR + "/" + overlay_name + "-unsigned.apk", overlay_name)) {
                 Log.e(TAG, "Failed to sign " + overlay_name + "-unsigned.apk! Exiting...");
                 postExecute(true);
                 return true;
@@ -85,9 +87,9 @@ public class SettingsIconsCompiler {
 
     private static void preExecute() throws IOException {
         // Clean data directory
-        Shell.cmd("rm -rf " + References.TEMP_DIR).exec();
-        Shell.cmd("rm -rf " + References.DATA_DIR + "/Keystore").exec();
-        Shell.cmd("rm -rf " + References.DATA_DIR + "/CompileOnDemand").exec();
+        Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
+        Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Keystore").exec();
+        Shell.cmd("rm -rf " + Resources.DATA_DIR + "/CompileOnDemand").exec();
 
         // Extract keystore and overlay from assets
         FileUtil.copyAssets("Keystore");
@@ -95,14 +97,14 @@ public class SettingsIconsCompiler {
             FileUtil.copyAssets("CompileOnDemand/" + aPackage + "/SIP" + mIconSet);
 
         // Create temp directory
-        Shell.cmd("rm -rf " + References.TEMP_DIR + "; mkdir -p " + References.TEMP_DIR).exec();
-        Shell.cmd("mkdir -p " + References.TEMP_OVERLAY_DIR).exec();
-        Shell.cmd("mkdir -p " + References.TEMP_CACHE_DIR).exec();
-        Shell.cmd("mkdir -p " + References.UNSIGNED_UNALIGNED_DIR).exec();
-        Shell.cmd("mkdir -p " + References.UNSIGNED_DIR).exec();
-        Shell.cmd("mkdir -p " + References.SIGNED_DIR).exec();
+        Shell.cmd("rm -rf " + Resources.TEMP_DIR + "; mkdir -p " + Resources.TEMP_DIR).exec();
+        Shell.cmd("mkdir -p " + Resources.TEMP_OVERLAY_DIR).exec();
+        Shell.cmd("mkdir -p " + Resources.TEMP_CACHE_DIR).exec();
+        Shell.cmd("mkdir -p " + Resources.UNSIGNED_UNALIGNED_DIR).exec();
+        Shell.cmd("mkdir -p " + Resources.UNSIGNED_DIR).exec();
+        Shell.cmd("mkdir -p " + Resources.SIGNED_DIR).exec();
         for (String aPackages : packages)
-            Shell.cmd("mkdir -p " + References.TEMP_CACHE_DIR + "/" + aPackages + "/").exec();
+            Shell.cmd("mkdir -p " + Resources.TEMP_CACHE_DIR + "/" + aPackages + "/").exec();
 
         // Disable the overlay in case it is already enabled
         for (int i = 1; i <= packages.length; i++)
@@ -113,13 +115,13 @@ public class SettingsIconsCompiler {
         // Move all generated overlays to module
         if (!hasErroredOut) {
             for (int i = 1; i <= packages.length; i++) {
-                Shell.cmd("cp -rf " + References.SIGNED_DIR + "/IconifyComponentSIP" + i + ".apk " + References.OVERLAY_DIR + "/IconifyComponentSIP" + i + ".apk").exec();
-                RootUtil.setPermissions(644, References.OVERLAY_DIR + "/IconifyComponentSIP" + i + ".apk");
+                Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponentSIP" + i + ".apk " + Resources.OVERLAY_DIR + "/IconifyComponentSIP" + i + ".apk").exec();
+                RootUtil.setPermissions(644, Resources.OVERLAY_DIR + "/IconifyComponentSIP" + i + ".apk");
             }
 
             SystemUtil.mountRW();
             for (int i = 1; i <= 3; i++) {
-                Shell.cmd("cp -rf " + References.SIGNED_DIR + "/IconifyComponentSIP" + i + ".apk " + "/system/product/overlay/IconifyComponentSIP" + i + ".apk").exec();
+                Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponentSIP" + i + ".apk " + "/system/product/overlay/IconifyComponentSIP" + i + ".apk").exec();
                 RootUtil.setPermissions(644, "/system/product/overlay/IconifyComponentSIP" + i + ".apk");
             }
             SystemUtil.mountRO();
@@ -130,25 +132,25 @@ public class SettingsIconsCompiler {
         }
 
         // Clean temp directory
-        Shell.cmd("rm -rf " + References.TEMP_DIR).exec();
-        Shell.cmd("rm -rf " + References.DATA_DIR + "/Keystore").exec();
-        Shell.cmd("rm -rf " + References.DATA_DIR + "/CompileOnDemand").exec();
+        Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
+        Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Keystore").exec();
+        Shell.cmd("rm -rf " + Resources.DATA_DIR + "/CompileOnDemand").exec();
     }
 
     private static void moveOverlaysToCache() {
-        Shell.cmd("mv -f \"" + References.DATA_DIR + "/CompileOnDemand/" + packages[0] + "/" + "SIP" + mIconSet + "\" \"" + References.TEMP_CACHE_DIR + "/" + packages[0] + "/" + "SIP1\"").exec().isSuccess();
-        Shell.cmd("mv -f \"" + References.DATA_DIR + "/CompileOnDemand/" + packages[1] + "/" + "SIP" + mIconSet + "\" \"" + References.TEMP_CACHE_DIR + "/" + packages[1] + "/" + "SIP2\"").exec().isSuccess();
-        Shell.cmd("mv -f \"" + References.DATA_DIR + "/CompileOnDemand/" + packages[2] + "/" + "SIP" + mIconSet + "\" \"" + References.TEMP_CACHE_DIR + "/" + packages[2] + "/" + "SIP3\"").exec().isSuccess();
+        Shell.cmd("mv -f \"" + Resources.DATA_DIR + "/CompileOnDemand/" + packages[0] + "/" + "SIP" + mIconSet + "\" \"" + Resources.TEMP_CACHE_DIR + "/" + packages[0] + "/" + "SIP1\"").exec().isSuccess();
+        Shell.cmd("mv -f \"" + Resources.DATA_DIR + "/CompileOnDemand/" + packages[1] + "/" + "SIP" + mIconSet + "\" \"" + Resources.TEMP_CACHE_DIR + "/" + packages[1] + "/" + "SIP2\"").exec().isSuccess();
+        Shell.cmd("mv -f \"" + Resources.DATA_DIR + "/CompileOnDemand/" + packages[2] + "/" + "SIP" + mIconSet + "\" \"" + Resources.TEMP_CACHE_DIR + "/" + packages[2] + "/" + "SIP3\"").exec().isSuccess();
 
         if (mIconBg == 1) {
-            Shell.cmd("rm -rf \"" + References.TEMP_CACHE_DIR + "/" + packages[0] + "/" + "SIP1/res/drawable\"", "cp -rf \"" + References.TEMP_CACHE_DIR + "/" + packages[0] + "/" + "SIP1/res/drawable-night\" \"" + References.TEMP_CACHE_DIR + "/" + packages[0] + "/" + "SIP1/res/drawable\"").exec();
-            Shell.cmd("rm -rf \"" + References.TEMP_CACHE_DIR + "/" + packages[0] + "/" + "SIP1/res/drawable-anydpi\"", "cp -rf \"" + References.TEMP_CACHE_DIR + "/" + packages[0] + "/" + "SIP1/res/drawable-night-anydpi\" \"" + References.TEMP_CACHE_DIR + "/" + packages[0] + "/" + "SIP1/res/drawable-anydpi\"").exec();
+            Shell.cmd("rm -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[0] + "/" + "SIP1/res/drawable\"", "cp -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[0] + "/" + "SIP1/res/drawable-night\" \"" + Resources.TEMP_CACHE_DIR + "/" + packages[0] + "/" + "SIP1/res/drawable\"").exec();
+            Shell.cmd("rm -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[0] + "/" + "SIP1/res/drawable-anydpi\"", "cp -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[0] + "/" + "SIP1/res/drawable-night-anydpi\" \"" + Resources.TEMP_CACHE_DIR + "/" + packages[0] + "/" + "SIP1/res/drawable-anydpi\"").exec();
 
-            Shell.cmd("rm -rf \"" + References.TEMP_CACHE_DIR + "/" + packages[1] + "/" + "SIP2/res/drawable\"", "cp -rf \"" + References.TEMP_CACHE_DIR + "/" + packages[1] + "/" + "SIP2/res/drawable-night\" \"" + References.TEMP_CACHE_DIR + "/" + packages[1] + "/" + "SIP2/res/drawable\"").exec();
-            Shell.cmd("rm -rf \"" + References.TEMP_CACHE_DIR + "/" + packages[1] + "/" + "SIP2/res/drawable-anydpi\"", "cp -rf \"" + References.TEMP_CACHE_DIR + "/" + packages[1] + "/" + "SIP2/res/drawable-night-anydpi\" \"" + References.TEMP_CACHE_DIR + "/" + packages[1] + "/" + "SIP2/res/drawable-anydpi\"").exec();
+            Shell.cmd("rm -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[1] + "/" + "SIP2/res/drawable\"", "cp -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[1] + "/" + "SIP2/res/drawable-night\" \"" + Resources.TEMP_CACHE_DIR + "/" + packages[1] + "/" + "SIP2/res/drawable\"").exec();
+            Shell.cmd("rm -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[1] + "/" + "SIP2/res/drawable-anydpi\"", "cp -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[1] + "/" + "SIP2/res/drawable-night-anydpi\" \"" + Resources.TEMP_CACHE_DIR + "/" + packages[1] + "/" + "SIP2/res/drawable-anydpi\"").exec();
 
-            Shell.cmd("rm -rf \"" + References.TEMP_CACHE_DIR + "/" + packages[2] + "/" + "SIP3/res/drawable\"", "cp -rf \"" + References.TEMP_CACHE_DIR + "/" + packages[2] + "/" + "SIP3/res/drawable-night\" \"" + References.TEMP_CACHE_DIR + "/" + packages[2] + "/" + "SIP3/res/drawable\"").exec();
-            Shell.cmd("rm -rf \"" + References.TEMP_CACHE_DIR + "/" + packages[2] + "/" + "SIP3/res/drawable-anydpi\"", "cp -rf \"" + References.TEMP_CACHE_DIR + "/" + packages[2] + "/" + "SIP3/res/drawable-night-anydpi\" \"" + References.TEMP_CACHE_DIR + "/" + packages[2] + "/" + "SIP3/res/drawable-anydpi\"").exec();
+            Shell.cmd("rm -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[2] + "/" + "SIP3/res/drawable\"", "cp -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[2] + "/" + "SIP3/res/drawable-night\" \"" + Resources.TEMP_CACHE_DIR + "/" + packages[2] + "/" + "SIP3/res/drawable\"").exec();
+            Shell.cmd("rm -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[2] + "/" + "SIP3/res/drawable-anydpi\"", "cp -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[2] + "/" + "SIP3/res/drawable-night-anydpi\" \"" + Resources.TEMP_CACHE_DIR + "/" + packages[2] + "/" + "SIP3/res/drawable-anydpi\"").exec();
         }
     }
 
@@ -161,36 +163,20 @@ public class SettingsIconsCompiler {
     }
 
     private static boolean runAapt(String source, String name) {
-        return !Shell.cmd(aapt + " p -f -v -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + References.UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk >/dev/null;").exec().isSuccess();
+        return !Shell.cmd(aapt + " p -f -v -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + Resources.UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk >/dev/null;").exec().isSuccess();
     }
 
     private static boolean zipAlign(String source, String name) {
-        return !Shell.cmd(zipalign + " 4 " + source + ' ' + References.UNSIGNED_DIR + "/" + name + "-unsigned.apk").exec().isSuccess();
+        return !Shell.cmd(zipalign + " 4 " + source + ' ' + Resources.UNSIGNED_DIR + "/" + name + "-unsigned.apk").exec().isSuccess();
     }
 
     private static boolean apkSigner(String source, String name) {
-        File testKey = new File(References.DATA_DIR + "/Keystore/testkey.pk8");
-        File certificate = new File(References.DATA_DIR + "/Keystore/testkey.x509.pem");
-
-        if (!testKey.exists() || !certificate.exists()) {
-            Log.d("KeyStore", "Loading keystore from assets...");
-            try {
-                FileUtil.copyAssets("Keystore");
-            } catch (Exception e) {
-                postExecute(true);
-                return true;
-            }
-        }
-
         try {
-            InputStream keyFile = new FileInputStream(testKey);
-            PrivateKey key = readPrivateKey(keyFile);
-
-            InputStream certFile = new FileInputStream(certificate);
-            X509Certificate cert = readCertificate(certFile);
+            PrivateKey key = readPrivateKey(Iconify.getAppContext().getAssets().open("Keystore/testkey.pk8"));
+            X509Certificate cert = readCertificate(Iconify.getAppContext().getAssets().open("Keystore/testkey.x509.pem"));
 
             JarMap jar = JarMap.open(new FileInputStream(source), true);
-            FileOutputStream out = new FileOutputStream(References.SIGNED_DIR + "/IconifyComponent" + name + ".apk");
+            FileOutputStream out = new FileOutputStream(Resources.SIGNED_DIR + "/IconifyComponent" + name + ".apk");
 
             SignAPK.sign(cert, key, jar, out);
         } catch (Exception e) {

@@ -1,14 +1,14 @@
 package com.drdisagree.iconify.xposed.mods;
 
-import static com.drdisagree.iconify.common.References.LSCLOCK_BOTTOMMARGIN;
-import static com.drdisagree.iconify.common.References.LSCLOCK_FONT_LINEHEIGHT;
-import static com.drdisagree.iconify.common.References.LSCLOCK_FONT_SWITCH;
-import static com.drdisagree.iconify.common.References.LSCLOCK_FONT_TEXT_SCALING;
-import static com.drdisagree.iconify.common.References.LSCLOCK_STYLE;
-import static com.drdisagree.iconify.common.References.LSCLOCK_SWITCH;
-import static com.drdisagree.iconify.common.References.LSCLOCK_TEXT_WHITE;
-import static com.drdisagree.iconify.common.References.LSCLOCK_TOPMARGIN;
-import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_BOTTOMMARGIN;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_LINEHEIGHT;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_TEXT_SCALING;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_STYLE;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_TEXT_WHITE;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_TOPMARGIN;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
 

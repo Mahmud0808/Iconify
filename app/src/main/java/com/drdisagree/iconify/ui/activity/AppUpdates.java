@@ -1,9 +1,9 @@
 package com.drdisagree.iconify.ui.activity;
 
-import static com.drdisagree.iconify.common.References.LATEST_VERSION;
-import static com.drdisagree.iconify.common.References.UPDATE_CHECK_TIME;
-import static com.drdisagree.iconify.common.References.UPDATE_SCHEDULE;
-import static com.drdisagree.iconify.common.References.VER_CODE;
+import static com.drdisagree.iconify.common.Const.LATEST_VERSION;
+import static com.drdisagree.iconify.common.Preferences.UPDATE_CHECK_TIME;
+import static com.drdisagree.iconify.common.Preferences.UPDATE_SCHEDULE;
+import static com.drdisagree.iconify.common.Preferences.VER_CODE;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -118,14 +118,12 @@ public class AppUpdates extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
-        if (checkForUpdate != null)
-            checkForUpdate.cancel(true);
+        if (checkForUpdate != null) checkForUpdate.cancel(true);
         super.onDestroy();
     }
 
     public void onBackPressed() {
-        if (checkForUpdate != null)
-            checkForUpdate.cancel(true);
+        if (checkForUpdate != null) checkForUpdate.cancel(true);
     }
 
     @SuppressLint("StaticFieldLeak")
