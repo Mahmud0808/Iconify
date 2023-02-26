@@ -10,6 +10,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -28,6 +29,8 @@ import com.drdisagree.iconify.overlaymanager.RoundnessManager;
 import com.drdisagree.iconify.ui.view.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.utils.helpers.BinaryInstaller;
+import com.drdisagree.iconify.utils.helpers.Logger;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.io.IOException;
@@ -116,9 +119,12 @@ public class UiRoundness extends AppCompatActivity {
 
                 Runnable runnable = () -> {
                     try {
+                        BinaryInstaller.symLinkBinaries();
                         hasErroredOut.set(RoundnessManager.enableOverlay(finalUiCornerRadius[0]));
                     } catch (IOException e) {
                         hasErroredOut.set(true);
+                        Log.e("UiRoundness", e.toString());
+                        Logger.writeLog("UiRoundness" + " - Set Overlay", "Failed to build UI roundness", e.toString());
                     }
 
                     runOnUiThread(() -> {

@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,8 @@ import com.drdisagree.iconify.overlaymanager.SettingsIconsManager;
 import com.drdisagree.iconify.ui.view.LoadingDialog;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.utils.helpers.BinaryInstaller;
+import com.drdisagree.iconify.utils.helpers.Logger;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.io.IOException;
@@ -131,9 +134,12 @@ public class SettingsIcons extends AppCompatActivity {
 
                 Runnable runnable = () -> {
                     try {
+                        BinaryInstaller.symLinkBinaries();
                         hasErroredOut.set(SettingsIconsManager.enableOverlay(selectedIcon, selectedBackground, selectedIconColor));
                     } catch (IOException e) {
                         hasErroredOut.set(true);
+                        Log.e("SettingsIcons", e.toString());
+                        Logger.writeLog("SettingsIcons" + " - Enable Overlay", "Failed to build SettingsIcons overlay", e.toString());
                     }
 
                     runOnUiThread(() -> {

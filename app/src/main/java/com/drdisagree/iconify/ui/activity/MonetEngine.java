@@ -20,6 +20,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -42,6 +43,8 @@ import com.drdisagree.iconify.utils.ColorUtil;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.utils.helpers.BinaryInstaller;
+import com.drdisagree.iconify.utils.helpers.Logger;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
@@ -304,11 +307,14 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
 
                 Runnable runnable1 = () -> {
                     try {
+                        BinaryInstaller.symLinkBinaries();
                         if (MonetEngineManager.enableOverlay(generatedColorPalette))
                             hasErroredOut.set(true);
                         else Prefs.putString(MONET_STYLE, selectedStyle);
                     } catch (Exception e) {
                         hasErroredOut.set(true);
+                        Log.e("MonetEngine", e.toString());
+                        Logger.writeLog("MonetEngine" + " - Apply Colors", "Failed to build MonetEngine overlay", e.toString());
                     }
 
                     runOnUiThread(() -> {

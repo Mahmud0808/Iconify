@@ -1,11 +1,13 @@
 package com.drdisagree.iconify.ui.activity;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.utils.helpers.Logger.writeLog;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -26,6 +28,8 @@ import com.drdisagree.iconify.ui.view.LoadingDialog;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.compiler.VolumeCompiler;
+import com.drdisagree.iconify.utils.helpers.BinaryInstaller;
+import com.drdisagree.iconify.utils.helpers.Logger;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.io.IOException;
@@ -166,10 +170,12 @@ public class VolumePanel extends AppCompatActivity {
         String finalSelectedStyle = selectedStyle;
         Runnable runnable = () -> {
             try {
+                BinaryInstaller.symLinkBinaries();
                 hasErroredOut.set(VolumeCompiler.buildModule(finalSelectedStyle, SYSTEMUI_PACKAGE));
             } catch (IOException e) {
                 hasErroredOut.set(true);
-                e.printStackTrace();
+                Log.e("VolumePanel", e.toString());
+                Logger.writeLog("VolumePanel" + " - Build Module", "Failed to build volume panel module", e.toString());
             }
             runOnUiThread(() -> new Handler().postDelayed(() -> {
                 loadingDialog.hide();

@@ -16,6 +16,8 @@ public class Resources {
     public static final String SharedXPref = BuildConfig.APPLICATION_ID + "_xpreference";
 
     // Storage location
+    public static final String DOC_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/documents";
+    public static final String LOG_DIR = DOC_DIR + "/Iconify";
     public static final String MODULE_DIR = "/data/adb/modules/Iconify";
     public static final String DATA_DIR = Iconify.getAppContext().getFilesDir().toString();
     public static final String OVERLAY_DIR = MODULE_DIR + "/system/product/overlay";
