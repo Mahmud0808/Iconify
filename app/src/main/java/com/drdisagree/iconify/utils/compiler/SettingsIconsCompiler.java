@@ -91,8 +91,7 @@ public class SettingsIconsCompiler {
         Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Keystore").exec();
         Shell.cmd("rm -rf " + Resources.DATA_DIR + "/CompileOnDemand").exec();
 
-        // Extract keystore and overlay from assets
-        FileUtil.copyAssets("Keystore");
+        // Extract overlay from assets
         for (String aPackage : packages)
             FileUtil.copyAssets("CompileOnDemand/" + aPackage + "/SIP" + mIconSet);
 

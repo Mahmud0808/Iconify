@@ -409,4 +409,5 @@
     <string name="list_title_general_settings">General Settings</string>
     <string name="list_title_use_light_accent">Use Light Accent</string>
     <string name="list_desc_use_light_accent">Use light accent color in light mode</string>
+    <string name="logs">Logs</string>
 </resources>

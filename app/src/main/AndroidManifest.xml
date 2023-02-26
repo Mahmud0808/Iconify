@@ -156,7 +156,7 @@
             android:name=".ui.activity.HomePage"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.WelcomePage"
+            android:name=".ui.activity.ModuleInstaller"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
