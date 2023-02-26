@@ -84,6 +84,7 @@ public class ModuleInstaller extends AppCompatActivity {
         } else {
             // Start installation on click
             install_module.setOnClickListener(v -> {
+                hasErroredOut = false;
                 if (RootUtil.isDeviceRooted()) {
                     if (RootUtil.isMagiskInstalled()) {
                         if (!Environment.isExternalStorageManager()) {
