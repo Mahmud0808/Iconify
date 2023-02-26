@@ -1,12 +1,16 @@
 package com.drdisagree.iconify.utils.helpers;
 
+import static com.drdisagree.iconify.common.Resources.DOC_DIR;
+import static com.drdisagree.iconify.common.Resources.LOG_DIR;
+
 import android.os.Build;
-import android.os.Environment;
 import android.util.Log;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.topjohnwu.superuser.Shell;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +20,6 @@ public class Logger {
 
     public static void writeLog(String tag, String header, List<String> details) {
         StringBuilder log = getDeviceInfo();
-
         log.append("error: ").append(header).append('\n');
         log.append('\n');
         log.append(tag).append(":\n");
@@ -30,7 +33,6 @@ public class Logger {
 
     public static void writeLog(String tag, String header, String details) {
         StringBuilder log = getDeviceInfo();
-
         log.append("error: ").append(header).append('\n');
         log.append('\n');
         log.append(tag).append(":\n");
@@ -64,12 +66,13 @@ public class Logger {
 
     private static void writeLogToFile(StringBuilder log) {
         try {
-            Shell.cmd("mkdir -p " + Environment.getExternalStorageDirectory() + "/Download/").exec();
+            Files.createDirectories(Paths.get(LOG_DIR));
+            Shell.cmd("mkdir -p " + DOC_DIR, "mkdir -p " + LOG_DIR).exec();
             SimpleDateFormat dF = new SimpleDateFormat("dd-MM-yy_HH_mm_ss", Locale.getDefault());
             String filename = "iconify_logcat_" + dF.format(new Date()) + ".txt";
-            Shell.cmd("printf \"" + log + "\" > " + Environment.getExternalStorageDirectory() + "/Download/" + filename).exec();
+            Shell.cmd("printf \"" + log + "\" > " + LOG_DIR + '/' + filename).exec();
         } catch (Exception e) {
-            Log.e("HelperUtil", "Failed to write logs.\n" + e);
+            Log.e("Logger", "Failed to write logs.\n" + e);
         }
     }
 }
