@@ -81,8 +81,7 @@ public class RoundnessCompiler {
         Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Keystore").exec();
         Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Overlays").exec();
 
-        // Extract keystore and overlay from assets
-        FileUtil.copyAssets("Keystore");
+        // Extract overlay from assets
         FileUtil.copyAssets("Overlays/android/CR");
 
         // Create temp directory

@@ -81,8 +81,7 @@ public class MonetCompiler {
         Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Keystore").exec();
         Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Overlays").exec();
 
-        // Extract keystore and overlay from assets
-        FileUtil.copyAssets("Keystore");
+        // Extract overlay from assets
         FileUtil.copyAssets("Overlays/android/ME");
 
         // Create temp directory

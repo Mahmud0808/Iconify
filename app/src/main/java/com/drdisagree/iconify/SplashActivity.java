@@ -11,7 +11,7 @@ import androidx.core.splashscreen.SplashScreen;
 
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.activity.HomePage;
-import com.drdisagree.iconify.ui.activity.WelcomePage;
+import com.drdisagree.iconify.ui.activity.ModuleInstaller;
 import com.drdisagree.iconify.utils.ModuleUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.RootUtil;
@@ -36,7 +36,7 @@ public class SplashActivity extends AppCompatActivity {
             intent = new Intent(SplashActivity.this, HomePage.class);
         } else {
             keepShowing = false;
-            intent = new Intent(SplashActivity.this, WelcomePage.class);
+            intent = new Intent(SplashActivity.this, ModuleInstaller.class);
         }
 
         startActivity(intent);

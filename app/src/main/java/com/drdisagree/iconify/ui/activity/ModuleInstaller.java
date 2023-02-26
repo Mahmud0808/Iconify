@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -21,20 +22,25 @@ import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.ui.view.LoadingDialogAlt;
+import com.drdisagree.iconify.ui.view.InstallationDialog;
+import com.drdisagree.iconify.utils.FileUtil;
 import com.drdisagree.iconify.utils.ModuleUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.RootUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.compiler.OverlayCompiler;
+import com.drdisagree.iconify.utils.helpers.BackupRestore;
 import com.topjohnwu.superuser.Shell;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class WelcomePage extends AppCompatActivity {
+public class ModuleInstaller extends AppCompatActivity {
 
     private static final boolean SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES = false;
+    private final String TAG = "ModuleInstaller";
     private static boolean hasErroredOut = false;
     @SuppressLint("StaticFieldLeak")
     private static LinearLayout warn;
@@ -43,17 +49,18 @@ public class WelcomePage extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     private static Button install_module, reboot_phone;
     private static startInstallationProcess installModule = null;
-    private LoadingDialogAlt loadingDialog;
+    private InstallationDialog loadingDialog;
+    private String logger = null;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome_page);
+        setContentView(R.layout.activity_module_installer);
 
         // Loading dialog while installing
-        loadingDialog = new LoadingDialogAlt(this);
+        loadingDialog = new InstallationDialog(this);
 
         // Continue button
         install_module = findViewById(R.id.install_module);
@@ -70,7 +77,7 @@ public class WelcomePage extends AppCompatActivity {
 
         if (SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES) {
             // Skip installation process for testing purposes
-            Intent intent = new Intent(WelcomePage.this, HomePage.class);
+            Intent intent = new Intent(ModuleInstaller.this, HomePage.class);
             startActivity(intent);
             finish();
         } else {
@@ -91,7 +98,7 @@ public class WelcomePage extends AppCompatActivity {
                                 installModule = new startInstallationProcess();
                                 installModule.execute();
                             } else {
-                                Intent intent = new Intent(WelcomePage.this, HomePage.class);
+                                Intent intent = new Intent(ModuleInstaller.this, HomePage.class);
                                 startActivity(intent);
                                 finish();
                             }
@@ -157,40 +164,149 @@ public class WelcomePage extends AppCompatActivity {
             }
 
             loadingDialog.setMessage(title, desc);
+
+            if (logger != null)
+                loadingDialog.setLogs(logger);
         }
 
         @Override
         protected Integer doInBackground(Void... voids) {
-            int step = 1;
+            int step = 0;
 
-            publishProgress(step++);
+            logger = "Creating blank module template";
+            publishProgress(++step);
             try {
                 ModuleUtil.handleModule();
             } catch (IOException e) {
                 hasErroredOut = true;
-                e.printStackTrace();
+                Log.e(TAG, e.toString());
             }
 
-            publishProgress(step++);
-            ModuleUtil.extractPremadeOverlays();
+            publishProgress(++step);
             try {
-                OverlayCompiler.preExecute();
+                logger = "Cleaning iconify data directory";
+                publishProgress(step);
+
+                // Clean data directory
+                Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
+                Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Keystore").exec();
+                Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Overlays").exec();
+
+                logger = "Extracting overlays from assets";
+                publishProgress(step);
+
+                // Extract overlays from assets
+                FileUtil.copyAssets("Overlays");
+                ModuleUtil.extractPremadeOverlays();
+
+                logger = "Creating temporary directories";
+                publishProgress(step);
+
+                // Create temp directory
+                Shell.cmd("rm -rf " + Resources.TEMP_DIR + "; mkdir -p " + Resources.TEMP_DIR).exec();
+                Shell.cmd("mkdir -p " + Resources.TEMP_OVERLAY_DIR).exec();
+                Shell.cmd("mkdir -p " + Resources.UNSIGNED_UNALIGNED_DIR).exec();
+                Shell.cmd("mkdir -p " + Resources.UNSIGNED_DIR).exec();
+                Shell.cmd("mkdir -p " + Resources.SIGNED_DIR).exec();
             } catch (IOException e) {
                 hasErroredOut = true;
-                e.printStackTrace();
+                Log.e(TAG, e.toString());
             }
 
-            publishProgress(step++);
-            hasErroredOut = OverlayCompiler.buildAPK();
+            publishProgress(++step);
+            // Create AndroidManifest.xml and build APK using AAPT
+            File dir = new File(Resources.DATA_DIR + "/Overlays");
+            if (dir.listFiles() == null) hasErroredOut = true;
 
-            publishProgress(step++);
-            hasErroredOut = OverlayCompiler.alignAPK();
+            if (!hasErroredOut) {
+                for (File pkg : Objects.requireNonNull(dir.listFiles())) {
+                    if (pkg.isDirectory()) {
+                        for (File overlay : Objects.requireNonNull(pkg.listFiles())) {
+                            if (overlay.isDirectory()) {
+                                String overlay_name = overlay.toString().replace(pkg.toString() + '/', "");
 
-            publishProgress(step++);
-            hasErroredOut = OverlayCompiler.signAPK();
+                                logger = "Creating manifest for " + overlay_name;
+                                publishProgress(step);
 
+                                if (!hasErroredOut && OverlayCompiler.createManifest(overlay_name, pkg.toString().replace(Resources.DATA_DIR + "/Overlays/", ""), overlay.getAbsolutePath())) {
+                                    hasErroredOut = true;
+                                }
+
+                                logger = "Building APK for " + overlay_name;
+                                publishProgress(step);
+
+                                if (!hasErroredOut && OverlayCompiler.runAapt(overlay.getAbsolutePath(), overlay_name)) {
+                                    hasErroredOut = true;
+                                }
+                            }
+                            if (hasErroredOut) break;
+                        }
+                    }
+                    if (hasErroredOut) break;
+                }
+            }
+
+            publishProgress(++step);
+            // ZipAlign the APK
+            dir = new File(Resources.UNSIGNED_UNALIGNED_DIR);
+            if (dir.listFiles() == null) hasErroredOut = true;
+
+            if (!hasErroredOut) {
+                for (File overlay : Objects.requireNonNull(dir.listFiles())) {
+                    if (!overlay.isDirectory()) {
+                        String overlay_name = overlay.toString().replace(Resources.UNSIGNED_UNALIGNED_DIR + '/', "").replace("-unaligned", "");
+
+                        logger = "Zip aligning APK " + overlay_name.replace("-unsigned.apk", "");
+                        publishProgress(step);
+
+                        if (!hasErroredOut && OverlayCompiler.zipAlign(overlay.getAbsolutePath(), overlay_name)) {
+                            hasErroredOut = true;
+                        }
+                    }
+                    if (hasErroredOut) break;
+                }
+            }
+
+            publishProgress(++step);
+            // Sign the APK
+            dir = new File(Resources.UNSIGNED_DIR);
+            if (dir.listFiles() == null) hasErroredOut = true;
+
+            if (!hasErroredOut) {
+                for (File overlay : Objects.requireNonNull(dir.listFiles())) {
+                    if (!overlay.isDirectory()) {
+                        String overlay_name = overlay.toString().replace(Resources.UNSIGNED_DIR + '/', "").replace("-unsigned", "");
+
+                        logger = "Signing APK " + overlay_name.replace(".apk", "");
+                        publishProgress(step);
+
+                        if (!hasErroredOut && OverlayCompiler.apkSigner(overlay.getAbsolutePath(), overlay_name)) {
+                            hasErroredOut = true;
+                        }
+                    }
+                    if (hasErroredOut) break;
+                }
+            }
+
+            logger = "Move overlays to module directory";
+            publishProgress(++step);
+            // Move all generated overlays to module dir
+            if (!hasErroredOut) {
+                Shell.cmd("cp -a " + Resources.SIGNED_DIR + "/. " + Resources.OVERLAY_DIR).exec();
+                RootUtil.setPermissionsRecursively(644, Resources.OVERLAY_DIR + '/');
+            }
+
+            logger = "Cleaning temporary directories";
             publishProgress(step);
-            OverlayCompiler.postExecute(hasErroredOut);
+            // Clean temp directory
+            Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
+            Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Keystore").exec();
+            Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Overlays").exec();
+
+            // Restore backups
+            BackupRestore.restoreFiles();
+            logger = "Installtion process successfully finished";
+            publishProgress(step);
 
             return null;
         }
@@ -215,7 +331,7 @@ public class WelcomePage extends AppCompatActivity {
 
                 if (OverlayUtil.overlayExists()) {
                     new Handler().postDelayed(() -> {
-                        Intent intent = new Intent(WelcomePage.this, HomePage.class);
+                        Intent intent = new Intent(ModuleInstaller.this, HomePage.class);
                         startActivity(intent);
                         finish();
                     }, 10);
