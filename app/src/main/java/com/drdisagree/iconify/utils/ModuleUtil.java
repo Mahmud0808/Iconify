@@ -86,7 +86,6 @@ public class ModuleUtil {
         Shell.cmd("mkdir -p " + Resources.MODULE_DIR + "/system").exec();
         Shell.cmd("mkdir -p " + Resources.MODULE_DIR + "/system/product").exec();
         Shell.cmd("mkdir -p " + Resources.MODULE_DIR + "/system/product/overlay").exec();
-        Shell.cmd("mkdir -p " + BIN_DIR).exec();
 
         extractTools();
         BinaryInstaller.symLinkBinaries();
