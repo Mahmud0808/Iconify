@@ -50,7 +50,8 @@ public class ModuleInstaller extends AppCompatActivity {
     private static Button install_module, reboot_phone;
     private static startInstallationProcess installModule = null;
     private InstallationDialog loadingDialog;
-    private String logger = null;
+    private String logger = null, prev_log = null;
+    ;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -165,8 +166,10 @@ public class ModuleInstaller extends AppCompatActivity {
 
             loadingDialog.setMessage(title, desc);
 
-            if (logger != null)
+            if (logger != null && !Objects.equals(prev_log, logger)) {
                 loadingDialog.setLogs(logger);
+                prev_log = logger;
+            }
         }
 
         @Override
@@ -182,11 +185,11 @@ public class ModuleInstaller extends AppCompatActivity {
                 Log.e(TAG, e.toString());
             }
 
+            logger = null;
             publishProgress(++step);
             try {
                 logger = "Cleaning iconify data directory";
                 publishProgress(step);
-
                 // Clean data directory
                 Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
                 Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Keystore").exec();
@@ -194,14 +197,12 @@ public class ModuleInstaller extends AppCompatActivity {
 
                 logger = "Extracting overlays from assets";
                 publishProgress(step);
-
                 // Extract overlays from assets
                 FileUtil.copyAssets("Overlays");
                 ModuleUtil.extractPremadeOverlays();
 
                 logger = "Creating temporary directories";
                 publishProgress(step);
-
                 // Create temp directory
                 Shell.cmd("rm -rf " + Resources.TEMP_DIR + "; mkdir -p " + Resources.TEMP_DIR).exec();
                 Shell.cmd("mkdir -p " + Resources.TEMP_OVERLAY_DIR).exec();
@@ -213,6 +214,7 @@ public class ModuleInstaller extends AppCompatActivity {
                 Log.e(TAG, e.toString());
             }
 
+            logger = null;
             publishProgress(++step);
             // Create AndroidManifest.xml and build APK using AAPT
             File dir = new File(Resources.DATA_DIR + "/Overlays");
@@ -246,6 +248,7 @@ public class ModuleInstaller extends AppCompatActivity {
                 }
             }
 
+            logger = null;
             publishProgress(++step);
             // ZipAlign the APK
             dir = new File(Resources.UNSIGNED_UNALIGNED_DIR);
@@ -267,6 +270,7 @@ public class ModuleInstaller extends AppCompatActivity {
                 }
             }
 
+            logger = null;
             publishProgress(++step);
             // Sign the APK
             dir = new File(Resources.UNSIGNED_DIR);
