@@ -31,7 +31,8 @@ public class SplashActivity extends AppCompatActivity {
     private final Runnable runner = () -> Shell.getShell(shell -> {
         Intent intent;
 
-        if (RootUtil.isDeviceRooted() && RootUtil.isMagiskInstalled() && ModuleUtil.moduleExists() && OverlayUtil.overlayExists() && (BuildConfig.VERSION_CODE == Prefs.getInt(VER_CODE))) {
+        if (RootUtil.isDeviceRooted() && ModuleUtil.moduleExists() && OverlayUtil.overlayExists()
+                && (BuildConfig.VERSION_CODE == Prefs.getInt(VER_CODE))) {
             keepShowing = false;
             intent = new Intent(SplashActivity.this, HomePage.class);
         } else {
