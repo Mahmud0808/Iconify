@@ -50,8 +50,7 @@ public class ModuleInstaller extends AppCompatActivity {
     private static Button install_module, reboot_phone;
     private static startInstallationProcess installModule = null;
     private InstallationDialog loadingDialog;
-    private String logger = null, prev_log = null;
-    ;
+    private String logger = null, prev_log = null;;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -87,6 +86,7 @@ public class ModuleInstaller extends AppCompatActivity {
                 hasErroredOut = false;
                 if (RootUtil.isDeviceRooted()) {
                     if (RootUtil.isMagiskInstalled()) {
+                        // Magisk-specific install
                         if (!Environment.isExternalStorageManager()) {
                             warning.setText(getResources().getString(R.string.perm_storage_access));
                             warn.setVisibility(View.VISIBLE);
@@ -96,7 +96,29 @@ public class ModuleInstaller extends AppCompatActivity {
                                 SystemUtil.getStoragePermission(this);
                             }, clickedContinue.get() ? 10 : 1200);
                         } else {
-                            if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
+                            if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !ModuleUtil.moduleExists()
+                                    || !OverlayUtil.overlayExists()) {
+                                installModule = new startInstallationProcess();
+                                installModule.execute();
+                            } else {
+                                Intent intent = new Intent(ModuleInstaller.this, HomePage.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+                    } else if (RootUtil.isKSUInstalled()) {
+                        // KernelSU-specifc install
+                        if (!Environment.isExternalStorageManager()) {
+                            warning.setText(getResources().getString(R.string.perm_storage_access));
+                            warn.setVisibility(View.VISIBLE);
+
+                            new Handler().postDelayed(() -> {
+                                clickedContinue.set(true);
+                                SystemUtil.getStoragePermission(this);
+                            }, clickedContinue.get() ? 10 : 1200);
+                        } else {
+                            if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !ModuleUtil.moduleExists()
+                                    || !OverlayUtil.overlayExists()) {
                                 installModule = new startInstallationProcess();
                                 installModule.execute();
                             } else {
@@ -119,7 +141,8 @@ public class ModuleInstaller extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
-        if (installModule != null) installModule.cancel(true);
+        if (installModule != null)
+            installModule.cancel(true);
         super.onDestroy();
     }
 
@@ -133,7 +156,8 @@ public class ModuleInstaller extends AppCompatActivity {
             warn.setVisibility(View.INVISIBLE);
             reboot_phone.setVisibility(View.GONE);
 
-            loadingDialog.show(getResources().getString(R.string.installing), getResources().getString(R.string.init_module_installation));
+            loadingDialog.show(getResources().getString(R.string.installing),
+                    getResources().getString(R.string.init_module_installation));
         }
 
         @SuppressLint("SetTextI18n")
@@ -219,7 +243,8 @@ public class ModuleInstaller extends AppCompatActivity {
             publishProgress(++step);
             // Create AndroidManifest.xml and build APK using AAPT
             File dir = new File(Resources.DATA_DIR + "/Overlays");
-            if (dir.listFiles() == null) hasErroredOut = true;
+            if (dir.listFiles() == null)
+                hasErroredOut = true;
 
             if (!hasErroredOut) {
                 for (File pkg : Objects.requireNonNull(dir.listFiles())) {
@@ -231,21 +256,26 @@ public class ModuleInstaller extends AppCompatActivity {
                                 logger = "Creating manifest for " + overlay_name;
                                 publishProgress(step);
 
-                                if (!hasErroredOut && OverlayCompiler.createManifest(overlay_name, pkg.toString().replace(Resources.DATA_DIR + "/Overlays/", ""), overlay.getAbsolutePath())) {
+                                if (!hasErroredOut && OverlayCompiler.createManifest(overlay_name,
+                                        pkg.toString().replace(Resources.DATA_DIR + "/Overlays/", ""),
+                                        overlay.getAbsolutePath())) {
                                     hasErroredOut = true;
                                 }
 
                                 logger = "Building APK for " + overlay_name;
                                 publishProgress(step);
 
-                                if (!hasErroredOut && OverlayCompiler.runAapt(overlay.getAbsolutePath(), overlay_name)) {
+                                if (!hasErroredOut
+                                        && OverlayCompiler.runAapt(overlay.getAbsolutePath(), overlay_name)) {
                                     hasErroredOut = true;
                                 }
                             }
-                            if (hasErroredOut) break;
+                            if (hasErroredOut)
+                                break;
                         }
                     }
-                    if (hasErroredOut) break;
+                    if (hasErroredOut)
+                        break;
                 }
             }
 
@@ -253,12 +283,14 @@ public class ModuleInstaller extends AppCompatActivity {
             publishProgress(++step);
             // ZipAlign the APK
             dir = new File(Resources.UNSIGNED_UNALIGNED_DIR);
-            if (dir.listFiles() == null) hasErroredOut = true;
+            if (dir.listFiles() == null)
+                hasErroredOut = true;
 
             if (!hasErroredOut) {
                 for (File overlay : Objects.requireNonNull(dir.listFiles())) {
                     if (!overlay.isDirectory()) {
-                        String overlay_name = overlay.toString().replace(Resources.UNSIGNED_UNALIGNED_DIR + '/', "").replace("-unaligned", "");
+                        String overlay_name = overlay.toString().replace(Resources.UNSIGNED_UNALIGNED_DIR + '/', "")
+                                .replace("-unaligned", "");
 
                         logger = "Zip aligning APK " + overlay_name.replace("-unsigned.apk", "");
                         publishProgress(step);
@@ -267,7 +299,8 @@ public class ModuleInstaller extends AppCompatActivity {
                             hasErroredOut = true;
                         }
                     }
-                    if (hasErroredOut) break;
+                    if (hasErroredOut)
+                        break;
                 }
             }
 
@@ -275,12 +308,14 @@ public class ModuleInstaller extends AppCompatActivity {
             publishProgress(++step);
             // Sign the APK
             dir = new File(Resources.UNSIGNED_DIR);
-            if (dir.listFiles() == null) hasErroredOut = true;
+            if (dir.listFiles() == null)
+                hasErroredOut = true;
 
             if (!hasErroredOut) {
                 for (File overlay : Objects.requireNonNull(dir.listFiles())) {
                     if (!overlay.isDirectory()) {
-                        String overlay_name = overlay.toString().replace(Resources.UNSIGNED_DIR + '/', "").replace("-unsigned", "");
+                        String overlay_name = overlay.toString().replace(Resources.UNSIGNED_DIR + '/', "")
+                                .replace("-unsigned", "");
 
                         logger = "Signing APK " + overlay_name.replace(".apk", "");
                         publishProgress(step);
@@ -289,7 +324,8 @@ public class ModuleInstaller extends AppCompatActivity {
                             hasErroredOut = true;
                         }
                     }
-                    if (hasErroredOut) break;
+                    if (hasErroredOut)
+                        break;
                 }
             }
 

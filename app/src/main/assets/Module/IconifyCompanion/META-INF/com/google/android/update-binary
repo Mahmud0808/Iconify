@@ -47,7 +47,9 @@ install_module
 remove()
 {
 rm -rf /data/adb/modules_update/$MODID 2>/dev/null
-  rm -rf /data/adb/modules/$MODID 2>/dev/null 
+rm -rf /data/adb/modules/$MODID 2>/dev/null 
+rm -rf /data/adb/ksu/modules_update/$MODID 2>/dev/null
+rm -rf /data/adb/ksu/modules/$MODID 2>/dev/null 
 }
 tar -xf $MODPATH/utils/myutils -C $MODPATH/utils/ 2>/dev/null
 zipp=$MODPATH/utils/zip
