@@ -50,7 +50,7 @@ public class ModuleInstaller extends AppCompatActivity {
     private static Button install_module, reboot_phone;
     private static startInstallationProcess installModule = null;
     private InstallationDialog loadingDialog;
-    private String logger = null, prev_log = null;;
+    private String logger = null, prev_log = null;
 
     @SuppressLint("SetTextI18n")
     @Override
