@@ -170,12 +170,10 @@ public class VolumePanel extends AppCompatActivity {
         String finalSelectedStyle = selectedStyle;
         Runnable runnable = () -> {
             try {
-                BinaryInstaller.symLinkBinaries();
                 hasErroredOut.set(VolumeCompiler.buildModule(finalSelectedStyle, SYSTEMUI_PACKAGE));
             } catch (IOException e) {
                 hasErroredOut.set(true);
                 Log.e("VolumePanel", e.toString());
-                Logger.writeLog("VolumePanel" + " - Build Module", "Failed to build volume panel module", e.toString());
             }
             runOnUiThread(() -> new Handler().postDelayed(() -> {
                 loadingDialog.hide();

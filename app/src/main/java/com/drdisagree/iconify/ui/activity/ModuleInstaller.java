@@ -51,7 +51,6 @@ public class ModuleInstaller extends AppCompatActivity {
     private static startInstallationProcess installModule = null;
     private InstallationDialog loadingDialog;
     private String logger = null, prev_log = null;
-    ;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -193,7 +192,6 @@ public class ModuleInstaller extends AppCompatActivity {
                 publishProgress(step);
                 // Clean data directory
                 Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
-                Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Keystore").exec();
                 Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Overlays").exec();
 
                 logger = "Extracting overlays from assets";
@@ -305,7 +303,6 @@ public class ModuleInstaller extends AppCompatActivity {
             publishProgress(step);
             // Clean temp directory
             Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
-            Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Keystore").exec();
             Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Overlays").exec();
 
             // Restore backups

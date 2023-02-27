@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:tintMode="src_atop">
+            <solid android:color="@*android:color/system_neutral1_800" />
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+        </shape>
+    </item>
+    <item>
+        <shape android:tintMode="src_atop">
+            <gradient
+                android:angle="90.0"
+                android:centerColor="#00000000"
+                android:endColor="#00000000"
+                android:startColor="#40000000" />
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+        </shape>
+    </item>
+    <item
+        android:bottom="4.0dp"
+        android:end="4.0dp"
+        android:start="4.0dp"
+        android:top="4.0dp">
+        <shape android:tintMode="src_atop">
+            <solid android:color="@*android:color/system_neutral1_800" />
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
+        </shape>
+    </item>
+    <item
+        android:bottom="4.0dp"
+        android:end="4.0dp"
+        android:start="4.0dp"
+        android:top="4.0dp">
+        <shape android:tintMode="src_atop">
+            <padding
+                android:bottom="6.0dip"
+                android:left="12.0dip"
+                android:right="12.0dip"
+                android:top="6.0dip" />
+            <gradient
+                android:angle="270.0"
+                android:centerColor="#00000000"
+                android:endColor="#00000000"
+                android:startColor="#40000000" />
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
+        </shape>
+    </item>
+</layer-list>

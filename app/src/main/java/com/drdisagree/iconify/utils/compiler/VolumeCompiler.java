@@ -8,6 +8,7 @@ import android.util.Log;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.utils.AppUtil;
 import com.drdisagree.iconify.utils.FileUtil;
+import com.drdisagree.iconify.utils.helpers.BinaryInstaller;
 import com.topjohnwu.superuser.Shell;
 
 import org.zeroturnaround.zip.ZipUtil;
@@ -56,6 +57,9 @@ public class VolumeCompiler {
     }
 
     private static void preExecute(String overlayName, String packageName) throws IOException {
+        // Create symbolic link
+        BinaryInstaller.symLinkBinaries();
+
         // Clean data directory
         Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
         Shell.cmd("rm -rf " + Resources.DATA_DIR + "/SpecialOverlays").exec();

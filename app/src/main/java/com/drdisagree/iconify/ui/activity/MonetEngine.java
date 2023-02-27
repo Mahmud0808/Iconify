@@ -307,14 +307,12 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
 
                 Runnable runnable1 = () -> {
                     try {
-                        BinaryInstaller.symLinkBinaries();
                         if (MonetEngineManager.enableOverlay(generatedColorPalette))
                             hasErroredOut.set(true);
                         else Prefs.putString(MONET_STYLE, selectedStyle);
                     } catch (Exception e) {
                         hasErroredOut.set(true);
                         Log.e("MonetEngine", e.toString());
-                        Logger.writeLog("MonetEngine" + " - Apply Colors", "Failed to build MonetEngine overlay", e.toString());
                     }
 
                     runOnUiThread(() -> {

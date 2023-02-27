@@ -233,9 +233,11 @@ public class Settings extends AppCompatActivity {
             Intent intent = new Intent(Settings.this, Changelog.class);
             startActivity(intent);
         } else if (itemID == R.id.menu_exportPrefs) {
-            exportSettings();
+            Toast.makeText(Iconify.getAppContext(), "WIP", Toast.LENGTH_SHORT).show();
+            // exportSettings();
         } else if (itemID == R.id.menu_importPrefs) {
-            importSettings();
+            Toast.makeText(Iconify.getAppContext(), "WIP", Toast.LENGTH_SHORT).show();
+            // importSettings();
         } else if (itemID == R.id.menu_experimental_features) {
             Intent intent = new Intent(Settings.this, Experimental.class);
             startActivity(intent);

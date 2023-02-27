@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:gravity="fill_horizontal|center" android:id="@*android:id/background">
+		<shape android:tint="?android:textColorPrimary" android:shape="rectangle">
+			<corners android:radius="24.0dip" />
+			<size android:height="4.0dip" />
+			<solid android:color="#33000000" />
+		</shape>
+	</item>
+	<item android:gravity="fill_horizontal|center" android:id="@*android:id/secondaryProgress">
+		<scale android:scaleWidth="100%">
+			<selector>
+				<item android:state_enabled="false" android:drawable="@*android:color/transparent" />
+				<item>
+					<shape android:tint="?android:colorControlActivated" android:shape="rectangle">
+						<corners android:radius="24.0dip" />
+						<size android:height="4.0dip" />
+						<solid android:color="#59000000" />
+					</shape>
+				</item>
+			</selector>
+		</scale>
+	</item>
+	<item android:gravity="fill_horizontal|center" android:id="@*android:id/progress">
+		<scale android:scaleWidth="100%">
+			<selector>
+				<item android:state_enabled="false" android:drawable="@*android:color/transparent" />
+				<item>
+					<shape android:shape="rectangle">
+						<corners android:radius="24.0dip" />
+						<size android:height="4.0dip" />
+						<gradient android:startColor="@android:color/holo_blue_light" android:endColor="@android:color/holo_green_light" />
+					</shape>
+				</item>
+			</selector>
+		</scale>
+	</item>
+</layer-list>
