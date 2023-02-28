@@ -66,6 +66,7 @@ public class Preferences {
     public static final String SELECTED_SETTINGS_ICONS_COLOR = "selectedSettignsIconsColor";
     public static final String SELECTED_SETTINGS_ICONS_BG = "selectedSettignsIconsBg";
     public static final String SELECTED_SETTINGS_ICONS_SET = "selectedSettignsIconsSet";
+    public static final String SELECTED_TOAST_FRAME = "selectedToastFrame";
 
     // Settings
     public static final String USE_LIGHT_ACCENT = "useLightAccent";

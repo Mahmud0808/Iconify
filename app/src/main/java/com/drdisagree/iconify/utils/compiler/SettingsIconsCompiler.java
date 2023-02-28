@@ -15,6 +15,7 @@ import com.drdisagree.iconify.utils.RootUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.apksigner.JarMap;
 import com.drdisagree.iconify.utils.apksigner.SignAPK;
+import com.drdisagree.iconify.utils.helpers.BinaryInstaller;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.FileInputStream;
@@ -88,7 +89,6 @@ public class SettingsIconsCompiler {
     private static void preExecute() throws IOException {
         // Clean data directory
         Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
-        Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Keystore").exec();
         Shell.cmd("rm -rf " + Resources.DATA_DIR + "/CompileOnDemand").exec();
 
         // Extract overlay from assets
@@ -111,6 +111,9 @@ public class SettingsIconsCompiler {
     }
 
     private static void postExecute(boolean hasErroredOut) {
+        // Create symbolic link
+        BinaryInstaller.symLinkBinaries();
+
         // Move all generated overlays to module
         if (!hasErroredOut) {
             for (int i = 1; i <= packages.length; i++) {
@@ -132,7 +135,6 @@ public class SettingsIconsCompiler {
 
         // Clean temp directory
         Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
-        Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Keystore").exec();
         Shell.cmd("rm -rf " + Resources.DATA_DIR + "/CompileOnDemand").exec();
     }
 

@@ -16,6 +16,7 @@ import com.drdisagree.iconify.utils.RootUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.apksigner.JarMap;
 import com.drdisagree.iconify.utils.apksigner.SignAPK;
+import com.drdisagree.iconify.utils.helpers.BinaryInstaller;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.FileInputStream;
@@ -76,9 +77,11 @@ public class QsTileHeightCompiler {
     }
 
     private static void preExecute() throws IOException {
+        // Create symbolic link
+        BinaryInstaller.symLinkBinaries();
+
         // Clean data directory
         Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
-        Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Keystore").exec();
         Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Overlays").exec();
 
         // Extract overlay from assets
@@ -111,7 +114,6 @@ public class QsTileHeightCompiler {
 
         // Clean temp directory
         Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
-        Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Keystore").exec();
         Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Overlays").exec();
     }
 

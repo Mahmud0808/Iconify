@@ -42,6 +42,9 @@
         tools:replace="android:allowBackup"
         tools:targetApi="tiramisu">
         <activity
+            android:name=".ui.activity.ToastFrame"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.QsTileSize"
             android:exported="false" />
         <activity

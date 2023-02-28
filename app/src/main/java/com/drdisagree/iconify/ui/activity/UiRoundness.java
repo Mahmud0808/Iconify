@@ -119,12 +119,10 @@ public class UiRoundness extends AppCompatActivity {
 
                 Runnable runnable = () -> {
                     try {
-                        BinaryInstaller.symLinkBinaries();
                         hasErroredOut.set(RoundnessManager.enableOverlay(finalUiCornerRadius[0]));
                     } catch (IOException e) {
                         hasErroredOut.set(true);
                         Log.e("UiRoundness", e.toString());
-                        Logger.writeLog("UiRoundness" + " - Set Overlay", "Failed to build UI roundness", e.toString());
                     }
 
                     runOnUiThread(() -> {

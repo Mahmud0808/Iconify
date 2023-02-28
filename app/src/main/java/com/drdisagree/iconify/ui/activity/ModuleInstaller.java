@@ -217,7 +217,6 @@ public class ModuleInstaller extends AppCompatActivity {
                 publishProgress(step);
                 // Clean data directory
                 Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
-                Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Keystore").exec();
                 Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Overlays").exec();
 
                 logger = "Extracting overlays from assets";
@@ -341,7 +340,6 @@ public class ModuleInstaller extends AppCompatActivity {
             publishProgress(step);
             // Clean temp directory
             Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
-            Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Keystore").exec();
             Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Overlays").exec();
 
             // Restore backups
