@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.utils.compiler;
 
 import static com.drdisagree.iconify.common.Dynamic.AAPT;
+import static com.drdisagree.iconify.common.Dynamic.ZIP;
 
 import android.os.Environment;
 import android.util.Log;
@@ -20,6 +21,7 @@ public class VolumeCompiler {
 
     private static final String TAG = "VolumeCompiler";
     private static final String aapt = AAPT.getAbsolutePath();
+    private static final String zip = ZIP.getAbsolutePath();
 
     public static boolean buildModule(String overlayName, String packageName) throws IOException {
         preExecute(overlayName, packageName);
@@ -91,7 +93,7 @@ public class VolumeCompiler {
             Shell.cmd("cp -a " + Resources.COMPANION_COMPILED_DIR + "/res/layout-v31/. " + Resources.COMPANION_LAYOUT_DIR).exec();
 
             // Create flashable module
-            Shell.cmd("cd " + Resources.COMPANION_MODULE_DIR + "; " + Resources.MODULE_DIR + "/tools/zip -r IconifyCompanion *").exec();
+            Shell.cmd("cd " + Resources.COMPANION_MODULE_DIR + "; " + zip + " -r IconifyCompanion *").exec();
 
             // Move the module to Iconify folder
             Shell.cmd("mkdir -p " + Environment.getExternalStorageDirectory() + "/Download").exec();
@@ -101,7 +103,8 @@ public class VolumeCompiler {
 
         // Clean temp directory
         Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
-        Shell.cmd("rm -rf " + Resources.DATA_DIR + "/ModuleCompanion").exec();
+        Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Module").exec();
+        Shell.cmd("rm -rf " + Resources.DATA_DIR + "/SpecialOverlays").exec();
     }
 
     private static boolean createManifest(String pkgName, String target, String source) {

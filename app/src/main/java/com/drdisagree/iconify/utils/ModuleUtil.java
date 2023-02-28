@@ -82,12 +82,10 @@ public class ModuleUtil {
         Shell.cmd("printf '" + service_sh + "' > " + Resources.MODULE_DIR + "/service.sh").exec();
         Shell.cmd("touch " + Resources.MODULE_DIR + "/common/system.prop").exec();
         Shell.cmd("touch " + Resources.MODULE_DIR + "/auto_mount").exec();
-        Shell.cmd("mkdir -p " + Resources.MODULE_DIR + "/tools").exec();
         Shell.cmd("mkdir -p " + Resources.MODULE_DIR + "/system").exec();
         Shell.cmd("mkdir -p " + Resources.MODULE_DIR + "/system/product").exec();
         Shell.cmd("mkdir -p " + Resources.MODULE_DIR + "/system/product/overlay").exec();
 
-        extractTools();
         BinaryInstaller.symLinkBinaries();
 
         Log.i(TAG, "Magisk module successfully created.");
@@ -101,18 +99,6 @@ public class ModuleUtil {
         return RootUtil.folderExists(Resources.MODULE_DIR);
     }
 
-    public static void extractTools() {
-        Log.d(TAG, "Extracting tools...");
-        try {
-            FileUtil.copyAssets("Tools");
-            Shell.cmd("cp -a " + Resources.DATA_DIR + "/Tools/. " + Resources.MODULE_DIR + "/tools").exec();
-            FileUtil.cleanDir("Tools");
-            RootUtil.setPermissionsRecursively(755, Resources.MODULE_DIR + "/tools");
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to extract tools.\n" + e);
-        }
-    }
-
     public static void extractPremadeOverlays() {
         Log.d(TAG, "Extracting pre-made overlays...");
         try {
@@ -122,7 +108,7 @@ public class ModuleUtil {
             FileUtil.cleanDir("PremadeOverlays");
             RootUtil.setPermissionsRecursively(644, Resources.OVERLAY_DIR + '/');
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "Failed to extract pre-made overlays.\n" + e);
         }
     }
 }

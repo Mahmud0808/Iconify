@@ -6,8 +6,6 @@ import com.drdisagree.iconify.Iconify;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 
 public class Dynamic {
 
@@ -25,7 +23,8 @@ public class Dynamic {
     // Overlay compiler tools
     public static final String NATIVE_LIBRARY_DIR = Iconify.getAppContext().getApplicationInfo().nativeLibraryDir;
     public static final File AAPTLIB = new File(NATIVE_LIBRARY_DIR, "libaapt.so");
-    public static final File ZIPALIGNLIB = new File(NATIVE_LIBRARY_DIR, "libzipalign.so");
     public static final File AAPT = new File(BIN_DIR, "aapt");
+    public static final File ZIPALIGNLIB = new File(NATIVE_LIBRARY_DIR, "libzipalign.so");
     public static final File ZIPALIGN = new File(BIN_DIR, "zipalign");
+    public static final File ZIP = new File(BIN_DIR, "zip");
 }
