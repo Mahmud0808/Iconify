@@ -2,6 +2,7 @@ package com.drdisagree.iconify.utils.compiler;
 
 import static com.drdisagree.iconify.common.Dynamic.AAPT;
 import static com.drdisagree.iconify.common.Dynamic.ZIP;
+import static com.drdisagree.iconify.utils.helpers.Logger.writeLog;
 
 import android.os.Environment;
 import android.util.Log;
@@ -108,7 +109,16 @@ public class VolumeCompiler {
     }
 
     private static boolean createManifest(String pkgName, String target, String source) {
-        return !Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + pkgName + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + target + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + source + "/AndroidManifest.xml;").exec().isSuccess();
+        Shell.Result result = Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + pkgName + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + target + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + source + "/AndroidManifest.xml;").exec();
+
+        if (result.isSuccess())
+            Log.i(TAG + " - Manifest", "Successfully created manifest for " + pkgName);
+        else {
+            Log.e(TAG + " - Manifest", "Failed to create manifest for " + pkgName + '\n' + String.join("\n", result.getOut()));
+            writeLog(TAG + " - Manifest", "Failed to create manifest for " + pkgName, result.getOut());
+        }
+
+        return !result.isSuccess();
     }
 
     private static boolean runAapt(String source, String name, String[] splitLocations) {
@@ -120,6 +130,14 @@ public class VolumeCompiler {
             }
         }
 
-        return !Shell.cmd(String.valueOf(aaptCommand)).exec().isSuccess();
+        Shell.Result result = Shell.cmd(String.valueOf(aaptCommand)).exec();
+
+        if (result.isSuccess()) Log.i(TAG + " - AAPT", "Successfully built APK for " + name);
+        else {
+            Log.e(TAG + " - AAPT", "Failed to build APK for " + name + '\n' + String.join("\n", result.getOut()));
+            writeLog(TAG + " - AAPT", "Failed to build APK for " + name, result.getOut());
+        }
+
+        return !result.isSuccess();
     }
 }
