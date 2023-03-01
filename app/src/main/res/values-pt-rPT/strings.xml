@@ -413,4 +413,6 @@
     <string name="battery_style_title">Estilo da bateria</string>
     <string name="battery_width_title">Largura da bateria</string>
     <string name="battery_height_desc">Altura da bateria</string>
+    <string name="activity_title_toast_frame">Notificações \"Toast\"</string>
+    <string name="activity_desc_toast_frame">Personalizar as notificações \"Toast\"</string>
 </resources>
