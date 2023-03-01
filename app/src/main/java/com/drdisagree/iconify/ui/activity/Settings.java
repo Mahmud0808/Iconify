@@ -3,6 +3,7 @@ package com.drdisagree.iconify.ui.activity;
 import static com.drdisagree.iconify.common.Preferences.EASTER_EGG;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.FORCE_APPLY_XPOSED_CHOICE;
+import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_AFTER_BOOT;
 import static com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN;
 import static com.drdisagree.iconify.common.Preferences.USE_LIGHT_ACCENT;
 
@@ -119,6 +120,17 @@ public class Settings extends AppCompatActivity {
                     OverlayUtil.enableOverlay("IconifyComponentAMGC.overlay");
                 }
             }
+        });
+
+        // Restart sysui after boot
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch restart_sysui_after_boot = findViewById(R.id.restart_sysui_after_boot);
+        restart_sysui_after_boot.setChecked(Prefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false));
+        restart_sysui_after_boot.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            Prefs.putBoolean(RESTART_SYSUI_AFTER_BOOT, isChecked);
+            if (isChecked)
+                SystemUtil.enableRestartSystemuiAfterBoot();
+            else
+                SystemUtil.disableRestartSystemuiAfterBoot();
         });
 
         // Show xposed warn

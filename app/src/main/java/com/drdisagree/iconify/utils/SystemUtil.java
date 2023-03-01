@@ -106,4 +106,13 @@ public class SystemUtil {
         intent.setData(uri);
         context.startActivity(intent);
     }
+
+    public static void enableRestartSystemuiAfterBoot() {
+        disableRestartSystemuiAfterBoot();
+        Shell.cmd("sed '/^sleep.6/i killall " + SYSTEMUI_PACKAGE + "' " + Resources.MODULE_DIR + "/service.sh > " + Resources.MODULE_DIR + "/service.sh.tmp && mv " + Resources.MODULE_DIR + "/service.sh.tmp " + Resources.MODULE_DIR + "/service.sh").submit();
+    }
+
+    public static void disableRestartSystemuiAfterBoot() {
+        Shell.cmd("grep -v \"killall " + SYSTEMUI_PACKAGE + "\" " + Resources.MODULE_DIR + "/service.sh > " + Resources.MODULE_DIR + "/service.sh.tmp && mv " + Resources.MODULE_DIR + "/service.sh.tmp " + Resources.MODULE_DIR + "/service.sh").submit();
+    }
 }

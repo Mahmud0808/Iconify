@@ -19,7 +19,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/container"
+        android:background="@drawable/container_top"
         android:orientation="horizontal"
         android:paddingStart="@dimen/container_paddingSide"
         android:paddingTop="@dimen/container_padding"
@@ -53,6 +53,50 @@
 
         <Switch
             android:id="@+id/use_light_accent"
+            style="@style/customSwitch"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    </LinearLayout>
+
+    <View style="@style/dividerTransparent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/container_bottom"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/container_paddingSide"
+        android:paddingTop="@dimen/container_padding"
+        android:paddingEnd="@dimen/container_paddingSide"
+        android:paddingBottom="@dimen/container_padding">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:layout_marginEnd="@dimen/container_padding"
+            android:layout_weight="1.0"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Restart SystemUI After Boot"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/cont_title_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Some options like blur intensity doesn\'t take effect until systemui is restarted"
+                android:textColor="@color/textColorSecondary"
+                android:textSize="@dimen/cont_desc_size" />
+
+        </LinearLayout>
+
+        <Switch
+            android:id="@+id/restart_sysui_after_boot"
             style="@style/customSwitch"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
 
