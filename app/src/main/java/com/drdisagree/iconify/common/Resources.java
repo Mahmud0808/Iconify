@@ -4,7 +4,6 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.drdisagree.iconify.BuildConfig;
-import com.drdisagree.iconify.utils.RootUtil;
 import com.drdisagree.iconify.Iconify;
 
 import java.io.IOException;
@@ -19,13 +18,11 @@ public class Resources {
     // Storage location
     public static final String DOC_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/documents";
     public static final String LOG_DIR = DOC_DIR + "/Iconify";
-    public static final String MODULE_DIR = RootUtil.isKSUInstalled() ? "/data/adb/ksu/modules/Iconify"
-            : "/data/adb/modules/Iconify";
+    public static final String MODULE_DIR = "/data/adb/modules/Iconify";
     public static final String DATA_DIR = Iconify.getAppContext().getFilesDir().toString();
     public static final String OVERLAY_DIR = MODULE_DIR + "/system/product/overlay";
     public static final String BIN_DIR = Iconify.getAppContext().getDataDir() + "/bin";
-    public static final String BACKUP_DIR = Environment.getExternalStorageDirectory().getAbsolutePath()
-            + "/.iconify_backup";
+    public static final String BACKUP_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.iconify_backup";
     public static final String TEMP_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.iconify";
     public static final String TEMP_OVERLAY_DIR = TEMP_DIR + "/overlays";
     public static final String TEMP_CACHE_DIR = TEMP_OVERLAY_DIR + "/cache";
