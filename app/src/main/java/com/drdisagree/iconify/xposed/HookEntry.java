@@ -28,6 +28,7 @@ import android.content.Context;
 import com.drdisagree.iconify.config.XPrefs;
 import com.drdisagree.iconify.utils.XSystemUtil;
 import com.drdisagree.iconify.xposed.mods.BackgroundChip;
+import com.drdisagree.iconify.xposed.mods.BatteryStyle;
 import com.drdisagree.iconify.xposed.mods.HeaderClock;
 import com.drdisagree.iconify.xposed.mods.HeaderImage;
 import com.drdisagree.iconify.xposed.mods.LockscreenClock;
@@ -54,6 +55,7 @@ public class HookEntry implements IXposedHookLoadPackage {
         modPacks.add(Miscellaneous.class);
         modPacks.add(QSTransparency.class);
         modPacks.add(QuickSettings.class);
+        modPacks.add(BatteryStyle.class);
         modPacks.add(HeaderImage.class);
         modPacks.add(HeaderClock.class);
         modPacks.add(LockscreenClock.class);
