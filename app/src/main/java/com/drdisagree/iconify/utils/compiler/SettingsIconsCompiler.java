@@ -4,6 +4,7 @@ import static com.drdisagree.iconify.common.Dynamic.AAPT;
 import static com.drdisagree.iconify.common.Dynamic.ZIPALIGN;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readCertificate;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;
+import static com.drdisagree.iconify.utils.helpers.Logger.writeLog;
 
 import android.util.Log;
 
@@ -21,7 +22,6 @@ import com.topjohnwu.superuser.Shell;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.util.Objects;
@@ -156,19 +156,54 @@ public class SettingsIconsCompiler {
     }
 
     private static boolean createManifest(String overlayName, String pkgName, String source) {
-        return !Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + overlayName + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + pkgName + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + source + "/AndroidManifest.xml;").exec().isSuccess();
+        Shell.Result result = Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + overlayName + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + pkgName + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + source + "/AndroidManifest.xml;").exec();
+
+        if (result.isSuccess())
+            Log.i(TAG + " - Manifest", "Successfully created manifest for " + pkgName);
+        else {
+            Log.e(TAG + " - Manifest", "Failed to create manifest for " + pkgName + '\n' + String.join("\n", result.getOut()));
+            writeLog(TAG + " - Manifest", "Failed to create manifest for " + pkgName, result.getOut());
+        }
+
+        return !result.isSuccess();
     }
 
     private static boolean writeResources(String source, String resources) {
-        return !Shell.cmd("rm -rf " + source + "/res/values/Iconify.xml", "printf '" + resources + "' > " + source + "/res/values/Iconify.xml;").exec().isSuccess();
+        Shell.Result result = Shell.cmd("rm -rf " + source + "/res/values/Iconify.xml", "printf '" + resources + "' > " + source + "/res/values/Iconify.xml;").exec();
+
+        if (result.isSuccess())
+            Log.i(TAG + " - WriteResources", "Successfully written resources for SettingsIcons");
+        else {
+            Log.e(TAG + " - WriteResources", "Failed to write resources for SettingsIcons" + '\n' + String.join("\n", result.getOut()));
+            writeLog(TAG + " - WriteResources", "Failed to write resources for SettingsIcons", result.getOut());
+        }
+
+        return !result.isSuccess();
     }
 
     private static boolean runAapt(String source, String name) {
-        return !Shell.cmd(aapt + " p -f -v -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + Resources.UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk >/dev/null;").exec().isSuccess();
+        Shell.Result result = Shell.cmd(aapt + " p -f -v -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + Resources.UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk >/dev/null;").exec();
+
+        if (result.isSuccess()) Log.i(TAG + " - AAPT", "Successfully built APK for " + name);
+        else {
+            Log.e(TAG + " - AAPT", "Failed to build APK for " + name + '\n' + String.join("\n", result.getOut()));
+            writeLog(TAG + " - AAPT", "Failed to build APK for " + name, result.getOut());
+        }
+
+        return !result.isSuccess();
     }
 
     private static boolean zipAlign(String source, String name) {
-        return !Shell.cmd(zipalign + " 4 " + source + ' ' + Resources.UNSIGNED_DIR + "/" + name + "-unsigned.apk").exec().isSuccess();
+        Shell.Result result = Shell.cmd(zipalign + " 4 " + source + ' ' + Resources.UNSIGNED_DIR + "/" + name + "-unsigned.apk").exec();
+
+        if (result.isSuccess())
+            Log.i(TAG + " - ZipAlign", "Successfully zip aligned SettingsIcons");
+        else {
+            Log.e(TAG + " - ZipAlign", "Failed to zip align SettingsIcons\n" + String.join("\n", result.getOut()));
+            writeLog(TAG + " - ZipAlign", "Failed to zip align SettingsIcons", result.getOut());
+        }
+
+        return !result.isSuccess();
     }
 
     private static boolean apkSigner(String source, String name) {
@@ -180,8 +215,11 @@ public class SettingsIconsCompiler {
             FileOutputStream out = new FileOutputStream(Resources.SIGNED_DIR + "/IconifyComponent" + name + ".apk");
 
             SignAPK.sign(cert, key, jar, out);
+
+            Log.i(TAG + " - APKSigner", "Successfully signed SettingsIcons");
         } catch (Exception e) {
             Log.e(TAG, e.toString());
+            writeLog(TAG + " - APKSigner", "Failed to sign SettingsIcons", e.toString());
             postExecute(true);
             return true;
         }

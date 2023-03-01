@@ -5,6 +5,7 @@ import static com.drdisagree.iconify.common.Dynamic.AAPT;
 import static com.drdisagree.iconify.common.Dynamic.ZIPALIGN;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readCertificate;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;
+import static com.drdisagree.iconify.utils.helpers.Logger.writeLog;
 
 import android.util.Log;
 
@@ -120,15 +121,40 @@ public class ToastFrameCompiler {
     }
 
     private static boolean createManifest(String overlayName, String source) {
-        return !Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + overlayName + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + source + "/AndroidManifest.xml;").exec().isSuccess();
+        Shell.Result result = Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + overlayName + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + source + "/AndroidManifest.xml;").exec();
+
+        if (result.isSuccess())
+            Log.i(TAG + " - Manifest", "Successfully created manifest for " + overlayName);
+        else {
+            Log.e(TAG + " - Manifest", "Failed to create manifest for " + overlayName + '\n' + String.join("\n", result.getOut()));
+            writeLog(TAG + " - Manifest", "Failed to create manifest for " + overlayName, result.getOut());
+        }
+
+        return !result.isSuccess();
     }
 
     private static boolean runAapt(String source, String name) {
-        return !Shell.cmd(aapt + " p -f -v -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + Resources.UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk >/dev/null;").exec().isSuccess();
+        Shell.Result result = Shell.cmd(aapt + " p -f -v -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + Resources.UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk >/dev/null;").exec();
+
+        if (result.isSuccess()) Log.i(TAG + " - AAPT", "Successfully built APK for " + name);
+        else {
+            Log.e(TAG + " - AAPT", "Failed to build APK for " + name + '\n' + String.join("\n", result.getOut()));
+            writeLog(TAG + " - AAPT", "Failed to build APK for " + name, result.getOut());
+        }
+
+        return !result.isSuccess();
     }
 
     private static boolean zipAlign(String source, String name) {
-        return !Shell.cmd(zipalign + " 4 " + source + ' ' + Resources.UNSIGNED_DIR + "/" + name + "-unsigned.apk").exec().isSuccess();
+        Shell.Result result = Shell.cmd(zipalign + " 4 " + source + ' ' + Resources.UNSIGNED_DIR + "/" + name + "-unsigned.apk").exec();
+
+        if (result.isSuccess()) Log.i(TAG + " - ZipAlign", "Successfully zip aligned ToastFrame");
+        else {
+            Log.e(TAG + " - ZipAlign", "Failed to zip align ToastFrame\n" + String.join("\n", result.getOut()));
+            writeLog(TAG + " - ZipAlign", "Failed to zip align ToastFrame", result.getOut());
+        }
+
+        return !result.isSuccess();
     }
 
     private static boolean apkSigner(String source, String name) {
@@ -140,8 +166,11 @@ public class ToastFrameCompiler {
             FileOutputStream out = new FileOutputStream(Resources.SIGNED_DIR + "/IconifyComponent" + name + ".apk");
 
             SignAPK.sign(cert, key, jar, out);
+
+            Log.i(TAG + " - APKSigner", "Successfully signed ToastFrame");
         } catch (Exception e) {
             Log.e(TAG, e.toString());
+            writeLog(TAG + " - APKSigner", "Failed to sign ToastFrame", e.toString());
             postExecute(true);
             return true;
         }
