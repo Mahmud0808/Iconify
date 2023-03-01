@@ -23,6 +23,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.utils.HelperUtil;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class XposedBatteryStyle extends AppCompatActivity {
         enable_landscape_battery.setChecked(RPrefs.getBoolean(LANDSCAPE_BATTERY_SWITCH, false));
         enable_landscape_battery.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(LANDSCAPE_BATTERY_SWITCH, isChecked);
-            new Handler().postDelayed(HelperUtil::forceApply, 200);
+            new Handler().postDelayed(isChecked ? HelperUtil::forceApply : SystemUtil::restartSystemUI, 200);
         });
 
         // Landscape battery style
