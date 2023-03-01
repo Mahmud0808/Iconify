@@ -36,6 +36,10 @@ public class Preferences {
     public static final String FIXED_STATUS_ICONS_SWITCH = "xposed_fixedstatusicons";
     public static final String FIXED_STATUS_ICONS_SIDEMARGIN = "xposed_fixedstatusiconssidemargin";
     public static final String FIXED_STATUS_ICONS_TOPMARGIN = "xposed_fixedstatusiconstopmargin";
+    public static final String LANDSCAPE_BATTERY_SWITCH = "xposed_landscapebattery";
+    public static final String LANDSCAPE_BATTERY_ROTATION = "xposed_landscapebatteryrotation";
+    public static final String LANDSCAPE_BATTERY_WIDTH = "xposed_landscapebatterywidth";
+    public static final String LANDSCAPE_BATTERY_HEIGHT = "xposed_landscapebatteryheight";
 
     // Preference keys
     public static final String STR_NULL = "null";
