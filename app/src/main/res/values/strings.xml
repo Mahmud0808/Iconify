@@ -266,6 +266,12 @@
     <string name="custom_lockscreen_clock_title">Custom Lockscreen Clock</string>
     <string name="custom_lockscreen_clock_desc">Enable custom lockscreen clock</string>
     <string name="custom_lockscreen_clock_style_title">Clock Style</string>
+    <string name="custom_toast_title">Custom Toast</string>
+    <string name="custom_toast_desc">Enable custom styled toast</string>
+    <string name="custom_progressbar_title">Custom Progressbar</string>
+    <string name="custom_progressbar_desc">Enable gradient progress bar</string>
+    <string name="custom_seekbar_title">Custom Seekbar</string>
+    <string name="custom_seekbar_desc">Enable custom styled seek bar</string>
     <string name="needs_systemui_restart">Needs SystemUI restart</string>
     <string name="toast_lorn_colored_battery">Lorn uses colored battery by default</string>
     <string name="toast_plumpy_colored_battery">Plumpy uses colored battery by default</string>
