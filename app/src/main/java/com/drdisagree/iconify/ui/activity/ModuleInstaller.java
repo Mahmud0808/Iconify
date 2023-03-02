@@ -49,7 +49,7 @@ public class ModuleInstaller extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     private static Button install_module, reboot_phone;
     private static startInstallationProcess installModule = null;
-    private InstallationDialog loadingDialog;
+    private InstallationDialog progressDialog;
     private String logger = null, prev_log = null;
 
     @SuppressLint("SetTextI18n")
@@ -59,8 +59,8 @@ public class ModuleInstaller extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_module_installer);
 
-        // Loading dialog while installing
-        loadingDialog = new InstallationDialog(this);
+        // Progress dialog while installing
+        progressDialog = new InstallationDialog(this);
 
         // Continue button
         install_module = findViewById(R.id.install_module);
@@ -132,7 +132,7 @@ public class ModuleInstaller extends AppCompatActivity {
             warn.setVisibility(View.INVISIBLE);
             reboot_phone.setVisibility(View.GONE);
 
-            loadingDialog.show(getResources().getString(R.string.installing), getResources().getString(R.string.init_module_installation));
+            progressDialog.show(getResources().getString(R.string.installing), getResources().getString(R.string.init_module_installation));
         }
 
         @SuppressLint("SetTextI18n")
@@ -164,10 +164,10 @@ public class ModuleInstaller extends AppCompatActivity {
                     break;
             }
 
-            loadingDialog.setMessage(title, desc);
+            progressDialog.setMessage(title, desc);
 
             if (logger != null && !Objects.equals(prev_log, logger)) {
-                loadingDialog.setLogs(logger);
+                progressDialog.setLogs(logger);
                 prev_log = logger;
             }
         }
@@ -317,7 +317,7 @@ public class ModuleInstaller extends AppCompatActivity {
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
 
-            loadingDialog.hide();
+            progressDialog.hide();
 
             if (!hasErroredOut) {
                 if (BuildConfig.VERSION_CODE != Prefs.getInt(VER_CODE, -1)) {
