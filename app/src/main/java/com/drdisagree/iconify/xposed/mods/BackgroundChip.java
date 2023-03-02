@@ -134,7 +134,11 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                         try {
                             mCenterClockView = (View) getObjectField(param.thisObject, "mCenterClock");
                         } catch (Throwable thr) {
-                            mCenterClockView = null;
+                            try {
+                                mCenterClockView = ((LinearLayout) getObjectField(param.thisObject, "mCenterClockLayout")).getChildAt(0);
+                            } catch (Throwable thrw) {
+                                mCenterClockView = null;
+                            }
                         }
                     }
                 }
