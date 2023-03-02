@@ -415,4 +415,11 @@
     <string name="battery_height_desc">Altura da bateria</string>
     <string name="activity_title_toast_frame">Notificações \"Toast\"</string>
     <string name="activity_desc_toast_frame">Personalizar as notificações \"Toast\"</string>
+    <string name="pt_translation">Tradução Portuguesa.</string>
+    <string name="custom_toast_title">Notificações \"Toast\"</string>
+    <string name="custom_toast_desc">Ativar notificações \"Toast\" personalizadas</string>
+    <string name="custom_progressbar_title">Barra de progresso personalizada</string>
+    <string name="custom_progressbar_desc">Ativar barra de progresso gradiente</string>
+    <string name="custom_seekbar_title">Barra de pesquisa</string>
+    <string name="custom_seekbar_desc">Ativar barra de pesquisa personalizada</string>
 </resources>
