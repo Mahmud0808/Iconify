@@ -3,5 +3,6 @@
     <string-array name="module_scope">
         <item>android</item>
         <item>com.android.systemui</item>
+        <item>com.google.android.apps.nexuslauncher</item>
     </string-array>
 </resources>
