@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.SELECTED_TOAST_FRAME;
 
 import android.annotation.SuppressLint;
@@ -20,7 +21,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.compiler.ToastFrameCompiler;
+import com.drdisagree.iconify.utils.compiler.OnDemandCompiler;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -86,7 +87,7 @@ public class ToastFrame extends AppCompatActivity {
                     AtomicBoolean hasErroredOut = new AtomicBoolean(false);
 
                     try {
-                        hasErroredOut.set(ToastFrameCompiler.buildOverlay(finalI + 1));
+                        hasErroredOut.set(OnDemandCompiler.buildOverlay("TSTFRM", finalI + 1, FRAMEWORK_PACKAGE));
                     } catch (IOException e) {
                         hasErroredOut.set(true);
                         Log.e("ToastFrame", e.toString());

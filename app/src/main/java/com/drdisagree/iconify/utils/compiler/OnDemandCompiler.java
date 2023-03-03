@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.utils.compiler;
 
-import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.Dynamic.AAPT;
 import static com.drdisagree.iconify.common.Dynamic.ZIPALIGN;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readCertificate;
@@ -26,30 +25,32 @@ import java.io.IOException;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 
-public class ToastFrameCompiler {
+public class OnDemandCompiler {
 
-    private static final String TAG = "ToastFrameCompiler";
+    private static final String TAG = "OnDemandCompiler";
     private static final String aapt = AAPT.getAbsolutePath();
     private static final String zipalign = ZIPALIGN.getAbsolutePath();
-    private static int mStyle = 1;
+    private static String mOverlayName = null;
+    private static String mPackage = null;
+    private static int mStyle = 0;
 
-    public static boolean buildOverlay(int style) throws IOException {
+    public static boolean buildOverlay(String overlay_name, int style, String package_name) throws IOException {
+        mOverlayName = overlay_name;
+        mPackage = package_name;
         mStyle = style;
 
         preExecute();
         moveOverlaysToCache();
 
-        String overlay_name = "TSTFRM";
-
         // Create AndroidManifest.xml
-        if (createManifest(overlay_name, Resources.TEMP_CACHE_DIR + "/" + FRAMEWORK_PACKAGE + "/" + overlay_name)) {
+        if (createManifest(overlay_name, Resources.TEMP_CACHE_DIR + "/" + package_name + "/" + overlay_name)) {
             Log.e(TAG, "Failed to create Manifest for " + overlay_name + "! Exiting...");
             postExecute(true);
             return true;
         }
 
         // Build APK using AAPT
-        if (runAapt(Resources.TEMP_CACHE_DIR + "/" + FRAMEWORK_PACKAGE + "/" + overlay_name, overlay_name)) {
+        if (runAapt(Resources.TEMP_CACHE_DIR + "/" + package_name + "/" + overlay_name, overlay_name)) {
             Log.e(TAG, "Failed to build " + overlay_name + "! Exiting...");
             postExecute(true);
             return true;
@@ -82,7 +83,7 @@ public class ToastFrameCompiler {
         Shell.cmd("rm -rf " + Resources.DATA_DIR + "/CompileOnDemand").exec();
 
         // Extract overlay from assets
-        FileUtil.copyAssets("CompileOnDemand/android/TSTFRM" + mStyle);
+        FileUtil.copyAssets("CompileOnDemand/" + mPackage + "/" + mOverlayName + mStyle);
 
         // Create temp directory
         Shell.cmd("rm -rf " + Resources.TEMP_DIR + "; mkdir -p " + Resources.TEMP_DIR).exec();
@@ -91,24 +92,24 @@ public class ToastFrameCompiler {
         Shell.cmd("mkdir -p " + Resources.UNSIGNED_UNALIGNED_DIR).exec();
         Shell.cmd("mkdir -p " + Resources.UNSIGNED_DIR).exec();
         Shell.cmd("mkdir -p " + Resources.SIGNED_DIR).exec();
-        Shell.cmd("mkdir -p " + Resources.TEMP_CACHE_DIR + "/android/").exec();
+        Shell.cmd("mkdir -p " + Resources.TEMP_CACHE_DIR + "/" + mPackage + "/").exec();
 
         // Disable the overlay in case it is already enabled
-        OverlayUtil.disableOverlay("IconifyComponentTSTFRM.overlay");
+        OverlayUtil.disableOverlay("IconifyComponent" + mOverlayName + ".overlay");
     }
 
     private static void postExecute(boolean hasErroredOut) {
         // Move all generated overlays to module
         if (!hasErroredOut) {
-            Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponentTSTFRM.apk " + Resources.OVERLAY_DIR + "/IconifyComponentTSTFRM.apk").exec();
-            RootUtil.setPermissions(644, Resources.OVERLAY_DIR + "/IconifyComponentTSTFRM.apk");
+            Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponent" + mOverlayName + ".apk " + Resources.OVERLAY_DIR + "/IconifyComponent" + mOverlayName + ".apk").exec();
+            RootUtil.setPermissions(644, Resources.OVERLAY_DIR + "/IconifyComponent" + mOverlayName + ".apk");
 
             SystemUtil.mountRW();
-            Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponentTSTFRM.apk " + "/system/product/overlay/IconifyComponentTSTFRM.apk").exec();
-            RootUtil.setPermissions(644, "/system/product/overlay/IconifyComponentTSTFRM.apk");
+            Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponent" + mOverlayName + ".apk " + "/system/product/overlay/IconifyComponent" + mOverlayName + ".apk").exec();
+            RootUtil.setPermissions(644, "/system/product/overlay/IconifyComponent" + mOverlayName + ".apk");
             SystemUtil.mountRO();
 
-            OverlayUtil.enableOverlay("IconifyComponentTSTFRM.overlay");
+            OverlayUtil.enableOverlay("IconifyComponent" + mOverlayName + ".overlay");
         }
 
         // Clean temp directory
@@ -117,11 +118,11 @@ public class ToastFrameCompiler {
     }
 
     private static void moveOverlaysToCache() {
-        Shell.cmd("mv -f \"" + Resources.DATA_DIR + "/CompileOnDemand/android/TSTFRM" + mStyle + "\" \"" + Resources.TEMP_CACHE_DIR + "/android/TSTFRM\"").exec().isSuccess();
+        Shell.cmd("mv -f \"" + Resources.DATA_DIR + "/CompileOnDemand/" + mPackage + "/" + mOverlayName + mStyle + "\" \"" + Resources.TEMP_CACHE_DIR + "/" + mPackage + "/" + mOverlayName + "\"").exec().isSuccess();
     }
 
     private static boolean createManifest(String overlayName, String source) {
-        Shell.Result result = Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + overlayName + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + source + "/AndroidManifest.xml;").exec();
+        Shell.Result result = Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + overlayName + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + mPackage + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + source + "/AndroidManifest.xml;").exec();
 
         if (result.isSuccess())
             Log.i(TAG + " - Manifest", "Successfully created manifest for " + overlayName);
@@ -148,10 +149,11 @@ public class ToastFrameCompiler {
     private static boolean zipAlign(String source, String name) {
         Shell.Result result = Shell.cmd(zipalign + " 4 " + source + ' ' + Resources.UNSIGNED_DIR + "/" + name + "-unsigned.apk").exec();
 
-        if (result.isSuccess()) Log.i(TAG + " - ZipAlign", "Successfully zip aligned ToastFrame");
+        if (result.isSuccess())
+            Log.i(TAG + " - ZipAlign", "Successfully zip aligned " + mOverlayName);
         else {
-            Log.e(TAG + " - ZipAlign", "Failed to zip align ToastFrame\n" + String.join("\n", result.getOut()));
-            writeLog(TAG + " - ZipAlign", "Failed to zip align ToastFrame", result.getOut());
+            Log.e(TAG + " - ZipAlign", "Failed to zip align " + mOverlayName + "\n" + String.join("\n", result.getOut()));
+            writeLog(TAG + " - ZipAlign", "Failed to zip align " + mOverlayName, result.getOut());
         }
 
         return !result.isSuccess();
@@ -167,10 +169,10 @@ public class ToastFrameCompiler {
 
             SignAPK.sign(cert, key, jar, out);
 
-            Log.i(TAG + " - APKSigner", "Successfully signed ToastFrame");
+            Log.i(TAG + " - APKSigner", "Successfully signed " + mOverlayName);
         } catch (Exception e) {
             Log.e(TAG, e.toString());
-            writeLog(TAG + " - APKSigner", "Failed to sign ToastFrame", e.toString());
+            writeLog(TAG + " - APKSigner", "Failed to sign " + mOverlayName, e.toString());
             postExecute(true);
             return true;
         }
