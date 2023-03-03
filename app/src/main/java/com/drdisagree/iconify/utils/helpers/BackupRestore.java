@@ -15,6 +15,7 @@ public class BackupRestore {
         backupFile(Resources.OVERLAY_DIR + "/IconifyComponentME.apk");
         backupFile(Resources.OVERLAY_DIR + "/IconifyComponentCR.apk");
         backupFile(Resources.OVERLAY_DIR + "/IconifyComponentQSTH.apk");
+        backupFile(Resources.OVERLAY_DIR + "/IconifyComponentSIS.apk");
         backupFile(Resources.OVERLAY_DIR + "/IconifyComponentSIP1.apk");
         backupFile(Resources.OVERLAY_DIR + "/IconifyComponentSIP2.apk");
         backupFile(Resources.OVERLAY_DIR + "/IconifyComponentSIP3.apk");
@@ -25,6 +26,7 @@ public class BackupRestore {
         restoreFile("IconifyComponentME.apk", Resources.OVERLAY_DIR);
         restoreFile("IconifyComponentCR.apk", Resources.OVERLAY_DIR);
         restoreFile("IconifyComponentQSTH.apk", Resources.OVERLAY_DIR);
+        restoreFile("IconifyComponentSIS.apk", Resources.OVERLAY_DIR);
         restoreFile("IconifyComponentSIP1.apk", Resources.OVERLAY_DIR);
         restoreFile("IconifyComponentSIP2.apk", Resources.OVERLAY_DIR);
         restoreFile("IconifyComponentSIP3.apk", Resources.OVERLAY_DIR);

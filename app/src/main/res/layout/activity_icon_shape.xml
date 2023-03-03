@@ -30,7 +30,7 @@
             android:paddingBottom="@dimen/container_padding">
 
             <com.google.android.flexbox.FlexboxLayout
-                android:id="@+id/icon_masking_preview_container"
+                android:id="@+id/icon_shape_preview_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.activity;
 
+import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.SELECTED_TOAST_FRAME;
 
 import android.annotation.SuppressLint;
@@ -20,7 +21,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.compiler.ToastFrameCompiler;
+import com.drdisagree.iconify.utils.compiler.OnDemandCompiler;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -31,7 +32,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ToastFrame extends AppCompatActivity {
 
-    private FlexboxLayout containerToastFrame;
+    private FlexboxLayout container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class ToastFrame extends AppCompatActivity {
 
 
         // Toast Frame style
-        containerToastFrame = findViewById(R.id.toast_frame_container);
+        container = findViewById(R.id.toast_frame_container);
         ArrayList<Object[]> toast_frame_style = new ArrayList<>();
 
         toast_frame_style.add(new Object[]{R.drawable.toast_frame_style_1, R.string.style_1});
@@ -70,7 +71,7 @@ public class ToastFrame extends AppCompatActivity {
     @SuppressLint("UseCompatLoadingForDrawables")
     private void addItem(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(this).inflate(R.layout.view_toast_frame, containerToastFrame, false);
+            View list = LayoutInflater.from(this).inflate(R.layout.view_toast_frame, container, false);
 
             LinearLayout toast_container = list.findViewById(R.id.toast_container);
             toast_container.setBackground(getResources().getDrawable((int) pack.get(i)[0]));
@@ -86,7 +87,7 @@ public class ToastFrame extends AppCompatActivity {
                     AtomicBoolean hasErroredOut = new AtomicBoolean(false);
 
                     try {
-                        hasErroredOut.set(ToastFrameCompiler.buildOverlay(finalI + 1));
+                        hasErroredOut.set(OnDemandCompiler.buildOverlay("TSTFRM", finalI + 1, FRAMEWORK_PACKAGE));
                     } catch (IOException e) {
                         hasErroredOut.set(true);
                         Log.e("ToastFrame", e.toString());
@@ -103,15 +104,15 @@ public class ToastFrame extends AppCompatActivity {
                 }
             });
 
-            containerToastFrame.addView(list);
+            container.addView(list);
         }
     }
 
     // Function to check for bg drawable changes
     @SuppressLint("SetTextI18n")
     private void refreshBackground() {
-        for (int i = 0; i < containerToastFrame.getChildCount(); i++) {
-            LinearLayout child = containerToastFrame.getChildAt(i).findViewById(R.id.list_item_toast);
+        for (int i = 0; i < container.getChildCount(); i++) {
+            LinearLayout child = container.getChildAt(i).findViewById(R.id.list_item_toast);
             TextView title = child.findViewById(R.id.style_name);
             if (i == Prefs.getInt(SELECTED_TOAST_FRAME, -1)) {
                 title.setTextColor(getResources().getColor(R.color.colorSuccess));

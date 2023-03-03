@@ -283,7 +283,6 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                 ((LinearLayout.LayoutParams) mClockView.getLayoutParams()).gravity = Gravity.START | Gravity.CENTER;
                 mClockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
                 mClockView.setForegroundGravity(Gravity.CENTER);
-                mClockView.requestLayout();
             }
 
             if (mCenterClockView != null) {
@@ -293,17 +292,19 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                 ((LinearLayout.LayoutParams) mCenterClockView.getLayoutParams()).gravity = Gravity.CENTER;
                 mCenterClockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
                 mCenterClockView.setForegroundGravity(Gravity.CENTER);
-                mCenterClockView.requestLayout();
             }
 
             if (mRightClockView != null) {
                 mRightClockView.setPadding(clockPaddingStartEnd, clockPaddingTopBottom, clockPaddingStartEnd, clockPaddingTopBottom);
                 setStatusBarBackgroundChip(mRightClockView);
 
-                ((FrameLayout.LayoutParams) mRightClockView.getLayoutParams()).gravity = Gravity.END | Gravity.CENTER;
+                try {
+                    ((FrameLayout.LayoutParams) mRightClockView.getLayoutParams()).gravity = Gravity.END | Gravity.CENTER;
+                } catch (Throwable t) {
+                    ((LinearLayout.LayoutParams) mRightClockView.getLayoutParams()).gravity = Gravity.END | Gravity.CENTER;
+                }
                 mRightClockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
                 mRightClockView.setForegroundGravity(Gravity.CENTER);
-                mRightClockView.requestLayout();
             }
         } else {
             @SuppressLint("DiscouragedApi") int clockPaddingStart = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_clock_starting_padding", "dimen", mContext.getPackageName()));

@@ -161,8 +161,8 @@
     <string name="activity_desc_basic_colors">Personalizar as cores primária e secundária</string>
     <string name="activity_title_settings_icons">Ícones nas definições</string>
     <string name="activity_desc_settings_icons">Personalizar os ícones no ecrã das definições</string>
-    <string name="activity_title_icon_mask">Máscaras dos ícones</string>
-    <string name="activity_desc_icon_mask">Personalizar a forma dos ícones no sistema</string>
+    <string name="activity_title_icon_shape">Máscaras dos ícones</string>
+    <string name="activity_desc_icon_shape">Personalizar a forma dos ícones no sistema</string>
     <string name="activity_title_pixel_variant">Variante Pixel</string>
     <string name="activity_desc_pixel_variant">Para <i>ROMs</i> com painel das DR preto</string>
     <string name="activity_title_qs_tile_size">Tamanho dos atalhos das DR</string>

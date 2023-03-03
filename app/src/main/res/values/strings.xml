@@ -59,8 +59,8 @@
     <string name="activity_desc_basic_colors">Change primary and secondary color</string>
     <string name="activity_title_settings_icons">Settings Icons</string>
     <string name="activity_desc_settings_icons">Change settings icon pack</string>
-    <string name="activity_title_icon_mask">Icon Mask</string>
-    <string name="activity_desc_icon_mask">Change system icon shapes</string>
+    <string name="activity_title_icon_shape">Icon Shape</string>
+    <string name="activity_desc_icon_shape">Change system icon shapes</string>
     <string name="activity_title_pixel_variant">Pixel Variant</string>
     <string name="activity_desc_pixel_variant">For roms with black QS panel</string>
     <string name="activity_title_qs_tile_size">QS Tile Size</string>
@@ -389,6 +389,15 @@
     <string name="icon_mask_style_teardrop">Teardrop</string>
     <string name="icon_mask_style_rounded_rectangle">Rounded\nRectangle</string>
     <string name="icon_mask_style_ios">iOS</string>
+    <string name="icon_mask_style_cloudy">Cloudy</string>
+    <string name="icon_mask_style_cylinder">Cylinder</string>
+    <string name="icon_mask_style_flower">Flower</string>
+    <string name="icon_mask_style_heart">Heart</string>
+    <string name="icon_mask_style_leaf">Leaf</string>
+    <string name="icon_mask_style_stretched">Streteched</string>
+    <string name="icon_mask_style_tapered_rectangle">Tapered\nRectangle</string>
+    <string name="icon_mask_style_vessel">Vessel</string>
+    <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
     <string name="pick_style">Pick a style of your choice</string>
     <string name="info_contributor_desc_2">For assisting me on telegram.</string>
     <string name="attention">Attention!</string>
