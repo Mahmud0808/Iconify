@@ -229,7 +229,7 @@ public class ModuleInstaller extends AppCompatActivity {
                                 logger = "Creating manifest for " + overlay_name;
                                 publishProgress(step);
 
-                                if (!hasErroredOut && OverlayCompiler.createManifest(overlay_name, pkg.toString().replace(Resources.DATA_DIR + "/Overlays/", ""), overlay.getAbsolutePath())) {
+                                if (OverlayCompiler.createManifest(overlay_name, pkg.toString().replace(Resources.DATA_DIR + "/Overlays/", ""), overlay.getAbsolutePath())) {
                                     hasErroredOut = true;
                                 }
 
@@ -261,7 +261,7 @@ public class ModuleInstaller extends AppCompatActivity {
                         logger = "Zip aligning APK " + overlay_name.replace("-unsigned.apk", "");
                         publishProgress(step);
 
-                        if (!hasErroredOut && OverlayCompiler.zipAlign(overlay.getAbsolutePath(), overlay_name)) {
+                        if (OverlayCompiler.zipAlign(overlay.getAbsolutePath(), overlay_name)) {
                             hasErroredOut = true;
                         }
                     }
@@ -283,8 +283,15 @@ public class ModuleInstaller extends AppCompatActivity {
                         logger = "Signing APK " + overlay_name.replace(".apk", "");
                         publishProgress(step);
 
-                        if (!hasErroredOut && OverlayCompiler.apkSigner(overlay.getAbsolutePath(), overlay_name)) {
-                            hasErroredOut = true;
+                        int attempt = 3;
+                        while (attempt-- != 0) {
+                            hasErroredOut = OverlayCompiler.apkSigner(overlay.getAbsolutePath(), overlay_name);
+
+                            if (!hasErroredOut) break;
+                            else try {
+                                Thread.sleep(2000);
+                            } catch (Exception ignored) {
+                            }
                         }
                     }
                     if (hasErroredOut) break;
