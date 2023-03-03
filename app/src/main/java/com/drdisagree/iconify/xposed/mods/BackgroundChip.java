@@ -298,7 +298,11 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                 mRightClockView.setPadding(clockPaddingStartEnd, clockPaddingTopBottom, clockPaddingStartEnd, clockPaddingTopBottom);
                 setStatusBarBackgroundChip(mRightClockView);
 
-                ((FrameLayout.LayoutParams) mRightClockView.getLayoutParams()).gravity = Gravity.END | Gravity.CENTER;
+                try {
+                    ((FrameLayout.LayoutParams) mRightClockView.getLayoutParams()).gravity = Gravity.END | Gravity.CENTER;
+                } catch (Throwable t) {
+                    ((LinearLayout.LayoutParams) mRightClockView.getLayoutParams()).gravity = Gravity.END | Gravity.CENTER;
+                }
                 mRightClockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
                 mRightClockView.setForegroundGravity(Gravity.CENTER);
             }
