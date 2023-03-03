@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="config_icon_mask">M100,50 C100,77 77,100 50,100 L10,100 C4,100 0,96 0,90 L0,50 C0,22 22,0 50,0 L90,0 C96,0 100,4 100,10 L100,50 Z</string>
+    <bool name="config_useRoundIcon">false</bool>
+</resources>

@@ -58,8 +58,8 @@
     <string name="activity_desc_basic_colors">Birincil ve ikincil renkleri değiştir</string>
     <string name="activity_title_settings_icons">Ayar İkonları</string>
     <string name="activity_desc_settings_icons">Ayarlar bölümünün ikon paketini değiştir</string>
-    <string name="activity_title_icon_mask">İkon Görünümü</string>
-    <string name="activity_desc_icon_mask">Sistem ikon şekillerini değiştir</string>
+    <string name="activity_title_icon_shape">İkon Görünümü</string>
+    <string name="activity_desc_icon_shape">Sistem ikon şekillerini değiştir</string>
     <string name="activity_title_pixel_variant">Piksel Varyantı</string>
     <string name="activity_desc_pixel_variant">Siyah hızlı ayarlar paneli olan romlar için</string>
 
