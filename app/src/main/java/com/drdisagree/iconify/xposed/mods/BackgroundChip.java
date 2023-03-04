@@ -280,7 +280,11 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                 mClockView.setPadding(clockPaddingStartEnd, clockPaddingTopBottom, clockPaddingStartEnd, clockPaddingTopBottom);
                 setStatusBarBackgroundChip(mClockView);
 
-                ((LinearLayout.LayoutParams) mClockView.getLayoutParams()).gravity = Gravity.START | Gravity.CENTER;
+                try {
+                    ((LinearLayout.LayoutParams) mClockView.getLayoutParams()).gravity = Gravity.START | Gravity.CENTER;
+                } catch (Throwable t) {
+                    ((FrameLayout.LayoutParams) mClockView.getLayoutParams()).gravity = Gravity.START | Gravity.CENTER;
+                }
                 mClockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
                 mClockView.setForegroundGravity(Gravity.CENTER);
             }
@@ -289,7 +293,11 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                 mCenterClockView.setPadding(clockPaddingStartEnd, clockPaddingTopBottom, clockPaddingStartEnd, clockPaddingTopBottom);
                 setStatusBarBackgroundChip(mCenterClockView);
 
-                ((LinearLayout.LayoutParams) mCenterClockView.getLayoutParams()).gravity = Gravity.CENTER;
+                try {
+                    ((LinearLayout.LayoutParams) mCenterClockView.getLayoutParams()).gravity = Gravity.CENTER;
+                } catch (Throwable t) {
+                    ((FrameLayout.LayoutParams) mCenterClockView.getLayoutParams()).gravity = Gravity.CENTER;
+                }
                 mCenterClockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
                 mCenterClockView.setForegroundGravity(Gravity.CENTER);
             }
@@ -299,9 +307,9 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                 setStatusBarBackgroundChip(mRightClockView);
 
                 try {
-                    ((FrameLayout.LayoutParams) mRightClockView.getLayoutParams()).gravity = Gravity.END | Gravity.CENTER;
-                } catch (Throwable t) {
                     ((LinearLayout.LayoutParams) mRightClockView.getLayoutParams()).gravity = Gravity.END | Gravity.CENTER;
+                } catch (Throwable t) {
+                    ((FrameLayout.LayoutParams) mRightClockView.getLayoutParams()).gravity = Gravity.END | Gravity.CENTER;
                 }
                 mRightClockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
                 mRightClockView.setForegroundGravity(Gravity.CENTER);
