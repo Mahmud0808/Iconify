@@ -37,10 +37,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     LinearLayoutManager linearLayoutManager;
     LoadingDialog loadingDialog;
     int selectedItem = -1;
-    String key;
+    String variant;
 
-    public NotificationAdapter(Context context, RecyclerView recyclerView, ArrayList<Object[]> itemList, LoadingDialog loadingDialog, String key) {
-        this.key = key;
+    public NotificationAdapter(Context context, RecyclerView recyclerView, ArrayList<Object[]> itemList, LoadingDialog loadingDialog, String variant) {
+        this.variant = variant;
         this.context = context;
         this.itemList = itemList;
         this.recyclerView = recyclerView;
@@ -49,7 +49,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         // Generate keys for preference
         for (int i = 0; i < itemList.size(); i++) {
-            NOTIFICATION_KEY.add("IconifyComponentNFN" + key + (i + 1) + ".overlay");
+            NOTIFICATION_KEY.add("IconifyComponent" + variant + (i + 1) + ".overlay");
         }
     }
 
@@ -122,8 +122,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             loadingDialog.show(context.getResources().getString(R.string.loading_dialog_wait));
 
             @SuppressLint("SetTextI18n") Runnable runnable = () -> {
-                if (Objects.equals(key, "NFN")) NotificationManager.enableOverlay(index + 1);
-                else if (Objects.equals(key, "NFP"))
+                if (Objects.equals(variant, "NFN"))
+                    NotificationManager.enableOverlay(index + 1);
+                else if (Objects.equals(variant, "NFP"))
                     NotificationPixelManager.enableOverlay(index + 1);
 
                 ((Activity) context).runOnUiThread(() -> {
@@ -155,8 +156,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             loadingDialog.show(context.getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
-                if (Objects.equals(key, "NFN")) NotificationManager.disable_pack(index + 1);
-                else if (Objects.equals(key, "NFP"))
+                if (Objects.equals(variant, "NFN"))
+                    NotificationManager.disable_pack(index + 1);
+                else if (Objects.equals(variant, "NFP"))
                     NotificationPixelManager.disable_pack(index + 1);
 
                 ((Activity) context).runOnUiThread(() -> {
