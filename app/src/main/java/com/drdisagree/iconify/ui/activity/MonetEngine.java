@@ -423,11 +423,11 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                 for (int j = palette.get(i).size() - 2; j >= 1; j--) {
                     int color;
 
-                    if (j == 1) {
+                    if (j == 1)
                         color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j + 1))), -0.1F);
-                    } else {
+                    else
                         color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), ((float) (monetAccentSaturation[0] - 100) / 1000.0F) * (Math.min((3.0F - j / 5F), 3.0F)));
-                    }
+
                     palette.get(i).set(j, color);
                     palette_night.get(i).set(j, color);
 
@@ -531,7 +531,13 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
     }
 
-    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
+    private List<List<Object>> cloneList(final List<List<Object>> src) {
+        List<List<Object>> cloned = new ArrayList<>();
+        for (List<Object> sublist : src) {
+            cloned.add(new ArrayList<>(sublist));
+        }
+        return cloned;
+    }    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if (checkedId != -1) {
@@ -560,11 +566,5 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         }
     };
 
-    private List<List<Object>> cloneList(final List<List<Object>> src) {
-        List<List<Object>> cloned = new ArrayList<>();
-        for (List<Object> sublist : src) {
-            cloned.add(new ArrayList<>(sublist));
-        }
-        return cloned;
-    }
+
 }

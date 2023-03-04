@@ -17,7 +17,7 @@ package com.drdisagree.iconify.xposed.mods;
  * along with this program.  If not, see [http://www.gnu.org/licenses/].
  */
 
-import static com.drdisagree.iconify.common.Const.LAUNCHER_PACKAGE;
+import static com.drdisagree.iconify.common.Const.PIXEL_LAUNCHER_PACKAGE;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
@@ -38,7 +38,7 @@ public class IconUpdater extends ModPack implements IXposedHookLoadPackage {
 
     private static final String TAG = "Iconify - IconUpdater: ";
 
-    private static final String listenPackage = LAUNCHER_PACKAGE;
+    private static final String listenPackage = PIXEL_LAUNCHER_PACKAGE;
     private Object LauncherModel;
 
     public IconUpdater(Context context) {
@@ -46,7 +46,8 @@ public class IconUpdater extends ModPack implements IXposedHookLoadPackage {
     }
 
     @Override
-    public void updatePrefs(String... Key) {}
+    public void updatePrefs(String... Key) {
+    }
 
     @Override
     public boolean listensTo(String packageName) {
@@ -63,7 +64,8 @@ public class IconUpdater extends ModPack implements IXposedHookLoadPackage {
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 try {
                     callMethod(LauncherModel, "onAppIconChanged", BuildConfig.APPLICATION_ID, UserHandle.getUserHandleForUid(0));
-                }catch (Throwable ignored){}
+                } catch (Throwable ignored) {
+                }
             }
         });
         hookAllConstructors(LauncherModelClass, new XC_MethodHook() {

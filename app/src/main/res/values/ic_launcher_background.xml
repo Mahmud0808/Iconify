@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ic_launcher_background">@color/app_icon_bg_logo</color>
+    <color name="ic_launcher_background">@color/splash_logo</color>
 </resources>
