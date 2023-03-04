@@ -43,8 +43,6 @@ import com.drdisagree.iconify.utils.ColorUtil;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.helpers.BinaryInstaller;
-import com.drdisagree.iconify.utils.helpers.Logger;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
@@ -67,6 +65,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
     private Button enable_custom_monet, disable_custom_monet;
     private ColorPickerDialog.Builder colorPickerDialogPrimary, colorPickerDialogSecondary;
     private List<List<Object>> generatedColorPalette = new ArrayList<>();
+    private List<List<Object>> generatedColorPaletteNight = new ArrayList<>();
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -307,7 +306,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
 
                 Runnable runnable1 = () -> {
                     try {
-                        if (MonetEngineManager.enableOverlay(generatedColorPalette))
+                        if (MonetEngineManager.enableOverlay(generatedColorPalette, generatedColorPaletteNight))
                             hasErroredOut.set(true);
                         else Prefs.putString(MONET_STYLE, selectedStyle);
                     } catch (Exception e) {
@@ -316,10 +315,12 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                     }
 
                     runOnUiThread(() -> {
-                        if (!hasErroredOut.get()) Prefs.putBoolean(MONET_ENGINE_SWITCH, true);
-                        if (Prefs.getBoolean("IconifyComponentQSPB.overlay")) {
-                            OverlayUtil.disableOverlay("IconifyComponentQSPB.overlay");
-                            OverlayUtil.enableOverlay("IconifyComponentQSPB.overlay");
+                        if (!hasErroredOut.get()) {
+                            Prefs.putBoolean(MONET_ENGINE_SWITCH, true);
+                            if (Prefs.getBoolean("IconifyComponentQSPB.overlay")) {
+                                OverlayUtil.disableOverlay("IconifyComponentQSPB.overlay");
+                                OverlayUtil.enableOverlay("IconifyComponentQSPB.overlay");
+                            }
                         }
 
                         new Handler().postDelayed(() -> {
@@ -414,30 +415,33 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void assignCustomColorToPalette(List<List<Object>> palette) {
+        List<List<Object>> palette_night = cloneList(palette);
+
         // Set accent saturation
         if (!Objects.equals(selectedStyle, getResources().getString(R.string.monet_monochrome))) {
             for (int i = 0; i < palette.size() - 2; i++) {
                 for (int j = palette.get(i).size() - 2; j >= 1; j--) {
                     int color;
-                    if (j == 1)
+
+                    if (j == 1) {
                         color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j + 1))), -0.1F);
-                    else
+                    } else {
                         color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), ((float) (monetAccentSaturation[0] - 100) / 1000.0F) * (Math.min((3.0F - j / 5F), 3.0F)));
+                    }
+                    palette.get(i).set(j, color);
+                    palette_night.get(i).set(j, color);
 
                     if (!accurateShades) {
-                        if (!SystemUtil.isDarkMode()) {
-                            if (i == 0 && j == (Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? 5 : 8))
-                                color = Integer.parseInt(accentPrimary);
-                            else if (i == 2 && j == (Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? 5 : 8))
-                                color = Integer.parseInt(String.valueOf((int) palette.get(i).get(6)));
-                        } else {
-                            if (i == 0 && j == 5) color = Integer.parseInt(accentPrimary);
-                            else if (i == 2 && j == 5)
-                                color = Integer.parseInt(String.valueOf((int) palette.get(i).get(6)));
-                        }
-                    }
+                        if (i == 0 && j == (Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? 5 : 8))
+                            palette.get(i).set(j, Integer.parseInt(accentPrimary));
+                        else if (i == 2 && j == (Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? 5 : 8))
+                            palette.get(i).set(j, Integer.parseInt(String.valueOf((int) palette.get(i).get(6))));
 
-                    palette.get(i).set(j, color);
+                        if (i == 0 && j == 5)
+                            palette_night.get(i).set(j, Integer.parseInt(accentPrimary));
+                        else if (i == 2 && j == 5)
+                            palette_night.get(i).set(j, Integer.parseInt(String.valueOf((int) palette_night.get(i).get(6))));
+                    }
                 }
             }
         }
@@ -453,46 +457,54 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                         color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), ((float) (monetBackgroundSaturation[0] - 100) / 1000.0F) * (Math.min((3.0F - j / 5F), 3.0F)));
 
                     palette.get(i).set(j, color);
+                    palette_night.get(i).set(j, color);
                 }
             }
         }
 
-        // Set lightness
+        // Set background lightness
         for (int i = Objects.equals(selectedStyle, getResources().getString(R.string.monet_monochrome)) ? 0 : 3; i < palette.size(); i++) {
             for (int j = 1; j < palette.get(i).size() - 1; j++) {
                 int color = ColorUtil.setLightness(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), (float) (monetBackgroundLightness[0] - 100) / 1000.0F);
 
                 palette.get(i).set(j, color);
+                palette_night.get(i).set(j, color);
             }
         }
 
         for (int i = 0; i < colorTableRows.length; i++) {
-            if (i == 2 && (Prefs.getBoolean(CUSTOM_SECONDARY_COLOR_SWITCH) || isSelectedSecondary) && !Objects.equals(selectedStyle, getResources().getString(R.string.monet_monochrome))) {
+            if (i == 2 && (Prefs.getBoolean(CUSTOM_SECONDARY_COLOR_SWITCH) || isSelectedSecondary || accentSecondary != null) && !Objects.equals(selectedStyle, getResources().getString(R.string.monet_monochrome))) {
                 Prefs.putBoolean(CUSTOM_SECONDARY_COLOR_SWITCH, true);
                 List<List<Object>> secondaryPalette = GenerateColorPalette(selectedStyle, Integer.parseInt(accentSecondary));
 
                 for (int j = colorTableRows[i].getChildCount() - 1; j >= 0; j--) {
+                    int color;
+
                     if (j == 0 || j == colorTableRows[i].getChildCount() - 1)
-                        palette.get(i).set(j, secondaryPalette.get(0).get(j));
+                        color = (int) secondaryPalette.get(0).get(j);
                     else if (j == 1)
-                        palette.get(i).set(j, ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j + 1))), -0.1F));
+                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j + 1))), -0.1F);
                     else
-                        palette.get(i).set(j, ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) secondaryPalette.get(0).get(j))), ((float) (monetAccentSaturation[0] - 100) / 1000.0F) * (Math.min((3.0F - j / 5F), 3.0F))));
+                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) secondaryPalette.get(0).get(j))), ((float) (monetAccentSaturation[0] - 100) / 1000.0F) * (Math.min((3.0F - j / 5F), 3.0F)));
+
+                    palette.get(i).set(j, color);
+                    palette_night.get(i).set(j, color);
 
                     if (!accurateShades) {
-                        if (!SystemUtil.isDarkMode() && j == (Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? 5 : 8))
+                        if (j == (Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? 5 : 8))
                             palette.get(i).set(j, Integer.parseInt(accentSecondary));
-                        else if (SystemUtil.isDarkMode() && j == 5)
-                            palette.get(i).set(j, Integer.parseInt(accentSecondary));
+
+                        if (SystemUtil.isDarkMode() && j == 5)
+                            palette_night.get(i).set(j, Integer.parseInt(accentSecondary));
                     }
 
-                    GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{(int) palette.get(i).get(j), (int) palette.get(i).get(j)});
+                    GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{!SystemUtil.isDarkMode() ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j), !SystemUtil.isDarkMode() ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j)});
                     colorbg.setCornerRadius(8 * getResources().getDisplayMetrics().density);
                     colorTableRows[i].getChildAt(j).setBackgroundDrawable(colorbg);
                 }
             } else {
                 for (int j = 0; j < colorTableRows[i].getChildCount(); j++) {
-                    GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{(int) palette.get(i).get(j), (int) palette.get(i).get(j)});
+                    GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{!SystemUtil.isDarkMode() ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j), !SystemUtil.isDarkMode() ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j)});
                     colorbg.setCornerRadius(8 * getResources().getDisplayMetrics().density);
                     colorTableRows[i].getChildAt(j).setBackgroundDrawable(colorbg);
                 }
@@ -500,6 +512,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         }
 
         generatedColorPalette = palette;
+        generatedColorPaletteNight = palette_night;
     }
 
     @Override
@@ -547,5 +560,11 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         }
     };
 
-
+    private List<List<Object>> cloneList(final List<List<Object>> src) {
+        List<List<Object>> cloned = new ArrayList<>();
+        for (List<Object> sublist : src) {
+            cloned.add(new ArrayList<>(sublist));
+        }
+        return cloned;
+    }
 }
