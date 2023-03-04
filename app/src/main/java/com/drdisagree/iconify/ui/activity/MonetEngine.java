@@ -55,7 +55,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class MonetEngine extends AppCompatActivity implements ColorPickerDialogListener {
 
     private static String accentPrimary, accentSecondary, selectedStyle;
-    private static boolean isSelectedPrimary = false, isSelectedSecondary = false, accurateShades = true;
+    private static boolean isSelectedPrimary = false, isSelectedSecondary = false, accurateShades = Prefs.getBoolean(MONET_ACCURATE_SHADES, true);
     int[] monetAccentSaturation = new int[]{Prefs.getInt(MONET_ACCENT_SATURATION, 100)};
     int[] monetBackgroundSaturation = new int[]{Prefs.getInt(MONET_BACKGROUND_SATURATION, 100)};
     int[] monetBackgroundLightness = new int[]{Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100)};
@@ -66,6 +66,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
     private ColorPickerDialog.Builder colorPickerDialogPrimary, colorPickerDialogSecondary;
     private List<List<Object>> generatedColorPalette = new ArrayList<>();
     private List<List<Object>> generatedColorPaletteNight = new ArrayList<>();
+    private boolean isDarkMode = SystemUtil.isDarkMode();
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -88,18 +89,16 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         colorTableRows = new LinearLayout[]{findViewById(R.id.monet_engine).findViewById(R.id.system_accent1), findViewById(R.id.monet_engine).findViewById(R.id.system_accent2), findViewById(R.id.monet_engine).findViewById(R.id.system_accent3), findViewById(R.id.monet_engine).findViewById(R.id.system_neutral1), findViewById(R.id.monet_engine).findViewById(R.id.system_neutral2)};
         systemColors = ColorUtil.getSystemColors();
 
-        Runnable runnable = () -> {
-            for (int[] row : systemColors) {
-                List<Object> temp = new ArrayList<>();
-                for (int col : row) {
-                    temp.add(col);
-                }
-                generatedColorPalette.add(temp);
+        for (int[] row : systemColors) {
+            List<Object> temp = new ArrayList<>();
+            for (int col : row) {
+                temp.add(col);
             }
-        };
-        Thread thread = new Thread(runnable);
-        thread.start();
+            generatedColorPalette.add(temp);
+            generatedColorPaletteNight.add(temp);
+        }
 
+        isDarkMode = SystemUtil.isDarkMode();
         selectedStyle = Prefs.getString(MONET_STYLE, getResources().getString(R.string.monet_neutral));
 
         if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_neutral)))
@@ -125,12 +124,12 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL))
             accentPrimary = Prefs.getString(COLOR_ACCENT_PRIMARY);
         else
-            accentPrimary = String.valueOf(getResources().getColor(SystemUtil.isDarkMode() ? android.R.color.system_accent1_300 : (Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? android.R.color.system_accent1_300 : android.R.color.system_accent1_600)));
+            accentPrimary = String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent1_300 : (Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? android.R.color.system_accent1_300 : android.R.color.system_accent1_600)));
 
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL))
             accentSecondary = Prefs.getString(COLOR_ACCENT_SECONDARY);
         else
-            accentSecondary = String.valueOf(getResources().getColor(SystemUtil.isDarkMode() ? android.R.color.system_accent3_300 : (Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? android.R.color.system_accent3_300 : android.R.color.system_accent3_600)));
+            accentSecondary = String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent3_300 : (Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? android.R.color.system_accent3_300 : android.R.color.system_accent3_600)));
 
         updatePrimaryColor();
         updateSecondaryColor();
@@ -141,7 +140,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         radioGroup1.setOnCheckedChangeListener(listener1);
         radioGroup2.setOnCheckedChangeListener(listener2);
 
-        if (Prefs.getBoolean(MONET_ENGINE_SWITCH) && !Objects.equals(selectedStyle, STR_NULL))
+        if (Prefs.getBoolean(MONET_ENGINE_SWITCH, false) && !Objects.equals(selectedStyle, STR_NULL))
             assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
         else assignStockColorToPalette();
 
@@ -160,7 +159,6 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         // Monet Accurate Shades
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch monet_accurate_shades = findViewById(R.id.monet_accurate_shades);
         monet_accurate_shades.setChecked(Prefs.getBoolean(MONET_ACCURATE_SHADES, true));
-        accurateShades = Prefs.getBoolean(MONET_ACCURATE_SHADES, true);
         monet_accurate_shades.setOnCheckedChangeListener((buttonView, isChecked) -> {
             accurateShades = isChecked;
             assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
@@ -434,13 +432,9 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                     if (!accurateShades) {
                         if (i == 0 && j == (Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? 5 : 8))
                             palette.get(i).set(j, Integer.parseInt(accentPrimary));
-                        else if (i == 2 && j == (Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? 5 : 8))
-                            palette.get(i).set(j, Integer.parseInt(String.valueOf((int) palette.get(i).get(6))));
 
                         if (i == 0 && j == 5)
                             palette_night.get(i).set(j, Integer.parseInt(accentPrimary));
-                        else if (i == 2 && j == 5)
-                            palette_night.get(i).set(j, Integer.parseInt(String.valueOf((int) palette_night.get(i).get(6))));
                     }
                 }
             }
@@ -473,7 +467,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         }
 
         for (int i = 0; i < colorTableRows.length; i++) {
-            if (i == 2 && (Prefs.getBoolean(CUSTOM_SECONDARY_COLOR_SWITCH) || isSelectedSecondary || accentSecondary != null) && !Objects.equals(selectedStyle, getResources().getString(R.string.monet_monochrome))) {
+            if (i == 2 && (Prefs.getBoolean(CUSTOM_SECONDARY_COLOR_SWITCH) || isSelectedSecondary) && !Objects.equals(selectedStyle, getResources().getString(R.string.monet_monochrome))) {
                 Prefs.putBoolean(CUSTOM_SECONDARY_COLOR_SWITCH, true);
                 List<List<Object>> secondaryPalette = GenerateColorPalette(selectedStyle, Integer.parseInt(accentSecondary));
 
@@ -494,17 +488,16 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                         if (j == (Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? 5 : 8))
                             palette.get(i).set(j, Integer.parseInt(accentSecondary));
 
-                        if (SystemUtil.isDarkMode() && j == 5)
-                            palette_night.get(i).set(j, Integer.parseInt(accentSecondary));
+                        if (j == 5) palette_night.get(i).set(j, Integer.parseInt(accentSecondary));
                     }
 
-                    GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{!SystemUtil.isDarkMode() ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j), !SystemUtil.isDarkMode() ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j)});
+                    GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{!isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j), !isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j)});
                     colorbg.setCornerRadius(8 * getResources().getDisplayMetrics().density);
                     colorTableRows[i].getChildAt(j).setBackgroundDrawable(colorbg);
                 }
             } else {
                 for (int j = 0; j < colorTableRows[i].getChildCount(); j++) {
-                    GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{!SystemUtil.isDarkMode() ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j), !SystemUtil.isDarkMode() ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j)});
+                    GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{!isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j), !isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j)});
                     colorbg.setCornerRadius(8 * getResources().getDisplayMetrics().density);
                     colorTableRows[i].getChildAt(j).setBackgroundDrawable(colorbg);
                 }
@@ -537,7 +530,9 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
             cloned.add(new ArrayList<>(sublist));
         }
         return cloned;
-    }    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
+    }
+
+    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if (checkedId != -1) {
@@ -550,7 +545,6 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
             }
         }
     };
-
 
     private final RadioGroup.OnCheckedChangeListener listener2 = new RadioGroup.OnCheckedChangeListener() {
         @Override
@@ -565,6 +559,4 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
             }
         }
     };
-
-
 }
