@@ -197,11 +197,11 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                 monetAccentSaturation[0] = progress;
                 if (progress == 100) reset_accent_saturation.setVisibility(View.INVISIBLE);
                 monet_accent_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress - 100) + "%");
+                assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
                 enable_custom_monet.setVisibility(View.VISIBLE);
                 reset_accent_saturation.setVisibility(monetAccentSaturation[0] == 100 ? View.INVISIBLE : View.VISIBLE);
             }
@@ -236,11 +236,11 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                 monetBackgroundSaturation[0] = progress;
                 if (progress == 100) reset_background_saturation.setVisibility(View.INVISIBLE);
                 monet_background_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress - 100) + "%");
+                assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
                 enable_custom_monet.setVisibility(View.VISIBLE);
                 reset_background_saturation.setVisibility(monetBackgroundSaturation[0] == 100 ? View.INVISIBLE : View.VISIBLE);
             }
@@ -275,11 +275,11 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                 monetBackgroundLightness[0] = progress;
                 if (progress == 100) reset_background_lightness.setVisibility(View.INVISIBLE);
                 monet_background_lightness_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress - 100) + "%");
+                assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                assignCustomColorToPalette(GenerateColorPalette(selectedStyle, Integer.parseInt(accentPrimary)));
                 enable_custom_monet.setVisibility(View.VISIBLE);
                 reset_background_lightness.setVisibility(monetBackgroundLightness[0] == 100 ? View.INVISIBLE : View.VISIBLE);
             }
