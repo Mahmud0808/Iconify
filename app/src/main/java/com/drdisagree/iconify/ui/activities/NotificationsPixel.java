@@ -74,7 +74,7 @@ public class NotificationsPixel extends AppCompatActivity {
         notif_list.add(new Object[]{"Pitch Black", R.drawable.notif_pitch_black});
         notif_list.add(new Object[]{"Duoline", R.drawable.notif_duoline});
 
-        NotificationAdapter notificationAdapter = new NotificationAdapter(this, container_notif, notif_list, loadingDialog, "NFP");
+        NotificationAdapter notificationAdapter = new NotificationAdapter(this, notif_list, loadingDialog, "NFP");
         container_notif.setAdapter(notificationAdapter);
     }
 

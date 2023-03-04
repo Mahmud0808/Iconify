@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,13 +40,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     int selectedItem = -1;
     String variant;
 
-    public NotificationAdapter(Context context, RecyclerView recyclerView, ArrayList<Object[]> itemList, LoadingDialog loadingDialog, String variant) {
+    public NotificationAdapter(Context context, ArrayList<Object[]> itemList, LoadingDialog loadingDialog, String variant) {
         this.variant = variant;
         this.context = context;
         this.itemList = itemList;
-        this.recyclerView = recyclerView;
         this.loadingDialog = loadingDialog;
-        linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
 
         // Generate keys for preference
         for (int i = 0; i < itemList.size(); i++) {
@@ -80,12 +79,23 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             holder.btn_disable.setVisibility(View.GONE);
         }
 
+        holder.container.startAnimation(AnimationUtils.loadAnimation(context, R.anim.item_anim));
+
         enableOnClickListener(holder.container, holder.btn_enable, holder.btn_disable, NOTIFICATION_KEY.get(position), position);
     }
 
     @Override
     public int getItemCount() {
         return itemList.size();
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+
+        this.recyclerView = recyclerView;
+        this.linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        this.recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(context, R.anim.layout_anim));
     }
 
     // Function for onClick events
@@ -122,8 +132,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             loadingDialog.show(context.getResources().getString(R.string.loading_dialog_wait));
 
             @SuppressLint("SetTextI18n") Runnable runnable = () -> {
-                if (Objects.equals(variant, "NFN"))
-                    NotificationManager.enableOverlay(index + 1);
+                if (Objects.equals(variant, "NFN")) NotificationManager.enableOverlay(index + 1);
                 else if (Objects.equals(variant, "NFP"))
                     NotificationPixelManager.enableOverlay(index + 1);
 
@@ -156,8 +165,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             loadingDialog.show(context.getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
-                if (Objects.equals(variant, "NFN"))
-                    NotificationManager.disable_pack(index + 1);
+                if (Objects.equals(variant, "NFN")) NotificationManager.disable_pack(index + 1);
                 else if (Objects.equals(variant, "NFP"))
                     NotificationPixelManager.disable_pack(index + 1);
 
