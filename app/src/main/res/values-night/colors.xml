@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="app_icon_bg_logo">@android:color/system_accent1_600</color>
     <color name="colorAccent">@android:color/system_accent1_300</color>
     <color name="colorAccentVariant">@android:color/system_accent3_300</color>
     <color name="rippleAccent">#1AFFFFFF</color>
