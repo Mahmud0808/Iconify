@@ -80,7 +80,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/list_button_enable_notif"
+        android:id="@+id/enable_notif"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/container_padding"
@@ -96,7 +96,7 @@
         app:backgroundTint="@null" />
 
     <Button
-        android:id="@+id/list_button_disable_notif"
+        android:id="@+id/disable_notif"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/container_padding"

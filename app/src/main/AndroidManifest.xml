@@ -42,127 +42,127 @@
         tools:replace="android:allowBackup"
         tools:targetApi="tiramisu">
         <activity
-            android:name=".ui.activity.XposedBatteryStyle"
+            android:name=".ui.activities.XposedBatteryStyle"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.ToastFrame"
+            android:name=".ui.activities.ToastFrame"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.QsTileSize"
+            android:name=".ui.activities.QsTileSize"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.NotificationsPixel"
+            android:name=".ui.activities.NotificationsPixel"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.IconShape"
+            android:name=".ui.activities.IconShape"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.SettingsIcons"
+            android:name=".ui.activities.SettingsIcons"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.Statusbar"
+            android:name=".ui.activities.Statusbar"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.XposedOthers"
+            android:name=".ui.activities.XposedOthers"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.ColoredBattery"
+            android:name=".ui.activities.ColoredBattery"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.XposedQuickSettings"
+            android:name=".ui.activities.XposedQuickSettings"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.XposedBackgroundChip"
+            android:name=".ui.activities.XposedBackgroundChip"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.XposedHeaderClock"
+            android:name=".ui.activities.XposedHeaderClock"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.XposedHeaderImage"
+            android:name=".ui.activities.XposedHeaderImage"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.XposedTransparencyBlur"
+            android:name=".ui.activities.XposedTransparencyBlur"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.XposedLockscreenClock"
+            android:name=".ui.activities.XposedLockscreenClock"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.Miscellaneous"
+            android:name=".ui.activities.Miscellaneous"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.XPosedMenu"
+            android:name=".ui.activities.XPosedMenu"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.AppUpdates"
+            android:name=".ui.activities.AppUpdates"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.Changelog"
+            android:name=".ui.activities.Changelog"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.Experimental"
+            android:name=".ui.activities.Experimental"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.MonetEngine"
+            android:name=".ui.activities.MonetEngine"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.NavigationBar"
+            android:name=".ui.activities.NavigationBar"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.Settings"
+            android:name=".ui.activities.Settings"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.VolumePanel"
+            android:name=".ui.activities.VolumePanel"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.BrightnessBarsPixel"
+            android:name=".ui.activities.BrightnessBarsPixel"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.QsShapesPixel"
+            android:name=".ui.activities.QsShapesPixel"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.QsIconLabel"
+            android:name=".ui.activities.QsIconLabel"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.QsRowColumn"
+            android:name=".ui.activities.QsRowColumn"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.BasicColors"
+            android:name=".ui.activities.BasicColors"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.ColorEngine"
+            android:name=".ui.activities.ColorEngine"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.Extras"
+            android:name=".ui.activities.Extras"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.UiRoundness"
+            android:name=".ui.activities.UiRoundness"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.Info"
+            android:name=".ui.activities.Info"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.MediaPlayer"
+            android:name=".ui.activities.MediaPlayer"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.Notifications"
+            android:name=".ui.activities.Notifications"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.QsShapes"
+            android:name=".ui.activities.QsShapes"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.BrightnessBars"
+            android:name=".ui.activities.BrightnessBars"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.IconPacks"
+            android:name=".ui.activities.IconPacks"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.HomePage"
+            android:name=".ui.activities.HomePage"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.ModuleInstaller"
+            android:name=".ui.activities.ModuleInstaller"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"

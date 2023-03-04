@@ -20,7 +20,7 @@ import androidx.core.graphics.ColorUtils;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
-import com.drdisagree.iconify.ui.activity.Settings;
+import com.drdisagree.iconify.ui.activities.Settings;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
