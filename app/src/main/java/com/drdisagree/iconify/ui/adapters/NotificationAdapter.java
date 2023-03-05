@@ -100,6 +100,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         }
 
         refreshButton(holder);
+
+        holder.container.startAnimation(AnimationUtils.loadAnimation(context, R.anim.item_anim));
     }
 
     @Override
@@ -152,7 +154,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 ((Activity) context).runOnUiThread(() -> {
                     new Handler().postDelayed(() -> {
                         // Hide loading dialog
-                        if (loadingDialog != null) loadingDialog.hide();
+                        loadingDialog.hide();
 
                         // Change name to " - applied"
                         holder.style_name.setText(holder.style_name.getText().toString().replace(' ' + context.getResources().getString(R.string.opt_applied), "") + ' ' + context.getResources().getString(R.string.opt_applied));
