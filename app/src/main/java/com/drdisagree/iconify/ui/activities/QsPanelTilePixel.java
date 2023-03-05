@@ -27,7 +27,7 @@ public class QsPanelTilePixel extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qs_shapes_pixel);
+        setContentView(R.layout.activity_qs_panel_tile_pixel);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
