@@ -28,7 +28,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.QsShapeManager;
 import com.drdisagree.iconify.overlaymanager.QsShapePixelManager;
-import com.drdisagree.iconify.ui.models.QsShapesModel;
+import com.drdisagree.iconify.ui.models.QsShapeModel;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.helpers.DisplayUtil;
 
@@ -38,14 +38,14 @@ import java.util.Objects;
 public class QsShapeAdapter extends RecyclerView.Adapter<QsShapeAdapter.ViewHolder> {
 
     Context context;
-    ArrayList<QsShapesModel> itemList;
+    ArrayList<QsShapeModel> itemList;
     ArrayList<String> QSSHAPE_KEY = new ArrayList<>();
     LinearLayoutManager linearLayoutManager;
     LoadingDialog loadingDialog;
     int selectedItem = -1;
     String variant;
 
-    public QsShapeAdapter(Context context, ArrayList<QsShapesModel> itemList, LoadingDialog loadingDialog, String variant) {
+    public QsShapeAdapter(Context context, ArrayList<QsShapeModel> itemList, LoadingDialog loadingDialog, String variant) {
         this.context = context;
         this.variant = variant;
         this.itemList = itemList;

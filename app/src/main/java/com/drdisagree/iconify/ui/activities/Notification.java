@@ -16,7 +16,7 @@ import com.drdisagree.iconify.ui.adapters.DividerAdapter;
 import com.drdisagree.iconify.ui.adapters.MenuAdapter;
 import com.drdisagree.iconify.ui.adapters.NotificationAdapter;
 import com.drdisagree.iconify.ui.models.MenuModel;
-import com.drdisagree.iconify.ui.models.NotificationsModel;
+import com.drdisagree.iconify.ui.models.NotificationModel;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -24,7 +24,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Notifications extends AppCompatActivity {
+public class Notification extends AppCompatActivity {
 
     LoadingDialog loadingDialog;
 
@@ -63,33 +63,33 @@ public class Notifications extends AppCompatActivity {
     private MenuAdapter initActivityItems() {
         ArrayList<MenuModel> notif_activity_list = new ArrayList<>();
 
-        notif_activity_list.add(new MenuModel(NotificationsPixel.class, getResources().getString(R.string.activity_title_pixel_variant), getResources().getString(R.string.activity_desc_pixel_variant), R.drawable.ic_pixel_device));
+        notif_activity_list.add(new MenuModel(NotificationPixel.class, getResources().getString(R.string.activity_title_pixel_variant), getResources().getString(R.string.activity_desc_pixel_variant), R.drawable.ic_pixel_device));
 
         return new MenuAdapter(this, notif_activity_list);
     }
 
     private NotificationAdapter initNotifItems() {
-        ArrayList<NotificationsModel> notif_list = new ArrayList<>();
+        ArrayList<NotificationModel> notif_list = new ArrayList<>();
 
-        notif_list.add(new NotificationsModel("Default", R.drawable.notif_default));
-        notif_list.add(new NotificationsModel("Layers", R.drawable.notif_layers));
-        notif_list.add(new NotificationsModel("Thin Outline", R.drawable.notif_thin_outline));
-        notif_list.add(new NotificationsModel("Bottom Outline", R.drawable.notif_bottom_outline));
-        notif_list.add(new NotificationsModel("Neumorph", R.drawable.notif_neumorph));
-        notif_list.add(new NotificationsModel("Stack", R.drawable.notif_stack));
-        notif_list.add(new NotificationsModel("Side Stack", R.drawable.notif_side_stack));
-        notif_list.add(new NotificationsModel("Outline", R.drawable.notif_outline));
-        notif_list.add(new NotificationsModel("Leafy Outline", R.drawable.notif_leafy_outline));
-        notif_list.add(new NotificationsModel("Lighty", R.drawable.notif_lighty));
-        notif_list.add(new NotificationsModel("Neumorph Outline", R.drawable.notif_neumorph_outline));
-        notif_list.add(new NotificationsModel("Cyberponk", R.drawable.notif_cyberponk));
-        notif_list.add(new NotificationsModel("Cyberponk v2", R.drawable.notif_cyberponk_v2));
-        notif_list.add(new NotificationsModel("Thread Line", R.drawable.notif_thread_line));
-        notif_list.add(new NotificationsModel("Faded", R.drawable.notif_faded));
-        notif_list.add(new NotificationsModel("Dumbbell", R.drawable.notif_dumbbell));
-        notif_list.add(new NotificationsModel("Semi Transparent", R.drawable.notif_semi_transparent));
-        notif_list.add(new NotificationsModel("Pitch Black", R.drawable.notif_pitch_black));
-        notif_list.add(new NotificationsModel("Duoline", R.drawable.notif_duoline));
+        notif_list.add(new NotificationModel("Default", R.drawable.notif_default));
+        notif_list.add(new NotificationModel("Layers", R.drawable.notif_layers));
+        notif_list.add(new NotificationModel("Thin Outline", R.drawable.notif_thin_outline));
+        notif_list.add(new NotificationModel("Bottom Outline", R.drawable.notif_bottom_outline));
+        notif_list.add(new NotificationModel("Neumorph", R.drawable.notif_neumorph));
+        notif_list.add(new NotificationModel("Stack", R.drawable.notif_stack));
+        notif_list.add(new NotificationModel("Side Stack", R.drawable.notif_side_stack));
+        notif_list.add(new NotificationModel("Outline", R.drawable.notif_outline));
+        notif_list.add(new NotificationModel("Leafy Outline", R.drawable.notif_leafy_outline));
+        notif_list.add(new NotificationModel("Lighty", R.drawable.notif_lighty));
+        notif_list.add(new NotificationModel("Neumorph Outline", R.drawable.notif_neumorph_outline));
+        notif_list.add(new NotificationModel("Cyberponk", R.drawable.notif_cyberponk));
+        notif_list.add(new NotificationModel("Cyberponk v2", R.drawable.notif_cyberponk_v2));
+        notif_list.add(new NotificationModel("Thread Line", R.drawable.notif_thread_line));
+        notif_list.add(new NotificationModel("Faded", R.drawable.notif_faded));
+        notif_list.add(new NotificationModel("Dumbbell", R.drawable.notif_dumbbell));
+        notif_list.add(new NotificationModel("Semi Transparent", R.drawable.notif_semi_transparent));
+        notif_list.add(new NotificationModel("Pitch Black", R.drawable.notif_pitch_black));
+        notif_list.add(new NotificationModel("Duoline", R.drawable.notif_duoline));
 
         return new NotificationAdapter(this, notif_list, loadingDialog, "NFN");
     }

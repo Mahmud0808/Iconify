@@ -1,12 +1,12 @@
 package com.drdisagree.iconify.ui.models;
 
-public class NotificationsModel {
+public class NotificationModel {
 
     private String name;
     private int background;
     private boolean expanded;
 
-    public NotificationsModel(String name, int background) {
+    public NotificationModel(String name, int background) {
         this.name = name;
         this.background = background;
         this.expanded = false;

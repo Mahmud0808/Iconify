@@ -26,7 +26,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class BrightnessBars extends AppCompatActivity {
+public class BrightnessBar extends AppCompatActivity {
 
     ArrayList<String> BRIGHTNESSBAR_KEY = new ArrayList<>();
 
@@ -54,7 +54,7 @@ public class BrightnessBars extends AppCompatActivity {
         ArrayList<Object[]> brightness_bars_list_activity = new ArrayList<>();
 
         // Activities add items in list
-        brightness_bars_list_activity.add(new Object[]{BrightnessBarsPixel.class, getResources().getString(R.string.activity_title_pixel_variant), getResources().getString(R.string.activity_desc_pixel_variant), R.drawable.ic_pixel_device});
+        brightness_bars_list_activity.add(new Object[]{BrightnessBarPixel.class, getResources().getString(R.string.activity_title_pixel_variant), getResources().getString(R.string.activity_desc_pixel_variant), R.drawable.ic_pixel_device});
 
         addActivityItem(brightness_bars_list_activity);
         fixViewGroup(container_activity);
@@ -64,7 +64,7 @@ public class BrightnessBars extends AppCompatActivity {
             LinearLayout child = container_activity.getChildAt(i).findViewById(R.id.list_item);
             int finalI = i;
             child.setOnClickListener(v -> {
-                Intent intent = new Intent(BrightnessBars.this, (Class<?>) brightness_bars_list_activity.get(finalI)[0]);
+                Intent intent = new Intent(BrightnessBar.this, (Class<?>) brightness_bars_list_activity.get(finalI)[0]);
                 startActivity(intent);
             });
         }
@@ -134,9 +134,9 @@ public class BrightnessBars extends AppCompatActivity {
         for (int i = 0; i < container.getChildCount(); i++) {
             LinearLayout child = container.getChildAt(i).findViewById(R.id.brightness_bar_child);
             if (Prefs.getBoolean(BRIGHTNESSBAR_KEY.get(i))) {
-                child.setBackground(ContextCompat.getDrawable(BrightnessBars.this, R.drawable.container_selected));
+                child.setBackground(ContextCompat.getDrawable(BrightnessBar.this, R.drawable.container_selected));
             } else {
-                child.setBackground(ContextCompat.getDrawable(BrightnessBars.this, R.drawable.container));
+                child.setBackground(ContextCompat.getDrawable(BrightnessBar.this, R.drawable.container));
             }
         }
     }
@@ -223,10 +223,10 @@ public class BrightnessBars extends AppCompatActivity {
             name.setText((String) pack.get(i)[0]);
 
             ImageView brightnessbar = list.findViewById(R.id.brightness_bar);
-            brightnessbar.setBackground(ContextCompat.getDrawable(BrightnessBars.this, (int) pack.get(i)[1]));
+            brightnessbar.setBackground(ContextCompat.getDrawable(BrightnessBar.this, (int) pack.get(i)[1]));
 
             ImageView auto_brightness_icon = list.findViewById(R.id.auto_brightness_icon);
-            auto_brightness_icon.setBackground(ContextCompat.getDrawable(BrightnessBars.this, (int) pack.get(i)[2]));
+            auto_brightness_icon.setBackground(ContextCompat.getDrawable(BrightnessBar.this, (int) pack.get(i)[2]));
             if ((boolean) pack.get(i)[3])
                 auto_brightness_icon.setColorFilter(ContextCompat.getColor(Iconify.getAppContext(), R.color.textColorPrimary), android.graphics.PorterDuff.Mode.SRC_IN);
 

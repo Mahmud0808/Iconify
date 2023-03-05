@@ -1,13 +1,13 @@
 package com.drdisagree.iconify.ui.models;
 
-public class QsShapesModel {
+public class QsShapeModel {
 
     Integer icon_margin_start, icon_margin_end;
     private String name;
     private int enabled_drawable, disabled_drawable;
     private boolean inverse_color;
 
-    public QsShapesModel(String name, int enabled_drawable, int disabled_drawable, boolean inverse_color) {
+    public QsShapeModel(String name, int enabled_drawable, int disabled_drawable, boolean inverse_color) {
         this.name = name;
         this.enabled_drawable = enabled_drawable;
         this.disabled_drawable = disabled_drawable;
@@ -16,7 +16,7 @@ public class QsShapesModel {
         this.icon_margin_end = null;
     }
 
-    public QsShapesModel(String name, int enabled_drawable, int disabled_drawable, boolean inverse_color, Integer icon_margin_start, Integer icon_margin_end) {
+    public QsShapeModel(String name, int enabled_drawable, int disabled_drawable, boolean inverse_color, Integer icon_margin_start, Integer icon_margin_end) {
         this.name = name;
         this.enabled_drawable = enabled_drawable;
         this.disabled_drawable = disabled_drawable;

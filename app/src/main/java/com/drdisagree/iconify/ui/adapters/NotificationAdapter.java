@@ -26,7 +26,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.NotificationManager;
 import com.drdisagree.iconify.overlaymanager.NotificationPixelManager;
-import com.drdisagree.iconify.ui.models.NotificationsModel;
+import com.drdisagree.iconify.ui.models.NotificationModel;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 
 import java.util.ArrayList;
@@ -35,14 +35,14 @@ import java.util.Objects;
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
 
     Context context;
-    ArrayList<NotificationsModel> itemList;
+    ArrayList<NotificationModel> itemList;
     ArrayList<String> NOTIFICATION_KEY = new ArrayList<>();
     LinearLayoutManager linearLayoutManager;
     LoadingDialog loadingDialog;
     int selectedItem = -1;
     String variant;
 
-    public NotificationAdapter(Context context, ArrayList<NotificationsModel> itemList, LoadingDialog loadingDialog, String variant) {
+    public NotificationAdapter(Context context, ArrayList<NotificationModel> itemList, LoadingDialog loadingDialog, String variant) {
         this.context = context;
         this.variant = variant;
         this.itemList = itemList;

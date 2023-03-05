@@ -25,7 +25,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class BrightnessBarsPixel extends AppCompatActivity {
+public class BrightnessBarPixel extends AppCompatActivity {
 
     ArrayList<String> BRIGHTNESSBAR_KEY = new ArrayList<>();
 
@@ -113,9 +113,9 @@ public class BrightnessBarsPixel extends AppCompatActivity {
         for (int i = 0; i < container.getChildCount(); i++) {
             LinearLayout child = container.getChildAt(i).findViewById(R.id.brightness_bar_child);
             if (Prefs.getBoolean(BRIGHTNESSBAR_KEY.get(i))) {
-                child.setBackground(ContextCompat.getDrawable(BrightnessBarsPixel.this, R.drawable.container_selected));
+                child.setBackground(ContextCompat.getDrawable(BrightnessBarPixel.this, R.drawable.container_selected));
             } else {
-                child.setBackground(ContextCompat.getDrawable(BrightnessBarsPixel.this, R.drawable.container));
+                child.setBackground(ContextCompat.getDrawable(BrightnessBarPixel.this, R.drawable.container));
             }
         }
     }
@@ -202,10 +202,10 @@ public class BrightnessBarsPixel extends AppCompatActivity {
             name.setText((String) pack.get(i)[0]);
 
             ImageView brightnessbar = list.findViewById(R.id.brightness_bar);
-            brightnessbar.setBackground(ContextCompat.getDrawable(BrightnessBarsPixel.this, (int) pack.get(i)[1]));
+            brightnessbar.setBackground(ContextCompat.getDrawable(BrightnessBarPixel.this, (int) pack.get(i)[1]));
 
             ImageView auto_brightness_icon = list.findViewById(R.id.auto_brightness_icon);
-            auto_brightness_icon.setBackground(ContextCompat.getDrawable(BrightnessBarsPixel.this, (int) pack.get(i)[2]));
+            auto_brightness_icon.setBackground(ContextCompat.getDrawable(BrightnessBarPixel.this, (int) pack.get(i)[2]));
 
             container.addView(list);
         }

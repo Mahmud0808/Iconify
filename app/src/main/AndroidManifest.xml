@@ -51,7 +51,7 @@
             android:name=".ui.activities.QsTileSize"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.NotificationsPixel"
+            android:name=".ui.activities.NotificationPixel"
             android:exported="false" />
         <activity
             android:name=".ui.activities.IconShape"
@@ -114,10 +114,10 @@
             android:name=".ui.activities.VolumePanel"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.BrightnessBarsPixel"
+            android:name=".ui.activities.BrightnessBarPixel"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.QsShapesPixel"
+            android:name=".ui.activities.QsPanelTilePixel"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />
         <activity
@@ -146,14 +146,14 @@
             android:name=".ui.activities.MediaPlayer"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.Notifications"
+            android:name=".ui.activities.Notification"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.QsShapes"
+            android:name=".ui.activities.QsPanelTile"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.BrightnessBars"
+            android:name=".ui.activities.BrightnessBar"
             android:exported="false" />
         <activity
             android:name=".ui.activities.IconPacks"
