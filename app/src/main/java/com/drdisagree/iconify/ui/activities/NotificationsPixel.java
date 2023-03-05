@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.ui.adapters.NotificationAdapter;
+import com.drdisagree.iconify.ui.models.NotificationsModel;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -48,33 +49,34 @@ public class NotificationsPixel extends AppCompatActivity {
         loadingDialog = new LoadingDialog(this);
 
         // RecyclerView
-        RecyclerView container_notif = findViewById(R.id.notifications_pixel_container);
-        container_notif.setLayoutManager(new LinearLayoutManager(this));
-        container_notif.setAdapter(initNotifItems());
+        RecyclerView container = findViewById(R.id.notifications_pixel_container);
+        container.setLayoutManager(new LinearLayoutManager(this));
+        container.setAdapter(initNotifItems());
+        container.setHasFixedSize(true);
     }
 
     private NotificationAdapter initNotifItems() {
-        ArrayList<Object[]> notif_list = new ArrayList<>();
+        ArrayList<NotificationsModel> notif_list = new ArrayList<>();
 
-        notif_list.add(new Object[]{"Default", R.drawable.notif_default});
-        notif_list.add(new Object[]{"Layers", R.drawable.notif_layers});
-        notif_list.add(new Object[]{"Thin Outline", R.drawable.notif_thin_outline});
-        notif_list.add(new Object[]{"Bottom Outline", R.drawable.notif_bottom_outline});
-        notif_list.add(new Object[]{"Neumorph", R.drawable.notif_neumorph});
-        notif_list.add(new Object[]{"Stack", R.drawable.notif_stack});
-        notif_list.add(new Object[]{"Side Stack", R.drawable.notif_side_stack});
-        notif_list.add(new Object[]{"Outline", R.drawable.notif_outline});
-        notif_list.add(new Object[]{"Leafy Outline", R.drawable.notif_leafy_outline});
-        notif_list.add(new Object[]{"Lighty", R.drawable.notif_lighty});
-        notif_list.add(new Object[]{"Neumorph Outline", R.drawable.notif_neumorph_outline});
-        notif_list.add(new Object[]{"Cyberponk", R.drawable.notif_cyberponk});
-        notif_list.add(new Object[]{"Cyberponk v2", R.drawable.notif_cyberponk_v2});
-        notif_list.add(new Object[]{"Thread Line", R.drawable.notif_thread_line});
-        notif_list.add(new Object[]{"Faded", R.drawable.notif_faded});
-        notif_list.add(new Object[]{"Dumbbell", R.drawable.notif_dumbbell});
-        notif_list.add(new Object[]{"Semi Transparent", R.drawable.notif_semi_transparent});
-        notif_list.add(new Object[]{"Pitch Black", R.drawable.notif_pitch_black});
-        notif_list.add(new Object[]{"Duoline", R.drawable.notif_duoline});
+        notif_list.add(new NotificationsModel("Default", R.drawable.notif_default));
+        notif_list.add(new NotificationsModel("Layers", R.drawable.notif_layers));
+        notif_list.add(new NotificationsModel("Thin Outline", R.drawable.notif_thin_outline));
+        notif_list.add(new NotificationsModel("Bottom Outline", R.drawable.notif_bottom_outline));
+        notif_list.add(new NotificationsModel("Neumorph", R.drawable.notif_neumorph));
+        notif_list.add(new NotificationsModel("Stack", R.drawable.notif_stack));
+        notif_list.add(new NotificationsModel("Side Stack", R.drawable.notif_side_stack));
+        notif_list.add(new NotificationsModel("Outline", R.drawable.notif_outline));
+        notif_list.add(new NotificationsModel("Leafy Outline", R.drawable.notif_leafy_outline));
+        notif_list.add(new NotificationsModel("Lighty", R.drawable.notif_lighty));
+        notif_list.add(new NotificationsModel("Neumorph Outline", R.drawable.notif_neumorph_outline));
+        notif_list.add(new NotificationsModel("Cyberponk", R.drawable.notif_cyberponk));
+        notif_list.add(new NotificationsModel("Cyberponk v2", R.drawable.notif_cyberponk_v2));
+        notif_list.add(new NotificationsModel("Thread Line", R.drawable.notif_thread_line));
+        notif_list.add(new NotificationsModel("Faded", R.drawable.notif_faded));
+        notif_list.add(new NotificationsModel("Dumbbell", R.drawable.notif_dumbbell));
+        notif_list.add(new NotificationsModel("Semi Transparent", R.drawable.notif_semi_transparent));
+        notif_list.add(new NotificationsModel("Pitch Black", R.drawable.notif_pitch_black));
+        notif_list.add(new NotificationsModel("Duoline", R.drawable.notif_duoline));
 
         return new NotificationAdapter(this, notif_list, loadingDialog, "NFP");
     }

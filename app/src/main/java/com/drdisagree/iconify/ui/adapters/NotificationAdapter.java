@@ -24,6 +24,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.NotificationManager;
 import com.drdisagree.iconify.overlaymanager.NotificationPixelManager;
+import com.drdisagree.iconify.ui.models.NotificationsModel;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 
 import java.util.ArrayList;
@@ -32,14 +33,14 @@ import java.util.Objects;
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
 
     Context context;
-    ArrayList<Object[]> itemList;
+    ArrayList<NotificationsModel> itemList;
     ArrayList<String> NOTIFICATION_KEY = new ArrayList<>();
     LinearLayoutManager linearLayoutManager;
     LoadingDialog loadingDialog;
     int selectedItem = -1;
     String variant;
 
-    public NotificationAdapter(Context context, ArrayList<Object[]> itemList, LoadingDialog loadingDialog, String variant) {
+    public NotificationAdapter(Context context, ArrayList<NotificationsModel> itemList, LoadingDialog loadingDialog, String variant) {
         this.context = context;
         this.variant = variant;
         this.itemList = itemList;
@@ -61,8 +62,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.container.setBackground(ContextCompat.getDrawable(context, (int) itemList.get(position)[1]));
-        holder.style_name.setText((String) itemList.get(position)[0]);
+        holder.container.setBackground(ContextCompat.getDrawable(context, itemList.get(position).getBackground()));
+        holder.style_name.setText(itemList.get(position).getName());
         holder.ic_collapse_expand.setForeground(ContextCompat.getDrawable(context, R.drawable.ic_expand_arrow));
 
         if (Prefs.getBoolean(NOTIFICATION_KEY.get(position))) {
@@ -114,7 +115,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         // Set onClick operation for each item
         holder.container.setOnClickListener(v -> {
             selectedItem = selectedItem == holder.getBindingAdapterPosition() ? -1 : holder.getBindingAdapterPosition();
-            refreshLayout(holder.container);
+            refreshLayout(holder);
 
             if (!Prefs.getBoolean(NOTIFICATION_KEY.get(holder.getBindingAdapterPosition()))) {
                 holder.btn_disable.setVisibility(View.GONE);
@@ -205,7 +206,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     // Function to check for layout changes
-    private void refreshLayout(LinearLayout layout) {
+    private void refreshLayout(ViewHolder holder) {
         int firstVisible = linearLayoutManager.findFirstVisibleItemPosition();
         int lastVisible = linearLayoutManager.findLastVisibleItemPosition();
 
@@ -215,7 +216,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             if (view != null) {
                 LinearLayout child = view.findViewById(R.id.notification_child);
 
-                if (!(view == layout) && child != null) {
+                if (!(view == holder.container) && child != null) {
                     child.findViewById(R.id.enable_notif).setVisibility(View.GONE);
                     child.findViewById(R.id.disable_notif).setVisibility(View.GONE);
                     child.findViewById(R.id.notif_arrow).setForeground(ContextCompat.getDrawable(context, R.drawable.ic_expand_arrow));

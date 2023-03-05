@@ -13,17 +13,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.ui.models.MenuModel;
 
 import java.util.ArrayList;
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
 
     Context context;
-    ArrayList<Object[]> itemList;
+    ArrayList<MenuModel> itemList;
 
-    public MenuAdapter(Context context, ArrayList<Object[]> itemList) {
+    public MenuAdapter(Context context, ArrayList<MenuModel> itemList) {
         this.context = context;
         this.itemList = itemList;
     }
@@ -38,12 +38,12 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.title.setText((String) itemList.get(position)[1]);
-        holder.desc.setText((String) itemList.get(position)[2]);
-        holder.icon.setImageResource((int) itemList.get(position)[3]);
+        holder.title.setText(itemList.get(position).getTitle());
+        holder.desc.setText(itemList.get(position).getDesc());
+        holder.icon.setImageResource(itemList.get(position).getIcon());
 
         holder.container.setOnClickListener(v -> {
-            Intent intent = new Intent(context, (Class<?>) itemList.get(position)[0]);
+            Intent intent = new Intent(context, itemList.get(position).getaClass());
             context.startActivity(intent);
         });
 
