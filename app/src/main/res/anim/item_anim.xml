@@ -5,13 +5,13 @@
         android:fromYDelta="100"
         android:toYDelta="0" />
     <scale
-        android:fromXScale="85%"
-        android:fromYScale="85%"
+        android:fromXScale="90%"
+        android:fromYScale="90%"
         android:pivotX="50%"
         android:pivotY="50%"
         android:toXScale="100%"
         android:toYScale="100%" />
     <alpha
-        android:fromAlpha="0.4"
+        android:fromAlpha="0.2"
         android:toAlpha="1" />
 </set>
