@@ -9,7 +9,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+
+import java.util.ArrayList;
 
 public class DividerAdapter extends RecyclerView.Adapter<DividerAdapter.ViewHolder> {
 

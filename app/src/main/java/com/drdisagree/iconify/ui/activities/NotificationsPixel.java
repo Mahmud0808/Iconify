@@ -47,13 +47,15 @@ public class NotificationsPixel extends AppCompatActivity {
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
 
-        // Notifications list holder
-        RecyclerView container_notif = findViewById(R.id.notification_list);
+        // RecyclerView
+        RecyclerView container_notif = findViewById(R.id.notifications_pixel_container);
         container_notif.setLayoutManager(new LinearLayoutManager(this));
+        container_notif.setAdapter(initNotifItems());
+    }
 
+    private NotificationAdapter initNotifItems() {
         ArrayList<Object[]> notif_list = new ArrayList<>();
 
-        // Notifications items
         notif_list.add(new Object[]{"Default", R.drawable.notif_default});
         notif_list.add(new Object[]{"Layers", R.drawable.notif_layers});
         notif_list.add(new Object[]{"Thin Outline", R.drawable.notif_thin_outline});
@@ -74,8 +76,7 @@ public class NotificationsPixel extends AppCompatActivity {
         notif_list.add(new Object[]{"Pitch Black", R.drawable.notif_pitch_black});
         notif_list.add(new Object[]{"Duoline", R.drawable.notif_duoline});
 
-        NotificationAdapter notificationAdapter = new NotificationAdapter(this, container_notif, notif_list, loadingDialog, "NFP");
-        container_notif.setAdapter(notificationAdapter);
+        return new NotificationAdapter(this, notif_list, loadingDialog, "NFP");
     }
 
     @Override

@@ -16,29 +16,15 @@
         android:orientation="vertical"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/notifications_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/container_marginSide"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="@dimen/container_marginSide"
             android:layout_marginBottom="24dp"
-            android:orientation="vertical">
+            android:orientation="vertical" />
 
-            <LinearLayout
-                android:id="@+id/notification_list_activity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-
-            <View style="@style/dividerAccent" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/notification_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp" />
-
-        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
