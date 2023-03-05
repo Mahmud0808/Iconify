@@ -13,8 +13,6 @@
         android:layout_height="match_parent"
         android:background="@color/colorBackground"
         android:fitsSystemWindows="true"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
         app:collapsedTitleTextAppearance="@style/Toolbar.TitleText.Collapsed"
         app:collapsedTitleTextColor="@color/textColorPrimary"
         app:contentScrim="@color/transparent"
@@ -27,10 +25,11 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             app:contentInsetStartWithNavigation="0dp"
             app:layout_collapseMode="pin"
             app:titleTextAppearance="@style/Toolbar.TitleText" />
 
     </com.google.android.material.appbar.CollapsingToolbarLayout>
-
 </com.google.android.material.appbar.AppBarLayout>
