@@ -294,7 +294,6 @@ public class QsShapeAdapter extends RecyclerView.Adapter<QsShapeAdapter.ViewHold
         LinearLayout qs_tile1, qs_tile2, qs_tile3, qs_tile4;
         ImageView qs_icon1, qs_icon2, qs_icon3, qs_icon4;
         TextView qs_text1, qs_text2, qs_text3, qs_text4;
-        LinearLayout orientation;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -315,7 +314,6 @@ public class QsShapeAdapter extends RecyclerView.Adapter<QsShapeAdapter.ViewHold
             qs_text2 = itemView.findViewById(R.id.qs_text2);
             qs_text3 = itemView.findViewById(R.id.qs_text3);
             qs_text4 = itemView.findViewById(R.id.qs_text4);
-            orientation = itemView.findViewById(R.id.qs_tile_orientation);
         }
     }
 }
