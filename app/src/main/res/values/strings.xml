@@ -435,4 +435,6 @@
     <string name="battery_style_title">Battery Style</string>
     <string name="battery_width_title">Battery Width</string>
     <string name="battery_height_desc">Battery Height</string>
+    <string name="disable_animation_title">Disable Animation</string>
+    <string name="disable_animation_desc">Disable scrolling animation of Iconify</string>
 </resources>

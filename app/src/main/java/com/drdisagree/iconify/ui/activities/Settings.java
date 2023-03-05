@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.activities;
 
+import static com.drdisagree.iconify.common.Preferences.DISABLE_SCROLLING_ANIMATION;
 import static com.drdisagree.iconify.common.Preferences.EASTER_EGG;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.FORCE_APPLY_XPOSED_CHOICE;
@@ -133,6 +134,13 @@ public class Settings extends AppCompatActivity {
                 SystemUtil.disableRestartSystemuiAfterBoot();
         });
 
+        // Restart sysui after boot
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch disable_animation = findViewById(R.id.disable_animation);
+        disable_animation.setChecked(Prefs.getBoolean(DISABLE_SCROLLING_ANIMATION, false));
+        disable_animation.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            Prefs.putBoolean(DISABLE_SCROLLING_ANIMATION, isChecked);
+        });
+
         // Show xposed warn
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_warn_message = findViewById(R.id.hide_warn_message);
         hide_warn_message.setChecked(Prefs.getBoolean(SHOW_XPOSED_WARN, true));
@@ -245,11 +253,9 @@ public class Settings extends AppCompatActivity {
             Intent intent = new Intent(Settings.this, Changelog.class);
             startActivity(intent);
         } else if (itemID == R.id.menu_exportPrefs) {
-            Toast.makeText(Iconify.getAppContext(), "WIP", Toast.LENGTH_SHORT).show();
-            // exportSettings();
+            exportSettings();
         } else if (itemID == R.id.menu_importPrefs) {
-            Toast.makeText(Iconify.getAppContext(), "WIP", Toast.LENGTH_SHORT).show();
-            // importSettings();
+            importSettings();
         } else if (itemID == R.id.menu_experimental_features) {
             Intent intent = new Intent(Settings.this, Experimental.class);
             startActivity(intent);

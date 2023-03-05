@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.adapters;
 
+import static com.drdisagree.iconify.common.Preferences.DISABLE_SCROLLING_ANIMATION;
 import static com.drdisagree.iconify.ui.utils.ViewBindingHelpers.setDrawable;
 
 import android.annotation.SuppressLint;
@@ -63,8 +64,7 @@ public class QsShapesAdapter extends RecyclerView.Adapter<QsShapesAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Preference key
         String prefKey = "IconifyComponent" + variant + (position + 1) + ".overlay";
-        if (!QSSHAPE_KEY.contains(prefKey))
-            QSSHAPE_KEY.add(prefKey);
+        if (!QSSHAPE_KEY.contains(prefKey)) QSSHAPE_KEY.add(prefKey);
 
         holder.style_name.setText(itemList.get(position).getName());
 
@@ -86,7 +86,8 @@ public class QsShapesAdapter extends RecyclerView.Adapter<QsShapesAdapter.ViewHo
 
         refreshButton(holder);
 
-        holder.container.startAnimation(AnimationUtils.loadAnimation(context, R.anim.item_anim));
+        if (!Prefs.getBoolean(DISABLE_SCROLLING_ANIMATION, false))
+            holder.container.startAnimation(AnimationUtils.loadAnimation(context, R.anim.item_anim));
 
         enableOnClickListener(holder);
     }
@@ -108,7 +109,8 @@ public class QsShapesAdapter extends RecyclerView.Adapter<QsShapesAdapter.ViewHo
 
         refreshButton(holder);
 
-        holder.container.startAnimation(AnimationUtils.loadAnimation(context, R.anim.item_anim));
+        if (!Prefs.getBoolean(DISABLE_SCROLLING_ANIMATION, false))
+            holder.container.startAnimation(AnimationUtils.loadAnimation(context, R.anim.item_anim));
     }
 
     @Override
@@ -116,7 +118,9 @@ public class QsShapesAdapter extends RecyclerView.Adapter<QsShapesAdapter.ViewHo
         super.onAttachedToRecyclerView(recyclerView);
 
         linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-        recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(context, R.anim.layout_anim));
+
+        if (!Prefs.getBoolean(DISABLE_SCROLLING_ANIMATION, false))
+            recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(context, R.anim.layout_anim));
     }
 
     // Function for onClick events
