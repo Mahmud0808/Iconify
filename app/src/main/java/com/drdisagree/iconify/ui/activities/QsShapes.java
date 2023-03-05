@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.ui.adapters.DividerAdapter;
 import com.drdisagree.iconify.ui.adapters.MenuAdapter;
-import com.drdisagree.iconify.ui.adapters.QsShapesAdapter;
+import com.drdisagree.iconify.ui.adapters.QsShapeAdapter;
 import com.drdisagree.iconify.ui.models.MenuModel;
 import com.drdisagree.iconify.ui.models.QsShapesModel;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
@@ -85,7 +85,7 @@ public class QsShapes extends AppCompatActivity {
         return new MenuAdapter(this, qsshape_activity_list);
     }
 
-    private QsShapesAdapter initQsShapeItems() {
+    private QsShapeAdapter initQsShapeItems() {
         ArrayList<QsShapesModel> qsshape_list = new ArrayList<>();
 
         qsshape_list.add(new QsShapesModel("Default", R.drawable.qs_shape_default_enabled, R.drawable.qs_shape_default_disabled, false));
@@ -108,7 +108,7 @@ public class QsShapes extends AppCompatActivity {
         qsshape_list.add(new QsShapesModel("Thin Outline", R.drawable.qs_shape_thin_outline_enabled, R.drawable.qs_shape_thin_outline_disabled, true));
         qsshape_list.add(new QsShapesModel("Purfect", R.drawable.qs_shape_purfect_enabled, R.drawable.qs_shape_purfect_disabled, false));
 
-        return new QsShapesAdapter(this, qsshape_list, loadingDialog, "QSSN");
+        return new QsShapeAdapter(this, qsshape_list, loadingDialog, "QSSN");
     }
 
     // Change orientation in landscape / portrait mode

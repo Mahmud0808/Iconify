@@ -35,7 +35,7 @@ import com.drdisagree.iconify.utils.helpers.DisplayUtil;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class QsShapesAdapter extends RecyclerView.Adapter<QsShapesAdapter.ViewHolder> {
+public class QsShapeAdapter extends RecyclerView.Adapter<QsShapeAdapter.ViewHolder> {
 
     Context context;
     ArrayList<QsShapesModel> itemList;
@@ -45,7 +45,7 @@ public class QsShapesAdapter extends RecyclerView.Adapter<QsShapesAdapter.ViewHo
     int selectedItem = -1;
     String variant;
 
-    public QsShapesAdapter(Context context, ArrayList<QsShapesModel> itemList, LoadingDialog loadingDialog, String variant) {
+    public QsShapeAdapter(Context context, ArrayList<QsShapesModel> itemList, LoadingDialog loadingDialog, String variant) {
         this.context = context;
         this.variant = variant;
         this.itemList = itemList;

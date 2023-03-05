@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.ui.adapters.QsShapesAdapter;
+import com.drdisagree.iconify.ui.adapters.QsShapeAdapter;
 import com.drdisagree.iconify.ui.models.QsShapesModel;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -69,7 +69,7 @@ public class QsShapesPixel extends AppCompatActivity {
         }
     }
 
-    private QsShapesAdapter initQsShapeItems() {
+    private QsShapeAdapter initQsShapeItems() {
         ArrayList<QsShapesModel> qsshape_list = new ArrayList<>();
 
         qsshape_list.add(new QsShapesModel("Default", R.drawable.qs_shape_default_enabled_pixel, R.drawable.qs_shape_default_disabled_pixel, false));
@@ -92,7 +92,7 @@ public class QsShapesPixel extends AppCompatActivity {
         qsshape_list.add(new QsShapesModel("Thin Outline", R.drawable.qs_shape_thin_outline_enabled_pixel, R.drawable.qs_shape_thin_outline_disabled_pixel, false));
         qsshape_list.add(new QsShapesModel("Purfect", R.drawable.qs_shape_purfect_enabled_pixel, R.drawable.qs_shape_purfect_disabled_pixel, false));
 
-        return new QsShapesAdapter(this, qsshape_list, loadingDialog, "QSSP");
+        return new QsShapeAdapter(this, qsshape_list, loadingDialog, "QSSP");
     }
 
     // Change orientation in landscape / portrait mode
