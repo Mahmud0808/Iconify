@@ -37,6 +37,24 @@ public class LoadingDialog extends AppCompatActivity {
         dialog.show();
     }
 
+    public void show(String title, boolean cancellable) {
+        if (dialog != null)
+            dialog.dismiss();
+
+        dialog = new Dialog(context);
+        dialog.setContentView(R.layout.view_loading_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(cancellable);
+        dialog.setOnCancelListener(null);
+        dialog.setCanceledOnTouchOutside(cancellable);
+
+        TextView text = dialog.findViewById(R.id.title);
+        text.setText(title);
+
+        dialog.create();
+        dialog.show();
+    }
+
     public void hide() {
         if ((dialog != null) && dialog.isShowing())
             dialog.dismiss();

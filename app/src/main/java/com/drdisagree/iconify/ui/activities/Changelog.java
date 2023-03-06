@@ -5,17 +5,18 @@ import static com.drdisagree.iconify.common.Const.OLDER_CHANGELOGS;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Html;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.BuildConfig;
+import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.ui.adapters.ChangelogAdapter;
+import com.drdisagree.iconify.ui.models.ChangelogModel;
+import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.io.BufferedReader;
@@ -31,7 +32,6 @@ import java.util.Objects;
 public class Changelog extends AppCompatActivity {
 
     Changelog.GrabChangelog grabChangelog = null;
-    private ViewGroup container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,61 +46,24 @@ public class Changelog extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // List of changelog
-        container = findViewById(R.id.changelog_list);
-
         grabChangelog = new Changelog.GrabChangelog();
         grabChangelog.execute();
     }
 
-    // Function to add new changelog in list
-    private void addChangelog(ArrayList<String[]> pack) {
-        for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(this).inflate(R.layout.view_list_changelog, container, false);
-
-            TextView title = list.findViewById(R.id.changelog_title);
-            title.setText(Html.fromHtml(pack.get(i)[0]));
-
-            TextView changes = list.findViewById(R.id.changelog_text);
-            changes.setText(Html.fromHtml(pack.get(i)[1]));
-
-            if (!Objects.equals(pack.get(i)[1], ""))
-                changes.setVisibility(View.VISIBLE);
-
-            container.addView(list);
-        }
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-    @Override
-    public void onDestroy() {
-        if (grabChangelog != null)
-            grabChangelog.cancel(true);
-        super.onDestroy();
-    }
-
-    public void onBackPressed() {
-        if (grabChangelog != null)
-            grabChangelog.cancel(true);
-    }
-
     @SuppressLint("StaticFieldLeak")
-    private class GrabChangelog extends AsyncTask<Integer, Integer, ArrayList<String[]>> {
+    private class GrabChangelog extends AsyncTask<Integer, Integer, ArrayList<ChangelogModel>> {
 
+        LoadingDialog loadingDialog = new LoadingDialog(Changelog.this);
         boolean connectionAvailable = false;
-        ArrayList<String[]> changelogs = null;
+        ArrayList<ChangelogModel> changelog_list = new ArrayList<>();
 
         @Override
         protected void onPreExecute() {
+            loadingDialog.show(Iconify.getAppContext().getResources().getString(R.string.loading_dialog_wait), true);
         }
 
         @Override
-        protected ArrayList<String[]> doInBackground(Integer... integers) {
+        protected ArrayList<ChangelogModel> doInBackground(Integer... integers) {
             try {
                 URL myUrl = new URL(OLDER_CHANGELOGS.replace("{VersionCode}", String.valueOf(BuildConfig.VERSION_CODE)));
                 URLConnection connection = myUrl.openConnection();
@@ -112,8 +75,6 @@ public class Changelog extends AppCompatActivity {
             }
 
             if (connectionAvailable) {
-                changelogs = new ArrayList<>();
-
                 for (int i = BuildConfig.VERSION_CODE; i >= 1; i--) {
                     String parseChangelog = OLDER_CHANGELOGS.replace("{VersionCode}", String.valueOf(i));
                     HttpURLConnection urlConnection = null;
@@ -155,15 +116,16 @@ public class Changelog extends AppCompatActivity {
                             if (changes.toString().lastIndexOf("<br>") == changes.toString().length() - 4)
                                 changes = new StringBuilder(changes.substring(0, changes.toString().length() - 4));
 
-                            changelogs.add(new String[]{title.toString(), changes.toString()});
+
+                            changelog_list.add(new ChangelogModel(title.toString(), changes.toString()));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
 
                         if (title == null || changes == null)
-                            changelogs.add(new String[]{getResources().getString(R.string.individual_changelog_not_found), ""});
+                            changelog_list.add(new ChangelogModel(getResources().getString(R.string.individual_changelog_not_found), ""));
                         else
-                            changelogs.add(new String[]{title.toString(), changes + "..."});
+                            changelog_list.add(new ChangelogModel(title.toString(), changes + "..."));
                     } finally {
                         if (urlConnection != null) {
                             urlConnection.disconnect();
@@ -176,27 +138,56 @@ public class Changelog extends AppCompatActivity {
                             }
                         }
                     }
+
+
                 }
             }
-            return changelogs;
+            return changelog_list;
         }
 
         @Override
-        protected void onPostExecute(ArrayList<String[]> string) {
-            findViewById(R.id.grabbing_changelogs).setVisibility(View.GONE);
+        protected void onPostExecute(ArrayList<ChangelogModel> string) {
+            loadingDialog.hide();
+
             if (connectionAvailable) {
-                if (changelogs != null && !changelogs.isEmpty()) {
-                    addChangelog(changelogs);
-                } else {
-                    changelogs = new ArrayList<>();
-                    changelogs.add(new String[]{getResources().getString(R.string.changelog_not_found), ""});
-                    addChangelog(changelogs);
+                if (changelog_list.isEmpty()) {
+                    changelog_list.add(new ChangelogModel(getResources().getString(R.string.changelog_not_found), ""));
                 }
             } else {
-                changelogs = new ArrayList<>();
-                changelogs.add(new String[]{getResources().getString(R.string.no_internet_connection), ""});
-                addChangelog(changelogs);
+                changelog_list.add(new ChangelogModel(getResources().getString(R.string.no_internet_connection), ""));
             }
+
+            // RecyclerView
+            RecyclerView container = findViewById(R.id.changelog_container);
+            container.setLayoutManager(new LinearLayoutManager(Changelog.this));
+            ChangelogAdapter adapter = new ChangelogAdapter(Changelog.this, changelog_list);
+            container.setAdapter(adapter);
+            container.setHasFixedSize(false);
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public void onStop() {
+        if (grabChangelog != null)
+            grabChangelog.cancel(true);
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        if (grabChangelog != null)
+            grabChangelog.cancel(true);
+        super.onDestroy();
+    }
+
+    public void onBackPressed() {
+        if (grabChangelog != null)
+            grabChangelog.cancel(true);
     }
 }
