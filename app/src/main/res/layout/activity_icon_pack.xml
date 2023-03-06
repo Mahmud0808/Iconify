@@ -9,23 +9,16 @@
 
     <include layout="@layout/view_header" />
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/icon_pack_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/container_marginSide"
+        android:layout_marginEnd="@dimen/container_marginSide"
+        android:clipToPadding="false"
         android:orientation="vertical"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        android:paddingTop="@dimen/container_marginTopBottom"
+        android:paddingBottom="@dimen/container_marginTopBottom"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/icon_pack_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/container_marginSide"
-            android:layout_marginEnd="@dimen/container_marginSide"
-            android:layout_marginBottom="@dimen/container_marginTopBottom"
-            android:clipToPadding="false"
-            android:orientation="vertical"
-            android:paddingTop="@dimen/container_marginTopBottom" />
-
-    </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
