@@ -63,7 +63,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/container"
+        android:background="@drawable/container_mid"
         android:orientation="horizontal"
         android:paddingStart="@dimen/container_paddingSide"
         android:paddingTop="@dimen/container_padding"
