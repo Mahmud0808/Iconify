@@ -1,8 +1,8 @@
 package com.drdisagree.iconify.ui.activities;
 
+import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +23,7 @@ public class QsPanelTilePixel extends AppCompatActivity {
 
     LoadingDialog loadingDialog;
     RecyclerView container;
+    QsShapeAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,31 +43,11 @@ public class QsPanelTilePixel extends AppCompatActivity {
         loadingDialog = new LoadingDialog(this);
 
         // RecyclerView
-        RecyclerView container = findViewById(R.id.qs_shapes_pixel_container);
+        container = findViewById(R.id.qs_shapes_pixel_container);
         container.setLayoutManager(new LinearLayoutManager(this));
-        container.setAdapter(initQsShapeItems());
+        adapter = initQsShapeItems();
+        container.setAdapter(adapter);
         container.setHasFixedSize(true);
-
-        int orientation = this.getResources().getConfiguration().orientation;
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            for (int i = 0; i < container.getChildCount(); i++) {
-                LinearLayout child = container.getChildAt(i).findViewById(R.id.qsshape_child);
-
-                if (child != null) {
-                    LinearLayout qstile_orientation = child.findViewById(R.id.qs_tile_orientation);
-                    qstile_orientation.setOrientation(LinearLayout.HORIZONTAL);
-                }
-            }
-        } else {
-            for (int i = 0; i < container.getChildCount(); i++) {
-                LinearLayout child = container.getChildAt(i).findViewById(R.id.qsshape_child);
-
-                if (child != null) {
-                    LinearLayout qstile_orientation = child.findViewById(R.id.qs_tile_orientation);
-                    qstile_orientation.setOrientation(LinearLayout.VERTICAL);
-                }
-            }
-        }
     }
 
     private QsShapeAdapter initQsShapeItems() {
@@ -96,29 +77,12 @@ public class QsPanelTilePixel extends AppCompatActivity {
     }
 
     // Change orientation in landscape / portrait mode
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            for (int i = 0; i < container.getChildCount(); i++) {
-                LinearLayout child = container.getChildAt(i).findViewById(R.id.qsshape_child);
-
-                if (child != null) {
-                    LinearLayout qstile_orientation = child.findViewById(R.id.qs_tile_orientation);
-                    qstile_orientation.setOrientation(LinearLayout.HORIZONTAL);
-                }
-            }
-        } else {
-            for (int i = 0; i < container.getChildCount(); i++) {
-                LinearLayout child = container.getChildAt(i).findViewById(R.id.qsshape_child);
-
-                if (child != null) {
-                    LinearLayout qstile_orientation = child.findViewById(R.id.qs_tile_orientation);
-                    qstile_orientation.setOrientation(LinearLayout.VERTICAL);
-                }
-            }
-        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override

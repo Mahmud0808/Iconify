@@ -6,6 +6,7 @@ import static com.drdisagree.iconify.ui.utils.ViewBindingHelpers.setDrawable;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,6 +84,12 @@ public class QsShapeAdapter extends RecyclerView.Adapter<QsShapeAdapter.ViewHold
 
         if (itemList.get(position).getIcon_margin_start() != null && itemList.get(position).getIcon_margin_end() != null)
             setMargin(holder, itemList.get(position).getIcon_margin_start(), itemList.get(position).getIcon_margin_end());
+
+        if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            holder.orientation.setOrientation(LinearLayout.VERTICAL);
+        } else {
+            holder.orientation.setOrientation(LinearLayout.HORIZONTAL);
+        }
 
         refreshButton(holder);
 
@@ -288,7 +295,7 @@ public class QsShapeAdapter extends RecyclerView.Adapter<QsShapeAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        LinearLayout container;
+        LinearLayout container, orientation;
         TextView style_name;
         Button btn_enable, btn_disable;
         LinearLayout qs_tile1, qs_tile2, qs_tile3, qs_tile4;
@@ -314,6 +321,7 @@ public class QsShapeAdapter extends RecyclerView.Adapter<QsShapeAdapter.ViewHold
             qs_text2 = itemView.findViewById(R.id.qs_text2);
             qs_text3 = itemView.findViewById(R.id.qs_text3);
             qs_text4 = itemView.findViewById(R.id.qs_text4);
+            orientation = itemView.findViewById(R.id.qs_tile_orientation);
         }
     }
 }
