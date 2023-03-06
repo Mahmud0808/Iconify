@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.ui.adapters;
 
+import static com.drdisagree.iconify.ui.utils.ViewBindingHelpers.setDrawable;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -61,7 +63,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.container.setBackground(ContextCompat.getDrawable(context, itemList.get(position).getBackground()));
+        setDrawable(holder.container,ContextCompat.getDrawable(context, itemList.get(position).getBackground()));
         holder.style_name.setText(itemList.get(position).getName());
         holder.ic_collapse_expand.setForeground(ContextCompat.getDrawable(context, R.drawable.ic_expand_arrow));
 
