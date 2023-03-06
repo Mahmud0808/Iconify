@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.ui.adapters.DividerAdapter;
+import com.drdisagree.iconify.ui.adapters.ViewAdapter;
 import com.drdisagree.iconify.ui.adapters.MenuAdapter;
 import com.drdisagree.iconify.ui.adapters.QsShapeAdapter;
 import com.drdisagree.iconify.ui.models.MenuModel;
@@ -48,7 +48,7 @@ public class QsPanelTile extends AppCompatActivity {
         // RecyclerView
         container = findViewById(R.id.qs_shapes_container);
         container.setLayoutManager(new LinearLayoutManager(this));
-        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new DividerAdapter(this), initQsShapeItems());
+        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new ViewAdapter(this, R.layout.view_divider), initQsShapeItems());
         container.setAdapter(adapter);
         container.setHasFixedSize(true);
 

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.ui.adapters.DividerAdapter;
+import com.drdisagree.iconify.ui.adapters.ViewAdapter;
 import com.drdisagree.iconify.ui.adapters.MenuAdapter;
 import com.drdisagree.iconify.ui.adapters.NotificationAdapter;
 import com.drdisagree.iconify.ui.models.MenuModel;
@@ -55,7 +55,7 @@ public class Notification extends AppCompatActivity {
         // RecyclerView
         RecyclerView container = findViewById(R.id.notifications_container);
         container.setLayoutManager(new LinearLayoutManager(this));
-        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new DividerAdapter(this), initNotifItems());
+        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new ViewAdapter(this, R.layout.view_divider), initNotifItems());
         container.setAdapter(adapter);
         container.setHasFixedSize(true);
     }

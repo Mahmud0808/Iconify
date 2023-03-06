@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.ui.activities;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.ui.adapters.DividerAdapter;
+import com.drdisagree.iconify.ui.adapters.ViewAdapter;
 import com.drdisagree.iconify.ui.adapters.IconPackAdapter;
 import com.drdisagree.iconify.ui.adapters.MenuAdapter;
 import com.drdisagree.iconify.ui.models.IconPackModel;
@@ -44,7 +43,7 @@ public class IconPack extends AppCompatActivity {
         // RecyclerView
         RecyclerView container = findViewById(R.id.icon_pack_container);
         container.setLayoutManager(new LinearLayoutManager(this));
-        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new DividerAdapter(this), initIconPackItems());
+        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new ViewAdapter(this, R.layout.view_divider), initIconPackItems());
         container.setAdapter(adapter);
         container.setHasFixedSize(true);
     }

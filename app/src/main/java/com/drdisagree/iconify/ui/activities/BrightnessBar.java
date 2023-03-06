@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.ui.adapters.BrightnessBarAdapter;
-import com.drdisagree.iconify.ui.adapters.DividerAdapter;
+import com.drdisagree.iconify.ui.adapters.ViewAdapter;
 import com.drdisagree.iconify.ui.adapters.MenuAdapter;
 import com.drdisagree.iconify.ui.models.BrightnessBarModel;
 import com.drdisagree.iconify.ui.models.MenuModel;
@@ -43,7 +43,7 @@ public class BrightnessBar extends AppCompatActivity {
         // RecyclerView
         RecyclerView container = findViewById(R.id.brightness_bar_container);
         container.setLayoutManager(new LinearLayoutManager(this));
-        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new DividerAdapter(this), initBrightnessBarItems());
+        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new ViewAdapter(this, R.layout.view_divider), initBrightnessBarItems());
         container.setAdapter(adapter);
         container.setHasFixedSize(true);
     }

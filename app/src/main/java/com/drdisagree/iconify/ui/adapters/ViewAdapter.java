@@ -9,20 +9,20 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.drdisagree.iconify.R;
-
-public class DividerAdapter extends RecyclerView.Adapter<DividerAdapter.ViewHolder> {
+public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
 
     Context context;
+    int layout;
 
-    public DividerAdapter(Context context) {
+    public ViewAdapter(Context context, int layout) {
         this.context = context;
+        this.layout = layout;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.view_divider, parent, false);
+        View view = LayoutInflater.from(context).inflate(layout, parent, false);
         return new ViewHolder(view);
     }
 
