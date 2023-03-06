@@ -173,6 +173,13 @@ public class Changelog extends AppCompatActivity {
     }
 
     @Override
+    public void onPause() {
+        if (grabChangelog != null)
+            grabChangelog.cancel(true);
+        super.onPause();
+    }
+
+    @Override
     public void onStop() {
         if (grabChangelog != null)
             grabChangelog.cancel(true);
