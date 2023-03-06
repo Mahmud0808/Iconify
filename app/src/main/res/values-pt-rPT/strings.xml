@@ -422,4 +422,15 @@
     <string name="custom_progressbar_desc">Ativar barra de progresso gradiente</string>
     <string name="custom_seekbar_title">Barra de pesquisa</string>
     <string name="custom_seekbar_desc">Ativar barra de pesquisa personalizada</string>
+    <string name="icon_mask_style_cloudy">Nuvem</string>
+    <string name="icon_mask_style_cylinder">Cilindro</string>
+    <string name="icon_mask_style_flower">Flor</string>
+    <string name="icon_mask_style_heart">Coração</string>
+    <string name="icon_mask_style_leaf">Folha</string>
+    <string name="icon_mask_style_stretched">Esticado</string>
+    <string name="icon_mask_style_tapered_rectangle">Cónico\nRetângulo</string>
+    <string name="icon_mask_style_vessel">Navio</string>
+    <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
+    <string name="disable_animation_title">Desativar efeito elástico</string>
+    <string name="disable_animation_desc">Desativar o efeito elástico no final da navegação na app</string>
 </resources>
