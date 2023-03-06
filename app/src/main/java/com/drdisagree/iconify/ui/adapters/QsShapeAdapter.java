@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.ui.adapters;
 
-import static com.drdisagree.iconify.common.Preferences.DISABLE_SCROLLING_ANIMATION;
 import static com.drdisagree.iconify.ui.utils.ViewBindingHelpers.setDrawable;
 
 import android.annotation.SuppressLint;
@@ -93,9 +92,6 @@ public class QsShapeAdapter extends RecyclerView.Adapter<QsShapeAdapter.ViewHold
 
         refreshButton(holder);
 
-        if (!Prefs.getBoolean(DISABLE_SCROLLING_ANIMATION, false))
-            holder.container.startAnimation(AnimationUtils.loadAnimation(context, R.anim.item_anim));
-
         enableOnClickListener(holder);
     }
 
@@ -115,9 +111,6 @@ public class QsShapeAdapter extends RecyclerView.Adapter<QsShapeAdapter.ViewHold
             holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.container));
 
         refreshButton(holder);
-
-        if (!Prefs.getBoolean(DISABLE_SCROLLING_ANIMATION, false))
-            holder.container.startAnimation(AnimationUtils.loadAnimation(context, R.anim.item_anim));
     }
 
     @Override
@@ -125,9 +118,6 @@ public class QsShapeAdapter extends RecyclerView.Adapter<QsShapeAdapter.ViewHold
         super.onAttachedToRecyclerView(recyclerView);
 
         linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-
-        if (!Prefs.getBoolean(DISABLE_SCROLLING_ANIMATION, false))
-            recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(context, R.anim.layout_anim));
     }
 
     // Function for onClick events

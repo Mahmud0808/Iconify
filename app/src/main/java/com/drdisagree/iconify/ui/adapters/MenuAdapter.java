@@ -1,14 +1,11 @@
 package com.drdisagree.iconify.ui.adapters;
 
-import static com.drdisagree.iconify.common.Preferences.DISABLE_SCROLLING_ANIMATION;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.models.MenuModel;
 
 import java.util.ArrayList;
@@ -50,9 +46,6 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             Intent intent = new Intent(context, itemList.get(position).getaClass());
             context.startActivity(intent);
         });
-
-        if (!Prefs.getBoolean(DISABLE_SCROLLING_ANIMATION, false))
-            holder.container.startAnimation(AnimationUtils.loadAnimation(context, R.anim.item_anim));
     }
 
     @Override
@@ -63,17 +56,11 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     @Override
     public void onViewAttachedToWindow(@NonNull ViewHolder holder) {
         super.onViewAttachedToWindow(holder);
-
-        if (!Prefs.getBoolean(DISABLE_SCROLLING_ANIMATION, false))
-            holder.container.startAnimation(AnimationUtils.loadAnimation(context, R.anim.item_anim));
     }
 
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-
-        if (!Prefs.getBoolean(DISABLE_SCROLLING_ANIMATION, false))
-            recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(context, R.anim.layout_anim));
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

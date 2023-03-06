@@ -141,7 +141,7 @@ public class HomePage extends AppCompatActivity {
 
         // Reboot needed dialog
         if (!Prefs.getBoolean(FIRST_INSTALL) && Prefs.getBoolean(UPDATE_DETECTED)) {
-            adapter.addAdapter(0, new ViewAdapter(this, R.layout.view_reboot, true, REBOOT_NEEDED));
+            adapter.addAdapter(0, new ViewAdapter(this, R.layout.view_reboot, REBOOT_NEEDED));
             adapter.notifyItemChanged(0);
         }
 
@@ -253,7 +253,7 @@ public class HomePage extends AppCompatActivity {
                             showUpdateNotification();
                         } else {
                             latest_version = latestVersion.getString("versionName");
-                            adapter.addAdapter(0, new ViewAdapter(HomePage.this, R.layout.view_new_update, true, NEW_UPDATE));
+                            adapter.addAdapter(0, new ViewAdapter(HomePage.this, R.layout.view_new_update, NEW_UPDATE));
                             adapter.notifyItemChanged(0);
                             container.scrollToPosition(0);
                         }

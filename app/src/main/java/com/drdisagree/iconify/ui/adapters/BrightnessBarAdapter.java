@@ -1,7 +1,5 @@
 package com.drdisagree.iconify.ui.adapters;
 
-import static com.drdisagree.iconify.common.Preferences.DISABLE_SCROLLING_ANIMATION;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -72,9 +70,6 @@ public class BrightnessBarAdapter extends RecyclerView.Adapter<BrightnessBarAdap
 
         refreshButton(holder);
 
-        if (!Prefs.getBoolean(DISABLE_SCROLLING_ANIMATION, false))
-            holder.container.startAnimation(AnimationUtils.loadAnimation(context, R.anim.item_anim));
-
         enableOnClickListener(holder);
     }
 
@@ -94,9 +89,6 @@ public class BrightnessBarAdapter extends RecyclerView.Adapter<BrightnessBarAdap
             holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.container));
 
         refreshButton(holder);
-
-        if (!Prefs.getBoolean(DISABLE_SCROLLING_ANIMATION, false))
-            holder.container.startAnimation(AnimationUtils.loadAnimation(context, R.anim.item_anim));
     }
 
     @Override
@@ -104,9 +96,6 @@ public class BrightnessBarAdapter extends RecyclerView.Adapter<BrightnessBarAdap
         super.onAttachedToRecyclerView(recyclerView);
 
         linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-
-        if (!Prefs.getBoolean(DISABLE_SCROLLING_ANIMATION, false))
-            recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(context, R.anim.layout_anim));
     }
 
     // Function for onClick events

@@ -1,7 +1,5 @@
 package com.drdisagree.iconify.ui.adapters;
 
-import static com.drdisagree.iconify.common.Preferences.DISABLE_SCROLLING_ANIMATION;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -77,9 +75,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         refreshButton(holder);
 
-        if (!Prefs.getBoolean(DISABLE_SCROLLING_ANIMATION, false))
-            holder.container.startAnimation(AnimationUtils.loadAnimation(context, R.anim.item_anim));
-
         enableOnClickListener(holder);
     }
 
@@ -102,9 +97,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         }
 
         refreshButton(holder);
-
-        if (!Prefs.getBoolean(DISABLE_SCROLLING_ANIMATION, false))
-            holder.container.startAnimation(AnimationUtils.loadAnimation(context, R.anim.item_anim));
     }
 
     @Override
@@ -112,9 +104,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         super.onAttachedToRecyclerView(recyclerView);
 
         linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-
-        if (!Prefs.getBoolean(DISABLE_SCROLLING_ANIMATION, false))
-            recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(context, R.anim.layout_anim));
     }
 
     // Function for onClick events
