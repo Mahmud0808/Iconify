@@ -57,8 +57,8 @@
     <string name="activity_desc_basic_colors">Modifier la couleur primaire et secondaire</string>
     <string name="activity_title_settings_icons">Icônes des paramètres</string>
     <string name="activity_desc_settings_icons">Modifier les paramètres du pack d\'icônes</string>
-    <string name="activity_title_icon_mask">Masque d\'icônes</string>
-    <string name="activity_desc_icon_mask">Modifier la forme des icônes du système</string>
+    <string name="activity_title_icon_shape">Masque d\'icônes</string>
+    <string name="activity_desc_icon_shape">Modifier la forme des icônes du système</string>
     <string name="activity_title_pixel_variant">Variante Pixel</string>
     <string name="activity_desc_pixel_variant">Pour les roms avec panneau QS noir</string>
     <string name="activity_title_qs_tile_size">Taille des tuiles QS</string>

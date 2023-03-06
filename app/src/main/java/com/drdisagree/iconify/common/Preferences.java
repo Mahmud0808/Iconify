@@ -48,6 +48,7 @@ public class Preferences {
     public static final String LAST_UPDATE_CHECK_TIME = "iconify_last_update_check_time";
     public static final String FIRST_INSTALL = "firstInstall";
     public static final String UPDATE_DETECTED = "updateDetected";
+    public static final String ON_HOME_PAGE = "onHomePage";
     public static final String COLORED_BATTERY_SWITCH = "isColoredBatteryEnabled";
     public static final String COLOR_ACCENT_PRIMARY = "colorAccentPrimary";
     public static final String COLOR_ACCENT_SECONDARY = "colorAccentSecondary";
@@ -71,11 +72,16 @@ public class Preferences {
     public static final String SELECTED_SETTINGS_ICONS_BG = "selectedSettignsIconsBg";
     public static final String SELECTED_SETTINGS_ICONS_SET = "selectedSettignsIconsSet";
     public static final String SELECTED_TOAST_FRAME = "selectedToastFrame";
+    public static final String SELECTED_ICON_SHAPE = "selectedIconShape";
+    public static final String RESTART_SYSUI_AFTER_BOOT = "restartSysuiAfterBoot";
+    public static final String NEW_UPDATE = "newUpdate";
+    public static final String REBOOT_NEEDED = "rebootNeeded";
 
     // Settings
     public static final String USE_LIGHT_ACCENT = "useLightAccent";
     public static final String SHOW_XPOSED_WARN = "showXposedMenuWarn";
     public static final String FORCE_APPLY_XPOSED_CHOICE = "optionForceApplyXposed";
+    public static final String DISABLE_SCROLLING_ANIMATION = "settingsDisableScrollingAnimation";
 
     // Others
     public static final String BOOT_ID = "boot_id";

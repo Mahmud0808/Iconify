@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.activity.IconShape">
+    tools:context=".ui.activities.IconShape">
 
     <include layout="@layout/view_header" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         android:orientation="vertical"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
@@ -30,7 +31,7 @@
             android:paddingBottom="@dimen/container_padding">
 
             <com.google.android.flexbox.FlexboxLayout
-                android:id="@+id/icon_masking_preview_container"
+                android:id="@+id/icon_shape_preview_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

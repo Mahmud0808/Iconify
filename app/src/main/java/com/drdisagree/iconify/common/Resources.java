@@ -1,13 +1,9 @@
 package com.drdisagree.iconify.common;
 
 import android.os.Environment;
-import android.util.Log;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 public class Resources {
 

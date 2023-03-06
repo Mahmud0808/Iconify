@@ -4,7 +4,7 @@
         <shape android:tintMode="multiply">
             <gradient
                 android:angle="270.0"
-                android:endColor="?android:colorSecondary"
+                android:endColor="@color/holo_green_light"
                 android:startColor="@color/holo_blue_light" />
             <corners android:radius="24dp" />
         </shape>

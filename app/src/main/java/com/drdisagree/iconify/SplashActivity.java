@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.splashscreen.SplashScreen;
 
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.ui.activity.HomePage;
-import com.drdisagree.iconify.ui.activity.ModuleInstaller;
+import com.drdisagree.iconify.ui.activities.HomePage;
+import com.drdisagree.iconify.ui.activities.ModuleInstaller;
 import com.drdisagree.iconify.utils.ModuleUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.RootUtil;

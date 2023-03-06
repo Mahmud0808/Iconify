@@ -2,11 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list_item"
+    android:id="@+id/list_item_changelog"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/container_marginSide"
-    android:layout_marginEnd="@dimen/container_marginSide"
     android:layout_marginBottom="@dimen/container_margin"
     android:background="@drawable/container"
     android:orientation="vertical"
@@ -52,7 +50,6 @@
         android:layout_marginBottom="-2dp"
         android:textColor="@color/textColorSecondary"
         android:textIsSelectable="true"
-        android:textSize="@dimen/cont_desc_size"
-        android:visibility="gone" />
+        android:textSize="@dimen/cont_desc_size" />
 
 </LinearLayout>

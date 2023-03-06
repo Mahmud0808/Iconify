@@ -59,14 +59,16 @@
     <string name="activity_desc_basic_colors">Change primary and secondary color</string>
     <string name="activity_title_settings_icons">Settings Icons</string>
     <string name="activity_desc_settings_icons">Change settings icon pack</string>
-    <string name="activity_title_icon_mask">Icon Mask</string>
-    <string name="activity_desc_icon_mask">Change system icon shapes</string>
+    <string name="activity_title_icon_shape">Icon Shape</string>
+    <string name="activity_desc_icon_shape">Change system icon shapes</string>
     <string name="activity_title_pixel_variant">Pixel Variant</string>
     <string name="activity_desc_pixel_variant">For roms with black QS panel</string>
     <string name="activity_title_qs_tile_size">QS Tile Size</string>
     <string name="activity_desc_qs_tile_size">Change height of QS tile</string>
     <string name="activity_title_battery_style">Battery Style</string>
     <string name="activity_desc_battery_style">Customize battery icon view</string>
+    <string name="activity_title_toast_frame">Toast Frame</string>
+    <string name="activity_desc_toast_frame">Change toast notification style</string>
 
     <string name="apply_monet_accent_title">Monet Accent</string>
     <string name="apply_monet_accent_desc">Use system monet as accent</string>
@@ -264,6 +266,12 @@
     <string name="custom_lockscreen_clock_title">Custom Lockscreen Clock</string>
     <string name="custom_lockscreen_clock_desc">Enable custom lockscreen clock</string>
     <string name="custom_lockscreen_clock_style_title">Clock Style</string>
+    <string name="custom_toast_title">Custom Toast</string>
+    <string name="custom_toast_desc">Enable custom styled toast</string>
+    <string name="custom_progressbar_title">Custom Progressbar</string>
+    <string name="custom_progressbar_desc">Enable gradient progress bar</string>
+    <string name="custom_seekbar_title">Custom Seekbar</string>
+    <string name="custom_seekbar_desc">Enable custom styled seek bar</string>
     <string name="needs_systemui_restart">Needs SystemUI restart</string>
     <string name="toast_lorn_colored_battery">Lorn uses colored battery by default</string>
     <string name="toast_plumpy_colored_battery">Plumpy uses colored battery by default</string>
@@ -346,6 +354,7 @@
     <string name="update_notification_channel_desc">This channel shows notification about the latest updates.</string>
     <string name="fa_translation">Persian translation.</string>
     <string name="fr_translation">French translation.</string>
+    <string name="pt_translation">Portuguese translation.</string>
     <string name="ru_translation">Russian translation.</string>
     <string name="tr_translation">Turkish translation.</string>
     <string name="a13_default_media_player">Android 13 Default Player</string>
@@ -380,6 +389,15 @@
     <string name="icon_mask_style_teardrop">Teardrop</string>
     <string name="icon_mask_style_rounded_rectangle">Rounded\nRectangle</string>
     <string name="icon_mask_style_ios">iOS</string>
+    <string name="icon_mask_style_cloudy">Cloudy</string>
+    <string name="icon_mask_style_cylinder">Cylinder</string>
+    <string name="icon_mask_style_flower">Flower</string>
+    <string name="icon_mask_style_heart">Heart</string>
+    <string name="icon_mask_style_leaf">Leaf</string>
+    <string name="icon_mask_style_stretched">Streteched</string>
+    <string name="icon_mask_style_tapered_rectangle">Tapered\nRectangle</string>
+    <string name="icon_mask_style_vessel">Vessel</string>
+    <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
     <string name="pick_style">Pick a style of your choice</string>
     <string name="info_contributor_desc_2">For assisting me on telegram.</string>
     <string name="attention">Attention!</string>
@@ -417,4 +435,6 @@
     <string name="battery_style_title">Battery Style</string>
     <string name="battery_width_title">Battery Width</string>
     <string name="battery_height_desc">Battery Height</string>
+    <string name="disable_animation_title">Disable Animation</string>
+    <string name="disable_animation_desc">Disable scrolling animation of Iconify</string>
 </resources>

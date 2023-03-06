@@ -10,8 +10,7 @@
     android:paddingStart="@dimen/container_paddingSide"
     android:paddingTop="@dimen/container_padding"
     android:paddingEnd="@dimen/container_paddingSide"
-    android:paddingBottom="@dimen/container_padding"
-    android:visibility="gone">
+    android:paddingBottom="@dimen/container_padding">
 
     <ImageView
         android:layout_width="48dp"

@@ -304,8 +304,8 @@
     <string name="mp_system_background_title">Системный фон</string>
     <string name="activity_title_settings_icons">Иконки в настройках</string>
     <string name="activity_desc_settings_icons">Изменить иконки в настройках</string>
-    <string name="activity_title_icon_mask">Форма иконок</string>
-    <string name="activity_desc_icon_mask">Изменить форму иконок в лунчере</string>
+    <string name="activity_title_icon_shape">Форма иконок</string>
+    <string name="activity_desc_icon_shape">Изменить форму иконок в лунчере</string>
     <string name="toast_select_style">Сначала выберите стиль</string>
     <string name="translators">Переводчики</string>
     <string name="toast_reboot_required">Необходима перезагрузка</string>

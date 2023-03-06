@@ -84,7 +84,7 @@ public class SettingsIconsManager {
                     resources += "    <color name=\"icon_tint\">?android:textColorPrimaryInverse</color>\n";
                     break;
                 case 3:
-                    resources += "    <color name=\"icon_tint\">@*android:color/system_accent1_200</color>\n";
+                    resources += "    <color name=\"icon_tint\">@*android:color/holo_blue_light</color>\n";
                     break;
             }
 

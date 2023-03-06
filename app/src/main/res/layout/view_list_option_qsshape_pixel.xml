@@ -188,7 +188,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/list_button_enable_qsshape"
+        android:id="@+id/enable_qsshape"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/container_padding"
@@ -204,7 +204,7 @@
         app:backgroundTint="@null" />
 
     <Button
-        android:id="@+id/list_button_disable_qsshape"
+        android:id="@+id/disable_qsshape"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/container_padding"

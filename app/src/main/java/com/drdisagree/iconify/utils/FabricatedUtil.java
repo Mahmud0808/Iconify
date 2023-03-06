@@ -54,7 +54,7 @@ public class FabricatedUtil {
         }
 
         if (type.equals("dimen")) {
-            int valType = 1;
+            int valType = -1;
 
             if (val.contains("dp") || val.contains("dip")) {
                 valType = TypedValue.COMPLEX_UNIT_DIP;
@@ -84,9 +84,9 @@ public class FabricatedUtil {
         String build_cmd = "cmd overlay fabricate --target " + target + " --name IconifyComponent" + name + " " + target + ":" + type + "/" + resourceName + " " + resourceType + " " + val;
         String enable_cmd = "cmd overlay enable --user current com.android.shell:IconifyComponent" + name;
 
-        Shell.cmd("grep -v \"IconifyComponent" + name + "\" " + Resources.MODULE_DIR + "/service.sh > " + Resources.MODULE_DIR + "/service.sh.tmp && mv " + Resources.MODULE_DIR + "/service.sh.tmp " + Resources.MODULE_DIR + "/service.sh").submit();
-        Shell.cmd("echo \"" + build_cmd + "\" >> " + Resources.MODULE_DIR + "/service.sh").submit();
-        Shell.cmd("echo \"" + enable_cmd + "\" >> " + Resources.MODULE_DIR + "/service.sh").submit();
+        Shell.cmd("grep -v \"IconifyComponent" + name + "\" " + Resources.MODULE_DIR + "/post-exec.sh > " + Resources.MODULE_DIR + "/post-exec.sh.tmp && mv " + Resources.MODULE_DIR + "/post-exec.sh.tmp " + Resources.MODULE_DIR + "/post-exec.sh").submit();
+        Shell.cmd("echo \"" + build_cmd + "\" >> " + Resources.MODULE_DIR + "/post-exec.sh").submit();
+        Shell.cmd("echo \"" + enable_cmd + "\" >> " + Resources.MODULE_DIR + "/post-exec.sh").submit();
 
         Shell.cmd(build_cmd).submit();
         Shell.cmd(enable_cmd).submit();
@@ -142,11 +142,11 @@ public class FabricatedUtil {
         String enable_cmd = "cmd overlay enable --user current com.android.shell:IconifyComponent" + name;
 
         String cmd = "";
-        cmd += "grep -v \"IconifyComponent" + name + "\" " + Resources.MODULE_DIR + "/service.sh > " + Resources.MODULE_DIR + "/service.sh.tmp && mv " + Resources.MODULE_DIR + "/service.sh.tmp " + Resources.MODULE_DIR + "/service.sh";
+        cmd += "grep -v \"IconifyComponent" + name + "\" " + Resources.MODULE_DIR + "/post-exec.sh > " + Resources.MODULE_DIR + "/post-exec.sh.tmp && mv " + Resources.MODULE_DIR + "/post-exec.sh.tmp " + Resources.MODULE_DIR + "/post-exec.sh";
         cmd += "\n";
-        cmd += "echo \"" + build_cmd + "\" >> " + Resources.MODULE_DIR + "/service.sh";
+        cmd += "echo \"" + build_cmd + "\" >> " + Resources.MODULE_DIR + "/post-exec.sh";
         cmd += "\n";
-        cmd += "echo \"" + enable_cmd + "\" >> " + Resources.MODULE_DIR + "/service.sh";
+        cmd += "echo \"" + enable_cmd + "\" >> " + Resources.MODULE_DIR + "/post-exec.sh";
         cmd += "\n";
 
         return cmd;
@@ -162,7 +162,7 @@ public class FabricatedUtil {
 
         String disable_cmd = "cmd overlay disable --user current com.android.shell:IconifyComponent" + name;
 
-        Shell.cmd("grep -v \"IconifyComponent" + name + "\" " + Resources.MODULE_DIR + "/service.sh > " + Resources.MODULE_DIR + "/service.sh.tmp && mv " + Resources.MODULE_DIR + "/service.sh.tmp " + Resources.MODULE_DIR + "/service.sh").submit();
+        Shell.cmd("grep -v \"IconifyComponent" + name + "\" " + Resources.MODULE_DIR + "/post-exec.sh > " + Resources.MODULE_DIR + "/post-exec.sh.tmp && mv " + Resources.MODULE_DIR + "/post-exec.sh.tmp " + Resources.MODULE_DIR + "/post-exec.sh").submit();
 
         Shell.cmd(disable_cmd).submit();
     }

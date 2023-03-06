@@ -20,7 +20,7 @@
         android:start="4.0dip"
         android:top="4.0dip">
         <shape android:shape="rectangle">
-            <solid android:color="@color/offStateColor" />
+            <solid android:color="@color/colorBackground" />
             <corners
                 android:bottomLeftRadius="10dp"
                 android:bottomRightRadius="20dp"

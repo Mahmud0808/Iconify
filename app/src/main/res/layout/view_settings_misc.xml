@@ -35,7 +35,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/list_title_disableEverything"
+                android:id="@+id/list_title_restartSysui"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/textColorPrimary"
@@ -43,7 +43,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/list_desc_disableEverything"
+                android:id="@+id/list_desc_restartSysui"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="viewStart"
@@ -53,7 +53,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/button_disableEverything"
+            android:id="@+id/button_restartSysui"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/container_padding"
@@ -61,11 +61,12 @@
             android:fontFamily="@font/semibold"
             android:letterSpacing="0.2"
             android:stateListAnimator="@null"
-            android:text="@string/btn_disable"
+            android:text="@string/btn_restart"
             android:textColor="@color/colorBackground"
             android:textSize="@dimen/cont_title_size"
             android:textStyle="bold"
             app:backgroundTint="@null" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -87,7 +88,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/list_title_restartSysui"
+                android:id="@+id/list_title_disableEverything"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/textColorPrimaryError"
@@ -95,7 +96,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/list_desc_restartSysui"
+                android:id="@+id/list_desc_disableEverything"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="viewStart"
@@ -105,7 +106,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/button_restartSysui"
+            android:id="@+id/button_disableEverything"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/container_padding"
@@ -113,11 +114,10 @@
             android:fontFamily="@font/semibold"
             android:letterSpacing="0.2"
             android:stateListAnimator="@null"
-            android:text="@string/btn_restart"
+            android:text="@string/btn_disable"
             android:textColor="@color/colorBackground"
             android:textSize="@dimen/cont_title_size"
             android:textStyle="bold"
             app:backgroundTint="@null" />
-
     </LinearLayout>
 </LinearLayout>
