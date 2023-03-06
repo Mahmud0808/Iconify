@@ -127,7 +127,7 @@
             app:backgroundTint="@null" />
 
         <Button
-            android:id="@+id/reboot_phone"
+            android:id="@+id/btn_reboot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

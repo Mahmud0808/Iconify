@@ -66,7 +66,7 @@ public class ModuleInstaller extends AppCompatActivity {
         install_module = findViewById(R.id.install_module);
 
         // Reboot button
-        reboot_phone = findViewById(R.id.reboot_phone);
+        reboot_phone = findViewById(R.id.btn_reboot);
         reboot_phone.setOnClickListener(v -> new Handler().postDelayed(SystemUtil::restartDevice, 200));
 
         // Warning messages
