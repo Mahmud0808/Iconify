@@ -50,6 +50,10 @@ public class QsShapeAdapter extends RecyclerView.Adapter<QsShapeAdapter.ViewHold
         this.variant = variant;
         this.itemList = itemList;
         this.loadingDialog = loadingDialog;
+
+        // Preference key
+        for (int i = 1; i <= itemList.size(); i++)
+            QSSHAPE_KEY.add("IconifyComponent" + variant + i + ".overlay");
     }
 
     @NonNull
@@ -62,10 +66,6 @@ public class QsShapeAdapter extends RecyclerView.Adapter<QsShapeAdapter.ViewHold
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // Preference key
-        String prefKey = "IconifyComponent" + variant + (position + 1) + ".overlay";
-        if (!QSSHAPE_KEY.contains(prefKey)) QSSHAPE_KEY.add(prefKey);
-
         holder.style_name.setText(itemList.get(position).getName());
 
         setDrawable(holder.qs_tile1, ResourcesCompat.getDrawable(context.getResources(), itemList.get(position).getEnabled_drawable(), null));

@@ -47,6 +47,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         this.variant = variant;
         this.itemList = itemList;
         this.loadingDialog = loadingDialog;
+
+        // Preference key
+        for (int i = 1; i <= itemList.size(); i++)
+            NOTIFICATION_KEY.add("IconifyComponent" + variant + i + ".overlay");
     }
 
     @NonNull
@@ -59,10 +63,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // Preference key
-        String prefKey = "IconifyComponent" + variant + (position + 1) + ".overlay";
-        if (!NOTIFICATION_KEY.contains(prefKey)) NOTIFICATION_KEY.add(prefKey);
-
         holder.container.setBackground(ContextCompat.getDrawable(context, itemList.get(position).getBackground()));
         holder.style_name.setText(itemList.get(position).getName());
         holder.ic_collapse_expand.setForeground(ContextCompat.getDrawable(context, R.drawable.ic_expand_arrow));

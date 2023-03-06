@@ -47,6 +47,10 @@ public class BrightnessBarAdapter extends RecyclerView.Adapter<BrightnessBarAdap
         this.variant = variant;
         this.itemList = itemList;
         this.loadingDialog = loadingDialog;
+
+        // Preference key
+        for (int i = 1; i <= itemList.size(); i++)
+            BRIGHTNESSBAR_KEY.add("IconifyComponent" + variant + i + ".overlay");
     }
 
     @NonNull
@@ -59,10 +63,6 @@ public class BrightnessBarAdapter extends RecyclerView.Adapter<BrightnessBarAdap
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // Preference key
-        String prefKey = "IconifyComponent" + variant + (position + 1) + ".overlay";
-        if (!BRIGHTNESSBAR_KEY.contains(prefKey)) BRIGHTNESSBAR_KEY.add(prefKey);
-
         holder.style_name.setText(itemList.get(position).getName());
         holder.brightness.setBackground(ContextCompat.getDrawable(context, itemList.get(position).getBrightness()));
         holder.auto_brightness.setBackground(ContextCompat.getDrawable(context, itemList.get(position).getAuto_brightness()));
