@@ -100,11 +100,11 @@ public class SettingsIcons extends AppCompatActivity {
 
         for (int i = 0; i < container.getChildCount(); i++) {
             LinearLayout child = container.getChildAt(i).findViewById(R.id.icon_pack_child);
-            if (((TextView) child.findViewById(R.id.list_title_iconpack)).getText() == "Bubble" || ((TextView) child.findViewById(R.id.list_title_iconpack)).getText() == "Bubble v2") {
-                ((ImageView) child.findViewById(R.id.list_preview1_iconpack)).setColorFilter(0);
-                ((ImageView) child.findViewById(R.id.list_preview2_iconpack)).setColorFilter(0);
-                ((ImageView) child.findViewById(R.id.list_preview3_iconpack)).setColorFilter(0);
-                ((ImageView) child.findViewById(R.id.list_preview4_iconpack)).setColorFilter(0);
+            if (((TextView) child.findViewById(R.id.iconpack_title)).getText() == "Bubble" || ((TextView) child.findViewById(R.id.iconpack_title)).getText() == "Bubble v2") {
+                ((ImageView) child.findViewById(R.id.iconpack_preview1)).setColorFilter(0);
+                ((ImageView) child.findViewById(R.id.iconpack_preview2)).setColorFilter(0);
+                ((ImageView) child.findViewById(R.id.iconpack_preview3)).setColorFilter(0);
+                ((ImageView) child.findViewById(R.id.iconpack_preview4)).setColorFilter(0);
             }
         }
 
@@ -219,22 +219,22 @@ public class SettingsIcons extends AppCompatActivity {
         for (int i = 0; i < pack.size(); i++) {
             View list = LayoutInflater.from(this).inflate(R.layout.view_list_option_settings_icons, container, false);
 
-            TextView name = list.findViewById(R.id.list_title_iconpack);
+            TextView name = list.findViewById(R.id.iconpack_title);
             name.setText((String) pack.get(i)[0]);
 
-            TextView description = list.findViewById(R.id.list_desc_iconpack);
+            TextView description = list.findViewById(R.id.iconpack_desc);
             description.setText((String) pack.get(i)[1]);
 
-            ImageView ic1 = list.findViewById(R.id.list_preview1_iconpack);
+            ImageView ic1 = list.findViewById(R.id.iconpack_preview1);
             ic1.setImageResource((int) pack.get(i)[2]);
 
-            ImageView ic2 = list.findViewById(R.id.list_preview2_iconpack);
+            ImageView ic2 = list.findViewById(R.id.iconpack_preview2);
             ic2.setImageResource((int) pack.get(i)[3]);
 
-            ImageView ic3 = list.findViewById(R.id.list_preview3_iconpack);
+            ImageView ic3 = list.findViewById(R.id.iconpack_preview3);
             ic3.setImageResource((int) pack.get(i)[4]);
 
-            ImageView ic4 = list.findViewById(R.id.list_preview4_iconpack);
+            ImageView ic4 = list.findViewById(R.id.iconpack_preview4);
             ic4.setImageResource((int) pack.get(i)[5]);
 
             container.addView(list);
