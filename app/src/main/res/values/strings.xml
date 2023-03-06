@@ -437,4 +437,6 @@
     <string name="battery_height_desc">Battery Height</string>
     <string name="disable_animation_title">Disable Animation</string>
     <string name="disable_animation_desc">Disable scrolling animation of Iconify</string>
+    <string name="restart_systemui_after_boot_title">Restart SystemUI After Boot</string>
+    <string name="restart_systemui_after_boot_desc">Some options like blur intensity doesn\'t take effect until systemui is restarted</string>
 </resources>
