@@ -2,11 +2,11 @@ package com.drdisagree.iconify.ui.models;
 
 import android.widget.LinearLayout;
 
-public class HeaderClockModel {
+public class ClockModel {
 
     private LinearLayout clock;
 
-    public HeaderClockModel(LinearLayout clock) {
+    public ClockModel(LinearLayout clock) {
         this.clock = clock;
     }
 

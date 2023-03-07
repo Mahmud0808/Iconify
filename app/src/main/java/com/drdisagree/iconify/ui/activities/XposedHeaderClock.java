@@ -21,8 +21,8 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
-import com.drdisagree.iconify.ui.adapters.HeaderClockAdapter;
-import com.drdisagree.iconify.ui.models.HeaderClockModel;
+import com.drdisagree.iconify.ui.adapters.ClockAdapter;
+import com.drdisagree.iconify.ui.models.ClockModel;
 import com.drdisagree.iconify.ui.views.HeaderClockStyles;
 import com.drdisagree.iconify.utils.HelperUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -61,7 +61,7 @@ public class XposedHeaderClock extends AppCompatActivity {
         // Header clock style
         ViewPager2 container = findViewById(R.id.header_clock_preview);
         container.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-        HeaderClockAdapter adapter = initHeaderClockStyles();
+        ClockAdapter adapter = initHeaderClockStyles();
         container.setAdapter(adapter);
         disableNestedScrolling(container);
 
@@ -162,16 +162,16 @@ public class XposedHeaderClock extends AppCompatActivity {
         });
     }
 
-    private HeaderClockAdapter initHeaderClockStyles() {
-        ArrayList<HeaderClockModel> header_clock = new ArrayList<>();
+    private ClockAdapter initHeaderClockStyles() {
+        ArrayList<ClockModel> header_clock = new ArrayList<>();
 
-        header_clock.add(new HeaderClockModel(HeaderClockStyles.initHeaderClockStyle(this, 1)));
-        header_clock.add(new HeaderClockModel(HeaderClockStyles.initHeaderClockStyle(this, 2)));
-        header_clock.add(new HeaderClockModel(HeaderClockStyles.initHeaderClockStyle(this, 3)));
-        header_clock.add(new HeaderClockModel(HeaderClockStyles.initHeaderClockStyle(this, 4)));
-        header_clock.add(new HeaderClockModel(HeaderClockStyles.initHeaderClockStyle(this, 5)));
+        header_clock.add(new ClockModel(HeaderClockStyles.initHeaderClockStyle(this, 1)));
+        header_clock.add(new ClockModel(HeaderClockStyles.initHeaderClockStyle(this, 2)));
+        header_clock.add(new ClockModel(HeaderClockStyles.initHeaderClockStyle(this, 3)));
+        header_clock.add(new ClockModel(HeaderClockStyles.initHeaderClockStyle(this, 4)));
+        header_clock.add(new ClockModel(HeaderClockStyles.initHeaderClockStyle(this, 5)));
 
-        return new HeaderClockAdapter(this, header_clock);
+        return new ClockAdapter(this, header_clock);
     }
 
     @Override

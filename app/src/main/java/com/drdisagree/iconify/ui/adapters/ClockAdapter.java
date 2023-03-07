@@ -15,18 +15,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
-import com.drdisagree.iconify.ui.models.HeaderClockModel;
+import com.drdisagree.iconify.ui.models.ClockModel;
 import com.drdisagree.iconify.utils.HelperUtil;
 
 import java.util.ArrayList;
 
-public class HeaderClockAdapter extends RecyclerView.Adapter<HeaderClockAdapter.ViewHolder> {
+public class ClockAdapter extends RecyclerView.Adapter<ClockAdapter.ViewHolder> {
 
     Context context;
-    ArrayList<HeaderClockModel> itemList;
+    ArrayList<ClockModel> itemList;
     RecyclerView recyclerView;
 
-    public HeaderClockAdapter(Context context, ArrayList<HeaderClockModel> itemList) {
+    public ClockAdapter(Context context, ArrayList<ClockModel> itemList) {
         this.context = context;
         this.itemList = itemList;
     }
