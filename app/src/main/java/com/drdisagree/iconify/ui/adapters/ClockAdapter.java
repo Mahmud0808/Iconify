@@ -1,7 +1,6 @@
 package com.drdisagree.iconify.ui.adapters;
 
-import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_STYLE;
-import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH;
 
 import android.content.Context;
 import android.os.Handler;
@@ -17,18 +16,23 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.models.ClockModel;
 import com.drdisagree.iconify.utils.HelperUtil;
+import com.drdisagree.iconify.utils.SystemUtil;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ClockAdapter extends RecyclerView.Adapter<ClockAdapter.ViewHolder> {
 
     Context context;
     ArrayList<ClockModel> itemList;
     RecyclerView recyclerView;
+    String prefSwitch, prefStyle;
 
-    public ClockAdapter(Context context, ArrayList<ClockModel> itemList) {
+    public ClockAdapter(Context context, ArrayList<ClockModel> itemList, String prefSwitch, String prefStyle) {
         this.context = context;
         this.itemList = itemList;
+        this.prefSwitch = prefSwitch;
+        this.prefStyle = prefStyle;
     }
 
     @NonNull
@@ -43,9 +47,13 @@ public class ClockAdapter extends RecyclerView.Adapter<ClockAdapter.ViewHolder> 
         holder.clock.addView(itemList.get(position).getClock());
 
         holder.clock.setOnClickListener(v -> {
-            RPrefs.putInt(HEADER_CLOCK_STYLE, position + 1);
-            if (RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false)) {
-                new Handler().postDelayed(HelperUtil::forceApply, 200);
+            RPrefs.putInt(prefStyle, position + 1);
+            if (Objects.equals(prefSwitch, LSCLOCK_SWITCH))
+                new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+            else {
+                if (RPrefs.getBoolean(prefSwitch, false)) {
+                    new Handler().postDelayed(HelperUtil::forceApply, 200);
+                }
             }
         });
 
