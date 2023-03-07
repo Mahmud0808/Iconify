@@ -87,6 +87,9 @@ public class SettingsIconsCompiler {
     }
 
     private static void preExecute() throws IOException {
+        // Create symbolic link
+        BinaryInstaller.symLinkBinaries();
+
         // Clean data directory
         Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
         Shell.cmd("rm -rf " + Resources.DATA_DIR + "/CompileOnDemand").exec();
