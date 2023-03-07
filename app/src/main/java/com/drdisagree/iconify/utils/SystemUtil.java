@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.widget.Toast;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
@@ -30,8 +31,17 @@ public class SystemUtil {
         return (Iconify.getAppContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
     }
 
+    private static final int CLICK_DELAY_TIME = 8000;
+    private static long lastClickTime = 0;
+
     public static void restartSystemUI() {
-        Shell.cmd("killall " + SYSTEMUI_PACKAGE).exec();
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastClickTime >= CLICK_DELAY_TIME) {
+            lastClickTime = currentTime;
+            Shell.cmd("killall " + SYSTEMUI_PACKAGE).submit();
+        } else {
+            Toast.makeText(Iconify.getAppContext(), "Try again after a few seconds", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public static void restartDevice() {
