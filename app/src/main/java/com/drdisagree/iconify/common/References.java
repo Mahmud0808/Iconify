@@ -22,6 +22,8 @@ public class References {
     public static final String FABRICATED_SB_COLOR_SOURCE = "colorSBSource";
     public static final String FABRICATED_SB_COLOR_TINT = "colorSBTint";
     public static final String FABRICATED_QSPANEL_BLUR_RADIUS = "qsBlurRadius";
+    public static final String FABRICATED_VOLUME_DIALOG_TRACK_WIDTH = "volumeDialogTrackWidth";
+    public static final String FABRICATED_ROUNDED_SLIDER_TRACK_INSET = "roundedSliderTrackInset";
 
     // Commands
     public static final String DEVICE_BOOT_ID_CMD = "cat /proc/sys/kernel/random/boot_id";

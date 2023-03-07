@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="volume_dialog_panel_width_half">42.0dip</dimen>
-    <dimen name="volume_dialog_slider_corner_radius">42.0dip</dimen>
-    <dimen name="volume_dialog_slider_width">42.0dip</dimen>
-    <dimen name="volume_dialog_track_corner_radius">42.0dip</dimen>
-    <dimen name="volume_dialog_track_width">4.0dip</dimen>
-</resources>

@@ -1,6 +1,9 @@
 package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.VOLUME_PANEL_BACKGROUND_WIDTH;
+import static com.drdisagree.iconify.common.References.FABRICATED_ROUNDED_SLIDER_TRACK_INSET;
+import static com.drdisagree.iconify.common.References.FABRICATED_VOLUME_DIALOG_TRACK_WIDTH;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -24,6 +27,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.views.InfoDialog;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
+import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.compiler.VolumeCompiler;
@@ -57,42 +61,50 @@ public class VolumePanel extends AppCompatActivity {
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch thick_bg = findViewById(R.id.thick_bg);
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch no_bg = findViewById(R.id.no_bg);
 
-        thin_bg.setChecked(Prefs.getBoolean("IconifyComponentVPBG1.overlay"));
+        thin_bg.setChecked(Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 1);
         thin_bg.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 thick_bg.setChecked(false);
                 no_bg.setChecked(false);
-                OverlayUtil.disableOverlay("IconifyComponentVPBG2.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentVPBG3.overlay");
-                OverlayUtil.enableOverlay("IconifyComponentVPBG1.overlay");
+                Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 1);
+                FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_TRACK_WIDTH, "dimen", "volume_dialog_track_width", "4dp");
+                FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_ROUNDED_SLIDER_TRACK_INSET, "dimen", "rounded_slider_track_inset", "22dp");
+                FabricatedUtil.disableOverlay(FABRICATED_ROUNDED_SLIDER_TRACK_INSET);
             } else {
-                OverlayUtil.disableOverlay("IconifyComponentVPBG1.overlay");
+                Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0);
+                FabricatedUtil.disableOverlay(FABRICATED_VOLUME_DIALOG_TRACK_WIDTH);
+                FabricatedUtil.disableOverlay(FABRICATED_ROUNDED_SLIDER_TRACK_INSET);
             }
         });
 
-        thick_bg.setChecked(Prefs.getBoolean("IconifyComponentVPBG2.overlay"));
+        thick_bg.setChecked(Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 2);
         thick_bg.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 thin_bg.setChecked(false);
                 no_bg.setChecked(false);
-                OverlayUtil.disableOverlay("IconifyComponentVPBG1.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentVPBG3.overlay");
-                OverlayUtil.enableOverlay("IconifyComponentVPBG2.overlay");
+                Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 2);
+                FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_TRACK_WIDTH, "dimen", "volume_dialog_track_width", "42dp");
+                FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_ROUNDED_SLIDER_TRACK_INSET, "dimen", "rounded_slider_track_inset", "0dp");
             } else {
-                OverlayUtil.disableOverlay("IconifyComponentVPBG2.overlay");
+                Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0);
+                FabricatedUtil.disableOverlay(FABRICATED_VOLUME_DIALOG_TRACK_WIDTH);
+                FabricatedUtil.disableOverlay(FABRICATED_ROUNDED_SLIDER_TRACK_INSET);
             }
         });
 
-        no_bg.setChecked(Prefs.getBoolean("IconifyComponentVPBG3.overlay"));
+        no_bg.setChecked(Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 3);
         no_bg.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 thin_bg.setChecked(false);
                 thick_bg.setChecked(false);
-                OverlayUtil.disableOverlay("IconifyComponentVPBG1.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentVPBG2.overlay");
-                OverlayUtil.enableOverlay("IconifyComponentVPBG3.overlay");
+                Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 3);
+                FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_TRACK_WIDTH, "dimen", "volume_dialog_track_width", "0dp");
+                FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_ROUNDED_SLIDER_TRACK_INSET, "dimen", "rounded_slider_track_inset", "24dp");
+                FabricatedUtil.disableOverlay(FABRICATED_ROUNDED_SLIDER_TRACK_INSET);
             } else {
-                OverlayUtil.disableOverlay("IconifyComponentVPBG3.overlay");
+                Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0);
+                FabricatedUtil.disableOverlay(FABRICATED_VOLUME_DIALOG_TRACK_WIDTH);
+                FabricatedUtil.disableOverlay(FABRICATED_ROUNDED_SLIDER_TRACK_INSET);
             }
         });
 
