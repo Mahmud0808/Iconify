@@ -74,9 +74,6 @@ public class Preferences {
     public static final String SELECTED_TOAST_FRAME = "selectedToastFrame";
     public static final String SELECTED_ICON_SHAPE = "selectedIconShape";
     public static final String RESTART_SYSUI_AFTER_BOOT = "restartSysuiAfterBoot";
-    public static final String NEW_UPDATE = "newUpdate";
-    public static final String REBOOT_NEEDED = "rebootNeeded";
-    public static final String RESTART_SYSTEMUI = "restartSystemUI";
 
     // Settings
     public static final String USE_LIGHT_ACCENT = "useLightAccent";

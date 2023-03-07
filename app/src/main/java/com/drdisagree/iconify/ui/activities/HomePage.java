@@ -4,6 +4,7 @@ import static com.drdisagree.iconify.common.Const.LATEST_VERSION;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.LAST_UPDATE_CHECK_TIME;
 import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_CHECK_TIME;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED;
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
@@ -71,7 +72,7 @@ public class HomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-        Prefs.putBoolean("onHomePage", true);
+        Prefs.putBoolean(ON_HOME_PAGE, true);
 
         container = findViewById(R.id.home_page_list);
 
