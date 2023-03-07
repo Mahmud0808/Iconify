@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -30,5 +32,20 @@ public class ViewBindingHelpers {
                 linearLayout.setBackground(resource);
             }
         });
+    }
+
+    public static void disableNestedScrolling(ViewPager2 viewPager) {
+        RecyclerView recyclerView = null;
+
+        for (int i = 0; i < viewPager.getChildCount(); i++) {
+            if (viewPager.getChildAt(i) instanceof RecyclerView) {
+                recyclerView = (RecyclerView) viewPager.getChildAt(i);
+                break;
+            }
+        }
+
+        if (recyclerView != null) {
+            recyclerView.setNestedScrollingEnabled(false);
+        }
     }
 }

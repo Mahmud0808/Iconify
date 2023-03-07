@@ -6,31 +6,32 @@ import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_STYLE;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TEXT_WHITE;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TOPMARGIN;
+import static com.drdisagree.iconify.ui.utils.ViewBindingHelpers.disableNestedScrolling;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
+import com.drdisagree.iconify.ui.adapters.HeaderClockAdapter;
+import com.drdisagree.iconify.ui.models.HeaderClockModel;
+import com.drdisagree.iconify.ui.views.HeaderClockStyles;
 import com.drdisagree.iconify.utils.HelperUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
+
+import me.relex.circleindicator.CircleIndicator3;
 
 public class XposedHeaderClock extends AppCompatActivity {
 
@@ -53,44 +54,21 @@ public class XposedHeaderClock extends AppCompatActivity {
         enable_header_clock.setChecked(RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false));
         enable_header_clock.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HEADER_CLOCK_SWITCH, isChecked);
+            if (!isChecked) RPrefs.putInt(HEADER_CLOCK_STYLE, 0);
             new Handler().postDelayed(HelperUtil::forceApply, 200);
         });
 
         // Header clock style
-        final Spinner header_clock_style = findViewById(R.id.header_clock_style);
-        List<String> hcclock_styles = new ArrayList<>();
-        hcclock_styles.add(getResources().getString(R.string.style_0));
-        hcclock_styles.add(getResources().getString(R.string.style_1));
-        hcclock_styles.add(getResources().getString(R.string.style_2));
-        hcclock_styles.add(getResources().getString(R.string.style_3));
-        hcclock_styles.add(getResources().getString(R.string.style_4));
-        hcclock_styles.add(getResources().getString(R.string.style_5));
+        ViewPager2 container = findViewById(R.id.header_clock_preview);
+        container.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+        HeaderClockAdapter adapter = initHeaderClockStyles();
+        container.setAdapter(adapter);
+        disableNestedScrolling(container);
 
-        ArrayAdapter<String> hcclock_styles_adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_item, hcclock_styles);
-        hcclock_styles_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
-        header_clock_style.setAdapter(hcclock_styles_adapter);
-
-        final int[] selectedHeaderClock = {RPrefs.getInt(HEADER_CLOCK_STYLE, 0)};
-        header_clock_style.setSelection(selectedHeaderClock[0]);
-        header_clock_style.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedHeaderClock[0] = position;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-
-        // Apply clock
-        Button apply_clock = findViewById(R.id.apply_clock);
-        apply_clock.setOnClickListener(v -> {
-            RPrefs.putInt(HEADER_CLOCK_STYLE, selectedHeaderClock[0]);
-            if (RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false)) {
-                new Handler().postDelayed(HelperUtil::forceApply, 200);
-            }
-        });
+        CircleIndicator3 indicator = findViewById(R.id.header_clock_preview_indicator);
+        if (RPrefs.getInt(HEADER_CLOCK_STYLE, 0) != 0)
+            container.setCurrentItem(RPrefs.getInt(HEADER_CLOCK_STYLE, 0) - 1);
+        indicator.setViewPager(container);
 
         // Text Scaling
         SeekBar header_clock_textscaling_seekbar = findViewById(R.id.header_clock_textscaling_seekbar);
@@ -182,6 +160,18 @@ public class XposedHeaderClock extends AppCompatActivity {
                 new Handler().postDelayed(HelperUtil::forceApply, 200);
             }
         });
+    }
+
+    private HeaderClockAdapter initHeaderClockStyles() {
+        ArrayList<HeaderClockModel> header_clock = new ArrayList<>();
+
+        header_clock.add(new HeaderClockModel(HeaderClockStyles.initHeaderClockStyle(this, 1)));
+        header_clock.add(new HeaderClockModel(HeaderClockStyles.initHeaderClockStyle(this, 2)));
+        header_clock.add(new HeaderClockModel(HeaderClockStyles.initHeaderClockStyle(this, 3)));
+        header_clock.add(new HeaderClockModel(HeaderClockStyles.initHeaderClockStyle(this, 4)));
+        header_clock.add(new HeaderClockModel(HeaderClockStyles.initHeaderClockStyle(this, 5)));
+
+        return new HeaderClockAdapter(this, header_clock);
     }
 
     @Override
