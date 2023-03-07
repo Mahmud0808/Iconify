@@ -34,7 +34,7 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.RPrefs;
-import com.drdisagree.iconify.ui.adapters.ClockAdapter;
+import com.drdisagree.iconify.ui.adapters.ClockPreviewAdapter;
 import com.drdisagree.iconify.ui.models.ClockModel;
 import com.drdisagree.iconify.ui.views.LockscreenClockStyles;
 import com.drdisagree.iconify.utils.SystemUtil;
@@ -108,7 +108,7 @@ public class XposedLockscreenClock extends AppCompatActivity {
         // Lockscreen clock style
         ViewPager2 container = findViewById(R.id.lockscreen_clock_preview);
         container.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-        ClockAdapter adapter = initLockscreenClockStyles();
+        ClockPreviewAdapter adapter = initLockscreenClockStyles();
         container.setAdapter(adapter);
         disableNestedScrolling(container);
 
@@ -252,7 +252,7 @@ public class XposedLockscreenClock extends AppCompatActivity {
         restart_sysui.setOnClickListener(v -> new Handler().postDelayed(SystemUtil::restartSystemUI, 200));
     }
 
-    private ClockAdapter initLockscreenClockStyles() {
+    private ClockPreviewAdapter initLockscreenClockStyles() {
         ArrayList<ClockModel> ls_clock = new ArrayList<>();
 
         ls_clock.add(new ClockModel(LockscreenClockStyles.initLockscreenClockStyle(this, 1)));
@@ -261,7 +261,7 @@ public class XposedLockscreenClock extends AppCompatActivity {
         ls_clock.add(new ClockModel(LockscreenClockStyles.initLockscreenClockStyle(this, 4)));
         ls_clock.add(new ClockModel(LockscreenClockStyles.initLockscreenClockStyle(this, 5)));
 
-        return new ClockAdapter(this, ls_clock, LSCLOCK_SWITCH, LSCLOCK_STYLE);
+        return new ClockPreviewAdapter(this, ls_clock, LSCLOCK_SWITCH, LSCLOCK_STYLE);
     }
 
     public void browseLSClockFont() {

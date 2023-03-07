@@ -21,7 +21,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
-import com.drdisagree.iconify.ui.adapters.ClockAdapter;
+import com.drdisagree.iconify.ui.adapters.ClockPreviewAdapter;
 import com.drdisagree.iconify.ui.models.ClockModel;
 import com.drdisagree.iconify.ui.views.HeaderClockStyles;
 import com.drdisagree.iconify.utils.HelperUtil;
@@ -61,7 +61,7 @@ public class XposedHeaderClock extends AppCompatActivity {
         // Header clock style
         ViewPager2 container = findViewById(R.id.header_clock_preview);
         container.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-        ClockAdapter adapter = initHeaderClockStyles();
+        ClockPreviewAdapter adapter = initHeaderClockStyles();
         container.setAdapter(adapter);
         disableNestedScrolling(container);
 
@@ -162,7 +162,7 @@ public class XposedHeaderClock extends AppCompatActivity {
         });
     }
 
-    private ClockAdapter initHeaderClockStyles() {
+    private ClockPreviewAdapter initHeaderClockStyles() {
         ArrayList<ClockModel> header_clock = new ArrayList<>();
 
         header_clock.add(new ClockModel(HeaderClockStyles.initHeaderClockStyle(this, 1)));
@@ -171,7 +171,7 @@ public class XposedHeaderClock extends AppCompatActivity {
         header_clock.add(new ClockModel(HeaderClockStyles.initHeaderClockStyle(this, 4)));
         header_clock.add(new ClockModel(HeaderClockStyles.initHeaderClockStyle(this, 5)));
 
-        return new ClockAdapter(this, header_clock, HEADER_CLOCK_SWITCH, HEADER_CLOCK_STYLE);
+        return new ClockPreviewAdapter(this, header_clock, HEADER_CLOCK_SWITCH, HEADER_CLOCK_STYLE);
     }
 
     @Override

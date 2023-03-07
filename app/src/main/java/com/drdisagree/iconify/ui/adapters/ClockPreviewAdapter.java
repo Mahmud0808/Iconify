@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,14 +22,14 @@ import com.drdisagree.iconify.utils.SystemUtil;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class ClockAdapter extends RecyclerView.Adapter<ClockAdapter.ViewHolder> {
+public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapter.ViewHolder> {
 
     Context context;
     ArrayList<ClockModel> itemList;
     RecyclerView recyclerView;
     String prefSwitch, prefStyle;
 
-    public ClockAdapter(Context context, ArrayList<ClockModel> itemList, String prefSwitch, String prefStyle) {
+    public ClockPreviewAdapter(Context context, ArrayList<ClockModel> itemList, String prefSwitch, String prefStyle) {
         this.context = context;
         this.itemList = itemList;
         this.prefSwitch = prefSwitch;
@@ -48,13 +49,14 @@ public class ClockAdapter extends RecyclerView.Adapter<ClockAdapter.ViewHolder> 
 
         holder.clock.setOnClickListener(v -> {
             RPrefs.putInt(prefStyle, position + 1);
-            if (Objects.equals(prefSwitch, LSCLOCK_SWITCH))
+            if (Objects.equals(prefSwitch, LSCLOCK_SWITCH) && RPrefs.getBoolean(prefSwitch, false))
                 new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
             else {
                 if (RPrefs.getBoolean(prefSwitch, false)) {
                     new Handler().postDelayed(HelperUtil::forceApply, 200);
                 }
             }
+            Toast.makeText(context, context.getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
         });
 
         holder.itemView.requestLayout();
