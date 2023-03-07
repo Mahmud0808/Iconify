@@ -77,7 +77,7 @@ public class HookEntry implements IXposedHookLoadPackage {
                     .putInt(strikeKey, 0)
                     .commit();
         } else if (strikeCount >= 3) {
-            log(String.format("HookEntry: Possible bootloop in %s. Will not load for now", packageName));
+            log(String.format("HookEntry: Possible bootloop in %s ; Iconify will not load for now...", packageName));
             return true;
         } else {
             Xprefs.edit().putInt(strikeKey, ++strikeCount).commit();

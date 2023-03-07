@@ -76,12 +76,12 @@ public class Preferences {
     public static final String RESTART_SYSUI_AFTER_BOOT = "restartSysuiAfterBoot";
     public static final String NEW_UPDATE = "newUpdate";
     public static final String REBOOT_NEEDED = "rebootNeeded";
+    public static final String RESTART_SYSTEMUI = "restartSystemUI";
 
     // Settings
     public static final String USE_LIGHT_ACCENT = "useLightAccent";
     public static final String SHOW_XPOSED_WARN = "showXposedMenuWarn";
     public static final String FORCE_APPLY_XPOSED_CHOICE = "optionForceApplyXposed";
-    public static final String DISABLE_SCROLLING_ANIMATION = "settingsDisableScrollingAnimation";
 
     // Others
     public static final String BOOT_ID = "boot_id";

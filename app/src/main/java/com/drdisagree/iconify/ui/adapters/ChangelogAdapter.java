@@ -1,7 +1,5 @@
 package com.drdisagree.iconify.ui.adapters;
 
-import static com.drdisagree.iconify.common.Preferences.DISABLE_SCROLLING_ANIMATION;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Html;
@@ -48,9 +46,6 @@ public class ChangelogAdapter extends RecyclerView.Adapter<ChangelogAdapter.View
 
         if (holder.changes.getText() == "")
             holder.changes.setVisibility(View.GONE);
-
-        if (!Prefs.getBoolean(DISABLE_SCROLLING_ANIMATION, false))
-            holder.container.startAnimation(AnimationUtils.loadAnimation(context, R.anim.item_anim));
     }
 
     @Override
@@ -62,9 +57,6 @@ public class ChangelogAdapter extends RecyclerView.Adapter<ChangelogAdapter.View
     @Override
     public void onViewAttachedToWindow(@NonNull ViewHolder holder) {
         super.onViewAttachedToWindow(holder);
-
-        if (!Prefs.getBoolean(DISABLE_SCROLLING_ANIMATION, false))
-            holder.container.startAnimation(AnimationUtils.loadAnimation(context, R.anim.item_anim));
     }
 
     @Override
@@ -72,9 +64,6 @@ public class ChangelogAdapter extends RecyclerView.Adapter<ChangelogAdapter.View
         super.onAttachedToRecyclerView(recyclerView);
 
         linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-
-        if (!Prefs.getBoolean(DISABLE_SCROLLING_ANIMATION, false))
-            recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(context, R.anim.layout_anim));
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

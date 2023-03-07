@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.ui.activities;
 
-import static com.drdisagree.iconify.common.Preferences.DISABLE_SCROLLING_ANIMATION;
 import static com.drdisagree.iconify.common.Preferences.EASTER_EGG;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.FORCE_APPLY_XPOSED_CHOICE;
@@ -132,13 +131,6 @@ public class Settings extends AppCompatActivity {
                 SystemUtil.enableRestartSystemuiAfterBoot();
             else
                 SystemUtil.disableRestartSystemuiAfterBoot();
-        });
-
-        // Restart sysui after boot
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch disable_animation = findViewById(R.id.disable_animation);
-        disable_animation.setChecked(Prefs.getBoolean(DISABLE_SCROLLING_ANIMATION, false));
-        disable_animation.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Prefs.putBoolean(DISABLE_SCROLLING_ANIMATION, isChecked);
         });
 
         // Show xposed warn

@@ -1,7 +1,5 @@
 package com.drdisagree.iconify.ui.adapters;
 
-import static com.drdisagree.iconify.common.Preferences.DISABLE_SCROLLING_ANIMATION;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -68,9 +66,6 @@ public class IconPackAdapter extends RecyclerView.Adapter<IconPackAdapter.ViewHo
 
         refreshButton(holder);
 
-        if (!Prefs.getBoolean(DISABLE_SCROLLING_ANIMATION, false))
-            holder.container.startAnimation(AnimationUtils.loadAnimation(context, R.anim.item_anim));
-
         enableOnClickListener(holder);
     }
 
@@ -90,9 +85,6 @@ public class IconPackAdapter extends RecyclerView.Adapter<IconPackAdapter.ViewHo
             holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.container));
 
         refreshButton(holder);
-
-        if (!Prefs.getBoolean(DISABLE_SCROLLING_ANIMATION, false))
-            holder.container.startAnimation(AnimationUtils.loadAnimation(context, R.anim.item_anim));
     }
 
     @Override
@@ -100,9 +92,6 @@ public class IconPackAdapter extends RecyclerView.Adapter<IconPackAdapter.ViewHo
         super.onAttachedToRecyclerView(recyclerView);
 
         linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-
-        if (!Prefs.getBoolean(DISABLE_SCROLLING_ANIMATION, false))
-            recyclerView.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(context, R.anim.layout_anim));
     }
 
     // Function for onClick events
