@@ -45,7 +45,8 @@ public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.clock.addView(itemList.get(position).getClock());
+        if (itemList.get(position).getClock().getParent() == null)
+            holder.clock.addView(itemList.get(position).getClock());
 
         holder.clock.setOnClickListener(v -> {
             RPrefs.putInt(prefStyle, position + 1);

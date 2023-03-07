@@ -22,7 +22,7 @@
                 android:top="4.0dip">
                 <shape>
                     <solid android:color="?android:colorBackground" />
-                    <corners android:radius="@*com.android.systemui:dimen/volume_ringer_drawer_item_size_half" />
+                    <corners android:radius="@*com.android.systemui:dimen/abc_star_small" />
                 </shape>
             </item>
         </layer-list>
