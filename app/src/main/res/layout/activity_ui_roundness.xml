@@ -336,9 +336,9 @@
                 <SeekBar
                     android:id="@+id/corner_radius_seekbar"
                     style="@style/customSeekBar"
-                    android:max="36"
-                    android:min="0"
-                    android:progress="16" />
+                    android:max="44"
+                    android:min="14"
+                    android:progress="28" />
 
                 <Button
                     android:id="@+id/apply_radius"

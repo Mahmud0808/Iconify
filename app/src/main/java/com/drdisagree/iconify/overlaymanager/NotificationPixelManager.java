@@ -13,8 +13,10 @@ public class NotificationPixelManager {
         disable_others(n);
         enable_pack(n);
 
-        if (!Prefs.getBoolean("IconifyComponentCR.overlay"))
-            OverlayUtil.enableOverlay("IconifyComponentCR.overlay");
+        if (!Prefs.getBoolean("IconifyComponentCR1.overlay") || !Prefs.getBoolean("IconifyComponentCR2.overlay")) {
+            OverlayUtil.enableOverlay("IconifyComponentCR1.overlay");
+            OverlayUtil.enableOverlay("IconifyComponentCR2.overlay");
+        }
     }
 
     protected static void enable_pack(int n) {

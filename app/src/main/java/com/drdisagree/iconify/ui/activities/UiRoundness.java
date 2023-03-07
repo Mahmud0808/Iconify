@@ -66,20 +66,20 @@ public class UiRoundness extends AppCompatActivity {
             finalUiCornerRadius[0] = Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS));
 
         if (!Prefs.getString(UI_CORNER_RADIUS).equals(STR_NULL)) {
-            if ((Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS)) + 8) == 24) {
-                corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS)) + 8) + "dp " + getResources().getString(R.string.opt_default));
+            if (Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS)) == 28) {
+                corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS)) + "dp " + getResources().getString(R.string.opt_default));
             } else {
-                corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS)) + 8) + "dp");
+                corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS)) + "dp");
             }
             for (GradientDrawable drawable : drawables) {
-                drawable.setCornerRadius((Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS)) + 8) * getResources().getDisplayMetrics().density);
+                drawable.setCornerRadius(Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS)) * getResources().getDisplayMetrics().density);
             }
             finalUiCornerRadius[0] = Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS));
             corner_radius_seekbar.setProgress(finalUiCornerRadius[0]);
         } else {
-            corner_radius_output.setText(getResources().getString(R.string.opt_selected) + " 24dp " + getResources().getString(R.string.opt_default));
+            corner_radius_output.setText(getResources().getString(R.string.opt_selected) + " 28dp " + getResources().getString(R.string.opt_default));
             for (GradientDrawable drawable : drawables) {
-                drawable.setCornerRadius(24 * getResources().getDisplayMetrics().density);
+                drawable.setCornerRadius(28 * getResources().getDisplayMetrics().density);
             }
         }
 
@@ -92,12 +92,12 @@ public class UiRoundness extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 finalUiCornerRadius[0] = progress;
-                if (progress + 8 == 24)
-                    corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 8) + "dp " + getResources().getString(R.string.opt_default));
+                if (progress == 28)
+                    corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp " + getResources().getString(R.string.opt_default));
                 else
-                    corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 8) + "dp");
+                    corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
                 for (GradientDrawable drawable : drawables) {
-                    drawable.setCornerRadius((finalUiCornerRadius[0] + 8) * getResources().getDisplayMetrics().density);
+                    drawable.setCornerRadius(finalUiCornerRadius[0] * getResources().getDisplayMetrics().density);
                 }
             }
 
@@ -127,7 +127,6 @@ public class UiRoundness extends AppCompatActivity {
                         if (!hasErroredOut.get()) {
                             Prefs.putString(UI_CORNER_RADIUS, String.valueOf(finalUiCornerRadius[0]));
 
-                            FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "qsScrimCornerRadius", "dimen", "notification_scrim_corner_radius", (finalUiCornerRadius[0] + 8) + "dp");
                             RPrefs.putInt(UI_CORNER_RADIUS, finalUiCornerRadius[0]);
                         }
 
