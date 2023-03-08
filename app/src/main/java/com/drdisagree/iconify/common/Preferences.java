@@ -75,6 +75,7 @@ public class Preferences {
     public static final String SELECTED_ICON_SHAPE = "selectedIconShape";
     public static final String RESTART_SYSUI_AFTER_BOOT = "restartSysuiAfterBoot";
     public static final String VOLUME_PANEL_BACKGROUND_WIDTH = "volumePanelBackgroundWidth";
+    public static final String SELECTED_PROGRESSBAR = "selectedProgressbar";
 
     // Settings
     public static final String USE_LIGHT_ACCENT = "useLightAccent";

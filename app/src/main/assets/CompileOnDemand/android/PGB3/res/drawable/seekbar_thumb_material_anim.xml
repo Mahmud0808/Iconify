@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<animated-selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="false">
+        <shape android:shape="rectangle">
+            <solid android:color="?android:colorControlNormal" />
+            <size
+                android:width="24.0dip"
+                android:height="12.0dip" />
+            <corners android:radius="24.0dip" />
+            <stroke
+                android:width="2dp"
+                android:color="@color/iconify_seekbar_thumb_outline_color" />
+        </shape>
+    </item>
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="0"
+                android:endColor="@*android:color/holo_green_light"
+                android:startColor="@*android:color/holo_blue_light" />
+            <size
+                android:width="24.0dip"
+                android:height="12.0dip" />
+            <corners android:radius="24.0dip" />
+            <stroke
+                android:width="2dp"
+                android:color="@color/iconify_seekbar_thumb_outline_color" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="0"
+                android:endColor="@*android:color/holo_green_light"
+                android:startColor="@*android:color/holo_blue_light" />
+            <size
+                android:width="24.0dip"
+                android:height="12.0dip" />
+            <corners android:radius="24.0dip" />
+            <stroke
+                android:width="2dp"
+                android:color="@color/iconify_seekbar_thumb_outline_color" />
+        </shape>
+    </item>
+</animated-selector>

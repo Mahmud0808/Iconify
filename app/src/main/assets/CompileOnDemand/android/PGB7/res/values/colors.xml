@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="iconify_seekbar_thumb_bg_color">@*android:color/system_accent2_400</color>
+</resources>

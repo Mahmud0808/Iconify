@@ -4,10 +4,16 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.ui.adapters.ProgressBarAdapter;
+import com.drdisagree.iconify.ui.models.ProgressBarModel;
+import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Miscellaneous extends AppCompatActivity {

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@*android:id/background"
+        android:gravity="fill_horizontal|center">
+        <shape
+            android:shape="rectangle"
+            android:tint="?android:textColorPrimary">
+            <corners android:radius="24.0dip" />
+            <size android:height="4.0dip" />
+            <solid android:color="#33000000" />
+        </shape>
+    </item>
+    <item
+        android:id="@*android:id/secondaryProgress"
+        android:gravity="fill_horizontal|center">
+        <scale android:scaleWidth="100%">
+            <selector>
+                <item
+                    android:drawable="@*android:color/transparent"
+                    android:state_enabled="false" />
+                <item>
+                    <shape
+                        android:shape="rectangle"
+                        android:tint="?android:colorControlActivated">
+                        <corners android:radius="24.0dip" />
+                        <size android:height="4.0dip" />
+                        <solid android:color="#59000000" />
+                    </shape>
+                </item>
+            </selector>
+        </scale>
+    </item>
+    <item
+        android:id="@*android:id/progress"
+        android:gravity="fill_horizontal|center">
+        <scale android:scaleWidth="100%">
+            <selector>
+                <item
+                    android:drawable="@*android:color/transparent"
+                    android:state_enabled="false" />
+                <item>
+                    <shape android:shape="rectangle">
+                        <corners android:radius="24.0dip" />
+                        <size android:height="4.0dip" />
+                        <gradient
+                            android:endColor="@android:color/holo_green_light"
+                            android:startColor="@android:color/holo_blue_light" />
+                    </shape>
+                </item>
+            </selector>
+        </scale>
+    </item>
+</layer-list>

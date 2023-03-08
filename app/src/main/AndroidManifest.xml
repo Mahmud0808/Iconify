@@ -42,6 +42,9 @@
         tools:replace="android:allowBackup"
         tools:targetApi="tiramisu">
         <activity
+            android:name=".ui.activities.ProgressBar"
+            android:exported="false" />
+        <activity
             android:name=".ui.activities.XposedBatteryStyle"
             android:exported="false" />
         <activity

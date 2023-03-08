@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<animated-selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="false">
+        <layer-list>
+            <item
+                android:width="8.2dp"
+                android:height="8.2dp"
+                android:end="-3.4dp"
+                android:start="5dp"
+                android:top="9dp">
+                <rotate
+                    android:fromDegrees="45"
+                    android:pivotX="0"
+                    android:pivotY="0">
+                    <shape>
+                        <solid android:color="?android:colorControlNormal" />
+                        <corners android:radius="2dp" />
+                    </shape>
+                </rotate>
+            </item>
+            <item
+                android:width="10dp"
+                android:height="16dp"
+                android:bottom="2dp">
+                <shape>
+                    <solid android:color="?android:colorControlNormal" />
+                    <corners android:radius="2dp" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <item android:state_pressed="true">
+        <layer-list>
+            <item
+                android:width="8.2dp"
+                android:height="8.2dp"
+                android:end="-3.4dp"
+                android:start="5dp"
+                android:top="9dp">
+                <rotate
+                    android:fromDegrees="45"
+                    android:pivotX="0"
+                    android:pivotY="0">
+                    <shape>
+                        <solid android:color="@color/iconify_seekbar_thumb_bg_color" />
+                        <corners android:radius="2dp" />
+                    </shape>
+                </rotate>
+            </item>
+            <item
+                android:width="10dp"
+                android:height="16dp"
+                android:bottom="2dp">
+                <shape>
+                    <solid android:color="@color/iconify_seekbar_thumb_bg_color" />
+                    <corners android:radius="2dp" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <item>
+        <layer-list>
+            <item
+                android:width="8.2dp"
+                android:height="8.2dp"
+                android:end="-3.4dp"
+                android:start="5dp"
+                android:top="9dp">
+                <rotate
+                    android:fromDegrees="45"
+                    android:pivotX="0"
+                    android:pivotY="0">
+                    <shape>
+                        <solid android:color="@color/iconify_seekbar_thumb_bg_color" />
+                        <corners android:radius="2dp" />
+                    </shape>
+                </rotate>
+            </item>
+            <item
+                android:width="10dp"
+                android:height="16dp"
+                android:bottom="2dp">
+                <shape>
+                    <solid android:color="@color/iconify_seekbar_thumb_bg_color" />
+                    <corners android:radius="2dp" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</animated-selector>
