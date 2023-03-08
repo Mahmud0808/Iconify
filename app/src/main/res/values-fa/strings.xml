@@ -160,8 +160,8 @@
     <string name="installing">در حال نصب</string>
     <string name="toast_error">مشکلی پیش‌ آمده است</string>
     <string name="reboot_needed">ابتدا دستگاه را ریستارت کنید!</string>
-    <string name="use_magisk">ابتدا با Magisk دستگاه خود را روت کنید!</string>
-    <string name="root_not_found">ظاهرا دستگاه شما روت نشده است!</string>
+    <string name="magisk_not_found_desc">ابتدا با Magisk دستگاه خود را روت کنید!</string>
+    <string name="root_not_found_desc">ظاهرا دستگاه شما روت نشده است!</string>
     <string name="disable_everything_title">غیرفعال کردن همه چیز</string>
     <string name="disable_everything_desc">تمام مواردی که توسط آیکونفای تغییر پیدا کرده به حالت اولیه باز می‌گردد.</string>
     <string name="toast_disable_everything">انگشت خود را روی گزینه نگه دارید</string>
@@ -198,7 +198,7 @@
     <string name="export_settings">پشتیبان گرفتن از تنظمیات</string>
     <string name="import_settings">بازگرداندن تنظیمات</string>
     <string name="experimental_features">امکانات آزمایشی</string>
-    <string name="installation_failed">ظاهرا مشکلی پیش آمده است.\nبرای کمک به حل مشکل لاگ برنامه را برای سازنده ارسال کنید.</string>
+    <string name="installation_failed_desc">ظاهرا مشکلی پیش آمده است.\nبرای کمک به حل مشکل لاگ برنامه را برای سازنده ارسال کنید.</string>
     <string name="no_internet_connection">ارتباط با سرور برقرار نشد. ممکن است مشکل از اینترنت شما یا سرور باشد. لطفا بعدا دوباره امتحان کنید</string>
     <string name="changelog_not_found">فایل تغییرات اخیر پیدا نشد. ممکن است مشکل از اینترنت شما یا سرور باشد. لطفا بعدا دوباره امتحان کنید.</string>
     <string name="btn_download">دانلود</string>

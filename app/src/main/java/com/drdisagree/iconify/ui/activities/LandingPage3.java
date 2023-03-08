@@ -6,6 +6,7 @@ import static com.drdisagree.iconify.common.Preferences.VER_CODE;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,7 +14,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,27 +37,33 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ModuleInstaller extends AppCompatActivity {
+public class LandingPage3 extends AppCompatActivity {
 
-    private static final boolean SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES = false;
     private static boolean hasErroredOut = false;
-    @SuppressLint("StaticFieldLeak")
-    private static LinearLayout warn;
-    @SuppressLint("StaticFieldLeak")
-    private static TextView warning;
     @SuppressLint("StaticFieldLeak")
     private static Button install_module, reboot_phone;
     private static startInstallationProcess installModule = null;
-    private final String TAG = "ModuleInstaller";
+    private final String TAG = "LandingPage3";
+    TextView info_title, info_desc;
     private InstallationDialog progressDialog;
     private String logger = null, prev_log = null;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_module_installer);
+
+        if (!SystemUtil.isDarkMode()) {
+            getWindow().getDecorView().setBackgroundColor(Color.parseColor("#ECF3FD"));
+            getWindow().setStatusBarColor(Color.parseColor("#ECF3FD"));
+            getWindow().setNavigationBarColor(Color.parseColor("#ECF3FD"));
+        } else {
+            getWindow().getDecorView().setBackgroundColor(Color.parseColor("#060D18"));
+            getWindow().setStatusBarColor(Color.parseColor("#060D18"));
+            getWindow().setNavigationBarColor(Color.parseColor("#060D18"));
+        }
+
+        setContentView(R.layout.activity_landing_page_three);
 
         // Progress dialog while installing
         progressDialog = new InstallationDialog(this);
@@ -67,53 +73,46 @@ public class ModuleInstaller extends AppCompatActivity {
 
         // Reboot button
         reboot_phone = findViewById(R.id.btn_reboot);
-        reboot_phone.setOnClickListener(v -> new Handler().postDelayed(SystemUtil::restartDevice, 200));
+        reboot_phone.setOnClickListener(v -> SystemUtil.restartDevice());
 
-        // Warning messages
-        warn = findViewById(R.id.warn);
-        warning = findViewById(R.id.warning);
+        // Showing info if necessary
+        info_title = findViewById(R.id.info_title);
+        info_desc = findViewById(R.id.info_desc);
 
         AtomicBoolean clickedContinue = new AtomicBoolean(false);
 
-        if (SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES) {
-            // Skip installation process for testing purposes
-            Intent intent = new Intent(ModuleInstaller.this, HomePage.class);
-            startActivity(intent);
-            finish();
-        } else {
-            // Start installation on click
-            install_module.setOnClickListener(v -> {
-                hasErroredOut = false;
-                if (RootUtil.isDeviceRooted()) {
-                    if (RootUtil.isMagiskInstalled()) {
-                        if (!Environment.isExternalStorageManager()) {
-                            warning.setText(getResources().getString(R.string.perm_storage_access));
-                            warn.setVisibility(View.VISIBLE);
+        // Start installation on click
+        install_module.setOnClickListener(v -> {
+            hasErroredOut = false;
+            if (RootUtil.isDeviceRooted()) {
+                if (RootUtil.isMagiskInstalled()) {
+                    if (!Environment.isExternalStorageManager()) {
+                        info_title.setText(getResources().getString(R.string.need_storage_perm_title));
+                        info_desc.setText(getResources().getString(R.string.need_storage_perm_desc));
 
-                            new Handler().postDelayed(() -> {
-                                clickedContinue.set(true);
-                                SystemUtil.getStoragePermission(this);
-                            }, clickedContinue.get() ? 10 : 1200);
-                        } else {
-                            if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
-                                installModule = new startInstallationProcess();
-                                installModule.execute();
-                            } else {
-                                Intent intent = new Intent(ModuleInstaller.this, HomePage.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                        }
+                        new Handler().postDelayed(() -> {
+                            clickedContinue.set(true);
+                            SystemUtil.getStoragePermission(this);
+                        }, clickedContinue.get() ? 10 : 2000);
                     } else {
-                        warning.setText(getResources().getString(R.string.use_magisk));
-                        warn.setVisibility(View.VISIBLE);
+                        if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
+                            installModule = new startInstallationProcess();
+                            installModule.execute();
+                        } else {
+                            Intent intent = new Intent(LandingPage3.this, HomePage.class);
+                            startActivity(intent);
+                            finish();
+                        }
                     }
                 } else {
-                    warning.setText(getResources().getString(R.string.root_not_found));
-                    warn.setVisibility(View.VISIBLE);
+                    info_title.setText(getResources().getString(R.string.magisk_not_found_title));
+                    info_desc.setText(getResources().getString(R.string.magisk_not_found_desc));
                 }
-            });
-        }
+            } else {
+                info_title.setText(getResources().getString(R.string.root_not_found_title));
+                info_desc.setText(getResources().getString(R.string.root_not_found_desc));
+            }
+        });
     }
 
     @Override
@@ -129,7 +128,8 @@ public class ModuleInstaller extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            warn.setVisibility(View.INVISIBLE);
+            info_title.setText(getResources().getString(R.string.landing_page_three_title));
+            info_desc.setText(getResources().getString(R.string.landing_page_three_desc));
             reboot_phone.setVisibility(View.GONE);
 
             progressDialog.show(getResources().getString(R.string.installing), getResources().getString(R.string.init_module_installation));
@@ -298,7 +298,7 @@ public class ModuleInstaller extends AppCompatActivity {
                 }
             }
 
-            logger = "Move overlays to module directory";
+            logger = "Moving overlays to module directory";
             publishProgress(++step);
             // Move all generated overlays to module dir
             if (!hasErroredOut) {
@@ -340,20 +340,20 @@ public class ModuleInstaller extends AppCompatActivity {
 
                 if (OverlayUtil.overlayExists()) {
                     new Handler().postDelayed(() -> {
-                        Intent intent = new Intent(ModuleInstaller.this, HomePage.class);
+                        Intent intent = new Intent(LandingPage3.this, HomePage.class);
                         startActivity(intent);
                         finish();
                     }, 10);
                 } else {
-                    warning.setText(getResources().getString(R.string.reboot_needed));
-                    warn.setVisibility(View.VISIBLE);
+                    info_title.setText(getResources().getString(R.string.need_reboot_title));
+                    info_desc.setText(getResources().getString(R.string.need_reboot_desc));
                     install_module.setVisibility(View.GONE);
                     reboot_phone.setVisibility(View.VISIBLE);
                 }
             } else {
                 Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
-                warning.setText(getResources().getString(R.string.installation_failed));
-                warn.setVisibility(View.VISIBLE);
+                info_title.setText(getResources().getString(R.string.installation_failed_title));
+                info_desc.setText(getResources().getString(R.string.installation_failed_desc));
                 install_module.setVisibility(View.VISIBLE);
                 reboot_phone.setVisibility(View.GONE);
             }

@@ -9,7 +9,7 @@
         <item name="android:background">@drawable/container</item>
         <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
-        <item name="android:fontFamily">@font/normal</item>
+        <item name="android:fontFamily">@font/semibold</item>
         <item name="android:tint">@color/colorAccent</item>
         <item name="android:radius">24dp</item>
         <item name="colorAccent">@color/colorAccent</item>

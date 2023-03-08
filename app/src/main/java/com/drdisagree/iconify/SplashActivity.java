@@ -11,7 +11,7 @@ import androidx.core.splashscreen.SplashScreen;
 
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.activities.HomePage;
-import com.drdisagree.iconify.ui.activities.ModuleInstaller;
+import com.drdisagree.iconify.ui.activities.LandingPage1;
 import com.drdisagree.iconify.utils.ModuleUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.RootUtil;
@@ -20,6 +20,8 @@ import com.topjohnwu.superuser.Shell;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
+
+    private static final boolean SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES = false;
 
     static {
         Shell.enableVerboseLogging = BuildConfig.DEBUG;
@@ -31,12 +33,18 @@ public class SplashActivity extends AppCompatActivity {
     private final Runnable runner = () -> Shell.getShell(shell -> {
         Intent intent;
 
-        if (RootUtil.isDeviceRooted() && RootUtil.isMagiskInstalled() && ModuleUtil.moduleExists() && OverlayUtil.overlayExists() && (BuildConfig.VERSION_CODE == Prefs.getInt(VER_CODE))) {
+        if (SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES) {
+            // Skip installation process for testing purposes
             keepShowing = false;
             intent = new Intent(SplashActivity.this, HomePage.class);
         } else {
-            keepShowing = false;
-            intent = new Intent(SplashActivity.this, ModuleInstaller.class);
+            if (RootUtil.isDeviceRooted() && RootUtil.isMagiskInstalled() && ModuleUtil.moduleExists() && OverlayUtil.overlayExists() && (BuildConfig.VERSION_CODE == Prefs.getInt(VER_CODE))) {
+                keepShowing = false;
+                intent = new Intent(SplashActivity.this, HomePage.class);
+            } else {
+                keepShowing = false;
+                intent = new Intent(SplashActivity.this, LandingPage1.class);
+            }
         }
 
         startActivity(intent);

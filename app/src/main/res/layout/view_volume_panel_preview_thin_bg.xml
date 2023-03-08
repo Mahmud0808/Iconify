@@ -21,7 +21,7 @@
             android:layout_height="28dp"
             android:layout_gravity="center"
             android:background="@drawable/ic_volume_audio"
-            android:backgroundTint="@color/textColorPrimaryNoTintInverse"
+            android:backgroundTint="@color/textColorPrimaryInverse"
             android:contentDescription="@string/icon" />
 
     </FrameLayout>
@@ -59,7 +59,7 @@
                 android:layout_gravity="center|top"
                 android:layout_margin="10dp"
                 android:background="@drawable/ic_volume_media"
-                android:backgroundTint="@color/textColorPrimaryNoTintInverse"
+                android:backgroundTint="@color/textColorPrimaryInverse"
                 android:contentDescription="@string/icon" />
 
         </FrameLayout>

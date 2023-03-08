@@ -50,6 +50,38 @@ public class Changelog extends AppCompatActivity {
         grabChangelog.execute();
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public void onPause() {
+        if (grabChangelog != null)
+            grabChangelog.cancel(true);
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        if (grabChangelog != null)
+            grabChangelog.cancel(true);
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        if (grabChangelog != null)
+            grabChangelog.cancel(true);
+        super.onDestroy();
+    }
+
+    public void onBackPressed() {
+        if (grabChangelog != null)
+            grabChangelog.cancel(true);
+    }
+
     @SuppressLint("StaticFieldLeak")
     private class GrabChangelog extends AsyncTask<Integer, Integer, ArrayList<ChangelogModel>> {
 
@@ -164,37 +196,5 @@ public class Changelog extends AppCompatActivity {
             container.setAdapter(adapter);
             container.setHasFixedSize(false);
         }
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-    @Override
-    public void onPause() {
-        if (grabChangelog != null)
-            grabChangelog.cancel(true);
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        if (grabChangelog != null)
-            grabChangelog.cancel(true);
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        if (grabChangelog != null)
-            grabChangelog.cancel(true);
-        super.onDestroy();
-    }
-
-    public void onBackPressed() {
-        if (grabChangelog != null)
-            grabChangelog.cancel(true);
     }
 }

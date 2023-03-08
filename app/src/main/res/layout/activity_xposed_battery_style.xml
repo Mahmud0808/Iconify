@@ -131,7 +131,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/button"
-                    android:fontFamily="@font/semibold"
+                    android:fontFamily="@font/regular"
                     android:letterSpacing="0.1"
                     android:stateListAnimator="@null"
                     android:text="@string/btn_apply"

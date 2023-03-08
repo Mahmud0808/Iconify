@@ -55,7 +55,7 @@
         android:layout_gravity="end"
         android:layout_marginTop="@dimen/container_padding"
         android:background="@drawable/button"
-        android:fontFamily="@font/semibold"
+        android:fontFamily="@font/regular"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
         android:stateListAnimator="@null"

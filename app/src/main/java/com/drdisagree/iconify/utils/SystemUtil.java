@@ -24,15 +24,14 @@ import java.util.Objects;
 
 public class SystemUtil {
 
+    private static final int CLICK_DELAY_TIME = 8000;
     @SuppressLint("StaticFieldLeak")
     static boolean darkSwitching = false;
+    private static long lastClickTime = 0;
 
     public static boolean isDarkMode() {
         return (Iconify.getAppContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
     }
-
-    private static final int CLICK_DELAY_TIME = 8000;
-    private static long lastClickTime = 0;
 
     public static void restartSystemUI() {
         long currentTime = System.currentTimeMillis();

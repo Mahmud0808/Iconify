@@ -176,8 +176,6 @@
     <string name="installing">Installing</string>
     <string name="toast_error">Something went wrong</string>
     <string name="reboot_needed">Reboot your device first!</string>
-    <string name="use_magisk">Use Magisk to root your device!</string>
-    <string name="root_not_found">Looks like your device is not rooted!</string>
     <string name="disable_everything_title">Disable Everything</string>
     <string name="disable_everything_desc">Disable all the applied overlays, colors and miscellaneous changes done by Iconify.</string>
     <string name="toast_disable_everything">Long press to disable everything</string>
@@ -214,7 +212,6 @@
     <string name="export_settings">Export Settings</string>
     <string name="import_settings">Import Settings</string>
     <string name="experimental_features">Experimental Features</string>
-    <string name="installation_failed">Something went wrong.\nLogs are saved in documents folder.</string>
     <string name="no_internet_connection">Couldn\'t connect to server!\nThere might be an issue with your internet connection or the server might be down at this moment. Please try again later.</string>
     <string name="changelog_not_found">Changelog not found!\nThis might be an issue with your internet connection or the server might be down at this moment. Please try again later.</string>
     <string name="btn_download">Download</string>
@@ -414,7 +411,7 @@
     <string name="module_installation_step3">Creating overlay APKs</string>
     <string name="module_installation_step4">Aligning overlay APKs</string>
     <string name="module_installation_step5">Signing overlay APKs</string>
-    <string name="module_installation_step6">Cleaning temporary directories</string>
+    <string name="module_installation_step6">Cleaning directories</string>
     <string name="portrait">(Portrait)</string>
     <string name="qs_tile_expanded_height">Expanded Height</string>
     <string name="landscape">(Landscape)</string>
@@ -441,4 +438,24 @@
     <string name="disable_animation_desc">Disable scrolling animation of Iconify</string>
     <string name="restart_systemui_after_boot_title">Restart SystemUI After Boot</string>
     <string name="restart_systemui_after_boot_desc">Some options like blur intensity doesn\'t take effect until systemui is restarted</string>
+    <string name="btn_skip">Skip</string>
+    <string name="landing_page_one_title">Got Bored of Stock UI ?</string>
+    <string name="landing_page_one_desc">Let\'s customize everything to our likings.</string>
+    <string name="btn_next">Next</string>
+    <string name="btn_back">Back</string>
+    <string name="landing_page_two_title">Is My Device Supported ?</string>
+    <string name="landing_page_two_desc">Iconify supports all Pixel and AOSP based ROMs.</string>
+    <string name="landing_page_three_title">Shall We Begin Now ?</string>
+    <string name="landing_page_three_desc">It is time for iconify to do some internal work.</string>
+    <string name="btn_lets_go">Let\'s Go</string>
+    <string name="need_storage_perm_title">Need Storage Permission</string>
+    <string name="need_storage_perm_desc">I need storage permission to build necessary files.</string>
+    <string name="magisk_not_found_title">Could Not Find Magisk</string>
+    <string name="magisk_not_found_desc">Use Magisk to root your device!</string>
+    <string name="root_not_found_title">Root Is Not Accessible</string>
+    <string name="root_not_found_desc">Looks like your device is not rooted!</string>
+    <string name="need_reboot_title">Need Device Reboot</string>
+    <string name="need_reboot_desc">Reboot your device to put all files in place.</string>
+    <string name="installation_failed_title">Oops Did Not Expect That</string>
+    <string name="installation_failed_desc">Logs have been saved in documents folder.</string>
 </resources>

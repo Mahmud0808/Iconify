@@ -9,7 +9,7 @@
         <item name="android:background">@drawable/container</item>
         <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
-        <item name="android:fontFamily">@font/normal</item>
+        <item name="android:fontFamily">@font/semibold</item>
         <item name="android:tint">@color/colorAccent</item>
         <item name="android:radius">24dp</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -97,5 +97,19 @@
         <item name="android:background">@drawable/radio_sb_button_bg</item>
         <item name="android:textColor">@drawable/radio_sb_text_color</item>
         <item name="android:textSize">@dimen/cont_desc_size</item>
+    </style>
+
+    <style name="buttonMain">
+        <item name="fontFamily">@font/regular</item>
+        <item name="android:background">@drawable/button</item>
+        <item name="android:textColor">@color/textColorPrimaryInverse</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingStart">36dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingEnd">36dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="backgroundTint">@null</item>
     </style>
 </resources>

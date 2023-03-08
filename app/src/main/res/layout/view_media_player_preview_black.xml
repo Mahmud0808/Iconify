@@ -96,7 +96,7 @@
                 android:layout_width="12dp"
                 android:layout_height="12dp"
                 android:background="@drawable/ic_smartphone"
-                android:backgroundTint="@color/textColorPrimaryNoTint"
+                android:backgroundTint="@color/textColorPrimary"
                 android:contentDescription="@string/icon" />
 
             <TextView
@@ -105,7 +105,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="1dp"
                 android:text="@string/media_player_preview_playing_on"
-                android:textColor="@color/textColorPrimaryNoTint"
+                android:textColor="@color/textColorPrimary"
                 android:textSize="14sp" />
 
         </LinearLayout>

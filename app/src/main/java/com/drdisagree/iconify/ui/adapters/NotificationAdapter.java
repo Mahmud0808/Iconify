@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -63,7 +62,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        setDrawable(holder.container,ContextCompat.getDrawable(context, itemList.get(position).getBackground()));
+        setDrawable(holder.container, ContextCompat.getDrawable(context, itemList.get(position).getBackground()));
         holder.style_name.setText(itemList.get(position).getName());
         holder.ic_collapse_expand.setForeground(ContextCompat.getDrawable(context, R.drawable.ic_expand_arrow));
 
@@ -72,7 +71,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             holder.style_name.setTextColor(context.getResources().getColor(R.color.colorSuccess));
         } else {
             holder.style_name.setText(holder.style_name.getText().toString().replace(' ' + context.getResources().getString(R.string.opt_applied), ""));
-            holder.style_name.setTextColor(context.getResources().getColor(R.color.textColorPrimaryNoTint));
+            holder.style_name.setTextColor(context.getResources().getColor(R.color.textColorPrimary));
         }
 
         refreshButton(holder);
@@ -95,7 +94,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             holder.style_name.setTextColor(context.getResources().getColor(R.color.colorSuccess));
         } else {
             holder.style_name.setText(holder.style_name.getText().toString().replace(' ' + context.getResources().getString(R.string.opt_applied), ""));
-            holder.style_name.setTextColor(context.getResources().getColor(R.color.textColorPrimaryNoTint));
+            holder.style_name.setTextColor(context.getResources().getColor(R.color.textColorPrimary));
         }
 
         refreshButton(holder);
@@ -187,7 +186,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
                         // Change name back to original
                         holder.style_name.setText(holder.style_name.getText().toString().replace(' ' + context.getResources().getString(R.string.opt_applied), ""));
-                        holder.style_name.setTextColor(context.getResources().getColor(R.color.textColorPrimaryNoTint));
+                        holder.style_name.setTextColor(context.getResources().getColor(R.color.textColorPrimary));
 
                         // Change button visibility
                         holder.btn_disable.setVisibility(View.GONE);
@@ -243,7 +242,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                         title.setTextColor(context.getResources().getColor(R.color.colorSuccess));
                     } else {
                         title.setText(title.getText().toString().replace(' ' + context.getResources().getString(R.string.opt_applied), ""));
-                        title.setTextColor(context.getResources().getColor(R.color.textColorPrimaryNoTint));
+                        title.setTextColor(context.getResources().getColor(R.color.textColorPrimary));
                     }
                 }
             }

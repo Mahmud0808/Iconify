@@ -190,7 +190,7 @@
                                 android:layout_marginEnd="10dp"
                                 android:contentDescription="@string/icon"
                                 android:src="@drawable/ic_qs_airplane"
-                                app:tint="@color/textColorPrimaryNoTint" />
+                                app:tint="@color/textColorPrimary" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -204,7 +204,7 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn2_title"
-                                    android:textColor="@color/textColorPrimaryNoTint"
+                                    android:textColor="@color/textColorPrimary"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -214,7 +214,7 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn2_desc"
-                                    android:textColor="@color/textColorSecondaryNoTint" />
+                                    android:textColor="@color/textColorSecondary" />
 
                             </LinearLayout>
 
@@ -251,7 +251,7 @@
                                 android:layout_marginEnd="10dp"
                                 android:contentDescription="@string/icon"
                                 android:src="@drawable/ic_qs_location"
-                                app:tint="@color/textColorPrimaryNoTint" />
+                                app:tint="@color/textColorPrimary" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -265,7 +265,7 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn3_title"
-                                    android:textColor="@color/textColorPrimaryNoTint"
+                                    android:textColor="@color/textColorPrimary"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -275,7 +275,7 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn3_desc"
-                                    android:textColor="@color/textColorSecondaryNoTint" />
+                                    android:textColor="@color/textColorSecondary" />
 
                             </LinearLayout>
 
@@ -346,7 +346,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/container_padding"
                     android:background="@drawable/button"
-                    android:fontFamily="@font/semibold"
+                    android:fontFamily="@font/regular"
                     android:letterSpacing="0.2"
                     android:stateListAnimator="@null"
                     android:text="@string/btn_apply"

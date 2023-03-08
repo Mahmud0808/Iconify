@@ -108,6 +108,9 @@ dependencies {
     // Circle Indicator
     implementation 'me.relex:circleindicator:2.1.6'
 
+    // Lottie Animation
+    implementation 'com.airbnb.android:lottie:6.0.0'
+
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.work:work-runtime:2.8.0'

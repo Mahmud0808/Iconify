@@ -42,4 +42,5 @@
         android:layout_height="48dp"
         android:layout_gravity="start|center"
         android:contentDescription="@string/icon" />
+
 </LinearLayout>

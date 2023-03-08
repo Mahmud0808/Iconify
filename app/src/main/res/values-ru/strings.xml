@@ -159,7 +159,7 @@
     <string name="info_telegram_title">Telegram</string>
     <string name="info_tester_desc">За тестирование приложения.</string>
     <string name="info_version_title">Версия</string>
-    <string name="installation_failed">Что-то пошло не так.\nОтправьте Лог разработчику, чтобы помочь исправить проблему.</string>
+    <string name="installation_failed_desc">Что-то пошло не так.\nОтправьте Лог разработчику, чтобы помочь исправить проблему.</string>
     <string name="installing">установка</string>
     <string name="label_always_white_desc">Белый для заголовка, Акцент для текста</string>
     <string name="label_always_white_title">Всегда белый</string>
@@ -241,7 +241,7 @@
     <string name="remove_top_shade_of_qspanel">Удалить верхнюю тень панели быстрых настроек</string>
     <string name="restart_sysui_desc">Некоторые опции могут быть применены, но не отображаться, пока System UI не будет перезапущен. В таком случае используйте эту функцию для перезапуска System UI.</string>
     <string name="restart_sysui_title">Перезапустить System UI</string>
-    <string name="root_not_found">Похоже ваше устройство не имеет Root прав!</string>
+    <string name="root_not_found_desc">Похоже ваше устройство не имеет Root прав!</string>
     <string name="row_and_column_desc">Изменить строки и столбцы в быстрых настройках</string>
     <string name="row_and_column_title">Строка и столбец</string>
     <string name="sb_clock_background_chip_desc">Показывать фишку позади часов в статусбаре</string>
@@ -285,7 +285,7 @@
     <string name="update_schedule5">Никогда</string>
     <string name="update_schedule_des">Когда проверять наличие обновлений</string>
     <string name="update_schedule_title">График обновлений</string>
-    <string name="use_magisk">Используйте Magisk для получения Root прав</string>
+    <string name="magisk_not_found_desc">Используйте Magisk для получения Root прав</string>
     <string name="vertical_qs_tile_desc">Показывать подпись под иконкой в быстрых настройках</string>
     <string name="vertical_qs_tile_title">Вертикальные плитки быстрых настроек</string>
     <string name="view_changelog">Показать Журнал Изменений</string>

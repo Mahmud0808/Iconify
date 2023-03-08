@@ -48,8 +48,8 @@
     <string name="installing">A instalar</string>
     <string name="toast_error">Aconteceu algo de errado</string>
     <string name="reboot_needed">Reinicie o dispositivo primeiro!</string>
-    <string name="use_magisk">Utilize o Magisk para dar <i>root</i> ao seu dispositivo!</string>
-    <string name="root_not_found">Parece que o seu dispositivo não tem <i>root</i>!</string>
+    <string name="magisk_not_found_desc">Utilize o Magisk para dar <i>root</i> ao seu dispositivo!</string>
+    <string name="root_not_found_desc">Parece que o seu dispositivo não tem <i>root</i>!</string>
     <string name="disable_everything_title">Desativar tudo</string>
     <string name="disable_everything_desc">Desativa todos os <i>overlays</i>, cores e outras alterações aplicadas pela Iconify.</string>
     <string name="toast_disable_everything">Manter premido para desativar tudo</string>
@@ -254,7 +254,7 @@
     <string name="export_settings">Definições de exportação</string>
     <string name="import_settings">Definições de importação</string>
     <string name="experimental_features">Funcionalidades experimentais</string>
-    <string name="installation_failed">Algo de errado aconteceu.\nVerifique os logs na pasta Documentos.</string>
+    <string name="installation_failed_desc">Algo de errado aconteceu.\nVerifique os logs na pasta Documentos.</string>
     <string name="no_internet_connection">Não foi possível ligar ao servidor!\nPoderá haver um problema com a sua ligação à Internet ou o servidor poderá estar incontactável. Por favor, tente novamente mais tarde.</string>
     <string name="changelog_not_found">Registo de alterações indisponível!\nPoderá haver um problema com a sua ligação à Internet ou o servidor poderá estar incontactável. Por favor, tente novamente mais tarde.</string>
     <string name="btn_download">Descarregar</string>

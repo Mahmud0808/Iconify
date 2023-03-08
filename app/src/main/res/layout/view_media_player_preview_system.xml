@@ -60,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/media_player_preview_music_title"
-            android:textColor="@color/textColorPrimaryNoTint"
+            android:textColor="@color/textColorPrimary"
             android:textSize="@dimen/cont_title_size"
             android:textStyle="bold" />
 
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="-4dp"
             android:text="@string/media_player_preview_artist_name"
-            android:textColor="@color/textColorSecondaryNoTint"
+            android:textColor="@color/textColorSecondary"
             android:textSize="16sp" />
 
     </LinearLayout>
@@ -96,7 +96,7 @@
                 android:layout_width="12dp"
                 android:layout_height="12dp"
                 android:background="@drawable/ic_smartphone"
-                android:backgroundTint="@color/textColorPrimaryNoTint"
+                android:backgroundTint="@color/textColorPrimary"
                 android:contentDescription="@string/icon" />
 
             <TextView
@@ -105,7 +105,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="1dp"
                 android:text="@string/media_player_preview_playing_on"
-                android:textColor="@color/textColorPrimaryNoTint"
+                android:textColor="@color/textColorPrimary"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -126,7 +126,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:background="@drawable/ic_prev"
-                android:backgroundTint="@color/textColorPrimaryNoTint"
+                android:backgroundTint="@color/textColorPrimary"
                 android:contentDescription="@string/icon" />
 
             <ImageView
@@ -135,14 +135,14 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:background="@drawable/ic_pause"
-                android:backgroundTint="@color/textColorPrimaryNoTint"
+                android:backgroundTint="@color/textColorPrimary"
                 android:contentDescription="@string/icon" />
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:background="@drawable/ic_next"
-                android:backgroundTint="@color/textColorPrimaryNoTint"
+                android:backgroundTint="@color/textColorPrimary"
                 android:contentDescription="@string/icon" />
 
         </LinearLayout>

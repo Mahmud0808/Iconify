@@ -75,6 +75,10 @@ public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapte
         this.recyclerView = recyclerView;
     }
 
+    public RecyclerView getRecyclerView() {
+        return recyclerView;
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         LinearLayout clock;
@@ -84,9 +88,5 @@ public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapte
 
             clock = (LinearLayout) itemView.findViewById(R.id.header_clock_preview);
         }
-    }
-
-    public RecyclerView getRecyclerView() {
-        return recyclerView;
     }
 }
