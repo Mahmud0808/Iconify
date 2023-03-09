@@ -14,6 +14,8 @@ import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -95,13 +97,12 @@ public class LandingPage3 extends AppCompatActivity {
             if (RootUtil.isDeviceRooted()) {
                 if (RootUtil.isMagiskInstalled()) {
                     if (!Environment.isExternalStorageManager()) {
-                        info_title.setText(getResources().getString(R.string.need_storage_perm_title));
-                        info_desc.setText(getResources().getString(R.string.need_storage_perm_desc));
+                        showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
 
                         new Handler().postDelayed(() -> {
                             clickedContinue.set(true);
                             SystemUtil.getStoragePermission(this);
-                        }, clickedContinue.get() ? 10 : 2000);
+                        }, clickedContinue.get() ? 10 : 2500);
                     } else {
                         if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
                             installModule = new startInstallationProcess();
@@ -113,14 +114,40 @@ public class LandingPage3 extends AppCompatActivity {
                         }
                     }
                 } else {
-                    info_title.setText(getResources().getString(R.string.magisk_not_found_title));
-                    info_desc.setText(getResources().getString(R.string.magisk_not_found_desc));
+                    showInfo(R.string.magisk_not_found_title, R.string.magisk_not_found_desc);
                 }
             } else {
-                info_title.setText(getResources().getString(R.string.root_not_found_title));
-                info_desc.setText(getResources().getString(R.string.root_not_found_desc));
+                showInfo(R.string.root_not_found_title, R.string.root_not_found_desc);
             }
         });
+    }
+
+    private void showInfo(int title, int desc) {
+        if (info_title.getText() == getResources().getString(title) && info_desc.getText() == getResources().getString(desc))
+            return;
+
+        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+        anim.setDuration(400);
+        anim.setRepeatCount(1);
+        anim.setRepeatMode(Animation.REVERSE);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+                info_title.setText(getResources().getString(title));
+                info_desc.setText(getResources().getString(desc));
+            }
+        });
+
+        info_title.startAnimation(anim);
+        info_desc.startAnimation(anim);
     }
 
     @Override
@@ -136,8 +163,7 @@ public class LandingPage3 extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            info_title.setText(getResources().getString(R.string.landing_page_three_title));
-            info_desc.setText(getResources().getString(R.string.landing_page_three_desc));
+            showInfo(R.string.landing_page_three_title, R.string.landing_page_three_desc);
             reboot_phone.setVisibility(View.GONE);
 
             progressDialog.show(getResources().getString(R.string.installing), getResources().getString(R.string.init_module_installation));
@@ -353,15 +379,13 @@ public class LandingPage3 extends AppCompatActivity {
                         finish();
                     }, 10);
                 } else {
-                    info_title.setText(getResources().getString(R.string.need_reboot_title));
-                    info_desc.setText(getResources().getString(R.string.need_reboot_desc));
+                    showInfo(R.string.need_reboot_title, R.string.need_reboot_desc);
                     install_module.setVisibility(View.GONE);
                     reboot_phone.setVisibility(View.VISIBLE);
                 }
             } else {
                 Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
-                info_title.setText(getResources().getString(R.string.installation_failed_title));
-                info_desc.setText(getResources().getString(R.string.installation_failed_desc));
+                showInfo(R.string.installation_failed_title, R.string.installation_failed_desc);
                 install_module.setVisibility(View.VISIBLE);
                 reboot_phone.setVisibility(View.GONE);
             }
