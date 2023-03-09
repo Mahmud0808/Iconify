@@ -3,6 +3,7 @@ package com.drdisagree.iconify.ui.activities;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.VOLUME_PANEL_BACKGROUND_WIDTH;
 import static com.drdisagree.iconify.common.References.FABRICATED_ROUNDED_SLIDER_TRACK_INSET;
+import static com.drdisagree.iconify.common.References.FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH;
 import static com.drdisagree.iconify.common.References.FABRICATED_VOLUME_DIALOG_TRACK_WIDTH;
 
 import android.annotation.SuppressLint;
@@ -67,11 +68,13 @@ public class VolumePanel extends AppCompatActivity {
                 thick_bg.setChecked(false);
                 no_bg.setChecked(false);
                 Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 1);
+                FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, "dimen", "volume_dialog_slider_width", "42dp");
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_TRACK_WIDTH, "dimen", "volume_dialog_track_width", "4dp");
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_ROUNDED_SLIDER_TRACK_INSET, "dimen", "rounded_slider_track_inset", "22dp");
                 FabricatedUtil.disableOverlay(FABRICATED_ROUNDED_SLIDER_TRACK_INSET);
             } else {
                 Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0);
+                FabricatedUtil.disableOverlay(FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH);
                 FabricatedUtil.disableOverlay(FABRICATED_VOLUME_DIALOG_TRACK_WIDTH);
                 FabricatedUtil.disableOverlay(FABRICATED_ROUNDED_SLIDER_TRACK_INSET);
             }
@@ -83,10 +86,12 @@ public class VolumePanel extends AppCompatActivity {
                 thin_bg.setChecked(false);
                 no_bg.setChecked(false);
                 Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 2);
+                FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, "dimen", "volume_dialog_slider_width", "42dp");
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_TRACK_WIDTH, "dimen", "volume_dialog_track_width", "42dp");
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_ROUNDED_SLIDER_TRACK_INSET, "dimen", "rounded_slider_track_inset", "0dp");
             } else {
                 Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0);
+                FabricatedUtil.disableOverlay(FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH);
                 FabricatedUtil.disableOverlay(FABRICATED_VOLUME_DIALOG_TRACK_WIDTH);
                 FabricatedUtil.disableOverlay(FABRICATED_ROUNDED_SLIDER_TRACK_INSET);
             }
@@ -98,11 +103,13 @@ public class VolumePanel extends AppCompatActivity {
                 thin_bg.setChecked(false);
                 thick_bg.setChecked(false);
                 Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 3);
+                FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, "dimen", "volume_dialog_slider_width", "42dp");
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_TRACK_WIDTH, "dimen", "volume_dialog_track_width", "0dp");
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_ROUNDED_SLIDER_TRACK_INSET, "dimen", "rounded_slider_track_inset", "24dp");
                 FabricatedUtil.disableOverlay(FABRICATED_ROUNDED_SLIDER_TRACK_INSET);
             } else {
                 Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0);
+                FabricatedUtil.disableOverlay(FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH);
                 FabricatedUtil.disableOverlay(FABRICATED_VOLUME_DIALOG_TRACK_WIDTH);
                 FabricatedUtil.disableOverlay(FABRICATED_ROUNDED_SLIDER_TRACK_INSET);
             }

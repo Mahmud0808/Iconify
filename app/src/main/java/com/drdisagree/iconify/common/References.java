@@ -22,6 +22,7 @@ public class References {
     public static final String FABRICATED_SB_COLOR_SOURCE = "colorSBSource";
     public static final String FABRICATED_SB_COLOR_TINT = "colorSBTint";
     public static final String FABRICATED_QSPANEL_BLUR_RADIUS = "qsBlurRadius";
+    public static final String FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH = "volumeDialogSliderWidth";
     public static final String FABRICATED_VOLUME_DIALOG_TRACK_WIDTH = "volumeDialogTrackWidth";
     public static final String FABRICATED_ROUNDED_SLIDER_TRACK_INSET = "roundedSliderTrackInset";
 
