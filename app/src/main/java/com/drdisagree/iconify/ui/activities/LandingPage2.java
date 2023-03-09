@@ -10,6 +10,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.RenderMode;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.utils.SystemUtil;
 
@@ -33,6 +34,8 @@ public class LandingPage2 extends AppCompatActivity {
 
         if (isDarkMode())
             ((LottieAnimationView) findViewById(R.id.welcome_anim)).setAnimation("Lottie/anim_view_two_night.lottie");
+
+        ((LottieAnimationView) findViewById(R.id.welcome_anim)).setRenderMode(RenderMode.HARDWARE);
 
         ((Button) findViewById(R.id.btn_next)).setOnClickListener(v -> startActivity(new Intent(LandingPage2.this, LandingPage3.class)));
 

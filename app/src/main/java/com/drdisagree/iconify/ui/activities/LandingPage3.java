@@ -3,6 +3,7 @@ package com.drdisagree.iconify.ui.activities;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED;
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
+import static com.drdisagree.iconify.utils.SystemUtil.isDarkMode;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.RenderMode;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.Resources;
@@ -64,6 +67,11 @@ public class LandingPage3 extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_landing_page_three);
+
+        if (isDarkMode())
+            ((LottieAnimationView) findViewById(R.id.welcome_anim)).setAnimation("Lottie/anim_view_three_night.lottie");
+
+        ((LottieAnimationView) findViewById(R.id.welcome_anim)).setRenderMode(RenderMode.HARDWARE);
 
         // Progress dialog while installing
         progressDialog = new InstallationDialog(this);
