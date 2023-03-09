@@ -66,13 +66,13 @@ public class SplashActivity extends AppCompatActivity {
 
         new Thread(() -> {
             if (!isDarkMode()) {
-                LottieCompositionFactory.fromAsset(this, "Lottie/anim_view_one_day.lottie");
-                LottieCompositionFactory.fromAsset(this, "Lottie/anim_view_two_day.lottie");
-                LottieCompositionFactory.fromAsset(this, "Lottie/anim_view_three_day.lottie");
+                LottieCompositionFactory.fromRawRes(this, R.raw.anim_view_one_day);
+                LottieCompositionFactory.fromRawRes(this, R.raw.anim_view_two_day);
+                LottieCompositionFactory.fromRawRes(this, R.raw.anim_view_three_day);
             } else {
-                LottieCompositionFactory.fromAsset(this, "Lottie/anim_view_one_night.lottie");
-                LottieCompositionFactory.fromAsset(this, "Lottie/anim_view_two_night.lottie");
-                LottieCompositionFactory.fromAsset(this, "Lottie/anim_view_three_night.lottie");
+                LottieCompositionFactory.fromRawRes(this, R.raw.anim_view_one_night);
+                LottieCompositionFactory.fromRawRes(this, R.raw.anim_view_two_night);
+                LottieCompositionFactory.fromRawRes(this, R.raw.anim_view_three_night);
             }
         }).start();
     }

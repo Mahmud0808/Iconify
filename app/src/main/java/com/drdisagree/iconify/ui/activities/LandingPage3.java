@@ -70,8 +70,7 @@ public class LandingPage3 extends AppCompatActivity {
 
         setContentView(R.layout.activity_landing_page_three);
 
-        if (isDarkMode())
-            ((LottieAnimationView) findViewById(R.id.welcome_anim)).setAnimation("Lottie/anim_view_three_night.lottie");
+        ((LottieAnimationView) findViewById(R.id.welcome_anim)).setAnimation(!isDarkMode() ? R.raw.anim_view_three_day : R.raw.anim_view_three_night);
 
         ((LottieAnimationView) findViewById(R.id.welcome_anim)).setRenderMode(RenderMode.HARDWARE);
 

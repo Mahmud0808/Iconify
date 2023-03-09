@@ -55,7 +55,6 @@
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
                     app:lottie_autoPlay="true"
-                    app:lottie_fileName="Lottie/anim_view_two_day.lottie"
                     app:lottie_loop="true" />
 
             </LinearLayout>
