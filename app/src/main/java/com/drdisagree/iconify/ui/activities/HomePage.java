@@ -34,6 +34,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
+import com.airbnb.lottie.LottieCompositionFactory;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -136,8 +137,8 @@ public class HomePage extends AppCompatActivity {
 
         addItem(home_page);
 
-        // Get list of enabled overlays
         Runnable runnable1 = () -> {
+            // Get list of enabled overlays
             List<String> AllOverlays = OverlayUtil.getOverlayList();
             List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
             for (String overlay : AllOverlays)
@@ -148,6 +149,9 @@ public class HomePage extends AppCompatActivity {
                 Prefs.putBoolean("fabricated" + overlay, true);
 
             Prefs.putBoolean(MONET_ENGINE_SWITCH, OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentME.overlay"));
+
+            // Clear lottie cache
+            LottieCompositionFactory.clearCache(this);
         };
         Thread thread1 = new Thread(runnable1);
         thread1.start();
