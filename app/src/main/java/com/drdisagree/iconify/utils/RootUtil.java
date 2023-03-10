@@ -17,7 +17,7 @@ public class RootUtil {
     public static boolean isKSUInstalled() {
         return Shell.cmd("/data/adb/ksud -h").exec().isSuccess();
     }
-    
+
     public static void setPermissions(final int permission, final String filename) {
         Shell.cmd("chmod " + permission + ' ' + filename).exec();
     }

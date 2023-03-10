@@ -26,10 +26,15 @@ import java.util.Objects;
 
 public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    Context context;
-    ArrayList<InfoModel> itemList;
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
+    final double SECONDS_FOR_CLICKS = 3;
+    final int NUM_CLICKS_REQUIRED = 7;
+    Context context;
+    ArrayList<InfoModel> itemList;
+    long[] clickTimestamps = new long[NUM_CLICKS_REQUIRED];
+    int oldestIndex = 0;
+    int nextIndex = 0;
 
     public InfoAdapter(Context context, ArrayList<InfoModel> itemList) {
         this.context = context;
@@ -93,6 +98,31 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return TYPE_ITEM;
     }
 
+    private void onAppInfoViewClicked(View v) {
+        long timeMillis = (new Date()).getTime();
+
+        if (nextIndex == (NUM_CLICKS_REQUIRED - 1) || oldestIndex > 0) {
+            int diff = (int) (timeMillis - clickTimestamps[oldestIndex]);
+            if (diff < SECONDS_FOR_CLICKS * 1000) {
+                if (!Prefs.getBoolean(EASTER_EGG)) {
+                    Prefs.putBoolean(EASTER_EGG, true);
+                    Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_easter_egg), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_easter_egg_activated), Toast.LENGTH_SHORT).show();
+                }
+                oldestIndex = 0;
+                nextIndex = 0;
+            } else oldestIndex++;
+        }
+
+        clickTimestamps[nextIndex] = timeMillis;
+        nextIndex++;
+
+        if (nextIndex == NUM_CLICKS_REQUIRED) nextIndex = 0;
+
+        if (oldestIndex == NUM_CLICKS_REQUIRED) oldestIndex = 0;
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
         LinearLayout container;
 
@@ -128,36 +158,5 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             container = itemView.findViewById(R.id.list_info_item);
             divider = itemView.findViewById(R.id.divider);
         }
-    }
-
-    final double SECONDS_FOR_CLICKS = 3;
-    final int NUM_CLICKS_REQUIRED = 7;
-    long[] clickTimestamps = new long[NUM_CLICKS_REQUIRED];
-    int oldestIndex = 0;
-    int nextIndex = 0;
-
-    private void onAppInfoViewClicked(View v) {
-        long timeMillis = (new Date()).getTime();
-
-        if (nextIndex == (NUM_CLICKS_REQUIRED - 1) || oldestIndex > 0) {
-            int diff = (int) (timeMillis - clickTimestamps[oldestIndex]);
-            if (diff < SECONDS_FOR_CLICKS * 1000) {
-                if (!Prefs.getBoolean(EASTER_EGG)) {
-                    Prefs.putBoolean(EASTER_EGG, true);
-                    Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_easter_egg), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_easter_egg_activated), Toast.LENGTH_SHORT).show();
-                }
-                oldestIndex = 0;
-                nextIndex = 0;
-            } else oldestIndex++;
-        }
-
-        clickTimestamps[nextIndex] = timeMillis;
-        nextIndex++;
-
-        if (nextIndex == NUM_CLICKS_REQUIRED) nextIndex = 0;
-
-        if (oldestIndex == NUM_CLICKS_REQUIRED) oldestIndex = 0;
     }
 }

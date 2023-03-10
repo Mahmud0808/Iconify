@@ -7,10 +7,10 @@ import android.view.View;
 
 public class InfoModel {
 
-    private int icon, layout;
-    private String title, desc;
     View.OnClickListener onClickListener;
     Context context;
+    private int icon, layout;
+    private String title, desc;
 
     public InfoModel(String title) {
         this.title = title;
@@ -69,5 +69,13 @@ public class InfoModel {
 
     public void setOnClickListener(View.OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
+    }
+
+    public int getLayout() {
+        return layout;
+    }
+
+    public void setLayout(int layout) {
+        this.layout = layout;
     }
 }

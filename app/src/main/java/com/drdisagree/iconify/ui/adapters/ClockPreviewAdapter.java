@@ -86,7 +86,7 @@ public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapte
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            clock = (LinearLayout) itemView.findViewById(R.id.header_clock_preview);
+            clock = itemView.findViewById(R.id.header_clock_preview);
         }
     }
 }

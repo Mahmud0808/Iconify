@@ -1,13 +1,9 @@
 package com.drdisagree.iconify.ui.activities;
 
-import static com.drdisagree.iconify.common.Preferences.EASTER_EGG;
-
-import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,13 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.adapters.InfoAdapter;
 import com.drdisagree.iconify.ui.models.InfoModel;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Objects;
 
 public class Info extends AppCompatActivity {
@@ -99,6 +93,8 @@ public class Info extends AppCompatActivity {
         contributors_list.add(new InfoModel(this, "IzzySoft", getResources().getString(R.string.info_contributor_desc), "https://github.com/IzzySoft", R.drawable.ic_user));
         contributors_list.add(new InfoModel(this, "Blays", getResources().getString(R.string.info_contributor_desc), "https://github.com/B1ays", R.drawable.ic_user));
         contributors_list.add(new InfoModel(this, "Libra420T", getResources().getString(R.string.info_contributor_desc_2), "https://t.me/Libra420T", R.drawable.ic_user));
+        contributors_list.add(new InfoModel(this, "mohamedamrnady", getResources().getString(R.string.info_contributor_desc), "https://github.com/mohamedamrnady", R.drawable.ic_user));
+        contributors_list.add(new InfoModel(this, "H1mJT", getResources().getString(R.string.info_contributor_desc), "https://github.com/H1mJT", R.drawable.ic_user));
 
         return new InfoAdapter(this, contributors_list);
     }

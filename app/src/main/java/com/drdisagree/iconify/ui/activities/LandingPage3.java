@@ -37,7 +37,9 @@ import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.compiler.OverlayCompiler;
 import com.drdisagree.iconify.utils.helpers.BackupRestore;
 import com.topjohnwu.superuser.Shell;
+
 import org.zeroturnaround.zip.ZipUtil;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
@@ -51,9 +53,9 @@ public class LandingPage3 extends AppCompatActivity {
     private static startInstallationProcess installModule = null;
     private final String TAG = "LandingPage3";
     TextView info_title, info_desc;
+    LottieAnimationView loading_anim;
     private InstallationDialog progressDialog;
     private String logger = null, prev_log = null;
-    LottieAnimationView loading_anim;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -357,7 +359,7 @@ public class LandingPage3 extends AppCompatActivity {
                     Shell.cmd("/data/adb/ksud module install " + Resources.TEMP_DIR + "/Iconify.zip").exec();
                 }
             }
-            
+
             logger = "Cleaning temporary directories";
             publishProgress(step);
             // Clean temp directory
