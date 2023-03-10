@@ -11,11 +11,11 @@ public class RootUtil {
     }
 
     public static boolean isMagiskInstalled() {
-        return Shell.cmd("[ -d /data/adb/magisk ]").exec().isSuccess();
+        return Shell.cmd("magisk -v").exec().isSuccess();
     }
 
     public static boolean isKSUInstalled() {
-        return Shell.cmd("[ -d /data/adb/ksu ]").exec().isSuccess();
+        return Shell.cmd("/data/adb/ksud -h").exec().isSuccess();
     }
     
     public static void setPermissions(final int permission, final String filename) {
