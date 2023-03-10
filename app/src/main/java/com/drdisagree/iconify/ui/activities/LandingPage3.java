@@ -22,6 +22,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieCompositionFactory;
 import com.airbnb.lottie.RenderMode;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
@@ -52,6 +53,7 @@ public class LandingPage3 extends AppCompatActivity {
     TextView info_title, info_desc;
     private InstallationDialog progressDialog;
     private String logger = null, prev_log = null;
+    LottieAnimationView loading_anim;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -104,8 +106,18 @@ public class LandingPage3 extends AppCompatActivity {
                         }, clickedContinue.get() ? 10 : 2500);
                     } else {
                         if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
-                            installModule = new startInstallationProcess();
-                            installModule.execute();
+                            LottieCompositionFactory.fromRawRes(this, !isDarkMode() ? R.raw.loading_day : R.raw.loading_night).addListener(result -> {
+                                loading_anim = findViewById(R.id.loading_anim);
+                                loading_anim.setMaxWidth(install_module.getHeight());
+                                loading_anim.setMaxHeight(install_module.getHeight());
+                                install_module.setTextColor(Color.TRANSPARENT);
+                                loading_anim.setAnimation(!isDarkMode() ? R.raw.loading_day : R.raw.loading_night);
+                                loading_anim.setRenderMode(RenderMode.HARDWARE);
+                                loading_anim.setVisibility(View.VISIBLE);
+
+                                installModule = new startInstallationProcess();
+                                installModule.execute();
+                            });
                         } else {
                             Intent intent = new Intent(LandingPage3.this, HomePage.class);
                             startActivity(intent);
@@ -388,6 +400,9 @@ public class LandingPage3 extends AppCompatActivity {
                 install_module.setVisibility(View.VISIBLE);
                 reboot_phone.setVisibility(View.GONE);
             }
+
+            loading_anim.setVisibility(View.GONE);
+            install_module.setTextColor(getResources().getColor(R.color.textColorPrimaryInverse));
         }
 
         @Override

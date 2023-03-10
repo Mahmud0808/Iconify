@@ -121,35 +121,50 @@
                     android:layout_weight="1.0"
                     tools:ignore="NestedWeights" />
 
-                <Button
-                    android:id="@+id/install_module"
-                    style="@style/buttonMain"
+                <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end|center"
-                    android:background="@drawable/button_landing_page_three"
-                    android:letterSpacing="0.1"
-                    android:paddingTop="14dp"
-                    android:paddingBottom="14dp"
-                    android:text="@string/btn_lets_go"
-                    android:textSize="19sp"
-                    app:fontFamily="@font/bold" />
+                    android:layout_gravity="end|center">
 
-                <Button
-                    android:id="@+id/btn_reboot"
-                    style="@style/buttonMain"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|center"
-                    android:background="@drawable/button_landing_page_three"
-                    android:letterSpacing="0.19"
-                    android:paddingTop="14dp"
-                    android:paddingBottom="14dp"
-                    android:text="@string/btn_reboot"
-                    android:textSize="19sp"
-                    android:visibility="gone"
-                    app:fontFamily="@font/bold" />
+                    <Button
+                        android:id="@+id/install_module"
+                        style="@style/buttonMain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_landing_page_three"
+                        android:letterSpacing="0.1"
+                        android:paddingTop="14dp"
+                        android:paddingBottom="14dp"
+                        android:text="@string/btn_lets_go"
+                        android:textSize="19sp"
+                        app:fontFamily="@font/bold" />
 
+                    <Button
+                        android:id="@+id/btn_reboot"
+                        style="@style/buttonMain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_landing_page_three"
+                        android:letterSpacing="0.19"
+                        android:paddingTop="14dp"
+                        android:paddingBottom="14dp"
+                        android:text="@string/btn_reboot"
+                        android:textSize="19sp"
+                        android:visibility="gone"
+                        app:fontFamily="@font/bold" />
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/loading_anim"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:visibility="gone"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true" />
+
+                </FrameLayout>
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
