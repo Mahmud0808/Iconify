@@ -349,14 +349,13 @@ public class LandingPage3 extends AppCompatActivity {
             if (!hasErroredOut) {
                 Shell.cmd("cp -a " + Resources.SIGNED_DIR + "/. " + Resources.OVERLAY_DIR).exec();
                 RootUtil.setPermissionsRecursively(644, Resources.OVERLAY_DIR + '/');
-            }
 
-            if (!RootUtil.isMagiskInstalled()) {
-                Shell.cmd("cp -r /data/adb/modules/Iconify " + Resources.TEMP_DIR).exec();
-                Shell.cmd("rm -rf /data/adb/modules/Iconify").exec();
-                ZipUtil.pack(new File(Resources.TEMP_DIR + "/Iconify"), new File(Resources.TEMP_DIR + "/Iconify.zip"));
-                Shell.cmd("/data/adb/ksud module install " + Resources.TEMP_DIR + "/Iconify.zip").exec();
-               
+                if (!RootUtil.isMagiskInstalled()) {
+                    Shell.cmd("cp -r " + Resources.MODULE_DIR + ' ' + Resources.TEMP_DIR).exec();
+                    Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
+                    ZipUtil.pack(new File(Resources.TEMP_DIR + "/Iconify"), new File(Resources.TEMP_DIR + "/Iconify.zip"));
+                    Shell.cmd("/data/adb/ksud module install " + Resources.TEMP_DIR + "/Iconify.zip").exec();
+                }
             }
             
             logger = "Cleaning temporary directories";
