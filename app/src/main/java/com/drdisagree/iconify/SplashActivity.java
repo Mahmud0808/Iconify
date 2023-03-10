@@ -40,7 +40,7 @@ public class SplashActivity extends AppCompatActivity {
             keepShowing = false;
             intent = new Intent(SplashActivity.this, HomePage.class);
         } else {
-            if (RootUtil.isDeviceRooted() && RootUtil.isMagiskInstalled() && ModuleUtil.moduleExists() && OverlayUtil.overlayExists() && (BuildConfig.VERSION_CODE == Prefs.getInt(VER_CODE))) {
+            if (RootUtil.isDeviceRooted() && (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) && ModuleUtil.moduleExists() && OverlayUtil.overlayExists() && (BuildConfig.VERSION_CODE == Prefs.getInt(VER_CODE))) {
                 keepShowing = false;
                 intent = new Intent(SplashActivity.this, HomePage.class);
             } else {
