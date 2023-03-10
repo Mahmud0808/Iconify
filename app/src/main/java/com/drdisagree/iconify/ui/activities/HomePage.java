@@ -188,7 +188,7 @@ public class HomePage extends AppCompatActivity {
         // reboot dialog is in the second index
         int extra_items = container.getChildCount() - home_page.size();
         for (int i = extra_items; i < home_page.size() + extra_items; i++) {
-            LinearLayout child = container.getChildAt(i).findViewById(R.id.list_item);
+            LinearLayout child = container.getChildAt(i).findViewById(R.id.list_info_item);
             int finalI = i - extra_items;
             child.setOnClickListener(v -> {
                 if (checkForUpdate != null && (checkForUpdate.getStatus() == AsyncTask.Status.PENDING || checkForUpdate.getStatus() == AsyncTask.Status.RUNNING))
