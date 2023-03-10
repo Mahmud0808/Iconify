@@ -36,7 +36,7 @@ import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.compiler.OverlayCompiler;
 import com.drdisagree.iconify.utils.helpers.BackupRestore;
 import com.topjohnwu.superuser.Shell;
-
+import org.zeroturnaround.zip.ZipUtil;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
@@ -94,7 +94,7 @@ public class LandingPage3 extends AppCompatActivity {
         install_module.setOnClickListener(v -> {
             hasErroredOut = false;
             if (RootUtil.isDeviceRooted()) {
-                if (RootUtil.isMagiskInstalled()) {
+                if (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) {
                     if (!Environment.isExternalStorageManager()) {
                         showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
 
@@ -339,6 +339,14 @@ public class LandingPage3 extends AppCompatActivity {
                 RootUtil.setPermissionsRecursively(644, Resources.OVERLAY_DIR + '/');
             }
 
+            if (!RootUtil.isMagiskInstalled()) {
+                Shell.cmd("cp -r /data/adb/modules/Iconify " + Resources.TEMP_DIR).exec();
+                Shell.cmd("rm -rf /data/adb/modules/Iconify").exec();
+                ZipUtil.pack(new File(Resources.TEMP_DIR + "/Iconify"), new File(Resources.TEMP_DIR + "/Iconify.zip"));
+                Shell.cmd("/data/adb/ksud module install " + Resources.TEMP_DIR + "/Iconify.zip").exec();
+               
+            }
+            
             logger = "Cleaning temporary directories";
             publishProgress(step);
             // Clean temp directory

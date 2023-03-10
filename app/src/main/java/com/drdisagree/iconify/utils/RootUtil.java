@@ -14,6 +14,10 @@ public class RootUtil {
         return Shell.cmd("[ -d /data/adb/magisk ]").exec().isSuccess();
     }
 
+    public static boolean isKSUInstalled() {
+        return Shell.cmd("[ -d /data/adb/ksu ]").exec().isSuccess();
+    }
+    
     public static void setPermissions(final int permission, final String filename) {
         Shell.cmd("chmod " + permission + ' ' + filename).exec();
     }
