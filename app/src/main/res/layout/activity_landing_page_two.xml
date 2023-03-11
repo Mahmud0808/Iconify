@@ -37,7 +37,7 @@
                 android:text="@string/btn_skip"
                 android:textAllCaps="false"
                 android:textColor="@color/textColorSecondary"
-                android:textSize="19sp"
+                android:textSize="@dimen/_14sdp"
                 android:textStyle="bold"
                 app:fontFamily="@font/regular" />
 
@@ -46,12 +46,14 @@
                 android:layout_height="0dp"
                 android:layout_weight="0.5"
                 android:gravity="center"
-                android:padding="12dp">
+                android:padding="@dimen/_10sdp">
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/welcome_anim"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:layout_marginBottom="@dimen/_16sdp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
                     app:lottie_autoPlay="true"
@@ -66,7 +68,7 @@
                 android:orientation="vertical"
                 android:paddingStart="@dimen/container_marginTopBottom"
                 android:paddingEnd="@dimen/container_marginTopBottom"
-                android:paddingBottom="48dp">
+                android:paddingBottom="@dimen/_36sdp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -76,28 +78,28 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.85"
+                        android:layout_weight="0.9"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="18dp"
+                            android:layout_marginTop="@dimen/_14sdp"
                             android:text="@string/landing_page_two_title"
                             android:textColor="@color/textColorPrimary"
-                            android:textSize="42sp"
+                            android:textSize="@dimen/_30sdp"
                             android:textStyle="bold"
                             app:fontFamily="@font/regular" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
+                            android:layout_marginTop="@dimen/_8sdp"
                             android:letterSpacing="0.02"
-                            android:lineHeight="38sp"
+                            android:lineHeight="@dimen/_30sdp"
                             android:text="@string/landing_page_two_desc"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="19sp"
+                            android:textSize="@dimen/_14sdp"
                             android:textStyle="bold"
                             app:fontFamily="@font/regular" />
 
@@ -105,8 +107,8 @@
 
                     <View
                         android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_weight="0.15" />
+                        android:layout_height="@dimen/_1sdp"
+                        android:layout_weight="0.1" />
 
                 </LinearLayout>
 
@@ -134,13 +136,13 @@
                         android:text="@string/btn_back"
                         android:textAllCaps="false"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="19sp"
+                        android:textSize="@dimen/_14sdp"
                         android:textStyle="bold"
                         app:fontFamily="@font/regular" />
 
                     <View
                         android:layout_width="0dp"
-                        android:layout_height="1dp"
+                        android:layout_height="@dimen/_1sdp"
                         android:layout_weight="1.0"
                         tools:ignore="NestedWeights" />
 
@@ -152,10 +154,10 @@
                         android:layout_gravity="end|center"
                         android:background="@drawable/button_landing_page_two"
                         android:letterSpacing="0.1"
-                        android:paddingTop="14dp"
-                        android:paddingBottom="14dp"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_10sdp"
                         android:text="@string/btn_next"
-                        android:textSize="19sp"
+                        android:textSize="@dimen/_14sdp"
                         app:fontFamily="@font/bold" />
 
                 </LinearLayout>
