@@ -63,13 +63,13 @@ public class LandingPage3 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if (!SystemUtil.isDarkMode()) {
-            getWindow().getDecorView().setBackgroundColor(Color.parseColor("#ECF3FD"));
-            getWindow().setStatusBarColor(Color.parseColor("#ECF3FD"));
-            getWindow().setNavigationBarColor(Color.parseColor("#ECF3FD"));
+            getWindow().getDecorView().setBackgroundColor(Color.parseColor("#eef4fe"));
+            getWindow().setStatusBarColor(Color.parseColor("#eef4fe"));
+            getWindow().setNavigationBarColor(Color.parseColor("#eef4fe"));
         } else {
-            getWindow().getDecorView().setBackgroundColor(Color.parseColor("#060D18"));
-            getWindow().setStatusBarColor(Color.parseColor("#060D18"));
-            getWindow().setNavigationBarColor(Color.parseColor("#060D18"));
+            getWindow().getDecorView().setBackgroundColor(Color.parseColor("#080f18"));
+            getWindow().setStatusBarColor(Color.parseColor("#080f18"));
+            getWindow().setNavigationBarColor(Color.parseColor("#080f18"));
         }
 
         setContentView(R.layout.activity_landing_page_three);
