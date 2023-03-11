@@ -18,17 +18,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingStart="@dimen/container_marginSide"
-            android:paddingTop="@dimen/container_marginTopBottom"
-            android:paddingEnd="@dimen/container_marginSide"
-            android:paddingBottom="@dimen/container_marginTopBottom">
+            android:paddingStart="@dimen/_14sdp"
+            android:paddingTop="@dimen/_20sdp"
+            android:paddingEnd="@dimen/_14sdp"
+            android:paddingBottom="@dimen/_20sdp">
 
             <Button
                 android:id="@+id/btn_skip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center"
-                android:layout_marginEnd="@dimen/container_marginTopBottom"
+                android:layout_marginEnd="@dimen/_20sdp"
                 android:background="@color/transparent"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
@@ -63,8 +63,8 @@
                 android:layout_height="0dp"
                 android:layout_weight="0.5"
                 android:orientation="vertical"
-                android:paddingStart="@dimen/container_marginTopBottom"
-                android:paddingEnd="@dimen/container_marginTopBottom"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingEnd="@dimen/_20sdp"
                 android:paddingBottom="@dimen/_36sdp">
 
                 <LinearLayout
