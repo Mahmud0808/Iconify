@@ -105,7 +105,7 @@ public class LandingPage3 extends AppCompatActivity {
                         new Handler().postDelayed(() -> {
                             clickedContinue.set(true);
                             SystemUtil.getStoragePermission(this);
-                        }, clickedContinue.get() ? 10 : 2500);
+                        }, clickedContinue.get() ? 10 : 2000);
                     } else {
                         if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
                             LottieCompositionFactory.fromRawRes(this, !isDarkMode() ? R.raw.loading_day : R.raw.loading_night).addListener(result -> {
