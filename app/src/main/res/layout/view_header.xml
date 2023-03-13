@@ -16,10 +16,14 @@
         app:collapsedTitleTextAppearance="@style/Toolbar.TitleText.Collapsed"
         app:collapsedTitleTextColor="@color/textColorPrimary"
         app:contentScrim="@color/transparent"
+        app:expandedTitleMarginEnd="36dp"
+        app:expandedTitleMarginStart="36dp"
         app:expandedTitleTextAppearance="@style/Toolbar.TitleText.Expanded"
         app:expandedTitleTextColor="@color/textColorPrimary"
         app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-        app:title="@string/app_name">
+        app:maxLines="1"
+        app:title="@string/app_name"
+        app:titleTextEllipsize="end">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"

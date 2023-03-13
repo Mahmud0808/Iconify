@@ -36,10 +36,10 @@ public class LandingPage2 extends AppCompatActivity {
 
         ((LottieAnimationView) findViewById(R.id.welcome_anim)).setRenderMode(RenderMode.HARDWARE);
 
-        ((Button) findViewById(R.id.btn_next)).setOnClickListener(v -> startActivity(new Intent(LandingPage2.this, LandingPage3.class)));
+        findViewById(R.id.btn_next).setOnClickListener(v -> startActivity(new Intent(LandingPage2.this, LandingPage3.class)));
 
-        ((Button) findViewById(R.id.btn_back)).setOnClickListener(v -> onBackPressed());
+        findViewById(R.id.btn_back).setOnClickListener(v -> onBackPressed());
 
-        ((Button) findViewById(R.id.btn_skip)).setOnClickListener(v -> startActivity(new Intent(LandingPage2.this, LandingPage3.class)));
+        findViewById(R.id.btn_skip).setOnClickListener(v -> startActivity(new Intent(LandingPage2.this, LandingPage3.class)));
     }
 }

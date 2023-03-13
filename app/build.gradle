@@ -99,7 +99,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.15.0'
 
     // RecyclerView
-    implementation "androidx.recyclerview:recyclerview:1.2.1"
+    implementation "androidx.recyclerview:recyclerview:1.3.0"
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
 
     // ViewPager2
@@ -110,6 +110,10 @@ dependencies {
 
     // Lottie Animation
     implementation 'com.airbnb.android:lottie:6.0.0'
+
+    // Scalable dp snd sp
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
+    implementation 'com.intuit.ssp:ssp-android:1.1.0'
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

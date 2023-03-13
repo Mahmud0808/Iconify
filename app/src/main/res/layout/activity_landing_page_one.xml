@@ -18,17 +18,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingStart="@dimen/container_marginSide"
-            android:paddingTop="@dimen/container_marginTopBottom"
-            android:paddingEnd="@dimen/container_marginSide"
-            android:paddingBottom="@dimen/container_marginTopBottom">
+            android:paddingStart="@dimen/_14sdp"
+            android:paddingTop="@dimen/_20sdp"
+            android:paddingEnd="@dimen/_14sdp"
+            android:paddingBottom="@dimen/_20sdp">
 
             <Button
                 android:id="@+id/btn_skip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center"
-                android:layout_marginEnd="@dimen/container_marginTopBottom"
+                android:layout_marginEnd="@dimen/_20sdp"
                 android:background="@color/transparent"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
@@ -37,7 +37,7 @@
                 android:text="@string/btn_skip"
                 android:textAllCaps="false"
                 android:textColor="@color/textColorSecondary"
-                android:textSize="19sp"
+                android:textSize="@dimen/_14sdp"
                 android:textStyle="bold"
                 app:fontFamily="@font/regular" />
 
@@ -63,9 +63,9 @@
                 android:layout_height="0dp"
                 android:layout_weight="0.5"
                 android:orientation="vertical"
-                android:paddingStart="@dimen/container_marginTopBottom"
-                android:paddingEnd="@dimen/container_marginTopBottom"
-                android:paddingBottom="48dp">
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingEnd="@dimen/_20sdp"
+                android:paddingBottom="@dimen/_36sdp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -75,28 +75,28 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.85"
+                        android:layout_weight="0.9"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="18dp"
+                            android:layout_marginTop="@dimen/_14sdp"
                             android:text="@string/landing_page_one_title"
                             android:textColor="@color/textColorPrimary"
-                            android:textSize="42sp"
+                            android:textSize="@dimen/_30sdp"
                             android:textStyle="bold"
                             app:fontFamily="@font/regular" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
+                            android:layout_marginTop="@dimen/_8sdp"
                             android:letterSpacing="0.02"
-                            android:lineHeight="38sp"
+                            android:lineHeight="@dimen/_30sdp"
                             android:text="@string/landing_page_one_desc"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="19sp"
+                            android:textSize="@dimen/_14sdp"
                             android:textStyle="bold"
                             app:fontFamily="@font/regular" />
 
@@ -104,8 +104,8 @@
 
                     <View
                         android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_weight="0.15" />
+                        android:layout_height="@dimen/_1sdp"
+                        android:layout_weight="0.1" />
 
                 </LinearLayout>
 
@@ -123,10 +123,10 @@
                     android:layout_gravity="end|center"
                     android:background="@drawable/button_landing_page_one"
                     android:letterSpacing="0.1"
-                    android:paddingTop="14dp"
-                    android:paddingBottom="14dp"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_10sdp"
                     android:text="@string/btn_next"
-                    android:textSize="19sp"
+                    android:textSize="@dimen/_14sdp"
                     app:fontFamily="@font/bold" />
 
             </LinearLayout>

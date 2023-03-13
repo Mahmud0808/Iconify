@@ -309,7 +309,7 @@
     <string name="custom_lockscreen_clock_style_title">Estilo do relógio</string>
     <string name="needs_systemui_restart">Requer reiniciar a IU do sistema</string>
     <string name="toast_select_style">Escolha um estilo primeiro</string>
-    <string name="translators">Tradutores</string>
+    <string name="section_title_translators">Tradutores</string>
     <string name="toast_reboot_required">Requer reiniciar</string>
     <string name="toast_lsposed_not_found">LSPosed não encontrada!</string>
     <string name="toast_easter_egg">Como sabia disto?</string>

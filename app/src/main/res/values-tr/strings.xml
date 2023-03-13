@@ -310,7 +310,7 @@
     <string name="btn_reset_tint">Renk Tonunu Yenile</string>
     <string name="toast_select_style">Önce tasarım seçin</string>
     <string name="volume_style_gradient">Gradyan</string>
-    <string name="translators">Çevirmenler</string>
+    <string name="section_title_translators">Çevirmenler</string>
     <string name="toast_reboot_required">Yeniden başlatma gerekli</string>
     <string name="toast_lsposed_not_found">LSPosed bulunamadı!</string>
     <string name="toast_easter_egg">Bunu nasıl bildin?</string>

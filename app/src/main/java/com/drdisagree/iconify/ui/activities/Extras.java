@@ -52,7 +52,7 @@ public class Extras extends AppCompatActivity {
 
         // Enable onClick event
         for (int i = 0; i < extras_page.size(); i++) {
-            LinearLayout child = container.getChildAt(i).findViewById(R.id.list_item);
+            LinearLayout child = container.getChildAt(i).findViewById(R.id.list_info_item);
             int finalI = i;
             child.setOnClickListener(v -> {
                 Intent intent = new Intent(Extras.this, (Class<?>) extras_page.get(finalI)[0]);

@@ -22,6 +22,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieCompositionFactory;
 import com.airbnb.lottie.RenderMode;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
@@ -37,6 +38,8 @@ import com.drdisagree.iconify.utils.compiler.OverlayCompiler;
 import com.drdisagree.iconify.utils.helpers.BackupRestore;
 import com.topjohnwu.superuser.Shell;
 
+import org.zeroturnaround.zip.ZipUtil;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
@@ -50,6 +53,7 @@ public class LandingPage3 extends AppCompatActivity {
     private static startInstallationProcess installModule = null;
     private final String TAG = "LandingPage3";
     TextView info_title, info_desc;
+    LottieAnimationView loading_anim;
     private InstallationDialog progressDialog;
     private String logger = null, prev_log = null;
 
@@ -59,13 +63,13 @@ public class LandingPage3 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if (!SystemUtil.isDarkMode()) {
-            getWindow().getDecorView().setBackgroundColor(Color.parseColor("#ECF3FD"));
-            getWindow().setStatusBarColor(Color.parseColor("#ECF3FD"));
-            getWindow().setNavigationBarColor(Color.parseColor("#ECF3FD"));
+            getWindow().getDecorView().setBackgroundColor(Color.parseColor("#eef4fe"));
+            getWindow().setStatusBarColor(Color.parseColor("#eef4fe"));
+            getWindow().setNavigationBarColor(Color.parseColor("#eef4fe"));
         } else {
-            getWindow().getDecorView().setBackgroundColor(Color.parseColor("#060D18"));
-            getWindow().setStatusBarColor(Color.parseColor("#060D18"));
-            getWindow().setNavigationBarColor(Color.parseColor("#060D18"));
+            getWindow().getDecorView().setBackgroundColor(Color.parseColor("#080f18"));
+            getWindow().setStatusBarColor(Color.parseColor("#080f18"));
+            getWindow().setNavigationBarColor(Color.parseColor("#080f18"));
         }
 
         setContentView(R.layout.activity_landing_page_three);
@@ -94,18 +98,28 @@ public class LandingPage3 extends AppCompatActivity {
         install_module.setOnClickListener(v -> {
             hasErroredOut = false;
             if (RootUtil.isDeviceRooted()) {
-                if (RootUtil.isMagiskInstalled()) {
+                if (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) {
                     if (!Environment.isExternalStorageManager()) {
                         showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
 
                         new Handler().postDelayed(() -> {
                             clickedContinue.set(true);
                             SystemUtil.getStoragePermission(this);
-                        }, clickedContinue.get() ? 10 : 2500);
+                        }, clickedContinue.get() ? 10 : 2000);
                     } else {
                         if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
-                            installModule = new startInstallationProcess();
-                            installModule.execute();
+                            LottieCompositionFactory.fromRawRes(this, !isDarkMode() ? R.raw.loading_day : R.raw.loading_night).addListener(result -> {
+                                loading_anim = findViewById(R.id.loading_anim);
+                                loading_anim.setMaxWidth(install_module.getHeight());
+                                loading_anim.setMaxHeight(install_module.getHeight());
+                                install_module.setTextColor(Color.TRANSPARENT);
+                                loading_anim.setAnimation(!isDarkMode() ? R.raw.loading_day : R.raw.loading_night);
+                                loading_anim.setRenderMode(RenderMode.HARDWARE);
+                                loading_anim.setVisibility(View.VISIBLE);
+
+                                installModule = new startInstallationProcess();
+                                installModule.execute();
+                            });
                         } else {
                             Intent intent = new Intent(LandingPage3.this, HomePage.class);
                             startActivity(intent);
@@ -337,6 +351,13 @@ public class LandingPage3 extends AppCompatActivity {
             if (!hasErroredOut) {
                 Shell.cmd("cp -a " + Resources.SIGNED_DIR + "/. " + Resources.OVERLAY_DIR).exec();
                 RootUtil.setPermissionsRecursively(644, Resources.OVERLAY_DIR + '/');
+
+                if (!RootUtil.isMagiskInstalled()) {
+                    Shell.cmd("cp -r " + Resources.MODULE_DIR + ' ' + Resources.TEMP_DIR).exec();
+                    Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
+                    ZipUtil.pack(new File(Resources.TEMP_DIR + "/Iconify"), new File(Resources.TEMP_DIR + "/Iconify.zip"));
+                    Shell.cmd("/data/adb/ksud module install " + Resources.TEMP_DIR + "/Iconify.zip").exec();
+                }
             }
 
             logger = "Cleaning temporary directories";
@@ -388,6 +409,9 @@ public class LandingPage3 extends AppCompatActivity {
                 install_module.setVisibility(View.VISIBLE);
                 reboot_phone.setVisibility(View.GONE);
             }
+
+            loading_anim.setVisibility(View.GONE);
+            install_module.setTextColor(getResources().getColor(R.color.textColorPrimaryInverse));
         }
 
         @Override

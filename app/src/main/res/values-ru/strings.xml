@@ -307,7 +307,7 @@
     <string name="activity_title_icon_shape">Форма иконок</string>
     <string name="activity_desc_icon_shape">Изменить форму иконок в лунчере</string>
     <string name="toast_select_style">Сначала выберите стиль</string>
-    <string name="translators">Переводчики</string>
+    <string name="section_title_translators">Переводчики</string>
     <string name="toast_reboot_required">Необходима перезагрузка</string>
     <string name="toast_lsposed_not_found">LSposed не найден!</string>
     <string name="toast_easter_egg">Как ты об этом догадался?</string>

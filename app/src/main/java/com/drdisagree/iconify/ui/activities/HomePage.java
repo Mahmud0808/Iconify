@@ -34,6 +34,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
+import com.airbnb.lottie.LottieCompositionFactory;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -136,8 +137,8 @@ public class HomePage extends AppCompatActivity {
 
         addItem(home_page);
 
-        // Get list of enabled overlays
         Runnable runnable1 = () -> {
+            // Get list of enabled overlays
             List<String> AllOverlays = OverlayUtil.getOverlayList();
             List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
             for (String overlay : AllOverlays)
@@ -148,6 +149,9 @@ public class HomePage extends AppCompatActivity {
                 Prefs.putBoolean("fabricated" + overlay, true);
 
             Prefs.putBoolean(MONET_ENGINE_SWITCH, OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentME.overlay"));
+
+            // Clear lottie cache
+            LottieCompositionFactory.clearCache(this);
         };
         Thread thread1 = new Thread(runnable1);
         thread1.start();
@@ -184,7 +188,7 @@ public class HomePage extends AppCompatActivity {
         // reboot dialog is in the second index
         int extra_items = container.getChildCount() - home_page.size();
         for (int i = extra_items; i < home_page.size() + extra_items; i++) {
-            LinearLayout child = container.getChildAt(i).findViewById(R.id.list_item);
+            LinearLayout child = container.getChildAt(i).findViewById(R.id.list_info_item);
             int finalI = i - extra_items;
             child.setOnClickListener(v -> {
                 if (checkForUpdate != null && (checkForUpdate.getStatus() == AsyncTask.Status.PENDING || checkForUpdate.getStatus() == AsyncTask.Status.RUNNING))

@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/list_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/list_info"
+        android:id="@+id/list_info_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/container_mid"
         android:orientation="horizontal"
         android:paddingStart="@dimen/container_paddingSide"
-        android:paddingTop="@dimen/container_padding"
+        android:paddingTop="16dp"
         android:paddingEnd="@dimen/container_paddingSide"
-        android:paddingBottom="@dimen/container_padding">
+        android:paddingBottom="16dp">
 
         <ImageView
             android:id="@+id/icon"
@@ -51,6 +50,8 @@
         </LinearLayout>
     </LinearLayout>
 
-    <View style="@style/dividerTransparent" />
+    <View
+        android:id="@+id/divider"
+        style="@style/dividerTransparent" />
 
 </LinearLayout>
