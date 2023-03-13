@@ -10,9 +10,10 @@
         </shape>
     </item>
     <item
-        android:end="83.0dip"
+        android:bottom="0.5dip"
+        android:end="83.5dip"
         android:gravity="fill_horizontal|center"
-        android:start="3.0dip">
+        android:start="3.5dip">
         <shape android:shape="rectangle">
             <corners android:radius="24.0dip" />
             <size android:height="12.0dip" />
