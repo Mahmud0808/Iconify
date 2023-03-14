@@ -19,8 +19,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginTop="@dimen/container_marginTopBottom"
+            android:layout_marginBottom="@dimen/container_marginTopBottom"
             android:orientation="vertical">
 
             <LinearLayout
@@ -140,21 +140,18 @@
 
                     <Button
                         android:id="@+id/download_update"
+                        style="@style/buttonMain"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:layout_marginTop="@dimen/container_padding"
-                        android:background="@drawable/button"
-                        android:fontFamily="@font/regular"
+                        android:letterSpacing="0"
                         android:paddingStart="24dp"
+                        android:paddingTop="@dimen/_4sdp"
                         android:paddingEnd="24dp"
-                        android:stateListAnimator="@null"
+                        android:paddingBottom="@dimen/_6sdp"
                         android:text="@string/btn_download"
-                        android:textColor="@color/colorBackground"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:visibility="gone"
-                        app:backgroundTint="@null" />
+                        android:visibility="gone" />
 
                 </LinearLayout>
             </LinearLayout>

@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_margin="32dp"
+    android:layout_margin="@dimen/_20sdp"
     android:background="@drawable/container"
     android:elevation="8dp"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:padding="@dimen/container_paddingSide">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,10 +18,10 @@
         tools:ignore="UseCompoundDrawables">
 
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="12dp"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
             android:contentDescription="@string/icon"
             android:src="@drawable/ic_info"
             app:tint="@color/textColorPrimary" />
@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="@dimen/_8sdp"
         android:gravity="start"
         android:textColor="@color/textColorSecondary"
         android:textSize="@dimen/cont_desc_size" />

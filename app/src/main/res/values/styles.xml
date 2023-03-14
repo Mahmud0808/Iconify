@@ -52,7 +52,7 @@
 
     <style name="dividerAccent">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/_1sdp</item>
+        <item name="android:layout_height">2dp</item>
         <item name="android:background">@drawable/divider_accent</item>
         <item name="android:layout_marginTop">@dimen/_10sdp</item>
         <item name="android:layout_marginBottom">@dimen/container_paddingSide</item>
@@ -60,7 +60,7 @@
 
     <style name="dividerTransparent">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/_1sdp</item>
+        <item name="android:layout_height">2dp</item>
         <item name="android:background">@color/transparent</item>
     </style>
 
