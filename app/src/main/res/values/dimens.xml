@@ -9,7 +9,8 @@
     <dimen name="cont_desc_size">@dimen/_10sdp</dimen>
     <dimen name="preview_margin">@dimen/_2sdp</dimen>
     <dimen name="preview_icon_size">@dimen/_14sdp</dimen>
-    <dimen name="cont_corner_radius">@dimen/_18sdp</dimen>
+    <dimen name="cont_corner_radius">24dp</dimen>
+    <dimen name="cont_corner_radius2">23dp</dimen>
     <dimen name="reset_button_size">@dimen/_14sdp</dimen>
     <dimen name="header_title_size">@dimen/_14sdp</dimen>
 </resources>
