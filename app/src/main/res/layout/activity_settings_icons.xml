@@ -138,8 +138,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/container_margin"
-                android:paddingTop="@dimen/_4sdp"
-                android:paddingBottom="@dimen/_6sdp"
                 android:text="@string/btn_enable" />
 
             <Button
@@ -149,8 +147,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/container_margin"
                 android:background="@drawable/button_red"
-                android:paddingTop="@dimen/_4sdp"
-                android:paddingBottom="@dimen/_6sdp"
                 android:text="@string/btn_disable"
                 android:visibility="gone" />
 

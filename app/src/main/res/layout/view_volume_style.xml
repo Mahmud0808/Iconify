@@ -36,8 +36,9 @@
             android:id="@+id/volume_style_info"
             android:layout_width="@dimen/_18sdp"
             android:layout_height="@dimen/_18sdp"
-            android:background="@drawable/ic_info"
+            android:layout_marginTop="@dimen/_2sdp"
             android:contentDescription="@string/icon"
+            android:src="@drawable/ic_info"
             app:tint="@color/textColorPrimary" />
 
     </LinearLayout>

@@ -27,7 +27,7 @@
         <!-- App theme -->
         <item name="fontFamily">@font/normal</item>
         <item name="android:fontFamily">@font/normal</item>
-        <item name="android:lineSpacingMultiplier">1.4</item>
+        <item name="android:lineSpacingMultiplier">1.5</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
         <item name="android:colorControlNormal">@color/textColorPrimary</item>

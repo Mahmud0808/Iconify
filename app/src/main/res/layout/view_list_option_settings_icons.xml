@@ -54,7 +54,7 @@
                 android:layout_height="@dimen/preview_icon_size"
                 android:layout_margin="@dimen/preview_margin"
                 android:contentDescription="@string/icon"
-                app:tint="@color/colorAccent" />
+                app:tint="@color/holo_green_light" />
 
             <ImageView
                 android:id="@+id/iconpack_preview2"
@@ -62,7 +62,7 @@
                 android:layout_height="@dimen/preview_icon_size"
                 android:layout_margin="@dimen/preview_margin"
                 android:contentDescription="@string/icon"
-                app:tint="@color/colorAccent" />
+                app:tint="@color/holo_green_light" />
         </LinearLayout>
 
         <LinearLayout
@@ -76,7 +76,7 @@
                 android:layout_height="@dimen/preview_icon_size"
                 android:layout_margin="@dimen/preview_margin"
                 android:contentDescription="@string/icon"
-                app:tint="@color/colorAccent" />
+                app:tint="@color/holo_green_light" />
 
             <ImageView
                 android:id="@+id/iconpack_preview4"
@@ -84,7 +84,7 @@
                 android:layout_height="@dimen/preview_icon_size"
                 android:layout_margin="@dimen/preview_margin"
                 android:contentDescription="@string/icon"
-                app:tint="@color/colorAccent" />
+                app:tint="@color/holo_green_light" />
 
         </LinearLayout>
     </LinearLayout>

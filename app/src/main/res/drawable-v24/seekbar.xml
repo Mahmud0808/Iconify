@@ -4,6 +4,8 @@
         android:id="@android:id/background"
         android:drawable="@drawable/seek_background" />
     <item android:id="@android:id/progress">
-        <clip android:drawable="@drawable/seek_progress" />
+        <scale android:scaleWidth="100%">
+            <clip android:drawable="@drawable/seek_progress" />
+        </scale>
     </item>
 </layer-list>

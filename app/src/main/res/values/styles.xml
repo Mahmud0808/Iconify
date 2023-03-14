@@ -30,9 +30,9 @@
     </style>
 
     <style name="SeekBar.Iconify" parent="Widget.AppCompat.SeekBar">
-        <item name="android:progressBackgroundTint">@color/colorBackground</item>
-        <item name="android:progressTint">@color/colorAccent</item>
-        <item name="android:thumbTint">@color/colorAccent</item>
+        <item name="android:progressBackgroundTint">@null</item>
+        <item name="android:progressTint">@null</item>
+        <item name="android:thumbTint">@null</item>
     </style>
 
     <style name="MenuLightTheme" parent="Theme.MaterialComponents.Light.NoActionBar">

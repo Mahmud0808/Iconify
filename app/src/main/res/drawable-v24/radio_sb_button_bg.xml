@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_checked="false">
-        <shape android:shape="rectangle">
-            <corners android:radius="@dimen/_12sdp" />
-            <stroke android:width="@dimen/_1sdp" android:color="@color/colorAccent" />
-        </shape>
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <corners android:radius="@dimen/_12sdp" />
+                    <gradient android:endColor="@color/holo_green_light" android:startColor="@color/holo_blue_light" />
+                </shape>
+            </item>
+            <item android:bottom="@dimen/_1sdp" android:left="@dimen/_1sdp" android:right="@dimen/_1sdp" android:top="@dimen/_1sdp">
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/colorContainer" />
+                    <corners android:radius="@dimen/_12sdp" />
+                </shape>
+            </item>
+            <item android:bottom="@dimen/_1sdp" android:left="@dimen/_1sdp" android:right="@dimen/_1sdp" android:top="@dimen/_1sdp">
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/colorContainerOverlay" />
+                    <corners android:radius="@dimen/_12sdp" />
+                </shape>
+            </item>
+        </layer-list>
     </item>
-
     <item android:state_checked="true">
         <shape android:shape="rectangle">
-            <solid android:color="@color/colorAccent" />
+            <gradient android:endColor="@color/holo_green_light" android:startColor="@color/holo_blue_light" />
             <corners android:radius="@dimen/_12sdp" />
             <stroke android:color="@color/colorAccent" />
         </shape>

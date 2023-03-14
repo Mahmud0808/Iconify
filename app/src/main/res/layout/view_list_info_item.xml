@@ -12,9 +12,9 @@
         android:background="@drawable/container_mid"
         android:orientation="horizontal"
         android:paddingStart="@dimen/container_paddingSide"
-        android:paddingTop="@dimen/_10sdp"
+        android:paddingTop="@dimen/_12sdp"
         android:paddingEnd="@dimen/container_paddingSide"
-        android:paddingBottom="@dimen/_10sdp">
+        android:paddingBottom="@dimen/_12sdp">
 
         <ImageView
             android:id="@+id/icon"
