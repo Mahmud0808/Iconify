@@ -48,9 +48,11 @@ public class ColoredBattery extends AppCompatActivity implements ColorPickerDial
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
         collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_colored_battery));
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.activity_title_colored_battery);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_home_as_up_indicator);
 
         // Enable colored battery
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_colored_battery = findViewById(R.id.enable_colored_battery);

@@ -7,86 +7,86 @@
     <LinearLayout
         android:id="@+id/system_accent1"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/_36sdp"
         android:baselineAligned="false"
         android:orientation="horizontal">
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
     </LinearLayout>
@@ -94,86 +94,86 @@
     <LinearLayout
         android:id="@+id/system_accent2"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/_36sdp"
         android:baselineAligned="false"
         android:orientation="horizontal">
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
     </LinearLayout>
@@ -181,86 +181,86 @@
     <LinearLayout
         android:id="@+id/system_accent3"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/_36sdp"
         android:baselineAligned="false"
         android:orientation="horizontal">
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
     </LinearLayout>
@@ -268,86 +268,86 @@
     <LinearLayout
         android:id="@+id/system_neutral1"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/_36sdp"
         android:baselineAligned="false"
         android:orientation="horizontal">
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
     </LinearLayout>
@@ -355,86 +355,86 @@
     <LinearLayout
         android:id="@+id/system_neutral2"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/_36sdp"
         android:baselineAligned="false"
         android:orientation="horizontal">
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_1sdp"
             android:layout_weight="1.0" />
 
     </LinearLayout>

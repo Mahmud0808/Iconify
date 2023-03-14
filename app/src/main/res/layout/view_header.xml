@@ -2,7 +2,7 @@
 <com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="180dp"
+    android:layout_height="@dimen/_140sdp"
     android:background="@color/transparent"
     android:fitsSystemWindows="true"
     android:theme="@style/Theme.Iconify">
@@ -16,8 +16,8 @@
         app:collapsedTitleTextAppearance="@style/Toolbar.TitleText.Collapsed"
         app:collapsedTitleTextColor="@color/textColorPrimary"
         app:contentScrim="@color/transparent"
-        app:expandedTitleMarginEnd="36dp"
-        app:expandedTitleMarginStart="36dp"
+        app:expandedTitleMarginEnd="@dimen/_28sdp"
+        app:expandedTitleMarginStart="@dimen/_28sdp"
         app:expandedTitleTextAppearance="@style/Toolbar.TitleText.Expanded"
         app:expandedTitleTextColor="@color/textColorPrimary"
         app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
@@ -29,11 +29,13 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
+            android:paddingStart="@dimen/_16sdp"
+            android:paddingEnd="@dimen/_16sdp"
             app:contentInsetStartWithNavigation="0dp"
             app:layout_collapseMode="pin"
-            app:titleTextAppearance="@style/Toolbar.TitleText" />
+            app:maxLines="1"
+            app:titleTextAppearance="@style/Toolbar.TitleText"
+            app:titleTextEllipsize="end" />
 
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 </com.google.android.material.appbar.AppBarLayout>

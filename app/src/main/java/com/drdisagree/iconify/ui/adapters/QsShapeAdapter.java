@@ -78,10 +78,18 @@ public class QsShapeAdapter extends RecyclerView.Adapter<QsShapeAdapter.ViewHold
 
             holder.qs_text4.setTextColor(ContextCompat.getColor(context, R.color.textColorPrimary));
             holder.qs_icon4.setColorFilter(ContextCompat.getColor(context, R.color.textColorPrimary), android.graphics.PorterDuff.Mode.SRC_IN);
+        } else {
+            holder.qs_text1.setTextColor(ContextCompat.getColor(context, R.color.textColorPrimaryInverse));
+            holder.qs_icon1.setColorFilter(ContextCompat.getColor(context, R.color.textColorPrimaryInverse), android.graphics.PorterDuff.Mode.SRC_IN);
+
+            holder.qs_text4.setTextColor(ContextCompat.getColor(context, R.color.textColorPrimaryInverse));
+            holder.qs_icon4.setColorFilter(ContextCompat.getColor(context, R.color.textColorPrimaryInverse), android.graphics.PorterDuff.Mode.SRC_IN);
         }
 
         if (itemList.get(position).getIcon_margin_start() != null && itemList.get(position).getIcon_margin_end() != null)
             setMargin(holder, itemList.get(position).getIcon_margin_start(), itemList.get(position).getIcon_margin_end());
+        else
+            setMargin(holder, 0, 10);
 
         if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             holder.orientation.setOrientation(LinearLayout.VERTICAL);

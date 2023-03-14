@@ -4,14 +4,14 @@
     <style name="ColorPicker" parent="Theme.MaterialComponents.Light.Dialog">
         <item name="android:colorAccent">@color/colorAccent</item>
         <item name="android:windowTitleStyle">@style/LightPickerDialogTitleStyle</item>
-        <item name="android:dialogCornerRadius">24dp</item>
-        <item name="android:buttonCornerRadius">24dp</item>
+        <item name="android:dialogCornerRadius">@dimen/cont_corner_radius</item>
+        <item name="android:buttonCornerRadius">@dimen/cont_corner_radius</item>
         <item name="android:background">@drawable/container</item>
         <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
         <item name="android:fontFamily">@font/normal</item>
         <item name="android:tint">@color/colorAccent</item>
-        <item name="android:radius">24dp</item>
+        <item name="android:radius">@dimen/cont_corner_radius</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorButtonNormal">@color/colorAccent</item>
         <item name="colorPrimary">@color/colorAccent</item>
@@ -52,15 +52,15 @@
 
     <style name="dividerAccent">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">2dp</item>
+        <item name="android:layout_height">@dimen/_1sdp</item>
         <item name="android:background">@drawable/divider_accent</item>
-        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginTop">@dimen/_10sdp</item>
         <item name="android:layout_marginBottom">@dimen/container_paddingSide</item>
     </style>
 
     <style name="dividerTransparent">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">2dp</item>
+        <item name="android:layout_height">@dimen/_1sdp</item>
         <item name="android:background">@color/transparent</item>
     </style>
 
@@ -90,16 +90,21 @@
     <style name="customRadioButtonColored">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:paddingTop">@dimen/_8sdp</item>
+        <item name="android:paddingBottom">@dimen/_10sdp</item>
         <item name="android:paddingStart">@dimen/container_paddingSide</item>
         <item name="android:paddingEnd">@dimen/container_paddingSide</item>
-        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginTop">@dimen/_4sdp</item>
+        <item name="android:layout_marginBottom">@dimen/_4sdp</item>
         <item name="android:button">@null</item>
         <item name="android:background">@drawable/radio_sb_button_bg</item>
         <item name="android:textColor">@drawable/radio_sb_text_color</item>
         <item name="android:textSize">@dimen/cont_desc_size</item>
     </style>
 
-    <style name="buttonMain">
+    <style name="buttonLandingPage">
         <item name="fontFamily">@font/regular</item>
         <item name="android:background">@drawable/button</item>
         <item name="android:textColor">@color/textColorPrimaryInverse</item>
@@ -111,5 +116,45 @@
         <item name="android:paddingBottom">@dimen/_6sdp</item>
         <item name="android:stateListAnimator">@null</item>
         <item name="backgroundTint">@null</item>
+    </style>
+
+    <style name="buttonMain">
+        <item name="fontFamily">@font/normal</item>
+        <item name="android:background">@drawable/button</item>
+        <item name="android:letterSpacing">0.18</item>
+        <item name="android:textColor">@color/textColorPrimaryInverse</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">@dimen/_12sdp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingStart">@dimen/_28sdp</item>
+        <item name="android:paddingTop">@dimen/_8sdp</item>
+        <item name="android:paddingEnd">@dimen/_28sdp</item>
+        <item name="android:paddingBottom">@dimen/_10sdp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="backgroundTint">@null</item>
+    </style>
+
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="fontFamily">@font/header</item>
+        <item name="android:textSize">@dimen/_24sdp</item>
+        <item name="android:letterSpacing">0.1</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Toolbar.TitleText.Collapsed" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="fontFamily">@font/header</item>
+        <item name="android:textSize">@dimen/_15sdp</item>
+        <item name="android:letterSpacing">0.1</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Toolbar.TitleText.Expanded" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="fontFamily">@font/header</item>
+        <item name="android:textSize">@dimen/_24sdp</item>
+        <item name="android:letterSpacing">0.1</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

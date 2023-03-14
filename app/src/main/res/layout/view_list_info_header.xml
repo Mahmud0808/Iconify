@@ -3,9 +3,9 @@
     android:id="@+id/list_info_header"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="28dp"
+    android:layout_marginStart="@dimen/_20sdp"
     android:layout_marginTop="@dimen/container_marginSide"
     android:layout_marginBottom="@dimen/container_marginSide"
     android:textColor="@color/textColorPrimary"
-    android:textSize="20sp"
+    android:textSize="@dimen/header_title_size"
     android:textStyle="bold" />

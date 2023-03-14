@@ -33,9 +33,11 @@ public class IconPack extends AppCompatActivity {
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
         collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_icon_pack));
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.activity_title_icon_pack);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_home_as_up_indicator);
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);

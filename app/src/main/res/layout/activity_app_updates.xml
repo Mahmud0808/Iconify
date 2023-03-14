@@ -79,14 +79,23 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
+                        <FrameLayout
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
                             android:layout_gravity="start|center"
                             android:layout_marginEnd="@dimen/container_padding"
-                            android:background="@drawable/ic_update"
-                            android:contentDescription="@string/icon"
-                            app:tint="@color/textColorPrimary" />
+                            android:background="@drawable/menu_icon_bg">
+
+                            <ImageView
+                                android:id="@+id/list_preview"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/ic_update"
+                                android:backgroundTint="@color/textColorPrimary"
+                                android:contentDescription="@string/icon" />
+
+                        </FrameLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"

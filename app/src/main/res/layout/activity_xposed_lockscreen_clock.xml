@@ -138,50 +138,36 @@
 
                 <Button
                     android:id="@+id/pick_lsclock_font"
+                    style="@style/buttonMain"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/container_padding"
-                    android:background="@drawable/button"
-                    android:fontFamily="@font/regular"
-                    android:letterSpacing="0.2"
-                    android:stateListAnimator="@null"
-                    android:text="@string/btn_pick_font"
-                    android:textColor="@color/colorBackground"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold"
-                    app:backgroundTint="@null" />
+                    android:paddingTop="@dimen/_4sdp"
+                    android:paddingBottom="@dimen/_6sdp"
+                    android:text="@string/btn_pick_font" />
 
                 <Button
                     android:id="@+id/enable_lsclock_font"
+                    style="@style/buttonMain"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/container_padding"
-                    android:background="@drawable/button"
-                    android:fontFamily="@font/regular"
-                    android:letterSpacing="0.2"
-                    android:stateListAnimator="@null"
+                    android:paddingTop="@dimen/_4sdp"
+                    android:paddingBottom="@dimen/_6sdp"
                     android:text="@string/btn_enable"
-                    android:textColor="@color/colorBackground"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold"
-                    android:visibility="gone"
-                    app:backgroundTint="@null" />
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/disable_lsclock_font"
+                    style="@style/buttonMain"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/container_padding"
                     android:background="@drawable/button_red"
-                    android:fontFamily="@font/regular"
-                    android:letterSpacing="0.2"
-                    android:stateListAnimator="@null"
+                    android:paddingTop="@dimen/_4sdp"
+                    android:paddingBottom="@dimen/_6sdp"
                     android:text="@string/btn_disable"
-                    android:textColor="@color/colorBackground"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold"
-                    android:visibility="gone"
-                    app:backgroundTint="@null" />
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -424,17 +410,12 @@
 
                 <Button
                     android:id="@+id/restart_sysui"
+                    style="@style/buttonMain"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/button"
-                    android:fontFamily="@font/regular"
-                    android:letterSpacing="0.1"
-                    android:stateListAnimator="@null"
-                    android:text="@string/btn_restart_systemui"
-                    android:textColor="@color/colorBackground"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold"
-                    app:backgroundTint="@null" />
+                    android:paddingTop="@dimen/_4sdp"
+                    android:paddingBottom="@dimen/_6sdp"
+                    android:text="@string/btn_restart_systemui" />
 
             </LinearLayout>
         </LinearLayout>

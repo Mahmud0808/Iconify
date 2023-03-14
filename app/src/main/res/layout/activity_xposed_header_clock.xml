@@ -231,6 +231,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/container_margin"
                 android:background="@drawable/container_bottom"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/container_paddingSide"

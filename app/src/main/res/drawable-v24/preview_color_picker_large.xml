@@ -5,5 +5,5 @@
         android:angle="0.0"
         android:endColor="@android:color/holo_green_light"
         android:startColor="@android:color/holo_blue_light" />
-    <corners android:radius="24dp" />
+    <corners android:radius="@dimen/cont_corner_radius" />
 </shape>

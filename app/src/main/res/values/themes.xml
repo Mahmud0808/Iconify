@@ -25,8 +25,9 @@
         <item name="android:windowLightNavigationBar">true</item>
 
         <!-- App theme -->
-        <item name="android:fontFamily">@font/normal</item>
         <item name="fontFamily">@font/normal</item>
+        <item name="android:fontFamily">@font/normal</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
         <item name="android:colorControlNormal">@color/textColorPrimary</item>
@@ -82,24 +83,6 @@
         </item>
         <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Material3.LargeComponent
         </item>
-    </style>
-
-    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">32sp</item>
-        <item name="android:letterSpacing">0.1</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="Toolbar.TitleText.Collapsed" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">20sp</item>
-        <item name="android:letterSpacing">0.1</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="Toolbar.TitleText.Expanded" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">32sp</item>
-        <item name="android:letterSpacing">0.1</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Theme.Iconify.SplashScreen" parent="Theme.SplashScreen">

@@ -41,9 +41,11 @@ public class NavigationBar extends AppCompatActivity {
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
         collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_navigation_bar));
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.activity_title_navigation_bar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_home_as_up_indicator);
 
         // Switches
         nb_fullscreen = findViewById(R.id.nb_fullscreen);

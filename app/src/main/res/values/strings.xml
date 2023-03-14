@@ -458,4 +458,14 @@
     <string name="need_reboot_desc">Reboot your device to put all files in place.</string>
     <string name="installation_failed_title">Oops Did Not Expect That</string>
     <string name="installation_failed_desc">Logs have been saved in documents folder.</string>
+    <string name="toast_message">Toast Message</string>
+    <string name="settings_icons_background">Background</string>
+    <string name="settings_icons_minimal">Minimal</string>
+    <string name="settings_icons_filled">Filled</string>
+    <string name="settings_icons_outline">Outline</string>
+    <string name="settings_icons_neumorph">Neumorph</string>
+    <string name="settins_icons_icon_color">Icon Color</string>
+    <string name="settings_icons_follow_system">Follow System</string>
+    <string name="settings_icons_system_inverse">System Inverse</string>
+    <string name="settings_icons_monet_accent">Monet / Accent</string>
 </resources>

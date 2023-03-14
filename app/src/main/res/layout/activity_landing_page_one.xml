@@ -82,6 +82,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_14sdp"
+                            android:lineSpacingMultiplier="1"
                             android:text="@string/landing_page_one_title"
                             android:textColor="@color/textColorPrimary"
                             android:textSize="@dimen/_30sdp"
@@ -93,7 +94,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_8sdp"
                             android:letterSpacing="0.02"
-                            android:lineHeight="@dimen/_30sdp"
+                            android:lineHeight="@dimen/_18sdp"
+                            android:lineSpacingMultiplier="1"
                             android:text="@string/landing_page_one_desc"
                             android:textColor="@color/textColorSecondary"
                             android:textSize="@dimen/_14sdp"
@@ -117,7 +119,7 @@
 
                 <Button
                     android:id="@+id/btn_next"
-                    style="@style/buttonMain"
+                    style="@style/buttonLandingPage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center"

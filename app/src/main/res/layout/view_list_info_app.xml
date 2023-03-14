@@ -12,11 +12,11 @@
     android:paddingBottom="@dimen/container_padding">
 
     <FrameLayout
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+        android:layout_width="@dimen/_56sdp"
+        android:layout_height="@dimen/_56sdp"
         android:layout_gravity="center"
         android:background="@drawable/ic_launcher_bg2"
-        android:padding="8dp">
+        android:padding="@dimen/_6sdp">
 
         <ImageView
             android:layout_width="match_parent"
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:text="@string/app_name"
             android:textColor="@color/textColorPrimary"
-            android:textSize="20sp"
+            android:textSize="@dimen/_15sdp"
             android:textStyle="bold" />
 
         <TextView
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:text="@string/iconify_slogan"
             android:textColor="@color/textColorSecondary"
-            android:textSize="16sp" />
+            android:textSize="@dimen/_12sdp" />
 
     </LinearLayout>
 </LinearLayout>

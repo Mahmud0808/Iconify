@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/progressbar_child"
     android:layout_width="match_parent"
@@ -18,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|top"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="@dimen/_12sdp"
         android:textColor="@color/textColorPrimary"
         android:textSize="@dimen/cont_title_size"
         android:textStyle="bold"
@@ -30,39 +29,30 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:background="@drawable/preview_seekbar_default"
-        android:minHeight="28.0dip"
+        android:minHeight="@dimen/_22sdp"
         tools:ignore="ContentDescription" />
 
     <Button
         android:id="@+id/enable_progressbar"
+        style="@style/buttonMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/container_padding"
-        android:background="@drawable/button"
-        android:fontFamily="@font/regular"
-        android:letterSpacing="0.2"
-        android:stateListAnimator="@null"
+        android:paddingTop="@dimen/_4sdp"
+        android:paddingBottom="@dimen/_6sdp"
         android:text="@string/btn_enable"
-        android:textColor="@color/colorBackground"
-        android:textSize="@dimen/cont_title_size"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:backgroundTint="@null" />
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/disable_progressbar"
+        style="@style/buttonMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/container_padding"
         android:background="@drawable/button_red"
-        android:fontFamily="@font/regular"
-        android:letterSpacing="0.2"
-        android:stateListAnimator="@null"
+        android:paddingTop="@dimen/_4sdp"
+        android:paddingBottom="@dimen/_6sdp"
         android:text="@string/btn_disable"
-        android:textColor="@color/colorBackground"
-        android:textSize="@dimen/cont_title_size"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:backgroundTint="@null" />
+        android:visibility="gone" />
 
 </LinearLayout>

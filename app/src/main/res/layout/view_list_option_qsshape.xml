@@ -65,7 +65,7 @@
                     android:id="@+id/qs_text1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="@dimen/_1sdp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/qstile_btn1_title"
@@ -99,7 +99,7 @@
                     android:id="@+id/qs_text2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="@dimen/_1sdp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/qstile_btn2_title"
@@ -142,7 +142,7 @@
                     android:id="@+id/qs_text3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="@dimen/_1sdp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/qstile_btn3_title"
@@ -176,7 +176,7 @@
                     android:id="@+id/qs_text4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="@dimen/_1sdp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/qstile_btn4_title"
@@ -190,34 +190,25 @@
 
     <Button
         android:id="@+id/enable_qsshape"
+        style="@style/buttonMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/container_padding"
-        android:background="@drawable/button"
-        android:fontFamily="@font/regular"
-        android:letterSpacing="0.2"
-        android:stateListAnimator="@null"
+        android:paddingTop="@dimen/_4sdp"
+        android:paddingBottom="@dimen/_6sdp"
         android:text="@string/btn_enable"
-        android:textColor="@color/colorBackground"
-        android:textSize="@dimen/cont_title_size"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:backgroundTint="@null" />
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/disable_qsshape"
+        style="@style/buttonMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/container_padding"
         android:background="@drawable/button_red"
-        android:fontFamily="@font/regular"
-        android:letterSpacing="0.2"
-        android:stateListAnimator="@null"
+        android:paddingTop="@dimen/_4sdp"
+        android:paddingBottom="@dimen/_6sdp"
         android:text="@string/btn_disable"
-        android:textColor="@color/colorBackground"
-        android:textSize="@dimen/cont_title_size"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:backgroundTint="@null" />
+        android:visibility="gone" />
 
 </LinearLayout>

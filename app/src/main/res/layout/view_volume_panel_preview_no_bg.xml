@@ -17,8 +17,8 @@
 
         <ImageView
             android:id="@+id/volume_ringer_icon"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_gravity="center"
             android:background="@drawable/ic_volume_audio"
             android:backgroundTint="@color/textColorPrimaryInverse"

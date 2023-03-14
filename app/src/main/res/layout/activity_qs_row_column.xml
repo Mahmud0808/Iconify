@@ -183,33 +183,24 @@
 
                     <Button
                         android:id="@+id/qs_row_column_apply"
+                        style="@style/buttonMain"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button"
-                        android:fontFamily="@font/regular"
-                        android:letterSpacing="0.2"
-                        android:stateListAnimator="@null"
-                        android:text="@string/btn_apply"
-                        android:textColor="@color/colorBackground"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold"
-                        app:backgroundTint="@null" />
+                        android:paddingTop="@dimen/_4sdp"
+                        android:paddingBottom="@dimen/_6sdp"
+                        android:text="@string/btn_apply" />
 
                     <Button
                         android:id="@+id/qs_row_column_reset"
+                        style="@style/buttonMain"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/container_padding"
                         android:background="@drawable/button_red"
-                        android:fontFamily="@font/regular"
-                        android:letterSpacing="0.2"
-                        android:stateListAnimator="@null"
+                        android:paddingTop="@dimen/_4sdp"
+                        android:paddingBottom="@dimen/_6sdp"
                         android:text="@string/btn_reset"
-                        android:textColor="@color/colorBackground"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold"
-                        android:visibility="gone"
-                        app:backgroundTint="@null" />
+                        android:visibility="gone" />
 
                 </LinearLayout>
             </LinearLayout>

@@ -12,14 +12,14 @@
         android:background="@drawable/container_mid"
         android:orientation="horizontal"
         android:paddingStart="@dimen/container_paddingSide"
-        android:paddingTop="16dp"
+        android:paddingTop="@dimen/_10sdp"
         android:paddingEnd="@dimen/container_paddingSide"
-        android:paddingBottom="16dp">
+        android:paddingBottom="@dimen/_10sdp">
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
             android:layout_gravity="start|center"
             android:contentDescription="@string/icon"
             app:tint="@color/textColorSecondary" />
@@ -37,13 +37,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/textColorPrimary"
-                android:textSize="16sp"
+                android:textSize="@dimen/_11sdp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_1sdp"
                 android:textColor="@color/textColorSecondary"
                 android:textSize="@dimen/cont_desc_size" />
 

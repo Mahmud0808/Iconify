@@ -116,7 +116,7 @@
             <View
                 android:id="@+id/color_preview_large"
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
+                android:layout_height="@dimen/_160sdp"
                 android:layout_marginBottom="@dimen/container_margin"
                 android:background="@drawable/preview_color_picker_large"
                 android:contentDescription="@string/color_picker_preview" />
@@ -160,10 +160,10 @@
 
                 <View
                     android:id="@+id/preview_color_picker_primary"
-                    android:layout_width="48.0dp"
-                    android:layout_height="48.0dp"
+                    android:layout_width="@dimen/_36sdp"
+                    android:layout_height="@dimen/_36sdp"
                     android:layout_gravity="start|center"
-                    android:layout_margin="2.0dp"
+                    android:layout_margin="@dimen/_2sdp"
                     android:background="@drawable/preview_color_picker_primary"
                     android:contentDescription="@string/color_picker_preview" />
 
@@ -211,10 +211,10 @@
 
                 <View
                     android:id="@+id/preview_color_picker_secondary"
-                    android:layout_width="48.0dp"
-                    android:layout_height="48.0dp"
+                    android:layout_width="@dimen/_36sdp"
+                    android:layout_height="@dimen/_36sdp"
                     android:layout_gravity="start|center"
-                    android:layout_margin="2.0dp"
+                    android:layout_margin="@dimen/_2sdp"
                     android:background="@drawable/preview_color_picker_secondary"
                     android:contentDescription="@string/color_picker_preview" />
 
@@ -222,37 +222,22 @@
 
             <Button
                 android:id="@+id/enable_custom_color"
+                style="@style/buttonMain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/container_margin"
-                android:background="@drawable/button"
-                android:fontFamily="@font/regular"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:stateListAnimator="@null"
                 android:text="@string/btn_enable_custom_colors"
-                android:textColor="@color/colorBackground"
-                android:textSize="@dimen/cont_title_size"
-                android:textStyle="bold"
-                android:visibility="gone"
-                app:backgroundTint="@null" />
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/disable_custom_color"
+                style="@style/buttonMain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/container_margin"
                 android:background="@drawable/button_red"
-                android:fontFamily="@font/regular"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:stateListAnimator="@null"
                 android:text="@string/btn_disable_custom_colors"
-                android:textColor="@color/colorBackground"
-                android:textSize="@dimen/cont_title_size"
-                android:textStyle="bold"
-                android:visibility="gone"
-                app:backgroundTint="@null" />
+                android:visibility="gone" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

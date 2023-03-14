@@ -43,7 +43,7 @@ public class InstallationDialog extends AppCompatActivity {
         TextView l = dialog.findViewById(R.id.logs);
         l.setMovementMethod(new ScrollingMovementMethod());
 
-        TextView lv = dialog.findViewById(R.id.log_viewer);
+        FrameLayout lv = dialog.findViewById(R.id.log_viewer);
         lv.setOnClickListener(v -> {
             if (dialog.findViewById(R.id.logs_layout).getVisibility() == View.GONE) {
                 dialog.findViewById(R.id.logs_layout).setVisibility(View.VISIBLE);

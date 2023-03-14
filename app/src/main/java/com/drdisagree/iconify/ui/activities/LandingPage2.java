@@ -5,7 +5,6 @@ import static com.drdisagree.iconify.utils.SystemUtil.isDarkMode;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 

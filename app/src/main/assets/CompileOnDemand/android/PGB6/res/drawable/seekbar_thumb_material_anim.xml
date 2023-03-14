@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <animated-selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_enabled="false">
-        <shape
-            android:shape="rectangle">
+        <shape android:shape="rectangle">
             <solid android:color="?android:colorBackground" />
             <size
                 android:width="24.0dip"
@@ -14,8 +13,7 @@
         </shape>
     </item>
     <item android:state_pressed="true">
-        <shape
-            android:shape="rectangle">
+        <shape android:shape="rectangle">
             <solid android:color="?android:colorBackground" />
             <size
                 android:width="24.0dip"
@@ -27,8 +25,7 @@
         </shape>
     </item>
     <item>
-        <shape
-            android:shape="rectangle">
+        <shape android:shape="rectangle">
             <solid android:color="?android:colorBackground" />
             <size
                 android:width="24.0dip"

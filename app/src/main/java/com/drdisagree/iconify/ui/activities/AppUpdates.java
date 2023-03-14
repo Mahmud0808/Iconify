@@ -58,11 +58,13 @@ public class AppUpdates extends AppCompatActivity {
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle("App Updates");
+        collapsing_toolbar.setTitle(getResources().getString(R.string.app_updates));
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.app_updates);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_home_as_up_indicator);
 
         final Spinner check_update_every = findViewById(R.id.check_update_every);
         List<String> update_schedule = new ArrayList<>();

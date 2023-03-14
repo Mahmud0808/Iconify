@@ -37,11 +37,29 @@
                 android:paddingEnd="@dimen/container_paddingSide"
                 android:paddingBottom="@dimen/container_padding">
 
+                <FrameLayout
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_gravity="start|center"
+                    android:layout_marginEnd="@dimen/container_padding"
+                    android:background="@drawable/menu_icon_bg">
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/icon"
+                        android:src="@drawable/ic_basic_colors"
+                        app:tint="@color/textColorPrimary" />
+
+                </FrameLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|center"
                     android:layout_marginEnd="@dimen/container_padding"
+                    android:layout_marginBottom="3dp"
                     android:layout_weight="1.0"
                     android:orientation="vertical">
 
@@ -64,11 +82,12 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="start|center"
-                    android:background="@drawable/ic_basic_colors"
-                    android:contentDescription="@string/icon" />
+                    android:layout_width="@dimen/_14sdp"
+                    android:layout_height="@dimen/_14sdp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/icon"
+                    android:src="@drawable/ic_arrow_end"
+                    app:tint="@color/textColorPrimary" />
 
             </LinearLayout>
 
@@ -88,11 +107,29 @@
                 android:paddingEnd="@dimen/container_paddingSide"
                 android:paddingBottom="@dimen/container_padding">
 
+                <FrameLayout
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_gravity="start|center"
+                    android:layout_marginEnd="@dimen/container_padding"
+                    android:background="@drawable/menu_icon_bg">
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/icon"
+                        android:src="@drawable/ic_monet_engine"
+                        app:tint="@color/textColorPrimary" />
+
+                </FrameLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|center"
                     android:layout_marginEnd="@dimen/container_padding"
+                    android:layout_marginBottom="3dp"
                     android:layout_weight="1.0"
                     android:orientation="vertical">
 
@@ -114,11 +151,12 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="start|center"
-                    android:background="@drawable/ic_monet_engine"
-                    android:contentDescription="@string/icon" />
+                    android:layout_width="@dimen/_14sdp"
+                    android:layout_height="@dimen/_14sdp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/icon"
+                    android:src="@drawable/ic_arrow_end"
+                    app:tint="@color/textColorPrimary" />
 
             </LinearLayout>
 

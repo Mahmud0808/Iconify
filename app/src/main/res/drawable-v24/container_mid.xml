@@ -6,13 +6,13 @@
             <item>
                 <shape android:shape="rectangle">
                     <solid android:color="@color/colorContainer" />
-                    <corners android:radius="8dp" />
+                    <corners android:radius="@dimen/_5sdp" />
                 </shape>
             </item>
             <item>
                 <shape android:shape="rectangle">
                     <solid android:color="@color/colorContainerOverlay" />
-                    <corners android:radius="8dp" />
+                    <corners android:radius="@dimen/_5sdp" />
                 </shape>
             </item>
         </layer-list>

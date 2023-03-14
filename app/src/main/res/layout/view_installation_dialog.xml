@@ -8,13 +8,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="24dp"
+        android:layout_margin="@dimen/_18sdp"
         android:background="@drawable/container"
         android:elevation="8dp"
         android:gravity="center"
         android:layoutDirection="locale"
         android:orientation="vertical"
-        android:padding="28dp"
+        android:padding="@dimen/_22sdp"
         tools:ignore="UselessParent">
 
         <LinearLayout
@@ -24,10 +24,10 @@
 
             <ProgressBar
                 style="?android:attr/progressBarStyleLarge"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="@dimen/_36sdp"
+                android:layout_height="@dimen/_36sdp"
                 android:layout_gravity="center"
-                android:layout_marginEnd="12dp"
+                android:layout_marginEnd="@dimen/_8sdp"
                 android:foregroundTint="@color/colorAccent"
                 android:indeterminateTint="@color/colorAccent"
                 android:progressDrawable="@drawable/circular_progress_bar" />
@@ -48,46 +48,50 @@
                         android:id="@+id/title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
                         android:gravity="start|center"
                         android:text="@string/installing"
                         android:textAlignment="viewStart"
                         android:textColor="@color/textColorPrimary"
-                        android:textSize="17sp"
+                        android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
 
                     <View
                         android:layout_width="0dp"
-                        android:layout_height="1dp"
+                        android:layout_height="@dimen/_1sdp"
                         android:layout_weight="1.0" />
 
-                    <TextView
+                    <FrameLayout
                         android:id="@+id/log_viewer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/button_small"
                         android:gravity="end|center"
-                        android:paddingStart="8dp"
-                        android:paddingTop="2dp"
-                        android:paddingEnd="8dp"
-                        android:paddingBottom="2dp"
-                        android:text="@string/logs"
-                        android:textAlignment="viewEnd"
-                        android:textColor="@color/textColorPrimaryInverse"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:paddingStart="@dimen/_6sdp"
+                        android:paddingEnd="@dimen/_6sdp"
+                        android:paddingBottom="@dimen/_2sdp">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/logs"
+                            android:textAlignment="viewEnd"
+                            android:textColor="@color/textColorPrimaryInverse"
+                            android:textSize="@dimen/cont_desc_size"
+                            android:textStyle="bold" />
+
+                    </FrameLayout>
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/desc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_2sdp"
                     android:gravity="start|center"
                     android:text="@string/loading_dialog_wait"
                     android:textAlignment="viewStart"
                     android:textColor="@color/textColorSecondary"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/cont_desc_size" />
 
             </LinearLayout>
         </LinearLayout>
@@ -96,25 +100,25 @@
             android:id="@+id/logs_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/_6sdp"
             android:orientation="horizontal"
             android:visibility="gone">
 
             <View
-                android:layout_width="48dp"
-                android:layout_height="1dp"
-                android:layout_marginEnd="12dp" />
+                android:layout_width="@dimen/_36sdp"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginEnd="@dimen/_8sdp" />
 
             <TextView
                 android:id="@+id/logs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_minus2sdp"
                 android:gravity="start|bottom"
-                android:lineHeight="18sp"
-                android:maxLines="8"
+                android:maxLines="12"
                 android:textAlignment="viewStart"
                 android:textColor="@color/textColorSecondary"
-                android:textSize="12sp" />
+                android:textSize="@dimen/_8sdp" />
 
         </LinearLayout>
     </LinearLayout>

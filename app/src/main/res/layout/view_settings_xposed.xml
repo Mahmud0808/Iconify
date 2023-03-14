@@ -8,12 +8,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="@dimen/container_paddingSide"
         android:layout_marginTop="@dimen/container_marginSide"
         android:layout_marginBottom="@dimen/container_marginSide"
         android:text="@string/list_title_xposed_settings"
         android:textColor="@color/textColorPrimary"
-        android:textSize="20sp"
+        android:textSize="@dimen/header_title_size"
         android:textStyle="bold" />
 
     <LinearLayout
