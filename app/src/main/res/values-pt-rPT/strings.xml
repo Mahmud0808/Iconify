@@ -454,4 +454,14 @@
     <string name="need_reboot_title">É necessário reiniciar</string>
     <string name="need_reboot_desc">Reinicie o seu dispositivo para meter tudo em ordem.</string>
     <string name="installation_failed_title">Oops..não estava à espera disto</string>
+    <string name="toast_message">Mensagem \"Toast\"</string>
+    <string name="settings_icons_background">Pano de fundo</string>
+    <string name="settings_icons_minimal">Mínimo</string>
+    <string name="settings_icons_filled">Preenchido</string>
+    <string name="settings_icons_outline">Contorno</string>
+    <string name="settings_icons_neumorph">Neumorfo</string>
+    <string name="settins_icons_icon_color">Cor dos ícones</string>
+    <string name="settings_icons_follow_system">Seguir sistema</string>
+    <string name="settings_icons_system_inverse">Inverso do sistema</string>
+    <string name="settings_icons_monet_accent">"Monet / Destaque"</string>
 </resources>
