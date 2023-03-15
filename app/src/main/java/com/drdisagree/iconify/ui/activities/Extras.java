@@ -35,7 +35,6 @@ public class Extras extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_home_as_up_indicator);
 
         // Extras page list items
         container = findViewById(R.id.extras_list);

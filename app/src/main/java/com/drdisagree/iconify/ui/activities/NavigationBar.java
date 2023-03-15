@@ -45,7 +45,6 @@ public class NavigationBar extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_home_as_up_indicator);
 
         // Switches
         nb_fullscreen = findViewById(R.id.nb_fullscreen);

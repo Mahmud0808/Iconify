@@ -84,7 +84,6 @@ public class XposedHeaderImage extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_home_as_up_indicator);
 
         // Header image picker
         Button pick_header_image = findViewById(R.id.pick_header_image);

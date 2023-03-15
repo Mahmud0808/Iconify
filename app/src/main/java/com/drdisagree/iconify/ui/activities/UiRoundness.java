@@ -54,7 +54,6 @@ public class UiRoundness extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_home_as_up_indicator);
 
         // Corner Radius
         GradientDrawable[] drawables = new GradientDrawable[]{(GradientDrawable) findViewById(R.id.qs_tile_preview1).getBackground(), (GradientDrawable) findViewById(R.id.qs_tile_preview2).getBackground(), (GradientDrawable) findViewById(R.id.qs_tile_preview3).getBackground(), (GradientDrawable) findViewById(R.id.qs_tile_preview4).getBackground(), (GradientDrawable) findViewById(R.id.brightness_bar_bg).getBackground(), (GradientDrawable) findViewById(R.id.brightness_bar_fg).getBackground(), (GradientDrawable) findViewById(R.id.auto_brightness).getBackground()};

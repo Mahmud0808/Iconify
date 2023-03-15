@@ -51,7 +51,6 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_home_as_up_indicator);
 
         // Statusbar left padding
         SeekBar sb_left_padding_seekbar = findViewById(R.id.sb_left_padding_seekbar);

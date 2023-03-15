@@ -82,7 +82,6 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_home_as_up_indicator);
 
         // Enable/Disable monet button
         enable_custom_monet = findViewById(R.id.enable_custom_monet);

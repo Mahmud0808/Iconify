@@ -55,7 +55,6 @@ public class XPosedMenu extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_home_as_up_indicator);
 
         // Xposed warn
         LinearLayout xposed_warn = findViewById(R.id.xposed_warn);

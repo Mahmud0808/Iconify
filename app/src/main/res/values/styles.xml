@@ -157,4 +157,13 @@
         <item name="android:letterSpacing">0.1</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="actionButtonOverflow" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_menu</item>
+        <item name="tint">@color/textColorPrimary</item>
+    </style>
+
+    <style name="actionBarStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="homeAsUpIndicator">@drawable/ic_home_as_up_indicator</item>
+    </style>
 </resources>
