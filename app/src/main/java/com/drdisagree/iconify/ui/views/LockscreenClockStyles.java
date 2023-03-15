@@ -17,7 +17,7 @@ public class LockscreenClockStyles {
     static Typeface typeface = null;
     static int topMargin = 0;
     static int bottomMargin = 0;
-    static int lineHeight = -4;
+    static int lineHeight = 0;
     static float textScaling = 0.6f;
     static boolean forceWhiteText = false;
 
@@ -115,6 +115,9 @@ public class LockscreenClockStyles {
                 month2.setTextColor(mContext.getResources().getColor(android.R.color.white));
                 month2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20 * textScaling);
                 month2.setTypeface(typeface != null ? typeface : month2.getTypeface());
+                ViewGroup.MarginLayoutParams monthParams2 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                monthParams2.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()), 0, 0);
+                month2.setLayoutParams(monthParams2);
 
                 final LinearLayout wholeContainer2 = new LinearLayout(mContext);
                 LinearLayout.LayoutParams layoutparams2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -158,7 +161,7 @@ public class LockscreenClockStyles {
                 clockMinute3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 160 * textScaling);
                 clockMinute3.setTypeface(typeface != null ? typeface : clockMinute3.getTypeface(), Typeface.BOLD);
                 ViewGroup.MarginLayoutParams clockMinuteParams3 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                clockMinuteParams3.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -80 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
+                clockMinuteParams3.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -60 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
                 clockMinute3.setLayoutParams(clockMinuteParams3);
 
                 final LinearLayout clockContainer3 = new LinearLayout(mContext);
