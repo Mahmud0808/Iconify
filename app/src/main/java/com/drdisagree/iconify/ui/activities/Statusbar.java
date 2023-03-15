@@ -56,14 +56,9 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
         // Statusbar left padding
         SeekBar sb_left_padding_seekbar = findViewById(R.id.sb_left_padding_seekbar);
         TextView sb_left_padding_output = findViewById(R.id.sb_left_padding_output);
-        final int[] finalSBLeftPadding = {8};
-
-        if (Prefs.getInt(FABRICATED_SB_LEFT_PADDING, -1) != -1) {
-            finalSBLeftPadding[0] = Prefs.getInt(FABRICATED_SB_LEFT_PADDING);
-            sb_left_padding_output.setText(getResources().getString(R.string.opt_selected) + ' ' + finalSBLeftPadding[0] + "dp");
-            sb_left_padding_seekbar.setProgress(finalSBLeftPadding[0]);
-        } else
-            sb_left_padding_output.setText(getResources().getString(R.string.opt_selected) + " 8dp");
+        final int[] finalSBLeftPadding = {Prefs.getInt(FABRICATED_SB_LEFT_PADDING, 8)};
+        sb_left_padding_output.setText(getResources().getString(R.string.opt_selected) + ' ' + finalSBLeftPadding[0] + "dp");
+        sb_left_padding_seekbar.setProgress(finalSBLeftPadding[0]);
 
         sb_left_padding_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -78,6 +73,7 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                Prefs.putInt(FABRICATED_SB_LEFT_PADDING, finalSBLeftPadding[0]);
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_SB_LEFT_PADDING, "dimen", "status_bar_padding_start", finalSBLeftPadding[0] + "dp");
 
                 Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
@@ -87,14 +83,9 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
         // Statusbar right padding
         SeekBar sb_right_padding_seekbar = findViewById(R.id.sb_right_padding_seekbar);
         TextView sb_right_padding_output = findViewById(R.id.sb_right_padding_output);
-        final int[] finalSBRightPadding = {8};
-
-        if (Prefs.getInt(FABRICATED_SB_RIGHT_PADDING, -1) != -1) {
-            finalSBRightPadding[0] = Prefs.getInt(FABRICATED_SB_RIGHT_PADDING);
-            sb_right_padding_output.setText(getResources().getString(R.string.opt_selected) + ' ' + finalSBRightPadding[0] + "dp");
-            sb_right_padding_seekbar.setProgress(finalSBRightPadding[0]);
-        } else
-            sb_right_padding_output.setText(getResources().getString(R.string.opt_selected) + " 8dp");
+        final int[] finalSBRightPadding = {Prefs.getInt(FABRICATED_SB_RIGHT_PADDING, 8)};
+        sb_right_padding_output.setText(getResources().getString(R.string.opt_selected) + ' ' + finalSBRightPadding[0] + "dp");
+        sb_right_padding_seekbar.setProgress(finalSBRightPadding[0]);
 
         sb_right_padding_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -109,6 +100,7 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                Prefs.putInt(FABRICATED_SB_RIGHT_PADDING, finalSBRightPadding[0]);
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_SB_RIGHT_PADDING, "dimen", "status_bar_padding_end", finalSBRightPadding[0] + "dp");
 
                 Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
