@@ -37,11 +37,10 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/container_padding"
                 android:layout_marginBottom="@dimen/_6sdp"
-                app:dividerDrawable="@drawable/flexbox_divider_large"
+                app:alignItems="stretch"
                 app:flexDirection="row"
                 app:flexWrap="wrap"
-                app:justifyContent="center"
-                app:showDivider="middle" />
+                app:justifyContent="center" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
