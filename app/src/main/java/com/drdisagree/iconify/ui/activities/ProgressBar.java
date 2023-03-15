@@ -29,7 +29,6 @@ public class ProgressBar extends AppCompatActivity {
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
         collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_progress_bar));
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.activity_title_progress_bar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

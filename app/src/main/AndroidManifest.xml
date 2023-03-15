@@ -5,12 +5,14 @@
     <!-- <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> -->
     <!-- <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> -->
     <!-- To notify about new iconify updates -->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- Access phone storage for installation of overlays in temporary folder -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Access phone storage for installation of overlays in temporary folder -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" /> <!-- For checking new updates -->
+        tools:ignore="ScopedStorage" />
+    <!-- For checking new updates -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <queries>
@@ -41,6 +43,9 @@
         android:theme="@style/Theme.Iconify"
         tools:replace="android:allowBackup"
         tools:targetApi="tiramisu">
+        <activity
+            android:name=".ui.activities.Switch"
+            android:exported="false" />
         <activity
             android:name=".ui.activities.LandingPage2"
             android:exported="false" />

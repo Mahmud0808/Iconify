@@ -37,7 +37,6 @@ public class XposedOthers extends AppCompatActivity {
         CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
         collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_xposed_others));
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.activity_title_xposed_others);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
