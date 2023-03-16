@@ -43,7 +43,7 @@
             android:background="@drawable/ic_launcher_bg"
             android:backgroundTint="@color/colorBackground"
             android:contentDescription="@string/icon"
-            android:foreground="@drawable/ic_collapse_arrow"
+            android:foreground="@drawable/ic_expand_arrow"
             android:foregroundTint="@color/textColorPrimary" />
 
     </LinearLayout>
