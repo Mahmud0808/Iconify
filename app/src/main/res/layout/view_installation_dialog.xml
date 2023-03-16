@@ -22,13 +22,22 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
+            <FrameLayout
                 android:layout_width="@dimen/_36sdp"
                 android:layout_height="@dimen/_36sdp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="@dimen/_12sdp"
-                android:contentDescription="@string/icon"
-                android:src="@mipmap/ic_launcher_round" />
+                android:background="@drawable/ic_launcher_bg2"
+                android:padding="@dimen/_3sdp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iconify_logo"
+                    android:foreground="@drawable/ic_launcher_fg" />
+
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
