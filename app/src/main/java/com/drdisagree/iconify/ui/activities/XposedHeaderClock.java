@@ -165,11 +165,8 @@ public class XposedHeaderClock extends AppCompatActivity {
     private ClockPreviewAdapter initHeaderClockStyles() {
         ArrayList<ClockModel> header_clock = new ArrayList<>();
 
-        header_clock.add(new ClockModel(HeaderClockStyles.initHeaderClockStyle(this, 1)));
-        header_clock.add(new ClockModel(HeaderClockStyles.initHeaderClockStyle(this, 2)));
-        header_clock.add(new ClockModel(HeaderClockStyles.initHeaderClockStyle(this, 3)));
-        header_clock.add(new ClockModel(HeaderClockStyles.initHeaderClockStyle(this, 4)));
-        header_clock.add(new ClockModel(HeaderClockStyles.initHeaderClockStyle(this, 5)));
+        for (int i = 1; i <= 5; i++)
+            header_clock.add(new ClockModel(HeaderClockStyles.initHeaderClockStyle(this, i)));
 
         return new ClockPreviewAdapter(this, header_clock, HEADER_CLOCK_SWITCH, HEADER_CLOCK_STYLE);
     }

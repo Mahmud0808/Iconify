@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.views;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
@@ -11,6 +12,9 @@ import android.widget.AnalogClock;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextClock;
+import android.widget.TextView;
+
+import com.drdisagree.iconify.R;
 
 public class LockscreenClockStyles {
 
@@ -21,17 +25,28 @@ public class LockscreenClockStyles {
     static float textScaling = 0.6f;
     static boolean forceWhiteText = false;
 
+    @SuppressLint("SetTextI18n")
     public static LinearLayout initLockscreenClockStyle(Context mContext, int style) {
         LinearLayout container = new LinearLayout(mContext);
         container.setGravity(Gravity.START | Gravity.CENTER);
 
         switch (style) {
             case 0:
+                final TextView textView0 = new TextView(mContext);
+                textView0.setText("NONE");
+                textView0.setTextColor(mContext.getResources().getColor(R.color.textColorPrimary));
+                textView0.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 80 * textScaling);
+                textView0.setLetterSpacing(0.2f);
+                textView0.setTypeface(typeface != null ? typeface : textView0.getTypeface(), Typeface.BOLD);
+                textView0.setGravity(Gravity.CENTER);
+
                 final LinearLayout blank0 = new LinearLayout(mContext);
-                LinearLayout.LayoutParams blankParams0 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                LinearLayout.LayoutParams blankParams0 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
                 blankParams0.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()), 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, bottomMargin, mContext.getResources().getDisplayMetrics()));
                 blank0.setLayoutParams(blankParams0);
                 blank0.setOrientation(LinearLayout.VERTICAL);
+                blank0.setGravity(Gravity.CENTER);
+                blank0.addView(textView0);
 
                 container = blank0;
                 break;
@@ -150,7 +165,7 @@ public class LockscreenClockStyles {
                 clockHour3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 160 * textScaling);
                 clockHour3.setTypeface(typeface != null ? typeface : clockHour3.getTypeface(), Typeface.BOLD);
                 ViewGroup.MarginLayoutParams clockHourParams3 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                clockHourParams3.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -30 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
+                clockHourParams3.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -34 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
                 clockHour3.setLayoutParams(clockHourParams3);
 
                 final TextClock clockMinute3 = new TextClock(mContext);

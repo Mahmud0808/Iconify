@@ -255,11 +255,8 @@ public class XposedLockscreenClock extends AppCompatActivity {
     private ClockPreviewAdapter initLockscreenClockStyles() {
         ArrayList<ClockModel> ls_clock = new ArrayList<>();
 
-        ls_clock.add(new ClockModel(LockscreenClockStyles.initLockscreenClockStyle(this, 1)));
-        ls_clock.add(new ClockModel(LockscreenClockStyles.initLockscreenClockStyle(this, 2)));
-        ls_clock.add(new ClockModel(LockscreenClockStyles.initLockscreenClockStyle(this, 3)));
-        ls_clock.add(new ClockModel(LockscreenClockStyles.initLockscreenClockStyle(this, 4)));
-        ls_clock.add(new ClockModel(LockscreenClockStyles.initLockscreenClockStyle(this, 5)));
+        for (int i = 0; i <= 5; i++)
+            ls_clock.add(new ClockModel(LockscreenClockStyles.initLockscreenClockStyle(this, i)));
 
         return new ClockPreviewAdapter(this, ls_clock, LSCLOCK_SWITCH, LSCLOCK_STYLE);
     }

@@ -39,17 +39,22 @@ public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.view_header_clock_preview, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.view_clock_preview, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (itemList.get(position).getClock().getParent() == null)
+        if (holder.clock.getChildCount() == 0)
             holder.clock.addView(itemList.get(position).getClock());
 
+        if (holder.clock.getChildAt(0) != itemList.get(position).getClock()) {
+            holder.clock.removeViewAt(0);
+            holder.clock.addView(itemList.get(position).getClock());
+        }
+
         holder.clock.setOnClickListener(v -> {
-            RPrefs.putInt(prefStyle, position + 1);
+            RPrefs.putInt(prefStyle, position + (Objects.equals(prefSwitch, LSCLOCK_SWITCH) ? 0 : 1));
             if (Objects.equals(prefSwitch, LSCLOCK_SWITCH) && RPrefs.getBoolean(prefSwitch, false))
                 new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
             else {
