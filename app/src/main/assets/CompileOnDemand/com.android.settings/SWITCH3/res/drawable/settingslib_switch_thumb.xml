@@ -3,10 +3,10 @@
     <item android:state_checked="false">
         <layer-list>
             <item
-                android:bottom="6dp"
+                android:bottom="7dp"
                 android:end="2dp"
-                android:start="6dp"
-                android:top="6dp">
+                android:start="7dp"
+                android:top="7dp">
                 <shape
                     android:shape="oval"
                     android:tint="?android:colorForeground">
