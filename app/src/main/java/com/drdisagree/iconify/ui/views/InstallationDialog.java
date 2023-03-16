@@ -9,10 +9,13 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
+import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 
 public class InstallationDialog extends AppCompatActivity {
@@ -43,12 +46,14 @@ public class InstallationDialog extends AppCompatActivity {
         TextView l = dialog.findViewById(R.id.logs);
         l.setMovementMethod(new ScrollingMovementMethod());
 
-        FrameLayout lv = dialog.findViewById(R.id.log_viewer);
+        ImageView lv = dialog.findViewById(R.id.view_logs);
         lv.setOnClickListener(v -> {
             if (dialog.findViewById(R.id.logs_layout).getVisibility() == View.GONE) {
                 dialog.findViewById(R.id.logs_layout).setVisibility(View.VISIBLE);
+                lv.setForeground(ResourcesCompat.getDrawable(Iconify.getAppContext().getResources(), R.drawable.ic_collapse_arrow, null));
             } else {
                 dialog.findViewById(R.id.logs_layout).setVisibility(View.GONE);
+                lv.setForeground(ResourcesCompat.getDrawable(Iconify.getAppContext().getResources(), R.drawable.ic_expand_arrow, null));
             }
         });
 

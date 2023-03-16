@@ -14,7 +14,7 @@
         android:gravity="center"
         android:layoutDirection="locale"
         android:orientation="vertical"
-        android:padding="@dimen/_22sdp"
+        android:padding="@dimen/_18sdp"
         tools:ignore="UselessParent">
 
         <LinearLayout
@@ -22,15 +22,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ProgressBar
-                style="?android:attr/progressBarStyleLarge"
+            <ImageView
                 android:layout_width="@dimen/_36sdp"
                 android:layout_height="@dimen/_36sdp"
                 android:layout_gravity="center"
-                android:layout_marginEnd="@dimen/_8sdp"
-                android:foregroundTint="@color/colorAccent"
-                android:indeterminateTint="@color/colorAccent"
-                android:progressDrawable="@drawable/circular_progress_bar" />
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:contentDescription="@string/icon"
+                android:src="@mipmap/ic_launcher_round" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -55,31 +53,6 @@
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/_1sdp"
-                        android:layout_weight="1.0" />
-
-                    <FrameLayout
-                        android:id="@+id/log_viewer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/button_small"
-                        android:gravity="end|center"
-                        android:paddingStart="@dimen/_6sdp"
-                        android:paddingEnd="@dimen/_6sdp"
-                        android:paddingBottom="@dimen/_2sdp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/logs"
-                            android:textAlignment="viewEnd"
-                            android:textColor="@color/textColorPrimaryInverse"
-                            android:textSize="@dimen/cont_desc_size"
-                            android:textStyle="bold" />
-
-                    </FrameLayout>
                 </LinearLayout>
 
                 <TextView
@@ -94,6 +67,17 @@
                     android:textSize="@dimen/cont_desc_size" />
 
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/view_logs"
+                android:layout_width="@dimen/_18sdp"
+                android:layout_height="@dimen/_18sdp"
+                android:layout_gravity="end|center"
+                android:background="@drawable/button_round"
+                android:contentDescription="@string/icon"
+                android:foreground="@drawable/ic_expand_arrow"
+                android:foregroundTint="@color/textColorPrimaryInverse" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -105,7 +89,7 @@
             android:visibility="gone">
 
             <View
-                android:layout_width="@dimen/_36sdp"
+                android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_1sdp"
                 android:layout_marginEnd="@dimen/_8sdp" />
 
