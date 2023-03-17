@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start|center"
-        android:layout_marginStart="@dimen/container_paddingSide"
+        android:layout_marginStart="@dimen/_14sdp"
         android:gravity="start|center"
         android:orientation="vertical">
 
