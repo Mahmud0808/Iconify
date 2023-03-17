@@ -443,4 +443,12 @@
     <string name="btn_back">Назад</string>
     <string name="landing_page_two_title">Поддерживается ли мой девайс?</string>
     <string name="landing_page_two_desc">Iconify поддерживается на всех Pixel или AOSP прошивках</string>
+    <string name="activity_title_switch">Переключатель</string>
+    <string name="activity_desc_switch">Изменить внешний вид переключателя</string>
+    <string name="toast_message">Toast-уведомление</string>
+    <string name="settings_icons_background">Фон</string>
+    <string name="settins_icons_icon_color">Цвет иконки</string>
+    <string name="settings_icons_follow_system">Системный</string>
+    <string name="settings_icons_system_inverse">Системный (инвертированный)</string>
+    <string name="settings_icons_monet_accent">Monet / акцент</string>
 </resources>
