@@ -69,6 +69,7 @@ public class XposedHeaderClock extends AppCompatActivity {
         if (RPrefs.getInt(HEADER_CLOCK_STYLE, 0) != 0)
             container.setCurrentItem(RPrefs.getInt(HEADER_CLOCK_STYLE, 0) - 1);
         indicator.setViewPager(container);
+        indicator.tintIndicator(getResources().getColor(R.color.textColorSecondary));
 
         // Text Scaling
         SeekBar header_clock_textscaling_seekbar = findViewById(R.id.header_clock_textscaling_seekbar);

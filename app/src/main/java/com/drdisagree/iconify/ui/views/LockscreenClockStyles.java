@@ -34,7 +34,7 @@ public class LockscreenClockStyles {
             case 0:
                 final TextView textView0 = new TextView(mContext);
                 textView0.setText("NONE");
-                textView0.setTextColor(mContext.getResources().getColor(R.color.textColorPrimary));
+                textView0.setTextColor(mContext.getResources().getColor(forceWhiteText ? R.color.white : R.color.textColorPrimary));
                 textView0.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 80 * textScaling);
                 textView0.setLetterSpacing(0.2f);
                 textView0.setTypeface(typeface != null ? typeface : textView0.getTypeface(), Typeface.BOLD);
@@ -55,8 +55,8 @@ public class LockscreenClockStyles {
                 date1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 date1.setFormat12Hour("EEEE d MMMM");
                 date1.setFormat24Hour("EEEE d MMMM");
-                date1.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
-                date1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20 * textScaling);
+                date1.setTextColor(mContext.getResources().getColor(forceWhiteText ? R.color.white : R.color.holo_blue_light));
+                date1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 22 * textScaling);
                 date1.setTypeface(typeface != null ? typeface : date1.getTypeface(), Typeface.BOLD);
                 ViewGroup.MarginLayoutParams dateParams1 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                 dateParams1.setMargins(0, 0, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -16, mContext.getResources().getDisplayMetrics()));
@@ -66,11 +66,11 @@ public class LockscreenClockStyles {
                 clock1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 clock1.setFormat12Hour("hh:mm");
                 clock1.setFormat24Hour("HH:mm");
-                clock1.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
+                clock1.setTextColor(mContext.getResources().getColor(forceWhiteText ? R.color.white : R.color.holo_blue_light));
                 clock1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 100 * textScaling);
                 clock1.setTypeface(typeface != null ? typeface : clock1.getTypeface(), Typeface.BOLD);
                 ViewGroup.MarginLayoutParams clockParams1 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                clockParams1.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
+                clockParams1.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -4 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
                 clock1.setLayoutParams(clockParams1);
 
                 final LinearLayout clockContainer1 = new LinearLayout(mContext);
@@ -91,7 +91,7 @@ public class LockscreenClockStyles {
                 day2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 day2.setFormat12Hour("EEEE");
                 day2.setFormat24Hour("EEEE");
-                day2.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                day2.setTextColor(mContext.getResources().getColor(forceWhiteText ? R.color.white : R.color.textColorPrimary));
                 day2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 50 * textScaling);
                 day2.setTypeface(typeface != null ? typeface : day2.getTypeface());
 
@@ -99,7 +99,7 @@ public class LockscreenClockStyles {
                 clock2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 clock2.setFormat12Hour("hh:mm");
                 clock2.setFormat24Hour("HH:mm");
-                clock2.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                clock2.setTextColor(mContext.getResources().getColor(forceWhiteText ? R.color.white : R.color.textColorPrimary));
                 clock2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 50 * textScaling);
                 clock2.setTypeface(typeface != null ? typeface : clock2.getTypeface());
 
@@ -107,7 +107,7 @@ public class LockscreenClockStyles {
                 clockOverlay2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 clockOverlay2.setFormat12Hour("hh");
                 clockOverlay2.setFormat24Hour("HH");
-                clockOverlay2.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
+                clockOverlay2.setTextColor(mContext.getResources().getColor(forceWhiteText ? R.color.white : R.color.holo_blue_light));
                 clockOverlay2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 50 * textScaling);
                 clockOverlay2.setMaxLines(1);
                 clockOverlay2.setTypeface(typeface != null ? typeface : clockOverlay2.getTypeface());
@@ -127,11 +127,11 @@ public class LockscreenClockStyles {
                 month2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 month2.setFormat12Hour("MMMM d");
                 month2.setFormat24Hour("MMMM d");
-                month2.setTextColor(mContext.getResources().getColor(android.R.color.white));
-                month2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20 * textScaling);
+                month2.setTextColor(mContext.getResources().getColor(forceWhiteText ? R.color.white : R.color.textColorPrimary));
+                month2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 22 * textScaling);
                 month2.setTypeface(typeface != null ? typeface : month2.getTypeface());
                 ViewGroup.MarginLayoutParams monthParams2 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                monthParams2.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()), 0, 0);
+                monthParams2.setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()), 0, 0);
                 month2.setLayoutParams(monthParams2);
 
                 final LinearLayout wholeContainer2 = new LinearLayout(mContext);
@@ -153,7 +153,7 @@ public class LockscreenClockStyles {
                 date3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 date3.setFormat12Hour("EEE, MMM dd");
                 date3.setFormat24Hour("EEE, MMM dd");
-                date3.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
+                date3.setTextColor(mContext.getResources().getColor(forceWhiteText ? R.color.white : R.color.holo_blue_light));
                 date3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24 * textScaling);
                 date3.setTypeface(typeface != null ? typeface : date3.getTypeface(), Typeface.BOLD);
 
@@ -161,7 +161,7 @@ public class LockscreenClockStyles {
                 clockHour3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 clockHour3.setFormat12Hour("hh");
                 clockHour3.setFormat24Hour("HH");
-                clockHour3.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
+                clockHour3.setTextColor(mContext.getResources().getColor(forceWhiteText ? R.color.white : R.color.holo_blue_light));
                 clockHour3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 160 * textScaling);
                 clockHour3.setTypeface(typeface != null ? typeface : clockHour3.getTypeface(), Typeface.BOLD);
                 ViewGroup.MarginLayoutParams clockHourParams3 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
@@ -172,7 +172,7 @@ public class LockscreenClockStyles {
                 clockMinute3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 clockMinute3.setFormat12Hour("mm");
                 clockMinute3.setFormat24Hour("mm");
-                clockMinute3.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
+                clockMinute3.setTextColor(mContext.getResources().getColor(forceWhiteText ? R.color.white : R.color.holo_blue_light));
                 clockMinute3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 160 * textScaling);
                 clockMinute3.setTypeface(typeface != null ? typeface : clockMinute3.getTypeface(), Typeface.BOLD);
                 ViewGroup.MarginLayoutParams clockMinuteParams3 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
@@ -227,7 +227,7 @@ public class LockscreenClockStyles {
                 hour5.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 hour5.setFormat12Hour("hh");
                 hour5.setFormat24Hour("HH");
-                hour5.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                hour5.setTextColor(mContext.getResources().getColor(R.color.white));
                 hour5.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 40 * textScaling);
                 hour5.setTypeface(typeface != null ? typeface : hour5.getTypeface(), Typeface.BOLD);
 
@@ -235,7 +235,7 @@ public class LockscreenClockStyles {
                 minute5.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 minute5.setFormat12Hour("mm");
                 minute5.setFormat24Hour("mm");
-                minute5.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                minute5.setTextColor(mContext.getResources().getColor(R.color.white));
                 minute5.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 40 * textScaling);
                 minute5.setTypeface(typeface != null ? typeface : minute5.getTypeface(), Typeface.BOLD);
                 ViewGroup.MarginLayoutParams minuteParams5 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
@@ -248,7 +248,7 @@ public class LockscreenClockStyles {
                 time5.setLayoutParams(timeLayoutParams5);
                 time5.setOrientation(LinearLayout.VERTICAL);
                 time5.setPadding((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()));
-                GradientDrawable timeDrawable5 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{mContext.getResources().getColor(android.R.color.black), mContext.getResources().getColor(android.R.color.black)});
+                GradientDrawable timeDrawable5 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{mContext.getResources().getColor(R.color.black), mContext.getResources().getColor(R.color.black)});
                 timeDrawable5.setCornerRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()));
                 time5.setBackground(timeDrawable5);
                 time5.setGravity(Gravity.CENTER);
@@ -261,7 +261,7 @@ public class LockscreenClockStyles {
                 day5.setFormat12Hour("EEE");
                 day5.setFormat24Hour("EEE");
                 day5.setAllCaps(true);
-                day5.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                day5.setTextColor(mContext.getResources().getColor(forceWhiteText ? R.color.white : R.color.textColorPrimary));
                 day5.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 28 * textScaling);
                 day5.setTypeface(typeface != null ? typeface : day5.getTypeface(), Typeface.BOLD);
                 day5.setLetterSpacing(0.2f);
@@ -270,7 +270,7 @@ public class LockscreenClockStyles {
                 date5.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 date5.setFormat12Hour("dd");
                 date5.setFormat24Hour("dd");
-                date5.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                date5.setTextColor(mContext.getResources().getColor(forceWhiteText ? R.color.white : R.color.textColorPrimary));
                 date5.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 28 * textScaling);
                 date5.setTypeface(typeface != null ? typeface : date5.getTypeface(), Typeface.BOLD);
                 date5.setLetterSpacing(0.2f);
@@ -283,7 +283,7 @@ public class LockscreenClockStyles {
                 month5.setFormat12Hour("MMM");
                 month5.setFormat24Hour("MMM");
                 month5.setAllCaps(true);
-                month5.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                month5.setTextColor(mContext.getResources().getColor(forceWhiteText ? R.color.white : R.color.textColorPrimary));
                 month5.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 28 * textScaling);
                 month5.setTypeface(typeface != null ? typeface : month5.getTypeface(), Typeface.BOLD);
                 month5.setLetterSpacing(0.2f);
@@ -310,7 +310,7 @@ public class LockscreenClockStyles {
                 container5.setLayoutParams(layoutParams5);
                 container5.setOrientation(LinearLayout.HORIZONTAL);
                 container5.setPadding((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, mContext.getResources().getDisplayMetrics()));
-                GradientDrawable mDrawable5 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{mContext.getResources().getColor(android.R.color.holo_blue_light), mContext.getResources().getColor(android.R.color.holo_blue_light)});
+                GradientDrawable mDrawable5 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{mContext.getResources().getColor(R.color.holo_blue_light), mContext.getResources().getColor(R.color.holo_blue_light)});
                 mDrawable5.setCornerRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics()));
                 container5.setBackground(mDrawable5);
 
@@ -320,6 +320,7 @@ public class LockscreenClockStyles {
                 container = container5;
                 break;
         }
+
         return container;
     }
 }
