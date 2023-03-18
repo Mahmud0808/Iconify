@@ -22,7 +22,7 @@
             <gradient
                 android:angle="270.0"
                 android:endColor="#FFF0F0F0"
-                android:startColor="#FFD4D4D4" />
+                android:startColor="#FFBDBDBD" />
             <corners android:radius="22dp" />
         </shape>
     </item>
@@ -37,7 +37,7 @@
             <gradient
                 android:angle="90.0"
                 android:endColor="#FFF0F0F0"
-                android:startColor="#FFD4D4D4" />
+                android:startColor="#FFBDBDBD" />
             <corners android:radius="20dp" />
         </shape>
     </item>

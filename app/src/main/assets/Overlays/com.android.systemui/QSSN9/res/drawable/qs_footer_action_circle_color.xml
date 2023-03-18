@@ -26,7 +26,7 @@
                 <gradient
                     android:angle="270.0"
                     android:endColor="#FFF0F0F0"
-                    android:startColor="#FFD4D4D4" />
+                    android:startColor="#FFBDBDBD" />
                 <corners android:radius="@*android:dimen/harmful_app_name_padding_right" />
             </shape>
         </item>
@@ -39,7 +39,7 @@
                 <gradient
                     android:angle="90.0"
                     android:endColor="#FFF0F0F0"
-                    android:startColor="#FFD4D4D4" />
+                    android:startColor="#FFBDBDBD" />
                 <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
             </shape>
         </item>

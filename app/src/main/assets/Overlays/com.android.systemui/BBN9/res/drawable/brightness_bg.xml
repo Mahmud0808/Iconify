@@ -21,7 +21,7 @@
             <gradient
                 android:angle="270.0"
                 android:endColor="#FFF0F0F0"
-                android:startColor="#FFD4D4D4" />
+                android:startColor="#FFBDBDBD" />
             <size
                 android:width="44.0dip"
                 android:height="44.0dip" />
@@ -36,7 +36,7 @@
             <gradient
                 android:angle="90.0"
                 android:endColor="#FFF0F0F0"
-                android:startColor="#FFD4D4D4" />
+                android:startColor="#FFBDBDBD" />
             <size
                 android:width="40.0dip"
                 android:height="40.0dip" />

@@ -27,7 +27,7 @@
     <color name="offStateColor3">#40000000</color>
     <color name="offStateColor4">#66FFFFFF</color>
     <color name="shadow">#14000000</color>
-    <color name="neumorph_outline_start">#FFD4D4D4</color>
+    <color name="neumorph_outline_start">#FFBDBDBD</color>
     <color name="neumorph_outline_end">#FFF0F0F0</color>
     <color name="switch_track_layer">#B3FFFFFF</color>
     <color name="pixel_black_bg">@android:color/system_neutral2_900</color>
