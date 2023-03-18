@@ -113,8 +113,7 @@ public class XposedLockscreenClock extends AppCompatActivity {
         disableNestedScrolling(container);
 
         CircleIndicator3 indicator = findViewById(R.id.lockscreen_clock_preview_indicator);
-        if (RPrefs.getInt(LSCLOCK_STYLE, 0) != 0)
-            container.setCurrentItem(RPrefs.getInt(LSCLOCK_STYLE, 0));
+        container.setCurrentItem(RPrefs.getInt(LSCLOCK_STYLE, 0));
         indicator.setViewPager(container);
         indicator.tintIndicator(getResources().getColor(R.color.textColorSecondary));
 

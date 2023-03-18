@@ -54,7 +54,7 @@ public class XposedHeaderClock extends AppCompatActivity {
         enable_header_clock.setChecked(RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false));
         enable_header_clock.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HEADER_CLOCK_SWITCH, isChecked);
-            if (!isChecked) RPrefs.putInt(HEADER_CLOCK_STYLE, 0);
+            if (!isChecked) RPrefs.putInt(HEADER_CLOCK_STYLE, 1);
             new Handler().postDelayed(HelperUtil::forceApply, 200);
         });
 
@@ -66,8 +66,7 @@ public class XposedHeaderClock extends AppCompatActivity {
         disableNestedScrolling(container);
 
         CircleIndicator3 indicator = findViewById(R.id.header_clock_preview_indicator);
-        if (RPrefs.getInt(HEADER_CLOCK_STYLE, 0) != 0)
-            container.setCurrentItem(RPrefs.getInt(HEADER_CLOCK_STYLE, 0) - 1);
+        container.setCurrentItem(RPrefs.getInt(HEADER_CLOCK_STYLE, 1) - 1);
         indicator.setViewPager(container);
         indicator.tintIndicator(getResources().getColor(R.color.textColorSecondary));
 
