@@ -14,7 +14,13 @@
         <layer-list>
             <item android:bottom="@dimen/_3sdp" android:end="@dimen/_3sdp" android:start="@dimen/_minus2sdp" android:top="@dimen/_3sdp">
                 <shape android:shape="oval">
-                    <solid android:color="@color/switch_thumb_active" />
+                    <solid android:color="@color/colorContainer" />
+                    <size android:width="@dimen/_18sdp" android:height="@dimen/_18sdp" />
+                </shape>
+            </item>
+            <item android:bottom="@dimen/_3sdp" android:end="@dimen/_3sdp" android:start="@dimen/_minus2sdp" android:top="@dimen/_3sdp">
+                <shape android:shape="oval">
+                    <solid android:color="@color/colorContainerOverlay" />
                     <size android:width="@dimen/_18sdp" android:height="@dimen/_18sdp" />
                 </shape>
             </item>

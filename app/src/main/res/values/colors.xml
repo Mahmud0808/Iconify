@@ -29,11 +29,9 @@
     <color name="shadow">#14000000</color>
     <color name="neumorph_outline_start">#FFBDBDBD</color>
     <color name="neumorph_outline_end">#FFF0F0F0</color>
-    <color name="switch_track_layer">#B3FFFFFF</color>
     <color name="pixel_black_bg">@android:color/system_neutral2_900</color>
     <color name="splash_logo">@color/colorAccent</color>
     <color name="switch_track_inactive">@android:color/system_neutral2_100</color>
-    <color name="switch_thumb_active">@android:color/system_neutral2_10</color>
     <color name="switch_thumb_inactive">@android:color/system_neutral2_600</color>
 
     <color name="colorPrimaryLight">@color/material_dynamic_primary40</color>
