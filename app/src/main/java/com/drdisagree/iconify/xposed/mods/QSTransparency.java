@@ -30,8 +30,6 @@ public class QSTransparency extends ModPack {
     boolean QsTransparencyActive = false;
     private Float behindFraction = null;
     private Object lpparamCustom = null;
-    private Object mScrimInFront = null;
-    private Object mNotificationsScrim = null;
     private float alpha;
 
     public QSTransparency(Context context) {
@@ -50,9 +48,6 @@ public class QSTransparency extends ModPack {
                 try {
                     setFloatField(lpparamCustom, "mDefaultScrimAlpha", alpha);
                     setFloatField(lpparamCustom, "mBehindAlpha", alpha);
-
-                    setObjectField(lpparamCustom, "mInFrontTint", tint);
-                    setObjectField(lpparamCustom, "mNotificationsTint", tint);
 
                     try {
                         setFloatField(lpparamCustom, "mCustomScrimAlpha", alpha);
@@ -82,8 +77,6 @@ public class QSTransparency extends ModPack {
                 if (!QsTransparencyActive) return;
 
                 lpparamCustom = param.thisObject;
-                mScrimInFront = getObjectField(param.thisObject, "mScrimInFront");
-                mNotificationsScrim = getObjectField(param.thisObject, "mNotificationsScrim");
 
                 try {
                     setFloatField(param.thisObject, "mDefaultScrimAlpha", alpha);
@@ -92,18 +85,6 @@ public class QSTransparency extends ModPack {
 
                 try {
                     setFloatField(param.thisObject, "mBehindAlpha", alpha);
-                } catch (Throwable ignored) {
-                }
-
-                try {
-                    setFloatField(param.thisObject, "mInFrontAlpha", alpha);
-                    setObjectField(param.thisObject, "mInFrontTint", tint);
-                } catch (Throwable ignored) {
-                }
-
-                try {
-                    setFloatField(param.thisObject, "mNotificationsAlpha", alpha);
-                    setObjectField(param.thisObject, "mNotificationsTint", tint);
                 } catch (Throwable ignored) {
                 }
 
@@ -137,23 +118,6 @@ public class QSTransparency extends ModPack {
 
                 if (mClipsQsScrim) {
                     setObjectField(param.thisObject, "mBehindAlpha", alpha);
-                    if (behindFraction != null)
-                        setObjectField(param.thisObject, "mNotificationsAlpha", behindFraction * alpha);
-                }
-
-                setObjectField(param.thisObject, "mInFrontTint", tint);
-                setObjectField(param.thisObject, "mNotificationsTint", tint);
-            }
-        });
-
-        hookAllMethods(ScrimController, "updateScrimColor", new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) {
-                if (!QsTransparencyActive) return;
-
-                if ((mScrimInFront != null && param.args[0] == mScrimInFront) || (mNotificationsScrim != null && param.args[0] == mNotificationsScrim)) {
-                    param.args[1] = alpha;
-                    param.args[2] = tint;
                 }
             }
         });
