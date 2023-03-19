@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="@color/rippleAccent">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape
             android:shape="rectangle"
@@ -12,4 +11,4 @@
             <corners android:radius="@dimen/cont_corner_radius" />
         </shape>
     </item>
-</ripple>
+</layer-list>
