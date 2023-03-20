@@ -38,11 +38,11 @@ import java.util.List;
 
 public class HomePage extends AppCompatActivity {
 
+    private static final String mData = "mDataKey";
     ActivityHomePageBinding binding;
     private boolean showMenuIcon = false;
     private CollapsingToolbarLayout collapsing_toolbar;
     private Integer selectedFragment = null;
-    private static final String mData = "mDataKey";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,30 +105,30 @@ public class HomePage extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     private void setFragment(int id) {
         switch (id) {
-            case R.id.home:
-                if (binding.bottomNavigation.getSelectedItemId() != R.id.home) {
+            case R.id.navbar_home:
+                if (binding.bottomNavigation.getSelectedItemId() != R.id.navbar_home) {
                     replaceFragment(new Home());
                     collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_home_page));
                     showMenuIcon = false;
-                    selectedFragment = R.id.home;
+                    selectedFragment = R.id.navbar_home;
                     invalidateOptionsMenu();
                 }
                 break;
-            case R.id.tweaks:
-                if (binding.bottomNavigation.getSelectedItemId() != R.id.tweaks) {
+            case R.id.nvabar_tweaks:
+                if (binding.bottomNavigation.getSelectedItemId() != R.id.nvabar_tweaks) {
                     replaceFragment(new Tweaks());
                     collapsing_toolbar.setTitle("Tweaks");
                     showMenuIcon = false;
-                    selectedFragment = R.id.tweaks;
+                    selectedFragment = R.id.nvabar_tweaks;
                     invalidateOptionsMenu();
                 }
                 break;
-            case R.id.settings:
-                if (binding.bottomNavigation.getSelectedItemId() != R.id.settings) {
+            case R.id.navbar_settings:
+                if (binding.bottomNavigation.getSelectedItemId() != R.id.navbar_settings) {
                     replaceFragment(new Settings());
                     collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_settings));
                     showMenuIcon = true;
-                    selectedFragment = R.id.settings;
+                    selectedFragment = R.id.navbar_settings;
                     invalidateOptionsMenu();
                 }
                 break;

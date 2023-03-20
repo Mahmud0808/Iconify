@@ -26,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -39,16 +38,11 @@ import com.drdisagree.iconify.ui.activities.AppUpdates;
 import com.drdisagree.iconify.ui.activities.BrightnessBar;
 import com.drdisagree.iconify.ui.activities.IconPack;
 import com.drdisagree.iconify.ui.activities.IconShape;
-import com.drdisagree.iconify.ui.activities.MediaPlayer;
-import com.drdisagree.iconify.ui.activities.NavigationBar;
 import com.drdisagree.iconify.ui.activities.Notification;
 import com.drdisagree.iconify.ui.activities.ProgressBar;
 import com.drdisagree.iconify.ui.activities.QsPanelTile;
-import com.drdisagree.iconify.ui.activities.Statusbar;
 import com.drdisagree.iconify.ui.activities.Switch;
 import com.drdisagree.iconify.ui.activities.ToastFrame;
-import com.drdisagree.iconify.ui.activities.UiRoundness;
-import com.drdisagree.iconify.ui.activities.VolumePanel;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
 
@@ -63,11 +57,11 @@ import java.util.ArrayList;
 
 public class Home extends Fragment {
 
-    private CheckForUpdate checkForUpdate = null;
     public static boolean isServiceRunning = false;
     @SuppressLint("StaticFieldLeak")
     private static LinearLayout check_update;
     TextView update_desc;
+    private CheckForUpdate checkForUpdate = null;
     private ViewGroup listView;
 
     @Override

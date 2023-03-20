@@ -11,11 +11,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.text.LineBreaker;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +22,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
@@ -35,7 +32,6 @@ import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.List;
 import java.util.Map;
@@ -45,6 +41,31 @@ public class Settings extends Fragment {
 
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
     LoadingDialog loadingDialog;
+
+    public static void disableEverything() {
+        SharedPreferences prefs = Iconify.getAppContext().getSharedPreferences(Iconify.getAppContext().getPackageName(), Context.MODE_PRIVATE);
+        Map<String, ?> map = prefs.getAll();
+
+        for (Map.Entry<String, ?> item : map.entrySet()) {
+            if (item.getValue() instanceof Boolean && ((Boolean) item.getValue()) && item.getKey().contains("fabricated")) {
+                Prefs.putBoolean(item.getKey(), (Boolean) item.getValue());
+                FabricatedUtil.disableOverlay(item.getKey().replace("fabricated", ""));
+            }
+        }
+
+        for (String overlay : EnabledOverlays) {
+            OverlayUtil.disableOverlay(overlay);
+        }
+
+        Prefs.clearAllPrefs();
+        SystemUtil.getBootId();
+        SystemUtil.getVersionCode();
+        Prefs.putBoolean(FIRST_INSTALL, false);
+
+        RPrefs.clearAllPrefs();
+
+        SystemUtil.restartSystemUI();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -177,31 +198,6 @@ public class Settings extends Fragment {
         });
 
         return view;
-    }
-
-    public static void disableEverything() {
-        SharedPreferences prefs = Iconify.getAppContext().getSharedPreferences(Iconify.getAppContext().getPackageName(), Context.MODE_PRIVATE);
-        Map<String, ?> map = prefs.getAll();
-
-        for (Map.Entry<String, ?> item : map.entrySet()) {
-            if (item.getValue() instanceof Boolean && ((Boolean) item.getValue()) && item.getKey().contains("fabricated")) {
-                Prefs.putBoolean(item.getKey(), (Boolean) item.getValue());
-                FabricatedUtil.disableOverlay(item.getKey().replace("fabricated", ""));
-            }
-        }
-
-        for (String overlay : EnabledOverlays) {
-            OverlayUtil.disableOverlay(overlay);
-        }
-
-        Prefs.clearAllPrefs();
-        SystemUtil.getBootId();
-        SystemUtil.getVersionCode();
-        Prefs.putBoolean(FIRST_INSTALL, false);
-
-        RPrefs.clearAllPrefs();
-
-        SystemUtil.restartSystemUI();
     }
 
     @Override

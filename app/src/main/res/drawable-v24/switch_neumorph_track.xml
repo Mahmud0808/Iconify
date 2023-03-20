@@ -14,8 +14,8 @@
                 </item>
                 <item
                     android:bottom="3dp"
-                    android:right="3dp"
                     android:left="3dp"
+                    android:right="3dp"
                     android:top="3dp">
                     <shape>
                         <corners android:radius="24dp" />
@@ -40,8 +40,8 @@
                 </item>
                 <item
                     android:bottom="3dp"
-                    android:right="3dp"
                     android:left="3dp"
+                    android:right="3dp"
                     android:top="3dp">
                     <shape>
                         <corners android:radius="24dp" />
