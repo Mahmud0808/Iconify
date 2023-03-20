@@ -454,6 +454,8 @@
     <string name="need_reboot_title">É necessário reiniciar</string>
     <string name="need_reboot_desc">Reinicie o seu dispositivo para meter tudo em ordem.</string>
     <string name="installation_failed_title">Oops..não estava à espera disto</string>
+    <string name="activity_title_switch">Botões \"switch\"</string>
+    <string name="activity_desc_switch">Personalizar os botões \"switch\"</string>
     <string name="toast_message">Mensagem \"Toast\"</string>
     <string name="settings_icons_background">Pano de fundo</string>
     <string name="settings_icons_minimal">Mínimo</string>
