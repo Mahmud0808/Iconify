@@ -44,7 +44,7 @@ public final class QuantizerWsmeans {
      * Reduce the number of colors needed to represented the input, minimizing the difference between
      * the original image and the recolored image.
      *
-     * @param inputPixels      Colors in ARGB format.
+     * @param inputPixels      Tweaks in ARGB format.
      * @param startingClusters Defines the initial state of the quantizer. Passing an empty array is
      *                         fine, the implementation will create its own initial state that leads to reproducible
      *                         results for the same inputs. Passing an array that is the result of Wu quantization leads

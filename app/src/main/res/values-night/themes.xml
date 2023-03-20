@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.Iconify" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="Theme.Iconify" parent="Theme.Material3.Dark.NoActionBar">
         <!-- Background color. -->
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="android:colorBackground">@color/colorBackground</item>
@@ -86,6 +86,8 @@
         <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Material3.LargeComponent
         </item>
     </style>
+
+    <style name="Theme.Dark" parent="Theme.Iconify" />
 
     <style name="Theme.Iconify.SplashScreen" parent="Theme.SplashScreen">
         <item name="android:windowSplashScreenBackground">@color/colorBackground</item>

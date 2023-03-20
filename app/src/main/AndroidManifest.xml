@@ -122,9 +122,6 @@
             android:name=".ui.activities.NavigationBar"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.Settings"
-            android:exported="false" />
-        <activity
             android:name=".ui.activities.VolumePanel"
             android:exported="false" />
         <activity

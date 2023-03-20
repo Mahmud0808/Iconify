@@ -276,5 +276,4 @@ public class AppUpdates extends AppCompatActivity {
             findViewById(R.id.checked_for_update).setVisibility(View.VISIBLE);
         }
     }
-
 }
