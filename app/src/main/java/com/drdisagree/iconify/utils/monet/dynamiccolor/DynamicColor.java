@@ -36,7 +36,7 @@ import java.util.function.Function;
  * such as differing in light mode versus dark mode, or what the theme is, or what the color that
  * produced the theme is, etc.
  *
- * <p>Colors without backgrounds do not change tone when contrast changes. Colors with backgrounds
+ * <p>Tweaks without backgrounds do not change tone when contrast changes. Tweaks with backgrounds
  * become closer to their background as contrast lowers, and further when contrast increases.
  *
  * <p>Prefer the static constructors. They provide a much more simple interface, such as requiring

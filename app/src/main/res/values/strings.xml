@@ -470,4 +470,6 @@
     <string name="settings_icons_follow_system">Follow System</string>
     <string name="settings_icons_system_inverse">System Inverse</string>
     <string name="settings_icons_monet_accent">Monet / Accent</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

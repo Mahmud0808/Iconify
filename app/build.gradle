@@ -32,7 +32,7 @@ android {
     buildTypes {
         debug {
             minifyEnabled true
-            shrinkResources true
+            shrinkResources false
             zipAlignEnabled true
             crunchPngs true
             proguardFiles "proguard-android-optimize.txt", "proguard.pro", "proguard-rules.pro"
@@ -50,6 +50,11 @@ android {
             resValue("string", "derived_app_name", "Iconify")
             signingConfig releaseSigning
         }
+    }
+
+    buildFeatures {
+        viewBinding true
+        dataBinding true
     }
 
     compileOptions {

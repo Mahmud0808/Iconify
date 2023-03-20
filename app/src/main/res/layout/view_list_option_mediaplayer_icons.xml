@@ -67,9 +67,9 @@
             android:layout_weight="1.0"
             android:letterSpacing="0"
             android:paddingStart="0dp"
-            android:paddingTop="@dimen/_2sdp"
+            android:paddingTop="@dimen/_4sdp"
             android:paddingEnd="0dp"
-            android:paddingBottom="@dimen/_4sdp"
+            android:paddingBottom="@dimen/_6sdp"
             android:text="@string/iconpack_aurora"
             android:textSize="@dimen/_10sdp" />
 
@@ -84,9 +84,9 @@
             android:layout_weight="1.0"
             android:letterSpacing="0"
             android:paddingStart="0dp"
-            android:paddingTop="@dimen/_2sdp"
+            android:paddingTop="@dimen/_4sdp"
             android:paddingEnd="0dp"
-            android:paddingBottom="@dimen/_4sdp"
+            android:paddingBottom="@dimen/_6sdp"
             android:text="@string/iconpack_gradicon"
             android:textSize="@dimen/_10sdp" />
 
@@ -99,9 +99,9 @@
             android:layout_weight="1.0"
             android:letterSpacing="0"
             android:paddingStart="0dp"
-            android:paddingTop="@dimen/_2sdp"
+            android:paddingTop="@dimen/_4sdp"
             android:paddingEnd="0dp"
-            android:paddingBottom="@dimen/_4sdp"
+            android:paddingBottom="@dimen/_6sdp"
             android:text="@string/iconpack_plumpy"
             android:textSize="@dimen/_10sdp" />
 

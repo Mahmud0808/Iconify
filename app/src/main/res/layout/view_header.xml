@@ -2,20 +2,24 @@
 <com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_140sdp"
+    android:layout_height="wrap_content"
     android:background="@color/transparent"
+    android:clipChildren="false"
     android:fitsSystemWindows="true"
-    android:theme="@style/Theme.Iconify">
+    android:theme="@style/Theme.Iconify"
+    app:liftOnScroll="true">
 
     <com.google.android.material.appbar.CollapsingToolbarLayout
         android:id="@+id/collapsing_toolbar"
+        style="?attr/collapsingToolbarLayoutLargeStyle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
         android:background="@color/colorBackground"
         android:fitsSystemWindows="true"
         app:collapsedTitleTextAppearance="@style/Toolbar.TitleText.Collapsed"
         app:collapsedTitleTextColor="@color/textColorPrimary"
         app:contentScrim="@color/transparent"
+        app:elevation="0dp"
         app:expandedTitleMarginEnd="@dimen/_28sdp"
         app:expandedTitleMarginStart="@dimen/_28sdp"
         app:expandedTitleTextAppearance="@style/Toolbar.TitleText.Expanded"
@@ -25,14 +29,17 @@
         app:title="@string/app_name"
         app:titleTextEllipsize="end">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:elevation="4dp"
             android:paddingStart="@dimen/_16sdp"
             android:paddingEnd="@dimen/_16sdp"
             app:contentInsetStartWithNavigation="0dp"
             app:layout_collapseMode="pin"
+            app:layout_scrollEffect="compress"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
             app:maxLines="1"
             app:titleTextAppearance="@style/Toolbar.TitleText"
             app:titleTextEllipsize="end" />
