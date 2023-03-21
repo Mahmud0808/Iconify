@@ -1,23 +1,17 @@
 package com.drdisagree.iconify.ui.activities;
 
-import static com.drdisagree.iconify.common.Preferences.EASTER_EGG;
 import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -32,15 +26,16 @@ import com.drdisagree.iconify.ui.fragments.Settings;
 import com.drdisagree.iconify.ui.fragments.Tweaks;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.List;
+import java.util.Objects;
 
 public class HomePage extends AppCompatActivity {
 
     private static final String mData = "mDataKey";
     ActivityHomePageBinding binding;
     private Integer selectedFragment = null;
+    private final String FRAGMENT_HOME = "fragment_home", FRAGMENT_TWEAKS = "fragment_tweaks", FRAGMENT_SETTINGS = "fragment_settings";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +46,15 @@ public class HomePage extends AppCompatActivity {
         Prefs.putBoolean(ON_HOME_PAGE, true);
 
         if (savedInstanceState == null) {
-            replaceFragment(new Home(), "home");
+            replaceFragment(new Home(), FRAGMENT_HOME);
         }
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.addOnBackStackChangedListener(() -> {
+            final int count = fragmentManager.getBackStackEntryCount();
+            if (count == 0)
+                binding.bottomNavigation.getMenu().getItem(0).setChecked(true);
+        });
 
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
             setFragment(item.getItemId());
@@ -90,8 +92,12 @@ public class HomePage extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out, R.anim.fragment_fade_in, R.anim.fragment_fade_out);
         fragmentTransaction.replace(R.id.main_fragment, fragment, tag);
-        fragmentManager.popBackStack("home", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        fragmentTransaction.addToBackStack(null);
+        fragmentManager.popBackStack(null, 0);
+
+        if (!Objects.equals(tag, FRAGMENT_HOME)) {
+            fragmentTransaction.addToBackStack(tag);
+        }
+
         fragmentTransaction.commit();
     }
 
@@ -100,19 +106,19 @@ public class HomePage extends AppCompatActivity {
         switch (id) {
             case R.id.navbar_home:
                 if (binding.bottomNavigation.getSelectedItemId() != R.id.navbar_home) {
-                    replaceFragment(new Home(), "home");
+                    replaceFragment(new Home(), FRAGMENT_HOME);
                     selectedFragment = R.id.navbar_home;
                 }
                 break;
             case R.id.navbar_tweaks:
                 if (binding.bottomNavigation.getSelectedItemId() != R.id.navbar_tweaks) {
-                    replaceFragment(new Tweaks(), "tweaks");
+                    replaceFragment(new Tweaks(), FRAGMENT_TWEAKS);
                     selectedFragment = R.id.navbar_tweaks;
                 }
                 break;
             case R.id.navbar_settings:
                 if (binding.bottomNavigation.getSelectedItemId() != R.id.navbar_settings) {
-                    replaceFragment(new Settings(), "settings");
+                    replaceFragment(new Settings(), FRAGMENT_SETTINGS);
                     selectedFragment = R.id.navbar_settings;
                 }
                 break;
