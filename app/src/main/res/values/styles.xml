@@ -166,4 +166,18 @@
     <style name="actionBarStyle" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="homeAsUpIndicator">@drawable/ic_home_as_up_indicator</item>
     </style>
+
+    <style name="BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="android:theme">@style/Theme.Iconify</item>
+        <item name="android:background">@drawable/bottom_navbar_bg</item>
+        <item name="itemRippleColor">@color/rippleAccent</item>
+        <item name="itemIconTint">@color/textColorPrimary</item>
+        <item name="itemActiveIndicatorStyle">
+            @style/BottomNavigationView.ActiveIndicator
+        </item>
+    </style>
+
+    <style name="BottomNavigationView.ActiveIndicator" parent="@style/Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/navbarSelectedBackground</item>
+    </style>
 </resources>

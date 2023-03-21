@@ -35,6 +35,7 @@
     <color name="splash_logo">@color/colorAccent</color>
     <color name="switch_track_inactive">@android:color/system_neutral2_100</color>
     <color name="switch_thumb_inactive">@android:color/system_neutral2_600</color>
+    <color name="navbarSelectedBackground">@color/color_navbar_selected_bg_light</color>
 
     <color name="colorPrimaryLight">@color/material_dynamic_primary40</color>
     <color name="colorPrimaryDark">@color/material_dynamic_primary80</color>
