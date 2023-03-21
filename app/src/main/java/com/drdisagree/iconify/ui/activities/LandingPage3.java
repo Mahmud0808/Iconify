@@ -122,8 +122,8 @@ public class LandingPage3 extends AppCompatActivity {
                             });
                         } else {
                             Intent intent = new Intent(LandingPage3.this, HomePage.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
-                            finish();
                         }
                     }
                 } else {
@@ -395,8 +395,8 @@ public class LandingPage3 extends AppCompatActivity {
                 if (OverlayUtil.overlayExists()) {
                     new Handler().postDelayed(() -> {
                         Intent intent = new Intent(LandingPage3.this, HomePage.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
-                        finish();
                     }, 10);
                 } else {
                     showInfo(R.string.need_reboot_title, R.string.need_reboot_desc);
