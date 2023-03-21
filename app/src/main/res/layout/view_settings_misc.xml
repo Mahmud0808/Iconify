@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/container_margin"
-        android:background="@drawable/container_outline"
+        android:background="@drawable/container"
         android:orientation="vertical"
         android:paddingStart="@dimen/container_paddingSide"
         android:paddingTop="@dimen/container_padding"

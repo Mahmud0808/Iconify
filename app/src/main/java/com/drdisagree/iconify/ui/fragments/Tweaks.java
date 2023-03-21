@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.drdisagree.iconify.R;
@@ -19,6 +21,7 @@ import com.drdisagree.iconify.ui.activities.Statusbar;
 import com.drdisagree.iconify.ui.activities.UiRoundness;
 import com.drdisagree.iconify.ui.activities.VolumePanel;
 import com.drdisagree.iconify.ui.activities.XPosedMenu;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
 
@@ -29,6 +32,13 @@ public class Tweaks extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tweaks, container, false);
+
+        // Header
+        CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
+        collapsing_toolbar.setTitle(getResources().getString(R.string.navbar_tweaks));
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+
         listView = view.findViewById(R.id.tweaks_list);
 
         ArrayList<Object[]> tweaks_list = new ArrayList<>();

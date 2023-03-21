@@ -6,7 +6,7 @@
         android:icon="@drawable/ic_navbar_home"
         android:title="@string/navbar_home" />
     <item
-        android:id="@+id/nvabar_tweaks"
+        android:id="@+id/navbar_tweaks"
         android:enabled="true"
         android:icon="@drawable/ic_navbar_tweaks"
         android:title="@string/navbar_tweaks" />

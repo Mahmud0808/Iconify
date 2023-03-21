@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.fragments;
 
+import static com.drdisagree.iconify.common.Preferences.EASTER_EGG;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.FORCE_APPLY_XPOSED_CHOICE;
 import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_AFTER_BOOT;
@@ -8,11 +9,15 @@ import static com.drdisagree.iconify.common.Preferences.USE_LIGHT_ACCENT;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.text.LineBreaker;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -22,16 +27,24 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
+import com.drdisagree.iconify.ui.activities.AppUpdates;
+import com.drdisagree.iconify.ui.activities.Changelog;
+import com.drdisagree.iconify.ui.activities.Experimental;
+import com.drdisagree.iconify.ui.activities.Info;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.List;
 import java.util.Map;
@@ -70,6 +83,13 @@ public class Settings extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
+
+        // Header
+        CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_settings));
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+        setHasOptionsMenu(true);
 
         // Show loading dialog
         loadingDialog = new LoadingDialog(requireActivity());
@@ -202,7 +222,38 @@ public class Settings extends Fragment {
 
     @Override
     public void onDestroy() {
-        loadingDialog.hide();
+        if (loadingDialog != null)
+            loadingDialog.hide();
         super.onDestroy();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.settings_menu, menu);
+        menu.findItem(R.id.menu_experimental_features).setVisible(Prefs.getBoolean(EASTER_EGG));
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemID = item.getItemId();
+
+        if (itemID == R.id.menu_updates) {
+            Intent intent = new Intent(requireActivity(), AppUpdates.class);
+            startActivity(intent);
+        } else if (itemID == R.id.menu_changelog) {
+            Intent intent = new Intent(requireActivity(), Changelog.class);
+            startActivity(intent);
+        } else if (itemID == R.id.menu_experimental_features) {
+            Intent intent = new Intent(requireActivity(), Experimental.class);
+            startActivity(intent);
+        } else if (itemID == R.id.menu_info) {
+            Intent intent = new Intent(requireActivity(), Info.class);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

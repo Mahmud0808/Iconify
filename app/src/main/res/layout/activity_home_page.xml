@@ -9,20 +9,11 @@
     android:orientation="vertical"
     tools:context=".ui.activities.HomePage">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <FrameLayout
+        android:id="@+id/main_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_navigation">
-
-        <include layout="@layout/view_header" />
-
-        <FrameLayout
-            android:id="@+id/main_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        android:layout_above="@+id/bottom_navigation" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

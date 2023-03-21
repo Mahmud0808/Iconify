@@ -40,8 +40,6 @@ public class HomePage extends AppCompatActivity {
 
     private static final String mData = "mDataKey";
     ActivityHomePageBinding binding;
-    private boolean showMenuIcon = false;
-    private CollapsingToolbarLayout collapsing_toolbar;
     private Integer selectedFragment = null;
 
     @Override
@@ -50,18 +48,11 @@ public class HomePage extends AppCompatActivity {
         binding = ActivityHomePageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Header
-        collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_home_page));
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         Prefs.putBoolean(ON_HOME_PAGE, true);
 
-        if (savedInstanceState != null)
-            selectedFragment = savedInstanceState.getInt(mData);
-
-        if (selectedFragment == null) replaceFragment(new Home());
+        if (savedInstanceState == null) {
+            replaceFragment(new Home(), "home");
+        }
 
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
             setFragment(item.getItemId());
@@ -94,11 +85,13 @@ public class HomePage extends AppCompatActivity {
         }
     }
 
-    private void replaceFragment(Fragment fragment) {
+    private void replaceFragment(Fragment fragment, String tag) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out, R.anim.fragment_fade_in, R.anim.fragment_fade_out);
-        fragmentTransaction.replace(R.id.main_fragment, fragment);
+        fragmentTransaction.replace(R.id.main_fragment, fragment, tag);
+        fragmentManager.popBackStack("home", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
@@ -107,72 +100,34 @@ public class HomePage extends AppCompatActivity {
         switch (id) {
             case R.id.navbar_home:
                 if (binding.bottomNavigation.getSelectedItemId() != R.id.navbar_home) {
-                    replaceFragment(new Home());
-                    collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_home_page));
-                    showMenuIcon = false;
+                    replaceFragment(new Home(), "home");
                     selectedFragment = R.id.navbar_home;
-                    invalidateOptionsMenu();
                 }
                 break;
-            case R.id.nvabar_tweaks:
-                if (binding.bottomNavigation.getSelectedItemId() != R.id.nvabar_tweaks) {
-                    replaceFragment(new Tweaks());
-                    collapsing_toolbar.setTitle("Tweaks");
-                    showMenuIcon = false;
-                    selectedFragment = R.id.nvabar_tweaks;
-                    invalidateOptionsMenu();
+            case R.id.navbar_tweaks:
+                if (binding.bottomNavigation.getSelectedItemId() != R.id.navbar_tweaks) {
+                    replaceFragment(new Tweaks(), "tweaks");
+                    selectedFragment = R.id.navbar_tweaks;
                 }
                 break;
             case R.id.navbar_settings:
                 if (binding.bottomNavigation.getSelectedItemId() != R.id.navbar_settings) {
-                    replaceFragment(new Settings());
-                    collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_settings));
-                    showMenuIcon = true;
+                    replaceFragment(new Settings(), "settings");
                     selectedFragment = R.id.navbar_settings;
-                    invalidateOptionsMenu();
                 }
                 break;
         }
     }
 
     @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(mData, String.valueOf(selectedFragment));
+    protected void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putInt(mData, selectedFragment);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (!showMenuIcon) return false;
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.settings_menu, menu);
-
-        menu.findItem(R.id.menu_experimental_features).setVisible(Prefs.getBoolean(EASTER_EGG));
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int itemID = item.getItemId();
-
-        if (itemID == android.R.id.home) {
-            onBackPressed();
-        } else if (itemID == R.id.menu_updates) {
-            Intent intent = new Intent(this, AppUpdates.class);
-            startActivity(intent);
-        } else if (itemID == R.id.menu_changelog) {
-            Intent intent = new Intent(this, Changelog.class);
-            startActivity(intent);
-        } else if (itemID == R.id.menu_experimental_features) {
-            Intent intent = new Intent(this, Experimental.class);
-            startActivity(intent);
-        } else if (itemID == R.id.menu_info) {
-            Intent intent = new Intent(this, Info.class);
-            startActivity(intent);
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        selectedFragment = savedInstanceState.getInt(mData);
     }
 }
