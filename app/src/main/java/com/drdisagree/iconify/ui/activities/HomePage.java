@@ -2,6 +2,9 @@ package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
+import static com.drdisagree.iconify.common.References.FRAGMENT_HOME;
+import static com.drdisagree.iconify.common.References.FRAGMENT_SETTINGS;
+import static com.drdisagree.iconify.common.References.FRAGMENT_TWEAKS;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -24,6 +27,7 @@ import com.drdisagree.iconify.databinding.ActivityHomePageBinding;
 import com.drdisagree.iconify.ui.fragments.Home;
 import com.drdisagree.iconify.ui.fragments.Settings;
 import com.drdisagree.iconify.ui.fragments.Tweaks;
+import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 
@@ -35,7 +39,6 @@ public class HomePage extends AppCompatActivity {
     private static final String mData = "mDataKey";
     ActivityHomePageBinding binding;
     private Integer selectedFragment = null;
-    private final String FRAGMENT_HOME = "fragment_home", FRAGMENT_TWEAKS = "fragment_tweaks", FRAGMENT_SETTINGS = "fragment_settings";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +54,12 @@ public class HomePage extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.addOnBackStackChangedListener(() -> {
-            final int count = fragmentManager.getBackStackEntryCount();
-            if (count == 0)
+            if (Objects.equals(FragmentHelper.getTopFragment(fragmentManager), FRAGMENT_HOME))
                 binding.bottomNavigation.getMenu().getItem(0).setChecked(true);
+            else if (Objects.equals(FragmentHelper.getTopFragment(fragmentManager), FRAGMENT_TWEAKS))
+                binding.bottomNavigation.getMenu().getItem(1).setChecked(true);
+            else if (Objects.equals(FragmentHelper.getTopFragment(fragmentManager), FRAGMENT_SETTINGS))
+                binding.bottomNavigation.getMenu().getItem(2).setChecked(true);
         });
 
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
@@ -92,9 +98,13 @@ public class HomePage extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out, R.anim.fragment_fade_in, R.anim.fragment_fade_out);
         fragmentTransaction.replace(R.id.main_fragment, fragment, tag);
-        fragmentManager.popBackStack(null, 0);
-
-        if (!Objects.equals(tag, FRAGMENT_HOME)) {
+        if (Objects.equals(tag, FRAGMENT_HOME))
+            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        else if (Objects.equals(tag, FRAGMENT_TWEAKS) || Objects.equals(tag, FRAGMENT_SETTINGS)) {
+            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            fragmentTransaction.addToBackStack(tag);
+        } else {
+            fragmentManager.popBackStack(null, 0);
             fragmentTransaction.addToBackStack(tag);
         }
 
@@ -105,19 +115,19 @@ public class HomePage extends AppCompatActivity {
     private void setFragment(int id) {
         switch (id) {
             case R.id.navbar_home:
-                if (binding.bottomNavigation.getSelectedItemId() != R.id.navbar_home) {
+                if (!Objects.equals(FragmentHelper.getTopFragment(getSupportFragmentManager()), FRAGMENT_HOME)) {
                     replaceFragment(new Home(), FRAGMENT_HOME);
                     selectedFragment = R.id.navbar_home;
                 }
                 break;
             case R.id.navbar_tweaks:
-                if (binding.bottomNavigation.getSelectedItemId() != R.id.navbar_tweaks) {
+                if (!Objects.equals(FragmentHelper.getTopFragment(getSupportFragmentManager()), FRAGMENT_TWEAKS)) {
                     replaceFragment(new Tweaks(), FRAGMENT_TWEAKS);
                     selectedFragment = R.id.navbar_tweaks;
                 }
                 break;
             case R.id.navbar_settings:
-                if (binding.bottomNavigation.getSelectedItemId() != R.id.navbar_settings) {
+                if (!Objects.equals(FragmentHelper.getTopFragment(getSupportFragmentManager()), FRAGMENT_SETTINGS)) {
                     replaceFragment(new Settings(), FRAGMENT_SETTINGS);
                     selectedFragment = R.id.navbar_settings;
                 }
@@ -128,7 +138,7 @@ public class HomePage extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putInt(mData, selectedFragment);
+        if (selectedFragment != null) savedInstanceState.putInt(mData, selectedFragment);
     }
 
     @Override

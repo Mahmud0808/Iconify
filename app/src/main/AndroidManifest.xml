@@ -104,9 +104,6 @@
             android:name=".ui.activities.Miscellaneous"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.XPosedMenu"
-            android:exported="false" />
-        <activity
             android:name=".ui.activities.AppUpdates"
             android:exported="false" />
         <activity
@@ -142,9 +139,6 @@
             android:exported="false" />
         <activity
             android:name=".ui.activities.ColorEngine"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.Extras"
             android:exported="false" />
         <activity
             android:name=".ui.activities.UiRoundness"
