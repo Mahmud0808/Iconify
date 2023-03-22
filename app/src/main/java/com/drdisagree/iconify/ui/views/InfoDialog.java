@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,8 +22,7 @@ public class InfoDialog extends AppCompatActivity {
     }
 
     public void show(int title, int description) {
-        if (dialog != null)
-            dialog.dismiss();
+        if (dialog != null) dialog.dismiss();
 
         dialog = new Dialog(context);
         dialog.setContentView(R.layout.view_info_dialog);
@@ -37,6 +37,9 @@ public class InfoDialog extends AppCompatActivity {
         TextView desc = dialog.findViewById(R.id.description);
         desc.setText(context.getResources().getText(description));
 
+        Button close = dialog.findViewById(R.id.close);
+        close.setOnClickListener(view -> dialog.hide());
+
         dialog.create();
         dialog.show();
 
@@ -48,8 +51,7 @@ public class InfoDialog extends AppCompatActivity {
     }
 
     public void hide() {
-        if ((dialog != null) && dialog.isShowing())
-            dialog.dismiss();
+        if ((dialog != null) && dialog.isShowing()) dialog.dismiss();
     }
 
     @Override

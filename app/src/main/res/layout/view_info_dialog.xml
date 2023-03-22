@@ -48,4 +48,23 @@
         android:textColor="@color/textColorSecondary"
         android:textSize="@dimen/cont_desc_size" />
 
+    <Button
+        android:id="@+id/close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:layout_marginBottom="@dimen/_minus6sdp"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:padding="0dp"
+        android:stateListAnimator="@null"
+        android:text="@string/btn_close"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/cont_title_size"
+        android:textStyle="bold"
+        app:backgroundTint="@null" />
+
 </LinearLayout>
