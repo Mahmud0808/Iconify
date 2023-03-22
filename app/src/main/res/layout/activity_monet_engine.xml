@@ -449,7 +449,6 @@
                 android:layout_marginBottom="@dimen/container_margin"
                 android:background="@drawable/button_red"
                 android:text="@string/btn_disable_custom_colors"
-                android:textSize="@dimen/cont_title_size"
                 android:visibility="gone" />
 
         </LinearLayout>

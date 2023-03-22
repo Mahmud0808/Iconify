@@ -346,18 +346,11 @@
 
                 <Button
                     android:id="@+id/apply_radius"
+                    style="@style/buttonMain"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/container_padding"
-                    android:background="@drawable/button"
-                    android:fontFamily="@font/regular"
-                    android:letterSpacing="0.2"
-                    android:stateListAnimator="@null"
-                    android:text="@string/btn_apply"
-                    android:textColor="@color/colorBackground"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold"
-                    app:backgroundTint="@null" />
+                    android:text="@string/btn_apply" />
 
             </LinearLayout>
 

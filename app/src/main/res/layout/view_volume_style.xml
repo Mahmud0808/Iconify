@@ -127,8 +127,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_8sdp"
-        android:paddingTop="@dimen/_4sdp"
-        android:paddingBottom="@dimen/_6sdp"
         android:text="@string/btn_create_module" />
 
 </LinearLayout>
