@@ -11,24 +11,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.RenderMode;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.utils.SystemUtil;
 
 public class LandingPage1 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (!SystemUtil.isDarkMode()) {
-            getWindow().getDecorView().setBackgroundColor(Color.parseColor("#FFF0F3"));
-            getWindow().setStatusBarColor(Color.parseColor("#FFF0F3"));
-            getWindow().setNavigationBarColor(Color.parseColor("#FFF0F3"));
-        } else {
-            getWindow().getDecorView().setBackgroundColor(Color.parseColor("#191213"));
-            getWindow().setStatusBarColor(Color.parseColor("#191213"));
-            getWindow().setNavigationBarColor(Color.parseColor("#191213"));
-        }
-
+        getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.landing_page_one_background));
+        getWindow().setStatusBarColor(getResources().getColor(R.color.landing_page_one_background));
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.landing_page_one_background));
         setContentView(R.layout.activity_landing_page_one);
 
         ((LottieAnimationView) findViewById(R.id.welcome_anim)).setAnimation(!isDarkMode() ? R.raw.anim_view_one_day : R.raw.anim_view_one_night);

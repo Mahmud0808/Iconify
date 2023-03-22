@@ -27,6 +27,9 @@
     <color name="switch_track_inactive">@android:color/system_neutral2_700</color>
     <color name="switch_thumb_inactive">@android:color/system_neutral2_400</color>
     <color name="navbarSelectedBackground">@color/color_navbar_selected_bg_dark</color>
+    <color name="landing_page_one_background">#FF191213</color>
+    <color name="landing_page_two_background">#FF111617</color>
+    <color name="landing_page_three_background">#FF080f18</color>
 
     <color name="colorPrimaryLight">@color/material_dynamic_primary40</color>
     <color name="colorPrimaryDark">@color/material_dynamic_primary80</color>
