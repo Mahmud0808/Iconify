@@ -3,9 +3,7 @@
     android:id="@+id/info_app"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/container_marginSide"
-    android:background="@drawable/container"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:paddingStart="@dimen/container_paddingSide"
     android:paddingTop="@dimen/container_padding"
     android:paddingEnd="@dimen/container_paddingSide"
@@ -29,15 +27,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="start|center"
-        android:layout_marginStart="@dimen/_14sdp"
-        android:gravity="start|center"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:gravity="center"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
+            android:text="@string/derived_app_name"
             android:textColor="@color/textColorPrimary"
             android:textSize="@dimen/_15sdp"
             android:textStyle="bold" />
@@ -48,6 +46,13 @@
             android:text="@string/iconify_slogan"
             android:textColor="@color/textColorSecondary"
             android:textSize="@dimen/_12sdp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/created_by_drdisagree"
+            android:textColor="@color/textColorSecondary"
+            android:textSize="@dimen/_11sdp" />
 
     </LinearLayout>
 </LinearLayout>
