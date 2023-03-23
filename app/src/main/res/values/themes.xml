@@ -87,8 +87,6 @@
         </item>
     </style>
 
-    <style name="Theme.Light" parent="Theme.Iconify" />
-
     <style name="Theme.Iconify.SplashScreen" parent="Theme.SplashScreen">
         <item name="android:windowSplashScreenBackground">@color/colorBackground</item>
         <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
