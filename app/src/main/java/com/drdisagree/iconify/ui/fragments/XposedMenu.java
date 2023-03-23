@@ -54,10 +54,9 @@ public class XposedMenu extends Fragment {
         ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(view1 ->
-                new Handler().postDelayed(() -> {
-                    getParentFragmentManager().popBackStack();
-                }, 50));
+        toolbar.setNavigationOnClickListener(view1 -> new Handler().postDelayed(() -> {
+            getParentFragmentManager().popBackStack();
+        }, 50));
 
         // Xposed warn
         LinearLayout xposed_warn = view.findViewById(R.id.xposed_warn);

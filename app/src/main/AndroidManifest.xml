@@ -138,9 +138,6 @@
             android:name=".ui.activities.BasicColors"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.ColorEngine"
-            android:exported="false" />
-        <activity
             android:name=".ui.activities.UiRoundness"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />

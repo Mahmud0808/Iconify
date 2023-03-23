@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.fragments;
 
+import static com.drdisagree.iconify.common.References.FRAGMENT_COLORENGINE;
 import static com.drdisagree.iconify.common.References.FRAGMENT_HOME;
 import static com.drdisagree.iconify.common.References.FRAGMENT_XPOSEDMENU;
 
@@ -22,7 +23,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.ui.activities.ColorEngine;
 import com.drdisagree.iconify.ui.activities.MediaPlayer;
 import com.drdisagree.iconify.ui.activities.NavigationBar;
 import com.drdisagree.iconify.ui.activities.Statusbar;
@@ -51,7 +51,7 @@ public class Tweaks extends Fragment {
 
         ArrayList<Object[]> tweaks_list = new ArrayList<>();
 
-        tweaks_list.add(new Object[]{ColorEngine.class, getResources().getString(R.string.activity_title_color_engine), getResources().getString(R.string.activity_desc_color_engine), R.drawable.ic_home_color});
+        tweaks_list.add(new Object[]{null, getResources().getString(R.string.activity_title_color_engine), getResources().getString(R.string.activity_desc_color_engine), R.drawable.ic_home_color});
         tweaks_list.add(new Object[]{UiRoundness.class, getResources().getString(R.string.activity_title_ui_roundness), getResources().getString(R.string.activity_desc_ui_roundness), R.drawable.ic_home_ui_roundness});
         tweaks_list.add(new Object[]{Statusbar.class, getResources().getString(R.string.activity_title_statusbar), getResources().getString(R.string.activity_desc_statusbar), R.drawable.ic_extras_statusbar});
         tweaks_list.add(new Object[]{NavigationBar.class, getResources().getString(R.string.activity_title_navigation_bar), getResources().getString(R.string.activity_desc_navigation_bar), R.drawable.ic_extras_navbar});
@@ -71,6 +71,21 @@ public class Tweaks extends Fragment {
             });
         }
 
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out, R.anim.fragment_fade_in, R.anim.fragment_fade_out);
+
+        // Color Engine fragment
+        listView.getChildAt(0).findViewById(R.id.list_info_item).setOnClickListener(view1 -> {
+            new Handler().postDelayed(() -> {
+                fragmentTransaction.replace(R.id.main_fragment, new ColorEngine(), FRAGMENT_COLORENGINE);
+                fragmentManager.popBackStack(FRAGMENT_HOME, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                fragmentTransaction.addToBackStack(FRAGMENT_COLORENGINE);
+                fragmentTransaction.commit();
+            }, 100);
+        });
+
+        // Xposed Menu fragment
         listView.getChildAt(tweaks_list.size() - 1).findViewById(R.id.list_info_item).setOnClickListener(view1 -> {
             new Handler().postDelayed(() -> {
                 // Check if LSPosed is installed or not
@@ -79,9 +94,6 @@ public class Tweaks extends Fragment {
                     return;
                 }
 
-                FragmentManager fragmentManager = getParentFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out, R.anim.fragment_fade_in, R.anim.fragment_fade_out);
                 fragmentTransaction.replace(R.id.main_fragment, new XposedMenu(), FRAGMENT_XPOSEDMENU);
                 fragmentManager.popBackStack(FRAGMENT_HOME, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 fragmentTransaction.addToBackStack(FRAGMENT_XPOSEDMENU);
