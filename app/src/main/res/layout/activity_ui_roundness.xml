@@ -96,7 +96,7 @@
                         android:contentDescription="@null"
                         android:padding="12.0dp"
                         android:src="@drawable/ic_brightness_off"
-                        app:tint="@color/white" />
+                        app:tint="@color/textColorPrimaryInverse" />
 
                 </LinearLayout>
 
@@ -139,7 +139,7 @@
                                 android:layout_marginEnd="10dp"
                                 android:contentDescription="@string/icon"
                                 android:src="@drawable/ic_qs_internet"
-                                app:tint="@color/white" />
+                                app:tint="@color/textColorPrimaryInverse" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -153,7 +153,7 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn1_title"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/textColorPrimaryInverse"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -164,7 +164,7 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn1_desc"
-                                    android:textColor="#BFFFFFFF" />
+                                    android:textColor="@color/textColorSecondaryInverse" />
 
                             </LinearLayout>
                         </LinearLayout>
@@ -305,7 +305,7 @@
                                 android:layout_marginEnd="10dp"
                                 android:contentDescription="@string/icon"
                                 android:src="@drawable/ic_qs_bluetooth"
-                                app:tint="@color/white" />
+                                app:tint="@color/textColorPrimaryInverse" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -319,7 +319,7 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn4_title"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/textColorPrimaryInverse"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -330,7 +330,7 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn4_desc"
-                                    android:textColor="#BFFFFFFF" />
+                                    android:textColor="@color/textColorSecondaryInverse" />
 
                             </LinearLayout>
                         </LinearLayout>
