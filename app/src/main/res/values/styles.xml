@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ColorPicker" parent="Theme.MaterialComponents.Light.Dialog">
+    <style name="ColorPicker" parent="Theme.Material3.Light.Dialog">
         <item name="android:colorAccent">@color/colorAccent</item>
         <item name="android:windowTitleStyle">@style/LightPickerDialogTitleStyle</item>
         <item name="android:dialogCornerRadius">@dimen/cont_corner_radius</item>
@@ -29,13 +29,13 @@
         <item name="android:textColor">@color/textColorPrimary</item>
     </style>
 
-    <style name="SeekBar.Iconify" parent="Widget.AppCompat.SeekBar">
+    <style name="SeekBar.Iconify" parent="Widget.Material3.Slider">
         <item name="android:progressBackgroundTint">@null</item>
         <item name="android:progressTint">@null</item>
         <item name="android:thumbTint">@null</item>
     </style>
 
-    <style name="MenuLightTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="MenuLightTheme" parent="Theme.Material3.Light.NoActionBar">
         <item name="android:background">@color/colorContainer</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
@@ -137,33 +137,33 @@
         <item name="backgroundTint">@null</item>
     </style>
 
-    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+    <style name="Toolbar.TitleText" parent="TextAppearance.Material3.ActionBar.Title">
         <item name="fontFamily">@font/header</item>
         <item name="android:textSize">@dimen/_24sdp</item>
         <item name="android:letterSpacing">0.1</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="Toolbar.TitleText.Collapsed" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+    <style name="Toolbar.TitleText.Collapsed" parent="TextAppearance.Material3.ActionBar.Title">
         <item name="fontFamily">@font/header</item>
         <item name="android:textSize">@dimen/_15sdp</item>
         <item name="android:letterSpacing">0.1</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="Toolbar.TitleText.Expanded" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+    <style name="Toolbar.TitleText.Expanded" parent="TextAppearance.Material3.ActionBar.Title">
         <item name="fontFamily">@font/header</item>
         <item name="android:textSize">@dimen/_24sdp</item>
         <item name="android:letterSpacing">0.1</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="actionButtonOverflow" parent="Widget.AppCompat.ActionButton.Overflow">
+    <style name="actionButtonOverflow" parent="Widget.Material3.PopupMenu.Overflow">
         <item name="android:src">@drawable/ic_menu</item>
         <item name="tint">@color/textColorPrimary</item>
     </style>
 
-    <style name="actionBarStyle" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="actionBarStyle" parent="Theme.Material3.Light.NoActionBar">
         <item name="homeAsUpIndicator">@drawable/ic_home_as_up_indicator</item>
     </style>
 
@@ -177,7 +177,7 @@
         </item>
     </style>
 
-    <style name="BottomNavigationView.ActiveIndicator" parent="@style/Widget.Material3.BottomNavigationView.ActiveIndicator">
+    <style name="BottomNavigationView.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">@color/navbarSelectedBackground</item>
     </style>
 </resources>
