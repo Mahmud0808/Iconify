@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="@color/colorBackground">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <layer-list>
             <item>
-                <shape android:shape="rectangle">
-                    <solid android:color="@color/colorBackground" />
+                <shape
+                    android:shape="rectangle"
+                    android:tint="@color/colorBackground">
+                    <solid android:color="#99FFFFFF" />
                     <corners android:radius="@dimen/_12sdp" />
                 </shape>
             </item>
         </layer-list>
     </item>
-</ripple>
+</layer-list>
