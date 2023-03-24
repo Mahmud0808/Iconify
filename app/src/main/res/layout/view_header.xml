@@ -6,7 +6,7 @@
     android:background="@color/transparent"
     android:clipChildren="false"
     android:fitsSystemWindows="true"
-    android:theme="@style/Theme.Iconify"
+    android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
     app:liftOnScroll="true">
 
     <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -17,7 +17,6 @@
         app:collapsedTitleTextAppearance="@style/Toolbar.TitleText.Collapsed"
         app:collapsedTitleTextColor="@color/textColorPrimary"
         app:contentScrim="@color/transparent"
-        app:elevation="0dp"
         app:expandedTitleMarginEnd="@dimen/_28sdp"
         app:expandedTitleMarginStart="@dimen/_28sdp"
         app:expandedTitleTextAppearance="@style/Toolbar.TitleText.Expanded"
@@ -36,7 +35,7 @@
             app:contentInsetStartWithNavigation="0dp"
             app:layout_collapseMode="pin"
             app:maxLines="1"
-            app:popupTheme="@style/Theme.Iconify"
+            app:popupTheme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
             app:titleTextAppearance="@style/Toolbar.TitleText"
             app:titleTextEllipsize="end" />
 
