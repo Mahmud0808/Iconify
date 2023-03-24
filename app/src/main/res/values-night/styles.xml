@@ -35,4 +35,9 @@
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
         <item name="android:colorAccent">@color/colorAccent</item>
     </style>
+
+    <style name="toolbarStyle" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="homeAsUpIndicator">@drawable/ic_home_as_up_indicator</item>
+        <item name="android:actionOverflowButtonStyle">@style/actionButtonOverflow</item>
+    </style>
 </resources>

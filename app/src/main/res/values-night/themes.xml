@@ -39,8 +39,6 @@
         <item name="colorSurface">@color/colorContainer</item>
         <item name="colorPrimarySurface">@color/colorContainer</item>
         <item name="colorError">@color/red</item>
-        <item name="actionBarStyle">@style/actionBarStyle</item>
-        <item name="android:actionOverflowButtonStyle">@style/actionButtonOverflow</item>
 
         <!-- Material3 attributes (needed if parent="Theme.MaterialComponents"). -->
         <item name="colorPrimaryInverse">@color/colorPrimaryLight</item>
