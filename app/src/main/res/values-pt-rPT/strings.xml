@@ -466,4 +466,10 @@
     <string name="settings_icons_follow_system">Seguir sistema</string>
     <string name="settings_icons_system_inverse">Inverso do sistema</string>
     <string name="settings_icons_monet_accent">"Monet / Destaque"</string>
+    <string name="hello_blank_fragment">Fragmento vazio de Olá</string>
+    <string name="navbar_home">Ecrã inicial</string>
+    <string name="navbar_tweaks">\"Tweaks\"</string>
+    <string name="navbar_settings">Definições</string>
+    <string name="btn_close">Fechar</string>
+    <string name="created_by_drdisagree">Criado com ❤ por DrDisagree</string>
 </resources>
