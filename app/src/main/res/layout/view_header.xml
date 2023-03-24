@@ -35,7 +35,7 @@
             app:contentInsetStartWithNavigation="0dp"
             app:layout_collapseMode="pin"
             app:maxLines="1"
-            app:popupTheme="@style/toolbarStyle"
+            app:popupTheme="@style/Theme.Iconify"
             app:titleTextAppearance="@style/Toolbar.TitleText"
             app:titleTextEllipsize="end" />
 
