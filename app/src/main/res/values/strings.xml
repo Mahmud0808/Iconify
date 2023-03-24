@@ -73,6 +73,8 @@
     <string name="activity_desc_progress_bar">Use different progress style</string>
     <string name="activity_title_switch">Switch</string>
     <string name="activity_desc_switch">Customize switch appearance</string>
+    <string name="activity_title_media_icons">Media Icons</string>
+    <string name="activity_desc_media_icons">Change media player icons</string>
 
     <string name="apply_monet_accent_title">Monet Accent</string>
     <string name="apply_monet_accent_desc">Use system monet as accent</string>
@@ -477,4 +479,5 @@
     <string name="navbar_settings">Settings</string>
     <string name="btn_close">Close</string>
     <string name="created_by_drdisagree">Made with ❤ by DrDisagree</string>
+    <string name="no_supported_music_player">Supported Music Player Not Found</string>
 </resources>

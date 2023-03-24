@@ -52,6 +52,7 @@ public class IconPack extends AppCompatActivity {
         ArrayList<MenuModel> iconpack_activity_list = new ArrayList<>();
 
         iconpack_activity_list.add(new MenuModel(ColoredBattery.class, getResources().getString(R.string.activity_title_colored_battery), getResources().getString(R.string.activity_desc_colored_battery), R.drawable.ic_colored_battery));
+        iconpack_activity_list.add(new MenuModel(MediaIcons.class, getResources().getString(R.string.activity_title_media_icons), getResources().getString(R.string.activity_desc_media_icons), R.drawable.ic_media_player_icon));
         iconpack_activity_list.add(new MenuModel(SettingsIcons.class, getResources().getString(R.string.activity_title_settings_icons), getResources().getString(R.string.activity_desc_settings_icons), R.drawable.ic_settings_icon_pack));
 
         return new MenuAdapter(this, iconpack_activity_list);
