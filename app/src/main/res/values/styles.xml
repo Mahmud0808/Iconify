@@ -177,12 +177,12 @@
         <item name="itemActiveIndicatorStyle">
             @style/BottomNavigationView.ActiveIndicator
         </item>
-        <item name="android:height">@dimen/_64sdp</item>
-        <item name="android:minHeight">@dimen/_64sdp</item>
+        <item name="android:height">@dimen/_60sdp</item>
+        <item name="android:minHeight">@dimen/_60sdp</item>
         <item name="itemIconSize">@dimen/_16sdp</item>
         <item name="android:textSize">@dimen/cont_desc_size</item>
         <item name="itemPaddingTop">@dimen/_8sdp</item>
-        <item name="itemPaddingBottom">@dimen/_16sdp</item>
+        <item name="itemPaddingBottom">@dimen/_12sdp</item>
         <item name="itemTextAppearanceInactive">@style/TextAppearanceLabelMedium</item>
         <item name="itemTextAppearanceActive">@style/TextAppearanceLabelMedium</item>
     </style>
