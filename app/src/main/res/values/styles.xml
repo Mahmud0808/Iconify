@@ -157,6 +157,10 @@
         <item name="android:letterSpacing">0.1</item>
         <item name="android:textStyle">bold</item>
     </style>
+    
+    <style name="toolbarMenu" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorControlHighlight">@color/colorAccent</item>
+    </style>
 
     <style name="actionButtonOverflow" parent="Widget.Material3.PopupMenu.Overflow">
         <item name="android:src">@drawable/ic_menu</item>
@@ -166,6 +170,7 @@
     <style name="toolbarStyle" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="homeAsUpIndicator">@drawable/ic_home_as_up_indicator</item>
         <item name="android:actionOverflowButtonStyle">@style/actionButtonOverflow</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
     </style>
 
     <style name="BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
