@@ -53,22 +53,10 @@
             android:name=".ui.activities.XposedBatteryStyle"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.QsTileSize"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.NotificationPixel"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.SettingsIcons"
-            android:exported="false" />
-        <activity
             android:name=".ui.activities.Statusbar"
             android:exported="false" />
         <activity
             android:name=".ui.activities.XposedOthers"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.ColoredBattery"
             android:exported="false" />
         <activity
             android:name=".ui.activities.XposedQuickSettings"
@@ -110,19 +98,6 @@
             android:name=".ui.activities.VolumePanel"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.BrightnessBarPixel"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.QsPanelTilePixel"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.QsIconLabel"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.QsRowColumn"
-            android:exported="false" />
-        <activity
             android:name=".ui.activities.BasicColors"
             android:exported="false" />
         <activity
@@ -136,10 +111,7 @@
             android:name=".ui.activities.MediaPlayer"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.MediaIcons"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.HomePage"
+            android:name=".ui.activities.MainActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activities.LandingPage3"

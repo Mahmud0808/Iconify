@@ -1,46 +1,44 @@
-package com.drdisagree.iconify.ui.activities;
+package com.drdisagree.iconify.ui.fragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.ui.adapters.BrightnessBarAdapter;
 import com.drdisagree.iconify.ui.models.BrightnessBarModel;
+import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class BrightnessBarPixel extends AppCompatActivity {
+public class BrightnessBarPixel extends Fragment {
 
     LoadingDialog loadingDialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_brightness_bars_pixel);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_brightness_bar_pixel, container, false);
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_brightness_bar));
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        FragmentHelper.initHeader((AppCompatActivity) requireActivity(), view, R.string.activity_title_brightness_bar, getParentFragmentManager());
 
         // Loading dialog while enabling or disabling pack
-        loadingDialog = new LoadingDialog(this);
+        loadingDialog = new LoadingDialog(requireActivity());
 
         // RecyclerView
-        RecyclerView container = findViewById(R.id.brightness_bar_pixel_container);
-        container.setLayoutManager(new LinearLayoutManager(this));
-        container.setAdapter(initQsShapeItems());
-        container.setHasFixedSize(true);
+        RecyclerView listView = view.findViewById(R.id.brightness_bar_pixel_container);
+        listView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        listView.setAdapter(initQsShapeItems());
+        listView.setHasFixedSize(true);
+
+        return view;
     }
 
     private BrightnessBarAdapter initQsShapeItems() {
@@ -66,13 +64,7 @@ public class BrightnessBarPixel extends AppCompatActivity {
         bb_list.add(new BrightnessBarModel("Thin Outline", R.drawable.bb_thin_outline_pixel, R.drawable.auto_bb_thin_outline_pixel));
         bb_list.add(new BrightnessBarModel("Purfect", R.drawable.bb_purfect_pixel, R.drawable.auto_bb_purfect_pixel));
 
-        return new BrightnessBarAdapter(this, bb_list, loadingDialog, "BBP");
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+        return new BrightnessBarAdapter(requireActivity(), bb_list, loadingDialog, "BBP");
     }
 
     @Override

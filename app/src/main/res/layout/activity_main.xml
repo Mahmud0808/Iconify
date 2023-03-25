@@ -7,7 +7,7 @@
     android:clipChildren="false"
     android:fillViewport="true"
     android:orientation="vertical"
-    tools:context=".ui.activities.HomePage">
+    tools:context=".ui.activities.MainActivity">
 
     <FrameLayout
         android:id="@+id/main_fragment"

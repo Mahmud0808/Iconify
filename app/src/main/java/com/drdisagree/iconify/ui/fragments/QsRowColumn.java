@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.ui.activities;
+package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Preferences.QS_ROW_COLUMN_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.STR_NULL;
@@ -11,25 +11,25 @@ import static com.drdisagree.iconify.common.References.FABRICATED_QS_TILE;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
-import java.util.Objects;
-
-public class QsRowColumn extends AppCompatActivity {
+public class QsRowColumn extends Fragment {
 
     LoadingDialog loadingDialog;
 
@@ -51,25 +51,18 @@ public class QsRowColumn extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qs_row_column);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_qs_row_column, container, false);
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_qs_row_column));
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        FragmentHelper.initHeader((AppCompatActivity) requireActivity(), view, R.string.activity_title_qs_row_column, getParentFragmentManager());
 
         // Loading dialog while enabling or disabling pack
-        loadingDialog = new LoadingDialog(this);
+        loadingDialog = new LoadingDialog(requireActivity());
 
         // Quick QsPanel Row
-
-        SeekBar qqs_row_seekbar = findViewById(R.id.qqs_row_seekbar);
-        TextView qqs_row_output = findViewById(R.id.qqs_row_output);
+        SeekBar qqs_row_seekbar = view.findViewById(R.id.qqs_row_seekbar);
+        TextView qqs_row_output = view.findViewById(R.id.qqs_row_output);
         final int[] finalQqsRow = {1};
 
         if (!Prefs.getString(FABRICATED_QQS_ROW).equals(STR_NULL)) {
@@ -95,9 +88,8 @@ public class QsRowColumn extends AppCompatActivity {
         });
 
         // QsPanel Row
-
-        SeekBar qs_row_seekbar = findViewById(R.id.qs_row_seekbar);
-        TextView qs_row_output = findViewById(R.id.qs_row_output);
+        SeekBar qs_row_seekbar = view.findViewById(R.id.qs_row_seekbar);
+        TextView qs_row_output = view.findViewById(R.id.qs_row_output);
         final int[] finalQsRow = {3};
 
         if (!Prefs.getString(FABRICATED_QS_ROW).equals(STR_NULL)) {
@@ -123,9 +115,8 @@ public class QsRowColumn extends AppCompatActivity {
         });
 
         // QsPanel Column
-
-        SeekBar qs_column_seekbar = findViewById(R.id.qs_column_seekbar);
-        TextView qs_column_output = findViewById(R.id.qs_column_output);
+        SeekBar qs_column_seekbar = view.findViewById(R.id.qs_column_seekbar);
+        TextView qs_column_output = view.findViewById(R.id.qs_column_output);
         final int[] finalQsColumn = {1};
 
         if (!Prefs.getString(FABRICATED_QS_COLUMN).equals(STR_NULL)) {
@@ -151,10 +142,10 @@ public class QsRowColumn extends AppCompatActivity {
         });
 
         // Apply button declaration
-        Button qs_row_column_apply = findViewById(R.id.qs_row_column_apply);
+        Button qs_row_column_apply = view.findViewById(R.id.qs_row_column_apply);
 
         // Reset button declaration
-        Button qs_row_column_reset = findViewById(R.id.qs_row_column_reset);
+        Button qs_row_column_reset = view.findViewById(R.id.qs_row_column_reset);
 
         // Apply button
         qs_row_column_apply.setOnClickListener(v -> {
@@ -172,7 +163,7 @@ public class QsRowColumn extends AppCompatActivity {
 
                 applyRowColumn();
 
-                runOnUiThread(() -> {
+                requireActivity().runOnUiThread(() -> {
 
                     new Handler().postDelayed(() -> {
                         // Hide loading dialog
@@ -200,7 +191,7 @@ public class QsRowColumn extends AppCompatActivity {
             Runnable runnable = () -> {
                 resetRowColumn();
 
-                runOnUiThread(() -> {
+                requireActivity().runOnUiThread(() -> {
                     Prefs.putBoolean(QS_ROW_COLUMN_SWITCH, false);
 
                     new Handler().postDelayed(() -> {
@@ -217,12 +208,8 @@ public class QsRowColumn extends AppCompatActivity {
             Thread thread = new Thread(runnable);
             thread.start();
         });
-    }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+        return view;
     }
 
     @Override

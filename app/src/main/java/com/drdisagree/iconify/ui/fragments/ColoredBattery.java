@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.ui.activities;
+package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
@@ -13,47 +13,44 @@ import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
 import java.util.List;
 import java.util.Objects;
 
-public class ColoredBattery extends AppCompatActivity implements ColorPickerDialogListener {
+public class ColoredBattery extends Fragment implements ColorPickerDialogListener {
 
     private static String colorBackground, colorFilled;
     private final List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
     ColorPickerDialog.Builder colorPickerDialogBackground, colorPickerDialogFilled;
+    private View view;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_colored_battery);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_colored_battery, container, false);
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_colored_battery));
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        FragmentHelper.initHeader((AppCompatActivity) requireActivity(), view, R.string.activity_title_colored_battery, getParentFragmentManager());
 
         // Enable colored battery
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_colored_battery = findViewById(R.id.enable_colored_battery);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_colored_battery = view.findViewById(R.id.enable_colored_battery);
         enable_colored_battery.setChecked(OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentIPSUI2.overlay") || OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentIPSUI4.overlay") || Prefs.getBoolean(COLORED_BATTERY_SWITCH));
         enable_colored_battery.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -97,13 +94,15 @@ public class ColoredBattery extends AppCompatActivity implements ColorPickerDial
         colorPickerDialogBackground.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(colorBackground)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);
         colorPickerDialogFilled.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(colorFilled)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(false).setShowColorShades(true);
 
-        LinearLayout battery_background_color = findViewById(R.id.battery_background_color);
-        battery_background_color.setOnClickListener(v -> colorPickerDialogBackground.show(ColoredBattery.this));
+        LinearLayout battery_background_color = view.findViewById(R.id.battery_background_color);
+        battery_background_color.setOnClickListener(v -> colorPickerDialogBackground.show(requireActivity()));
 
-        LinearLayout battery_filled_color = findViewById(R.id.battery_filled_color);
-        battery_filled_color.setOnClickListener(v -> colorPickerDialogFilled.show(ColoredBattery.this));
+        LinearLayout battery_filled_color = view.findViewById(R.id.battery_filled_color);
+        battery_filled_color.setOnClickListener(v -> colorPickerDialogFilled.show(requireActivity()));
 
         updateColorPreview();
+
+        return view;
     }
 
     @Override
@@ -135,22 +134,16 @@ public class ColoredBattery extends AppCompatActivity implements ColorPickerDial
     }
 
     private void updateColorPreview() {
-        View preview_color_picker_background = findViewById(R.id.preview_color_picker_background);
-        View preview_color_picker_fill = findViewById(R.id.preview_color_picker_fill);
+        View preview_color_picker_background = view.findViewById(R.id.preview_color_picker_background);
+        View preview_color_picker_fill = view.findViewById(R.id.preview_color_picker_fill);
         GradientDrawable gd;
 
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(colorBackground), Integer.parseInt(colorBackground)});
-        gd.setCornerRadius(24 * getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(getResources().getDimension(com.intuit.sdp.R.dimen._28sdp) * getResources().getDisplayMetrics().density);
         preview_color_picker_background.setBackgroundDrawable(gd);
 
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(colorFilled), Integer.parseInt(colorFilled)});
-        gd.setCornerRadius(24 * getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(getResources().getDimension(com.intuit.sdp.R.dimen._20sdp) * getResources().getDisplayMetrics().density);
         preview_color_picker_fill.setBackgroundDrawable(gd);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 }

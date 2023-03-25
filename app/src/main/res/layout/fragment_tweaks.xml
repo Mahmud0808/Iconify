@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/container_marginSide"
-            android:layout_marginTop="@dimen/container_margin"
+            android:layout_marginTop="@dimen/container_marginTopBottom"
             android:layout_marginEnd="@dimen/container_marginSide"
             android:orientation="vertical" />
 

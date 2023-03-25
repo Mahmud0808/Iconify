@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.ui.activities;
+package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.STR_NULL;
@@ -9,7 +9,9 @@ import static com.drdisagree.iconify.common.References.FABRICATED_QS_TEXT_SIZE;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -17,37 +19,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
-import java.util.Objects;
-
-public class QsIconLabel extends AppCompatActivity {
+public class QsIconLabel extends Fragment {
 
     @SuppressLint("SetTextI18n")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qs_icon_label);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_qs_icon_label, container, false);
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_qs_icon_label));
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        FragmentHelper.initHeader((AppCompatActivity) requireActivity(), view, R.string.activity_title_qs_icon_label, getParentFragmentManager());
 
         // Text Size
-        SeekBar text_size = findViewById(R.id.text_size);
+        SeekBar text_size = view.findViewById(R.id.text_size);
 
-        TextView text_size_output = findViewById(R.id.text_size_output);
+        TextView text_size_output = view.findViewById(R.id.text_size_output);
 
         final int[] finalTextSize = {14};
 
@@ -89,9 +83,9 @@ public class QsIconLabel extends AppCompatActivity {
         });
 
         // Icon Size
-        SeekBar icon_size = findViewById(R.id.icon_size);
+        SeekBar icon_size = view.findViewById(R.id.icon_size);
 
-        TextView icon_size_output = findViewById(R.id.icon_size_output);
+        TextView icon_size_output = view.findViewById(R.id.icon_size_output);
 
         final int[] finalIconSize = {20};
 
@@ -132,19 +126,19 @@ public class QsIconLabel extends AppCompatActivity {
         });
 
         // Hide text size if hide label is enabled
-        LinearLayout text_size_container = findViewById(R.id.text_size_container);
-        View text_size_divider = findViewById(R.id.text_size_divider);
+        LinearLayout text_size_container = view.findViewById(R.id.text_size_container);
+        View text_size_divider = view.findViewById(R.id.text_size_divider);
 
         if (Prefs.getBoolean("IconifyComponentQSHL.overlay")) {
             text_size_container.setVisibility(View.GONE);
             text_size_divider.setVisibility(View.GONE);
         }
 
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_white = findViewById(R.id.label_white);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_whiteV2 = findViewById(R.id.label_whiteV2);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_systemInverse = findViewById(R.id.label_systemInverse);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_systemInverseV2 = findViewById(R.id.label_systemInverseV2);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_fixtextcolor = findViewById(R.id.label_fixtextcolor);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") android.widget.Switch label_white = view.findViewById(R.id.label_white);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") android.widget.Switch label_whiteV2 = view.findViewById(R.id.label_whiteV2);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") android.widget.Switch label_systemInverse = view.findViewById(R.id.label_systemInverse);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") android.widget.Switch label_systemInverseV2 = view.findViewById(R.id.label_systemInverseV2);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") android.widget.Switch label_fixtextcolor = view.findViewById(R.id.label_fixtextcolor);
 
         label_white.setChecked(Prefs.getBoolean("IconifyComponentQST1.overlay"));
 
@@ -254,7 +248,7 @@ public class QsIconLabel extends AppCompatActivity {
 
         // Hide Label
 
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_label = findViewById(R.id.hide_label);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_label = view.findViewById(R.id.hide_label);
 
         hide_label.setChecked(Prefs.getBoolean("IconifyComponentQSHL.overlay"));
 
@@ -273,8 +267,8 @@ public class QsIconLabel extends AppCompatActivity {
         });
 
         // Move Icon
-        SeekBar move_icon = findViewById(R.id.move_icon);
-        TextView move_icon_output = findViewById(R.id.move_icon_output);
+        SeekBar move_icon = view.findViewById(R.id.move_icon);
+        TextView move_icon_output = view.findViewById(R.id.move_icon_output);
         final int[] finalMoveIcon = {16};
 
         if (!Prefs.getString(FABRICATED_QS_MOVE_ICON).equals(STR_NULL)) {
@@ -313,11 +307,6 @@ public class QsIconLabel extends AppCompatActivity {
             }
         });
 
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+        return view;
     }
 }

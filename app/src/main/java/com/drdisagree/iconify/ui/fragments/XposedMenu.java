@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.ui.fragments;
 
-import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
 import static com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN;
 
 import android.content.Intent;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.drdisagree.iconify.Iconify;
@@ -32,11 +30,10 @@ import com.drdisagree.iconify.ui.activities.XposedLockscreenClock;
 import com.drdisagree.iconify.ui.activities.XposedOthers;
 import com.drdisagree.iconify.ui.activities.XposedQuickSettings;
 import com.drdisagree.iconify.ui.activities.XposedTransparencyBlur;
+import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class XposedMenu extends Fragment {
 
@@ -49,15 +46,7 @@ public class XposedMenu extends Fragment {
         listView = view.findViewById(R.id.xposed_list);
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_xposed_menu));
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(view1 -> new Handler().postDelayed(() -> {
-            getParentFragmentManager().popBackStack();
-        }, FRAGMENT_BACK_BUTTON_DELAY));
+        FragmentHelper.initHeader((AppCompatActivity) requireActivity(), view, R.string.activity_title_xposed_menu, getParentFragmentManager());
 
         // Xposed warn
         LinearLayout xposed_warn = view.findViewById(R.id.xposed_warn);

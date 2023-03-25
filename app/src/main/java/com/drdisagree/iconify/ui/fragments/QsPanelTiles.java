@@ -1,39 +1,34 @@
 package com.drdisagree.iconify.ui.fragments;
 
-import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
+import static com.drdisagree.iconify.common.References.FRAGMENT_QSICONLABEL;
+import static com.drdisagree.iconify.common.References.FRAGMENT_QSPANELTILESPIXEL;
+import static com.drdisagree.iconify.common.References.FRAGMENT_QSROWCOLUMN;
+import static com.drdisagree.iconify.common.References.FRAGMENT_QSTILESIZE;
 
 import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.ui.activities.QsIconLabel;
-import com.drdisagree.iconify.ui.activities.QsPanelTilePixel;
-import com.drdisagree.iconify.ui.activities.QsRowColumn;
-import com.drdisagree.iconify.ui.activities.QsTileSize;
-import com.drdisagree.iconify.ui.adapters.MenuAdapter;
+import com.drdisagree.iconify.ui.adapters.MenuFragmentAdapter;
 import com.drdisagree.iconify.ui.adapters.QsShapeAdapter;
 import com.drdisagree.iconify.ui.adapters.ViewAdapter;
-import com.drdisagree.iconify.ui.models.MenuModel;
+import com.drdisagree.iconify.ui.models.MenuFragmentModel;
 import com.drdisagree.iconify.ui.models.QsShapeModel;
+import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class QsPanelTiles extends Fragment {
 
@@ -46,15 +41,7 @@ public class QsPanelTiles extends Fragment {
         View view = inflater.inflate(R.layout.fragment_qs_panel_tiles, container, false);
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_qs_shape));
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(view1 -> new Handler().postDelayed(() -> {
-            getParentFragmentManager().popBackStack();
-        }, FRAGMENT_BACK_BUTTON_DELAY));
+        FragmentHelper.initHeader((AppCompatActivity) requireActivity(), view, R.string.activity_title_qs_shape, getParentFragmentManager());
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(requireActivity());
@@ -69,15 +56,15 @@ public class QsPanelTiles extends Fragment {
         return view;
     }
 
-    private MenuAdapter initActivityItems() {
-        ArrayList<MenuModel> qsshape_activity_list = new ArrayList<>();
+    private MenuFragmentAdapter initActivityItems() {
+        ArrayList<MenuFragmentModel> qsshape_activity_list = new ArrayList<>();
 
-        qsshape_activity_list.add(new MenuModel(QsRowColumn.class, getResources().getString(R.string.row_and_column_title), getResources().getString(R.string.row_and_column_desc), R.drawable.ic_qs_row_column));
-        qsshape_activity_list.add(new MenuModel(QsIconLabel.class, getResources().getString(R.string.icon_and_label_title), getResources().getString(R.string.icon_and_label_desc), R.drawable.ic_qs_icon_and_label));
-        qsshape_activity_list.add(new MenuModel(QsTileSize.class, getResources().getString(R.string.activity_title_qs_tile_size), getResources().getString(R.string.activity_desc_qs_tile_size), R.drawable.ic_qs_tile_size));
-        qsshape_activity_list.add(new MenuModel(QsPanelTilePixel.class, getResources().getString(R.string.activity_title_pixel_variant), getResources().getString(R.string.activity_desc_pixel_variant), R.drawable.ic_pixel_device));
+        qsshape_activity_list.add(new MenuFragmentModel(new QsRowColumn(), FRAGMENT_QSROWCOLUMN, getResources().getString(R.string.row_and_column_title), getResources().getString(R.string.row_and_column_desc), R.drawable.ic_qs_row_column));
+        qsshape_activity_list.add(new MenuFragmentModel(new QsIconLabel(), FRAGMENT_QSICONLABEL, getResources().getString(R.string.icon_and_label_title), getResources().getString(R.string.icon_and_label_desc), R.drawable.ic_qs_icon_and_label));
+        qsshape_activity_list.add(new MenuFragmentModel(new QsTileSize(), FRAGMENT_QSTILESIZE, getResources().getString(R.string.activity_title_qs_tile_size), getResources().getString(R.string.activity_desc_qs_tile_size), R.drawable.ic_qs_tile_size));
+        qsshape_activity_list.add(new MenuFragmentModel(new QsPanelTilesPixel(), FRAGMENT_QSPANELTILESPIXEL, getResources().getString(R.string.activity_title_pixel_variant), getResources().getString(R.string.activity_desc_pixel_variant), R.drawable.ic_pixel_device));
 
-        return new MenuAdapter(requireActivity(), qsshape_activity_list);
+        return new MenuFragmentAdapter(requireActivity(), qsshape_activity_list, getParentFragmentManager());
     }
 
     private QsShapeAdapter initQsShapeItems() {

@@ -1,33 +1,28 @@
 package com.drdisagree.iconify.ui.fragments;
 
-import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
+import static com.drdisagree.iconify.common.References.FRAGMENT_NOTIFICATIONPIXEL;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.ui.activities.NotificationPixel;
-import com.drdisagree.iconify.ui.adapters.MenuAdapter;
+import com.drdisagree.iconify.ui.adapters.MenuFragmentAdapter;
 import com.drdisagree.iconify.ui.adapters.NotificationAdapter;
 import com.drdisagree.iconify.ui.adapters.ViewAdapter;
-import com.drdisagree.iconify.ui.models.MenuModel;
+import com.drdisagree.iconify.ui.models.MenuFragmentModel;
 import com.drdisagree.iconify.ui.models.NotificationModel;
+import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Notification extends Fragment {
 
@@ -38,15 +33,7 @@ public class Notification extends Fragment {
         View view = inflater.inflate(R.layout.fragment_notification, container, false);
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_notification));
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(view1 -> new Handler().postDelayed(() -> {
-            getParentFragmentManager().popBackStack();
-        }, FRAGMENT_BACK_BUTTON_DELAY));
+        FragmentHelper.initHeader((AppCompatActivity) requireActivity(), view, R.string.activity_title_notification, getParentFragmentManager());
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(requireActivity());
@@ -61,12 +48,12 @@ public class Notification extends Fragment {
         return view;
     }
 
-    private MenuAdapter initActivityItems() {
-        ArrayList<MenuModel> notif_activity_list = new ArrayList<>();
+    private MenuFragmentAdapter initActivityItems() {
+        ArrayList<MenuFragmentModel> notif_activity_list = new ArrayList<>();
 
-        notif_activity_list.add(new MenuModel(NotificationPixel.class, getResources().getString(R.string.activity_title_pixel_variant), getResources().getString(R.string.activity_desc_pixel_variant), R.drawable.ic_pixel_device));
+        notif_activity_list.add(new MenuFragmentModel(new NotificationPixel(), FRAGMENT_NOTIFICATIONPIXEL, getResources().getString(R.string.activity_title_pixel_variant), getResources().getString(R.string.activity_desc_pixel_variant), R.drawable.ic_pixel_device));
 
-        return new MenuAdapter(requireActivity(), notif_activity_list);
+        return new MenuFragmentAdapter(requireActivity(), notif_activity_list, getParentFragmentManager());
     }
 
     private NotificationAdapter initNotifItems() {

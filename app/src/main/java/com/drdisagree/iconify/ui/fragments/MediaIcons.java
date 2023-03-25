@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.ui.activities;
+package com.drdisagree.iconify.ui.fragments;
 
 import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
@@ -10,44 +10,37 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.MediaPlayerIconManager;
+import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.utils.AppUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class MediaIcons extends AppCompatActivity {
+public class MediaIcons extends Fragment {
 
     private final ArrayList<String[]> MPIP_KEY = new ArrayList<>();
     private final ArrayList<Object[]> mpip_list = new ArrayList<>();
-    private ViewGroup container;
+    private View view;
+    private ViewGroup listView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_media_icons);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_media_icons, container, false);
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_media_icons));
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        FragmentHelper.initHeader((AppCompatActivity) requireActivity(), view, R.string.activity_title_media_icons, getParentFragmentManager());
 
         // Media Player Icon list items
-        container = findViewById(R.id.mediaplayer_icon_list);
+        listView = view.findViewById(R.id.mediaplayer_icon_list);
 
         mpip_list.add(new Object[]{"defaultA13", false, R.id.defaulta13mp});
         mpip_list.add(new Object[]{"com.maxmpz.audioplayer", false, R.id.poweramp});
@@ -71,6 +64,8 @@ public class MediaIcons extends AppCompatActivity {
         }
 
         musicPlayerIconList();
+
+        return view;
     }
 
     private void musicPlayerIconList() {
@@ -82,15 +77,15 @@ public class MediaIcons extends AppCompatActivity {
     private void refreshBackground() {
         for (int i = 0; i < mpip_list.size(); i++) {
             if ((Boolean) mpip_list.get(i)[1]) {
-                Button[] buttons = {findViewById((Integer) mpip_list.get(i)[2]).findViewById(R.id.aurora),
-                        findViewById((Integer) mpip_list.get(i)[2]).findViewById(R.id.gradicon),
-                        findViewById((Integer) mpip_list.get(i)[2]).findViewById(R.id.plumpy)};
+                Button[] buttons = {view.findViewById((Integer) mpip_list.get(i)[2]).findViewById(R.id.aurora),
+                        view.findViewById((Integer) mpip_list.get(i)[2]).findViewById(R.id.gradicon),
+                        view.findViewById((Integer) mpip_list.get(i)[2]).findViewById(R.id.plumpy)};
 
                 for (int j = 0; j < 3; j++) {
                     if (Prefs.getBoolean(MPIP_KEY.get(i)[j])) {
-                        buttons[j].setBackground(ContextCompat.getDrawable(MediaIcons.this, R.drawable.button_red));
+                        buttons[j].setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.button_red));
                     } else {
-                        buttons[j].setBackground(ContextCompat.getDrawable(MediaIcons.this, R.drawable.button));
+                        buttons[j].setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.button));
                     }
                 }
             }
@@ -99,7 +94,7 @@ public class MediaIcons extends AppCompatActivity {
 
     // Enable onClick event
     private void enableOnClickListener(int idx) {
-        LinearLayout child = findViewById((int) mpip_list.get(idx)[2]);
+        LinearLayout child = view.findViewById((int) mpip_list.get(idx)[2]);
 
         Button[] buttons = {child.findViewById(R.id.aurora),
                 child.findViewById(R.id.gradicon),
@@ -119,7 +114,7 @@ public class MediaIcons extends AppCompatActivity {
     }
 
     private void addItem(String appName, String packageName, Drawable appIcon, int viewId) {
-        View list = LayoutInflater.from(this).inflate(R.layout.view_list_option_mediaplayer_icons, container, false);
+        View list = LayoutInflater.from(requireActivity()).inflate(R.layout.view_list_option_mediaplayer_icons, listView, false);
         list.setId(viewId);
 
         LinearLayout launch = list.findViewById(R.id.launch_app);
@@ -129,7 +124,7 @@ public class MediaIcons extends AppCompatActivity {
                     // do nothing
                 });
             else
-                launch.setOnClickListener(v -> AppUtil.launchApp(MediaIcons.this, packageName));
+                launch.setOnClickListener(v -> AppUtil.launchApp(requireActivity(), packageName));
         }
 
         list.findViewById(R.id.app_icon).setBackground(appIcon);
@@ -137,13 +132,7 @@ public class MediaIcons extends AppCompatActivity {
         TextView name = list.findViewById(R.id.app_name);
         name.setText(appName);
 
-        container.addView(list);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+        listView.addView(list);
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -172,12 +161,12 @@ public class MediaIcons extends AppCompatActivity {
         @Override
         protected void onPostExecute(String string) {
             boolean isMusicPlayerShown = false;
-            TextView noSupportedPlayer = findViewById(R.id.no_supported_musicplayer);
+            TextView noSupportedPlayer = view.findViewById(R.id.no_supported_musicplayer);
 
             for (int i = 0; i < mpip_list.size(); i++) {
                 if ((Boolean) mpip_list.get(i)[1]) {
                     if (i == 0) {
-                        addItem(getResources().getString(R.string.a13_default_media_player), (String) mpip_list.get(i)[0], ContextCompat.getDrawable(MediaIcons.this, R.drawable.ic_android), (int) mpip_list.get(i)[2]);
+                        addItem(getResources().getString(R.string.a13_default_media_player), (String) mpip_list.get(i)[0], ContextCompat.getDrawable(requireActivity(), R.drawable.ic_android), (int) mpip_list.get(i)[2]);
                     } else {
                         addItem(AppUtil.getAppName((String) mpip_list.get(i)[0]), (String) mpip_list.get(i)[0], AppUtil.getAppIcon((String) mpip_list.get(i)[0]), (int) mpip_list.get(i)[2]);
                     }

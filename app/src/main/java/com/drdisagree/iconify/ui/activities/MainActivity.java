@@ -34,7 +34,7 @@ import com.drdisagree.iconify.utils.OverlayUtil;
 import java.util.List;
 import java.util.Objects;
 
-public class HomePage extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     private static final String mData = "mDataKey";
     ActivityMainBinding binding;
@@ -99,9 +99,9 @@ public class HomePage extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out, R.anim.fragment_fade_in, R.anim.fragment_fade_out);
         fragmentTransaction.replace(R.id.main_fragment, fragment, tag);
-        if (Objects.equals(tag, FRAGMENT_HOME))
+        if (Objects.equals(tag, FRAGMENT_HOME)) {
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        else if (Objects.equals(tag, FRAGMENT_TWEAKS) || Objects.equals(tag, FRAGMENT_SETTINGS)) {
+        } else if (Objects.equals(tag, FRAGMENT_TWEAKS) || Objects.equals(tag, FRAGMENT_SETTINGS)) {
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             fragmentTransaction.addToBackStack(tag);
         } else {

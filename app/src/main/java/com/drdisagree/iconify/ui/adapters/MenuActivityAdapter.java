@@ -14,16 +14,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.ui.models.MenuModel;
+import com.drdisagree.iconify.ui.models.MenuActivityModel;
 
 import java.util.ArrayList;
 
-public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
+public class MenuActivityAdapter extends RecyclerView.Adapter<MenuActivityAdapter.ViewHolder> {
 
     Context context;
-    ArrayList<MenuModel> itemList;
+    ArrayList<MenuActivityModel> itemList;
 
-    public MenuAdapter(Context context, ArrayList<MenuModel> itemList) {
+    public MenuActivityAdapter(Context context, ArrayList<MenuActivityModel> itemList) {
         this.context = context;
         this.itemList = itemList;
     }

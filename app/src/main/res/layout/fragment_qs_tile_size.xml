@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.activities.MonetEngine">
+    tools:context=".ui.fragments.MonetEngine">
 
     <include layout="@layout/view_header" />
 
@@ -22,7 +22,7 @@
             android:layout_marginStart="@dimen/container_marginSide"
             android:layout_marginTop="@dimen/container_marginTopBottom"
             android:layout_marginEnd="@dimen/container_marginSide"
-            android:layout_marginBottom="@dimen/container_marginTopBottom"
+            android:layout_marginBottom="@dimen/container_margin"
             android:orientation="vertical">
 
             <LinearLayout

@@ -389,14 +389,14 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
     private void updatePrimaryColor() {
         View preview_color_picker_primary = findViewById(R.id.preview_color_picker_primary);
         GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentPrimary)});
-        gd.setCornerRadius(24 * getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(getResources().getDimension(com.intuit.sdp.R.dimen._20sdp) * getResources().getDisplayMetrics().density);
         preview_color_picker_primary.setBackgroundDrawable(gd);
     }
 
     private void updateSecondaryColor() {
         View preview_color_picker_secondary = findViewById(R.id.preview_color_picker_secondary);
         GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentSecondary), Integer.parseInt(accentSecondary)});
-        gd.setCornerRadius(24 * getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(getResources().getDimension(com.intuit.sdp.R.dimen._20sdp) * getResources().getDisplayMetrics().density);
         preview_color_picker_secondary.setBackgroundDrawable(gd);
     }
 

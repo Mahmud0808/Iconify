@@ -1,28 +1,22 @@
 package com.drdisagree.iconify.ui.fragments;
 
-import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
-
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.ui.adapters.SwitchAdapter;
 import com.drdisagree.iconify.ui.models.SwitchModel;
+import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Switch extends Fragment {
 
@@ -33,15 +27,7 @@ public class Switch extends Fragment {
         View view = inflater.inflate(R.layout.fragment_switch, container, false);
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_switch));
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(view1 -> new Handler().postDelayed(() -> {
-            getParentFragmentManager().popBackStack();
-        }, FRAGMENT_BACK_BUTTON_DELAY));
+        FragmentHelper.initHeader((AppCompatActivity) requireActivity(), view, R.string.activity_title_switch, getParentFragmentManager());
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(requireActivity());
