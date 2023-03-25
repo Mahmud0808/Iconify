@@ -44,31 +44,19 @@
         tools:replace="android:allowBackup"
         tools:targetApi="tiramisu">
         <activity
-            android:name=".ui.activities.Switch"
-            android:exported="false" />
-        <activity
             android:name=".ui.activities.LandingPage2"
             android:exported="false" />
         <activity
             android:name=".ui.activities.LandingPage1"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.ProgressBar"
-            android:exported="false" />
-        <activity
             android:name=".ui.activities.XposedBatteryStyle"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.ToastFrame"
             android:exported="false" />
         <activity
             android:name=".ui.activities.QsTileSize"
             android:exported="false" />
         <activity
             android:name=".ui.activities.NotificationPixel"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.IconShape"
             android:exported="false" />
         <activity
             android:name=".ui.activities.SettingsIcons"
@@ -149,19 +137,6 @@
             android:exported="false" />
         <activity
             android:name=".ui.activities.MediaIcons"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.Notification"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.QsPanelTile"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.BrightnessBar"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.IconPack"
             android:exported="false" />
         <activity
             android:name=".ui.activities.HomePage"

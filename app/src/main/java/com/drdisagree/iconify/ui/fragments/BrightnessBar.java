@@ -1,14 +1,23 @@
-package com.drdisagree.iconify.ui.activities;
+package com.drdisagree.iconify.ui.fragments;
+
+import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.ui.activities.BrightnessBarPixel;
 import com.drdisagree.iconify.ui.adapters.BrightnessBarAdapter;
 import com.drdisagree.iconify.ui.adapters.MenuAdapter;
 import com.drdisagree.iconify.ui.adapters.ViewAdapter;
@@ -20,32 +29,36 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class BrightnessBar extends AppCompatActivity {
+public class BrightnessBar extends Fragment {
 
     LoadingDialog loadingDialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_brightness_bars);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_brightness_bar, container, false);
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
         collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_brightness_bar));
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(view1 -> new Handler().postDelayed(() -> {
+            getParentFragmentManager().popBackStack();
+        }, FRAGMENT_BACK_BUTTON_DELAY));
 
         // Loading dialog while enabling or disabling pack
-        loadingDialog = new LoadingDialog(this);
+        loadingDialog = new LoadingDialog(requireActivity());
 
         // RecyclerView
-        RecyclerView container = findViewById(R.id.brightness_bar_container);
-        container.setLayoutManager(new LinearLayoutManager(this));
-        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new ViewAdapter(this, R.layout.view_divider), initBrightnessBarItems());
-        container.setAdapter(adapter);
-        container.setHasFixedSize(true);
+        RecyclerView listView = view.findViewById(R.id.brightness_bar_container);
+        listView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new ViewAdapter(requireActivity(), R.layout.view_divider), initBrightnessBarItems());
+        listView.setAdapter(adapter);
+        listView.setHasFixedSize(true);
+
+        return view;
     }
 
     private MenuAdapter initActivityItems() {
@@ -53,7 +66,7 @@ public class BrightnessBar extends AppCompatActivity {
 
         brightnessbar_activity_list.add(new MenuModel(BrightnessBarPixel.class, getResources().getString(R.string.activity_title_pixel_variant), getResources().getString(R.string.activity_desc_pixel_variant), R.drawable.ic_pixel_device));
 
-        return new MenuAdapter(this, brightnessbar_activity_list);
+        return new MenuAdapter(requireActivity(), brightnessbar_activity_list);
     }
 
     private BrightnessBarAdapter initBrightnessBarItems() {
@@ -79,13 +92,7 @@ public class BrightnessBar extends AppCompatActivity {
         bb_list.add(new BrightnessBarModel("Thin Outline", R.drawable.bb_thin_outline, R.drawable.auto_bb_thin_outline, true));
         bb_list.add(new BrightnessBarModel("Purfect", R.drawable.bb_purfect, R.drawable.auto_bb_purfect, false));
 
-        return new BrightnessBarAdapter(this, bb_list, loadingDialog, "BBN");
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+        return new BrightnessBarAdapter(requireActivity(), bb_list, loadingDialog, "BBN");
     }
 
     @Override

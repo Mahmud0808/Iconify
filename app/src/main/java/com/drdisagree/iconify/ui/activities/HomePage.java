@@ -23,7 +23,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.airbnb.lottie.LottieCompositionFactory;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.databinding.ActivityHomePageBinding;
+import com.drdisagree.iconify.databinding.ActivityMainBinding;
 import com.drdisagree.iconify.ui.fragments.Home;
 import com.drdisagree.iconify.ui.fragments.Settings;
 import com.drdisagree.iconify.ui.fragments.Tweaks;
@@ -37,14 +37,14 @@ import java.util.Objects;
 public class HomePage extends AppCompatActivity {
 
     private static final String mData = "mDataKey";
-    ActivityHomePageBinding binding;
+    ActivityMainBinding binding;
     private Integer selectedFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setNavigationBarColor(getResources().getColor(R.color.colorNavbarOverlay));
-        binding = ActivityHomePageBinding.inflate(getLayoutInflater());
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         Prefs.putBoolean(ON_HOME_PAGE, true);

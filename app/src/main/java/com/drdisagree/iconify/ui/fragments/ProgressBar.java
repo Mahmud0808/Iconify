@@ -1,11 +1,19 @@
-package com.drdisagree.iconify.ui.activities;
+package com.drdisagree.iconify.ui.fragments;
+
+import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.ui.adapters.ProgressBarAdapter;
@@ -16,31 +24,35 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class ProgressBar extends AppCompatActivity {
+public class ProgressBar extends Fragment {
 
     LoadingDialog loadingDialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_progress_bar);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_progress_bar, container, false);
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
         collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_progress_bar));
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(view1 -> new Handler().postDelayed(() -> {
+            getParentFragmentManager().popBackStack();
+        }, FRAGMENT_BACK_BUTTON_DELAY));
 
         // Loading dialog while enabling or disabling pack
-        loadingDialog = new LoadingDialog(this);
+        loadingDialog = new LoadingDialog(requireActivity());
 
         // RecyclerView
-        RecyclerView container = findViewById(R.id.progressbar_container);
-        container.setLayoutManager(new LinearLayoutManager(this));
-        container.setAdapter(initProgressBarItems());
-        container.setHasFixedSize(true);
+        RecyclerView listView = view.findViewById(R.id.progressbar_container);
+        listView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        listView.setAdapter(initProgressBarItems());
+        listView.setHasFixedSize(true);
+
+        return view;
     }
 
     private ProgressBarAdapter initProgressBarItems() {
@@ -57,13 +69,7 @@ public class ProgressBar extends AppCompatActivity {
         pgb_list.add(new ProgressBarModel("Thin Track", R.drawable.preview_seekbar_thin_track));
         pgb_list.add(new ProgressBarModel("Inline", R.drawable.preview_seekbar_inline));
 
-        return new ProgressBarAdapter(this, pgb_list, loadingDialog);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+        return new ProgressBarAdapter(requireActivity(), pgb_list, loadingDialog);
     }
 
     @Override

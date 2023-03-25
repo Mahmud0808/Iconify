@@ -1,20 +1,25 @@
-package com.drdisagree.iconify.ui.activities;
+package com.drdisagree.iconify.ui.fragments;
 
+import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
 import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.SELECTED_TOAST_FRAME;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+
+import android.os.Environment;
+import android.os.Handler;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -30,26 +35,28 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ToastFrame extends AppCompatActivity {
+public class ToastFrame extends Fragment {
 
-    private FlexboxLayout container;
+    private FlexboxLayout listView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_toast_frame);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_toast_frame, container, false);
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
         collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_toast_frame));
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(view1 -> new Handler().postDelayed(() -> {
+            getParentFragmentManager().popBackStack();
+        }, FRAGMENT_BACK_BUTTON_DELAY));
 
 
         // Toast Frame style
-        container = findViewById(R.id.toast_frame_container);
+        listView = view.findViewById(R.id.toast_frame_container);
         ArrayList<Object[]> toast_frame_style = new ArrayList<>();
 
         toast_frame_style.add(new Object[]{R.drawable.toast_frame_style_1, R.string.style_1});
@@ -65,13 +72,15 @@ public class ToastFrame extends AppCompatActivity {
         addItem(toast_frame_style);
 
         refreshBackground();
+
+        return view;
     }
 
     // Function to add new item in list
     @SuppressLint("UseCompatLoadingForDrawables")
     private void addItem(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(this).inflate(R.layout.view_toast_frame, container, false);
+            View list = LayoutInflater.from(requireActivity()).inflate(R.layout.view_toast_frame, listView, false);
 
             LinearLayout toast_container = list.findViewById(R.id.toast_container);
             toast_container.setBackground(getResources().getDrawable((int) pack.get(i)[0]));
@@ -82,7 +91,7 @@ public class ToastFrame extends AppCompatActivity {
             int finalI = i;
             list.setOnClickListener(v -> {
                 if (!Environment.isExternalStorageManager()) {
-                    SystemUtil.getStoragePermission(this);
+                    SystemUtil.getStoragePermission(requireActivity());
                 } else {
                     AtomicBoolean hasErroredOut = new AtomicBoolean(false);
 
@@ -104,15 +113,15 @@ public class ToastFrame extends AppCompatActivity {
                 }
             });
 
-            container.addView(list);
+            listView.addView(list);
         }
     }
 
     // Function to check for bg drawable changes
     @SuppressLint("SetTextI18n")
     private void refreshBackground() {
-        for (int i = 0; i < container.getChildCount(); i++) {
-            LinearLayout child = container.getChildAt(i).findViewById(R.id.list_item_toast);
+        for (int i = 0; i < listView.getChildCount(); i++) {
+            LinearLayout child = listView.getChildAt(i).findViewById(R.id.list_item_toast);
             TextView title = child.findViewById(R.id.style_name);
             if (i == Prefs.getInt(SELECTED_TOAST_FRAME, -1)) {
                 title.setTextColor(getResources().getColor(R.color.colorSuccess));
@@ -120,11 +129,5 @@ public class ToastFrame extends AppCompatActivity {
                 title.setTextColor(getResources().getColor(R.color.textColorSecondary));
             }
         }
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 }

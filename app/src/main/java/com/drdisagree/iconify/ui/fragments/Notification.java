@@ -1,15 +1,23 @@
-package com.drdisagree.iconify.ui.activities;
+package com.drdisagree.iconify.ui.fragments;
 
-import android.annotation.SuppressLint;
+import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
+
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.ui.activities.NotificationPixel;
 import com.drdisagree.iconify.ui.adapters.MenuAdapter;
 import com.drdisagree.iconify.ui.adapters.NotificationAdapter;
 import com.drdisagree.iconify.ui.adapters.ViewAdapter;
@@ -21,33 +29,36 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Notification extends AppCompatActivity {
+public class Notification extends Fragment {
 
     LoadingDialog loadingDialog;
 
-    @SuppressLint("SetTextI18n")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notifications);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_notification, container, false);
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
         collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_notification));
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(view1 -> new Handler().postDelayed(() -> {
+            getParentFragmentManager().popBackStack();
+        }, FRAGMENT_BACK_BUTTON_DELAY));
 
         // Loading dialog while enabling or disabling pack
-        loadingDialog = new LoadingDialog(this);
+        loadingDialog = new LoadingDialog(requireActivity());
 
         // RecyclerView
-        RecyclerView container = findViewById(R.id.notifications_container);
-        container.setLayoutManager(new LinearLayoutManager(this));
-        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new ViewAdapter(this, R.layout.view_divider), initNotifItems());
-        container.setAdapter(adapter);
-        container.setHasFixedSize(true);
+        RecyclerView listView = view.findViewById(R.id.notifications_container);
+        listView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new ViewAdapter(requireActivity(), R.layout.view_divider), initNotifItems());
+        listView.setAdapter(adapter);
+        listView.setHasFixedSize(true);
+
+        return view;
     }
 
     private MenuAdapter initActivityItems() {
@@ -55,7 +66,7 @@ public class Notification extends AppCompatActivity {
 
         notif_activity_list.add(new MenuModel(NotificationPixel.class, getResources().getString(R.string.activity_title_pixel_variant), getResources().getString(R.string.activity_desc_pixel_variant), R.drawable.ic_pixel_device));
 
-        return new MenuAdapter(this, notif_activity_list);
+        return new MenuAdapter(requireActivity(), notif_activity_list);
     }
 
     private NotificationAdapter initNotifItems() {
@@ -81,13 +92,7 @@ public class Notification extends AppCompatActivity {
         notif_list.add(new NotificationModel("Pitch Black", R.drawable.notif_pitch_black));
         notif_list.add(new NotificationModel("Duoline", R.drawable.notif_duoline));
 
-        return new NotificationAdapter(this, notif_list, loadingDialog, "NFN");
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+        return new NotificationAdapter(requireActivity(), notif_list, loadingDialog, "NFN");
     }
 
     @Override

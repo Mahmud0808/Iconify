@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    tools:context=".ui.activities.IconShape">
+    tools:context=".ui.fragments.ToastFrame">
 
     <include layout="@layout/view_header" />
 
@@ -22,7 +21,7 @@
             android:layout_marginStart="@dimen/container_marginSide"
             android:layout_marginTop="@dimen/container_marginTopBottom"
             android:layout_marginEnd="@dimen/container_marginSide"
-            android:layout_marginBottom="@dimen/_24sdp"
+            android:layout_marginBottom="@dimen/container_margin"
             android:background="@drawable/container"
             android:orientation="vertical"
             android:paddingStart="@dimen/container_paddingSide"
@@ -31,15 +30,17 @@
             android:paddingBottom="@dimen/container_padding">
 
             <com.google.android.flexbox.FlexboxLayout
-                android:id="@+id/icon_shape_preview_container"
+                android:id="@+id/toast_frame_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/container_padding"
-                app:alignItems="stretch"
+                android:layout_marginBottom="8dp"
+                app:dividerDrawable="@drawable/flexbox_divider_large"
                 app:flexDirection="row"
                 app:flexWrap="wrap"
-                app:justifyContent="center" />
+                app:justifyContent="center"
+                app:showDivider="middle" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -36,6 +36,14 @@ public class References {
     public static String FRAGMENT_HOME = "fragment_home";
     public static String FRAGMENT_TWEAKS = "fragment_tweaks";
     public static String FRAGMENT_SETTINGS = "fragment_settings";
-    public static String FRAGMENT_COLORENGINE = "fragment_colorengine";
     public static String FRAGMENT_XPOSEDMENU = "fragment_xposedmenu";
+    public static String FRAGMENT_ICONPACK = "fragment_iconpack";
+    public static String FRAGMENT_BRIGHTNESSBAR = "fragment_brightnessbar";
+    public static String FRAGMENT_QSPANELTILES = "fragment_qspaneltiles";
+    public static String FRAGMENT_NOTIFICATION = "fragment_notification";
+    public static String FRAGMENT_PROGRESSBAR = "fragment_progressbar";
+    public static String FRAGMENT_SWITCH = "fragment_switch";
+    public static String FRAGMENT_TOASTFRAME = "fragment_toastframe";
+    public static String FRAGMENT_ICONSHAPE = "fragment_iconshape";
+    public static String FRAGMENT_COLORENGINE = "fragment_colorengine";
 }

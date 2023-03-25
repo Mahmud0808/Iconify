@@ -1,11 +1,21 @@
 package com.drdisagree.iconify.ui.fragments;
 
+import static com.drdisagree.iconify.common.Const.FRAGMENT_TRANSITION_DELAY;
 import static com.drdisagree.iconify.common.Const.LATEST_VERSION;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.LAST_UPDATE_CHECK_TIME;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_CHECK_TIME;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED;
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
+import static com.drdisagree.iconify.common.References.FRAGMENT_BRIGHTNESSBAR;
+import static com.drdisagree.iconify.common.References.FRAGMENT_HOME;
+import static com.drdisagree.iconify.common.References.FRAGMENT_ICONPACK;
+import static com.drdisagree.iconify.common.References.FRAGMENT_ICONSHAPE;
+import static com.drdisagree.iconify.common.References.FRAGMENT_NOTIFICATION;
+import static com.drdisagree.iconify.common.References.FRAGMENT_PROGRESSBAR;
+import static com.drdisagree.iconify.common.References.FRAGMENT_QSPANELTILES;
+import static com.drdisagree.iconify.common.References.FRAGMENT_SWITCH;
+import static com.drdisagree.iconify.common.References.FRAGMENT_TOASTFRAME;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -31,20 +41,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.activities.AppUpdates;
-import com.drdisagree.iconify.ui.activities.BrightnessBar;
-import com.drdisagree.iconify.ui.activities.IconPack;
-import com.drdisagree.iconify.ui.activities.IconShape;
-import com.drdisagree.iconify.ui.activities.Notification;
-import com.drdisagree.iconify.ui.activities.ProgressBar;
-import com.drdisagree.iconify.ui.activities.QsPanelTile;
-import com.drdisagree.iconify.ui.activities.Switch;
-import com.drdisagree.iconify.ui.activities.ToastFrame;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -123,14 +127,14 @@ public class Home extends Fragment {
         // Home page list items
         ArrayList<Object[]> home_page = new ArrayList<>();
 
-        home_page.add(new Object[]{IconPack.class, getResources().getString(R.string.activity_title_icon_pack), getResources().getString(R.string.activity_desc_icon_pack), R.drawable.ic_home_iconpack});
-        home_page.add(new Object[]{BrightnessBar.class, getResources().getString(R.string.activity_title_brightness_bar), getResources().getString(R.string.activity_desc_brightness_bar), R.drawable.ic_home_brightness});
-        home_page.add(new Object[]{QsPanelTile.class, getResources().getString(R.string.activity_title_qs_shape), getResources().getString(R.string.activity_desc_qs_shape), R.drawable.ic_home_qs_shape});
-        home_page.add(new Object[]{Notification.class, getResources().getString(R.string.activity_title_notification), getResources().getString(R.string.activity_desc_notification), R.drawable.ic_home_notification});
-        home_page.add(new Object[]{ProgressBar.class, getResources().getString(R.string.activity_title_progress_bar), getResources().getString(R.string.activity_desc_progress_bar), R.drawable.ic_extras_progress});
-        home_page.add(new Object[]{Switch.class, getResources().getString(R.string.activity_title_switch), getResources().getString(R.string.activity_desc_switch), R.drawable.ic_extras_switch});
-        home_page.add(new Object[]{ToastFrame.class, getResources().getString(R.string.activity_title_toast_frame), getResources().getString(R.string.activity_desc_toast_frame), R.drawable.ic_extras_toast_frame});
-        home_page.add(new Object[]{IconShape.class, getResources().getString(R.string.activity_title_icon_shape), getResources().getString(R.string.activity_desc_icon_shape), R.drawable.ic_extras_icon_shape});
+        home_page.add(new Object[]{new IconPack(), FRAGMENT_ICONPACK, getResources().getString(R.string.activity_title_icon_pack), getResources().getString(R.string.activity_desc_icon_pack), R.drawable.ic_home_iconpack});
+        home_page.add(new Object[]{new BrightnessBar(), FRAGMENT_BRIGHTNESSBAR, getResources().getString(R.string.activity_title_brightness_bar), getResources().getString(R.string.activity_desc_brightness_bar), R.drawable.ic_home_brightness});
+        home_page.add(new Object[]{new QsPanelTiles(), FRAGMENT_QSPANELTILES, getResources().getString(R.string.activity_title_qs_shape), getResources().getString(R.string.activity_desc_qs_shape), R.drawable.ic_home_qs_shape});
+        home_page.add(new Object[]{new Notification(), FRAGMENT_NOTIFICATION, getResources().getString(R.string.activity_title_notification), getResources().getString(R.string.activity_desc_notification), R.drawable.ic_home_notification});
+        home_page.add(new Object[]{new ProgressBar(), FRAGMENT_PROGRESSBAR, getResources().getString(R.string.activity_title_progress_bar), getResources().getString(R.string.activity_desc_progress_bar), R.drawable.ic_extras_progress});
+        home_page.add(new Object[]{new Switch(), FRAGMENT_SWITCH, getResources().getString(R.string.activity_title_switch), getResources().getString(R.string.activity_desc_switch), R.drawable.ic_extras_switch});
+        home_page.add(new Object[]{new ToastFrame(), FRAGMENT_TOASTFRAME, getResources().getString(R.string.activity_title_toast_frame), getResources().getString(R.string.activity_desc_toast_frame), R.drawable.ic_extras_toast_frame});
+        home_page.add(new Object[]{new IconShape(), FRAGMENT_ICONSHAPE, getResources().getString(R.string.activity_title_icon_shape), getResources().getString(R.string.activity_desc_icon_shape), R.drawable.ic_extras_icon_shape});
         //home_page.add(new Object[]{Extras.class, getResources().getString(R.string.activity_title_extras), getResources().getString(R.string.activity_desc_extras), R.drawable.ic_home_extras});
         //home_page.add(new Object[]{Miscellaneous.class, getResources().getString(R.string.activity_title_miscellaneous), getResources().getString(R.string.activity_desc_miscellaneous), R.drawable.ic_extras_miscellaneous});
 
@@ -163,21 +167,6 @@ public class Home extends Fragment {
          *
          */
 
-        // Enable onClick event
-        // new update dilaog is in the first index
-        // reboot dialog is in the second index
-        int extra_items = listView.getChildCount() - home_page.size();
-        for (int i = extra_items; i < home_page.size() + extra_items; i++) {
-            LinearLayout child = listView.getChildAt(i).findViewById(R.id.list_info_item);
-            int finalI = i - extra_items;
-            child.setOnClickListener(v -> {
-                if (checkForUpdate != null && (checkForUpdate.getStatus() == AsyncTask.Status.PENDING || checkForUpdate.getStatus() == AsyncTask.Status.RUNNING))
-                    checkForUpdate.cancel(true);
-                Intent intent = new Intent(requireActivity(), (Class<?>) home_page.get(finalI)[0]);
-                startActivity(intent);
-            });
-        }
-
         return view;
     }
 
@@ -187,13 +176,30 @@ public class Home extends Fragment {
             View list = LayoutInflater.from(requireActivity()).inflate(R.layout.view_list_menu, listView, false);
 
             TextView title = list.findViewById(R.id.list_title);
-            title.setText((String) pack.get(i)[1]);
+            title.setText((String) pack.get(i)[2]);
 
             TextView desc = list.findViewById(R.id.list_desc);
-            desc.setText((String) pack.get(i)[2]);
+            desc.setText((String) pack.get(i)[3]);
 
             ImageView preview = list.findViewById(R.id.list_preview);
-            preview.setImageResource((int) pack.get(i)[3]);
+            preview.setImageResource((int) pack.get(i)[4]);
+
+            int finalI = i;
+            list.setOnClickListener(view -> {
+                if (checkForUpdate != null && (checkForUpdate.getStatus() == AsyncTask.Status.PENDING || checkForUpdate.getStatus() == AsyncTask.Status.RUNNING))
+                    checkForUpdate.cancel(true);
+
+                FragmentManager fragmentManager = getParentFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out, R.anim.fragment_fade_in, R.anim.fragment_fade_out);
+
+                new Handler().postDelayed(() -> {
+                    fragmentTransaction.replace(R.id.main_fragment, (Fragment) pack.get(finalI)[0], (String) pack.get(finalI)[1]);
+                    fragmentManager.popBackStack(FRAGMENT_HOME, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    fragmentTransaction.addToBackStack((String) pack.get(finalI)[1]);
+                    fragmentTransaction.commit();
+                }, FRAGMENT_TRANSITION_DELAY);
+            });
 
             listView.addView(list);
         }

@@ -13,4 +13,8 @@ public class Const {
 
     // Parse changelogs
     public static final String OLDER_CHANGELOGS = "https://raw.githubusercontent.com/Mahmud0808/Iconify/stable/fastlane/metadata/android/en-US/changelogs/{VersionCode}.txt";
+
+    // Fragment variables
+    public static final int FRAGMENT_TRANSITION_DELAY = 120;
+    public static final int FRAGMENT_BACK_BUTTON_DELAY = 50;
 }

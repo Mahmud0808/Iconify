@@ -1,20 +1,25 @@
-package com.drdisagree.iconify.ui.activities;
+package com.drdisagree.iconify.ui.fragments;
 
+import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
 import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.SELECTED_ICON_SHAPE;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+
+import android.os.Environment;
+import android.os.Handler;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -30,25 +35,27 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class IconShape extends AppCompatActivity {
+public class IconShape extends Fragment {
 
-    private FlexboxLayout container;
+    private FlexboxLayout listView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_icon_shape);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_icon_shape, container, false);
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
         collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_icon_shape));
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(view1 -> new Handler().postDelayed(() -> {
+            getParentFragmentManager().popBackStack();
+        }, FRAGMENT_BACK_BUTTON_DELAY));
 
         // Icon masking shape list
-        container = findViewById(R.id.icon_shape_preview_container);
+        listView = view.findViewById(R.id.icon_shape_preview_container);
         ArrayList<Object[]> icon_shape_preview_styles = new ArrayList<>();
 
         icon_shape_preview_styles.add(new Object[]{R.drawable.icon_shape_none, R.string.icon_mask_style_none});
@@ -73,13 +80,15 @@ public class IconShape extends AppCompatActivity {
         addItem(icon_shape_preview_styles);
 
         refreshBackground();
+
+        return view;
     }
 
     // Function to add new item in list
     @SuppressLint("UseCompatLoadingForDrawables")
     private void addItem(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(this).inflate(R.layout.view_icon_shape, container, false);
+            View list = LayoutInflater.from(requireActivity()).inflate(R.layout.view_icon_shape, listView, false);
 
             LinearLayout icon_container = list.findViewById(R.id.mask_shape);
             icon_container.setBackground(getResources().getDrawable((int) pack.get(i)[0]));
@@ -97,7 +106,7 @@ public class IconShape extends AppCompatActivity {
                     refreshBackground();
                 } else {
                     if (!Environment.isExternalStorageManager()) {
-                        SystemUtil.getStoragePermission(this);
+                        SystemUtil.getStoragePermission(requireActivity());
                     } else {
                         AtomicBoolean hasErroredOut = new AtomicBoolean(false);
 
@@ -120,15 +129,15 @@ public class IconShape extends AppCompatActivity {
                 }
             });
 
-            container.addView(list);
+            listView.addView(list);
         }
     }
 
     // Function to check for bg drawable changes
     @SuppressLint("SetTextI18n")
     private void refreshBackground() {
-        for (int i = 0; i < container.getChildCount(); i++) {
-            LinearLayout child = container.getChildAt(i).findViewById(R.id.list_item_shape);
+        for (int i = 0; i < listView.getChildCount(); i++) {
+            LinearLayout child = listView.getChildAt(i).findViewById(R.id.list_item_shape);
             TextView title = child.findViewById(R.id.shape_name);
             if (i == Prefs.getInt(SELECTED_ICON_SHAPE, 0)) {
                 title.setTextColor(getResources().getColor(R.color.colorSuccess));
@@ -136,11 +145,5 @@ public class IconShape extends AppCompatActivity {
                 title.setTextColor(getResources().getColor(R.color.textColorSecondary));
             }
         }
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 }

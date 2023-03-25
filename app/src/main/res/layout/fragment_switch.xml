@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    tools:context=".ui.activities.QsPanelTile">
+    tools:context=".ui.fragments.Switch">
 
     <include layout="@layout/view_header" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/qs_shapes_container"
+        android:id="@+id/switch_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/container_marginSide"
@@ -18,7 +17,6 @@
         android:clipToPadding="false"
         android:orientation="vertical"
         android:paddingTop="@dimen/container_marginTopBottom"
-        android:paddingBottom="@dimen/container_marginTopBottom"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
