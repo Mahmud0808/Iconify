@@ -169,7 +169,7 @@
         <item name="colorControlHighlight">@color/rippleAccent</item>
     </style>
 
-    <style name="BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+    <style name="BottomNavigationView" parent="Base.Widget.Material3.BottomNavigationView">
         <item name="android:theme">@style/Theme.Iconify</item>
         <item name="android:background">@drawable/bottom_navbar_bg</item>
         <item name="itemRippleColor">@color/rippleAccent</item>
@@ -177,9 +177,26 @@
         <item name="itemActiveIndicatorStyle">
             @style/BottomNavigationView.ActiveIndicator
         </item>
+        <item name="android:height">@dimen/_64sdp</item>
+        <item name="android:minHeight">@dimen/_64sdp</item>
+        <item name="itemIconSize">@dimen/_16sdp</item>
+        <item name="android:textSize">@dimen/cont_desc_size</item>
+        <item name="itemPaddingTop">@dimen/_8sdp</item>
+        <item name="itemPaddingBottom">@dimen/_16sdp</item>
+        <item name="itemTextAppearanceInactive">@style/TextAppearanceLabelMedium</item>
+        <item name="itemTextAppearanceActive">@style/TextAppearanceLabelMedium</item>
     </style>
 
     <style name="BottomNavigationView.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">@color/navbarSelectedBackground</item>
+        <item name="marginHorizontal">@dimen/_4sdp</item>
+        <item name="android:width">@dimen/_52sdp</item>
+        <item name="android:height">@dimen/_26sdp</item>
+    </style>
+
+    <style name="TextAppearanceLabelMedium" parent="@style/TextAppearance.Material3.LabelMedium">
+        <item name="android:fontFamily">@font/normal</item>
+        <item name="android:textSize">@dimen/cont_desc_size</item>
+        <item name="android:lineHeight">@dimen/_14sdp</item>
     </style>
 </resources>
