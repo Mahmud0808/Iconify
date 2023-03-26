@@ -1,28 +1,27 @@
-package com.drdisagree.iconify.ui.fragments;
+package com.drdisagree.iconify.ui.activities;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
 import java.util.Objects;
 
-public class NavigationBar extends Fragment {
+public class NavigationBar extends AppCompatActivity {
 
     List<String> left_back_gesture = Shell.cmd("settings get secure back_gesture_inset_scale_left").exec().getOut();
     List<String> right_back_gesture = Shell.cmd("settings get secure back_gesture_inset_scale_right").exec().getOut();
@@ -31,30 +30,37 @@ public class NavigationBar extends Fragment {
     Switch nb_fullscreen, nb_immersive, nb_immersivev2, nb_immersivev3, nb_hide_pill, nb_monet_pill, nb_disable_left_gesture, nb_disable_right_gesture, nb_lower_sens, nb_hide_kb_buttons;
     // Views
     LinearLayout nb_pill_menu, nb_monet_pill_menu, nb_kb_buttons_menu;
+    private ViewGroup container;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_navigation_bar, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_navigation_bar);
 
         // Header
-        FragmentHelper.initHeader((AppCompatActivity) requireActivity(), view, R.string.activity_title_navigation_bar, getParentFragmentManager());
+        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_navigation_bar));
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Switches
-        nb_fullscreen = view.findViewById(R.id.nb_fullscreen);
-        nb_immersive = view.findViewById(R.id.nb_immersive);
-        nb_immersivev2 = view.findViewById(R.id.nb_immersivev2);
-        nb_immersivev3 = view.findViewById(R.id.nb_immersivev3);
-        nb_lower_sens = view.findViewById(R.id.nb_lower_sens);
-        nb_hide_pill = view.findViewById(R.id.nb_hide_pill);
-        nb_monet_pill = view.findViewById(R.id.nb_monet_pill);
-        nb_hide_kb_buttons = view.findViewById(R.id.nb_hide_kb_buttons);
-        nb_disable_left_gesture = view.findViewById(R.id.nb_disable_left_gesture);
-        nb_disable_right_gesture = view.findViewById(R.id.nb_disable_right_gesture);
+        nb_fullscreen = findViewById(R.id.nb_fullscreen);
+        nb_immersive = findViewById(R.id.nb_immersive);
+        nb_immersivev2 = findViewById(R.id.nb_immersivev2);
+        nb_immersivev3 = findViewById(R.id.nb_immersivev3);
+        nb_lower_sens = findViewById(R.id.nb_lower_sens);
+        nb_hide_pill = findViewById(R.id.nb_hide_pill);
+        nb_monet_pill = findViewById(R.id.nb_monet_pill);
+        nb_hide_kb_buttons = findViewById(R.id.nb_hide_kb_buttons);
+        nb_disable_left_gesture = findViewById(R.id.nb_disable_left_gesture);
+        nb_disable_right_gesture = findViewById(R.id.nb_disable_right_gesture);
 
         // Views
-        nb_pill_menu = view.findViewById(R.id.nb_pill_menu);
-        nb_monet_pill_menu = view.findViewById(R.id.nb_monet_pill_menu);
-        nb_kb_buttons_menu = view.findViewById(R.id.nb_kb_buttons_menu);
+        nb_pill_menu = findViewById(R.id.nb_pill_menu);
+        nb_monet_pill_menu = findViewById(R.id.nb_monet_pill_menu);
+        nb_kb_buttons_menu = findViewById(R.id.nb_kb_buttons_menu);
 
         // Switch states
         nb_fullscreen.setChecked(Prefs.getBoolean("IconifyComponentNBFullScreen.overlay"));
@@ -209,8 +215,6 @@ public class NavigationBar extends Fragment {
                 }
             }, 200);
         });
-        
-        return view;
     }
 
     private boolean initialize_left_gesture_switch() {
@@ -254,5 +258,11 @@ public class NavigationBar extends Fragment {
             Prefs.putBoolean(("IconifyComponentNBImmersiveSmaller.overlay"), false);
             OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmaller.overlay");
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

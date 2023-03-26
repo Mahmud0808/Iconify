@@ -53,6 +53,9 @@
             android:name=".ui.activities.XposedBatteryStyle"
             android:exported="false" />
         <activity
+            android:name=".ui.activities.Statusbar"
+            android:exported="false" />
+        <activity
             android:name=".ui.activities.XposedOthers"
             android:exported="false" />
         <activity
@@ -86,7 +89,26 @@
             android:name=".ui.activities.Experimental"
             android:exported="false" />
         <activity
+            android:name=".ui.activities.MonetEngine"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.NavigationBar"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.VolumePanel"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.BasicColors"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.UiRoundness"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false" />
+        <activity
             android:name=".ui.activities.Info"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.MediaPlayer"
             android:exported="false" />
         <activity
             android:name=".ui.activities.MainActivity"

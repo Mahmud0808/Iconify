@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.ui.fragments.Styles;
+import com.drdisagree.iconify.ui.fragments.Home;
 import com.drdisagree.iconify.ui.fragments.Settings;
 import com.drdisagree.iconify.ui.fragments.Tweaks;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -32,7 +32,7 @@ public class FragmentHelper {
         if (last >= 0) {
             Fragment topFragment = fragmentManager.getFragments().get(last);
 
-            if (topFragment instanceof Styles) fragment[0] = FRAGMENT_STYLES;
+            if (topFragment instanceof Home) fragment[0] = FRAGMENT_STYLES;
             else if (topFragment instanceof Tweaks) fragment[0] = FRAGMENT_TWEAKS;
             else if (topFragment instanceof Settings) fragment[0] = FRAGMENT_SETTINGS;
         }

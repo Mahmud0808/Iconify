@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.ui.fragments;
+package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Preferences.STR_NULL;
 import static com.drdisagree.iconify.common.Preferences.UI_CORNER_RADIUS;
@@ -10,9 +10,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -21,41 +18,47 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.overlaymanager.RoundnessManager;
-import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class UIRoundness extends Fragment {
+public class UiRoundness extends AppCompatActivity {
 
-    private View view;
     LoadingDialog loadingDialog;
 
     @SuppressLint("SetTextI18n")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_ui_roundness, container, false);
-
-        // Header
-        FragmentHelper.initHeader((AppCompatActivity) requireActivity(), view, R.string.activity_title_ui_roundness, getParentFragmentManager());
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_ui_roundness);
 
         // Show loading dialog
-        loadingDialog = new LoadingDialog(requireActivity());
+        loadingDialog = new LoadingDialog(this);
+
+        // Header
+        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_ui_roundness));
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Corner Radius
-        GradientDrawable[] drawables = new GradientDrawable[]{(GradientDrawable) view.findViewById(R.id.qs_tile_preview1).getBackground(), (GradientDrawable) view.findViewById(R.id.qs_tile_preview2).getBackground(), (GradientDrawable) view.findViewById(R.id.qs_tile_preview3).getBackground(), (GradientDrawable) view.findViewById(R.id.qs_tile_preview4).getBackground(), (GradientDrawable) view.findViewById(R.id.brightness_bar_bg).getBackground(), (GradientDrawable) view.findViewById(R.id.brightness_bar_fg).getBackground(), (GradientDrawable) view.findViewById(R.id.auto_brightness).getBackground()};
+        GradientDrawable[] drawables = new GradientDrawable[]{(GradientDrawable) findViewById(R.id.qs_tile_preview1).getBackground(), (GradientDrawable) findViewById(R.id.qs_tile_preview2).getBackground(), (GradientDrawable) findViewById(R.id.qs_tile_preview3).getBackground(), (GradientDrawable) findViewById(R.id.qs_tile_preview4).getBackground(), (GradientDrawable) findViewById(R.id.brightness_bar_bg).getBackground(), (GradientDrawable) findViewById(R.id.brightness_bar_fg).getBackground(), (GradientDrawable) findViewById(R.id.auto_brightness).getBackground()};
 
-        SeekBar corner_radius_seekbar = view.findViewById(R.id.corner_radius_seekbar);
-        TextView corner_radius_output = view.findViewById(R.id.corner_radius_output);
+        SeekBar corner_radius_seekbar = findViewById(R.id.corner_radius_seekbar);
+        TextView corner_radius_output = findViewById(R.id.corner_radius_output);
         final int[] finalUiCornerRadius = {16};
         if (!Prefs.getString(UI_CORNER_RADIUS).equals(STR_NULL))
             finalUiCornerRadius[0] = Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS));
@@ -101,10 +104,10 @@ public class UIRoundness extends Fragment {
             }
         });
 
-        Button apply_radius = view.findViewById(R.id.apply_radius);
+        Button apply_radius = findViewById(R.id.apply_radius);
         apply_radius.setOnClickListener(v -> {
             if (!Environment.isExternalStorageManager()) {
-                SystemUtil.getStoragePermission(requireActivity());
+                SystemUtil.getStoragePermission(this);
             } else {
                 // Show loading dialog
                 loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
@@ -118,7 +121,7 @@ public class UIRoundness extends Fragment {
                         Log.e("UiRoundness", e.toString());
                     }
 
-                    requireActivity().runOnUiThread(() -> {
+                    runOnUiThread(() -> {
                         if (!hasErroredOut.get()) {
                             Prefs.putString(UI_CORNER_RADIUS, String.valueOf(finalUiCornerRadius[0]));
 
@@ -143,19 +146,23 @@ public class UIRoundness extends Fragment {
 
         // Change orientation in landscape / portrait mode
         int orientation = this.getResources().getConfiguration().orientation;
-        LinearLayout qs_tile_orientation = view.findViewById(R.id.qs_tile_orientation);
+        LinearLayout qs_tile_orientation = findViewById(R.id.qs_tile_orientation);
         if (orientation == Configuration.ORIENTATION_LANDSCAPE)
             qs_tile_orientation.setOrientation(LinearLayout.HORIZONTAL);
         else qs_tile_orientation.setOrientation(LinearLayout.VERTICAL);
+    }
 
-        return view;
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     // Change orientation in landscape / portrait mode
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        LinearLayout qs_tile_orientation = view.findViewById(R.id.qs_tile_orientation);
+        LinearLayout qs_tile_orientation = findViewById(R.id.qs_tile_orientation);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
             qs_tile_orientation.setOrientation(LinearLayout.HORIZONTAL);
         else qs_tile_orientation.setOrientation(LinearLayout.VERTICAL);

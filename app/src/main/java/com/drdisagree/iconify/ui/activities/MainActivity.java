@@ -24,7 +24,7 @@ import com.airbnb.lottie.LottieCompositionFactory;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityMainBinding;
-import com.drdisagree.iconify.ui.fragments.Styles;
+import com.drdisagree.iconify.ui.fragments.Home;
 import com.drdisagree.iconify.ui.fragments.Settings;
 import com.drdisagree.iconify.ui.fragments.Tweaks;
 import com.drdisagree.iconify.ui.utils.FragmentHelper;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         Prefs.putBoolean(ON_HOME_PAGE, true);
 
         if (savedInstanceState == null) {
-            replaceFragment(new Styles(), FRAGMENT_STYLES);
+            replaceFragment(new Home(), FRAGMENT_STYLES);
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         switch (id) {
             case R.id.navbar_home:
                 if (!Objects.equals(FragmentHelper.getTopFragment(getSupportFragmentManager()), FRAGMENT_STYLES)) {
-                    replaceFragment(new Styles(), FRAGMENT_STYLES);
+                    replaceFragment(new Home(), FRAGMENT_STYLES);
                     selectedFragment = R.id.navbar_home;
                 }
                 break;

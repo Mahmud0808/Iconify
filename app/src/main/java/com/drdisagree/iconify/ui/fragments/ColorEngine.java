@@ -1,11 +1,7 @@
 package com.drdisagree.iconify.ui.fragments;
 
-import static com.drdisagree.iconify.common.Const.FRAGMENT_TRANSITION_DELAY;
-import static com.drdisagree.iconify.common.References.FRAGMENT_BASICCOLORS;
-import static com.drdisagree.iconify.common.References.FRAGMENT_MONETENGINE;
-import static com.drdisagree.iconify.common.References.FRAGMENT_STYLES;
-
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -16,11 +12,11 @@ import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.ui.activities.BasicColors;
+import com.drdisagree.iconify.ui.activities.MonetEngine;
 import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.utils.OverlayUtil;
 
@@ -33,30 +29,18 @@ public class ColorEngine extends Fragment {
         // Header
         FragmentHelper.initHeader((AppCompatActivity) requireActivity(), view, R.string.activity_title_color_engine, getParentFragmentManager());
 
-        FragmentManager fragmentManager = getParentFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out, R.anim.fragment_fade_in, R.anim.fragment_fade_out);
-
         // Basic colors
         LinearLayout basic_colors = view.findViewById(R.id.basic_colors);
         basic_colors.setOnClickListener(v -> {
-            new Handler().postDelayed(() -> {
-                fragmentTransaction.replace(R.id.main_fragment, new BasicColors(), FRAGMENT_BASICCOLORS);
-                fragmentManager.popBackStack(FRAGMENT_STYLES, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                fragmentTransaction.addToBackStack(FRAGMENT_BASICCOLORS);
-                fragmentTransaction.commit();
-            }, FRAGMENT_TRANSITION_DELAY);
+            Intent intent = new Intent(requireActivity(), BasicColors.class);
+            startActivity(intent);
         });
 
         // Monet engine
         LinearLayout monet_engine = view.findViewById(R.id.monet_engine);
         monet_engine.setOnClickListener(v -> {
-            new Handler().postDelayed(() -> {
-                fragmentTransaction.replace(R.id.main_fragment, new MonetEngine(), FRAGMENT_MONETENGINE);
-                fragmentManager.popBackStack(FRAGMENT_STYLES, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                fragmentTransaction.addToBackStack(FRAGMENT_MONETENGINE);
-                fragmentTransaction.commit();
-            }, FRAGMENT_TRANSITION_DELAY);
+            Intent intent = new Intent(requireActivity(), MonetEngine.class);
+            startActivity(intent);
         });
 
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_minimal_qspanel = view.findViewById(R.id.apply_minimal_qspanel);

@@ -478,6 +478,4 @@
     <string name="btn_close">Close</string>
     <string name="created_by_drdisagree">Made with ❤ by DrDisagree</string>
     <string name="no_supported_music_player">Supported Music Player Not Found</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

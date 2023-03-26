@@ -1,36 +1,40 @@
-package com.drdisagree.iconify.ui.fragments;
+package com.drdisagree.iconify.ui.activities;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.utils.OverlayUtil;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
-public class MediaPlayer extends Fragment {
+import java.util.Objects;
 
-    private View view;
+public class MediaPlayer extends AppCompatActivity {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_media_player, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_media_player);
 
         // Header
-        FragmentHelper.initHeader((AppCompatActivity) requireActivity(), view, R.string.activity_title_media_player, getParentFragmentManager());
+        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_media_player));
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         refreshPreview();
 
-        @SuppressLint("UseSwitchCompatOrMaterialCode") android.widget.Switch mp_accent = view.findViewById(R.id.mp_accent);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") android.widget.Switch mp_system = view.findViewById(R.id.mp_system);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch mp_pitch_black = view.findViewById(R.id.mp_pitch_black);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch mp_accent = findViewById(R.id.mp_accent);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch mp_system = findViewById(R.id.mp_system);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch mp_pitch_black = findViewById(R.id.mp_pitch_black);
 
         mp_accent.setChecked(Prefs.getBoolean("IconifyComponentMPA.overlay"));
 
@@ -76,19 +80,24 @@ public class MediaPlayer extends Fragment {
             }
             refreshPreview();
         });
-
-        return view;
     }
 
     private void refreshPreview() {
-        view.findViewById(R.id.preview_mp_accent).setVisibility(View.GONE);
-        view.findViewById(R.id.preview_mp_black).setVisibility(View.GONE);
-        view.findViewById(R.id.preview_mp_system).setVisibility(View.GONE);
+        findViewById(R.id.preview_mp_accent).setVisibility(View.GONE);
+        findViewById(R.id.preview_mp_black).setVisibility(View.GONE);
+        findViewById(R.id.preview_mp_system).setVisibility(View.GONE);
 
         if (Prefs.getBoolean("IconifyComponentMPA.overlay"))
-            view.findViewById(R.id.preview_mp_accent).setVisibility(View.VISIBLE);
+            findViewById(R.id.preview_mp_accent).setVisibility(View.VISIBLE);
         else if (Prefs.getBoolean("IconifyComponentMPB.overlay"))
-            view.findViewById(R.id.preview_mp_black).setVisibility(View.VISIBLE);
-        else view.findViewById(R.id.preview_mp_system).setVisibility(View.VISIBLE);
+            findViewById(R.id.preview_mp_black).setVisibility(View.VISIBLE);
+        else
+            findViewById(R.id.preview_mp_system).setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

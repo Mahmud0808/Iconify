@@ -62,7 +62,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class Styles extends Fragment {
+public class Home extends Fragment {
 
     public static boolean isServiceRunning = false;
     @SuppressLint("StaticFieldLeak")
@@ -73,7 +73,7 @@ public class Styles extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_styles, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
@@ -124,7 +124,7 @@ public class Styles extends Fragment {
         Prefs.putInt(VER_CODE, BuildConfig.VERSION_CODE);
         SystemUtil.getBootId();
 
-        // Styles page list items
+        // Home page list items
         ArrayList<Object[]> home_page = new ArrayList<>();
 
         home_page.add(new Object[]{new IconPack(), FRAGMENT_ICONPACK, getResources().getString(R.string.activity_title_icon_pack), getResources().getString(R.string.activity_desc_icon_pack), R.drawable.ic_home_iconpack});
