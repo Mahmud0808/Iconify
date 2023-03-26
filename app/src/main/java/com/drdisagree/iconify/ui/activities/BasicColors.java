@@ -308,7 +308,7 @@ public class BasicColors extends AppCompatActivity implements ColorPickerDialogL
         View preview_color_picker_primary = findViewById(R.id.preview_color_picker_primary);
         GradientDrawable gd;
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentPrimary)});
-        gd.setCornerRadius(24 * getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(28 * getResources().getDisplayMetrics().density);
         preview_color_picker_primary.setBackgroundDrawable(gd);
 
         View color_preview_large = findViewById(R.id.color_preview_large);
@@ -321,7 +321,7 @@ public class BasicColors extends AppCompatActivity implements ColorPickerDialogL
         View preview_color_picker_secondary = findViewById(R.id.preview_color_picker_secondary);
         GradientDrawable gd;
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentSecondary), Integer.parseInt(accentSecondary)});
-        gd.setCornerRadius(24 * getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(28 * getResources().getDisplayMetrics().density);
         preview_color_picker_secondary.setBackgroundDrawable(gd);
 
         View color_preview_large = findViewById(R.id.color_preview_large);

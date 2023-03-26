@@ -140,11 +140,11 @@ public class ColoredBattery extends AppCompatActivity implements ColorPickerDial
         GradientDrawable gd;
 
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(colorBackground), Integer.parseInt(colorBackground)});
-        gd.setCornerRadius(24 * getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(28 * getResources().getDisplayMetrics().density);
         preview_color_picker_background.setBackgroundDrawable(gd);
 
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(colorFilled), Integer.parseInt(colorFilled)});
-        gd.setCornerRadius(24 * getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(28 * getResources().getDisplayMetrics().density);
         preview_color_picker_fill.setBackgroundDrawable(gd);
     }
 
