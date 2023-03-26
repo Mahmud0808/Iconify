@@ -2,8 +2,8 @@ package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
-import static com.drdisagree.iconify.common.References.FRAGMENT_HOME;
 import static com.drdisagree.iconify.common.References.FRAGMENT_SETTINGS;
+import static com.drdisagree.iconify.common.References.FRAGMENT_STYLES;
 import static com.drdisagree.iconify.common.References.FRAGMENT_TWEAKS;
 
 import android.Manifest;
@@ -24,7 +24,7 @@ import com.airbnb.lottie.LottieCompositionFactory;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityMainBinding;
-import com.drdisagree.iconify.ui.fragments.Home;
+import com.drdisagree.iconify.ui.fragments.Styles;
 import com.drdisagree.iconify.ui.fragments.Settings;
 import com.drdisagree.iconify.ui.fragments.Tweaks;
 import com.drdisagree.iconify.ui.utils.FragmentHelper;
@@ -50,12 +50,12 @@ public class HomePage extends AppCompatActivity {
         Prefs.putBoolean(ON_HOME_PAGE, true);
 
         if (savedInstanceState == null) {
-            replaceFragment(new Home(), FRAGMENT_HOME);
+            replaceFragment(new Styles(), FRAGMENT_STYLES);
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.addOnBackStackChangedListener(() -> {
-            if (Objects.equals(FragmentHelper.getTopFragment(fragmentManager), FRAGMENT_HOME))
+            if (Objects.equals(FragmentHelper.getTopFragment(fragmentManager), FRAGMENT_STYLES))
                 binding.bottomNavigation.getMenu().getItem(0).setChecked(true);
             else if (Objects.equals(FragmentHelper.getTopFragment(fragmentManager), FRAGMENT_TWEAKS))
                 binding.bottomNavigation.getMenu().getItem(1).setChecked(true);
@@ -99,7 +99,7 @@ public class HomePage extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out, R.anim.fragment_fade_in, R.anim.fragment_fade_out);
         fragmentTransaction.replace(R.id.main_fragment, fragment, tag);
-        if (Objects.equals(tag, FRAGMENT_HOME))
+        if (Objects.equals(tag, FRAGMENT_STYLES))
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         else if (Objects.equals(tag, FRAGMENT_TWEAKS) || Objects.equals(tag, FRAGMENT_SETTINGS)) {
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -115,10 +115,10 @@ public class HomePage extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     private void setFragment(int id) {
         switch (id) {
-            case R.id.navbar_home:
-                if (!Objects.equals(FragmentHelper.getTopFragment(getSupportFragmentManager()), FRAGMENT_HOME)) {
-                    replaceFragment(new Home(), FRAGMENT_HOME);
-                    selectedFragment = R.id.navbar_home;
+            case R.id.navbar_styles:
+                if (!Objects.equals(FragmentHelper.getTopFragment(getSupportFragmentManager()), FRAGMENT_STYLES)) {
+                    replaceFragment(new Styles(), FRAGMENT_STYLES);
+                    selectedFragment = R.id.navbar_styles;
                 }
                 break;
             case R.id.navbar_tweaks:

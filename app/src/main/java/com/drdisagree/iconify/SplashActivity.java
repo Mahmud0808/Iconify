@@ -12,8 +12,8 @@ import androidx.core.splashscreen.SplashScreen;
 
 import com.airbnb.lottie.LottieCompositionFactory;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.ui.activities.HomePage;
 import com.drdisagree.iconify.ui.activities.LandingPage1;
-import com.drdisagree.iconify.ui.activities.MainActivity;
 import com.drdisagree.iconify.utils.ModuleUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.RootUtil;
@@ -37,7 +37,7 @@ public class SplashActivity extends AppCompatActivity {
 
         if (SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES || (RootUtil.isDeviceRooted() && (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) && ModuleUtil.moduleExists() && OverlayUtil.overlayExists() && (BuildConfig.VERSION_CODE == Prefs.getInt(VER_CODE)))) {
             keepShowing = false;
-            intent = new Intent(SplashActivity.this, MainActivity.class);
+            intent = new Intent(SplashActivity.this, HomePage.class);
         } else {
             keepShowing = false;
             intent = new Intent(SplashActivity.this, LandingPage1.class);
