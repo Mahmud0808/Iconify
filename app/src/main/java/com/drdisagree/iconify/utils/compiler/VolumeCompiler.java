@@ -10,6 +10,7 @@ import android.util.Log;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.utils.AppUtil;
 import com.drdisagree.iconify.utils.FileUtil;
+import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.helpers.BinaryInstaller;
 import com.topjohnwu.superuser.Shell;
 
@@ -17,14 +18,18 @@ import org.zeroturnaround.zip.ZipUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class VolumeCompiler {
 
     private static final String TAG = "VolumeCompiler";
     private static final String aapt = AAPT.getAbsolutePath();
     private static final String zip = ZIP.getAbsolutePath();
+    private static String mOverlayName = "";
 
     public static boolean buildModule(String overlayName, String packageName) throws IOException {
+        mOverlayName = overlayName;
+
         preExecute(overlayName, packageName);
 
         // Create AndroidManifest.xml and build APK using AAPT
@@ -106,6 +111,10 @@ public class VolumeCompiler {
         Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
         Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Module").exec();
         Shell.cmd("rm -rf " + Resources.DATA_DIR + "/SpecialOverlays").exec();
+
+        // Enable overlay if necessary
+        if (Objects.equals(mOverlayName, "VolumeNeumorphOutline"))
+            OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
     }
 
     private static boolean createManifest(String pkgName, String target, String source) {

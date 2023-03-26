@@ -55,4 +55,11 @@ public class References {
     public static String FRAGMENT_QSICONLABEL = "fragment_qsiconlabel";
     public static String FRAGMENT_QSTILESIZE = "fragment_qstilesize";
     public static String FRAGMENT_QSPANELTILESPIXEL = "fragment_qspaneltilespixel";
+    public static String FRAGMENT_BASICCOLORS = "fragment_basiccolors";
+    public static String FRAGMENT_MONETENGINE = "fragment_monetengine";
+    public static String FRAGMENT_UIROUNDNESS = "fragment_uiroundness";
+    public static String FRAGMENT_STATUSBAR = "fragment_statusbar";
+    public static String FRAGMENT_NAVIGATIONBAR = "fragment_navigationbar";
+    public static String FRAGMENT_MEDIAPLAYER = "fragment_mediaplayer";
+    public static String FRAGMENT_VOLUMEPANEL = "fragment_volumepanel";
 }

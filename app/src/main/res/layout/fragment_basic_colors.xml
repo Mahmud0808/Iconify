@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.activities.BasicColors">
+    tools:context=".ui.fragments.BasicColors">
 
     <include layout="@layout/view_header" />
 
@@ -23,7 +23,7 @@
             android:layout_marginStart="@dimen/container_marginSide"
             android:layout_marginTop="@dimen/container_marginTopBottom"
             android:layout_marginEnd="@dimen/container_marginSide"
-            android:layout_marginBottom="@dimen/container_marginTopBottom"
+            android:layout_marginBottom="@dimen/container_margin"
             android:orientation="vertical">
 
             <LinearLayout
@@ -175,7 +175,6 @@
                 android:id="@+id/preview_coloraccentsecondary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/container_margin"
                 android:background="@drawable/container_bottom"
                 android:baselineAligned="false"
                 android:orientation="horizontal"

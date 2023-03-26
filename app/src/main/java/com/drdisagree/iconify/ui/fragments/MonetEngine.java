@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.ui.activities;
+package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
@@ -21,7 +21,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,17 +35,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.MonetEngineManager;
+import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.utils.ColorUtil;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
@@ -52,8 +54,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class MonetEngine extends AppCompatActivity implements ColorPickerDialogListener {
+public class MonetEngine extends Fragment implements ColorPickerDialogListener {
 
+    private View view;
     private static String accentPrimary, accentSecondary, selectedStyle;
     private static boolean isSelectedPrimary = false, isSelectedSecondary = false, accurateShades = Prefs.getBoolean(MONET_ACCURATE_SHADES, true);
     int[] monetAccentSaturation = new int[]{Prefs.getInt(MONET_ACCENT_SATURATION, 100)};
@@ -68,25 +71,18 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
     private List<List<Object>> generatedColorPaletteNight = new ArrayList<>();
     private boolean isDarkMode = SystemUtil.isDarkMode();
 
-    @SuppressLint("SetTextI18n")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_monet_engine);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_monet_engine, container, false);
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_monet_engine));
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        FragmentHelper.initHeader((AppCompatActivity) requireActivity(), view, R.string.activity_title_monet_engine, getParentFragmentManager());
 
         // Enable/Disable monet button
-        enable_custom_monet = findViewById(R.id.enable_custom_monet);
-        disable_custom_monet = findViewById(R.id.disable_custom_monet);
+        enable_custom_monet = view.findViewById(R.id.enable_custom_monet);
+        disable_custom_monet = view.findViewById(R.id.disable_custom_monet);
 
-        colorTableRows = new LinearLayout[]{findViewById(R.id.monet_engine).findViewById(R.id.system_accent1), findViewById(R.id.monet_engine).findViewById(R.id.system_accent2), findViewById(R.id.monet_engine).findViewById(R.id.system_accent3), findViewById(R.id.monet_engine).findViewById(R.id.system_neutral1), findViewById(R.id.monet_engine).findViewById(R.id.system_neutral2)};
+        colorTableRows = new LinearLayout[]{view.findViewById(R.id.monet_engine).findViewById(R.id.system_accent1), view.findViewById(R.id.monet_engine).findViewById(R.id.system_accent2), view.findViewById(R.id.monet_engine).findViewById(R.id.system_accent3), view.findViewById(R.id.monet_engine).findViewById(R.id.system_neutral1), view.findViewById(R.id.monet_engine).findViewById(R.id.system_neutral2)};
         systemColors = ColorUtil.getSystemColors();
 
         for (int[] row : systemColors) {
@@ -102,19 +98,19 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         selectedStyle = Prefs.getString(MONET_STYLE, getResources().getString(R.string.monet_neutral));
 
         if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_neutral)))
-            ((RadioButton) findViewById(R.id.neutral_style)).setChecked(true);
+            ((RadioButton) view.findViewById(R.id.neutral_style)).setChecked(true);
         else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_monochrome)))
-            ((RadioButton) findViewById(R.id.monochrome_style)).setChecked(true);
+            ((RadioButton) view.findViewById(R.id.monochrome_style)).setChecked(true);
         else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_tonalspot)))
-            ((RadioButton) findViewById(R.id.tonalspot_style)).setChecked(true);
+            ((RadioButton) view.findViewById(R.id.tonalspot_style)).setChecked(true);
         else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_vibrant)))
-            ((RadioButton) findViewById(R.id.vibrant_style)).setChecked(true);
+            ((RadioButton) view.findViewById(R.id.vibrant_style)).setChecked(true);
         else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_expressive)))
-            ((RadioButton) findViewById(R.id.expressive_style)).setChecked(true);
+            ((RadioButton) view.findViewById(R.id.expressive_style)).setChecked(true);
         else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_fidelity)))
-            ((RadioButton) findViewById(R.id.fidelity_style)).setChecked(true);
+            ((RadioButton) view.findViewById(R.id.fidelity_style)).setChecked(true);
         else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_content)))
-            ((RadioButton) findViewById(R.id.content_style)).setChecked(true);
+            ((RadioButton) view.findViewById(R.id.content_style)).setChecked(true);
         else {
             Prefs.putBoolean(MONET_ENGINE_SWITCH, false);
             radioGroup1.clearCheck();
@@ -134,8 +130,8 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         updatePrimaryColor();
         updateSecondaryColor();
 
-        radioGroup1 = findViewById(R.id.monet_styles1);
-        radioGroup2 = findViewById(R.id.monet_styles2);
+        radioGroup1 = view.findViewById(R.id.monet_styles1);
+        radioGroup2 = view.findViewById(R.id.monet_styles2);
 
         radioGroup1.setOnCheckedChangeListener(listener1);
         radioGroup2.setOnCheckedChangeListener(listener2);
@@ -150,14 +146,14 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         colorPickerDialogPrimary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentPrimary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);
         colorPickerDialogSecondary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentSecondary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(false).setShowColorShades(true);
 
-        LinearLayout preview_coloraccentprimary = findViewById(R.id.preview_coloraccentprimary);
-        preview_coloraccentprimary.setOnClickListener(v -> colorPickerDialogPrimary.show(MonetEngine.this));
+        LinearLayout preview_coloraccentprimary = view.findViewById(R.id.preview_coloraccentprimary);
+        preview_coloraccentprimary.setOnClickListener(v -> colorPickerDialogPrimary.show(requireActivity()));
 
-        LinearLayout preview_coloraccentsecondary = findViewById(R.id.preview_coloraccentsecondary);
-        preview_coloraccentsecondary.setOnClickListener(v -> colorPickerDialogSecondary.show(MonetEngine.this));
+        LinearLayout preview_coloraccentsecondary = view.findViewById(R.id.preview_coloraccentsecondary);
+        preview_coloraccentsecondary.setOnClickListener(v -> colorPickerDialogSecondary.show(requireActivity()));
 
         // Monet Accurate Shades
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch monet_accurate_shades = findViewById(R.id.monet_accurate_shades);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch monet_accurate_shades = view.findViewById(R.id.monet_accurate_shades);
         monet_accurate_shades.setChecked(Prefs.getBoolean(MONET_ACCURATE_SHADES, true));
         monet_accurate_shades.setOnCheckedChangeListener((buttonView, isChecked) -> {
             accurateShades = isChecked;
@@ -166,13 +162,13 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         });
 
         // Monet accent saturation
-        SeekBar monet_accent_saturation_seekbar = findViewById(R.id.monet_accent_saturation_seekbar);
-        TextView monet_accent_saturation_output = findViewById(R.id.monet_accent_saturation_output);
+        SeekBar monet_accent_saturation_seekbar = view.findViewById(R.id.monet_accent_saturation_seekbar);
+        TextView monet_accent_saturation_output = view.findViewById(R.id.monet_accent_saturation_output);
         monet_accent_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt(MONET_ACCENT_SATURATION, 100) - 100) + "%");
         monet_accent_saturation_seekbar.setProgress(Prefs.getInt(MONET_ACCENT_SATURATION, 100));
 
         // Long Click Reset
-        ImageView reset_accent_saturation = findViewById(R.id.reset_accent_saturation);
+        ImageView reset_accent_saturation = view.findViewById(R.id.reset_accent_saturation);
         reset_accent_saturation.setVisibility(Prefs.getInt(MONET_ACCENT_SATURATION, 100) == 100 ? View.INVISIBLE : View.VISIBLE);
 
         reset_accent_saturation.setOnLongClickListener(v -> {
@@ -205,13 +201,13 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         });
 
         // Monet background saturation
-        SeekBar monet_background_saturation_seekbar = findViewById(R.id.monet_background_saturation_seekbar);
-        TextView monet_background_saturation_output = findViewById(R.id.monet_background_saturation_output);
+        SeekBar monet_background_saturation_seekbar = view.findViewById(R.id.monet_background_saturation_seekbar);
+        TextView monet_background_saturation_output = view.findViewById(R.id.monet_background_saturation_output);
         monet_background_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt(MONET_BACKGROUND_SATURATION, 100) - 100) + "%");
         monet_background_saturation_seekbar.setProgress(Prefs.getInt(MONET_BACKGROUND_SATURATION, 100));
 
         // Reset button
-        ImageView reset_background_saturation = findViewById(R.id.reset_background_saturation);
+        ImageView reset_background_saturation = view.findViewById(R.id.reset_background_saturation);
         reset_background_saturation.setVisibility(Prefs.getInt(MONET_BACKGROUND_SATURATION, 100) == 100 ? View.INVISIBLE : View.VISIBLE);
 
         reset_background_saturation.setOnLongClickListener(v -> {
@@ -244,13 +240,13 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         });
 
         // Monet background lightness
-        SeekBar monet_background_lightness_seekbar = findViewById(R.id.monet_background_lightness_seekbar);
-        TextView monet_background_lightness_output = findViewById(R.id.monet_background_lightness_output);
+        SeekBar monet_background_lightness_seekbar = view.findViewById(R.id.monet_background_lightness_seekbar);
+        TextView monet_background_lightness_output = view.findViewById(R.id.monet_background_lightness_output);
         monet_background_lightness_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100) - 100) + "%");
         monet_background_lightness_seekbar.setProgress(Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100));
 
         // Long Click Reset
-        ImageView reset_background_lightness = findViewById(R.id.reset_background_lightness);
+        ImageView reset_background_lightness = view.findViewById(R.id.reset_background_lightness);
         reset_background_lightness.setVisibility(Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100) == 100 ? View.INVISIBLE : View.VISIBLE);
 
         reset_background_lightness.setOnLongClickListener(v -> {
@@ -267,6 +263,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
 
+            @SuppressLint("SetTextI18n")
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 monetBackgroundLightness[0] = progress;
@@ -286,7 +283,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         enable_custom_monet.setVisibility(View.GONE);
         enable_custom_monet.setOnClickListener(v -> {
             if (!Environment.isExternalStorageManager()) {
-                SystemUtil.getStoragePermission(this);
+                SystemUtil.getStoragePermission(requireActivity());
             } else if (Objects.equals(selectedStyle, STR_NULL)) {
                 Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
             } else {
@@ -312,7 +309,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                         Log.e("MonetEngine", e.toString());
                     }
 
-                    runOnUiThread(() -> {
+                    requireActivity().runOnUiThread(() -> {
                         if (!hasErroredOut.get()) {
                             Prefs.putBoolean(MONET_ENGINE_SWITCH, true);
                             if (Prefs.getBoolean("IconifyComponentQSPB.overlay")) {
@@ -346,7 +343,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
                 OverlayUtil.disableOverlay("IconifyComponentDM.overlay");
                 OverlayUtil.disableOverlay("IconifyComponentME.overlay");
 
-                runOnUiThread(() -> {
+                requireActivity().runOnUiThread(() -> {
                     new Handler().postDelayed(() -> {
                         Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
                         disable_custom_monet.setVisibility(View.GONE);
@@ -358,6 +355,8 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
             Thread thread2 = new Thread(runnable2);
             thread2.start();
         });
+
+        return view;
     }
 
     @Override
@@ -387,14 +386,14 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
     }
 
     private void updatePrimaryColor() {
-        View preview_color_picker_primary = findViewById(R.id.preview_color_picker_primary);
+        View preview_color_picker_primary = view.findViewById(R.id.preview_color_picker_primary);
         GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentPrimary)});
         gd.setCornerRadius(getResources().getDimension(com.intuit.sdp.R.dimen._20sdp) * getResources().getDisplayMetrics().density);
         preview_color_picker_primary.setBackgroundDrawable(gd);
     }
 
     private void updateSecondaryColor() {
-        View preview_color_picker_secondary = findViewById(R.id.preview_color_picker_secondary);
+        View preview_color_picker_secondary = view.findViewById(R.id.preview_color_picker_secondary);
         GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentSecondary), Integer.parseInt(accentSecondary)});
         gd.setCornerRadius(getResources().getDimension(com.intuit.sdp.R.dimen._20sdp) * getResources().getDisplayMetrics().density);
         preview_color_picker_secondary.setBackgroundDrawable(gd);
@@ -508,12 +507,6 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         generatedColorPaletteNight = palette_night;
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
     private void disableBasicColors() {
         Prefs.clearPref("customMonetColor");
         Prefs.clearPref(CUSTOM_PRIMARY_COLOR_SWITCH);
@@ -536,7 +529,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if (checkedId != -1) {
-                selectedStyle = ((RadioButton) findViewById(checkedId)).getText().toString();
+                selectedStyle = ((RadioButton) view.findViewById(checkedId)).getText().toString();
                 radioGroup2.setOnCheckedChangeListener(null);
                 radioGroup2.clearCheck();
                 radioGroup2.setOnCheckedChangeListener(listener2);
@@ -550,7 +543,7 @@ public class MonetEngine extends AppCompatActivity implements ColorPickerDialogL
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if (checkedId != -1) {
-                selectedStyle = ((RadioButton) findViewById(checkedId)).getText().toString();
+                selectedStyle = ((RadioButton) view.findViewById(checkedId)).getText().toString();
                 radioGroup1.setOnCheckedChangeListener(null);
                 radioGroup1.clearCheck();
                 radioGroup1.setOnCheckedChangeListener(listener1);

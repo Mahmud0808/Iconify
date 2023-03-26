@@ -2,11 +2,10 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_media_player"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.activities.MediaPlayer">
+    tools:context=".ui.fragments.VolumePanel">
 
     <include layout="@layout/view_header" />
 
@@ -20,27 +19,61 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/container_marginSide"
             android:layout_marginTop="@dimen/container_marginTopBottom"
-            android:layout_marginBottom="@dimen/container_marginTopBottom"
+            android:layout_marginEnd="@dimen/container_marginSide"
+            android:layout_marginBottom="@dimen/container_margin"
             android:orientation="vertical">
-
-            <include
-                layout="@layout/view_media_player_preview_accent"
-                android:visibility="gone" />
-
-            <include
-                layout="@layout/view_media_player_preview_black"
-                android:visibility="gone" />
-
-            <include
-                layout="@layout/view_media_player_preview_system"
-                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/container_marginSide"
-                android:layout_marginEnd="@dimen/container_marginSide"
+                android:layout_marginBottom="@dimen/container_margin"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/container_paddingSide"
+                android:paddingTop="@dimen/container_padding"
+                android:paddingEnd="@dimen/container_paddingSide"
+                android:paddingBottom="@dimen/container_padding">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1.0" />
+
+                <include
+                    android:id="@+id/volume_thin_bg"
+                    layout="@layout/view_volume_panel_preview_thin_bg" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1.0" />
+
+                <include
+                    android:id="@+id/volume_thick_bg"
+                    layout="@layout/view_volume_panel_preview_thick_bg" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1.0" />
+
+                <include
+                    android:id="@+id/volume_no_bg"
+                    layout="@layout/view_volume_panel_preview_no_bg" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1.0" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/container_margin"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -58,7 +91,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:paddingTop="3dp"
-                        android:text="@string/mp_accent_background_title"
+                        android:text="@string/vp_thin_background_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -69,17 +102,13 @@
                         android:layout_weight="1.0" />
 
                     <Switch
-                        android:id="@+id/mp_accent"
+                        android:id="@+id/thin_bg"
                         style="@style/customSwitch"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                 </LinearLayout>
 
-                <View
-                    android:id="@+id/text_size_divider"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorBackground" />
+                <View style="@style/dividerTransparent" />
 
                 <LinearLayout
                     android:id="@+id/text_size_container"
@@ -97,7 +126,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:paddingTop="3dp"
-                        android:text="@string/mp_system_background_title"
+                        android:text="@string/vp_thick_background_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -108,7 +137,7 @@
                         android:layout_weight="1.0" />
 
                     <Switch
-                        android:id="@+id/mp_system"
+                        android:id="@+id/thick_bg"
                         style="@style/customSwitch"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
@@ -131,7 +160,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:paddingTop="3dp"
-                        android:text="@string/mp_pb_background_title"
+                        android:text="@string/vp_no_background_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -142,12 +171,17 @@
                         android:layout_weight="1.0" />
 
                     <Switch
-                        android:id="@+id/mp_pitch_black"
+                        android:id="@+id/no_bg"
                         style="@style/customSwitch"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                 </LinearLayout>
             </LinearLayout>
+
+            <include
+                android:id="@+id/volume_style"
+                layout="@layout/view_volume_style" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
