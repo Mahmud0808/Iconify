@@ -8,7 +8,7 @@ import static com.drdisagree.iconify.common.Preferences.UPDATE_CHECK_TIME;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED;
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
 import static com.drdisagree.iconify.common.References.FRAGMENT_BRIGHTNESSBAR;
-import static com.drdisagree.iconify.common.References.FRAGMENT_HOME;
+import static com.drdisagree.iconify.common.References.FRAGMENT_STYLES;
 import static com.drdisagree.iconify.common.References.FRAGMENT_ICONPACK;
 import static com.drdisagree.iconify.common.References.FRAGMENT_ICONSHAPE;
 import static com.drdisagree.iconify.common.References.FRAGMENT_NOTIFICATION;
@@ -195,7 +195,7 @@ public class Home extends Fragment {
 
                 new Handler().postDelayed(() -> {
                     fragmentTransaction.replace(R.id.main_fragment, (Fragment) pack.get(finalI)[0], (String) pack.get(finalI)[1]);
-                    fragmentManager.popBackStack(FRAGMENT_HOME, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    fragmentManager.popBackStack(FRAGMENT_STYLES, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     fragmentTransaction.addToBackStack((String) pack.get(finalI)[1]);
                     fragmentTransaction.commit();
                 }, FRAGMENT_TRANSITION_DELAY);

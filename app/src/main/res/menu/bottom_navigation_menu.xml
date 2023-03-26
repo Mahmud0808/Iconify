@@ -3,8 +3,8 @@
     <item
         android:id="@+id/navbar_home"
         android:enabled="true"
-        android:icon="@drawable/ic_navbar_home"
-        android:title="@string/navbar_home" />
+        android:icon="@drawable/ic_navbar_styles"
+        android:title="@string/navbar_styles" />
     <item
         android:id="@+id/navbar_tweaks"
         android:enabled="true"

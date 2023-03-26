@@ -1,7 +1,7 @@
 package com.drdisagree.iconify.ui.adapters;
 
 import static com.drdisagree.iconify.common.Const.FRAGMENT_TRANSITION_DELAY;
-import static com.drdisagree.iconify.common.References.FRAGMENT_HOME;
+import static com.drdisagree.iconify.common.References.FRAGMENT_STYLES;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -55,7 +55,7 @@ public class MenuFragmentAdapter extends RecyclerView.Adapter<MenuFragmentAdapte
 
             new Handler().postDelayed(() -> {
                 fragmentTransaction.replace(R.id.main_fragment, itemList.get(position).getFragment(), itemList.get(position).getTag());
-                fragmentManager.popBackStack(FRAGMENT_HOME, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                fragmentManager.popBackStack(FRAGMENT_STYLES, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 fragmentTransaction.addToBackStack(itemList.get(position).getTag());
                 fragmentTransaction.commit();
             }, FRAGMENT_TRANSITION_DELAY);
