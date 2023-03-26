@@ -1,19 +1,11 @@
-package com.drdisagree.iconify.ui.fragments;
-
-import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
+package com.drdisagree.iconify.ui.activities;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.ui.adapters.SwitchAdapter;
@@ -24,35 +16,31 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Switch extends Fragment {
+public class Switch extends AppCompatActivity {
 
     LoadingDialog loadingDialog;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_switch, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_switch);
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
+        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
         collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_switch));
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(view1 -> new Handler().postDelayed(() -> {
-            getParentFragmentManager().popBackStack();
-        }, FRAGMENT_BACK_BUTTON_DELAY));
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Loading dialog while enabling or disabling pack
-        loadingDialog = new LoadingDialog(requireActivity());
+        loadingDialog = new LoadingDialog(this);
 
         // RecyclerView
-        RecyclerView listView = view.findViewById(R.id.switch_container);
-        listView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        listView.setAdapter(initSwitchItems());
-        listView.setHasFixedSize(true);
-
-        return view;
+        RecyclerView container = findViewById(R.id.switch_container);
+        container.setLayoutManager(new LinearLayoutManager(this));
+        container.setAdapter(initSwitchItems());
+        container.setHasFixedSize(true);
     }
 
     private SwitchAdapter initSwitchItems() {
@@ -65,7 +53,13 @@ public class Switch extends Fragment {
         switch_list.add(new SwitchModel("Outline Switch", R.drawable.switch_outline_track, R.drawable.switch_outline_thumb));
         switch_list.add(new SwitchModel("Neumorph Switch", R.drawable.switch_neumorph_track, R.drawable.switch_neumorph_thumb));
 
-        return new SwitchAdapter(requireActivity(), switch_list, loadingDialog);
+        return new SwitchAdapter(this, switch_list, loadingDialog);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override

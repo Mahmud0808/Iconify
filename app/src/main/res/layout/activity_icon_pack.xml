@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.Notification">
+    android:fillViewport="true"
+    tools:context=".ui.activities.IconPack">
 
     <include layout="@layout/view_header" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/notifications_container"
+        android:id="@+id/icon_pack_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/container_marginSide"
@@ -17,6 +18,7 @@
         android:clipToPadding="false"
         android:orientation="vertical"
         android:paddingTop="@dimen/container_marginTopBottom"
+        android:paddingBottom="@dimen/container_marginTopBottom"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

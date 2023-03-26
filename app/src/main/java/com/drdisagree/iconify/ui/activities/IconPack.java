@@ -1,25 +1,14 @@
-package com.drdisagree.iconify.ui.fragments;
-
-import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
+package com.drdisagree.iconify.ui.activities;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.ui.activities.ColoredBattery;
-import com.drdisagree.iconify.ui.activities.MediaIcons;
-import com.drdisagree.iconify.ui.activities.SettingsIcons;
 import com.drdisagree.iconify.ui.adapters.IconPackAdapter;
 import com.drdisagree.iconify.ui.adapters.MenuAdapter;
 import com.drdisagree.iconify.ui.adapters.ViewAdapter;
@@ -31,36 +20,32 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class IconPack extends Fragment {
+public class IconPack extends AppCompatActivity {
 
     LoadingDialog loadingDialog;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_icon_pack, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_icon_pack);
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
+        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
         collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_icon_pack));
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(view1 -> new Handler().postDelayed(() -> {
-            getParentFragmentManager().popBackStack();
-        }, FRAGMENT_BACK_BUTTON_DELAY));
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Loading dialog while enabling or disabling pack
-        loadingDialog = new LoadingDialog(requireActivity());
+        loadingDialog = new LoadingDialog(this);
 
         // RecyclerView
-        RecyclerView listView = view.findViewById(R.id.icon_pack_container);
-        listView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new ViewAdapter(requireActivity(), R.layout.view_divider), initIconPackItems());
-        listView.setAdapter(adapter);
-        listView.setHasFixedSize(true);
-
-        return view;
+        RecyclerView container = findViewById(R.id.icon_pack_container);
+        container.setLayoutManager(new LinearLayoutManager(this));
+        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new ViewAdapter(this, R.layout.view_divider), initIconPackItems());
+        container.setAdapter(adapter);
+        container.setHasFixedSize(true);
     }
 
     private MenuAdapter initActivityItems() {
@@ -70,7 +55,7 @@ public class IconPack extends Fragment {
         iconpack_activity_list.add(new MenuModel(MediaIcons.class, getResources().getString(R.string.activity_title_media_icons), getResources().getString(R.string.activity_desc_media_icons), R.drawable.ic_media_player_icon));
         iconpack_activity_list.add(new MenuModel(SettingsIcons.class, getResources().getString(R.string.activity_title_settings_icons), getResources().getString(R.string.activity_desc_settings_icons), R.drawable.ic_settings_icon_pack));
 
-        return new MenuAdapter(requireActivity(), iconpack_activity_list);
+        return new MenuAdapter(this, iconpack_activity_list);
     }
 
     private IconPackAdapter initIconPackItems() {
@@ -91,7 +76,13 @@ public class IconPack extends Fragment {
         iconpack_list.add(new IconPackModel("Sam", "Filled icon pack", R.drawable.preview_sam_wifi, R.drawable.preview_sam_signal, R.drawable.preview_sam_airplane, R.drawable.preview_sam_location));
         iconpack_list.add(new IconPackModel("Victor", "Edgy icon pack", R.drawable.preview_victor_wifi, R.drawable.preview_victor_signal, R.drawable.preview_victor_airplane, R.drawable.preview_victor_location));
 
-        return new IconPackAdapter(requireActivity(), iconpack_list, loadingDialog);
+        return new IconPackAdapter(this, iconpack_list, loadingDialog);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override
