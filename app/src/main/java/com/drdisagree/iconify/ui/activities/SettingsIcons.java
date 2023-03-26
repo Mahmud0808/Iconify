@@ -1,9 +1,10 @@
-package com.drdisagree.iconify.ui.fragments;
+package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_BG;
 import static com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_COLOR;
 import static com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_SET;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -20,37 +21,45 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.SettingsIconsManager;
-import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class SettingsIcons extends Fragment {
+public class SettingsIcons extends AppCompatActivity {
 
     private static int selectedIconColor = 1, selectedBackground = 1, selectedIcon = 1;
     LoadingDialog loadingDialog;
-    private ViewGroup listView;
+    private ViewGroup container;
 
+    @SuppressLint("SetTextI18n")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_settings_icons, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_settings_icons);
 
         // Header
-        FragmentHelper.initHeader((AppCompatActivity) requireActivity(), view, R.string.activity_title_settings_icons, getParentFragmentManager());
+        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_settings_icons));
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Loading dialog while enabling or disabling pack
-        loadingDialog = new LoadingDialog(requireActivity());
+        loadingDialog = new LoadingDialog(this);
 
         // Retrieve previously saved preferenced
         selectedIcon = Prefs.getInt(SELECTED_SETTINGS_ICONS_SET, 1);
@@ -58,7 +67,7 @@ public class SettingsIcons extends Fragment {
         selectedIconColor = Prefs.getInt(SELECTED_SETTINGS_ICONS_COLOR, 1);
 
         // Background style
-        RadioGroup bg_style = view.findViewById(R.id.bg_style);
+        RadioGroup bg_style = findViewById(R.id.bg_style);
         ((RadioButton) bg_style.getChildAt(selectedBackground)).setChecked(true);
 
         bg_style.setOnCheckedChangeListener((group, checkedId) -> {
@@ -67,7 +76,7 @@ public class SettingsIcons extends Fragment {
         });
 
         // Icon color
-        RadioGroup icon_color = view.findViewById(R.id.icon_color);
+        RadioGroup icon_color = findViewById(R.id.icon_color);
         ((RadioButton) icon_color.getChildAt(selectedIconColor)).setChecked(true);
 
         icon_color.setOnCheckedChangeListener((group, checkedId) -> {
@@ -76,7 +85,7 @@ public class SettingsIcons extends Fragment {
         });
 
         // Icon Pack list items
-        listView = view.findViewById(R.id.icon_packs_list);
+        container = findViewById(R.id.icon_packs_list);
         ArrayList<Object[]> iconpack_list = new ArrayList<>();
 
         // Icon Pack add items in list
@@ -89,8 +98,8 @@ public class SettingsIcons extends Fragment {
 
         addItem(iconpack_list);
 
-        for (int i = 0; i < listView.getChildCount(); i++) {
-            LinearLayout child = listView.getChildAt(i).findViewById(R.id.icon_pack_child);
+        for (int i = 0; i < container.getChildCount(); i++) {
+            LinearLayout child = container.getChildAt(i).findViewById(R.id.icon_pack_child);
             if (((TextView) child.findViewById(R.id.iconpack_title)).getText() == "Bubble" || ((TextView) child.findViewById(R.id.iconpack_title)).getText() == "Bubble v2") {
                 ((ImageView) child.findViewById(R.id.iconpack_preview1)).setColorFilter(0);
                 ((ImageView) child.findViewById(R.id.iconpack_preview2)).setColorFilter(0);
@@ -100,22 +109,22 @@ public class SettingsIcons extends Fragment {
         }
 
         // Enable onClick event
-        for (int i = 0; i < listView.getChildCount(); i++) {
-            enableOnClickListener(listView.getChildAt(i).findViewById(R.id.icon_pack_child), i);
+        for (int i = 0; i < container.getChildCount(); i++) {
+            enableOnClickListener(container.getChildAt(i).findViewById(R.id.icon_pack_child), i);
         }
 
         refreshBackground();
 
         // Enable and disable button
-        Button enable_settings_icons = view.findViewById(R.id.enable_settings_icons);
-        Button disable_settings_icons = view.findViewById(R.id.disable_settings_icons);
+        Button enable_settings_icons = findViewById(R.id.enable_settings_icons);
+        Button disable_settings_icons = findViewById(R.id.disable_settings_icons);
 
         if (Prefs.getBoolean("IconifyComponentSIP1.overlay"))
             disable_settings_icons.setVisibility(View.VISIBLE);
 
         enable_settings_icons.setOnClickListener(v -> {
             if (!Environment.isExternalStorageManager()) {
-                SystemUtil.getStoragePermission(requireActivity());
+                SystemUtil.getStoragePermission(this);
             } else {
                 // Show loading dialog
                 loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
@@ -129,7 +138,7 @@ public class SettingsIcons extends Fragment {
                         Log.e("SettingsIcons", e.toString());
                     }
 
-                    requireActivity().runOnUiThread(() -> {
+                    runOnUiThread(() -> {
                         if (!hasErroredOut.get()) {
                             Prefs.putInt(SELECTED_SETTINGS_ICONS_SET, selectedIcon);
                             Prefs.putInt(SELECTED_SETTINGS_ICONS_BG, selectedBackground);
@@ -165,28 +174,32 @@ public class SettingsIcons extends Fragment {
             for (int i = 1; i <= 3; i++)
                 OverlayUtil.disableOverlay("IconifyComponentSIP" + i + ".overlay");
         });
+    }
 
-        return view;
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     // Function to check for layout changes
     private void refreshLayout(LinearLayout layout) {
-        for (int i = 0; i < listView.getChildCount(); i++) {
-            LinearLayout child = listView.getChildAt(i).findViewById(R.id.icon_pack_child);
+        for (int i = 0; i < container.getChildCount(); i++) {
+            LinearLayout child = container.getChildAt(i).findViewById(R.id.icon_pack_child);
             if (!(child == layout)) {
-                listView.getChildAt(i).setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.container));
+                container.getChildAt(i).setBackground(ContextCompat.getDrawable(SettingsIcons.this, R.drawable.container));
             }
         }
     }
 
     // Function to check for bg drawable changes
     private void refreshBackground() {
-        for (int i = 0; i < listView.getChildCount(); i++) {
-            LinearLayout child = listView.getChildAt(i).findViewById(R.id.icon_pack_child);
+        for (int i = 0; i < container.getChildCount(); i++) {
+            LinearLayout child = container.getChildAt(i).findViewById(R.id.icon_pack_child);
             if (Prefs.getInt(SELECTED_SETTINGS_ICONS_SET, 1) == i + 1) {
-                child.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.container_selected));
+                child.setBackground(ContextCompat.getDrawable(SettingsIcons.this, R.drawable.container_selected));
             } else {
-                child.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.container));
+                child.setBackground(ContextCompat.getDrawable(SettingsIcons.this, R.drawable.container));
             }
         }
     }
@@ -204,7 +217,7 @@ public class SettingsIcons extends Fragment {
     // Function to add new item in list
     private void addItem(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(requireActivity()).inflate(R.layout.view_list_option_settings_icons, listView, false);
+            View list = LayoutInflater.from(this).inflate(R.layout.view_list_option_settings_icons, container, false);
 
             TextView name = list.findViewById(R.id.iconpack_title);
             name.setText((String) pack.get(i)[0]);
@@ -224,7 +237,7 @@ public class SettingsIcons extends Fragment {
             ImageView ic4 = list.findViewById(R.id.iconpack_preview4);
             ic4.setImageResource((int) pack.get(i)[5]);
 
-            listView.addView(list);
+            container.addView(list);
         }
     }
 

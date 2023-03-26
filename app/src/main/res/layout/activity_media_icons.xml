@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.fragments.MediaIcons">
+    tools:context=".ui.activities.MediaPlayer">
 
     <include layout="@layout/view_header" />
 
@@ -20,7 +20,8 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/container_marginTopBottom">
+            android:layout_marginTop="@dimen/container_marginTopBottom"
+            android:layout_marginBottom="@dimen/container_marginTopBottom">
 
             <TextView
                 android:id="@+id/no_supported_musicplayer"

@@ -1,44 +1,48 @@
-package com.drdisagree.iconify.ui.fragments;
+package com.drdisagree.iconify.ui.activities;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.ui.adapters.NotificationAdapter;
 import com.drdisagree.iconify.ui.models.NotificationModel;
-import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class NotificationPixel extends Fragment {
+public class NotificationPixel extends AppCompatActivity {
 
     LoadingDialog loadingDialog;
 
+    @SuppressLint("SetTextI18n")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_notification_pixel, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_notifications_pixel);
 
         // Header
-        FragmentHelper.initHeader((AppCompatActivity) requireActivity(), view, R.string.activity_title_notification, getParentFragmentManager());
+        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_notification));
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Loading dialog while enabling or disabling pack
-        loadingDialog = new LoadingDialog(requireActivity());
+        loadingDialog = new LoadingDialog(this);
 
         // RecyclerView
-        RecyclerView listView = view.findViewById(R.id.notifications_pixel_container);
-        listView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        listView.setAdapter(initNotifItems());
-        listView.setHasFixedSize(true);
-
-        return view;
+        RecyclerView container = findViewById(R.id.notifications_pixel_container);
+        container.setLayoutManager(new LinearLayoutManager(this));
+        container.setAdapter(initNotifItems());
+        container.setHasFixedSize(true);
     }
 
     private NotificationAdapter initNotifItems() {
@@ -64,7 +68,13 @@ public class NotificationPixel extends Fragment {
         notif_list.add(new NotificationModel("Pitch Black", R.drawable.notif_pitch_black));
         notif_list.add(new NotificationModel("Duoline", R.drawable.notif_duoline));
 
-        return new NotificationAdapter(requireActivity(), notif_list, loadingDialog, "NFP");
+        return new NotificationAdapter(this, notif_list, loadingDialog, "NFP");
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override

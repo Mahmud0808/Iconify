@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.ui.fragments;
+package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Preferences.LAND_QSTILE_EXPANDED_HEIGHT;
 import static com.drdisagree.iconify.common.Preferences.LAND_QSTILE_NONEXPANDED_HEIGHT;
@@ -9,9 +9,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -19,43 +17,50 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.QsTileHeightManager;
-import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class QsTileSize extends Fragment {
+public class QsTileSize extends AppCompatActivity {
 
     LoadingDialog loadingDialog;
 
     @SuppressLint("SetTextI18n")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_qs_tile_size, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_qs_tile_size);
 
         // Header
-        FragmentHelper.initHeader((AppCompatActivity) requireActivity(), view, R.string.activity_title_qs_tile_size, getParentFragmentManager());
+        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_qs_tile_size));
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Show loading dialog
-        loadingDialog = new LoadingDialog(requireActivity());
+        loadingDialog = new LoadingDialog(this);
 
         // Portrait Nonexpanded height
-        SeekBar port_nonexpanded_height_seekbar = view.findViewById(R.id.port_nonexpanded_height_seekbar);
-        TextView port_nonexpanded_height_output = view.findViewById(R.id.port_nonexpanded_height_output);
+        SeekBar port_nonexpanded_height_seekbar = findViewById(R.id.port_nonexpanded_height_seekbar);
+        TextView port_nonexpanded_height_output = findViewById(R.id.port_nonexpanded_height_output);
         port_nonexpanded_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(PORT_QSTILE_NONEXPANDED_HEIGHT, 60) + "dp");
         port_nonexpanded_height_seekbar.setProgress(Prefs.getInt(PORT_QSTILE_NONEXPANDED_HEIGHT, 60));
 
         // Reset button
-        ImageView reset_port_nonexpanded_height = view.findViewById(R.id.reset_port_nonexpanded_height);
+        ImageView reset_port_nonexpanded_height = findViewById(R.id.reset_port_nonexpanded_height);
         reset_port_nonexpanded_height.setVisibility(Prefs.getInt(PORT_QSTILE_NONEXPANDED_HEIGHT, 60) == 60 ? View.INVISIBLE : View.VISIBLE);
         int[] portNonExpandedHeight = new int[]{Prefs.getInt(PORT_QSTILE_NONEXPANDED_HEIGHT, 60)};
 
@@ -85,13 +90,13 @@ public class QsTileSize extends Fragment {
         });
 
         // Portrait Expanded height
-        SeekBar port_expanded_height_seekbar = view.findViewById(R.id.port_expanded_height_seekbar);
-        TextView port_expanded_height_output = view.findViewById(R.id.port_expanded_height_output);
+        SeekBar port_expanded_height_seekbar = findViewById(R.id.port_expanded_height_seekbar);
+        TextView port_expanded_height_output = findViewById(R.id.port_expanded_height_output);
         port_expanded_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(PORT_QSTILE_EXPANDED_HEIGHT, 80) + "dp");
         port_expanded_height_seekbar.setProgress(Prefs.getInt(PORT_QSTILE_EXPANDED_HEIGHT, 80));
 
         // Reset button
-        ImageView reset_port_expanded_height = view.findViewById(R.id.reset_port_expanded_height);
+        ImageView reset_port_expanded_height = findViewById(R.id.reset_port_expanded_height);
         reset_port_expanded_height.setVisibility(Prefs.getInt(PORT_QSTILE_EXPANDED_HEIGHT, 80) == 80 ? View.INVISIBLE : View.VISIBLE);
         int[] portExpandedHeight = new int[]{Prefs.getInt(PORT_QSTILE_EXPANDED_HEIGHT, 80)};
 
@@ -121,13 +126,13 @@ public class QsTileSize extends Fragment {
         });
 
         // Landscape Nonexpanded height
-        SeekBar land_nonexpanded_height_seekbar = view.findViewById(R.id.land_nonexpanded_height_seekbar);
-        TextView land_nonexpanded_height_output = view.findViewById(R.id.land_nonexpanded_height_output);
+        SeekBar land_nonexpanded_height_seekbar = findViewById(R.id.land_nonexpanded_height_seekbar);
+        TextView land_nonexpanded_height_output = findViewById(R.id.land_nonexpanded_height_output);
         land_nonexpanded_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(LAND_QSTILE_NONEXPANDED_HEIGHT, 60) + "dp");
         land_nonexpanded_height_seekbar.setProgress(Prefs.getInt(LAND_QSTILE_NONEXPANDED_HEIGHT, 60));
 
         // Reset button
-        ImageView reset_land_nonexpanded_height = view.findViewById(R.id.reset_land_nonexpanded_height);
+        ImageView reset_land_nonexpanded_height = findViewById(R.id.reset_land_nonexpanded_height);
         reset_land_nonexpanded_height.setVisibility(Prefs.getInt(LAND_QSTILE_NONEXPANDED_HEIGHT, 60) == 60 ? View.INVISIBLE : View.VISIBLE);
         int[] landNonExpandedHeight = new int[]{Prefs.getInt(LAND_QSTILE_NONEXPANDED_HEIGHT, 60)};
 
@@ -157,13 +162,13 @@ public class QsTileSize extends Fragment {
         });
 
         // Landscape Expanded height
-        SeekBar land_expanded_height_seekbar = view.findViewById(R.id.land_expanded_height_seekbar);
-        TextView land_expanded_height_output = view.findViewById(R.id.land_expanded_height_output);
+        SeekBar land_expanded_height_seekbar = findViewById(R.id.land_expanded_height_seekbar);
+        TextView land_expanded_height_output = findViewById(R.id.land_expanded_height_output);
         land_expanded_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(LAND_QSTILE_EXPANDED_HEIGHT, 80) + "dp");
         land_expanded_height_seekbar.setProgress(Prefs.getInt(LAND_QSTILE_EXPANDED_HEIGHT, 80));
 
         // Reset button
-        ImageView reset_land_expanded_height = view.findViewById(R.id.reset_land_expanded_height);
+        ImageView reset_land_expanded_height = findViewById(R.id.reset_land_expanded_height);
         reset_land_expanded_height.setVisibility(Prefs.getInt(LAND_QSTILE_EXPANDED_HEIGHT, 80) == 80 ? View.INVISIBLE : View.VISIBLE);
         int[] landExpandedHeight = new int[]{Prefs.getInt(LAND_QSTILE_EXPANDED_HEIGHT, 80)};
 
@@ -193,15 +198,15 @@ public class QsTileSize extends Fragment {
         });
 
         // Apply and reset button
-        Button qs_tile_height_apply = view.findViewById(R.id.qs_tile_height_apply);
-        Button qs_tile_height_reset = view.findViewById(R.id.qs_tile_height_reset);
+        Button qs_tile_height_apply = findViewById(R.id.qs_tile_height_apply);
+        Button qs_tile_height_reset = findViewById(R.id.qs_tile_height_reset);
 
         if (Prefs.getBoolean("IconifyComponentQSTH.overlay"))
             qs_tile_height_reset.setVisibility(View.VISIBLE);
 
         qs_tile_height_apply.setOnClickListener(v -> {
             if (!Environment.isExternalStorageManager()) {
-                SystemUtil.getStoragePermission(requireActivity());
+                SystemUtil.getStoragePermission(this);
             } else {
                 // Show loading dialog
                 loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
@@ -214,7 +219,7 @@ public class QsTileSize extends Fragment {
                         hasErroredOut.set(true);
                     }
 
-                    requireActivity().runOnUiThread(() -> {
+                    runOnUiThread(() -> {
                         if (!hasErroredOut.get()) {
                             Prefs.putInt(PORT_QSTILE_NONEXPANDED_HEIGHT, portNonExpandedHeight[0]);
                             Prefs.putInt(PORT_QSTILE_EXPANDED_HEIGHT, portExpandedHeight[0]);
@@ -270,7 +275,11 @@ public class QsTileSize extends Fragment {
 
             OverlayUtil.disableOverlay("IconifyComponentQSTH.overlay");
         });
+    }
 
-        return view;
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

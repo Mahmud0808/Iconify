@@ -39,20 +39,11 @@ public class References {
     public static String FRAGMENT_XPOSEDMENU = "fragment_xposedmenu";
     public static String FRAGMENT_ICONPACK = "fragment_iconpack";
     public static String FRAGMENT_BRIGHTNESSBAR = "fragment_brightnessbar";
-    public static String FRAGMENT_BRIGHTNESSBARPIXEL = "fragment_brightnessbarpixel";
     public static String FRAGMENT_QSPANELTILES = "fragment_qspaneltiles";
     public static String FRAGMENT_NOTIFICATION = "fragment_notification";
-    public static String FRAGMENT_NOTIFICATIONPIXEL = "fragment_notificationpixel";
     public static String FRAGMENT_PROGRESSBAR = "fragment_progressbar";
     public static String FRAGMENT_SWITCH = "fragment_switch";
     public static String FRAGMENT_TOASTFRAME = "fragment_toastframe";
     public static String FRAGMENT_ICONSHAPE = "fragment_iconshape";
     public static String FRAGMENT_COLORENGINE = "fragment_colorengine";
-    public static String FRAGMENT_COLOREDBATTERY = "fragment_coloredbattery";
-    public static String FRAGMENT_MEDIAICONS = "fragment_mediaicons";
-    public static String FRAGMENT_SETTINGSICONS = "fragment_settingsicons";
-    public static String FRAGMENT_QSROWCOLUMN = "fragment_qsrowcolumn";
-    public static String FRAGMENT_QSICONLABEL = "fragment_qsiconlabel";
-    public static String FRAGMENT_QSTILESIZE = "fragment_qstilesize";
-    public static String FRAGMENT_QSPANELTILESPIXEL = "fragment_qspaneltilespixel";
 }

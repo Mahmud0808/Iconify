@@ -113,7 +113,7 @@ public class LandingPage3 extends AppCompatActivity {
                                 installModule.execute();
                             });
                         } else {
-                            Intent intent = new Intent(LandingPage3.this, MainActivity.class);
+                            Intent intent = new Intent(LandingPage3.this, HomePage.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         }
@@ -386,7 +386,7 @@ public class LandingPage3 extends AppCompatActivity {
 
                 if (OverlayUtil.overlayExists()) {
                     new Handler().postDelayed(() -> {
-                        Intent intent = new Intent(LandingPage3.this, MainActivity.class);
+                        Intent intent = new Intent(LandingPage3.this, HomePage.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     }, 10);

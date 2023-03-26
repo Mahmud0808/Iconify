@@ -1,30 +1,35 @@
 package com.drdisagree.iconify.ui.fragments;
 
-import static com.drdisagree.iconify.common.References.FRAGMENT_COLOREDBATTERY;
-import static com.drdisagree.iconify.common.References.FRAGMENT_MEDIAICONS;
-import static com.drdisagree.iconify.common.References.FRAGMENT_SETTINGSICONS;
+import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.ui.activities.ColoredBattery;
+import com.drdisagree.iconify.ui.activities.MediaIcons;
+import com.drdisagree.iconify.ui.activities.SettingsIcons;
 import com.drdisagree.iconify.ui.adapters.IconPackAdapter;
-import com.drdisagree.iconify.ui.adapters.MenuFragmentAdapter;
+import com.drdisagree.iconify.ui.adapters.MenuAdapter;
 import com.drdisagree.iconify.ui.adapters.ViewAdapter;
 import com.drdisagree.iconify.ui.models.IconPackModel;
-import com.drdisagree.iconify.ui.models.MenuFragmentModel;
-import com.drdisagree.iconify.ui.utils.FragmentHelper;
+import com.drdisagree.iconify.ui.models.MenuModel;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class IconPack extends Fragment {
 
@@ -35,7 +40,15 @@ public class IconPack extends Fragment {
         View view = inflater.inflate(R.layout.fragment_icon_pack, container, false);
 
         // Header
-        FragmentHelper.initHeader((AppCompatActivity) requireActivity(), view, R.string.activity_title_icon_pack, getParentFragmentManager());
+        CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_icon_pack));
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(view1 -> new Handler().postDelayed(() -> {
+            getParentFragmentManager().popBackStack();
+        }, FRAGMENT_BACK_BUTTON_DELAY));
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(requireActivity());
@@ -50,14 +63,14 @@ public class IconPack extends Fragment {
         return view;
     }
 
-    private MenuFragmentAdapter initActivityItems() {
-        ArrayList<MenuFragmentModel> iconpack_activity_list = new ArrayList<>();
+    private MenuAdapter initActivityItems() {
+        ArrayList<MenuModel> iconpack_activity_list = new ArrayList<>();
 
-        iconpack_activity_list.add(new MenuFragmentModel(new ColoredBattery(), FRAGMENT_COLOREDBATTERY, getResources().getString(R.string.activity_title_colored_battery), getResources().getString(R.string.activity_desc_colored_battery), R.drawable.ic_colored_battery));
-        iconpack_activity_list.add(new MenuFragmentModel(new MediaIcons(), FRAGMENT_MEDIAICONS, getResources().getString(R.string.activity_title_media_icons), getResources().getString(R.string.activity_desc_media_icons), R.drawable.ic_media_player_icon));
-        iconpack_activity_list.add(new MenuFragmentModel(new SettingsIcons(), FRAGMENT_SETTINGSICONS, getResources().getString(R.string.activity_title_settings_icons), getResources().getString(R.string.activity_desc_settings_icons), R.drawable.ic_settings_icon_pack));
+        iconpack_activity_list.add(new MenuModel(ColoredBattery.class, getResources().getString(R.string.activity_title_colored_battery), getResources().getString(R.string.activity_desc_colored_battery), R.drawable.ic_colored_battery));
+        iconpack_activity_list.add(new MenuModel(MediaIcons.class, getResources().getString(R.string.activity_title_media_icons), getResources().getString(R.string.activity_desc_media_icons), R.drawable.ic_media_player_icon));
+        iconpack_activity_list.add(new MenuModel(SettingsIcons.class, getResources().getString(R.string.activity_title_settings_icons), getResources().getString(R.string.activity_desc_settings_icons), R.drawable.ic_settings_icon_pack));
 
-        return new MenuFragmentAdapter(requireActivity(), iconpack_activity_list, getParentFragmentManager());
+        return new MenuAdapter(requireActivity(), iconpack_activity_list);
     }
 
     private IconPackAdapter initIconPackItems() {

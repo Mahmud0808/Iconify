@@ -1,8 +1,15 @@
 package com.drdisagree.iconify.ui.fragments;
 
+import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,15 +17,14 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.activities.BasicColors;
 import com.drdisagree.iconify.ui.activities.MonetEngine;
-import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.utils.OverlayUtil;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+
+import java.util.Objects;
 
 public class ColorEngine extends Fragment {
 
@@ -27,7 +33,15 @@ public class ColorEngine extends Fragment {
         View view = inflater.inflate(R.layout.fragment_color_engine, container, false);
 
         // Header
-        FragmentHelper.initHeader((AppCompatActivity) requireActivity(), view, R.string.activity_title_color_engine, getParentFragmentManager());
+        CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_color_engine));
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(view1 -> new Handler().postDelayed(() -> {
+            getParentFragmentManager().popBackStack();
+        }, FRAGMENT_BACK_BUTTON_DELAY));
 
         // Basic colors
         LinearLayout basic_colors = view.findViewById(R.id.basic_colors);

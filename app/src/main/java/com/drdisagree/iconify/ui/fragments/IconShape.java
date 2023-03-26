@@ -1,11 +1,18 @@
 package com.drdisagree.iconify.ui.fragments;
 
+import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
 import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.SELECTED_ICON_SHAPE;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,20 +21,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.compiler.OnDemandCompiler;
 import com.google.android.flexbox.FlexboxLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class IconShape extends Fragment {
@@ -39,7 +44,15 @@ public class IconShape extends Fragment {
         View view = inflater.inflate(R.layout.fragment_icon_shape, container, false);
 
         // Header
-        FragmentHelper.initHeader((AppCompatActivity) requireActivity(), view, R.string.activity_title_icon_shape, getParentFragmentManager());
+        CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_icon_shape));
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(view1 -> new Handler().postDelayed(() -> {
+            getParentFragmentManager().popBackStack();
+        }, FRAGMENT_BACK_BUTTON_DELAY));
 
         // Icon masking shape list
         listView = view.findViewById(R.id.icon_shape_preview_container);

@@ -1,28 +1,33 @@
 package com.drdisagree.iconify.ui.fragments;
 
-import static com.drdisagree.iconify.common.References.FRAGMENT_BRIGHTNESSBARPIXEL;
+import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.ui.activities.BrightnessBarPixel;
 import com.drdisagree.iconify.ui.adapters.BrightnessBarAdapter;
-import com.drdisagree.iconify.ui.adapters.MenuFragmentAdapter;
+import com.drdisagree.iconify.ui.adapters.MenuAdapter;
 import com.drdisagree.iconify.ui.adapters.ViewAdapter;
 import com.drdisagree.iconify.ui.models.BrightnessBarModel;
-import com.drdisagree.iconify.ui.models.MenuFragmentModel;
-import com.drdisagree.iconify.ui.utils.FragmentHelper;
+import com.drdisagree.iconify.ui.models.MenuModel;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class BrightnessBar extends Fragment {
 
@@ -33,7 +38,15 @@ public class BrightnessBar extends Fragment {
         View view = inflater.inflate(R.layout.fragment_brightness_bar, container, false);
 
         // Header
-        FragmentHelper.initHeader((AppCompatActivity) requireActivity(), view, R.string.activity_title_brightness_bar, getParentFragmentManager());
+        CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_brightness_bar));
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(view1 -> new Handler().postDelayed(() -> {
+            getParentFragmentManager().popBackStack();
+        }, FRAGMENT_BACK_BUTTON_DELAY));
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(requireActivity());
@@ -48,12 +61,12 @@ public class BrightnessBar extends Fragment {
         return view;
     }
 
-    private MenuFragmentAdapter initActivityItems() {
-        ArrayList<MenuFragmentModel> brightnessbar_activity_list = new ArrayList<>();
+    private MenuAdapter initActivityItems() {
+        ArrayList<MenuModel> brightnessbar_activity_list = new ArrayList<>();
 
-        brightnessbar_activity_list.add(new MenuFragmentModel(new BrightnessBarPixel(), FRAGMENT_BRIGHTNESSBARPIXEL, getResources().getString(R.string.activity_title_pixel_variant), getResources().getString(R.string.activity_desc_pixel_variant), R.drawable.ic_pixel_device));
+        brightnessbar_activity_list.add(new MenuModel(BrightnessBarPixel.class, getResources().getString(R.string.activity_title_pixel_variant), getResources().getString(R.string.activity_desc_pixel_variant), R.drawable.ic_pixel_device));
 
-        return new MenuFragmentAdapter(requireActivity(), brightnessbar_activity_list, getParentFragmentManager());
+        return new MenuAdapter(requireActivity(), brightnessbar_activity_list);
     }
 
     private BrightnessBarAdapter initBrightnessBarItems() {

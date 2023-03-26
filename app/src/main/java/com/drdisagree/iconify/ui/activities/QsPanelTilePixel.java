@@ -1,50 +1,52 @@
-package com.drdisagree.iconify.ui.fragments;
+package com.drdisagree.iconify.ui.activities;
 
 import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.ui.adapters.QsShapeAdapter;
 import com.drdisagree.iconify.ui.models.QsShapeModel;
-import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class QsPanelTilesPixel extends Fragment {
+public class QsPanelTilePixel extends AppCompatActivity {
 
     LoadingDialog loadingDialog;
-    RecyclerView listView;
+    RecyclerView container;
     QsShapeAdapter adapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_qs_panel_tiles_pixel, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_qs_panel_tile_pixel);
 
         // Header
-        FragmentHelper.initHeader((AppCompatActivity) requireActivity(), view, R.string.activity_title_qs_shape, getParentFragmentManager());
+        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_qs_shape));
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Loading dialog while enabling or disabling pack
-        loadingDialog = new LoadingDialog(requireActivity());
+        loadingDialog = new LoadingDialog(this);
 
         // RecyclerView
-        listView = view.findViewById(R.id.qs_shapes_pixel_container);
-        listView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        container = findViewById(R.id.qs_shapes_pixel_container);
+        container.setLayoutManager(new LinearLayoutManager(this));
         adapter = initQsShapeItems();
-        listView.setAdapter(adapter);
-        listView.setHasFixedSize(true);
-
-        return view;
+        container.setAdapter(adapter);
+        container.setHasFixedSize(true);
     }
 
     private QsShapeAdapter initQsShapeItems() {
@@ -70,7 +72,7 @@ public class QsPanelTilesPixel extends Fragment {
         qsshape_list.add(new QsShapeModel("Thin Outline", R.drawable.qs_shape_thin_outline_enabled_pixel, R.drawable.qs_shape_thin_outline_disabled_pixel, true));
         qsshape_list.add(new QsShapeModel("Purfect", R.drawable.qs_shape_purfect_enabled_pixel, R.drawable.qs_shape_purfect_disabled_pixel, false));
 
-        return new QsShapeAdapter(requireActivity(), qsshape_list, loadingDialog, "QSSP");
+        return new QsShapeAdapter(this, qsshape_list, loadingDialog, "QSSP");
     }
 
     // Change orientation in landscape / portrait mode
@@ -80,6 +82,12 @@ public class QsPanelTilesPixel extends Fragment {
         super.onConfigurationChanged(newConfig);
 
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override

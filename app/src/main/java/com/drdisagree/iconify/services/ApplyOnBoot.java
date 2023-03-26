@@ -21,7 +21,7 @@ import android.graphics.Color;
 import androidx.core.graphics.ColorUtils;
 
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.ui.fragments.QsRowColumn;
+import com.drdisagree.iconify.ui.activities.QsRowColumn;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
