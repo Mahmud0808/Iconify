@@ -4,6 +4,7 @@ import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SIDEMARGIN;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_TOPMARGIN;
+import static com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_STATUSBAR;
 import static com.drdisagree.iconify.common.Preferences.HIDE_STATUS_ICONS_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.QSPANEL_HIDE_CARRIER;
 
@@ -21,6 +22,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.HelperUtil;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.Objects;
@@ -55,6 +57,14 @@ public class XposedOthers extends AppCompatActivity {
         hide_status_icons.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_STATUS_ICONS_SWITCH, isChecked);
             new Handler().postDelayed(HelperUtil::forceApply, 200);
+        });
+
+        // Hide lockscreen statusbar
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_lockscreen_statusbar = findViewById(R.id.hide_lockscreen_statusbar);
+        hide_lockscreen_statusbar.setChecked(RPrefs.getBoolean(HIDE_LOCKSCREEN_STATUSBAR, false));
+        hide_lockscreen_statusbar.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(HIDE_LOCKSCREEN_STATUSBAR, isChecked);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
         });
 
         // Fixed status icons
