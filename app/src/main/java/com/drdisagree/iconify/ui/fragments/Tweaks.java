@@ -1,7 +1,7 @@
 package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.References.FRAGMENT_COLORENGINE;
-import static com.drdisagree.iconify.common.References.FRAGMENT_HOME;
+import static com.drdisagree.iconify.common.References.FRAGMENT_STYLES;
 import static com.drdisagree.iconify.common.References.FRAGMENT_XPOSEDMENU;
 
 import android.content.Intent;
@@ -79,7 +79,7 @@ public class Tweaks extends Fragment {
         listView.getChildAt(0).findViewById(R.id.list_info_item).setOnClickListener(view1 -> {
             new Handler().postDelayed(() -> {
                 fragmentTransaction.replace(R.id.main_fragment, new ColorEngine(), FRAGMENT_COLORENGINE);
-                fragmentManager.popBackStack(FRAGMENT_HOME, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                fragmentManager.popBackStack(FRAGMENT_STYLES, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 fragmentTransaction.addToBackStack(FRAGMENT_COLORENGINE);
                 fragmentTransaction.commit();
             }, 100);
@@ -95,7 +95,7 @@ public class Tweaks extends Fragment {
                 }
 
                 fragmentTransaction.replace(R.id.main_fragment, new XposedMenu(), FRAGMENT_XPOSEDMENU);
-                fragmentManager.popBackStack(FRAGMENT_HOME, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                fragmentManager.popBackStack(FRAGMENT_STYLES, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 fragmentTransaction.addToBackStack(FRAGMENT_XPOSEDMENU);
                 fragmentTransaction.commit();
             }, 100);

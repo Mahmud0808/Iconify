@@ -40,6 +40,7 @@ public class Preferences {
     public static final String LANDSCAPE_BATTERY_ROTATION = "xposed_landscapebatteryrotation";
     public static final String LANDSCAPE_BATTERY_WIDTH = "xposed_landscapebatterywidth";
     public static final String LANDSCAPE_BATTERY_HEIGHT = "xposed_landscapebatteryheight";
+    public static final String HIDE_LOCKSCREEN_STATUSBAR = "xposed_hidelockscreenstatusbar";
 
     // Preference keys
     public static final String STR_NULL = "null";

@@ -1,11 +1,13 @@
 package com.drdisagree.iconify.ui.fragments;
 
+import static com.drdisagree.iconify.common.Const.FRAGMENT_TRANSITION_DELAY;
 import static com.drdisagree.iconify.common.Const.LATEST_VERSION;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.LAST_UPDATE_CHECK_TIME;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_CHECK_TIME;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED;
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
+import static com.drdisagree.iconify.common.References.FRAGMENT_STYLES;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -31,6 +33,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
@@ -58,7 +62,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class Home extends Fragment {
+public class Styles extends Fragment {
 
     public static boolean isServiceRunning = false;
     @SuppressLint("StaticFieldLeak")
@@ -69,7 +73,7 @@ public class Home extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_styles, container, false);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
@@ -120,7 +124,7 @@ public class Home extends Fragment {
         Prefs.putInt(VER_CODE, BuildConfig.VERSION_CODE);
         SystemUtil.getBootId();
 
-        // Home page list items
+        // Styles page list items
         ArrayList<Object[]> home_page = new ArrayList<>();
 
         home_page.add(new Object[]{IconPack.class, getResources().getString(R.string.activity_title_icon_pack), getResources().getString(R.string.activity_desc_icon_pack), R.drawable.ic_home_iconpack});
@@ -163,21 +167,6 @@ public class Home extends Fragment {
          *
          */
 
-        // Enable onClick event
-        // new update dilaog is in the first index
-        // reboot dialog is in the second index
-        int extra_items = listView.getChildCount() - home_page.size();
-        for (int i = extra_items; i < home_page.size() + extra_items; i++) {
-            LinearLayout child = listView.getChildAt(i).findViewById(R.id.list_info_item);
-            int finalI = i - extra_items;
-            child.setOnClickListener(v -> {
-                if (checkForUpdate != null && (checkForUpdate.getStatus() == AsyncTask.Status.PENDING || checkForUpdate.getStatus() == AsyncTask.Status.RUNNING))
-                    checkForUpdate.cancel(true);
-                Intent intent = new Intent(requireActivity(), (Class<?>) home_page.get(finalI)[0]);
-                startActivity(intent);
-            });
-        }
-
         return view;
     }
 
@@ -194,6 +183,15 @@ public class Home extends Fragment {
 
             ImageView preview = list.findViewById(R.id.list_preview);
             preview.setImageResource((int) pack.get(i)[3]);
+
+            int finalI = i;
+            list.setOnClickListener(view -> {
+                if (checkForUpdate != null && (checkForUpdate.getStatus() == AsyncTask.Status.PENDING || checkForUpdate.getStatus() == AsyncTask.Status.RUNNING))
+                    checkForUpdate.cancel(true);
+
+                Intent intent = new Intent(requireActivity(), (Class<?>) pack.get(finalI)[0]);
+                startActivity(intent);
+            });
 
             listView.addView(list);
         }

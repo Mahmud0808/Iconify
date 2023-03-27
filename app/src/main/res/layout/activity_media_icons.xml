@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_media_player"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".ui.activities.MediaPlayer">
+
+    <include layout="@layout/view_header" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/container_marginTopBottom"
+            android:layout_marginBottom="@dimen/container_marginTopBottom">
+
+            <TextView
+                android:id="@+id/no_supported_musicplayer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center"
+                android:layout_marginStart="@dimen/_48sdp"
+                android:layout_marginTop="@dimen/_60sdp"
+                android:layout_marginEnd="@dimen/_48sdp"
+                android:layout_marginBottom="@dimen/container_marginSide"
+                android:text="@string/no_supported_music_player"
+                android:textAlignment="center"
+                android:textColor="@color/textColorSecondary"
+                android:textSize="@dimen/_18sdp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/mediaplayer_icon_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" />
+
+        </FrameLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

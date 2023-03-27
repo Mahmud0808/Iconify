@@ -148,26 +148,6 @@
 
                 </LinearLayout>
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/mediaplayer_icon_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_30sdp"
-                android:layout_marginTop="@dimen/container_marginSide"
-                android:layout_marginBottom="@dimen/container_marginSide"
-                android:text="@string/section_title_media_player_icons"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="@dimen/header_title_size"
-                android:textStyle="bold"
-                android:visibility="gone" />
-
-            <LinearLayout
-                android:id="@+id/mediaplayer_icon_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" />
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

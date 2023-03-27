@@ -148,6 +148,9 @@
             android:name=".ui.activities.MediaPlayer"
             android:exported="false" />
         <activity
+            android:name=".ui.activities.MediaIcons"
+            android:exported="false" />
+        <activity
             android:name=".ui.activities.Notification"
             android:exported="false" />
         <activity
