@@ -11,7 +11,7 @@
     <string name="activity_desc_icon_pack">Personalizar ícones de sistema</string>
     <string name="activity_title_info">Acerca</string>
     <string name="activity_desc_info">Informações acerca desta app</string>
-    <string name="activity_title_media_player">Leitor de media</string>
+    <string name="activity_title_media_player">Leitor de multimédia</string>
     <string name="activity_desc_media_player">Personalizar o leitor</string>
     <string name="activity_title_notification">Notificações</string>
     <string name="activity_desc_notification">Personalizar o estilo das notificações</string>
@@ -167,6 +167,8 @@
     <string name="activity_desc_pixel_variant">Para <i>ROMs</i> com painel das DR preto</string>
     <string name="activity_title_qs_tile_size">Tamanho dos atalhos das DR</string>
     <string name="activity_desc_qs_tile_size">Personalizar altura dos atalhos</string>
+    <string name="activity_title_media_icons">Ícones do leitor multimédia</string>
+    <string name="activity_desc_media_icons">Personalizar os ícones do leitor de multimédia</string>
     <string name="apply_monet_accent_title">Acentuação Monet</string>
     <string name="apply_monet_accent_desc">Usar a cor de acentuação do sistema Monet</string>
     <string name="apply_monet_gradient_title">Gradiente Monet</string>
@@ -204,11 +206,11 @@
     <string name="iconify_slogan">Personalizar a IU Android</string>
     <string name="section_title_credits">Créditos</string>
     <string name="section_title_contributors">Contribuidores</string>
-    <string name="cont_desc_media_player">Pré-visualização do leitor de media</string>
+    <string name="cont_desc_media_player">Pré-visualização do leitor multimédia</string>
     <string name="mp_accent_background_title">Pano de fundo</string>
     <string name="mp_system_background_title">Pano de fundo do sistema</string>
     <string name="mp_pb_background_title">Pano de fundo preto</string>
-    <string name="section_title_media_player_icons">Ícones do leitor de media</string>
+    <string name="section_title_media_player_icons">Ícones do leitor de multimédia</string>
     <string name="hide_label_title">Esconder rótulos</string>
     <string name="hide_label_desc">Remover os rótulos dos atalhos</string>
     <string name="text_size_title">Tamanho do texto</string>
@@ -466,4 +468,12 @@
     <string name="settings_icons_follow_system">Seguir sistema</string>
     <string name="settings_icons_system_inverse">Inverso do sistema</string>
     <string name="settings_icons_monet_accent">"Monet / Destaque"</string>
+    <string name="no_supported_music_player">Não foi encontrado um leitor multimédia compatível</string>
+    <string name="hello_blank_fragment">Fragmento vazio de Olá</string>
+    <string name="navbar_home">Ecrã inicial</string>
+    <string name="navbar_styles">Estilos</string>
+    <string name="navbar_tweaks">\"Tweaks\"</string>
+    <string name="navbar_settings">Definições</string>
+    <string name="btn_close">Fechar</string>
+    <string name="created_by_drdisagree">Criado com ❤ por DrDisagree</string>
 </resources>

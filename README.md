@@ -45,9 +45,9 @@ What you can change using Iconify:
 ## Preview
 
 <p align="center">
-<a href="https://i.ibb.co/kxCmBVX/1.png" target=”_blank”><img src="https://i.ibb.co/kxCmBVX/1.png" alt="Preview 1" border="0" style="width: 24%; margin: 32px;"></a>
-<a href="https://i.ibb.co/q7rWVhN/2.png" target=”_blank”><img src="https://i.ibb.co/q7rWVhN/2.png" alt="Preview 2" border="0" style="width: 24%; margin: 32px;"></a>
-<a href="https://i.ibb.co/Vw9s0gR/3.png" target=”_blank”><img src="https://i.ibb.co/Vw9s0gR/3.png" alt="Preview 3" border="0" style="width: 24%; margin: 32px;"></a>
+<a href="https://i.ibb.co/sCrYk8x/Iconify-1.png" target=”_blank”><img src="https://i.ibb.co/sCrYk8x/Iconify-1.png" alt="Preview 1" border="0" style="width: 24%; margin: 32px;"></a>
+<a href="https://i.ibb.co/W3SH7dG/Iconify-2.png" target=”_blank”><img src="https://i.ibb.co/W3SH7dG/Iconify-2.png" alt="Preview 2" border="0" style="width: 24%; margin: 32px;"></a>
+<a href="https://i.ibb.co/gS4nNP5/Iconify-3.png" target=”_blank”><img src="https://i.ibb.co/gS4nNP5/Iconify-3.png" alt="Preview 3" border="0" style="width: 24%; margin: 32px;"></a>
 </p>
 
 ## Requirements
