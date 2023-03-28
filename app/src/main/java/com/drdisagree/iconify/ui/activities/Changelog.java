@@ -16,6 +16,7 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.ui.adapters.ChangelogAdapter;
 import com.drdisagree.iconify.ui.models.ChangelogModel;
+import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -39,12 +40,7 @@ public class Changelog extends AppCompatActivity {
         setContentView(R.layout.activity_changelog);
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_changelog));
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_changelog);
 
         grabChangelog = new Changelog.GrabChangelog();
         grabChangelog.execute();

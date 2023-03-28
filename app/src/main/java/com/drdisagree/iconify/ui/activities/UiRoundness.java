@@ -25,6 +25,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.overlaymanager.RoundnessManager;
+import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -47,12 +48,7 @@ public class UiRoundness extends AppCompatActivity {
         loadingDialog = new LoadingDialog(this);
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_ui_roundness));
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_ui_roundness);
 
         // Corner Radius
         GradientDrawable[] drawables = new GradientDrawable[]{(GradientDrawable) findViewById(R.id.qs_tile_preview1).getBackground(), (GradientDrawable) findViewById(R.id.qs_tile_preview2).getBackground(), (GradientDrawable) findViewById(R.id.qs_tile_preview3).getBackground(), (GradientDrawable) findViewById(R.id.qs_tile_preview4).getBackground(), (GradientDrawable) findViewById(R.id.brightness_bar_bg).getBackground(), (GradientDrawable) findViewById(R.id.brightness_bar_fg).getBackground(), (GradientDrawable) findViewById(R.id.auto_brightness).getBackground()};
