@@ -419,6 +419,7 @@
     <string name="portrait">(Portrait)</string>
     <string name="qs_tile_expanded_height">Expanded Height</string>
     <string name="landscape">(Landscape)</string>
+    <string name="toast_storage_access">Launching \"All Files Access\" page...</string>
     <string name="qs_tile_non_expanded_height">Non-Expanded Height</string>
     <string name="method_toggle_dark_mode">Double Toggle Dark Mode</string>
     <string name="method_restart_systemui">Restart SystemUI</string>
