@@ -18,6 +18,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -93,6 +94,9 @@ public class LandingPage3 extends AppCompatActivity {
                 if (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) {
                     if (!Environment.isExternalStorageManager()) {
                         showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
+                        
+                        Toast toast = Toast.makeText(LandingPage3.this, R.string.launching_storage_toast_text, Toast.LENGTH_LONG);
+                        toast.show();
 
                         new Handler().postDelayed(() -> {
                             clickedContinue.set(true);
