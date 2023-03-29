@@ -94,9 +94,7 @@ public class LandingPage3 extends AppCompatActivity {
                 if (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) {
                     if (!Environment.isExternalStorageManager()) {
                         showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
-                        
-                        Toast toast = Toast.makeText(LandingPage3.this, R.string.launching_storage_toast_text, Toast.LENGTH_LONG);
-                        toast.show();
+                        Toast.makeText(LandingPage3.this, R.string.toast_storage_access, Toast.LENGTH_SHORT).show();
 
                         new Handler().postDelayed(() -> {
                             clickedContinue.set(true);
