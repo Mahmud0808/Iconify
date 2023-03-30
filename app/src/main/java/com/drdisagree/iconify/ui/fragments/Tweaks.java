@@ -1,6 +1,8 @@
 package com.drdisagree.iconify.ui.fragments;
 
+import static com.drdisagree.iconify.common.Const.FRAGMENT_TRANSITION_DELAY;
 import static com.drdisagree.iconify.common.References.FRAGMENT_COLORENGINE;
+import static com.drdisagree.iconify.common.References.FRAGMENT_QSPANEL;
 import static com.drdisagree.iconify.common.References.FRAGMENT_STYLES;
 import static com.drdisagree.iconify.common.References.FRAGMENT_XPOSEDMENU;
 
@@ -53,6 +55,7 @@ public class Tweaks extends Fragment {
 
         tweaks_list.add(new Object[]{null, getResources().getString(R.string.activity_title_color_engine), getResources().getString(R.string.activity_desc_color_engine), R.drawable.ic_home_color});
         tweaks_list.add(new Object[]{UiRoundness.class, getResources().getString(R.string.activity_title_ui_roundness), getResources().getString(R.string.activity_desc_ui_roundness), R.drawable.ic_home_ui_roundness});
+        tweaks_list.add(new Object[]{null, getResources().getString(R.string.activity_title_qs_panel), getResources().getString(R.string.activity_desc_qs_panel), R.drawable.ic_qs_panel});
         tweaks_list.add(new Object[]{Statusbar.class, getResources().getString(R.string.activity_title_statusbar), getResources().getString(R.string.activity_desc_statusbar), R.drawable.ic_extras_statusbar});
         tweaks_list.add(new Object[]{NavigationBar.class, getResources().getString(R.string.activity_title_navigation_bar), getResources().getString(R.string.activity_desc_navigation_bar), R.drawable.ic_extras_navbar});
         tweaks_list.add(new Object[]{MediaPlayer.class, getResources().getString(R.string.activity_title_media_player), getResources().getString(R.string.activity_desc_media_player), R.drawable.ic_home_media});
@@ -82,7 +85,17 @@ public class Tweaks extends Fragment {
                 fragmentManager.popBackStack(FRAGMENT_STYLES, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 fragmentTransaction.addToBackStack(FRAGMENT_COLORENGINE);
                 fragmentTransaction.commit();
-            }, 100);
+            }, FRAGMENT_TRANSITION_DELAY);
+        });
+
+        // QS Panel fragment
+        listView.getChildAt(2).findViewById(R.id.list_info_item).setOnClickListener(view1 -> {
+            new Handler().postDelayed(() -> {
+                fragmentTransaction.replace(R.id.main_fragment, new QsPanel(), FRAGMENT_QSPANEL);
+                fragmentManager.popBackStack(FRAGMENT_STYLES, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                fragmentTransaction.addToBackStack(FRAGMENT_QSPANEL);
+                fragmentTransaction.commit();
+            }, FRAGMENT_TRANSITION_DELAY);
         });
 
         // Xposed Menu fragment
@@ -98,7 +111,7 @@ public class Tweaks extends Fragment {
                 fragmentManager.popBackStack(FRAGMENT_STYLES, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 fragmentTransaction.addToBackStack(FRAGMENT_XPOSEDMENU);
                 fragmentTransaction.commit();
-            }, 100);
+            }, FRAGMENT_TRANSITION_DELAY);
         });
 
         return view;

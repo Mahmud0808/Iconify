@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.ui.fragments;
 
+import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,7 +41,7 @@ public class ColorEngine extends Fragment {
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
         toolbar.setNavigationOnClickListener(view1 -> new Handler().postDelayed(() -> {
             getParentFragmentManager().popBackStack();
-        }, 50));
+        }, FRAGMENT_BACK_BUTTON_DELAY));
 
         // Basic colors
         LinearLayout basic_colors = view.findViewById(R.id.basic_colors);
