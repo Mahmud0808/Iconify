@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
+import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -67,15 +68,14 @@ public class ColorEngine extends Fragment {
             new Handler().postDelayed(() -> {
                 if (isChecked) {
                     apply_pitch_black_theme.setChecked(false);
-                    OverlayUtil.disableOverlay("IconifyComponentQSPB.overlay");
 
                     apply_minimal_qspanel.postDelayed(() -> {
                         OverlayUtil.enableOverlay("IconifyComponentQSST.overlay");
-                    }, 200);
+                    }, SWITCH_ANIMATION_DELAY);
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentQSST.overlay");
                 }
-            }, 200);
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         // Pitch Black QsPanel
@@ -85,15 +85,14 @@ public class ColorEngine extends Fragment {
             new Handler().postDelayed(() -> {
                 if (isChecked) {
                     apply_minimal_qspanel.setChecked(false);
-                    OverlayUtil.disableOverlay("IconifyComponentQSST.overlay");
 
                     apply_pitch_black_theme.postDelayed(() -> {
                         OverlayUtil.enableOverlay("IconifyComponentQSPB.overlay");
-                    }, 200);
+                    }, SWITCH_ANIMATION_DELAY);
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentQSPB.overlay");
                 }
-            }, 200);
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         return view;

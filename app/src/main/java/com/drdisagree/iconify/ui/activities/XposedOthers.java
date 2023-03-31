@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
+import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SIDEMARGIN;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_TOPMARGIN;
@@ -44,7 +45,7 @@ public class XposedOthers extends AppCompatActivity {
         hide_qs_carrier_group.setChecked(RPrefs.getBoolean(QSPANEL_HIDE_CARRIER, false));
         hide_qs_carrier_group.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(QSPANEL_HIDE_CARRIER, isChecked);
-            new Handler().postDelayed(HelperUtil::forceApply, 200);
+            new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
         });
 
         // Hide status icons
@@ -52,7 +53,7 @@ public class XposedOthers extends AppCompatActivity {
         hide_status_icons.setChecked(RPrefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false));
         hide_status_icons.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_STATUS_ICONS_SWITCH, isChecked);
-            new Handler().postDelayed(HelperUtil::forceApply, 200);
+            new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
         });
 
         // Hide lockscreen statusbar
@@ -60,7 +61,7 @@ public class XposedOthers extends AppCompatActivity {
         hide_lockscreen_statusbar.setChecked(RPrefs.getBoolean(HIDE_LOCKSCREEN_STATUSBAR, false));
         hide_lockscreen_statusbar.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_LOCKSCREEN_STATUSBAR, isChecked);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 
         // Fixed status icons
@@ -72,7 +73,7 @@ public class XposedOthers extends AppCompatActivity {
             else if (RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0) > 32)
                 FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (48 + RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0)) + "dp");
 
-            new Handler().postDelayed(HelperUtil::forceApply, 200);
+            new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
         });
 
         // Status icons top margin
@@ -98,7 +99,7 @@ public class XposedOthers extends AppCompatActivity {
                 RPrefs.putInt(FIXED_STATUS_ICONS_TOPMARGIN, topMarginStatusIcons[0]);
                 if (RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)) {
                     FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (48 + topMarginStatusIcons[0]) + "dp");
-                    new Handler().postDelayed(HelperUtil::forceApply, 200);
+                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
                 }
             }
         });
@@ -125,7 +126,7 @@ public class XposedOthers extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(FIXED_STATUS_ICONS_SIDEMARGIN, sideMarginStatusIcons[0]);
                 if (RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)) {
-                    new Handler().postDelayed(HelperUtil::forceApply, 200);
+                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
                 }
             }
         });

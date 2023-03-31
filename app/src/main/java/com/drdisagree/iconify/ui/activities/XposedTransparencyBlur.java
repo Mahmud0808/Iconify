@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.activities;
 
+import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.QSALPHA_LEVEL;
 import static com.drdisagree.iconify.common.Preferences.QSPANEL_BLUR_SWITCH;
@@ -43,7 +44,7 @@ public class XposedTransparencyBlur extends AppCompatActivity {
         enable_qs_transparency.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(QSTRANSPARENCY_SWITCH, isChecked);
             // Restart SystemUI
-            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 
         SeekBar transparency_seekbar = findViewById(R.id.transparency_seekbar);
@@ -104,7 +105,7 @@ public class XposedTransparencyBlur extends AppCompatActivity {
                 Prefs.putInt(FABRICATED_QSPANEL_BLUR_RADIUS, blur_radius[0]);
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_QSPANEL_BLUR_RADIUS, "dimen", "max_window_blur_radius", blur_radius[0] + "px");
                 // Restart SystemUI
-                new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+                new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
             }
         });
     }

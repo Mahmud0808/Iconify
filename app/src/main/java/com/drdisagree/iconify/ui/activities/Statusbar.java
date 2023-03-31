@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.activities;
 
+import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.References.FABRICATED_SB_COLOR_SOURCE;
 import static com.drdisagree.iconify.common.References.FABRICATED_SB_COLOR_TINT;
@@ -127,7 +128,7 @@ public class Statusbar extends AppCompatActivity implements ColorPickerDialogLis
                 if (!Objects.equals(selectedStyle, "Monet")) {
                     OverlayUtil.enableOverlay("IconifyComponentSBTint.overlay");
                     Prefs.putString(FABRICATED_SB_COLOR_SOURCE, "Monet");
-                    new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+                    new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
                 }
             } else if (Objects.equals(checkedId, R.id.sb_tint_custom)) {
                 colorPickerSBTint = ColorPickerDialog.newBuilder();

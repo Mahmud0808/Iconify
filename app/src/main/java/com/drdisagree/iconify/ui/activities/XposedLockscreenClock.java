@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.activities;
 
+import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_BOTTOMMARGIN;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_LINEHEIGHT;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_SWITCH;
@@ -98,7 +99,7 @@ public class XposedLockscreenClock extends AppCompatActivity {
         enable_locksreen_clock.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(LSCLOCK_SWITCH, isChecked);
             if (!isChecked) RPrefs.putInt(LSCLOCK_STYLE, 0);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 
         // Lockscreen clock style
@@ -129,14 +130,14 @@ public class XposedLockscreenClock extends AppCompatActivity {
         enable_lsclock_font = findViewById(R.id.enable_lsclock_font);
         enable_lsclock_font.setOnClickListener(v -> {
             RPrefs.putBoolean(LSCLOCK_FONT_SWITCH, true);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
             enable_lsclock_font.setVisibility(View.GONE);
             disable_lsclock_font.setVisibility(View.VISIBLE);
         });
 
         disable_lsclock_font.setOnClickListener(v -> {
             RPrefs.putBoolean(LSCLOCK_FONT_SWITCH, false);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
             disable_lsclock_font.setVisibility(View.GONE);
         });
 
