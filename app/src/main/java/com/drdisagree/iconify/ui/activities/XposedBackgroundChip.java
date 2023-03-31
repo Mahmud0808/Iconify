@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.activities;
 
+import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.CHIP_QSSTATUSICONS_STYLE;
 import static com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCKBG_STYLE;
 import static com.drdisagree.iconify.common.Preferences.QSPANEL_STATUSICONSBG_SWITCH;
@@ -69,7 +70,7 @@ public class XposedBackgroundChip extends AppCompatActivity {
             new Handler().postDelayed(() -> {
                 OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
                 HelperUtil.forceApply();
-            }, 200);
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         // Status icons chip style

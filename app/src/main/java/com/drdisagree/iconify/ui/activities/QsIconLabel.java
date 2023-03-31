@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.activities;
 
+import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.STR_NULL;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_ICON_SIZE;
@@ -160,7 +161,7 @@ public class QsIconLabel extends AppCompatActivity {
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
                 }
-            }, 200);
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         label_whiteV2.setChecked(Prefs.getBoolean("IconifyComponentQST2.overlay"));
@@ -181,7 +182,7 @@ public class QsIconLabel extends AppCompatActivity {
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
                 }
-            }, 200);
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         label_systemInverse.setChecked(Prefs.getBoolean("IconifyComponentQST3.overlay"));
@@ -202,7 +203,7 @@ public class QsIconLabel extends AppCompatActivity {
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
                 }
-            }, 200);
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         label_systemInverseV2.setChecked(Prefs.getBoolean("IconifyComponentQST4.overlay"));
@@ -223,7 +224,7 @@ public class QsIconLabel extends AppCompatActivity {
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
                 }
-            }, 200);
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         label_fixtextcolor.setChecked(Prefs.getBoolean("IconifyComponentQST5.overlay"));
@@ -245,7 +246,7 @@ public class QsIconLabel extends AppCompatActivity {
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
                 }
-            }, 200);
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         // Hide Label

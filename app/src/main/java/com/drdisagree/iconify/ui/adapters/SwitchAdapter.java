@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.adapters;
 
 import static com.drdisagree.iconify.common.Const.SETTINGS_PACKAGE;
+import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.SELECTED_SWITCH;
 
 import android.annotation.SuppressLint;
@@ -184,7 +185,7 @@ public class SwitchAdapter extends RecyclerView.Adapter<SwitchAdapter.ViewHolder
                         Thread thread = new Thread(runnable);
                         thread.start();
                     }
-                }, 200);
+                }, SWITCH_ANIMATION_DELAY);
             }
         });
     }
