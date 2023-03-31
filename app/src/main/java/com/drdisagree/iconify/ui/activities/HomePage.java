@@ -24,8 +24,8 @@ import com.airbnb.lottie.LottieCompositionFactory;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityHomePageBinding;
-import com.drdisagree.iconify.ui.fragments.Styles;
 import com.drdisagree.iconify.ui.fragments.Settings;
+import com.drdisagree.iconify.ui.fragments.Styles;
 import com.drdisagree.iconify.ui.fragments.Tweaks;
 import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.utils.FabricatedUtil;
@@ -134,6 +134,15 @@ public class HomePage extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (Objects.equals(FragmentHelper.getTopFragment(getSupportFragmentManager()), FRAGMENT_STYLES)) {
+            HomePage.this.finish();
+            System.exit(0);
+        }
+        super.onBackPressed();
     }
 
     @Override
