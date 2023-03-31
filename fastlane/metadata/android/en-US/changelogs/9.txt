@@ -1,3 +1,6 @@
+Iconify v6.1.1 has arrived! It has the following new changes:
+
+Feature Changes:
 • Internal:
 >> Added support for KernelSU
 >> Added support for Motorola stock rom
