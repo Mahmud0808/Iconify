@@ -48,7 +48,7 @@ public class SystemUtil {
     }
 
     public static void disableBlur() {
-        Shell.cmd("mv " + Resources.MODULE_DIR + "/common/system.prop " + Resources.MODULE_DIR + "/common/system.txt; grep -v \"ro.surface_flinger.supports_background_blur\" " + Resources.MODULE_DIR + "/common/system.txt > " + Resources.MODULE_DIR + "/common/system.txt.tmp && mv " + Resources.MODULE_DIR + "/common/system.txt.tmp " + Resources.MODULE_DIR + "/common/system.prop; rm -rf " + Resources.MODULE_DIR + "/common/system.txt; rm -rf " + Resources.MODULE_DIR + "/common/system.txt.tmp").submit();
+        Shell.cmd("mv " + Resources.MODULE_DIR + "/common/system.prop " + Resources.MODULE_DIR + "/common/system.txt; grep -v \"ro.surface_flinger.supports_background_blur\" " + Resources.MODULE_DIR + "/common/system.txt > " + Resources.MODULE_DIR + "/common/system.txt.tmp; rm -rf " + Resources.MODULE_DIR + "/common/system.prop; mv " + Resources.MODULE_DIR + "/common/system.txt.tmp " + Resources.MODULE_DIR + "/common/system.prop; rm -rf " + Resources.MODULE_DIR + "/common/system.txt; rm -rf " + Resources.MODULE_DIR + "/common/system.txt.tmp").submit();
         Shell.cmd("grep -v \"ro.surface_flinger.supports_background_blur\" " + Resources.MODULE_DIR + "/service.sh > " + Resources.MODULE_DIR + "/service.sh.tmp && mv " + Resources.MODULE_DIR + "/service.sh.tmp " + Resources.MODULE_DIR + "/service.sh").submit();
     }
 
