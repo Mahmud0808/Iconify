@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ColorPicker" parent="Theme.MaterialComponents.Light.Dialog">
+    <style name="ColorPicker" parent="Theme.Material3.Light.Dialog">
         <item name="android:colorAccent">@color/colorAccent</item>
         <item name="android:windowTitleStyle">@style/LightPickerDialogTitleStyle</item>
-        <item name="android:dialogCornerRadius">24dp</item>
-        <item name="android:buttonCornerRadius">24dp</item>
+        <item name="android:dialogCornerRadius">@dimen/cont_corner_radius</item>
+        <item name="android:buttonCornerRadius">@dimen/cont_corner_radius</item>
         <item name="android:background">@drawable/container</item>
         <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
         <item name="android:fontFamily">@font/normal</item>
         <item name="android:tint">@color/colorAccent</item>
-        <item name="android:radius">24dp</item>
+        <item name="android:radius">@dimen/cont_corner_radius</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorButtonNormal">@color/colorAccent</item>
         <item name="colorPrimary">@color/colorAccent</item>
@@ -29,13 +29,13 @@
         <item name="android:textColor">@color/textColorPrimary</item>
     </style>
 
-    <style name="SeekBar.Iconify" parent="Widget.AppCompat.SeekBar">
-        <item name="android:progressBackgroundTint">@color/colorBackground</item>
-        <item name="android:progressTint">@color/colorAccent</item>
-        <item name="android:thumbTint">@color/colorAccent</item>
+    <style name="SeekBar.Iconify" parent="Widget.Material3.Slider">
+        <item name="android:progressBackgroundTint">@null</item>
+        <item name="android:progressTint">@null</item>
+        <item name="android:thumbTint">@null</item>
     </style>
 
-    <style name="MenuLightTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="MenuLightTheme" parent="Theme.Material3.Light.NoActionBar">
         <item name="android:background">@color/colorContainer</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
@@ -54,7 +54,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">2dp</item>
         <item name="android:background">@drawable/divider_accent</item>
-        <item name="android:layout_marginTop">@dimen/container_paddingSide</item>
+        <item name="android:layout_marginTop">@dimen/_10sdp</item>
         <item name="android:layout_marginBottom">@dimen/container_paddingSide</item>
     </style>
 
@@ -64,9 +64,9 @@
         <item name="android:background">@color/transparent</item>
     </style>
 
-    <style name="customSwitch">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+    <style name="customSwitch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="android:layout_width">@dimen/_40sdp</item>
+        <item name="android:layout_height">@dimen/_22sdp</item>
         <item name="android:layout_gravity">start|center</item>
         <item name="android:thumb">@drawable/switch_thumb</item>
         <item name="android:track">@drawable/switch_track</item>
@@ -90,12 +90,113 @@
     <style name="customRadioButtonColored">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:paddingTop">@dimen/_8sdp</item>
+        <item name="android:paddingBottom">@dimen/_10sdp</item>
         <item name="android:paddingStart">@dimen/container_paddingSide</item>
         <item name="android:paddingEnd">@dimen/container_paddingSide</item>
-        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginTop">@dimen/_4sdp</item>
+        <item name="android:layout_marginBottom">@dimen/_4sdp</item>
         <item name="android:button">@null</item>
         <item name="android:background">@drawable/radio_sb_button_bg</item>
         <item name="android:textColor">@drawable/radio_sb_text_color</item>
         <item name="android:textSize">@dimen/cont_desc_size</item>
+    </style>
+
+    <style name="buttonLandingPage">
+        <item name="fontFamily">@font/regular</item>
+        <item name="android:background">@drawable/button</item>
+        <item name="android:textColor">@color/textColorPrimaryInverse</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingStart">@dimen/_28sdp</item>
+        <item name="android:paddingTop">@dimen/_6sdp</item>
+        <item name="android:paddingEnd">@dimen/_28sdp</item>
+        <item name="android:paddingBottom">@dimen/_6sdp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="backgroundTint">@null</item>
+    </style>
+
+    <style name="buttonMain">
+        <item name="fontFamily">@font/normal</item>
+        <item name="android:background">@drawable/button</item>
+        <item name="android:letterSpacing">0.18</item>
+        <item name="android:textColor">@color/textColorPrimaryInverse</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">@dimen/_12sdp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingStart">@dimen/_28sdp</item>
+        <item name="android:paddingTop">@dimen/_6sdp</item>
+        <item name="android:paddingEnd">@dimen/_28sdp</item>
+        <item name="android:paddingBottom">@dimen/_9sdp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="backgroundTint">@null</item>
+    </style>
+
+    <style name="Toolbar.TitleText" parent="TextAppearance.Material3.ActionBar.Title">
+        <item name="fontFamily">@font/header</item>
+        <item name="android:textSize">@dimen/_24sdp</item>
+        <item name="android:letterSpacing">0.1</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Toolbar.TitleText.Collapsed" parent="TextAppearance.Material3.ActionBar.Title">
+        <item name="fontFamily">@font/header</item>
+        <item name="android:textSize">@dimen/_15sdp</item>
+        <item name="android:letterSpacing">0.1</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Toolbar.TitleText.Expanded" parent="TextAppearance.Material3.ActionBar.Title">
+        <item name="fontFamily">@font/header</item>
+        <item name="android:textSize">@dimen/_24sdp</item>
+        <item name="android:letterSpacing">0.1</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="actionButtonOverflow" parent="Widget.Material3.PopupMenu.Overflow">
+        <item name="android:src">@drawable/ic_menu</item>
+        <item name="tint">@color/textColorPrimary</item>
+    </style>
+
+    <style name="toolbarStyle" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="homeAsUpIndicator">@drawable/ic_home_as_up_indicator</item>
+        <item name="android:actionOverflowButtonStyle">@style/actionButtonOverflow</item>
+        <item name="colorControlHighlight">@color/rippleAccent</item>
+    </style>
+
+    <style name="BottomNavigationView" parent="Base.Widget.Material3.BottomNavigationView">
+        <item name="android:theme">@style/Theme.Iconify</item>
+        <item name="android:background">@drawable/bottom_navbar_bg</item>
+        <item name="itemRippleColor">@color/rippleAccent</item>
+        <item name="itemIconTint">@color/textColorPrimary</item>
+        <item name="itemActiveIndicatorStyle">
+            @style/BottomNavigationView.ActiveIndicator
+        </item>
+        <item name="android:height">@dimen/_60sdp</item>
+        <item name="android:minHeight">@dimen/_60sdp</item>
+        <item name="itemIconSize">@dimen/_16sdp</item>
+        <item name="android:textSize">@dimen/cont_desc_size</item>
+        <item name="itemPaddingTop">@dimen/_8sdp</item>
+        <item name="itemPaddingBottom">@dimen/_12sdp</item>
+        <item name="itemTextAppearanceInactive">@style/TextAppearanceLabelMedium</item>
+        <item name="itemTextAppearanceActive">@style/TextAppearanceLabelMedium</item>
+    </style>
+
+    <style name="BottomNavigationView.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/navbarSelectedBackground</item>
+        <item name="marginHorizontal">@dimen/_4sdp</item>
+        <item name="android:width">@dimen/_52sdp</item>
+        <item name="android:height">@dimen/_26sdp</item>
+    </style>
+
+    <style name="TextAppearanceLabelMedium" parent="@style/TextAppearance.Material3.LabelMedium">
+        <item name="android:fontFamily">@font/normal</item>
+        <item name="android:textSize">@dimen/cont_desc_size</item>
+        <item name="android:lineHeight">@dimen/_14sdp</item>
     </style>
 </resources>

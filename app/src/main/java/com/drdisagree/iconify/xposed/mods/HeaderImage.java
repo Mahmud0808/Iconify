@@ -1,10 +1,10 @@
 package com.drdisagree.iconify.xposed.mods;
 
-import static com.drdisagree.iconify.common.References.HEADER_IMAGE_ALPHA;
-import static com.drdisagree.iconify.common.References.HEADER_IMAGE_HEIGHT;
-import static com.drdisagree.iconify.common.References.HEADER_IMAGE_SWITCH;
-import static com.drdisagree.iconify.common.References.HEADER_IMAGE_ZOOMTOFIT;
-import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ALPHA;
+import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_HEIGHT;
+import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ZOOMTOFIT;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
 

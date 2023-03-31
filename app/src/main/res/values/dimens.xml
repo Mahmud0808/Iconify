@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="container_margin">12dp</dimen>
-    <dimen name="container_marginSide">16dp</dimen>
-    <dimen name="container_padding">20dp</dimen>
-    <dimen name="container_paddingSide">24dp</dimen>
-    <dimen name="cont_title_size">18sp</dimen>
-    <dimen name="cont_desc_size">15sp</dimen>
-    <dimen name="preview_margin">3dp</dimen>
-    <dimen name="preview_icon_size">20dp</dimen>
+    <dimen name="container_margin">@dimen/_10sdp</dimen>
+    <dimen name="container_marginSide">@dimen/_12sdp</dimen>
+    <dimen name="container_marginTopBottom">@dimen/_16sdp</dimen>
+    <dimen name="container_padding">@dimen/_16sdp</dimen>
+    <dimen name="container_paddingSide">@dimen/_18sdp</dimen>
+    <dimen name="cont_title_size">@dimen/_12sdp</dimen>
+    <dimen name="cont_desc_size">@dimen/_10sdp</dimen>
+    <dimen name="preview_margin">@dimen/_2sdp</dimen>
+    <dimen name="preview_icon_size">@dimen/_14sdp</dimen>
     <dimen name="cont_corner_radius">24dp</dimen>
-    <dimen name="reset_button_size">17dp</dimen>
+    <dimen name="cont_corner_radius2">23dp</dimen>
+    <dimen name="reset_button_size">@dimen/_14sdp</dimen>
+    <dimen name="header_title_size">@dimen/_14sdp</dimen>
 </resources>

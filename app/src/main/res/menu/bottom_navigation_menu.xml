@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navbar_styles"
+        android:enabled="true"
+        android:icon="@drawable/ic_navbar_styles"
+        android:title="@string/navbar_styles" />
+    <item
+        android:id="@+id/navbar_tweaks"
+        android:enabled="true"
+        android:icon="@drawable/ic_navbar_tweaks"
+        android:title="@string/navbar_tweaks" />
+    <item
+        android:id="@+id/navbar_settings"
+        android:enabled="true"
+        android:icon="@drawable/ic_navbar_settings"
+        android:title="@string/navbar_settings" />
+</menu>

@@ -1,14 +1,14 @@
 package com.drdisagree.iconify.xposed.mods;
 
-import static com.drdisagree.iconify.common.References.CHIP_QSSTATUSICONS_STYLE;
-import static com.drdisagree.iconify.common.References.CHIP_STATUSBAR_CLOCKBG_STYLE;
-import static com.drdisagree.iconify.common.References.FIXED_STATUS_ICONS_SWITCH;
-import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
-import static com.drdisagree.iconify.common.References.HIDE_STATUS_ICONS_SWITCH;
-import static com.drdisagree.iconify.common.References.QSPANEL_STATUSICONSBG_SWITCH;
-import static com.drdisagree.iconify.common.References.STATUSBAR_CLOCKBG_SWITCH;
-import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
-import static com.drdisagree.iconify.common.References.UI_CORNER_RADIUS;
+import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.CHIP_QSSTATUSICONS_STYLE;
+import static com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCKBG_STYLE;
+import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.HIDE_STATUS_ICONS_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.QSPANEL_STATUSICONSBG_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.STATUSBAR_CLOCKBG_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.UI_CORNER_RADIUS;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
@@ -30,7 +30,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.drdisagree.iconify.xposed.ModPack;
 
@@ -135,7 +134,11 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                         try {
                             mCenterClockView = (View) getObjectField(param.thisObject, "mCenterClock");
                         } catch (Throwable thr) {
-                            mCenterClockView = null;
+                            try {
+                                mCenterClockView = ((LinearLayout) getObjectField(param.thisObject, "mCenterClockLayout")).getChildAt(0);
+                            } catch (Throwable thrw) {
+                                mCenterClockView = null;
+                            }
                         }
                     }
                 }
@@ -270,19 +273,46 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
 
     private void updateStatusBarClock() {
         if (mShowSBClockBg) {
+            int clockPaddingStartEnd = (int) (8 * mContext.getResources().getDisplayMetrics().density);
+            int clockPaddingTopBottom = (int) (2 * mContext.getResources().getDisplayMetrics().density);
+
             if (mClockView != null) {
-                mClockView.setPadding(12, 2, 12, 2);
+                mClockView.setPadding(clockPaddingStartEnd, clockPaddingTopBottom, clockPaddingStartEnd, clockPaddingTopBottom);
                 setStatusBarBackgroundChip(mClockView);
+
+                try {
+                    ((LinearLayout.LayoutParams) mClockView.getLayoutParams()).gravity = Gravity.START | Gravity.CENTER;
+                } catch (Throwable t) {
+                    ((FrameLayout.LayoutParams) mClockView.getLayoutParams()).gravity = Gravity.START | Gravity.CENTER;
+                }
+                mClockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                mClockView.setForegroundGravity(Gravity.CENTER);
             }
 
             if (mCenterClockView != null) {
-                mCenterClockView.setPadding(12, 2, 12, 2);
+                mCenterClockView.setPadding(clockPaddingStartEnd, clockPaddingTopBottom, clockPaddingStartEnd, clockPaddingTopBottom);
                 setStatusBarBackgroundChip(mCenterClockView);
+
+                try {
+                    ((LinearLayout.LayoutParams) mCenterClockView.getLayoutParams()).gravity = Gravity.CENTER;
+                } catch (Throwable t) {
+                    ((FrameLayout.LayoutParams) mCenterClockView.getLayoutParams()).gravity = Gravity.CENTER;
+                }
+                mCenterClockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                mCenterClockView.setForegroundGravity(Gravity.CENTER);
             }
 
             if (mRightClockView != null) {
-                mRightClockView.setPadding(12, 2, 12, 2);
+                mRightClockView.setPadding(clockPaddingStartEnd, clockPaddingTopBottom, clockPaddingStartEnd, clockPaddingTopBottom);
                 setStatusBarBackgroundChip(mRightClockView);
+
+                try {
+                    ((LinearLayout.LayoutParams) mRightClockView.getLayoutParams()).gravity = Gravity.END | Gravity.CENTER;
+                } catch (Throwable t) {
+                    ((FrameLayout.LayoutParams) mRightClockView.getLayoutParams()).gravity = Gravity.END | Gravity.CENTER;
+                }
+                mRightClockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                mRightClockView.setForegroundGravity(Gravity.CENTER);
             }
         } else {
             @SuppressLint("DiscouragedApi") int clockPaddingStart = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_clock_starting_padding", "dimen", mContext.getPackageName()));
@@ -312,20 +342,15 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "status_bar", new XC_LayoutInflated() {
             @Override
             public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
-                if (!mShowSBClockBg) return;
-
                 try {
-                    @SuppressLint("DiscouragedApi") TextView clock = liparam.view.findViewById(liparam.res.getIdentifier("clock", "id", SYSTEMUI_PACKAGE));
-                    ((LinearLayout.LayoutParams) clock.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.START;
-                    clock.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, mContext.getResources().getDisplayMetrics());
-                    clock.setGravity(Gravity.CENTER_VERTICAL);
-                    clock.requestLayout();
+                    @SuppressLint("DiscouragedApi") FrameLayout status_bar_start_side_content = liparam.view.findViewById(liparam.res.getIdentifier("status_bar_start_side_content", "id", SYSTEMUI_PACKAGE));
+                    status_bar_start_side_content.getLayoutParams().height = FrameLayout.LayoutParams.MATCH_PARENT;
+                    status_bar_start_side_content.requestLayout();
 
-                    @SuppressLint("DiscouragedApi") TextView clock_center = liparam.view.findViewById(liparam.res.getIdentifier("clock_center", "id", SYSTEMUI_PACKAGE));
-                    ((LinearLayout.LayoutParams) clock_center.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.START;
-                    clock_center.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, mContext.getResources().getDisplayMetrics());
-                    clock_center.setGravity(Gravity.CENTER_VERTICAL);
-                    clock_center.requestLayout();
+                    @SuppressLint("DiscouragedApi") LinearLayout status_bar_start_side_except_heads_up = liparam.view.findViewById(liparam.res.getIdentifier("status_bar_start_side_except_heads_up", "id", SYSTEMUI_PACKAGE));
+                    ((FrameLayout.LayoutParams) status_bar_start_side_except_heads_up.getLayoutParams()).gravity = Gravity.START | Gravity.CENTER;
+                    status_bar_start_side_except_heads_up.setGravity(Gravity.START | Gravity.CENTER);
+                    status_bar_start_side_except_heads_up.requestLayout();
                 } catch (Throwable ignored) {
                 }
             }

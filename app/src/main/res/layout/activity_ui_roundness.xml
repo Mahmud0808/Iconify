@@ -5,21 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.activity.UiRoundness">
+    tools:context=".ui.activities.UiRoundness">
 
     <include layout="@layout/view_header" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         android:orientation="vertical"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginTop="@dimen/container_marginTopBottom"
+            android:layout_marginBottom="@dimen/container_marginTopBottom"
             android:orientation="vertical">
 
             <LinearLayout
@@ -95,7 +96,7 @@
                         android:contentDescription="@null"
                         android:padding="12.0dp"
                         android:src="@drawable/ic_brightness_off"
-                        app:tint="@color/white" />
+                        app:tint="@color/textColorPrimaryInverse" />
 
                 </LinearLayout>
 
@@ -138,7 +139,7 @@
                                 android:layout_marginEnd="10dp"
                                 android:contentDescription="@string/icon"
                                 android:src="@drawable/ic_qs_internet"
-                                app:tint="@color/white" />
+                                app:tint="@color/textColorPrimaryInverse" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -152,17 +153,18 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn1_title"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/textColorPrimaryInverse"
                                     android:textStyle="bold" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="-6dp"
+                                    android:layout_marginTop="-3dp"
+                                    android:layout_marginBottom="3dp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn1_desc"
-                                    android:textColor="#BFFFFFFF" />
+                                    android:textColor="@color/textColorSecondaryInverse" />
 
                             </LinearLayout>
                         </LinearLayout>
@@ -189,7 +191,7 @@
                                 android:layout_marginEnd="10dp"
                                 android:contentDescription="@string/icon"
                                 android:src="@drawable/ic_qs_airplane"
-                                app:tint="@color/textColorPrimaryNoTint" />
+                                app:tint="@color/textColorPrimary" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -203,17 +205,18 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn2_title"
-                                    android:textColor="@color/textColorPrimaryNoTint"
+                                    android:textColor="@color/textColorPrimary"
                                     android:textStyle="bold" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="-6dp"
+                                    android:layout_marginTop="-3dp"
+                                    android:layout_marginBottom="3dp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn2_desc"
-                                    android:textColor="@color/textColorSecondaryNoTint" />
+                                    android:textColor="@color/textColorSecondary" />
 
                             </LinearLayout>
 
@@ -250,7 +253,7 @@
                                 android:layout_marginEnd="10dp"
                                 android:contentDescription="@string/icon"
                                 android:src="@drawable/ic_qs_location"
-                                app:tint="@color/textColorPrimaryNoTint" />
+                                app:tint="@color/textColorPrimary" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -264,17 +267,18 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn3_title"
-                                    android:textColor="@color/textColorPrimaryNoTint"
+                                    android:textColor="@color/textColorPrimary"
                                     android:textStyle="bold" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="-6dp"
+                                    android:layout_marginTop="-3dp"
+                                    android:layout_marginBottom="3dp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn3_desc"
-                                    android:textColor="@color/textColorSecondaryNoTint" />
+                                    android:textColor="@color/textColorSecondary" />
 
                             </LinearLayout>
 
@@ -301,7 +305,7 @@
                                 android:layout_marginEnd="10dp"
                                 android:contentDescription="@string/icon"
                                 android:src="@drawable/ic_qs_bluetooth"
-                                app:tint="@color/white" />
+                                app:tint="@color/textColorPrimaryInverse" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -315,17 +319,18 @@
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn4_title"
-                                    android:textColor="@color/white"
+                                    android:textColor="@color/textColorPrimaryInverse"
                                     android:textStyle="bold" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="-6dp"
+                                    android:layout_marginTop="-3dp"
+                                    android:layout_marginBottom="3dp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn4_desc"
-                                    android:textColor="#BFFFFFFF" />
+                                    android:textColor="@color/textColorSecondaryInverse" />
 
                             </LinearLayout>
                         </LinearLayout>
@@ -335,24 +340,17 @@
                 <SeekBar
                     android:id="@+id/corner_radius_seekbar"
                     style="@style/customSeekBar"
-                    android:max="36"
-                    android:min="0"
-                    android:progress="16" />
+                    android:max="44"
+                    android:min="14"
+                    android:progress="28" />
 
                 <Button
                     android:id="@+id/apply_radius"
+                    style="@style/buttonMain"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/container_padding"
-                    android:background="@drawable/button"
-                    android:fontFamily="@font/semibold"
-                    android:letterSpacing="0.2"
-                    android:stateListAnimator="@null"
-                    android:text="@string/btn_apply"
-                    android:textColor="@color/colorBackground"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold"
-                    app:backgroundTint="@null" />
+                    android:text="@string/btn_apply" />
 
             </LinearLayout>
 

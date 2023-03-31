@@ -5,25 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.activity.NotificationsPixel">
+    tools:context=".ui.activities.NotificationPixel">
 
     <include layout="@layout/view_header" />
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/notifications_pixel_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/container_marginSide"
+        android:layout_marginEnd="@dimen/container_marginSide"
+        android:clipToPadding="false"
         android:orientation="vertical"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        android:paddingTop="@dimen/container_marginTopBottom"
+        android:paddingBottom="@dimen/container_marginTopBottom"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <LinearLayout
-            android:id="@+id/notification_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/container_marginSide"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="@dimen/container_marginSide"
-            android:layout_marginBottom="24dp"
-            android:orientation="vertical" />
-
-    </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

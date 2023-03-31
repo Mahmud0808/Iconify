@@ -3,7 +3,7 @@
 <p align="center">
   <a href="https://github.com/Mahmud0808/Iconify/actions"><img src="https://img.shields.io/github/actions/workflow/status/Mahmud0808/Iconify/build_debug.yml?branch=beta&label=Debug%20Build&style=for-the-badge" alt="Debug Build"></a>
   <a href="https://github.com/Mahmud0808/Iconify"><img alt="Repo Size" src="https://img.shields.io/github/repo-size/Mahmud0808/Iconify?style=for-the-badge"></a>
-  <a href="https://telegram.me/IconifyOfficial"><img src="https://img.shields.io/badge/Telegram-3K+-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram"></a>
+  <a href="https://telegram.me/IconifyOfficial"><img src="https://img.shields.io/badge/Telegram-4K+-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram"></a>
   <a href="https://github.com/Mahmud0808/Iconify/releases"><img src="https://img.shields.io/github/downloads/Mahmud0808/Iconify/total?color=%233DDC84&logo=android&logoColor=%23fff&style=for-the-badge" alt="Downloads"></a>
 <br><br>
 <img src="https://github.com/Mahmud0808/Iconify/raw/stable/banner.png" width="100%" alt="Banner">
@@ -45,9 +45,9 @@ What you can change using Iconify:
 ## Preview
 
 <p align="center">
-<a href="https://i.ibb.co/kxCmBVX/1.png" target=”_blank”><img src="https://i.ibb.co/kxCmBVX/1.png" alt="Preview 1" border="0" style="width: 24%; margin: 32px;"></a>
-<a href="https://i.ibb.co/q7rWVhN/2.png" target=”_blank”><img src="https://i.ibb.co/q7rWVhN/2.png" alt="Preview 2" border="0" style="width: 24%; margin: 32px;"></a>
-<a href="https://i.ibb.co/Vw9s0gR/3.png" target=”_blank”><img src="https://i.ibb.co/Vw9s0gR/3.png" alt="Preview 3" border="0" style="width: 24%; margin: 32px;"></a>
+<a href="https://i.ibb.co/sCrYk8x/Iconify-1.png" target=”_blank”><img src="https://i.ibb.co/sCrYk8x/Iconify-1.png" alt="Preview 1" border="0" style="width: 24%; margin: 32px;"></a>
+<a href="https://i.ibb.co/W3SH7dG/Iconify-2.png" target=”_blank”><img src="https://i.ibb.co/W3SH7dG/Iconify-2.png" alt="Preview 2" border="0" style="width: 24%; margin: 32px;"></a>
+<a href="https://i.ibb.co/gS4nNP5/Iconify-3.png" target=”_blank”><img src="https://i.ibb.co/gS4nNP5/Iconify-3.png" alt="Preview 3" border="0" style="width: 24%; margin: 32px;"></a>
 </p>
 
 ## Requirements

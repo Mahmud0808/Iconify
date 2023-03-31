@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list_item"
+    android:id="@+id/list_item_changelog"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/container_marginSide"
-    android:layout_marginEnd="@dimen/container_marginSide"
     android:layout_marginBottom="@dimen/container_margin"
     android:background="@drawable/container"
     android:orientation="vertical"
@@ -22,20 +19,20 @@
         tools:ignore="UseCompoundDrawables">
 
         <ImageView
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/container_paddingSide"
             android:background="@drawable/ic_changelog"
+            android:backgroundTint="@color/textColorPrimary"
             android:contentDescription="@string/icon"
-            android:gravity="start|center"
-            app:tint="@color/textColorPrimary" />
+            android:gravity="start|center" />
 
         <TextView
             android:id="@+id/changelog_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-2dp"
-            android:layout_marginBottom="-2dp"
+            android:layout_marginTop="@dimen/_minus2sdp"
+            android:layout_marginBottom="@dimen/_minus1sdp"
             android:gravity="start|center"
             android:textColor="@color/textColorPrimary"
             android:textIsSelectable="true"
@@ -48,11 +45,10 @@
         android:id="@+id/changelog_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="-2dp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_minus2sdp"
         android:textColor="@color/textColorSecondary"
         android:textIsSelectable="true"
-        android:textSize="@dimen/cont_desc_size"
-        android:visibility="gone" />
+        android:textSize="@dimen/cont_desc_size" />
 
 </LinearLayout>

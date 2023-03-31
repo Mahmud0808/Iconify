@@ -3,40 +3,28 @@
     <item android:gravity="fill_horizontal|center">
         <shape>
             <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
-            <solid android:color="@*android:color/system_neutral2_10" />
+            <gradient
+                android:angle="270.0"
+                android:endColor="#FFF0F0F0"
+                android:startColor="#FFBDBDBD" />
             <size
                 android:width="48.0dip"
                 android:height="48.0dip" />
         </shape>
     </item>
     <item
-        android:end="2.5dip"
+        android:end="3.5dip"
         android:gravity="fill_horizontal|center"
-        android:start="2.5dip">
-        <shape>
-            <corners android:radius="@*android:dimen/harmful_app_name_padding_right" />
-            <gradient
-                android:angle="270.0"
-                android:endColor="#FFF0F0F0"
-                android:startColor="#FFD4D4D4" />
-            <size
-                android:width="44.0dip"
-                android:height="44.0dip" />
-        </shape>
-    </item>
-    <item
-        android:end="4.5dip"
-        android:gravity="fill_horizontal|center"
-        android:start="4.5dip">
+        android:start="3.5dip">
         <shape>
             <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
             <gradient
                 android:angle="90.0"
                 android:endColor="#FFF0F0F0"
-                android:startColor="#FFD4D4D4" />
+                android:startColor="#FFBDBDBD" />
             <size
-                android:width="40.0dip"
-                android:height="40.0dip" />
+                android:width="42.0dip"
+                android:height="42.0dip" />
         </shape>
     </item>
 </layer-list>

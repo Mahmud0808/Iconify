@@ -2,35 +2,42 @@
 <com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="180dp"
+    android:layout_height="@dimen/_120sdp"
     android:background="@color/transparent"
+    android:clipChildren="false"
     android:fitsSystemWindows="true"
-    android:theme="@style/Theme.Iconify">
+    android:theme="@style/toolbarStyle"
+    app:liftOnScroll="true">
 
     <com.google.android.material.appbar.CollapsingToolbarLayout
         android:id="@+id/collapsing_toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBackground"
-        android:fitsSystemWindows="true"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
         app:collapsedTitleTextAppearance="@style/Toolbar.TitleText.Collapsed"
         app:collapsedTitleTextColor="@color/textColorPrimary"
         app:contentScrim="@color/transparent"
+        app:expandedTitleMarginEnd="@dimen/_28sdp"
+        app:expandedTitleMarginStart="@dimen/_28sdp"
         app:expandedTitleTextAppearance="@style/Toolbar.TitleText.Expanded"
         app:expandedTitleTextColor="@color/textColorPrimary"
         app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-        app:title="@string/app_name">
+        app:maxLines="1"
+        app:title="@string/app_name"
+        app:titleTextEllipsize="end">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:paddingStart="@dimen/_16sdp"
+            android:paddingEnd="@dimen/_16sdp"
             app:contentInsetStartWithNavigation="0dp"
             app:layout_collapseMode="pin"
-            app:titleTextAppearance="@style/Toolbar.TitleText" />
+            app:maxLines="1"
+            app:popupTheme="@style/Theme.Iconify"
+            app:titleTextAppearance="@style/Toolbar.TitleText"
+            app:titleTextEllipsize="end" />
 
     </com.google.android.material.appbar.CollapsingToolbarLayout>
-
 </com.google.android.material.appbar.AppBarLayout>

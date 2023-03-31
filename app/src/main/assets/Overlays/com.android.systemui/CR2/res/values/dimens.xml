@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="global_actions_corner_radius">28.0dip</dimen>
+    <dimen name="notification_corner_radius">28.0dip</dimen>
+    <dimen name="notification_scrim_corner_radius">32.0dip</dimen>
+    <dimen name="ongoing_appops_chip_bg_corner_radius">28.0dip</dimen>
+    <dimen name="ongoing_call_chip_corner_radius">28.0dip</dimen>
+    <dimen name="qs_corner_radius">28.0dip</dimen>
+    <dimen name="qs_footer_action_corner_radius">28.0dip</dimen>
+    <dimen name="qs_security_footer_corner_radius">28.0dip</dimen>
+    <dimen name="rounded_slider_background_rounded_corner">32.0dip</dimen>
+    <dimen name="rounded_slider_corner_radius">28.0dip</dimen>
+    <dimen name="settingslib_dialogCornerRadius">28.0dip</dimen>
+    <dimen name="split_divider_corner_size">42.0dip</dimen>
+    <dimen name="volume_dialog_panel_width_half">28.0dip</dimen>
+    <dimen name="volume_ringer_drawer_item_size_half">21.0dip</dimen>
+    <dimen name="volume_dialog_slider_corner_radius">28.0dip</dimen>
+    <dimen name="volume_dialog_track_corner_radius">28.0dip</dimen>
+    <dimen name="abc_star_small">17.0dip</dimen>
+</resources>

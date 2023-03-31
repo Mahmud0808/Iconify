@@ -1,19 +1,19 @@
 package com.drdisagree.iconify.services;
 
-import static com.drdisagree.iconify.common.References.BOOT_ID;
-import static com.drdisagree.iconify.common.References.COLOR_ACCENT_PRIMARY;
-import static com.drdisagree.iconify.common.References.COLOR_ACCENT_SECONDARY;
-import static com.drdisagree.iconify.common.References.COLOR_PIXEL_DARK_BG;
-import static com.drdisagree.iconify.common.References.CUSTOM_PRIMARY_COLOR_SWITCH;
-import static com.drdisagree.iconify.common.References.CUSTOM_SECONDARY_COLOR_SWITCH;
+import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.BOOT_ID;
+import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY;
+import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
+import static com.drdisagree.iconify.common.Preferences.COLOR_PIXEL_DARK_BG;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_PRIMARY_COLOR_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_SECONDARY_COLOR_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.QS_ROW_COLUMN_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.STR_NULL;
 import static com.drdisagree.iconify.common.References.DEVICE_BOOT_ID_CMD;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_ROW;
-import static com.drdisagree.iconify.common.References.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECONDARY;
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_PIXEL_DARK_BG;
-import static com.drdisagree.iconify.common.References.QS_ROW_COLUMN_SWITCH;
-import static com.drdisagree.iconify.common.References.STR_NULL;
 import static com.drdisagree.iconify.utils.ColorUtil.ColorToSpecialHex;
 
 import android.graphics.Color;
@@ -21,8 +21,8 @@ import android.graphics.Color;
 import androidx.core.graphics.ColorUtils;
 
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.ui.activity.QsRowColumn;
-import com.drdisagree.iconify.utils.FabricatedOverlayUtil;
+import com.drdisagree.iconify.ui.activities.QsRowColumn;
+import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.topjohnwu.superuser.Shell;
@@ -34,7 +34,7 @@ public class ApplyOnBoot {
 
     private static final String INVALID = STR_NULL;
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
-    public static List<String> FabricatedEnabledOverlays = FabricatedOverlayUtil.getEnabledOverlayList();
+    public static List<String> FabricatedEnabledOverlays = FabricatedUtil.getEnabledOverlayList();
 
     public static void applyColors() {
         Runnable runnable = () -> {
@@ -45,9 +45,9 @@ public class ApplyOnBoot {
 
             String colorAccentPrimary = Prefs.getString(COLOR_ACCENT_PRIMARY);
             String colorAccentSecondary = Prefs.getString(COLOR_ACCENT_SECONDARY);
-            if ((Prefs.getBoolean(CUSTOM_PRIMARY_COLOR_SWITCH) || Prefs.getBoolean(CUSTOM_SECONDARY_COLOR_SWITCH)) && (FabricatedOverlayUtil.isOverlayDisabled(FabricatedEnabledOverlays, COLOR_ACCENT_PRIMARY) || FabricatedOverlayUtil.isOverlayDisabled(FabricatedEnabledOverlays, COLOR_ACCENT_SECONDARY))) {
+            if ((Prefs.getBoolean(CUSTOM_PRIMARY_COLOR_SWITCH) || Prefs.getBoolean(CUSTOM_SECONDARY_COLOR_SWITCH)) && (FabricatedUtil.isOverlayDisabled(FabricatedEnabledOverlays, COLOR_ACCENT_PRIMARY) || FabricatedUtil.isOverlayDisabled(FabricatedEnabledOverlays, COLOR_ACCENT_SECONDARY))) {
                 boolean amc_reApplied = false;
-                if (Prefs.getBoolean(CUSTOM_PRIMARY_COLOR_SWITCH) && FabricatedOverlayUtil.isOverlayDisabled(FabricatedEnabledOverlays, COLOR_ACCENT_PRIMARY)) {
+                if (Prefs.getBoolean(CUSTOM_PRIMARY_COLOR_SWITCH) && FabricatedUtil.isOverlayDisabled(FabricatedEnabledOverlays, COLOR_ACCENT_PRIMARY)) {
                     if (OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentAMC.overlay")) {
                         OverlayUtil.disableOverlay("IconifyComponentAMC.overlay");
                         OverlayUtil.enableOverlay("IconifyComponentAMC.overlay");
@@ -55,23 +55,23 @@ public class ApplyOnBoot {
                     }
 
                     if (!Objects.equals(colorAccentPrimary, INVALID)) {
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(Integer.parseInt(colorAccentPrimary), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
+                        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
+                        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(Integer.parseInt(colorAccentPrimary), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
                     } else {
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ICONIFY_COLOR_PIXEL_DARK_BG);
+                        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
+                        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ICONIFY_COLOR_PIXEL_DARK_BG);
                     }
                 }
-                if (Prefs.getBoolean(CUSTOM_SECONDARY_COLOR_SWITCH) && FabricatedOverlayUtil.isOverlayDisabled(FabricatedEnabledOverlays, COLOR_ACCENT_SECONDARY)) {
+                if (Prefs.getBoolean(CUSTOM_SECONDARY_COLOR_SWITCH) && FabricatedUtil.isOverlayDisabled(FabricatedEnabledOverlays, COLOR_ACCENT_SECONDARY)) {
                     if (!amc_reApplied && OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentAMC.overlay")) {
                         OverlayUtil.disableOverlay("IconifyComponentAMC.overlay");
                         OverlayUtil.enableOverlay("IconifyComponentAMC.overlay");
                     }
 
                     if (!Objects.equals(colorAccentSecondary, INVALID))
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(colorAccentSecondary)));
+                        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(colorAccentSecondary)));
                     else
-                        FabricatedOverlayUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
+                        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
                 }
                 Prefs.putBoolean("customColor", true);
             }
@@ -88,7 +88,7 @@ public class ApplyOnBoot {
             }
             SystemUtil.getBootId();
 
-            if (Prefs.getBoolean(QS_ROW_COLUMN_SWITCH) && FabricatedOverlayUtil.isOverlayDisabled(FabricatedEnabledOverlays, FABRICATED_QS_ROW))
+            if (Prefs.getBoolean(QS_ROW_COLUMN_SWITCH) && FabricatedUtil.isOverlayDisabled(FabricatedEnabledOverlays, FABRICATED_QS_ROW))
                 QsRowColumn.applyRowColumn();
 
         };

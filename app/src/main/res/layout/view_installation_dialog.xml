@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/_18sdp"
+        android:background="@drawable/container"
+        android:elevation="8dp"
+        android:gravity="center"
+        android:layoutDirection="locale"
+        android:orientation="vertical"
+        android:padding="@dimen/_18sdp"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="@dimen/_36sdp"
+                android:layout_height="@dimen/_36sdp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:background="@drawable/ic_launcher_bg2"
+                android:padding="@dimen/_3sdp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/iconify_logo"
+                    android:foreground="@drawable/ic_launcher_fg" />
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center"
+                android:layout_weight="1.0"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start|center"
+                        android:text="@string/installing"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_2sdp"
+                    android:gravity="start|center"
+                    android:text="@string/loading_dialog_wait"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/textColorSecondary"
+                    android:textSize="@dimen/cont_desc_size" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/view_logs"
+                android:layout_width="@dimen/_18sdp"
+                android:layout_height="@dimen/_18sdp"
+                android:layout_gravity="end|center"
+                android:background="@drawable/button_round"
+                android:contentDescription="@string/icon"
+                android:foreground="@drawable/ic_expand_arrow"
+                android:foregroundTint="@color/textColorPrimaryInverse" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/logs_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <View
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginEnd="@dimen/_8sdp" />
+
+            <TextView
+                android:id="@+id/logs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_minus2sdp"
+                android:gravity="start|bottom"
+                android:maxLines="12"
+                android:textAlignment="viewStart"
+                android:textColor="@color/textColorSecondary"
+                android:textSize="@dimen/_8sdp" />
+
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

@@ -9,9 +9,12 @@
             </shape>
         </item>
         <item>
-            <shape android:shape="rectangle">
+            <shape>
                 <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
-                <solid android:color="#66FFFFFF" />
+                <gradient
+                    android:angle="0.0"
+                    android:endColor="@*android:color/holo_green_light"
+                    android:startColor="@*android:color/holo_blue_light" />
             </shape>
         </item>
     </ripple>

@@ -4,33 +4,23 @@
         <layer-list>
             <item>
                 <shape android:tintMode="src_atop">
-                    <solid android:color="@*android:color/system_neutral2_10" />
+                    <gradient
+                        android:angle="270.0"
+                        android:endColor="#FFF0F0F0"
+                        android:startColor="#FFBDBDBD" />
                     <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
                 </shape>
             </item>
             <item
-                android:bottom="2.0dp"
-                android:end="2.0dp"
-                android:start="2.0dp"
-                android:top="2.0dp">
-                <shape android:tintMode="src_atop">
-                    <gradient
-                        android:angle="270.0"
-                        android:endColor="#FFF0F0F0"
-                        android:startColor="#FFD4D4D4" />
-                    <corners android:radius="@*android:dimen/harmful_app_name_padding_right" />
-                </shape>
-            </item>
-            <item
-                android:bottom="4.0dp"
-                android:end="4.0dp"
-                android:start="4.0dp"
-                android:top="4.0dp">
+                android:bottom="3.0dp"
+                android:end="3.0dp"
+                android:start="3.0dp"
+                android:top="3.0dp">
                 <shape android:tintMode="src_atop">
                     <gradient
                         android:angle="90.0"
                         android:endColor="#FFF0F0F0"
-                        android:startColor="#FFD4D4D4" />
+                        android:startColor="#FFBDBDBD" />
                     <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
                 </shape>
             </item>
@@ -56,7 +46,7 @@
                     <gradient
                         android:angle="270.0"
                         android:endColor="#FFF0F0F0"
-                        android:startColor="#FFD4D4D4" />
+                        android:startColor="#FFBDBDBD" />
                     <corners android:radius="@*android:dimen/harmful_app_name_padding_right" />
                 </shape>
             </item>
@@ -69,7 +59,7 @@
                     <gradient
                         android:angle="90.0"
                         android:endColor="#FFF0F0F0"
-                        android:startColor="#FFD4D4D4" />
+                        android:startColor="#FFBDBDBD" />
                     <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
                 </shape>
             </item>

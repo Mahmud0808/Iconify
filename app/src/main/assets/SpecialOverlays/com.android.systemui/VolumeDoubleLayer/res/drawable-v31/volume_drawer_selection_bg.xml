@@ -31,7 +31,7 @@
                         android:angle="270.0"
                         android:endColor="@*android:color/holo_green_light"
                         android:startColor="@*android:color/holo_blue_light" />
-                    <corners android:radius="@*com.android.systemui:dimen/volume_ringer_drawer_item_size_half" />
+                    <corners android:radius="@*com.android.systemui:dimen/abc_star_small" />
                 </shape>
             </item>
         </layer-list>

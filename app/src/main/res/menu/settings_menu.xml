@@ -8,18 +8,11 @@
         android:id="@+id/menu_changelog"
         android:title="@string/changelog" />
 
-    <item android:title="@string/import_export">
-        <menu>
-            <item
-                android:id="@+id/menu_exportPrefs"
-                android:title="@string/export_settings" />
-            <item
-                android:id="@+id/menu_importPrefs"
-                android:title="@string/import_settings" />
-        </menu>
-    </item>
-
     <item
         android:id="@+id/menu_experimental_features"
         android:title="@string/experimental_features" />
+
+    <item
+        android:id="@+id/menu_info"
+        android:title="@string/activity_title_info" />
 </menu>

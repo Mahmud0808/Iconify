@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/progressbar_child"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/container_margin"
+    android:background="@drawable/container"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/container_paddingSide"
+    android:paddingTop="@dimen/container_padding"
+    android:paddingEnd="@dimen/container_paddingSide"
+    android:paddingBottom="@dimen/container_padding">
+
+    <TextView
+        android:id="@+id/progressbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|top"
+        android:layout_marginBottom="@dimen/_12sdp"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="@dimen/cont_title_size"
+        android:textStyle="bold"
+        tools:ignore="SpUsage" />
+
+    <ImageView
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/preview_seekbar_default"
+        android:minHeight="@dimen/_22sdp"
+        tools:ignore="ContentDescription" />
+
+    <Button
+        android:id="@+id/enable_progressbar"
+        style="@style/buttonMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/container_padding"
+        android:text="@string/btn_enable"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/disable_progressbar"
+        style="@style/buttonMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/container_padding"
+        android:background="@drawable/button_red"
+        android:text="@string/btn_disable"
+        android:visibility="gone" />
+
+</LinearLayout>

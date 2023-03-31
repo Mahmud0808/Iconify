@@ -10,36 +10,36 @@
     android:background="@drawable/media_player_bg_black"
     android:baselineAligned="false"
     android:orientation="horizontal"
-    android:paddingStart="24dp"
-    android:paddingTop="20dp"
-    android:paddingEnd="24dp"
-    android:paddingBottom="14dp">
+    android:paddingStart="@dimen/_18sdp"
+    android:paddingTop="@dimen/_16sdp"
+    android:paddingEnd="@dimen/_18sdp"
+    android:paddingBottom="@dimen/_10sdp">
 
     <FrameLayout
-        android:layout_width="78dp"
-        android:layout_height="78dp">
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp">
 
         <ImageView
-            android:layout_width="72dp"
-            android:layout_height="72dp"
+            android:layout_width="@dimen/_54sdp"
+            android:layout_height="@dimen/_54sdp"
             android:layout_gravity="start|top"
             android:background="@drawable/media_player_album_art_bg"
             android:contentDescription="@string/icon"
             android:foreground="@drawable/media_player_album_art_fg" />
 
         <LinearLayout
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
             android:layout_gravity="end|bottom"
-            android:layout_margin="2dp"
+            android:layout_margin="@dimen/_1sdp"
             android:background="@drawable/media_player_bg_accent"
             android:elevation="2dp"
             android:gravity="center">
 
             <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginStart="2dp"
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_1sdp"
                 android:background="@drawable/ic_play"
                 android:backgroundTint="@color/black"
                 android:contentDescription="@string/icon" />
@@ -51,7 +51,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="start|center"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/_5sdp"
         android:layout_marginEnd="@dimen/container_padding"
         android:layout_weight="1.0"
         android:orientation="vertical">
@@ -67,7 +67,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-4dp"
+            android:layout_marginTop="@dimen/_minus3sdp"
+            android:layout_marginBottom="@dimen/_6sdp"
             android:text="@string/media_player_preview_artist_name"
             android:textColor="@color/offwhite"
             android:textSize="16sp" />
@@ -77,7 +78,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginBottom="6dp"
+        android:layout_marginBottom="@dimen/_6sdp"
         android:gravity="end"
         android:orientation="vertical">
 
@@ -88,30 +89,30 @@
             android:background="@drawable/media_player_bg_accent"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingStart="8dp"
-            android:paddingEnd="10dp"
+            android:paddingStart="@dimen/_6sdp"
+            android:paddingEnd="@dimen/_8sdp"
             tools:ignore="UselessParent">
 
             <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
+                android:layout_width="@dimen/_9sdp"
+                android:layout_height="@dimen/_9sdp"
                 android:background="@drawable/ic_smartphone"
-                android:backgroundTint="@color/textColorPrimaryNoTint"
+                android:backgroundTint="@color/textColorPrimary"
                 android:contentDescription="@string/icon" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="1dp"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:layout_marginBottom="@dimen/_1sdp"
                 android:text="@string/media_player_preview_playing_on"
-                android:textColor="@color/textColorPrimaryNoTint"
+                android:textColor="@color/textColorPrimary"
                 android:textSize="14sp" />
 
         </LinearLayout>
 
         <View
-            android:layout_width="1dp"
+            android:layout_width="@dimen/_1sdp"
             android:layout_height="0dp"
             android:layout_weight="1.0" />
 
@@ -122,24 +123,24 @@
             android:gravity="center">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/_18sdp"
+                android:layout_height="@dimen/_18sdp"
                 android:background="@drawable/ic_prev"
                 android:backgroundTint="@color/white"
                 android:contentDescription="@string/icon" />
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
+                android:layout_width="@dimen/_18sdp"
+                android:layout_height="@dimen/_18sdp"
+                android:layout_marginStart="@dimen/_18sdp"
+                android:layout_marginEnd="@dimen/_18sdp"
                 android:background="@drawable/ic_pause"
                 android:backgroundTint="@color/white"
                 android:contentDescription="@string/icon" />
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/_18sdp"
+                android:layout_height="@dimen/_18sdp"
                 android:background="@drawable/ic_next"
                 android:backgroundTint="@color/white"
                 android:contentDescription="@string/icon" />

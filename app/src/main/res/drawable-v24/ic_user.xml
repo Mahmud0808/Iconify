@@ -1,22 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="24.0dip"
-    android:height="24.0dip"
-    android:viewportWidth="48.0"
-    android:viewportHeight="48.0">
+    android:width="24dp"
+    android:height="24dp"
+    android:autoMirrored="true"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
     <path
-        android:fillColor="#66ffffff"
-        android:pathData="M12.00,30.00L36.00,30.00A6.00 6.00 0 0 1 42.00,36.00L42.00,36.00A6.00 6.00 0 0 1 36.00,42.00L12.00,42.00A6.00 6.00 0 0 1 6.00,36.00L6.00,36.00A6.00 6.00 0 0 1 12.00,30.00z"
-        android:strokeLineCap="square"
-        android:strokeLineJoin="miter" />
+        android:fillColor="#292D32"
+        android:pathData="M12,12.75C8.83,12.75 6.25,10.17 6.25,7C6.25,3.83 8.83,1.25 12,1.25C15.17,1.25 17.75,3.83 17.75,7C17.75,10.17 15.17,12.75 12,12.75ZM12,2.75C9.66,2.75 7.75,4.66 7.75,7C7.75,9.34 9.66,11.25 12,11.25C14.34,11.25 16.25,9.34 16.25,7C16.25,4.66 14.34,2.75 12,2.75Z" />
     <path
-        android:fillColor="#ffffffff"
-        android:pathData="M12.00,30.00L36.00,30.00A6.00 6.00 0 0 1 42.00,36.00L42.00,36.00A6.00 6.00 0 0 1 36.00,42.00L12.00,42.00A6.00 6.00 0 0 1 6.00,36.00L6.00,36.00A6.00 6.00 0 0 1 12.00,30.00zM18.00,30.00L24.00,38.00L30.00,30.00z"
-        android:strokeLineCap="square"
-        android:strokeLineJoin="miter" />
-    <path
-        android:fillColor="#66ffffff"
-        android:pathData="M24.00,4.00C29.52,4.00,34.00,8.48,34.00,14.00C34.00,19.52,29.52,24.00,24.00,24.00C18.48,24.00,14.00,19.52,14.00,14.00C14.00,8.48,18.48,4.00,24.00,4.00z"
-        android:strokeLineCap="square"
-        android:strokeLineJoin="miter" />
+        android:fillColor="#292D32"
+        android:pathData="M20.59,22.75C20.18,22.75 19.84,22.41 19.84,22C19.84,18.55 16.32,15.75 12,15.75C7.68,15.75 4.16,18.55 4.16,22C4.16,22.41 3.82,22.75 3.41,22.75C3,22.75 2.66,22.41 2.66,22C2.66,17.73 6.85,14.25 12,14.25C17.15,14.25 21.34,17.73 21.34,22C21.34,22.41 21,22.75 20.59,22.75Z" />
 </vector>

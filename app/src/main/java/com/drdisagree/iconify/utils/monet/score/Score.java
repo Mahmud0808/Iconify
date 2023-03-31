@@ -52,7 +52,7 @@ public final class Score {
      *
      * @param colorsToPopulation map with keys of colors and values of how often the color appears,
      *                           usually from a source image.
-     * @return Colors sorted by suitability for a UI theme. The most suitable color is the first item,
+     * @return Tweaks sorted by suitability for a UI theme. The most suitable color is the first item,
      * the least suitable is the last. There will always be at least one color returned. If all
      * the input colors were not suitable for a theme, a default fallback color will be provided,
      * Google Blue.

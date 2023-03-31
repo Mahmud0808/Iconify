@@ -3,7 +3,19 @@
     android:color="?android:colorControlHighlight">
     <item>
         <shape android:shape="oval">
-            <solid android:color="@*android:color/system_neutral2_800" />
+            <gradient
+                android:angle="0.0"
+                android:endColor="@*android:color/holo_green_light"
+                android:startColor="@*android:color/holo_blue_light" />
+        </shape>
+    </item>
+    <item
+        android:bottom="4dp"
+        android:end="4dp"
+        android:start="4dp"
+        android:top="4dp">
+        <shape android:shape="oval">
+            <solid android:color="?android:attr/colorBackgroundFloating" />
         </shape>
     </item>
 </ripple>

@@ -17,7 +17,7 @@ package com.drdisagree.iconify.services;
  * along with this program.  If not, see [http://www.gnu.org/licenses/].
  */
 
-import static com.drdisagree.iconify.common.References.SharedXPref;
+import static com.drdisagree.iconify.common.Resources.SharedXPref;
 
 import com.crossbowffs.remotepreferences.RemotePreferenceFile;
 import com.crossbowffs.remotepreferences.RemotePreferenceProvider;

@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.activity.SettingsIcons">
+    tools:context=".ui.activities.SettingsIcons">
 
     <include layout="@layout/view_header" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         android:orientation="vertical"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
@@ -19,9 +20,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/container_marginSide"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="@dimen/container_marginTopBottom"
             android:layout_marginEnd="@dimen/container_marginSide"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="@dimen/container_marginTopBottom"
             android:orientation="vertical">
 
             <LinearLayout
@@ -44,56 +45,46 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Background"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:layout_marginBottom="@dimen/_6sdp"
+                        android:text="@string/settings_icons_background"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
 
                     <RadioButton
                         android:id="@+id/minimal"
-                        android:layout_width="wrap_content"
+                        style="@style/customRadioButtonColored"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checked="false"
-                        android:paddingStart="6dp"
-                        android:paddingEnd="6dp"
-                        android:text="Minimal"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:text="@string/settings_icons_minimal" />
 
                     <RadioButton
                         android:id="@+id/filled"
-                        android:layout_width="wrap_content"
+                        style="@style/customRadioButtonColored"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checked="false"
-                        android:paddingStart="6dp"
-                        android:paddingEnd="6dp"
-                        android:text="Filled"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:text="@string/settings_icons_filled" />
 
                     <RadioButton
                         android:id="@+id/outline"
-                        android:layout_width="wrap_content"
+                        style="@style/customRadioButtonColored"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checked="false"
-                        android:paddingStart="6dp"
-                        android:paddingEnd="6dp"
-                        android:text="Outline"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:text="@string/settings_icons_outline" />
 
                     <RadioButton
                         android:id="@+id/neumorph"
-                        android:layout_width="wrap_content"
+                        style="@style/customRadioButtonColored"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checked="false"
-                        android:paddingStart="6dp"
-                        android:paddingEnd="6dp"
-                        android:text="Neumorph"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:text="@string/settings_icons_neumorph" />
 
                 </RadioGroup>
+
+                <View
+                    android:layout_width="@dimen/_6sdp"
+                    android:layout_height="match_parent" />
 
                 <RadioGroup
                     android:id="@+id/icon_color"
@@ -104,43 +95,33 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Icon Color"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:layout_marginBottom="@dimen/_6sdp"
+                        android:text="@string/settins_icons_icon_color"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
 
                     <RadioButton
                         android:id="@+id/system"
-                        android:layout_width="wrap_content"
+                        style="@style/customRadioButtonColored"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checked="false"
-                        android:paddingStart="6dp"
-                        android:paddingEnd="6dp"
-                        android:text="Follow System"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:text="@string/settings_icons_follow_system" />
 
                     <RadioButton
                         android:id="@+id/inverse"
-                        android:layout_width="wrap_content"
+                        style="@style/customRadioButtonColored"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checked="false"
-                        android:paddingStart="6dp"
-                        android:paddingEnd="6dp"
-                        android:text="System Inverse"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:text="@string/settings_icons_system_inverse" />
 
                     <RadioButton
                         android:id="@+id/accent"
-                        android:layout_width="wrap_content"
+                        style="@style/customRadioButtonColored"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checked="false"
-                        android:paddingStart="6dp"
-                        android:paddingEnd="6dp"
-                        android:text="Monet / Accent"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:text="@string/settings_icons_monet_accent" />
 
                 </RadioGroup>
             </LinearLayout>
@@ -153,36 +134,21 @@
 
             <Button
                 android:id="@+id/enable_settings_icons"
+                style="@style/buttonMain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/container_margin"
-                android:background="@drawable/button"
-                android:fontFamily="@font/semibold"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:stateListAnimator="@null"
-                android:text="@string/btn_enable"
-                android:textColor="@color/colorBackground"
-                android:textSize="@dimen/cont_title_size"
-                android:textStyle="bold"
-                app:backgroundTint="@null" />
+                android:text="@string/btn_enable" />
 
             <Button
                 android:id="@+id/disable_settings_icons"
+                style="@style/buttonMain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/container_margin"
                 android:background="@drawable/button_red"
-                android:fontFamily="@font/semibold"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:stateListAnimator="@null"
                 android:text="@string/btn_disable"
-                android:textColor="@color/colorBackground"
-                android:textSize="@dimen/cont_title_size"
-                android:textStyle="bold"
-                android:visibility="gone"
-                app:backgroundTint="@null" />
+                android:visibility="gone" />
 
         </LinearLayout>
 

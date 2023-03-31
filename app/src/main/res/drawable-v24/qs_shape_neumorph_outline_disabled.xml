@@ -2,36 +2,26 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/offStateColor" />
-            <corners android:radius="24.0dp" />
-        </shape>
-    </item>
-    <item
-        android:bottom="2.0dp"
-        android:end="2.0dp"
-        android:start="2.0dp"
-        android:top="2.0dp">
-        <shape android:shape="rectangle">
             <gradient
                 android:angle="270"
                 android:endColor="@color/neumorph_outline_end"
                 android:startColor="@color/neumorph_outline_start"
                 android:type="linear" />
-            <corners android:radius="22.0dp" />
+            <corners android:radius="24.0dp" />
         </shape>
     </item>
     <item
-        android:bottom="4.0dp"
-        android:end="4.0dp"
-        android:start="4.0dp"
-        android:top="4.0dp">
+        android:bottom="3.0dp"
+        android:end="3.0dp"
+        android:start="3.0dp"
+        android:top="3.0dp">
         <shape android:shape="rectangle">
             <gradient
                 android:angle="90"
                 android:endColor="@color/neumorph_outline_end"
                 android:startColor="@color/neumorph_outline_start"
                 android:type="linear" />
-            <corners android:radius="20.0dp" />
+            <corners android:radius="21.0dp" />
         </shape>
     </item>
 </layer-list>

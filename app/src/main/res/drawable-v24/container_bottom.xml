@@ -9,8 +9,8 @@
                     <corners
                         android:bottomLeftRadius="@dimen/cont_corner_radius"
                         android:bottomRightRadius="@dimen/cont_corner_radius"
-                        android:topLeftRadius="8dp"
-                        android:topRightRadius="8dp" />
+                        android:topLeftRadius="@dimen/_5sdp"
+                        android:topRightRadius="@dimen/_5sdp" />
                 </shape>
             </item>
             <item>
@@ -19,8 +19,8 @@
                     <corners
                         android:bottomLeftRadius="@dimen/cont_corner_radius"
                         android:bottomRightRadius="@dimen/cont_corner_radius"
-                        android:topLeftRadius="8dp"
-                        android:topRightRadius="8dp" />
+                        android:topLeftRadius="@dimen/_5sdp"
+                        android:topRightRadius="@dimen/_5sdp" />
                 </shape>
             </item>
         </layer-list>

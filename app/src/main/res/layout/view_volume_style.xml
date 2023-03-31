@@ -25,7 +25,8 @@
             android:id="@+id/volume_style_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/_6sdp"
+            android:layout_marginBottom="@dimen/_1sdp"
             android:text="@string/volume_style"
             android:textColor="@color/textColorPrimary"
             android:textSize="@dimen/cont_title_size"
@@ -33,11 +34,11 @@
 
         <ImageView
             android:id="@+id/volume_style_info"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/ic_info"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
+            android:layout_marginTop="@dimen/_2sdp"
             android:contentDescription="@string/icon"
+            android:src="@drawable/ic_info"
             app:tint="@color/textColorPrimary" />
 
     </LinearLayout>
@@ -45,6 +46,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_2sdp"
         android:justificationMode="inter_word"
         android:text="@string/volume_module_desc"
         android:textColor="@color/textColorSecondary"
@@ -53,6 +55,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp"
         android:orientation="horizontal">
 
         <RadioGroup
@@ -63,38 +66,30 @@
 
             <RadioButton
                 android:id="@+id/gradient_style"
-                android:layout_width="wrap_content"
+                style="@style/customRadioButtonColored"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:checked="false"
-                android:paddingStart="6dp"
-                android:paddingEnd="6dp"
-                android:text="@string/volume_style_gradient"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="@dimen/cont_desc_size" />
+                android:text="@string/volume_style_gradient" />
 
             <RadioButton
                 android:id="@+id/doublelayer_style"
-                android:layout_width="wrap_content"
+                style="@style/customRadioButtonColored"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:checked="false"
-                android:paddingStart="6dp"
-                android:paddingEnd="6dp"
-                android:text="@string/volume_style_doublelayer"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="@dimen/cont_desc_size" />
+                android:text="@string/volume_style_doublelayer" />
 
             <RadioButton
                 android:id="@+id/shadedlayer_style"
-                android:layout_width="wrap_content"
+                style="@style/customRadioButtonColored"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:checked="false"
-                android:paddingStart="6dp"
-                android:paddingEnd="6dp"
-                android:text="@string/volume_style_shadedlayer"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="@dimen/cont_desc_size" />
+                android:text="@string/volume_style_shadedlayer" />
 
         </RadioGroup>
+
+        <View
+            android:layout_width="@dimen/_6sdp"
+            android:layout_height="match_parent" />
 
         <RadioGroup
             android:id="@+id/volume_style2"
@@ -104,54 +99,34 @@
 
             <RadioButton
                 android:id="@+id/neumorph_style"
-                android:layout_width="wrap_content"
+                style="@style/customRadioButtonColored"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:checked="false"
-                android:paddingStart="6dp"
-                android:paddingEnd="6dp"
-                android:text="@string/volume_style_neumorph"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="@dimen/cont_desc_size" />
+                android:text="@string/volume_style_neumorph" />
 
             <RadioButton
                 android:id="@+id/outline_style"
-                android:layout_width="wrap_content"
+                style="@style/customRadioButtonColored"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:checked="false"
-                android:paddingStart="6dp"
-                android:paddingEnd="6dp"
-                android:text="@string/volume_style_outline"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="@dimen/cont_desc_size" />
+                android:text="@string/volume_style_outline" />
 
             <RadioButton
                 android:id="@+id/neumorphoutline_style"
-                android:layout_width="wrap_content"
+                style="@style/customRadioButtonColored"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:checked="false"
-                android:onClick="enableColors"
-                android:paddingStart="6dp"
-                android:paddingEnd="6dp"
-                android:text="@string/volume_style_neumorphoutline"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="@dimen/cont_desc_size" />
+                android:text="@string/volume_style_neumorphoutline" />
 
         </RadioGroup>
     </LinearLayout>
 
     <Button
         android:id="@+id/volume_style_create_module"
+        style="@style/buttonMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/container_padding"
-        android:background="@drawable/button"
-        android:fontFamily="@font/semibold"
-        android:letterSpacing="0.2"
-        android:stateListAnimator="@null"
-        android:text="@string/btn_create_module"
-        android:textColor="@color/colorBackground"
-        android:textSize="@dimen/cont_title_size"
-        android:textStyle="bold"
-        app:backgroundTint="@null" />
+        android:layout_marginTop="@dimen/_8sdp"
+        android:text="@string/btn_create_module" />
 
 </LinearLayout>

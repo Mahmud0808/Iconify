@@ -1,13 +1,13 @@
 package com.drdisagree.iconify.xposed.mods;
 
-import static com.drdisagree.iconify.common.References.HEADER_CLOCK_FONT_TEXT_SCALING;
-import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SIDEMARGIN;
-import static com.drdisagree.iconify.common.References.HEADER_CLOCK_STYLE;
-import static com.drdisagree.iconify.common.References.HEADER_CLOCK_SWITCH;
-import static com.drdisagree.iconify.common.References.HEADER_CLOCK_TEXT_WHITE;
-import static com.drdisagree.iconify.common.References.HEADER_CLOCK_TOPMARGIN;
-import static com.drdisagree.iconify.common.References.SYSTEMUI_PACKAGE;
-import static com.drdisagree.iconify.common.References.UI_CORNER_RADIUS;
+import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_FONT_TEXT_SCALING;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SIDEMARGIN;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_STYLE;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TEXT_WHITE;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TOPMARGIN;
+import static com.drdisagree.iconify.common.Preferences.UI_CORNER_RADIUS;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
@@ -47,7 +47,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
     boolean showHeaderClock = false;
     int sideMargin = 0;
     int topMargin = 8;
-    int headerClockStyle = 0;
+    int headerClockStyle = 1;
     float textScaling = 1;
     boolean forceWhiteText = false;
 
@@ -62,7 +62,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         showHeaderClock = Xprefs.getBoolean(HEADER_CLOCK_SWITCH, false);
         sideMargin = Xprefs.getInt(HEADER_CLOCK_SIDEMARGIN, 0);
         topMargin = Xprefs.getInt(HEADER_CLOCK_TOPMARGIN, 8);
-        headerClockStyle = Xprefs.getInt(HEADER_CLOCK_STYLE, 0);
+        headerClockStyle = Xprefs.getInt(HEADER_CLOCK_STYLE, 1);
         forceWhiteText = Xprefs.getBoolean(HEADER_CLOCK_TEXT_WHITE, false);
         textScaling = (float) (Xprefs.getInt(HEADER_CLOCK_FONT_TEXT_SCALING, 10) / 10.0);
 

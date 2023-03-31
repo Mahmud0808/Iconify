@@ -8,33 +8,23 @@
                 <shape android:shape="rectangle">
                     <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
                     <size android:height="48.0dip" />
-                    <solid android:color="@*android:color/system_neutral2_10" />
-                </shape>
-            </item>
-            <item
-                android:end="2.5dp"
-                android:gravity="fill_horizontal|center"
-                android:start="2.5dp">
-                <shape android:shape="rectangle">
-                    <corners android:radius="@*android:dimen/harmful_app_name_padding_right" />
-                    <size android:height="44.0dip" />
                     <gradient
                         android:angle="270.0"
                         android:endColor="#FFF0F0F0"
-                        android:startColor="#FFD4D4D4" />
+                        android:startColor="#FFBDBDBD" />
                 </shape>
             </item>
             <item
-                android:end="4.5dip"
+                android:end="3.5dip"
                 android:gravity="fill_horizontal|center"
-                android:start="4.5dip">
+                android:start="3.5dip">
                 <shape android:shape="rectangle">
                     <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
-                    <size android:height="40.0dip" />
+                    <size android:height="42.0dip" />
                     <gradient
                         android:angle="90.0"
                         android:endColor="#FFF0F0F0"
-                        android:startColor="#FFD4D4D4" />
+                        android:startColor="#FFBDBDBD" />
                 </shape>
             </item>
         </layer-list>

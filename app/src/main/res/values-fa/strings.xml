@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">Iconify</string>
-
     <!-- Activities -->
     <string name="activity_title_brightness_bar">نوار تنظیم نور صفحه</string>
     <string name="activity_desc_brightness_bar">تغییر ظاهر نوار تنظیم نور صفحه</string>
@@ -133,9 +131,6 @@
     <string name="iconify_updated_title">برنامه آیکونیفای آپدیت شد!</string>
     <string name="iconify_updated_desc">برای استفاده از گزینه‌های جدید اضافه شده به برنامه ابتدا دستگاه خود را ریستارت کنید.</string>
     <string name="btn_reboot_now">همین الان ریستارت کن!</string>
-    <string name="iconpack_aurora">Aurora</string>
-    <string name="iconpack_gradicon">Gradicon</string>
-    <string name="iconpack_plumpy">Plumpy</string>
     <string name="notif_preview_desc">پیش‌نمایش نوتیفیکشن.\nبرای اعمال این گزینه آن را لمس کنید.</string>
     <string name="loading_dialog_wait">لطفا صبر کنید</string>
     <string name="toast_applied">اعمال شد</string>
@@ -144,26 +139,18 @@
     <string name="toast_reboot">ریستارت کردن دستگاه الزامی است</string>
     <string name="rebooting_desc">5 ثانیه دیگر دستگاه ریستارت می‌شود</string>
     <string name="iconify_clipboard_label_version">نسخه آیکونیفای</string>
-    <string name="iconify_clipboard_label_version_name">Version Name:</string>
-    <string name="iconify_clipboard_label_version_code">Version Code:</string>
-    <string name="toast_copied">Copied to Clipboard</string>
     <string name="info_version_title">نسخه برنامه</string>
     <string name="info_github_title">صفحه گیت‌هاب</string>
     <string name="info_github_desc">به صفحه گیت‌هاب آیکونیفای سر بزنید.</string>
     <string name="info_telegram_title">کانال تلگرام</string>
     <string name="info_telegram_desc">برای دیدن اخبار جدید آیکونیفای عضو کانال تلگرام شوید.</string>
-    <string name="info_icons8_desc">For Plumpy and Fluency icons.</string>
-    <string name="info_shell_desc">For helping me with Shell Script.</string>
-    <string name="info_rro_desc">For helping me with RRO.</string>
-    <string name="info_tester_desc">For testing the app.</string>
-    <string name="info_contributor_desc">For contributing on github.</string>
     <string name="opt_applied">- اعمال شد</string>
     <string name="perm_storage_access">ابتدا به برنامه اجازه دسترسی به حافظه را بدهید!</string>
     <string name="installing">در حال نصب</string>
     <string name="toast_error">مشکلی پیش‌ آمده است</string>
     <string name="reboot_needed">ابتدا دستگاه را ریستارت کنید!</string>
-    <string name="use_magisk">ابتدا با Magisk دستگاه خود را روت کنید!</string>
-    <string name="root_not_found">ظاهرا دستگاه شما روت نشده است!</string>
+    <string name="magisk_not_found_desc">ابتدا با Magisk دستگاه خود را روت کنید!</string>
+    <string name="root_not_found_desc">ظاهرا دستگاه شما روت نشده است!</string>
     <string name="disable_everything_title">غیرفعال کردن همه چیز</string>
     <string name="disable_everything_desc">تمام مواردی که توسط آیکونفای تغییر پیدا کرده به حالت اولیه باز می‌گردد.</string>
     <string name="toast_disable_everything">انگشت خود را روی گزینه نگه دارید</string>
@@ -191,7 +178,6 @@
     <string name="navbar_lower_sensitivity_desc">کم کردن میزان حساسیت به حرکات اشاره‌ای</string>
     <string name="navbar_hide_kb_buttons_title">مخفی کردن کلید‌های کیبورد</string>
     <string name="navbar_hide_kb_buttons_desc">مخفی کردن کلید بازگشت کیبورد</string>
-    <string name="checked">Checked</string>
     <string name="secondary_color_desc">انتخاب رنگ آکسان ثانویه</string>
     <string name="primary_color_desc">انتخاب رنگ آکسان اولیه</string>
     <string name="app_updates">آپدیت‌های برنامه</string>
@@ -200,7 +186,7 @@
     <string name="export_settings">پشتیبان گرفتن از تنظمیات</string>
     <string name="import_settings">بازگرداندن تنظیمات</string>
     <string name="experimental_features">امکانات آزمایشی</string>
-    <string name="installation_failed">ظاهرا مشکلی پیش آمده است.\nبرای کمک به حل مشکل لاگ برنامه را برای سازنده ارسال کنید.</string>
+    <string name="installation_failed_desc">ظاهرا مشکلی پیش آمده است.\nبرای کمک به حل مشکل لاگ برنامه را برای سازنده ارسال کنید.</string>
     <string name="no_internet_connection">ارتباط با سرور برقرار نشد. ممکن است مشکل از اینترنت شما یا سرور باشد. لطفا بعدا دوباره امتحان کنید</string>
     <string name="changelog_not_found">فایل تغییرات اخیر پیدا نشد. ممکن است مشکل از اینترنت شما یا سرور باشد. لطفا بعدا دوباره امتحان کنید.</string>
     <string name="btn_download">دانلود</string>
@@ -213,7 +199,6 @@
     <string name="current_version">تسخه فعلی:</string>
     <string name="latest_version">آخرین نسخه:</string>
     <string name="update_checking_failed">بررسی برای آپدیت با موفقیت انجام نشد!</string>
-    <string name="not_available">N/A</string>
     <string name="confirmation">آیا مطمئن هستید?</string>
     <string name="you_will_loose_current_setup">تنظمیات فعلی برنامه از بین خواهند رفت.</string>
     <string name="positive">بله</string>

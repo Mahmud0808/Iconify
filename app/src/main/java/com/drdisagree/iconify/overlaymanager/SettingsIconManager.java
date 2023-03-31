@@ -1,6 +1,6 @@
 package com.drdisagree.iconify.overlaymanager;
 
-import static com.drdisagree.iconify.common.References.TOTAL_SETTINGSICONPACKS;
+import static com.drdisagree.iconify.common.Dynamic.TOTAL_SETTINGSICONPACKS;
 
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.OverlayUtil;
@@ -9,12 +9,14 @@ import java.io.File;
 
 public class SettingsIconManager {
 
-    public static void install_pack(int n) {
+    public static void enableOverlay(int n) {
         disable_others(n);
         enable_pack(n);
 
-        if (!Prefs.getBoolean("IconifyComponentCR.overlay"))
-            OverlayUtil.enableOverlay("IconifyComponentCR.overlay");
+        if (!Prefs.getBoolean("IconifyComponentCR1.overlay") || !Prefs.getBoolean("IconifyComponentCR2.overlay")) {
+            OverlayUtil.enableOverlay("IconifyComponentCR1.overlay");
+            OverlayUtil.enableOverlay("IconifyComponentCR2.overlay");
+        }
     }
 
     protected static void enable_pack(int n) {

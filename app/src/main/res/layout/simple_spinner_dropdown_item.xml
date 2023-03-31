@@ -6,7 +6,7 @@
     android:background="@drawable/dropdown_item_bg"
     android:ellipsize="marquee"
     android:maxLines="1"
-    android:paddingLeft="12dp"
-    android:paddingTop="6dp"
-    android:paddingRight="12dp"
-    android:paddingBottom="6dp" />
+    android:paddingLeft="@dimen/_8sdp"
+    android:paddingTop="@dimen/_4sdp"
+    android:paddingRight="@dimen/_8sdp"
+    android:paddingBottom="@dimen/_6sdp" />

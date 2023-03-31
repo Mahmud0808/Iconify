@@ -1,28 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<rotate xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fromDegrees="90"
-    android:pivotX="50%"
-    android:pivotY="50%"
-    android:toDegrees="90">
-    <vector
-        android:width="24.0dip"
-        android:height="24.0dip"
-        android:viewportWidth="24.0"
-        android:viewportHeight="24.0">
-        <path
-            android:fillColor="#66FFFFFF"
-            android:pathData="M12.00,9.00C13.66,9.00,15.00,10.34,15.00,12.00C15.00,13.66,13.66,15.00,12.00,15.00C10.34,15.00,9.00,13.66,9.00,12.00C9.00,10.34,10.34,9.00,12.00,9.00z"
-            android:strokeLineCap="square"
-            android:strokeLineJoin="miter" />
-        <path
-            android:fillColor="#FFFFFFFF"
-            android:pathData="M12.00,1.50C13.66,1.50,15.00,2.84,15.00,4.50C15.00,6.16,13.66,7.50,12.00,7.50C10.34,7.50,9.00,6.16,9.00,4.50C9.00,2.84,10.34,1.50,12.00,1.50z"
-            android:strokeLineCap="square"
-            android:strokeLineJoin="miter" />
-        <path
-            android:fillColor="#FFFFFFFF"
-            android:pathData="M12.00,16.50C13.66,16.50,15.00,17.84,15.00,19.50C15.00,21.16,13.66,22.50,12.00,22.50C10.34,22.50,9.00,21.16,9.00,19.50C9.00,17.84,10.34,16.50,12.00,16.50z"
-            android:strokeLineCap="square"
-            android:strokeLineJoin="miter" />
-    </vector>
-</rotate>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:autoMirrored="true"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#292D32"
+        android:pathData="M5,14.75C3.48,14.75 2.25,13.52 2.25,12C2.25,10.48 3.48,9.25 5,9.25C6.52,9.25 7.75,10.48 7.75,12C7.75,13.52 6.52,14.75 5,14.75ZM5,10.75C4.31,10.75 3.75,11.31 3.75,12C3.75,12.69 4.31,13.25 5,13.25C5.69,13.25 6.25,12.69 6.25,12C6.25,11.31 5.69,10.75 5,10.75Z" />
+    <path
+        android:fillColor="#292D32"
+        android:pathData="M19,14.75C17.48,14.75 16.25,13.52 16.25,12C16.25,10.48 17.48,9.25 19,9.25C20.52,9.25 21.75,10.48 21.75,12C21.75,13.52 20.52,14.75 19,14.75ZM19,10.75C18.31,10.75 17.75,11.31 17.75,12C17.75,12.69 18.31,13.25 19,13.25C19.69,13.25 20.25,12.69 20.25,12C20.25,11.31 19.69,10.75 19,10.75Z" />
+    <path
+        android:fillColor="#292D32"
+        android:pathData="M12,14.75C10.48,14.75 9.25,13.52 9.25,12C9.25,10.48 10.48,9.25 12,9.25C13.52,9.25 14.75,10.48 14.75,12C14.75,13.52 13.52,14.75 12,14.75ZM12,10.75C11.31,10.75 10.75,11.31 10.75,12C10.75,12.69 11.31,13.25 12,13.25C12.69,13.25 13.25,12.69 13.25,12C13.25,11.31 12.69,10.75 12,10.75Z" />
+</vector>

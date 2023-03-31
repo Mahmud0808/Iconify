@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">Iconify</string>
-
     <!-- Activities -->
     <string name="activity_title_brightness_bar">Parlaklık Barı</string>
     <string name="activity_desc_brightness_bar">Parlaklık barını özelleştir</string>
@@ -60,8 +58,8 @@
     <string name="activity_desc_basic_colors">Birincil ve ikincil renkleri değiştir</string>
     <string name="activity_title_settings_icons">Ayar İkonları</string>
     <string name="activity_desc_settings_icons">Ayarlar bölümünün ikon paketini değiştir</string>
-    <string name="activity_title_icon_mask">İkon Görünümü</string>
-    <string name="activity_desc_icon_mask">Sistem ikon şekillerini değiştir</string>
+    <string name="activity_title_icon_shape">İkon Görünümü</string>
+    <string name="activity_desc_icon_shape">Sistem ikon şekillerini değiştir</string>
     <string name="activity_title_pixel_variant">Piksel Varyantı</string>
     <string name="activity_desc_pixel_variant">Siyah hızlı ayarlar paneli olan romlar için</string>
 
@@ -158,7 +156,7 @@
     <string name="info_github_desc">GitHub deposunu aç.</string>
     <string name="info_telegram_title">Telegram</string>
     <string name="info_telegram_desc">Son haberleri &amp; güncelemeleri takip et.</string>
-    <string name="info_icons8_desc">Geniş ve akıcı ikonlar.</string>
+    <string name="info_icons8_desc">Geniş ikonlar.</string>
     <string name="info_shell_desc">Bana Shell Scripti ile yardım etmek için.</string>
     <string name="info_rro_desc">Bana RRO ile yardım etmek için.</string>
     <string name="info_tester_desc">Uygulamayı test etmek için.</string>
@@ -168,8 +166,8 @@
     <string name="installing">İndiriliyor</string>
     <string name="toast_error">Bir şeyler ters gitti</string>
     <string name="reboot_needed">Önce cihazınızı yeniden başlatın!</string>
-    <string name="use_magisk">Cihazınızı rootlamak için Magisk kullanın!</string>
-    <string name="root_not_found">Cihazınız rootlanmamış!</string>
+    <string name="magisk_not_found_desc">Cihazınızı rootlamak için Magisk kullanın!</string>
+    <string name="root_not_found_desc">Cihazınız rootlanmamış!</string>
     <string name="disable_everything_title">Her Şeyi Devre Dışı Bırak</string>
     <string name="disable_everything_desc">Iconify tarafından yapılan bütün özelleştirmeleri, düzenlemeleri ve tasarım değişikliklerini devre dışı bırak.</string>
     <string name="toast_disable_everything">Her şeyi devre dışı bırakmak için basılı tutun</string>
@@ -206,7 +204,7 @@
     <string name="export_settings">Dışa Aktarma Seçenekleri</string>
     <string name="import_settings">İçe Aktarma Seçenekleri</string>
     <string name="experimental_features">Deneysel Yenilikler</string>
-    <string name="installation_failed">Bir şeyler ters gitti.\nBu sorunu çözmek için geliştiriciye hata kaydını gönder.</string>
+    <string name="installation_failed_desc">Bir şeyler ters gitti.\nBu sorunu çözmek için geliştiriciye hata kaydını gönder.</string>
     <string name="no_internet_connection">Sunucuya bağlanılamadı!\nİnternet bağlantınızda bir sorun olabilir veya sunucu şu an kapalı olabilir. Lütfen daha sonra tekrar deneyin.</string>
     <string name="changelog_not_found">Değişim günlüğü bulunamadı!\nİnternet bağlantınızda bir sorun olabilir veya sunucu şu an kapalı olabilir. Lütfen daha sonra tekrar deneyin.</string>
     <string name="btn_download">İndir</string>
@@ -312,7 +310,7 @@
     <string name="btn_reset_tint">Renk Tonunu Yenile</string>
     <string name="toast_select_style">Önce tasarım seçin</string>
     <string name="volume_style_gradient">Gradyan</string>
-    <string name="translators">Çevirmenler</string>
+    <string name="section_title_translators">Çevirmenler</string>
     <string name="toast_reboot_required">Yeniden başlatma gerekli</string>
     <string name="toast_lsposed_not_found">LSPosed bulunamadı!</string>
     <string name="toast_easter_egg">Bunu nasıl bildin?</string>

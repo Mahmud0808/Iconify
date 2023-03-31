@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ColorPicker" parent="Theme.MaterialComponents.Dialog">
+    <style name="ColorPicker" parent="Theme.Material3.Dark.Dialog">
         <item name="android:colorAccent">@color/colorAccent</item>
         <item name="android:windowTitleStyle">@style/DarkPickerDialogTitleStyle</item>
-        <item name="android:dialogCornerRadius">24dp</item>
-        <item name="android:buttonCornerRadius">24dp</item>
+        <item name="android:dialogCornerRadius">@dimen/cont_corner_radius</item>
+        <item name="android:buttonCornerRadius">@dimen/cont_corner_radius</item>
         <item name="android:background">@drawable/container</item>
         <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
         <item name="android:fontFamily">@font/normal</item>
         <item name="android:tint">@color/colorAccent</item>
-        <item name="android:radius">24dp</item>
+        <item name="android:radius">@dimen/cont_corner_radius</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorButtonNormal">@color/colorAccent</item>
         <item name="colorPrimary">@color/colorAccent</item>
@@ -29,13 +29,7 @@
         <item name="android:textColor">@color/textColorPrimary</item>
     </style>
 
-    <style name="SeekBar.Iconify" parent="Widget.AppCompat.SeekBar">
-        <item name="android:progressBackgroundTint">@color/colorBackground</item>
-        <item name="android:progressTint">@color/colorAccent</item>
-        <item name="android:thumbTint">@color/colorAccent</item>
-    </style>
-
-    <style name="MenuDarkTheme" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="MenuDarkTheme" parent="Theme.Material3.Dark.NoActionBar">
         <item name="android:background">@color/colorContainer</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>

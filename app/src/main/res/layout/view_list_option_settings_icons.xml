@@ -22,7 +22,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/list_title_iconpack"
+            android:id="@+id/iconpack_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/textColorPrimary"
@@ -30,7 +30,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/list_desc_iconpack"
+            android:id="@+id/iconpack_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/textColorSecondary"
@@ -49,20 +49,20 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/list_preview1_iconpack"
+                android:id="@+id/iconpack_preview1"
                 android:layout_width="@dimen/preview_icon_size"
                 android:layout_height="@dimen/preview_icon_size"
                 android:layout_margin="@dimen/preview_margin"
                 android:contentDescription="@string/icon"
-                app:tint="@color/colorAccent" />
+                app:tint="@color/holo_green_light" />
 
             <ImageView
-                android:id="@+id/list_preview2_iconpack"
+                android:id="@+id/iconpack_preview2"
                 android:layout_width="@dimen/preview_icon_size"
                 android:layout_height="@dimen/preview_icon_size"
                 android:layout_margin="@dimen/preview_margin"
                 android:contentDescription="@string/icon"
-                app:tint="@color/colorAccent" />
+                app:tint="@color/holo_green_light" />
         </LinearLayout>
 
         <LinearLayout
@@ -71,20 +71,20 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/list_preview3_iconpack"
+                android:id="@+id/iconpack_preview3"
                 android:layout_width="@dimen/preview_icon_size"
                 android:layout_height="@dimen/preview_icon_size"
                 android:layout_margin="@dimen/preview_margin"
                 android:contentDescription="@string/icon"
-                app:tint="@color/colorAccent" />
+                app:tint="@color/holo_green_light" />
 
             <ImageView
-                android:id="@+id/list_preview4_iconpack"
+                android:id="@+id/iconpack_preview4"
                 android:layout_width="@dimen/preview_icon_size"
                 android:layout_height="@dimen/preview_icon_size"
                 android:layout_margin="@dimen/preview_margin"
                 android:contentDescription="@string/icon"
-                app:tint="@color/colorAccent" />
+                app:tint="@color/holo_green_light" />
 
         </LinearLayout>
     </LinearLayout>

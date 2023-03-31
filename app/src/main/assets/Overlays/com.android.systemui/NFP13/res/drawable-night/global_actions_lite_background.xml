@@ -20,7 +20,7 @@
         android:end="80dp"
         android:top="6dp">
         <shape android:shape="rectangle">
-            <solid android:color="?android:attr/colorBackgroundFloating" />
+            <solid android:color="@*android:color/system_neutral2_900" />
             <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
         </shape>
     </item>
@@ -29,7 +29,7 @@
         android:start="80dp"
         android:top="3dp">
         <shape android:shape="rectangle">
-            <solid android:color="?android:attr/colorBackgroundFloating" />
+            <solid android:color="@*android:color/system_neutral2_900" />
             <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
         </shape>
     </item>

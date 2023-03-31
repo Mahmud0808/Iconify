@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/list_item_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/container_mid"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/container_paddingSide"
+        android:paddingTop="@dimen/container_padding"
+        android:paddingEnd="@dimen/container_paddingSide"
+        android:paddingBottom="@dimen/container_padding"
+        tools:ignore="UseSwitchCompatOrMaterialXml">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:layout_marginEnd="@dimen/container_padding"
+            android:layout_weight="1.0"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/_11sdp"
+            android:textStyle="bold" />
+
+        <Switch
+            android:id="@+id/switch_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        style="@style/dividerTransparent" />
+
+</LinearLayout>

@@ -19,8 +19,8 @@
         <shape>
             <gradient
                 android:angle="270"
-                android:endColor="@color/neumorph_outline_end"
-                android:startColor="@color/neumorph_outline_start"
+                android:endColor="#FF0F0F0F"
+                android:startColor="#FF363636"
                 android:type="linear" />
             <corners android:radius="22.0dp" />
             <size android:height="44.0dp" />
@@ -33,8 +33,8 @@
         <shape>
             <gradient
                 android:angle="90"
-                android:endColor="@color/neumorph_outline_end"
-                android:startColor="@color/neumorph_outline_start"
+                android:endColor="#FF0F0F0F"
+                android:startColor="#FF363636"
                 android:type="linear" />
             <corners android:radius="20.0dp" />
             <size android:height="40.0dp" />

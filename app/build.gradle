@@ -9,8 +9,8 @@ android {
         applicationId "com.drdisagree.iconify"
         minSdk 31
         targetSdk 33
-        versionCode 8
-        versionName "6.1.0"
+        versionCode 9
+        versionName "6.1.1"
         setProperty("archivesBaseName", "Iconify v" + versionName)
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -31,17 +31,30 @@ android {
 
     buildTypes {
         debug {
+            minifyEnabled true
+            shrinkResources false
+            zipAlignEnabled true
+            crunchPngs true
+            proguardFiles "proguard-android-optimize.txt", "proguard.pro", "proguard-rules.pro"
             applicationIdSuffix ".debug"
             resValue("string", "derived_app_name", "Iconify (Debug)")
             signingConfig releaseSigning
         }
 
         release {
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            crunchPngs true
+            proguardFiles "proguard-android-optimize.txt", "proguard.pro", "proguard-rules.pro"
             resValue("string", "derived_app_name", "Iconify")
             signingConfig releaseSigning
-            minifyEnabled false
-            proguardFiles "proguard-android-optimize.txt", "proguard.pro"
         }
+    }
+
+    buildFeatures {
+        viewBinding true
+        dataBinding true
     }
 
     compileOptions {
@@ -49,12 +62,12 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
-    }
 
     namespace 'com.drdisagree.iconify'
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+    }
 }
 
 dependencies {
@@ -94,10 +107,31 @@ dependencies {
     // Flexbox
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.15.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.0'
+
+    // RecyclerView
+    implementation "androidx.recyclerview:recyclerview:1.3.0"
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
+
+    // ViewPager2
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+
+    // Circle Indicator
+    implementation 'me.relex:circleindicator:2.1.6'
+
+    // Lottie Animation
+    implementation 'com.airbnb.android:lottie:6.0.0'
+
+    // Scalable dp snd sp
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
+    implementation 'com.intuit.ssp:ssp-android:1.1.0'
+
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.work:work-runtime:2.8.0'
-    implementation 'androidx.work:work-runtime-ktx:2.8.0'
+    implementation 'androidx.work:work-runtime:2.8.1'
+    implementation 'androidx.work:work-runtime-ktx:2.8.1'
     implementation 'org.slf4j:slf4j-api:2.0.6'
 
     // Test Implementation

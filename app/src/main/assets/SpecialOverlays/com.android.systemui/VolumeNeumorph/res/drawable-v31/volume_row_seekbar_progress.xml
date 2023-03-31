@@ -30,7 +30,7 @@
                         android:angle="90.0"
                         android:endColor="@*android:color/holo_green_light"
                         android:startColor="@*android:color/holo_blue_light" />
-                    <corners android:radius="@*com.android.systemui:dimen/volume_dialog_slider_corner_radius" />
+                    <corners android:radius="@*com.android.systemui:dimen/abc_star_small" />
                 </shape>
             </item>
         </layer-list>

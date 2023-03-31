@@ -3,7 +3,7 @@ package com.drdisagree.iconify.utils;
 import android.util.Log;
 
 import com.drdisagree.iconify.Iconify;
-import com.drdisagree.iconify.common.References;
+import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.Prefs;
 import com.topjohnwu.superuser.Shell;
 
@@ -26,24 +26,21 @@ public class OverlayUtil {
 
     public static boolean isOverlayEnabled(List<String> overlays, String pkgName) {
         for (String overlay : overlays) {
-            if (overlay.equals(pkgName))
-                return true;
+            if (overlay.equals(pkgName)) return true;
         }
         return false;
     }
 
     public static boolean isOverlayDisabled(List<String> overlays, String pkgName) {
         for (String overlay : overlays) {
-            if (overlay.equals(pkgName))
-                return false;
+            if (overlay.equals(pkgName)) return false;
         }
         return true;
     }
 
     static boolean isOverlayInstalled(List<String> enabledOverlays, String pkgName) {
         for (String line : enabledOverlays) {
-            if (line.equals(pkgName))
-                return true;
+            if (line.equals(pkgName)) return true;
         }
         return false;
     }
@@ -72,7 +69,7 @@ public class OverlayUtil {
                 numberOfOverlaysInAssets += Iconify.getAppContext().getAssets().list("Overlays/" + overlay).length;
             }
 
-            int numberOfOverlaysInstalled = Integer.parseInt(Shell.cmd("find /" + References.OVERLAY_DIR + "/ -maxdepth 1 -type f -print| wc -l").exec().getOut().get(0));
+            int numberOfOverlaysInstalled = Integer.parseInt(Shell.cmd("find /" + Resources.OVERLAY_DIR + "/ -maxdepth 1 -type f -print| wc -l").exec().getOut().get(0));
             Log.e("OverlayExists", String.valueOf(numberOfOverlaysInAssets) + ' ' + numberOfOverlaysInstalled);
             return numberOfOverlaysInAssets <= numberOfOverlaysInstalled;
         } catch (Exception e) {

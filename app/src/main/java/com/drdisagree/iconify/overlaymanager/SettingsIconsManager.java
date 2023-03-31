@@ -1,12 +1,12 @@
 package com.drdisagree.iconify.overlaymanager;
 
-import com.drdisagree.iconify.utils.compiler.SettingsIconsCompilerUtil;
+import com.drdisagree.iconify.utils.compiler.SettingsIconsCompiler;
 
 import java.io.IOException;
 
 public class SettingsIconsManager {
 
-    public static boolean enable_pack(int iconSet, int backgroundStyle, int iconColor) throws IOException {
+    public static boolean enableOverlay(int iconSet, int backgroundStyle, int iconColor) throws IOException {
         String resources = "";
 
         if (iconSet >= 1 && iconSet <= 4) {
@@ -84,13 +84,13 @@ public class SettingsIconsManager {
                     resources += "    <color name=\"icon_tint\">?android:textColorPrimaryInverse</color>\n";
                     break;
                 case 3:
-                    resources += "    <color name=\"icon_tint\">@*android:color/system_accent1_200</color>\n";
+                    resources += "    <color name=\"icon_tint\">@*android:color/holo_blue_light</color>\n";
                     break;
             }
 
             resources += "</resources>";
         }
 
-        return SettingsIconsCompilerUtil.buildOverlay(iconSet, backgroundStyle, resources);
+        return SettingsIconsCompiler.buildOverlay(iconSet, backgroundStyle, resources);
     }
 }

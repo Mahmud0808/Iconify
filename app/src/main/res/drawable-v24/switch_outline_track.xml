@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<inset xmlns:android="http://schemas.android.com/apk/res/android">
+    <selector>
+        <item android:state_checked="true">
+            <layer-list>
+                <item>
+                    <shape android:shape="rectangle">
+                        <gradient
+                            android:angle="0.0"
+                            android:endColor="@color/holo_green_light"
+                            android:startColor="@color/holo_blue_light" />
+                        <corners android:radius="24dp" />
+                    </shape>
+                </item>
+                <item
+                    android:bottom="2dp"
+                    android:left="2dp"
+                    android:right="2dp"
+                    android:top="2dp">
+                    <shape android:shape="rectangle">
+                        <solid android:color="@color/colorContainer" />
+                        <corners android:radius="24dp" />
+                    </shape>
+                </item>
+                <item
+                    android:bottom="2dp"
+                    android:left="2dp"
+                    android:right="2dp"
+                    android:top="2dp">
+                    <shape android:shape="rectangle">
+                        <solid android:color="@color/colorContainerOverlay" />
+                        <corners android:radius="24dp" />
+                    </shape>
+                </item>
+            </layer-list>
+        </item>
+        <item android:state_checked="false">
+            <layer-list>
+                <item>
+                    <shape android:shape="rectangle">
+                        <gradient
+                            android:angle="0.0"
+                            android:endColor="@color/holo_green_light"
+                            android:startColor="@color/holo_blue_light" />
+                        <corners android:radius="24dp" />
+                    </shape>
+                </item>
+                <item
+                    android:bottom="2dp"
+                    android:left="2dp"
+                    android:right="2dp"
+                    android:top="2dp">
+                    <shape android:shape="rectangle">
+                        <solid android:color="@color/colorContainer" />
+                        <corners android:radius="24dp" />
+                    </shape>
+                </item>
+                <item
+                    android:bottom="2dp"
+                    android:left="2dp"
+                    android:right="2dp"
+                    android:top="2dp">
+                    <shape android:shape="rectangle">
+                        <solid android:color="@color/colorContainerOverlay" />
+                        <corners android:radius="24dp" />
+                    </shape>
+                </item>
+            </layer-list>
+        </item>
+    </selector>
+</inset>

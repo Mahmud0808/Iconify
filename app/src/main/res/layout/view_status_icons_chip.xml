@@ -10,42 +10,41 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/chip_status_icons_1"
         android:orientation="horizontal"
-        android:paddingStart="8dp"
-        android:paddingTop="6dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="6dp">
+        android:paddingStart="@dimen/_6sdp"
+        android:paddingTop="@dimen/_4sdp"
+        android:paddingEnd="@dimen/_6sdp"
+        android:paddingBottom="@dimen/_4sdp">
 
         <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="@dimen/_12sdp"
+            android:layout_height="@dimen/_12sdp"
             android:layout_gravity="center"
-            android:layout_marginEnd="4dp"
+            android:layout_marginEnd="@dimen/_2sdp"
             android:background="@drawable/preview_plumpy_vibrate"
             android:backgroundTint="@color/textColorPrimary"
             android:contentDescription="@string/icon" />
 
         <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="@dimen/_12sdp"
+            android:layout_height="@dimen/_12sdp"
             android:layout_gravity="center"
-            android:layout_marginEnd="2dp"
+            android:layout_marginEnd="@dimen/_1sdp"
             android:background="@drawable/preview_plumpy_wifi"
             android:backgroundTint="@color/textColorPrimary"
             android:contentDescription="@string/icon" />
 
         <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="@dimen/_12sdp"
+            android:layout_height="@dimen/_12sdp"
             android:layout_gravity="center"
             android:background="@drawable/preview_plumpy_signal"
             android:backgroundTint="@color/textColorPrimary"
             android:contentDescription="@string/icon" />
 
         <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="@dimen/_12sdp"
+            android:layout_height="@dimen/_12sdp"
             android:layout_gravity="center"
             android:background="@drawable/preview_plumpy_battery"
             android:backgroundTint="@color/textColorPrimary"
@@ -58,10 +57,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="@dimen/_4sdp"
         android:background="@drawable/container"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
+        android:paddingStart="@dimen/_8sdp"
+        android:paddingEnd="@dimen/_8sdp"
         android:textColor="@color/textColorSecondary"
         android:textSize="@dimen/cont_desc_size"
         android:textStyle="bold" />

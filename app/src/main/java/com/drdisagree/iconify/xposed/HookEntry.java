@@ -28,8 +28,10 @@ import android.content.Context;
 import com.drdisagree.iconify.config.XPrefs;
 import com.drdisagree.iconify.utils.XSystemUtil;
 import com.drdisagree.iconify.xposed.mods.BackgroundChip;
+import com.drdisagree.iconify.xposed.mods.BatteryStyle;
 import com.drdisagree.iconify.xposed.mods.HeaderClock;
 import com.drdisagree.iconify.xposed.mods.HeaderImage;
+import com.drdisagree.iconify.xposed.mods.IconUpdater;
 import com.drdisagree.iconify.xposed.mods.LockscreenClock;
 import com.drdisagree.iconify.xposed.mods.Miscellaneous;
 import com.drdisagree.iconify.xposed.mods.QSTransparency;
@@ -51,13 +53,15 @@ public class HookEntry implements IXposedHookLoadPackage {
     public Context mContext = null;
 
     public HookEntry() {
+        modPacks.add(BackgroundChip.class);
+        modPacks.add(BatteryStyle.class);
+        modPacks.add(HeaderClock.class);
+        modPacks.add(HeaderImage.class);
+        modPacks.add(IconUpdater.class);
+        modPacks.add(LockscreenClock.class);
         modPacks.add(Miscellaneous.class);
         modPacks.add(QSTransparency.class);
         modPacks.add(QuickSettings.class);
-        modPacks.add(HeaderImage.class);
-        modPacks.add(HeaderClock.class);
-        modPacks.add(LockscreenClock.class);
-        modPacks.add(BackgroundChip.class);
     }
 
     @SuppressLint("ApplySharedPref")
@@ -73,7 +77,7 @@ public class HookEntry implements IXposedHookLoadPackage {
                     .putInt(strikeKey, 0)
                     .commit();
         } else if (strikeCount >= 3) {
-            log(String.format("HookEntry: Possible bootloop in %s. Will not load for now", packageName));
+            log(String.format("HookEntry: Possible bootloop in %s ; Iconify will not load for now...", packageName));
             return true;
         } else {
             Xprefs.edit().putInt(strikeKey, ++strikeCount).commit();

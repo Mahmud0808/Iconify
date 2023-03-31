@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.activity.ColoredBattery">
+    tools:context=".ui.activities.ColoredBattery">
 
     <include layout="@layout/view_header" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         android:orientation="vertical"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
@@ -19,9 +20,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/container_marginSide"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="@dimen/container_marginTopBottom"
             android:layout_marginEnd="@dimen/container_marginSide"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="@dimen/container_marginTopBottom"
             android:orientation="vertical">
 
             <LinearLayout
@@ -106,10 +107,10 @@
 
                 <View
                     android:id="@+id/preview_color_picker_background"
-                    android:layout_width="48.0dp"
-                    android:layout_height="48.0dp"
+                    android:layout_width="@dimen/_36sdp"
+                    android:layout_height="@dimen/_36sdp"
                     android:layout_gravity="start|center"
-                    android:layout_margin="2.0dp"
+                    android:layout_margin="@dimen/_2sdp"
                     android:contentDescription="@string/color_picker_preview" />
 
             </LinearLayout>
@@ -155,10 +156,10 @@
 
                 <View
                     android:id="@+id/preview_color_picker_fill"
-                    android:layout_width="48.0dp"
-                    android:layout_height="48.0dp"
+                    android:layout_width="@dimen/_36sdp"
+                    android:layout_height="@dimen/_36sdp"
                     android:layout_gravity="start|center"
-                    android:layout_margin="2.0dp"
+                    android:layout_margin="@dimen/_2sdp"
                     android:contentDescription="@string/color_picker_preview" />
 
             </LinearLayout>

@@ -1,6 +1,6 @@
 package com.drdisagree.iconify.overlaymanager;
 
-import static com.drdisagree.iconify.common.References.TOTAL_ICONPACKS;
+import static com.drdisagree.iconify.common.Dynamic.TOTAL_ICONPACKS;
 
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.OverlayUtil;
@@ -9,7 +9,7 @@ import java.io.File;
 
 public class IconPackManager {
 
-    public static void install_pack(int n) {
+    public static void enableOverlay(int n) {
         disable_others(n);
         enable_pack(n);
     }

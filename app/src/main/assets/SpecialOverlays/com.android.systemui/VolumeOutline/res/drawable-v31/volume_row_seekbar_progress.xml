@@ -27,7 +27,7 @@
                 android:top="4.0dip">
                 <shape>
                     <solid android:color="?android:colorBackground" />
-                    <corners android:radius="@*com.android.systemui:dimen/volume_dialog_slider_corner_radius" />
+                    <corners android:radius="@*com.android.systemui:dimen/abc_star_small" />
                 </shape>
             </item>
         </layer-list>

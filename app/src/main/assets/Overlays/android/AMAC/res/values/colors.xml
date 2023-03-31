@@ -6,8 +6,6 @@
     <color name="accent_material_dark">@*android:color/holo_blue_light</color>
     <color name="accent_material_light">@*android:color/holo_blue_light</color>
     <color name="accent_primary_device_default">@*android:color/holo_blue_light</color>
-    <color name="accent_secondary_device_default">@*android:color/system_accent2_600</color>
-    <color name="accent_tertiary_device_default">@*android:color/system_accent3_600</color>
     <color name="holo_blue_light">@*android:color/system_accent1_600</color>
     <color name="holo_green_light">@*android:color/system_accent1_600</color>
 </resources>
