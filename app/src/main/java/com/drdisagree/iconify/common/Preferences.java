@@ -78,6 +78,7 @@ public class Preferences {
     public static final String VOLUME_PANEL_BACKGROUND_WIDTH = "volumePanelBackgroundWidth";
     public static final String SELECTED_PROGRESSBAR = "selectedProgressbar";
     public static final String SELECTED_SWITCH = "selectedSwitch";
+    public static final String COLORED_BATTERY_CHECK = "isColoredBatteryEnabledByUser";
 
     // Settings
     public static final String USE_LIGHT_ACCENT = "useLightAccent";
