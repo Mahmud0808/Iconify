@@ -8,7 +8,7 @@ import com.drdisagree.iconify.Iconify;
 public class Resources {
 
     // Preference files
-    public static final String SharedPref = Iconify.getAppContext().getPackageName() + "_preference";
+    public static final String SharedPref = Iconify.getAppContext().getPackageName();
     public static final String SharedXPref = BuildConfig.APPLICATION_ID + "_xpreference";
 
     // Storage location
