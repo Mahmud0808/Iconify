@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.adapters;
 
+import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH;
 
 import android.content.Context;
@@ -56,10 +57,10 @@ public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapte
         holder.clock.setOnClickListener(v -> {
             RPrefs.putInt(prefStyle, position + (Objects.equals(prefSwitch, LSCLOCK_SWITCH) ? 0 : 1));
             if (Objects.equals(prefSwitch, LSCLOCK_SWITCH) && RPrefs.getBoolean(prefSwitch, false))
-                new Handler().postDelayed(SystemUtil::restartSystemUI, 200);
+                new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
             else {
                 if (RPrefs.getBoolean(prefSwitch, false)) {
-                    new Handler().postDelayed(HelperUtil::forceApply, 200);
+                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
                 }
             }
             Toast.makeText(context, context.getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
