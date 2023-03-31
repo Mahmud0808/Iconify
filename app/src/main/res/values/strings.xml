@@ -64,7 +64,7 @@
     <string name="activity_title_pixel_variant">Pixel Variant</string>
     <string name="activity_desc_pixel_variant">For roms with black QS panel</string>
     <string name="activity_title_qs_tile_size">QS Tile Size</string>
-    <string name="activity_desc_qs_tile_size">Change height of QS tile</string>
+    <string name="activity_desc_qs_tile_size">Change height of QS panel tile</string>
     <string name="activity_title_battery_style">Battery Style</string>
     <string name="activity_desc_battery_style">Customize battery icon view</string>
     <string name="activity_title_toast_frame">Toast Frame</string>
