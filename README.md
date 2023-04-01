@@ -52,9 +52,11 @@ What you can change using Iconify:
 
 ## Requirements
 
-- Android 12+ AOSP Based Rom
+- Android 12+ Pixel / AOSP Based Rom
 
 - Official Magisk Latest Stable Version
+
+- KernelSU is partially supported
 
 - LSPosed (Optional)
 
