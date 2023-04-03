@@ -52,11 +52,11 @@ What you can change using Iconify:
 
 ## Requirements
 
-- Android 12+ AOSP Based Rom
+- Android 12+ Pixel / AOSP Based Rom
 
-- Official Magisk Latest Stable Version
+- [Magisk](https://github.com/topjohnwu/Magisk) or [KernelSU](https://github.com/tiann/KernelSU)
 
-- LSPosed (Optional)
+- [LSPosed](https://github.com/LSPosed/LSPosed) (Optional)
 
 - Decryption Supported Custom Recovery (Just in case)
 
@@ -86,7 +86,7 @@ What you can change using Iconify:
 
 #### Stock Recovery Users:
 
-- Boot into safe mode (Google if you don't know how to)
+- Boot into safe mode ([Here's how to](https://www.androidauthority.com/how-to-enter-safe-mode-android-801476/))
 
 - Or, Use this adb command
 
@@ -94,11 +94,17 @@ What you can change using Iconify:
 
 #### XPosed Related Bootloop:
 
-- Boot into safe mode (Google if you don't know how to)
+- Boot into safe mode ([Here's how to](https://www.androidauthority.com/how-to-enter-safe-mode-android-801476/))
 
 - Or, Use this adb command
 
-``` adb uninstall com.drdisagree.iconify```
+  - Release Build:
+
+  ```adb uninstall com.drdisagree.iconify```
+
+  - Debug Build:
+
+  ```adb uninstall com.drdisagree.iconify.debug```
  
 
 ## Download
@@ -167,4 +173,4 @@ All contributions are welcome, from code to documentation to graphics to design 
 
 - Make sure you have custom recovery installed to revert changes if anything goes wrong.
 
-- Note: PremadeOverlays are used as embedded APKs to reduce the overlay compilation time. For details, please [see here](https://github.com/Mahmud0808/Iconify/blob/beta/app/src/main/assets/PremadeOverlays/cheatsheet).
+- PremadeOverlays are used as embedded APKs to reduce the overlay compilation time. For details, [check here](https://github.com/Mahmud0808/Iconify/blob/beta/app/src/main/assets/PremadeOverlays/cheatsheet).
