@@ -4,6 +4,7 @@ import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SIDEMARGIN;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_TOPMARGIN;
+import static com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_CARRIER;
 import static com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_STATUSBAR;
 import static com.drdisagree.iconify.common.Preferences.HIDE_STATUS_ICONS_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.QSPANEL_HIDE_CARRIER;
@@ -40,6 +41,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
     boolean QSCarrierGroupHidden = false;
     boolean hideStatusIcons = false;
     boolean fixedStatusIcons = false;
+    boolean hideLockscreenCarrier = false;
     boolean hideLockscreenStatusbar = false;
     int sideMarginStatusIcons = 0;
     int topMarginStatusIcons = 8;
@@ -59,6 +61,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
         fixedStatusIcons = Xprefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false);
         topMarginStatusIcons = Xprefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0);
         sideMarginStatusIcons = Xprefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0);
+        hideLockscreenCarrier = Xprefs.getBoolean(HIDE_LOCKSCREEN_CARRIER, false);
         hideLockscreenStatusbar = Xprefs.getBoolean(HIDE_LOCKSCREEN_STATUSBAR, false);
 
         if (Key.length > 0) {
@@ -69,7 +72,8 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
             if (Objects.equals(Key[0], FIXED_STATUS_ICONS_SWITCH) || Objects.equals(Key[0], HIDE_STATUS_ICONS_SWITCH) || Objects.equals(Key[0], FIXED_STATUS_ICONS_TOPMARGIN) || Objects.equals(Key[0], FIXED_STATUS_ICONS_SIDEMARGIN))
                 fixedStatusIcons();
 
-            if (Objects.equals(Key[0], HIDE_LOCKSCREEN_STATUSBAR)) hideLockscreenStatusbar();
+            if (Objects.equals(Key[0], HIDE_LOCKSCREEN_CARRIER) || Objects.equals(Key[0], HIDE_LOCKSCREEN_STATUSBAR))
+                hideLockscreenCarrierOrStatusbar();
         }
     }
 
@@ -135,7 +139,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
         hideQSCarrierGroup();
         hideStatusIcons();
         fixedStatusIcons();
-        hideLockscreenStatusbar();
+        hideLockscreenCarrierOrStatusbar();
     }
 
     private void hideQSCarrierGroup() {
@@ -357,7 +361,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
         }
     }
 
-    private void hideLockscreenStatusbar() {
+    private void hideLockscreenCarrierOrStatusbar() {
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
         if (ourResparam == null) return;
 
@@ -365,22 +369,31 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
             ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "keyguard_status_bar", new XC_LayoutInflated() {
                 @Override
                 public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
-                    if (!hideLockscreenStatusbar) return;
-
-                    try {
-                        @SuppressLint("DiscouragedApi") LinearLayout status_icon_area = liparam.view.findViewById(liparam.res.getIdentifier("status_icon_area", "id", SYSTEMUI_PACKAGE));
-                        status_icon_area.getLayoutParams().height = 0;
-                        status_icon_area.setVisibility(View.INVISIBLE);
-                        status_icon_area.requestLayout();
-                    } catch (Throwable ignored) {
+                    if (hideLockscreenCarrier) {
+                        try {
+                            @SuppressLint("DiscouragedApi") TextView keyguard_carrier_text = liparam.view.findViewById(liparam.res.getIdentifier("keyguard_carrier_text", "id", SYSTEMUI_PACKAGE));
+                            keyguard_carrier_text.getLayoutParams().height = 0;
+                            keyguard_carrier_text.setVisibility(View.INVISIBLE);
+                            keyguard_carrier_text.requestLayout();
+                        } catch (Throwable ignored) {
+                        }
                     }
+                    if (hideLockscreenStatusbar) {
+                        try {
+                            @SuppressLint("DiscouragedApi") LinearLayout status_icon_area = liparam.view.findViewById(liparam.res.getIdentifier("status_icon_area", "id", SYSTEMUI_PACKAGE));
+                            status_icon_area.getLayoutParams().height = 0;
+                            status_icon_area.setVisibility(View.INVISIBLE);
+                            status_icon_area.requestLayout();
+                        } catch (Throwable ignored) {
+                        }
 
-                    try {
-                        @SuppressLint("DiscouragedApi") TextView keyguard_carrier_text = liparam.view.findViewById(liparam.res.getIdentifier("keyguard_carrier_text", "id", SYSTEMUI_PACKAGE));
-                        keyguard_carrier_text.getLayoutParams().height = 0;
-                        keyguard_carrier_text.setVisibility(View.INVISIBLE);
-                        keyguard_carrier_text.requestLayout();
-                    } catch (Throwable ignored) {
+                        try {
+                            @SuppressLint("DiscouragedApi") TextView keyguard_carrier_text = liparam.view.findViewById(liparam.res.getIdentifier("keyguard_carrier_text", "id", SYSTEMUI_PACKAGE));
+                            keyguard_carrier_text.getLayoutParams().height = 0;
+                            keyguard_carrier_text.setVisibility(View.INVISIBLE);
+                            keyguard_carrier_text.requestLayout();
+                        } catch (Throwable ignored) {
+                        }
                     }
                 }
             });
