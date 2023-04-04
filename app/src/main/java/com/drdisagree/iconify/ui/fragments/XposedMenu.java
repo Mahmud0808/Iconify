@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.fragments;
 
+import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
 import static com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN;
 
 import android.content.Intent;
@@ -56,7 +57,7 @@ public class XposedMenu extends Fragment {
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
         toolbar.setNavigationOnClickListener(view1 -> new Handler().postDelayed(() -> {
             getParentFragmentManager().popBackStack();
-        }, 50));
+        }, FRAGMENT_BACK_BUTTON_DELAY));
 
         // Xposed warn
         LinearLayout xposed_warn = view.findViewById(R.id.xposed_warn);

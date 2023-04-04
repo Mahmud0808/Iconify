@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
+import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_PIXEL_DARK_BG;
@@ -149,7 +150,7 @@ public class BasicColors extends AppCompatActivity implements ColorPickerDialogL
                         findViewById(R.id.activity_basic_colors).invalidate();
                     }, 1000);
                 }
-            }, 200);
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         apply_monet_gradient.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -201,7 +202,7 @@ public class BasicColors extends AppCompatActivity implements ColorPickerDialogL
                         findViewById(R.id.activity_basic_colors).invalidate();
                     }, 1000);
                 }
-            }, 200);
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL))

@@ -52,6 +52,7 @@ public class ProgressBar extends AppCompatActivity {
         pgb_list.add(new ProgressBarModel("No Thumb", R.drawable.preview_seekbar_no_thumb));
         pgb_list.add(new ProgressBarModel("Thin Track", R.drawable.preview_seekbar_thin_track));
         pgb_list.add(new ProgressBarModel("Inline", R.drawable.preview_seekbar_inline));
+        pgb_list.add(new ProgressBarModel("Lighty", R.drawable.preview_seekbar_lighty));
 
         return new ProgressBarAdapter(this, pgb_list, loadingDialog);
     }

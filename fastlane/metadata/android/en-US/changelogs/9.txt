@@ -1,0 +1,13 @@
+Iconify v6.1.1 has arrived! It has the following new changes:
+
+Feature Changes:
+• Internal:
+>> Added support for KernelSU
+>> Added support for Motorola stock rom
+>> Added more rom support which used to error out on installation
+• Icon Shape:
+>> Added 10 new shapes
+• New Styles:
+>> Added progress bar, switch and toast message styles
+
+Full changelog at https://github.com/Mahmud0808/Iconify/releases/tag/v6.1.1

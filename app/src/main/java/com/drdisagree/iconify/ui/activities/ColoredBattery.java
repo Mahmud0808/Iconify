@@ -1,7 +1,9 @@
 package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
+import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.COLORED_BATTERY_CHECK;
 import static com.drdisagree.iconify.common.Preferences.COLORED_BATTERY_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.STR_NULL;
 import static com.drdisagree.iconify.common.References.FABRICATED_BATTERY_COLOR_BG;
@@ -13,13 +15,13 @@ import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -27,7 +29,6 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
@@ -50,32 +51,31 @@ public class ColoredBattery extends AppCompatActivity implements ColorPickerDial
 
         // Enable colored battery
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_colored_battery = findViewById(R.id.enable_colored_battery);
-        enable_colored_battery.setChecked(OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentIPSUI2.overlay") || OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentIPSUI4.overlay") || Prefs.getBoolean(COLORED_BATTERY_SWITCH));
+        enable_colored_battery.setChecked(Prefs.getString(COLORED_BATTERY_CHECK, STR_NULL).equals(STR_NULL) ? (OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentIPSUI2.overlay") || OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentIPSUI4.overlay")) : Prefs.getBoolean(COLORED_BATTERY_SWITCH));
         enable_colored_battery.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                if (OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentIPSUI2.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentIPSUI4.overlay")) {
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    Prefs.putString(COLORED_BATTERY_CHECK, "On");
                     FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, FABRICATED_COLORED_BATTERY, "bool", "config_batterymeterDualTone", "1");
-                    Prefs.putBoolean(COLORED_BATTERY_SWITCH, true);
                 } else {
-                    if (OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentIPSUI2.overlay"))
-                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_lorn_colored_battery), Toast.LENGTH_SHORT).show();
-                    else if (OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentIPSUI4.overlay"))
-                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_plumpy_colored_battery), Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                if (OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentIPSUI2.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentIPSUI4.overlay")) {
+                    Prefs.putString(COLORED_BATTERY_CHECK, "Off");
                     FabricatedUtil.disableOverlay(FABRICATED_COLORED_BATTERY);
-                    Prefs.putBoolean(COLORED_BATTERY_SWITCH, false);
-                } else {
-                    if (OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentIPSUI2.overlay"))
-                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_lorn_colored_battery), Toast.LENGTH_SHORT).show();
-                    else if (OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentIPSUI4.overlay"))
-                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_plumpy_colored_battery), Toast.LENGTH_SHORT).show();
+                    FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, FABRICATED_COLORED_BATTERY, "bool", "config_batterymeterDualTone", "0");
+
+                    if (!Objects.equals(Prefs.getString(FABRICATED_BATTERY_COLOR_BG), STR_NULL))
+                        FabricatedUtil.disableOverlay(FABRICATED_BATTERY_COLOR_BG);
+
+                    if (!Objects.equals(Prefs.getString(FABRICATED_BATTERY_COLOR_FG), STR_NULL))
+                        FabricatedUtil.disableOverlay(FABRICATED_BATTERY_COLOR_FG);
                 }
 
-                FabricatedUtil.disableOverlay(FABRICATED_BATTERY_COLOR_BG);
-                FabricatedUtil.disableOverlay(FABRICATED_BATTERY_COLOR_FG);
-            }
+                if (OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentIPSUI2.overlay"))
+                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_lorn_colored_battery), Toast.LENGTH_SHORT).show();
+                else if (OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentIPSUI4.overlay"))
+                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_plumpy_colored_battery), Toast.LENGTH_SHORT).show();
+
+                Prefs.putBoolean(COLORED_BATTERY_SWITCH, isChecked);
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         if (!Objects.equals(Prefs.getString(FABRICATED_BATTERY_COLOR_BG), STR_NULL))

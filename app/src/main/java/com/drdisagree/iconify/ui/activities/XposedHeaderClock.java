@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.activities;
 
+import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_FONT_TEXT_SCALING;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SIDEMARGIN;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_STYLE;
@@ -51,7 +52,7 @@ public class XposedHeaderClock extends AppCompatActivity {
         enable_header_clock.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HEADER_CLOCK_SWITCH, isChecked);
             if (!isChecked) RPrefs.putInt(HEADER_CLOCK_STYLE, 1);
-            new Handler().postDelayed(HelperUtil::forceApply, 200);
+            new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
         });
 
         // Header clock style
@@ -88,7 +89,7 @@ public class XposedHeaderClock extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(HEADER_CLOCK_FONT_TEXT_SCALING, textScaling[0]);
                 if (RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false)) {
-                    new Handler().postDelayed(HelperUtil::forceApply, 200);
+                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
                 }
             }
         });
@@ -115,7 +116,7 @@ public class XposedHeaderClock extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(HEADER_CLOCK_SIDEMARGIN, sideMargin[0]);
                 if (RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false)) {
-                    new Handler().postDelayed(HelperUtil::forceApply, 200);
+                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
                 }
             }
         });
@@ -142,7 +143,7 @@ public class XposedHeaderClock extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(HEADER_CLOCK_TOPMARGIN, topMargin[0]);
                 if (RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false)) {
-                    new Handler().postDelayed(HelperUtil::forceApply, 200);
+                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
                 }
             }
         });
@@ -153,7 +154,7 @@ public class XposedHeaderClock extends AppCompatActivity {
         enable_force_white_text.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HEADER_CLOCK_TEXT_WHITE, isChecked);
             if (RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false)) {
-                new Handler().postDelayed(HelperUtil::forceApply, 200);
+                new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
             }
         });
     }

@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.ui.activities;
 
+import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -95,7 +97,7 @@ public class NavigationBar extends AppCompatActivity {
                     nb_kb_buttons_menu.setVisibility(View.GONE);
                     OverlayUtil.disableOverlay("IconifyComponentNBFullScreen.overlay");
                 }
-            }, 200);
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         // Immersive
@@ -109,7 +111,7 @@ public class NavigationBar extends AppCompatActivity {
                     nb_kb_buttons_menu.setVisibility(View.GONE);
                     OverlayUtil.disableOverlay("IconifyComponentNBImmersive.overlay");
                 }
-            }, 200);
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         // Immersive v2
@@ -123,7 +125,7 @@ public class NavigationBar extends AppCompatActivity {
                     nb_kb_buttons_menu.setVisibility(View.GONE);
                     OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmall.overlay");
                 }
-            }, 200);
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         // Immersive v3
@@ -137,7 +139,7 @@ public class NavigationBar extends AppCompatActivity {
                     nb_kb_buttons_menu.setVisibility(View.GONE);
                     OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmaller.overlay");
                 }
-            }, 200);
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         // Lower Sensitivity
@@ -148,7 +150,7 @@ public class NavigationBar extends AppCompatActivity {
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentNBLowSens.overlay");
                 }
-            }, 200);
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         // Hide Pill
@@ -163,7 +165,7 @@ public class NavigationBar extends AppCompatActivity {
                     OverlayUtil.disableOverlay("IconifyComponentNBHidePill.overlay");
                     SystemUtil.restartSystemUI();
                 }
-            }, 200);
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         // Monet Pill
@@ -176,7 +178,7 @@ public class NavigationBar extends AppCompatActivity {
                     OverlayUtil.disableOverlay("IconifyComponentNBMonetPill.overlay");
                     SystemUtil.restartSystemUI();
                 }
-            }, 200);
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         // Hide Keyboard Buttons
@@ -187,7 +189,7 @@ public class NavigationBar extends AppCompatActivity {
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentNBHideKBButton.overlay");
                 }
-            }, 200);
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         // Disable left gesture
@@ -198,7 +200,7 @@ public class NavigationBar extends AppCompatActivity {
                 } else {
                     Shell.cmd("settings delete secure back_gesture_inset_scale_left &>/dev/null").exec();
                 }
-            }, 200);
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         // Disable right gesture
@@ -209,7 +211,7 @@ public class NavigationBar extends AppCompatActivity {
                 } else {
                     Shell.cmd("settings delete secure back_gesture_inset_scale_right &>/dev/null").exec();
                 }
-            }, 200);
+            }, SWITCH_ANIMATION_DELAY);
         });
     }
 

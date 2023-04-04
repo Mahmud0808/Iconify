@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.activities;
 
+import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.LANDSCAPE_BATTERY_HEIGHT;
 import static com.drdisagree.iconify.common.Preferences.LANDSCAPE_BATTERY_ROTATION;
 import static com.drdisagree.iconify.common.Preferences.LANDSCAPE_BATTERY_SWITCH;
@@ -47,7 +48,7 @@ public class XposedBatteryStyle extends AppCompatActivity {
         enable_landscape_battery.setChecked(RPrefs.getBoolean(LANDSCAPE_BATTERY_SWITCH, false));
         enable_landscape_battery.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(LANDSCAPE_BATTERY_SWITCH, isChecked);
-            new Handler().postDelayed(isChecked ? HelperUtil::forceApply : SystemUtil::restartSystemUI, 200);
+            new Handler().postDelayed(isChecked ? HelperUtil::forceApply : SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 
         // Landscape battery style
@@ -78,7 +79,7 @@ public class XposedBatteryStyle extends AppCompatActivity {
         apply_battery_style.setOnClickListener(v -> {
             RPrefs.putInt(LANDSCAPE_BATTERY_ROTATION, selectedLandscapeBattery[0]);
             if (RPrefs.getBoolean(LANDSCAPE_BATTERY_SWITCH, false)) {
-                new Handler().postDelayed(HelperUtil::forceApply, 200);
+                new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
             }
         });
 
@@ -104,7 +105,7 @@ public class XposedBatteryStyle extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(LANDSCAPE_BATTERY_WIDTH, batteryWidth[0]);
                 if (RPrefs.getBoolean(LANDSCAPE_BATTERY_SWITCH, false)) {
-                    new Handler().postDelayed(HelperUtil::forceApply, 200);
+                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
                 }
             }
         });
@@ -131,7 +132,7 @@ public class XposedBatteryStyle extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(LANDSCAPE_BATTERY_HEIGHT, batteryHeight[0]);
                 if (RPrefs.getBoolean(LANDSCAPE_BATTERY_SWITCH, false)) {
-                    new Handler().postDelayed(HelperUtil::forceApply, 200);
+                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
                 }
             }
         });

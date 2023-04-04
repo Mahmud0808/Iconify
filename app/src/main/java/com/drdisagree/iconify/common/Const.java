@@ -17,4 +17,5 @@ public class Const {
     // Fragment variables
     public static final int FRAGMENT_TRANSITION_DELAY = 120;
     public static final int FRAGMENT_BACK_BUTTON_DELAY = 50;
+    public static final int SWITCH_ANIMATION_DELAY = 300;
 }

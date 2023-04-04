@@ -147,10 +147,6 @@ public class VolumePanel extends AppCompatActivity {
         });
     }
 
-    public void enableColors(View view) {
-        OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
-    }
-
     @SuppressLint({"NonConstantResourceId"})
     private void installVolumeModule(int volume) {
         loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
