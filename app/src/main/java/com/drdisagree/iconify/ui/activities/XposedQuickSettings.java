@@ -14,16 +14,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.HelperUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-
-import java.util.Objects;
 
 public class XposedQuickSettings extends AppCompatActivity {
 
@@ -57,7 +53,8 @@ public class XposedQuickSettings extends AppCompatActivity {
         enable_panel_top_margin.setChecked(RPrefs.getBoolean(PANEL_TOPMARGIN_SWITCH, false));
         enable_panel_top_margin.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(PANEL_TOPMARGIN_SWITCH, isChecked);
-            if (isChecked) new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
+            if (isChecked)
+                new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
             else new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 

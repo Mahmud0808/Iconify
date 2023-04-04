@@ -3,7 +3,6 @@ package com.drdisagree.iconify.ui.activities;
 import static com.drdisagree.iconify.utils.SystemUtil.isDarkMode;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;

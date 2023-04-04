@@ -5,15 +5,12 @@ import android.os.Bundle;
 import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
-import java.util.Objects;
 
 public class Experimental extends AppCompatActivity {
 
