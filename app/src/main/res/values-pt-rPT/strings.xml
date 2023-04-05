@@ -169,6 +169,8 @@
     <string name="activity_desc_qs_tile_size">Personalizar altura dos atalhos</string>
     <string name="activity_title_media_icons">Ícones do leitor multimédia</string>
     <string name="activity_desc_media_icons">Personalizar os ícones do leitor de multimédia</string>
+    <string name="activity_title_qs_panel">Painel das DR</string>
+    <string name="activity_desc_qs_panel">Personalizar o painel das definições rápidas</string>
     <string name="apply_monet_accent_title">Acentuação Monet</string>
     <string name="apply_monet_accent_desc">Usar a cor de acentuação do sistema Monet</string>
     <string name="apply_monet_gradient_title">Gradiente Monet</string>
@@ -380,6 +382,7 @@
     <string name="module_installation_step4">A alinhar APKs dos <i>Overlays</i></string>
     <string name="module_installation_step5">A assinar APKs dos <i>Overlays</i></string>
     <string name="module_installation_step6">A limpar diretorias temporárias</string>
+    <string name="toast_storage_access">A carregar página \"Acesso a todos os ficheiros\"</string>
     <string name="qs_tile_non_expanded_height">Altura não expandida</string>
     <string name="portrait">(Retrato)</string>
     <string name="qs_tile_expanded_height">Altura expandida</string>
