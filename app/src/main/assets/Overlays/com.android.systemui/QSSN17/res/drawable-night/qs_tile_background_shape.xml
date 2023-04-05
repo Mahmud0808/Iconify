@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:tintMode="src_atop">
-            <solid android:color="#66000000" />
+            <solid android:color="@drawable/color_background_alpha" />
             <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
         </shape>
     </item>
@@ -10,8 +10,8 @@
         <shape android:tintMode="multiply">
             <gradient
                 android:angle="0.0"
-                android:endColor="?android:colorSecondary"
-                android:startColor="?android:colorPrimary" />
+                android:endColor="@drawable/holo_green_light_alpha"
+                android:startColor="@drawable/holo_blue_light_alpha" />
             <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
         </shape>
     </item>
