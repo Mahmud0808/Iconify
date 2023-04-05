@@ -8,8 +8,8 @@
             <size android:height="48.0dip" />
             <gradient
                 android:angle="0.0"
-                android:endColor="@*android:color/holo_green_light"
-                android:startColor="@*android:color/holo_blue_light" />
+                android:endColor="@drawable/holo_green_light_alpha"
+                android:startColor="@drawable/holo_blue_light_alpha" />
         </shape>
     </item>
 </layer-list>
