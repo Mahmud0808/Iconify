@@ -29,6 +29,7 @@ import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.views.InstallationDialog;
 import com.drdisagree.iconify.utils.FileUtil;
 import com.drdisagree.iconify.utils.ModuleUtil;
@@ -101,7 +102,15 @@ public class LandingPage3 extends AppCompatActivity {
                             SystemUtil.getStoragePermission(this);
                         }, clickedContinue.get() ? 10 : 2000);
                     } else {
-                        if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !ModuleUtil.moduleExists() || !OverlayUtil.overlayExists()) {
+                        boolean moduleExists = ModuleUtil.moduleExists();
+                        boolean overlayExists = OverlayUtil.overlayExists();
+
+                        if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !moduleExists || !overlayExists) {
+                            if (!moduleExists || !overlayExists) {
+                                Prefs.clearAllPrefs();
+                                RPrefs.clearAllPrefs();
+                            }
+
                             LottieCompositionFactory.fromRawRes(this, !isDarkMode() ? R.raw.loading_day : R.raw.loading_night).addListener(result -> {
                                 loading_anim = findViewById(R.id.loading_anim);
                                 loading_anim.setMaxWidth(install_module.getHeight());
