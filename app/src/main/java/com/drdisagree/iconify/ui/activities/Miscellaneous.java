@@ -1,25 +1,40 @@
 package com.drdisagree.iconify.ui.activities;
 
+import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
+
 import android.os.Bundle;
+import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.databinding.ActivityMiscellaneousBinding;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-
-import java.util.Objects;
+import com.drdisagree.iconify.utils.OverlayUtil;
 
 public class Miscellaneous extends AppCompatActivity {
+
+    ActivityMiscellaneousBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_miscellaneous);
+        binding = ActivityMiscellaneousBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
         ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_miscellaneous);
+
+        binding.enableNotchBarKiller.setChecked(Prefs.getBoolean("IconifyComponentNBK.overlay", false));
+        binding.enableNotchBarKiller.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            new Handler().postDelayed(() -> {
+                if (isChecked)
+                    OverlayUtil.enableOverlay("IconifyComponentNBK.overlay");
+                else
+                    OverlayUtil.disableOverlay("IconifyComponentNBK.overlay");
+            }, SWITCH_ANIMATION_DELAY);
+        });
     }
 
     @Override

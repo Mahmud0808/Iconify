@@ -32,7 +32,7 @@
     <string name="activity_title_xposed_menu">XPosed Menu</string>
     <string name="activity_desc_xposed_menu">LSPosed required for these options</string>
     <string name="activity_title_miscellaneous">Miscellaneous</string>
-    <string name="activity_desc_miscellaneous">Miscellaneous tweaks and customization</string>
+    <string name="activity_desc_miscellaneous">Miscellaneous customization</string>
     <string name="activity_title_transparency_blur">Transparency &amp; Blur</string>
     <string name="activity_desc_transparency_blur">Enable QS blur and transparency</string>
     <string name="activity_title_lockscreen_clock">Lockscreen Clock</string>
@@ -487,4 +487,6 @@
     <string name="hide_ls_carrier_desc">Hide carrier name on lockscreen</string>
     <string name="hide_ls_statusbar_title">Hide LS Statusbar</string>
     <string name="hide_ls_statusbar_desc">Hide statusbar on lockscreen</string>
+    <string name="notch_bar_killer_title">Notch Bar Killer</string>
+    <string name="notch_bar_killer_desc">Kill empty space of notch bar</string>
 </resources>

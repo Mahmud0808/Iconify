@@ -52,69 +52,43 @@ public class Tweaks extends Fragment {
 
         listView = view.findViewById(R.id.tweaks_list);
 
-        ArrayList<Object[]> tweaks_list = new ArrayList<>();
-
-        tweaks_list.add(new Object[]{null, getResources().getString(R.string.activity_title_color_engine), getResources().getString(R.string.activity_desc_color_engine), R.drawable.ic_tweaks_color});
-        tweaks_list.add(new Object[]{UiRoundness.class, getResources().getString(R.string.activity_title_ui_roundness), getResources().getString(R.string.activity_desc_ui_roundness), R.drawable.ic_tweaks_roundness});
-        tweaks_list.add(new Object[]{null, getResources().getString(R.string.activity_title_qs_panel), getResources().getString(R.string.activity_desc_qs_panel), R.drawable.ic_tweaks_qs_panel});
-        tweaks_list.add(new Object[]{Statusbar.class, getResources().getString(R.string.activity_title_statusbar), getResources().getString(R.string.activity_desc_statusbar), R.drawable.ic_tweaks_statusbar});
-        tweaks_list.add(new Object[]{NavigationBar.class, getResources().getString(R.string.activity_title_navigation_bar), getResources().getString(R.string.activity_desc_navigation_bar), R.drawable.ic_tweaks_navbar});
-        tweaks_list.add(new Object[]{MediaPlayer.class, getResources().getString(R.string.activity_title_media_player), getResources().getString(R.string.activity_desc_media_player), R.drawable.ic_tweaks_media});
-        tweaks_list.add(new Object[]{VolumePanel.class, getResources().getString(R.string.activity_title_volume_panel), getResources().getString(R.string.activity_desc_volume_panel), R.drawable.ic_tweaks_volume});
-        tweaks_list.add(new Object[]{null, getResources().getString(R.string.activity_title_xposed_menu), getResources().getString(R.string.activity_desc_xposed_menu), R.drawable.ic_tweaks_xposed_menu});
-        tweaks_list.add(new Object[]{Miscellaneous.class, getResources().getString(R.string.activity_title_miscellaneous), getResources().getString(R.string.activity_desc_miscellaneous), R.drawable.ic_tweaks_miscellaneous});
-
-        addItem(tweaks_list);
-
-        // Enable onClick event
-        for (int i = 0; i < tweaks_list.size() - 1; i++) {
-            LinearLayout child = listView.getChildAt(i).findViewById(R.id.list_info_item);
-            int finalI = i;
-            child.setOnClickListener(v -> {
-                Intent intent = new Intent(requireActivity(), (Class<?>) tweaks_list.get(finalI)[0]);
-                startActivity(intent);
-            });
-        }
-
         FragmentManager fragmentManager = getParentFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out, R.anim.fragment_fade_in, R.anim.fragment_fade_out);
 
-        // Color Engine fragment
-        listView.getChildAt(0).findViewById(R.id.list_info_item).setOnClickListener(view1 -> {
-            new Handler().postDelayed(() -> {
-                fragmentTransaction.replace(R.id.main_fragment, new ColorEngine(), FRAGMENT_COLORENGINE);
-                fragmentManager.popBackStack(FRAGMENT_STYLES, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                fragmentTransaction.addToBackStack(FRAGMENT_COLORENGINE);
-                fragmentTransaction.commit();
-            }, FRAGMENT_TRANSITION_DELAY);
-        });
+        ArrayList<Object[]> tweaks_list = new ArrayList<>();
 
-        // QS Panel fragment
-        listView.getChildAt(2).findViewById(R.id.list_info_item).setOnClickListener(view1 -> {
-            new Handler().postDelayed(() -> {
-                fragmentTransaction.replace(R.id.main_fragment, new QsPanel(), FRAGMENT_QSPANEL);
-                fragmentManager.popBackStack(FRAGMENT_STYLES, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                fragmentTransaction.addToBackStack(FRAGMENT_QSPANEL);
-                fragmentTransaction.commit();
-            }, FRAGMENT_TRANSITION_DELAY);
-        });
+        tweaks_list.add(new Object[]{(View.OnClickListener) v -> new Handler().postDelayed(() -> {
+            fragmentTransaction.replace(R.id.main_fragment, new ColorEngine(), FRAGMENT_COLORENGINE);
+            fragmentManager.popBackStack(FRAGMENT_STYLES, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            fragmentTransaction.addToBackStack(FRAGMENT_COLORENGINE);
+            fragmentTransaction.commit();
+        }, FRAGMENT_TRANSITION_DELAY), getResources().getString(R.string.activity_title_color_engine), getResources().getString(R.string.activity_desc_color_engine), R.drawable.ic_tweaks_color});
+        tweaks_list.add(new Object[]{UiRoundness.class, getResources().getString(R.string.activity_title_ui_roundness), getResources().getString(R.string.activity_desc_ui_roundness), R.drawable.ic_tweaks_roundness});
+        tweaks_list.add(new Object[]{(View.OnClickListener) v -> new Handler().postDelayed(() -> {
+            fragmentTransaction.replace(R.id.main_fragment, new QsPanel(), FRAGMENT_QSPANEL);
+            fragmentManager.popBackStack(FRAGMENT_STYLES, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            fragmentTransaction.addToBackStack(FRAGMENT_QSPANEL);
+            fragmentTransaction.commit();
+        }, FRAGMENT_TRANSITION_DELAY), getResources().getString(R.string.activity_title_qs_panel), getResources().getString(R.string.activity_desc_qs_panel), R.drawable.ic_tweaks_qs_panel});
+        tweaks_list.add(new Object[]{Statusbar.class, getResources().getString(R.string.activity_title_statusbar), getResources().getString(R.string.activity_desc_statusbar), R.drawable.ic_tweaks_statusbar});
+        tweaks_list.add(new Object[]{NavigationBar.class, getResources().getString(R.string.activity_title_navigation_bar), getResources().getString(R.string.activity_desc_navigation_bar), R.drawable.ic_tweaks_navbar});
+        tweaks_list.add(new Object[]{MediaPlayer.class, getResources().getString(R.string.activity_title_media_player), getResources().getString(R.string.activity_desc_media_player), R.drawable.ic_tweaks_media});
+        tweaks_list.add(new Object[]{VolumePanel.class, getResources().getString(R.string.activity_title_volume_panel), getResources().getString(R.string.activity_desc_volume_panel), R.drawable.ic_tweaks_volume});
+        tweaks_list.add(new Object[]{(View.OnClickListener) v -> new Handler().postDelayed(() -> {
+            // Check if LSPosed is installed or not
+            if (!AppUtil.isLsposedInstalled()) {
+                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_lsposed_not_found), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            fragmentTransaction.replace(R.id.main_fragment, new XposedMenu(), FRAGMENT_XPOSEDMENU);
+            fragmentManager.popBackStack(FRAGMENT_STYLES, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            fragmentTransaction.addToBackStack(FRAGMENT_XPOSEDMENU);
+            fragmentTransaction.commit();
+        }, FRAGMENT_TRANSITION_DELAY), getResources().getString(R.string.activity_title_xposed_menu), getResources().getString(R.string.activity_desc_xposed_menu), R.drawable.ic_tweaks_xposed_menu});
+        tweaks_list.add(new Object[]{Miscellaneous.class, getResources().getString(R.string.activity_title_miscellaneous), getResources().getString(R.string.activity_desc_miscellaneous), R.drawable.ic_tweaks_miscellaneous});
 
-        // Xposed Menu fragment
-        listView.getChildAt(tweaks_list.size() - 1).findViewById(R.id.list_info_item).setOnClickListener(view1 -> {
-            new Handler().postDelayed(() -> {
-                // Check if LSPosed is installed or not
-                if (!AppUtil.isLsposedInstalled()) {
-                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_lsposed_not_found), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                fragmentTransaction.replace(R.id.main_fragment, new XposedMenu(), FRAGMENT_XPOSEDMENU);
-                fragmentManager.popBackStack(FRAGMENT_STYLES, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                fragmentTransaction.addToBackStack(FRAGMENT_XPOSEDMENU);
-                fragmentTransaction.commit();
-            }, FRAGMENT_TRANSITION_DELAY);
-        });
+        addItem(tweaks_list);
 
         return view;
     }
@@ -132,6 +106,16 @@ public class Tweaks extends Fragment {
 
             ImageView preview = list.findViewById(R.id.list_preview);
             preview.setImageResource((int) pack.get(i)[3]);
+
+            if (pack.get(i)[0] instanceof Class<?>) {
+                int finalI = i;
+                list.setOnClickListener(v -> {
+                    Intent intent = new Intent(requireActivity(), (Class<?>) pack.get(finalI)[0]);
+                    startActivity(intent);
+                });
+            } else if (pack.get(i)[0] instanceof View.OnClickListener) {
+                list.setOnClickListener((View.OnClickListener) pack.get(i)[0]);
+            }
 
             listView.addView(list);
         }
