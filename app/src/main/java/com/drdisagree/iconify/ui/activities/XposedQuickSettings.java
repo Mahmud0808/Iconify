@@ -1,7 +1,9 @@
 package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
+import static com.drdisagree.iconify.common.Preferences.DUALTONE_QSPANEL;
 import static com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.LIGHT_QSPANEL;
 import static com.drdisagree.iconify.common.Preferences.PANEL_TOPMARGIN_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.QS_TOPMARGIN;
 import static com.drdisagree.iconify.common.Preferences.VERTICAL_QSTILE_SWITCH;
@@ -14,16 +16,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.HelperUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-
-import java.util.Objects;
 
 public class XposedQuickSettings extends AppCompatActivity {
 
@@ -52,12 +50,29 @@ public class XposedQuickSettings extends AppCompatActivity {
             new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
         });
 
+        // Light Theme
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_light_theme = findViewById(R.id.enable_light_theme);
+        enable_light_theme.setChecked(RPrefs.getBoolean(LIGHT_QSPANEL, false));
+        enable_light_theme.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(LIGHT_QSPANEL, isChecked);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+        });
+
+        // Dual Tone
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_dual_tone = findViewById(R.id.enable_dual_tone);
+        enable_dual_tone.setChecked(RPrefs.getBoolean(DUALTONE_QSPANEL, true));
+        enable_dual_tone.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(DUALTONE_QSPANEL, isChecked);
+            new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
+        });
+
         // QS panel top margin switch
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_panel_top_margin = findViewById(R.id.enable_panel_top_margin);
         enable_panel_top_margin.setChecked(RPrefs.getBoolean(PANEL_TOPMARGIN_SWITCH, false));
         enable_panel_top_margin.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(PANEL_TOPMARGIN_SWITCH, isChecked);
-            if (isChecked) new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
+            if (isChecked)
+                new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
             else new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 

@@ -52,7 +52,7 @@
     <string name="activity_title_colored_battery">Colored Battery</string>
     <string name="activity_desc_colored_battery">Change battery icon color</string>
     <string name="activity_title_xposed_others">Others</string>
-    <string name="activity_desc_xposed_others">Other xposed tweaks and customization</string>
+    <string name="activity_desc_xposed_others">Miscellaneous xposed tweaks</string>
     <string name="activity_title_statusbar">Statusbar</string>
     <string name="activity_desc_statusbar">Modify statusbar interface</string>
     <string name="activity_title_basic_colors">Basic Colors</string>

@@ -26,7 +26,9 @@ import android.app.Instrumentation;
 import android.content.Context;
 
 import com.drdisagree.iconify.config.XPrefs;
-import com.drdisagree.iconify.utils.XSystemUtil;
+import com.drdisagree.iconify.xposed.mods.QSThemeManager;
+import com.drdisagree.iconify.xposed.mods.QSThemeManagerA12;
+import com.drdisagree.iconify.xposed.utils.SystemUtil;
 import com.drdisagree.iconify.xposed.mods.BackgroundChip;
 import com.drdisagree.iconify.xposed.mods.BatteryStyle;
 import com.drdisagree.iconify.xposed.mods.HeaderClock;
@@ -46,7 +48,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class HookEntry implements IXposedHookLoadPackage {
 
-    public static boolean isSecondProcess = false;
+    public static boolean isChildProcess = false;
 
     public static ArrayList<Class<?>> modPacks = new ArrayList<>();
     public static ArrayList<ModPack> runningMods = new ArrayList<>();
@@ -62,6 +64,8 @@ public class HookEntry implements IXposedHookLoadPackage {
         modPacks.add(Miscellaneous.class);
         modPacks.add(QSTransparency.class);
         modPacks.add(QuickSettings.class);
+        modPacks.add(QSThemeManager.class);
+        modPacks.add(QSThemeManagerA12.class);
     }
 
     @SuppressLint("ApplySharedPref")
@@ -87,7 +91,7 @@ public class HookEntry implements IXposedHookLoadPackage {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        isSecondProcess = lpparam.processName.contains(":");
+        isChildProcess = lpparam.processName.contains(":");
 
         findAndHookMethod(Instrumentation.class, "newApplication", ClassLoader.class, String.class, Context.class, new XC_MethodHook() {
             @Override
@@ -101,7 +105,7 @@ public class HookEntry implements IXposedHookLoadPackage {
                         return;
                     }
 
-                    new XSystemUtil(mContext);
+                    new SystemUtil(mContext);
                     XPrefs.loadEverything(mContext.getPackageName());
                 }
 

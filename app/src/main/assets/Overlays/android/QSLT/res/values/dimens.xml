@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="control_menu_item_min_height">56.0dip</dimen>
+    <dimen name="control_menu_item_text_size">16.0sp</dimen>
+    <dimen name="qs_corner_radius">28.0dip</dimen>
+    <dimen name="qs_footer_action_corner_radius">20.0dip</dimen>
+    <dimen name="qs_footer_action_inset">2.0dip</dimen>
+    <dimen name="qs_security_footer_background_inset">12.0dip</dimen>
+    <dimen name="qs_security_footer_corner_radius">28.0dip</dimen>
+    <dimen name="rounded_slider_corner_radius">24.0dip</dimen>
+    <dimen name="rounded_slider_height">48.0dip</dimen>
+    <dimen name="rounded_slider_icon_inset">14.0dip</dimen>
+    <dimen name="rounded_slider_icon_size">20.0dip</dimen>
+    <dimen name="rounded_slider_track_corner_radius">2.0dip</dimen>
+    <dimen name="rounded_slider_track_inset">22.0dip</dimen>
+    <dimen name="rounded_slider_track_width">4.0dip</dimen>
+</resources>

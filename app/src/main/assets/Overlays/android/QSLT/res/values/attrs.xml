@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="backgroundColor" format="integer" />
+    <attr name="darkIconTheme" format="reference" />
+    <attr name="fillColor" format="integer" />
+    <attr name="homeHandleColor" format="integer" />
+    <attr name="lightIconTheme" format="reference" />
+    <attr name="offStateColor" format="reference|color" />
+    <attr name="singleToneColor" format="integer" />
+    <attr name="underSurfaceColor" format="reference|color" />
+</resources>

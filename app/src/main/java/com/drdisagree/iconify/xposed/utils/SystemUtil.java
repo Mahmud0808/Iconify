@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.utils;
+package com.drdisagree.iconify.xposed.utils;
 
 /*
  * From AOSPMods
@@ -16,14 +16,14 @@ import androidx.annotation.AttrRes;
 
 import com.topjohnwu.superuser.Shell;
 
-public class XSystemUtil {
+public class SystemUtil {
 
     @SuppressLint("StaticFieldLeak")
-    static XSystemUtil instance;
+    static SystemUtil instance;
     static boolean darkSwitching = false;
     Context mContext;
 
-    public XSystemUtil(Context context) {
+    public SystemUtil(Context context) {
         mContext = context;
         instance = this;
     }
