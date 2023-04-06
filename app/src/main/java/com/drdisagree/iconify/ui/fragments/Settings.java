@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.fragments;
 
+import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.EASTER_EGG;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.FORCE_APPLY_XPOSED_CHOICE;
@@ -96,32 +97,32 @@ public class Settings extends Fragment {
 
         // Use light accent
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch use_light_accent = view.findViewById(R.id.use_light_accent);
-        if (Prefs.getBoolean(USE_LIGHT_ACCENT, false) || Prefs.getBoolean("IconifyComponentAMACL.overlay") || Prefs.getBoolean("IconifyComponentAMGCL.overlay")) {
-            Prefs.putBoolean(USE_LIGHT_ACCENT, true);
-            use_light_accent.setChecked(true);
-        } else {
-            Prefs.putBoolean(USE_LIGHT_ACCENT, false);
-            use_light_accent.setChecked(false);
-        }
+        boolean useLightAccent = Prefs.getBoolean(USE_LIGHT_ACCENT, false) || Prefs.getBoolean("IconifyComponentAMACL.overlay") || Prefs.getBoolean("IconifyComponentAMGCL.overlay");
+
+        Prefs.putBoolean(USE_LIGHT_ACCENT, useLightAccent);
+        use_light_accent.setChecked(useLightAccent);
+
         use_light_accent.setOnCheckedChangeListener((buttonView, isChecked) -> {
             Prefs.putBoolean(USE_LIGHT_ACCENT, isChecked);
-            if (isChecked) {
-                if (Prefs.getBoolean("IconifyComponentAMAC.overlay")) {
-                    OverlayUtil.disableOverlay("IconifyComponentAMAC.overlay");
-                    OverlayUtil.enableOverlay("IconifyComponentAMACL.overlay");
-                } else if (Prefs.getBoolean("IconifyComponentAMGC.overlay")) {
-                    OverlayUtil.disableOverlay("IconifyComponentAMGC.overlay");
-                    OverlayUtil.enableOverlay("IconifyComponentAMGCL.overlay");
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    if (Prefs.getBoolean("IconifyComponentAMAC.overlay")) {
+                        OverlayUtil.disableOverlay("IconifyComponentAMAC.overlay");
+                        OverlayUtil.enableOverlay("IconifyComponentAMACL.overlay");
+                    } else if (Prefs.getBoolean("IconifyComponentAMGC.overlay")) {
+                        OverlayUtil.disableOverlay("IconifyComponentAMGC.overlay");
+                        OverlayUtil.enableOverlay("IconifyComponentAMGCL.overlay");
+                    }
+                } else {
+                    if (Prefs.getBoolean("IconifyComponentAMACL.overlay")) {
+                        OverlayUtil.disableOverlay("IconifyComponentAMACL.overlay");
+                        OverlayUtil.enableOverlay("IconifyComponentAMAC.overlay");
+                    } else if (Prefs.getBoolean("IconifyComponentAMGCL.overlay")) {
+                        OverlayUtil.disableOverlay("IconifyComponentAMGCL.overlay");
+                        OverlayUtil.enableOverlay("IconifyComponentAMGC.overlay");
+                    }
                 }
-            } else {
-                if (Prefs.getBoolean("IconifyComponentAMACL.overlay")) {
-                    OverlayUtil.disableOverlay("IconifyComponentAMACL.overlay");
-                    OverlayUtil.enableOverlay("IconifyComponentAMAC.overlay");
-                } else if (Prefs.getBoolean("IconifyComponentAMGCL.overlay")) {
-                    OverlayUtil.disableOverlay("IconifyComponentAMGCL.overlay");
-                    OverlayUtil.enableOverlay("IconifyComponentAMGC.overlay");
-                }
-            }
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         // Restart sysui after boot
