@@ -134,7 +134,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Hide LS Carrier"
+                        android:text="@string/hide_ls_carrier_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -142,7 +142,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Hide carrier name on lockscreen"
+                        android:text="@string/hide_ls_carrier_desc"
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_desc_size" />
 
@@ -179,7 +179,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Hide LS Statusbar"
+                        android:text="@string/hide_ls_statusbar_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -187,7 +187,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Hide statusbar on lockscreen"
+                        android:text="@string/hide_ls_statusbar_desc"
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_desc_size" />
 

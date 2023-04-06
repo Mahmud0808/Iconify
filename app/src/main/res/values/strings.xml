@@ -483,4 +483,8 @@
     <string name="no_supported_music_player">Supported Music Player Not Found</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hide_ls_carrier_title">Hide LS Carrier</string>
+    <string name="hide_ls_carrier_desc">Hide carrier name on lockscreen</string>
+    <string name="hide_ls_statusbar_title">Hide LS Statusbar</string>
+    <string name="hide_ls_statusbar_desc">Hide statusbar on lockscreen</string>
 </resources>
