@@ -19,7 +19,7 @@
         android:top="4dp">
         <shape android:shape="rectangle">
             <solid android:color="?android:attr/colorBackgroundFloating" />
-            <corners android:radius="@*android:dimen/harmful_app_name_padding_right" />
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
         </shape>
     </item>
 </layer-list>
