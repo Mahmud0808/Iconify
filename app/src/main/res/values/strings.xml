@@ -481,7 +481,6 @@
     <string name="btn_close">Close</string>
     <string name="created_by_drdisagree">Made with ❤ by DrDisagree</string>
     <string name="no_supported_music_player">Supported Music Player Not Found</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hide_ls_carrier_title">Hide LS Carrier</string>
     <string name="hide_ls_carrier_desc">Hide carrier name on lockscreen</string>
@@ -489,4 +488,8 @@
     <string name="hide_ls_statusbar_desc">Hide statusbar on lockscreen</string>
     <string name="notch_bar_killer_title">Notch Bar Killer</string>
     <string name="notch_bar_killer_desc">Kill empty space of notch bar</string>
+    <string name="light_theme_title">Light Theme</string>
+    <string name="light_theme_desc">Light QS theme in light mode\nMust use custom QS Shape</string>
+    <string name="dual_tone_title">Dual Tone</string>
+    <string name="dual_tone_desc">Use different color for header</string>
 </resources>
