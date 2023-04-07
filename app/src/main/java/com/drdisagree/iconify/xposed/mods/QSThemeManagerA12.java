@@ -57,7 +57,7 @@ public class QSThemeManagerA12 extends ModPack {
     public static final String listenPackage = SYSTEMUI_PACKAGE;
 
     private static boolean lightQSHeaderEnabled = false;
-    private static boolean dualToneQSEnabled = true;
+    private static boolean dualToneQSEnabled = false;
 
     private Object mBehindColors;
 
@@ -69,7 +69,7 @@ public class QSThemeManagerA12 extends ModPack {
     public void updatePrefs(String... Key) {
         if (Xprefs == null) return;
 
-        dualToneQSEnabled = Xprefs.getBoolean(DUALTONE_QSPANEL, true);
+        dualToneQSEnabled = Xprefs.getBoolean(DUALTONE_QSPANEL, false);
         if (dualToneQSEnabled) Helpers.enableOverlay("IconifyComponentQSDT.overlay");
         else Helpers.disableOverlay("IconifyComponentQSDT.overlay");
 

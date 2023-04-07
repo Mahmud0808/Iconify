@@ -88,7 +88,7 @@ public class QSThemeManager extends ModPack {
     public void updatePrefs(String... Key) {
         if (Xprefs == null) return;
 
-        dualToneQSEnabled = Xprefs.getBoolean(DUALTONE_QSPANEL, true);
+        dualToneQSEnabled = Xprefs.getBoolean(DUALTONE_QSPANEL, false);
         if (dualToneQSEnabled) Helpers.enableOverlay("IconifyComponentQSDT.overlay");
         else Helpers.disableOverlay("IconifyComponentQSDT.overlay");
 

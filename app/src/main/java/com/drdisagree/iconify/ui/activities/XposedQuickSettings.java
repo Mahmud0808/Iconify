@@ -60,7 +60,7 @@ public class XposedQuickSettings extends AppCompatActivity {
 
         // Dual Tone
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_dual_tone = findViewById(R.id.enable_dual_tone);
-        enable_dual_tone.setChecked(RPrefs.getBoolean(DUALTONE_QSPANEL, true));
+        enable_dual_tone.setChecked(RPrefs.getBoolean(DUALTONE_QSPANEL, false));
         enable_dual_tone.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(DUALTONE_QSPANEL, isChecked);
             new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
