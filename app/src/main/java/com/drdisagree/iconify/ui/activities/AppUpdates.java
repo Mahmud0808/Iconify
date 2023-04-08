@@ -120,6 +120,7 @@ public class AppUpdates extends AppCompatActivity {
 
     public void onBackPressed() {
         if (checkForUpdate != null) checkForUpdate.cancel(true);
+        super.onBackPressed();
     }
 
     @SuppressLint("StaticFieldLeak")

@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,7 +17,6 @@ import com.drdisagree.iconify.ui.adapters.ChangelogAdapter;
 import com.drdisagree.iconify.ui.models.ChangelogModel;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,7 +26,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Changelog extends AppCompatActivity {
 
@@ -54,28 +51,25 @@ public class Changelog extends AppCompatActivity {
 
     @Override
     public void onPause() {
-        if (grabChangelog != null)
-            grabChangelog.cancel(true);
+        if (grabChangelog != null) grabChangelog.cancel(true);
         super.onPause();
     }
 
     @Override
     public void onStop() {
-        if (grabChangelog != null)
-            grabChangelog.cancel(true);
+        if (grabChangelog != null) grabChangelog.cancel(true);
         super.onStop();
     }
 
     @Override
     public void onDestroy() {
-        if (grabChangelog != null)
-            grabChangelog.cancel(true);
+        if (grabChangelog != null) grabChangelog.cancel(true);
         super.onDestroy();
     }
 
     public void onBackPressed() {
-        if (grabChangelog != null)
-            grabChangelog.cancel(true);
+        if (grabChangelog != null) grabChangelog.cancel(true);
+        super.onBackPressed();
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -132,8 +126,7 @@ public class Changelog extends AppCompatActivity {
                             } else {
                                 if (line.contains(":"))
                                     changes.append("<b>").append(line).append("</b><br>");
-                                else
-                                    changes.append(line.replace(">>", "&emsp;•")).append("<br>");
+                                else changes.append(line.replace(">>", "&emsp;•")).append("<br>");
                             }
                         }
 
