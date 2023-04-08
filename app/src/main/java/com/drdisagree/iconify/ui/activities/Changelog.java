@@ -97,70 +97,66 @@ public class Changelog extends AppCompatActivity {
             }
 
             if (connectionAvailable) {
-                for (int i = BuildConfig.VERSION_CODE; i >= 1; i--) {
-                    String parseChangelog = OLDER_CHANGELOGS.replace("{VersionCode}", String.valueOf(i));
-                    HttpURLConnection urlConnection = null;
-                    BufferedReader bufferedReader = null;
-                    StringBuilder title = null;
-                    StringBuilder changes = null;
+                String parseChangelog = OLDER_CHANGELOGS.replace("{VersionCode}", String.valueOf(BuildConfig.VERSION_CODE));
+                HttpURLConnection urlConnection = null;
+                BufferedReader bufferedReader = null;
+                StringBuilder title = null;
+                StringBuilder changes = null;
 
-                    try {
-                        URL url = new URL(parseChangelog);
-                        urlConnection = (HttpURLConnection) url.openConnection();
-                        urlConnection.connect();
+                try {
+                    URL url = new URL(parseChangelog);
+                    urlConnection = (HttpURLConnection) url.openConnection();
+                    urlConnection.connect();
 
-                        InputStream inputStream = urlConnection.getInputStream();
+                    InputStream inputStream = urlConnection.getInputStream();
 
-                        bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                    bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
-                        title = new StringBuilder();
-                        changes = new StringBuilder();
+                    title = new StringBuilder();
+                    changes = new StringBuilder();
 
-                        String line;
-                        boolean firstLine = true;
+                    String line;
+                    boolean firstLine = true;
 
-                        while ((line = bufferedReader.readLine()) != null) {
-                            if (firstLine) {
-                                title.append(line);
-                                firstLine = false;
-                            } else {
-                                if (line.contains(":"))
-                                    changes.append("<b>").append(line).append("</b><br>");
-                                else changes.append(line.replace(">>", "&emsp;•")).append("<br>");
-                            }
-                        }
-
-                        if (title.length() != 0 && changes.length() != 0) {
-                            if (changes.toString().indexOf("<br>") == 0)
-                                changes = new StringBuilder(changes.substring(4, changes.toString().length()));
-
-                            if (changes.toString().lastIndexOf("<br>") == changes.toString().length() - 4)
-                                changes = new StringBuilder(changes.substring(0, changes.toString().length() - 4));
-
-
-                            changelog_list.add(new ChangelogModel(title.toString(), changes.toString()));
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-
-                        if (title == null || changes == null)
-                            changelog_list.add(new ChangelogModel(getResources().getString(R.string.individual_changelog_not_found), ""));
-                        else
-                            changelog_list.add(new ChangelogModel(title.toString(), changes + "..."));
-                    } finally {
-                        if (urlConnection != null) {
-                            urlConnection.disconnect();
-                        }
-                        if (bufferedReader != null) {
-                            try {
-                                bufferedReader.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                    while ((line = bufferedReader.readLine()) != null) {
+                        if (firstLine) {
+                            title.append(line);
+                            firstLine = false;
+                        } else {
+                            if (line.contains(":"))
+                                changes.append("<b>").append(line).append("</b><br>");
+                            else changes.append(line.replace(">>", "&emsp;•")).append("<br>");
                         }
                     }
 
+                    if (title.length() != 0 && changes.length() != 0) {
+                        if (changes.toString().indexOf("<br>") == 0)
+                            changes = new StringBuilder(changes.substring(4, changes.toString().length()));
 
+                        if (changes.toString().lastIndexOf("<br>") == changes.toString().length() - 4)
+                            changes = new StringBuilder(changes.substring(0, changes.toString().length() - 4));
+
+
+                        changelog_list.add(new ChangelogModel(title.toString(), changes.toString()));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                    if (title == null || changes == null)
+                        changelog_list.add(new ChangelogModel(getResources().getString(R.string.individual_changelog_not_found), ""));
+                    else
+                        changelog_list.add(new ChangelogModel(title.toString(), changes + "..."));
+                } finally {
+                    if (urlConnection != null) {
+                        urlConnection.disconnect();
+                    }
+                    if (bufferedReader != null) {
+                        try {
+                            bufferedReader.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
             return changelog_list;
