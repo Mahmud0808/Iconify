@@ -456,7 +456,7 @@
     <string name="landing_page_three_desc">It is time for iconify to do some internal work.</string>
     <string name="btn_lets_go">Let\'s Go</string>
     <string name="need_storage_perm_title">Need Storage Permission</string>
-    <string name="need_storage_perm_desc">I need storage permission to build necessary files.</string>
+    <string name="need_storage_perm_desc">Storage permission required to build necessary files.</string>
     <string name="magisk_not_found_title">Could Not Find Magisk</string>
     <string name="magisk_not_found_desc">Use Magisk to root your device!</string>
     <string name="root_not_found_title">Root Is Not Accessible</string>
