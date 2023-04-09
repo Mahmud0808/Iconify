@@ -1,22 +1,31 @@
 package com.drdisagree.iconify.ui.activities;
 
-import static com.drdisagree.iconify.common.Const.OLDER_CHANGELOGS;
+import static com.drdisagree.iconify.common.Const.CHANGELOG_URL;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.URLSpan;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.ui.adapters.ChangelogAdapter;
-import com.drdisagree.iconify.ui.models.ChangelogModel;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,7 +34,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Changelog extends AppCompatActivity {
 
@@ -73,11 +84,10 @@ public class Changelog extends AppCompatActivity {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private class GrabChangelog extends AsyncTask<Integer, Integer, ArrayList<ChangelogModel>> {
+    private class GrabChangelog extends AsyncTask<Integer, Integer, JSONObject> {
 
         LoadingDialog loadingDialog = new LoadingDialog(Changelog.this);
         boolean connectionAvailable = false;
-        ArrayList<ChangelogModel> changelog_list = new ArrayList<>();
 
         @Override
         protected void onPreExecute() {
@@ -85,9 +95,9 @@ public class Changelog extends AppCompatActivity {
         }
 
         @Override
-        protected ArrayList<ChangelogModel> doInBackground(Integer... integers) {
+        protected JSONObject doInBackground(Integer... integers) {
             try {
-                URL myUrl = new URL(OLDER_CHANGELOGS.replace("{VersionCode}", String.valueOf(BuildConfig.VERSION_CODE)));
+                URL myUrl = new URL(CHANGELOG_URL + BuildConfig.VERSION_NAME);
                 URLConnection connection = myUrl.openConnection();
                 connection.setConnectTimeout(5000);
                 connection.connect();
@@ -96,12 +106,12 @@ public class Changelog extends AppCompatActivity {
                 connectionAvailable = false;
             }
 
+            StringBuilder release_note = null;
+
             if (connectionAvailable) {
-                String parseChangelog = OLDER_CHANGELOGS.replace("{VersionCode}", String.valueOf(BuildConfig.VERSION_CODE));
+                String parseChangelog = CHANGELOG_URL + BuildConfig.VERSION_NAME;
                 HttpURLConnection urlConnection = null;
                 BufferedReader bufferedReader = null;
-                StringBuilder title = null;
-                StringBuilder changes = null;
 
                 try {
                     URL url = new URL(parseChangelog);
@@ -112,40 +122,16 @@ public class Changelog extends AppCompatActivity {
 
                     bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
-                    title = new StringBuilder();
-                    changes = new StringBuilder();
+                    release_note = new StringBuilder();
 
                     String line;
-                    boolean firstLine = true;
 
                     while ((line = bufferedReader.readLine()) != null) {
-                        if (firstLine) {
-                            title.append(line);
-                            firstLine = false;
-                        } else {
-                            if (line.contains(":"))
-                                changes.append("<b>").append(line).append("</b><br>");
-                            else changes.append(line.replace(">>", "&emsp;•")).append("<br>");
-                        }
-                    }
-
-                    if (title.length() != 0 && changes.length() != 0) {
-                        if (changes.toString().indexOf("<br>") == 0)
-                            changes = new StringBuilder(changes.substring(4, changes.toString().length()));
-
-                        if (changes.toString().lastIndexOf("<br>") == changes.toString().length() - 4)
-                            changes = new StringBuilder(changes.substring(0, changes.toString().length() - 4));
-
-
-                        changelog_list.add(new ChangelogModel(title.toString(), changes.toString()));
+                        release_note.append(line);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-
-                    if (title == null || changes == null)
-                        changelog_list.add(new ChangelogModel(getResources().getString(R.string.individual_changelog_not_found), ""));
-                    else
-                        changelog_list.add(new ChangelogModel(title.toString(), changes + "..."));
+                    release_note = null;
                 } finally {
                     if (urlConnection != null) {
                         urlConnection.disconnect();
@@ -159,27 +145,91 @@ public class Changelog extends AppCompatActivity {
                     }
                 }
             }
-            return changelog_list;
+
+            if (release_note == null)
+                release_note = new StringBuilder(getResources().getString(R.string.individual_changelog_not_found));
+
+            try {
+                return new JSONObject(release_note.toString());
+            } catch (JSONException e) {
+                return null;
+            }
         }
 
         @Override
-        protected void onPostExecute(ArrayList<ChangelogModel> string) {
+        protected void onPostExecute(JSONObject release_note) {
             loadingDialog.hide();
+            String title, changes;
 
             if (connectionAvailable) {
-                if (changelog_list.isEmpty()) {
-                    changelog_list.add(new ChangelogModel(getResources().getString(R.string.changelog_not_found), ""));
+                if (release_note == null || release_note.toString().length() == 0) {
+                    title = getResources().getString(R.string.changelog_not_found);
+                    changes = "";
+                } else {
+                    try {
+                        String data = release_note.getString("body");
+                        title = data.substring(0, data.indexOf("\r\n\r\n"));
+                        changes = data.substring(data.indexOf("\n##")).substring(1);
+
+                        title = title.replace("### ", "<b>") + "</b>";
+                        changes = usernameToLink(changes.replace("## ", "<b>").replace(":\r\n", ":</b><br>").replace("- __", "<b>• ").replace("__\r\n", "</b><br>").replace("    - ", "&emsp;◦ ").replace("- ", "• ").replace("\r\n", "<br>"));
+                    } catch (JSONException e) {
+                        title = getResources().getString(R.string.changelog_not_found);
+                        changes = "";
+                    }
                 }
             } else {
-                changelog_list.add(new ChangelogModel(getResources().getString(R.string.no_internet_connection), ""));
+                title = getResources().getString(R.string.no_internet_connection);
+                changes = "";
             }
 
-            // RecyclerView
-            RecyclerView container = findViewById(R.id.changelog_container);
-            container.setLayoutManager(new LinearLayoutManager(Changelog.this));
-            ChangelogAdapter adapter = new ChangelogAdapter(Changelog.this, changelog_list);
-            container.setAdapter(adapter);
-            container.setHasFixedSize(false);
+            TextView changelog_title = findViewById(R.id.changelog_title);
+            TextView changelog_changes = findViewById(R.id.changelog_text);
+
+            changelog_title.setText(Html.fromHtml(title));
+            changelog_changes.setText(Html.fromHtml(changes));
+
+            if (Objects.equals(changes, "")) changelog_changes.setVisibility(View.GONE);
+            else {
+                SpannableString spannableString = new SpannableString(Html.fromHtml(changes));
+                URLSpan[] urls = spannableString.getSpans(0, spannableString.length(), URLSpan.class);
+
+                for (URLSpan urlSpan : urls) {
+                    ClickableSpan clickableSpan = new ClickableSpan() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlSpan.getURL()));
+                            startActivity(intent);
+                        }
+                    };
+
+                    int start = spannableString.getSpanStart(urlSpan);
+                    int end = spannableString.getSpanEnd(urlSpan);
+                    spannableString.setSpan(clickableSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spannableString.removeSpan(urlSpan);
+                }
+
+                changelog_changes.setText(spannableString);
+                changelog_changes.setMovementMethod(LinkMovementMethod.getInstance());
+            }
+
+            findViewById(R.id.changelog).setVisibility(View.VISIBLE);
         }
+    }
+
+    public static String usernameToLink(String str) {
+        String regexPattern = "@([A-Za-z\\d_-]+)";
+        Pattern pattern = Pattern.compile(regexPattern);
+        Matcher matcher = pattern.matcher(str);
+
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            String username = matcher.group(1);
+            String link = "<a href=\"https://github.com/" + username + "\">@" + username + "</a>";
+            matcher.appendReplacement(sb, link);
+        }
+        matcher.appendTail(sb);
+
+        return sb.toString();
     }
 }

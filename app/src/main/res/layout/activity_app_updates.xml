@@ -178,13 +178,13 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
                         android:layout_marginEnd="@dimen/container_paddingSide"
                         android:background="@drawable/ic_changelog"
+                        android:backgroundTint="@color/textColorPrimary"
                         android:contentDescription="@string/icon"
-                        android:gravity="start|center"
-                        app:tint="@color/textColorPrimary" />
+                        android:gravity="start|center" />
 
                     <TextView
                         android:id="@+id/changelog_title"

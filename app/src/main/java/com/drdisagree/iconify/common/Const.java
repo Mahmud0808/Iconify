@@ -12,7 +12,7 @@ public class Const {
     public static final String LATEST_VERSION = "https://raw.githubusercontent.com/Mahmud0808/Iconify/stable/latestVersion.json";
 
     // Parse changelogs
-    public static final String OLDER_CHANGELOGS = "https://raw.githubusercontent.com/Mahmud0808/Iconify/stable/fastlane/metadata/android/en-US/changelogs/{VersionCode}.txt";
+    public static final String CHANGELOG_URL = "https://api.github.com/repos/Mahmud0808/Iconify/releases/tags/v";
 
     // Fragment variables
     public static final int FRAGMENT_TRANSITION_DELAY = 120;
