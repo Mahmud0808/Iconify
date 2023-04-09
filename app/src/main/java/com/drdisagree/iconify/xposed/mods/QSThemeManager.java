@@ -42,6 +42,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -505,6 +506,6 @@ public class QSThemeManager extends ModPack {
 
     @Override
     public boolean listensTo(String packageName) {
-        return listenPackage.equals(packageName) && !HookEntry.isChildProcess;
+        return listenPackage.equals(packageName) && !HookEntry.isChildProcess && Build.VERSION.SDK_INT >= 33;
     }
 }
