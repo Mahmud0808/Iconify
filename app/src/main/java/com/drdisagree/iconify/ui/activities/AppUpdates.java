@@ -11,6 +11,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.URLSpan;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,14 +24,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,7 +42,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class AppUpdates extends AppCompatActivity {
 
@@ -202,48 +204,53 @@ public class AppUpdates extends AppCompatActivity {
                         });
                         findViewById(R.id.download_update).setVisibility(View.VISIBLE);
 
-                        StringBuilder title = null;
-                        StringBuilder changes = null;
+                        String title, changes;
 
                         try {
                             JSONArray latestChangelog = latestVersion.getJSONArray("changelog");
-
-                            title = new StringBuilder();
-                            changes = new StringBuilder();
-                            boolean firstLine = true;
+                            StringBuilder release_note = new StringBuilder();
 
                             for (int i = 0; i < latestChangelog.length(); i++) {
-                                if (firstLine) {
-                                    title.append(latestChangelog.getString(i));
-                                    firstLine = false;
-                                } else {
-                                    if (latestChangelog.getString(i).contains(":"))
-                                        changes.append("<b>").append(latestChangelog.getString(i)).append("</b><br>");
-                                    else
-                                        changes.append(latestChangelog.getString(i).replace(">>", "&emsp;•")).append("<br>");
-                                }
+                                release_note.append(latestChangelog.get(i));
                             }
 
-                            if (title.length() != 0 && changes.length() != 0) {
-                                if (changes.toString().indexOf("<br>") == 0)
-                                    changes = new StringBuilder(changes.substring(4, changes.toString().length()));
+                            title = release_note.substring(0, release_note.indexOf("\n\n"));
+                            changes = release_note.substring(release_note.indexOf("\n##")).substring(1);
 
-                                if (changes.toString().lastIndexOf("<br>") == changes.toString().length() - 4)
-                                    changes = new StringBuilder(changes.substring(0, changes.toString().length() - 4));
+                            title = title.replace("### ", "<b>") + "</b>";
+                            changes = Changelog.usernameToLink(changes.replace("## ", "<b>").replace(":\n", ":</b><br>").replace("- __", "<b>• ").replace("__\n", "</b><br>").replace("    - ", "&emsp;◦ ").replace("- ", "• ").replace("\n", "<br>"));
 
-                                ((TextView) findViewById(R.id.changelog_title)).setText(Html.fromHtml(title.toString()));
-                                ((TextView) findViewById(R.id.changelog_text)).setText(Html.fromHtml(changes.toString()));
+                            TextView changelog_title = findViewById(R.id.changelog_title);
+                            TextView changelog_changes = findViewById(R.id.changelog_text);
+
+                            changelog_title.setText(Html.fromHtml(title));
+                            changelog_changes.setText(Html.fromHtml(changes));
+
+                            SpannableString spannableString = new SpannableString(Html.fromHtml(changes));
+                            URLSpan[] urls = spannableString.getSpans(0, spannableString.length(), URLSpan.class);
+
+                            for (URLSpan urlSpan : urls) {
+                                ClickableSpan clickableSpan = new ClickableSpan() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlSpan.getURL()));
+                                        startActivity(intent);
+                                    }
+                                };
+
+                                int start = spannableString.getSpanStart(urlSpan);
+                                int end = spannableString.getSpanEnd(urlSpan);
+                                spannableString.setSpan(clickableSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                spannableString.removeSpan(urlSpan);
                             }
+
+                            changelog_changes.setText(spannableString);
+                            changelog_changes.setMovementMethod(LinkMovementMethod.getInstance());
                         } catch (Exception e) {
                             e.printStackTrace();
 
-                            if (title != null && changes != null) {
-                                ((TextView) findViewById(R.id.changelog_title)).setText(Html.fromHtml(title.toString()));
-                                ((TextView) findViewById(R.id.changelog_text)).setText(Html.fromHtml(changes.toString()));
-                            } else {
-                                ((TextView) findViewById(R.id.changelog_title)).setText(Html.fromHtml(getResources().getString(R.string.individual_changelog_not_found)));
-                                findViewById(R.id.changelog_text).setVisibility(View.GONE);
-                            }
+                            ((TextView) findViewById(R.id.changelog_title)).setText(Html.fromHtml(getResources().getString(R.string.individual_changelog_not_found)));
+                            findViewById(R.id.changelog_text).setVisibility(View.GONE);
                         }
                         ((TextView) findViewById(R.id.show_changelog)).setText(getResources().getString(R.string.view_changelog));
                         findViewById(R.id.show_changelog).setOnClickListener(v -> {
