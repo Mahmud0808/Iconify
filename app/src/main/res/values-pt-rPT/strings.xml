@@ -473,6 +473,17 @@
     <string name="settings_icons_monet_accent">"Monet / Destaque"</string>
     <string name="no_supported_music_player">Não foi encontrado um leitor multimédia compatível</string>
     <string name="hello_blank_fragment">Fragmento vazio de Olá</string>
+    <string name="hide_ls_carrier_title">Esconder operadora no modo claro</string>
+    <string name="hide_ls_carrier_desc">Esconder operadora no ecrã de bloqueio</string>
+    <string name="hide_ls_statusbar_title">Esconder barra de estado no modo claro</string>
+    <string name="hide_ls_statusbar_desc">Esconder barra de estado no ecrã de bloqueio</string>
+    <string name="notch_bar_killer_title">Barra \"notch\"</string>
+    <string name="notch_bar_killer_desc">Remover espaço vazio na barra \"notch\"</string>
+    <string name="light_theme_title">Modo claro</string>
+    <string name="light_theme_desc">Ativar painel das DR claro no tema claro</string>
+    <string name="dual_tone_title">Duplo tom</string>
+    <string name="dual_tone_desc">Aplicar cor diferente no topo das DR</string>
+    <string name="zh_cn_translation">Tradução Chinesa Simples.</string>
     <string name="navbar_home">Ecrã inicial</string>
     <string name="navbar_styles">Estilos</string>
     <string name="navbar_tweaks">\"Tweaks\"</string>
