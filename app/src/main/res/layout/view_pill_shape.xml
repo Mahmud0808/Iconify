@@ -105,9 +105,9 @@
         <SeekBar
             android:id="@+id/bottom_space_seekbar"
             style="@style/customSeekBar"
-            android:max="8"
+            android:max="14"
             android:min="2"
-            android:progress="6" />
+            android:progress="8" />
 
     </LinearLayout>
 
