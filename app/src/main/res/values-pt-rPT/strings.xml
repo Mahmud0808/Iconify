@@ -484,6 +484,9 @@
     <string name="dual_tone_title">Duplo tom</string>
     <string name="dual_tone_desc">Aplicar cor diferente no topo das DR</string>
     <string name="zh_cn_translation">Tradução Chinesa Simples.</string>
+    <string name="pill_width_title">Largura da barra</string>
+    <string name="pill_thickness_title">Espessura da barra</string>
+    <string name="pill_bottom_space_title">Espaço inferior</string>
     <string name="navbar_home">Ecrã inicial</string>
     <string name="navbar_styles">Estilos</string>
     <string name="navbar_tweaks">\"Tweaks\"</string>
