@@ -487,6 +487,11 @@
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </LinearLayout>
+
+            <include
+                android:id="@+id/pill_shape"
+                layout="@layout/view_pill_shape" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

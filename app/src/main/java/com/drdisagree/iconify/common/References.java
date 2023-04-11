@@ -25,6 +25,10 @@ public class References {
     public static final String FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH = "volumeDialogSliderWidth";
     public static final String FABRICATED_VOLUME_DIALOG_TRACK_WIDTH = "volumeDialogTrackWidth";
     public static final String FABRICATED_ROUNDED_SLIDER_TRACK_INSET = "roundedSliderTrackInset";
+    public static final String FABRICATED_PILL_SHAPE_SWITCH = "navigationPillShapeSwitch";
+    public static final String FABRICATED_PILL_WIDTH = "navigationPillWidth";
+    public static final String FABRICATED_PILL_THICKNESS = "navigationPillThickness";
+    public static final String FABRICATED_PILL_BOTTOM_SPACE = "navigationPillBottomSpace";
 
     // Commands
     public static final String DEVICE_BOOT_ID_CMD = "cat /proc/sys/kernel/random/boot_id";

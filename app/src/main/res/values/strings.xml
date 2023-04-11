@@ -493,4 +493,7 @@
     <string name="light_theme_desc">Light QS theme in light mode\nMust use custom QS Shape</string>
     <string name="dual_tone_title">Dual Tone</string>
     <string name="dual_tone_desc">Use different color for header</string>
+    <string name="pill_width_title">Pill Width</string>
+    <string name="pill_thickness_title">Pill Thickness</string>
+    <string name="pill_bottom_space_title">Bottom Space</string>
 </resources>
