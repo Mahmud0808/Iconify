@@ -362,6 +362,7 @@
     <string name="pt_translation">葡萄牙语翻译。</string>
     <string name="ru_translation">俄语翻译。</string>
     <string name="tr_translation">土耳其语翻译。</string>
+    <string name="zh_cn_translation">简体中文翻译。</string>
     <string name="a13_default_media_player">Android 13 默认播放器</string>
     <string name="monet_neutral">Neutral</string>
     <string name="monet_monochrome">Monochrome</string>
@@ -492,4 +493,7 @@
     <string name="light_theme_desc">浅色模式下的快速设置主题\n必须使用自定义的快速设置形状</string>
     <string name="dual_tone_title">双色调</string>
     <string name="dual_tone_desc">使用不同的颜色作为标头</string>
+    <string name="pill_width_title">药丸宽度</string>
+    <string name="pill_thickness_title">药丸厚度</string>
+    <string name="pill_bottom_space_title">底部间距</string>
 </resources>
