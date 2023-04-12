@@ -16,4 +16,9 @@
         <item>@string/settings_icons_system_inverse</item>
         <item>@string/settings_icons_monet_accent</item>
     </string-array>
+    <string-array name="xposed_force_apply_method">
+        <item>@string/method_toggle_dark_mode</item>
+        <item>@string/method_restart_systemui</item>
+        <item>@string/method_do_nothing</item>
+    </string-array>
 </resources>

@@ -68,7 +68,7 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/sb_color_tint"
+            android:id="@+id/force_apply_method"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/container_bottom"
@@ -88,38 +88,13 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/selected_force_apply_method"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/list_desc_force_apply_method"
+                android:text="@string/method_toggle_dark_mode"
                 android:textColor="@color/textColorSecondary"
                 android:textSize="@dimen/cont_desc_size" />
 
         </LinearLayout>
-
-        <RadioGroup
-            android:id="@+id/force_apply_method_selector"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="@dimen/container_paddingSide"
-            android:paddingEnd="@dimen/container_paddingSide"
-            android:paddingBottom="@dimen/container_paddingSide">
-
-            <RadioButton
-                android:id="@+id/apply_method_dark_mode"
-                style="@style/customRadioButtonColored"
-                android:checked="true"
-                android:text="@string/method_toggle_dark_mode" />
-
-            <RadioButton
-                android:id="@+id/apply_method_restart_sysui"
-                style="@style/customRadioButtonColored"
-                android:text="@string/method_restart_systemui" />
-
-            <RadioButton
-                android:id="@+id/apply_method_do_nothing"
-                style="@style/customRadioButtonColored"
-                android:text="@string/method_do_nothing" />
-
-        </RadioGroup>
     </LinearLayout>
 </LinearLayout>

@@ -22,8 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,19 +41,21 @@ import com.drdisagree.iconify.ui.activities.Changelog;
 import com.drdisagree.iconify.ui.activities.Experimental;
 import com.drdisagree.iconify.ui.activities.Info;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
+import com.drdisagree.iconify.ui.views.RadioDialog;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
-public class Settings extends Fragment {
+public class Settings extends Fragment implements RadioDialog.RadioDialogListener {
 
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
     LoadingDialog loadingDialog;
+    RadioDialog rd_force_apply_method;
 
     public static void disableEverything() {
         SharedPreferences prefs = Iconify.getAppContext().getSharedPreferences(Iconify.getAppContext().getPackageName(), Context.MODE_PRIVATE);
@@ -142,24 +143,12 @@ public class Settings extends Fragment {
         hide_warn_message.setOnCheckedChangeListener((buttonView, isChecked) -> Prefs.putBoolean(SHOW_XPOSED_WARN, isChecked));
 
         // Force apply method
-        if (Prefs.getInt(FORCE_APPLY_XPOSED_CHOICE, 0) == 0)
-            ((RadioButton) view.findViewById(R.id.apply_method_dark_mode)).setChecked(true);
-        else if (Prefs.getInt(FORCE_APPLY_XPOSED_CHOICE, 0) == 1)
-            ((RadioButton) view.findViewById(R.id.apply_method_restart_sysui)).setChecked(true);
-        else if (Prefs.getInt(FORCE_APPLY_XPOSED_CHOICE, 0) == -1)
-            ((RadioButton) view.findViewById(R.id.apply_method_do_nothing)).setChecked(true);
-
-        // Statusbar color source select
-        RadioGroup force_apply_method_selector = view.findViewById(R.id.force_apply_method_selector);
-
-        force_apply_method_selector.setOnCheckedChangeListener((group, checkedId) -> {
-            if (Objects.equals(checkedId, R.id.apply_method_dark_mode))
-                Prefs.putInt(FORCE_APPLY_XPOSED_CHOICE, 0);
-            else if (Objects.equals(checkedId, R.id.apply_method_restart_sysui))
-                Prefs.putInt(FORCE_APPLY_XPOSED_CHOICE, 1);
-            else if (Objects.equals(checkedId, R.id.apply_method_do_nothing))
-                Prefs.putInt(FORCE_APPLY_XPOSED_CHOICE, -1);
-        });
+        LinearLayout force_apply_method = view.findViewById(R.id.force_apply_method);
+        TextView selected_force_apply_method = view.findViewById(R.id.selected_force_apply_method);
+        rd_force_apply_method = new RadioDialog(requireActivity(), 0, Prefs.getInt(FORCE_APPLY_XPOSED_CHOICE, 0) == -1 ? 2 : Prefs.getInt(FORCE_APPLY_XPOSED_CHOICE, 0));
+        rd_force_apply_method.setRadioDialogListener(this);
+        force_apply_method.setOnClickListener(v -> rd_force_apply_method.show(R.string.list_title_force_apply_method, R.array.xposed_force_apply_method, selected_force_apply_method));
+        selected_force_apply_method.setText(Arrays.asList(getResources().getStringArray(R.array.xposed_force_apply_method)).get(rd_force_apply_method.getSelectedIndex() == -1 ? 2 : rd_force_apply_method.getSelectedIndex()));
 
         // Disable Everything
         TextView list_title_disableEverything = view.findViewById(R.id.list_title_disableEverything);
@@ -225,6 +214,8 @@ public class Settings extends Fragment {
     public void onDestroy() {
         if (loadingDialog != null)
             loadingDialog.hide();
+        if (rd_force_apply_method != null)
+            rd_force_apply_method.dismiss();
         super.onDestroy();
     }
 
@@ -256,5 +247,14 @@ public class Settings extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemSelected(int dialogId, int selectedIndex) {
+        switch (dialogId) {
+            case 0:
+                Prefs.putInt(FORCE_APPLY_XPOSED_CHOICE, selectedIndex == 2 ? -1 : selectedIndex);
+                break;
+        }
     }
 }
