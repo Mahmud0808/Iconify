@@ -15,13 +15,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.Iconify;
@@ -30,20 +27,21 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.overlaymanager.SettingsIconsManager;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
+import com.drdisagree.iconify.ui.views.RadioDialog;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class SettingsIcons extends AppCompatActivity {
+public class SettingsIcons extends AppCompatActivity implements RadioDialog.RadioDialogListener {
 
     private static int selectedIconColor = 1, selectedBackground = 1, selectedIcon = 1;
     LoadingDialog loadingDialog;
     private ViewGroup container;
+    RadioDialog rd_bg_style, rd_icon_color;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -59,26 +57,24 @@ public class SettingsIcons extends AppCompatActivity {
 
         // Retrieve previously saved preferenced
         selectedIcon = Prefs.getInt(SELECTED_SETTINGS_ICONS_SET, 1);
-        selectedBackground = Prefs.getInt(SELECTED_SETTINGS_ICONS_BG, 1);
-        selectedIconColor = Prefs.getInt(SELECTED_SETTINGS_ICONS_COLOR, 1);
 
         // Background style
-        RadioGroup bg_style = findViewById(R.id.bg_style);
-        ((RadioButton) bg_style.getChildAt(selectedBackground)).setChecked(true);
-
-        bg_style.setOnCheckedChangeListener((group, checkedId) -> {
-            View radioButton = bg_style.findViewById(checkedId);
-            selectedBackground = bg_style.indexOfChild(radioButton);
-        });
+        LinearLayout bg_style = findViewById(R.id.bg_style);
+        TextView selected_bg_style = findViewById(R.id.selected_bg_style);
+        rd_bg_style = new RadioDialog(this, 0, Prefs.getInt(SELECTED_SETTINGS_ICONS_BG, 1) - 1);
+        rd_bg_style.setRadioDialogListener(this);
+        bg_style.setOnClickListener(v -> rd_bg_style.show(R.string.settings_icons_background, R.array.settings_icon_bg, selected_bg_style));
+        selectedBackground = rd_bg_style.getSelectedIndex() + 1;
+        selected_bg_style.setText(Arrays.asList(getResources().getStringArray(R.array.settings_icon_bg)).get(selectedBackground - 1));
 
         // Icon color
-        RadioGroup icon_color = findViewById(R.id.icon_color);
-        ((RadioButton) icon_color.getChildAt(selectedIconColor)).setChecked(true);
-
-        icon_color.setOnCheckedChangeListener((group, checkedId) -> {
-            View radioButton = icon_color.findViewById(checkedId);
-            selectedIconColor = icon_color.indexOfChild(radioButton);
-        });
+        LinearLayout icon_color = findViewById(R.id.icon_color);
+        TextView selected_icon_color = findViewById(R.id.selected_icon_color);
+        rd_icon_color = new RadioDialog(this, 1, Prefs.getInt(SELECTED_SETTINGS_ICONS_COLOR, 1) - 1);
+        rd_icon_color.setRadioDialogListener(this);
+        icon_color.setOnClickListener(v -> rd_icon_color.show(R.string.settins_icons_icon_color, R.array.settings_icon_color, findViewById(R.id.selected_icon_color)));
+        selectedIconColor = rd_icon_color.getSelectedIndex() + 1;
+        selected_icon_color.setText(Arrays.asList(getResources().getStringArray(R.array.settings_icon_color)).get(selectedIconColor - 1));
 
         // Icon Pack list items
         container = findViewById(R.id.icon_packs_list);
@@ -141,7 +137,8 @@ public class SettingsIcons extends AppCompatActivity {
                             Prefs.putInt(SELECTED_SETTINGS_ICONS_COLOR, selectedIconColor);
 
                             disable_settings_icons.setVisibility(View.VISIBLE);
-                            OverlayUtil.enableOverlay("IconifyComponentCR.overlay");
+                            OverlayUtil.enableOverlay("IconifyComponentCR1.overlay");
+                            OverlayUtil.enableOverlay("IconifyComponentCR2.overlay");
                         }
 
                         new Handler().postDelayed(() -> {
@@ -238,8 +235,22 @@ public class SettingsIcons extends AppCompatActivity {
     }
 
     @Override
+    public void onItemSelected(int dialogId, int selectedIndex) {
+        switch (dialogId) {
+            case 0:
+                selectedBackground = selectedIndex + 1;
+                break;
+            case 1:
+                selectedIconColor = selectedIndex + 1;
+                break;
+        }
+    }
+
+    @Override
     public void onDestroy() {
         loadingDialog.hide();
+        rd_bg_style.dismiss();
+        rd_icon_color.dismiss();
         super.onDestroy();
     }
 }

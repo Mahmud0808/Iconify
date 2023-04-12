@@ -199,4 +199,20 @@
         <item name="android:textSize">@dimen/cont_desc_size</item>
         <item name="android:lineHeight">@dimen/_14sdp</item>
     </style>
+
+    <style name="radioButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:layout_marginTop">@dimen/_4sdp</item>
+        <item name="android:layout_marginBottom">@dimen/_4sdp</item>
+        <item name="android:paddingStart">@dimen/_8sdp</item>
+        <item name="android:paddingEnd">@dimen/_8sdp</item>
+        <item name="android:paddingBottom">@dimen/_3sdp</item>
+        <item name="android:buttonTint">@color/color_radio_button_circle</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textSize">@dimen/cont_title_size</item>
+        <item name="android:drawableRight">@null</item>
+    </style>
 </resources>
