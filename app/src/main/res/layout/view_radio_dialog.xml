@@ -17,7 +17,7 @@
         android:layout_gravity="start"
         android:gravity="start|center"
         android:textColor="@color/textColorPrimary"
-        android:textSize="@dimen/_14sdp"
+        android:textSize="@dimen/_13sdp"
         android:textStyle="bold" />
 
     <RadioGroup

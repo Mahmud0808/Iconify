@@ -212,7 +212,7 @@
         <item name="android:paddingBottom">@dimen/_3sdp</item>
         <item name="android:buttonTint">@color/color_radio_button_circle</item>
         <item name="android:textColor">@color/textColorPrimary</item>
-        <item name="android:textSize">@dimen/cont_title_size</item>
+        <item name="android:textSize">@dimen/_11sdp</item>
         <item name="android:drawableRight">@null</item>
     </style>
 </resources>
