@@ -492,5 +492,5 @@
     <string name="navbar_tweaks">\"Tweaks\"</string>
     <string name="navbar_settings">Definições</string>
     <string name="btn_close">Fechar</string>
-    <string name="created_by_drdisagree">Criado com ❤ por DrDisagree</string>
+    <string name="created_by_drdisagree">Criado com \u2764\uFE0E por DrDisagree</string>
 </resources>

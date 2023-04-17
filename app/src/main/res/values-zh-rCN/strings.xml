@@ -480,7 +480,7 @@
     <string name="navbar_tweaks">调整</string>
     <string name="navbar_settings">设置</string>
     <string name="btn_close">关闭</string>
-    <string name="created_by_drdisagree">DrDisagree 用❤制作</string>
+    <string name="created_by_drdisagree">DrDisagree 用\u2764\uFE0E制作</string>
     <string name="no_supported_music_player">未找到支持的音乐播放器</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hide_ls_carrier_title">隐藏锁屏运营商</string>
