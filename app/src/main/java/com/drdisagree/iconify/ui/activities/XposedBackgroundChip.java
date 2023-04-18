@@ -57,6 +57,7 @@ public class XposedBackgroundChip extends AppCompatActivity {
         status_bar_chip_style.add(new Object[]{R.drawable.chip_status_bar_3, R.string.style_3});
         status_bar_chip_style.add(new Object[]{R.drawable.chip_status_bar_4, R.string.style_4});
         status_bar_chip_style.add(new Object[]{R.drawable.chip_status_bar_5, R.string.style_5});
+        status_bar_chip_style.add(new Object[]{R.drawable.chip_status_bar_6, R.string.style_6});
 
         addItemStatusBar(status_bar_chip_style);
 
