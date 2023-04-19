@@ -29,8 +29,8 @@ import android.widget.LinearLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
 
-import com.drdisagree.iconify.xposed.utils.SystemUtil;
 import com.drdisagree.iconify.xposed.ModPack;
+import com.drdisagree.iconify.xposed.utils.SystemUtil;
 
 import java.util.Objects;
 
@@ -98,16 +98,16 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     }
 
                     try {
-                        View mQSCarriers = (View) getObjectField(param.thisObject, "mQSCarriers");
-                        mQSCarriers.setVisibility(View.INVISIBLE);
-                    } catch (Throwable ignored) {
-                    }
-
-                    try {
                         TextView mClockDateView = (TextView) getObjectField(param.thisObject, "mClockDateView");
                         mClockDateView.setVisibility(View.INVISIBLE);
                         mClockDateView.setTextAppearance(0);
                         mClockDateView.setTextColor(0);
+                    } catch (Throwable ignored) {
+                    }
+
+                    try {
+                        View mQSCarriers = (View) getObjectField(param.thisObject, "mQSCarriers");
+                        mQSCarriers.setVisibility(View.INVISIBLE);
                     } catch (Throwable ignored) {
                     }
 
@@ -127,6 +127,100 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         hideStockClockDate();
     }
 
+    private void hideStockClockDate() {
+        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
+        if (ourResparam == null) return;
+
+        try {
+            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
+                @SuppressLint({"DiscouragedApi"})
+                @Override
+                public void handleLayoutInflated(LayoutInflatedParam liparam) {
+                    if (!showHeaderClock) return;
+
+                    try {
+                        @SuppressLint("DiscouragedApi") TextView clock = liparam.view.findViewById(liparam.res.getIdentifier("clock", "id", mContext.getPackageName()));
+                        clock.getLayoutParams().height = 0;
+                        clock.getLayoutParams().width = 0;
+                        clock.setTextAppearance(0);
+                        clock.setTextColor(0);
+                    } catch (Throwable ignored) {
+                    }
+
+                    try {
+                        @SuppressLint("DiscouragedApi") TextView date_clock = liparam.view.findViewById(liparam.res.getIdentifier("date_clock", "id", mContext.getPackageName()));
+                        date_clock.getLayoutParams().height = 0;
+                        date_clock.getLayoutParams().width = 0;
+                        date_clock.setTextAppearance(0);
+                        date_clock.setTextColor(0);
+                    } catch (Throwable ignored) {
+                    }
+
+                    try {
+                        @SuppressLint("DiscouragedApi") LinearLayout carrier_group = liparam.view.findViewById(liparam.res.getIdentifier("carrier_group", "id", mContext.getPackageName()));
+                        carrier_group.getLayoutParams().height = 0;
+                        carrier_group.getLayoutParams().width = 0;
+                        carrier_group.setMinimumWidth(0);
+                        carrier_group.setVisibility(View.INVISIBLE);
+                    } catch (Throwable ignored) {
+                    }
+
+                    // Ricedroid date
+                    try {
+                        @SuppressLint("DiscouragedApi") TextView date = liparam.view.findViewById(liparam.res.getIdentifier("date", "id", mContext.getPackageName()));
+                        date.getLayoutParams().height = 0;
+                        date.getLayoutParams().width = 0;
+                        date.setTextAppearance(0);
+                        date.setTextColor(0);
+                    } catch (Throwable ignored) {
+                    }
+
+                    // Nusantara clock
+                    try {
+                        @SuppressLint("DiscouragedApi") TextView jr_clock = liparam.view.findViewById(liparam.res.getIdentifier("jr_clock", "id", mContext.getPackageName()));
+                        jr_clock.getLayoutParams().height = 0;
+                        jr_clock.getLayoutParams().width = 0;
+                        jr_clock.setTextAppearance(0);
+                        jr_clock.setTextColor(0);
+                    } catch (Throwable ignored) {
+                    }
+
+                    // Nusantara date
+                    try {
+                        @SuppressLint("DiscouragedApi") LinearLayout jr_date_container = liparam.view.findViewById(liparam.res.getIdentifier("jr_date_container", "id", mContext.getPackageName()));
+                        TextView jr_date = (TextView) jr_date_container.getChildAt(0);
+                        jr_date.getLayoutParams().height = 0;
+                        jr_date.getLayoutParams().width = 0;
+                        jr_date.setTextAppearance(0);
+                        jr_date.setTextColor(0);
+                    } catch (Throwable ignored) {
+                    }
+                }
+            });
+        } catch (Throwable ignored) {
+        }
+
+        try {
+            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_status_bar_header_date_privacy", new XC_LayoutInflated() {
+                @SuppressLint({"DiscouragedApi"})
+                @Override
+                public void handleLayoutInflated(LayoutInflatedParam liparam) {
+                    if (!showHeaderClock) return;
+
+                    try {
+                        @SuppressLint("DiscouragedApi") TextView date = liparam.view.findViewById(liparam.res.getIdentifier("date", "id", mContext.getPackageName()));
+                        date.getLayoutParams().height = 0;
+                        date.getLayoutParams().width = 0;
+                        date.setTextAppearance(0);
+                        date.setTextColor(0);
+                    } catch (Throwable ignored) {
+                    }
+                }
+            });
+        } catch (Throwable ignored) {
+        }
+    }
+
     private void setHeaderClock() {
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
         if (ourResparam == null) return;
@@ -144,7 +238,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     if (!showHeaderClock) return;
 
                     try {
-                        @SuppressLint("DiscouragedApi") FrameLayout header = liparam.view.findViewById(liparam.res.getIdentifier("header", "id", SYSTEMUI_PACKAGE));
+                        @SuppressLint("DiscouragedApi") FrameLayout header = liparam.view.findViewById(liparam.res.getIdentifier("header", "id", mContext.getPackageName()));
 
                         switch (headerClockStyle) {
                             case 1:
@@ -414,100 +508,6 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                                 header.addView(container5);
                                 break;
                         }
-                    } catch (Throwable ignored) {
-                    }
-                }
-            });
-        } catch (Throwable ignored) {
-        }
-    }
-
-    private void hideStockClockDate() {
-        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
-        if (ourResparam == null) return;
-
-        try {
-            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
-                @SuppressLint({"DiscouragedApi"})
-                @Override
-                public void handleLayoutInflated(LayoutInflatedParam liparam) {
-                    if (!showHeaderClock) return;
-
-                    try {
-                        @SuppressLint("DiscouragedApi") TextView clock = liparam.view.findViewById(liparam.res.getIdentifier("clock", "id", SYSTEMUI_PACKAGE));
-                        clock.getLayoutParams().height = 0;
-                        clock.getLayoutParams().width = 0;
-                        clock.setTextAppearance(0);
-                        clock.setTextColor(0);
-                    } catch (Throwable ignored) {
-                    }
-
-                    try {
-                        @SuppressLint("DiscouragedApi") TextView date_clock = liparam.view.findViewById(liparam.res.getIdentifier("date_clock", "id", SYSTEMUI_PACKAGE));
-                        date_clock.getLayoutParams().height = 0;
-                        date_clock.getLayoutParams().width = 0;
-                        date_clock.setTextAppearance(0);
-                        date_clock.setTextColor(0);
-                    } catch (Throwable ignored) {
-                    }
-
-                    try {
-                        @SuppressLint("DiscouragedApi") LinearLayout carrier_group = liparam.view.findViewById(liparam.res.getIdentifier("carrier_group", "id", SYSTEMUI_PACKAGE));
-                        carrier_group.getLayoutParams().height = 0;
-                        carrier_group.getLayoutParams().width = 0;
-                        carrier_group.setMinimumWidth(0);
-                        carrier_group.setVisibility(View.INVISIBLE);
-                    } catch (Throwable ignored) {
-                    }
-
-                    // Ricedroid date
-                    try {
-                        @SuppressLint("DiscouragedApi") TextView date = liparam.view.findViewById(liparam.res.getIdentifier("date", "id", SYSTEMUI_PACKAGE));
-                        date.getLayoutParams().height = 0;
-                        date.getLayoutParams().width = 0;
-                        date.setTextAppearance(0);
-                        date.setTextColor(0);
-                    } catch (Throwable ignored) {
-                    }
-
-                    // Nusantara clock
-                    try {
-                        @SuppressLint("DiscouragedApi") TextView jr_clock = liparam.view.findViewById(liparam.res.getIdentifier("jr_clock", "id", SYSTEMUI_PACKAGE));
-                        jr_clock.getLayoutParams().height = 0;
-                        jr_clock.getLayoutParams().width = 0;
-                        jr_clock.setTextAppearance(0);
-                        jr_clock.setTextColor(0);
-                    } catch (Throwable ignored) {
-                    }
-
-                    // Nusantara date
-                    try {
-                        @SuppressLint("DiscouragedApi") LinearLayout jr_date_container = liparam.view.findViewById(liparam.res.getIdentifier("jr_date_container", "id", SYSTEMUI_PACKAGE));
-                        TextView jr_date = (TextView) jr_date_container.getChildAt(0);
-                        jr_date.getLayoutParams().height = 0;
-                        jr_date.getLayoutParams().width = 0;
-                        jr_date.setTextAppearance(0);
-                        jr_date.setTextColor(0);
-                    } catch (Throwable ignored) {
-                    }
-                }
-            });
-        } catch (Throwable ignored) {
-        }
-
-        try {
-            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_status_bar_header_date_privacy", new XC_LayoutInflated() {
-                @SuppressLint({"DiscouragedApi"})
-                @Override
-                public void handleLayoutInflated(LayoutInflatedParam liparam) {
-                    if (!showHeaderClock) return;
-
-                    try {
-                        @SuppressLint("DiscouragedApi") TextView date = liparam.view.findViewById(liparam.res.getIdentifier("date", "id", SYSTEMUI_PACKAGE));
-                        date.getLayoutParams().height = 0;
-                        date.getLayoutParams().width = 0;
-                        date.setTextAppearance(0);
-                        date.setTextColor(0);
                     } catch (Throwable ignored) {
                     }
                 }

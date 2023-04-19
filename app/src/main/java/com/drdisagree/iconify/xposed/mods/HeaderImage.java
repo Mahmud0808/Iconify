@@ -85,7 +85,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
                 public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
                     if (!showHeaderImage) return;
 
-                    @SuppressLint("DiscouragedApi") FrameLayout header = liparam.view.findViewById(liparam.res.getIdentifier("header", "id", SYSTEMUI_PACKAGE));
+                    @SuppressLint("DiscouragedApi") FrameLayout header = liparam.view.findViewById(liparam.res.getIdentifier("header", "id", mContext.getPackageName()));
 
                     final ImageView headerImage = new ImageView(mContext);
                     headerImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, imageHeight, mContext.getResources().getDisplayMetrics())));

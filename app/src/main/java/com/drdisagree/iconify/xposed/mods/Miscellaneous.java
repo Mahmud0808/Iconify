@@ -152,7 +152,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                 public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
                     if (!QSCarrierGroupHidden) return;
 
-                    @SuppressLint("DiscouragedApi") LinearLayout carrier_group = liparam.view.findViewById(liparam.res.getIdentifier("carrier_group", "id", SYSTEMUI_PACKAGE));
+                    @SuppressLint("DiscouragedApi") LinearLayout carrier_group = liparam.view.findViewById(liparam.res.getIdentifier("carrier_group", "id", mContext.getPackageName()));
                     carrier_group.getLayoutParams().height = 0;
                     carrier_group.getLayoutParams().width = 0;
                     carrier_group.setMinimumWidth(0);
@@ -174,7 +174,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                     if (!hideStatusIcons) return;
 
                     try {
-                        @SuppressLint("DiscouragedApi") TextView clock = liparam.view.findViewById(liparam.res.getIdentifier("clock", "id", SYSTEMUI_PACKAGE));
+                        @SuppressLint("DiscouragedApi") TextView clock = liparam.view.findViewById(liparam.res.getIdentifier("clock", "id", mContext.getPackageName()));
                         clock.getLayoutParams().height = 0;
                         clock.getLayoutParams().width = 0;
                         clock.setTextAppearance(0);
@@ -183,7 +183,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                     }
 
                     try {
-                        @SuppressLint("DiscouragedApi") TextView date_clock = liparam.view.findViewById(liparam.res.getIdentifier("date_clock", "id", SYSTEMUI_PACKAGE));
+                        @SuppressLint("DiscouragedApi") TextView date_clock = liparam.view.findViewById(liparam.res.getIdentifier("date_clock", "id", mContext.getPackageName()));
                         date_clock.getLayoutParams().height = 0;
                         date_clock.getLayoutParams().width = 0;
                         date_clock.setTextAppearance(0);
@@ -192,7 +192,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                     }
 
                     try {
-                        @SuppressLint("DiscouragedApi") LinearLayout carrier_group = liparam.view.findViewById(liparam.res.getIdentifier("carrier_group", "id", SYSTEMUI_PACKAGE));
+                        @SuppressLint("DiscouragedApi") LinearLayout carrier_group = liparam.view.findViewById(liparam.res.getIdentifier("carrier_group", "id", mContext.getPackageName()));
                         carrier_group.getLayoutParams().height = 0;
                         carrier_group.getLayoutParams().width = 0;
                         carrier_group.setMinimumWidth(0);
@@ -201,21 +201,21 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                     }
 
                     try {
-                        @SuppressLint("DiscouragedApi") LinearLayout statusIcons = liparam.view.findViewById(liparam.res.getIdentifier("statusIcons", "id", SYSTEMUI_PACKAGE));
+                        @SuppressLint("DiscouragedApi") LinearLayout statusIcons = liparam.view.findViewById(liparam.res.getIdentifier("statusIcons", "id", mContext.getPackageName()));
                         statusIcons.getLayoutParams().height = 0;
                         statusIcons.getLayoutParams().width = 0;
                     } catch (Throwable ignored) {
                     }
 
                     try {
-                        @SuppressLint("DiscouragedApi") LinearLayout batteryRemainingIcon = liparam.view.findViewById(liparam.res.getIdentifier("batteryRemainingIcon", "id", SYSTEMUI_PACKAGE));
+                        @SuppressLint("DiscouragedApi") LinearLayout batteryRemainingIcon = liparam.view.findViewById(liparam.res.getIdentifier("batteryRemainingIcon", "id", mContext.getPackageName()));
                         batteryRemainingIcon.getLayoutParams().height = 0;
                         batteryRemainingIcon.getLayoutParams().width = 0;
                     } catch (Throwable ignored) {
                     }
 
                     try {
-                        @SuppressLint("DiscouragedApi") FrameLayout rightLayout = liparam.view.findViewById(liparam.res.getIdentifier("rightLayout", "id", SYSTEMUI_PACKAGE));
+                        @SuppressLint("DiscouragedApi") FrameLayout rightLayout = liparam.view.findViewById(liparam.res.getIdentifier("rightLayout", "id", mContext.getPackageName()));
                         rightLayout.getLayoutParams().height = 0;
                         rightLayout.getLayoutParams().width = 0;
                         rightLayout.setVisibility(View.INVISIBLE);
@@ -224,7 +224,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
 
                     // Ricedroid date
                     try {
-                        @SuppressLint("DiscouragedApi") TextView date = liparam.view.findViewById(liparam.res.getIdentifier("date", "id", SYSTEMUI_PACKAGE));
+                        @SuppressLint("DiscouragedApi") TextView date = liparam.view.findViewById(liparam.res.getIdentifier("date", "id", mContext.getPackageName()));
                         date.getLayoutParams().height = 0;
                         date.getLayoutParams().width = 0;
                         date.setTextAppearance(0);
@@ -234,7 +234,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
 
                     // Nusantara clock
                     try {
-                        @SuppressLint("DiscouragedApi") TextView jr_clock = liparam.view.findViewById(liparam.res.getIdentifier("jr_clock", "id", SYSTEMUI_PACKAGE));
+                        @SuppressLint("DiscouragedApi") TextView jr_clock = liparam.view.findViewById(liparam.res.getIdentifier("jr_clock", "id", mContext.getPackageName()));
                         jr_clock.getLayoutParams().height = 0;
                         jr_clock.getLayoutParams().width = 0;
                         jr_clock.setTextAppearance(0);
@@ -244,7 +244,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
 
                     // Nusantara date
                     try {
-                        @SuppressLint("DiscouragedApi") LinearLayout jr_date_container = liparam.view.findViewById(liparam.res.getIdentifier("jr_date_container", "id", SYSTEMUI_PACKAGE));
+                        @SuppressLint("DiscouragedApi") LinearLayout jr_date_container = liparam.view.findViewById(liparam.res.getIdentifier("jr_date_container", "id", mContext.getPackageName()));
                         TextView jr_date = (TextView) jr_date_container.getChildAt(0);
                         jr_date.getLayoutParams().height = 0;
                         jr_date.getLayoutParams().width = 0;
@@ -265,7 +265,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                     if (!hideStatusIcons) return;
 
                     try {
-                        @SuppressLint("DiscouragedApi") TextView date = liparam.view.findViewById(liparam.res.getIdentifier("date", "id", SYSTEMUI_PACKAGE));
+                        @SuppressLint("DiscouragedApi") TextView date = liparam.view.findViewById(liparam.res.getIdentifier("date", "id", mContext.getPackageName()));
                         date.setTextAppearance(0);
                         date.getLayoutParams().height = 0;
                         date.getLayoutParams().width = 0;
@@ -291,8 +291,8 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                     if (!fixedStatusIcons || hideStatusIcons) return;
 
                     try {
-                        statusIcons = liparam.view.findViewById(liparam.res.getIdentifier("statusIcons", "id", SYSTEMUI_PACKAGE));
-                        LinearLayout batteryRemainingIcon = liparam.view.findViewById(liparam.res.getIdentifier("batteryRemainingIcon", "id", SYSTEMUI_PACKAGE));
+                        statusIcons = liparam.view.findViewById(liparam.res.getIdentifier("statusIcons", "id", mContext.getPackageName()));
+                        LinearLayout batteryRemainingIcon = liparam.view.findViewById(liparam.res.getIdentifier("batteryRemainingIcon", "id", mContext.getPackageName()));
 
                         if (statusIcons != null) {
                             statusIconContainer = (LinearLayout) statusIcons.getParent();
@@ -323,7 +323,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                     if (!fixedStatusIcons || hideStatusIcons) return;
 
                     try {
-                        @SuppressLint("DiscouragedApi") FrameLayout privacy_container = liparam.view.findViewById(liparam.res.getIdentifier("privacy_container", "id", SYSTEMUI_PACKAGE));
+                        @SuppressLint("DiscouragedApi") FrameLayout privacy_container = liparam.view.findViewById(liparam.res.getIdentifier("privacy_container", "id", mContext.getPackageName()));
 
                         if (statusIconContainer != null && statusIconContainer.getParent() != null && statusIcons != null) {
                             try {
@@ -371,7 +371,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                 public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
                     if (hideLockscreenCarrier) {
                         try {
-                            @SuppressLint("DiscouragedApi") TextView keyguard_carrier_text = liparam.view.findViewById(liparam.res.getIdentifier("keyguard_carrier_text", "id", SYSTEMUI_PACKAGE));
+                            @SuppressLint("DiscouragedApi") TextView keyguard_carrier_text = liparam.view.findViewById(liparam.res.getIdentifier("keyguard_carrier_text", "id", mContext.getPackageName()));
                             keyguard_carrier_text.getLayoutParams().height = 0;
                             keyguard_carrier_text.setVisibility(View.INVISIBLE);
                             keyguard_carrier_text.requestLayout();
@@ -380,7 +380,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                     }
                     if (hideLockscreenStatusbar) {
                         try {
-                            @SuppressLint("DiscouragedApi") LinearLayout status_icon_area = liparam.view.findViewById(liparam.res.getIdentifier("status_icon_area", "id", SYSTEMUI_PACKAGE));
+                            @SuppressLint("DiscouragedApi") LinearLayout status_icon_area = liparam.view.findViewById(liparam.res.getIdentifier("status_icon_area", "id", mContext.getPackageName()));
                             status_icon_area.getLayoutParams().height = 0;
                             status_icon_area.setVisibility(View.INVISIBLE);
                             status_icon_area.requestLayout();
@@ -388,7 +388,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                         }
 
                         try {
-                            @SuppressLint("DiscouragedApi") TextView keyguard_carrier_text = liparam.view.findViewById(liparam.res.getIdentifier("keyguard_carrier_text", "id", SYSTEMUI_PACKAGE));
+                            @SuppressLint("DiscouragedApi") TextView keyguard_carrier_text = liparam.view.findViewById(liparam.res.getIdentifier("keyguard_carrier_text", "id", mContext.getPackageName()));
                             keyguard_carrier_text.getLayoutParams().height = 0;
                             keyguard_carrier_text.setVisibility(View.INVISIBLE);
                             keyguard_carrier_text.requestLayout();

@@ -102,7 +102,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                 public void handleLayoutInflated(LayoutInflatedParam liparam) {
                     if (!showLockscreenClock) return;
 
-                    status_view_container = liparam.view.findViewById(liparam.res.getIdentifier("status_view_container", "id", SYSTEMUI_PACKAGE));
+                    status_view_container = liparam.view.findViewById(liparam.res.getIdentifier("status_view_container", "id", mContext.getPackageName()));
 
                     if (status_view_container.getChildCount() >= 3) return;
 
@@ -406,7 +406,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                 public void handleLayoutInflated(LayoutInflatedParam liparam) {
                     if (!showLockscreenClock) return;
 
-                    status_view_container = liparam.view.findViewById(liparam.res.getIdentifier("status_view_container", "id", SYSTEMUI_PACKAGE));
+                    status_view_container = liparam.view.findViewById(liparam.res.getIdentifier("status_view_container", "id", mContext.getPackageName()));
 
                     if (clockAdded && status_view_container.getChildCount() >= 3)
                         status_view_container.removeViewAt(0);
@@ -427,11 +427,11 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                 public void handleLayoutInflated(LayoutInflatedParam liparam) {
                     if (!showLockscreenClock) return;
 
-                    @SuppressLint("DiscouragedApi") RelativeLayout keyguard_clock_container = liparam.view.findViewById(liparam.res.getIdentifier("keyguard_clock_container", "id", SYSTEMUI_PACKAGE));
+                    @SuppressLint("DiscouragedApi") RelativeLayout keyguard_clock_container = liparam.view.findViewById(liparam.res.getIdentifier("keyguard_clock_container", "id", mContext.getPackageName()));
                     keyguard_clock_container.getLayoutParams().height = 0;
                     keyguard_clock_container.getLayoutParams().width = 0;
 
-                    @SuppressLint("DiscouragedApi") FrameLayout status_view_media_container = liparam.view.findViewById(liparam.res.getIdentifier("status_view_media_container", "id", SYSTEMUI_PACKAGE));
+                    @SuppressLint("DiscouragedApi") FrameLayout status_view_media_container = liparam.view.findViewById(liparam.res.getIdentifier("status_view_media_container", "id", mContext.getPackageName()));
                     status_view_media_container.getLayoutParams().height = 0;
                     status_view_media_container.getLayoutParams().width = 0;
                 }

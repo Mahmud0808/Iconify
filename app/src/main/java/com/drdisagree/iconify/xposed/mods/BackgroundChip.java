@@ -350,11 +350,11 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
             @Override
             public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
                 try {
-                    @SuppressLint("DiscouragedApi") FrameLayout status_bar_start_side_content = liparam.view.findViewById(liparam.res.getIdentifier("status_bar_start_side_content", "id", SYSTEMUI_PACKAGE));
+                    @SuppressLint("DiscouragedApi") FrameLayout status_bar_start_side_content = liparam.view.findViewById(liparam.res.getIdentifier("status_bar_start_side_content", "id", mContext.getPackageName()));
                     status_bar_start_side_content.getLayoutParams().height = FrameLayout.LayoutParams.MATCH_PARENT;
                     status_bar_start_side_content.requestLayout();
 
-                    @SuppressLint("DiscouragedApi") LinearLayout status_bar_start_side_except_heads_up = liparam.view.findViewById(liparam.res.getIdentifier("status_bar_start_side_except_heads_up", "id", SYSTEMUI_PACKAGE));
+                    @SuppressLint("DiscouragedApi") LinearLayout status_bar_start_side_except_heads_up = liparam.view.findViewById(liparam.res.getIdentifier("status_bar_start_side_except_heads_up", "id", mContext.getPackageName()));
                     ((FrameLayout.LayoutParams) status_bar_start_side_except_heads_up.getLayoutParams()).gravity = Gravity.START | Gravity.CENTER;
                     status_bar_start_side_except_heads_up.setGravity(Gravity.START | Gravity.CENTER);
                     status_bar_start_side_except_heads_up.requestLayout();
@@ -375,7 +375,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
 
                 if (!fixedStatusIcons) {
                     try {
-                        @SuppressLint("DiscouragedApi") LinearLayout statusIcons = liparam.view.findViewById(liparam.res.getIdentifier("statusIcons", "id", SYSTEMUI_PACKAGE));
+                        @SuppressLint("DiscouragedApi") LinearLayout statusIcons = liparam.view.findViewById(liparam.res.getIdentifier("statusIcons", "id", mContext.getPackageName()));
                         LinearLayout statusIconContainer = (LinearLayout) statusIcons.getParent();
 
                         ((FrameLayout.LayoutParams) statusIconContainer.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.END;
@@ -400,7 +400,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
 
                 if (fixedStatusIcons) {
                     try {
-                        @SuppressLint("DiscouragedApi") LinearLayout statusIcons = liparam.view.findViewById(liparam.res.getIdentifier("statusIcons", "id", SYSTEMUI_PACKAGE));
+                        @SuppressLint("DiscouragedApi") LinearLayout statusIcons = liparam.view.findViewById(liparam.res.getIdentifier("statusIcons", "id", mContext.getPackageName()));
                         if (statusIcons != null) {
                             LinearLayout statusIconContainer = (LinearLayout) statusIcons.getParent();
 
