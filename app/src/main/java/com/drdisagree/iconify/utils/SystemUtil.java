@@ -44,7 +44,7 @@ public class SystemUtil {
     }
 
     public static void restartDevice() {
-        Shell.cmd("su -c 'svc power reboot'").exec();
+        Shell.cmd("am start -a android.intent.action.REBOOT").exec();
     }
 
     public static void disableBlur() {
