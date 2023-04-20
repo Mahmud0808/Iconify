@@ -276,9 +276,6 @@ public class LandingPage3 extends AppCompatActivity {
                             if (overlay.isDirectory()) {
                                 String overlay_name = overlay.toString().replace(pkg.toString() + '/', "");
 
-                                logger = "Creating manifest for " + overlay_name;
-                                publishProgress(step);
-
                                 if (OverlayCompiler.createManifest(overlay_name, pkg.toString().replace(Resources.DATA_DIR + "/Overlays/", ""), overlay.getAbsolutePath())) {
                                     hasErroredOut = true;
                                 }
