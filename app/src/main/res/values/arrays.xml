@@ -11,6 +11,17 @@
         <item>@string/settings_icons_outline</item>
         <item>@string/settings_icons_neumorph</item>
     </string-array>
+    <string-array name="settings_icon_shape">
+        <item>@string/settings_icons_circle</item>
+        <item>@string/settings_icons_squircle</item>
+        <item>@string/settings_icons_square</item>
+    </string-array>
+    <string-array name="settings_icon_size">
+        <item>@string/settings_icons_size1</item>
+        <item>@string/settings_icons_size2</item>
+        <item>@string/settings_icons_size3</item>
+        <item>@string/settings_icons_size4</item>
+    </string-array>
     <string-array name="settings_icon_color">
         <item>@string/settings_icons_follow_system</item>
         <item>@string/settings_icons_system_inverse</item>
