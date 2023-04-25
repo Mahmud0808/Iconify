@@ -28,72 +28,151 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginBottom="@dimen/container_margin"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/bg_style"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/container_margin"
-                    android:layout_weight="1.0"
-                    android:background="@drawable/container"
-                    android:orientation="vertical"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/bg_style"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/settings_icons_background"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:layout_weight="1.0"
+                        android:background="@drawable/container"
+                        android:orientation="vertical"
+                        android:paddingStart="@dimen/container_paddingSide"
+                        android:paddingTop="@dimen/container_padding"
+                        android:paddingEnd="@dimen/container_paddingSide"
+                        android:paddingBottom="@dimen/container_padding">
 
-                    <TextView
-                        android:id="@+id/selected_bg_style"
-                        android:layout_width="wrap_content"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_icons_background"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/selected_bg_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_icons_minimal"
+                            android:textColor="@color/textColorSecondary"
+                            android:textSize="@dimen/cont_desc_size" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="@dimen/_6sdp"
+                        android:layout_height="match_parent" />
+
+                    <LinearLayout
+                        android:id="@+id/bg_shape"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/settings_icons_minimal"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:layout_weight="1.0"
+                        android:background="@drawable/container"
+                        android:orientation="vertical"
+                        android:paddingStart="@dimen/container_paddingSide"
+                        android:paddingTop="@dimen/container_padding"
+                        android:paddingEnd="@dimen/container_paddingSide"
+                        android:paddingBottom="@dimen/container_padding">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Shape"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/selected_bg_shape"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Circle"
+                            android:textColor="@color/textColorSecondary"
+                            android:textSize="@dimen/cont_desc_size" />
+
+                    </LinearLayout>
                 </LinearLayout>
 
                 <View
-                    android:layout_width="@dimen/_6sdp"
-                    android:layout_height="match_parent" />
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_6sdp" />
 
                 <LinearLayout
-                    android:id="@+id/icon_color"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/container_margin"
-                    android:layout_weight="1.0"
-                    android:background="@drawable/container"
-                    android:orientation="vertical"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/icon_size"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/settins_icons_icon_color"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:layout_weight="1.0"
+                        android:background="@drawable/container"
+                        android:orientation="vertical"
+                        android:paddingStart="@dimen/container_paddingSide"
+                        android:paddingTop="@dimen/container_padding"
+                        android:paddingEnd="@dimen/container_paddingSide"
+                        android:paddingBottom="@dimen/container_padding">
 
-                    <TextView
-                        android:id="@+id/selected_icon_color"
-                        android:layout_width="wrap_content"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Icon Size"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/selected_icon_size"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0.5x"
+                            android:textColor="@color/textColorSecondary"
+                            android:textSize="@dimen/cont_desc_size" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="@dimen/_6sdp"
+                        android:layout_height="match_parent" />
+
+                    <LinearLayout
+                        android:id="@+id/icon_color"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/settings_icons_follow_system"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:layout_weight="1.0"
+                        android:background="@drawable/container"
+                        android:orientation="vertical"
+                        android:paddingStart="@dimen/container_paddingSide"
+                        android:paddingTop="@dimen/container_padding"
+                        android:paddingEnd="@dimen/container_paddingSide"
+                        android:paddingBottom="@dimen/container_padding">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settins_icons_icon_color"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/selected_icon_color"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_icons_follow_system"
+                            android:textColor="@color/textColorSecondary"
+                            android:textSize="@dimen/cont_desc_size" />
+
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 

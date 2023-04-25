@@ -3,6 +3,8 @@ package com.drdisagree.iconify.ui.activities;
 import static com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_BG;
 import static com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_COLOR;
 import static com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_SET;
+import static com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_SHAPE;
+import static com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_SIZE;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -24,7 +26,7 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.overlaymanager.SettingsIconsManager;
+import com.drdisagree.iconify.overlaymanager.SettingsIconResourceManager;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.ui.views.RadioDialog;
@@ -38,10 +40,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SettingsIcons extends AppCompatActivity implements RadioDialog.RadioDialogListener {
 
-    private static int selectedIconColor = 1, selectedBackground = 1, selectedIcon = 1;
+    private static int selectedBackground = 1, selectedShape = 1, selectedSize = 1, selectedIconColor = 1, selectedIcon = 1;
     LoadingDialog loadingDialog;
     private ViewGroup container;
-    RadioDialog rd_bg_style, rd_icon_color;
+    RadioDialog rd_bg_style, rd_bg_shape, rd_ic_size, rd_icon_color;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -67,12 +69,30 @@ public class SettingsIcons extends AppCompatActivity implements RadioDialog.Radi
         selectedBackground = rd_bg_style.getSelectedIndex() + 1;
         selected_bg_style.setText(Arrays.asList(getResources().getStringArray(R.array.settings_icon_bg)).get(selectedBackground - 1));
 
+        // Background Shape
+        LinearLayout bg_shape = findViewById(R.id.bg_shape);
+        TextView selected_bg_shape = findViewById(R.id.selected_bg_shape);
+        rd_bg_shape = new RadioDialog(this, 1, Prefs.getInt(SELECTED_SETTINGS_ICONS_SHAPE, 1) - 1);
+        rd_bg_shape.setRadioDialogListener(this);
+        bg_shape.setOnClickListener(v -> rd_bg_shape.show(R.string.settings_icons_background, R.array.settings_icon_shape, selected_bg_shape));
+        selectedShape = rd_bg_shape.getSelectedIndex() + 1;
+        selected_bg_shape.setText(Arrays.asList(getResources().getStringArray(R.array.settings_icon_shape)).get(selectedShape - 1));
+
+        // Icon Size
+        LinearLayout ic_size = findViewById(R.id.icon_size);
+        TextView selected_ic_size = findViewById(R.id.selected_icon_size);
+        rd_ic_size = new RadioDialog(this, 2, Prefs.getInt(SELECTED_SETTINGS_ICONS_SIZE, 1) - 1);
+        rd_ic_size.setRadioDialogListener(this);
+        ic_size.setOnClickListener(v -> rd_ic_size.show(R.string.settings_icons_background, R.array.settings_icon_size, selected_ic_size));
+        selectedSize = rd_ic_size.getSelectedIndex() + 1;
+        selected_ic_size.setText(Arrays.asList(getResources().getStringArray(R.array.settings_icon_size)).get(selectedSize - 1));
+
         // Icon color
         LinearLayout icon_color = findViewById(R.id.icon_color);
         TextView selected_icon_color = findViewById(R.id.selected_icon_color);
-        rd_icon_color = new RadioDialog(this, 1, Prefs.getInt(SELECTED_SETTINGS_ICONS_COLOR, 1) - 1);
+        rd_icon_color = new RadioDialog(this, 3, Prefs.getInt(SELECTED_SETTINGS_ICONS_COLOR, 1) - 1);
         rd_icon_color.setRadioDialogListener(this);
-        icon_color.setOnClickListener(v -> rd_icon_color.show(R.string.settins_icons_icon_color, R.array.settings_icon_color, findViewById(R.id.selected_icon_color)));
+        icon_color.setOnClickListener(v -> rd_icon_color.show(R.string.settins_icons_icon_color, R.array.settings_icon_color, selected_icon_color));
         selectedIconColor = rd_icon_color.getSelectedIndex() + 1;
         selected_icon_color.setText(Arrays.asList(getResources().getStringArray(R.array.settings_icon_color)).get(selectedIconColor - 1));
 
@@ -124,7 +144,7 @@ public class SettingsIcons extends AppCompatActivity implements RadioDialog.Radi
 
                 Runnable runnable = () -> {
                     try {
-                        hasErroredOut.set(SettingsIconsManager.enableOverlay(selectedIcon, selectedBackground, selectedIconColor));
+                        hasErroredOut.set(SettingsIconResourceManager.enableOverlay(selectedIcon, selectedBackground, selectedShape, selectedSize, selectedIconColor));
                     } catch (IOException e) {
                         hasErroredOut.set(true);
                         Log.e("SettingsIcons", e.toString());
@@ -134,6 +154,8 @@ public class SettingsIcons extends AppCompatActivity implements RadioDialog.Radi
                         if (!hasErroredOut.get()) {
                             Prefs.putInt(SELECTED_SETTINGS_ICONS_SET, selectedIcon);
                             Prefs.putInt(SELECTED_SETTINGS_ICONS_BG, selectedBackground);
+                            Prefs.putInt(SELECTED_SETTINGS_ICONS_SHAPE, selectedShape);
+                            Prefs.putInt(SELECTED_SETTINGS_ICONS_SIZE, selectedSize);
                             Prefs.putInt(SELECTED_SETTINGS_ICONS_COLOR, selectedIconColor);
 
                             disable_settings_icons.setVisibility(View.VISIBLE);
@@ -241,6 +263,12 @@ public class SettingsIcons extends AppCompatActivity implements RadioDialog.Radi
                 selectedBackground = selectedIndex + 1;
                 break;
             case 1:
+                selectedShape = selectedIndex + 1;
+                break;
+            case 2:
+                selectedSize = selectedIndex + 1;
+                break;
+            case 3:
                 selectedIconColor = selectedIndex + 1;
                 break;
         }

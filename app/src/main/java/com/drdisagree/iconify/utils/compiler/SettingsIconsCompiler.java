@@ -114,9 +114,6 @@ public class SettingsIconsCompiler {
     }
 
     private static void postExecute(boolean hasErroredOut) {
-        // Create symbolic link
-        BinaryInstaller.symLinkBinaries();
-
         // Move all generated overlays to module
         if (!hasErroredOut) {
             for (int i = 1; i <= packages.length; i++) {

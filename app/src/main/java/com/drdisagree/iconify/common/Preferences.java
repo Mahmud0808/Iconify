@@ -74,6 +74,8 @@ public class Preferences {
     public static final String LAND_QSTILE_NONEXPANDED_HEIGHT = "landscapeQsTileNonExpandedHeight";
     public static final String SELECTED_SETTINGS_ICONS_COLOR = "selectedSettignsIconsColor";
     public static final String SELECTED_SETTINGS_ICONS_BG = "selectedSettignsIconsBg";
+    public static final String SELECTED_SETTINGS_ICONS_SHAPE = "selectedSettignsIconsShape";
+    public static final String SELECTED_SETTINGS_ICONS_SIZE = "selectedSettignsIconsSize";
     public static final String SELECTED_SETTINGS_ICONS_SET = "selectedSettignsIconsSet";
     public static final String SELECTED_TOAST_FRAME = "selectedToastFrame";
     public static final String SELECTED_ICON_SHAPE = "selectedIconShape";
