@@ -467,6 +467,13 @@
     <string name="settings_icons_filled">Preenchido</string>
     <string name="settings_icons_outline">Contorno</string>
     <string name="settings_icons_neumorph">Neumorfo</string>
+    <string name="settings_icons_circle">Círculo</string>
+    <string name="settings_icons_squircle">\"Squircle\"</string>
+    <string name="settings_icons_square">Quadrado</string>
+    <string name="settings_icons_size1">0,50 x</string>
+    <string name="settings_icons_size2">0,65 x</string>
+    <string name="settings_icons_size3">0,80 x</string>
+    <string name="settings_icons_size4">1,00 x</string>
     <string name="settins_icons_icon_color">Cor dos ícones</string>
     <string name="settings_icons_follow_system">Seguir sistema</string>
     <string name="settings_icons_system_inverse">Inverso do sistema</string>
