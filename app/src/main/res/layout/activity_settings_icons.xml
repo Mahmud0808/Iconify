@@ -85,7 +85,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Shape"
+                            android:text="@string/settings_icons_shape"
                             android:textColor="@color/textColorPrimary"
                             android:textSize="@dimen/cont_title_size"
                             android:textStyle="bold" />
@@ -94,7 +94,7 @@
                             android:id="@+id/selected_bg_shape"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Circle"
+                            android:text="@string/settings_icons_circle"
                             android:textColor="@color/textColorSecondary"
                             android:textSize="@dimen/cont_desc_size" />
 
@@ -125,7 +125,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Icon Size"
+                            android:text="@string/settings_icons_size"
                             android:textColor="@color/textColorPrimary"
                             android:textSize="@dimen/cont_title_size"
                             android:textStyle="bold" />
@@ -134,7 +134,7 @@
                             android:id="@+id/selected_icon_size"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0.5x"
+                            android:text="@string/settings_icons_size1"
                             android:textColor="@color/textColorSecondary"
                             android:textSize="@dimen/cont_desc_size" />
 

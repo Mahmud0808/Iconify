@@ -74,7 +74,7 @@ public class SettingsIcons extends AppCompatActivity implements RadioDialog.Radi
         TextView selected_bg_shape = findViewById(R.id.selected_bg_shape);
         rd_bg_shape = new RadioDialog(this, 1, Prefs.getInt(SELECTED_SETTINGS_ICONS_SHAPE, 1) - 1);
         rd_bg_shape.setRadioDialogListener(this);
-        bg_shape.setOnClickListener(v -> rd_bg_shape.show(R.string.settings_icons_background, R.array.settings_icon_shape, selected_bg_shape));
+        bg_shape.setOnClickListener(v -> rd_bg_shape.show(R.string.settings_icons_shape, R.array.settings_icon_shape, selected_bg_shape));
         selectedShape = rd_bg_shape.getSelectedIndex() + 1;
         selected_bg_shape.setText(Arrays.asList(getResources().getStringArray(R.array.settings_icon_shape)).get(selectedShape - 1));
 
@@ -83,7 +83,7 @@ public class SettingsIcons extends AppCompatActivity implements RadioDialog.Radi
         TextView selected_ic_size = findViewById(R.id.selected_icon_size);
         rd_ic_size = new RadioDialog(this, 2, Prefs.getInt(SELECTED_SETTINGS_ICONS_SIZE, 1) - 1);
         rd_ic_size.setRadioDialogListener(this);
-        ic_size.setOnClickListener(v -> rd_ic_size.show(R.string.settings_icons_background, R.array.settings_icon_size, selected_ic_size));
+        ic_size.setOnClickListener(v -> rd_ic_size.show(R.string.settings_icons_size, R.array.settings_icon_size, selected_ic_size));
         selectedSize = rd_ic_size.getSelectedIndex() + 1;
         selected_ic_size.setText(Arrays.asList(getResources().getStringArray(R.array.settings_icon_size)).get(selectedSize - 1));
 

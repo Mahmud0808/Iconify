@@ -472,9 +472,11 @@
     <string name="settings_icons_filled">Filled</string>
     <string name="settings_icons_outline">Outline</string>
     <string name="settings_icons_neumorph">Neumorph</string>
+    <string name="settings_icons_shape">Shape</string>
     <string name="settings_icons_circle">Circle</string>
     <string name="settings_icons_squircle">Squircle</string>
     <string name="settings_icons_square">Square</string>
+    <string name="settings_icons_size">Icon Size</string>
     <string name="settings_icons_size1">0.5x</string>
     <string name="settings_icons_size2">0.65x</string>
     <string name="settings_icons_size3">0.8x</string>
