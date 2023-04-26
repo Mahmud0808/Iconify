@@ -273,52 +273,60 @@
                 <View style="@style/dividerTransparent" />
 
                 <LinearLayout
+                    android:id="@+id/icon_label_always_white_v2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/container_mid"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:layout_marginEnd="@dimen/container_padding"
-                        android:layout_weight="1.0"
-                        android:orientation="vertical">
+                        android:background="@drawable/container_mid"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/container_paddingSide"
+                        android:paddingTop="@dimen/container_padding"
+                        android:paddingEnd="@dimen/container_paddingSide"
+                        android:paddingBottom="@dimen/container_padding">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
-                            android:paddingTop="3dp"
-                            android:text="@string/label_always_white_v2_title"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
+                            android:layout_marginEnd="@dimen/container_padding"
+                            android:layout_weight="1.0"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start|center"
-                            android:paddingTop="3dp"
-                            android:text="@string/label_always_white_v2_desc"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start|center"
+                                android:paddingTop="3dp"
+                                android:text="@string/label_always_white_v2_title"
+                                android:textColor="@color/textColorPrimary"
+                                android:textSize="@dimen/cont_title_size"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start|center"
+                                android:paddingTop="3dp"
+                                android:text="@string/label_always_white_v2_desc"
+                                android:textColor="@color/textColorSecondary"
+                                android:textSize="@dimen/cont_desc_size" />
+
+                        </LinearLayout>
+
+                        <Switch
+                            android:id="@+id/label_whiteV2"
+                            style="@style/customSwitch"
+                            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                     </LinearLayout>
 
-                    <Switch
-                        android:id="@+id/label_whiteV2"
-                        style="@style/customSwitch"
-                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    <View style="@style/dividerTransparent" />
 
                 </LinearLayout>
-
-                <View style="@style/dividerTransparent" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -369,52 +377,60 @@
                 <View style="@style/dividerTransparent" />
 
                 <LinearLayout
+                    android:id="@+id/icon_label_follow_system_v2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/container_mid"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:layout_marginEnd="@dimen/container_padding"
-                        android:layout_weight="1.0"
-                        android:orientation="vertical">
+                        android:background="@drawable/container_mid"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/container_paddingSide"
+                        android:paddingTop="@dimen/container_padding"
+                        android:paddingEnd="@dimen/container_paddingSide"
+                        android:paddingBottom="@dimen/container_padding">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
-                            android:paddingTop="3dp"
-                            android:text="@string/label_follow_system_v2_title"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
+                            android:layout_marginEnd="@dimen/container_padding"
+                            android:layout_weight="1.0"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start|center"
-                            android:paddingTop="3dp"
-                            android:text="@string/label_follow_system_v2_desc"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start|center"
+                                android:paddingTop="3dp"
+                                android:text="@string/label_follow_system_v2_title"
+                                android:textColor="@color/textColorPrimary"
+                                android:textSize="@dimen/cont_title_size"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start|center"
+                                android:paddingTop="3dp"
+                                android:text="@string/label_follow_system_v2_desc"
+                                android:textColor="@color/textColorSecondary"
+                                android:textSize="@dimen/cont_desc_size" />
+
+                        </LinearLayout>
+
+                        <Switch
+                            android:id="@+id/label_systemInverseV2"
+                            style="@style/customSwitch"
+                            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                     </LinearLayout>
 
-                    <Switch
-                        android:id="@+id/label_systemInverseV2"
-                        style="@style/customSwitch"
-                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    <View style="@style/dividerTransparent" />
 
                 </LinearLayout>
-
-                <View style="@style/dividerTransparent" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

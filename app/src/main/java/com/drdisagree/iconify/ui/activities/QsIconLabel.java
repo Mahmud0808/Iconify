@@ -8,6 +8,7 @@ import static com.drdisagree.iconify.common.References.FABRICATED_QS_MOVE_ICON;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_TEXT_SIZE;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -18,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -26,9 +26,6 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-
-import java.util.Objects;
 
 public class QsIconLabel extends AppCompatActivity {
 
@@ -310,6 +307,10 @@ public class QsIconLabel extends AppCompatActivity {
             }
         });
 
+        if (Build.VERSION.SDK_INT >= 33) {
+            findViewById(R.id.icon_label_always_white_v2).setVisibility(View.GONE);
+            findViewById(R.id.icon_label_follow_system_v2).setVisibility(View.GONE);
+        }
     }
 
     @Override

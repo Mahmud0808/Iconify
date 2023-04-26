@@ -7,6 +7,7 @@ import static com.drdisagree.iconify.common.References.FRAGMENT_STYLES;
 import static com.drdisagree.iconify.common.References.FRAGMENT_XPOSEDMENU;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -34,6 +35,7 @@ import com.drdisagree.iconify.utils.AppUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Tweaks extends Fragment {
 
@@ -122,6 +124,9 @@ public class Tweaks extends Fragment {
             } else if (pack.get(i)[0] instanceof View.OnClickListener) {
                 list.setOnClickListener((View.OnClickListener) pack.get(i)[0]);
             }
+
+            if (Objects.equals((String) pack.get(i)[1], getResources().getString(R.string.activity_title_media_player)) && Build.VERSION.SDK_INT >= 33)
+                list.setVisibility(View.GONE);
 
             listView.addView(list);
         }
