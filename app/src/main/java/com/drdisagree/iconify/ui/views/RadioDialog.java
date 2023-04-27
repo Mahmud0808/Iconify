@@ -56,6 +56,8 @@ public class RadioDialog extends BaseActivity {
             radioGroup.addView(radioButton);
         }
 
+        ((RadioButton) radioGroup.getChildAt(selectedIndex)).setChecked(true);
+
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             selectedIndex = checkedId;
             dialog.hide();
@@ -65,8 +67,6 @@ public class RadioDialog extends BaseActivity {
                 listener.onItemSelected(dialogId, selectedIndex);
             }
         });
-
-        ((RadioButton) radioGroup.getChildAt(selectedIndex)).setChecked(true);
 
         dialog.create();
         dialog.show();

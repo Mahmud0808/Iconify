@@ -270,16 +270,12 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
     public void onItemSelected(int dialogId, int selectedIndex) {
         switch (dialogId) {
             case 0:
-                if (!getResources().getConfiguration().getLocales().get(0).getLanguage().equals(Arrays.asList(getResources().getStringArray(R.array.locale_code)).get(selectedIndex))) {
-                    Prefs.putString(APP_LANGUAGE, Arrays.asList(getResources().getStringArray(R.array.locale_code)).get(selectedIndex));
-                    restartApplication(requireActivity());
-                }
+                Prefs.putString(APP_LANGUAGE, Arrays.asList(getResources().getStringArray(R.array.locale_code)).get(selectedIndex));
+                restartApplication(requireActivity());
                 break;
             case 1:
-                if (selectedIndex != Prefs.getInt(APP_THEME, 2)) {
-                    Prefs.putInt(APP_THEME, selectedIndex);
-                    restartApplication(requireActivity());
-                }
+                Prefs.putInt(APP_THEME, selectedIndex);
+                restartApplication(requireActivity());
                 break;
             case 2:
                 Prefs.putInt(FORCE_APPLY_XPOSED_CHOICE, selectedIndex == 2 ? -1 : selectedIndex);
