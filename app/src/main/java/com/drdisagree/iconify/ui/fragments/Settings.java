@@ -2,12 +2,14 @@ package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.APP_LANGUAGE;
+import static com.drdisagree.iconify.common.Preferences.APP_THEME;
 import static com.drdisagree.iconify.common.Preferences.EASTER_EGG;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.FORCE_APPLY_XPOSED_CHOICE;
 import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_AFTER_BOOT;
 import static com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN;
 import static com.drdisagree.iconify.common.Preferences.USE_LIGHT_ACCENT;
+import static com.drdisagree.iconify.utils.AppUtil.restartApplication;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -55,7 +57,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
 
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
     LoadingDialog loadingDialog;
-    RadioDialog rd_force_apply_method, rd_app_language;
+    RadioDialog rd_force_apply_method, rd_app_language, rd_app_theme;
 
     public static void disableEverything() {
         SharedPreferences prefs = Iconify.getAppContext().getSharedPreferences(Iconify.getAppContext().getPackageName(), Context.MODE_PRIVATE);
@@ -105,6 +107,14 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         app_language.setOnClickListener(v -> rd_app_language.show(R.string.app_language, R.array.locale_name, selected_app_language));
         selected_app_language.setText(Arrays.asList(getResources().getStringArray(R.array.locale_name)).get(rd_app_language.getSelectedIndex()));
 
+        // App Theme
+        LinearLayout app_theme = view.findViewById(R.id.app_theme);
+        TextView selected_app_theme = view.findViewById(R.id.selected_app_theme);
+        rd_app_theme = new RadioDialog(requireActivity(), 1, Prefs.getInt(APP_THEME, 2));
+        rd_app_theme.setRadioDialogListener(this);
+        app_theme.setOnClickListener(v -> rd_app_theme.show(R.string.app_theme, R.array.app_theme, selected_app_theme));
+        selected_app_theme.setText(Arrays.asList(getResources().getStringArray(R.array.app_theme)).get(rd_app_theme.getSelectedIndex()));
+
         // Use light accent
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch use_light_accent = view.findViewById(R.id.use_light_accent);
         boolean useLightAccent = Prefs.getBoolean(USE_LIGHT_ACCENT, false) || Prefs.getBoolean("IconifyComponentAMACL.overlay") || Prefs.getBoolean("IconifyComponentAMGCL.overlay");
@@ -152,7 +162,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         // Force apply method
         LinearLayout force_apply_method = view.findViewById(R.id.force_apply_method);
         TextView selected_force_apply_method = view.findViewById(R.id.selected_force_apply_method);
-        rd_force_apply_method = new RadioDialog(requireActivity(), 1, Prefs.getInt(FORCE_APPLY_XPOSED_CHOICE, 0) == -1 ? 2 : Prefs.getInt(FORCE_APPLY_XPOSED_CHOICE, 0));
+        rd_force_apply_method = new RadioDialog(requireActivity(), 2, Prefs.getInt(FORCE_APPLY_XPOSED_CHOICE, 0) == -1 ? 2 : Prefs.getInt(FORCE_APPLY_XPOSED_CHOICE, 0));
         rd_force_apply_method.setRadioDialogListener(this);
         force_apply_method.setOnClickListener(v -> rd_force_apply_method.show(R.string.list_title_force_apply_method, R.array.xposed_force_apply_method, selected_force_apply_method));
         selected_force_apply_method.setText(Arrays.asList(getResources().getStringArray(R.array.xposed_force_apply_method)).get(rd_force_apply_method.getSelectedIndex() == -1 ? 2 : rd_force_apply_method.getSelectedIndex()));
@@ -221,6 +231,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
     public void onDestroy() {
         if (loadingDialog != null) loadingDialog.hide();
         if (rd_app_language != null) rd_app_language.dismiss();
+        if (rd_app_theme != null) rd_app_theme.dismiss();
         if (rd_force_apply_method != null) rd_force_apply_method.dismiss();
         super.onDestroy();
     }
@@ -260,16 +271,17 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         switch (dialogId) {
             case 0:
                 if (!getResources().getConfiguration().getLocales().get(0).getLanguage().equals(Arrays.asList(getResources().getStringArray(R.array.locale_code)).get(selectedIndex))) {
-                    new Handler().postDelayed(() -> {
-                        Intent intent = requireActivity().getIntent();
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        Prefs.putString(APP_LANGUAGE, Arrays.asList(getResources().getStringArray(R.array.locale_code)).get(selectedIndex));
-                        requireActivity().finish();
-                        startActivity(intent);
-                    }, 600);
+                    Prefs.putString(APP_LANGUAGE, Arrays.asList(getResources().getStringArray(R.array.locale_code)).get(selectedIndex));
+                    restartApplication(requireActivity());
                 }
                 break;
             case 1:
+                if (selectedIndex != Prefs.getInt(APP_THEME, 2)) {
+                    Prefs.putInt(APP_THEME, selectedIndex);
+                    restartApplication(requireActivity());
+                }
+                break;
+            case 2:
                 Prefs.putInt(FORCE_APPLY_XPOSED_CHOICE, selectedIndex == 2 ? -1 : selectedIndex);
                 break;
         }
