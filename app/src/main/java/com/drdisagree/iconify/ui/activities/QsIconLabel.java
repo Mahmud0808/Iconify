@@ -304,11 +304,6 @@ public class QsIconLabel extends BaseActivity {
                 Toast.makeText(Iconify.getAppContext(), finalMoveIcon[0] + "dp " + getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
             }
         });
-
-        if (Build.VERSION.SDK_INT >= 33) {
-            findViewById(R.id.icon_label_always_white_v2).setVisibility(View.GONE);
-            findViewById(R.id.icon_label_follow_system_v2).setVisibility(View.GONE);
-        }
     }
 
     @Override
