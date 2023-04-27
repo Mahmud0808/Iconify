@@ -5,15 +5,13 @@ import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import android.os.Bundle;
 import android.os.Handler;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityMiscellaneousBinding;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.OverlayUtil;
 
-public class Miscellaneous extends AppCompatActivity {
+public class Miscellaneous extends BaseActivity {
 
     ActivityMiscellaneousBinding binding;
 

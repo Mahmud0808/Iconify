@@ -86,6 +86,7 @@ public class Preferences {
     public static final String COLORED_BATTERY_CHECK = "isColoredBatteryEnabledByUser";
 
     // Settings
+    public static final String APP_LANGUAGE = "IconifyAppLanguage";
     public static final String USE_LIGHT_ACCENT = "useLightAccent";
     public static final String SHOW_XPOSED_WARN = "showXposedMenuWarn";
     public static final String FORCE_APPLY_XPOSED_CHOICE = "optionForceApplyXposed";

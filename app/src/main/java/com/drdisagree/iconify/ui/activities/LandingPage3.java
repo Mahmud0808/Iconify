@@ -20,8 +20,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.LottieCompositionFactory;
 import com.airbnb.lottie.RenderMode;
@@ -47,7 +45,7 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class LandingPage3 extends AppCompatActivity {
+public class LandingPage3 extends BaseActivity {
 
     private static boolean hasErroredOut = false;
     @SuppressLint("StaticFieldLeak")

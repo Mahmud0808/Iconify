@@ -10,11 +10,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.ui.activities.BaseActivity;
 
-public class RadioDialog extends AppCompatActivity {
+public class RadioDialog extends BaseActivity {
 
     Context context;
     Dialog dialog;
@@ -25,10 +24,6 @@ public class RadioDialog extends AppCompatActivity {
         this.context = context;
         this.dialogId = dialogId;
         this.selectedIndex = selectedIndex;
-    }
-
-    public interface RadioDialogListener {
-        void onItemSelected(int dialogId, int selectedIndex);
     }
 
     public void setRadioDialogListener(RadioDialogListener listener) {
@@ -101,5 +96,9 @@ public class RadioDialog extends AppCompatActivity {
         if (dialog != null && !isFinishing()) {
             dialog.dismiss();
         }
+    }
+
+    public interface RadioDialogListener {
+        void onItemSelected(int dialogId, int selectedIndex);
     }
 }

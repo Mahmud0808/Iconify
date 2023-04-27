@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -34,7 +33,7 @@ import com.drdisagree.iconify.utils.OverlayUtil;
 import java.util.List;
 import java.util.Objects;
 
-public class HomePage extends AppCompatActivity {
+public class HomePage extends BaseActivity {
 
     private static final String mData = "mDataKey";
     ActivityHomePageBinding binding;

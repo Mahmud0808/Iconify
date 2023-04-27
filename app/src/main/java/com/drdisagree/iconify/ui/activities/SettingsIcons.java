@@ -20,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.Iconify;
@@ -38,12 +37,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class SettingsIcons extends AppCompatActivity implements RadioDialog.RadioDialogListener {
+public class SettingsIcons extends BaseActivity implements RadioDialog.RadioDialogListener {
 
     private static int selectedBackground = 1, selectedShape = 1, selectedSize = 1, selectedIconColor = 1, selectedIcon = 1;
     LoadingDialog loadingDialog;
-    private ViewGroup container;
     RadioDialog rd_bg_style, rd_bg_shape, rd_ic_size, rd_icon_color;
+    private ViewGroup container;
 
     @SuppressLint("SetTextI18n")
     @Override

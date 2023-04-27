@@ -21,8 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
@@ -35,7 +33,7 @@ import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import java.util.List;
 import java.util.Objects;
 
-public class ColoredBattery extends AppCompatActivity implements ColorPickerDialogListener {
+public class ColoredBattery extends BaseActivity implements ColorPickerDialogListener {
 
     private static String colorBackground, colorFilled;
     private final List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();

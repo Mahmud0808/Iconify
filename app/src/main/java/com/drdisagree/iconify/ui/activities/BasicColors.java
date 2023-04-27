@@ -21,7 +21,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.ColorUtils;
 
 import com.drdisagree.iconify.Iconify;
@@ -37,7 +36,7 @@ import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import java.util.List;
 import java.util.Objects;
 
-public class BasicColors extends AppCompatActivity implements ColorPickerDialogListener {
+public class BasicColors extends BaseActivity implements ColorPickerDialogListener {
 
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
     private static boolean isSelectedPrimary = false, isSelectedSecondary = false;

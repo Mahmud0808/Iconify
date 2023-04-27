@@ -3,12 +3,10 @@ package com.drdisagree.iconify.ui.activities;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 
-public class Experimental extends AppCompatActivity {
+public class Experimental extends BaseActivity {
 
     @SuppressLint({"SetTextI18n", "CommitPrefEdits"})
     @Override

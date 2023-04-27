@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.R;
@@ -22,7 +21,7 @@ import com.drdisagree.iconify.utils.OverlayUtil;
 
 import java.util.ArrayList;
 
-public class MediaIcons extends AppCompatActivity {
+public class MediaIcons extends BaseActivity {
 
     private final ArrayList<String[]> MPIP_KEY = new ArrayList<>();
     private final ArrayList<Object[]> mpip_list = new ArrayList<>();

@@ -3,16 +3,13 @@ package com.drdisagree.iconify.ui.activities;
 import static com.drdisagree.iconify.utils.SystemUtil.isDarkMode;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.RenderMode;
 import com.drdisagree.iconify.R;
 
-public class LandingPage1 extends AppCompatActivity {
+public class LandingPage1 extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

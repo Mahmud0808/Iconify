@@ -5,6 +5,24 @@
         <item>com.android.systemui</item>
         <item>com.google.android.apps.nexuslauncher</item>
     </string-array>
+    <string-array name="locale_name">
+        <item>English</item>
+        <item>Chinese (China)</item>
+        <item>French</item>
+        <item>Persian</item>
+        <item>Portuguese</item>
+        <item>Russian</item>
+        <item>Turkish</item>
+    </string-array>
+    <string-array name="locale_code">
+        <item>en</item>
+        <item>zh</item>
+        <item>fr</item>
+        <item>fa</item>
+        <item>pt</item>
+        <item>ru</item>
+        <item>tr</item>
+    </string-array>
     <string-array name="settings_icon_bg">
         <item>@string/settings_icons_minimal</item>
         <item>@string/settings_icons_filled</item>

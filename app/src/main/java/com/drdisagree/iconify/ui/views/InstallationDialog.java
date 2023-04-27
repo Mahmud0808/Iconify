@@ -12,13 +12,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.ui.activities.BaseActivity;
 
-public class InstallationDialog extends AppCompatActivity {
+public class InstallationDialog extends BaseActivity {
 
     Context context;
     Dialog dialog;

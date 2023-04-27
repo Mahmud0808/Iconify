@@ -16,8 +16,6 @@ import android.text.style.URLSpan;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -38,9 +36,25 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Changelog extends AppCompatActivity {
+public class Changelog extends BaseActivity {
 
     Changelog.GrabChangelog grabChangelog = null;
+
+    public static String usernameToLink(String str) {
+        String regexPattern = "@([A-Za-z\\d_-]+)";
+        Pattern pattern = Pattern.compile(regexPattern);
+        Matcher matcher = pattern.matcher(str);
+
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            String username = matcher.group(1);
+            String link = "<a href=\"https://github.com/" + username + "\">@" + username + "</a>";
+            matcher.appendReplacement(sb, link);
+        }
+        matcher.appendTail(sb);
+
+        return sb.toString();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,21 +229,5 @@ public class Changelog extends AppCompatActivity {
 
             findViewById(R.id.changelog).setVisibility(View.VISIBLE);
         }
-    }
-
-    public static String usernameToLink(String str) {
-        String regexPattern = "@([A-Za-z\\d_-]+)";
-        Pattern pattern = Pattern.compile(regexPattern);
-        Matcher matcher = pattern.matcher(str);
-
-        StringBuffer sb = new StringBuffer();
-        while (matcher.find()) {
-            String username = matcher.group(1);
-            String link = "<a href=\"https://github.com/" + username + "\">@" + username + "</a>";
-            matcher.appendReplacement(sb, link);
-        }
-        matcher.appendTail(sb);
-
-        return sb.toString();
     }
 }

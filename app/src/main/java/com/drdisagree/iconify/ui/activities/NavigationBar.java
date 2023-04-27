@@ -18,8 +18,6 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
@@ -31,7 +29,7 @@ import com.topjohnwu.superuser.Shell;
 import java.util.List;
 import java.util.Objects;
 
-public class NavigationBar extends AppCompatActivity {
+public class NavigationBar extends BaseActivity {
 
     List<String> left_back_gesture = Shell.cmd("settings get secure back_gesture_inset_scale_left").exec().getOut();
     List<String> right_back_gesture = Shell.cmd("settings get secure back_gesture_inset_scale_right").exec().getOut();

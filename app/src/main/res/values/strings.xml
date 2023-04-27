@@ -505,4 +505,5 @@
     <string name="pill_width_title">Pill Width</string>
     <string name="pill_thickness_title">Pill Thickness</string>
     <string name="pill_bottom_space_title">Bottom Space</string>
+    <string name="app_language">Language</string>
 </resources>

@@ -37,7 +37,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Tweaks extends Fragment {
+public class Tweaks extends BaseFragment {
 
     private ViewGroup listView;
 

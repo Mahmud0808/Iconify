@@ -6,11 +6,10 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.ui.activities.BaseActivity;
 
-public class LoadingDialog extends AppCompatActivity {
+public class LoadingDialog extends BaseActivity {
 
     Context context;
     Dialog dialog;

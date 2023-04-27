@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
+import static com.drdisagree.iconify.common.Preferences.APP_LANGUAGE;
 import static com.drdisagree.iconify.common.Preferences.EASTER_EGG;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.FORCE_APPLY_XPOSED_CHOICE;
@@ -30,7 +31,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -51,11 +51,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class Settings extends Fragment implements RadioDialog.RadioDialogListener {
+public class Settings extends BaseFragment implements RadioDialog.RadioDialogListener {
 
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
     LoadingDialog loadingDialog;
-    RadioDialog rd_force_apply_method;
+    RadioDialog rd_force_apply_method, rd_app_language;
 
     public static void disableEverything() {
         SharedPreferences prefs = Iconify.getAppContext().getSharedPreferences(Iconify.getAppContext().getPackageName(), Context.MODE_PRIVATE);
@@ -96,6 +96,15 @@ public class Settings extends Fragment implements RadioDialog.RadioDialogListene
         // Show loading dialog
         loadingDialog = new LoadingDialog(requireActivity());
 
+        // Language
+        LinearLayout app_language = view.findViewById(R.id.app_language);
+        TextView selected_app_language = view.findViewById(R.id.selected_app_language);
+        int current_language = Arrays.asList(getResources().getStringArray(R.array.locale_code)).indexOf(Prefs.getString(APP_LANGUAGE, getResources().getConfiguration().getLocales().get(0).getLanguage()));
+        rd_app_language = new RadioDialog(requireActivity(), 0, current_language);
+        rd_app_language.setRadioDialogListener(this);
+        app_language.setOnClickListener(v -> rd_app_language.show(R.string.app_language, R.array.locale_name, selected_app_language));
+        selected_app_language.setText(Arrays.asList(getResources().getStringArray(R.array.locale_name)).get(rd_app_language.getSelectedIndex()));
+
         // Use light accent
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch use_light_accent = view.findViewById(R.id.use_light_accent);
         boolean useLightAccent = Prefs.getBoolean(USE_LIGHT_ACCENT, false) || Prefs.getBoolean("IconifyComponentAMACL.overlay") || Prefs.getBoolean("IconifyComponentAMGCL.overlay");
@@ -131,10 +140,8 @@ public class Settings extends Fragment implements RadioDialog.RadioDialogListene
         restart_sysui_after_boot.setChecked(Prefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false));
         restart_sysui_after_boot.setOnCheckedChangeListener((buttonView, isChecked) -> {
             Prefs.putBoolean(RESTART_SYSUI_AFTER_BOOT, isChecked);
-            if (isChecked)
-                SystemUtil.enableRestartSystemuiAfterBoot();
-            else
-                SystemUtil.disableRestartSystemuiAfterBoot();
+            if (isChecked) SystemUtil.enableRestartSystemuiAfterBoot();
+            else SystemUtil.disableRestartSystemuiAfterBoot();
         });
 
         // Show xposed warn
@@ -145,7 +152,7 @@ public class Settings extends Fragment implements RadioDialog.RadioDialogListene
         // Force apply method
         LinearLayout force_apply_method = view.findViewById(R.id.force_apply_method);
         TextView selected_force_apply_method = view.findViewById(R.id.selected_force_apply_method);
-        rd_force_apply_method = new RadioDialog(requireActivity(), 0, Prefs.getInt(FORCE_APPLY_XPOSED_CHOICE, 0) == -1 ? 2 : Prefs.getInt(FORCE_APPLY_XPOSED_CHOICE, 0));
+        rd_force_apply_method = new RadioDialog(requireActivity(), 1, Prefs.getInt(FORCE_APPLY_XPOSED_CHOICE, 0) == -1 ? 2 : Prefs.getInt(FORCE_APPLY_XPOSED_CHOICE, 0));
         rd_force_apply_method.setRadioDialogListener(this);
         force_apply_method.setOnClickListener(v -> rd_force_apply_method.show(R.string.list_title_force_apply_method, R.array.xposed_force_apply_method, selected_force_apply_method));
         selected_force_apply_method.setText(Arrays.asList(getResources().getStringArray(R.array.xposed_force_apply_method)).get(rd_force_apply_method.getSelectedIndex() == -1 ? 2 : rd_force_apply_method.getSelectedIndex()));
@@ -212,10 +219,9 @@ public class Settings extends Fragment implements RadioDialog.RadioDialogListene
 
     @Override
     public void onDestroy() {
-        if (loadingDialog != null)
-            loadingDialog.hide();
-        if (rd_force_apply_method != null)
-            rd_force_apply_method.dismiss();
+        if (loadingDialog != null) loadingDialog.hide();
+        if (rd_app_language != null) rd_app_language.dismiss();
+        if (rd_force_apply_method != null) rd_force_apply_method.dismiss();
         super.onDestroy();
     }
 
@@ -253,6 +259,17 @@ public class Settings extends Fragment implements RadioDialog.RadioDialogListene
     public void onItemSelected(int dialogId, int selectedIndex) {
         switch (dialogId) {
             case 0:
+                if (!getResources().getConfiguration().getLocales().get(0).getLanguage().equals(Arrays.asList(getResources().getStringArray(R.array.locale_code)).get(selectedIndex))) {
+                    new Handler().postDelayed(() -> {
+                        Intent intent = requireActivity().getIntent();
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        Prefs.putString(APP_LANGUAGE, Arrays.asList(getResources().getStringArray(R.array.locale_code)).get(selectedIndex));
+                        requireActivity().finish();
+                        startActivity(intent);
+                    }, 600);
+                }
+                break;
+            case 1:
                 Prefs.putInt(FORCE_APPLY_XPOSED_CHOICE, selectedIndex == 2 ? -1 : selectedIndex);
                 break;
         }

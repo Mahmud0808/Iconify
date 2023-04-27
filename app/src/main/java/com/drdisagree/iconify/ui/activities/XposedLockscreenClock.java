@@ -27,8 +27,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.drdisagree.iconify.Iconify;
@@ -40,7 +38,6 @@ import com.drdisagree.iconify.ui.models.ClockModel;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LockscreenClockStyles;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
@@ -48,11 +45,10 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import me.relex.circleindicator.CircleIndicator3;
 
-public class XposedLockscreenClock extends AppCompatActivity {
+public class XposedLockscreenClock extends BaseActivity {
 
     private static final int PICKFILE_RESULT_CODE = 100;
     private Button enable_lsclock_font;

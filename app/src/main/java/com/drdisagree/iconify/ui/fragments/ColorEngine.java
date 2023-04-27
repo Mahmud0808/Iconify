@@ -25,7 +25,6 @@ import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
@@ -38,10 +37,10 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import java.util.List;
 import java.util.Objects;
 
-public class ColorEngine extends Fragment {
+public class ColorEngine extends BaseFragment {
 
-    private View view;
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
+    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
