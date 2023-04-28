@@ -113,7 +113,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         rd_app_theme = new RadioDialog(requireActivity(), 1, Prefs.getInt(APP_THEME, 2));
         rd_app_theme.setRadioDialogListener(this);
         app_theme.setOnClickListener(v -> rd_app_theme.show(R.string.app_theme, R.array.app_theme, selected_app_theme));
-        selected_app_theme.setText(Arrays.asList(getResources().getStringArray(R.array.app_theme)).get(rd_app_theme.getSelectedIndex()));
+        selected_app_theme.setText(Arrays.asList(getResources().getStringArray(R.array.app_theme)).get(Prefs.getInt(APP_THEME, 2)));
 
         // Use light accent
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch use_light_accent = view.findViewById(R.id.use_light_accent);
