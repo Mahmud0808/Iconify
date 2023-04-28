@@ -472,6 +472,15 @@
     <string name="settings_icons_filled">填充</string>
     <string name="settings_icons_outline">边框</string>
     <string name="settings_icons_neumorph">新拟物</string>
+    <string name="settings_icons_shape">Shape</string>
+    <string name="settings_icons_circle">圆形</string>
+    <string name="settings_icons_squircle">方圆形</string>
+    <string name="settings_icons_square">方形</string>
+    <string name="settings_icons_size">图标大小</string>
+    <string name="settings_icons_size1">0.5x</string>
+    <string name="settings_icons_size2">0.65x</string>
+    <string name="settings_icons_size3">0.8x</string>
+    <string name="settings_icons_size4">1.0x</string>
     <string name="settins_icons_icon_color">图标颜色</string>
     <string name="settings_icons_follow_system">跟随系统</string>
     <string name="settings_icons_system_inverse">系统反转</string>
@@ -482,12 +491,12 @@
     <string name="btn_close">关闭</string>
     <string name="created_by_drdisagree">DrDisagree 用\u2764\uFE0E制作</string>
     <string name="no_supported_music_player">未找到支持的音乐播放器</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">你好，空白片段</string>
     <string name="hide_ls_carrier_title">隐藏锁屏运营商</string>
     <string name="hide_ls_carrier_desc">在锁屏上隐藏运营商名称</string>
     <string name="hide_ls_statusbar_title">隐藏锁屏状态栏</string>
     <string name="hide_ls_statusbar_desc">在锁屏上隐藏状态栏</string>
-    <string name="notch_bar_killer_title">刘海屏杀手</string>
+    <string name="notch_bar_killer_title">消除刘海屏</string>
     <string name="notch_bar_killer_desc">消除刘海条上的空白空间</string>
     <string name="light_theme_title">浅色主题</string>
     <string name="light_theme_desc">浅色模式下的快速设置主题\n必须使用自定义的快速设置形状</string>
@@ -496,4 +505,9 @@
     <string name="pill_width_title">药丸宽度</string>
     <string name="pill_thickness_title">药丸厚度</string>
     <string name="pill_bottom_space_title">底部间距</string>
+    <string name="app_language">语言</string>
+    <string name="app_theme">App 主题</string>
+    <string name="app_theme_light">浅色主题</string>
+    <string name="app_theme_dark">深色主题</string>
+    <string name="app_theme_system">跟随系统</string>
 </resources>
