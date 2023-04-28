@@ -105,7 +105,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         rd_app_language = new RadioDialog(requireActivity(), 0, current_language);
         rd_app_language.setRadioDialogListener(this);
         app_language.setOnClickListener(v -> rd_app_language.show(R.string.app_language, R.array.locale_name, selected_app_language));
-        selected_app_language.setText(Arrays.asList(getResources().getStringArray(R.array.locale_name)).get(rd_app_language.getSelectedIndex()));
+        selected_app_language.setText(Arrays.asList(getResources().getStringArray(R.array.locale_name)).get(Arrays.asList(getResources().getStringArray(R.array.locale_code)).indexOf(Prefs.getString(APP_LANGUAGE, getResources().getConfiguration().getLocales().get(0).getLanguage()))));
 
         // App Theme
         LinearLayout app_theme = view.findViewById(R.id.app_theme);
