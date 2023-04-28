@@ -102,10 +102,10 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         LinearLayout app_language = view.findViewById(R.id.app_language);
         TextView selected_app_language = view.findViewById(R.id.selected_app_language);
         int current_language = Arrays.asList(getResources().getStringArray(R.array.locale_code)).indexOf(Prefs.getString(APP_LANGUAGE, getResources().getConfiguration().getLocales().get(0).getLanguage()));
-        rd_app_language = new RadioDialog(requireActivity(), 0, current_language);
+        rd_app_language = new RadioDialog(requireActivity(), 0, current_language == -1 ? 0 : current_language);
         rd_app_language.setRadioDialogListener(this);
         app_language.setOnClickListener(v -> rd_app_language.show(R.string.app_language, R.array.locale_name, selected_app_language));
-        selected_app_language.setText(Arrays.asList(getResources().getStringArray(R.array.locale_name)).get(Arrays.asList(getResources().getStringArray(R.array.locale_code)).indexOf(Prefs.getString(APP_LANGUAGE, getResources().getConfiguration().getLocales().get(0).getLanguage()))));
+        selected_app_language.setText(Arrays.asList(getResources().getStringArray(R.array.locale_name)).get(rd_app_language.getSelectedIndex()));
 
         // App Theme
         LinearLayout app_theme = view.findViewById(R.id.app_theme);
@@ -113,7 +113,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         rd_app_theme = new RadioDialog(requireActivity(), 1, Prefs.getInt(APP_THEME, 2));
         rd_app_theme.setRadioDialogListener(this);
         app_theme.setOnClickListener(v -> rd_app_theme.show(R.string.app_theme, R.array.app_theme, selected_app_theme));
-        selected_app_theme.setText(Arrays.asList(getResources().getStringArray(R.array.app_theme)).get(Prefs.getInt(APP_THEME, 2)));
+        selected_app_theme.setText(Arrays.asList(getResources().getStringArray(R.array.app_theme)).get(rd_app_theme.getSelectedIndex()));
 
         // Use light accent
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch use_light_accent = view.findViewById(R.id.use_light_accent);
