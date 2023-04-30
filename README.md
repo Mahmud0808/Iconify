@@ -147,7 +147,7 @@ What you can change using Iconify:
 
 - [Flodor](https://t.me/Rodolphe06)
 
-- [𝙍𝙄𝙏𝙀𝙎𝙃](https://t.me/ModestCat03)
+- [modestCat](https://t.me/ModestCat03)
 
 - [Sanely insane](https://t.me/sanely_insane)
 
