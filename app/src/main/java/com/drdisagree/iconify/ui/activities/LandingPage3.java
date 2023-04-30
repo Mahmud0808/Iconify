@@ -343,17 +343,21 @@ public class LandingPage3 extends BaseActivity {
                 }
             }
 
-            logger = "Moving overlays to module directory";
+            logger = "Moving overlays to system directory";
             publishProgress(++step);
-            // Move all generated overlays to module dir
+            // Move all generated overlays to system dir and flash as module
             if (!hasErroredOut) {
                 Shell.cmd("cp -a " + Resources.SIGNED_DIR + "/. " + Resources.OVERLAY_DIR).exec();
+                BackupRestore.restoreFiles();
                 RootUtil.setPermissionsRecursively(644, Resources.OVERLAY_DIR + '/');
 
-                if (!RootUtil.isMagiskInstalled()) {
-                    Shell.cmd("cp -r " + Resources.MODULE_DIR + ' ' + Resources.TEMP_DIR).exec();
-                    Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
-                    ZipUtil.pack(new File(Resources.TEMP_DIR + "/Iconify"), new File(Resources.TEMP_DIR + "/Iconify.zip"));
+                Shell.cmd("cp -r " + Resources.MODULE_DIR + ' ' + Resources.TEMP_DIR).exec();
+                Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
+                ZipUtil.pack(new File(Resources.TEMP_DIR + "/Iconify"), new File(Resources.TEMP_DIR + "/Iconify.zip"));
+
+                if (RootUtil.isMagiskInstalled()) {
+                    Shell.cmd("magisk --install-module " + Resources.TEMP_DIR + "/Iconify.zip").exec();
+                } else {
                     Shell.cmd("/data/adb/ksud module install " + Resources.TEMP_DIR + "/Iconify.zip").exec();
                 }
             }
@@ -364,8 +368,6 @@ public class LandingPage3 extends BaseActivity {
             Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
             Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Overlays").exec();
 
-            // Restore backups
-            BackupRestore.restoreFiles();
             logger = "Installtion process successfully finished";
             publishProgress(step);
 
