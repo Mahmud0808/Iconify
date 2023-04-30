@@ -92,14 +92,12 @@ public class XposedHeaderImage extends BaseActivity {
         enable_header_image = findViewById(R.id.enable_header_image);
         enable_header_image.setOnClickListener(v -> {
             RPrefs.putBoolean(HEADER_IMAGE_SWITCH, true);
-            new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
             enable_header_image.setVisibility(View.GONE);
             disable_header_image.setVisibility(View.VISIBLE);
         });
 
         disable_header_image.setOnClickListener(v -> {
             RPrefs.putBoolean(HEADER_IMAGE_SWITCH, false);
-            new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
             disable_header_image.setVisibility(View.GONE);
         });
 
@@ -124,9 +122,6 @@ public class XposedHeaderImage extends BaseActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(HEADER_IMAGE_HEIGHT, imageHeight[0]);
-                if (RPrefs.getBoolean(HEADER_IMAGE_SWITCH, false)) {
-                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
-                }
             }
         });
 
@@ -151,9 +146,6 @@ public class XposedHeaderImage extends BaseActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(HEADER_IMAGE_ALPHA, imageAlpha[0]);
-                if (RPrefs.getBoolean(HEADER_IMAGE_SWITCH, false)) {
-                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
-                }
             }
         });
 
@@ -162,9 +154,6 @@ public class XposedHeaderImage extends BaseActivity {
         enable_zoom_to_fit.setChecked(RPrefs.getBoolean(HEADER_IMAGE_ZOOMTOFIT, false));
         enable_zoom_to_fit.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HEADER_IMAGE_ZOOMTOFIT, isChecked);
-            if (RPrefs.getBoolean(HEADER_IMAGE_SWITCH, false)) {
-                new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
-            }
         });
     }
 
