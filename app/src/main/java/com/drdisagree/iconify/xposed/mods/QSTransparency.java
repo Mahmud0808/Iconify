@@ -12,7 +12,6 @@ import static de.robv.android.xposed.XposedHelpers.setFloatField;
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 import android.content.Context;
-import android.graphics.Color;
 
 import com.drdisagree.iconify.xposed.ModPack;
 
@@ -26,10 +25,8 @@ public class QSTransparency extends ModPack {
 
     private static final String TAG = "Iconify - QSTransparency: ";
     private static final String CLASS_SCRIMCONTROLLER = SYSTEMUI_PACKAGE + ".statusbar.phone.ScrimController";
-    private final int tint = Color.TRANSPARENT;
     boolean QsTransparencyActive = false;
-    private Float behindFraction = null;
-    private Object lpparamCustom = null;
+    private Object paramThisObject = null;
     private float alpha;
 
     public QSTransparency(Context context) {
@@ -44,17 +41,17 @@ public class QSTransparency extends ModPack {
         alpha = (float) ((float) Xprefs.getInt(QSALPHA_LEVEL, 60) / 100.0);
 
         if (Key.length > 0 && (Objects.equals(Key[0], QSTRANSPARENCY_SWITCH) || Objects.equals(Key[0], QSALPHA_LEVEL))) {
-            if (lpparamCustom != null) {
+            if (paramThisObject != null) {
                 try {
-                    setFloatField(lpparamCustom, "mDefaultScrimAlpha", alpha);
-                    setFloatField(lpparamCustom, "mBehindAlpha", alpha);
+                    setFloatField(paramThisObject, "mDefaultScrimAlpha", alpha);
+                    setFloatField(paramThisObject, "mBehindAlpha", alpha);
 
                     try {
-                        setFloatField(lpparamCustom, "mCustomScrimAlpha", alpha);
+                        setFloatField(paramThisObject, "mCustomScrimAlpha", alpha);
                     } catch (Throwable ignored) {
                     }
 
-                    callMethod(lpparamCustom, "updateScrims");
+                    callMethod(paramThisObject, "updateScrims");
                 } catch (Throwable ignored) {
                 }
             }
@@ -76,7 +73,7 @@ public class QSTransparency extends ModPack {
             protected void afterHookedMethod(MethodHookParam param) {
                 if (!QsTransparencyActive) return;
 
-                lpparamCustom = param.thisObject;
+                paramThisObject = param.thisObject;
 
                 try {
                     setFloatField(param.thisObject, "mDefaultScrimAlpha", alpha);
@@ -97,15 +94,6 @@ public class QSTransparency extends ModPack {
                     setFloatField(param.thisObject, "mCustomScrimAlpha", alpha);
                 } catch (Throwable ignored) {
                 }
-            }
-        });
-
-        hookAllMethods(ScrimController, "getInterpolatedFraction", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) {
-                if (!QsTransparencyActive) return;
-
-                behindFraction = (float) param.getResult();
             }
         });
 
