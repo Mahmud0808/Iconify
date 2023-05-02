@@ -2,6 +2,7 @@ package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ALPHA;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_HEIGHT;
+import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_LANDSCAPE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ZOOMTOFIT;
 
@@ -113,6 +114,13 @@ public class XposedHeaderImage extends BaseActivity {
         enable_zoom_to_fit.setChecked(RPrefs.getBoolean(HEADER_IMAGE_ZOOMTOFIT, false));
         enable_zoom_to_fit.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HEADER_IMAGE_ZOOMTOFIT, isChecked);
+        });
+
+        // Header image hide in landscape
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_hide_image_landscape = findViewById(R.id.enable_hide_image_landscape);
+        enable_hide_image_landscape.setChecked(RPrefs.getBoolean(HEADER_IMAGE_LANDSCAPE_SWITCH, true));
+        enable_hide_image_landscape.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(HEADER_IMAGE_LANDSCAPE_SWITCH, isChecked);
         });
     }
 

@@ -12,6 +12,7 @@ public class Preferences {
     public static final String VERTICAL_QSTILE_SWITCH = "xposed_verticalqstile";
     public static final String HIDE_QSLABEL_SWITCH = "xposed_hideqslabel";
     public static final String HEADER_IMAGE_SWITCH = "xposed_headerimage";
+    public static final String HEADER_IMAGE_LANDSCAPE_SWITCH = "xposed_headerimagelandscape";
     public static final String HEADER_IMAGE_HEIGHT = "xposed_headerimageheight";
     public static final String HEADER_IMAGE_ALPHA = "xposed_headerimagealpha";
     public static final String HEADER_IMAGE_ZOOMTOFIT = "xposed_headerimagezoomtofit";
