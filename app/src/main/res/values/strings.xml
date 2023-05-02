@@ -510,4 +510,6 @@
     <string name="app_theme_light">Light Theme</string>
     <string name="app_theme_dark">Dark Theme</string>
     <string name="app_theme_system">Follow System</string>
+    <string name="header_image_hide_in_landscape_title">Hide in Landscape</string>
+    <string name="header_image_hide_in_landscape_desc">Hide image in landscape mode</string>
 </resources>
