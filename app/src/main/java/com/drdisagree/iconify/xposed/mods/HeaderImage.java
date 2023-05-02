@@ -145,8 +145,8 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
 
                     mQsHeaderLayout = new LinearLayout(mContext);
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, imageHeight, mContext.getResources().getDisplayMetrics()));
-                    layoutParams.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -50, mContext.getResources().getDisplayMetrics());
-                    layoutParams.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -50, mContext.getResources().getDisplayMetrics());
+                    layoutParams.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -16, mContext.getResources().getDisplayMetrics());
+                    layoutParams.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -16, mContext.getResources().getDisplayMetrics());
                     mQsHeaderLayout.setLayoutParams(layoutParams);
                     mQsHeaderLayout.setVisibility(View.GONE);
 
