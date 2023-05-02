@@ -15,6 +15,7 @@ import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
+import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 import android.annotation.SuppressLint;
@@ -45,6 +46,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
 
     private static final String TAG = "Iconify - XposedBackgroundChip: ";
     private static final String CollapsedStatusBarFragmentClass = SYSTEMUI_PACKAGE + ".statusbar.phone.fragment.CollapsedStatusBarFragment";
+    private static final String CollapsedStatusBarFragmentAltClass = SYSTEMUI_PACKAGE + ".statusbar.phone.CollapsedStatusBarFragment";
     boolean mShowSBClockBg = false;
     boolean hideStatusIcons = false;
     boolean mShowQSStatusIconsBg = false;
@@ -98,7 +100,9 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE)) return;
 
-        final Class<?> CollapsedStatusBarFragment = findClass(CollapsedStatusBarFragmentClass, lpparam.classLoader);
+        Class<?> CollapsedStatusBarFragment = findClassIfExists(CollapsedStatusBarFragmentClass, lpparam.classLoader);
+        if (CollapsedStatusBarFragment == null)
+            CollapsedStatusBarFragment = findClass(CollapsedStatusBarFragmentAltClass, lpparam.classLoader);
 
         hookAllConstructors(CollapsedStatusBarFragment, new XC_MethodHook() {
             @Override
