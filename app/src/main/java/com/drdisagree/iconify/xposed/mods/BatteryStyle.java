@@ -8,6 +8,7 @@ import static com.drdisagree.iconify.common.Preferences.LANDSCAPE_BATTERY_WIDTH;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
+import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
@@ -74,7 +75,8 @@ public class BatteryStyle extends ModPack implements IXposedHookLoadPackage {
                     mBatteryIconView.setRotation(landscapeBatteryRotation);
                 }
             });
-        } catch (Throwable ignored) {
+        } catch (Throwable throwable) {
+            log(throwable);
         }
         setLandscapeBatterySize();
     }

@@ -6,6 +6,7 @@ import static com.drdisagree.iconify.common.Preferences.QSTRANSPARENCY_SWITCH;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
+import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setFloatField;
@@ -52,7 +53,8 @@ public class QSTransparency extends ModPack {
                     }
 
                     callMethod(paramThisObject, "updateScrims");
-                } catch (Throwable ignored) {
+                } catch (Throwable throwable) {
+                    log(throwable);
                 }
             }
         }
@@ -77,22 +79,26 @@ public class QSTransparency extends ModPack {
 
                 try {
                     setFloatField(param.thisObject, "mDefaultScrimAlpha", alpha);
-                } catch (Throwable ignored) {
+                } catch (Throwable throwable) {
+                    log(throwable);
                 }
 
                 try {
                     setFloatField(param.thisObject, "mBehindAlpha", alpha);
-                } catch (Throwable ignored) {
+                } catch (Throwable throwable) {
+                    log(throwable);
                 }
 
                 try {
                     setFloatField(param.thisObject, "BUSY_SCRIM_ALPHA", alpha);
-                } catch (Throwable ignored) {
+                } catch (Throwable throwable) {
+                    log(throwable);
                 }
 
                 try {
                     setFloatField(param.thisObject, "mCustomScrimAlpha", alpha);
-                } catch (Throwable ignored) {
+                } catch (Throwable throwable) {
+                    log(throwable);
                 }
             }
         });

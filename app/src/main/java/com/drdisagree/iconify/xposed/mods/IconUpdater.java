@@ -20,6 +20,7 @@ package com.drdisagree.iconify.xposed.mods;
 import static com.drdisagree.iconify.common.Const.PIXEL_LAUNCHER_PACKAGE;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
+import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 
@@ -64,7 +65,8 @@ public class IconUpdater extends ModPack implements IXposedHookLoadPackage {
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 try {
                     callMethod(LauncherModel, "onAppIconChanged", BuildConfig.APPLICATION_ID, UserHandle.getUserHandleForUid(0));
-                } catch (Throwable ignored) {
+                } catch (Throwable throwable) {
+                    log(throwable);
                 }
             }
         });

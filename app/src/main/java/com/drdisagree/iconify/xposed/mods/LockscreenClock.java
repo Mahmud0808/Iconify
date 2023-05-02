@@ -11,6 +11,7 @@ import static com.drdisagree.iconify.common.Preferences.LSCLOCK_TEXT_WHITE;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_TOPMARGIN;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
+import static de.robv.android.xposed.XposedBridge.log;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -27,8 +28,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextClock;
 
-import com.drdisagree.iconify.xposed.utils.SystemUtil;
 import com.drdisagree.iconify.xposed.ModPack;
+import com.drdisagree.iconify.xposed.utils.SystemUtil;
 
 import java.io.File;
 import java.util.Objects;
@@ -391,7 +392,8 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     clockAdded = true;
                 }
             });
-        } catch (Throwable ignored) {
+        } catch (Throwable throwable) {
+            log(throwable);
         }
     }
 
@@ -412,7 +414,8 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                         status_view_container.removeViewAt(0);
                 }
             });
-        } catch (Throwable ignored) {
+        } catch (Throwable throwable) {
+            log(throwable);
         }
     }
 
@@ -436,7 +439,8 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     status_view_media_container.getLayoutParams().width = 0;
                 }
             });
-        } catch (Throwable ignored) {
+        } catch (Throwable throwable) {
+            log(throwable);
         }
     }
 }

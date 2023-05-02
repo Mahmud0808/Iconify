@@ -25,6 +25,7 @@ import static com.drdisagree.iconify.xposed.utils.SettingsLibUtils.getColorAttr;
 import static com.drdisagree.iconify.xposed.utils.SettingsLibUtils.getColorAttrDefaultColor;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
+import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
@@ -177,7 +178,7 @@ public class QSThemeManager extends ModPack {
                 }
             });
 
-        } catch (Throwable ignored) { //QPR2&3
+        } catch (Throwable throwable) { //QPR2&3
             //QPR3
             Class<?> ShadeHeaderControllerClass = findClassIfExists("com.android.systemui.shade.ShadeHeaderController", lpparam.classLoader);
             //QPR2
@@ -317,7 +318,8 @@ public class QSThemeManager extends ModPack {
 
         try {
             mBehindColors = GradientColorsClass.newInstance();
-        } catch (Exception ignored) {
+        } catch (Throwable throwable) {
+            log(throwable);
         }
 
         hookAllMethods(ScrimControllerClass, "updateScrims", new XC_MethodHook() {
