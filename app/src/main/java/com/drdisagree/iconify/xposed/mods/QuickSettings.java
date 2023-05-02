@@ -28,6 +28,7 @@ import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
+import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
@@ -134,7 +135,8 @@ public class QuickSettings extends ModPack {
                     fixTileLayout(((LinearLayout) param.thisObject), mParam);
 
                     if (!isHideLabelActive) ((LinearLayout) param.thisObject).addView(newQSTile);
-                } catch (Throwable ignored) {
+                } catch (Throwable throwable) {
+                    log(throwable);
                 }
 
                 if (QsTilePrimaryTextSize == null || QsTileSecondaryTextSize == null) {

@@ -192,7 +192,8 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
                 ((AnimatedImageDrawable) drawable).start();
             }
 
-        } catch (Throwable ignored) {
+        } catch (Throwable throwable) {
+            log(throwable);
         }
     }
 }

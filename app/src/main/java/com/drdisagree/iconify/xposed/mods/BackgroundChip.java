@@ -12,6 +12,7 @@ import static com.drdisagree.iconify.common.Preferences.UI_CORNER_RADIUS;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
+import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
@@ -124,6 +125,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                         try {
                             mClockView = (View) getObjectField(param.thisObject, "mLeftClock");
                         } catch (Throwable thr) {
+                            log(thr);
                             mClockView = null;
                         }
                     }
@@ -362,7 +364,8 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                     ((FrameLayout.LayoutParams) status_bar_start_side_except_heads_up.getLayoutParams()).gravity = Gravity.START | Gravity.CENTER;
                     status_bar_start_side_except_heads_up.setGravity(Gravity.START | Gravity.CENTER);
                     status_bar_start_side_except_heads_up.requestLayout();
-                } catch (Throwable ignored) {
+                } catch (Throwable throwable) {
+                    log(throwable);
                 }
             }
         });
@@ -391,7 +394,8 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                         statusIconContainer.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
 
                         setStatusIconsBackgroundChip(statusIconContainer);
-                    } catch (Throwable ignored) {
+                    } catch (Throwable throwable) {
+                        log(throwable);
                     }
                 }
             }
@@ -414,7 +418,8 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
 
                             setStatusIconsBackgroundChip(statusIconContainer);
                         }
-                    } catch (Throwable ignored) {
+                    } catch (Throwable throwable) {
+                        log(throwable);
                     }
                 }
             }
