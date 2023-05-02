@@ -3,6 +3,7 @@ package com.drdisagree.iconify.xposed.mods;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ALPHA;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_HEIGHT;
+import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_LANDSCAPE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ZOOMTOFIT;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
@@ -48,6 +49,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
     int imageHeight = 140;
     int headerImageAlpha = 100;
     boolean zoomToFit = false;
+    boolean hideLandscapeHeaderImage = true;
     private Object lpparamCustom = null;
     LinearLayout mQsHeaderLayout = null;
     ImageView mQsHeaderImageView = null;
@@ -64,8 +66,9 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
         headerImageAlpha = Xprefs.getInt(HEADER_IMAGE_ALPHA, 100);
         imageHeight = Xprefs.getInt(HEADER_IMAGE_HEIGHT, 140);
         zoomToFit = Xprefs.getBoolean(HEADER_IMAGE_ZOOMTOFIT, false);
+        hideLandscapeHeaderImage = Xprefs.getBoolean(HEADER_IMAGE_LANDSCAPE_SWITCH, true);
 
-        if (Key.length > 0 && (Objects.equals(Key[0], HEADER_IMAGE_SWITCH) || Objects.equals(Key[0], HEADER_IMAGE_ALPHA) || Objects.equals(Key[0], HEADER_IMAGE_HEIGHT) || Objects.equals(Key[0], HEADER_IMAGE_ZOOMTOFIT))) {
+        if (Key.length > 0 && (Objects.equals(Key[0], HEADER_IMAGE_SWITCH) || Objects.equals(Key[0], HEADER_IMAGE_LANDSCAPE_SWITCH) || Objects.equals(Key[0], HEADER_IMAGE_ALPHA) || Objects.equals(Key[0], HEADER_IMAGE_HEIGHT) || Objects.equals(Key[0], HEADER_IMAGE_ZOOMTOFIT))) {
             if (lpparamCustom != null) {
                 callMethod(lpparamCustom, "updateResources");
             }
@@ -123,7 +126,9 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
             mQsHeaderLayout.setVisibility(View.VISIBLE);
             mQsHeaderLayout.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, imageHeight, mContext.getResources().getDisplayMetrics());
         } else {
-            mQsHeaderLayout.setVisibility(View.GONE);
+            if (hideLandscapeHeaderImage) {
+                mQsHeaderLayout.setVisibility(View.GONE);
+            }
         }
     }
 
