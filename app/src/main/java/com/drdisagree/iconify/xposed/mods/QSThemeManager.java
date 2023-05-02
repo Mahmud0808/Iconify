@@ -488,7 +488,7 @@ public class QSThemeManager extends ModPack {
         if (!lightQSHeaderEnabled || wasDark) return;
 
         Resources res = mContext.getResources();
-        colorInactive = res.getColor(res.getIdentifier("android:color/system_accent1_10", "color", listenPackage), mContext.getTheme());
+        colorInactive = res.getColor(res.getIdentifier("android:color/system_neutral1_10", "color", listenPackage), mContext.getTheme());
 
         lightFooterShape.setTint(colorInactive);
     }
