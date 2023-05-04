@@ -117,31 +117,24 @@ public class QuickSettings extends ModPack {
                 try {
                     ((LinearLayout) param.thisObject).setGravity(Gravity.CENTER);
                     ((LinearLayout) param.thisObject).setOrientation(LinearLayout.VERTICAL);
-
                     ((TextView) getObjectField(param.thisObject, "label")).setGravity(Gravity.CENTER_HORIZONTAL);
                     ((TextView) getObjectField(param.thisObject, "secondaryLabel")).setGravity(Gravity.CENTER_HORIZONTAL);
-
-                    LinearLayout newQSTile = new LinearLayout(mContext);
-                    newQSTile.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
+                    ((LinearLayout) getObjectField(param.thisObject, "labelContainer")).setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    ((View) getObjectField(param.thisObject, "sideView")).setVisibility(View.GONE);
                     ((LinearLayout) param.thisObject).removeView(((LinearLayout) getObjectField(param.thisObject, "labelContainer")));
+
                     if (!isHideLabelActive) {
-                        newQSTile.addView(((LinearLayout) getObjectField(param.thisObject, "labelContainer")));
                         ((LinearLayout) getObjectField(param.thisObject, "labelContainer")).setGravity(Gravity.CENTER_HORIZONTAL);
+                        ((LinearLayout) param.thisObject).addView((LinearLayout) getObjectField(param.thisObject, "labelContainer"));
                     }
 
-                    ((LinearLayout) param.thisObject).removeView((View) getObjectField(param.thisObject, "sideView"));
-
                     fixTileLayout(((LinearLayout) param.thisObject), mParam);
-
-                    if (!isHideLabelActive) ((LinearLayout) param.thisObject).addView(newQSTile);
                 } catch (Throwable throwable) {
                     log(throwable);
                 }
 
                 if (QsTilePrimaryTextSize == null || QsTileSecondaryTextSize == null) {
                     callStaticMethod(FontSizeUtils, "updateFontSize", mContext.getResources().getIdentifier("qs_tile_text_size", "dimen", mContext.getPackageName()), getObjectField(param.thisObject, "label"));
-
                     callStaticMethod(FontSizeUtils, "updateFontSize", mContext.getResources().getIdentifier("qs_tile_text_size", "dimen", mContext.getPackageName()), getObjectField(param.thisObject, "secondaryLabel"));
 
                     TextView PrimaryText = (TextView) getObjectField(param.thisObject, "label");
@@ -160,9 +153,12 @@ public class QuickSettings extends ModPack {
         Resources mRes = mContext.getResources();
         @SuppressLint("DiscouragedApi") int padding = mRes.getDimensionPixelSize(mRes.getIdentifier("qs_tile_padding", "dimen", mContext.getPackageName()));
         tile.setPadding(padding, padding, padding, padding);
-        ((LinearLayout.LayoutParams) ((LinearLayout) getObjectField(tile, "labelContainer")).getLayoutParams()).setMarginStart(0);
         tile.setGravity(Gravity.CENTER);
         tile.setOrientation(LinearLayout.VERTICAL);
+
+        if (!isHideLabelActive) {
+            ((LinearLayout.LayoutParams) ((LinearLayout) getObjectField(tile, "labelContainer")).getLayoutParams()).setMarginStart(0);
+        }
 
         if (param != null) {
             ((TextView) getObjectField(param, "label")).setGravity(Gravity.CENTER_HORIZONTAL);
