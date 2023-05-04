@@ -120,15 +120,14 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
             return;
         }
 
+        loadImageOrGif(mQsHeaderImageView);
+        mQsHeaderLayout.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, imageHeight, mContext.getResources().getDisplayMetrics());
+
         Configuration config = mContext.getResources().getConfiguration();
-        if (config.orientation != Configuration.ORIENTATION_LANDSCAPE) {
-            loadImageOrGif(mQsHeaderImageView);
-            mQsHeaderLayout.setVisibility(View.VISIBLE);
-            mQsHeaderLayout.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, imageHeight, mContext.getResources().getDisplayMetrics());
+        if (config.orientation == Configuration.ORIENTATION_LANDSCAPE && hideLandscapeHeaderImage) {
+            mQsHeaderLayout.setVisibility(View.GONE);
         } else {
-            if (hideLandscapeHeaderImage) {
-                mQsHeaderLayout.setVisibility(View.GONE);
-            }
+            mQsHeaderLayout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -152,6 +151,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
 
                     mQsHeaderImageView = new ImageView(mContext);
                     mQsHeaderImageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    mQsHeaderImageView.setAlpha((int) (headerImageAlpha / 100.0 * 255.0));
 
                     mQsHeaderLayout.addView(mQsHeaderImageView);
                     header.addView(mQsHeaderLayout, 0);
