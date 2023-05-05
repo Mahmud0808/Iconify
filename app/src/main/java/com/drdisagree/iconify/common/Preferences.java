@@ -45,6 +45,7 @@ public class Preferences {
     public static final String HIDE_LOCKSCREEN_CARRIER = "xposed_hidelockscreencarrier";
     public static final String LIGHT_QSPANEL = "xposed_lightqspanel";
     public static final String DUALTONE_QSPANEL = "xposed_dualtoneqspanel";
+    public static final String BLACK_QSPANEL = "xposed_blackqspanel";
 
     // Preference keys
     public static final String STR_NULL = "null";

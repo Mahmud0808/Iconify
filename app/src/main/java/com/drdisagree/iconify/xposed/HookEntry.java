@@ -26,6 +26,7 @@ import android.app.Instrumentation;
 import android.content.Context;
 
 import com.drdisagree.iconify.config.XPrefs;
+import com.drdisagree.iconify.xposed.mods.QSBlackTheme;
 import com.drdisagree.iconify.xposed.mods.QSLightTheme;
 import com.drdisagree.iconify.xposed.mods.QSLightThemeA12;
 import com.drdisagree.iconify.xposed.utils.SystemUtil;
@@ -66,6 +67,7 @@ public class HookEntry implements IXposedHookLoadPackage {
         modPacks.add(QuickSettings.class);
         modPacks.add(QSLightTheme.class);
         modPacks.add(QSLightThemeA12.class);
+        modPacks.add(QSBlackTheme.class);
     }
 
     @SuppressLint("ApplySharedPref")

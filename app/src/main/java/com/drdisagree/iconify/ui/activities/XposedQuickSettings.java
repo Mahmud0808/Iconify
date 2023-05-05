@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
+import static com.drdisagree.iconify.common.Preferences.BLACK_QSPANEL;
 import static com.drdisagree.iconify.common.Preferences.DUALTONE_QSPANEL;
 import static com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.LIGHT_QSPANEL;
@@ -62,6 +63,14 @@ public class XposedQuickSettings extends BaseActivity {
         enable_dual_tone.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(DUALTONE_QSPANEL, isChecked);
             new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
+        });
+
+        // Black Theme
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_black_theme = findViewById(R.id.enable_black_theme);
+        enable_black_theme.setChecked(RPrefs.getBoolean(BLACK_QSPANEL, false));
+        enable_black_theme.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(BLACK_QSPANEL, isChecked);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 
         // QS panel top margin switch
