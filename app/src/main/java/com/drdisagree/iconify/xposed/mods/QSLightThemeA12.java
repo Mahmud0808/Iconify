@@ -53,7 +53,7 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 @SuppressWarnings("RedundantThrows")
-public class QSThemeManagerA12 extends ModPack {
+public class QSLightThemeA12 extends ModPack {
     public static final String listenPackage = SYSTEMUI_PACKAGE;
 
     private static boolean lightQSHeaderEnabled = false;
@@ -61,7 +61,7 @@ public class QSThemeManagerA12 extends ModPack {
 
     private Object mBehindColors;
 
-    public QSThemeManagerA12(Context context) {
+    public QSLightThemeA12(Context context) {
         super(context);
     }
 

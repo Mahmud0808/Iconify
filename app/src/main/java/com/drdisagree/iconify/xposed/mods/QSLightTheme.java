@@ -64,7 +64,7 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 @SuppressWarnings("RedundantThrows")
-public class QSThemeManager extends ModPack {
+public class QSLightTheme extends ModPack {
     public static final String listenPackage = SYSTEMUI_PACKAGE;
 
     public static final int STATE_ACTIVE = 2;
@@ -78,7 +78,7 @@ public class QSThemeManager extends ModPack {
     private Drawable lightFooterShape = null;
     private Object mClockViewQSHeader;
 
-    public QSThemeManager(Context context) {
+    public QSLightTheme(Context context) {
         super(context);
         if (!listensTo(context.getPackageName())) return;
 
