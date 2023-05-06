@@ -510,4 +510,10 @@
     <string name="app_theme_light">浅色主题</string>
     <string name="app_theme_dark">深色主题</string>
     <string name="app_theme_system">跟随系统</string>
+    <string name="header_image_hide_in_landscape_title">在 Landscape 中隐藏</string>
+    <string name="header_image_hide_in_landscape_desc">在 Landscape 模式中隐藏图像</string>
+    <string name="black_theme_title">Pixel 深色主题</string>
+    <string name="black_theme_desc">浅色模式下的深色快速设置主题\n必须使用自定义的快速设置图形\n切换为深色主题以修复文本颜色</string>
+    <string name="transparent_notif_shade_title">透明通知栏</string>
+    <string name="transparent_notif_shade_desc">仅使通知栏透明</string>
 </resources>
