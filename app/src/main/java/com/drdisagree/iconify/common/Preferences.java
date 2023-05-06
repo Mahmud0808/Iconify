@@ -3,7 +3,8 @@ package com.drdisagree.iconify.common;
 public class Preferences {
 
     // Xposed mods
-    public static final String QSTRANSPARENCY_SWITCH = "xposed_qstransparency";
+    public static final String QS_TRANSPARENCY_SWITCH = "xposed_qstransparency";
+    public static final String NOTIF_TRANSPARENCY_SWITCH = "xposed_notiftransparency";
     public static final String QSALPHA_LEVEL = "xposed_qsalpha";
     public static final String STATUSBAR_CLOCKBG_SWITCH = "xposed_sbclockbg";
     public static final String CHIP_STATUSBAR_CLOCKBG_STYLE = "xposed_chipstatusbarclockbgstyle";

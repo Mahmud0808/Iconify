@@ -1,8 +1,9 @@
 package com.drdisagree.iconify.xposed.mods;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.NOTIF_TRANSPARENCY_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.QSALPHA_LEVEL;
-import static com.drdisagree.iconify.common.Preferences.QSTRANSPARENCY_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.QS_TRANSPARENCY_SWITCH;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
@@ -26,7 +27,8 @@ public class QSTransparency extends ModPack {
 
     private static final String TAG = "Iconify - QSTransparency: ";
     private static final String CLASS_SCRIMCONTROLLER = SYSTEMUI_PACKAGE + ".statusbar.phone.ScrimController";
-    boolean QsTransparencyActive = false;
+    boolean qsTransparencyActive = false;
+    boolean onlyNotifTransparencyActive = false;
     private Object paramThisObject = null;
     private float alpha;
 
@@ -38,20 +40,27 @@ public class QSTransparency extends ModPack {
     public void updatePrefs(String... Key) {
         if (Xprefs == null) return;
 
-        QsTransparencyActive = Xprefs.getBoolean(QSTRANSPARENCY_SWITCH, false);
+        qsTransparencyActive = Xprefs.getBoolean(QS_TRANSPARENCY_SWITCH, false);
+        onlyNotifTransparencyActive = Xprefs.getBoolean(NOTIF_TRANSPARENCY_SWITCH, false);
         alpha = (float) ((float) Xprefs.getInt(QSALPHA_LEVEL, 60) / 100.0);
 
-        if (Key.length > 0 && (Objects.equals(Key[0], QSTRANSPARENCY_SWITCH) || Objects.equals(Key[0], QSALPHA_LEVEL))) {
+        if (Key.length > 0 && (Objects.equals(Key[0], QS_TRANSPARENCY_SWITCH) || Objects.equals(Key[0], NOTIF_TRANSPARENCY_SWITCH) || Objects.equals(Key[0], QSALPHA_LEVEL))) {
             if (paramThisObject != null) {
-                try {
+                if (qsTransparencyActive || onlyNotifTransparencyActive) {
                     setFloatField(paramThisObject, "mDefaultScrimAlpha", alpha);
-                    setFloatField(paramThisObject, "mBehindAlpha", alpha);
 
-                    try {
-                        setFloatField(paramThisObject, "mCustomScrimAlpha", alpha);
-                    } catch (Throwable ignored) {
+                    if (!onlyNotifTransparencyActive) {
+                        setFloatField(paramThisObject, "mBehindAlpha", alpha);
+                        setFloatField(paramThisObject, "BUSY_SCRIM_ALPHA", alpha);
+
+                        try {
+                            setFloatField(paramThisObject, "mCustomScrimAlpha", alpha);
+                        } catch (Throwable ignored) {
+                        }
                     }
+                }
 
+                try {
                     callMethod(paramThisObject, "updateScrims");
                 } catch (Throwable throwable) {
                     log(throwable);
@@ -73,32 +82,34 @@ public class QSTransparency extends ModPack {
         hookAllConstructors(ScrimController, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
-                if (!QsTransparencyActive) return;
+                if (!qsTransparencyActive && !onlyNotifTransparencyActive) return;
 
                 paramThisObject = param.thisObject;
 
-                try {
-                    setFloatField(param.thisObject, "mDefaultScrimAlpha", alpha);
-                } catch (Throwable throwable) {
-                    log(throwable);
-                }
+                if (qsTransparencyActive || onlyNotifTransparencyActive) {
+                    try {
+                        setFloatField(param.thisObject, "mDefaultScrimAlpha", alpha);
+                    } catch (Throwable throwable) {
+                        log(throwable);
+                    }
 
-                try {
-                    setFloatField(param.thisObject, "mBehindAlpha", alpha);
-                } catch (Throwable throwable) {
-                    log(throwable);
-                }
+                    if (!onlyNotifTransparencyActive) {
+                        try {
+                            setFloatField(param.thisObject, "mBehindAlpha", alpha);
+                        } catch (Throwable throwable) {
+                            log(throwable);
+                        }
 
-                try {
-                    setFloatField(param.thisObject, "BUSY_SCRIM_ALPHA", alpha);
-                } catch (Throwable throwable) {
-                    log(throwable);
-                }
+                        try {
+                            setFloatField(param.thisObject, "BUSY_SCRIM_ALPHA", alpha);
+                        } catch (Throwable ignored) {
+                        }
 
-                try {
-                    setFloatField(param.thisObject, "mCustomScrimAlpha", alpha);
-                } catch (Throwable throwable) {
-                    log(throwable);
+                        try {
+                            setFloatField(param.thisObject, "mCustomScrimAlpha", alpha);
+                        } catch (Throwable ignored) {
+                        }
+                    }
                 }
             }
         });
@@ -106,7 +117,7 @@ public class QSTransparency extends ModPack {
         hookAllMethods(ScrimController, "applyState", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
-                if (!QsTransparencyActive) return;
+                if (!qsTransparencyActive) return;
 
                 boolean mClipsQsScrim = (boolean) getObjectField(param.thisObject, "mClipsQsScrim");
 
@@ -120,7 +131,7 @@ public class QSTransparency extends ModPack {
             hookAllMethods(ScrimController, "setCustomScrimAlpha", new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) {
-                    if (!QsTransparencyActive) return;
+                    if (!qsTransparencyActive) return;
 
                     param.args[0] = (int) (alpha * 100);
                 }

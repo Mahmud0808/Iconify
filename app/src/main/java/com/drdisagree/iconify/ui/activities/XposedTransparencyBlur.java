@@ -2,9 +2,10 @@ package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.NOTIF_TRANSPARENCY_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.QSALPHA_LEVEL;
 import static com.drdisagree.iconify.common.Preferences.QSPANEL_BLUR_SWITCH;
-import static com.drdisagree.iconify.common.Preferences.QSTRANSPARENCY_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.QS_TRANSPARENCY_SWITCH;
 import static com.drdisagree.iconify.common.References.FABRICATED_QSPANEL_BLUR_RADIUS;
 
 import android.annotation.SuppressLint;
@@ -34,9 +35,18 @@ public class XposedTransparencyBlur extends BaseActivity {
 
         // Qs Panel Transparency
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_qs_transparency = findViewById(R.id.enable_qs_transparency);
-        enable_qs_transparency.setChecked(RPrefs.getBoolean(QSTRANSPARENCY_SWITCH, false));
+        enable_qs_transparency.setChecked(RPrefs.getBoolean(QS_TRANSPARENCY_SWITCH, false));
         enable_qs_transparency.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RPrefs.putBoolean(QSTRANSPARENCY_SWITCH, isChecked);
+            RPrefs.putBoolean(QS_TRANSPARENCY_SWITCH, isChecked);
+            // Restart SystemUI
+            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+        });
+
+        // Notification Shade Transparency
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_notif_transparency = findViewById(R.id.enable_notif_transparency);
+        enable_notif_transparency.setChecked(RPrefs.getBoolean(NOTIF_TRANSPARENCY_SWITCH, false));
+        enable_notif_transparency.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(NOTIF_TRANSPARENCY_SWITCH, isChecked);
             // Restart SystemUI
             new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
