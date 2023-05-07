@@ -518,4 +518,6 @@
     <string name="transparent_notif_shade_desc">Make only notification shade transparent</string>
     <string name="fluid_qs_theme_title">Fluid QS Theme</string>
     <string name="fluid_qs_theme_desc">Two tone translucent QS theme\nDo not use custom shapes</string>
+    <string name="disable_monet_title">Disable System Monet</string>
+    <string name="disable_monet_desc">Helps to retain custom colors</string>
 </resources>
