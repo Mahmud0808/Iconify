@@ -489,7 +489,6 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                 }
             } else {
                 for (int j = 0; j < colorTableRows[i].getChildCount(); j++) {
-                    Log.i("Test", i + " " + j);
                     try {
                         GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{!isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j), !isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j)});
                         colorbg.setCornerRadius(8 * getResources().getDisplayMetrics().density);

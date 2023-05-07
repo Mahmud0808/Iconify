@@ -128,7 +128,6 @@ public class XposedMenu extends BaseFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            Toast.makeText(requireActivity(), "Test", Toast.LENGTH_SHORT).show();
             getParentFragmentManager().popBackStack();
             return true;
         }
