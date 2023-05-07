@@ -26,10 +26,6 @@ import android.app.Instrumentation;
 import android.content.Context;
 
 import com.drdisagree.iconify.config.XPrefs;
-import com.drdisagree.iconify.xposed.mods.QSBlackTheme;
-import com.drdisagree.iconify.xposed.mods.QSLightTheme;
-import com.drdisagree.iconify.xposed.mods.QSLightThemeA12;
-import com.drdisagree.iconify.xposed.utils.SystemUtil;
 import com.drdisagree.iconify.xposed.mods.BackgroundChip;
 import com.drdisagree.iconify.xposed.mods.BatteryStyle;
 import com.drdisagree.iconify.xposed.mods.HeaderClock;
@@ -37,8 +33,13 @@ import com.drdisagree.iconify.xposed.mods.HeaderImage;
 import com.drdisagree.iconify.xposed.mods.IconUpdater;
 import com.drdisagree.iconify.xposed.mods.LockscreenClock;
 import com.drdisagree.iconify.xposed.mods.Miscellaneous;
+import com.drdisagree.iconify.xposed.mods.QSBlackTheme;
+import com.drdisagree.iconify.xposed.mods.QSLightTheme;
+import com.drdisagree.iconify.xposed.mods.QSLightThemeA12;
+import com.drdisagree.iconify.xposed.mods.QSFluidTheme;
 import com.drdisagree.iconify.xposed.mods.QSTransparency;
 import com.drdisagree.iconify.xposed.mods.QuickSettings;
+import com.drdisagree.iconify.xposed.utils.SystemUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -68,6 +69,7 @@ public class HookEntry implements IXposedHookLoadPackage {
         modPacks.add(QSLightTheme.class);
         modPacks.add(QSLightThemeA12.class);
         modPacks.add(QSBlackTheme.class);
+        modPacks.add(QSFluidTheme.class);
     }
 
     @SuppressLint("ApplySharedPref")
@@ -78,10 +80,7 @@ public class HookEntry implements IXposedHookLoadPackage {
         long lastLoadTime = Xprefs.getLong(loadTimeKey, 0);
         int strikeCount = Xprefs.getInt(strikeKey, 0);
         if (currentTime - lastLoadTime > 40000) {
-            Xprefs.edit()
-                    .putLong(loadTimeKey, currentTime)
-                    .putInt(strikeKey, 0)
-                    .commit();
+            Xprefs.edit().putLong(loadTimeKey, currentTime).putInt(strikeKey, 0).commit();
         } else if (strikeCount >= 3) {
             log(String.format("HookEntry: Possible bootloop in %s ; Iconify will not load for now...", packageName));
             return true;
