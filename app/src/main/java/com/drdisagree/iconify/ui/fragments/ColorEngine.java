@@ -32,6 +32,7 @@ import com.drdisagree.iconify.ui.activities.BasicColors;
 import com.drdisagree.iconify.ui.activities.MonetEngine;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.List;
@@ -129,6 +130,7 @@ public class ColorEngine extends BaseFragment {
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentDM.overlay");
                 }
+                SystemUtil.restartSystemUI();
             }, SWITCH_ANIMATION_DELAY);
         });
 
