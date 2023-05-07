@@ -47,6 +47,7 @@ public class Preferences {
     public static final String LIGHT_QSPANEL = "xposed_lightqspanel";
     public static final String DUALTONE_QSPANEL = "xposed_dualtoneqspanel";
     public static final String BLACK_QSPANEL = "xposed_blackqspanel";
+    public static final String FLUID_QSPANEL = "xposed_fluidqspanel";
 
     // Preference keys
     public static final String STR_NULL = "null";

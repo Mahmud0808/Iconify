@@ -3,6 +3,7 @@ package com.drdisagree.iconify.ui.activities;
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.BLACK_QSPANEL;
 import static com.drdisagree.iconify.common.Preferences.DUALTONE_QSPANEL;
+import static com.drdisagree.iconify.common.Preferences.FLUID_QSPANEL;
 import static com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.LIGHT_QSPANEL;
 import static com.drdisagree.iconify.common.Preferences.PANEL_TOPMARGIN_SWITCH;
@@ -65,11 +66,19 @@ public class XposedQuickSettings extends BaseActivity {
             new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
         });
 
-        // Black Theme
+        // Pixel Black Theme
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_black_theme = findViewById(R.id.enable_black_theme);
         enable_black_theme.setChecked(RPrefs.getBoolean(BLACK_QSPANEL, false));
         enable_black_theme.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(BLACK_QSPANEL, isChecked);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+        });
+
+        // Fluid QS Theme
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_fluid_theme = findViewById(R.id.enable_fluid_theme);
+        enable_fluid_theme.setChecked(RPrefs.getBoolean(FLUID_QSPANEL, false));
+        enable_fluid_theme.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(FLUID_QSPANEL, isChecked);
             new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 
