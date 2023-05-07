@@ -118,6 +118,20 @@ public class ColorEngine extends BaseFragment {
             }, SWITCH_ANIMATION_DELAY);
         });
 
+        // Disable Monet
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch disable_monet = view.findViewById(R.id.disable_monet);
+        disable_monet.setChecked(Prefs.getBoolean("IconifyComponentDM.overlay"));
+
+        disable_monet.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    OverlayUtil.enableOverlay("IconifyComponentDM.overlay");
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentDM.overlay");
+                }
+            }, SWITCH_ANIMATION_DELAY);
+        });
+
         return view;
     }
 
