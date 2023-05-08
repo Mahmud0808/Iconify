@@ -350,7 +350,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         }
 
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
-        if (ourResparam == null) return;
+        if (ourResparam == null || !mShowSBClockBg) return;
 
         ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "status_bar", new XC_LayoutInflated() {
             @Override
@@ -364,8 +364,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                     ((FrameLayout.LayoutParams) status_bar_start_side_except_heads_up.getLayoutParams()).gravity = Gravity.START | Gravity.CENTER;
                     status_bar_start_side_except_heads_up.setGravity(Gravity.START | Gravity.CENTER);
                     status_bar_start_side_except_heads_up.requestLayout();
-                } catch (Throwable throwable) {
-                    log(throwable);
+                } catch (Throwable ignored) {
                 }
             }
         });
