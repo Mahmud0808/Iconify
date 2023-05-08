@@ -36,7 +36,7 @@ import java.util.function.Function;
  * such as differing in light mode versus dark mode, or what the theme is, or what the color that
  * produced the theme is, etc.
  *
- * <p>Tweaks without backgrounds do not change tone when contrast changes. Tweaks with backgrounds
+ * <p>Colors without backgrounds do not change tone when contrast changes. Colors with backgrounds
  * become closer to their background as contrast lowers, and further when contrast increases.
  *
  * <p>Prefer the static constructors. They provide a much more simple interface, such as requiring
@@ -97,15 +97,7 @@ public final class DynamicColor {
      *                            have a background/foreground relationship must have _some_ difference in tone, yet, not
      *                            enough difference to create meaningful contrast.
      */
-    public DynamicColor(
-            Function<DynamicScheme, Double> hue,
-            Function<DynamicScheme, Double> chroma,
-            Function<DynamicScheme, Double> tone,
-            Function<DynamicScheme, Double> opacity,
-            Function<DynamicScheme, DynamicColor> background,
-            Function<DynamicScheme, Double> toneMinContrast,
-            Function<DynamicScheme, Double> toneMaxContrast,
-            Function<DynamicScheme, ToneDeltaConstraint> toneDeltaConstraint) {
+    public DynamicColor(Function<DynamicScheme, Double> hue, Function<DynamicScheme, Double> chroma, Function<DynamicScheme, Double> tone, Function<DynamicScheme, Double> opacity, Function<DynamicScheme, DynamicColor> background, Function<DynamicScheme, Double> toneMinContrast, Function<DynamicScheme, Double> toneMaxContrast, Function<DynamicScheme, ToneDeltaConstraint> toneDeltaConstraint) {
         this.hue = hue;
         this.chroma = chroma;
         this.tone = tone;
@@ -159,10 +151,7 @@ public final class DynamicColor {
      * @param background Function that provides background DynamicColor given DynamicScheme. Useful
      *                   for contrast, given a background, colors can adjust to increase/decrease contrast.
      */
-    public static DynamicColor fromArgb(
-            int argb,
-            Function<DynamicScheme, Double> tone,
-            Function<DynamicScheme, DynamicColor> background) {
+    public static DynamicColor fromArgb(int argb, Function<DynamicScheme, Double> tone, Function<DynamicScheme, DynamicColor> background) {
         return DynamicColor.fromPalette((s) -> TonalPalette.fromInt(argb), tone, background);
     }
 
@@ -177,13 +166,8 @@ public final class DynamicColor {
      *                            Useful for ensuring lightness difference between colors that don't _require_ contrast or
      *                            have a formal background/foreground relationship.
      */
-    public static DynamicColor fromArgb(
-            int argb,
-            Function<DynamicScheme, Double> tone,
-            Function<DynamicScheme, DynamicColor> background,
-            Function<DynamicScheme, ToneDeltaConstraint> toneDeltaConstraint) {
-        return DynamicColor.fromPalette(
-                (s) -> TonalPalette.fromInt(argb), tone, background, toneDeltaConstraint);
+    public static DynamicColor fromArgb(int argb, Function<DynamicScheme, Double> tone, Function<DynamicScheme, DynamicColor> background, Function<DynamicScheme, ToneDeltaConstraint> toneDeltaConstraint) {
+        return DynamicColor.fromPalette((s) -> TonalPalette.fromInt(argb), tone, background, toneDeltaConstraint);
     }
 
     /**
@@ -197,8 +181,7 @@ public final class DynamicColor {
      *                lowers for contrast adjustments, the intended chroma is restored.
      * @param tone    Function that provides a tone given DynamicScheme. (useful for dark vs. light mode)
      */
-    public static DynamicColor fromPalette(
-            Function<DynamicScheme, TonalPalette> palette, Function<DynamicScheme, Double> tone) {
+    public static DynamicColor fromPalette(Function<DynamicScheme, TonalPalette> palette, Function<DynamicScheme, Double> tone) {
         return fromPalette(palette, tone, null, null);
     }
 
@@ -215,10 +198,7 @@ public final class DynamicColor {
      * @param background Function that provides background DynamicColor given DynamicScheme. Useful
      *                   for contrast, given a background, colors can adjust to increase/decrease contrast.
      */
-    public static DynamicColor fromPalette(
-            Function<DynamicScheme, TonalPalette> palette,
-            Function<DynamicScheme, Double> tone,
-            Function<DynamicScheme, DynamicColor> background) {
+    public static DynamicColor fromPalette(Function<DynamicScheme, TonalPalette> palette, Function<DynamicScheme, Double> tone, Function<DynamicScheme, DynamicColor> background) {
         return fromPalette(palette, tone, background, null);
     }
 
@@ -238,20 +218,78 @@ public final class DynamicColor {
      *                            Useful for ensuring lightness difference between colors that don't _require_ contrast or
      *                            have a formal background/foreground relationship.
      */
-    public static DynamicColor fromPalette(
-            Function<DynamicScheme, TonalPalette> palette,
-            Function<DynamicScheme, Double> tone,
-            Function<DynamicScheme, DynamicColor> background,
-            Function<DynamicScheme, ToneDeltaConstraint> toneDeltaConstraint) {
-        return new DynamicColor(
-                scheme -> palette.apply(scheme).getHue(),
-                scheme -> palette.apply(scheme).getChroma(),
-                tone,
-                null,
-                background,
-                scheme -> toneMinContrastDefault(tone, background, scheme, toneDeltaConstraint),
-                scheme -> toneMaxContrastDefault(tone, background, scheme, toneDeltaConstraint),
-                toneDeltaConstraint);
+    public static DynamicColor fromPalette(Function<DynamicScheme, TonalPalette> palette, Function<DynamicScheme, Double> tone, Function<DynamicScheme, DynamicColor> background, Function<DynamicScheme, ToneDeltaConstraint> toneDeltaConstraint) {
+        return new DynamicColor(scheme -> palette.apply(scheme).getHue(), scheme -> palette.apply(scheme).getChroma(), tone, null, background, scheme -> toneMinContrastDefault(tone, background, scheme, toneDeltaConstraint), scheme -> toneMaxContrastDefault(tone, background, scheme, toneDeltaConstraint), toneDeltaConstraint);
+    }
+
+    public int getArgb(DynamicScheme scheme) {
+        final int argb = getHct(scheme).toInt();
+        if (opacity == null) {
+            return argb;
+        }
+        final double percentage = opacity.apply(scheme);
+        final int alpha = MathUtils.clampInt(0, 255, (int) Math.round(percentage * 255));
+        return (argb & 0x00ffffff) | (alpha << 24);
+    }
+
+    public Hct getHct(DynamicScheme scheme) {
+        final Hct cachedAnswer = hctCache.get(scheme);
+        if (cachedAnswer != null) {
+            return cachedAnswer;
+        }
+        // This is crucial for aesthetics: we aren't simply the taking the standard color
+        // and changing its tone for contrast. Rather, we find the tone for contrast, then
+        // use the specified chroma from the palette to construct a new color.
+        //
+        // For example, this enables colors with standard tone of T90, which has limited chroma, to
+        // "recover" intended chroma as contrast increases.
+        final Hct answer = Hct.from(hue.apply(scheme), chroma.apply(scheme), getTone(scheme));
+        // NOMUTANTS--trivial test with onerous dependency injection requirement.
+        if (hctCache.size() > 4) {
+            hctCache.clear();
+        }
+        // NOMUTANTS--trivial test with onerous dependency injection requirement.
+        hctCache.put(scheme, answer);
+        return answer;
+    }
+
+    /**
+     * Returns the tone in HCT, ranging from 0 to 100, of the resolved color given scheme.
+     */
+    public double getTone(DynamicScheme scheme) {
+        double answer = tone.apply(scheme);
+
+        final boolean decreasingContrast = scheme.contrastLevel < 0.0;
+        if (scheme.contrastLevel != 0.0) {
+            final double startTone = tone.apply(scheme);
+            final double endTone = decreasingContrast ? toneMinContrast.apply(scheme) : toneMaxContrast.apply(scheme);
+            final double delta = (endTone - startTone) * Math.abs(scheme.contrastLevel);
+            answer = delta + startTone;
+        }
+
+        final DynamicColor bgDynamicColor = background == null ? null : background.apply(scheme);
+        double minRatio = Contrast.RATIO_MIN;
+        double maxRatio = Contrast.RATIO_MAX;
+        if (bgDynamicColor != null) {
+            final boolean bgHasBg = bgDynamicColor.background != null && bgDynamicColor.background.apply(scheme) != null;
+            final double standardRatio = Contrast.ratioOfTones(tone.apply(scheme), bgDynamicColor.tone.apply(scheme));
+            if (decreasingContrast) {
+                final double minContrastRatio = Contrast.ratioOfTones(toneMinContrast.apply(scheme), bgDynamicColor.toneMinContrast.apply(scheme));
+                minRatio = bgHasBg ? minContrastRatio : 1.0;
+                maxRatio = standardRatio;
+            } else {
+                final double maxContrastRatio = Contrast.ratioOfTones(toneMaxContrast.apply(scheme), bgDynamicColor.toneMaxContrast.apply(scheme));
+                minRatio = bgHasBg ? min(maxContrastRatio, standardRatio) : 1.0;
+                maxRatio = bgHasBg ? max(maxContrastRatio, standardRatio) : 21.0;
+            }
+        }
+
+        final double finalMinRatio = minRatio;
+        final double finalMaxRatio = maxRatio;
+        final double finalAnswer = answer;
+        answer = calculateDynamicTone(scheme, this.tone, (dynamicColor) -> dynamicColor.getTone(scheme), (a, b) -> finalAnswer, (s) -> bgDynamicColor, toneDeltaConstraint, (s) -> finalMinRatio, (s) -> finalMaxRatio);
+
+        return answer;
     }
 
     /**
@@ -260,37 +298,21 @@ public final class DynamicColor {
      * If the original contrast ratio was >= 3.0, reach contrast 3.0.<br>
      * If the original contrast ratio was < 3.0, reach that ratio.
      */
-    public static double toneMinContrastDefault(
-            Function<DynamicScheme, Double> tone,
-            Function<DynamicScheme, DynamicColor> background,
-            DynamicScheme scheme,
-            Function<DynamicScheme, ToneDeltaConstraint> toneDeltaConstraint) {
-        return DynamicColor.calculateDynamicTone(
-                scheme,
-                tone,
-                c -> c.toneMinContrast.apply(scheme),
-                (stdRatio, bgTone) -> {
-                    double answer = tone.apply(scheme);
-                    if (stdRatio >= Contrast.RATIO_70) {
-                        answer = contrastingTone(bgTone, Contrast.RATIO_45);
-                    } else if (stdRatio >= Contrast.RATIO_30) {
-                        answer = contrastingTone(bgTone, Contrast.RATIO_30);
-                    } else {
-                        final boolean backgroundHasBackground =
-                                background != null
-                                        && background.apply(scheme) != null
-                                        && background.apply(scheme).background != null
-                                        && background.apply(scheme).background.apply(scheme) != null;
-                        if (backgroundHasBackground) {
-                            answer = contrastingTone(bgTone, stdRatio);
-                        }
-                    }
-                    return answer;
-                },
-                background,
-                toneDeltaConstraint,
-                null,
-                standardRatio -> standardRatio);
+    public static double toneMinContrastDefault(Function<DynamicScheme, Double> tone, Function<DynamicScheme, DynamicColor> background, DynamicScheme scheme, Function<DynamicScheme, ToneDeltaConstraint> toneDeltaConstraint) {
+        return DynamicColor.calculateDynamicTone(scheme, tone, c -> c.toneMinContrast.apply(scheme), (stdRatio, bgTone) -> {
+            double answer = tone.apply(scheme);
+            if (stdRatio >= Contrast.RATIO_70) {
+                answer = contrastingTone(bgTone, Contrast.RATIO_45);
+            } else if (stdRatio >= Contrast.RATIO_30) {
+                answer = contrastingTone(bgTone, Contrast.RATIO_30);
+            } else {
+                final boolean backgroundHasBackground = background != null && background.apply(scheme) != null && background.apply(scheme).background != null && background.apply(scheme).background.apply(scheme) != null;
+                if (backgroundHasBackground) {
+                    answer = contrastingTone(bgTone, stdRatio);
+                }
+            }
+            return answer;
+        }, background, toneDeltaConstraint, null, standardRatio -> standardRatio);
     }
 
     /**
@@ -306,31 +328,15 @@ public final class DynamicColor {
      * text always had excessive contrast and should reach 7.0, it would deterimentally affect desire
      * to understand and use dynamic contrast.
      */
-    public static double toneMaxContrastDefault(
-            Function<DynamicScheme, Double> tone,
-            Function<DynamicScheme, DynamicColor> background,
-            DynamicScheme scheme,
-            Function<DynamicScheme, ToneDeltaConstraint> toneDeltaConstraint) {
-        return DynamicColor.calculateDynamicTone(
-                scheme,
-                tone,
-                c -> c.toneMaxContrast.apply(scheme),
-                (stdRatio, bgTone) -> {
-                    final boolean backgroundHasBackground =
-                            background != null
-                                    && background.apply(scheme) != null
-                                    && background.apply(scheme).background != null
-                                    && background.apply(scheme).background.apply(scheme) != null;
-                    if (backgroundHasBackground) {
-                        return contrastingTone(bgTone, Contrast.RATIO_70);
-                    } else {
-                        return contrastingTone(bgTone, max(Contrast.RATIO_70, stdRatio));
-                    }
-                },
-                background,
-                toneDeltaConstraint,
-                null,
-                null);
+    public static double toneMaxContrastDefault(Function<DynamicScheme, Double> tone, Function<DynamicScheme, DynamicColor> background, DynamicScheme scheme, Function<DynamicScheme, ToneDeltaConstraint> toneDeltaConstraint) {
+        return DynamicColor.calculateDynamicTone(scheme, tone, c -> c.toneMaxContrast.apply(scheme), (stdRatio, bgTone) -> {
+            final boolean backgroundHasBackground = background != null && background.apply(scheme) != null && background.apply(scheme).background != null && background.apply(scheme).background.apply(scheme) != null;
+            if (backgroundHasBackground) {
+                return contrastingTone(bgTone, Contrast.RATIO_70);
+            } else {
+                return contrastingTone(bgTone, max(Contrast.RATIO_70, stdRatio));
+            }
+        }, background, toneDeltaConstraint, null, null);
     }
 
     /**
@@ -354,15 +360,7 @@ public final class DynamicColor {
      * relationship, but, do require different tones for visual differentiation. ToneDeltaConstraint
      * models this requirement, and DynamicColor enforces it.
      */
-    public static double calculateDynamicTone(
-            DynamicScheme scheme,
-            Function<DynamicScheme, Double> toneStandard,
-            Function<DynamicColor, Double> toneToJudge,
-            BiFunction<Double, Double, Double> desiredTone,
-            Function<DynamicScheme, DynamicColor> background,
-            Function<DynamicScheme, ToneDeltaConstraint> toneDeltaConstraint,
-            Function<Double, Double> minRatio,
-            Function<Double, Double> maxRatio) {
+    public static double calculateDynamicTone(DynamicScheme scheme, Function<DynamicScheme, Double> toneStandard, Function<DynamicColor, Double> toneToJudge, BiFunction<Double, Double, Double> desiredTone, Function<DynamicScheme, DynamicColor> background, Function<DynamicScheme, ToneDeltaConstraint> toneDeltaConstraint, Function<Double, Double> minRatio, Function<Double, Double> maxRatio) {
         // Start with the tone with no adjustment for contrast.
         // If there is no background, don't perform any adjustment, return immediately.
         final double toneStd = toneStandard.apply(scheme);
@@ -379,16 +377,9 @@ public final class DynamicColor {
         final double bgTone = toneToJudge.apply(bgDynamic);
         final double myDesiredTone = desiredTone.apply(stdRatio, bgTone);
         final double currentRatio = Contrast.ratioOfTones(bgTone, myDesiredTone);
-        final double minRatioRealized =
-                minRatio == null
-                        ? Contrast.RATIO_MIN
-                        : minRatio.apply(stdRatio) == null ? Contrast.RATIO_MIN : minRatio.apply(stdRatio);
-        final double maxRatioRealized =
-                maxRatio == null
-                        ? Contrast.RATIO_MAX
-                        : maxRatio.apply(stdRatio) == null ? Contrast.RATIO_MAX : maxRatio.apply(stdRatio);
-        final double desiredRatio =
-                MathUtils.clampDouble(minRatioRealized, maxRatioRealized, currentRatio);
+        final double minRatioRealized = minRatio == null ? Contrast.RATIO_MIN : minRatio.apply(stdRatio) == null ? Contrast.RATIO_MIN : minRatio.apply(stdRatio);
+        final double maxRatioRealized = maxRatio == null ? Contrast.RATIO_MAX : maxRatio.apply(stdRatio) == null ? Contrast.RATIO_MAX : maxRatio.apply(stdRatio);
+        final double desiredRatio = MathUtils.clampDouble(minRatioRealized, maxRatioRealized, currentRatio);
         if (desiredRatio == currentRatio) {
             answer = myDesiredTone;
         } else {
@@ -408,14 +399,8 @@ public final class DynamicColor {
         return answer;
     }
 
-    static double ensureToneDelta(
-            double tone,
-            double toneStandard,
-            DynamicScheme scheme,
-            Function<DynamicScheme, ToneDeltaConstraint> toneDeltaConstraint,
-            Function<DynamicColor, Double> toneToDistanceFrom) {
-        final ToneDeltaConstraint constraint =
-                (toneDeltaConstraint == null ? null : toneDeltaConstraint.apply(scheme));
+    static double ensureToneDelta(double tone, double toneStandard, DynamicScheme scheme, Function<DynamicScheme, ToneDeltaConstraint> toneDeltaConstraint, Function<DynamicColor, Double> toneToDistanceFrom) {
+        final ToneDeltaConstraint constraint = (toneDeltaConstraint == null ? null : toneDeltaConstraint.apply(scheme));
         if (constraint == null) {
             return tone;
         }
@@ -460,8 +445,7 @@ public final class DynamicColor {
             // This was observed with Tonal Spot's On Primary Container turning black momentarily between
             // high and max contrast in light mode. PC's standard tone was T90, OPC's was T10, it was
             // light mode, and the contrast level was 0.6568521221032331.
-            final boolean negligibleDifference =
-                    Math.abs(lighterRatio - darkerRatio) < 0.1 && lighterRatio < ratio && darkerRatio < ratio;
+            final boolean negligibleDifference = Math.abs(lighterRatio - darkerRatio) < 0.1 && lighterRatio < ratio && darkerRatio < ratio;
             if (lighterRatio >= ratio || lighterRatio >= darkerRatio || negligibleDifference) {
                 return lighterTone;
             } else {
@@ -489,9 +473,12 @@ public final class DynamicColor {
      *
      * <p>T60 used as to create the smallest discontinuity possible when skipping down to T49 in order
      * to ensure light foregrounds.
+     *
+     * <p>Since `tertiaryContainer` in dark monochrome scheme requires a tone of 60, it should not be
+     * adjusted. Therefore, 60 is excluded here.
      */
     public static boolean tonePrefersLightForeground(double tone) {
-        return Math.round(tone) <= 60;
+        return Math.round(tone) < 60;
     }
 
     /**
@@ -499,91 +486,5 @@ public final class DynamicColor {
      */
     public static boolean toneAllowsLightForeground(double tone) {
         return Math.round(tone) <= 49;
-    }
-
-    public int getArgb(DynamicScheme scheme) {
-        final int argb = getHct(scheme).toInt();
-        if (opacity == null) {
-            return argb;
-        }
-        final double percentage = opacity.apply(scheme);
-        final int alpha = MathUtils.clampInt(0, 255, (int) Math.round(percentage * 255));
-        return (argb & 0x00ffffff) | (alpha << 24);
-    }
-
-    public Hct getHct(DynamicScheme scheme) {
-        final Hct cachedAnswer = hctCache.get(scheme);
-        if (cachedAnswer != null) {
-            return cachedAnswer;
-        }
-        // This is crucial for aesthetics: we aren't simply the taking the standard color
-        // and changing its tone for contrast. Rather, we find the tone for contrast, then
-        // use the specified chroma from the palette to construct a new color.
-        //
-        // For example, this enables colors with standard tone of T90, which has limited chroma, to
-        // "recover" intended chroma as contrast increases.
-        final Hct answer = Hct.from(hue.apply(scheme), chroma.apply(scheme), getTone(scheme));
-        // NOMUTANTS--trivial test with onerous dependency injection requirement.
-        if (hctCache.size() > 4) {
-            hctCache.clear();
-        }
-        // NOMUTANTS--trivial test with onerous dependency injection requirement.
-        hctCache.put(scheme, answer);
-        return answer;
-    }
-
-    /**
-     * Returns the tone in HCT, ranging from 0 to 100, of the resolved color given scheme.
-     */
-    public double getTone(DynamicScheme scheme) {
-        double answer = tone.apply(scheme);
-
-        final boolean decreasingContrast = scheme.contrastLevel < 0.0;
-        if (scheme.contrastLevel != 0.0) {
-            final double startTone = tone.apply(scheme);
-            final double endTone =
-                    decreasingContrast ? toneMinContrast.apply(scheme) : toneMaxContrast.apply(scheme);
-            final double delta = (endTone - startTone) * Math.abs(scheme.contrastLevel);
-            answer = delta + startTone;
-        }
-
-        final DynamicColor bgDynamicColor = background == null ? null : background.apply(scheme);
-        double minRatio = Contrast.RATIO_MIN;
-        double maxRatio = Contrast.RATIO_MAX;
-        if (bgDynamicColor != null) {
-            final boolean bgHasBg =
-                    bgDynamicColor.background != null && bgDynamicColor.background.apply(scheme) == null;
-            final double standardRatio =
-                    Contrast.ratioOfTones(tone.apply(scheme), bgDynamicColor.tone.apply(scheme));
-            if (decreasingContrast) {
-                final double minContrastRatio =
-                        Contrast.ratioOfTones(
-                                toneMinContrast.apply(scheme), bgDynamicColor.toneMinContrast.apply(scheme));
-                minRatio = bgHasBg ? 1.0 : minContrastRatio;
-                maxRatio = standardRatio;
-            } else {
-                final double maxContrastRatio =
-                        Contrast.ratioOfTones(
-                                toneMaxContrast.apply(scheme), bgDynamicColor.toneMaxContrast.apply(scheme));
-                minRatio = !bgHasBg ? 1.0 : min(maxContrastRatio, standardRatio);
-                maxRatio = !bgHasBg ? 21.0 : max(maxContrastRatio, standardRatio);
-            }
-        }
-
-        final double finalMinRatio = minRatio;
-        final double finalMaxRatio = maxRatio;
-        final double finalAnswer = answer;
-        answer =
-                calculateDynamicTone(
-                        scheme,
-                        this.tone,
-                        (dynamicColor) -> dynamicColor.getTone(scheme),
-                        (a, b) -> finalAnswer,
-                        (s) -> bgDynamicColor,
-                        toneDeltaConstraint,
-                        (s) -> finalMinRatio,
-                        (s) -> finalMaxRatio);
-
-        return answer;
     }
 }
