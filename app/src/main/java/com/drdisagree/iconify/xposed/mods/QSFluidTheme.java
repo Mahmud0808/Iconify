@@ -251,44 +251,59 @@ public class QSFluidTheme extends ModPack {
             int px2dp2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
             int px2dp4 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics());
             int px2dp20 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, mContext.getResources().getDisplayMetrics());
+            int notifCornerRadius = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("notification_corner_radius", "dimen", mContext.getPackageName()));
 
-            ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "qs_footer_actions_background", new XResources.DrawableLoader() {
-                @Override
-                public Drawable newDrawable(XResources res, int id) {
-                    return new ColorDrawable(Color.TRANSPARENT);
-                }
-            });
+            try {
+                ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "qs_footer_actions_background", new XResources.DrawableLoader() {
+                    @Override
+                    public Drawable newDrawable(XResources res, int id) {
+                        return new ColorDrawable(Color.TRANSPARENT);
+                    }
+                });
+            } catch (Throwable ignored) {
+            }
 
-            ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "brightness_mirror_background", new XResources.DrawableLoader() {
-                @Override
-                public Drawable newDrawable(XResources res, int id) {
-                    GradientDrawable gradientDrawable = new GradientDrawable();
-                    gradientDrawable.setShape(GradientDrawable.RECTANGLE);
-                    gradientDrawable.setColor(colorInactiveAlpha[0]);
-                    gradientDrawable.setCornerRadius(mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("rounded_slider_background_rounded_corner", "dimen", mContext.getPackageName())));
-                    return gradientDrawable;
-                }
-            });
+            try {
+                ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "brightness_mirror_background", new XResources.DrawableLoader() {
+                    @Override
+                    public Drawable newDrawable(XResources res, int id) {
+                        GradientDrawable gradientDrawable = new GradientDrawable();
+                        gradientDrawable.setShape(GradientDrawable.RECTANGLE);
+                        gradientDrawable.setColor(colorInactiveAlpha[0]);
+                        gradientDrawable.setCornerRadius(mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("rounded_slider_background_rounded_corner", "dimen", mContext.getPackageName())));
+                        return gradientDrawable;
+                    }
+                });
+            } catch (Throwable ignored) {
+            }
 
-            ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "qs_footer_action_circle", new XResources.DrawableLoader() {
-                @Override
-                public Drawable newDrawable(XResources res, int id) {
-                    GradientDrawable gradientDrawable = new GradientDrawable();
-                    gradientDrawable.setShape(GradientDrawable.OVAL);
-                    gradientDrawable.setColor(colorInactiveAlpha[0]);
-                    return new InsetDrawable(gradientDrawable, px2dp4, px2dp4, px2dp4, px2dp4);
-                }
-            });
+            try {
+                ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "qs_footer_action_circle", new XResources.DrawableLoader() {
+                    @Override
+                    public Drawable newDrawable(XResources res, int id) {
+                        GradientDrawable gradientDrawable = new GradientDrawable();
+                        gradientDrawable.setShape(GradientDrawable.RECTANGLE);
+                        gradientDrawable.setColor(colorInactiveAlpha[0]);
+                        gradientDrawable.setCornerRadius(notifCornerRadius);
+                        return new InsetDrawable(gradientDrawable, px2dp4, px2dp4, px2dp4, px2dp4);
+                    }
+                });
+            } catch (Throwable ignored) {
+            }
 
-            ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "qs_footer_action_circle_color", new XResources.DrawableLoader() {
-                @Override
-                public Drawable newDrawable(XResources res, int id) {
-                    GradientDrawable gradientDrawable = new GradientDrawable();
-                    gradientDrawable.setShape(GradientDrawable.OVAL);
-                    gradientDrawable.setColor(colorActiveAlpha[0]);
-                    return new InsetDrawable(gradientDrawable, px2dp4, px2dp4, px2dp4, px2dp4);
-                }
-            });
+            try {
+                ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "qs_footer_action_circle_color", new XResources.DrawableLoader() {
+                    @Override
+                    public Drawable newDrawable(XResources res, int id) {
+                        GradientDrawable gradientDrawable = new GradientDrawable();
+                        gradientDrawable.setShape(GradientDrawable.RECTANGLE);
+                        gradientDrawable.setColor(colorActiveAlpha[0]);
+                        gradientDrawable.setCornerRadius(notifCornerRadius);
+                        return new InsetDrawable(gradientDrawable, px2dp4, px2dp4, px2dp4, px2dp4);
+                    }
+                });
+            } catch (Throwable ignored) {
+            }
 
             try {
                 ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "qs_footer_action_chip_background", new XResources.DrawableLoader() {
@@ -297,7 +312,7 @@ public class QSFluidTheme extends ModPack {
                         GradientDrawable gradientDrawable = new GradientDrawable();
                         gradientDrawable.setShape(GradientDrawable.RECTANGLE);
                         gradientDrawable.setColor(colorInactiveAlpha[0]);
-                        gradientDrawable.setCornerRadius(120.0f);
+                        gradientDrawable.setCornerRadius(notifCornerRadius);
                         return new InsetDrawable(gradientDrawable, 0, px2dp2, 0, px2dp2);
                     }
                 });
@@ -311,7 +326,7 @@ public class QSFluidTheme extends ModPack {
                         GradientDrawable gradientDrawable = new GradientDrawable();
                         gradientDrawable.setShape(GradientDrawable.RECTANGLE);
                         gradientDrawable.setColor(colorInactiveAlpha[0]);
-                        gradientDrawable.setCornerRadius(120.0f);
+                        gradientDrawable.setCornerRadius(notifCornerRadius);
                         return new InsetDrawable(gradientDrawable, 0, px2dp4, 0, px2dp4);
                     }
                 });
@@ -325,7 +340,7 @@ public class QSFluidTheme extends ModPack {
                         GradientDrawable gradientDrawable = new GradientDrawable();
                         gradientDrawable.setShape(GradientDrawable.RECTANGLE);
                         gradientDrawable.setColor(colorInactiveAlpha[0]);
-                        gradientDrawable.setCornerRadius(120.0f);
+                        gradientDrawable.setCornerRadius(notifCornerRadius);
                         gradientDrawable.setPadding(px2dp20, 0, px2dp20, 0);
                         return new InsetDrawable(gradientDrawable, 0, px2dp2, 0, px2dp2);
                     }
@@ -335,14 +350,17 @@ public class QSFluidTheme extends ModPack {
 
             @SuppressLint("DiscouragedApi") ColorStateList states = getColorAttr(mContext.getResources().getIdentifier("android:attr/colorControlHighlight", "attr", listenPackage), mContext);
 
-            ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "notification_material_bg", new XResources.DrawableLoader() {
-                @Override
-                public Drawable newDrawable(XResources res, int id) {
-                    GradientDrawable gradientDrawable = new GradientDrawable();
-                    gradientDrawable.setColor(colorInactiveAlpha[0]);
-                    return new RippleDrawable(ColorStateList.valueOf(states.getDefaultColor()), gradientDrawable, null);
-                }
-            });
+            try {
+                ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "notification_material_bg", new XResources.DrawableLoader() {
+                    @Override
+                    public Drawable newDrawable(XResources res, int id) {
+                        GradientDrawable gradientDrawable = new GradientDrawable();
+                        gradientDrawable.setColor(colorInactiveAlpha[0]);
+                        return new RippleDrawable(ColorStateList.valueOf(states.getDefaultColor()), gradientDrawable, null);
+                    }
+                });
+            } catch (Throwable ignored) {
+            }
 
             try {
                 ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "notification_material_bg_monet", new XResources.DrawableLoader() {
@@ -351,6 +369,33 @@ public class QSFluidTheme extends ModPack {
                         GradientDrawable gradientDrawable = new GradientDrawable();
                         gradientDrawable.setColor(colorInactiveAlpha[0]);
                         return new RippleDrawable(ColorStateList.valueOf(states.getDefaultColor()), gradientDrawable, null);
+                    }
+                });
+            } catch (Throwable ignored) {
+            }
+
+            try {
+                ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "global_actions_lite_background", new XResources.DrawableLoader() {
+                    @Override
+                    public Drawable newDrawable(XResources res, int id) {
+                        GradientDrawable gradientDrawable = new GradientDrawable();
+                        gradientDrawable.setShape(GradientDrawable.RECTANGLE);
+                        gradientDrawable.setColor(colorInactiveAlpha[0]);
+                        gradientDrawable.setCornerRadius(notifCornerRadius);
+                        return gradientDrawable;
+                    }
+                });
+            } catch (Throwable ignored) {
+            }
+
+            try {
+                ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "global_actions_lite_button", new XResources.DrawableLoader() {
+                    @Override
+                    public Drawable newDrawable(XResources res, int id) {
+                        GradientDrawable gradientDrawable = new GradientDrawable();
+                        gradientDrawable.setShape(GradientDrawable.OVAL);
+                        gradientDrawable.setColor(colorInactiveAlpha[0]);
+                        return gradientDrawable;
                     }
                 });
             } catch (Throwable ignored) {
