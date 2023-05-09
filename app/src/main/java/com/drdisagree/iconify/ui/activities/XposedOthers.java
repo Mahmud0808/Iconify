@@ -11,8 +11,10 @@ import static com.drdisagree.iconify.common.Preferences.HIDE_STATUS_ICONS_SWITCH
 import static com.drdisagree.iconify.common.Preferences.QSPANEL_HIDE_CARRIER;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -40,7 +42,12 @@ public class XposedOthers extends BaseActivity {
         hide_qs_carrier_group.setChecked(RPrefs.getBoolean(QSPANEL_HIDE_CARRIER, false));
         hide_qs_carrier_group.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(QSPANEL_HIDE_CARRIER, isChecked);
-            new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
+
+            if (Build.VERSION.SDK_INT >= 33) {
+                SystemUtil.restartSystemUI();
+            } else {
+                HelperUtil.forceApply();
+            }
         });
 
         // Hide status icons
@@ -48,7 +55,12 @@ public class XposedOthers extends BaseActivity {
         hide_status_icons.setChecked(RPrefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false));
         hide_status_icons.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_STATUS_ICONS_SWITCH, isChecked);
-            new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
+
+            if (Build.VERSION.SDK_INT >= 33) {
+                SystemUtil.restartSystemUI();
+            } else {
+                HelperUtil.forceApply();
+            }
         });
 
         // Hide lockscreen carrier
@@ -68,6 +80,11 @@ public class XposedOthers extends BaseActivity {
         });
 
         // Fixed status icons
+        if (Build.VERSION.SDK_INT >= 33) {
+            findViewById(R.id.status_icons_container).setVisibility(View.GONE);
+            RPrefs.putBoolean(FIXED_STATUS_ICONS_SWITCH, false);
+        }
+
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_fixed_status_icons = findViewById(R.id.enable_fixed_status_icons);
         enable_fixed_status_icons.setChecked(RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false));
         enable_fixed_status_icons.setOnCheckedChangeListener((buttonView, isChecked) -> {

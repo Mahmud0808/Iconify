@@ -38,6 +38,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
 
     private static final String TAG = "Iconify - Miscellaneous: ";
     private static final String QuickStatusBarHeaderClass = SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader";
+    private static final String LargeScreenShadeHeaderControllerClass = SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController";
     boolean QSCarrierGroupHidden = false;
     boolean hideStatusIcons = false;
     boolean fixedStatusIcons = false;
@@ -102,12 +103,6 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                         }
 
                         try {
-                            View mQSCarriers = (View) getObjectField(param.thisObject, "mQSCarriers");
-                            mQSCarriers.setVisibility(View.INVISIBLE);
-                        } catch (Throwable ignored) {
-                        }
-
-                        try {
                             TextView mClockDateView = (TextView) getObjectField(param.thisObject, "mClockDateView");
                             mClockDateView.setVisibility(View.INVISIBLE);
                             mClockDateView.setTextAppearance(0);
@@ -124,10 +119,42 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                         }
                     }
 
-                    if (QSCarrierGroupHidden) {
+                    if (hideStatusIcons || QSCarrierGroupHidden) {
                         try {
                             View mQSCarriers = (View) getObjectField(param.thisObject, "mQSCarriers");
                             mQSCarriers.setVisibility(View.INVISIBLE);
+                        } catch (Throwable ignored) {
+                        }
+                    }
+                }
+            });
+        } catch (Throwable ignored) {
+        }
+
+        try {
+            final Class<?> LargeScreenShadeHeaderController = findClass(LargeScreenShadeHeaderControllerClass, lpparam.classLoader);
+
+            hookAllMethods(LargeScreenShadeHeaderController, "onInit", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (hideStatusIcons) {
+                        try {
+                            LinearLayout iconContainer = (LinearLayout) getObjectField(param.thisObject, "iconContainer");
+                            ((ViewGroup) iconContainer.getParent()).removeView(iconContainer);
+                        } catch (Throwable ignored) {
+                        }
+
+                        try {
+                            LinearLayout batteryIcon = (LinearLayout) getObjectField(param.thisObject, "batteryIcon");
+                            ((ViewGroup) batteryIcon.getParent()).removeView(batteryIcon);
+                        } catch (Throwable ignored) {
+                        }
+                    }
+
+                    if (hideStatusIcons || QSCarrierGroupHidden) {
+                        try {
+                            LinearLayout qsCarrierGroup = (LinearLayout) getObjectField(param.thisObject, "qsCarrierGroup");
+                            ((ViewGroup) qsCarrierGroup.getParent()).removeView(qsCarrierGroup);
                         } catch (Throwable ignored) {
                         }
                     }
