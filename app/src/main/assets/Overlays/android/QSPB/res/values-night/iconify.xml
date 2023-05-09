@@ -7,11 +7,11 @@
     <color name="primary_device_default_settings">@*android:color/black</color>
     <color name="surface_dark_sysui">@*android:color/black</color>
     <color name="background_dark">@*android:color/black</color>
-    <color name="system_neutral1_700">#FF1F1F1F</color>
-    <color name="system_neutral1_800">@*android:color/black</color>
+    <color name="system_neutral1_700">#FF181818</color>
+    <color name="system_neutral1_800">#FF121212</color>
     <color name="system_neutral1_900">@*android:color/black</color>
-    <color name="system_neutral2_700">#FF1F1F1F</color>
-    <color name="system_neutral2_800">@*android:color/black</color>
+    <color name="system_neutral2_700">#FF181818</color>
+    <color name="system_neutral2_800">#FF121212</color>
     <color name="system_neutral2_900">@*android:color/black</color>
     <style name="Theme.DeviceDefault.SystemUI" parent="@*android:style/Theme.DeviceDefault">
         <item name="@*android:colorSurfaceHeader">@*android:color/black</item>
