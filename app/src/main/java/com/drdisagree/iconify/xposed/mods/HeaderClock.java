@@ -44,6 +44,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
 
     private static final String TAG = "Iconify - XposedHeaderClock: ";
     private static final String QuickStatusBarHeaderClass = SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader";
+    private static final String LargeScreenShadeHeaderControllerClass = SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController";
     boolean showHeaderClock = false;
     int sideMargin = 0;
     int topMargin = 8;
@@ -116,6 +117,36 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                         mClockView.setVisibility(View.INVISIBLE);
                         mClockView.setTextAppearance(0);
                         mClockView.setTextColor(0);
+                    } catch (Throwable ignored) {
+                    }
+                }
+            });
+        } catch (Throwable ignored) {
+        }
+
+        try {
+            final Class<?> LargeScreenShadeHeaderController = findClass(LargeScreenShadeHeaderControllerClass, lpparam.classLoader);
+
+            hookAllMethods(LargeScreenShadeHeaderController, "onInit", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!showHeaderClock) return;
+
+                    try {
+                        TextView clock = (TextView) getObjectField(param.thisObject, "clock");
+                        ((ViewGroup) clock.getParent()).removeView(clock);
+                    } catch (Throwable ignored) {
+                    }
+
+                    try {
+                        TextView date = (TextView) getObjectField(param.thisObject, "date");
+                        ((ViewGroup) date.getParent()).removeView(date);
+                    } catch (Throwable ignored) {
+                    }
+
+                    try {
+                        LinearLayout qsCarrierGroup = (LinearLayout) getObjectField(param.thisObject, "qsCarrierGroup");
+                        ((ViewGroup) qsCarrierGroup.getParent()).removeView(qsCarrierGroup);
                     } catch (Throwable ignored) {
                     }
                 }

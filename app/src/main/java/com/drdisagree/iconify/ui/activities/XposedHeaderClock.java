@@ -10,6 +10,7 @@ import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TOPMARGIN;
 import static com.drdisagree.iconify.ui.utils.ViewBindingHelpers.disableNestedScrolling;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.SeekBar;
@@ -25,6 +26,7 @@ import com.drdisagree.iconify.ui.models.ClockModel;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.HeaderClockStyles;
 import com.drdisagree.iconify.utils.HelperUtil;
+import com.drdisagree.iconify.utils.SystemUtil;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -48,7 +50,14 @@ public class XposedHeaderClock extends BaseActivity {
         enable_header_clock.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HEADER_CLOCK_SWITCH, isChecked);
             if (!isChecked) RPrefs.putInt(HEADER_CLOCK_STYLE, 1);
-            new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
+
+            new Handler().postDelayed(() -> {
+                if (Build.VERSION.SDK_INT >= 33) {
+                    SystemUtil.restartSystemUI();
+                } else {
+                    HelperUtil.forceApply();
+                }
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         // Header clock style
