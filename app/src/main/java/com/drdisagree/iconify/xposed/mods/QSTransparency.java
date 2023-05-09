@@ -47,11 +47,18 @@ public class QSTransparency extends ModPack {
         if (Key.length > 0 && (Objects.equals(Key[0], QS_TRANSPARENCY_SWITCH) || Objects.equals(Key[0], NOTIF_TRANSPARENCY_SWITCH) || Objects.equals(Key[0], QSALPHA_LEVEL))) {
             if (paramThisObject != null) {
                 if (qsTransparencyActive || onlyNotifTransparencyActive) {
-                    setFloatField(paramThisObject, "mDefaultScrimAlpha", alpha);
+                    try {
+                        setFloatField(paramThisObject, "mDefaultScrimAlpha", alpha);
+                    } catch (Throwable throwable) {
+                        log(TAG + throwable);
+                    }
 
                     if (!onlyNotifTransparencyActive) {
-                        setFloatField(paramThisObject, "mBehindAlpha", alpha);
-                        setFloatField(paramThisObject, "BUSY_SCRIM_ALPHA", alpha);
+                        try {
+                            setFloatField(paramThisObject, "mBehindAlpha", alpha);
+                        } catch (Throwable throwable) {
+                            log(TAG + throwable);
+                        }
 
                         try {
                             setFloatField(paramThisObject, "mCustomScrimAlpha", alpha);
@@ -63,7 +70,7 @@ public class QSTransparency extends ModPack {
                 try {
                     callMethod(paramThisObject, "updateScrims");
                 } catch (Throwable throwable) {
-                    log(throwable);
+                    log(TAG + throwable);
                 }
             }
         }
@@ -90,19 +97,14 @@ public class QSTransparency extends ModPack {
                     try {
                         setFloatField(param.thisObject, "mDefaultScrimAlpha", alpha);
                     } catch (Throwable throwable) {
-                        log(throwable);
+                        log(TAG + throwable);
                     }
 
                     if (!onlyNotifTransparencyActive) {
                         try {
                             setFloatField(param.thisObject, "mBehindAlpha", alpha);
                         } catch (Throwable throwable) {
-                            log(throwable);
-                        }
-
-                        try {
-                            setFloatField(param.thisObject, "BUSY_SCRIM_ALPHA", alpha);
-                        } catch (Throwable ignored) {
+                            log(TAG + throwable);
                         }
 
                         try {
