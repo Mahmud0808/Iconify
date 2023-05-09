@@ -47,11 +47,16 @@ public class QSTransparency extends ModPack {
         if (Key.length > 0 && (Objects.equals(Key[0], QS_TRANSPARENCY_SWITCH) || Objects.equals(Key[0], NOTIF_TRANSPARENCY_SWITCH) || Objects.equals(Key[0], QSALPHA_LEVEL))) {
             if (paramThisObject != null) {
                 if (qsTransparencyActive || onlyNotifTransparencyActive) {
-                    setFloatField(paramThisObject, "mDefaultScrimAlpha", alpha);
+                    try {
+                        setFloatField(paramThisObject, "mDefaultScrimAlpha", alpha);
+                    } catch (Throwable ignored) {
+                    }
 
                     if (!onlyNotifTransparencyActive) {
-                        setFloatField(paramThisObject, "mBehindAlpha", alpha);
-                        setFloatField(paramThisObject, "BUSY_SCRIM_ALPHA", alpha);
+                        try {
+                            setFloatField(paramThisObject, "mBehindAlpha", alpha);
+                        } catch (Throwable ignored) {
+                        }
 
                         try {
                             setFloatField(paramThisObject, "mCustomScrimAlpha", alpha);
@@ -98,11 +103,6 @@ public class QSTransparency extends ModPack {
                             setFloatField(param.thisObject, "mBehindAlpha", alpha);
                         } catch (Throwable throwable) {
                             log(throwable);
-                        }
-
-                        try {
-                            setFloatField(param.thisObject, "BUSY_SCRIM_ALPHA", alpha);
-                        } catch (Throwable ignored) {
                         }
 
                         try {
