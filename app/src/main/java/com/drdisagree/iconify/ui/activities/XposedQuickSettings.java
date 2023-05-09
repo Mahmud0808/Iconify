@@ -1,25 +1,31 @@
 package com.drdisagree.iconify.ui.activities;
 
+import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
+import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.BLACK_QSPANEL;
 import static com.drdisagree.iconify.common.Preferences.DUALTONE_QSPANEL;
 import static com.drdisagree.iconify.common.Preferences.FLUID_QSPANEL;
 import static com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.LIGHT_QSPANEL;
-import static com.drdisagree.iconify.common.Preferences.PANEL_TOPMARGIN_SWITCH;
-import static com.drdisagree.iconify.common.Preferences.QS_TOPMARGIN;
 import static com.drdisagree.iconify.common.Preferences.VERTICAL_QSTILE_SWITCH;
+import static com.drdisagree.iconify.common.References.FABRICATED_QQS_TOPMARGIN;
+import static com.drdisagree.iconify.common.References.FABRICATED_QS_TOPMARGIN;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.HelperUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 
@@ -82,22 +88,52 @@ public class XposedQuickSettings extends BaseActivity {
             new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 
-        // QS panel top margin switch
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_panel_top_margin = findViewById(R.id.enable_panel_top_margin);
-        enable_panel_top_margin.setChecked(RPrefs.getBoolean(PANEL_TOPMARGIN_SWITCH, false));
-        enable_panel_top_margin.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RPrefs.putBoolean(PANEL_TOPMARGIN_SWITCH, isChecked);
-            if (isChecked)
-                new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
-            else new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+        // QQS panel top margin slider
+        SeekBar qqs_top_margin_seekbar = findViewById(R.id.qqs_top_margin_seekbar);
+        TextView qqs_top_margin_output = findViewById(R.id.qqs_top_margin_output);
+        qqs_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(FABRICATED_QQS_TOPMARGIN, 100) + "dp");
+        qqs_top_margin_seekbar.setProgress(Prefs.getInt(FABRICATED_QQS_TOPMARGIN, 100));
+        final int[] qqsTopMargin = {Prefs.getInt(FABRICATED_QQS_TOPMARGIN, 100)};
+        qqs_top_margin_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                qqsTopMargin[0] = progress;
+                qqs_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Prefs.putInt(FABRICATED_QQS_TOPMARGIN, qqsTopMargin[0]);
+                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quick_qs_offset_height", "dimen", "quick_qs_offset_height", qqsTopMargin[0] + "dp");
+                FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "qqs_layout_margin_top", "dimen", "qqs_layout_margin_top", qqsTopMargin[0] + "dp");
+                FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "qs_header_row_min_height", "dimen", "qs_header_row_min_height", qqsTopMargin[0] + "dp");
+            }
+        });
+
+        // QQS Reset button
+        ImageView reset_qqs_top_margin = findViewById(R.id.reset_qqs_top_margin);
+        boolean reset_qqs_top_margin_visible = Prefs.getBoolean("fabricatedquick_qs_offset_height", false) || Prefs.getBoolean("fabricatedqqs_layout_margin_top", false) || Prefs.getBoolean("fabricatedqs_header_row_min_height", false);
+        reset_qqs_top_margin.setVisibility(reset_qqs_top_margin_visible ? View.VISIBLE : View.INVISIBLE);
+
+        reset_qqs_top_margin.setOnLongClickListener(v -> {
+            FabricatedUtil.disableOverlay("quick_qs_offset_height");
+            FabricatedUtil.disableOverlay("qqs_layout_margin_top");
+            FabricatedUtil.disableOverlay("qs_header_row_min_height");
+            reset_qqs_top_margin.setVisibility(View.INVISIBLE);
+            return true;
         });
 
         // QS panel top margin slider
         SeekBar qs_top_margin_seekbar = findViewById(R.id.qs_top_margin_seekbar);
         TextView qs_top_margin_output = findViewById(R.id.qs_top_margin_output);
-        qs_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + RPrefs.getInt(QS_TOPMARGIN, 0) + "dp");
-        qs_top_margin_seekbar.setProgress(RPrefs.getInt(QS_TOPMARGIN, 0));
-        final int[] qsTopMargin = {RPrefs.getInt(QS_TOPMARGIN, 0)};
+        qs_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(FABRICATED_QS_TOPMARGIN, 100) + "dp");
+        qs_top_margin_seekbar.setProgress(Prefs.getInt(FABRICATED_QS_TOPMARGIN, 100));
+        final int[] qsTopMargin = {Prefs.getInt(FABRICATED_QS_TOPMARGIN, 100)};
         qs_top_margin_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
@@ -112,11 +148,24 @@ public class XposedQuickSettings extends BaseActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                RPrefs.putInt(QS_TOPMARGIN, qsTopMargin[0]);
-                if (RPrefs.getBoolean(PANEL_TOPMARGIN_SWITCH, false)) {
-                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
-                }
+                Prefs.putInt(FABRICATED_QS_TOPMARGIN, qsTopMargin[0]);
+                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quick_qs_total_height", "dimen", "quick_qs_total_height", qsTopMargin[0] + "dp");
+                FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "qs_panel_padding_top", "dimen", "qs_panel_padding_top", qsTopMargin[0] + "dp");
+                FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "qs_panel_padding_top_combined_headers", "dimen", "qs_panel_padding_top_combined_headers", qsTopMargin[0] + "dp");
             }
+        });
+
+        // QS Reset button
+        ImageView reset_qs_top_margin = findViewById(R.id.reset_qs_top_margin);
+        boolean reset_qs_top_margin_visible = Prefs.getBoolean("fabricatedquick_qs_total_height", false) || Prefs.getBoolean("fabricatedqs_panel_padding_top", false) || Prefs.getBoolean("fabricatedqs_panel_padding_top_combined_headers", false);
+        reset_qs_top_margin.setVisibility(reset_qs_top_margin_visible ? View.VISIBLE : View.INVISIBLE);
+
+        reset_qs_top_margin.setOnLongClickListener(v -> {
+            FabricatedUtil.disableOverlay("quick_qs_total_height");
+            FabricatedUtil.disableOverlay("qs_panel_padding_top");
+            FabricatedUtil.disableOverlay("qs_panel_padding_top_combined_headers");
+            reset_qs_top_margin.setVisibility(View.INVISIBLE);
+            return true;
         });
     }
 
