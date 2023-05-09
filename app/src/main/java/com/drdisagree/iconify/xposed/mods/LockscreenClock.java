@@ -393,7 +393,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                 }
             });
         } catch (Throwable throwable) {
-            log(throwable);
+            log(TAG + throwable);
         }
     }
 
@@ -415,7 +415,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                 }
             });
         } catch (Throwable throwable) {
-            log(throwable);
+            log(TAG + throwable);
         }
     }
 
@@ -440,7 +440,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                 }
             });
         } catch (Throwable throwable) {
-            log(throwable);
+            log(TAG + throwable);
         }
     }
 }

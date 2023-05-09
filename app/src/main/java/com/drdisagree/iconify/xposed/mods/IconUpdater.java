@@ -38,7 +38,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class IconUpdater extends ModPack implements IXposedHookLoadPackage {
 
     private static final String TAG = "Iconify - IconUpdater: ";
-
     private static final String listenPackage = PIXEL_LAUNCHER_PACKAGE;
     private Object LauncherModel;
 
@@ -66,7 +65,7 @@ public class IconUpdater extends ModPack implements IXposedHookLoadPackage {
                 try {
                     callMethod(LauncherModel, "onAppIconChanged", BuildConfig.APPLICATION_ID, UserHandle.getUserHandleForUid(0));
                 } catch (Throwable throwable) {
-                    log(throwable);
+                    log(TAG + throwable);
                 }
             }
         });

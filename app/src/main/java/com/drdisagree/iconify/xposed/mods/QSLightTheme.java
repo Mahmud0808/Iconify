@@ -65,13 +65,12 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 @SuppressWarnings("RedundantThrows")
 public class QSLightTheme extends ModPack {
+
+    private static final String TAG = "Iconify - QSLightTheme: ";
     public static final String listenPackage = SYSTEMUI_PACKAGE;
-
     public static final int STATE_ACTIVE = 2;
-
     private static boolean lightQSHeaderEnabled = false;
     private static boolean dualToneQSEnabled = false;
-
     private Object mBehindColors;
     private boolean wasDark;
     private Integer colorInactive = null;
@@ -319,7 +318,7 @@ public class QSLightTheme extends ModPack {
         try {
             mBehindColors = GradientColorsClass.newInstance();
         } catch (Throwable throwable) {
-            log(throwable);
+            log(TAG + throwable);
         }
 
         hookAllMethods(ScrimControllerClass, "updateScrims", new XC_MethodHook() {

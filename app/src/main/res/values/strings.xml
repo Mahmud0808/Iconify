@@ -303,6 +303,7 @@
     <string name="header_clock_white_text_desc">Force text colors to be white</string>
     <string name="custom_qs_margin_title">Custom QS Margin</string>
     <string name="custom_qs_margin_desc">Enable custom margin for QS panel</string>
+    <string name="qqs_panel_top_margin_title">QQS Panel Top Margin</string>
     <string name="qs_panel_top_margin_title">QS Panel Top Margin</string>
     <string name="btn_restart_systemui">Restart SystemUI</string>
     <string name="header_image_zoom_to_fit_title">Zoom To Fit</string>

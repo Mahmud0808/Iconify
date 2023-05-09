@@ -76,7 +76,7 @@ public class BatteryStyle extends ModPack implements IXposedHookLoadPackage {
                 }
             });
         } catch (Throwable throwable) {
-            log(throwable);
+            log(TAG + throwable);
         }
         setLandscapeBatterySize();
     }

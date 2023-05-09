@@ -23,6 +23,7 @@ import android.graphics.drawable.AnimatedImageDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -108,7 +109,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
                 }
             });
         } catch (Throwable throwable) {
-            log(throwable);
+            log(TAG + throwable);
         }
     }
 
@@ -158,18 +159,28 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
                 }
             });
         } catch (Throwable throwable) {
-            log(throwable);
+            log(TAG + throwable);
         }
     }
 
     private void addOrRemoveProperty(View view, int property, boolean flag) {
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
-        if (flag) {
-            layoutParams.addRule(property);
-        } else {
-            layoutParams.removeRule(property);
+        try {
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
+            if (flag) {
+                layoutParams.addRule(property);
+            } else {
+                layoutParams.removeRule(property);
+            }
+            view.setLayoutParams(layoutParams);
+        } catch (Throwable throwable) {
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) view.getLayoutParams();
+            if (flag) {
+                layoutParams.gravity = property;
+            } else {
+                layoutParams.gravity = Gravity.NO_GRAVITY;
+            }
+            view.setLayoutParams(layoutParams);
         }
-        view.setLayoutParams(layoutParams);
     }
 
     private void loadImageOrGif(ImageView iv) {
@@ -192,8 +203,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
                 ((AnimatedImageDrawable) drawable).start();
             }
 
-        } catch (Throwable throwable) {
-            log(throwable);
+        } catch (Throwable ignored) {
         }
     }
 }

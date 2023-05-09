@@ -125,7 +125,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                         try {
                             mClockView = (View) getObjectField(param.thisObject, "mLeftClock");
                         } catch (Throwable thr) {
-                            log(thr);
+                            log(TAG + thr);
                             mClockView = null;
                         }
                     }
@@ -285,7 +285,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
 
                         setStatusIconsBackgroundChip(statusIconContainer);
                     } catch (Throwable throwable) {
-                        log(throwable);
+                        log(TAG + throwable);
                     }
                 }
             }
@@ -309,7 +309,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                             setStatusIconsBackgroundChip(statusIconContainer);
                         }
                     } catch (Throwable throwable) {
-                        log(throwable);
+                        log(TAG + throwable);
                     }
                 }
             }

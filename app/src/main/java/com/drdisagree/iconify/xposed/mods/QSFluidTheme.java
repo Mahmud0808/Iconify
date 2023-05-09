@@ -42,8 +42,9 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 @SuppressLint("DiscouragedApi")
 public class QSFluidTheme extends ModPack {
-    public static final String listenPackage = SYSTEMUI_PACKAGE;
 
+    private static final String TAG = "Iconify - QSFluidTheme: ";
+    public static final String listenPackage = SYSTEMUI_PACKAGE;
     private static final int STATE_UNAVAILABLE = 0;
     private static final int STATE_INACTIVE = 1;
     private static final int STATE_ACTIVE = 2;
@@ -145,7 +146,7 @@ public class QSFluidTheme extends ModPack {
                     ((Drawable) getObjectField(param.thisObject, "mProgressDrawable")).setTint(colorActiveAlpha[0]);
                     ((DrawableWrapper) ((LayerDrawable) ((SeekBar) getObjectField(param.thisObject, "mSlider")).getProgressDrawable()).findDrawableByLayerId(android.R.id.background)).getDrawable().setTint(Color.TRANSPARENT);
                 } catch (Throwable throwable) {
-                    log(throwable);
+                    log(TAG + throwable);
                 }
             }
         });
@@ -159,7 +160,7 @@ public class QSFluidTheme extends ModPack {
                     ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(colorAccent[0]));
                     ((ImageView) getObjectField(param.thisObject, "mIcon")).setBackgroundTintList(ColorStateList.valueOf(colorActiveAlpha[0]));
                 } catch (Throwable throwable) {
-                    log(throwable);
+                    log(TAG + throwable);
                 }
             }
         });
@@ -173,7 +174,7 @@ public class QSFluidTheme extends ModPack {
                     ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(colorAccent[0]));
                     ((ImageView) getObjectField(param.thisObject, "mIcon")).setBackgroundTintList(ColorStateList.valueOf(colorActiveAlpha[0]));
                 } catch (Throwable throwable) {
-                    log(throwable);
+                    log(TAG + throwable);
                 }
             }
         });
@@ -187,7 +188,7 @@ public class QSFluidTheme extends ModPack {
                     ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(colorAccent[0]));
                     ((ImageView) getObjectField(param.thisObject, "mIcon")).setBackgroundTintList(ColorStateList.valueOf(colorActiveAlpha[0]));
                 } catch (Throwable throwable) {
-                    log(throwable);
+                    log(TAG + throwable);
                 }
             }
         });

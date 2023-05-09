@@ -29,6 +29,8 @@ public class References {
     public static final String FABRICATED_PILL_WIDTH = "navigationPillWidth";
     public static final String FABRICATED_PILL_THICKNESS = "navigationPillThickness";
     public static final String FABRICATED_PILL_BOTTOM_SPACE = "navigationPillBottomSpace";
+    public static final String FABRICATED_QQS_TOPMARGIN = "qqspanelTopMargin";
+    public static final String FABRICATED_QS_TOPMARGIN = "qspanelTopMargin";
 
     // Commands
     public static final String DEVICE_BOOT_ID_CMD = "cat /proc/sys/kernel/random/boot_id";

@@ -64,12 +64,11 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 @SuppressWarnings("RedundantThrows")
 public class QSBlackTheme extends ModPack {
+
+    private static final String TAG = "Iconify - QSBlackTheme: ";
     public static final String listenPackage = SYSTEMUI_PACKAGE;
-
     public static final int STATE_ACTIVE = 2;
-
     private static boolean blackQSHeaderEnabled = false;
-
     private Object mBehindColors;
     private boolean wasDark;
     private Integer colorText = null;
@@ -189,8 +188,12 @@ public class QSBlackTheme extends ModPack {
 
                             int textColor = getColorAttrDefaultColor(android.R.attr.textColorPrimaryInverse, mContext);
 
-                            ((TextView) mView.findViewById(mContext.getResources().getIdentifier("clock", "id", mContext.getPackageName()))).setTextColor(textColor);
-                            ((TextView) mView.findViewById(mContext.getResources().getIdentifier("date", "id", mContext.getPackageName()))).setTextColor(textColor);
+                            try {
+                                ((TextView) mView.findViewById(mContext.getResources().getIdentifier("clock", "id", mContext.getPackageName()))).setTextColor(textColor);
+                                ((TextView) mView.findViewById(mContext.getResources().getIdentifier("date", "id", mContext.getPackageName()))).setTextColor(textColor);
+                            } catch (Throwable throwabl) {
+                                log(TAG + throwabl);
+                            }
 
                             callMethod(iconManager, "setTint", textColor);
 
@@ -313,7 +316,7 @@ public class QSBlackTheme extends ModPack {
         try {
             mBehindColors = GradientColorsClass.newInstance();
         } catch (Throwable throwable) {
-            log(throwable);
+            log(TAG + throwable);
         }
 
         hookAllMethods(ScrimControllerClass, "updateScrims", new XC_MethodHook() {
