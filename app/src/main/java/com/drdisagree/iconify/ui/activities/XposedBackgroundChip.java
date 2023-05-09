@@ -7,6 +7,7 @@ import static com.drdisagree.iconify.common.Preferences.QSPANEL_STATUSICONSBG_SW
 import static com.drdisagree.iconify.common.Preferences.STATUSBAR_CLOCKBG_SWITCH;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -59,6 +60,11 @@ public class XposedBackgroundChip extends BaseActivity {
         refreshBackgroundStatusBar();
 
         // Status icons chip
+        if (Build.VERSION.SDK_INT >= 33) {
+            findViewById(R.id.statusicons_chip_container).setVisibility(View.GONE);
+            RPrefs.putBoolean(QSPANEL_STATUSICONSBG_SWITCH, false);
+        }
+
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_status_icons_chip = findViewById(R.id.enable_status_icons_chip);
         enable_status_icons_chip.setChecked(RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false));
         enable_status_icons_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
