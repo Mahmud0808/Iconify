@@ -44,6 +44,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
 
     private static final String TAG = "Iconify - XposedHeaderClock: ";
     private static final String QuickStatusBarHeaderClass = SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader";
+    private static final String LargeScreenShadeHeaderControllerClass = SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController";
     boolean showHeaderClock = false;
     int sideMargin = 0;
     int topMargin = 8;
@@ -118,6 +119,26 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                         mClockView.setTextColor(0);
                     } catch (Throwable ignored) {
                     }
+                }
+            });
+        } catch (Throwable ignored) {
+        }
+
+        try {
+            final Class<?> LargeScreenShadeHeaderController = findClass(LargeScreenShadeHeaderControllerClass, lpparam.classLoader);
+
+            hookAllMethods(LargeScreenShadeHeaderController, "onInit", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!showHeaderClock) return;
+
+                    TextView clock = (TextView) getObjectField(param.thisObject, "clock");
+                    TextView date = (TextView) getObjectField(param.thisObject, "date");
+                    LinearLayout qsCarrierGroup = (LinearLayout) getObjectField(param.thisObject, "qsCarrierGroup");
+
+                    ((ViewGroup) clock.getParent()).removeView(clock);
+                    ((ViewGroup) date.getParent()).removeView(date);
+                    ((ViewGroup) qsCarrierGroup.getParent()).removeView(qsCarrierGroup);
                 }
             });
         } catch (Throwable ignored) {
