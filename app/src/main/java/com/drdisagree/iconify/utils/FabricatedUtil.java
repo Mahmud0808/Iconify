@@ -169,14 +169,14 @@ public class FabricatedUtil {
 
     public static boolean isOverlayEnabled(List<String> overlays, String name) {
         for (String overlay : overlays) {
-            if (overlay.equals(name)) return true;
+            if (overlay.equals("IconifyComponent" + name)) return true;
         }
         return false;
     }
 
     public static boolean isOverlayDisabled(List<String> overlays, String name) {
         for (String overlay : overlays) {
-            if (overlay.equals(name)) return false;
+            if (overlay.equals("IconifyComponent" + name)) return false;
         }
         return true;
     }
