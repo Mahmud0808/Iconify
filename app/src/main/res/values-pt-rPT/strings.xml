@@ -503,6 +503,15 @@
     <string name="app_theme_system">Seguir o sistema</string>
     <string name="header_image_hide_in_landscape_title">Esconder em modo paisagem</string>
     <string name="header_image_hide_in_landscape_desc">Esconder a imagem em modo paisagem</string>
+    <string name="black_theme_title">Tema Pixel Preto</string>
+    <string name="black_theme_desc">Tema DR preto, no modo claro, requer ativar o tema <i>Pixel QS Shape Toggle Dark</i> para corrigir a cor do texto</string>
+    <string name="transparent_notif_shade_title">Apenas na área de notificações</string>
+    <string name="transparent_notif_shade_desc">Aplicar transparência apenas na ára das notificações</string>
+    <string name="qqs_panel_top_margin_title">Margem no topo do painel RDR</string>
+    <string name="fluid_qs_theme_title">Tema Fluido DR</string>
+    <string name="fluid_qs_theme_desc">Tema das DR translúcido de duplo tom\\nNão utilizar formas personalizadas</string>
+    <string name="disable_monet_title">Desativar o sistema Monet</string>
+    <string name="disable_monet_desc">Ajuda a manter as cores personalizadas</string>
     <string name="navbar_home">Ecrã inicial</string>
     <string name="navbar_styles">Estilos</string>
     <string name="navbar_tweaks">\"Tweaks\"</string>
