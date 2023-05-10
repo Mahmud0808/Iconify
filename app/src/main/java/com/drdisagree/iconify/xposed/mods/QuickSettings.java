@@ -99,12 +99,7 @@ public class QuickSettings extends ModPack {
                     ((LinearLayout) param.thisObject).setOrientation(LinearLayout.VERTICAL);
                     ((TextView) getObjectField(param.thisObject, "label")).setGravity(Gravity.CENTER_HORIZONTAL);
                     ((TextView) getObjectField(param.thisObject, "secondaryLabel")).setGravity(Gravity.CENTER_HORIZONTAL);
-
-                    try {
-                        ((LinearLayout) getObjectField(param.thisObject, "labelContainer")).setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    } catch (Throwable throwable) {
-                        ((LinearLayout) getObjectField(param.thisObject, "labelContainer")).setLayoutParams(new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    }
+                    ((LinearLayout) getObjectField(param.thisObject, "labelContainer")).setLayoutParams(new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.MATCH_PARENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT));
 
                     ((View) getObjectField(param.thisObject, "sideView")).setVisibility(View.GONE);
                     ((LinearLayout) param.thisObject).removeView(((LinearLayout) getObjectField(param.thisObject, "labelContainer")));
@@ -115,19 +110,19 @@ public class QuickSettings extends ModPack {
                     }
 
                     fixTileLayout(((LinearLayout) param.thisObject), mParam);
+
+                    if (QsTilePrimaryTextSize == null || QsTileSecondaryTextSize == null) {
+                        callStaticMethod(FontSizeUtils, "updateFontSize", mContext.getResources().getIdentifier("qs_tile_text_size", "dimen", mContext.getPackageName()), getObjectField(param.thisObject, "label"));
+                        callStaticMethod(FontSizeUtils, "updateFontSize", mContext.getResources().getIdentifier("qs_tile_text_size", "dimen", mContext.getPackageName()), getObjectField(param.thisObject, "secondaryLabel"));
+
+                        TextView PrimaryText = (TextView) getObjectField(param.thisObject, "label");
+                        TextView SecondaryText = (TextView) getObjectField(param.thisObject, "secondaryLabel");
+
+                        QsTilePrimaryTextSize = PrimaryText.getTextSize();
+                        QsTileSecondaryTextSize = SecondaryText.getTextSize();
+                    }
                 } catch (Throwable throwable) {
                     log(TAG + throwable);
-                }
-
-                if (QsTilePrimaryTextSize == null || QsTileSecondaryTextSize == null) {
-                    callStaticMethod(FontSizeUtils, "updateFontSize", mContext.getResources().getIdentifier("qs_tile_text_size", "dimen", mContext.getPackageName()), getObjectField(param.thisObject, "label"));
-                    callStaticMethod(FontSizeUtils, "updateFontSize", mContext.getResources().getIdentifier("qs_tile_text_size", "dimen", mContext.getPackageName()), getObjectField(param.thisObject, "secondaryLabel"));
-
-                    TextView PrimaryText = (TextView) getObjectField(param.thisObject, "label");
-                    TextView SecondaryText = (TextView) getObjectField(param.thisObject, "secondaryLabel");
-
-                    QsTilePrimaryTextSize = PrimaryText.getTextSize();
-                    QsTileSecondaryTextSize = SecondaryText.getTextSize();
                 }
             }
         });
@@ -142,8 +137,8 @@ public class QuickSettings extends ModPack {
 
         if (!isHideLabelActive) {
             try {
-                ((LinearLayout.LayoutParams) ((LinearLayout) getObjectField(tile, "labelContainer")).getLayoutParams()).setMarginStart(0);
-                ((LinearLayout.LayoutParams) ((LinearLayout) getObjectField(tile, "labelContainer")).getLayoutParams()).topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
+                ((ViewGroup.MarginLayoutParams) ((LinearLayout) getObjectField(tile, "labelContainer")).getLayoutParams()).setMarginStart(0);
+                ((ViewGroup.MarginLayoutParams) ((LinearLayout) getObjectField(tile, "labelContainer")).getLayoutParams()).topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
             } catch (Throwable throwable) {
                 log(TAG + throwable);
             }
