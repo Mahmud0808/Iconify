@@ -340,7 +340,7 @@
                         android:id="@+id/qqs_top_margin_seekbar"
                         style="@style/customSeekBar"
                         android:max="300"
-                        android:min="40"
+                        android:min="20"
                         android:progress="100" />
 
                 </LinearLayout>
@@ -396,7 +396,7 @@
                         android:id="@+id/qs_top_margin_seekbar"
                         style="@style/customSeekBar"
                         android:max="300"
-                        android:min="40"
+                        android:min="20"
                         android:progress="100" />
 
                 </LinearLayout>
