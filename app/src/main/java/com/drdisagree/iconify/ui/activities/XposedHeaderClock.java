@@ -93,9 +93,6 @@ public class XposedHeaderClock extends BaseActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(HEADER_CLOCK_FONT_TEXT_SCALING, textScaling[0]);
-                if (RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false)) {
-                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
-                }
             }
         });
 
@@ -120,9 +117,6 @@ public class XposedHeaderClock extends BaseActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(HEADER_CLOCK_SIDEMARGIN, sideMargin[0]);
-                if (RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false)) {
-                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
-                }
             }
         });
 
@@ -147,9 +141,6 @@ public class XposedHeaderClock extends BaseActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(HEADER_CLOCK_TOPMARGIN, topMargin[0]);
-                if (RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false)) {
-                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
-                }
             }
         });
 
@@ -158,9 +149,6 @@ public class XposedHeaderClock extends BaseActivity {
         enable_force_white_text.setChecked(RPrefs.getBoolean(HEADER_CLOCK_TEXT_WHITE, false));
         enable_force_white_text.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HEADER_CLOCK_TEXT_WHITE, isChecked);
-            if (RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false)) {
-                new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
-            }
         });
     }
 
