@@ -141,7 +141,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
                 @SuppressLint({"DiscouragedApi"})
                 @Override
                 public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
-                    @SuppressLint("DiscouragedApi") FrameLayout header = liparam.view.findViewById(liparam.res.getIdentifier("header", "id", mContext.getPackageName()));
+                    FrameLayout header = liparam.view.findViewById(liparam.res.getIdentifier("header", "id", mContext.getPackageName()));
 
                     mQsHeaderLayout = new LinearLayout(mContext);
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, imageHeight, mContext.getResources().getDisplayMetrics()));
