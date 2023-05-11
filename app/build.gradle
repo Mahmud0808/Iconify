@@ -89,10 +89,10 @@ dependencies {
     implementation 'com.github.PolideaInternal:ColorPicker:1.0.0'
 
     // Splash Screen
-    implementation 'androidx.core:core-splashscreen:1.0.0'
+    implementation 'androidx.core:core-splashscreen:1.0.1'
 
     // Material Components
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'com.google.android.material:material:1.9.0'
 
     // APK Signer
     implementation 'org.bouncycastle:bc-fips:1.0.2.3'
