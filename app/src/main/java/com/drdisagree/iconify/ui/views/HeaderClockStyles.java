@@ -162,7 +162,7 @@ public class HeaderClockStyles {
                 clockOverlay3.setTextColor(mContext.getResources().getColor(R.color.holo_blue_light));
                 clockOverlay3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 28 * textScaling);
                 clockOverlay3.setTypeface(clockOverlay3.getTypeface(), Typeface.BOLD);
-                clockOverlay3.setAlpha(0.2f);
+                clockOverlay3.setAlpha(0.4f);
                 LinearLayout.LayoutParams clockOverlayParams3 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 clockOverlayParams3.setMargins(6, 6, 0, 0);
                 clockOverlay3.setLayoutParams(clockOverlayParams3);
@@ -188,7 +188,7 @@ public class HeaderClockStyles {
                 dayDateOverlay3.setTextColor(mContext.getResources().getColor(R.color.holo_green_light));
                 dayDateOverlay3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18 * textScaling);
                 dayDateOverlay3.setTypeface(dayDateOverlay3.getTypeface(), Typeface.BOLD);
-                dayDateOverlay3.setAlpha(0.2f);
+                dayDateOverlay3.setAlpha(0.4f);
                 LinearLayout.LayoutParams dayDateOverlayParams3 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 dayDateOverlayParams3.setMargins(6, 6, 0, 0);
                 dayDateOverlay3.setLayoutParams(dayDateOverlayParams3);
