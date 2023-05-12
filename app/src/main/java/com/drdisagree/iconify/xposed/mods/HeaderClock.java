@@ -202,8 +202,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     FrameLayout header = liparam.view.findViewById(liparam.res.getIdentifier("header", "id", mContext.getPackageName()));
 
                     mQsHeaderClockLayout = new LinearLayout(mContext);
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    mQsHeaderClockLayout.setLayoutParams(layoutParams);
+                    mQsHeaderClockLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     mQsHeaderClockLayout.setVisibility(View.GONE);
 
                     if (mQsHeaderClockLayout.getParent() != null) {
@@ -222,6 +221,10 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         if (mQsHeaderClockLayout.getChildCount() > 0) {
             mQsHeaderClockLayout.removeAllViews();
         }
+
+        mQsHeaderClockLayout.setPadding(0, 0, 0, 0);
+        mQsHeaderClockLayout.setBackgroundResource(0);
+        ((FrameLayout.LayoutParams) mQsHeaderClockLayout.getLayoutParams()).setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()));
 
         switch (headerClockStyle) {
             case 1:
@@ -273,18 +276,12 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                 dateContainer1.addView(clockDay1);
                 dateContainer1.addView(clockDate1);
 
-                final LinearLayout clockContainer1 = new LinearLayout(mContext);
-                clockContainer1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                clockContainer1.setGravity(Gravity.CENTER_VERTICAL);
-                clockContainer1.setOrientation(LinearLayout.HORIZONTAL);
-                ((LinearLayout.LayoutParams) clockContainer1.getLayoutParams()).setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()));
-
-                clockContainer1.addView(clockHour1);
-                clockContainer1.addView(clockMinute1);
-                clockContainer1.addView(divider1);
-                clockContainer1.addView(dateContainer1);
-
-                mQsHeaderClockLayout.addView(clockContainer1);
+                mQsHeaderClockLayout.setGravity(Gravity.CENTER_VERTICAL);
+                mQsHeaderClockLayout.setOrientation(LinearLayout.HORIZONTAL);
+                mQsHeaderClockLayout.addView(clockHour1);
+                mQsHeaderClockLayout.addView(clockMinute1);
+                mQsHeaderClockLayout.addView(divider1);
+                mQsHeaderClockLayout.addView(dateContainer1);
                 break;
             case 2:
                 final TextClock clock2 = new TextClock(mContext);
@@ -323,16 +320,10 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                 dayDate2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * textScaling);
                 dayDate2.setTypeface(clockOverlay2.getTypeface(), Typeface.BOLD);
 
-                final LinearLayout container2 = new LinearLayout(mContext);
-                container2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                container2.setGravity(Gravity.CENTER_VERTICAL);
-                container2.setOrientation(LinearLayout.VERTICAL);
-                ((LinearLayout.LayoutParams) container2.getLayoutParams()).setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()));
-
-                container2.addView(clockContainer2);
-                container2.addView(dayDate2);
-
-                mQsHeaderClockLayout.addView(container2);
+                mQsHeaderClockLayout.setGravity(Gravity.CENTER_VERTICAL);
+                mQsHeaderClockLayout.setOrientation(LinearLayout.VERTICAL);
+                mQsHeaderClockLayout.addView(clockContainer2);
+                mQsHeaderClockLayout.addView(dayDate2);
                 break;
             case 3:
                 final TextClock clock3 = new TextClock(mContext);
@@ -387,16 +378,10 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                 dayDateContainer3.addView(dayDateOverlay3);
                 dayDateContainer3.addView(dayDate3);
 
-                final LinearLayout container3 = new LinearLayout(mContext);
-                container3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                container3.setGravity(Gravity.BOTTOM);
-                container3.setOrientation(LinearLayout.VERTICAL);
-                ((LinearLayout.LayoutParams) container3.getLayoutParams()).setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()));
-
-                container3.addView(clockContainer3);
-                container3.addView(dayDateContainer3);
-
-                mQsHeaderClockLayout.addView(container3);
+                mQsHeaderClockLayout.setGravity(Gravity.BOTTOM);
+                mQsHeaderClockLayout.setOrientation(LinearLayout.VERTICAL);
+                mQsHeaderClockLayout.addView(clockContainer3);
+                mQsHeaderClockLayout.addView(dayDateContainer3);
                 break;
             case 4:
                 final AnalogClock analogClock4 = new AnalogClock(mContext);
@@ -427,16 +412,10 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                 dateContainer4.addView(clockDay4);
                 dateContainer4.addView(clockDate4);
 
-                final LinearLayout clockContainer4 = new LinearLayout(mContext);
-                clockContainer4.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                clockContainer4.setGravity(Gravity.CENTER_VERTICAL);
-                clockContainer4.setOrientation(LinearLayout.HORIZONTAL);
-                ((LinearLayout.LayoutParams) clockContainer4.getLayoutParams()).setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()));
-
-                clockContainer4.addView(analogClock4);
-                clockContainer4.addView(dateContainer4);
-
-                mQsHeaderClockLayout.addView(clockContainer4);
+                mQsHeaderClockLayout.setGravity(Gravity.CENTER_VERTICAL);
+                mQsHeaderClockLayout.setOrientation(LinearLayout.HORIZONTAL);
+                mQsHeaderClockLayout.addView(analogClock4);
+                mQsHeaderClockLayout.addView(dateContainer4);
                 break;
             case 5:
                 final TextClock time5 = new TextClock(mContext);
@@ -474,21 +453,15 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                 date5.setLayoutParams(dateParams5);
                 date5.setMaxLines(1);
 
-                final LinearLayout container5 = new LinearLayout(mContext);
-                LinearLayout.LayoutParams layoutParams5 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                container5.setLayoutParams(layoutParams5);
-                container5.setGravity(Gravity.CENTER);
-                container5.setOrientation(LinearLayout.HORIZONTAL);
-                container5.setPadding((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics()));
                 GradientDrawable mDrawable5 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{mContext.getResources().getColor(android.R.color.holo_blue_light), mContext.getResources().getColor(android.R.color.holo_green_light)});
-                ((LinearLayout.LayoutParams) container5.getLayoutParams()).setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()));
                 mDrawable5.setCornerRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (Xprefs.getInt(UI_CORNER_RADIUS, 16) + 8) * mContext.getResources().getDisplayMetrics().density, mContext.getResources().getDisplayMetrics()));
-                container5.setBackground(mDrawable5);
 
-                container5.addView(timeContainer5);
-                container5.addView(date5);
-
-                mQsHeaderClockLayout.addView(container5);
+                mQsHeaderClockLayout.setGravity(Gravity.CENTER);
+                mQsHeaderClockLayout.setOrientation(LinearLayout.HORIZONTAL);
+                mQsHeaderClockLayout.setPadding((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics()));
+                mQsHeaderClockLayout.setBackground(mDrawable5);
+                mQsHeaderClockLayout.addView(timeContainer5);
+                mQsHeaderClockLayout.addView(date5);
                 break;
         }
 
