@@ -141,15 +141,7 @@ public class FabricatedUtil {
         String build_cmd = "cmd overlay fabricate --target " + target + " --name IconifyComponent" + name + " " + target + ":" + type + "/" + resourceName + " " + resourceType + " " + val;
         String enable_cmd = "cmd overlay enable --user current com.android.shell:IconifyComponent" + name;
 
-        String cmd = "";
-        cmd += "mv " + Resources.MODULE_DIR + "/post-exec.sh " + Resources.MODULE_DIR + "/post-exec.txt; grep -v \"IconifyComponent" + name + "\" " + Resources.MODULE_DIR + "/post-exec.txt > " + Resources.MODULE_DIR + "/post-exec.txt.tmp && mv " + Resources.MODULE_DIR + "/post-exec.txt.tmp " + Resources.MODULE_DIR + "/post-exec.sh; rm -rf " + Resources.MODULE_DIR + "/post-exec.txt; rm -rf " + Resources.MODULE_DIR + "/post-exec.txt.tmp";
-        cmd += "\n";
-        cmd += "echo \"" + build_cmd + "\" >> " + Resources.MODULE_DIR + "/post-exec.sh";
-        cmd += "\n";
-        cmd += "echo \"" + enable_cmd + "\" >> " + Resources.MODULE_DIR + "/post-exec.sh";
-        cmd += "\n";
-
-        return cmd;
+        return build_cmd + '\n' + enable_cmd;
     }
 
     public static void disableOverlay(String name) {

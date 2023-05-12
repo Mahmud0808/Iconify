@@ -69,7 +69,7 @@ public class ModuleUtil {
         Map<String, ?> map = prefs.getAll();
         for (Map.Entry<String, ?> item : map.entrySet()) {
             if (item.getValue() instanceof Boolean && ((Boolean) item.getValue()) && item.getKey().contains("fabricated") && !item.getKey().contains("quickQsOffsetHeight")) {
-                post_exec.append(FabricatedUtil.buildCommand(Prefs.getString("FOCMDtarget" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDname" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDtype" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDresourceName" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDval" + item.getKey().replace("fabricated", ""))));
+                post_exec.append(FabricatedUtil.buildCommand(Prefs.getString("FOCMDtarget" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDname" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDtype" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDresourceName" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDval" + item.getKey().replace("fabricated", "")))).append('\n');
                 if (item.getKey().contains(COLOR_ACCENT_PRIMARY)) primaryColorEnabled = true;
                 else if (item.getKey().contains(COLOR_ACCENT_SECONDARY))
                     secondaryColorEnabled = true;
