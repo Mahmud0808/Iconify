@@ -92,58 +92,6 @@ public class FabricatedUtil {
         Shell.cmd(enable_cmd).submit();
     }
 
-    public static String buildCommand(String target, String name, String type, String resourceName, String val) {
-        String resourceType = "0x1c";
-
-        if (target.equals("systemui") || target.equals("sysui")) target = "com.android.systemui";
-
-        switch (type) {
-            case "color":
-                resourceType = "0x1c";
-                break;
-            case "dimen":
-                resourceType = "0x05";
-                break;
-            case "bool":
-                resourceType = "0x12";
-                break;
-            case "integer":
-                resourceType = "0x10";
-                break;
-        }
-
-        if (type.equals("dimen")) {
-            int valType = 1;
-
-            if (val.contains("dp") || val.contains("dip")) {
-                valType = TypedValue.COMPLEX_UNIT_DIP;
-                val = val.replace("dp", "").replace("dip", "");
-            } else if (val.contains("sp")) {
-                valType = TypedValue.COMPLEX_UNIT_SP;
-                val = val.replace("sp", "");
-            } else if (val.contains("px")) {
-                valType = TypedValue.COMPLEX_UNIT_PX;
-                val = val.replace("px", "");
-            } else if (val.contains("in")) {
-                valType = TypedValue.COMPLEX_UNIT_IN;
-                val = val.replace("in", "");
-            } else if (val.contains("pt")) {
-                valType = TypedValue.COMPLEX_UNIT_PT;
-                val = val.replace("pt", "");
-            } else if (val.contains("mm")) {
-                valType = TypedValue.COMPLEX_UNIT_MM;
-                val = val.replace("mm", "");
-            }
-
-            val = String.valueOf(TypedValueUtil.createComplexDimension(Integer.parseInt(val), valType));
-        }
-
-        String build_cmd = "cmd overlay fabricate --target " + target + " --name IconifyComponent" + name + " " + target + ":" + type + "/" + resourceName + " " + resourceType + " " + val;
-        String enable_cmd = "cmd overlay enable --user current com.android.shell:IconifyComponent" + name;
-
-        return build_cmd + '\n' + enable_cmd;
-    }
-
     public static void disableOverlay(String name) {
         Prefs.putBoolean("fabricated" + name, false);
         Prefs.clearPref("FOCMDtarget" + name);
