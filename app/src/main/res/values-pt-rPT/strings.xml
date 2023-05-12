@@ -413,8 +413,8 @@
     <string name="fr_translation">Tradução Francesa.</string>
     <string name="icon_mask_style_ios">iOS</string>
     <string name="logs">Registos</string>
-    <string name="landscape_battery_title">Bateria em modo paisagem</string>
-    <string name="landscape_battery_desc">Ativar estilo de bateria em modo paisgem</string>
+    <string name="custom_battery_title">Bateria Personalizada</string>
+    <string name="custom_battery_desc">Ativar estilo de bateria personalizado</string>
     <string name="battery_style_title">Estilo da bateria</string>
     <string name="battery_width_title">Largura da bateria</string>
     <string name="battery_height_desc">Altura da bateria</string>

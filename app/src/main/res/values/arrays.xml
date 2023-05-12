@@ -55,4 +55,20 @@
         <item>@string/method_restart_systemui</item>
         <item>@string/method_do_nothing</item>
     </string-array>
+    <string-array name="custom_battery_style">
+        <item>Default</item>
+        <item>Default RLandscape</item>
+        <item>Default Landscape</item>
+        <item>Custom RLandscape</item>
+        <item>Custom Landscape</item>
+        <item>Landscape Buddy</item>
+        <item>Landscape Line</item>
+        <item>Landscape Musku</item>
+        <item>Landscape Pill</item>
+        <item>Landscape Signal</item>
+        <item>RLandscape A</item>
+        <item>Landscape A</item>
+        <item>RLandscape B</item>
+        <item>Landscape B</item>
+    </string-array>
 </resources>

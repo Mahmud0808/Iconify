@@ -437,8 +437,8 @@
     <string name="list_title_use_light_accent">使用浅色强调色</string>
     <string name="list_desc_use_light_accent">在浅色模式下使用浅色强调色</string>
     <string name="logs">日志</string>
-    <string name="landscape_battery_title">横屏电池</string>
-    <string name="landscape_battery_desc">启用横屏电池样式</string>
+    <string name="custom_battery_title">定制电池</string>
+    <string name="custom_battery_desc">启用自定义电池样式</string>
     <string name="battery_style_title">电池样式</string>
     <string name="battery_width_title">电池宽度</string>
     <string name="battery_height_desc">电池高度</string>

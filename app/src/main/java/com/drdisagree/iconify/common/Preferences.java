@@ -36,16 +36,29 @@ public class Preferences {
     public static final String FIXED_STATUS_ICONS_SWITCH = "xposed_fixedstatusicons";
     public static final String FIXED_STATUS_ICONS_SIDEMARGIN = "xposed_fixedstatusiconssidemargin";
     public static final String FIXED_STATUS_ICONS_TOPMARGIN = "xposed_fixedstatusiconstopmargin";
-    public static final String LANDSCAPE_BATTERY_SWITCH = "xposed_landscapebattery";
-    public static final String LANDSCAPE_BATTERY_ROTATION = "xposed_landscapebatteryrotation";
-    public static final String LANDSCAPE_BATTERY_WIDTH = "xposed_landscapebatterywidth";
-    public static final String LANDSCAPE_BATTERY_HEIGHT = "xposed_landscapebatteryheight";
     public static final String HIDE_LOCKSCREEN_STATUSBAR = "xposed_hidelockscreenstatusbar";
     public static final String HIDE_LOCKSCREEN_CARRIER = "xposed_hidelockscreencarrier";
     public static final String LIGHT_QSPANEL = "xposed_lightqspanel";
     public static final String DUALTONE_QSPANEL = "xposed_dualtoneqspanel";
     public static final String BLACK_QSPANEL = "xposed_blackqspanel";
     public static final String FLUID_QSPANEL = "xposed_fluidqspanel";
+    public static final String CUSTOM_BATTERY_STYLE = "xposed_custombatterystyle";
+    public static final String CUSTOM_BATTERY_WIDTH = "xposed_custombatterywidth";
+    public static final String CUSTOM_BATTERY_HEIGHT = "xposed_custombatteryheight";
+    public static final int BATTERY_STYLE_DEFAULT = 0;
+    public static final int BATTERY_STYLE_DEFAULT_RLANDSCAPE = 1;
+    public static final int BATTERY_STYLE_DEFAULT_LANDSCAPE = 2;
+    public static final int BATTERY_STYLE_CUSTOM_RLANDSCAPE = 3;
+    public static final int BATTERY_STYLE_CUSTOM_LANDSCAPE = 4;
+    public static final int BATTERY_STYLE_LANDSCAPE_BUDDY = 5;
+    public static final int BATTERY_STYLE_LANDSCAPE_LINE = 6;
+    public static final int BATTERY_STYLE_LANDSCAPE_MUSKU = 7;
+    public static final int BATTERY_STYLE_LANDSCAPE_PILL = 8;
+    public static final int BATTERY_STYLE_LANDSCAPE_SIGNAL = 9;
+    public static final int BATTERY_STYLE_RLANDSCAPE_STYLE_A = 10;
+    public static final int BATTERY_STYLE_LANDSCAPE_STYLE_A = 11;
+    public static final int BATTERY_STYLE_RLANDSCAPE_STYLE_B = 12;
+    public static final int BATTERY_STYLE_LANDSCAPE_STYLE_B = 13;
 
     // Preference keys
     public static final String STR_NULL = "null";

@@ -438,8 +438,8 @@
     <string name="list_title_use_light_accent">Use Light Accent</string>
     <string name="list_desc_use_light_accent">Use light accent color in light mode</string>
     <string name="logs">Logs</string>
-    <string name="landscape_battery_title">Landscape Battery</string>
-    <string name="landscape_battery_desc">Enable landscape battery style</string>
+    <string name="custom_battery_title">Custom Battery</string>
+    <string name="custom_battery_desc">Enable custom battery style</string>
     <string name="battery_style_title">Battery Style</string>
     <string name="battery_width_title">Battery Width</string>
     <string name="battery_height_desc">Battery Height</string>

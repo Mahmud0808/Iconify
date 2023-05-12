@@ -27,16 +27,16 @@ import android.content.Context;
 
 import com.drdisagree.iconify.config.XPrefs;
 import com.drdisagree.iconify.xposed.mods.BackgroundChip;
-import com.drdisagree.iconify.xposed.mods.BatteryStyle;
+import com.drdisagree.iconify.xposed.mods.BatteryStyleManager;
 import com.drdisagree.iconify.xposed.mods.HeaderClock;
 import com.drdisagree.iconify.xposed.mods.HeaderImage;
 import com.drdisagree.iconify.xposed.mods.IconUpdater;
 import com.drdisagree.iconify.xposed.mods.LockscreenClock;
 import com.drdisagree.iconify.xposed.mods.Miscellaneous;
 import com.drdisagree.iconify.xposed.mods.QSBlackTheme;
+import com.drdisagree.iconify.xposed.mods.QSFluidTheme;
 import com.drdisagree.iconify.xposed.mods.QSLightTheme;
 import com.drdisagree.iconify.xposed.mods.QSLightThemeA12;
-import com.drdisagree.iconify.xposed.mods.QSFluidTheme;
 import com.drdisagree.iconify.xposed.mods.QSTransparency;
 import com.drdisagree.iconify.xposed.mods.QuickSettings;
 import com.drdisagree.iconify.xposed.utils.SystemUtil;
@@ -58,7 +58,6 @@ public class HookEntry implements IXposedHookLoadPackage {
 
     public HookEntry() {
         modPacks.add(BackgroundChip.class);
-        modPacks.add(BatteryStyle.class);
         modPacks.add(HeaderClock.class);
         modPacks.add(HeaderImage.class);
         modPacks.add(IconUpdater.class);
@@ -70,6 +69,7 @@ public class HookEntry implements IXposedHookLoadPackage {
         modPacks.add(QSLightThemeA12.class);
         modPacks.add(QSBlackTheme.class);
         modPacks.add(QSFluidTheme.class);
+        modPacks.add(BatteryStyleManager.class);
     }
 
     @SuppressLint("ApplySharedPref")
