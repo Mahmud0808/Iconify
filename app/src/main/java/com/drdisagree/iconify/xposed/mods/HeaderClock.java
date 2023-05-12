@@ -202,7 +202,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     FrameLayout header = liparam.view.findViewById(liparam.res.getIdentifier("header", "id", mContext.getPackageName()));
 
                     mQsHeaderClockLayout = new LinearLayout(mContext);
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                     mQsHeaderClockLayout.setLayoutParams(layoutParams);
                     mQsHeaderClockLayout.setVisibility(View.GONE);
 
