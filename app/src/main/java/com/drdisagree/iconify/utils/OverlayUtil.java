@@ -45,12 +45,57 @@ public class OverlayUtil {
 
     public static void enableOverlay(String pkgName) {
         Prefs.putBoolean(pkgName, true);
-        Shell.cmd("cmd overlay enable --user current " + pkgName, "cmd overlay set-priority " + pkgName + " highest").exec();
+        Shell.cmd("cmd overlay enable --user current " + pkgName, "cmd overlay set-priority " + pkgName + " highest").submit();
     }
 
     public static void disableOverlay(String pkgName) {
         Prefs.putBoolean(pkgName, false);
-        Shell.cmd("cmd overlay disable --user current " + pkgName).exec();
+        Shell.cmd("cmd overlay disable --user current " + pkgName).submit();
+    }
+
+    public static void enableOverlays(String... pkgNames) {
+        StringBuilder command = new StringBuilder();
+
+        for (String pkgName : pkgNames) {
+            Prefs.putBoolean(pkgName, true);
+            command.append("cmd overlay enable --user current ").append(pkgName).append("; cmd overlay set-priority ").append(pkgName).append(" highest; ");
+        }
+
+        Shell.cmd(command.toString().trim()).submit();
+    }
+
+    public static void disableOverlays(String... pkgNames) {
+        StringBuilder command = new StringBuilder();
+
+        for (String pkgName : pkgNames) {
+            Prefs.putBoolean(pkgName, false);
+            command.append("cmd overlay disable --user current ").append(pkgName).append("; ");
+        }
+
+        Shell.cmd(command.toString().trim()).submit();
+    }
+
+    public static void enableOrDisableOverlays(Object... args) {
+        if (args.length % 2 != 0) {
+            throw new IllegalArgumentException("Number of arguments must be even.");
+        }
+
+        StringBuilder command = new StringBuilder();
+
+        for (int i = 0; i < args.length; i += 2) {
+            String pkgName = (String) args[i];
+            boolean state = (boolean) args[i + 1];
+
+            Prefs.putBoolean(pkgName, state);
+
+            if (state) {
+                command.append("cmd overlay enable --user current ").append(pkgName).append("; cmd overlay set-priority ").append(pkgName).append(" highest; ");
+            } else {
+                command.append("cmd overlay disable --user current ").append(pkgName).append("; ");
+            }
+        }
+
+        Shell.cmd(command.toString().trim()).submit();
     }
 
     public static boolean overlayExists() {

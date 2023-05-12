@@ -32,9 +32,7 @@ public class MediaPlayer extends BaseActivity {
             if (isChecked) {
                 mp_system.setChecked(false);
                 mp_pitch_black.setChecked(false);
-                OverlayUtil.disableOverlay("IconifyComponentMPS.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentMPB.overlay");
-                OverlayUtil.enableOverlay("IconifyComponentMPA.overlay");
+                OverlayUtil.disableOverlays("IconifyComponentMPS.overlay", "IconifyComponentMPB.overlay", "IconifyComponentMPA.overlay");
             } else {
                 OverlayUtil.disableOverlay("IconifyComponentMPA.overlay");
             }
@@ -47,9 +45,7 @@ public class MediaPlayer extends BaseActivity {
             if (isChecked) {
                 mp_accent.setChecked(false);
                 mp_pitch_black.setChecked(false);
-                OverlayUtil.disableOverlay("IconifyComponentMPA.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentMPB.overlay");
-                OverlayUtil.enableOverlay("IconifyComponentMPS.overlay");
+                OverlayUtil.disableOverlays("IconifyComponentMPA.overlay", "IconifyComponentMPB.overlay", "IconifyComponentMPS.overlay");
             } else {
                 OverlayUtil.disableOverlay("IconifyComponentMPS.overlay");
             }
@@ -62,9 +58,7 @@ public class MediaPlayer extends BaseActivity {
             if (isChecked) {
                 mp_accent.setChecked(false);
                 mp_system.setChecked(false);
-                OverlayUtil.disableOverlay("IconifyComponentMPA.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentMPS.overlay");
-                OverlayUtil.enableOverlay("IconifyComponentMPB.overlay");
+                OverlayUtil.disableOverlays("IconifyComponentMPA.overlay", "IconifyComponentMPS.overlay", "IconifyComponentMPB.overlay");
             } else {
                 OverlayUtil.disableOverlay("IconifyComponentMPB.overlay");
             }
@@ -81,8 +75,7 @@ public class MediaPlayer extends BaseActivity {
             findViewById(R.id.preview_mp_accent).setVisibility(View.VISIBLE);
         else if (Prefs.getBoolean("IconifyComponentMPB.overlay"))
             findViewById(R.id.preview_mp_black).setVisibility(View.VISIBLE);
-        else
-            findViewById(R.id.preview_mp_system).setVisibility(View.VISIBLE);
+        else findViewById(R.id.preview_mp_system).setVisibility(View.VISIBLE);
     }
 
     @Override

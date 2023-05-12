@@ -354,22 +354,18 @@ public class NavigationBar extends BaseActivity {
     private void disableOthers(String pkgName) {
         if (!Objects.equals(pkgName, "IconifyComponentNBFullScreen.overlay")) {
             nb_fullscreen.setChecked(false);
-            Prefs.putBoolean(("IconifyComponentNBFullScreen.overlay"), false);
             OverlayUtil.disableOverlay("IconifyComponentNBFullScreen.overlay");
         }
         if (!Objects.equals(pkgName, "IconifyComponentNBImmersive.overlay")) {
             nb_immersive.setChecked(false);
-            Prefs.putBoolean(("IconifyComponentNBImmersive.overlay"), false);
             OverlayUtil.disableOverlay("IconifyComponentNBImmersive.overlay");
         }
         if (!Objects.equals(pkgName, "IconifyComponentNBImmersiveSmall.overlay")) {
             nb_immersivev2.setChecked(false);
-            Prefs.putBoolean(("IconifyComponentNBImmersiveSmall.overlay"), false);
             OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmall.overlay");
         }
         if (!Objects.equals(pkgName, "IconifyComponentNBImmersiveSmaller.overlay")) {
             nb_immersivev3.setChecked(false);
-            Prefs.putBoolean(("IconifyComponentNBImmersiveSmaller.overlay"), false);
             OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmaller.overlay");
         }
     }

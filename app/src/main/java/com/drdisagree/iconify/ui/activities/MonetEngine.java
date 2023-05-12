@@ -308,8 +308,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                         if (!hasErroredOut.get()) {
                             Prefs.putBoolean(MONET_ENGINE_SWITCH, true);
                             if (Prefs.getBoolean("IconifyComponentQSPB.overlay")) {
-                                OverlayUtil.disableOverlay("IconifyComponentQSPB.overlay");
-                                OverlayUtil.enableOverlay("IconifyComponentQSPB.overlay");
+                                OverlayUtil.enableOrDisableOverlays("IconifyComponentQSPB.overlay", false, "IconifyComponentQSPB.overlay", true);
                             }
                         }
 
@@ -335,8 +334,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                 Prefs.putBoolean(MONET_ENGINE_SWITCH, false);
                 Prefs.putString(COLOR_ACCENT_PRIMARY, STR_NULL);
                 Prefs.putString(COLOR_ACCENT_SECONDARY, STR_NULL);
-                OverlayUtil.disableOverlay("IconifyComponentDM.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentME.overlay");
+                OverlayUtil.disableOverlays("IconifyComponentDM.overlay", "IconifyComponentME.overlay");
 
                 runOnUiThread(() -> {
                     new Handler().postDelayed(() -> {

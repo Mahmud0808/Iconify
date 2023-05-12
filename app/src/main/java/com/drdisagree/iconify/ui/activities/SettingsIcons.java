@@ -158,8 +158,7 @@ public class SettingsIcons extends BaseActivity implements RadioDialog.RadioDial
                             Prefs.putInt(SELECTED_SETTINGS_ICONS_COLOR, selectedIconColor);
 
                             disable_settings_icons.setVisibility(View.VISIBLE);
-                            OverlayUtil.enableOverlay("IconifyComponentCR1.overlay");
-                            OverlayUtil.enableOverlay("IconifyComponentCR2.overlay");
+                            OverlayUtil.enableOverlays("IconifyComponentCR1.overlay", "IconifyComponentCR2.overlay");
                         }
 
                         new Handler().postDelayed(() -> {
@@ -185,8 +184,7 @@ public class SettingsIcons extends BaseActivity implements RadioDialog.RadioDial
 
             disable_settings_icons.setVisibility(View.GONE);
 
-            for (int i = 1; i <= 3; i++)
-                OverlayUtil.disableOverlay("IconifyComponentSIP" + i + ".overlay");
+            OverlayUtil.disableOverlays("IconifyComponentSIP1.overlay", "IconifyComponentSIP2.overlay", "IconifyComponentSIP3.overlay");
         });
     }
 

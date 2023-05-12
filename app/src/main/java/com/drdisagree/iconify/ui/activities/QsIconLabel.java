@@ -147,11 +147,8 @@ public class QsIconLabel extends BaseActivity {
                     label_systemInverse.setChecked(false);
                     label_systemInverseV2.setChecked(false);
                     label_fixtextcolor.setChecked(false);
-                    OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
 
+                    OverlayUtil.disableOverlays("IconifyComponentQST2.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST4.overlay", "IconifyComponentQST5.overlay");
                     OverlayUtil.enableOverlay("IconifyComponentQST1.overlay");
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
@@ -168,11 +165,8 @@ public class QsIconLabel extends BaseActivity {
                     label_systemInverse.setChecked(false);
                     label_systemInverseV2.setChecked(false);
                     label_fixtextcolor.setChecked(false);
-                    OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
 
+                    OverlayUtil.disableOverlays("IconifyComponentQST1.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST4.overlay", "IconifyComponentQST5.overlay");
                     OverlayUtil.enableOverlay("IconifyComponentQST2.overlay");
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
@@ -189,11 +183,8 @@ public class QsIconLabel extends BaseActivity {
                     label_whiteV2.setChecked(false);
                     label_systemInverseV2.setChecked(false);
                     label_fixtextcolor.setChecked(false);
-                    OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
 
+                    OverlayUtil.disableOverlays("IconifyComponentQST1.overlay", "IconifyComponentQST2.overlay", "IconifyComponentQST4.overlay", "IconifyComponentQST5.overlay");
                     OverlayUtil.enableOverlay("IconifyComponentQST3.overlay");
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
@@ -210,11 +201,8 @@ public class QsIconLabel extends BaseActivity {
                     label_whiteV2.setChecked(false);
                     label_systemInverse.setChecked(false);
                     label_fixtextcolor.setChecked(false);
-                    OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
 
+                    OverlayUtil.disableOverlays("IconifyComponentQST1.overlay", "IconifyComponentQST2.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST5.overlay");
                     OverlayUtil.enableOverlay("IconifyComponentQST4.overlay");
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
@@ -232,11 +220,7 @@ public class QsIconLabel extends BaseActivity {
                     label_systemInverse.setChecked(false);
                     label_systemInverseV2.setChecked(false);
 
-                    OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
-
+                    OverlayUtil.disableOverlays("IconifyComponentQST1.overlay", "IconifyComponentQST2.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST4.overlay");
                     OverlayUtil.enableOverlay("IconifyComponentQST5.overlay");
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
