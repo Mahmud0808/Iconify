@@ -44,10 +44,13 @@
             android:name=".ui.activities.Switch"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.LandingPage2"
+            android:name=".ui.activities.OnBoardingScreen3"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.LandingPage1"
+            android:name=".ui.activities.OnBoardingScreen2"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.OnBoardingScreen1"
             android:exported="false" />
         <activity
             android:name=".ui.activities.ProgressBar"
@@ -162,9 +165,6 @@
             android:exported="false" />
         <activity
             android:name=".ui.activities.HomePage"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.LandingPage3"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"

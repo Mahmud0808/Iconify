@@ -45,13 +45,13 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class LandingPage3 extends BaseActivity {
+public class OnBoardingScreen3 extends BaseActivity {
 
     private static boolean hasErroredOut = false;
     @SuppressLint("StaticFieldLeak")
     private static Button install_module, reboot_phone;
     private static startInstallationProcess installModule = null;
-    private final String TAG = "LandingPage3";
+    private final String TAG = "OnBoardingScreen3";
     TextView info_title, info_desc;
     LottieAnimationView loading_anim;
     private InstallationDialog progressDialog;
@@ -64,7 +64,7 @@ public class LandingPage3 extends BaseActivity {
         getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.landing_page_three_background));
         getWindow().setStatusBarColor(getResources().getColor(R.color.landing_page_three_background));
         getWindow().setNavigationBarColor(getResources().getColor(R.color.landing_page_three_background));
-        setContentView(R.layout.activity_landing_page_three);
+        setContentView(R.layout.activity_onboarding_screen_three);
 
         ((LottieAnimationView) findViewById(R.id.welcome_anim)).setAnimation(!isDarkMode() ? R.raw.anim_view_three_day : R.raw.anim_view_three_night);
 
@@ -93,7 +93,7 @@ public class LandingPage3 extends BaseActivity {
                 if (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) {
                     if (!Environment.isExternalStorageManager()) {
                         showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
-                        Toast.makeText(LandingPage3.this, R.string.toast_storage_access, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(OnBoardingScreen3.this, R.string.toast_storage_access, Toast.LENGTH_SHORT).show();
 
                         new Handler().postDelayed(() -> {
                             clickedContinue.set(true);
@@ -122,7 +122,7 @@ public class LandingPage3 extends BaseActivity {
                                 installModule.execute();
                             });
                         } else {
-                            Intent intent = new Intent(LandingPage3.this, HomePage.class);
+                            Intent intent = new Intent(OnBoardingScreen3.this, HomePage.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         }
@@ -394,7 +394,7 @@ public class LandingPage3 extends BaseActivity {
 
                 if (OverlayUtil.overlayExists()) {
                     new Handler().postDelayed(() -> {
-                        Intent intent = new Intent(LandingPage3.this, HomePage.class);
+                        Intent intent = new Intent(OnBoardingScreen3.this, HomePage.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     }, 10);

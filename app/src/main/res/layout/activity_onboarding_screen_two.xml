@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:baselineAligned="false"
     android:fillViewport="true"
-    tools:context=".ui.activities.LandingPage1">
+    tools:context=".ui.activities.OnBoardingScreen2">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -39,19 +39,21 @@
                 android:textColor="@color/textColorSecondary"
                 android:textSize="@dimen/_14sdp"
                 android:textStyle="bold"
-                android:visibility="invisible"
                 app:fontFamily="@font/regular" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.5"
-                android:gravity="center">
+                android:gravity="center"
+                android:padding="@dimen/_10sdp">
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/welcome_anim"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:layout_marginBottom="@dimen/_16sdp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
                     app:lottie_autoPlay="true"
@@ -80,12 +82,11 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/info_title"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_76sdp"
                             android:layout_marginTop="@dimen/_14sdp"
                             android:lineSpacingMultiplier="1"
-                            android:text="@string/landing_page_three_title"
+                            android:text="@string/landing_page_two_title"
                             android:textColor="@color/textColorPrimary"
                             android:textSize="@dimen/_30sdp"
                             android:textStyle="bold"
@@ -94,14 +95,13 @@
                             app:fontFamily="@font/regular" />
 
                         <TextView
-                            android:id="@+id/info_desc"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_44sdp"
                             android:layout_marginTop="@dimen/_8sdp"
                             android:letterSpacing="0.02"
                             android:lineHeight="@dimen/_18sdp"
                             android:lineSpacingMultiplier="1"
-                            android:text="@string/landing_page_three_desc"
+                            android:text="@string/landing_page_two_desc"
                             android:textColor="@color/textColorSecondary"
                             android:textSize="@dimen/_14sdp"
                             android:textStyle="bold"
@@ -124,50 +124,49 @@
                     android:layout_weight="1.0"
                     tools:ignore="NestedWeights" />
 
-                <FrameLayout
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end|center">
+                    android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/install_module"
+                        android:id="@+id/btn_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center"
+                        android:background="@color/transparent"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:padding="0dp"
+                        android:stateListAnimator="@null"
+                        android:text="@string/btn_back"
+                        android:textAllCaps="false"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="@dimen/_14sdp"
+                        android:textStyle="bold"
+                        app:fontFamily="@font/regular" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_1sdp"
+                        android:layout_weight="1.0"
+                        tools:ignore="NestedWeights" />
+
+                    <Button
+                        android:id="@+id/btn_next"
                         style="@style/buttonLandingPage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button_landing_page_three"
+                        android:layout_gravity="end|center"
+                        android:background="@drawable/button_landing_page_two"
                         android:letterSpacing="0.1"
                         android:paddingTop="@dimen/_10sdp"
                         android:paddingBottom="@dimen/_12sdp"
-                        android:text="@string/btn_lets_go"
+                        android:text="@string/btn_next"
                         android:textSize="@dimen/_14sdp"
                         app:fontFamily="@font/bold" />
 
-                    <Button
-                        android:id="@+id/btn_reboot"
-                        style="@style/buttonLandingPage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/button_landing_page_three"
-                        android:letterSpacing="0.19"
-                        android:paddingTop="@dimen/_10sdp"
-                        android:paddingBottom="@dimen/_12sdp"
-                        android:text="@string/btn_reboot"
-                        android:textSize="@dimen/_14sdp"
-                        android:visibility="gone"
-                        app:fontFamily="@font/bold" />
-
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:id="@+id/loading_anim"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:visibility="gone"
-                        app:lottie_autoPlay="true"
-                        app:lottie_loop="true" />
-
-                </FrameLayout>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
