@@ -521,4 +521,20 @@
     <string name="fluid_qs_theme_desc">Two tone translucent QS theme\nDo not use custom shapes</string>
     <string name="disable_monet_title">Disable System Monet</string>
     <string name="disable_monet_desc">Helps to retain custom colors</string>
+    <string name="iconpack_aurora_desc">Dual tone linear icon pack</string>
+    <string name="iconpack_gradicon_desc">Gradient shaded filled icon pack</string>
+    <string name="iconpack_lorn_desc">Thick linear icon pack</string>
+    <string name="iconpack_plumpy_desc">Dual tone filled icon pack</string>
+    <string name="iconpack_acherus_desc">Acherus sub icon pack</string>
+    <string name="iconpack_circular_desc">Thin line icon pack</string>
+    <string name="iconpack_filled_desc">Dual tone filled icon pack</string>
+    <string name="iconpack_kai_desc">Thin line icon pack</string>
+    <string name="iconpack_oos_desc">Oxygen OS icon pack</string>
+    <string name="iconpack_outline_desc">Thin outline icon pack</string>
+    <string name="iconpack_pui_desc">Thick dualtone icon pack</string>
+    <string name="iconpack_rounded_desc">Rounded corner icon pack</string>
+    <string name="iconpack_sam_desc">Filled icon pack</string>
+    <string name="iconpack_victor_desc">Edgy icon pack</string>
+    <string name="settings_iconpack_bubble_v1">Inline multicolored icon pack</string>
+    <string name="settings_iconpack_bubble_v2">Outline multicolored icon pack</string>
 </resources>

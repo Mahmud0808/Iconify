@@ -57,7 +57,7 @@ public class IconPackAdapter extends RecyclerView.Adapter<IconPackAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.style_name.setText(itemList.get(position).getName());
-        holder.desc.setText(itemList.get(position).getDesc());
+        holder.desc.setText(context.getResources().getString(itemList.get(position).getDesc()));
         holder.icon1.setImageResource(itemList.get(position).getIcon1());
         holder.icon2.setImageResource(itemList.get(position).getIcon2());
         holder.icon3.setImageResource(itemList.get(position).getIcon3());

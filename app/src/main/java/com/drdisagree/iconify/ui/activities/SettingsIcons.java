@@ -100,12 +100,12 @@ public class SettingsIcons extends BaseActivity implements RadioDialog.RadioDial
         ArrayList<Object[]> iconpack_list = new ArrayList<>();
 
         // Icon Pack add items in list
-        iconpack_list.add(new Object[]{"Aurora", "Dual tone linear icon pack", R.drawable.preview_aurora_wifi, R.drawable.preview_aurora_signal, R.drawable.preview_aurora_airplane, R.drawable.preview_aurora_location});
-        iconpack_list.add(new Object[]{"Gradicon", "Gradient shaded filled icon pack", R.drawable.preview_gradicon_wifi, R.drawable.preview_gradicon_signal, R.drawable.preview_gradicon_airplane, R.drawable.preview_gradicon_location});
-        iconpack_list.add(new Object[]{"Lorn", "Thick linear icon pack", R.drawable.preview_lorn_wifi, R.drawable.preview_lorn_signal, R.drawable.preview_lorn_airplane, R.drawable.preview_lorn_location});
-        iconpack_list.add(new Object[]{"Plumpy", "Dual tone filled icon pack", R.drawable.preview_plumpy_wifi, R.drawable.preview_plumpy_signal, R.drawable.preview_plumpy_airplane, R.drawable.preview_plumpy_location});
-        iconpack_list.add(new Object[]{"Bubble", "Inline multicolored icon pack", R.drawable.preview_bubble_1, R.drawable.preview_bubble_2, R.drawable.preview_bubble_3, R.drawable.preview_bubble_4});
-        iconpack_list.add(new Object[]{"Bubble v2", "Outline multicolored icon pack", R.drawable.preview_bubble_v2_1, R.drawable.preview_bubble_v2_2, R.drawable.preview_bubble_v2_3, R.drawable.preview_bubble_v2_4});
+        iconpack_list.add(new Object[]{"Aurora", R.string.iconpack_aurora_desc, R.drawable.preview_aurora_wifi, R.drawable.preview_aurora_signal, R.drawable.preview_aurora_airplane, R.drawable.preview_aurora_location});
+        iconpack_list.add(new Object[]{"Gradicon", R.string.iconpack_gradicon_desc, R.drawable.preview_gradicon_wifi, R.drawable.preview_gradicon_signal, R.drawable.preview_gradicon_airplane, R.drawable.preview_gradicon_location});
+        iconpack_list.add(new Object[]{"Lorn", R.string.iconpack_lorn_desc, R.drawable.preview_lorn_wifi, R.drawable.preview_lorn_signal, R.drawable.preview_lorn_airplane, R.drawable.preview_lorn_location});
+        iconpack_list.add(new Object[]{"Plumpy", R.string.iconpack_plumpy_desc, R.drawable.preview_plumpy_wifi, R.drawable.preview_plumpy_signal, R.drawable.preview_plumpy_airplane, R.drawable.preview_plumpy_location});
+        iconpack_list.add(new Object[]{"Bubble v1", R.string.settings_iconpack_bubble_v1, R.drawable.preview_bubble_v1_1, R.drawable.preview_bubble_v1_2, R.drawable.preview_bubble_v1_3, R.drawable.preview_bubble_v1_4});
+        iconpack_list.add(new Object[]{"Bubble v2", R.string.settings_iconpack_bubble_v2, R.drawable.preview_bubble_v2_1, R.drawable.preview_bubble_v2_2, R.drawable.preview_bubble_v2_3, R.drawable.preview_bubble_v2_4});
 
         addItem(iconpack_list);
 
@@ -235,7 +235,7 @@ public class SettingsIcons extends BaseActivity implements RadioDialog.RadioDial
             name.setText((String) pack.get(i)[0]);
 
             TextView description = list.findViewById(R.id.iconpack_desc);
-            description.setText((String) pack.get(i)[1]);
+            description.setText(getResources().getString((int) pack.get(i)[1]));
 
             ImageView ic1 = list.findViewById(R.id.iconpack_preview1);
             ic1.setImageResource((int) pack.get(i)[2]);
