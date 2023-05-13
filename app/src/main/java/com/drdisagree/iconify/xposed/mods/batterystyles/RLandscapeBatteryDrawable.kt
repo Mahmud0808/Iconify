@@ -17,7 +17,6 @@ package com.drdisagree.iconify.xposed.mods.batterystyles
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
-import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import androidx.core.graphics.PathParser
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
@@ -27,7 +26,8 @@ import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
  * frameworks/base/core/res/res/values/config.xml to allow for an easily overrideable battery icon
  */
 @SuppressLint("DiscouragedApi")
-open class RLandscapeBatteryDrawable(private val context: Context, frameColor: Int) : Drawable() {
+open class RLandscapeBatteryDrawable(private val context: Context, frameColor: Int) :
+    BatteryDrawable() {
 
     // Need to load:
     // 1. perimeter shape
@@ -96,17 +96,32 @@ open class RLandscapeBatteryDrawable(private val context: Context, frameColor: I
             postInvalidate()
         }
 
+    override fun setChargingEnabled(charging: Boolean) {
+        this.charging = charging
+        postInvalidate()
+    }
+
     var powerSaveEnabled = false
         set(value) {
             field = value
             postInvalidate()
         }
 
+    override fun setPowerSavingEnabled(powerSaveEnabled: Boolean) {
+        this.powerSaveEnabled = powerSaveEnabled
+        postInvalidate()
+    }
+
     var showPercent = false
         set(value) {
             field = value
             postInvalidate()
         }
+
+    override fun setShowPercentEnabled(showPercent: Boolean) {
+        this.showPercent = showPercent
+        postInvalidate()
+    }
 
     private val fillColorStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
         p.color = frameColor
@@ -355,7 +370,7 @@ open class RLandscapeBatteryDrawable(private val context: Context, frameColor: I
     /**
      * Set the fill level
      */
-    public open fun setBatteryLevel(l: Int) {
+    public override fun setBatteryLevel(l: Int) {
         invertFillIcon = if (l >= 67) true else if (l <= 33) false else invertFillIcon
         batteryLevel = l
         levelColor = batteryColorForLevel(batteryLevel)
@@ -380,7 +395,7 @@ open class RLandscapeBatteryDrawable(private val context: Context, frameColor: I
         updateSize()
     }
 
-    fun setColors(fgColor: Int, bgColor: Int, singleToneColor: Int) {
+    override fun setColors(fgColor: Int, bgColor: Int, singleToneColor: Int) {
         fillColor = if (dualTone) fgColor else singleToneColor
 
         fillPaint.color = fillColor
