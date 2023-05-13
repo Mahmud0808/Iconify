@@ -57,18 +57,18 @@
     </string-array>
     <string-array name="custom_battery_style">
         <item>Default</item>
-        <item>Default RLandscape</item>
-        <item>Default Landscape</item>
-        <item>Custom RLandscape</item>
-        <item>Custom Landscape</item>
+        <item>Landscape R Default</item>
+        <item>Landscape L Default</item>
+        <item>Landscape R Custom</item>
+        <item>Landscape L Custom</item>
         <item>Portrait Buddy</item>
         <item>Portrait Line</item>
         <item>Portrait Musku</item>
         <item>Portrait Pill</item>
         <item>Portrait Signal</item>
-        <item>RLandscape A</item>
-        <item>Landscape A</item>
-        <item>RLandscape B</item>
-        <item>Landscape B</item>
+        <item>Landscape R Style A</item>
+        <item>Landscape L Style A</item>
+        <item>Landscape R Style B</item>
+        <item>Landscape L Style B</item>
     </string-array>
 </resources>
