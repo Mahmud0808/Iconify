@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.activities;
 
+import static com.drdisagree.iconify.SplashActivity.SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES;
 import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
 import static com.drdisagree.iconify.common.References.FRAGMENT_SETTINGS;
@@ -86,7 +87,7 @@ public class HomePage extends BaseActivity {
         Thread thread1 = new Thread(runnable1);
         thread1.start();
 
-        if (Build.VERSION.SDK_INT >= 33 && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+        if (!SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES && Build.VERSION.SDK_INT >= 33 && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             new Handler().postDelayed(() -> {
                 requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 0);
             }, 2000);
