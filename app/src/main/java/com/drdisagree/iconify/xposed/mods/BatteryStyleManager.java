@@ -239,16 +239,19 @@ public class BatteryStyleManager extends ModPack {
 
                     if (!customBatteryEnabled) return;
 
-                    for (Object view : batteryViews) {
-                        ((View) view).post(() -> {
-                            BatteryDrawable drawable = (BatteryDrawable) getAdditionalInstanceField(view, "mBatteryDrawable");
-                            if (drawable != null) {
-                                drawable.setBatteryLevel(level);
-                                drawable.setChargingEnabled(charging);
-                                drawable.setPowerSavingEnabled(powerSave);
-                            }
-                            scale(view);
-                        });
+                    try {
+                        for (Object view : batteryViews) {
+                            ((View) view).post(() -> {
+                                BatteryDrawable drawable = (BatteryDrawable) getAdditionalInstanceField(view, "mBatteryDrawable");
+                                if (drawable != null) {
+                                    drawable.setBatteryLevel(level);
+                                    drawable.setChargingEnabled(charging);
+                                    drawable.setPowerSavingEnabled(powerSave);
+                                }
+                                scale(view);
+                            });
+                        }
+                    } catch (Throwable ignored) {
                     }
                 }
             };
