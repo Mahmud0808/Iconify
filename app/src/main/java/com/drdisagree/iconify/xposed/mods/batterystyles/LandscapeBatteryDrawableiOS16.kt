@@ -167,7 +167,7 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
     // Only used if dualTone is set to true
     private val dualToneBackgroundFill = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
         p.color = frameColor
-        p.alpha = 60 // ~0.3 alpha by default
+        p.alpha = 85 // ~0.3 alpha by default
         p.isDither = true
         p.strokeWidth = 0f
         p.style = Paint.Style.FILL_AND_STROKE
