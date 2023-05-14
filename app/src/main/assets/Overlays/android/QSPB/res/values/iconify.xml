@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="holo_blue_dark">@*android:color/black</color>
+    <color name="holo_blue_dark">#FF121212</color>
 </resources>
