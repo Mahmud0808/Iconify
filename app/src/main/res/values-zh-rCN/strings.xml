@@ -303,6 +303,7 @@
     <string name="header_clock_white_text_desc">强制文本颜色为白色</string>
     <string name="custom_qs_margin_title">自定义快速设置边距</string>
     <string name="custom_qs_margin_desc">启用快速设置面板的自定义边距</string>
+    <string name="qqs_panel_top_margin_title">快速设置面板快捷开关顶部边距</string>
     <string name="qs_panel_top_margin_title">快速设置面板上边距</string>
     <string name="btn_restart_systemui">重启 SystemUI</string>
     <string name="header_image_zoom_to_fit_title">适度放大</string>
@@ -516,4 +517,24 @@
     <string name="black_theme_desc">浅色模式下的深色快速设置主题\n必须使用自定义的快速设置图形\n切换为深色主题以修复文本颜色</string>
     <string name="transparent_notif_shade_title">透明通知栏</string>
     <string name="transparent_notif_shade_desc">仅使通知栏透明</string>
+    <string name="fluid_qs_theme_title">流体快速设置主题</string>
+    <string name="fluid_qs_theme_desc">双色调半透明快速设置主题\n不使用自定义形状</string>
+    <string name="disable_monet_title">禁用系统 Monet</string>
+    <string name="disable_monet_desc">有助于保留自定义颜色</string>
+    <string name="iconpack_aurora_desc">双色调线性图标包</string>
+    <string name="iconpack_gradicon_desc">渐变阴影填充图标包</string>
+    <string name="iconpack_lorn_desc">粗线图标包</string>
+    <string name="iconpack_plumpy_desc">双色调填充图标包</string>
+    <string name="iconpack_acherus_desc">Acherus sub icon pack</string>
+    <string name="iconpack_circular_desc">细线图标包</string>
+    <string name="iconpack_filled_desc">双色调填充图标包</string>
+    <string name="iconpack_kai_desc">细线图标包</string>
+    <string name="iconpack_oos_desc">Oxygen OS 图标包</string>
+    <string name="iconpack_outline_desc">细轮廓图标包</string>
+    <string name="iconpack_pui_desc">厚双色调图标包</string>
+    <string name="iconpack_rounded_desc">圆角图标包</string>
+    <string name="iconpack_sam_desc">填充图标包</string>
+    <string name="iconpack_victor_desc">棱角图标包</string>
+    <string name="settings_iconpack_bubble_v1">内嵌多色图标包</string>
+    <string name="settings_iconpack_bubble_v2">轮廓多色图标包</string>
 </resources>
