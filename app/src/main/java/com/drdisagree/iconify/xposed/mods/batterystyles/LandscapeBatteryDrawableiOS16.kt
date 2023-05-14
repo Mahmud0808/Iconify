@@ -276,7 +276,7 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
         }
         c.restore()
 
-        if (batteryLevel < 100 && showPercent) {
+        if (showPercent) {
             textPaint.textSize = bounds.width() * 0.38f
             val textHeight = +textPaint.fontMetrics.ascent
             val pctX = (bounds.width() + textHeight) * 0.7f
@@ -284,18 +284,19 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
 
             textPaint.color = fillColor.inv() or 0xFF000000.toInt()
             val bolt = "\u26A1\uFE0E"
-            if (charging) c.drawText(batteryLevel.toString() + bolt, pctX, pctY, textPaint)
+            if (charging && batteryLevel < 100) c.drawText(
+                batteryLevel.toString() + bolt, pctX, pctY, textPaint
+            )
             else c.drawText(batteryLevel.toString(), pctX, pctY, textPaint)
         }
     }
 
     private fun batteryColorForLevel(level: Int): Int {
         return when {
-            charging || powerSaveEnabled -> fillColor
-            level <= 10 -> 0xFFFF0000.toInt()
-            level <= 25 -> 0xFFFFCC0A.toInt()
-            level < 75 -> fillColor
-            level <= 100 -> 0xFF34C759.toInt()
+            charging || level >= 85 -> 0xFF34C759.toInt()
+            powerSaveEnabled || level > 25 -> fillColor
+            level > 10 -> 0xFFFFCC0A.toInt()
+            level >= 0 -> 0xFFFF0000.toInt()
             else -> getColorForLevel(level)
         }
     }
