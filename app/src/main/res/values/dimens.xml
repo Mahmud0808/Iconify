@@ -13,4 +13,5 @@
     <dimen name="cont_corner_radius2">23dp</dimen>
     <dimen name="reset_button_size">@dimen/_14sdp</dimen>
     <dimen name="header_title_size">@dimen/_14sdp</dimen>
+    <dimen name="content_marginTop">@dimen/_35sdp</dimen>
 </resources>
