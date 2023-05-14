@@ -23,6 +23,7 @@ import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_CUSTOM_RLA
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_LANDSCAPE;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_RLANDSCAPE;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_IOS_16;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_STYLE_A;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_STYLE_B;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_PORTRAIT_BUDDY;
@@ -73,6 +74,7 @@ import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawable
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableSignal;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableStyleA;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableStyleB;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableiOS16;
 import com.drdisagree.iconify.xposed.mods.batterystyles.RLandscapeBatteryDrawable;
 import com.drdisagree.iconify.xposed.mods.batterystyles.RLandscapeBatteryDrawableStyleA;
 import com.drdisagree.iconify.xposed.mods.batterystyles.RLandscapeBatteryDrawableStyleB;
@@ -113,12 +115,16 @@ public class BatteryStyleManager extends ModPack {
         landscapeBatteryWidth = Xprefs.getInt(CUSTOM_BATTERY_WIDTH, 20);
         landscapeBatteryHeight = Xprefs.getInt(CUSTOM_BATTERY_HEIGHT, 20);
 
-        if (batteryStyle == 1) {
+        if (batteryStyle == BATTERY_STYLE_DEFAULT_RLANDSCAPE) {
             batteryRotation = 90;
-        } else if (batteryStyle == 2) {
+        } else if (batteryStyle == BATTERY_STYLE_DEFAULT_LANDSCAPE) {
             batteryRotation = 270;
         } else {
             batteryRotation = 0;
+        }
+
+        if (batteryStyle == BATTERY_STYLE_LANDSCAPE_IOS_16) {
+            ShowPercent = true;
         }
 
         if (BatteryStyle != batteryStyle) {
@@ -291,6 +297,8 @@ public class BatteryStyleManager extends ModPack {
                     }
 
                     callMethod(BatteryController, "fireBatteryLevelChanged");
+
+                    hidePercentage(param);
                 }
             });
         } catch (Throwable throwable) {
@@ -307,6 +315,8 @@ public class BatteryStyleManager extends ModPack {
                     if (mBatteryDrawable != null) {
                         mBatteryDrawable.setColors((int) param.args[0], (int) param.args[1], (int) param.args[2]);
                     }
+
+                    hidePercentage(param);
                 }
             });
         } catch (Throwable throwable) {
@@ -389,6 +399,9 @@ public class BatteryStyleManager extends ModPack {
             case BATTERY_STYLE_LANDSCAPE_STYLE_B:
                 mBatteryDrawable = new LandscapeBatteryDrawableStyleB(context, frameColor);
                 break;
+            case BATTERY_STYLE_LANDSCAPE_IOS_16:
+                mBatteryDrawable = new LandscapeBatteryDrawableiOS16(context, frameColor);
+                break;
         }
 
         if (mBatteryDrawable != null) {
@@ -397,6 +410,15 @@ public class BatteryStyleManager extends ModPack {
         }
 
         return mBatteryDrawable;
+    }
+
+    private void hidePercentage(XC_MethodHook.MethodHookParam param) {
+        if (ShowPercent) {
+            setObjectField(param.thisObject, "mShowPercentMode", 2);
+            callMethod(param.thisObject, "updateShowPercent");
+            callMethod(param.thisObject, "updatePercentText");
+            callMethod(param.thisObject, "removeView", getObjectField(param.thisObject, "mBatteryPercentView"));
+        }
     }
 
     @Override

@@ -59,6 +59,7 @@ public class Preferences {
     public static final int BATTERY_STYLE_LANDSCAPE_STYLE_A = 11;
     public static final int BATTERY_STYLE_RLANDSCAPE_STYLE_B = 12;
     public static final int BATTERY_STYLE_LANDSCAPE_STYLE_B = 13;
+    public static final int BATTERY_STYLE_LANDSCAPE_IOS_16 = 14;
 
     // Preference keys
     public static final String STR_NULL = "null";

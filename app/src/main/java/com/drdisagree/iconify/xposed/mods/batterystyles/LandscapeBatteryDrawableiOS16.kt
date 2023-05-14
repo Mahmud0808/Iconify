@@ -1,0 +1,467 @@
+/*
+ * Copyright (C) 2019 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
+ * except in compliance with the License. You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+package com.drdisagree.iconify.xposed.mods.batterystyles
+
+import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.*
+import android.util.TypedValue
+import androidx.core.graphics.PathParser
+import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
+
+/**
+ * A battery meter drawable that respects paths configured in
+ * frameworks/base/core/res/res/values/config.xml to allow for an easily overrideable battery icon
+ */
+@SuppressLint("DiscouragedApi")
+open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColor: Int) :
+    BatteryDrawable() {
+
+    // Need to load:
+    // 1. perimeter shape
+    // 2. fill mask (if smaller than perimeter, this would create a fill that
+    //    doesn't touch the walls
+    private val perimeterPath = Path()
+    private val scaledPerimeter = Path()
+    private val errorPerimeterPath = Path()
+    private val scaledErrorPerimeter = Path()
+
+    // Fill will cover the whole bounding rect of the fillMask, and be masked by the path
+    private val fillMask = Path()
+    private val scaledFill = Path()
+
+    // Based off of the mask, the fill will interpolate across this space
+    private val fillRect = RectF()
+
+    // Top of this rect changes based on level, 100% == fillRect
+    private val levelRect = RectF()
+    private val levelPath = Path()
+
+    // Updates the transform of the paths when our bounds change
+    private val scaleMatrix = Matrix()
+    private val padding = Rect()
+
+    // The net result of fill + perimeter paths
+    private val unifiedPath = Path()
+
+    // Bolt path (used while charging)
+    private val boltPath = Path()
+    private val scaledBolt = Path()
+
+    // Plus sign (used for power save mode)
+    private val plusPath = Path()
+    private val scaledPlus = Path()
+
+    private var intrinsicHeight: Int
+    private var intrinsicWidth: Int
+
+    // To implement hysteresis, keep track of the need to invert the interior icon of the battery
+    private var invertFillIcon = false
+
+    // Colors can be configured based on battery level (see res/values/arrays.xml)
+    private var colorLevels: IntArray
+
+    private var fillColor: Int = Color.MAGENTA
+    private var backgroundColor: Int = Color.MAGENTA
+
+    // updated whenever level changes
+    private var levelColor: Int = Color.MAGENTA
+
+    // Dual tone implies that battery level is a clipped overlay over top of the whole shape
+    private var dualTone = true
+
+    private var batteryLevel = 0
+
+    private val invalidateRunnable: () -> Unit = {
+        invalidateSelf()
+    }
+
+    open var criticalLevel: Int = 5
+
+    var charging = false
+        set(value) {
+            field = value
+            postInvalidate()
+        }
+
+    override fun setChargingEnabled(charging: Boolean) {
+        this.charging = charging
+        postInvalidate()
+    }
+
+    var powerSaveEnabled = false
+        set(value) {
+            field = value
+            postInvalidate()
+        }
+
+    override fun setPowerSavingEnabled(powerSaveEnabled: Boolean) {
+        this.powerSaveEnabled = powerSaveEnabled
+        postInvalidate()
+    }
+
+    var showPercent = true
+        set(value) {
+            field = value
+            postInvalidate()
+        }
+
+    override fun setShowPercentEnabled(showPercent: Boolean) {
+        this.showPercent = true
+        postInvalidate()
+    }
+
+    private val fillColorStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+        p.color = frameColor
+        p.alpha = 255
+        p.isDither = true
+        p.strokeWidth = 5f
+        p.style = Paint.Style.STROKE
+        p.blendMode = BlendMode.SRC
+        p.strokeMiter = 5f
+        p.strokeJoin = Paint.Join.ROUND
+    }
+
+    private val fillColorStrokeProtection = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+        p.isDither = true
+        p.strokeWidth = 5f
+        p.style = Paint.Style.STROKE
+        p.blendMode = BlendMode.CLEAR
+        p.strokeMiter = 5f
+        p.strokeJoin = Paint.Join.ROUND
+    }
+
+    private val fillPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+        p.color = frameColor
+        p.alpha = 255
+        p.isDither = true
+        p.strokeWidth = 0f
+        p.style = Paint.Style.FILL_AND_STROKE
+    }
+
+    private val errorPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+        p.color = context.resources.getColorStateList(
+            context.resources.getIdentifier(
+                "batterymeter_plus_color", "color", context.packageName
+            ), context.theme
+        ).defaultColor
+        p.alpha = 255
+        p.isDither = true
+        p.strokeWidth = 0f
+        p.style = Paint.Style.FILL_AND_STROKE
+        p.blendMode = BlendMode.SRC
+    }
+
+    // Only used if dualTone is set to true
+    private val dualToneBackgroundFill = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+        p.color = frameColor
+        p.alpha = 60 // ~0.3 alpha by default
+        p.isDither = true
+        p.strokeWidth = 0f
+        p.style = Paint.Style.FILL_AND_STROKE
+    }
+
+    private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+        p.typeface = Typeface.create("sans-serif-condensed", Typeface.BOLD)
+        p.textAlign = Paint.Align.CENTER
+    }
+
+    init {
+        val density = context.resources.displayMetrics.density
+        intrinsicHeight = (HEIGHT * density).toInt()
+        intrinsicWidth = (WIDTH * density).toInt()
+
+        val res = context.resources
+        val levels = res.obtainTypedArray(
+            res.getIdentifier(
+                "batterymeter_color_levels", "array", context.packageName
+            )
+        )
+        val colors = res.obtainTypedArray(
+            res.getIdentifier(
+                "batterymeter_color_values", "array", context.packageName
+            )
+        )
+        val N = levels.length()
+        colorLevels = IntArray(2 * N)
+        for (i in 0 until N) {
+            colorLevels[2 * i] = levels.getInt(i, 0)
+            if (colors.getType(i) == TypedValue.TYPE_ATTRIBUTE) {
+                colorLevels[2 * i + 1] = SettingsLibUtils.getColorAttrDefaultColor(
+                    colors.getResourceId(i, 0), context
+                )
+            } else {
+                colorLevels[2 * i + 1] = colors.getColor(i, 0)
+            }
+        }
+        levels.recycle()
+        colors.recycle()
+
+        loadPaths()
+    }
+
+    override fun draw(c: Canvas) {
+        c.saveLayer(null, null)
+        unifiedPath.reset()
+        levelPath.reset()
+        levelRect.set(fillRect)
+        val fillFraction = batteryLevel / 100f
+        val fillTop = if (batteryLevel >= 95) fillRect.right
+        else fillRect.right - (fillRect.width() * (1 - fillFraction))
+
+        levelRect.right = Math.floor(fillTop.toDouble()).toFloat()
+        //levelPath.addRect(levelRect, Path.Direction.CCW)
+        levelPath.addRoundRect(
+            levelRect, floatArrayOf(
+                3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f
+            ), Path.Direction.CCW
+        )
+
+        // The perimeter should never change
+        unifiedPath.addPath(scaledPerimeter)
+        // If drawing dual tone, the level is used only to clip the whole drawable path
+        if (!dualTone) {
+            unifiedPath.op(levelPath, Path.Op.UNION)
+        }
+
+        fillPaint.color = levelColor
+
+        if (dualTone) {
+            // Dual tone means we draw the shape again, clipped to the charge level
+            c.drawPath(unifiedPath, dualToneBackgroundFill)
+            c.save()
+            c.clipRect(
+                bounds.left.toFloat(),
+                bounds.top.toFloat(),
+                bounds.left + bounds.width() * fillFraction,
+                bounds.bottom.toFloat()
+            )
+            c.drawPath(unifiedPath, fillPaint)
+            c.restore()
+        } else {
+            // Non dual-tone means we draw the perimeter (with the level fill), and potentially
+            // draw the fill again with a critical color
+            fillPaint.color = fillColor
+            c.drawPath(unifiedPath, fillPaint)
+            fillPaint.color = levelColor
+
+            // Show colorError below this level
+            if (batteryLevel <= CRITICAL_LEVEL && !charging) {
+                c.save()
+                c.clipPath(scaledFill)
+                c.drawPath(levelPath, fillPaint)
+                c.restore()
+            }
+        }
+
+        if (!charging && powerSaveEnabled) {
+            // If power save is enabled draw the perimeter path with colorError
+            c.drawPath(scaledErrorPerimeter, errorPaint)
+            // And draw the plus sign on top of the fill
+            if (!showPercent) {
+                c.drawPath(scaledPlus, errorPaint)
+            }
+        }
+        c.restore()
+
+        if (batteryLevel < 100 && showPercent) {
+            textPaint.textSize = bounds.width() * 0.38f
+            val textHeight = +textPaint.fontMetrics.ascent
+            val pctX = (bounds.width() + textHeight) * 0.7f
+            val pctY = bounds.height() * 0.8f
+
+            textPaint.color = fillColor.inv() or 0xFF000000.toInt()
+            val bolt = "\u26A1\uFE0E"
+            if (charging) c.drawText(batteryLevel.toString() + bolt, pctX, pctY, textPaint)
+            else c.drawText(batteryLevel.toString(), pctX, pctY, textPaint)
+        }
+    }
+
+    private fun batteryColorForLevel(level: Int): Int {
+        return when {
+            charging || powerSaveEnabled -> fillColor
+            level <= 10 -> 0xFFFF0000.toInt()
+            level <= 25 -> 0xFFFFCC0A.toInt()
+            level < 75 -> fillColor
+            level <= 100 -> 0xFF34C759.toInt()
+            else -> getColorForLevel(level)
+        }
+    }
+
+    private fun getColorForLevel(level: Int): Int {
+        var thresh: Int
+        var color = 0
+        var i = 0
+        while (i < colorLevels.size) {
+            thresh = colorLevels[i]
+            color = colorLevels[i + 1]
+            if (level <= thresh) {
+
+                // Respect tinting for "normal" level
+                return if (i == colorLevels.size - 2) {
+                    fillColor
+                } else {
+                    color
+                }
+            }
+            i += 2
+        }
+        return color
+    }
+
+    /**
+     * Alpha is unused internally, and should be defined in the colors passed to {@link setColors}.
+     * Further, setting an alpha for a dual tone battery meter doesn't make sense without bounds
+     * defining the minimum background fill alpha. This is because fill + background must be equal
+     * to the net alpha passed in here.
+     */
+    override fun setAlpha(alpha: Int) {
+    }
+
+    override fun setColorFilter(colorFilter: ColorFilter?) {
+        fillPaint.colorFilter = colorFilter
+        fillColorStrokePaint.colorFilter = colorFilter
+        dualToneBackgroundFill.colorFilter = colorFilter
+    }
+
+    /**
+     * Deprecated, but required by Drawable
+     */
+    override fun getOpacity(): Int {
+        return PixelFormat.OPAQUE
+    }
+
+    override fun getIntrinsicHeight(): Int {
+        return intrinsicHeight
+    }
+
+    override fun getIntrinsicWidth(): Int {
+        return intrinsicWidth
+    }
+
+    /**
+     * Set the fill level
+     */
+    public override fun setBatteryLevel(l: Int) {
+        invertFillIcon = if (l >= 67) true else if (l <= 33) false else invertFillIcon
+        batteryLevel = l
+        levelColor = batteryColorForLevel(batteryLevel)
+        invalidateSelf()
+    }
+
+    public fun getBatteryLevel(): Int {
+        return batteryLevel
+    }
+
+    override fun onBoundsChange(bounds: Rect) {
+        super.onBoundsChange(bounds)
+        updateSize()
+    }
+
+    fun setPadding(left: Int, top: Int, right: Int, bottom: Int) {
+        padding.left = left
+        padding.top = top
+        padding.right = right
+        padding.bottom = bottom
+
+        updateSize()
+    }
+
+    override fun setColors(fgColor: Int, bgColor: Int, singleToneColor: Int) {
+        fillColor = if (dualTone) fgColor else singleToneColor
+
+        fillPaint.color = fillColor
+        fillColorStrokePaint.color = fillColor
+
+        backgroundColor = bgColor
+        dualToneBackgroundFill.color = bgColor
+
+        // Also update the level color, since fillColor may have changed
+        levelColor = batteryColorForLevel(batteryLevel)
+
+        invalidateSelf()
+    }
+
+    private fun postInvalidate() {
+        unscheduleSelf(invalidateRunnable)
+        scheduleSelf(invalidateRunnable, 0)
+    }
+
+    private fun updateSize() {
+        val b = bounds
+        if (b.isEmpty) {
+            scaleMatrix.setScale(1f, 1f)
+        } else {
+            scaleMatrix.setScale((b.right / WIDTH), (b.bottom / HEIGHT))
+        }
+
+        perimeterPath.transform(scaleMatrix, scaledPerimeter)
+        errorPerimeterPath.transform(scaleMatrix, scaledErrorPerimeter)
+        fillMask.transform(scaleMatrix, scaledFill)
+        scaledFill.computeBounds(fillRect, true)
+        boltPath.transform(scaleMatrix, scaledBolt)
+        plusPath.transform(scaleMatrix, scaledPlus)
+
+        // It is expected that this view only ever scale by the same factor in each dimension, so
+        // just pick one to scale the strokeWidths
+        val scaledStrokeWidth =
+
+            Math.max(b.right / WIDTH * PROTECTION_STROKE_WIDTH, PROTECTION_MIN_STROKE_WIDTH)
+
+        fillColorStrokePaint.strokeWidth = scaledStrokeWidth
+        fillColorStrokeProtection.strokeWidth = scaledStrokeWidth
+    }
+
+    private fun loadPaths() {
+        val pathString =
+            "M3.13,0.36L18.71,0.36A3.04 3.04 0 0 1 21.76,3.40L21.76,8.60A3.04 3.04 0 0 1 18.71,11.64L3.13,11.64A3.04 3.04 0 0 1 0.08,8.60L0.08,3.40A3.04 3.04 0 0 1 3.13,0.36zM22.61,7.72C24.35,7.19,24.35,4.81,22.61,4.28L22.61,7.72z"
+        perimeterPath.set(PathParser.createPathFromPathData(pathString))
+        perimeterPath.computeBounds(RectF(), true)
+
+        val errorPathString =
+            "M3.13,0.36L18.71,0.36A3.04 3.04 0 0 1 21.76,3.40L21.76,8.60A3.04 3.04 0 0 1 18.71,11.64L3.13,11.64A3.04 3.04 0 0 1 0.08,8.60L0.08,3.40A3.04 3.04 0 0 1 3.13,0.36zM22.61,7.72C24.35,7.19,24.35,4.81,22.61,4.28L22.61,7.72z"
+        errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
+        errorPerimeterPath.computeBounds(RectF(), true)
+
+        val fillMaskString =
+            "M3.13,0.36L18.71,0.36A3.04 3.04 0 0 1 21.76,3.40L21.76,8.60A3.04 3.04 0 0 1 18.71,11.64L3.13,11.64A3.04 3.04 0 0 1 0.08,8.60L0.08,3.40A3.04 3.04 0 0 1 3.13,0.36zM22.61,7.72C24.35,7.19,24.35,4.81,22.61,4.28L22.61,7.72z"
+        fillMask.set(PathParser.createPathFromPathData(fillMaskString))
+        // Set the fill rect so we can calculate the fill properly
+        fillMask.computeBounds(fillRect, true)
+
+        val boltPathString = ""
+        boltPath.set(PathParser.createPathFromPathData(boltPathString))
+
+        val plusPathString =
+            "M3.13,0.36L18.71,0.36A3.04 3.04 0 0 1 21.76,3.40L21.76,8.60A3.04 3.04 0 0 1 18.71,11.64L3.13,11.64A3.04 3.04 0 0 1 0.08,8.60L0.08,3.40A3.04 3.04 0 0 1 3.13,0.36zM22.61,7.72C24.35,7.19,24.35,4.81,22.61,4.28L22.61,7.72z"
+        plusPath.set(PathParser.createPathFromPathData(plusPathString))
+
+        dualTone = true
+    }
+
+    companion object {
+        private const val TAG = "LandscapeBatteryDrawableiOS16"
+        private const val WIDTH = 24f
+        private const val HEIGHT = 12f
+        private const val CRITICAL_LEVEL = 15
+
+        // On a 12x20 grid, how wide to make the fill protection stroke.
+        // Scales when our size changes
+        private const val PROTECTION_STROKE_WIDTH = 3f
+
+        // Arbitrarily chosen for visibility at small sizes
+        private const val PROTECTION_MIN_STROKE_WIDTH = 6f
+    }
+}
