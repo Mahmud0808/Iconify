@@ -98,7 +98,7 @@ public class BatteryStyleManager extends ModPack {
     public static int scaleFactor = 100;
     public static int batteryRotation = 0;
     private static int BatteryIconOpacity = 100;
-    private Object BatteryController;
+    private Object BatteryController = null;
     private int landscapeBatteryWidth = 20;
     private int landscapeBatteryHeight = 20;
     private static final ArrayList<Object> batteryViews = new ArrayList<>();
@@ -267,7 +267,9 @@ public class BatteryStyleManager extends ModPack {
                     new Thread(() -> {
                         try {
                             Thread.sleep(500);
-                            callMethod(BatteryController, "fireBatteryLevelChanged");
+                            if (BatteryController != null) {
+                                callMethod(BatteryController, "fireBatteryLevelChanged");
+                            }
                         } catch (Throwable ignored) {
                         }
                     }).start();
@@ -296,7 +298,9 @@ public class BatteryStyleManager extends ModPack {
                         setObjectField(param.thisObject, "mBatteryIconView", mBatteryIconView);
                     }
 
-                    callMethod(BatteryController, "fireBatteryLevelChanged");
+                    if (BatteryController != null) {
+                        callMethod(BatteryController, "fireBatteryLevelChanged");
+                    }
 
                     hidePercentage(param);
                 }
