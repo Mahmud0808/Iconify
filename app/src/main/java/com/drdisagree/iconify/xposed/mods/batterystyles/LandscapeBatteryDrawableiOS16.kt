@@ -284,6 +284,8 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
 
             textPaint.color = fillColor.inv() or 0xFF000000.toInt()
             val bolt = "\u26A1\uFE0E"
+            val xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
+            textPaint.xfermode = xfermode
             if (charging && batteryLevel < 100) c.drawText(
                 batteryLevel.toString() + bolt, pctX, pctY, textPaint
             )
