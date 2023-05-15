@@ -222,7 +222,12 @@ open class PortraitBatteryDrawableCapsule(private val context: Context, frameCol
         else fillRect.top + (fillRect.height() * (1 - fillFraction))
 
         levelRect.top = Math.floor(fillTop.toDouble()).toFloat()
-        levelPath.addRect(levelRect, Path.Direction.CCW)
+        //levelPath.addRect(levelRect, Path.Direction.CCW)
+        levelPath.addRoundRect(
+            levelRect, floatArrayOf(
+                8.0f, 8.0f, 8.0f, 8.0f, 8.0f, 8.0f, 8.0f, 8.0f
+            ), Path.Direction.CCW
+        )
 
         // The perimeter should never change
         unifiedPath.addPath(scaledPerimeter)
