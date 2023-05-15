@@ -14,15 +14,15 @@
         app:collapsedTitleTextAppearance="@style/Toolbar.TitleText.Collapsed"
         app:collapsedTitleTextColor="@color/textColorPrimary"
         app:contentScrim="@color/colorBackground"
-        app:titleCollapseMode="fade"
+        app:expandedTitleMarginBottom="@dimen/_25sdp"
         app:expandedTitleMarginEnd="@dimen/_28sdp"
         app:expandedTitleMarginStart="@dimen/_28sdp"
-        app:expandedTitleMarginBottom="@dimen/_25sdp"
         app:expandedTitleTextAppearance="@style/Toolbar.TitleText.Expanded"
         app:expandedTitleTextColor="@color/textColorPrimary"
         app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
         app:maxLines="1"
         app:title="@string/app_name"
+        app:titleCollapseMode="fade"
         app:titleTextEllipsize="end">
 
         <com.google.android.material.appbar.MaterialToolbar

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     android:fillViewport="true"
     tools:context=".ui.activities.QsPanelTilePixel">
 
@@ -14,10 +15,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/container_marginSide"
+        android:layout_marginTop="@dimen/content_marginTop"
         android:layout_marginEnd="@dimen/container_marginSide"
         android:clipToPadding="false"
         android:orientation="vertical"
-        android:layout_marginTop="@dimen/content_marginTop"
         android:paddingBottom="@dimen/container_marginTopBottom"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
