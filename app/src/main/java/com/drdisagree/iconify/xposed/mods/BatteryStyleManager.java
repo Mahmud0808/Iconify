@@ -26,7 +26,7 @@ import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_RL
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_IOS_16;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_STYLE_A;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_STYLE_B;
-import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_PORTRAIT_BUDDY;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_PORTRAIT_CAPSULE;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_PORTRAIT_LINE;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_PORTRAIT_MUSKU;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_PORTRAIT_PILL;
@@ -67,17 +67,17 @@ import com.drdisagree.iconify.xposed.HookEntry;
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.mods.batterystyles.BatteryDrawable;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawable;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableBuddy;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableLine;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableMusku;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawablePill;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableSignal;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableCapsule;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableLine;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableMusku;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawablePill;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableSignal;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableStyleA;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableStyleB;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableiOS16;
-import com.drdisagree.iconify.xposed.mods.batterystyles.RLandscapeBatteryDrawable;
-import com.drdisagree.iconify.xposed.mods.batterystyles.RLandscapeBatteryDrawableStyleA;
-import com.drdisagree.iconify.xposed.mods.batterystyles.RLandscapeBatteryDrawableStyleB;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeRBatteryDrawable;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeRBatteryDrawableStyleA;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeRBatteryDrawableStyleB;
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils;
 
 import java.util.ArrayList;
@@ -374,34 +374,34 @@ public class BatteryStyleManager extends ModPack {
             case BATTERY_STYLE_DEFAULT_LANDSCAPE:
                 break;
             case BATTERY_STYLE_CUSTOM_RLANDSCAPE:
-                mBatteryDrawable = new RLandscapeBatteryDrawable(context, frameColor);
+                mBatteryDrawable = new LandscapeRBatteryDrawable(context, frameColor);
                 break;
             case BATTERY_STYLE_CUSTOM_LANDSCAPE:
                 mBatteryDrawable = new LandscapeBatteryDrawable(context, frameColor);
                 break;
-            case BATTERY_STYLE_PORTRAIT_BUDDY:
-                mBatteryDrawable = new LandscapeBatteryDrawableBuddy(context, frameColor);
+            case BATTERY_STYLE_PORTRAIT_CAPSULE:
+                mBatteryDrawable = new PortraitBatteryDrawableCapsule(context, frameColor);
                 break;
             case BATTERY_STYLE_PORTRAIT_LINE:
-                mBatteryDrawable = new LandscapeBatteryDrawableLine(context, frameColor);
+                mBatteryDrawable = new PortraitBatteryDrawableLine(context, frameColor);
                 break;
             case BATTERY_STYLE_PORTRAIT_MUSKU:
-                mBatteryDrawable = new LandscapeBatteryDrawableMusku(context, frameColor);
+                mBatteryDrawable = new PortraitBatteryDrawableMusku(context, frameColor);
                 break;
             case BATTERY_STYLE_PORTRAIT_PILL:
-                mBatteryDrawable = new LandscapeBatteryDrawablePill(context, frameColor);
+                mBatteryDrawable = new PortraitBatteryDrawablePill(context, frameColor);
                 break;
             case BATTERY_STYLE_PORTRAIT_SIGNAL:
-                mBatteryDrawable = new LandscapeBatteryDrawableSignal(context, frameColor);
+                mBatteryDrawable = new PortraitBatteryDrawableSignal(context, frameColor);
                 break;
             case BATTERY_STYLE_RLANDSCAPE_STYLE_A:
-                mBatteryDrawable = new RLandscapeBatteryDrawableStyleA(context, frameColor);
+                mBatteryDrawable = new LandscapeRBatteryDrawableStyleA(context, frameColor);
                 break;
             case BATTERY_STYLE_LANDSCAPE_STYLE_A:
                 mBatteryDrawable = new LandscapeBatteryDrawableStyleA(context, frameColor);
                 break;
             case BATTERY_STYLE_RLANDSCAPE_STYLE_B:
-                mBatteryDrawable = new RLandscapeBatteryDrawableStyleB(context, frameColor);
+                mBatteryDrawable = new LandscapeRBatteryDrawableStyleB(context, frameColor);
                 break;
             case BATTERY_STYLE_LANDSCAPE_STYLE_B:
                 mBatteryDrawable = new LandscapeBatteryDrawableStyleB(context, frameColor);

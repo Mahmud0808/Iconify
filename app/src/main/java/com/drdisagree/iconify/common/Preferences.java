@@ -50,7 +50,7 @@ public class Preferences {
     public static final int BATTERY_STYLE_DEFAULT_LANDSCAPE = 2;
     public static final int BATTERY_STYLE_CUSTOM_RLANDSCAPE = 3;
     public static final int BATTERY_STYLE_CUSTOM_LANDSCAPE = 4;
-    public static final int BATTERY_STYLE_PORTRAIT_BUDDY = 5;
+    public static final int BATTERY_STYLE_PORTRAIT_CAPSULE = 5;
     public static final int BATTERY_STYLE_PORTRAIT_LINE = 6;
     public static final int BATTERY_STYLE_PORTRAIT_MUSKU = 7;
     public static final int BATTERY_STYLE_PORTRAIT_PILL = 8;

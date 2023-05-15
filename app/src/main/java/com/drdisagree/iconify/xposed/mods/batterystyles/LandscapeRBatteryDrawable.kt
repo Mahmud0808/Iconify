@@ -26,7 +26,7 @@ import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
  * frameworks/base/core/res/res/values/config.xml to allow for an easily overrideable battery icon
  */
 @SuppressLint("DiscouragedApi")
-open class RLandscapeBatteryDrawableStyleB(private val context: Context, frameColor: Int) :
+open class LandscapeRBatteryDrawable(private val context: Context, frameColor: Int) :
     BatteryDrawable() {
 
     // Need to load:
@@ -222,12 +222,7 @@ open class RLandscapeBatteryDrawableStyleB(private val context: Context, frameCo
         else fillRect.right - (fillRect.width() * (1 - fillFraction))
 
         levelRect.right = Math.floor(fillTop.toDouble()).toFloat()
-        //levelPath.addRect(levelRect, Path.Direction.CCW)
-        levelPath.addRoundRect(
-            levelRect, floatArrayOf(
-                3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f
-            ), Path.Direction.CCW
-        )
+        levelPath.addRect(levelRect, Path.Direction.CCW)
 
         // The perimeter should never change
         unifiedPath.addPath(scaledPerimeter)
@@ -447,26 +442,26 @@ open class RLandscapeBatteryDrawableStyleB(private val context: Context, frameCo
 
     private fun loadPaths() {
         val pathString =
-            "M6.10,0.80L15.78,0.80A5.18 5.18 0 0 1 20.96,5.98L20.96,5.98A5.18 5.18 0 0 1 15.78,11.16L6.10,11.16A5.18 5.18 0 0 1 0.92,5.98L0.92,5.98A5.18 5.18 0 0 1 6.10,0.80zM2.42,5.98L2.42,5.98A3.67 3.67 0 0 0 6.09,9.65L15.78,9.65A3.67 3.67 0 0 0 19.45,5.98L19.45,5.98A3.67 3.67 0 0 0 15.78,2.31L6.09,2.31A3.67 3.67 0 0 0 2.42,5.98zM21.70,5.05L21.70,7.02A0.92 0.92 0 0 0 22.62,7.94L22.62,7.94A0.92 0.92 0 0 0 23.54,7.02L23.54,5.05A0.92 0.92 0 0 0 22.62,4.13L22.62,4.13A0.92 0.92 0 0 0 21.70,5.05z"
+            "M2.44,0.64L19.70,0.64A2.21 2.21 0 0 1 21.91,2.85L21.91,9.21A2.21 2.21 0 0 1 19.70,11.42L2.44,11.42A2.21 2.21 0 0 1 0.23,9.21L0.23,2.85A2.21 2.21 0 0 1 2.44,0.64zM0.87,3.59L0.87,8.41A2.28 2.28 0 0 0 3.15,10.69L18.98,10.69A2.28 2.28 0 0 0 21.26,8.41L21.26,3.59A2.28 2.28 0 0 0 18.98,1.31L3.15,1.31A2.28 2.28 0 0 0 0.87,3.59zM22.45,8.32Q25.10,5.95,22.42,3.62"
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
 
         val errorPathString =
-            "M6.10,0.80L15.78,0.80A5.18 5.18 0 0 1 20.96,5.98L20.96,5.98A5.18 5.18 0 0 1 15.78,11.16L6.10,11.16A5.18 5.18 0 0 1 0.92,5.98L0.92,5.98A5.18 5.18 0 0 1 6.10,0.80zM2.42,5.98L2.42,5.98A3.67 3.67 0 0 0 6.09,9.65L15.78,9.65A3.67 3.67 0 0 0 19.45,5.98L19.45,5.98A3.67 3.67 0 0 0 15.78,2.31L6.09,2.31A3.67 3.67 0 0 0 2.42,5.98zM21.70,5.05L21.70,7.02A0.92 0.92 0 0 0 22.62,7.94L22.62,7.94A0.92 0.92 0 0 0 23.54,7.02L23.54,5.05A0.92 0.92 0 0 0 22.62,4.13L22.62,4.13A0.92 0.92 0 0 0 21.70,5.05z"
+            "M2.44,0.64L19.70,0.64A2.21 2.21 0 0 1 21.91,2.85L21.91,9.21A2.21 2.21 0 0 1 19.70,11.42L2.44,11.42A2.21 2.21 0 0 1 0.23,9.21L0.23,2.85A2.21 2.21 0 0 1 2.44,0.64zM0.87,3.59L0.87,8.41A2.28 2.28 0 0 0 3.15,10.69L18.98,10.69A2.28 2.28 0 0 0 21.26,8.41L21.26,3.59A2.28 2.28 0 0 0 18.98,1.31L3.15,1.31A2.28 2.28 0 0 0 0.87,3.59zM22.45,8.32Q25.10,5.95,22.42,3.62"
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
         val fillMaskString =
-            "M4.10,4.45L4.10,7.51A0.00 0.00 0 0 0 4.10,7.51L17.78,7.51A0.00 0.00 0 0 0 17.78,7.51L17.78,4.45A0.00 0.00 0 0 0 17.78,4.45L4.10,4.45A0.00 0.00 0 0 0 4.10,4.45z"
+            "M0.87,1.30L0.87,10.69A0.00 0.00 0 0 0 0.87,10.69L21.26,10.69A0.00 0.00 0 0 0 21.26,10.69L21.26,1.30A0.00 0.00 0 0 0 21.26,1.30L0.87,1.30A0.00 0.00 0 0 0 0.87,1.30z"
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
-        val boltPathString = "M10.81,10.30L12.84,6.06L9.76,6.13L14.43,1.90L12.86,5.07L15.85,5.00z"
+        val boltPathString = "M8.92,10.42L10.91,6.05L7.88,6.12L12.48,1.77L10.93,5.03L13.88,4.96z"
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
         val plusPathString =
-            "M6.10,0.80L15.78,0.80A5.18 5.18 0 0 1 20.96,5.98L20.96,5.98A5.18 5.18 0 0 1 15.78,11.16L6.10,11.16A5.18 5.18 0 0 1 0.92,5.98L0.92,5.98A5.18 5.18 0 0 1 6.10,0.80zM2.42,5.98L2.42,5.98A3.67 3.67 0 0 0 6.09,9.65L15.78,9.65A3.67 3.67 0 0 0 19.45,5.98L19.45,5.98A3.67 3.67 0 0 0 15.78,2.31L6.09,2.31A3.67 3.67 0 0 0 2.42,5.98zM21.70,5.05L21.70,7.02A0.92 0.92 0 0 0 22.62,7.94L22.62,7.94A0.92 0.92 0 0 0 23.54,7.02L23.54,5.05A0.92 0.92 0 0 0 22.62,4.13L22.62,4.13A0.92 0.92 0 0 0 21.70,5.05z"
+            "M14.92,5.01L11.69,5.18L11.97,2.85L10.23,2.97L10.41,5.12L7.65,4.97L7.43,6.69L10.37,6.61L10.26,9.22L12.14,9.08L11.82,6.69L14.91,6.78z"
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
         dualTone = context.resources.getBoolean(
@@ -477,7 +472,7 @@ open class RLandscapeBatteryDrawableStyleB(private val context: Context, frameCo
     }
 
     companion object {
-        private const val TAG = "RLandscapeBatteryDrawableStyleB"
+        private const val TAG = "LandscapeRBatteryDrawable"
         private const val WIDTH = 24f
         private const val HEIGHT = 12f
         private const val CRITICAL_LEVEL = 15

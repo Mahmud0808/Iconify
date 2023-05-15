@@ -26,7 +26,7 @@ import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
  * frameworks/base/core/res/res/values/config.xml to allow for an easily overrideable battery icon
  */
 @SuppressLint("DiscouragedApi")
-open class RLandscapeBatteryDrawableStyleA(private val context: Context, frameColor: Int) :
+open class PortraitBatteryDrawableMusku(private val context: Context, frameColor: Int) :
     BatteryDrawable() {
 
     // Need to load:
@@ -180,8 +180,8 @@ open class RLandscapeBatteryDrawableStyleA(private val context: Context, frameCo
 
     init {
         val density = context.resources.displayMetrics.density
-        intrinsicHeight = (Companion.HEIGHT * density).toInt()
-        intrinsicWidth = (Companion.WIDTH * density).toInt()
+        intrinsicHeight = (HEIGHT * density).toInt()
+        intrinsicWidth = (WIDTH * density).toInt()
 
         val res = context.resources
         val levels = res.obtainTypedArray(
@@ -218,16 +218,11 @@ open class RLandscapeBatteryDrawableStyleA(private val context: Context, frameCo
         levelPath.reset()
         levelRect.set(fillRect)
         val fillFraction = batteryLevel / 100f
-        val fillTop = if (batteryLevel >= 95) fillRect.right
-        else fillRect.right - (fillRect.width() * (1 - fillFraction))
+        val fillTop = if (batteryLevel >= 95) fillRect.top
+        else fillRect.top + (fillRect.height() * (1 - fillFraction))
 
-        levelRect.right = Math.floor(fillTop.toDouble()).toFloat()
-        //levelPath.addRect(levelRect, Path.Direction.CCW)
-        levelPath.addRoundRect(
-            levelRect, floatArrayOf(
-                4.0f, 4.0f, 4.0f, 4.0f, 4.0f, 4.0f, 4.0f, 4.0f
-            ), Path.Direction.CCW
-        )
+        levelRect.top = Math.floor(fillTop.toDouble()).toFloat()
+        levelPath.addRect(levelRect, Path.Direction.CCW)
 
         // The perimeter should never change
         unifiedPath.addPath(scaledPerimeter)
@@ -252,10 +247,10 @@ open class RLandscapeBatteryDrawableStyleA(private val context: Context, frameCo
             c.drawPath(unifiedPath, dualToneBackgroundFill)
             c.save()
             c.clipRect(
-                bounds.left.toFloat(),
                 0f,
-                bounds.right + bounds.width() * fillFraction,
-                bounds.left.toFloat()
+                bounds.bottom - bounds.height() * fillFraction,
+                bounds.right.toFloat(),
+                bounds.bottom.toFloat()
             )
             c.drawPath(unifiedPath, fillPaint)
             c.restore()
@@ -293,10 +288,10 @@ open class RLandscapeBatteryDrawableStyleA(private val context: Context, frameCo
         c.restore()
 
         if (!charging && batteryLevel < 100 && showPercent) {
-            textPaint.textSize = bounds.width() * 0.38f
-            val textHeight = +textPaint.fontMetrics.ascent
-            val pctX = (bounds.width() + textHeight) * 0.7f
-            val pctY = bounds.height() * 0.8f
+            textPaint.textSize = bounds.height() * 0.38f
+            val textHeight = -textPaint.fontMetrics.ascent
+            val pctX = bounds.width() * 0.5f
+            val pctY = (bounds.height() + textHeight) * 0.5f
 
             textPaint.color = fillColor
             c.drawText(batteryLevel.toString(), pctX, pctY, textPaint)
@@ -305,8 +300,8 @@ open class RLandscapeBatteryDrawableStyleA(private val context: Context, frameCo
             c.save()
             c.clipRect(
                 fillRect.left,
-                fillRect.top,
-                fillRect.right - (fillRect.width() * (1 - fillFraction)),
+                fillRect.top + (fillRect.height() * (1 - fillFraction)),
+                fillRect.right,
                 fillRect.bottom
             )
             c.drawText(batteryLevel.toString(), pctX, pctY, textPaint)
@@ -438,7 +433,6 @@ open class RLandscapeBatteryDrawableStyleA(private val context: Context, frameCo
         // It is expected that this view only ever scale by the same factor in each dimension, so
         // just pick one to scale the strokeWidths
         val scaledStrokeWidth =
-
             Math.max(b.right / WIDTH * PROTECTION_STROKE_WIDTH, PROTECTION_MIN_STROKE_WIDTH)
 
         fillColorStrokePaint.strokeWidth = scaledStrokeWidth
@@ -447,27 +441,27 @@ open class RLandscapeBatteryDrawableStyleA(private val context: Context, frameCo
 
     private fun loadPaths() {
         val pathString =
-            "M20.74,6L20.74,9.01L20.83,9C21.17,8.98,21.45,8.88,21.74,8.69C21.89,8.59,21.98,8.52,22.11,8.38C22.43,8.06,22.65,7.68,22.81,7.19C23.22,5.94,22.93,4.48,22.13,3.64C21.75,3.25,21.32,3.04,20.84,3L20.74,3L20.74,6Z,M2.74,0.01C2.41,0.04,2.08,0.12,1.79,0.25C1.34,0.44,0.92,0.76,0.61,1.16C0.26,1.62,0.03,2.19,-0.01,2.78C-0.02,2.95,-0.02,9.07,-0.01,9.23C0.02,9.62,0.12,9.98,0.29,10.33C0.59,10.92,1.03,11.38,1.61,11.67C1.87,11.81,2.13,11.9,2.42,11.95C2.7,12.01,2.21,12,9.99,12C15.93,12,17.22,12,17.31,11.9C18.35,11.87,19.23,11.25,19.68,10.33C19.84,10,19.93,9.68,19.98,9.33C19.99,9.16,19.99,2.85,19.98,2.68C19.93,2.32,19.84,2,19.67,1.66C19.44,1.18,19.09,0.79,18.64,0.49C18.21,0.21,17.75,0.06,17.22,0.01C17.08,-0,2.87,-0,2.74,0.01ZM17.03,1.26C17.67,1.33,18.21,1.7,18.51,2.26C18.58,2.39,18.64,2.54,18.67,2.68C18.74,2.93,18.73,2.74,18.73,6C18.73,7.97,18.73,9,18.72,9.06C18.64,9.76,18.19,10.36,17.54,10.62C17.42,10.67,17.3,10.7,17.15,10.73L17.03,10.75L9.98,10.75L2.93,10.75L2.8,10.73C1.95,10.58,1.32,9.9,1.23,9.05C1.22,8.97,1.22,8.02,1.22,5.93L1.22,2.93L1.25,2.82C1.35,2.28,1.64,1.85,2.09,1.56C2.32,1.4,2.63,1.29,2.91,1.26C3.03,1.25,16.91,1.25,17.03,1.26Z"
+            "M1.18,17.23L1.18,4.75A2.77 2.77 0 0 1 3.95,1.98L8.05,1.98A2.77 2.77 0 0 1 10.82,4.75L10.82,17.23A2.77 2.77 0 0 1 8.05,20.00L3.95,20.00A2.77 2.77 0 0 1 1.18,17.23zM4.25,19.07L7.75,19.07A2.14 2.14 0 0 0 9.88,16.93L9.88,5.05A2.14 2.14 0 0 0 7.75,2.91L4.25,2.91A2.14 2.14 0 0 0 2.12,5.05L2.12,16.93A2.14 2.14 0 0 0 4.25,19.07zM7.71,1.05C6.78,-0.35,5.22,-0.35,4.29,1.05L7.71,1.05z"
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
 
         val errorPathString =
-            "M20.74,6L20.74,9.01L20.83,9C21.17,8.98,21.45,8.88,21.74,8.69C21.89,8.59,21.98,8.52,22.11,8.38C22.43,8.06,22.65,7.68,22.81,7.19C23.22,5.94,22.93,4.48,22.13,3.64C21.75,3.25,21.32,3.04,20.84,3L20.74,3L20.74,6Z,M2.74,0.01C2.41,0.04,2.08,0.12,1.79,0.25C1.34,0.44,0.92,0.76,0.61,1.16C0.26,1.62,0.03,2.19,-0.01,2.78C-0.02,2.95,-0.02,9.07,-0.01,9.23C0.02,9.62,0.12,9.98,0.29,10.33C0.59,10.92,1.03,11.38,1.61,11.67C1.87,11.81,2.13,11.9,2.42,11.95C2.7,12.01,2.21,12,9.99,12C15.93,12,17.22,12,17.31,11.9C18.35,11.87,19.23,11.25,19.68,10.33C19.84,10,19.93,9.68,19.98,9.33C19.99,9.16,19.99,2.85,19.98,2.68C19.93,2.32,19.84,2,19.67,1.66C19.44,1.18,19.09,0.79,18.64,0.49C18.21,0.21,17.75,0.06,17.22,0.01C17.08,-0,2.87,-0,2.74,0.01ZM17.03,1.26C17.67,1.33,18.21,1.7,18.51,2.26C18.58,2.39,18.64,2.54,18.67,2.68C18.74,2.93,18.73,2.74,18.73,6C18.73,7.97,18.73,9,18.72,9.06C18.64,9.76,18.19,10.36,17.54,10.62C17.42,10.67,17.3,10.7,17.15,10.73L17.03,10.75L9.98,10.75L2.93,10.75L2.8,10.73C1.95,10.58,1.32,9.9,1.23,9.05C1.22,8.97,1.22,8.02,1.22,5.93L1.22,2.93L1.25,2.82C1.35,2.28,1.64,1.85,2.09,1.56C2.32,1.4,2.63,1.29,2.91,1.26C3.03,1.25,16.91,1.25,17.03,1.26Z"
+            "M1.18,17.23L1.18,4.75A2.77 2.77 0 0 1 3.95,1.98L8.05,1.98A2.77 2.77 0 0 1 10.82,4.75L10.82,17.23A2.77 2.77 0 0 1 8.05,20.00L3.95,20.00A2.77 2.77 0 0 1 1.18,17.23zM4.25,19.07L7.75,19.07A2.14 2.14 0 0 0 9.88,16.93L9.88,5.05A2.14 2.14 0 0 0 7.75,2.91L4.25,2.91A2.14 2.14 0 0 0 2.12,5.05L2.12,16.93A2.14 2.14 0 0 0 4.25,19.07zM7.71,1.05C6.78,-0.35,5.22,-0.35,4.29,1.05L7.71,1.05z"
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
         val fillMaskString =
-            "M3.32,1.76C3.15,1.77,3.01,1.8,2.86,1.85C2.26,2.07,1.84,2.59,1.75,3.22C1.73,3.35,1.73,8.67,1.75,8.8C1.86,9.49,2.35,10.04,3.03,10.21C3.22,10.25,2.84,10.25,9.99,10.25C15.54,10.25,16.7,10.25,16.78,10.24C17.29,10.16,17.73,9.87,18,9.43C18.1,9.26,18.19,9.02,18.22,8.82C18.24,8.72,18.24,8.52,18.24,6.01C18.24,3.8,18.24,3.29,18.22,3.22C18.13,2.59,17.71,2.07,17.11,1.85C17.01,1.82,16.93,1.8,16.81,1.77C16.73,1.76,16.2,1.75,10.04,1.75C6.36,1.75,3.34,1.75,3.32,1.76Z"
+            "M2.88,16.88L2.88,5.20A1.33 1.33 0 0 1 4.20,3.88L7.80,3.88A1.33 1.33 0 0 1 9.13,5.20L9.13,16.88A1.33 1.33 0 0 1 7.80,18.21L4.20,18.21A1.33 1.33 0 0 1 2.88,16.88z"
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
         val boltPathString =
-            "M7.43,6.77L9.68,6.77L8.51,9.81C8.34,10.26,8.8,10.49,9.1,10.13L12.75,5.78C12.82,5.7,12.86,5.61,12.86,5.52C12.86,5.35,12.73,5.23,12.54,5.23L10.29,5.23L11.46,2.19C11.63,1.75,11.17,1.52,10.88,1.87L7.23,6.21C7.15,6.3,7.11,6.39,7.11,6.48C7.11,6.65,7.25,6.77,7.43,6.77Z"
+            "M6.84,11.51L6.84,13.68Q6.77,14.26,6.26,13.90L1.79,10.09C1.47,9.77,1.69,9.11,2.45,9.44L5.16,10.49L5.16,8.32Q5.23,7.74,5.74,8.10L10.21,11.91C10.53,12.23,10.31,12.89,9.55,12.56L6.84,11.51z"
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
         val plusPathString =
-            "M20.74,6L20.74,9.01L20.83,9C21.17,8.98,21.45,8.88,21.74,8.69C21.89,8.59,21.98,8.52,22.11,8.38C22.43,8.06,22.65,7.68,22.81,7.19C23.22,5.94,22.93,4.48,22.13,3.64C21.75,3.25,21.32,3.04,20.84,3L20.74,3L20.74,6Z,M2.74,0.01C2.41,0.04,2.08,0.12,1.79,0.25C1.34,0.44,0.92,0.76,0.61,1.16C0.26,1.62,0.03,2.19,-0.01,2.78C-0.02,2.95,-0.02,9.07,-0.01,9.23C0.02,9.62,0.12,9.98,0.29,10.33C0.59,10.92,1.03,11.38,1.61,11.67C1.87,11.81,2.13,11.9,2.42,11.95C2.7,12.01,2.21,12,9.99,12C15.93,12,17.22,12,17.31,11.9C18.35,11.87,19.23,11.25,19.68,10.33C19.84,10,19.93,9.68,19.98,9.33C19.99,9.16,19.99,2.85,19.98,2.68C19.93,2.32,19.84,2,19.67,1.66C19.44,1.18,19.09,0.79,18.64,0.49C18.21,0.21,17.75,0.06,17.22,0.01C17.08,-0,2.87,-0,2.74,0.01ZM17.03,1.26C17.67,1.33,18.21,1.7,18.51,2.26C18.58,2.39,18.64,2.54,18.67,2.68C18.74,2.93,18.73,2.74,18.73,6C18.73,7.97,18.73,9,18.72,9.06C18.64,9.76,18.19,10.36,17.54,10.62C17.42,10.67,17.3,10.7,17.15,10.73L17.03,10.75L9.98,10.75L2.93,10.75L2.8,10.73C1.95,10.58,1.32,9.9,1.23,9.05C1.22,8.97,1.22,8.02,1.22,5.93L1.22,2.93L1.25,2.82C1.35,2.28,1.64,1.85,2.09,1.56C2.32,1.4,2.63,1.29,2.91,1.26C3.03,1.25,16.91,1.25,17.03,1.26Z"
+            "M1.18,17.23L1.18,4.75A2.77 2.77 0 0 1 3.95,1.98L8.05,1.98A2.77 2.77 0 0 1 10.82,4.75L10.82,17.23A2.77 2.77 0 0 1 8.05,20.00L3.95,20.00A2.77 2.77 0 0 1 1.18,17.23zM4.25,19.07L7.75,19.07A2.14 2.14 0 0 0 9.88,16.93L9.88,5.05A2.14 2.14 0 0 0 7.75,2.91L4.25,2.91A2.14 2.14 0 0 0 2.12,5.05L2.12,16.93A2.14 2.14 0 0 0 4.25,19.07zM7.71,1.05C6.78,-0.35,5.22,-0.35,4.29,1.05L7.71,1.05z"
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
         dualTone = context.resources.getBoolean(
@@ -478,9 +472,9 @@ open class RLandscapeBatteryDrawableStyleA(private val context: Context, frameCo
     }
 
     companion object {
-        private const val TAG = "RLandscapeBatteryDrawableStyleA"
-        private const val WIDTH = 24f
-        private const val HEIGHT = 12f
+        private const val TAG = "PortraitBatteryDrawableMusku"
+        private const val WIDTH = 12f
+        private const val HEIGHT = 20f
         private const val CRITICAL_LEVEL = 15
 
         // On a 12x20 grid, how wide to make the fill protection stroke.
