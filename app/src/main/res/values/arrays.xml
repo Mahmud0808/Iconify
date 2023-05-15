@@ -13,6 +13,7 @@
         <item>Portuguese</item>
         <item>Russian</item>
         <item>Turkish</item>
+        <item>Vietnamese</item>
     </string-array>
     <string-array name="locale_code">
         <item>en</item>
@@ -22,6 +23,7 @@
         <item>pt</item>
         <item>ru</item>
         <item>tr</item>
+        <item>vi</item>
     </string-array>
     <string-array name="app_theme">
         <item>@string/app_theme_light</item>
