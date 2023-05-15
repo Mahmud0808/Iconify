@@ -102,6 +102,7 @@ public class Info extends BaseActivity {
         translators_list.add(new InfoModel(this, "Blays", getResources().getString(R.string.ru_translation), "https://github.com/B1ays", R.drawable.ic_user));
         translators_list.add(new InfoModel(this, "Cccc_", getResources().getString(R.string.zh_cn_translation), "https://github.com/Cccc-owo", R.drawable.ic_user));
         translators_list.add(new InfoModel(this, "Serhat Demir", getResources().getString(R.string.tr_translation), "https://github.com/serhat-demir", R.drawable.ic_user));
+        translators_list.add(new InfoModel(this, "Đức Trọng", getResources().getString(R.string.vi_translation), "https://t.me/viettel1211", R.drawable.ic_user));
 
         return new InfoAdapter(this, translators_list);
     }
