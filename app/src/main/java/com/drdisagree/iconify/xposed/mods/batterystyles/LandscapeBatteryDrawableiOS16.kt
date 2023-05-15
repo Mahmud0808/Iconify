@@ -16,6 +16,7 @@ package com.drdisagree.iconify.xposed.mods.batterystyles
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.*
 import android.util.TypedValue
 import androidx.core.graphics.PathParser
@@ -238,6 +239,15 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
 
         fillPaint.color = levelColor
 
+        // Deal with unifiedPath clipping before it draws
+        if (charging && batteryLevel < 100) {
+            // Clip out the bolt shape
+            unifiedPath.op(scaledBolt, Path.Op.DIFFERENCE)
+            if (!invertFillIcon) {
+                c.drawPath(boltPath, textPaint)
+            }
+        }
+
         if (dualTone) {
             // Dual tone means we draw the shape again, clipped to the charge level
             c.drawPath(unifiedPath, dualToneBackgroundFill)
@@ -277,19 +287,19 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
         c.restore()
 
         if (showPercent) {
-            textPaint.textSize = bounds.width() * 0.38f
+            textPaint.textSize = bounds.width() * 0.42f
             val textHeight = +textPaint.fontMetrics.ascent
-            val pctX = (bounds.width() + textHeight) * 0.7f
+            var pctX = (bounds.width() + textHeight) * 0.7f
             val pctY = bounds.height() * 0.8f
 
             textPaint.color = fillColor.inv() or 0xFF000000.toInt()
-            val bolt = "\u26A1\uFE0E"
             val xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
             textPaint.xfermode = xfermode
-            if (charging && batteryLevel < 100) c.drawText(
-                batteryLevel.toString() + bolt, pctX, pctY, textPaint
-            )
-            else c.drawText(batteryLevel.toString(), pctX, pctY, textPaint)
+
+            if (charging && batteryLevel < 100) {
+                pctX -= (pctX * 0.12f)
+            }
+            c.drawText(batteryLevel.toString(), pctX, pctY, textPaint)
         }
     }
 
@@ -444,7 +454,8 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
-        val boltPathString = ""
+        val boltPathString =
+            "M17.96,5.25L19.91,5.25Q20.43,5.31,20.10,5.77L16.69,9.77C16.39,10.06,15.81,9.87,16.10,9.18L17.04,6.75L15.09,6.75Q14.57,6.69,14.90,6.23L18.31,2.23C18.61,1.94,19.19,2.13,18.90,2.82L17.96,5.25z"
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
         val plusPathString =
