@@ -29,6 +29,7 @@ import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_PORTRAIT_CAPSULE;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_PORTRAIT_LINE;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_PORTRAIT_MUSKU;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_PORTRAIT_ORIGAMI;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_PORTRAIT_PILL;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_PORTRAIT_SIGNAL;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_RLANDSCAPE_STYLE_A;
@@ -67,17 +68,18 @@ import com.drdisagree.iconify.xposed.HookEntry;
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.mods.batterystyles.BatteryDrawable;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawable;
-import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableCapsule;
-import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableLine;
-import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableMusku;
-import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawablePill;
-import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableSignal;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableStyleA;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableStyleB;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableiOS16;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeRBatteryDrawable;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeRBatteryDrawableStyleA;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeRBatteryDrawableStyleB;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableCapsule;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableLine;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableMusku;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableOrigami;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawablePill;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableSignal;
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils;
 
 import java.util.ArrayList;
@@ -408,6 +410,9 @@ public class BatteryStyleManager extends ModPack {
                 break;
             case BATTERY_STYLE_LANDSCAPE_IOS_16:
                 mBatteryDrawable = new LandscapeBatteryDrawableiOS16(context, frameColor);
+                break;
+            case BATTERY_STYLE_PORTRAIT_ORIGAMI:
+                mBatteryDrawable = new PortraitBatteryDrawableOrigami(context, frameColor);
                 break;
         }
 
