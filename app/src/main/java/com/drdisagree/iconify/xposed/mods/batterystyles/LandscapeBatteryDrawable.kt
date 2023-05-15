@@ -464,11 +464,7 @@ open class LandscapeBatteryDrawable(private val context: Context, frameColor: In
             "M8.90,5.05L12.19,5.21L11.90,2.95L13.67,3.07L13.48,5.16L16.28,5.01L16.51,6.68L13.53,6.60L13.64,9.13L11.73,9.00L12.05,6.68L8.92,6.76z"
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
-        dualTone = context.resources.getBoolean(
-            context.resources.getIdentifier(
-                "android:bool/config_batterymeterDualTone", "bool", "android"
-            )
-        )
+        dualTone = false
     }
 
     companion object {

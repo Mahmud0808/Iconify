@@ -469,11 +469,7 @@ open class PortraitBatteryDrawableMusku(private val context: Context, frameColor
             "M1.18,17.23L1.18,4.75A2.77 2.77 0 0 1 3.95,1.98L8.05,1.98A2.77 2.77 0 0 1 10.82,4.75L10.82,17.23A2.77 2.77 0 0 1 8.05,20.00L3.95,20.00A2.77 2.77 0 0 1 1.18,17.23zM4.25,19.07L7.75,19.07A2.14 2.14 0 0 0 9.88,16.93L9.88,5.05A2.14 2.14 0 0 0 7.75,2.91L4.25,2.91A2.14 2.14 0 0 0 2.12,5.05L2.12,16.93A2.14 2.14 0 0 0 4.25,19.07zM7.71,1.05C6.78,-0.35,5.22,-0.35,4.29,1.05L7.71,1.05z"
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
-        dualTone = context.resources.getBoolean(
-            context.resources.getIdentifier(
-                "android:bool/config_batterymeterDualTone", "bool", "android"
-            )
-        )
+        dualTone = false
     }
 
     companion object {

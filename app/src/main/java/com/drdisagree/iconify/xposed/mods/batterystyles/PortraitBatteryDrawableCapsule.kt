@@ -470,11 +470,7 @@ open class PortraitBatteryDrawableCapsule(private val context: Context, frameCol
             "M3.61,5.65L8.39,5.65A3.59 3.59 0 0 1 11.98,9.24L11.98,10.76A3.59 3.59 0 0 1 8.39,14.35L3.61,14.35A3.59 3.59 0 0 1 0.02,10.76L0.02,9.24A3.59 3.59 0 0 1 3.61,5.65zM1.32,9.13L1.32,10.87A2.17 2.17 0 0 0 3.50,13.04L8.50,13.04A2.17 2.17 0 0 0 10.68,10.87L10.68,9.13A2.17 2.17 0 0 0 8.50,6.96L3.50,6.96A2.17 2.17 0 0 0 1.32,9.13z"
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
-        dualTone = context.resources.getBoolean(
-            context.resources.getIdentifier(
-                "android:bool/config_batterymeterDualTone", "bool", "android"
-            )
-        )
+        dualTone = false
     }
 
     companion object {

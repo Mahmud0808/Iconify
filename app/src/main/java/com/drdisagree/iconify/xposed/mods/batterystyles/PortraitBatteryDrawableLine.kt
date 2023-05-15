@@ -471,11 +471,7 @@ open class PortraitBatteryDrawableLine(private val context: Context, frameColor:
             "M1.71,6.00L8.79,6.00A1.71 1.71 0 0 1 10.50,7.71L10.50,12.29A1.71 1.71 0 0 1 8.79,14.00L1.71,14.00A1.71 1.71 0 0 1 0.00,12.29L0.00,7.71A1.71 1.71 0 0 1 1.71,6.00zM11.00,9.25L11.00,10.75A0.50 0.50 0 0 0 11.50,11.25L11.50,11.25A0.50 0.50 0 0 0 12.00,10.75L12.00,9.25A0.50 0.50 0 0 0 11.50,8.75L11.50,8.75A0.50 0.50 0 0 0 11.00,9.25zM1.00,8.00L1.00,12.00A1.00 1.00 0 0 0 2.00,13.00L8.50,13.00A1.00 1.00 0 0 0 9.50,12.00L9.50,8.00A1.00 1.00 0 0 0 8.50,7.00L2.00,7.00A1.00 1.00 0 0 0 1.00,8.00z"
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
-        dualTone = context.resources.getBoolean(
-            context.resources.getIdentifier(
-                "android:bool/config_batterymeterDualTone", "bool", "android"
-            )
-        )
+        dualTone = false
     }
 
     companion object {
