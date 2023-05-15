@@ -5,6 +5,7 @@
     android:id="@+id/activity_media_player"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     android:fillViewport="true"
     tools:context=".ui.activities.MediaPlayer">
 
@@ -13,6 +14,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/content_marginTop"
         android:fillViewport="true"
         android:orientation="vertical"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
@@ -20,7 +22,6 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/container_marginTopBottom"
             android:layout_marginBottom="@dimen/container_marginTopBottom">
 
             <TextView

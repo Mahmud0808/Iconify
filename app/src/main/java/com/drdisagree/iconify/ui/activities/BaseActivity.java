@@ -6,11 +6,16 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.view.WindowCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.utils.helpers.LocaleHelper;
 import com.drdisagree.iconify.ui.utils.ThemeHelper;
 
 public class BaseActivity extends AppCompatActivity {
+
+    RecyclerView recyclerView;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -21,5 +26,9 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         AppCompatDelegate.setDefaultNightMode(ThemeHelper.getTheme());
         super.onCreate(savedInstanceState);
+
+        setSupportActionBar(findViewById(R.id.toolbar));
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+
     }
 }
