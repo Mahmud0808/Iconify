@@ -222,7 +222,12 @@ open class PortraitBatteryDrawableSignal(private val context: Context, frameColo
         else fillRect.top + (fillRect.height() * (1 - fillFraction))
 
         levelRect.top = Math.floor(fillTop.toDouble()).toFloat()
-        levelPath.addRect(levelRect, Path.Direction.CCW)
+        //levelPath.addRect(levelRect, Path.Direction.CCW)
+        levelPath.addRoundRect(
+            levelRect, floatArrayOf(
+                3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f
+            ), Path.Direction.CCW
+        )
 
         // The perimeter should never change
         unifiedPath.addPath(scaledPerimeter)
