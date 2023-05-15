@@ -16,7 +16,6 @@ package com.drdisagree.iconify.xposed.mods.batterystyles
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.Configuration
 import android.graphics.*
 import android.util.TypedValue
 import androidx.core.graphics.PathParser
@@ -239,12 +238,44 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
 
         fillPaint.color = levelColor
 
-        // Deal with unifiedPath clipping before it draws
-        if (charging && batteryLevel < 100) {
-            // Clip out the bolt shape
-            unifiedPath.op(scaledBolt, Path.Op.DIFFERENCE)
-            if (!invertFillIcon) {
-                c.drawPath(boltPath, textPaint)
+        if (showPercent) {
+            val mergedPath = Path()
+            mergedPath.reset()
+
+            textPaint.textSize = bounds.width() * 0.42f
+            val textHeight = +textPaint.fontMetrics.ascent
+            var pctX = (bounds.width() + textHeight) * 0.7f
+            val pctY = bounds.height() * 0.8f
+
+            if (charging && batteryLevel < 100) {
+                pctX -= (pctX * 0.15f)
+            }
+
+            val textPath = Path()
+            textPath.reset()
+            textPaint.getTextPath(
+                batteryLevel.toString(), 0, batteryLevel.toString().length, pctX, pctY, textPath
+            )
+
+            mergedPath.addPath(textPath)
+            mergedPath.addPath(scaledBolt)
+
+            val xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
+            textPaint.xfermode = xfermode
+
+            // Deal with unifiedPath clipping before it draws
+            if (charging && batteryLevel < 100) {
+                // Clip out the bolt shape
+                unifiedPath.op(mergedPath, Path.Op.DIFFERENCE)
+
+                if (!invertFillIcon) {
+                    c.drawPath(mergedPath, textPaint)
+                }
+            } else {
+                // Clip out the text path
+                unifiedPath.op(textPath, Path.Op.DIFFERENCE)
+
+                c.drawPath(textPath, textPaint)
             }
         }
 
@@ -285,22 +316,6 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
             }
         }
         c.restore()
-
-        if (showPercent) {
-            textPaint.textSize = bounds.width() * 0.42f
-            val textHeight = +textPaint.fontMetrics.ascent
-            var pctX = (bounds.width() + textHeight) * 0.7f
-            val pctY = bounds.height() * 0.8f
-
-            textPaint.color = fillColor.inv() or 0xFF000000.toInt()
-            val xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
-            textPaint.xfermode = xfermode
-
-            if (charging && batteryLevel < 100) {
-                pctX -= (pctX * 0.12f)
-            }
-            c.drawText(batteryLevel.toString(), pctX, pctY, textPaint)
-        }
     }
 
     private fun batteryColorForLevel(level: Int): Int {
