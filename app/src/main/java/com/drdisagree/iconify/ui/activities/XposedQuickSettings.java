@@ -168,10 +168,4 @@ public class XposedQuickSettings extends BaseActivity {
             return true;
         });
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 }

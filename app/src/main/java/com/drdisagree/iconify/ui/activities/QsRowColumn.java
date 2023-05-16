@@ -210,12 +210,6 @@ public class QsRowColumn extends BaseActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-    @Override
     public void onDestroy() {
         loadingDialog.hide();
         super.onDestroy();

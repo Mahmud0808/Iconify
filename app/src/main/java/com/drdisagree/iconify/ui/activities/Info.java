@@ -106,10 +106,4 @@ public class Info extends BaseActivity {
 
         return new InfoAdapter(this, translators_list);
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 }

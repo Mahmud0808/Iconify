@@ -128,10 +128,4 @@ public class IconShape extends BaseActivity {
             }
         }
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 }

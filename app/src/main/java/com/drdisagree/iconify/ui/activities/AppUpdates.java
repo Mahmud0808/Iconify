@@ -107,12 +107,6 @@ public class AppUpdates extends BaseActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-    @Override
     public void onDestroy() {
         if (checkForUpdate != null) checkForUpdate.cancel(true);
         super.onDestroy();

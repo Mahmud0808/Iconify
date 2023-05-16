@@ -369,10 +369,4 @@ public class NavigationBar extends BaseActivity {
             OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmaller.overlay");
         }
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 }

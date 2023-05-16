@@ -144,12 +144,6 @@ public class UiRoundness extends BaseActivity {
         else qs_tile_orientation.setOrientation(LinearLayout.VERTICAL);
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
     // Change orientation in landscape / portrait mode
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {

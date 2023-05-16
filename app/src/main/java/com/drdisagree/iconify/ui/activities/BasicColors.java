@@ -156,12 +156,6 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-    @Override
     public void onColorSelected(int dialogId, int color) {
         switch (dialogId) {
             case 1:

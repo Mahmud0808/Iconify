@@ -151,10 +151,4 @@ public class XposedOthers extends BaseActivity {
             }
         });
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 }

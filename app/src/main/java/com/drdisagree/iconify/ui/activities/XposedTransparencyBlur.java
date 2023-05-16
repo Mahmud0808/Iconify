@@ -113,10 +113,4 @@ public class XposedTransparencyBlur extends BaseActivity {
             }
         });
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 }

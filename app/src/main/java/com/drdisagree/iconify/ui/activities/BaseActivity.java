@@ -10,8 +10,8 @@ import androidx.core.view.WindowCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.utils.helpers.LocaleHelper;
 import com.drdisagree.iconify.ui.utils.ThemeHelper;
+import com.drdisagree.iconify.utils.helpers.LocaleHelper;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -30,5 +30,11 @@ public class BaseActivity extends AppCompatActivity {
         setSupportActionBar(findViewById(R.id.toolbar));
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

@@ -502,12 +502,6 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         generatedColorPaletteNight = palette_night;
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
     private void disableBasicColors() {
         Prefs.clearPref("customMonetColor");
         Prefs.clearPref(CUSTOM_PRIMARY_COLOR_SWITCH);

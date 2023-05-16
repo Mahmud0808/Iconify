@@ -34,10 +34,4 @@ public class Miscellaneous extends BaseActivity {
             }, SWITCH_ANIMATION_DELAY);
         });
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 }

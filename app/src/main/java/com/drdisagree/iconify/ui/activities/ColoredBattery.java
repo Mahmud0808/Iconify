@@ -141,10 +141,4 @@ public class ColoredBattery extends BaseActivity implements ColorPickerDialogLis
         gd.setCornerRadius(getResources().getDimension(com.intuit.sdp.R.dimen._24sdp) * getResources().getDisplayMetrics().density);
         preview_color_picker_fill.setBackgroundDrawable(gd);
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 }
