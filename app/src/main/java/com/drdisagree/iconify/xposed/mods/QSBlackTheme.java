@@ -186,7 +186,7 @@ public class QSBlackTheme extends ModPack {
                         protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                             if (!blackQSHeaderEnabled) return;
 
-                            int textColor = getColorAttrDefaultColor(android.R.attr.textColorPrimaryInverse, mContext);
+                            int textColor = Color.WHITE;
 
                             try {
                                 ((TextView) mView.findViewById(mContext.getResources().getIdentifier("clock", "id", mContext.getPackageName()))).setTextColor(textColor);
