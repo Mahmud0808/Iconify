@@ -25,7 +25,6 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setupEdgetoEdge();
-
     }
 
     private void setupEdgetoEdge() {
