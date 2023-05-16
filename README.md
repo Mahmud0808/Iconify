@@ -54,7 +54,7 @@ What you can change using Iconify:
 
 - Android 12+ Pixel / AOSP Based Rom
 
-- [Magisk](https://github.com/topjohnwu/Magisk) or [KernelSU](https://github.com/tiann/KernelSU)
+- [Magisk](https://github.com/topjohnwu/Magisk) (Recommended) or [KernelSU](https://github.com/tiann/KernelSU)
 
 - [LSPosed](https://github.com/LSPosed/LSPosed) (Optional)
 
