@@ -1,17 +1,3 @@
-/*
- * Copyright (C) 2019 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
- * except in compliance with the License. You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
- */
-
 package com.drdisagree.iconify.xposed.mods.batterystyles
 
 import android.annotation.SuppressLint
@@ -21,10 +7,6 @@ import android.util.TypedValue
 import androidx.core.graphics.PathParser
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
 
-/**
- * A battery meter drawable that respects paths configured in
- * frameworks/base/core/res/res/values/config.xml to allow for an easily overrideable battery icon
- */
 @SuppressLint("DiscouragedApi")
 open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColor: Int) :
     BatteryDrawable() {
@@ -310,10 +292,22 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
         if (!charging && powerSaveEnabled) {
             // If power save is enabled draw the perimeter path with colorError
             c.drawPath(scaledErrorPerimeter, errorPaint)
-            // And draw the plus sign on top of the fill
-            if (!showPercent) {
-                c.drawPath(scaledPlus, errorPaint)
-            }
+            textPaint.textSize = bounds.width() * 0.42f
+            val textHeight = +textPaint.fontMetrics.ascent
+            val pctX = (bounds.width() + textHeight) * 0.7f
+            val pctY = bounds.height() * 0.8f
+
+            val xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
+            textPaint.xfermode = xfermode
+
+            val textPath = Path()
+            textPath.reset()
+            textPaint.getTextPath(
+                batteryLevel.toString(), 0, batteryLevel.toString().length, pctX, pctY, textPath
+            )
+
+            unifiedPath.op(textPath, Path.Op.DIFFERENCE)
+            c.drawPath(textPath, textPaint)
         }
         c.restore()
     }
