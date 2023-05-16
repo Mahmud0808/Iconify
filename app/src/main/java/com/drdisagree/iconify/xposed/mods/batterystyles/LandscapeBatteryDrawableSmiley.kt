@@ -502,7 +502,7 @@ open class LandscapeBatteryDrawableSmiley(private val context: Context, frameCol
     }
 
     companion object {
-        private const val TAG = "LandscapeRBatteryDrawableStyleA"
+        private const val TAG = "LandscapeBatteryDrawableSmiley"
         private const val WIDTH = 24f
         private const val HEIGHT = 12f
         private const val CRITICAL_LEVEL = 15
