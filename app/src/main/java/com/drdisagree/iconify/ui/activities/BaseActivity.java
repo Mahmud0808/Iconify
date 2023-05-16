@@ -7,8 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.WindowCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.ui.utils.ThemeHelper;
 import com.drdisagree.iconify.utils.helpers.LocaleHelper;
 
@@ -24,9 +24,12 @@ public class BaseActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(ThemeHelper.getTheme());
         super.onCreate(savedInstanceState);
 
-        setSupportActionBar(findViewById(R.id.toolbar));
-        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        setupEdgetoEdge();
 
+    }
+
+    private void setupEdgetoEdge() {
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
     }
 
     @Override
