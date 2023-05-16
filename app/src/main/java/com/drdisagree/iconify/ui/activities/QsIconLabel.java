@@ -8,7 +8,6 @@ import static com.drdisagree.iconify.common.References.FABRICATED_QS_MOVE_ICON;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_TEXT_SIZE;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -288,11 +287,5 @@ public class QsIconLabel extends BaseActivity {
                 Toast.makeText(Iconify.getAppContext(), finalMoveIcon[0] + "dp " + getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 }

@@ -112,10 +112,4 @@ public class ToastFrame extends BaseActivity {
             }
         }
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 }

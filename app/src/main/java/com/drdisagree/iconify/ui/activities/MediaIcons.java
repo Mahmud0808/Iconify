@@ -146,10 +146,4 @@ public class MediaIcons extends BaseActivity {
 
         container.addView(list);
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 }

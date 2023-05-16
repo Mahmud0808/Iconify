@@ -267,10 +267,4 @@ public class QsTileSize extends BaseActivity {
             OverlayUtil.disableOverlay("IconifyComponentQSTH.overlay");
         });
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 }

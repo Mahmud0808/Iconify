@@ -181,10 +181,4 @@ public class Statusbar extends BaseActivity implements ColorPickerDialogListener
 
         new Handler().postDelayed(SystemUtil::restartSystemUI, 1000);
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 }

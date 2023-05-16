@@ -77,10 +77,4 @@ public class MediaPlayer extends BaseActivity {
             findViewById(R.id.preview_mp_black).setVisibility(View.VISIBLE);
         else findViewById(R.id.preview_mp_system).setVisibility(View.VISIBLE);
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 }

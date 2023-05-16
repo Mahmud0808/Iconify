@@ -229,10 +229,4 @@ public class XposedLockscreenClock extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         FileUtil.copyToIconifyHiddenDir(this, requestCode, resultCode, data, PICKFILE_RESULT_CODE, "lsclock_font.ttf", enable_lsclock_font);
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 }

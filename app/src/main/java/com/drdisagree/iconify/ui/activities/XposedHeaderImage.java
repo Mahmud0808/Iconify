@@ -136,10 +136,4 @@ public class XposedHeaderImage extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         FileUtil.copyToIconifyHiddenDir(this, requestCode, resultCode, data, PICKFILE_RESULT_CODE, "header_image.png", enable_header_image);
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 }

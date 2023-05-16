@@ -97,6 +97,7 @@ public class Info extends BaseActivity {
 
         translators_list.add(new InfoModel(getResources().getString(R.string.section_title_translators)));
         translators_list.add(new InfoModel(this, "MXC48", getResources().getString(R.string.fr_translation), "https://github.com/MXC48", R.drawable.ic_user));
+        translators_list.add(new InfoModel(this, "KaeruShi", getResources().getString(R.string.id_translation), "https://github.com/KaeruShi", R.drawable.ic_user));
         translators_list.add(new InfoModel(this, "Faceless1999", getResources().getString(R.string.fa_translation), "https://github.com/Faceless1999", R.drawable.ic_user));
         translators_list.add(new InfoModel(this, "ElTifo", getResources().getString(R.string.pt_translation), "https://github.com/ElTifo", R.drawable.ic_user));
         translators_list.add(new InfoModel(this, "Blays", getResources().getString(R.string.ru_translation), "https://github.com/B1ays", R.drawable.ic_user));
@@ -105,11 +106,5 @@ public class Info extends BaseActivity {
         translators_list.add(new InfoModel(this, "Đức Trọng", getResources().getString(R.string.vi_translation), "https://t.me/viettel1211", R.drawable.ic_user));
 
         return new InfoAdapter(this, translators_list);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 }

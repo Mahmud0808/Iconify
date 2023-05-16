@@ -197,12 +197,6 @@ public class VolumePanel extends BaseActivity {
         super.onDestroy();
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
     private void updateVolumePreview(int id) {
         if (id == R.id.gradient_style)
             setVolumeDrawable(R.drawable.volume_gradient, R.drawable.volume_gradient, false, false);

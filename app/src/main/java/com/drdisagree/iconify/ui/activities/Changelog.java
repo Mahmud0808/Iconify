@@ -69,12 +69,6 @@ public class Changelog extends BaseActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-    @Override
     public void onPause() {
         if (grabChangelog != null) grabChangelog.cancel(true);
         super.onPause();

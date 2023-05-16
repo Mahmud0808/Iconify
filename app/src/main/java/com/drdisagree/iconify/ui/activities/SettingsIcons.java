@@ -188,12 +188,6 @@ public class SettingsIcons extends BaseActivity implements RadioDialog.RadioDial
         });
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
     // Function to check for layout changes
     private void refreshLayout(LinearLayout layout) {
         for (int i = 0; i < container.getChildCount(); i++) {

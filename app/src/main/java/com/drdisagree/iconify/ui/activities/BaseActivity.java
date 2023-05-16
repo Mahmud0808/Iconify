@@ -9,13 +9,10 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.WindowCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.utils.helpers.LocaleHelper;
 import com.drdisagree.iconify.ui.utils.ThemeHelper;
+import com.drdisagree.iconify.utils.helpers.LocaleHelper;
 
 public class BaseActivity extends AppCompatActivity {
-
-    RecyclerView recyclerView;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -33,5 +30,11 @@ public class BaseActivity extends AppCompatActivity {
 
     private void setupEdgetoEdge() {
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

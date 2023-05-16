@@ -164,10 +164,4 @@ public class XposedBackgroundChip extends BaseActivity {
             }
         }
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 }
