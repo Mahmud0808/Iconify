@@ -444,7 +444,7 @@ open class PortraitBatteryDrawableOrigami(private val context: Context, frameCol
         errorPerimeterPath.computeBounds(RectF(), true)
 
         val fillMaskString =
-            "M9.12,2.38L14.87,2.38A3.38 3.38 0 0 1 18.25,5.75L18.25,6.75A3.38 3.38 0 0 1 14.87,10.13L9.13,10.13A3.38 3.38 0 0 1 5.75,6.75L5.75,5.75A3.38 3.38 0 0 1 9.12,2.38z"
+            "M9.10,1.55L14.90,1.55A4.10 4.10 0 0 1 19.00,5.64L19.00,6.86A4.10 4.10 0 0 1 14.90,10.95L9.10,10.95A4.10 4.10 0 0 1 5.00,6.86L5.00,5.64A4.10 4.10 0 0 1 9.10,1.55z"
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
