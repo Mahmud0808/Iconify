@@ -23,8 +23,8 @@ import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_CUSTOM_RLA
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_LANDSCAPE;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_RLANDSCAPE;
-import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_SMILEY;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_IOS_16;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_SMILEY;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_STYLE_A;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_STYLE_B;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_PORTRAIT_CAPSULE;
@@ -325,6 +325,33 @@ public class BatteryStyleManager extends ModPack {
                     BatteryDrawable mBatteryDrawable = (BatteryDrawable) getAdditionalInstanceField(param.thisObject, "mBatteryDrawable");
                     if (mBatteryDrawable != null) {
                         mBatteryDrawable.setColors((int) param.args[0], (int) param.args[1], (int) param.args[2]);
+                    }
+
+                    hidePercentage(param);
+                }
+            });
+        } catch (Throwable throwable) {
+            log(TAG + throwable);
+        }
+
+        try {
+            hookAllMethods(BatteryMeterViewClass, "updateDrawable", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!customBatteryEnabled) return;
+
+                    ImageView mBatteryIconView = (ImageView) getObjectField(param.thisObject, "mBatteryIconView");
+                    mBatteryIconView.setRotation(batteryRotation);
+
+                    BatteryDrawable mBatteryDrawable = getNewDrawable(mContext);
+                    if (mBatteryDrawable != null) {
+                        setAdditionalInstanceField(param.thisObject, "mBatteryDrawable", mBatteryDrawable);
+                        mBatteryIconView.setImageDrawable(mBatteryDrawable);
+                        setObjectField(param.thisObject, "mBatteryIconView", mBatteryIconView);
+                    }
+
+                    if (BatteryController != null) {
+                        callMethod(BatteryController, "fireBatteryLevelChanged");
                     }
 
                     hidePercentage(param);
