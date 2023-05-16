@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.WindowCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.ui.utils.ThemeHelper;
 import com.drdisagree.iconify.utils.helpers.LocaleHelper;
