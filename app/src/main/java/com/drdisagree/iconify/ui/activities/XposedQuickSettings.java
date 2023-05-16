@@ -6,6 +6,7 @@ import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.BLACK_QSPANEL;
 import static com.drdisagree.iconify.common.Preferences.DUALTONE_QSPANEL;
 import static com.drdisagree.iconify.common.Preferences.FLUID_QSPANEL;
+import static com.drdisagree.iconify.common.Preferences.HEADER_QQS_TOPMARGIN;
 import static com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.LIGHT_QSPANEL;
 import static com.drdisagree.iconify.common.Preferences.VERTICAL_QSTILE_SWITCH;
@@ -112,6 +113,7 @@ public class XposedQuickSettings extends BaseActivity {
                 FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quick_qs_offset_height", "dimen", "quick_qs_offset_height", qqsTopMargin[0] + "dp");
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "qqs_layout_margin_top", "dimen", "qqs_layout_margin_top", qqsTopMargin[0] + "dp");
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "qs_header_row_min_height", "dimen", "qs_header_row_min_height", qqsTopMargin[0] + "dp");
+                RPrefs.putInt(HEADER_QQS_TOPMARGIN, qqsTopMargin[0]);
             }
         });
 
@@ -124,6 +126,7 @@ public class XposedQuickSettings extends BaseActivity {
             FabricatedUtil.disableOverlay("quick_qs_offset_height");
             FabricatedUtil.disableOverlay("qqs_layout_margin_top");
             FabricatedUtil.disableOverlay("qs_header_row_min_height");
+            RPrefs.putInt(HEADER_QQS_TOPMARGIN, -1);
             reset_qqs_top_margin.setVisibility(View.INVISIBLE);
             return true;
         });

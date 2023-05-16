@@ -18,12 +18,14 @@ package com.drdisagree.iconify.xposed.mods;
  */
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.HEADER_QQS_TOPMARGIN;
 import static com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.VERTICAL_QSTILE_SWITCH;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedBridge.log;
+import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
@@ -31,6 +33,7 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Build;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -46,8 +49,11 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class QuickSettings extends ModPack {
 
     private static final String TAG = "Iconify - QuickSettings: ";
+    private static final String QuickStatusBarHeaderClass = SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader";
     private static final String CLASS_QSTILEVIEWIMPL = SYSTEMUI_PACKAGE + ".qs.tileimpl.QSTileViewImpl";
     private static final String CLASS_FONTSIZEUTILS = SYSTEMUI_PACKAGE + ".FontSizeUtils";
+    private static int qqsHeaderSize = -1;
+    private static boolean headerSizeFixActive = false;
     private static boolean isVerticalQSTileActive = false;
     private static boolean isHideLabelActive = false;
     private static Float QsTilePrimaryTextSize = null, QsTileSecondaryTextSize = null;
@@ -60,6 +66,9 @@ public class QuickSettings extends ModPack {
     @Override
     public void updatePrefs(String... Key) {
         if (Xprefs == null) return;
+
+        qqsHeaderSize = Xprefs.getInt(HEADER_QQS_TOPMARGIN, -1);
+        headerSizeFixActive = qqsHeaderSize != -1;
 
         isVerticalQSTileActive = Xprefs.getBoolean(VERTICAL_QSTILE_SWITCH, false);
         isHideLabelActive = Xprefs.getBoolean(HIDE_QSLABEL_SWITCH, false);
@@ -126,6 +135,32 @@ public class QuickSettings extends ModPack {
                 }
             }
         });
+
+        final Class<?> QuickStatusBarHeader = findClass(QuickStatusBarHeaderClass, lpparam.classLoader);
+
+        try {
+            hookAllMethods(QuickStatusBarHeader, "updateResources", new XC_MethodHook() {
+                @SuppressLint("DiscouragedApi")
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!headerSizeFixActive) return;
+
+                    if (Build.VERSION.SDK_INT >= 33) {
+                        try {
+                            Resources res = mContext.getResources();
+
+                            ViewGroup.MarginLayoutParams qqsLP = (ViewGroup.MarginLayoutParams) callMethod(getObjectField(param.thisObject, "mHeaderQsPanel"), "getLayoutParams");
+                            qqsLP.topMargin = mContext.getResources().getDimensionPixelSize(res.getIdentifier("qqs_layout_margin_top", "dimen", mContext.getPackageName()));
+                            callMethod(getObjectField(param.thisObject, "mHeaderQsPanel"), "setLayoutParams", qqsLP);
+                        } catch (Throwable throwable) {
+                            log(TAG + throwable);
+                        }
+                    }
+                }
+            });
+        } catch (Throwable throwable) {
+            log(TAG + throwable);
+        }
     }
 
     private void fixTileLayout(LinearLayout tile, Object param) {
