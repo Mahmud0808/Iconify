@@ -7,15 +7,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.WindowCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.ui.utils.ThemeHelper;
 import com.drdisagree.iconify.utils.helpers.LocaleHelper;
 
 public class BaseActivity extends AppCompatActivity {
-
-    RecyclerView recyclerView;
 
     @Override
     protected void attachBaseContext(Context newBase) {
