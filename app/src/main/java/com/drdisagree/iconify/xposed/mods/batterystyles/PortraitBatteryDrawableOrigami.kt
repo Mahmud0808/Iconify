@@ -461,7 +461,7 @@ open class PortraitBatteryDrawableOrigami(private val context: Context, frameCol
     }
 
     companion object {
-        private const val TAG = "PortraitBatteryDrawableCapsule"
+        private const val TAG = "PortraitBatteryDrawableOrigami"
         private const val WIDTH = 20f
         private const val HEIGHT = 12f
         private const val CRITICAL_LEVEL = 15
