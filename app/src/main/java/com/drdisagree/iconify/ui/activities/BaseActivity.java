@@ -27,8 +27,11 @@ public class BaseActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(ThemeHelper.getTheme());
         super.onCreate(savedInstanceState);
 
-        setSupportActionBar(findViewById(R.id.toolbar));
-        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        setupEdgetoEdge();
 
+    }
+
+    private void setupEdgetoEdge() {
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
     }
 }
