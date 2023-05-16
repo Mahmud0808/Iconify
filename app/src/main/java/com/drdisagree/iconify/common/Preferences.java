@@ -61,6 +61,7 @@ public class Preferences {
     public static final int BATTERY_STYLE_LANDSCAPE_STYLE_B = 13;
     public static final int BATTERY_STYLE_LANDSCAPE_IOS_16 = 14;
     public static final int BATTERY_STYLE_PORTRAIT_ORIGAMI = 15;
+    public static final int BATTERY_STYLE_LANDSCAPE_SMILEY = 16;
     public static final String HEADER_QQS_TOPMARGIN = "qqspanelTopMargin";
 
     // Preference keys
