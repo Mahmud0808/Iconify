@@ -63,11 +63,11 @@ open class LandscapeBatteryDrawableSmiley(private val context: Context, frameCol
     // Colors can be configured based on battery level (see res/values/arrays.xml)
     private var colorLevels: IntArray
 
-    private var fillColor: Int = Color.MAGENTA
-    private var backgroundColor: Int = Color.MAGENTA
+    private var fillColor: Int = Color.WHITE
+    private var backgroundColor: Int = Color.WHITE
 
     // updated whenever level changes
-    private var levelColor: Int = Color.MAGENTA
+    private var levelColor: Int = Color.WHITE
 
     // Dual tone implies that battery level is a clipped overlay over top of the whole shape
     private var dualTone = false
