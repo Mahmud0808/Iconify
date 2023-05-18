@@ -110,7 +110,9 @@ public class QSFluidTheme extends ModPack {
             protected void beforeHookedMethod(MethodHookParam param) {
                 if (!fluidQsThemeEnabled) return;
 
-                param.setResult(colorAccent[0]);
+                if ((int) getObjectField(param.args[1], "state") == STATE_ACTIVE) {
+                    param.setResult(colorAccent[0]);
+                }
             }
         });
 
