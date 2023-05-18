@@ -151,7 +151,6 @@ public class BatteryStyleManager extends ModPack {
                             newDrawable.setBatteryLevel(mLevel);
                             newDrawable.setChargingEnabled(mCharging);
                         }
-                        log("called updatePrefs");
                     } else {
                         try {
                             mBatteryIconView.setImageDrawable((Drawable) getObjectField(view, "mDrawable"));
@@ -205,7 +204,6 @@ public class BatteryStyleManager extends ModPack {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) {
                     frameColor = (int) param.args[1];
-                    log("called themedbatterydrawable");
                 }
             });
         } catch (Throwable throwable) {
@@ -217,7 +215,6 @@ public class BatteryStyleManager extends ModPack {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
                     BatteryController = param.thisObject;
-                    log("called batterycontrollerimpl");
                 }
             });
         } catch (Throwable throwable) {
@@ -234,7 +231,6 @@ public class BatteryStyleManager extends ModPack {
                         BatteryDrawable mBatteryDrawable = (BatteryDrawable) getAdditionalInstanceField(view, "mBatteryDrawable");
                         callMethod(view, "setImageDrawable", mBatteryDrawable);
                     }
-                    log("called firebatteryunknownstatechanged");
                 }
             });
         } catch (Throwable throwable) {
@@ -265,7 +261,6 @@ public class BatteryStyleManager extends ModPack {
                         }
                     } catch (Throwable ignored) {
                     }
-                    log("called batterydatarefreshhook");
                 }
             };
 
@@ -319,7 +314,6 @@ public class BatteryStyleManager extends ModPack {
                     }
 
                     hidePercentage(param);
-                    log("called batterymeterview constructor");
                 }
             });
         } catch (Throwable throwable) {
@@ -338,7 +332,6 @@ public class BatteryStyleManager extends ModPack {
                     }
 
                     hidePercentage(param);
-                    log("called updateColors");
                 }
             });
         } catch (Throwable throwable) {
@@ -366,7 +359,6 @@ public class BatteryStyleManager extends ModPack {
                     }
 
                     hidePercentage(param);
-                    log("called updateDrawable");
                 }
             });
         } catch (Throwable throwable) {
