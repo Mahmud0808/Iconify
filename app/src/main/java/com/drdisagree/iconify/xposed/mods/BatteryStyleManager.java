@@ -23,16 +23,16 @@ import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_CUSTOM_RLA
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_LANDSCAPE;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_RLANDSCAPE;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_IOS_15;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_IOS_16;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_SMILEY;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_STYLE_A;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_STYLE_B;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_PORTRAIT_AIROO;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_PORTRAIT_CAPSULE;
-import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_PORTRAIT_LINE;
-import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_PORTRAIT_MUSKU;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_PORTRAIT_LORN;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_PORTRAIT_MX;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_PORTRAIT_ORIGAMI;
-import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_PORTRAIT_PILL;
-import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_PORTRAIT_SIGNAL;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_RLANDSCAPE_STYLE_A;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_RLANDSCAPE_STYLE_B;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_HEIGHT;
@@ -72,16 +72,16 @@ import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawable
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableSmiley;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableStyleA;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableStyleB;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableiOS15;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableiOS16;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeRBatteryDrawable;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeRBatteryDrawableStyleA;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeRBatteryDrawableStyleB;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableAiroo;
 import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableCapsule;
-import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableLine;
-import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableMusku;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableLorn;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableMx;
 import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableOrigami;
-import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawablePill;
-import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableSignal;
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils;
 
 import java.util.ArrayList;
@@ -124,7 +124,11 @@ public class BatteryStyleManager extends ModPack {
         } else if (batteryStyle == BATTERY_STYLE_DEFAULT_LANDSCAPE) {
             batteryRotation = 270;
         } else {
-            batteryRotation = 0;
+            if (batteryStyle == BATTERY_STYLE_LANDSCAPE_IOS_15) {
+                batteryRotation = 90;
+            } else {
+                batteryRotation = 0;
+            }
         }
 
         if (batteryStyle == BATTERY_STYLE_LANDSCAPE_IOS_16) {
@@ -147,6 +151,7 @@ public class BatteryStyleManager extends ModPack {
                             newDrawable.setBatteryLevel(mLevel);
                             newDrawable.setChargingEnabled(mCharging);
                         }
+                        log("called updatePrefs");
                     } else {
                         try {
                             mBatteryIconView.setImageDrawable((Drawable) getObjectField(view, "mDrawable"));
@@ -200,6 +205,7 @@ public class BatteryStyleManager extends ModPack {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) {
                     frameColor = (int) param.args[1];
+                    log("called themedbatterydrawable");
                 }
             });
         } catch (Throwable throwable) {
@@ -211,6 +217,7 @@ public class BatteryStyleManager extends ModPack {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
                     BatteryController = param.thisObject;
+                    log("called batterycontrollerimpl");
                 }
             });
         } catch (Throwable throwable) {
@@ -227,6 +234,7 @@ public class BatteryStyleManager extends ModPack {
                         BatteryDrawable mBatteryDrawable = (BatteryDrawable) getAdditionalInstanceField(view, "mBatteryDrawable");
                         callMethod(view, "setImageDrawable", mBatteryDrawable);
                     }
+                    log("called firebatteryunknownstatechanged");
                 }
             });
         } catch (Throwable throwable) {
@@ -257,6 +265,7 @@ public class BatteryStyleManager extends ModPack {
                         }
                     } catch (Throwable ignored) {
                     }
+                    log("called batterydatarefreshhook");
                 }
             };
 
@@ -310,6 +319,7 @@ public class BatteryStyleManager extends ModPack {
                     }
 
                     hidePercentage(param);
+                    log("called batterymeterview constructor");
                 }
             });
         } catch (Throwable throwable) {
@@ -328,6 +338,7 @@ public class BatteryStyleManager extends ModPack {
                     }
 
                     hidePercentage(param);
+                    log("called updateColors");
                 }
             });
         } catch (Throwable throwable) {
@@ -355,6 +366,7 @@ public class BatteryStyleManager extends ModPack {
                     }
 
                     hidePercentage(param);
+                    log("called updateDrawable");
                 }
             });
         } catch (Throwable throwable) {
@@ -413,17 +425,14 @@ public class BatteryStyleManager extends ModPack {
             case BATTERY_STYLE_PORTRAIT_CAPSULE:
                 mBatteryDrawable = new PortraitBatteryDrawableCapsule(context, frameColor);
                 break;
-            case BATTERY_STYLE_PORTRAIT_LINE:
-                mBatteryDrawable = new PortraitBatteryDrawableLine(context, frameColor);
+            case BATTERY_STYLE_PORTRAIT_LORN:
+                mBatteryDrawable = new PortraitBatteryDrawableLorn(context, frameColor);
                 break;
-            case BATTERY_STYLE_PORTRAIT_MUSKU:
-                mBatteryDrawable = new PortraitBatteryDrawableMusku(context, frameColor);
+            case BATTERY_STYLE_PORTRAIT_MX:
+                mBatteryDrawable = new PortraitBatteryDrawableMx(context, frameColor);
                 break;
-            case BATTERY_STYLE_PORTRAIT_PILL:
-                mBatteryDrawable = new PortraitBatteryDrawablePill(context, frameColor);
-                break;
-            case BATTERY_STYLE_PORTRAIT_SIGNAL:
-                mBatteryDrawable = new PortraitBatteryDrawableSignal(context, frameColor);
+            case BATTERY_STYLE_PORTRAIT_AIROO:
+                mBatteryDrawable = new PortraitBatteryDrawableAiroo(context, frameColor);
                 break;
             case BATTERY_STYLE_RLANDSCAPE_STYLE_A:
                 mBatteryDrawable = new LandscapeRBatteryDrawableStyleA(context, frameColor);
@@ -436,6 +445,9 @@ public class BatteryStyleManager extends ModPack {
                 break;
             case BATTERY_STYLE_LANDSCAPE_STYLE_B:
                 mBatteryDrawable = new LandscapeBatteryDrawableStyleB(context, frameColor);
+                break;
+            case BATTERY_STYLE_LANDSCAPE_IOS_15:
+                mBatteryDrawable = new LandscapeBatteryDrawableiOS15(context, frameColor);
                 break;
             case BATTERY_STYLE_LANDSCAPE_IOS_16:
                 mBatteryDrawable = new LandscapeBatteryDrawableiOS16(context, frameColor);

@@ -1,17 +1,3 @@
-/*
- * Copyright (C) 2019 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
- * except in compliance with the License. You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
- */
-
 package com.drdisagree.iconify.xposed.mods.batterystyles
 
 import android.annotation.SuppressLint
@@ -21,12 +7,8 @@ import android.util.TypedValue
 import androidx.core.graphics.PathParser
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
 
-/**
- * A battery meter drawable that respects paths configured in
- * frameworks/base/core/res/res/values/config.xml to allow for an easily overrideable battery icon
- */
 @SuppressLint("DiscouragedApi")
-open class PortraitBatteryDrawableMusku(private val context: Context, frameColor: Int) :
+open class LandscapeBatteryDrawableiOS15(private val context: Context, frameColor: Int) :
     BatteryDrawable() {
 
     // Need to load:
@@ -127,7 +109,7 @@ open class PortraitBatteryDrawableMusku(private val context: Context, frameColor
         p.color = frameColor
         p.alpha = 255
         p.isDither = true
-        p.strokeWidth = 5f
+        p.strokeWidth = 2f
         p.style = Paint.Style.STROKE
         p.blendMode = BlendMode.SRC
         p.strokeMiter = 5f
@@ -225,7 +207,7 @@ open class PortraitBatteryDrawableMusku(private val context: Context, frameColor
         //levelPath.addRect(levelRect, Path.Direction.CCW)
         levelPath.addRoundRect(
             levelRect, floatArrayOf(
-                3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f
+                4.0f, 4.0f, 4.0f, 4.0f, 4.0f, 4.0f, 4.0f, 4.0f
             ), Path.Direction.CCW
         )
 
@@ -242,6 +224,7 @@ open class PortraitBatteryDrawableMusku(private val context: Context, frameColor
         if (charging) {
             // Clip out the bolt shape
             unifiedPath.op(scaledBolt, Path.Op.DIFFERENCE)
+            levelPath.op(scaledBolt, Path.Op.DIFFERENCE)
             if (!invertFillIcon) {
                 c.drawPath(scaledBolt, fillPaint)
             }
@@ -263,8 +246,9 @@ open class PortraitBatteryDrawableMusku(private val context: Context, frameColor
             // Non dual-tone means we draw the perimeter (with the level fill), and potentially
             // draw the fill again with a critical color
             fillPaint.color = fillColor
-            c.drawPath(unifiedPath, fillPaint)
+            c.drawPath(unifiedPath, dualToneBackgroundFill)
             fillPaint.color = levelColor
+            c.drawPath(levelPath, fillPaint)
 
             // Show colorError below this level
             if (batteryLevel <= Companion.CRITICAL_LEVEL && !charging) {
@@ -276,12 +260,14 @@ open class PortraitBatteryDrawableMusku(private val context: Context, frameColor
         }
 
         if (charging) {
-            c.clipOutPath(scaledBolt)
-            if (invertFillIcon) {
-                c.drawPath(scaledBolt, fillColorStrokePaint)
-            } else {
-                c.drawPath(scaledBolt, fillColorStrokeProtection)
-            }
+            val xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
+            fillColorStrokePaint.xfermode = xfermode
+
+            c.drawPath(scaledBolt, fillColorStrokePaint)
+
+            fillPaint.color = fillColor
+            c.drawPath(scaledBolt, fillPaint)
+            fillPaint.color = levelColor
         } else if (powerSaveEnabled) {
             // If power save is enabled draw the perimeter path with colorError
             c.drawPath(scaledErrorPerimeter, errorPaint)
@@ -316,7 +302,10 @@ open class PortraitBatteryDrawableMusku(private val context: Context, frameColor
 
     private fun batteryColorForLevel(level: Int): Int {
         return when {
-            charging || powerSaveEnabled -> fillColor
+            powerSaveEnabled -> fillColor
+            charging || level >= 50 -> 0xFF34C759.toInt()
+            level > 10 -> 0xFFFFCC0A.toInt()
+            level >= 0 -> 0xFFFF3B30.toInt()
             else -> getColorForLevel(level)
         }
     }
@@ -473,7 +462,7 @@ open class PortraitBatteryDrawableMusku(private val context: Context, frameColor
     }
 
     companion object {
-        private const val TAG = "PortraitBatteryDrawableMusku"
+        private const val TAG = "LandscapeBatteryDrawableiOS15"
         private const val WIDTH = 12f
         private const val HEIGHT = 20f
         private const val CRITICAL_LEVEL = 15

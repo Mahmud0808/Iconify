@@ -26,7 +26,7 @@ import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
  * frameworks/base/core/res/res/values/config.xml to allow for an easily overrideable battery icon
  */
 @SuppressLint("DiscouragedApi")
-open class PortraitBatteryDrawableSignal(private val context: Context, frameColor: Int) :
+open class PortraitBatteryDrawableAiroo(private val context: Context, frameColor: Int) :
     BatteryDrawable() {
 
     // Need to load:
@@ -473,7 +473,7 @@ open class PortraitBatteryDrawableSignal(private val context: Context, frameColo
     }
 
     companion object {
-        private const val TAG = "PortraitBatteryDrawableSignal"
+        private const val TAG = "PortraitBatteryDrawableAiroo"
         private const val WIDTH = 12f
         private const val HEIGHT = 20f
         private const val CRITICAL_LEVEL = 15
