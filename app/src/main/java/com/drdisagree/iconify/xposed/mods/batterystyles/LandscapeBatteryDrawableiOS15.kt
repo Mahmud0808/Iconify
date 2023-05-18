@@ -109,7 +109,7 @@ open class LandscapeBatteryDrawableiOS15(private val context: Context, frameColo
         p.color = frameColor
         p.alpha = 255
         p.isDither = true
-        p.strokeWidth = 2f
+        p.strokeWidth = 1f
         p.style = Paint.Style.STROKE
         p.blendMode = BlendMode.SRC
         p.strokeMiter = 5f
