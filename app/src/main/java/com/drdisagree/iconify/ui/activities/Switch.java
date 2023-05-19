@@ -46,6 +46,9 @@ public class Switch extends BaseActivity {
         switch_list.add(new SwitchModel("Neumorph Switch", R.drawable.switch_neumorph_track, R.drawable.switch_neumorph_thumb));
         switch_list.add(new SwitchModel("Emoji Switch", R.drawable.switch_emoji_track, R.drawable.switch_emoji_thumb));
         switch_list.add(new SwitchModel("Tiny Switch", R.drawable.switch_tiny_track, R.drawable.switch_tiny_thumb));
+        switch_list.add(new SwitchModel("Thinline Switch", R.drawable.switch_thinline_track, R.drawable.switch_thinline_thumb));
+        switch_list.add(new SwitchModel("Foggy Switch", R.drawable.switch_foggy_track, R.drawable.switch_foggy_thumb));
+        switch_list.add(new SwitchModel("Checkmark Switch", R.drawable.switch_checkmark_track, R.drawable.switch_checkmark_thumb));
 
         return new SwitchAdapter(this, switch_list, loadingDialog);
     }
