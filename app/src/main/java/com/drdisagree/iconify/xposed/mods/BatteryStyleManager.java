@@ -197,6 +197,9 @@ public class BatteryStyleManager extends ModPack {
 
         Class<?> BatteryControllerImplClass = findClass("com.android.systemui.statusbar.policy.BatteryControllerImpl", lpparam.classLoader);
         Class<?> BatteryMeterViewClass = findClassIfExists("com.android.systemui.battery.BatteryMeterView", lpparam.classLoader);
+        if (BatteryMeterViewClass == null) {
+            BatteryMeterViewClass = findClass("com.android.systemui.BatteryMeterView", lpparam.classLoader);
+        }
         SettingsLibUtils.init(lpparam.classLoader);
 
         try {
