@@ -39,6 +39,7 @@
     <color name="landing_page_one_background">#FFFFF0F3</color>
     <color name="landing_page_two_background">#FFEFF7FA</color>
     <color name="landing_page_three_background">#FFEEF4FE</color>
+    <color name="color_background_alpha">@color/color_background_alpha_light</color>
 
     <color name="colorPrimaryLight">@color/material_dynamic_primary40</color>
     <color name="colorPrimaryDark">@color/material_dynamic_primary80</color>
