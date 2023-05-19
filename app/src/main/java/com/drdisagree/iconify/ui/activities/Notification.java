@@ -72,6 +72,7 @@ public class Notification extends BaseActivity {
         notif_list.add(new NotificationModel("Semi Transparent", R.drawable.notif_semi_transparent));
         notif_list.add(new NotificationModel("Pitch Black", R.drawable.notif_pitch_black));
         notif_list.add(new NotificationModel("Duoline", R.drawable.notif_duoline));
+        notif_list.add(new NotificationModel("iOS", R.drawable.notif_ios));
 
         return new NotificationAdapter(this, notif_list, loadingDialog, "NFN");
     }

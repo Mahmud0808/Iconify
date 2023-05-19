@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?android:colorControlHighlight">
+    <item>
+        <shape android:shape="oval">
+            <gradient
+                android:angle="0.0"
+                android:endColor="@*android:color/holo_green_light"
+                android:startColor="@*android:color/holo_blue_light" />
+        </shape>
+    </item>
+    <item
+        android:bottom="1dp"
+        android:end="1dp"
+        android:start="1dp"
+        android:top="1dp">
+        <shape android:shape="oval">
+            <solid android:color="@*android:color/system_neutral2_800" />
+        </shape>
+    </item>
+</ripple>
