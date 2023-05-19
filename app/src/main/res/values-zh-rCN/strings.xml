@@ -360,9 +360,11 @@
     <string name="update_notification_channel_desc">这个频道显示有关最新更新的通知。</string>
     <string name="fa_translation">波斯语翻译。</string>
     <string name="fr_translation">法语翻译。</string>
+    <string name="id_translation">印度尼西亚语翻译。</string>
     <string name="pt_translation">葡萄牙语翻译。</string>
     <string name="ru_translation">俄语翻译。</string>
     <string name="tr_translation">土耳其语翻译。</string>
+    <string name="vi_translation">越南语翻译。</string>
     <string name="zh_cn_translation">简体中文翻译。</string>
     <string name="a13_default_media_player">Android 13 默认播放器</string>
     <string name="monet_neutral">Neutral</string>
