@@ -28,6 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center"
+                android:layout_marginTop="@dimen/container_margin"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:background="@color/transparent"
                 android:minWidth="0dp"
