@@ -2,7 +2,6 @@ package com.drdisagree.iconify.utils.helpers;
 
 import static com.drdisagree.iconify.common.Preferences.APP_LANGUAGE;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.LocaleList;

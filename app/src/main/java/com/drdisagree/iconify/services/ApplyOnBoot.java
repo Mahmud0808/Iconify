@@ -4,7 +4,6 @@ import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.BOOT_ID;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
-import static com.drdisagree.iconify.common.Preferences.COLOR_PIXEL_DARK_BG;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_PRIMARY_COLOR_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_SECONDARY_COLOR_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.QS_ROW_COLUMN_SWITCH;
@@ -13,12 +12,7 @@ import static com.drdisagree.iconify.common.References.DEVICE_BOOT_ID_CMD;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_ROW;
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECONDARY;
-import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_PIXEL_DARK_BG;
 import static com.drdisagree.iconify.utils.ColorUtil.ColorToSpecialHex;
-
-import android.graphics.Color;
-
-import androidx.core.graphics.ColorUtils;
 
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.activities.QsRowColumn;
@@ -56,10 +50,8 @@ public class ApplyOnBoot {
 
                     if (!Objects.equals(colorAccentPrimary, INVALID)) {
                         FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(colorAccentPrimary)));
-                        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ColorToSpecialHex(ColorUtils.blendARGB(ColorUtils.blendARGB(Integer.parseInt(colorAccentPrimary), Color.BLACK, 0.8f), Color.WHITE, 0.12f)));
                     } else {
                         FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
-                        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ICONIFY_COLOR_PIXEL_DARK_BG);
                     }
                 }
                 if (Prefs.getBoolean(CUSTOM_SECONDARY_COLOR_SWITCH) && FabricatedUtil.isOverlayDisabled(FabricatedEnabledOverlays, COLOR_ACCENT_SECONDARY)) {

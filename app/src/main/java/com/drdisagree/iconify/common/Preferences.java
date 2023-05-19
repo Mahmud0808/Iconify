@@ -77,7 +77,6 @@ public class Preferences {
     public static final String COLOR_ACCENT_SECONDARY = "colorAccentSecondary";
     public static final String CUSTOM_PRIMARY_COLOR_SWITCH = "customPrimaryColor";
     public static final String CUSTOM_SECONDARY_COLOR_SWITCH = "customSecondaryColor";
-    public static final String COLOR_PIXEL_DARK_BG = "colorPixelBackgroundDark";
     public static final String QS_ROW_COLUMN_SWITCH = "fabricatedqsRowColumn";
     public static final String MONET_ENGINE_SWITCH = "customMonet";
     public static final String QSPANEL_BLUR_SWITCH = "qsBlurSwitch";

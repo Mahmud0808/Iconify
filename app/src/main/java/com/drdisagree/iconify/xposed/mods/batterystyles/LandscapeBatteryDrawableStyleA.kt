@@ -375,14 +375,14 @@ open class LandscapeBatteryDrawableStyleA(private val context: Context, frameCol
     /**
      * Set the fill level
      */
-    public override fun setBatteryLevel(l: Int) {
+    override fun setBatteryLevel(l: Int) {
         invertFillIcon = if (l >= 67) true else if (l <= 33) false else invertFillIcon
         batteryLevel = l
         levelColor = batteryColorForLevel(batteryLevel)
         invalidateSelf()
     }
 
-    public fun getBatteryLevel(): Int {
+    fun getBatteryLevel(): Int {
         return batteryLevel
     }
 

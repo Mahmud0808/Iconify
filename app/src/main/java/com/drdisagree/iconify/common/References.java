@@ -5,7 +5,6 @@ public class References {
     // Fabricated overlays
     public static final String ICONIFY_COLOR_ACCENT_PRIMARY = "0xFF50A6D7";
     public static final String ICONIFY_COLOR_ACCENT_SECONDARY = "0xFF387BFF";
-    public static final String ICONIFY_COLOR_PIXEL_DARK_BG = "0xFF122530";
     public static final String FABRICATED_COLORED_BATTERY = "coloredBattery";
     public static final String FABRICATED_BATTERY_COLOR_BG = "batteryColorBackground";
     public static final String FABRICATED_BATTERY_COLOR_FG = "batteryColorFilled";

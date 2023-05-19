@@ -125,7 +125,7 @@ public class Tweaks extends BaseFragment {
                 list.setOnClickListener((View.OnClickListener) pack.get(i)[0]);
             }
 
-            if (Objects.equals((String) pack.get(i)[1], getResources().getString(R.string.activity_title_media_player)) && Build.VERSION.SDK_INT >= 33)
+            if (Objects.equals(pack.get(i)[1], getResources().getString(R.string.activity_title_media_player)) && Build.VERSION.SDK_INT >= 33)
                 list.setVisibility(View.GONE);
 
             listView.addView(list);

@@ -66,9 +66,9 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 @SuppressWarnings("RedundantThrows")
 public class QSLightTheme extends ModPack {
 
-    private static final String TAG = "Iconify - QSLightTheme: ";
     public static final String listenPackage = SYSTEMUI_PACKAGE;
     public static final int STATE_ACTIVE = 2;
+    private static final String TAG = "Iconify - QSLightTheme: ";
     private static boolean lightQSHeaderEnabled = false;
     private static boolean dualToneQSEnabled = false;
     private Object mBehindColors;

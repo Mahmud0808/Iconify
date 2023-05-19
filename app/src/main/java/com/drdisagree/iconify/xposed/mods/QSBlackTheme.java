@@ -21,7 +21,6 @@ import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.BLACK_QSPANEL;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.utils.SettingsLibUtils.getColorAttr;
-import static com.drdisagree.iconify.xposed.utils.SettingsLibUtils.getColorAttrDefaultColor;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedBridge.log;
@@ -65,9 +64,9 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 @SuppressWarnings("RedundantThrows")
 public class QSBlackTheme extends ModPack {
 
-    private static final String TAG = "Iconify - QSBlackTheme: ";
     public static final String listenPackage = SYSTEMUI_PACKAGE;
     public static final int STATE_ACTIVE = 2;
+    private static final String TAG = "Iconify - QSBlackTheme: ";
     private static boolean blackQSHeaderEnabled = false;
     private Object mBehindColors;
     private boolean wasDark;

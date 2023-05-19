@@ -5,12 +5,10 @@ import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
-import static com.drdisagree.iconify.common.Preferences.COLOR_PIXEL_DARK_BG;
 import static com.drdisagree.iconify.common.Preferences.STR_NULL;
 import static com.drdisagree.iconify.common.Preferences.USE_LIGHT_ACCENT;
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECONDARY;
-import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_PIXEL_DARK_BG;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -163,7 +161,6 @@ public class ColorEngine extends BaseFragment {
         if (!((Switch) view.findViewById(R.id.apply_monet_gradient)).isChecked() && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay")) {
             if (Prefs.getString(COLOR_ACCENT_PRIMARY).equals(STR_NULL)) {
                 FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
-                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ICONIFY_COLOR_PIXEL_DARK_BG);
             }
 
             if (Prefs.getString(COLOR_ACCENT_SECONDARY).equals(STR_NULL)) {
@@ -201,7 +198,6 @@ public class ColorEngine extends BaseFragment {
         if (!((Switch) view.findViewById(R.id.apply_monet_accent)).isChecked() && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay")) {
             if (Prefs.getString(COLOR_ACCENT_PRIMARY).equals(STR_NULL)) {
                 FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
-                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_PIXEL_DARK_BG, "color", "holo_blue_dark", ICONIFY_COLOR_PIXEL_DARK_BG);
             }
 
             if (Prefs.getString(COLOR_ACCENT_SECONDARY).equals(STR_NULL)) {

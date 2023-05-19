@@ -51,9 +51,9 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
     int headerImageAlpha = 100;
     boolean zoomToFit = false;
     boolean hideLandscapeHeaderImage = true;
-    private Object lpparamCustom = null;
     LinearLayout mQsHeaderLayout = null;
     ImageView mQsHeaderImageView = null;
+    private Object lpparamCustom = null;
 
     public HeaderImage(Context context) {
         super(context);

@@ -93,22 +93,74 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class BatteryStyleManager extends ModPack {
 
-    private static final String TAG = "Iconify - BatteryStyleManager: ";
     public static final String listenPackage = SYSTEMUI_PACKAGE;
-    private static boolean customBatteryEnabled = false;
-    private int frameColor;
+    private static final String TAG = "Iconify - BatteryStyleManager: ";
+    private static final ArrayList<Object> batteryViews = new ArrayList<>();
     public static int BatteryStyle = 0;
     public static boolean showPercentInside = false;
     public static int scaleFactor = 100;
     public static int batteryRotation = 0;
-    private static int BatteryIconOpacity = 100;
+    private static boolean customBatteryEnabled = false;
+    private static final int BatteryIconOpacity = 100;
+    private int frameColor;
     private Object BatteryController = null;
     private int landscapeBatteryWidth = 20;
     private int landscapeBatteryHeight = 20;
-    private static final ArrayList<Object> batteryViews = new ArrayList<>();
 
     public BatteryStyleManager(Context context) {
         super(context);
+    }
+
+    private static void refreshBatteryIcons() {
+        try {
+            for (Object view : batteryViews) {
+                ImageView mBatteryIconView = (ImageView) getObjectField(view, "mBatteryIconView");
+                mBatteryIconView.setRotation(batteryRotation);
+                scale(mBatteryIconView);
+                try {
+                    BatteryDrawable drawable = (BatteryDrawable) getAdditionalInstanceField(view, "mBatteryDrawable");
+                    drawable.setShowPercentEnabled(showPercentInside);
+                    drawable.setAlpha(Math.round(BatteryIconOpacity * 2.55f));
+                    drawable.invalidateSelf();
+                } catch (Throwable ignored) {
+                }
+            }
+        } catch (Throwable throwable) {
+            log(TAG + throwable);
+        }
+    }
+
+    public static void scale(Object thisObject) {
+        ImageView mBatteryIconView = (ImageView) getObjectField(thisObject, "mBatteryIconView");
+        scale(mBatteryIconView);
+    }
+
+    @SuppressLint("DiscouragedApi")
+    public static void scale(ImageView mBatteryIconView) {
+        if (mBatteryIconView == null) {
+            return;
+        }
+
+        try {
+            Context context = mBatteryIconView.getContext();
+            Resources res = context.getResources();
+
+            TypedValue typedValue = new TypedValue();
+
+            res.getValue(res.getIdentifier("status_bar_icon_scale_factor", "dimen", context.getPackageName()), typedValue, true);
+            float iconScaleFactor = typedValue.getFloat() * (scaleFactor / 100f);
+
+            int batteryHeight = res.getDimensionPixelSize(res.getIdentifier("status_bar_battery_icon_height", "dimen", context.getPackageName()));
+            int batteryWidth = res.getDimensionPixelSize(res.getIdentifier((customBatteryEnabled) ? "status_bar_battery_icon_height" : "status_bar_battery_icon_width", "dimen", context.getPackageName()));
+
+            ViewGroup.LayoutParams scaledLayoutParams = mBatteryIconView.getLayoutParams();
+            scaledLayoutParams.height = (int) (batteryHeight * iconScaleFactor);
+            scaledLayoutParams.width = (int) (batteryWidth * iconScaleFactor);
+
+            mBatteryIconView.setLayoutParams(scaledLayoutParams);
+        } catch (Throwable throwable) {
+            log(TAG + throwable);
+        }
     }
 
     public void updatePrefs(String... Key) {
@@ -131,11 +183,7 @@ public class BatteryStyleManager extends ModPack {
             }
         }
 
-        if (batteryStyle == BATTERY_STYLE_LANDSCAPE_IOS_16) {
-            showPercentInside = true;
-        } else {
-            showPercentInside = false;
-        }
+        showPercentInside = batteryStyle == BATTERY_STYLE_LANDSCAPE_IOS_16;
 
         if (BatteryStyle != batteryStyle) {
             BatteryStyle = batteryStyle;
@@ -165,25 +213,6 @@ public class BatteryStyleManager extends ModPack {
         if (Key.length > 0) {
             if (Objects.equals(Key[0], CUSTOM_BATTERY_WIDTH) || Objects.equals(Key[0], CUSTOM_BATTERY_HEIGHT))
                 setCustomBatterySize();
-        }
-    }
-
-    private static void refreshBatteryIcons() {
-        try {
-            for (Object view : batteryViews) {
-                ImageView mBatteryIconView = (ImageView) getObjectField(view, "mBatteryIconView");
-                mBatteryIconView.setRotation(batteryRotation);
-                scale(mBatteryIconView);
-                try {
-                    BatteryDrawable drawable = (BatteryDrawable) getAdditionalInstanceField(view, "mBatteryDrawable");
-                    drawable.setShowPercentEnabled(showPercentInside);
-                    drawable.setAlpha(Math.round(BatteryIconOpacity * 2.55f));
-                    drawable.invalidateSelf();
-                } catch (Throwable ignored) {
-                }
-            }
-        } catch (Throwable throwable) {
-            log(TAG + throwable);
         }
     }
 
@@ -357,39 +386,6 @@ public class BatteryStyleManager extends ModPack {
         }
 
         setCustomBatterySize();
-    }
-
-    public static void scale(Object thisObject) {
-        ImageView mBatteryIconView = (ImageView) getObjectField(thisObject, "mBatteryIconView");
-        scale(mBatteryIconView);
-    }
-
-    @SuppressLint("DiscouragedApi")
-    public static void scale(ImageView mBatteryIconView) {
-        if (mBatteryIconView == null) {
-            return;
-        }
-
-        try {
-            Context context = mBatteryIconView.getContext();
-            Resources res = context.getResources();
-
-            TypedValue typedValue = new TypedValue();
-
-            res.getValue(res.getIdentifier("status_bar_icon_scale_factor", "dimen", context.getPackageName()), typedValue, true);
-            float iconScaleFactor = typedValue.getFloat() * (scaleFactor / 100f);
-
-            int batteryHeight = res.getDimensionPixelSize(res.getIdentifier("status_bar_battery_icon_height", "dimen", context.getPackageName()));
-            int batteryWidth = res.getDimensionPixelSize(res.getIdentifier((customBatteryEnabled) ? "status_bar_battery_icon_height" : "status_bar_battery_icon_width", "dimen", context.getPackageName()));
-
-            ViewGroup.LayoutParams scaledLayoutParams = mBatteryIconView.getLayoutParams();
-            scaledLayoutParams.height = (int) (batteryHeight * iconScaleFactor);
-            scaledLayoutParams.width = (int) (batteryWidth * iconScaleFactor);
-
-            mBatteryIconView.setLayoutParams(scaledLayoutParams);
-        } catch (Throwable throwable) {
-            log(TAG + throwable);
-        }
     }
 
     private BatteryDrawable getNewDrawable(Context context) {

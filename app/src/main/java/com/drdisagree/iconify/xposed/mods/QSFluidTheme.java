@@ -43,8 +43,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 @SuppressLint("DiscouragedApi")
 public class QSFluidTheme extends ModPack {
 
-    private static final String TAG = "Iconify - QSFluidTheme: ";
     public static final String listenPackage = SYSTEMUI_PACKAGE;
+    private static final String TAG = "Iconify - QSFluidTheme: ";
     private static final int STATE_UNAVAILABLE = 0;
     private static final int STATE_INACTIVE = 1;
     private static final int STATE_ACTIVE = 2;
