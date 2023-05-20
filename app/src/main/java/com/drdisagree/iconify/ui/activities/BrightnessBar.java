@@ -70,6 +70,7 @@ public class BrightnessBar extends BaseActivity {
         bb_list.add(new BrightnessBarModel("Semi Transparent", R.drawable.bb_semi_transparent, R.drawable.auto_bb_semi_transparent, false));
         bb_list.add(new BrightnessBarModel("Thin Outline", R.drawable.bb_thin_outline, R.drawable.auto_bb_thin_outline, true));
         bb_list.add(new BrightnessBarModel("Purfect", R.drawable.bb_purfect, R.drawable.auto_bb_purfect, false));
+        bb_list.add(new BrightnessBarModel("Translucent Outline", R.drawable.bb_translucent_outline, R.drawable.auto_bb_translucent_outline, true));
 
         return new BrightnessBarAdapter(this, bb_list, loadingDialog, "BBN");
     }

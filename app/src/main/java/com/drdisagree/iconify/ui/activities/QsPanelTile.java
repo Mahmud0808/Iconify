@@ -75,6 +75,7 @@ public class QsPanelTile extends BaseActivity {
         qsshape_list.add(new QsShapeModel("Semi Transparent", R.drawable.qs_shape_semi_transparent_enabled, R.drawable.qs_shape_semi_transparent_disabled, false));
         qsshape_list.add(new QsShapeModel("Thin Outline", R.drawable.qs_shape_thin_outline_enabled, R.drawable.qs_shape_thin_outline_disabled, true));
         qsshape_list.add(new QsShapeModel("Purfect", R.drawable.qs_shape_purfect_enabled, R.drawable.qs_shape_purfect_disabled, false));
+        qsshape_list.add(new QsShapeModel("Translucent Outline", R.drawable.qs_shape_translucent_outline_enabled, R.drawable.qs_shape_translucent_outline_disabled, true));
 
         return new QsShapeAdapter(this, qsshape_list, loadingDialog, "QSSN");
     }

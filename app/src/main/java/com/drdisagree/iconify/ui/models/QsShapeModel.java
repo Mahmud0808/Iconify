@@ -7,6 +7,15 @@ public class QsShapeModel {
     private int enabled_drawable, disabled_drawable;
     private boolean inverse_color;
 
+    public QsShapeModel(String name, int enabled_drawable, int disabled_drawable) {
+        this.name = name;
+        this.enabled_drawable = enabled_drawable;
+        this.disabled_drawable = disabled_drawable;
+        this.inverse_color = false;
+        this.icon_margin_start = null;
+        this.icon_margin_end = null;
+    }
+
     public QsShapeModel(String name, int enabled_drawable, int disabled_drawable, boolean inverse_color) {
         this.name = name;
         this.enabled_drawable = enabled_drawable;
@@ -14,6 +23,15 @@ public class QsShapeModel {
         this.inverse_color = inverse_color;
         this.icon_margin_start = null;
         this.icon_margin_end = null;
+    }
+
+    public QsShapeModel(String name, int enabled_drawable, int disabled_drawable, Integer icon_margin_start, Integer icon_margin_end) {
+        this.name = name;
+        this.enabled_drawable = enabled_drawable;
+        this.disabled_drawable = disabled_drawable;
+        this.inverse_color = false;
+        this.icon_margin_start = icon_margin_start;
+        this.icon_margin_end = icon_margin_end;
     }
 
     public QsShapeModel(String name, int enabled_drawable, int disabled_drawable, boolean inverse_color, Integer icon_margin_start, Integer icon_margin_end) {
