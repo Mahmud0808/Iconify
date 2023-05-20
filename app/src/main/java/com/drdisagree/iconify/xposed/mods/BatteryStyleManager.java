@@ -167,7 +167,7 @@ public class BatteryStyleManager extends ModPack {
         if (Xprefs == null) return;
 
         int batteryStyle = Xprefs.getInt(CUSTOM_BATTERY_STYLE, 0);
-        customBatteryEnabled = batteryStyle != BATTERY_STYLE_DEFAULT;
+        customBatteryEnabled = batteryStyle != BATTERY_STYLE_DEFAULT && batteryStyle != BATTERY_STYLE_DEFAULT_LANDSCAPE && batteryStyle != BATTERY_STYLE_DEFAULT_RLANDSCAPE;
         landscapeBatteryWidth = Xprefs.getInt(CUSTOM_BATTERY_WIDTH, 20);
         landscapeBatteryHeight = Xprefs.getInt(CUSTOM_BATTERY_HEIGHT, 20);
 
@@ -190,6 +190,7 @@ public class BatteryStyleManager extends ModPack {
             try {
                 for (Object view : batteryViews) {
                     ImageView mBatteryIconView = (ImageView) getObjectField(view, "mBatteryIconView");
+                    mBatteryIconView.setRotation(batteryRotation);
                     boolean mCharging = (boolean) getObjectField(view, "mCharging");
                     int mLevel = (int) getObjectField(view, "mLevel");
 
@@ -325,10 +326,10 @@ public class BatteryStyleManager extends ModPack {
                 protected void afterHookedMethod(MethodHookParam param) {
                     ((View) param.thisObject).addOnAttachStateChangeListener(listener);
 
-                    if (!customBatteryEnabled) return;
-
                     ImageView mBatteryIconView = (ImageView) getObjectField(param.thisObject, "mBatteryIconView");
                     mBatteryIconView.setRotation(batteryRotation);
+
+                    if (!customBatteryEnabled) return;
 
                     BatteryDrawable mBatteryDrawable = getNewDrawable(mContext);
                     if (mBatteryDrawable != null) {
@@ -464,7 +465,7 @@ public class BatteryStyleManager extends ModPack {
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
         if (ourResparam == null) return;
 
-        if (customBatteryEnabled) {
+        if (BatteryStyle != BATTERY_STYLE_DEFAULT) {
             ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "dimen", "status_bar_battery_icon_width", new XResources.DimensionReplacement(landscapeBatteryWidth, TypedValue.COMPLEX_UNIT_DIP));
             ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "dimen", "status_bar_battery_icon_height", new XResources.DimensionReplacement(landscapeBatteryHeight, TypedValue.COMPLEX_UNIT_DIP));
         }

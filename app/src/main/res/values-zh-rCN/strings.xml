@@ -172,7 +172,8 @@
     <string name="info_github_desc">查看 Github 仓库。</string>
     <string name="info_telegram_title">Telegram</string>
     <string name="info_telegram_desc">关注以获得最新的新闻&amp;更新。</string>
-    <string name="info_icons8_desc">Plumpy 图标包。</string>
+    <string name="info_icons8_desc">Plumpy &amp; Fluency 图标包。</string>
+    <string name="info_iconsax_desc">app内图标集。</string>
     <string name="info_shell_desc">帮助我完成 Shell 脚本。</string>
     <string name="info_rro_desc">帮助我解决 RRO 问题。</string>
     <string name="info_tester_desc">测试本应用程序。</string>
