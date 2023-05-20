@@ -15,9 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/container_marginSide"
-        android:layout_marginTop="@dimen/content_marginTop"
         android:layout_marginEnd="@dimen/container_marginSide"
         android:orientation="vertical"
+        android:paddingTop="@dimen/content_marginTop"
         android:paddingBottom="@dimen/container_marginTopBottom"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 

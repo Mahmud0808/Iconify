@@ -12,7 +12,6 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/content_marginTop"
         android:orientation="vertical"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
@@ -22,7 +21,8 @@
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/container_marginSide"
             android:layout_marginEnd="@dimen/container_marginSide"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            android:paddingTop="@dimen/content_marginTop" />
 
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
