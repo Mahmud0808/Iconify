@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     android:fillViewport="true"
     tools:context=".ui.activities.Notification">
-
-    <include layout="@layout/view_header" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notifications_container"
@@ -17,8 +16,10 @@
         android:layout_marginEnd="@dimen/container_marginSide"
         android:clipToPadding="false"
         android:orientation="vertical"
-        android:paddingTop="@dimen/container_marginTopBottom"
+        android:paddingTop="@dimen/content_marginTop"
         android:paddingBottom="@dimen/container_marginTopBottom"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <include layout="@layout/view_header" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

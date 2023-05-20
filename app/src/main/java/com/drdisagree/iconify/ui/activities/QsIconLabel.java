@@ -17,20 +17,14 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
-import java.util.Objects;
-
-public class QsIconLabel extends AppCompatActivity {
+public class QsIconLabel extends BaseActivity {
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -152,11 +146,8 @@ public class QsIconLabel extends AppCompatActivity {
                     label_systemInverse.setChecked(false);
                     label_systemInverseV2.setChecked(false);
                     label_fixtextcolor.setChecked(false);
-                    OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
 
+                    OverlayUtil.disableOverlays("IconifyComponentQST2.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST4.overlay", "IconifyComponentQST5.overlay");
                     OverlayUtil.enableOverlay("IconifyComponentQST1.overlay");
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
@@ -173,11 +164,8 @@ public class QsIconLabel extends AppCompatActivity {
                     label_systemInverse.setChecked(false);
                     label_systemInverseV2.setChecked(false);
                     label_fixtextcolor.setChecked(false);
-                    OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
 
+                    OverlayUtil.disableOverlays("IconifyComponentQST1.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST4.overlay", "IconifyComponentQST5.overlay");
                     OverlayUtil.enableOverlay("IconifyComponentQST2.overlay");
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
@@ -194,11 +182,8 @@ public class QsIconLabel extends AppCompatActivity {
                     label_whiteV2.setChecked(false);
                     label_systemInverseV2.setChecked(false);
                     label_fixtextcolor.setChecked(false);
-                    OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
 
+                    OverlayUtil.disableOverlays("IconifyComponentQST1.overlay", "IconifyComponentQST2.overlay", "IconifyComponentQST4.overlay", "IconifyComponentQST5.overlay");
                     OverlayUtil.enableOverlay("IconifyComponentQST3.overlay");
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
@@ -215,11 +200,8 @@ public class QsIconLabel extends AppCompatActivity {
                     label_whiteV2.setChecked(false);
                     label_systemInverse.setChecked(false);
                     label_fixtextcolor.setChecked(false);
-                    OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
 
+                    OverlayUtil.disableOverlays("IconifyComponentQST1.overlay", "IconifyComponentQST2.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST5.overlay");
                     OverlayUtil.enableOverlay("IconifyComponentQST4.overlay");
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
@@ -237,11 +219,7 @@ public class QsIconLabel extends AppCompatActivity {
                     label_systemInverse.setChecked(false);
                     label_systemInverseV2.setChecked(false);
 
-                    OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
-                    OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
-
+                    OverlayUtil.disableOverlays("IconifyComponentQST1.overlay", "IconifyComponentQST2.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST4.overlay");
                     OverlayUtil.enableOverlay("IconifyComponentQST5.overlay");
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
@@ -309,12 +287,5 @@ public class QsIconLabel extends AppCompatActivity {
                 Toast.makeText(Iconify.getAppContext(), finalMoveIcon[0] + "dp " + getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
             }
         });
-
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 }

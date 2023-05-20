@@ -4,7 +4,7 @@
         <shape android:shape="rectangle">
             <corners android:radius="24.0dp" />
             <size android:height="48.0dp" />
-            <solid android:color="#40FFFFFF" />
+            <solid android:color="@color/color_background_alpha" />
         </shape>
     </item>
     <item
@@ -15,8 +15,8 @@
             <size android:height="48.0dp" />
             <gradient
                 android:angle="0.0"
-                android:endColor="@color/holo_green_light"
-                android:startColor="@color/holo_blue_light" />
+                android:endColor="@color/holo_green_light_alpha"
+                android:startColor="@color/holo_blue_light_alpha" />
         </shape>
     </item>
 </layer-list>

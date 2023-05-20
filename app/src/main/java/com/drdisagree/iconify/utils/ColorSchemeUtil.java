@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.utils;
 
-import com.drdisagree.iconify.Iconify;
+import android.content.Context;
+
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.utils.monet.hct.Hct;
 import com.drdisagree.iconify.utils.monet.scheme.SchemeContent;
@@ -19,7 +20,7 @@ public class ColorSchemeUtil {
 
     public static final int[] tones = {100, 99, 95, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0};
 
-    public static List<List<Object>> GenerateColorPalette(String style, int color) {
+    public static List<List<Object>> GenerateColorPalette(Context context, String style, int color) {
         List<List<Object>> palette = new ArrayList<>();
         List<Object> system_accent1 = new ArrayList<>();
         List<Object> system_accent2 = new ArrayList<>();
@@ -27,7 +28,7 @@ public class ColorSchemeUtil {
         List<Object> system_neutral1 = new ArrayList<>();
         List<Object> system_neutral2 = new ArrayList<>();
 
-        if (Objects.equals(style, Iconify.getAppContext().getResources().getString(R.string.monet_neutral))) {
+        if (Objects.equals(style, context.getResources().getString(R.string.monet_neutral))) {
             SchemeNeutral schemeNeutral = new SchemeNeutral(Hct.fromInt(color), SystemUtil.isDarkMode(), 5);
 
             for (int tone : tones) {
@@ -55,7 +56,7 @@ public class ColorSchemeUtil {
             palette.add(system_accent3);
             palette.add(system_neutral1);
             palette.add(system_neutral2);
-        } else if (Objects.equals(style, Iconify.getAppContext().getResources().getString(R.string.monet_monochrome))) {
+        } else if (Objects.equals(style, context.getResources().getString(R.string.monet_monochrome))) {
             SchemeMonochrome schemeMonochrome = new SchemeMonochrome(Hct.fromInt(color), SystemUtil.isDarkMode(), 5);
 
             for (int tone : tones) {
@@ -83,7 +84,7 @@ public class ColorSchemeUtil {
             palette.add(system_accent3);
             palette.add(system_neutral1);
             palette.add(system_neutral2);
-        } else if (Objects.equals(style, Iconify.getAppContext().getResources().getString(R.string.monet_tonalspot))) {
+        } else if (Objects.equals(style, context.getResources().getString(R.string.monet_tonalspot))) {
             SchemeTonalSpot schemeTonalSpot = new SchemeTonalSpot(Hct.fromInt(color), SystemUtil.isDarkMode(), 5);
 
             for (int tone : tones) {
@@ -111,7 +112,7 @@ public class ColorSchemeUtil {
             palette.add(system_accent3);
             palette.add(system_neutral1);
             palette.add(system_neutral2);
-        } else if (Objects.equals(style, Iconify.getAppContext().getResources().getString(R.string.monet_vibrant))) {
+        } else if (Objects.equals(style, context.getResources().getString(R.string.monet_vibrant))) {
             SchemeVibrant schemeVibrant = new SchemeVibrant(Hct.fromInt(color), SystemUtil.isDarkMode(), 5);
 
             for (int tone : tones) {
@@ -139,7 +140,7 @@ public class ColorSchemeUtil {
             palette.add(system_accent3);
             palette.add(system_neutral1);
             palette.add(system_neutral2);
-        } else if (Objects.equals(style, Iconify.getAppContext().getResources().getString(R.string.monet_expressive))) {
+        } else if (Objects.equals(style, context.getResources().getString(R.string.monet_expressive))) {
             SchemeExpressive schemeExpressive = new SchemeExpressive(Hct.fromInt(color), SystemUtil.isDarkMode(), 5);
 
             for (int tone : tones) {
@@ -167,7 +168,7 @@ public class ColorSchemeUtil {
             palette.add(system_accent3);
             palette.add(system_neutral1);
             palette.add(system_neutral2);
-        } else if (Objects.equals(style, Iconify.getAppContext().getResources().getString(R.string.monet_fidelity))) {
+        } else if (Objects.equals(style, context.getResources().getString(R.string.monet_fidelity))) {
             SchemeFidelity schemeFidelity = new SchemeFidelity(Hct.fromInt(color), SystemUtil.isDarkMode(), 5);
 
             for (int tone : tones) {
@@ -195,7 +196,7 @@ public class ColorSchemeUtil {
             palette.add(system_accent3);
             palette.add(system_neutral1);
             palette.add(system_neutral2);
-        } else if (Objects.equals(style, Iconify.getAppContext().getResources().getString(R.string.monet_content))) {
+        } else if (Objects.equals(style, context.getResources().getString(R.string.monet_content))) {
             SchemeContent schemeContent = new SchemeContent(Hct.fromInt(color), SystemUtil.isDarkMode(), 5);
 
             for (int tone : tones) {

@@ -16,7 +16,7 @@
         android:top="2dp">
         <shape android:shape="rectangle">
             <solid android:color="?android:attr/colorBackgroundFloating" />
-            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_right" />
         </shape>
     </item>
 </layer-list>

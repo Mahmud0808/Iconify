@@ -59,6 +59,10 @@
     <string name="already_up_to_date">У вас последняя версия.</string>
     <string name="app_updates">Обновления приложения</string>
     <string name="apply_monet_accent_desc">Использовать акцент Monet как системный акцент</string>
+    <string name="activity_title_media_icons">Медиа иконки</string>
+    <string name="activity_desc_media_icons">Изменить медиа иконки плеера</string>
+    <string name="activity_title_qs_panel">Панель быстрых настроек</string>
+    <string name="activity_desc_qs_panel">Изменить панель быстрых настроек</string>
     <string name="apply_monet_accent_title">Акцент из Monet</string>
     <string name="apply_monet_gradient_desc">Использовать акцент Monet как градиент</string>
     <string name="apply_monet_gradient_title">Градиент из Monet</string>
@@ -332,6 +336,7 @@
     <string name="update_notification_channel_desc">Этот канал показывает уведомления о последних обнолениях.</string>
     <string name="fa_translation">Перевод на персидский.</string>
     <string name="ru_translation">Перевод на русский.</string>
+    <string name="zh_cn_translation">Перевод на упрощённый Китайский</string>
     <string name="a13_default_media_player">Стандартный плеер андроид 13</string>
     <string name="monet_neutral">Нейтральный</string>
     <string name="monet_monochrome">Монохромный</string>
@@ -378,6 +383,7 @@
     <string name="module_installation_step4">Выравнивание структуры оверлеев</string>
     <string name="module_installation_step5">Подписание оверлеев</string>
     <string name="module_installation_step6">Очистка временной папки</string>
+    <string name="toast_storage_access">Запуск настройки  \"Доступ ко всем файлам\"</string>
     <string name="qs_tile_non_expanded_height">Высота в неразвёрнутом виде</string>
     <string name="portrait">Вертикальный</string>
     <string name="qs_tile_expanded_height">Высота в развёрнутом виде</string>
@@ -407,8 +413,8 @@
     <string name="activity_desc_battery_style">Изменить внешний вид иконки батареи</string>
     <string name="fr_translation">Перевод на французский.</string>
     <string name="logs">Логи</string>
-    <string name="landscape_battery_title">горизонтальная батарея</string>
-    <string name="landscape_battery_desc">Включить горизонтальный стиль батареи</string>
+    <string name="custom_battery_title">Пользовательская батарея</string>
+    <string name="custom_battery_desc">Включить пользовательский стиль батареи</string>
     <string name="battery_style_title">Стиль батареи</string>
     <string name="battery_width_title">Ширина батареи</string>
     <string name="battery_height_desc">Высота батареи</string>
@@ -447,8 +453,28 @@
     <string name="activity_desc_switch">Изменить внешний вид переключателя</string>
     <string name="toast_message">Toast-уведомление</string>
     <string name="settings_icons_background">Фон</string>
+    <string name="settings_icons_size">Размер иконки</string>
     <string name="settins_icons_icon_color">Цвет иконки</string>
     <string name="settings_icons_follow_system">Системный</string>
     <string name="settings_icons_system_inverse">Системный (инвертированный)</string>
     <string name="settings_icons_monet_accent">Monet / акцент</string>
+    <string name="navbar_styles">Стили</string>
+    <string name="navbar_tweaks">Твики</string>
+    <string name="navbar_settings">Настройки</string>
+    <string name="btn_close">Закрыть</string>
+    <string name="created_by_drdisagree">Сделано с \u2764\uFE0E DrDisagree</string>
+    <string name="no_supported_music_player">Поддерживаемый музыкальный плеер не найден</string>
+    <string name="hide_ls_carrier_title">Скрыть оператора</string>
+    <string name="hide_ls_carrier_desc">Скрывает оператора на экране блокировки</string>
+    <string name="hide_ls_statusbar_title">Скрыть статусбар</string>
+    <string name="hide_ls_statusbar_desc">Скрывает статусбар на экране блокировки</string>
+    <string name="notch_bar_killer_title">Убийца выреза экрана</string>
+    <string name="notch_bar_killer_desc">Убрать пустое пространство выреза</string>
+    <string name="light_theme_title">Светлая тема</string>
+    <string name="light_theme_desc">Светлая панель быстрых настроек в светлом режиме\nДолжна использоваться кастомная форма плиток</string>
+    <string name="dual_tone_title">Двутонный</string>
+    <string name="dual_tone_desc">Использовать разные цвета для заголовков</string>
+    <string name="pill_width_title">Ширина капсулы</string>
+    <string name="pill_thickness_title">Толщина капсулы</string>
+    <string name="pill_bottom_space_title">Нижнее пространство</string>
 </resources>

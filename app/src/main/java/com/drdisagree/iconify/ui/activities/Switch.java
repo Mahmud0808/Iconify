@@ -2,8 +2,6 @@ package com.drdisagree.iconify.ui.activities;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,12 +10,10 @@ import com.drdisagree.iconify.ui.adapters.SwitchAdapter;
 import com.drdisagree.iconify.ui.models.SwitchModel;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class Switch extends AppCompatActivity {
+public class Switch extends BaseActivity {
 
     LoadingDialog loadingDialog;
 
@@ -48,14 +44,13 @@ public class Switch extends AppCompatActivity {
         switch_list.add(new SwitchModel("iOS Switch", R.drawable.switch_ios_track, R.drawable.switch_ios_thumb));
         switch_list.add(new SwitchModel("Outline Switch", R.drawable.switch_outline_track, R.drawable.switch_outline_thumb));
         switch_list.add(new SwitchModel("Neumorph Switch", R.drawable.switch_neumorph_track, R.drawable.switch_neumorph_thumb));
+        switch_list.add(new SwitchModel("Emoji Switch", R.drawable.switch_emoji_track, R.drawable.switch_emoji_thumb));
+        switch_list.add(new SwitchModel("Tiny Switch", R.drawable.switch_tiny_track, R.drawable.switch_tiny_thumb));
+        switch_list.add(new SwitchModel("Shaded Switch", R.drawable.switch_shaded_track, R.drawable.switch_shaded_thumb));
+        switch_list.add(new SwitchModel("Foggy Switch", R.drawable.switch_foggy_track, R.drawable.switch_foggy_thumb));
+        switch_list.add(new SwitchModel("Checkmark Switch", R.drawable.switch_checkmark_track, R.drawable.switch_checkmark_thumb));
 
         return new SwitchAdapter(this, switch_list, loadingDialog);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 
     @Override

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.SystemUI.QuickSettings" parent="@*android:style/Theme.DeviceDefault.SystemUI">
+        <item name="android:colorBackground">?android:colorBackground</item>
+        <item name="android:textColorSecondaryInverse">?android:textColorPrimaryInverse</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:colorPrimary">@*android:color/holo_blue_light</item>
+        <item name="android:colorSecondary">@*android:color/holo_green_light</item>
+        <item name="android:colorAccent">#FFFFFFFF</item>
+        <item name="@*android:colorAccentPrimary">#FFFFFFFF</item>
+    </style>
+</resources>

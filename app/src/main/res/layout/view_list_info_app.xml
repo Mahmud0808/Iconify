@@ -36,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/derived_app_name"
+            android:textAlignment="center"
             android:textColor="@color/textColorPrimary"
             android:textSize="@dimen/_15sdp"
             android:textStyle="bold" />
@@ -44,6 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/iconify_slogan"
+            android:textAlignment="center"
             android:textColor="@color/textColorSecondary"
             android:textSize="@dimen/_12sdp" />
 
@@ -51,6 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/created_by_drdisagree"
+            android:textAlignment="center"
             android:textColor="@color/textColorSecondary"
             android:textSize="@dimen/_11sdp" />
 

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.widget.Toast;
 
 import com.drdisagree.iconify.Iconify;
@@ -66,5 +67,14 @@ public class AppUtil {
 
     public static boolean isLsposedInstalled() {
         return RootUtil.fileExists("/data/adb/lspd/manager.apk");
+    }
+
+    public static void restartApplication(Activity activity) {
+        new Handler().postDelayed(() -> {
+            Intent intent = activity.getIntent();
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            activity.finish();
+            activity.startActivity(intent);
+        }, 600);
     }
 }

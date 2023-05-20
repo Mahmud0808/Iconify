@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="@dimen/_20sdp"
+    android:background="@drawable/container"
+    android:elevation="8dp"
+    android:orientation="vertical"
+    android:padding="@dimen/container_paddingSide">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:gravity="start|center"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="@dimen/_14sdp"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fadingEdgeLength="@dimen/_16sdp"
+        android:requiresFadingEdge="vertical">
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:gravity="start" />
+
+    </ScrollView>
+</LinearLayout>

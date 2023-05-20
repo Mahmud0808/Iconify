@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     android:fillViewport="true"
     tools:context=".ui.activities.AppUpdates">
-
-    <include layout="@layout/view_header" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -19,9 +18,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/container_marginTopBottom"
             android:layout_marginBottom="@dimen/container_marginTopBottom"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="@dimen/content_marginTop">
 
             <LinearLayout
                 android:id="@+id/check_update"
@@ -178,13 +177,13 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
                         android:layout_marginEnd="@dimen/container_paddingSide"
                         android:background="@drawable/ic_changelog"
+                        android:backgroundTint="@color/textColorPrimary"
                         android:contentDescription="@string/icon"
-                        android:gravity="start|center"
-                        app:tint="@color/textColorPrimary" />
+                        android:gravity="start|center" />
 
                     <TextView
                         android:id="@+id/changelog_title"
@@ -259,4 +258,7 @@
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <include layout="@layout/view_header" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

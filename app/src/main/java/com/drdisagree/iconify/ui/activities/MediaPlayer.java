@@ -1,34 +1,16 @@
 package com.drdisagree.iconify.ui.activities;
 
 import android.annotation.SuppressLint;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Switch;
-import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.overlaymanager.MediaPlayerIconManager;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
-import com.drdisagree.iconify.utils.AppUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
-import java.util.ArrayList;
-import java.util.Objects;
-
-public class MediaPlayer extends AppCompatActivity {
+public class MediaPlayer extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +32,7 @@ public class MediaPlayer extends AppCompatActivity {
             if (isChecked) {
                 mp_system.setChecked(false);
                 mp_pitch_black.setChecked(false);
-                OverlayUtil.disableOverlay("IconifyComponentMPS.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentMPB.overlay");
-                OverlayUtil.enableOverlay("IconifyComponentMPA.overlay");
+                OverlayUtil.disableOverlays("IconifyComponentMPS.overlay", "IconifyComponentMPB.overlay", "IconifyComponentMPA.overlay");
             } else {
                 OverlayUtil.disableOverlay("IconifyComponentMPA.overlay");
             }
@@ -65,9 +45,7 @@ public class MediaPlayer extends AppCompatActivity {
             if (isChecked) {
                 mp_accent.setChecked(false);
                 mp_pitch_black.setChecked(false);
-                OverlayUtil.disableOverlay("IconifyComponentMPA.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentMPB.overlay");
-                OverlayUtil.enableOverlay("IconifyComponentMPS.overlay");
+                OverlayUtil.disableOverlays("IconifyComponentMPA.overlay", "IconifyComponentMPB.overlay", "IconifyComponentMPS.overlay");
             } else {
                 OverlayUtil.disableOverlay("IconifyComponentMPS.overlay");
             }
@@ -80,9 +58,7 @@ public class MediaPlayer extends AppCompatActivity {
             if (isChecked) {
                 mp_accent.setChecked(false);
                 mp_system.setChecked(false);
-                OverlayUtil.disableOverlay("IconifyComponentMPA.overlay");
-                OverlayUtil.disableOverlay("IconifyComponentMPS.overlay");
-                OverlayUtil.enableOverlay("IconifyComponentMPB.overlay");
+                OverlayUtil.disableOverlays("IconifyComponentMPA.overlay", "IconifyComponentMPS.overlay", "IconifyComponentMPB.overlay");
             } else {
                 OverlayUtil.disableOverlay("IconifyComponentMPB.overlay");
             }
@@ -99,13 +75,6 @@ public class MediaPlayer extends AppCompatActivity {
             findViewById(R.id.preview_mp_accent).setVisibility(View.VISIBLE);
         else if (Prefs.getBoolean("IconifyComponentMPB.overlay"))
             findViewById(R.id.preview_mp_black).setVisibility(View.VISIBLE);
-        else
-            findViewById(R.id.preview_mp_system).setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+        else findViewById(R.id.preview_mp_system).setVisibility(View.VISIBLE);
     }
 }

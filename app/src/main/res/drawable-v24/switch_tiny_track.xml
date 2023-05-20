@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<inset xmlns:android="http://schemas.android.com/apk/res/android">
+    <selector>
+        <item android:state_checked="true">
+            <layer-list>
+                <item>
+                    <shape android:shape="rectangle">
+                        <gradient
+                            android:angle="0.0"
+                            android:endColor="@color/holo_green_light"
+                            android:startColor="@color/holo_blue_light" />
+                        <corners android:radius="24dp" />
+                    </shape>
+                </item>
+                <item
+                    android:bottom="3dp"
+                    android:end="3dp"
+                    android:start="3dp"
+                    android:top="3dp">
+                    <shape
+                        android:shape="rectangle"
+                        android:tint="@color/colorContainer">
+                        <solid android:color="#ff000000" />
+                        <corners android:radius="24dp" />
+                    </shape>
+                </item>
+                <item
+                    android:bottom="3dp"
+                    android:end="3dp"
+                    android:start="3dp"
+                    android:top="3dp">
+                    <shape
+                        android:shape="rectangle"
+                        android:tint="@color/colorContainerOverlay">
+                        <solid android:color="#ff000000" />
+                        <corners android:radius="24dp" />
+                    </shape>
+                </item>
+            </layer-list>
+        </item>
+        <item android:state_checked="false">
+            <layer-list>
+                <item>
+                    <shape
+                        android:shape="rectangle"
+                        android:tint="@color/textColorPrimary">
+                        <solid android:color="#66000000" />
+                        <corners android:radius="24dp" />
+                    </shape>
+                </item>
+                <item
+                    android:bottom="3dp"
+                    android:end="3dp"
+                    android:start="3dp"
+                    android:top="3dp">
+                    <shape
+                        android:shape="rectangle"
+                        android:tint="@color/colorContainer">
+                        <solid android:color="#ff000000" />
+                        <corners android:radius="24dp" />
+                    </shape>
+                </item>
+                <item
+                    android:bottom="3dp"
+                    android:end="3dp"
+                    android:start="3dp"
+                    android:top="3dp">
+                    <shape
+                        android:shape="rectangle"
+                        android:tint="@color/colorContainerOverlay">
+                        <solid android:color="#ff000000" />
+                        <corners android:radius="24dp" />
+                    </shape>
+                </item>
+            </layer-list>
+        </item>
+    </selector>
+</inset>

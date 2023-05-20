@@ -1,11 +1,15 @@
 package com.drdisagree.iconify.ui.fragments;
 
+import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
+import static com.drdisagree.iconify.common.Preferences.APP_LANGUAGE;
+import static com.drdisagree.iconify.common.Preferences.APP_THEME;
 import static com.drdisagree.iconify.common.Preferences.EASTER_EGG;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.FORCE_APPLY_XPOSED_CHOICE;
 import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_AFTER_BOOT;
 import static com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN;
 import static com.drdisagree.iconify.common.Preferences.USE_LIGHT_ACCENT;
+import static com.drdisagree.iconify.utils.AppUtil.restartApplication;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -21,8 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +33,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -41,19 +43,21 @@ import com.drdisagree.iconify.ui.activities.Changelog;
 import com.drdisagree.iconify.ui.activities.Experimental;
 import com.drdisagree.iconify.ui.activities.Info;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
+import com.drdisagree.iconify.ui.views.RadioDialog;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
-public class Settings extends Fragment {
+public class Settings extends BaseFragment implements RadioDialog.RadioDialogListener {
 
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
     LoadingDialog loadingDialog;
+    RadioDialog rd_force_apply_method, rd_app_language, rd_app_theme;
 
     public static void disableEverything() {
         SharedPreferences prefs = Iconify.getAppContext().getSharedPreferences(Iconify.getAppContext().getPackageName(), Context.MODE_PRIVATE);
@@ -94,34 +98,51 @@ public class Settings extends Fragment {
         // Show loading dialog
         loadingDialog = new LoadingDialog(requireActivity());
 
+        // Language
+        LinearLayout app_language = view.findViewById(R.id.app_language);
+        TextView selected_app_language = view.findViewById(R.id.selected_app_language);
+        int current_language = Arrays.asList(getResources().getStringArray(R.array.locale_code)).indexOf(Prefs.getString(APP_LANGUAGE, getResources().getConfiguration().getLocales().get(0).getLanguage()));
+        rd_app_language = new RadioDialog(requireActivity(), 0, current_language == -1 ? 0 : current_language);
+        rd_app_language.setRadioDialogListener(this);
+        app_language.setOnClickListener(v -> rd_app_language.show(R.string.app_language, R.array.locale_name, selected_app_language));
+        selected_app_language.setText(Arrays.asList(getResources().getStringArray(R.array.locale_name)).get(rd_app_language.getSelectedIndex()));
+
+        // App Theme
+        LinearLayout app_theme = view.findViewById(R.id.app_theme);
+        TextView selected_app_theme = view.findViewById(R.id.selected_app_theme);
+        rd_app_theme = new RadioDialog(requireActivity(), 1, Prefs.getInt(APP_THEME, 2));
+        rd_app_theme.setRadioDialogListener(this);
+        app_theme.setOnClickListener(v -> rd_app_theme.show(R.string.app_theme, R.array.app_theme, selected_app_theme));
+        selected_app_theme.setText(Arrays.asList(getResources().getStringArray(R.array.app_theme)).get(rd_app_theme.getSelectedIndex()));
+
         // Use light accent
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch use_light_accent = view.findViewById(R.id.use_light_accent);
-        if (Prefs.getBoolean(USE_LIGHT_ACCENT, false) || Prefs.getBoolean("IconifyComponentAMACL.overlay") || Prefs.getBoolean("IconifyComponentAMGCL.overlay")) {
-            Prefs.putBoolean(USE_LIGHT_ACCENT, true);
-            use_light_accent.setChecked(true);
-        } else {
-            Prefs.putBoolean(USE_LIGHT_ACCENT, false);
-            use_light_accent.setChecked(false);
-        }
+        boolean useLightAccent = Prefs.getBoolean(USE_LIGHT_ACCENT, false) || Prefs.getBoolean("IconifyComponentAMACL.overlay") || Prefs.getBoolean("IconifyComponentAMGCL.overlay");
+
+        Prefs.putBoolean(USE_LIGHT_ACCENT, useLightAccent);
+        use_light_accent.setChecked(useLightAccent);
+
         use_light_accent.setOnCheckedChangeListener((buttonView, isChecked) -> {
             Prefs.putBoolean(USE_LIGHT_ACCENT, isChecked);
-            if (isChecked) {
-                if (Prefs.getBoolean("IconifyComponentAMAC.overlay")) {
-                    OverlayUtil.disableOverlay("IconifyComponentAMAC.overlay");
-                    OverlayUtil.enableOverlay("IconifyComponentAMACL.overlay");
-                } else if (Prefs.getBoolean("IconifyComponentAMGC.overlay")) {
-                    OverlayUtil.disableOverlay("IconifyComponentAMGC.overlay");
-                    OverlayUtil.enableOverlay("IconifyComponentAMGCL.overlay");
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    if (Prefs.getBoolean("IconifyComponentAMAC.overlay")) {
+                        OverlayUtil.disableOverlay("IconifyComponentAMAC.overlay");
+                        OverlayUtil.enableOverlay("IconifyComponentAMACL.overlay");
+                    } else if (Prefs.getBoolean("IconifyComponentAMGC.overlay")) {
+                        OverlayUtil.disableOverlay("IconifyComponentAMGC.overlay");
+                        OverlayUtil.enableOverlay("IconifyComponentAMGCL.overlay");
+                    }
+                } else {
+                    if (Prefs.getBoolean("IconifyComponentAMACL.overlay")) {
+                        OverlayUtil.disableOverlay("IconifyComponentAMACL.overlay");
+                        OverlayUtil.enableOverlay("IconifyComponentAMAC.overlay");
+                    } else if (Prefs.getBoolean("IconifyComponentAMGCL.overlay")) {
+                        OverlayUtil.disableOverlay("IconifyComponentAMGCL.overlay");
+                        OverlayUtil.enableOverlay("IconifyComponentAMGC.overlay");
+                    }
                 }
-            } else {
-                if (Prefs.getBoolean("IconifyComponentAMACL.overlay")) {
-                    OverlayUtil.disableOverlay("IconifyComponentAMACL.overlay");
-                    OverlayUtil.enableOverlay("IconifyComponentAMAC.overlay");
-                } else if (Prefs.getBoolean("IconifyComponentAMGCL.overlay")) {
-                    OverlayUtil.disableOverlay("IconifyComponentAMGCL.overlay");
-                    OverlayUtil.enableOverlay("IconifyComponentAMGC.overlay");
-                }
-            }
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         // Restart sysui after boot
@@ -129,10 +150,8 @@ public class Settings extends Fragment {
         restart_sysui_after_boot.setChecked(Prefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false));
         restart_sysui_after_boot.setOnCheckedChangeListener((buttonView, isChecked) -> {
             Prefs.putBoolean(RESTART_SYSUI_AFTER_BOOT, isChecked);
-            if (isChecked)
-                SystemUtil.enableRestartSystemuiAfterBoot();
-            else
-                SystemUtil.disableRestartSystemuiAfterBoot();
+            if (isChecked) SystemUtil.enableRestartSystemuiAfterBoot();
+            else SystemUtil.disableRestartSystemuiAfterBoot();
         });
 
         // Show xposed warn
@@ -141,24 +160,12 @@ public class Settings extends Fragment {
         hide_warn_message.setOnCheckedChangeListener((buttonView, isChecked) -> Prefs.putBoolean(SHOW_XPOSED_WARN, isChecked));
 
         // Force apply method
-        if (Prefs.getInt(FORCE_APPLY_XPOSED_CHOICE, 0) == 0)
-            ((RadioButton) view.findViewById(R.id.apply_method_dark_mode)).setChecked(true);
-        else if (Prefs.getInt(FORCE_APPLY_XPOSED_CHOICE, 0) == 1)
-            ((RadioButton) view.findViewById(R.id.apply_method_restart_sysui)).setChecked(true);
-        else if (Prefs.getInt(FORCE_APPLY_XPOSED_CHOICE, 0) == -1)
-            ((RadioButton) view.findViewById(R.id.apply_method_do_nothing)).setChecked(true);
-
-        // Statusbar color source select
-        RadioGroup force_apply_method_selector = view.findViewById(R.id.force_apply_method_selector);
-
-        force_apply_method_selector.setOnCheckedChangeListener((group, checkedId) -> {
-            if (Objects.equals(checkedId, R.id.apply_method_dark_mode))
-                Prefs.putInt(FORCE_APPLY_XPOSED_CHOICE, 0);
-            else if (Objects.equals(checkedId, R.id.apply_method_restart_sysui))
-                Prefs.putInt(FORCE_APPLY_XPOSED_CHOICE, 1);
-            else if (Objects.equals(checkedId, R.id.apply_method_do_nothing))
-                Prefs.putInt(FORCE_APPLY_XPOSED_CHOICE, -1);
-        });
+        LinearLayout force_apply_method = view.findViewById(R.id.force_apply_method);
+        TextView selected_force_apply_method = view.findViewById(R.id.selected_force_apply_method);
+        rd_force_apply_method = new RadioDialog(requireActivity(), 2, Prefs.getInt(FORCE_APPLY_XPOSED_CHOICE, 0) == -1 ? 2 : Prefs.getInt(FORCE_APPLY_XPOSED_CHOICE, 0));
+        rd_force_apply_method.setRadioDialogListener(this);
+        force_apply_method.setOnClickListener(v -> rd_force_apply_method.show(R.string.list_title_force_apply_method, R.array.xposed_force_apply_method, selected_force_apply_method));
+        selected_force_apply_method.setText(Arrays.asList(getResources().getStringArray(R.array.xposed_force_apply_method)).get(rd_force_apply_method.getSelectedIndex() == -1 ? 2 : rd_force_apply_method.getSelectedIndex()));
 
         // Disable Everything
         TextView list_title_disableEverything = view.findViewById(R.id.list_title_disableEverything);
@@ -222,8 +229,10 @@ public class Settings extends Fragment {
 
     @Override
     public void onDestroy() {
-        if (loadingDialog != null)
-            loadingDialog.hide();
+        if (loadingDialog != null) loadingDialog.hide();
+        if (rd_app_language != null) rd_app_language.dismiss();
+        if (rd_app_theme != null) rd_app_theme.dismiss();
+        if (rd_force_apply_method != null) rd_force_apply_method.dismiss();
         super.onDestroy();
     }
 
@@ -255,5 +264,22 @@ public class Settings extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemSelected(int dialogId, int selectedIndex) {
+        switch (dialogId) {
+            case 0:
+                Prefs.putString(APP_LANGUAGE, Arrays.asList(getResources().getStringArray(R.array.locale_code)).get(selectedIndex));
+                restartApplication(requireActivity());
+                break;
+            case 1:
+                Prefs.putInt(APP_THEME, selectedIndex);
+                restartApplication(requireActivity());
+                break;
+            case 2:
+                Prefs.putInt(FORCE_APPLY_XPOSED_CHOICE, selectedIndex == 2 ? -1 : selectedIndex);
+                break;
+        }
     }
 }

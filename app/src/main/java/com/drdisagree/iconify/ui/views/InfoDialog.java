@@ -8,11 +8,10 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.ui.activities.BaseActivity;
 
-public class InfoDialog extends AppCompatActivity {
+public class InfoDialog extends BaseActivity {
 
     Context context;
     Dialog dialog;

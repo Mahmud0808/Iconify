@@ -1,38 +1,32 @@
 package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
-import static com.drdisagree.iconify.common.Preferences.LANDSCAPE_BATTERY_HEIGHT;
-import static com.drdisagree.iconify.common.Preferences.LANDSCAPE_BATTERY_ROTATION;
-import static com.drdisagree.iconify.common.Preferences.LANDSCAPE_BATTERY_SWITCH;
-import static com.drdisagree.iconify.common.Preferences.LANDSCAPE_BATTERY_WIDTH;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_HEIGHT;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_STYLE;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_WIDTH;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.views.RadioDialog;
 import com.drdisagree.iconify.utils.HelperUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.Arrays;
 
-public class XposedBatteryStyle extends AppCompatActivity {
+public class XposedBatteryStyle extends BaseActivity implements RadioDialog.RadioDialogListener {
+
+    private static int selectedBatteryStyle = 0;
+    RadioDialog rd_battery_style;
+    TextView selected_custom_battery_style;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -43,52 +37,29 @@ public class XposedBatteryStyle extends AppCompatActivity {
         // Header
         ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_battery_style);
 
-        // Landscape battery
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_landscape_battery = findViewById(R.id.enable_landscape_battery);
-        enable_landscape_battery.setChecked(RPrefs.getBoolean(LANDSCAPE_BATTERY_SWITCH, false));
-        enable_landscape_battery.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RPrefs.putBoolean(LANDSCAPE_BATTERY_SWITCH, isChecked);
-            new Handler().postDelayed(isChecked ? HelperUtil::forceApply : SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
-        });
-
-        // Landscape battery style
-        final Spinner landscape_battery_style = findViewById(R.id.landscape_battery_style);
-        List<String> lsbattery_styles = new ArrayList<>();
-        lsbattery_styles.add("Landscape R");
-        lsbattery_styles.add("Landscape L");
-
-        ArrayAdapter<String> lsbattery_styles_adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_item, lsbattery_styles);
-        lsbattery_styles_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
-        landscape_battery_style.setAdapter(lsbattery_styles_adapter);
-
-        final int[] selectedLandscapeBattery = {RPrefs.getInt(LANDSCAPE_BATTERY_ROTATION, 90) == 90 ? 0 : 1};
-        landscape_battery_style.setSelection(selectedLandscapeBattery[0]);
-        landscape_battery_style.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedLandscapeBattery[0] = position == 0 ? 90 : 270;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+        // Custom battery style
+        LinearLayout custom_battery_style = findViewById(R.id.custom_battery_style);
+        selected_custom_battery_style = findViewById(R.id.selected_custom_battery_style);
+        rd_battery_style = new RadioDialog(this, 0, RPrefs.getInt(CUSTOM_BATTERY_STYLE, 0));
+        rd_battery_style.setRadioDialogListener(this);
+        custom_battery_style.setOnClickListener(v -> rd_battery_style.show(R.string.battery_style_title, R.array.custom_battery_style, selected_custom_battery_style));
+        selectedBatteryStyle = rd_battery_style.getSelectedIndex();
+        selected_custom_battery_style.setText(Arrays.asList(getResources().getStringArray(R.array.custom_battery_style)).get(selectedBatteryStyle));
+        selected_custom_battery_style.setText(getResources().getString(R.string.opt_selected) + ' ' + selected_custom_battery_style.getText().toString().replaceAll(getResources().getString(R.string.opt_selected) + ' ', ""));
 
         // Apply battery style
         Button apply_battery_style = findViewById(R.id.apply_battery_style);
         apply_battery_style.setOnClickListener(v -> {
-            RPrefs.putInt(LANDSCAPE_BATTERY_ROTATION, selectedLandscapeBattery[0]);
-            if (RPrefs.getBoolean(LANDSCAPE_BATTERY_SWITCH, false)) {
-                new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
-            }
+            RPrefs.putInt(CUSTOM_BATTERY_STYLE, selectedBatteryStyle);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 
         // Battery width
         SeekBar battery_width_seekbar = findViewById(R.id.battery_width_seekbar);
         TextView battery_width_output = findViewById(R.id.battery_width_output);
-        final int[] batteryWidth = {RPrefs.getInt(LANDSCAPE_BATTERY_WIDTH, 20)};
+        final int[] batteryWidth = {RPrefs.getInt(CUSTOM_BATTERY_WIDTH, 20)};
         battery_width_output.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryWidth[0] + "dp");
-        battery_width_seekbar.setProgress(RPrefs.getInt(LANDSCAPE_BATTERY_WIDTH, 20));
+        battery_width_seekbar.setProgress(RPrefs.getInt(CUSTOM_BATTERY_WIDTH, 20));
         battery_width_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
@@ -103,19 +74,17 @@ public class XposedBatteryStyle extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                RPrefs.putInt(LANDSCAPE_BATTERY_WIDTH, batteryWidth[0]);
-                if (RPrefs.getBoolean(LANDSCAPE_BATTERY_SWITCH, false)) {
-                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
-                }
+                RPrefs.putInt(CUSTOM_BATTERY_WIDTH, batteryWidth[0]);
+                new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
             }
         });
 
         // Battery height
         SeekBar battery_height_seekbar = findViewById(R.id.battery_height_seekbar);
         TextView battery_height_output = findViewById(R.id.battery_height_output);
-        final int[] batteryHeight = {RPrefs.getInt(LANDSCAPE_BATTERY_HEIGHT, 20)};
+        final int[] batteryHeight = {RPrefs.getInt(CUSTOM_BATTERY_HEIGHT, 20)};
         battery_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryHeight[0] + "dp");
-        battery_height_seekbar.setProgress(RPrefs.getInt(LANDSCAPE_BATTERY_HEIGHT, 20));
+        battery_height_seekbar.setProgress(RPrefs.getInt(CUSTOM_BATTERY_HEIGHT, 20));
         battery_height_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
@@ -130,11 +99,24 @@ public class XposedBatteryStyle extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                RPrefs.putInt(LANDSCAPE_BATTERY_HEIGHT, batteryHeight[0]);
-                if (RPrefs.getBoolean(LANDSCAPE_BATTERY_SWITCH, false)) {
-                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
-                }
+                RPrefs.putInt(CUSTOM_BATTERY_HEIGHT, batteryHeight[0]);
+                new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
             }
         });
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onItemSelected(int dialogId, int selectedIndex) {
+        if (dialogId == 0) {
+            selectedBatteryStyle = selectedIndex;
+            selected_custom_battery_style.setText(getResources().getString(R.string.opt_selected) + ' ' + selected_custom_battery_style.getText().toString().replaceAll(getResources().getString(R.string.opt_selected) + ' ', ""));
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        rd_battery_style.dismiss();
+        super.onDestroy();
     }
 }

@@ -10,14 +10,13 @@ import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TOPMARGIN;
 import static com.drdisagree.iconify.ui.utils.ViewBindingHelpers.disableNestedScrolling;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.drdisagree.iconify.R;
@@ -27,15 +26,14 @@ import com.drdisagree.iconify.ui.models.ClockModel;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.HeaderClockStyles;
 import com.drdisagree.iconify.utils.HelperUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.drdisagree.iconify.utils.SystemUtil;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import me.relex.circleindicator.CircleIndicator3;
 
-public class XposedHeaderClock extends AppCompatActivity {
+public class XposedHeaderClock extends BaseActivity {
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -52,7 +50,14 @@ public class XposedHeaderClock extends AppCompatActivity {
         enable_header_clock.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HEADER_CLOCK_SWITCH, isChecked);
             if (!isChecked) RPrefs.putInt(HEADER_CLOCK_STYLE, 1);
-            new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
+
+            new Handler().postDelayed(() -> {
+                if (Build.VERSION.SDK_INT >= 33) {
+                    SystemUtil.restartSystemUI();
+                } else {
+                    HelperUtil.forceApply();
+                }
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         // Header clock style
@@ -166,11 +171,5 @@ public class XposedHeaderClock extends AppCompatActivity {
             header_clock.add(new ClockModel(HeaderClockStyles.initHeaderClockStyle(this, i)));
 
         return new ClockPreviewAdapter(this, header_clock, HEADER_CLOCK_SWITCH, HEADER_CLOCK_STYLE);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 }

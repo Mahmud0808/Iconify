@@ -16,7 +16,7 @@ import android.widget.TextClock;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
-import com.drdisagree.iconify.utils.XSystemUtil;
+import com.drdisagree.iconify.xposed.utils.SystemUtil;
 
 public class HeaderClockStyles {
 
@@ -46,7 +46,7 @@ public class HeaderClockStyles {
                 clockMinute1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 clockMinute1.setFormat12Hour(":mm");
                 clockMinute1.setFormat24Hour(":mm");
-                clockMinute1.setTextColor(forceWhiteText ? mContext.getResources().getColor(R.color.white) : XSystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                clockMinute1.setTextColor(forceWhiteText ? mContext.getResources().getColor(R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                 clockMinute1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 40 * textScaling);
                 clockMinute1.setTypeface(clockMinute1.getTypeface(), Typeface.BOLD);
                 LinearLayout.LayoutParams clockMinuteParams1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -65,7 +65,7 @@ public class HeaderClockStyles {
                 clockDay1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 clockDay1.setFormat12Hour("EEEE");
                 clockDay1.setFormat24Hour("EEEE");
-                clockDay1.setTextColor(forceWhiteText ? mContext.getResources().getColor(R.color.white) : XSystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                clockDay1.setTextColor(forceWhiteText ? mContext.getResources().getColor(R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                 clockDay1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14 * textScaling);
                 clockDay1.setTypeface(clockDay1.getTypeface(), Typeface.BOLD);
 
@@ -73,7 +73,7 @@ public class HeaderClockStyles {
                 clockDate1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 clockDate1.setFormat12Hour("dd MMMM");
                 clockDate1.setFormat24Hour("dd MMMM");
-                clockDate1.setTextColor(forceWhiteText ? mContext.getResources().getColor(R.color.white) : XSystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                clockDate1.setTextColor(forceWhiteText ? mContext.getResources().getColor(R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                 clockDate1.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14 * textScaling);
                 clockDate1.setTypeface(clockDate1.getTypeface(), Typeface.BOLD);
 
@@ -103,7 +103,7 @@ public class HeaderClockStyles {
                 clock2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 clock2.setFormat12Hour("h:mm");
                 clock2.setFormat24Hour("H:mm");
-                clock2.setTextColor(forceWhiteText ? mContext.getResources().getColor(R.color.white) : XSystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                clock2.setTextColor(forceWhiteText ? mContext.getResources().getColor(R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                 clock2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 40 * textScaling);
                 clock2.setTypeface(clock2.getTypeface(), Typeface.BOLD);
 
@@ -131,7 +131,7 @@ public class HeaderClockStyles {
                 dayDate2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 dayDate2.setFormat12Hour("EEEE, MMM dd");
                 dayDate2.setFormat24Hour("EEEE, MMM dd");
-                dayDate2.setTextColor(forceWhiteText ? mContext.getResources().getColor(R.color.white) : XSystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                dayDate2.setTextColor(forceWhiteText ? mContext.getResources().getColor(R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                 dayDate2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18 * textScaling);
                 dayDate2.setTypeface(clockOverlay2.getTypeface(), Typeface.BOLD);
 
@@ -151,7 +151,7 @@ public class HeaderClockStyles {
                 clock3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 clock3.setFormat12Hour("hh:mm");
                 clock3.setFormat24Hour("HH:mm");
-                clock3.setTextColor(forceWhiteText ? mContext.getResources().getColor(R.color.white) : XSystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                clock3.setTextColor(forceWhiteText ? mContext.getResources().getColor(R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                 clock3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 28 * textScaling);
                 clock3.setTypeface(clock3.getTypeface(), Typeface.BOLD);
 
@@ -162,7 +162,7 @@ public class HeaderClockStyles {
                 clockOverlay3.setTextColor(mContext.getResources().getColor(R.color.holo_blue_light));
                 clockOverlay3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 28 * textScaling);
                 clockOverlay3.setTypeface(clockOverlay3.getTypeface(), Typeface.BOLD);
-                clockOverlay3.setAlpha(0.2f);
+                clockOverlay3.setAlpha(0.4f);
                 LinearLayout.LayoutParams clockOverlayParams3 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 clockOverlayParams3.setMargins(6, 6, 0, 0);
                 clockOverlay3.setLayoutParams(clockOverlayParams3);
@@ -177,7 +177,7 @@ public class HeaderClockStyles {
                 dayDate3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 dayDate3.setFormat12Hour("EEE, MMM dd");
                 dayDate3.setFormat24Hour("EEE, MMM dd");
-                dayDate3.setTextColor(forceWhiteText ? mContext.getResources().getColor(R.color.white) : XSystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                dayDate3.setTextColor(forceWhiteText ? mContext.getResources().getColor(R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                 dayDate3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18 * textScaling);
                 dayDate3.setTypeface(clockOverlay3.getTypeface(), Typeface.BOLD);
 
@@ -188,7 +188,7 @@ public class HeaderClockStyles {
                 dayDateOverlay3.setTextColor(mContext.getResources().getColor(R.color.holo_green_light));
                 dayDateOverlay3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18 * textScaling);
                 dayDateOverlay3.setTypeface(dayDateOverlay3.getTypeface(), Typeface.BOLD);
-                dayDateOverlay3.setAlpha(0.2f);
+                dayDateOverlay3.setAlpha(0.4f);
                 LinearLayout.LayoutParams dayDateOverlayParams3 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 dayDateOverlayParams3.setMargins(6, 6, 0, 0);
                 dayDateOverlay3.setLayoutParams(dayDateOverlayParams3);
@@ -227,7 +227,7 @@ public class HeaderClockStyles {
                 clockDate4.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 clockDate4.setFormat12Hour("dd MMMM");
                 clockDate4.setFormat24Hour("dd MMMM");
-                clockDate4.setTextColor(forceWhiteText ? mContext.getResources().getColor(R.color.white) : XSystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                clockDate4.setTextColor(forceWhiteText ? mContext.getResources().getColor(R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                 clockDate4.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16 * textScaling);
                 clockDate4.setTypeface(clockDate4.getTypeface(), Typeface.BOLD);
 
@@ -278,7 +278,7 @@ public class HeaderClockStyles {
                 date5.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 date5.setFormat12Hour("EEE, MMM dd");
                 date5.setFormat24Hour("EEE, MMM dd");
-                date5.setTextColor(forceWhiteText ? mContext.getResources().getColor(R.color.white) : XSystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                date5.setTextColor(forceWhiteText ? mContext.getResources().getColor(R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                 date5.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14 * textScaling);
                 date5.setTypeface(date5.getTypeface(), Typeface.BOLD);
                 ViewGroup.MarginLayoutParams dateParams5 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);

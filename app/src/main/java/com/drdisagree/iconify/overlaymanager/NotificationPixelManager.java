@@ -14,8 +14,7 @@ public class NotificationPixelManager {
         enable_pack(n);
 
         if (!Prefs.getBoolean("IconifyComponentCR1.overlay") || !Prefs.getBoolean("IconifyComponentCR2.overlay")) {
-            OverlayUtil.enableOverlay("IconifyComponentCR1.overlay");
-            OverlayUtil.enableOverlay("IconifyComponentCR2.overlay");
+            OverlayUtil.enableOverlays("IconifyComponentCR1.overlay", "IconifyComponentCR2.overlay");
         }
     }
 

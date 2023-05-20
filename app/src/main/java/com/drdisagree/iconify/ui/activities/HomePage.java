@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.activities;
 
+import static com.drdisagree.iconify.SplashActivity.SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES;
 import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
 import static com.drdisagree.iconify.common.References.FRAGMENT_SETTINGS;
@@ -14,7 +15,6 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -34,7 +34,7 @@ import com.drdisagree.iconify.utils.OverlayUtil;
 import java.util.List;
 import java.util.Objects;
 
-public class HomePage extends AppCompatActivity {
+public class HomePage extends BaseActivity {
 
     private static final String mData = "mDataKey";
     ActivityHomePageBinding binding;
@@ -43,7 +43,6 @@ public class HomePage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setNavigationBarColor(getResources().getColor(R.color.colorNavbarOverlay));
         binding = ActivityHomePageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -87,7 +86,7 @@ public class HomePage extends AppCompatActivity {
         Thread thread1 = new Thread(runnable1);
         thread1.start();
 
-        if (Build.VERSION.SDK_INT >= 33 && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+        if (!SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES && Build.VERSION.SDK_INT >= 33 && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             new Handler().postDelayed(() -> {
                 requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 0);
             }, 2000);

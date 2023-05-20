@@ -1,0 +1,16 @@
+Iconify v6.1.1 has arrived! It has the following new changes:
+
+Feature Changes:
+• Settings Icons:
+>> Added icon size and shape
+• Brightness Bar:
+>> Added translucent brightness bar
+• QS Panel Tiles:
+>> Added translucent QS shape
+• Notification:
+>> Added iOS style notification
+• XPosed Menu:
+>> Added 16 battery styles
+>> And many more...
+
+Full changelog at https://github.com/Mahmud0808/Iconify/releases/tag/v6.2.0

@@ -1,30 +1,35 @@
 package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
+import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.References.FABRICATED_PILL_BOTTOM_SPACE;
+import static com.drdisagree.iconify.common.References.FABRICATED_PILL_SHAPE_SWITCH;
+import static com.drdisagree.iconify.common.References.FABRICATED_PILL_THICKNESS;
+import static com.drdisagree.iconify.common.References.FABRICATED_PILL_WIDTH;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.Switch;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import android.widget.TextView;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
 import java.util.Objects;
 
-public class NavigationBar extends AppCompatActivity {
+public class NavigationBar extends BaseActivity {
 
     List<String> left_back_gesture = Shell.cmd("settings get secure back_gesture_inset_scale_left").exec().getOut();
     List<String> right_back_gesture = Shell.cmd("settings get secure back_gesture_inset_scale_right").exec().getOut();
@@ -35,6 +40,7 @@ public class NavigationBar extends AppCompatActivity {
     LinearLayout nb_pill_menu, nb_monet_pill_menu, nb_kb_buttons_menu;
     private ViewGroup container;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,10 +98,12 @@ public class NavigationBar extends AppCompatActivity {
                     nb_kb_buttons_menu.setVisibility(View.VISIBLE);
                     disableOthers("IconifyComponentNBFullScreen.overlay");
                     OverlayUtil.enableOverlay("IconifyComponentNBFullScreen.overlay");
+                    findViewById(R.id.pill_shape).setVisibility(View.GONE);
                 } else {
                     nb_pill_menu.setVisibility(View.VISIBLE);
                     nb_kb_buttons_menu.setVisibility(View.GONE);
                     OverlayUtil.disableOverlay("IconifyComponentNBFullScreen.overlay");
+                    findViewById(R.id.pill_shape).setVisibility(View.VISIBLE);
                 }
             }, SWITCH_ANIMATION_DELAY);
         });
@@ -159,10 +167,12 @@ public class NavigationBar extends AppCompatActivity {
                 if (isChecked) {
                     nb_monet_pill_menu.setVisibility(View.GONE);
                     OverlayUtil.enableOverlay("IconifyComponentNBHidePill.overlay");
+                    findViewById(R.id.pill_shape).setVisibility(View.GONE);
                     SystemUtil.restartSystemUI();
                 } else {
                     nb_monet_pill_menu.setVisibility(View.VISIBLE);
                     OverlayUtil.disableOverlay("IconifyComponentNBHidePill.overlay");
+                    findViewById(R.id.pill_shape).setVisibility(View.VISIBLE);
                     SystemUtil.restartSystemUI();
                 }
             }, SWITCH_ANIMATION_DELAY);
@@ -213,6 +223,112 @@ public class NavigationBar extends AppCompatActivity {
                 }
             }, SWITCH_ANIMATION_DELAY);
         });
+
+        // Pill shape
+        findViewById(R.id.pill_shape).setVisibility((nb_fullscreen.isChecked() || nb_hide_pill.isChecked()) ? View.GONE : View.VISIBLE);
+
+        // Pill width
+        SeekBar pill_width_seekbar = findViewById(R.id.pill_width_seekbar);
+        TextView pill_width_output = findViewById(R.id.pill_width_output);
+        final int[] finalPillWidth = {Prefs.getInt(FABRICATED_PILL_WIDTH, 108)};
+
+        pill_width_output.setText(getResources().getString(R.string.opt_selected) + ' ' + finalPillWidth[0] + "dp");
+        pill_width_seekbar.setProgress(finalPillWidth[0]);
+        pill_width_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                finalPillWidth[0] = progress;
+                pill_width_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        // Pill thickness
+        SeekBar pill_thickness_seekbar = findViewById(R.id.pill_thickness_seekbar);
+        TextView pill_thickness_output = findViewById(R.id.pill_thickness_output);
+        final int[] finalPillThickness = {Prefs.getInt(FABRICATED_PILL_THICKNESS, 2)};
+
+        pill_thickness_output.setText(getResources().getString(R.string.opt_selected) + ' ' + finalPillThickness[0] + "dp");
+        pill_thickness_seekbar.setProgress(finalPillThickness[0]);
+        pill_thickness_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                finalPillThickness[0] = progress;
+                pill_thickness_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        // Bottom space
+        SeekBar bottom_space_seekbar = findViewById(R.id.bottom_space_seekbar);
+        TextView bottom_space_output = findViewById(R.id.bottom_space_output);
+        final int[] finalBottomSpace = {Prefs.getInt(FABRICATED_PILL_BOTTOM_SPACE, 6)};
+
+        bottom_space_output.setText(getResources().getString(R.string.opt_selected) + ' ' + finalBottomSpace[0] + "dp");
+        bottom_space_seekbar.setProgress(finalBottomSpace[0]);
+        bottom_space_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                finalBottomSpace[0] = progress;
+                bottom_space_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        // Apply button declaration
+        Button pill_thickness_column_apply = findViewById(R.id.pill_shape_apply);
+
+        // Reset button declaration
+        Button pill_thickness_column_reset = findViewById(R.id.pill_shape_reset);
+
+        // Apply button
+        pill_thickness_column_apply.setOnClickListener(v -> {
+            Prefs.putBoolean(FABRICATED_PILL_SHAPE_SWITCH, true);
+            Prefs.putInt(FABRICATED_PILL_WIDTH, finalPillWidth[0]);
+            Prefs.putInt(FABRICATED_PILL_THICKNESS, finalPillThickness[0]);
+            Prefs.putInt(FABRICATED_PILL_BOTTOM_SPACE, finalBottomSpace[0]);
+
+            FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_PILL_WIDTH, "dimen", "navigation_home_handle_width", finalPillWidth[0] + "dp");
+            FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_PILL_THICKNESS, "dimen", "navigation_handle_radius", finalPillThickness[0] + "dp");
+            FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_PILL_BOTTOM_SPACE, "dimen", "navigation_handle_bottom", finalBottomSpace[0] + "dp");
+
+            pill_thickness_column_reset.setVisibility(View.VISIBLE);
+            SystemUtil.restartSystemUI();
+        });
+
+        // Reset button
+        pill_thickness_column_reset.setVisibility(Prefs.getBoolean(FABRICATED_PILL_SHAPE_SWITCH) ? View.VISIBLE : View.GONE);
+        pill_thickness_column_reset.setOnClickListener(v -> {
+            Prefs.putBoolean(FABRICATED_PILL_SHAPE_SWITCH, false);
+
+            FabricatedUtil.disableOverlay(FABRICATED_PILL_WIDTH);
+            FabricatedUtil.disableOverlay(FABRICATED_PILL_THICKNESS);
+            FabricatedUtil.disableOverlay(FABRICATED_PILL_BOTTOM_SPACE);
+
+            pill_thickness_column_reset.setVisibility(View.GONE);
+            SystemUtil.restartSystemUI();
+        });
     }
 
     private boolean initialize_left_gesture_switch() {
@@ -238,29 +354,19 @@ public class NavigationBar extends AppCompatActivity {
     private void disableOthers(String pkgName) {
         if (!Objects.equals(pkgName, "IconifyComponentNBFullScreen.overlay")) {
             nb_fullscreen.setChecked(false);
-            Prefs.putBoolean(("IconifyComponentNBFullScreen.overlay"), false);
             OverlayUtil.disableOverlay("IconifyComponentNBFullScreen.overlay");
         }
         if (!Objects.equals(pkgName, "IconifyComponentNBImmersive.overlay")) {
             nb_immersive.setChecked(false);
-            Prefs.putBoolean(("IconifyComponentNBImmersive.overlay"), false);
             OverlayUtil.disableOverlay("IconifyComponentNBImmersive.overlay");
         }
         if (!Objects.equals(pkgName, "IconifyComponentNBImmersiveSmall.overlay")) {
             nb_immersivev2.setChecked(false);
-            Prefs.putBoolean(("IconifyComponentNBImmersiveSmall.overlay"), false);
             OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmall.overlay");
         }
         if (!Objects.equals(pkgName, "IconifyComponentNBImmersiveSmaller.overlay")) {
             nb_immersivev3.setChecked(false);
-            Prefs.putBoolean(("IconifyComponentNBImmersiveSmaller.overlay"), false);
             OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmaller.overlay");
         }
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 }

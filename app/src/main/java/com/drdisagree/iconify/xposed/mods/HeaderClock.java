@@ -29,8 +29,8 @@ import android.widget.LinearLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
 
-import com.drdisagree.iconify.utils.XSystemUtil;
 import com.drdisagree.iconify.xposed.ModPack;
+import com.drdisagree.iconify.xposed.utils.SystemUtil;
 
 import java.util.Objects;
 
@@ -44,6 +44,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
 
     private static final String TAG = "Iconify - XposedHeaderClock: ";
     private static final String QuickStatusBarHeaderClass = SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader";
+    private static final String LargeScreenShadeHeaderControllerClass = SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController";
     boolean showHeaderClock = false;
     int sideMargin = 0;
     int topMargin = 8;
@@ -98,16 +99,16 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     }
 
                     try {
-                        View mQSCarriers = (View) getObjectField(param.thisObject, "mQSCarriers");
-                        mQSCarriers.setVisibility(View.INVISIBLE);
-                    } catch (Throwable ignored) {
-                    }
-
-                    try {
                         TextView mClockDateView = (TextView) getObjectField(param.thisObject, "mClockDateView");
                         mClockDateView.setVisibility(View.INVISIBLE);
                         mClockDateView.setTextAppearance(0);
                         mClockDateView.setTextColor(0);
+                    } catch (Throwable ignored) {
+                    }
+
+                    try {
+                        View mQSCarriers = (View) getObjectField(param.thisObject, "mQSCarriers");
+                        mQSCarriers.setVisibility(View.INVISIBLE);
                     } catch (Throwable ignored) {
                     }
 
@@ -123,8 +124,132 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         } catch (Throwable ignored) {
         }
 
+        try {
+            final Class<?> LargeScreenShadeHeaderController = findClass(LargeScreenShadeHeaderControllerClass, lpparam.classLoader);
+
+            hookAllMethods(LargeScreenShadeHeaderController, "onInit", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!showHeaderClock) return;
+
+                    try {
+                        TextView clock = (TextView) getObjectField(param.thisObject, "clock");
+                        ((ViewGroup) clock.getParent()).removeView(clock);
+                    } catch (Throwable ignored) {
+                    }
+
+                    try {
+                        TextView date = (TextView) getObjectField(param.thisObject, "date");
+                        ((ViewGroup) date.getParent()).removeView(date);
+                    } catch (Throwable ignored) {
+                    }
+
+                    try {
+                        LinearLayout qsCarrierGroup = (LinearLayout) getObjectField(param.thisObject, "qsCarrierGroup");
+                        ((ViewGroup) qsCarrierGroup.getParent()).removeView(qsCarrierGroup);
+                    } catch (Throwable ignored) {
+                    }
+                }
+            });
+        } catch (Throwable ignored) {
+        }
+
         setHeaderClock();
         hideStockClockDate();
+    }
+
+    private void hideStockClockDate() {
+        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
+        if (ourResparam == null) return;
+
+        try {
+            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
+                @SuppressLint({"DiscouragedApi"})
+                @Override
+                public void handleLayoutInflated(LayoutInflatedParam liparam) {
+                    if (!showHeaderClock) return;
+
+                    try {
+                        @SuppressLint("DiscouragedApi") TextView clock = liparam.view.findViewById(liparam.res.getIdentifier("clock", "id", mContext.getPackageName()));
+                        clock.getLayoutParams().height = 0;
+                        clock.getLayoutParams().width = 0;
+                        clock.setTextAppearance(0);
+                        clock.setTextColor(0);
+                    } catch (Throwable ignored) {
+                    }
+
+                    try {
+                        @SuppressLint("DiscouragedApi") TextView date_clock = liparam.view.findViewById(liparam.res.getIdentifier("date_clock", "id", mContext.getPackageName()));
+                        date_clock.getLayoutParams().height = 0;
+                        date_clock.getLayoutParams().width = 0;
+                        date_clock.setTextAppearance(0);
+                        date_clock.setTextColor(0);
+                    } catch (Throwable ignored) {
+                    }
+
+                    try {
+                        @SuppressLint("DiscouragedApi") LinearLayout carrier_group = liparam.view.findViewById(liparam.res.getIdentifier("carrier_group", "id", mContext.getPackageName()));
+                        carrier_group.getLayoutParams().height = 0;
+                        carrier_group.getLayoutParams().width = 0;
+                        carrier_group.setMinimumWidth(0);
+                        carrier_group.setVisibility(View.INVISIBLE);
+                    } catch (Throwable ignored) {
+                    }
+
+                    // Ricedroid date
+                    try {
+                        @SuppressLint("DiscouragedApi") TextView date = liparam.view.findViewById(liparam.res.getIdentifier("date", "id", mContext.getPackageName()));
+                        date.getLayoutParams().height = 0;
+                        date.getLayoutParams().width = 0;
+                        date.setTextAppearance(0);
+                        date.setTextColor(0);
+                    } catch (Throwable ignored) {
+                    }
+
+                    // Nusantara clock
+                    try {
+                        @SuppressLint("DiscouragedApi") TextView jr_clock = liparam.view.findViewById(liparam.res.getIdentifier("jr_clock", "id", mContext.getPackageName()));
+                        jr_clock.getLayoutParams().height = 0;
+                        jr_clock.getLayoutParams().width = 0;
+                        jr_clock.setTextAppearance(0);
+                        jr_clock.setTextColor(0);
+                    } catch (Throwable ignored) {
+                    }
+
+                    // Nusantara date
+                    try {
+                        @SuppressLint("DiscouragedApi") LinearLayout jr_date_container = liparam.view.findViewById(liparam.res.getIdentifier("jr_date_container", "id", mContext.getPackageName()));
+                        TextView jr_date = (TextView) jr_date_container.getChildAt(0);
+                        jr_date.getLayoutParams().height = 0;
+                        jr_date.getLayoutParams().width = 0;
+                        jr_date.setTextAppearance(0);
+                        jr_date.setTextColor(0);
+                    } catch (Throwable ignored) {
+                    }
+                }
+            });
+        } catch (Throwable ignored) {
+        }
+
+        try {
+            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_status_bar_header_date_privacy", new XC_LayoutInflated() {
+                @SuppressLint({"DiscouragedApi"})
+                @Override
+                public void handleLayoutInflated(LayoutInflatedParam liparam) {
+                    if (!showHeaderClock) return;
+
+                    try {
+                        @SuppressLint("DiscouragedApi") TextView date = liparam.view.findViewById(liparam.res.getIdentifier("date", "id", mContext.getPackageName()));
+                        date.getLayoutParams().height = 0;
+                        date.getLayoutParams().width = 0;
+                        date.setTextAppearance(0);
+                        date.setTextColor(0);
+                    } catch (Throwable ignored) {
+                    }
+                }
+            });
+        } catch (Throwable ignored) {
+        }
     }
 
     private void setHeaderClock() {
@@ -144,7 +269,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     if (!showHeaderClock) return;
 
                     try {
-                        @SuppressLint("DiscouragedApi") FrameLayout header = liparam.view.findViewById(liparam.res.getIdentifier("header", "id", SYSTEMUI_PACKAGE));
+                        @SuppressLint("DiscouragedApi") FrameLayout header = liparam.view.findViewById(liparam.res.getIdentifier("header", "id", mContext.getPackageName()));
 
                         switch (headerClockStyle) {
                             case 1:
@@ -160,7 +285,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                                 clockMinute1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                                 clockMinute1.setFormat12Hour(":mm");
                                 clockMinute1.setFormat24Hour(":mm");
-                                clockMinute1.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : XSystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                                clockMinute1.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                                 clockMinute1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40 * textScaling);
                                 clockMinute1.setTypeface(clockMinute1.getTypeface(), Typeface.BOLD);
 
@@ -176,7 +301,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                                 clockDay1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                                 clockDay1.setFormat12Hour("EEEE");
                                 clockDay1.setFormat24Hour("EEEE");
-                                clockDay1.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : XSystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                                clockDay1.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                                 clockDay1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14 * textScaling);
                                 clockDay1.setTypeface(clockDay1.getTypeface(), Typeface.BOLD);
 
@@ -184,7 +309,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                                 clockDate1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                                 clockDate1.setFormat12Hour("dd MMMM");
                                 clockDate1.setFormat24Hour("dd MMMM");
-                                clockDate1.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : XSystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                                clockDate1.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                                 clockDate1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14 * textScaling);
                                 clockDate1.setTypeface(clockDate1.getTypeface(), Typeface.BOLD);
 
@@ -214,7 +339,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                                 clock2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                                 clock2.setFormat12Hour("h:mm");
                                 clock2.setFormat24Hour("H:mm");
-                                clock2.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : XSystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                                clock2.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                                 clock2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40 * textScaling);
                                 clock2.setTypeface(clock2.getTypeface(), Typeface.BOLD);
 
@@ -242,7 +367,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                                 dayDate2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                                 dayDate2.setFormat12Hour("EEEE, MMM dd");
                                 dayDate2.setFormat24Hour("EEEE, MMM dd");
-                                dayDate2.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : XSystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                                dayDate2.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                                 dayDate2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * textScaling);
                                 dayDate2.setTypeface(clockOverlay2.getTypeface(), Typeface.BOLD);
 
@@ -262,7 +387,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                                 clock3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                                 clock3.setFormat12Hour("hh:mm");
                                 clock3.setFormat24Hour("HH:mm");
-                                clock3.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : XSystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                                clock3.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                                 clock3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
                                 clock3.setTypeface(clock3.getTypeface(), Typeface.BOLD);
 
@@ -288,7 +413,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                                 dayDate3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                                 dayDate3.setFormat12Hour("EEE, MMM dd");
                                 dayDate3.setFormat24Hour("EEE, MMM dd");
-                                dayDate3.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : XSystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                                dayDate3.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                                 dayDate3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * textScaling);
                                 dayDate3.setTypeface(clockOverlay3.getTypeface(), Typeface.BOLD);
 
@@ -338,7 +463,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                                 clockDate4.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                                 clockDate4.setFormat12Hour("dd MMMM");
                                 clockDate4.setFormat24Hour("dd MMMM");
-                                clockDate4.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : XSystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                                clockDate4.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                                 clockDate4.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16 * textScaling);
                                 clockDate4.setTypeface(clockDate4.getTypeface(), Typeface.BOLD);
 
@@ -388,7 +513,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                                 date5.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                                 date5.setFormat12Hour("EEE, MMM dd");
                                 date5.setFormat24Hour("EEE, MMM dd");
-                                date5.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : XSystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                                date5.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                                 date5.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14 * textScaling);
                                 date5.setTypeface(date5.getTypeface(), Typeface.BOLD);
                                 ViewGroup.MarginLayoutParams dateParams5 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
@@ -414,100 +539,6 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                                 header.addView(container5);
                                 break;
                         }
-                    } catch (Throwable ignored) {
-                    }
-                }
-            });
-        } catch (Throwable ignored) {
-        }
-    }
-
-    private void hideStockClockDate() {
-        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
-        if (ourResparam == null) return;
-
-        try {
-            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
-                @SuppressLint({"DiscouragedApi"})
-                @Override
-                public void handleLayoutInflated(LayoutInflatedParam liparam) {
-                    if (!showHeaderClock) return;
-
-                    try {
-                        @SuppressLint("DiscouragedApi") TextView clock = liparam.view.findViewById(liparam.res.getIdentifier("clock", "id", SYSTEMUI_PACKAGE));
-                        clock.getLayoutParams().height = 0;
-                        clock.getLayoutParams().width = 0;
-                        clock.setTextAppearance(0);
-                        clock.setTextColor(0);
-                    } catch (Throwable ignored) {
-                    }
-
-                    try {
-                        @SuppressLint("DiscouragedApi") TextView date_clock = liparam.view.findViewById(liparam.res.getIdentifier("date_clock", "id", SYSTEMUI_PACKAGE));
-                        date_clock.getLayoutParams().height = 0;
-                        date_clock.getLayoutParams().width = 0;
-                        date_clock.setTextAppearance(0);
-                        date_clock.setTextColor(0);
-                    } catch (Throwable ignored) {
-                    }
-
-                    try {
-                        @SuppressLint("DiscouragedApi") LinearLayout carrier_group = liparam.view.findViewById(liparam.res.getIdentifier("carrier_group", "id", SYSTEMUI_PACKAGE));
-                        carrier_group.getLayoutParams().height = 0;
-                        carrier_group.getLayoutParams().width = 0;
-                        carrier_group.setMinimumWidth(0);
-                        carrier_group.setVisibility(View.INVISIBLE);
-                    } catch (Throwable ignored) {
-                    }
-
-                    // Ricedroid date
-                    try {
-                        @SuppressLint("DiscouragedApi") TextView date = liparam.view.findViewById(liparam.res.getIdentifier("date", "id", SYSTEMUI_PACKAGE));
-                        date.getLayoutParams().height = 0;
-                        date.getLayoutParams().width = 0;
-                        date.setTextAppearance(0);
-                        date.setTextColor(0);
-                    } catch (Throwable ignored) {
-                    }
-
-                    // Nusantara clock
-                    try {
-                        @SuppressLint("DiscouragedApi") TextView jr_clock = liparam.view.findViewById(liparam.res.getIdentifier("jr_clock", "id", SYSTEMUI_PACKAGE));
-                        jr_clock.getLayoutParams().height = 0;
-                        jr_clock.getLayoutParams().width = 0;
-                        jr_clock.setTextAppearance(0);
-                        jr_clock.setTextColor(0);
-                    } catch (Throwable ignored) {
-                    }
-
-                    // Nusantara date
-                    try {
-                        @SuppressLint("DiscouragedApi") LinearLayout jr_date_container = liparam.view.findViewById(liparam.res.getIdentifier("jr_date_container", "id", SYSTEMUI_PACKAGE));
-                        TextView jr_date = (TextView) jr_date_container.getChildAt(0);
-                        jr_date.getLayoutParams().height = 0;
-                        jr_date.getLayoutParams().width = 0;
-                        jr_date.setTextAppearance(0);
-                        jr_date.setTextColor(0);
-                    } catch (Throwable ignored) {
-                    }
-                }
-            });
-        } catch (Throwable ignored) {
-        }
-
-        try {
-            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_status_bar_header_date_privacy", new XC_LayoutInflated() {
-                @SuppressLint({"DiscouragedApi"})
-                @Override
-                public void handleLayoutInflated(LayoutInflatedParam liparam) {
-                    if (!showHeaderClock) return;
-
-                    try {
-                        @SuppressLint("DiscouragedApi") TextView date = liparam.view.findViewById(liparam.res.getIdentifier("date", "id", SYSTEMUI_PACKAGE));
-                        date.getLayoutParams().height = 0;
-                        date.getLayoutParams().width = 0;
-                        date.setTextAppearance(0);
-                        date.setTextColor(0);
                     } catch (Throwable ignored) {
                     }
                 }

@@ -5,10 +5,9 @@
     android:id="@+id/activity_media_player"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     android:fillViewport="true"
     tools:context=".ui.activities.MediaPlayer">
-
-    <include layout="@layout/view_header" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -20,8 +19,8 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/container_marginTopBottom"
-            android:layout_marginBottom="@dimen/container_marginTopBottom">
+            android:layout_marginBottom="@dimen/container_marginTopBottom"
+            android:paddingTop="@dimen/content_marginTop">
 
             <TextView
                 android:id="@+id/no_supported_musicplayer"
@@ -47,4 +46,7 @@
 
         </FrameLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <include layout="@layout/view_header" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

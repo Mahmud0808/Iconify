@@ -1,13 +1,11 @@
 package com.drdisagree.iconify.ui.fragments;
 
-import static com.drdisagree.iconify.common.Const.FRAGMENT_TRANSITION_DELAY;
 import static com.drdisagree.iconify.common.Const.LATEST_VERSION;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.LAST_UPDATE_CHECK_TIME;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_CHECK_TIME;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED;
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
-import static com.drdisagree.iconify.common.References.FRAGMENT_STYLES;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -32,9 +30,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
@@ -62,7 +57,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class Styles extends Fragment {
+public class Styles extends BaseFragment {
 
     public static boolean isServiceRunning = false;
     @SuppressLint("StaticFieldLeak")
@@ -127,16 +122,15 @@ public class Styles extends Fragment {
         // Styles page list items
         ArrayList<Object[]> home_page = new ArrayList<>();
 
-        home_page.add(new Object[]{IconPack.class, getResources().getString(R.string.activity_title_icon_pack), getResources().getString(R.string.activity_desc_icon_pack), R.drawable.ic_home_iconpack});
-        home_page.add(new Object[]{BrightnessBar.class, getResources().getString(R.string.activity_title_brightness_bar), getResources().getString(R.string.activity_desc_brightness_bar), R.drawable.ic_home_brightness});
-        home_page.add(new Object[]{QsPanelTile.class, getResources().getString(R.string.activity_title_qs_shape), getResources().getString(R.string.activity_desc_qs_shape), R.drawable.ic_home_qs_shape});
-        home_page.add(new Object[]{Notification.class, getResources().getString(R.string.activity_title_notification), getResources().getString(R.string.activity_desc_notification), R.drawable.ic_home_notification});
-        home_page.add(new Object[]{ProgressBar.class, getResources().getString(R.string.activity_title_progress_bar), getResources().getString(R.string.activity_desc_progress_bar), R.drawable.ic_extras_progress});
-        home_page.add(new Object[]{Switch.class, getResources().getString(R.string.activity_title_switch), getResources().getString(R.string.activity_desc_switch), R.drawable.ic_extras_switch});
-        home_page.add(new Object[]{ToastFrame.class, getResources().getString(R.string.activity_title_toast_frame), getResources().getString(R.string.activity_desc_toast_frame), R.drawable.ic_extras_toast_frame});
-        home_page.add(new Object[]{IconShape.class, getResources().getString(R.string.activity_title_icon_shape), getResources().getString(R.string.activity_desc_icon_shape), R.drawable.ic_extras_icon_shape});
+        home_page.add(new Object[]{IconPack.class, getResources().getString(R.string.activity_title_icon_pack), getResources().getString(R.string.activity_desc_icon_pack), R.drawable.ic_styles_iconpack});
+        home_page.add(new Object[]{BrightnessBar.class, getResources().getString(R.string.activity_title_brightness_bar), getResources().getString(R.string.activity_desc_brightness_bar), R.drawable.ic_styles_brightness});
+        home_page.add(new Object[]{QsPanelTile.class, getResources().getString(R.string.activity_title_qs_shape), getResources().getString(R.string.activity_desc_qs_shape), R.drawable.ic_styles_qs_shape});
+        home_page.add(new Object[]{Notification.class, getResources().getString(R.string.activity_title_notification), getResources().getString(R.string.activity_desc_notification), R.drawable.ic_styles_notification});
+        home_page.add(new Object[]{ProgressBar.class, getResources().getString(R.string.activity_title_progress_bar), getResources().getString(R.string.activity_desc_progress_bar), R.drawable.ic_styles_progress});
+        home_page.add(new Object[]{Switch.class, getResources().getString(R.string.activity_title_switch), getResources().getString(R.string.activity_desc_switch), R.drawable.ic_styles_switch});
+        home_page.add(new Object[]{ToastFrame.class, getResources().getString(R.string.activity_title_toast_frame), getResources().getString(R.string.activity_desc_toast_frame), R.drawable.ic_styles_toast_frame});
+        home_page.add(new Object[]{IconShape.class, getResources().getString(R.string.activity_title_icon_shape), getResources().getString(R.string.activity_desc_icon_shape), R.drawable.ic_styles_icon_shape});
         //home_page.add(new Object[]{Extras.class, getResources().getString(R.string.activity_title_extras), getResources().getString(R.string.activity_desc_extras), R.drawable.ic_home_extras});
-        //home_page.add(new Object[]{Miscellaneous.class, getResources().getString(R.string.activity_title_miscellaneous), getResources().getString(R.string.activity_desc_miscellaneous), R.drawable.ic_extras_miscellaneous});
 
         addItem(home_page);
 

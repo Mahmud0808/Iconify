@@ -2,8 +2,6 @@ package com.drdisagree.iconify.ui.activities;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,12 +14,10 @@ import com.drdisagree.iconify.ui.models.BrightnessBarModel;
 import com.drdisagree.iconify.ui.models.MenuModel;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class BrightnessBar extends AppCompatActivity {
+public class BrightnessBar extends BaseActivity {
 
     LoadingDialog loadingDialog;
 
@@ -74,14 +70,9 @@ public class BrightnessBar extends AppCompatActivity {
         bb_list.add(new BrightnessBarModel("Semi Transparent", R.drawable.bb_semi_transparent, R.drawable.auto_bb_semi_transparent, false));
         bb_list.add(new BrightnessBarModel("Thin Outline", R.drawable.bb_thin_outline, R.drawable.auto_bb_thin_outline, true));
         bb_list.add(new BrightnessBarModel("Purfect", R.drawable.bb_purfect, R.drawable.auto_bb_purfect, false));
+        bb_list.add(new BrightnessBarModel("Translucent Outline", R.drawable.bb_translucent_outline, R.drawable.auto_bb_translucent_outline, true));
 
         return new BrightnessBarAdapter(this, bb_list, loadingDialog, "BBN");
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 
     @Override

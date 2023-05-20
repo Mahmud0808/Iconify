@@ -14,6 +14,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_8sdp"
         android:orientation="horizontal"
         tools:ignore="UseCompoundDrawables">
 
@@ -38,15 +39,22 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:gravity="start"
-        android:textColor="@color/textColorSecondary"
-        android:textSize="@dimen/cont_desc_size" />
+        android:fadingEdgeLength="@dimen/_16sdp"
+        android:requiresFadingEdge="vertical">
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:gravity="start"
+            android:textColor="@color/textColorSecondary"
+            android:textSize="@dimen/cont_desc_size" />
+
+    </ScrollView>
 
     <Button
         android:id="@+id/close"

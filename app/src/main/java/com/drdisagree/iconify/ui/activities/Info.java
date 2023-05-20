@@ -6,8 +6,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,12 +16,10 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.ui.adapters.InfoAdapter;
 import com.drdisagree.iconify.ui.models.InfoModel;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class Info extends AppCompatActivity {
+public class Info extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +67,10 @@ public class Info extends AppCompatActivity {
 
         credits_list.add(new InfoModel(getResources().getString(R.string.section_title_credits)));
         credits_list.add(new InfoModel(this, "Icons8.com", getResources().getString(R.string.info_icons8_desc), "https://icons8.com/", R.drawable.ic_link));
+        credits_list.add(new InfoModel(this, "iconsax.io", getResources().getString(R.string.info_iconsax_desc), "http://iconsax.io/", R.drawable.ic_link));
         credits_list.add(new InfoModel(this, "Jai", getResources().getString(R.string.info_shell_desc), "https://t.me/Jai_08", R.drawable.ic_user));
         credits_list.add(new InfoModel(this, "1perialf", getResources().getString(R.string.info_rro_desc), "https://t.me/Rodolphe06", R.drawable.ic_user));
-        credits_list.add(new InfoModel(this, "Ritesh", getResources().getString(R.string.info_rro_desc), "https://t.me/ModestCat03", R.drawable.ic_user));
+        credits_list.add(new InfoModel(this, "modestCat", getResources().getString(R.string.info_rro_desc), "https://t.me/ModestCat03", R.drawable.ic_user));
         credits_list.add(new InfoModel(this, "Sanely Insane", getResources().getString(R.string.info_tester_desc), "https://t.me/sanely_insane", R.drawable.ic_user));
         credits_list.add(new InfoModel(this, "Jaguar", getResources().getString(R.string.info_tester_desc), "https://t.me/Jaguar0066", R.drawable.ic_user));
 
@@ -91,6 +88,7 @@ public class Info extends AppCompatActivity {
         contributors_list.add(new InfoModel(this, "Libra420T", getResources().getString(R.string.info_contributor_desc_2), "https://t.me/Libra420T", R.drawable.ic_user));
         contributors_list.add(new InfoModel(this, "mohamedamrnady", getResources().getString(R.string.info_contributor_desc), "https://github.com/mohamedamrnady", R.drawable.ic_user));
         contributors_list.add(new InfoModel(this, "H1mJT", getResources().getString(R.string.info_contributor_desc), "https://github.com/H1mJT", R.drawable.ic_user));
+        contributors_list.add(new InfoModel(this, "KaeruShi", getResources().getString(R.string.info_contributor_desc), "https://github.com/KaeruShi", R.drawable.ic_user));
 
         return new InfoAdapter(this, contributors_list);
     }
@@ -100,17 +98,14 @@ public class Info extends AppCompatActivity {
 
         translators_list.add(new InfoModel(getResources().getString(R.string.section_title_translators)));
         translators_list.add(new InfoModel(this, "MXC48", getResources().getString(R.string.fr_translation), "https://github.com/MXC48", R.drawable.ic_user));
+        translators_list.add(new InfoModel(this, "KaeruShi", getResources().getString(R.string.id_translation), "https://github.com/KaeruShi", R.drawable.ic_user));
         translators_list.add(new InfoModel(this, "Faceless1999", getResources().getString(R.string.fa_translation), "https://github.com/Faceless1999", R.drawable.ic_user));
         translators_list.add(new InfoModel(this, "ElTifo", getResources().getString(R.string.pt_translation), "https://github.com/ElTifo", R.drawable.ic_user));
         translators_list.add(new InfoModel(this, "Blays", getResources().getString(R.string.ru_translation), "https://github.com/B1ays", R.drawable.ic_user));
+        translators_list.add(new InfoModel(this, "Cccc_", getResources().getString(R.string.zh_cn_translation), "https://github.com/Cccc-owo", R.drawable.ic_user));
         translators_list.add(new InfoModel(this, "Serhat Demir", getResources().getString(R.string.tr_translation), "https://github.com/serhat-demir", R.drawable.ic_user));
+        translators_list.add(new InfoModel(this, "Đức Trọng", getResources().getString(R.string.vi_translation), "https://t.me/viettel1211", R.drawable.ic_user));
 
         return new InfoAdapter(this, translators_list);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 }

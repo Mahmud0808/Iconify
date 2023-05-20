@@ -6,7 +6,7 @@
         <shape
             android:shape="rectangle"
             android:tintMode="src_atop">
-            <solid android:color="@color/pixel_black_bg" />
+            <solid android:color="@color/offStateColorPixel" />
             <corners android:radius="24dp" />
         </shape>
     </item>
@@ -16,7 +16,7 @@
         <shape
             android:shape="rectangle"
             android:tintMode="src_atop">
-            <solid android:color="@color/pixel_black_bg" />
+            <solid android:color="@color/offStateColorPixel" />
             <corners android:radius="24dp" />
         </shape>
     </item>
@@ -26,7 +26,7 @@
         <shape
             android:shape="rectangle"
             android:tintMode="src_atop">
-            <solid android:color="@color/pixel_black_bg" />
+            <solid android:color="@color/offStateColorPixel" />
             <corners android:radius="20dp" />
             <size
                 android:width="22dp"
@@ -52,7 +52,7 @@
         <shape
             android:shape="rectangle"
             android:tintMode="src_atop">
-            <solid android:color="@color/pixel_black_bg" />
+            <solid android:color="@color/offStateColorPixel" />
             <corners android:radius="20dp" />
             <size
                 android:width="22dp"

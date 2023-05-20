@@ -2,8 +2,6 @@ package com.drdisagree.iconify.ui.activities;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,12 +10,10 @@ import com.drdisagree.iconify.ui.adapters.ProgressBarAdapter;
 import com.drdisagree.iconify.ui.models.ProgressBarModel;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class ProgressBar extends AppCompatActivity {
+public class ProgressBar extends BaseActivity {
 
     LoadingDialog loadingDialog;
 
@@ -52,14 +48,9 @@ public class ProgressBar extends AppCompatActivity {
         pgb_list.add(new ProgressBarModel("No Thumb", R.drawable.preview_seekbar_no_thumb));
         pgb_list.add(new ProgressBarModel("Thin Track", R.drawable.preview_seekbar_thin_track));
         pgb_list.add(new ProgressBarModel("Inline", R.drawable.preview_seekbar_inline));
+        pgb_list.add(new ProgressBarModel("Lighty", R.drawable.preview_seekbar_lighty));
 
         return new ProgressBarAdapter(this, pgb_list, loadingDialog);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 
     @Override

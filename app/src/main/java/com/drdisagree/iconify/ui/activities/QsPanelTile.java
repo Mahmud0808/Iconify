@@ -5,8 +5,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,12 +17,10 @@ import com.drdisagree.iconify.ui.models.MenuModel;
 import com.drdisagree.iconify.ui.models.QsShapeModel;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class QsPanelTile extends AppCompatActivity {
+public class QsPanelTile extends BaseActivity {
 
     LoadingDialog loadingDialog;
     RecyclerView container;
@@ -79,6 +75,7 @@ public class QsPanelTile extends AppCompatActivity {
         qsshape_list.add(new QsShapeModel("Semi Transparent", R.drawable.qs_shape_semi_transparent_enabled, R.drawable.qs_shape_semi_transparent_disabled, false));
         qsshape_list.add(new QsShapeModel("Thin Outline", R.drawable.qs_shape_thin_outline_enabled, R.drawable.qs_shape_thin_outline_disabled, true));
         qsshape_list.add(new QsShapeModel("Purfect", R.drawable.qs_shape_purfect_enabled, R.drawable.qs_shape_purfect_disabled, false));
+        qsshape_list.add(new QsShapeModel("Translucent Outline", R.drawable.qs_shape_translucent_outline_enabled, R.drawable.qs_shape_translucent_outline_disabled, true));
 
         return new QsShapeAdapter(this, qsshape_list, loadingDialog, "QSSN");
     }
@@ -90,12 +87,6 @@ public class QsPanelTile extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
 
         adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 
     @Override

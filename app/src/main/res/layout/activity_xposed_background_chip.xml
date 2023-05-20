@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     android:fillViewport="true"
     tools:context=".ui.activities.XposedBackgroundChip">
-
-    <include layout="@layout/view_header" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -20,10 +19,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/container_marginSide"
-            android:layout_marginTop="@dimen/container_marginTopBottom"
             android:layout_marginEnd="@dimen/container_marginSide"
             android:layout_marginBottom="@dimen/container_marginTopBottom"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="@dimen/content_marginTop">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -120,98 +119,108 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/statusicons_chip_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/container_top"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/container_paddingSide"
-                android:paddingTop="@dimen/container_padding"
-                android:paddingEnd="@dimen/container_paddingSide"
-                android:paddingBottom="@dimen/container_padding">
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:layout_marginEnd="@dimen/container_padding"
-                    android:layout_weight="1.0"
-                    android:orientation="vertical">
+                    android:background="@drawable/container_top"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/container_paddingSide"
+                    android:paddingTop="@dimen/container_padding"
+                    android:paddingEnd="@dimen/container_paddingSide"
+                    android:paddingBottom="@dimen/container_padding">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/status_icons_chip_title"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:layout_gravity="start|center"
+                        android:layout_marginEnd="@dimen/container_padding"
+                        android:layout_weight="1.0"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/status_icons_chip_desc"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/status_icons_chip_title"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/status_icons_chip_desc"
+                            android:textColor="@color/textColorSecondary"
+                            android:textSize="@dimen/cont_desc_size" />
+
+                    </LinearLayout>
+
+                    <Switch
+                        android:id="@+id/enable_status_icons_chip"
+                        style="@style/customSwitch"
+                        tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                 </LinearLayout>
 
-                <Switch
-                    android:id="@+id/enable_status_icons_chip"
-                    style="@style/customSwitch"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-            </LinearLayout>
-
-            <View style="@style/dividerTransparent" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/container_margin"
-                android:background="@drawable/container_bottom"
-                android:orientation="vertical"
-                android:paddingStart="@dimen/container_paddingSide"
-                android:paddingTop="@dimen/container_padding"
-                android:paddingEnd="@dimen/container_paddingSide"
-                android:paddingBottom="@dimen/container_padding">
+                <View style="@style/dividerTransparent" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:layout_marginEnd="@dimen/container_padding"
-                    android:orientation="vertical">
+                    android:layout_marginBottom="@dimen/container_margin"
+                    android:background="@drawable/container_bottom"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/container_paddingSide"
+                    android:paddingTop="@dimen/container_padding"
+                    android:paddingEnd="@dimen/container_paddingSide"
+                    android:paddingBottom="@dimen/container_padding">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/status_icons_chip_style_title"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:layout_gravity="start|center"
+                        android:layout_marginEnd="@dimen/container_padding"
+                        android:orientation="vertical">
 
-                    <TextView
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/status_icons_chip_style_title"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pick_style"
+                            android:textColor="@color/textColorSecondary"
+                            android:textSize="@dimen/cont_desc_size" />
+
+                    </LinearLayout>
+
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:id="@+id/status_icons_chip_container"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/pick_style"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/container_padding"
+                        android:layout_marginBottom="8dp"
+                        app:dividerDrawable="@drawable/flexbox_divider"
+                        app:flexDirection="row"
+                        app:flexWrap="wrap"
+                        app:justifyContent="center"
+                        app:showDivider="middle" />
 
                 </LinearLayout>
-
-                <com.google.android.flexbox.FlexboxLayout
-                    android:id="@+id/status_icons_chip_container"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/container_padding"
-                    android:layout_marginBottom="8dp"
-                    app:dividerDrawable="@drawable/flexbox_divider"
-                    app:flexDirection="row"
-                    app:flexWrap="wrap"
-                    app:justifyContent="center"
-                    app:showDivider="middle" />
-
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <include layout="@layout/view_header" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

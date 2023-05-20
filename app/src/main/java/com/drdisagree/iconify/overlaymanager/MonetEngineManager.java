@@ -26,7 +26,6 @@ public class MonetEngineManager {
 
         resources.append("    <color name=\"holo_blue_light\">").append(ColorUtil.ColorToHex((int) palette.get(0).get(Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? 5 : 8), false, true)).append("</color>\n");
         resources.append("    <color name=\"holo_green_light\">").append(ColorUtil.ColorToHex((int) palette.get(2).get(Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? 5 : 8), false, true)).append("</color>\n");
-        resources.append("    <color name=\"holo_blue_dark\">").append(ColorUtil.ColorToHex((int) palette.get(1).get(10), false, true)).append("</color>\n");
         resources.append("    <color name=\"accent_device_default\">@*android:color/holo_blue_light</color>\n");
         resources.append("    <color name=\"accent_device_default_dark\">@*android:color/holo_blue_light</color>\n");
         resources.append("    <color name=\"accent_device_default_light\">@*android:color/holo_blue_light</color>\n");
@@ -72,7 +71,6 @@ public class MonetEngineManager {
 
         resources_night.append("    <color name=\"holo_blue_light\">").append(ColorUtil.ColorToHex((int) palette_night.get(0).get(5), false, true)).append("</color>\n");
         resources_night.append("    <color name=\"holo_green_light\">").append(ColorUtil.ColorToHex((int) palette_night.get(2).get(5), false, true)).append("</color>\n");
-        resources_night.append("    <color name=\"holo_blue_dark\">").append(ColorUtil.ColorToHex((int) palette_night.get(1).get(10), false, true)).append("</color>\n");
         resources_night.append("    <color name=\"accent_device_default\">@*android:color/holo_blue_light</color>\n");
         resources_night.append("    <color name=\"accent_device_default_dark\">@*android:color/holo_blue_light</color>\n");
         resources_night.append("    <color name=\"accent_device_default_light\">@*android:color/holo_blue_light</color>\n");

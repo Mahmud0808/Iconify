@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     android:fillViewport="true"
     tools:context=".ui.activities.XposedOthers">
-
-    <include layout="@layout/view_header" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -20,10 +19,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/container_marginSide"
-            android:layout_marginTop="@dimen/container_marginTopBottom"
             android:layout_marginEnd="@dimen/container_marginSide"
             android:layout_marginBottom="@dimen/container_marginTopBottom"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="@dimen/content_marginTop">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -72,7 +71,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/container_mid"
+                android:layout_marginBottom="@dimen/container_margin"
+                android:background="@drawable/container_bottom"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/container_paddingSide"
                 android:paddingTop="@dimen/container_padding"
@@ -111,51 +111,6 @@
 
             </LinearLayout>
 
-            <View style="@style/dividerTransparent" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/container_margin"
-                android:background="@drawable/container_bottom"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/container_paddingSide"
-                android:paddingTop="@dimen/container_padding"
-                android:paddingEnd="@dimen/container_paddingSide"
-                android:paddingBottom="@dimen/container_padding">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:layout_marginEnd="@dimen/container_padding"
-                    android:layout_weight="1.0"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Hide LS Statusbar"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Hide statusbar on lockscreen"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_desc_size" />
-
-                </LinearLayout>
-
-                <Switch
-                    android:id="@+id/hide_lockscreen_statusbar"
-                    style="@style/customSwitch"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-            </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -177,7 +132,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/fixed_status_icons_title"
+                        android:text="@string/hide_ls_carrier_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -185,14 +140,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/fixed_status_icons_desc"
+                        android:text="@string/hide_ls_carrier_desc"
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_desc_size" />
 
                 </LinearLayout>
 
                 <Switch
-                    android:id="@+id/enable_fixed_status_icons"
+                    android:id="@+id/hide_lockscreen_carrier"
                     style="@style/customSwitch"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 
@@ -203,73 +158,170 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/container_mid"
-                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/container_margin"
+                android:background="@drawable/container_bottom"
+                android:orientation="horizontal"
                 android:paddingStart="@dimen/container_paddingSide"
                 android:paddingTop="@dimen/container_padding"
                 android:paddingEnd="@dimen/container_paddingSide"
                 android:paddingBottom="@dimen/container_padding">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/fixed_status_icons_top_margin"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
+                    android:layout_gravity="start|center"
+                    android:layout_marginEnd="@dimen/container_padding"
+                    android:layout_weight="1.0"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/status_icons_top_margin_output"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_desc_size" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hide_ls_statusbar_title"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
 
-                <SeekBar
-                    android:id="@+id/status_icons_top_margin_seekbar"
-                    style="@style/customSeekBar"
-                    android:max="48"
-                    android:min="0"
-                    android:progress="0" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hide_ls_statusbar_desc"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="@dimen/cont_desc_size" />
+
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/hide_lockscreen_statusbar"
+                    style="@style/customSwitch"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             </LinearLayout>
 
-            <View style="@style/dividerTransparent" />
-
             <LinearLayout
+                android:id="@+id/status_icons_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/container_margin"
-                android:background="@drawable/container_bottom"
-                android:orientation="vertical"
-                android:paddingStart="@dimen/container_paddingSide"
-                android:paddingTop="@dimen/container_padding"
-                android:paddingEnd="@dimen/container_paddingSide"
-                android:paddingBottom="@dimen/container_padding">
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/fixed_status_icons_side_margin"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
+                    android:background="@drawable/container_top"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/container_paddingSide"
+                    android:paddingTop="@dimen/container_padding"
+                    android:paddingEnd="@dimen/container_paddingSide"
+                    android:paddingBottom="@dimen/container_padding">
 
-                <TextView
-                    android:id="@+id/status_icons_side_margin_output"
-                    android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center"
+                        android:layout_marginEnd="@dimen/container_padding"
+                        android:layout_weight="1.0"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/fixed_status_icons_title"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/fixed_status_icons_desc"
+                            android:textColor="@color/textColorSecondary"
+                            android:textSize="@dimen/cont_desc_size" />
+
+                    </LinearLayout>
+
+                    <Switch
+                        android:id="@+id/enable_fixed_status_icons"
+                        style="@style/customSwitch"
+                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+                </LinearLayout>
+
+                <View style="@style/dividerTransparent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_desc_size" />
+                    android:background="@drawable/container_mid"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/container_paddingSide"
+                    android:paddingTop="@dimen/container_padding"
+                    android:paddingEnd="@dimen/container_paddingSide"
+                    android:paddingBottom="@dimen/container_padding">
 
-                <SeekBar
-                    android:id="@+id/status_icons_side_margin_seekbar"
-                    style="@style/customSeekBar"
-                    android:max="48"
-                    android:min="0"
-                    android:progress="0" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fixed_status_icons_top_margin"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
 
+                    <TextView
+                        android:id="@+id/status_icons_top_margin_output"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="@dimen/cont_desc_size" />
+
+                    <SeekBar
+                        android:id="@+id/status_icons_top_margin_seekbar"
+                        style="@style/customSeekBar"
+                        android:max="48"
+                        android:min="0"
+                        android:progress="0" />
+
+                </LinearLayout>
+
+                <View style="@style/dividerTransparent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/container_margin"
+                    android:background="@drawable/container_bottom"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/container_paddingSide"
+                    android:paddingTop="@dimen/container_padding"
+                    android:paddingEnd="@dimen/container_paddingSide"
+                    android:paddingBottom="@dimen/container_padding">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fixed_status_icons_side_margin"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/status_icons_side_margin_output"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="@dimen/cont_desc_size" />
+
+                    <SeekBar
+                        android:id="@+id/status_icons_side_margin_seekbar"
+                        style="@style/customSeekBar"
+                        android:max="48"
+                        android:min="0"
+                        android:progress="0" />
+
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <include layout="@layout/view_header" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

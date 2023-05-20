@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,8 +18,6 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.Iconify;
@@ -30,16 +27,13 @@ import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.InfoDialog;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedUtil;
-import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.compiler.VolumeCompiler;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.io.IOException;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class VolumePanel extends AppCompatActivity {
+public class VolumePanel extends BaseActivity {
 
     LoadingDialog loadingDialog;
     InfoDialog infoDialog;
@@ -201,12 +195,6 @@ public class VolumePanel extends AppCompatActivity {
     public void onDestroy() {
         loadingDialog.hide();
         super.onDestroy();
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 
     private void updateVolumePreview(int id) {

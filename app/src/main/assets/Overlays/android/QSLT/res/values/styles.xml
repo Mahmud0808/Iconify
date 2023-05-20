@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Control" />
+    <style name="Control.MenuItem" parent="@style/Control">
+        <item name="android:textSize">@dimen/control_menu_item_text_size</item>
+        <item name="android:textColor">@color/control_primary_text</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:minHeight">@dimen/control_menu_item_min_height</item>
+        <item name="android:fontFamily">
+            @*android:string/config_iccHotswapPromptForRestartDialogComponent
+        </item>
+    </style>
+    <style name="QSCustomizeToolbar" parent="@*android:style/Widget.DeviceDefault.QuickContactBadgeSmall.WindowMedium">
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:elevation">0.0dip</item>
+    </style>
+    <style name="QSIconTheme">
+        <item name="backgroundColor">?android:textColorHint</item>
+        <item name="fillColor">?android:textColorPrimary</item>
+        <item name="singleToneColor">?android:textColorPrimary</item>
+    </style>
+    <style name="Theme.SystemUI.QuickSettings" parent="@*android:style/Theme.DeviceDefault.Settings.DialogBase">
+        <item name="android:colorBackground">@color/qs_colorBackground</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:itemTextAppearance">@style/Control.MenuItem</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back</item>
+        <item name="android:colorError">@color/qs_colorError</item>
+        <item name="darkIconTheme">@style/QSIconTheme</item>
+        <item name="lightIconTheme">@style/QSIconTheme</item>
+        <item name="offStateColor">@color/qs_offStateColor</item>
+        <item name="underSurfaceColor">@color/qs_underSurfaceColor</item>
+    </style>
+    <style name="Theme.SystemUI.QuickSettings.BrightnessDialog" parent="@*android:style/Theme.DeviceDefault.Dialog">
+        <item name="android:windowBackground">@*android:color/transparent</item>
+    </style>
+</resources>

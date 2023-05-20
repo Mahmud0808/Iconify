@@ -5,19 +5,19 @@ import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SIDEMARGIN;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_TOPMARGIN;
+import static com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_CARRIER;
 import static com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_STATUSBAR;
 import static com.drdisagree.iconify.common.Preferences.HIDE_STATUS_ICONS_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.QSPANEL_HIDE_CARRIER;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
@@ -25,11 +25,8 @@ import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.HelperUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
-import java.util.Objects;
-
-public class XposedOthers extends AppCompatActivity {
+public class XposedOthers extends BaseActivity {
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -45,7 +42,12 @@ public class XposedOthers extends AppCompatActivity {
         hide_qs_carrier_group.setChecked(RPrefs.getBoolean(QSPANEL_HIDE_CARRIER, false));
         hide_qs_carrier_group.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(QSPANEL_HIDE_CARRIER, isChecked);
-            new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
+
+            if (Build.VERSION.SDK_INT >= 33) {
+                SystemUtil.restartSystemUI();
+            } else {
+                HelperUtil.forceApply();
+            }
         });
 
         // Hide status icons
@@ -53,7 +55,20 @@ public class XposedOthers extends AppCompatActivity {
         hide_status_icons.setChecked(RPrefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false));
         hide_status_icons.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_STATUS_ICONS_SWITCH, isChecked);
-            new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
+
+            if (Build.VERSION.SDK_INT >= 33) {
+                SystemUtil.restartSystemUI();
+            } else {
+                HelperUtil.forceApply();
+            }
+        });
+
+        // Hide lockscreen carrier
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_lockscreen_carrier = findViewById(R.id.hide_lockscreen_carrier);
+        hide_lockscreen_carrier.setChecked(RPrefs.getBoolean(HIDE_LOCKSCREEN_CARRIER, false));
+        hide_lockscreen_carrier.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(HIDE_LOCKSCREEN_CARRIER, isChecked);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 
         // Hide lockscreen statusbar
@@ -65,6 +80,11 @@ public class XposedOthers extends AppCompatActivity {
         });
 
         // Fixed status icons
+        if (Build.VERSION.SDK_INT >= 33) {
+            findViewById(R.id.status_icons_container).setVisibility(View.GONE);
+            RPrefs.putBoolean(FIXED_STATUS_ICONS_SWITCH, false);
+        }
+
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_fixed_status_icons = findViewById(R.id.enable_fixed_status_icons);
         enable_fixed_status_icons.setChecked(RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false));
         enable_fixed_status_icons.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -130,11 +150,5 @@ public class XposedOthers extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 }

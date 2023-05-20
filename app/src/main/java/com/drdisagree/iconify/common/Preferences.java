@@ -3,7 +3,8 @@ package com.drdisagree.iconify.common;
 public class Preferences {
 
     // Xposed mods
-    public static final String QSTRANSPARENCY_SWITCH = "xposed_qstransparency";
+    public static final String QS_TRANSPARENCY_SWITCH = "xposed_qstransparency";
+    public static final String NOTIF_TRANSPARENCY_SWITCH = "xposed_notiftransparency";
     public static final String QSALPHA_LEVEL = "xposed_qsalpha";
     public static final String STATUSBAR_CLOCKBG_SWITCH = "xposed_sbclockbg";
     public static final String CHIP_STATUSBAR_CLOCKBG_STYLE = "xposed_chipstatusbarclockbgstyle";
@@ -12,6 +13,7 @@ public class Preferences {
     public static final String VERTICAL_QSTILE_SWITCH = "xposed_verticalqstile";
     public static final String HIDE_QSLABEL_SWITCH = "xposed_hideqslabel";
     public static final String HEADER_IMAGE_SWITCH = "xposed_headerimage";
+    public static final String HEADER_IMAGE_LANDSCAPE_SWITCH = "xposed_headerimagelandscape";
     public static final String HEADER_IMAGE_HEIGHT = "xposed_headerimageheight";
     public static final String HEADER_IMAGE_ALPHA = "xposed_headerimagealpha";
     public static final String HEADER_IMAGE_ZOOMTOFIT = "xposed_headerimagezoomtofit";
@@ -20,8 +22,6 @@ public class Preferences {
     public static final String HEADER_CLOCK_SIDEMARGIN = "xposed_headerclocksidemargin";
     public static final String HEADER_CLOCK_TOPMARGIN = "xposed_headerclocktopmargin";
     public static final String HEADER_CLOCK_TEXT_WHITE = "xposed_headerclocktextwhite";
-    public static final String PANEL_TOPMARGIN_SWITCH = "xposed_paneltopmargin";
-    public static final String QS_TOPMARGIN = "xposed_qstopmargin";
     public static final String QSPANEL_HIDE_CARRIER = "xposed_qspanelhidecarrier";
     public static final String HEADER_CLOCK_STYLE = "xposed_headerclockstyle";
     public static final String HEADER_CLOCK_FONT_TEXT_SCALING = "xposed_headerclocktextscaling";
@@ -36,11 +36,33 @@ public class Preferences {
     public static final String FIXED_STATUS_ICONS_SWITCH = "xposed_fixedstatusicons";
     public static final String FIXED_STATUS_ICONS_SIDEMARGIN = "xposed_fixedstatusiconssidemargin";
     public static final String FIXED_STATUS_ICONS_TOPMARGIN = "xposed_fixedstatusiconstopmargin";
-    public static final String LANDSCAPE_BATTERY_SWITCH = "xposed_landscapebattery";
-    public static final String LANDSCAPE_BATTERY_ROTATION = "xposed_landscapebatteryrotation";
-    public static final String LANDSCAPE_BATTERY_WIDTH = "xposed_landscapebatterywidth";
-    public static final String LANDSCAPE_BATTERY_HEIGHT = "xposed_landscapebatteryheight";
     public static final String HIDE_LOCKSCREEN_STATUSBAR = "xposed_hidelockscreenstatusbar";
+    public static final String HIDE_LOCKSCREEN_CARRIER = "xposed_hidelockscreencarrier";
+    public static final String LIGHT_QSPANEL = "xposed_lightqspanel";
+    public static final String DUALTONE_QSPANEL = "xposed_dualtoneqspanel";
+    public static final String BLACK_QSPANEL = "xposed_blackqspanel";
+    public static final String FLUID_QSPANEL = "xposed_fluidqspanel";
+    public static final String CUSTOM_BATTERY_STYLE = "xposed_custombatterystyle";
+    public static final String CUSTOM_BATTERY_WIDTH = "xposed_custombatterywidth";
+    public static final String CUSTOM_BATTERY_HEIGHT = "xposed_custombatteryheight";
+    public static final int BATTERY_STYLE_DEFAULT = 0;
+    public static final int BATTERY_STYLE_DEFAULT_RLANDSCAPE = 1;
+    public static final int BATTERY_STYLE_DEFAULT_LANDSCAPE = 2;
+    public static final int BATTERY_STYLE_CUSTOM_RLANDSCAPE = 3;
+    public static final int BATTERY_STYLE_CUSTOM_LANDSCAPE = 4;
+    public static final int BATTERY_STYLE_PORTRAIT_CAPSULE = 5;
+    public static final int BATTERY_STYLE_PORTRAIT_LORN = 6;
+    public static final int BATTERY_STYLE_PORTRAIT_MX = 7;
+    public static final int BATTERY_STYLE_PORTRAIT_AIROO = 8;
+    public static final int BATTERY_STYLE_RLANDSCAPE_STYLE_A = 9;
+    public static final int BATTERY_STYLE_LANDSCAPE_STYLE_A = 10;
+    public static final int BATTERY_STYLE_RLANDSCAPE_STYLE_B = 11;
+    public static final int BATTERY_STYLE_LANDSCAPE_STYLE_B = 12;
+    public static final int BATTERY_STYLE_LANDSCAPE_IOS_15 = 13;
+    public static final int BATTERY_STYLE_LANDSCAPE_IOS_16 = 14;
+    public static final int BATTERY_STYLE_PORTRAIT_ORIGAMI = 15;
+    public static final int BATTERY_STYLE_LANDSCAPE_SMILEY = 16;
+    public static final String HEADER_QQS_TOPMARGIN = "qqspanelTopMargin";
 
     // Preference keys
     public static final String STR_NULL = "null";
@@ -55,7 +77,6 @@ public class Preferences {
     public static final String COLOR_ACCENT_SECONDARY = "colorAccentSecondary";
     public static final String CUSTOM_PRIMARY_COLOR_SWITCH = "customPrimaryColor";
     public static final String CUSTOM_SECONDARY_COLOR_SWITCH = "customSecondaryColor";
-    public static final String COLOR_PIXEL_DARK_BG = "colorPixelBackgroundDark";
     public static final String QS_ROW_COLUMN_SWITCH = "fabricatedqsRowColumn";
     public static final String MONET_ENGINE_SWITCH = "customMonet";
     public static final String QSPANEL_BLUR_SWITCH = "qsBlurSwitch";
@@ -71,6 +92,8 @@ public class Preferences {
     public static final String LAND_QSTILE_NONEXPANDED_HEIGHT = "landscapeQsTileNonExpandedHeight";
     public static final String SELECTED_SETTINGS_ICONS_COLOR = "selectedSettignsIconsColor";
     public static final String SELECTED_SETTINGS_ICONS_BG = "selectedSettignsIconsBg";
+    public static final String SELECTED_SETTINGS_ICONS_SHAPE = "selectedSettignsIconsShape";
+    public static final String SELECTED_SETTINGS_ICONS_SIZE = "selectedSettignsIconsSize";
     public static final String SELECTED_SETTINGS_ICONS_SET = "selectedSettignsIconsSet";
     public static final String SELECTED_TOAST_FRAME = "selectedToastFrame";
     public static final String SELECTED_ICON_SHAPE = "selectedIconShape";
@@ -81,6 +104,8 @@ public class Preferences {
     public static final String COLORED_BATTERY_CHECK = "isColoredBatteryEnabledByUser";
 
     // Settings
+    public static final String APP_LANGUAGE = "IconifyAppLanguage";
+    public static final String APP_THEME = "IconifyAppTheme";
     public static final String USE_LIGHT_ACCENT = "useLightAccent";
     public static final String SHOW_XPOSED_WARN = "showXposedMenuWarn";
     public static final String FORCE_APPLY_XPOSED_CHOICE = "optionForceApplyXposed";

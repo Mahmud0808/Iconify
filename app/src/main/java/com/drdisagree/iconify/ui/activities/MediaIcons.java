@@ -1,8 +1,6 @@
 package com.drdisagree.iconify.ui.activities;
 
-import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,11 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.R;
@@ -23,12 +18,10 @@ import com.drdisagree.iconify.overlaymanager.MediaPlayerIconManager;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.AppUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class MediaIcons extends AppCompatActivity {
+public class MediaIcons extends BaseActivity {
 
     private final ArrayList<String[]> MPIP_KEY = new ArrayList<>();
     private final ArrayList<Object[]> mpip_list = new ArrayList<>();
@@ -59,28 +52,50 @@ public class MediaIcons extends AppCompatActivity {
 
         // Generate keys for preference
         for (int i = 0; i < mpip_list.size(); i++) {
-            MPIP_KEY.add(new String[]{
-                    "IconifyComponentMPIP" + i + 1 + ".overlay",
-                    "IconifyComponentMPIP" + i + 2 + ".overlay",
-                    "IconifyComponentMPIP" + i + 3 + ".overlay"
-            });
+            MPIP_KEY.add(new String[]{"IconifyComponentMPIP" + i + 1 + ".overlay", "IconifyComponentMPIP" + i + 2 + ".overlay", "IconifyComponentMPIP" + i + 3 + ".overlay"});
         }
 
-        musicPlayerIconList();
-    }
+        Runnable runnable = () -> {
+            // Check if packages are installed
+            for (int i = 0; i < mpip_list.size(); i++) {
+                if (i == 0) // default music player of a13
+                    mpip_list.get(i)[1] = Build.VERSION.SDK_INT >= 33;
+                else mpip_list.get(i)[1] = AppUtil.isAppInstalledRoot((String) mpip_list.get(i)[0]);
+            }
 
-    private void musicPlayerIconList() {
-        LoadMusicPlayerList musicPlayerList = new LoadMusicPlayerList();
-        musicPlayerList.execute();
+            runOnUiThread(() -> {
+                boolean isMusicPlayerShown = false;
+                TextView noSupportedPlayer = findViewById(R.id.no_supported_musicplayer);
+
+                for (int i = 0; i < mpip_list.size(); i++) {
+                    if ((Boolean) mpip_list.get(i)[1]) {
+                        if (i == 0) {
+                            addItem(getResources().getString(R.string.a13_default_media_player), (String) mpip_list.get(i)[0], ContextCompat.getDrawable(MediaIcons.this, R.drawable.ic_android), (int) mpip_list.get(i)[2]);
+                        } else {
+                            addItem(AppUtil.getAppName((String) mpip_list.get(i)[0]), (String) mpip_list.get(i)[0], AppUtil.getAppIcon((String) mpip_list.get(i)[0]), (int) mpip_list.get(i)[2]);
+                        }
+                        enableOnClickListener(i);
+                        isMusicPlayerShown = true;
+                    }
+                }
+
+                refreshBackground();
+
+                if (!isMusicPlayerShown) {
+                    noSupportedPlayer.setVisibility(View.VISIBLE);
+                }
+            });
+        };
+
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
 
     // Function to check for button bg drawable changes
     private void refreshBackground() {
         for (int i = 0; i < mpip_list.size(); i++) {
             if ((Boolean) mpip_list.get(i)[1]) {
-                Button[] buttons = {findViewById((Integer) mpip_list.get(i)[2]).findViewById(R.id.aurora),
-                        findViewById((Integer) mpip_list.get(i)[2]).findViewById(R.id.gradicon),
-                        findViewById((Integer) mpip_list.get(i)[2]).findViewById(R.id.plumpy)};
+                Button[] buttons = {findViewById((Integer) mpip_list.get(i)[2]).findViewById(R.id.aurora), findViewById((Integer) mpip_list.get(i)[2]).findViewById(R.id.gradicon), findViewById((Integer) mpip_list.get(i)[2]).findViewById(R.id.plumpy)};
 
                 for (int j = 0; j < 3; j++) {
                     if (Prefs.getBoolean(MPIP_KEY.get(i)[j])) {
@@ -97,9 +112,7 @@ public class MediaIcons extends AppCompatActivity {
     private void enableOnClickListener(int idx) {
         LinearLayout child = findViewById((int) mpip_list.get(idx)[2]);
 
-        Button[] buttons = {child.findViewById(R.id.aurora),
-                child.findViewById(R.id.gradicon),
-                child.findViewById(R.id.plumpy)};
+        Button[] buttons = {child.findViewById(R.id.aurora), child.findViewById(R.id.gradicon), child.findViewById(R.id.plumpy)};
 
         for (int i = 0; i < 3; i++) {
             int finalI = i + 1;
@@ -120,12 +133,10 @@ public class MediaIcons extends AppCompatActivity {
 
         LinearLayout launch = list.findViewById(R.id.launch_app);
         if (packageName != null) {
-            if (packageName.equals("defaultA13"))
-                launch.setOnClickListener(v -> {
-                    // do nothing
-                });
-            else
-                launch.setOnClickListener(v -> AppUtil.launchApp(MediaIcons.this, packageName));
+            if (packageName.equals("defaultA13")) launch.setOnClickListener(v -> {
+                // do nothing
+            });
+            else launch.setOnClickListener(v -> AppUtil.launchApp(MediaIcons.this, packageName));
         }
 
         list.findViewById(R.id.app_icon).setBackground(appIcon);
@@ -134,59 +145,5 @@ public class MediaIcons extends AppCompatActivity {
         name.setText(appName);
 
         container.addView(list);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private class LoadMusicPlayerList extends AsyncTask<Integer, Integer, String> {
-        @Override
-        protected void onPreExecute() {
-        }
-
-        @Override
-        protected String doInBackground(Integer... integers) {
-            // Check if packages are installed
-            for (int i = 0; i < mpip_list.size(); i++) {
-                if (i == 0) // default music player of a13
-                    mpip_list.get(i)[1] = Build.VERSION.SDK_INT >= 33;
-                else
-                    mpip_list.get(i)[1] = AppUtil.isAppInstalledRoot((String) mpip_list.get(i)[0]);
-            }
-            return "Finished!";
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            // ...
-        }
-
-        @Override
-        protected void onPostExecute(String string) {
-            boolean isMusicPlayerShown = false;
-            TextView noSupportedPlayer = findViewById(R.id.no_supported_musicplayer);
-
-            for (int i = 0; i < mpip_list.size(); i++) {
-                if ((Boolean) mpip_list.get(i)[1]) {
-                    if (i == 0) {
-                        addItem(getResources().getString(R.string.a13_default_media_player), (String) mpip_list.get(i)[0], ContextCompat.getDrawable(MediaIcons.this, R.drawable.ic_android), (int) mpip_list.get(i)[2]);
-                    } else {
-                        addItem(AppUtil.getAppName((String) mpip_list.get(i)[0]), (String) mpip_list.get(i)[0], AppUtil.getAppIcon((String) mpip_list.get(i)[0]), (int) mpip_list.get(i)[2]);
-                    }
-                    enableOnClickListener(i);
-                    isMusicPlayerShown = true;
-                }
-            }
-
-            refreshBackground();
-
-            if (!isMusicPlayerShown) {
-                noSupportedPlayer.setVisibility(View.VISIBLE);
-            }
-        }
     }
 }

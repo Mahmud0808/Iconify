@@ -3,8 +3,6 @@ package com.drdisagree.iconify.ui.activities;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,12 +15,10 @@ import com.drdisagree.iconify.ui.models.MenuModel;
 import com.drdisagree.iconify.ui.models.NotificationModel;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class Notification extends AppCompatActivity {
+public class Notification extends BaseActivity {
 
     LoadingDialog loadingDialog;
 
@@ -76,14 +72,9 @@ public class Notification extends AppCompatActivity {
         notif_list.add(new NotificationModel("Semi Transparent", R.drawable.notif_semi_transparent));
         notif_list.add(new NotificationModel("Pitch Black", R.drawable.notif_pitch_black));
         notif_list.add(new NotificationModel("Duoline", R.drawable.notif_duoline));
+        notif_list.add(new NotificationModel("iOS", R.drawable.notif_ios));
 
         return new NotificationAdapter(this, notif_list, loadingDialog, "NFN");
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 
     @Override

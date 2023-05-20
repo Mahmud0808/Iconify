@@ -5,4 +5,77 @@
         <item>com.android.systemui</item>
         <item>com.google.android.apps.nexuslauncher</item>
     </string-array>
+    <string-array name="locale_name">
+        <item>English</item>
+        <item>Chinese (China)</item>
+        <item>French</item>
+        <item>Indonesian</item>
+        <item>Persian</item>
+        <item>Portuguese</item>
+        <item>Russian</item>
+        <item>Turkish</item>
+        <item>Vietnamese</item>
+    </string-array>
+    <string-array name="locale_code">
+        <item>en</item>
+        <item>zh</item>
+        <item>fr</item>
+        <item>in</item>
+        <item>fa</item>
+        <item>pt</item>
+        <item>ru</item>
+        <item>tr</item>
+        <item>vi</item>
+    </string-array>
+    <string-array name="app_theme">
+        <item>@string/app_theme_light</item>
+        <item>@string/app_theme_dark</item>
+        <item>@string/app_theme_system</item>
+    </string-array>
+    <string-array name="settings_icon_bg">
+        <item>@string/settings_icons_minimal</item>
+        <item>@string/settings_icons_filled</item>
+        <item>@string/settings_icons_outline</item>
+        <item>@string/settings_icons_neumorph</item>
+    </string-array>
+    <string-array name="settings_icon_shape">
+        <item>@string/settings_icons_circle</item>
+        <item>@string/settings_icons_squircle</item>
+        <item>@string/settings_icons_square</item>
+    </string-array>
+    <string-array name="settings_icon_size">
+        <item>@string/settings_icons_size1</item>
+        <item>@string/settings_icons_size2</item>
+        <item>@string/settings_icons_size3</item>
+        <item>@string/settings_icons_size4</item>
+    </string-array>
+    <string-array name="settings_icon_color">
+        <item>@string/settings_icons_follow_system</item>
+        <item>@string/settings_icons_system_inverse</item>
+        <item>@string/settings_icons_monet_accent</item>
+    </string-array>
+    <string-array name="xposed_force_apply_method">
+        <item>@string/method_toggle_dark_mode</item>
+        <item>@string/method_restart_systemui</item>
+        <item>@string/method_do_nothing</item>
+    </string-array>
+    <string-array name="custom_battery_style">
+        <item>Default</item>
+        <item>Landscape R Default</item>
+        <item>Landscape L Default</item>
+        <item>Landscape R Custom</item>
+        <item>Landscape L Custom</item>
+        <item>Portrait Capsule</item>
+        <item>Portrait Lorn</item>
+        <item>Portrait Mx</item>
+        <item>Portrait Airoo</item>
+        <item>Landscape R Style A</item>
+        <item>Landscape L Style A</item>
+        <item>Landscape R Style B</item>
+        <item>Landscape L Style B</item>
+        <item>Landscape iOS 15</item>
+        <item>Landscape iOS 16</item>
+        <item>Portrait Origami</item>
+        <item>Landscape Smiley</item>
+    </string-array>
 </resources>

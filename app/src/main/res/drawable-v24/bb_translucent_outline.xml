@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:gravity="fill_horizontal|center">
+        <layer-list>
+            <item android:gravity="fill_horizontal|center">
+                <shape android:shape="rectangle">
+                    <corners android:radius="24.0dip" />
+                    <size android:height="48.0dip" />
+                    <solid android:color="@color/color_background_alpha" />
+                </shape>
+            </item>
+            <item
+                android:end="4.5dip"
+                android:gravity="fill_horizontal|center"
+                android:start="4.5dip">
+                <shape android:shape="rectangle">
+                    <corners android:radius="24.0dip" />
+                    <size android:height="40.0dip" />
+                    <gradient
+                        android:endColor="#4DFFFFFF"
+                        android:startColor="#4DFFFFFF" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <item
+        android:end="80.0dip"
+        android:gravity="fill_horizontal|center">
+        <shape android:shape="rectangle">
+            <corners android:radius="24.0dip" />
+            <size android:height="48.0dip" />
+            <gradient
+                android:angle="315.0"
+                android:endColor="@color/holo_green_light_alpha"
+                android:startColor="@color/holo_blue_light_alpha" />
+        </shape>
+    </item>
+    <item
+        android:end="85.5dip"
+        android:gravity="fill_horizontal|center"
+        android:start="4.5dip">
+        <shape android:shape="rectangle">
+            <corners android:radius="24.0dip" />
+            <size android:height="40.0dip" />
+            <gradient
+                android:endColor="#4DFFFFFF"
+                android:startColor="#4DFFFFFF" />
+        </shape>
+    </item>
+</layer-list>

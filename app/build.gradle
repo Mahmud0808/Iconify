@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
 }
 
 android {
@@ -9,8 +10,8 @@ android {
         applicationId "com.drdisagree.iconify"
         minSdk 31
         targetSdk 33
-        versionCode 9
-        versionName "6.1.1"
+        versionCode 10
+        versionName "6.2.0"
         setProperty("archivesBaseName", "Iconify v" + versionName)
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -71,6 +72,8 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.core:core-ktx:1.10.1'
+
     // Magisk libsu version
     def libsuVersion = '5.0.4'
 
@@ -89,10 +92,10 @@ dependencies {
     implementation 'com.github.PolideaInternal:ColorPicker:1.0.0'
 
     // Splash Screen
-    implementation 'androidx.core:core-splashscreen:1.0.0'
+    implementation 'androidx.core:core-splashscreen:1.0.1'
 
     // Material Components
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'com.google.android.material:material:1.9.0'
 
     // APK Signer
     implementation 'org.bouncycastle:bc-fips:1.0.2.3'
@@ -127,6 +130,9 @@ dependencies {
     // Scalable dp snd sp
     implementation 'com.intuit.sdp:sdp-android:1.1.0'
     implementation 'com.intuit.ssp:ssp-android:1.1.0'
+
+    // HTML Parser
+    implementation 'org.jsoup:jsoup:1.15.4'
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

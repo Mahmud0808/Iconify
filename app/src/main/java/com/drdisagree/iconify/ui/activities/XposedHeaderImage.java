@@ -1,76 +1,31 @@
 package com.drdisagree.iconify.ui.activities;
 
-import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ALPHA;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_HEIGHT;
+import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_LANDSCAPE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ZOOMTOFIT;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.provider.OpenableColumns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
-import com.drdisagree.iconify.utils.HelperUtil;
+import com.drdisagree.iconify.utils.FileUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.topjohnwu.superuser.Shell;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.util.Objects;
-
-public class XposedHeaderImage extends AppCompatActivity {
+public class XposedHeaderImage extends BaseActivity {
 
     private static final int PICKFILE_RESULT_CODE = 100;
     private Button enable_header_image;
-
-    private static String getRealPathFromURI(Uri uri) {
-        File file = null;
-        try {
-            @SuppressLint("Recycle") Cursor returnCursor = Iconify.getAppContext().getContentResolver().query(uri, null, null, null, null);
-            int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-            returnCursor.moveToFirst();
-            String name = returnCursor.getString(nameIndex);
-            file = new File(Iconify.getAppContext().getFilesDir(), name);
-            @SuppressLint("Recycle") InputStream inputStream = Iconify.getAppContext().getContentResolver().openInputStream(uri);
-            FileOutputStream outputStream = new FileOutputStream(file);
-            int read = 0;
-            int maxBufferSize = 1024 * 1024;
-            int bytesAvailable = inputStream.available();
-            int bufferSize = Math.min(bytesAvailable, maxBufferSize);
-            final byte[] buffers = new byte[bufferSize];
-            while ((read = inputStream.read(buffers)) != -1) {
-                outputStream.write(buffers, 0, read);
-            }
-            inputStream.close();
-            outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        return file.getPath();
-    }
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -97,14 +52,12 @@ public class XposedHeaderImage extends AppCompatActivity {
         enable_header_image = findViewById(R.id.enable_header_image);
         enable_header_image.setOnClickListener(v -> {
             RPrefs.putBoolean(HEADER_IMAGE_SWITCH, true);
-            new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
             enable_header_image.setVisibility(View.GONE);
             disable_header_image.setVisibility(View.VISIBLE);
         });
 
         disable_header_image.setOnClickListener(v -> {
             RPrefs.putBoolean(HEADER_IMAGE_SWITCH, false);
-            new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
             disable_header_image.setVisibility(View.GONE);
         });
 
@@ -129,9 +82,6 @@ public class XposedHeaderImage extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(HEADER_IMAGE_HEIGHT, imageHeight[0]);
-                if (RPrefs.getBoolean(HEADER_IMAGE_SWITCH, false)) {
-                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
-                }
             }
         });
 
@@ -156,9 +106,6 @@ public class XposedHeaderImage extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(HEADER_IMAGE_ALPHA, imageAlpha[0]);
-                if (RPrefs.getBoolean(HEADER_IMAGE_SWITCH, false)) {
-                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
-                }
             }
         });
 
@@ -167,9 +114,13 @@ public class XposedHeaderImage extends AppCompatActivity {
         enable_zoom_to_fit.setChecked(RPrefs.getBoolean(HEADER_IMAGE_ZOOMTOFIT, false));
         enable_zoom_to_fit.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HEADER_IMAGE_ZOOMTOFIT, isChecked);
-            if (RPrefs.getBoolean(HEADER_IMAGE_SWITCH, false)) {
-                new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
-            }
+        });
+
+        // Header image hide in landscape
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_hide_image_landscape = findViewById(R.id.enable_hide_image_landscape);
+        enable_hide_image_landscape.setChecked(RPrefs.getBoolean(HEADER_IMAGE_LANDSCAPE_SWITCH, true));
+        enable_hide_image_landscape.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(HEADER_IMAGE_LANDSCAPE_SWITCH, isChecked);
         });
     }
 
@@ -183,33 +134,6 @@ public class XposedHeaderImage extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (data == null) return;
-
-        if (requestCode == PICKFILE_RESULT_CODE && resultCode == Activity.RESULT_OK) {
-            Uri uri = data.getData();
-            String source = getRealPathFromURI(uri);
-            if (source == null) {
-                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            String destination = Resources.XPOSED_RESOURCE_TEMP_DIR + "/header_image.png";
-
-            Shell.cmd("mkdir -p " + Resources.XPOSED_RESOURCE_TEMP_DIR).exec();
-
-            if (Shell.cmd("cp " + source + ' ' + destination).exec().isSuccess())
-                enable_header_image.setVisibility(View.VISIBLE);
-            else
-                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+        FileUtil.copyToIconifyHiddenDir(this, requestCode, resultCode, data, PICKFILE_RESULT_CODE, "header_image.png", enable_header_image);
     }
 }

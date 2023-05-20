@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     android:fillViewport="true"
     tools:context=".ui.activities.XposedHeaderClock">
-
-    <include layout="@layout/view_header" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -20,10 +19,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/container_marginSide"
-            android:layout_marginTop="@dimen/container_marginTopBottom"
             android:layout_marginEnd="@dimen/container_marginSide"
             android:layout_marginBottom="@dimen/container_marginTopBottom"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="@dimen/content_marginTop">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -272,4 +271,7 @@
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <include layout="@layout/view_header" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

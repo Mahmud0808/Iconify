@@ -29,6 +29,7 @@ import com.drdisagree.iconify.overlaymanager.QsShapeManager;
 import com.drdisagree.iconify.overlaymanager.QsShapePixelManager;
 import com.drdisagree.iconify.ui.models.QsShapeModel;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.helpers.DisplayUtil;
 
 import java.util.ArrayList;
@@ -72,19 +73,12 @@ public class QsShapeAdapter extends RecyclerView.Adapter<QsShapeAdapter.ViewHold
         setDrawable(holder.qs_tile3, ResourcesCompat.getDrawable(context.getResources(), itemList.get(position).getDisabled_drawable(), null));
         setDrawable(holder.qs_tile4, ResourcesCompat.getDrawable(context.getResources(), itemList.get(position).getEnabled_drawable(), null));
 
-        if (itemList.get(position).isInverse_color()) {
-            holder.qs_text1.setTextColor(ContextCompat.getColor(context, R.color.textColorPrimary));
-            holder.qs_icon1.setColorFilter(ContextCompat.getColor(context, R.color.textColorPrimary), android.graphics.PorterDuff.Mode.SRC_IN);
+        int textColor = itemList.get(position).isInverse_color() && SystemUtil.isDarkMode() ? R.color.textColorPrimary : R.color.textColorPrimaryInverse;
 
-            holder.qs_text4.setTextColor(ContextCompat.getColor(context, R.color.textColorPrimary));
-            holder.qs_icon4.setColorFilter(ContextCompat.getColor(context, R.color.textColorPrimary), android.graphics.PorterDuff.Mode.SRC_IN);
-        } else {
-            holder.qs_text1.setTextColor(ContextCompat.getColor(context, R.color.textColorPrimaryInverse));
-            holder.qs_icon1.setColorFilter(ContextCompat.getColor(context, R.color.textColorPrimaryInverse), android.graphics.PorterDuff.Mode.SRC_IN);
-
-            holder.qs_text4.setTextColor(ContextCompat.getColor(context, R.color.textColorPrimaryInverse));
-            holder.qs_icon4.setColorFilter(ContextCompat.getColor(context, R.color.textColorPrimaryInverse), android.graphics.PorterDuff.Mode.SRC_IN);
-        }
+        holder.qs_text1.setTextColor(ContextCompat.getColor(context, textColor));
+        holder.qs_icon1.setColorFilter(ContextCompat.getColor(context, textColor), android.graphics.PorterDuff.Mode.SRC_IN);
+        holder.qs_text4.setTextColor(ContextCompat.getColor(context, textColor));
+        holder.qs_icon4.setColorFilter(ContextCompat.getColor(context, textColor), android.graphics.PorterDuff.Mode.SRC_IN);
 
         if (itemList.get(position).getIcon_margin_start() != null && itemList.get(position).getIcon_margin_end() != null)
             setMargin(holder, itemList.get(position).getIcon_margin_start(), itemList.get(position).getIcon_margin_end());

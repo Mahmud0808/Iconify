@@ -7,6 +7,7 @@ import static com.drdisagree.iconify.common.Preferences.QSPANEL_STATUSICONSBG_SW
 import static com.drdisagree.iconify.common.Preferences.STATUSBAR_CLOCKBG_SWITCH;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -15,21 +16,16 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.HelperUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.google.android.flexbox.FlexboxLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class XposedBackgroundChip extends AppCompatActivity {
+public class XposedBackgroundChip extends BaseActivity {
 
     private FlexboxLayout containerStatusBar, containerStatusIcons;
 
@@ -57,12 +53,18 @@ public class XposedBackgroundChip extends AppCompatActivity {
         status_bar_chip_style.add(new Object[]{R.drawable.chip_status_bar_3, R.string.style_3});
         status_bar_chip_style.add(new Object[]{R.drawable.chip_status_bar_4, R.string.style_4});
         status_bar_chip_style.add(new Object[]{R.drawable.chip_status_bar_5, R.string.style_5});
+        status_bar_chip_style.add(new Object[]{R.drawable.chip_status_bar_6, R.string.style_6});
 
         addItemStatusBar(status_bar_chip_style);
 
         refreshBackgroundStatusBar();
 
         // Status icons chip
+        if (Build.VERSION.SDK_INT >= 33) {
+            findViewById(R.id.statusicons_chip_container).setVisibility(View.GONE);
+            RPrefs.putBoolean(QSPANEL_STATUSICONSBG_SWITCH, false);
+        }
+
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_status_icons_chip = findViewById(R.id.enable_status_icons_chip);
         enable_status_icons_chip.setChecked(RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false));
         enable_status_icons_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -161,11 +163,5 @@ public class XposedBackgroundChip extends AppCompatActivity {
                 title.setTextColor(getResources().getColor(R.color.textColorSecondary));
             }
         }
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 }

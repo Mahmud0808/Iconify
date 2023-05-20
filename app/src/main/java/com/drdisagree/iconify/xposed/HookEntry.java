@@ -26,16 +26,20 @@ import android.app.Instrumentation;
 import android.content.Context;
 
 import com.drdisagree.iconify.config.XPrefs;
-import com.drdisagree.iconify.utils.XSystemUtil;
 import com.drdisagree.iconify.xposed.mods.BackgroundChip;
-import com.drdisagree.iconify.xposed.mods.BatteryStyle;
+import com.drdisagree.iconify.xposed.mods.BatteryStyleManager;
 import com.drdisagree.iconify.xposed.mods.HeaderClock;
 import com.drdisagree.iconify.xposed.mods.HeaderImage;
 import com.drdisagree.iconify.xposed.mods.IconUpdater;
 import com.drdisagree.iconify.xposed.mods.LockscreenClock;
 import com.drdisagree.iconify.xposed.mods.Miscellaneous;
+import com.drdisagree.iconify.xposed.mods.QSBlackTheme;
+import com.drdisagree.iconify.xposed.mods.QSFluidTheme;
+import com.drdisagree.iconify.xposed.mods.QSLightTheme;
+import com.drdisagree.iconify.xposed.mods.QSLightThemeA12;
 import com.drdisagree.iconify.xposed.mods.QSTransparency;
 import com.drdisagree.iconify.xposed.mods.QuickSettings;
+import com.drdisagree.iconify.xposed.utils.SystemUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,7 +50,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class HookEntry implements IXposedHookLoadPackage {
 
-    public static boolean isSecondProcess = false;
+    public static boolean isChildProcess = false;
 
     public static ArrayList<Class<?>> modPacks = new ArrayList<>();
     public static ArrayList<ModPack> runningMods = new ArrayList<>();
@@ -54,7 +58,6 @@ public class HookEntry implements IXposedHookLoadPackage {
 
     public HookEntry() {
         modPacks.add(BackgroundChip.class);
-        modPacks.add(BatteryStyle.class);
         modPacks.add(HeaderClock.class);
         modPacks.add(HeaderImage.class);
         modPacks.add(IconUpdater.class);
@@ -62,6 +65,11 @@ public class HookEntry implements IXposedHookLoadPackage {
         modPacks.add(Miscellaneous.class);
         modPacks.add(QSTransparency.class);
         modPacks.add(QuickSettings.class);
+        modPacks.add(QSLightTheme.class);
+        modPacks.add(QSLightThemeA12.class);
+        modPacks.add(QSBlackTheme.class);
+        modPacks.add(QSFluidTheme.class);
+        modPacks.add(BatteryStyleManager.class);
     }
 
     @SuppressLint("ApplySharedPref")
@@ -72,10 +80,7 @@ public class HookEntry implements IXposedHookLoadPackage {
         long lastLoadTime = Xprefs.getLong(loadTimeKey, 0);
         int strikeCount = Xprefs.getInt(strikeKey, 0);
         if (currentTime - lastLoadTime > 40000) {
-            Xprefs.edit()
-                    .putLong(loadTimeKey, currentTime)
-                    .putInt(strikeKey, 0)
-                    .commit();
+            Xprefs.edit().putLong(loadTimeKey, currentTime).putInt(strikeKey, 0).commit();
         } else if (strikeCount >= 3) {
             log(String.format("HookEntry: Possible bootloop in %s ; Iconify will not load for now...", packageName));
             return true;
@@ -87,7 +92,7 @@ public class HookEntry implements IXposedHookLoadPackage {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        isSecondProcess = lpparam.processName.contains(":");
+        isChildProcess = lpparam.processName.contains(":");
 
         findAndHookMethod(Instrumentation.class, "newApplication", ClassLoader.class, String.class, Context.class, new XC_MethodHook() {
             @Override
@@ -101,7 +106,7 @@ public class HookEntry implements IXposedHookLoadPackage {
                         return;
                     }
 
-                    new XSystemUtil(mContext);
+                    new SystemUtil(mContext);
                     XPrefs.loadEverything(mContext.getPackageName());
                 }
 

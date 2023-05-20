@@ -8,7 +8,7 @@
                 <shape android:shape="rectangle">
                     <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
                     <size android:height="48.0dip" />
-                    <solid android:color="@*android:color/holo_blue_dark" />
+                    <solid android:color="@*android:color/system_neutral2_800" />
                 </shape>
             </item>
             <item android:gravity="fill_horizontal|center">
@@ -28,7 +28,7 @@
                     <gradient
                         android:centerColor="#00000000"
                         android:endColor="#00000000"
-                        android:startColor="@*android:color/holo_blue_dark" />
+                        android:startColor="@*android:color/system_neutral2_800" />
                 </shape>
             </item>
         </layer-list>

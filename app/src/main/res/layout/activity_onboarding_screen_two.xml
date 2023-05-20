@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:fillViewport="true"
+    tools:context=".ui.activities.OnBoardingScreen2">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/_14sdp"
+            android:paddingTop="@dimen/_20sdp"
+            android:paddingEnd="@dimen/_14sdp"
+            android:paddingBottom="@dimen/_20sdp">
+
+            <Button
+                android:id="@+id/btn_skip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:layout_marginTop="@dimen/container_margin"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:background="@color/transparent"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="0dp"
+                android:stateListAnimator="@null"
+                android:text="@string/btn_skip"
+                android:textAllCaps="false"
+                android:textColor="@color/textColorSecondary"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
+                app:fontFamily="@font/regular" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:padding="@dimen/_10sdp">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/welcome_anim"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:layout_marginBottom="@dimen/_16sdp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingEnd="@dimen/_20sdp"
+                android:paddingBottom="@dimen/_20sdp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.9"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_76sdp"
+                            android:layout_marginTop="@dimen/_14sdp"
+                            android:lineSpacingMultiplier="1"
+                            android:text="@string/landing_page_two_title"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/_30sdp"
+                            android:textStyle="bold"
+                            app:autoSizeStepGranularity="@dimen/_1sdp"
+                            app:autoSizeTextType="uniform"
+                            app:fontFamily="@font/regular" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_44sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:letterSpacing="0.02"
+                            android:lineHeight="@dimen/_18sdp"
+                            android:lineSpacingMultiplier="1"
+                            android:text="@string/landing_page_two_desc"
+                            android:textColor="@color/textColorSecondary"
+                            android:textSize="@dimen/_14sdp"
+                            android:textStyle="bold"
+                            app:autoSizeStepGranularity="@dimen/_1sdp"
+                            app:autoSizeTextType="uniform"
+                            app:fontFamily="@font/regular" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_1sdp"
+                        android:layout_weight="0.1" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1.0"
+                    tools:ignore="NestedWeights" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center"
+                        android:background="@color/transparent"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:padding="0dp"
+                        android:stateListAnimator="@null"
+                        android:text="@string/btn_back"
+                        android:textAllCaps="false"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="@dimen/_14sdp"
+                        android:textStyle="bold"
+                        app:fontFamily="@font/regular" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_1sdp"
+                        android:layout_weight="1.0"
+                        tools:ignore="NestedWeights" />
+
+                    <Button
+                        android:id="@+id/btn_next"
+                        style="@style/buttonLandingPage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center"
+                        android:background="@drawable/button_landing_page_two"
+                        android:letterSpacing="0.1"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_12sdp"
+                        android:text="@string/btn_next"
+                        android:textSize="@dimen/_14sdp"
+                        app:fontFamily="@font/bold" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.models.ClockModel;
-import com.drdisagree.iconify.utils.HelperUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 
 import java.util.ArrayList;
@@ -58,11 +57,6 @@ public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapte
             RPrefs.putInt(prefStyle, position + (Objects.equals(prefSwitch, LSCLOCK_SWITCH) ? 0 : 1));
             if (Objects.equals(prefSwitch, LSCLOCK_SWITCH) && RPrefs.getBoolean(prefSwitch, false))
                 new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
-            else {
-                if (RPrefs.getBoolean(prefSwitch, false)) {
-                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
-                }
-            }
             Toast.makeText(context, context.getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
         });
 

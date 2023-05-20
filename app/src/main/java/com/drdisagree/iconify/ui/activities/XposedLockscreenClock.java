@@ -12,77 +12,36 @@ import static com.drdisagree.iconify.common.Preferences.LSCLOCK_TOPMARGIN;
 import static com.drdisagree.iconify.ui.utils.ViewBindingHelpers.disableNestedScrolling;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.provider.OpenableColumns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.adapters.ClockPreviewAdapter;
 import com.drdisagree.iconify.ui.models.ClockModel;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LockscreenClockStyles;
+import com.drdisagree.iconify.utils.FileUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.topjohnwu.superuser.Shell;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import me.relex.circleindicator.CircleIndicator3;
 
-public class XposedLockscreenClock extends AppCompatActivity {
+public class XposedLockscreenClock extends BaseActivity {
 
     private static final int PICKFILE_RESULT_CODE = 100;
     private Button enable_lsclock_font;
-
-    private static String getRealPathFromURI(Uri uri) {
-        File file = null;
-        try {
-            @SuppressLint("Recycle") Cursor returnCursor = Iconify.getAppContext().getContentResolver().query(uri, null, null, null, null);
-            int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-            returnCursor.moveToFirst();
-            String name = returnCursor.getString(nameIndex);
-            file = new File(Iconify.getAppContext().getFilesDir(), name);
-            @SuppressLint("Recycle") InputStream inputStream = Iconify.getAppContext().getContentResolver().openInputStream(uri);
-            FileOutputStream outputStream = new FileOutputStream(file);
-            int read = 0;
-            int maxBufferSize = 1024 * 1024;
-            int bytesAvailable = inputStream.available();
-            int bufferSize = Math.min(bytesAvailable, maxBufferSize);
-            final byte[] buffers = new byte[bufferSize];
-            while ((read = inputStream.read(buffers)) != -1) {
-                outputStream.write(buffers, 0, read);
-            }
-            inputStream.close();
-            outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        return file.getPath();
-    }
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -268,33 +227,6 @@ public class XposedLockscreenClock extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (data == null) return;
-
-        if (requestCode == PICKFILE_RESULT_CODE && resultCode == Activity.RESULT_OK) {
-            Uri uri = data.getData();
-            String source = getRealPathFromURI(uri);
-            if (source == null) {
-                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            String destination = Resources.XPOSED_RESOURCE_TEMP_DIR + "/lsclock_font.ttf";
-
-            Shell.cmd("mkdir -p " + Resources.XPOSED_RESOURCE_TEMP_DIR).exec();
-
-            if (Shell.cmd("cp " + source + ' ' + destination).exec().isSuccess())
-                enable_lsclock_font.setVisibility(View.VISIBLE);
-            else
-                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+        FileUtil.copyToIconifyHiddenDir(this, requestCode, resultCode, data, PICKFILE_RESULT_CODE, "lsclock_font.ttf", enable_lsclock_font);
     }
 }

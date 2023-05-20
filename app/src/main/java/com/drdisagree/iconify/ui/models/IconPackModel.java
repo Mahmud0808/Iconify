@@ -2,10 +2,10 @@ package com.drdisagree.iconify.ui.models;
 
 public class IconPackModel {
 
-    private String name, desc;
-    private int icon1, icon2, icon3, icon4;
+    private String name;
+    private int desc, icon1, icon2, icon3, icon4;
 
-    public IconPackModel(String name, String desc, int icon1, int icon2, int icon3, int icon4) {
+    public IconPackModel(String name, int desc, int icon1, int icon2, int icon3, int icon4) {
         this.name = name;
         this.desc = desc;
         this.icon1 = icon1;
@@ -22,11 +22,11 @@ public class IconPackModel {
         this.name = name;
     }
 
-    public String getDesc() {
+    public int getDesc() {
         return desc;
     }
 
-    public void setDesc(String desc) {
+    public void setDesc(int desc) {
         this.desc = desc;
     }
 

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:inset="4dp">
+    <ripple android:color="?android:colorControlHighlight">
+        <item android:id="@*android:id/mask">
+            <shape android:shape="rectangle">
+                <solid android:color="#00000000" />
+                <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+            </shape>
+        </item>
+        <item>
+            <shape>
+                <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+                <gradient
+                    android:angle="315.0"
+                    android:endColor="@drawable/holo_green_light_alpha"
+                    android:startColor="@drawable/holo_blue_light_alpha" />
+            </shape>
+        </item>
+        <item
+            android:bottom="4.0dp"
+            android:end="4.0dp"
+            android:start="4.0dp"
+            android:top="4.0dp">
+            <shape>
+                <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
+                <gradient
+                    android:angle="0.0"
+                    android:endColor="#4DFFFFFF"
+                    android:startColor="#4DFFFFFF" />
+            </shape>
+        </item>
+    </ripple>
+</inset>
