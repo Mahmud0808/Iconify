@@ -172,7 +172,8 @@
     <string name="info_github_desc">Check out github repository.</string>
     <string name="info_telegram_title">Telegram</string>
     <string name="info_telegram_desc">Follow to get latest news &amp; updates.</string>
-    <string name="info_icons8_desc">For Plumpy icon pack.</string>
+    <string name="info_icons8_desc">For Plumpy &amp; Fluency icons.</string>
+    <string name="info_iconsax_desc">For in-app icon set.</string>
     <string name="info_shell_desc">For helping me with Shell Script.</string>
     <string name="info_rro_desc">For helping me with RRO.</string>
     <string name="info_tester_desc">For testing the app.</string>
