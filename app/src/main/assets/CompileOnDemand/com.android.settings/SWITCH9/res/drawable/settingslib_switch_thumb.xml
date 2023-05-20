@@ -10,23 +10,11 @@
                 <shape android:shape="oval">
                     <gradient
                         android:angle="270.0"
-                        android:endColor="@android:color/holo_green_light"
-                        android:startColor="@android:color/holo_blue_light" />
+                        android:endColor="@*android:color/holo_green_light"
+                        android:startColor="@*android:color/holo_blue_light" />
                     <size
                         android:width="14dp"
                         android:height="14dp" />
-                </shape>
-            </item>
-            <item
-                android:bottom="8dp"
-                android:end="8dp"
-                android:start="8dp"
-                android:top="8dp">
-                <shape android:shape="oval">
-                    <solid android:color="?android:colorBackground" />
-                    <size
-                        android:width="12dp"
-                        android:height="12dp" />
                 </shape>
             </item>
         </layer-list>
@@ -37,25 +25,14 @@
                 android:bottom="6dp"
                 android:end="6dp"
                 android:start="6dp"
-                android:tint="?android:colorForeground"
                 android:top="6dp">
-                <shape android:shape="oval">
+                <shape
+                    android:shape="oval"
+                    android:tint="?android:colorForeground">
                     <gradient
                         android:angle="270.0"
                         android:endColor="#33FFFFFF"
                         android:startColor="#66FFFFFF" />
-                    <size
-                        android:width="14dp"
-                        android:height="14dp" />
-                </shape>
-            </item>
-            <item
-                android:bottom="8dp"
-                android:end="8dp"
-                android:start="8dp"
-                android:top="8dp">
-                <shape android:shape="oval">
-                    <solid android:color="?android:colorBackground" />
                     <size
                         android:width="12dp"
                         android:height="12dp" />

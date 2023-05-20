@@ -19,7 +19,7 @@
                 <item>
                     <shape
                         android:shape="rectangle"
-                        android:tint="?android:colorForeground">
+                        android:tint="@color/textColorPrimary">
                         <gradient
                             android:angle="270.0"
                             android:endColor="#33FFFFFF"
