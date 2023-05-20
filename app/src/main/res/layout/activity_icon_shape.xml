@@ -8,12 +8,9 @@
     android:fillViewport="true"
     tools:context=".ui.activities.IconShape">
 
-    <include layout="@layout/view_header" />
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/content_marginTop"
         android:fillViewport="true"
         android:orientation="vertical"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
@@ -27,7 +24,7 @@
             android:background="@drawable/container"
             android:orientation="vertical"
             android:paddingStart="@dimen/container_paddingSide"
-            android:paddingTop="@dimen/container_padding"
+            android:paddingTop="@dimen/content_marginTop"
             android:paddingEnd="@dimen/container_paddingSide"
             android:paddingBottom="@dimen/container_padding">
 
@@ -44,4 +41,7 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <include layout="@layout/view_header" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

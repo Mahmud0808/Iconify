@@ -2,28 +2,29 @@
 <com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_152sdp"
+    android:layout_height="wrap_content"
     android:background="@color/transparent"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.CollapsingToolbarLayout
         android:id="@+id/collapsing_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorBackground"
+        android:layout_height="@dimen/_152sdp"
+        android:background="@color/transparent"
         app:collapsedTitleTextAppearance="@style/Toolbar.TitleText.Collapsed"
         app:collapsedTitleTextColor="@color/textColorPrimary"
         app:contentScrim="@color/colorBackground"
-        app:expandedTitleMarginBottom="@dimen/_25sdp"
         app:expandedTitleMarginEnd="@dimen/_28sdp"
         app:expandedTitleMarginStart="@dimen/_28sdp"
         app:expandedTitleTextAppearance="@style/Toolbar.TitleText.Expanded"
         app:expandedTitleTextColor="@color/textColorPrimary"
         app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
         app:maxLines="1"
+        app:scrimAnimationDuration="0"
         app:title="@string/app_name"
         app:titleCollapseMode="fade"
-        app:titleTextEllipsize="end">
+        app:titleTextEllipsize="end"
+        app:toolbarId="@id/toolbar">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
