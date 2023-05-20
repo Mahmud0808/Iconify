@@ -47,7 +47,11 @@ public class SettingsLibUtils {
         try { // A13 QPR2
             return (int) callStaticMethod(UtilsClass, "getColorAttrDefaultColor", context, resID, 0);
         } catch (Throwable t) { // A13 QPR1
-            return (int) callStaticMethod(UtilsClass, "getColorAttrDefaultColor", resID, context);
+            try {
+                return (int) callStaticMethod(UtilsClass, "getColorAttrDefaultColor", resID, context);
+            } catch (Throwable th) { // Custom roms
+                return (int) callStaticMethod(UtilsClass, "getColorAttrDefaultColor", context, resID);
+            }
         }
     }
 }

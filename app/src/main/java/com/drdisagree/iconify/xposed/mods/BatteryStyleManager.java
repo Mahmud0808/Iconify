@@ -327,7 +327,9 @@ public class BatteryStyleManager extends ModPack {
                     ((View) param.thisObject).addOnAttachStateChangeListener(listener);
 
                     ImageView mBatteryIconView = (ImageView) getObjectField(param.thisObject, "mBatteryIconView");
-                    mBatteryIconView.setRotation(batteryRotation);
+                    if (customBatteryEnabled || BatteryStyle == BATTERY_STYLE_DEFAULT_LANDSCAPE || BatteryStyle == BATTERY_STYLE_DEFAULT_RLANDSCAPE) {
+                        mBatteryIconView.setRotation(batteryRotation);
+                    }
 
                     if (!customBatteryEnabled) return;
 
