@@ -143,6 +143,8 @@ What you can change using Iconify:
 
 - [icons8.com](https://icons8.com)
 
+- [iconsax.io](http://iconsax.io)
+
 - [J@i](https://t.me/jai_08)
 
 - [Flodor](https://t.me/Rodolphe06)
