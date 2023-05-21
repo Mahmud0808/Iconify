@@ -183,8 +183,8 @@
     <string name="secondary_color">Cor secundária</string>
     <string name="minimal_qspanel">Painel das DR mínimo</string>
     <string name="remove_top_shade_of_qspanel">Remover a sombra no topo do painel das DR</string>
-    <string name="pitch_black_theme">Tema preto puro</string>
-    <string name="enable_pitch_black_colored_theme">Ativar o tema preto puro</string>
+    <string name="pitch_black_dark_title">Tema preto puro</string>
+    <string name="pitch_black_dark_desc">Ativar o tema preto puro</string>
     <string name="warning">Atenção</string>
     <string name="btn_continue">CONTINUAR</string>
     <string name="iconify_logo">Logo Iconify</string>

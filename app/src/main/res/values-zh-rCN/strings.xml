@@ -90,8 +90,8 @@
     <string name="secondary_color">次要颜色</string>
     <string name="minimal_qspanel">最小化快速设置面板</string>
     <string name="remove_top_shade_of_qspanel">移除快速设置面板的顶部遮盖</string>
-    <string name="pitch_black_theme">深色主题</string>
-    <string name="enable_pitch_black_colored_theme">启用深色主题</string>
+    <string name="pitch_black_dark_title">深色主题</string>
+    <string name="pitch_black_dark_desc">启用深色主题</string>
     <string name="warning">警告</string>
     <string name="btn_continue">继续</string>
     <string name="iconify_logo">Iconify Logo</string>

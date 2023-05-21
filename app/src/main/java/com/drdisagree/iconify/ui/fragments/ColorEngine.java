@@ -81,41 +81,23 @@ public class ColorEngine extends BaseFragment {
         apply_monet_gradient.setOnCheckedChangeListener(monetGradientListener);
 
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_minimal_qspanel = view.findViewById(R.id.apply_minimal_qspanel);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_pitch_black_theme = view.findViewById(R.id.apply_pitch_black_theme);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_pitch_black_dark_theme = view.findViewById(R.id.apply_pitch_black_dark_theme);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_pitch_black_amoled_theme = view.findViewById(R.id.apply_pitch_black_amoled_theme);
 
         // Minimal QsPanel
         apply_minimal_qspanel.setChecked(Prefs.getBoolean("IconifyComponentQSST.overlay"));
+        if (minimalQsListener == null) {
+            initializeMinimalQsListener();
+        }
+        apply_minimal_qspanel.setOnCheckedChangeListener(minimalQsListener);
 
-        apply_minimal_qspanel.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler().postDelayed(() -> {
-                if (isChecked) {
-                    apply_pitch_black_theme.setChecked(false);
+        // Pitch Black Dark
+        apply_pitch_black_dark_theme.setChecked(Prefs.getBoolean("IconifyComponentQSPBD.overlay"));
+        apply_pitch_black_dark_theme.setOnCheckedChangeListener(pitchBlackDarkListener);
 
-                    apply_minimal_qspanel.postDelayed(() -> {
-                        OverlayUtil.enableOverlay("IconifyComponentQSST.overlay");
-                    }, SWITCH_ANIMATION_DELAY);
-                } else {
-                    OverlayUtil.disableOverlay("IconifyComponentQSST.overlay");
-                }
-            }, SWITCH_ANIMATION_DELAY);
-        });
-
-        // Pitch Black QsPanel
-        apply_pitch_black_theme.setChecked(Prefs.getBoolean("IconifyComponentQSPB.overlay"));
-
-        apply_pitch_black_theme.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler().postDelayed(() -> {
-                if (isChecked) {
-                    apply_minimal_qspanel.setChecked(false);
-
-                    apply_pitch_black_theme.postDelayed(() -> {
-                        OverlayUtil.enableOverlay("IconifyComponentQSPB.overlay");
-                    }, SWITCH_ANIMATION_DELAY);
-                } else {
-                    OverlayUtil.disableOverlay("IconifyComponentQSPB.overlay");
-                }
-            }, SWITCH_ANIMATION_DELAY);
-        });
+        // Pitch Black Amoled
+        apply_pitch_black_amoled_theme.setChecked(Prefs.getBoolean("IconifyComponentQSPBA.overlay"));
+        apply_pitch_black_amoled_theme.setOnCheckedChangeListener(pitchBlackAmoledListener);
 
         // Disable Monet
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch disable_monet = view.findViewById(R.id.disable_monet);
@@ -245,4 +227,79 @@ public class ColorEngine extends BaseFragment {
             }
         }, SWITCH_ANIMATION_DELAY);
     };
+
+    CompoundButton.OnCheckedChangeListener minimalQsListener = null;
+
+    CompoundButton.OnCheckedChangeListener pitchBlackDarkListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (isChecked) {
+                if (minimalQsListener == null) {
+                    initializeMinimalQsListener();
+                }
+
+                ((Switch) view.findViewById(R.id.apply_minimal_qspanel)).setOnCheckedChangeListener(null);
+                ((Switch) view.findViewById(R.id.apply_minimal_qspanel)).setChecked(false);
+                ((Switch) view.findViewById(R.id.apply_minimal_qspanel)).setOnCheckedChangeListener(minimalQsListener);
+
+                ((Switch) view.findViewById(R.id.apply_pitch_black_amoled_theme)).setOnCheckedChangeListener(null);
+                ((Switch) view.findViewById(R.id.apply_pitch_black_amoled_theme)).setChecked(false);
+                ((Switch) view.findViewById(R.id.apply_pitch_black_amoled_theme)).setOnCheckedChangeListener(pitchBlackAmoledListener);
+            }
+
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    OverlayUtil.enableOrDisableOverlays("IconifyComponentQSST.overlay", false, "IconifyComponentQSPBA.overlay", false, "IconifyComponentQSPBD.overlay", true);
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentQSPBD.overlay");
+                }
+            }, SWITCH_ANIMATION_DELAY);
+        }
+    };
+
+    CompoundButton.OnCheckedChangeListener pitchBlackAmoledListener = (buttonView, isChecked) -> {
+        if (isChecked) {
+            if (minimalQsListener == null) {
+                initializeMinimalQsListener();
+            }
+
+            ((Switch) view.findViewById(R.id.apply_minimal_qspanel)).setOnCheckedChangeListener(null);
+            ((Switch) view.findViewById(R.id.apply_minimal_qspanel)).setChecked(false);
+            ((Switch) view.findViewById(R.id.apply_minimal_qspanel)).setOnCheckedChangeListener(minimalQsListener);
+
+            ((Switch) view.findViewById(R.id.apply_pitch_black_dark_theme)).setOnCheckedChangeListener(null);
+            ((Switch) view.findViewById(R.id.apply_pitch_black_dark_theme)).setChecked(false);
+            ((Switch) view.findViewById(R.id.apply_pitch_black_dark_theme)).setOnCheckedChangeListener(pitchBlackDarkListener);
+        }
+
+        new Handler().postDelayed(() -> {
+            if (isChecked) {
+                OverlayUtil.enableOrDisableOverlays("IconifyComponentQSST.overlay", false, "IconifyComponentQSPBD.overlay", false, "IconifyComponentQSPBA.overlay", true);
+            } else {
+                OverlayUtil.disableOverlay("IconifyComponentQSPBA.overlay");
+            }
+        }, SWITCH_ANIMATION_DELAY);
+    };
+
+    private void initializeMinimalQsListener() {
+        minimalQsListener = (buttonView, isChecked) -> {
+            if (isChecked) {
+                ((Switch) view.findViewById(R.id.apply_pitch_black_dark_theme)).setOnCheckedChangeListener(null);
+                ((Switch) view.findViewById(R.id.apply_pitch_black_dark_theme)).setChecked(false);
+                ((Switch) view.findViewById(R.id.apply_pitch_black_dark_theme)).setOnCheckedChangeListener(pitchBlackDarkListener);
+
+                ((Switch) view.findViewById(R.id.apply_pitch_black_amoled_theme)).setOnCheckedChangeListener(null);
+                ((Switch) view.findViewById(R.id.apply_pitch_black_amoled_theme)).setChecked(false);
+                ((Switch) view.findViewById(R.id.apply_pitch_black_amoled_theme)).setOnCheckedChangeListener(pitchBlackAmoledListener);
+            }
+
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    OverlayUtil.enableOrDisableOverlays("IconifyComponentQSPBD.overlay", false, "IconifyComponentQSPBA.overlay", false, "IconifyComponentQSST.overlay", true);
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentQSST.overlay");
+                }
+            }, SWITCH_ANIMATION_DELAY);
+        };
+    }
 }

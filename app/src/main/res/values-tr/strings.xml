@@ -74,8 +74,8 @@
     <string name="secondary_color">İkincil Renk</string>
     <string name="minimal_qspanel">Minimal Hızlı Ayarlar Paneli</string>
     <string name="remove_top_shade_of_qspanel">Hızlı ayarlar panelinin üst bölümünü kaldır</string>
-    <string name="pitch_black_theme">Siyah Tema</string>
-    <string name="enable_pitch_black_colored_theme">Siyah temayı etkinleştir</string>
+    <string name="pitch_black_dark_title">Siyah Tema</string>
+    <string name="pitch_black_dark_desc">Siyah temayı etkinleştir</string>
     <string name="warning">Uyarı</string>
     <string name="btn_continue">DEVAM ET</string>
     <string name="iconify_logo">Iconify Logo</string>

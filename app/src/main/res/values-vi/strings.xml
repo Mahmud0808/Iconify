@@ -90,8 +90,8 @@
     <string name="secondary_color">Màu thứ cấp</string> 
     <string name="minimal_qspanel">Bảng QS tối thiểu</string> 
     <string name="remove_top_shade_of_qspanel">Xóa bóng trên cùng của bảng QS</string> 
-    <string name="pitch_black_theme">Chủ đề màu đen bóng</string> 
-    <string name="enable_pitch_black_colored_theme">Bật chủ đề tối đen</string> 
+    <string name="pitch_black_dark_title">Chủ đề màu đen bóng</string>
+    <string name="pitch_black_dark_desc">Bật chủ đề tối đen</string>
     <string name="warning">Cảnh báo</string> 
     <string name="btn_continue">TIẾP TỤC</string> 
     <string name="iconify_logo">biểu tượng hóa logo</string> 

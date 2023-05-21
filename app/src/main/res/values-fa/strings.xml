@@ -66,8 +66,8 @@
     <string name="secondary_color">رنگ ثانویه</string>
     <string name="minimal_qspanel">مینیمال کردن ظاهر نوارابزار</string>
     <string name="remove_top_shade_of_qspanel">حذف سایه بخش بالایی نوارابزار</string>
-    <string name="pitch_black_theme">تم سیاه برای تمام پس‌زمینه‌ها</string>
-    <string name="enable_pitch_black_colored_theme">فعال‌سازی تم سیاه برای تمام پس‌زمینه‌ها</string>
+    <string name="pitch_black_dark_title">تم سیاه برای تمام پس‌زمینه‌ها</string>
+    <string name="pitch_black_dark_desc">فعال‌سازی تم سیاه برای تمام پس‌زمینه‌ها</string>
     <string name="warning">هشدار</string>
     <string name="btn_continue">ادامه دادن</string>
     <string name="iconify_logo">Iconify Logo</string>
