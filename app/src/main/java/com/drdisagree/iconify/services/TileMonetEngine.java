@@ -36,16 +36,14 @@ public class TileMonetEngine extends TileService {
 
         if (isCustomMonetEnabled) {
             Prefs.putBoolean("IconifyComponentME.overlay", false);
-            OverlayUtil.disableOverlay("IconifyComponentDM.overlay");
-            OverlayUtil.disableOverlay("IconifyComponentME.overlay");
+            OverlayUtil.disableOverlays("IconifyComponentDM.overlay", "IconifyComponentME.overlay");
         } else {
-            Prefs.putBoolean("IconifyComponentME.overlay", true);
-            OverlayUtil.enableOverlay("IconifyComponentDM.overlay");
-            OverlayUtil.enableOverlay("IconifyComponentME.overlay");
+            OverlayUtil.enableOverlays("IconifyComponentDM.overlay", "IconifyComponentME.overlay");
 
-            if (Prefs.getBoolean("IconifyComponentQSPB.overlay")) {
-                OverlayUtil.disableOverlay("IconifyComponentQSPB.overlay");
-                OverlayUtil.enableOverlay("IconifyComponentQSPB.overlay");
+            if (Prefs.getBoolean("IconifyComponentQSPBD.overlay")) {
+                OverlayUtil.changeOverlayState("IconifyComponentQSPBD.overlay", false, "IconifyComponentQSPBD.overlay", true);
+            } else if (Prefs.getBoolean("IconifyComponentQSPBA.overlay")) {
+                OverlayUtil.changeOverlayState("IconifyComponentQSPBA.overlay", false, "IconifyComponentQSPBA.overlay", true);
             }
         }
 

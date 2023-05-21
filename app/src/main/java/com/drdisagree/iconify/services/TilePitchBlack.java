@@ -8,7 +8,7 @@ import com.drdisagree.iconify.utils.OverlayUtil;
 
 public class TilePitchBlack extends TileService {
 
-    private boolean isPitchBlackEnabled = Prefs.getBoolean("IconifyComponentQSPB.overlay");
+    private boolean isPitchBlackEnabled = Prefs.getBoolean("IconifyComponentQSPBD.overlay") || Prefs.getBoolean("IconifyComponentQSPBA.overlay");
 
     @Override
     public void onTileAdded() {
@@ -33,11 +33,9 @@ public class TilePitchBlack extends TileService {
         super.onClick();
 
         if (isPitchBlackEnabled) {
-            Prefs.putBoolean("IconifyComponentQSPB.overlay", false);
-            OverlayUtil.disableOverlay("IconifyComponentQSPB.overlay");
+            OverlayUtil.disableOverlays("IconifyComponentQSPBD.overlay", "IconifyComponentQSPBA.overlay");
         } else {
-            Prefs.putBoolean("IconifyComponentQSPB.overlay", true);
-            OverlayUtil.enableOverlay("IconifyComponentQSPB.overlay");
+            OverlayUtil.enableOverlay("IconifyComponentQSPBD.overlay");
         }
 
         isPitchBlackEnabled = !isPitchBlackEnabled;
