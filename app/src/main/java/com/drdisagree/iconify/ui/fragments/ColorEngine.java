@@ -119,11 +119,9 @@ public class ColorEngine extends BaseFragment {
 
     private void enableMonetAccent() {
         if (Prefs.getBoolean(USE_LIGHT_ACCENT, false)) {
-            OverlayUtil.disableOverlay("IconifyComponentAMAC.overlay");
-            OverlayUtil.enableOverlay("IconifyComponentAMACL.overlay");
+            OverlayUtil.changeOverlayState("IconifyComponentAMAC.overlay", false, "IconifyComponentAMACL.overlay", true);
         } else {
-            OverlayUtil.disableOverlay("IconifyComponentAMACL.overlay");
-            OverlayUtil.enableOverlay("IconifyComponentAMAC.overlay");
+            OverlayUtil.changeOverlayState("IconifyComponentAMACL.overlay", false, "IconifyComponentAMAC.overlay", true);
         }
 
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL)) {
@@ -150,17 +148,14 @@ public class ColorEngine extends BaseFragment {
             }
         }
 
-        OverlayUtil.disableOverlay("IconifyComponentAMAC.overlay");
-        OverlayUtil.disableOverlay("IconifyComponentAMACL.overlay");
+        OverlayUtil.changeOverlayState("IconifyComponentAMAC.overlay", false, "IconifyComponentAMACL.overlay", false);
     }
 
     private void enableMonetGradient() {
         if (Prefs.getBoolean(USE_LIGHT_ACCENT, false)) {
-            OverlayUtil.disableOverlay("IconifyComponentAMGC.overlay");
-            OverlayUtil.enableOverlay("IconifyComponentAMGCL.overlay");
+            OverlayUtil.changeOverlayState("IconifyComponentAMGC.overlay", false, "IconifyComponentAMGCL.overlay", true);
         } else {
-            OverlayUtil.disableOverlay("IconifyComponentAMGCL.overlay");
-            OverlayUtil.enableOverlay("IconifyComponentAMGC.overlay");
+            OverlayUtil.changeOverlayState("IconifyComponentAMGCL.overlay", false, "IconifyComponentAMGC.overlay", true);
         }
 
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL)) {
@@ -187,8 +182,7 @@ public class ColorEngine extends BaseFragment {
             }
         }
 
-        OverlayUtil.disableOverlay("IconifyComponentAMGC.overlay");
-        OverlayUtil.disableOverlay("IconifyComponentAMGCL.overlay");
+        OverlayUtil.changeOverlayState("IconifyComponentAMGC.overlay", false, "IconifyComponentAMGCL.overlay", false);
     }
 
     CompoundButton.OnCheckedChangeListener monetAccentListener = new CompoundButton.OnCheckedChangeListener() {
@@ -249,7 +243,7 @@ public class ColorEngine extends BaseFragment {
 
             new Handler().postDelayed(() -> {
                 if (isChecked) {
-                    OverlayUtil.enableOrDisableOverlays("IconifyComponentQSST.overlay", false, "IconifyComponentQSPBA.overlay", false, "IconifyComponentQSPBD.overlay", true);
+                    OverlayUtil.changeOverlayState("IconifyComponentQSST.overlay", false, "IconifyComponentQSPBA.overlay", false, "IconifyComponentQSPBD.overlay", true);
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentQSPBD.overlay");
                 }
@@ -274,7 +268,7 @@ public class ColorEngine extends BaseFragment {
 
         new Handler().postDelayed(() -> {
             if (isChecked) {
-                OverlayUtil.enableOrDisableOverlays("IconifyComponentQSST.overlay", false, "IconifyComponentQSPBD.overlay", false, "IconifyComponentQSPBA.overlay", true);
+                OverlayUtil.changeOverlayState("IconifyComponentQSST.overlay", false, "IconifyComponentQSPBD.overlay", false, "IconifyComponentQSPBA.overlay", true);
             } else {
                 OverlayUtil.disableOverlay("IconifyComponentQSPBA.overlay");
             }
@@ -295,7 +289,7 @@ public class ColorEngine extends BaseFragment {
 
             new Handler().postDelayed(() -> {
                 if (isChecked) {
-                    OverlayUtil.enableOrDisableOverlays("IconifyComponentQSPBD.overlay", false, "IconifyComponentQSPBA.overlay", false, "IconifyComponentQSST.overlay", true);
+                    OverlayUtil.changeOverlayState("IconifyComponentQSPBD.overlay", false, "IconifyComponentQSPBA.overlay", false, "IconifyComponentQSST.overlay", true);
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentQSST.overlay");
                 }

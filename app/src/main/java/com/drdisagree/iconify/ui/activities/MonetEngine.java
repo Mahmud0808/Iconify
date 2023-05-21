@@ -307,7 +307,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                         if (!hasErroredOut.get()) {
                             Prefs.putBoolean(MONET_ENGINE_SWITCH, true);
                             if (Prefs.getBoolean("IconifyComponentQSPB.overlay")) {
-                                OverlayUtil.enableOrDisableOverlays("IconifyComponentQSPB.overlay", false, "IconifyComponentQSPB.overlay", true);
+                                OverlayUtil.changeOverlayState("IconifyComponentQSPB.overlay", false, "IconifyComponentQSPB.overlay", true);
                             }
                         }
 
