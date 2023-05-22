@@ -104,8 +104,8 @@ public class BatteryStyleManager extends ModPack {
     private static final int BatteryIconOpacity = 100;
     private int frameColor;
     private Object BatteryController = null;
-    private int landscapeBatteryWidth = 20;
-    private int landscapeBatteryHeight = 20;
+    private static int landscapeBatteryWidth = 20;
+    private static int landscapeBatteryHeight = 20;
 
     public BatteryStyleManager(Context context) {
         super(context);
@@ -150,8 +150,8 @@ public class BatteryStyleManager extends ModPack {
             res.getValue(res.getIdentifier("status_bar_icon_scale_factor", "dimen", context.getPackageName()), typedValue, true);
             float iconScaleFactor = typedValue.getFloat() * (scaleFactor / 100f);
 
-            int batteryHeight = res.getDimensionPixelSize(res.getIdentifier("status_bar_battery_icon_height", "dimen", context.getPackageName()));
-            int batteryWidth = res.getDimensionPixelSize(res.getIdentifier((customBatteryEnabled) ? "status_bar_battery_icon_height" : "status_bar_battery_icon_width", "dimen", context.getPackageName()));
+            int batteryHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, landscapeBatteryHeight, mBatteryIconView.getContext().getResources().getDisplayMetrics());
+            int batteryWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, landscapeBatteryWidth, mBatteryIconView.getContext().getResources().getDisplayMetrics());
 
             ViewGroup.LayoutParams scaledLayoutParams = mBatteryIconView.getLayoutParams();
             scaledLayoutParams.height = (int) (batteryHeight * iconScaleFactor);
