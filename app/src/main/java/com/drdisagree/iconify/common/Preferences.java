@@ -45,6 +45,7 @@ public class Preferences {
     public static final String CUSTOM_BATTERY_STYLE = "xposed_custombatterystyle";
     public static final String CUSTOM_BATTERY_WIDTH = "xposed_custombatterywidth";
     public static final String CUSTOM_BATTERY_HEIGHT = "xposed_custombatteryheight";
+    public static final String CUSTOM_BATTERY_MARGIN = "xposed_custombatterymargin";
     public static final int BATTERY_STYLE_DEFAULT = 0;
     public static final int BATTERY_STYLE_DEFAULT_RLANDSCAPE = 1;
     public static final int BATTERY_STYLE_DEFAULT_LANDSCAPE = 2;

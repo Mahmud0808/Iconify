@@ -445,7 +445,7 @@
     <string name="custom_battery_desc">启用自定义电池样式</string>
     <string name="battery_style_title">电池样式</string>
     <string name="battery_width_title">电池宽度</string>
-    <string name="battery_height_desc">电池高度</string>
+    <string name="battery_height_title">电池高度</string>
     <string name="disable_animation_title">关闭动画</string>
     <string name="disable_animation_desc">关闭 Iconify 的滚动动画</string>
     <string name="restart_systemui_after_boot_title">开机后重启 SystemUI</string>

@@ -417,7 +417,7 @@
     <string name="custom_battery_desc">Ativar estilo de bateria personalizado</string>
     <string name="battery_style_title">Estilo da bateria</string>
     <string name="battery_width_title">Largura da bateria</string>
-    <string name="battery_height_desc">Altura da bateria</string>
+    <string name="battery_height_title">Altura da bateria</string>
     <string name="activity_title_toast_frame">Notificações \"Toast\"</string>
     <string name="activity_desc_toast_frame">Personalizar as notificações \"Toast\"</string>
     <string name="pt_translation">Tradução Portuguesa.</string>

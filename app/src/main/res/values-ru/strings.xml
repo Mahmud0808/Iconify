@@ -417,7 +417,7 @@
     <string name="custom_battery_desc">Включить пользовательский стиль батареи</string>
     <string name="battery_style_title">Стиль батареи</string>
     <string name="battery_width_title">Ширина батареи</string>
-    <string name="battery_height_desc">Высота батареи</string>
+    <string name="battery_height_title">Высота батареи</string>
     <string name="activity_title_toast_frame">Рамка Toast-уведомления</string>
     <string name="activity_desc_toast_frame">Изменить стиль Toast-уведомлений</string>
     <string name="pt_translation">Перевод на португальский.</string>

@@ -447,7 +447,7 @@
     <string name="custom_battery_desc">Enable custom battery style</string>
     <string name="battery_style_title">Battery Style</string>
     <string name="battery_width_title">Battery Width</string>
-    <string name="battery_height_desc">Battery Height</string>
+    <string name="battery_height_title">Battery Height</string>
     <string name="disable_animation_title">Disable Animation</string>
     <string name="disable_animation_desc">Disable scrolling animation of Iconify</string>
     <string name="restart_systemui_after_boot_title">Restart SystemUI After Boot</string>
@@ -542,4 +542,5 @@
     <string name="iconpack_victor_desc">Edgy icon pack</string>
     <string name="settings_iconpack_bubble_v1">Inline multicolored icon pack</string>
     <string name="settings_iconpack_bubble_v2">Outline multicolored icon pack</string>
+    <string name="battery_margin_title">Battery Margin</string>
 </resources>

@@ -440,7 +440,7 @@
     <string name="landscape_battery_desc">Bật kiểu pin nằm ngang</string> 
     <string name="battery_style_title">Kiểu pin</string> 
     <string name="battery_width_title">Chiều rộng pin</string> 
-    <string name="battery_height_desc">Chiều cao pin</string> 
+    <string name="battery_height_title">Chiều cao pin</string>
     <string name="disable_animation_title">Tắt hoạt hình</string> 
     <string name="disable_animation_desc">Tắt hoạt ảnh cuộn của Iconify</string> 
     <string name="restart_systemui_after_boot_title">Khởi động lại SystemUI sau khi khởi động</string> 
