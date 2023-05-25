@@ -75,7 +75,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.10.1'
 
     // Magisk libsu version
-    def libsuVersion = '5.0.4'
+    def libsuVersion = '5.0.5'
 
     // Xposed API
     compileOnly files('lib/api-82.jar')
