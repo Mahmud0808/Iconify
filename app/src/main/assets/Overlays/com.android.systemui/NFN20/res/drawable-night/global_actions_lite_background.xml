@@ -6,7 +6,7 @@
         <shape
             android:shape="rectangle"
             android:tint="?android:attr/colorBackgroundFloating">
-            <solid android:color="#33FFFFFF" />
+            <solid android:color="#66FFFFFF" />
             <corners
                 android:bottomLeftRadius="@*android:dimen/harmful_app_name_padding_top"
                 android:bottomRightRadius="@*android:dimen/harmful_app_name_padding_top"
@@ -21,7 +21,7 @@
         <shape
             android:shape="rectangle"
             android:tint="?android:attr/colorBackgroundFloating">
-            <solid android:color="#66FFFFFF" />
+            <solid android:color="#B3FFFFFF" />
             <corners
                 android:bottomLeftRadius="@*android:dimen/harmful_app_name_padding_top"
                 android:bottomRightRadius="@*android:dimen/harmful_app_name_padding_top"
