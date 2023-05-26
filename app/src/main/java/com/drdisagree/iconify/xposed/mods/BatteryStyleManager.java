@@ -117,13 +117,16 @@ public class BatteryStyleManager extends ModPack {
             for (Object view : batteryViews) {
                 ImageView mBatteryIconView = (ImageView) getObjectField(view, "mBatteryIconView");
                 mBatteryIconView.setRotation(batteryRotation);
-                scale(mBatteryIconView);
-                try {
-                    BatteryDrawable drawable = (BatteryDrawable) getAdditionalInstanceField(view, "mBatteryDrawable");
-                    drawable.setShowPercentEnabled(showPercentInside);
-                    drawable.setAlpha(Math.round(BatteryIconOpacity * 2.55f));
-                    drawable.invalidateSelf();
-                } catch (Throwable ignored) {
+
+                if (customBatteryEnabled) {
+                    scale(mBatteryIconView);
+                    try {
+                        BatteryDrawable drawable = (BatteryDrawable) getAdditionalInstanceField(view, "mBatteryDrawable");
+                        drawable.setShowPercentEnabled(showPercentInside);
+                        drawable.setAlpha(Math.round(BatteryIconOpacity * 2.55f));
+                        drawable.invalidateSelf();
+                    } catch (Throwable ignored) {
+                    }
                 }
             }
         } catch (Throwable throwable) {
