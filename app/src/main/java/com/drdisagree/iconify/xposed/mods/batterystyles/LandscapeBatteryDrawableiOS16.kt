@@ -226,10 +226,11 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
 
             textPaint.textSize = bounds.width() * 0.42f
             val textHeight = +textPaint.fontMetrics.ascent
-            var pctX = (bounds.width() + textHeight) * 0.7f
+            var pctX = (bounds.width() + textHeight) * 0.75f
             val pctY = bounds.height() * 0.8f
 
             if (charging && batteryLevel < 100) {
+                pctX = (bounds.width() + textHeight) * 0.7f
                 pctX -= (pctX * 0.15f)
             }
 
