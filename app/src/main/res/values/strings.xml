@@ -543,4 +543,7 @@
     <string name="settings_iconpack_bubble_v1">Inline multicolored icon pack</string>
     <string name="settings_iconpack_bubble_v2">Outline multicolored icon pack</string>
     <string name="battery_margin_title">Battery Margin</string>
+    <string name="app_icon">App Icon</string>
+    <string name="app_icon_original">Original Icon</string>
+    <string name="app_icon_themed">Themed Icon</string>
 </resources>

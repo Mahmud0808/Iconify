@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
+import static com.drdisagree.iconify.common.Preferences.APP_ICON;
 import static com.drdisagree.iconify.common.Preferences.APP_LANGUAGE;
 import static com.drdisagree.iconify.common.Preferences.APP_THEME;
 import static com.drdisagree.iconify.common.Preferences.EASTER_EGG;
@@ -12,9 +13,11 @@ import static com.drdisagree.iconify.common.Preferences.USE_LIGHT_ACCENT;
 import static com.drdisagree.iconify.utils.AppUtil.restartApplication;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.text.LineBreaker;
 import android.os.Bundle;
 import android.os.Handler;
@@ -57,7 +60,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
 
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
     LoadingDialog loadingDialog;
-    RadioDialog rd_force_apply_method, rd_app_language, rd_app_theme;
+    RadioDialog rd_force_apply_method, rd_app_language, rd_app_icon, rd_app_theme;
 
     public static void disableEverything() {
         SharedPreferences prefs = Iconify.getAppContext().getSharedPreferences(Iconify.getAppContext().getPackageName(), Context.MODE_PRIVATE);
@@ -106,6 +109,14 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         rd_app_language.setRadioDialogListener(this);
         app_language.setOnClickListener(v -> rd_app_language.show(R.string.app_language, R.array.locale_name, selected_app_language));
         selected_app_language.setText(Arrays.asList(getResources().getStringArray(R.array.locale_name)).get(rd_app_language.getSelectedIndex()));
+
+        // App Icon
+        LinearLayout app_icon = view.findViewById(R.id.app_icon);
+        TextView selected_app_icon = view.findViewById(R.id.selected_app_icon);
+        rd_app_icon = new RadioDialog(requireActivity(), 3, Prefs.getInt(APP_ICON, 0));
+        rd_app_icon.setRadioDialogListener(this);
+        app_icon.setOnClickListener(v -> rd_app_icon.show(R.string.app_icon, R.array.app_icon, selected_app_icon));
+        selected_app_icon.setText(Arrays.asList(getResources().getStringArray(R.array.app_icon)).get(rd_app_icon.getSelectedIndex()));
 
         // App Theme
         LinearLayout app_theme = view.findViewById(R.id.app_theme);
@@ -231,6 +242,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
     public void onDestroy() {
         if (loadingDialog != null) loadingDialog.hide();
         if (rd_app_language != null) rd_app_language.dismiss();
+        if (rd_app_icon != null) rd_app_icon.dismiss();
         if (rd_app_theme != null) rd_app_theme.dismiss();
         if (rd_force_apply_method != null) rd_force_apply_method.dismiss();
         super.onDestroy();
@@ -280,6 +292,23 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
             case 2:
                 Prefs.putInt(FORCE_APPLY_XPOSED_CHOICE, selectedIndex == 2 ? -1 : selectedIndex);
                 break;
+            case 3:
+                Prefs.putInt(APP_ICON, selectedIndex);
+                if (selectedIndex == 0) originalIcon();
+                else if (selectedIndex == 1) themedIcon();
+                break;
         }
+    }
+
+    private void originalIcon() {
+        PackageManager manager = requireActivity().getPackageManager();
+        manager.setComponentEnabledSetting(new ComponentName(requireActivity(), "com.drdisagree.iconify.SplashActivity"), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+        manager.setComponentEnabledSetting(new ComponentName(requireActivity(), "com.drdisagree.iconify.SplashActivityThemed"), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+    }
+
+    private void themedIcon() {
+        PackageManager manager = requireActivity().getPackageManager();
+        manager.setComponentEnabledSetting(new ComponentName(requireActivity(), "com.drdisagree.iconify.SplashActivity"), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+        manager.setComponentEnabledSetting(new ComponentName(requireActivity(), "com.drdisagree.iconify.SplashActivityThemed"), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
     }
 }

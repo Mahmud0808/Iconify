@@ -106,6 +106,7 @@ public class Preferences {
 
     // Settings
     public static final String APP_LANGUAGE = "IconifyAppLanguage";
+    public static final String APP_ICON = "IconifyAppIcon";
     public static final String APP_THEME = "IconifyAppTheme";
     public static final String USE_LIGHT_ACCENT = "useLightAccent";
     public static final String SHOW_XPOSED_WARN = "showXposedMenuWarn";

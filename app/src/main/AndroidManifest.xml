@@ -169,6 +169,8 @@
         <activity
             android:name=".SplashActivity"
             android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:roundIcon="@mipmap/ic_launcher_round"
             android:theme="@style/Theme.Iconify.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -176,6 +178,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity-alias
+            android:name=".SplashActivityThemed"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_themed"
+            android:roundIcon="@mipmap/ic_launcher_round_themed"
+            android:targetActivity=".SplashActivity"
+            android:theme="@style/Theme.Iconify.SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
 
         <receiver
             android:name=".services.BootCompletedReceiver"

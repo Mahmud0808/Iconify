@@ -31,6 +31,8 @@
     <color name="landing_page_two_background">#FF111617</color>
     <color name="landing_page_three_background">#FF080f18</color>
     <color name="color_background_alpha">@color/color_background_alpha_dark</color>
+    <color name="ic_launcher_foreground_themed">@android:color/system_accent1_100</color>
+    <color name="ic_launcher_background_themed">@android:color/system_neutral1_800</color>
 
     <color name="colorPrimaryLight">@color/material_dynamic_primary40</color>
     <color name="colorPrimaryDark">@color/material_dynamic_primary80</color>

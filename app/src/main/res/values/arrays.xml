@@ -27,6 +27,10 @@
         <item>tr</item>
         <item>vi</item>
     </string-array>
+    <string-array name="app_icon">
+        <item>@string/app_icon_original</item>
+        <item>@string/app_icon_themed</item>
+    </string-array>
     <string-array name="app_theme">
         <item>@string/app_theme_light</item>
         <item>@string/app_theme_dark</item>
