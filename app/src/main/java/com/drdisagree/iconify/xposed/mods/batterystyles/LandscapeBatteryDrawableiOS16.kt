@@ -156,7 +156,7 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
     }
 
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.typeface = Typeface.create("sans-serif-condensed", Typeface.BOLD)
+        p.typeface = Typeface.create("sans-serif-medium", Typeface.BOLD)
         p.textAlign = Paint.Align.CENTER
     }
 
