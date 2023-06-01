@@ -55,6 +55,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Settings extends BaseFragment implements RadioDialog.RadioDialogListener {
 
@@ -294,21 +295,18 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                 break;
             case 3:
                 Prefs.putInt(APP_ICON, selectedIndex);
-                if (selectedIndex == 0) originalIcon();
-                else if (selectedIndex == 1) themedIcon();
+                String[] splashActivities = getResources().getStringArray(R.array.app_icon_identifier);
+                changeIcon(splashActivities[selectedIndex]);
                 break;
         }
     }
 
-    private void originalIcon() {
+    private void changeIcon(String splash) {
         PackageManager manager = requireActivity().getPackageManager();
-        manager.setComponentEnabledSetting(new ComponentName(requireActivity(), "com.drdisagree.iconify.SplashActivity"), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
-        manager.setComponentEnabledSetting(new ComponentName(requireActivity(), "com.drdisagree.iconify.SplashActivityThemed"), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-    }
+        String[] splashActivities = getResources().getStringArray(R.array.app_icon_identifier);
 
-    private void themedIcon() {
-        PackageManager manager = requireActivity().getPackageManager();
-        manager.setComponentEnabledSetting(new ComponentName(requireActivity(), "com.drdisagree.iconify.SplashActivity"), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-        manager.setComponentEnabledSetting(new ComponentName(requireActivity(), "com.drdisagree.iconify.SplashActivityThemed"), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+        for (String splashActivity : splashActivities) {
+            manager.setComponentEnabledSetting(new ComponentName(requireActivity(), "com.drdisagree.iconify." + splashActivity), Objects.equals(splash, splashActivity) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+        }
     }
 }
