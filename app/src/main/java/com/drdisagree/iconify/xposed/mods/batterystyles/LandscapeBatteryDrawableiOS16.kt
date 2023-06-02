@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.*
 import android.util.TypedValue
 import androidx.core.graphics.PathParser
+import com.drdisagree.iconify.config.XPrefs
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
 
 @SuppressLint("DiscouragedApi")
@@ -156,7 +157,7 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
     }
 
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.typeface = Typeface.create("sans-serif-medium", Typeface.BOLD)
+        p.typeface = Typeface.createFromAsset(XPrefs.modRes.assets, "Fonts/SFUIText-Bold.otf")
         p.textAlign = Paint.Align.CENTER
     }
 
@@ -231,7 +232,7 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
 
             if (charging && batteryLevel < 100) {
                 pctX = (bounds.width() + textHeight) * 0.7f
-                pctX -= (pctX * 0.15f)
+                pctX -= (pctX * 0.2f)
             }
 
             val textPath = Path()
