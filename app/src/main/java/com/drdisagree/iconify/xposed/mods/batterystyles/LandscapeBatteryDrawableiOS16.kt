@@ -157,7 +157,8 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
     }
 
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.typeface = Typeface.createFromAsset(XPrefs.modRes.assets, "Fonts/SFUITextCondensed-Bold.otf")
+        p.typeface =
+            Typeface.createFromAsset(XPrefs.modRes.assets, "Fonts/SFUITextCondensed-Bold.otf")
         p.textAlign = Paint.Align.CENTER
     }
 
@@ -290,35 +291,14 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
                 c.restore()
             }
         }
-
-        if (!charging && powerSaveEnabled) {
-            // If power save is enabled draw the perimeter path with colorError
-            c.drawPath(scaledErrorPerimeter, errorPaint)
-            textPaint.textSize = bounds.width() * 0.42f
-            val textHeight = +textPaint.fontMetrics.ascent
-            val pctX = (bounds.width() + textHeight) * 0.7f
-            val pctY = bounds.height() * 0.8f
-
-            val xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
-            textPaint.xfermode = xfermode
-
-            val textPath = Path()
-            textPath.reset()
-            textPaint.getTextPath(
-                batteryLevel.toString(), 0, batteryLevel.toString().length, pctX, pctY, textPath
-            )
-
-            unifiedPath.op(textPath, Path.Op.DIFFERENCE)
-            c.drawPath(textPath, textPaint)
-        }
         c.restore()
     }
 
     private fun batteryColorForLevel(level: Int): Int {
         return when {
-            charging || level >= 85 -> 0xFF34C759.toInt()
-            powerSaveEnabled || level > 25 -> fillColor
-            level > 10 -> 0xFFFFCC0A.toInt()
+            charging -> 0xFF34C759.toInt()
+            powerSaveEnabled -> 0xFFFFCC0A.toInt()
+            level > 20 -> fillColor
             level >= 0 -> 0xFFFF0000.toInt()
             else -> getColorForLevel(level)
         }
