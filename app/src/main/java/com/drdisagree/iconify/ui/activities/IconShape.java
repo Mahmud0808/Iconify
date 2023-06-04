@@ -6,6 +6,7 @@ import static com.drdisagree.iconify.common.Preferences.SELECTED_ICON_SHAPE;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.compiler.OnDemandCompiler;
@@ -29,6 +31,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class IconShape extends BaseActivity {
 
     private FlexboxLayout container;
+    LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,9 @@ public class IconShape extends BaseActivity {
 
         // Header
         ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_icon_shape);
+
+        // Loading dialog while enabling or disabling pack
+        loadingDialog = new LoadingDialog(this);
 
         // Icon masking shape list
         container = findViewById(R.id.icon_shape_preview_container);
@@ -90,23 +96,37 @@ public class IconShape extends BaseActivity {
                     if (!Environment.isExternalStorageManager()) {
                         SystemUtil.getStoragePermission(this);
                     } else {
-                        AtomicBoolean hasErroredOut = new AtomicBoolean(false);
+                        // Show loading dialog
+                        loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
-                        try {
-                            hasErroredOut.set(OnDemandCompiler.buildOverlay("SIS", finalI, FRAMEWORK_PACKAGE));
-                        } catch (IOException e) {
-                            hasErroredOut.set(true);
-                            Log.e("IconShape", e.toString());
-                        }
+                        Runnable runnable = () -> {
+                            AtomicBoolean hasErroredOut = new AtomicBoolean(false);
 
-                        if (!hasErroredOut.get()) {
-                            Prefs.putInt(SELECTED_ICON_SHAPE, finalI);
-                            OverlayUtil.enableOverlay("IconifyComponentSIS.overlay");
-                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
-                        } else
-                            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                            try {
+                                hasErroredOut.set(OnDemandCompiler.buildOverlay("SIS", finalI, FRAMEWORK_PACKAGE));
+                            } catch (IOException e) {
+                                hasErroredOut.set(true);
+                                Log.e("IconShape", e.toString());
+                            }
 
-                        refreshBackground();
+                            if (!hasErroredOut.get()) {
+                                Prefs.putInt(SELECTED_ICON_SHAPE, finalI);
+                                refreshBackground();
+                            }
+
+                            runOnUiThread(() -> new Handler().postDelayed(() -> {
+                                // Hide loading dialog
+                                loadingDialog.hide();
+
+                                if (!hasErroredOut.get()) {
+                                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                }
+                            }, 3000));
+                        };
+                        Thread thread = new Thread(runnable);
+                        thread.start();
                     }
                 }
             });
@@ -116,7 +136,6 @@ public class IconShape extends BaseActivity {
     }
 
     // Function to check for bg drawable changes
-    @SuppressLint("SetTextI18n")
     private void refreshBackground() {
         for (int i = 0; i < container.getChildCount(); i++) {
             LinearLayout child = container.getChildAt(i).findViewById(R.id.list_item_shape);
@@ -127,5 +146,11 @@ public class IconShape extends BaseActivity {
                 title.setTextColor(getResources().getColor(R.color.textColorSecondary));
             }
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        loadingDialog.hide();
+        super.onDestroy();
     }
 }
