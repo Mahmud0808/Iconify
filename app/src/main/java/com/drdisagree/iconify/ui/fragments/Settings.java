@@ -39,6 +39,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.activities.AppUpdates;
@@ -51,7 +52,9 @@ import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.topjohnwu.superuser.Shell;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +63,7 @@ import java.util.Objects;
 public class Settings extends BaseFragment implements RadioDialog.RadioDialogListener {
 
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
+    public static List<String> EnabledFabricatedOverlays = new ArrayList<>();
     LoadingDialog loadingDialog;
     RadioDialog rd_force_apply_method, rd_app_language, rd_app_icon, rd_app_theme;
 
@@ -69,23 +73,20 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
 
         for (Map.Entry<String, ?> item : map.entrySet()) {
             if (item.getValue() instanceof Boolean && ((Boolean) item.getValue()) && item.getKey().contains("fabricated")) {
-                Prefs.putBoolean(item.getKey(), (Boolean) item.getValue());
-                FabricatedUtil.disableOverlay(item.getKey().replace("fabricated", ""));
+                EnabledFabricatedOverlays.add(item.getKey().replace("fabricated", ""));
             }
         }
 
-        for (String overlay : EnabledOverlays) {
-            OverlayUtil.disableOverlay(overlay);
-        }
+        FabricatedUtil.disableOverlays(EnabledFabricatedOverlays.toArray(new String[0]));
+        OverlayUtil.disableOverlays(EnabledOverlays.toArray(new String[0]));
+        SystemUtil.disableBlur();
+        Shell.cmd("touch " + Resources.MODULE_DIR + "/post-exec.sh").submit();
 
         Prefs.clearAllPrefs();
         SystemUtil.getBootId();
         SystemUtil.getVersionCode();
         Prefs.putBoolean(FIRST_INSTALL, false);
-
         RPrefs.clearAllPrefs();
-
-        SystemUtil.restartSystemUI();
     }
 
     @Override
@@ -139,19 +140,15 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
             new Handler().postDelayed(() -> {
                 if (isChecked) {
                     if (Prefs.getBoolean("IconifyComponentAMAC.overlay")) {
-                        OverlayUtil.disableOverlay("IconifyComponentAMAC.overlay");
-                        OverlayUtil.enableOverlay("IconifyComponentAMACL.overlay");
+                        OverlayUtil.changeOverlayState("IconifyComponentAMAC.overlay", false, "IconifyComponentAMACL.overlay", true);
                     } else if (Prefs.getBoolean("IconifyComponentAMGC.overlay")) {
-                        OverlayUtil.disableOverlay("IconifyComponentAMGC.overlay");
-                        OverlayUtil.enableOverlay("IconifyComponentAMGCL.overlay");
+                        OverlayUtil.changeOverlayState("IconifyComponentAMGC.overlay", false, "IconifyComponentAMGCL.overlay", true);
                     }
                 } else {
                     if (Prefs.getBoolean("IconifyComponentAMACL.overlay")) {
-                        OverlayUtil.disableOverlay("IconifyComponentAMACL.overlay");
-                        OverlayUtil.enableOverlay("IconifyComponentAMAC.overlay");
+                        OverlayUtil.changeOverlayState("IconifyComponentAMACL.overlay", false, "IconifyComponentAMAC.overlay", true);
                     } else if (Prefs.getBoolean("IconifyComponentAMGCL.overlay")) {
-                        OverlayUtil.disableOverlay("IconifyComponentAMGCL.overlay");
-                        OverlayUtil.enableOverlay("IconifyComponentAMGC.overlay");
+                        OverlayUtil.changeOverlayState("IconifyComponentAMGCL.overlay", false, "IconifyComponentAMGC.overlay", true);
                     }
                 }
             }, SWITCH_ANIMATION_DELAY);
@@ -201,7 +198,8 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                     // Hide loading dialog
                     loadingDialog.hide();
 
-                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disabled_everything), Toast.LENGTH_SHORT).show();
+                    // Restart SystemUI
+                    SystemUtil.restartSystemUI();
                 }, 3000));
             };
             Thread thread = new Thread(runnable);
