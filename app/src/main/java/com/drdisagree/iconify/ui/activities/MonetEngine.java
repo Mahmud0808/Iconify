@@ -295,9 +295,12 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
 
                 Runnable runnable1 = () -> {
                     try {
-                        if (MonetEngineManager.enableOverlay(generatedColorPalette, generatedColorPaletteNight))
+                        if (MonetEngineManager.enableOverlay(generatedColorPalette, generatedColorPaletteNight)) {
                             hasErroredOut.set(true);
-                        else Prefs.putString(MONET_STYLE, selectedStyle);
+                        } else {
+                            Prefs.putString(MONET_STYLE, selectedStyle);
+                            OverlayUtil.enableOverlay("IconifyComponentDM.overlay");
+                        }
                     } catch (Exception e) {
                         hasErroredOut.set(true);
                         Log.e("MonetEngine", e.toString());

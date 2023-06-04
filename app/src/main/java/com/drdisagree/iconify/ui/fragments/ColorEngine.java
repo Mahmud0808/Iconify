@@ -30,7 +30,6 @@ import com.drdisagree.iconify.ui.activities.BasicColors;
 import com.drdisagree.iconify.ui.activities.MonetEngine;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
-import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.List;
@@ -103,16 +102,13 @@ public class ColorEngine extends BaseFragment {
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch disable_monet = view.findViewById(R.id.disable_monet);
         disable_monet.setChecked(Prefs.getBoolean("IconifyComponentDM.overlay"));
 
-        disable_monet.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler().postDelayed(() -> {
-                if (isChecked) {
-                    OverlayUtil.enableOverlay("IconifyComponentDM.overlay");
-                } else {
-                    OverlayUtil.disableOverlay("IconifyComponentDM.overlay");
-                }
-                SystemUtil.restartSystemUI();
-            }, SWITCH_ANIMATION_DELAY);
-        });
+        disable_monet.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler().postDelayed(() -> {
+            if (isChecked) {
+                OverlayUtil.enableOverlay("IconifyComponentDM.overlay");
+            } else {
+                OverlayUtil.disableOverlay("IconifyComponentDM.overlay");
+            }
+        }, SWITCH_ANIMATION_DELAY));
 
         return view;
     }
