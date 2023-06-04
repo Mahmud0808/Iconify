@@ -100,16 +100,16 @@ What you can change using Iconify:
 
   - Release Build:
 
-  ```adb uninstall com.drdisagree.iconify```
+  ```adb wait-for-device uninstall com.drdisagree.iconify```
 
   - Debug Build:
 
-  ```adb uninstall com.drdisagree.iconify.debug```
+  ```adb wait-for-device uninstall com.drdisagree.iconify.debug```
  
 
 ## Download
 
-> Download latst version of Iconify from here.
+> Download latest version of Iconify from here.
 
 - [Release Build](https://github.com/Mahmud0808/Iconify/releases/latest)
 
@@ -137,31 +137,31 @@ What you can change using Iconify:
 
 ## Special Thanks To
 
-- [Android Open Source Project (AOSP)](https://source.android.com)
+- [Android Open Source Project (AOSP)](https://source.android.com) (For Android source code)
 
-- [Substratum](https://github.com/substratum/substratum)
+- [Substratum](https://github.com/substratum/substratum) (For overlay building tricks)
 
-- [icons8.com](https://icons8.com)
+- [icons8.com](https://icons8.com) (For giving me permission to use their icons)
 
-- [iconsax.io](http://iconsax.io)
+- [iconsax.io](http://iconsax.io) (For in-app icon set)
 
-- [J@i](https://t.me/jai_08)
+- [J@i](https://t.me/jai_08) (For helping me with shell scripting)
 
-- [Flodor](https://t.me/Rodolphe06)
+- [Flodor](https://t.me/Rodolphe06) (For helping me with resources)
 
-- [modestCat](https://t.me/ModestCat03)
+- [modestCat](https://t.me/ModestCat03) (For helping me with resources)
 
-- [Sanely insane](https://t.me/sanely_insane)
+- [Sanely insane](https://t.me/sanely_insane) (For always being there and testing)
 
-- [Jaguar](https://t.me/Jaguar0066)
+- [Jaguar](https://t.me/Jaguar0066) (For always being there and testing)
 
-- [Jorge ARZ](https://t.me/ArzjoDev)
+- [Jorge ARZ](https://t.me/ArzjoDev) (For helping me with resources)
 
-- [ɦʏքɛʀ.sɦ](https://t.me/hyp3r_sh)
+- [ɦʏքɛʀ.sɦ](https://t.me/hyp3r_sh) (For helping me with resources)
 
-- [AOSPMods](https://github.com/siavash79/AOSPMods)
+- [AOSPMods](https://github.com/siavash79/AOSPMods) (For helping me with XPosed part)
 
-- [HideNavBar](https://github.com/Magisk-Modules-Repo/HideNavBar)
+- [HideNavBar](https://github.com/Magisk-Modules-Repo/HideNavBar) (For the navbar tweaks)
 
 ## Contribution
 
