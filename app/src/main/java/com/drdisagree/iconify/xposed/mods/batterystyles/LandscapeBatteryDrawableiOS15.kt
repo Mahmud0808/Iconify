@@ -268,13 +268,6 @@ open class LandscapeBatteryDrawableiOS15(private val context: Context, frameColo
             fillPaint.color = fillColor
             c.drawPath(scaledBolt, fillPaint)
             fillPaint.color = levelColor
-        } else if (powerSaveEnabled) {
-            // If power save is enabled draw the perimeter path with colorError
-            c.drawPath(scaledErrorPerimeter, errorPaint)
-            // And draw the plus sign on top of the fill
-            if (!showPercent) {
-                c.drawPath(scaledPlus, errorPaint)
-            }
         }
         c.restore()
 
@@ -302,9 +295,9 @@ open class LandscapeBatteryDrawableiOS15(private val context: Context, frameColo
 
     private fun batteryColorForLevel(level: Int): Int {
         return when {
-            powerSaveEnabled -> fillColor
-            charging || level >= 50 -> 0xFF34C759.toInt()
-            level > 10 -> 0xFFFFCC0A.toInt()
+            charging -> 0xFF34C759.toInt()
+            powerSaveEnabled -> 0xFFFFCC0A.toInt()
+            level > 20 -> fillColor
             level >= 0 -> 0xFFFF3B30.toInt()
             else -> getColorForLevel(level)
         }
