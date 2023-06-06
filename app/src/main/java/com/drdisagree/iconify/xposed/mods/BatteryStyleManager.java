@@ -181,11 +181,7 @@ public class BatteryStyleManager extends ModPack {
         } else if (batteryStyle == BATTERY_STYLE_DEFAULT_LANDSCAPE) {
             batteryRotation = 270;
         } else {
-            if (batteryStyle == BATTERY_STYLE_LANDSCAPE_IOS_15) {
-                batteryRotation = 90;
-            } else {
-                batteryRotation = 0;
-            }
+            batteryRotation = 0;
         }
 
         showPercentInside = batteryStyle == BATTERY_STYLE_LANDSCAPE_IOS_16;
