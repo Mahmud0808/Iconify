@@ -17,6 +17,8 @@ package com.drdisagree.iconify.xposed;
  * along with this program.  If not, see [http://www.gnu.org/licenses/].
  */
 
+import android.content.res.Resources;
+
 import java.util.HashMap;
 
 import de.robv.android.xposed.IXposedHookInitPackageResources;
@@ -27,6 +29,7 @@ public class HookRes implements IXposedHookInitPackageResources, IXposedHookZygo
 
     public final static HashMap<String, XC_InitPackageResources.InitPackageResourcesParam> resparams = new HashMap<>();
     private String MODULE_PATH;
+    public static Resources modRes;
 
     @Override
     public void initZygote(StartupParam startupParam) {
@@ -35,11 +38,6 @@ public class HookRes implements IXposedHookInitPackageResources, IXposedHookZygo
 
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
-        try {
-            resparams.put(resparam.packageName, resparam);
-        } catch (Throwable ignored) {
-        }
+        resparams.put(resparam.packageName, resparam);
     }
-
-
 }
