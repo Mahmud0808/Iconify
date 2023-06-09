@@ -56,6 +56,7 @@ open class LandscapeBatteryDrawableiOS15(private val context: Context, frameColo
     private var colorLevels: IntArray
 
     private var fillColor: Int = Color.WHITE
+    private var boltColor: Int = Color.WHITE
     private var backgroundColor: Int = Color.WHITE
 
     // updated whenever level changes
@@ -214,9 +215,7 @@ open class LandscapeBatteryDrawableiOS15(private val context: Context, frameColo
         // The perimeter should never change
         unifiedPath.addPath(scaledPerimeter)
         // If drawing dual tone, the level is used only to clip the whole drawable path
-        if (!dualTone) {
-            unifiedPath.op(levelPath, Path.Op.UNION)
-        }
+        unifiedPath.op(levelPath, Path.Op.UNION)
 
         fillPaint.color = levelColor
 
@@ -230,34 +229,11 @@ open class LandscapeBatteryDrawableiOS15(private val context: Context, frameColo
             }
         }
 
-        if (dualTone) {
-            // Dual tone means we draw the shape again, clipped to the charge level
-            c.drawPath(unifiedPath, dualToneBackgroundFill)
-            c.save()
-            c.clipRect(
-                0f,
-                bounds.bottom - bounds.height() * fillFraction,
-                bounds.right.toFloat(),
-                bounds.bottom.toFloat()
-            )
-            c.drawPath(unifiedPath, fillPaint)
-            c.restore()
-        } else {
-            // Non dual-tone means we draw the perimeter (with the level fill), and potentially
-            // draw the fill again with a critical color
-            fillPaint.color = fillColor
-            c.drawPath(unifiedPath, dualToneBackgroundFill)
-            fillPaint.color = levelColor
-            c.drawPath(levelPath, fillPaint)
-
-            // Show colorError below this level
-            if (batteryLevel <= Companion.CRITICAL_LEVEL && !charging) {
-                c.save()
-                c.clipPath(scaledFill)
-                c.drawPath(levelPath, fillPaint)
-                c.restore()
-            }
-        }
+        // Non dual-tone means we draw the perimeter (with the level fill), and potentially
+        // draw the fill again with a critical color
+        c.drawPath(unifiedPath, dualToneBackgroundFill)
+        fillPaint.color = levelColor
+        c.drawPath(levelPath, fillPaint)
 
         if (charging) {
             val xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
@@ -265,32 +241,11 @@ open class LandscapeBatteryDrawableiOS15(private val context: Context, frameColo
 
             c.drawPath(scaledBolt, fillColorStrokePaint)
 
-            fillPaint.color = fillColor
+            fillPaint.color = boltColor
             c.drawPath(scaledBolt, fillPaint)
             fillPaint.color = levelColor
         }
         c.restore()
-
-        if (!charging && batteryLevel < 100 && showPercent) {
-            textPaint.textSize = bounds.height() * 0.38f
-            val textHeight = -textPaint.fontMetrics.ascent
-            val pctX = bounds.width() * 0.5f
-            val pctY = (bounds.height() + textHeight) * 0.5f
-
-            textPaint.color = fillColor
-            c.drawText(batteryLevel.toString(), pctX, pctY, textPaint)
-
-            textPaint.color = fillColor.toInt().inv() or 0xFF000000.toInt()
-            c.save()
-            c.clipRect(
-                fillRect.left,
-                fillRect.top + (fillRect.height() * (1 - fillFraction)),
-                fillRect.right,
-                fillRect.bottom
-            )
-            c.drawText(batteryLevel.toString(), pctX, pctY, textPaint)
-            c.restore()
-        }
     }
 
     private fun batteryColorForLevel(level: Int): Int {
@@ -383,10 +338,11 @@ open class LandscapeBatteryDrawableiOS15(private val context: Context, frameColo
     }
 
     override fun setColors(fgColor: Int, bgColor: Int, singleToneColor: Int) {
-        fillColor = if (dualTone) fgColor else singleToneColor
+        fillColor = fgColor
+        boltColor = singleToneColor
 
-        fillPaint.color = fillColor
-        fillColorStrokePaint.color = fillColor
+        fillPaint.color = singleToneColor
+        fillColorStrokePaint.color = singleToneColor
 
         backgroundColor = bgColor
         dualToneBackgroundFill.color = bgColor
