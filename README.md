@@ -60,6 +60,13 @@ What you can change using Iconify:
 
 - Decryption Supported Custom Recovery (Just in case)
 
+> KSU users must flash OverlayFS Module from [Here](https://t.me/MagiskDeltaModules/93)
+> 
+> Remember to edit _mode.sh_ file inside the module and change these values:
+> 
+> `OVERLAY_MODE=1`
+> `DO_UNMOUNT_KSU=true`
+
 ## Instructions
 
 - Install and open the app
