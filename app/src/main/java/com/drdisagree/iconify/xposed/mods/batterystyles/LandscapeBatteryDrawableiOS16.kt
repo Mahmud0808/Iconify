@@ -222,75 +222,58 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
 
         fillPaint.color = levelColor
 
-        if (showPercent) {
-            val mergedPath = Path()
-            mergedPath.reset()
+        val mergedPath = Path()
+        mergedPath.reset()
 
-            textPaint.textSize = bounds.width() * 0.42f
-            val textHeight = +textPaint.fontMetrics.ascent
-            var pctX = (bounds.width() + textHeight) * 0.75f
-            val pctY = bounds.height() * 0.8f
+        textPaint.textSize = bounds.width() * 0.42f
+        val textHeight = +textPaint.fontMetrics.ascent
+        var pctX = (bounds.width() + textHeight) * 0.75f
+        val pctY = bounds.height() * 0.8f
 
-            if (charging && batteryLevel < 100) {
-                pctX = (bounds.width() + textHeight) * 0.7f
-                pctX -= (pctX * 0.2f)
-            }
-
-            val textPath = Path()
-            textPath.reset()
-            textPaint.getTextPath(
-                batteryLevel.toString(), 0, batteryLevel.toString().length, pctX, pctY, textPath
-            )
-
-            mergedPath.addPath(textPath)
-            mergedPath.addPath(scaledBolt)
-
-            val xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
-            textPaint.xfermode = xfermode
-
-            // Deal with unifiedPath clipping before it draws
-            if (charging && batteryLevel < 100) {
-                // Clip out the bolt shape
-                unifiedPath.op(mergedPath, Path.Op.DIFFERENCE)
-
-                if (!invertFillIcon) {
-                    c.drawPath(mergedPath, textPaint)
-                }
-            } else {
-                // Clip out the text path
-                unifiedPath.op(textPath, Path.Op.DIFFERENCE)
-
-                c.drawPath(textPath, textPaint)
-            }
+        if (charging && batteryLevel < 100) {
+            pctX = (bounds.width() + textHeight) * 0.7f
+            pctX -= (pctX * 0.2f)
         }
 
-        if (dualTone) {
-            // Dual tone means we draw the shape again, clipped to the charge level
-            c.drawPath(unifiedPath, dualToneBackgroundFill)
-            c.save()
-            c.clipRect(
-                bounds.left.toFloat(),
-                bounds.top.toFloat(),
-                bounds.left + bounds.width() * fillFraction,
-                bounds.bottom.toFloat()
-            )
-            c.drawPath(unifiedPath, fillPaint)
-            c.restore()
+        val textPath = Path()
+        textPath.reset()
+        textPaint.getTextPath(
+            batteryLevel.toString(), 0, batteryLevel.toString().length, pctX, pctY, textPath
+        )
+
+        mergedPath.addPath(textPath)
+        mergedPath.addPath(scaledBolt)
+
+        val xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
+        textPaint.xfermode = xfermode
+
+        // Deal with unifiedPath clipping before it draws
+        if (charging && batteryLevel < 100) {
+            // Clip out the bolt shape
+            unifiedPath.op(mergedPath, Path.Op.DIFFERENCE)
+
+            if (!invertFillIcon) {
+                c.drawPath(mergedPath, textPaint)
+            }
         } else {
-            // Non dual-tone means we draw the perimeter (with the level fill), and potentially
-            // draw the fill again with a critical color
-            fillPaint.color = fillColor
-            c.drawPath(unifiedPath, fillPaint)
-            fillPaint.color = levelColor
+            // Clip out the text path
+            unifiedPath.op(textPath, Path.Op.DIFFERENCE)
 
-            // Show colorError below this level
-            if (batteryLevel <= CRITICAL_LEVEL && !charging) {
-                c.save()
-                c.clipPath(scaledFill)
-                c.drawPath(levelPath, fillPaint)
-                c.restore()
-            }
+            c.drawPath(textPath, textPaint)
         }
+
+        // Dual tone means we draw the shape again, clipped to the charge level
+        c.drawPath(unifiedPath, dualToneBackgroundFill)
+        c.save()
+        c.clipRect(
+            bounds.left.toFloat(),
+            bounds.top.toFloat(),
+            bounds.left + bounds.width() * fillFraction,
+            bounds.bottom.toFloat()
+        )
+        c.drawPath(unifiedPath, fillPaint)
+        c.restore()
+
         c.restore()
     }
 
@@ -384,7 +367,7 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
     }
 
     override fun setColors(fgColor: Int, bgColor: Int, singleToneColor: Int) {
-        fillColor = if (dualTone) fgColor else singleToneColor
+        fillColor = fgColor
 
         fillPaint.color = fillColor
         fillColorStrokePaint.color = fillColor
