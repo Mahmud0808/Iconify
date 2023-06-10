@@ -96,16 +96,16 @@ public class BatteryStyleManager extends ModPack {
     public static final String listenPackage = SYSTEMUI_PACKAGE;
     private static final String TAG = "Iconify - BatteryStyleManager: ";
     private static final ArrayList<Object> batteryViews = new ArrayList<>();
+    private static final int BatteryIconOpacity = 100;
     public static int BatteryStyle = 0;
     public static boolean showPercentInside = false;
     public static int scaleFactor = 100;
     public static int batteryRotation = 0;
     private static boolean customBatteryEnabled = false;
-    private static final int BatteryIconOpacity = 100;
-    private int frameColor;
-    private Object BatteryController = null;
     private static int customBatteryWidth = 20;
     private static int customBatteryHeight = 20;
+    private int frameColor;
+    private Object BatteryController = null;
     private int customBatteryMargin = 6;
 
     public BatteryStyleManager(Context context) {
@@ -116,7 +116,9 @@ public class BatteryStyleManager extends ModPack {
         try {
             for (Object view : batteryViews) {
                 ImageView mBatteryIconView = (ImageView) getObjectField(view, "mBatteryIconView");
-                mBatteryIconView.setRotation(batteryRotation);
+                if (mBatteryIconView != null) {
+                    mBatteryIconView.setRotation(batteryRotation);
+                }
 
                 if (customBatteryEnabled) {
                     scale(mBatteryIconView);
@@ -191,14 +193,19 @@ public class BatteryStyleManager extends ModPack {
             try {
                 for (Object view : batteryViews) {
                     ImageView mBatteryIconView = (ImageView) getObjectField(view, "mBatteryIconView");
-                    mBatteryIconView.setRotation(batteryRotation);
+                    if (mBatteryIconView != null) {
+                        mBatteryIconView.setRotation(batteryRotation);
+                    }
+
                     boolean mCharging = (boolean) getObjectField(view, "mCharging");
                     int mLevel = (int) getObjectField(view, "mLevel");
 
                     if (customBatteryEnabled) {
                         BatteryDrawable newDrawable = getNewDrawable(mContext);
                         if (newDrawable != null) {
-                            mBatteryIconView.setImageDrawable(newDrawable);
+                            if (mBatteryIconView != null) {
+                                mBatteryIconView.setImageDrawable(newDrawable);
+                            }
                             setAdditionalInstanceField(view, "mBatteryDrawable", newDrawable);
                             newDrawable.setBatteryLevel(mLevel);
                             newDrawable.setChargingEnabled(mCharging);
@@ -325,7 +332,9 @@ public class BatteryStyleManager extends ModPack {
 
                     ImageView mBatteryIconView = (ImageView) getObjectField(param.thisObject, "mBatteryIconView");
                     if (customBatteryEnabled || BatteryStyle == BATTERY_STYLE_DEFAULT_LANDSCAPE || BatteryStyle == BATTERY_STYLE_DEFAULT_RLANDSCAPE) {
-                        mBatteryIconView.setRotation(batteryRotation);
+                        if (mBatteryIconView != null) {
+                            mBatteryIconView.setRotation(batteryRotation);
+                        }
                     }
 
                     if (!customBatteryEnabled) return;
@@ -333,8 +342,10 @@ public class BatteryStyleManager extends ModPack {
                     BatteryDrawable mBatteryDrawable = getNewDrawable(mContext);
                     if (mBatteryDrawable != null) {
                         setAdditionalInstanceField(param.thisObject, "mBatteryDrawable", mBatteryDrawable);
-                        mBatteryIconView.setImageDrawable(mBatteryDrawable);
-                        setObjectField(param.thisObject, "mBatteryIconView", mBatteryIconView);
+                        if (mBatteryIconView != null) {
+                            mBatteryIconView.setImageDrawable(mBatteryDrawable);
+                            setObjectField(param.thisObject, "mBatteryIconView", mBatteryIconView);
+                        }
                     }
 
                     if (BatteryController != null) {
