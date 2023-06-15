@@ -87,7 +87,7 @@ What you can change using Iconify:
 
 - Reboot the device
 
-- Hold Volume+ Button during boot process
+- Keep spamming Volume+ Button during boot process (after vendor logo)
 
 #### XPosed Related Bootloop:
 
