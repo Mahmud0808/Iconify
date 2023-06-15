@@ -83,21 +83,11 @@ What you can change using Iconify:
 
 ## In Case of Bootloop
 
-#### Custom Recovery Users:
+#### Overlay Related Bootloop:
 
-- Go to recovery mode by holding Power and Volume+ Button
+- Reboot the device
 
-- Navigate to data/adb/modules directory
-
-- Delete Iconify folder and reboot
-
-#### Stock Recovery Users:
-
-- Boot into safe mode ([Here's how to](https://www.androidauthority.com/how-to-enter-safe-mode-android-801476/))
-
-- Or, Use this adb command
-
-```adb wait-for-device shell magisk --remove-modules```
+- Hold Volume+ Button during boot process
 
 #### XPosed Related Bootloop:
 
