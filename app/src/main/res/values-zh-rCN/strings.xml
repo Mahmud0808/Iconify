@@ -90,8 +90,10 @@
     <string name="secondary_color">次要颜色</string>
     <string name="minimal_qspanel">最小化快速设置面板</string>
     <string name="remove_top_shade_of_qspanel">移除快速设置面板的顶部遮盖</string>
-    <string name="pitch_black_dark_title">深色主题</string>
-    <string name="pitch_black_dark_desc">启用深色主题</string>
+    <string name="pitch_black_dark_title">深色主题（黑）</string>
+    <string name="pitch_black_dark_desc">启用深色主题（黑）</string>
+    <string name="pitch_black_amoled_title">深色主题（Amoled）</string>
+    <string name="pitch_black_amoled_desc">启用深色主题（Amoled）</string>
     <string name="warning">警告</string>
     <string name="btn_continue">继续</string>
     <string name="iconify_logo">Iconify Logo</string>
@@ -523,7 +525,7 @@
     <string name="fluid_qs_theme_title">流体快速设置主题</string>
     <string name="fluid_qs_theme_desc">双色调半透明快速设置主题\n不使用自定义形状</string>
     <string name="disable_monet_title">禁用系统 Monet</string>
-    <string name="disable_monet_desc">有助于保留自定义颜色</string>
+    <string name="disable_monet_desc">有助于保留自定义颜色\n需要重启 SystemUI</string>
     <string name="iconpack_aurora_desc">双色调线性图标包</string>
     <string name="iconpack_gradicon_desc">渐变阴影填充图标包</string>
     <string name="iconpack_lorn_desc">粗线图标包</string>
@@ -540,4 +542,9 @@
     <string name="iconpack_victor_desc">棱角图标包</string>
     <string name="settings_iconpack_bubble_v1">内嵌多色图标包</string>
     <string name="settings_iconpack_bubble_v2">轮廓多色图标包</string>
+    <string name="battery_margin_title">电池余量</string>
+    <string name="app_icon">App 图标</string>
+    <string name="app_icon_default">默认图标</string>
+    <string name="app_icon_themed">带主题的图标</string>
+    <string name="app_icon_retro">怀旧图标</string>
 </resources>

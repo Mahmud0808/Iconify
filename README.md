@@ -83,26 +83,9 @@ What you can change using Iconify:
 
 ## In Case of Bootloop
 
-#### Overlay Related Bootloop:
-
 - Reboot the device
 
 - Keep spamming Volume+ Button during boot process (after vendor logo)
-
-#### XPosed Related Bootloop:
-
-- Boot into safe mode ([Here's how to](https://www.androidauthority.com/how-to-enter-safe-mode-android-801476/))
-
-- Or, Use this adb command
-
-  - Release Build:
-
-  ```adb wait-for-device uninstall com.drdisagree.iconify```
-
-  - Debug Build:
-
-  ```adb wait-for-device uninstall com.drdisagree.iconify.debug```
- 
 
 ## Download
 
