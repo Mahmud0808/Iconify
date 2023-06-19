@@ -336,6 +336,9 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                 case 5:
                     bg = ResourcesCompat.getDrawable(res, R.drawable.chip_status_bar_6, pc.getTheme());
                     break;
+                case 6:
+                    bg = ResourcesCompat.getDrawable(res, R.drawable.chip_status_bar_7, pc.getTheme());
+                    break;
             }
 
             if (bg != null) {
@@ -367,6 +370,9 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                     break;
                 case 4:
                     bg = ResourcesCompat.getDrawable(res, R.drawable.chip_status_icons_5, pc.getTheme());
+                    break;
+                case 5:
+                    bg = ResourcesCompat.getDrawable(res, R.drawable.chip_status_icons_6, pc.getTheme());
                     break;
             }
 

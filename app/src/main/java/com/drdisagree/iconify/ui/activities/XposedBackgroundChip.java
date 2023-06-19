@@ -54,6 +54,7 @@ public class XposedBackgroundChip extends BaseActivity {
         status_bar_chip_style.add(new Object[]{R.drawable.chip_status_bar_4, R.string.style_4});
         status_bar_chip_style.add(new Object[]{R.drawable.chip_status_bar_5, R.string.style_5});
         status_bar_chip_style.add(new Object[]{R.drawable.chip_status_bar_6, R.string.style_6});
+        status_bar_chip_style.add(new Object[]{R.drawable.chip_status_bar_7, R.string.style_7});
 
         addItemStatusBar(status_bar_chip_style);
 
@@ -84,6 +85,7 @@ public class XposedBackgroundChip extends BaseActivity {
         status_icons_chip_style.add(new Object[]{R.drawable.chip_status_icons_3, R.string.style_3});
         status_icons_chip_style.add(new Object[]{R.drawable.chip_status_icons_4, R.string.style_4});
         status_icons_chip_style.add(new Object[]{R.drawable.chip_status_icons_5, R.string.style_5});
+        status_icons_chip_style.add(new Object[]{R.drawable.chip_status_icons_6, R.string.style_6});
 
         addItemStatusIcons(status_icons_chip_style);
 
