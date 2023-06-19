@@ -83,9 +83,11 @@ What you can change using Iconify:
 
 ## In Case of Bootloop
 
-- Reboot the device
+- Boot into safe mode ([Here's how to](https://www.androidauthority.com/how-to-enter-safe-mode-android-801476/))
 
-- Keep spamming Volume+ Button during boot process (after vendor logo)
+- Or, Remove Iconify folder from data/adb/modules directory
+
+- Or, Keep spamming Volume+ Button during boot process (after vendor logo)
 
 ## Download
 
