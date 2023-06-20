@@ -85,6 +85,7 @@ import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableO
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -218,7 +219,10 @@ public class BatteryStyleManager extends ModPack {
         }
 
         refreshBatteryIcons();
-        setCustomBatteryDimens();
+
+        if (Key.length > 0 && (Objects.equals(Key[0], CUSTOM_BATTERY_WIDTH) || Objects.equals(Key[0], CUSTOM_BATTERY_HEIGHT) || Objects.equals(Key[0], CUSTOM_BATTERY_MARGIN))) {
+            setCustomBatteryDimens();
+        }
     }
 
     @Override
