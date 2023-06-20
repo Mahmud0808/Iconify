@@ -231,6 +231,20 @@ public class QSFluidTheme extends ModPack {
             }
         });
 
+        // For LineageOS based roms
+        hookAllConstructors(QSTileViewImplClass, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                if (!fluidQsThemeEnabled) return;
+
+                setObjectField(param.thisObject, "colorActive", colorActiveAlpha[0]);
+                setObjectField(param.thisObject, "colorInactive", colorInactiveAlpha[0]);
+                setObjectField(param.thisObject, "colorUnavailable", colorUnavailableAlpha[0]);
+                setObjectField(param.thisObject, "colorLabelActive", colorAccent[0]);
+                setObjectField(param.thisObject, "colorSecondaryLabelActive", colorAccent[0]);
+            }
+        });
+
         // Initialize colors
         hookAllConstructors(CentralSurfacesImplClass, new XC_MethodHook() {
             @Override
