@@ -18,9 +18,9 @@ public class RoundnessManager {
                 "    <dimen name=\"config_progressBarCornerRadius\">" + cornerRadius + "dip</dimen>\n" +
                 "    <dimen name=\"progress_bar_corner_material\">" + cornerRadius + "dip</dimen>\n" +
                 "    <dimen name=\"harmful_app_name_padding_top\">" + cornerRadius + "dip</dimen>\n" +
-                "    <dimen name=\"harmful_app_name_padding_right\">" + (cornerRadius - 2) + "dip</dimen>\n" +
-                "    <dimen name=\"harmful_app_name_padding_left\">" + (cornerRadius - 4) + "dip</dimen>\n" +
-                "    <dimen name=\"harmful_app_name_padding_bottom\">" + (cornerRadius - 6) + "dip</dimen>\n" +
+                "    <dimen name=\"harmful_app_name_padding_right\">" + Math.max((cornerRadius - 2), 0) + "dip</dimen>\n" +
+                "    <dimen name=\"harmful_app_name_padding_left\">" + Math.max((cornerRadius - 4), 0) + "dip</dimen>\n" +
+                "    <dimen name=\"harmful_app_name_padding_bottom\">" + Math.max((cornerRadius - 6), 0) + "dip</dimen>\n" +
                 "</resources>\n";
 
         String sysui_resources = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
@@ -38,10 +38,10 @@ public class RoundnessManager {
                 "    <dimen name=\"settingslib_dialogCornerRadius\">" + cornerRadius + "dip</dimen>\n" +
                 "    <dimen name=\"split_divider_corner_size\">" + cornerRadius + "dip</dimen>\n" +
                 "    <dimen name=\"volume_dialog_panel_width_half\">" + cornerRadius + "dip</dimen>\n" +
-                "    <dimen name=\"volume_ringer_drawer_item_size_half\">" + (cornerRadius - 7) + "dip</dimen>\n" +
-                "    <dimen name=\"volume_dialog_slider_corner_radius\">" + (cornerRadius - 7) + "dip</dimen>\n" +
-                "    <dimen name=\"volume_dialog_track_corner_radius\">" + (cornerRadius - 7) + "dip</dimen>\n" +
-                "    <dimen name=\"abc_star_small\">" + (cornerRadius - 11) + "dip</dimen>\n" +
+                "    <dimen name=\"volume_ringer_drawer_item_size_half\">" + Math.max((cornerRadius - 7), 0) + "dip</dimen>\n" +
+                "    <dimen name=\"volume_dialog_slider_corner_radius\">" + Math.max((cornerRadius - 7), 0) + "dip</dimen>\n" +
+                "    <dimen name=\"volume_dialog_track_corner_radius\">" + Math.max((cornerRadius - 7), 0) + "dip</dimen>\n" +
+                "    <dimen name=\"abc_star_small\">" + Math.max((cornerRadius - 11), 0) + "dip</dimen>\n" +
                 "</resources>";
 
         return RoundnessCompiler.buildOverlay(new String[]{framework_resources, sysui_resources});
