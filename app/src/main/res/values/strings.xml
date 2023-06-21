@@ -547,4 +547,6 @@
     <string name="app_icon_default">Default Icon</string>
     <string name="app_icon_themed">Themed Icon</string>
     <string name="app_icon_retro">Retro Icon</string>
+    <string name="lockscreen_customization_title">Lockscreen Customization</string>
+    <string name="lockscreen_customization_desc">Enable lockscreen customizations</string>
 </resources>
