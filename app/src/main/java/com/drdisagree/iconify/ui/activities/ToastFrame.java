@@ -56,6 +56,8 @@ public class ToastFrame extends BaseActivity {
         toast_frame_style.add(new Object[]{R.drawable.toast_frame_style_7, R.string.style_7});
         toast_frame_style.add(new Object[]{R.drawable.toast_frame_style_8, R.string.style_8});
         toast_frame_style.add(new Object[]{R.drawable.toast_frame_style_9, R.string.style_9});
+        toast_frame_style.add(new Object[]{R.drawable.toast_frame_style_10, R.string.style_10});
+        toast_frame_style.add(new Object[]{R.drawable.toast_frame_style_11, R.string.style_11});
 
         addItem(toast_frame_style);
 
