@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.SHOW_LSCLOCK_CUSTOMIZATION;
 import static com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN;
 
@@ -24,6 +25,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.activities.XposedBackgroundChip;
 import com.drdisagree.iconify.ui.activities.XposedBatteryStyle;
 import com.drdisagree.iconify.ui.activities.XposedHeaderClock;
@@ -93,6 +95,8 @@ public class XposedMenu extends BaseFragment {
         if (Prefs.getBoolean(SHOW_LSCLOCK_CUSTOMIZATION, false)) {
             // Only show lsclock customization if enabled from experimental settings
             xposed_menu.add(new Object[]{XposedLockscreenClock.class, getResources().getString(R.string.activity_title_lockscreen_clock), getResources().getString(R.string.activity_desc_lockscreen_clock), R.drawable.ic_xposed_lockscreen});
+        } else {
+            RPrefs.putBoolean(LSCLOCK_SWITCH, false);
         }
 
         xposed_menu.add(new Object[]{XposedBackgroundChip.class, getResources().getString(R.string.activity_title_background_chip), getResources().getString(R.string.activity_desc_background_chip), R.drawable.ic_xposed_background_chip});
