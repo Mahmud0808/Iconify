@@ -5,6 +5,7 @@ import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.BLACK_QSPANEL;
 import static com.drdisagree.iconify.common.Preferences.DUALTONE_QSPANEL;
+import static com.drdisagree.iconify.common.Preferences.FLUID_NOTIF_TRANSPARENCY;
 import static com.drdisagree.iconify.common.Preferences.FLUID_QSPANEL;
 import static com.drdisagree.iconify.common.Preferences.HEADER_QQS_TOPMARGIN;
 import static com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH;
@@ -86,6 +87,14 @@ public class XposedQuickSettings extends BaseActivity {
         enable_fluid_theme.setChecked(RPrefs.getBoolean(FLUID_QSPANEL, false));
         enable_fluid_theme.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(FLUID_QSPANEL, isChecked);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+        });
+
+        // Fluid QS Notification Transparency
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_notification_transparency = findViewById(R.id.enable_notification_transparency);
+        enable_notification_transparency.setChecked(RPrefs.getBoolean(FLUID_NOTIF_TRANSPARENCY, false));
+        enable_notification_transparency.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(FLUID_NOTIF_TRANSPARENCY, isChecked);
             new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 

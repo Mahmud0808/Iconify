@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.xposed.mods;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.FLUID_NOTIF_TRANSPARENCY;
 import static com.drdisagree.iconify.common.Preferences.FLUID_QSPANEL;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
@@ -52,6 +53,7 @@ public class QSFluidTheme extends ModPack {
     private static final float TILE_ALPHA = 0.2f;
     private static final float INACTIVE_ALPHA = 0.2f;
     private static boolean fluidQsThemeEnabled = false;
+    private static boolean fluidNotifEnabled = false;
     private boolean wasDark = getIsDark();
     final Integer[] colorAccent = {wasDark ? mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", listenPackage), mContext.getTheme()) : mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_600", "color", listenPackage), mContext.getTheme())};
     final Integer[] colorActiveAlpha = {Color.argb((int) (TILE_ALPHA * 255), Color.red(colorAccent[0]), Color.green(colorAccent[0]), Color.blue(colorAccent[0]))};
@@ -70,6 +72,7 @@ public class QSFluidTheme extends ModPack {
         if (Xprefs == null) return;
 
         fluidQsThemeEnabled = Xprefs.getBoolean(FLUID_QSPANEL, false);
+        fluidNotifEnabled = Xprefs.getBoolean(FLUID_NOTIF_TRANSPARENCY, false);
         initColors();
     }
 
@@ -367,28 +370,30 @@ public class QSFluidTheme extends ModPack {
 
             @SuppressLint("DiscouragedApi") ColorStateList states = getColorAttr(mContext.getResources().getIdentifier("android:attr/colorControlHighlight", "attr", listenPackage), mContext);
 
-            try {
-                ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "notification_material_bg", new XResources.DrawableLoader() {
-                    @Override
-                    public Drawable newDrawable(XResources res, int id) {
-                        GradientDrawable gradientDrawable = new GradientDrawable();
-                        gradientDrawable.setColor(colorInactiveAlpha[0]);
-                        return new RippleDrawable(ColorStateList.valueOf(states.getDefaultColor()), gradientDrawable, null);
-                    }
-                });
-            } catch (Throwable ignored) {
-            }
+            if (fluidNotifEnabled) {
+                try {
+                    ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "notification_material_bg", new XResources.DrawableLoader() {
+                        @Override
+                        public Drawable newDrawable(XResources res, int id) {
+                            GradientDrawable gradientDrawable = new GradientDrawable();
+                            gradientDrawable.setColor(colorInactiveAlpha[0]);
+                            return new RippleDrawable(ColorStateList.valueOf(states.getDefaultColor()), gradientDrawable, null);
+                        }
+                    });
+                } catch (Throwable ignored) {
+                }
 
-            try {
-                ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "notification_material_bg_monet", new XResources.DrawableLoader() {
-                    @Override
-                    public Drawable newDrawable(XResources res, int id) {
-                        GradientDrawable gradientDrawable = new GradientDrawable();
-                        gradientDrawable.setColor(colorInactiveAlpha[0]);
-                        return new RippleDrawable(ColorStateList.valueOf(states.getDefaultColor()), gradientDrawable, null);
-                    }
-                });
-            } catch (Throwable ignored) {
+                try {
+                    ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "notification_material_bg_monet", new XResources.DrawableLoader() {
+                        @Override
+                        public Drawable newDrawable(XResources res, int id) {
+                            GradientDrawable gradientDrawable = new GradientDrawable();
+                            gradientDrawable.setColor(colorInactiveAlpha[0]);
+                            return new RippleDrawable(ColorStateList.valueOf(states.getDefaultColor()), gradientDrawable, null);
+                        }
+                    });
+                } catch (Throwable ignored) {
+                }
             }
 
             try {

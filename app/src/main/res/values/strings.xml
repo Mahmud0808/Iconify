@@ -564,4 +564,6 @@
     <string name="app_icon_retro">Retro Icon</string>
     <string name="lockscreen_customization_title">Lockscreen Customization</string>
     <string name="lockscreen_customization_desc">Enable lockscreen customizations</string>
+    <string name="notification_transparency_title">Notification Transparency</string>
+    <string name="notification_transparency_desc">Notification transparency for Fluid QS\nDo not use custom notification style</string>
 </resources>
