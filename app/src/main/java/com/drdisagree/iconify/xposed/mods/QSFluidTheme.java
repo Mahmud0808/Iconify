@@ -73,7 +73,7 @@ public class QSFluidTheme extends ModPack {
 
         fluidQsThemeEnabled = Xprefs.getBoolean(FLUID_QSPANEL, false);
         fluidNotifEnabled = Xprefs.getBoolean(FLUID_NOTIF_TRANSPARENCY, false);
-        initColors();
+        initResources();
     }
 
     @Override
@@ -89,7 +89,7 @@ public class QSFluidTheme extends ModPack {
         Class<?> BrightnessMirrorControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.BrightnessMirrorController", lpparam.classLoader);
         Class<?> BrightnessSliderControllerClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessSliderController", lpparam.classLoader);
         SettingsLibUtils.init(lpparam.classLoader);
-        initColors();
+        initResources();
 
         // QS tile color
         hookAllMethods(QSTileViewImplClass, "getBackgroundColorForState", new XC_MethodHook() {
@@ -252,16 +252,33 @@ public class QSFluidTheme extends ModPack {
         hookAllConstructors(CentralSurfacesImplClass, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
-                initColors();
+                initResources();
             }
         });
 
         hookAllMethods(CentralSurfacesImplClass, "updateTheme", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
-                initColors();
+                initResources();
             }
         });
+    }
+
+    private boolean getIsDark() {
+        return (mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
+    }
+
+    private void initResources() {
+        boolean isDark = getIsDark();
+
+        if (isDark != wasDark) {
+            wasDark = isDark;
+        }
+
+        colorAccent[0] = wasDark ? mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", listenPackage), mContext.getTheme()) : mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_600", "color", listenPackage), mContext.getTheme());
+        colorActiveAlpha[0] = Color.argb((int) (TILE_ALPHA * 255), Color.red(colorAccent[0]), Color.green(colorAccent[0]), Color.blue(colorAccent[0]));
+        colorInactiveAlpha[0] = wasDark ? Color.parseColor("#0FFFFFFF") : Color.parseColor("#59FFFFFF");
+        colorUnavailableAlpha[0] = wasDark ? Color.parseColor("#08FFFFFF") : Color.parseColor("#33FFFFFF");
 
         // Replace drawables to match QS style
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
@@ -370,7 +387,7 @@ public class QSFluidTheme extends ModPack {
 
             @SuppressLint("DiscouragedApi") ColorStateList states = getColorAttr(mContext.getResources().getIdentifier("android:attr/colorControlHighlight", "attr", listenPackage), mContext);
 
-            if (fluidNotifEnabled) {
+            if (fluidNotifEnabled && states != null) {
                 try {
                     ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "notification_material_bg", new XResources.DrawableLoader() {
                         @Override
@@ -423,23 +440,6 @@ public class QSFluidTheme extends ModPack {
             } catch (Throwable ignored) {
             }
         }
-    }
-
-    private boolean getIsDark() {
-        return (mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
-    }
-
-    private void initColors() {
-        boolean isDark = getIsDark();
-
-        if (isDark != wasDark) {
-            wasDark = isDark;
-        }
-
-        colorAccent[0] = wasDark ? mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", listenPackage), mContext.getTheme()) : mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_600", "color", listenPackage), mContext.getTheme());
-        colorActiveAlpha[0] = Color.argb((int) (TILE_ALPHA * 255), Color.red(colorAccent[0]), Color.green(colorAccent[0]), Color.blue(colorAccent[0]));
-        colorInactiveAlpha[0] = wasDark ? Color.parseColor("#0FFFFFFF") : Color.parseColor("#59FFFFFF");
-        colorUnavailableAlpha[0] = wasDark ? Color.parseColor("#08FFFFFF") : Color.parseColor("#33FFFFFF");
     }
 
     @Override
