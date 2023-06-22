@@ -52,7 +52,7 @@ What you can change using Iconify:
 
 ## Requirements
 
-- Android 12+ Pixel / AOSP Based Rom
+- Android 12+ Pixel / AOSP Based Custom Rom
 
 - [Magisk](https://github.com/topjohnwu/Magisk) (Recommended) or [KernelSU](https://github.com/tiann/KernelSU)
 
