@@ -87,8 +87,6 @@ What you can change using Iconify:
 
 - Or, Remove Iconify folder from data/adb/modules directory
 
-- Or, Keep spamming Volume+ Button during boot process (after vendor logo)
-
 ## Download
 
 > Download latest version of Iconify from here.
