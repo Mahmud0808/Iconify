@@ -1,6 +1,8 @@
 package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
+import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.References.FABRICATED_TABLET_HEADER;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +11,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityMiscellaneousBinding;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 
 public class Miscellaneous extends BaseActivity {
@@ -43,6 +46,14 @@ public class Miscellaneous extends BaseActivity {
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentNBK.overlay");
                 }
+            }, SWITCH_ANIMATION_DELAY);
+        });
+
+        binding.enableTabletHeader.setChecked(Prefs.getBoolean(FABRICATED_TABLET_HEADER, false));
+        binding.enableTabletHeader.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            new Handler().postDelayed(() -> {
+                Prefs.putBoolean(FABRICATED_TABLET_HEADER, isChecked);
+                FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_TABLET_HEADER, "bool", "config_use_large_screen_shade_header", isChecked ? "1" : "0");
             }, SWITCH_ANIMATION_DELAY);
         });
     }

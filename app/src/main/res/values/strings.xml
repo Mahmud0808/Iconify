@@ -567,4 +567,6 @@
     <string name="lockscreen_customization_desc">Enable lockscreen customizations</string>
     <string name="notification_transparency_title">Notification Transparency</string>
     <string name="notification_transparency_desc">Notification transparency for Fluid QS\nDo not use custom notification style</string>
+    <string name="tablet_header_title">Tablet Header</string>
+    <string name="tablet_header_desc">Enable large screen shade header</string>
 </resources>
