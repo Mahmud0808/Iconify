@@ -179,6 +179,7 @@
     <string name="info_shell_desc">For helping me with Shell Script.</string>
     <string name="info_rro_desc">For helping me with RRO.</string>
     <string name="info_tester_desc">For testing the app.</string>
+    <string name="info_betterqs_desc">For permission to use better QS.</string>
     <string name="info_contributor_desc">For contributing on github.</string>
     <string name="opt_applied">- Applied</string>
     <string name="perm_storage_access">Grant storage access first!</string>

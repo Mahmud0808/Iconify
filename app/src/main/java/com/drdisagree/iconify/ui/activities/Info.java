@@ -73,6 +73,7 @@ public class Info extends BaseActivity {
         credits_list.add(new InfoModel(this, "modestCat", getResources().getString(R.string.info_rro_desc), "https://t.me/ModestCat03", R.drawable.ic_user));
         credits_list.add(new InfoModel(this, "Sanely Insane", getResources().getString(R.string.info_tester_desc), "https://t.me/sanely_insane", R.drawable.ic_user));
         credits_list.add(new InfoModel(this, "Jaguar", getResources().getString(R.string.info_tester_desc), "https://t.me/Jaguar0066", R.drawable.ic_user));
+        credits_list.add(new InfoModel(this, "hani & TeamFiles", getResources().getString(R.string.info_betterqs_desc), "https://github.com/itsHanibee", R.drawable.ic_user));
 
         return new InfoAdapter(this, credits_list);
     }

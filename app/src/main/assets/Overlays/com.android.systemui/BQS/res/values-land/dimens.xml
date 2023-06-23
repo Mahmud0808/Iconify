@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="qs_header_system_icons_area_height">0.0dip</dimen>
+    <dimen name="qs_panel_padding_top">0.0dip</dimen>
+</resources>

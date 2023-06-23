@@ -24,13 +24,25 @@ public class Miscellaneous extends BaseActivity {
         // Header
         ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_miscellaneous);
 
+        binding.enableTabletLandscape.setChecked(Prefs.getBoolean("IconifyComponentBQS.overlay", false));
+        binding.enableTabletLandscape.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    OverlayUtil.enableOverlay("IconifyComponentBQS.overlay");
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentBQS.overlay");
+                }
+            }, SWITCH_ANIMATION_DELAY);
+        });
+
         binding.enableNotchBarKiller.setChecked(Prefs.getBoolean("IconifyComponentNBK.overlay", false));
         binding.enableNotchBarKiller.setOnCheckedChangeListener((buttonView, isChecked) -> {
             new Handler().postDelayed(() -> {
-                if (isChecked)
+                if (isChecked) {
                     OverlayUtil.enableOverlay("IconifyComponentNBK.overlay");
-                else
+                } else {
                     OverlayUtil.disableOverlay("IconifyComponentNBK.overlay");
+                }
             }, SWITCH_ANIMATION_DELAY);
         });
     }
