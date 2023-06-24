@@ -53,7 +53,11 @@ public class Miscellaneous extends BaseActivity {
         binding.enableTabletHeader.setOnCheckedChangeListener((buttonView, isChecked) -> {
             new Handler().postDelayed(() -> {
                 Prefs.putBoolean(FABRICATED_TABLET_HEADER, isChecked);
-                FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_TABLET_HEADER, "bool", "config_use_large_screen_shade_header", isChecked ? "1" : "0");
+                if (isChecked) {
+                    FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_TABLET_HEADER, "bool", "config_use_large_screen_shade_header", "1");
+                } else {
+                    FabricatedUtil.disableOverlay(FABRICATED_TABLET_HEADER);
+                }
             }, SWITCH_ANIMATION_DELAY);
         });
     }
