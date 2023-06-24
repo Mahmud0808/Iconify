@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.xposed.mods;
 
+import static android.content.Context.CONTEXT_IGNORE_SECURITY;
+import static com.drdisagree.iconify.BuildConfig.APPLICATION_ID;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.FLUID_NOTIF_TRANSPARENCY;
 import static com.drdisagree.iconify.common.Preferences.FLUID_QSPANEL;
@@ -16,8 +18,10 @@ import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.content.res.XResources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -27,14 +31,22 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RippleDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Build;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.content.res.ResourcesCompat;
+
+import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.xposed.HookEntry;
 import com.drdisagree.iconify.xposed.ModPack;
+import com.drdisagree.iconify.xposed.utils.RoundedCornerProgressDrawable;
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -149,9 +161,14 @@ public class QSFluidTheme extends ModPack {
 
                 try {
                     ((Drawable) getObjectField(param.thisObject, "mProgressDrawable")).setTint(colorActiveAlpha[0]);
-                    ((DrawableWrapper) ((LayerDrawable) ((SeekBar) getObjectField(param.thisObject, "mSlider")).getProgressDrawable()).findDrawableByLayerId(android.R.id.background)).getDrawable().setTint(Color.TRANSPARENT);
-                } catch (Throwable throwable) {
-                    log(TAG + throwable);
+
+                    LayerDrawable progress = (LayerDrawable) ((SeekBar) getObjectField(param.thisObject, "mSlider")).getProgressDrawable();
+                    DrawableWrapper progressSlider = (DrawableWrapper) progress.findDrawableByLayerId(android.R.id.progress);
+                    LayerDrawable actualProgressSlider = (LayerDrawable) progressSlider.getDrawable();
+                    Drawable mBrightnessIcon = actualProgressSlider.findDrawableByLayerId(mContext.getResources().getIdentifier("slider_icon", "id", mContext.getPackageName()));
+                    mBrightnessIcon.setAlpha(0);
+                    mBrightnessIcon.setTint(Color.TRANSPARENT);
+                } catch (Throwable ignored) {
                 }
             }
         });
@@ -306,9 +323,19 @@ public class QSFluidTheme extends ModPack {
                     public Drawable newDrawable(XResources res, int id) {
                         GradientDrawable gradientDrawable = new GradientDrawable();
                         gradientDrawable.setShape(GradientDrawable.RECTANGLE);
-                        gradientDrawable.setColor(colorInactiveAlpha[0]);
+                        gradientDrawable.setColor(Color.TRANSPARENT);
                         gradientDrawable.setCornerRadius(mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("rounded_slider_background_rounded_corner", "dimen", mContext.getPackageName())));
                         return gradientDrawable;
+                    }
+                });
+            } catch (Throwable ignored) {
+            }
+
+            try {
+                ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "brightness_progress_drawable", new XResources.DrawableLoader() {
+                    @Override
+                    public Drawable newDrawable(XResources res, int id) throws PackageManager.NameNotFoundException {
+                        return createBrightnessBackgroundDrawable(mContext);
                     }
                 });
             } catch (Throwable ignored) {
@@ -440,6 +467,55 @@ public class QSFluidTheme extends ModPack {
             } catch (Throwable ignored) {
             }
         }
+    }
+
+    private LayerDrawable createBrightnessBackgroundDrawable(Context context) throws PackageManager.NameNotFoundException {
+        Resources res = context.getResources();
+        int cornerRadius = context.getResources().getDimensionPixelSize(res.getIdentifier("rounded_slider_corner_radius", "dimen", context.getPackageName()));
+        int height = context.getResources().getDimensionPixelSize(res.getIdentifier("rounded_slider_height", "dimen", context.getPackageName()));
+        int startPadding = (int) dpToPx(context, 15);
+        int endPadding = (int) dpToPx(context, 15);
+
+        // Create the background shape
+        float[] radiusF = new float[8];
+        for (int i = 0; i < 8; i++) {
+            radiusF[i] = cornerRadius;
+        }
+        ShapeDrawable backgroundShape = new ShapeDrawable(new RoundRectShape(radiusF, null, null));
+        backgroundShape.setIntrinsicHeight(height);
+        backgroundShape.getPaint().setColor(colorInactiveAlpha[0]);
+
+        // Create the progress drawable
+        RoundedCornerProgressDrawable progressDrawable = null;
+        try {
+            progressDrawable = new RoundedCornerProgressDrawable(AppCompatResources.getDrawable(context, res.getIdentifier("brightness_progress_full_drawable", "drawable", context.getPackageName())));
+        } catch (Throwable ignored) {
+        }
+
+        // Create the start and end drawables
+        Resources appRes = context.createPackageContext(APPLICATION_ID, CONTEXT_IGNORE_SECURITY).getResources();
+        Drawable startDrawable = ResourcesCompat.getDrawable(appRes, R.drawable.ic_brightness_low, context.getTheme());
+        Drawable endDrawable = ResourcesCompat.getDrawable(appRes, R.drawable.ic_brightness_full, context.getTheme());
+        if (startDrawable != null && endDrawable != null) {
+            startDrawable.setTint(colorAccent[0]);
+            endDrawable.setTint(colorAccent[0]);
+        }
+
+        // Create the layer drawable
+        Drawable[] layers = {backgroundShape, progressDrawable, startDrawable, endDrawable};
+        LayerDrawable layerDrawable = new LayerDrawable(layers);
+        layerDrawable.setId(0, android.R.id.background);
+        layerDrawable.setId(1, android.R.id.progress);
+        layerDrawable.setLayerGravity(2, Gravity.START | Gravity.CENTER_VERTICAL);
+        layerDrawable.setLayerGravity(3, Gravity.END | Gravity.CENTER_VERTICAL);
+        layerDrawable.setLayerInsetStart(2, startPadding);
+        layerDrawable.setLayerInsetEnd(3, endPadding);
+
+        return layerDrawable;
+    }
+
+    private static float dpToPx(Context context, int dp) {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
 
     @Override
