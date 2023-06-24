@@ -5,7 +5,7 @@ import android.content.Context
 import android.graphics.*
 import android.util.TypedValue
 import androidx.core.graphics.PathParser
-import com.drdisagree.iconify.config.XPrefs
+import com.drdisagree.iconify.xposed.HookRes.modRes
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
 
 @SuppressLint("DiscouragedApi")
@@ -157,8 +157,7 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
     }
 
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.typeface =
-            Typeface.createFromAsset(XPrefs.modRes.assets, "Fonts/SFUITextCondensed-Bold.otf")
+        p.typeface = Typeface.createFromAsset(modRes.assets, "Fonts/SFUITextCondensed-Bold.otf")
         p.textAlign = Paint.Align.CENTER
     }
 

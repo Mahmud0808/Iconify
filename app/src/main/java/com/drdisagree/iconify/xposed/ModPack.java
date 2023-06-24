@@ -1,7 +1,7 @@
 package com.drdisagree.iconify.xposed;
 
 /* Modified from AOSPMods
- * https://github.com/siavash79/AOSPMods/blob/canary/app/src/main/java/sh/siava/AOSPMods/XposedModPack.java
+ * https://github.com/siavash79/AOSPMods/blob/canary/app/src/main/java/sh/siava/AOSPMods/modpacks/XposedModPack.java
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

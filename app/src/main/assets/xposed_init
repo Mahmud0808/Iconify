@@ -1,3 +1,1 @@
-com.drdisagree.iconify.config.XPrefs
-com.drdisagree.iconify.xposed.HookEntry
-com.drdisagree.iconify.xposed.HookRes
+com.drdisagree.iconify.xposed.InitHook
