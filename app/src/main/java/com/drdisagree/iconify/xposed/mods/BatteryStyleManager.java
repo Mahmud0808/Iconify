@@ -60,6 +60,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XResources;
+import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -335,10 +336,11 @@ public class BatteryStyleManager extends ModPack {
                     ((View) param.thisObject).addOnAttachStateChangeListener(listener);
 
                     ImageView mBatteryIconView = (ImageView) getObjectField(param.thisObject, "mBatteryIconView");
+                    initBatteryIfNull(param, mBatteryIconView);
+                    mBatteryIconView = (ImageView) getObjectField(param.thisObject, "mBatteryIconView");
+
                     if (customBatteryEnabled || BatteryStyle == BATTERY_STYLE_DEFAULT_LANDSCAPE || BatteryStyle == BATTERY_STYLE_DEFAULT_RLANDSCAPE) {
-                        if (mBatteryIconView != null) {
-                            mBatteryIconView.setRotation(batteryRotation);
-                        }
+                        mBatteryIconView.setRotation(batteryRotation);
                     }
 
                     if (!customBatteryEnabled) return;
@@ -346,10 +348,8 @@ public class BatteryStyleManager extends ModPack {
                     BatteryDrawable mBatteryDrawable = getNewDrawable(mContext);
                     if (mBatteryDrawable != null) {
                         setAdditionalInstanceField(param.thisObject, "mBatteryDrawable", mBatteryDrawable);
-                        if (mBatteryIconView != null) {
-                            mBatteryIconView.setImageDrawable(mBatteryDrawable);
-                            setObjectField(param.thisObject, "mBatteryIconView", mBatteryIconView);
-                        }
+                        mBatteryIconView.setImageDrawable(mBatteryDrawable);
+                        setObjectField(param.thisObject, "mBatteryIconView", mBatteryIconView);
                     }
 
                     if (BatteryController != null) {
@@ -401,6 +401,26 @@ public class BatteryStyleManager extends ModPack {
         }
 
         setCustomBatteryDimens();
+    }
+
+    @SuppressLint("DiscouragedApi")
+    private void initBatteryIfNull(XC_MethodHook.MethodHookParam param, ImageView mBatteryIconView) {
+        if (mBatteryIconView == null) {
+            mBatteryIconView = new ImageView(mContext);
+            try {
+                mBatteryIconView.setImageDrawable((Drawable) getObjectField(param.thisObject, "mAccessorizedDrawable"));
+            } catch (Throwable throwable) {
+                try {
+                    mBatteryIconView.setImageDrawable((Drawable) getObjectField(param.thisObject, "mThemedDrawable"));
+                } catch (Throwable throwable1) {
+                    mBatteryIconView.setImageDrawable((Drawable) getObjectField(param.thisObject, "mDrawable"));
+                }
+            }
+            final ViewGroup.MarginLayoutParams mlp = new ViewGroup.MarginLayoutParams(mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_battery_icon_width", "dimen", mContext.getPackageName())), mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_battery_icon_height", "dimen", mContext.getPackageName())));
+            mlp.setMargins(0, 0, 0, mContext.getResources().getDimensionPixelOffset(mContext.getResources().getIdentifier("battery_margin_bottom", "dimen", mContext.getPackageName())));
+            setObjectField(param.thisObject, "mBatteryIconView", mBatteryIconView);
+            callMethod(param.thisObject, "addView", mBatteryIconView, mlp);
+        }
     }
 
     private BatteryDrawable getNewDrawable(Context context) {
