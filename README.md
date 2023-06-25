@@ -62,7 +62,7 @@ What you can change using Iconify:
 
 - Decryption Supported Custom Recovery (Just in case)
 
-> KSU users must flash OverlayFS Module from [Here](https://t.me/MagiskDeltaModules/93)
+> KSU users must flash OverlayFS Module from [Here](https://github.com/HuskyDG/magic_overlayfs/releases)
 > 
 > Remember to edit _mode.sh_ file inside the module and change these values:
 > 
