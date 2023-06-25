@@ -25,6 +25,7 @@ import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_LA
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_RLANDSCAPE;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_IOS_15;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_IOS_16;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_MIUI_PILL;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_SMILEY;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_STYLE_A;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_STYLE_B;
@@ -70,6 +71,7 @@ import com.drdisagree.iconify.xposed.HookEntry;
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.mods.batterystyles.BatteryDrawable;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawable;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableMIUIPill;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableSmiley;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableStyleA;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableStyleB;
@@ -471,6 +473,9 @@ public class BatteryStyleManager extends ModPack {
                 break;
             case BATTERY_STYLE_LANDSCAPE_SMILEY:
                 mBatteryDrawable = new LandscapeBatteryDrawableSmiley(context, frameColor);
+                break;
+            case BATTERY_STYLE_LANDSCAPE_MIUI_PILL:
+                mBatteryDrawable = new LandscapeBatteryDrawableMIUIPill(context, frameColor);
                 break;
         }
 

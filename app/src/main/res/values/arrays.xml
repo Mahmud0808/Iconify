@@ -87,5 +87,6 @@
         <item>Landscape iOS 16</item>
         <item>Portrait Origami</item>
         <item>Landscape Smiley</item>
+        <item>Landscape MIUI Pill</item>
     </string-array>
 </resources>

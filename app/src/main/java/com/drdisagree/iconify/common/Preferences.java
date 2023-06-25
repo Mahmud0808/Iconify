@@ -47,6 +47,9 @@ public class Preferences {
     public static final String CUSTOM_BATTERY_WIDTH = "xposed_custombatterywidth";
     public static final String CUSTOM_BATTERY_HEIGHT = "xposed_custombatteryheight";
     public static final String CUSTOM_BATTERY_MARGIN = "xposed_custombatterymargin";
+    public static final String HEADER_QQS_TOPMARGIN = "qqspanelTopMargin";
+
+    // Battery styles
     public static final int BATTERY_STYLE_DEFAULT = 0;
     public static final int BATTERY_STYLE_DEFAULT_RLANDSCAPE = 1;
     public static final int BATTERY_STYLE_DEFAULT_LANDSCAPE = 2;
@@ -64,7 +67,7 @@ public class Preferences {
     public static final int BATTERY_STYLE_LANDSCAPE_IOS_16 = 14;
     public static final int BATTERY_STYLE_PORTRAIT_ORIGAMI = 15;
     public static final int BATTERY_STYLE_LANDSCAPE_SMILEY = 16;
-    public static final String HEADER_QQS_TOPMARGIN = "qqspanelTopMargin";
+    public static final int BATTERY_STYLE_LANDSCAPE_MIUI_PILL = 17;
 
     // Preference keys
     public static final String STR_NULL = "null";
