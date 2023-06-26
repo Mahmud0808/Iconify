@@ -11,6 +11,7 @@ import static com.drdisagree.iconify.common.References.FABRICATED_QSPANEL_BLUR_R
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -33,24 +34,17 @@ public class XposedTransparencyBlur extends BaseActivity {
         // Header
         ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_transparency_blur);
 
-        // Qs Panel Transparency
+        // Qs Panel & Notification Shade Transparency
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_qs_transparency = findViewById(R.id.enable_qs_transparency);
-        enable_qs_transparency.setChecked(RPrefs.getBoolean(QS_TRANSPARENCY_SWITCH, false));
-        enable_qs_transparency.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RPrefs.putBoolean(QS_TRANSPARENCY_SWITCH, isChecked);
-            // Restart SystemUI
-            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
-        });
-
-        // Notification Shade Transparency
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_notif_transparency = findViewById(R.id.enable_notif_transparency);
-        enable_notif_transparency.setChecked(RPrefs.getBoolean(NOTIF_TRANSPARENCY_SWITCH, false));
-        enable_notif_transparency.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RPrefs.putBoolean(NOTIF_TRANSPARENCY_SWITCH, isChecked);
-            // Restart SystemUI
-            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
-        });
 
+        enable_qs_transparency.setChecked(RPrefs.getBoolean(QS_TRANSPARENCY_SWITCH, false));
+        enable_qs_transparency.setOnCheckedChangeListener(qsTransparencyListener);
+
+        enable_notif_transparency.setChecked(RPrefs.getBoolean(NOTIF_TRANSPARENCY_SWITCH, false));
+        enable_notif_transparency.setOnCheckedChangeListener(notifTransparencyListener);
+
+        // Tansparency Alpha
         SeekBar transparency_seekbar = findViewById(R.id.transparency_seekbar);
         TextView transparency_output = findViewById(R.id.transparency_output);
         final int[] transparency = {RPrefs.getInt(QSALPHA_LEVEL, 60)};
@@ -113,4 +107,35 @@ public class XposedTransparencyBlur extends BaseActivity {
             }
         });
     }
+
+    CompoundButton.OnCheckedChangeListener qsTransparencyListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            RPrefs.putBoolean(QS_TRANSPARENCY_SWITCH, isChecked);
+
+            if (isChecked) {
+                RPrefs.putBoolean(NOTIF_TRANSPARENCY_SWITCH, false);
+                ((Switch) findViewById(R.id.enable_notif_transparency)).setOnCheckedChangeListener(null);
+                ((Switch) findViewById(R.id.enable_notif_transparency)).setChecked(false);
+                ((Switch) findViewById(R.id.enable_notif_transparency)).setOnCheckedChangeListener(notifTransparencyListener);
+            }
+
+            // Restart SystemUI
+            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+        }
+    };
+
+    CompoundButton.OnCheckedChangeListener notifTransparencyListener = (buttonView, isChecked) -> {
+        RPrefs.putBoolean(NOTIF_TRANSPARENCY_SWITCH, isChecked);
+
+        if (isChecked) {
+            RPrefs.putBoolean(QS_TRANSPARENCY_SWITCH, false);
+            ((Switch) findViewById(R.id.enable_qs_transparency)).setOnCheckedChangeListener(null);
+            ((Switch) findViewById(R.id.enable_qs_transparency)).setChecked(false);
+            ((Switch) findViewById(R.id.enable_qs_transparency)).setOnCheckedChangeListener(qsTransparencyListener);
+        }
+
+        // Restart SystemUI
+        new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+    };
 }
