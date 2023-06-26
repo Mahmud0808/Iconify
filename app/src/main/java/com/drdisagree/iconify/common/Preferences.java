@@ -68,6 +68,8 @@ public class Preferences {
     public static final int BATTERY_STYLE_PORTRAIT_ORIGAMI = 15;
     public static final int BATTERY_STYLE_LANDSCAPE_SMILEY = 16;
     public static final int BATTERY_STYLE_LANDSCAPE_MIUI_PILL = 17;
+    public static final int BATTERY_STYLE_LANDSCAPE_COLOROS = 18;
+    public static final int BATTERY_STYLE_RLANDSCAPE_COLOROS = 19;
 
     // Preference keys
     public static final String STR_NULL = "null";

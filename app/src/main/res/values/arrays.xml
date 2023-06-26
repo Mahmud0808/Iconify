@@ -88,5 +88,7 @@
         <item>Portrait Origami</item>
         <item>Landscape Smiley</item>
         <item>Landscape MIUI Pill</item>
+        <item>Landscape L ColorOS</item>
+        <item>Landscape R ColorOS</item>
     </string-array>
 </resources>
