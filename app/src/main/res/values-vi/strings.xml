@@ -436,8 +436,6 @@
     <string name="list_title_use_light_accent">Sử dụng giọng nhẹ</string> 
     <string name="list_desc_use_light_accent">Sử dụng màu nhấn nhẹ ở chế độ ánh sáng</string> 
     <string name="logs">Nhật ký</string> 
-    <string name="landscape_battery_title">Pin nằm ngang</string> 
-    <string name="landscape_battery_desc">Bật kiểu pin nằm ngang</string> 
     <string name="battery_style_title">Kiểu pin</string> 
     <string name="battery_width_title">Chiều rộng pin</string> 
     <string name="battery_height_title">Chiều cao pin</string>
