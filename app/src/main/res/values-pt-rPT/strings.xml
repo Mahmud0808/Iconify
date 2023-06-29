@@ -512,7 +512,6 @@
     <string name="fluid_qs_theme_desc">Tema das DR translúcido de duplo tom\\nNão utilizar formas personalizadas</string>
     <string name="disable_monet_title">Desativar o sistema Monet</string>
     <string name="disable_monet_desc">Ajuda a manter as cores personalizadas</string>
-    <string name="navbar_home">Ecrã inicial</string>
     <string name="navbar_styles">Estilos</string>
     <string name="navbar_tweaks">\"Tweaks\"</string>
     <string name="navbar_settings">Definições</string>
