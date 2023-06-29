@@ -91,4 +91,9 @@
         <item>Landscape L ColorOS</item>
         <item>Landscape R ColorOS</item>
     </string-array>
+    <string-array name="statusbar_clock_color">
+        <item>@string/sbclock_color_follow_system</item>
+        <item>@string/sbclock_color_transparent_text</item>
+        <item>@string/sbclock_color_custom_color</item>
+    </string-array>
 </resources>

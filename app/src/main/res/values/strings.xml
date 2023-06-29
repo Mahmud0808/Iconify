@@ -569,4 +569,10 @@
     <string name="notification_transparency_desc">Notification transparency for Fluid QS\nDo not use custom notification style</string>
     <string name="tablet_header_title">Tablet Header</string>
     <string name="tablet_header_desc">Enable large screen shade header</string>
+    <string name="sbclock_color_follow_system">Follow System</string>
+    <string name="sbclock_color_transparent_text">Transparent Text</string>
+    <string name="sbclock_color_custom_color">Custom Color</string>
+    <string name="statusbar_clock_color_title">Statusbar Clock Color</string>
+    <string name="clock_color_picker_title">Clock Color Picker</string>
+    <string name="clock_color_picker_desc">Set color of statubsar clock text</string>
 </resources>

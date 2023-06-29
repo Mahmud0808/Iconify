@@ -7,6 +7,8 @@ public class Preferences {
     public static final String NOTIF_TRANSPARENCY_SWITCH = "xposed_notiftransparency";
     public static final String QSALPHA_LEVEL = "xposed_qsalpha";
     public static final String STATUSBAR_CLOCKBG_SWITCH = "xposed_sbclockbg";
+    public static final String STATUSBAR_CLOCK_COLOR_OPTION = "xposed_sbclockcolor";
+    public static final String STATUSBAR_CLOCK_COLOR_CODE = "xposed_sbclockcolorcode";
     public static final String CHIP_STATUSBAR_CLOCKBG_STYLE = "xposed_chipstatusbarclockbgstyle";
     public static final String QSPANEL_STATUSICONSBG_SWITCH = "xposed_qsstatusiconsbg";
     public static final String CHIP_QSSTATUSICONS_STYLE = "xposed_chipqsstatusiconsstyle";

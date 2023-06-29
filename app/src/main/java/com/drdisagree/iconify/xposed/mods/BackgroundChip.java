@@ -8,6 +8,8 @@ import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HIDE_STATUS_ICONS_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.QSPANEL_STATUSICONSBG_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.STATUSBAR_CLOCKBG_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.STATUSBAR_CLOCK_COLOR_CODE;
+import static com.drdisagree.iconify.common.Preferences.STATUSBAR_CLOCK_COLOR_OPTION;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
@@ -21,6 +23,9 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -29,6 +34,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.core.content.res.ResourcesCompat;
 
@@ -55,6 +61,8 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     boolean showHeaderClock = false;
     int QSStatusIconsChipStyle = 0;
     int statusBarClockChipStyle = 0;
+    int statusBarClockColorOption = 0;
+    int statusBarClockColorCode = Color.WHITE;
     boolean fixedStatusIcons = false;
     private Object mCollapsedStatusBarFragment = null;
     private ViewGroup mStatusBar = null;
@@ -74,12 +82,14 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         mShowQSStatusIconsBg = Xprefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false);
         QSStatusIconsChipStyle = Xprefs.getInt(CHIP_QSSTATUSICONS_STYLE, 0);
         statusBarClockChipStyle = Xprefs.getInt(CHIP_STATUSBAR_CLOCKBG_STYLE, 0);
+        statusBarClockColorOption = Xprefs.getInt(STATUSBAR_CLOCK_COLOR_OPTION, 0);
+        statusBarClockColorCode = Xprefs.getInt(STATUSBAR_CLOCK_COLOR_CODE, Color.WHITE);
         showHeaderClock = Xprefs.getBoolean(HEADER_CLOCK_SWITCH, false);
         hideStatusIcons = Xprefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false);
         fixedStatusIcons = Xprefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false);
 
         if (Key.length > 0) {
-            if (Objects.equals(Key[0], STATUSBAR_CLOCKBG_SWITCH) || Objects.equals(Key[0], CHIP_STATUSBAR_CLOCKBG_STYLE))
+            if (Objects.equals(Key[0], STATUSBAR_CLOCKBG_SWITCH) || Objects.equals(Key[0], CHIP_STATUSBAR_CLOCKBG_STYLE) || Objects.equals(Key[0], STATUSBAR_CLOCK_COLOR_OPTION) || Objects.equals(Key[0], STATUSBAR_CLOCK_COLOR_CODE))
                 updateStatusBarClock();
 
             if (Objects.equals(Key[0], QSPANEL_STATUSICONSBG_SWITCH) || Objects.equals(Key[0], CHIP_STATUSBAR_CLOCKBG_STYLE) || Objects.equals(Key[0], HEADER_CLOCK_SWITCH) || Objects.equals(Key[0], HIDE_STATUS_ICONS_SWITCH) || Objects.equals(Key[0], FIXED_STATUS_ICONS_SWITCH))
@@ -170,69 +180,24 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         setQSStatusIconsBg();
     }
 
+    @SuppressLint("DiscouragedApi")
     private void updateStatusBarClock() {
         if (mShowSBClockBg) {
             int clockPaddingStartEnd = (int) (8 * mContext.getResources().getDisplayMetrics().density);
             int clockPaddingTopBottom = (int) (2 * mContext.getResources().getDisplayMetrics().density);
 
-            if (mClockView != null) {
-                mClockView.setPadding(clockPaddingStartEnd, clockPaddingTopBottom, clockPaddingStartEnd, clockPaddingTopBottom);
-                setStatusBarBackgroundChip(mClockView);
-
-                try {
-                    ((LinearLayout.LayoutParams) mClockView.getLayoutParams()).gravity = Gravity.START | Gravity.CENTER;
-                } catch (Throwable t) {
-                    ((FrameLayout.LayoutParams) mClockView.getLayoutParams()).gravity = Gravity.START | Gravity.CENTER;
-                }
-                mClockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                mClockView.setForegroundGravity(Gravity.CENTER);
-            }
-
-            if (mCenterClockView != null) {
-                mCenterClockView.setPadding(clockPaddingStartEnd, clockPaddingTopBottom, clockPaddingStartEnd, clockPaddingTopBottom);
-                setStatusBarBackgroundChip(mCenterClockView);
-
-                try {
-                    ((LinearLayout.LayoutParams) mCenterClockView.getLayoutParams()).gravity = Gravity.CENTER;
-                } catch (Throwable t) {
-                    ((FrameLayout.LayoutParams) mCenterClockView.getLayoutParams()).gravity = Gravity.CENTER;
-                }
-                mCenterClockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                mCenterClockView.setForegroundGravity(Gravity.CENTER);
-            }
-
-            if (mRightClockView != null) {
-                mRightClockView.setPadding(clockPaddingStartEnd, clockPaddingTopBottom, clockPaddingStartEnd, clockPaddingTopBottom);
-                setStatusBarBackgroundChip(mRightClockView);
-
-                try {
-                    ((LinearLayout.LayoutParams) mRightClockView.getLayoutParams()).gravity = Gravity.END | Gravity.CENTER;
-                } catch (Throwable t) {
-                    ((FrameLayout.LayoutParams) mRightClockView.getLayoutParams()).gravity = Gravity.END | Gravity.CENTER;
-                }
-                mRightClockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                mRightClockView.setForegroundGravity(Gravity.CENTER);
-            }
+            updateClockView(mClockView, clockPaddingStartEnd, clockPaddingTopBottom, clockPaddingStartEnd, clockPaddingTopBottom, Gravity.START | Gravity.CENTER);
+            updateClockView(mCenterClockView, clockPaddingStartEnd, clockPaddingTopBottom, clockPaddingStartEnd, clockPaddingTopBottom, Gravity.CENTER);
+            updateClockView(mRightClockView, clockPaddingStartEnd, clockPaddingTopBottom, clockPaddingStartEnd, clockPaddingTopBottom, Gravity.END | Gravity.CENTER);
         } else {
-            @SuppressLint("DiscouragedApi") int clockPaddingStart = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_clock_starting_padding", "dimen", mContext.getPackageName()));
-            @SuppressLint("DiscouragedApi") int clockPaddingEnd = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_clock_end_padding", "dimen", mContext.getPackageName()));
-            @SuppressLint("DiscouragedApi") int leftClockPaddingStart = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_left_clock_starting_padding", "dimen", mContext.getPackageName()));
-            @SuppressLint("DiscouragedApi") int leftClockPaddingEnd = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_left_clock_end_padding", "dimen", mContext.getPackageName()));
+            int clockPaddingStart = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_clock_starting_padding", "dimen", mContext.getPackageName()));
+            int clockPaddingEnd = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_clock_end_padding", "dimen", mContext.getPackageName()));
+            int leftClockPaddingStart = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_left_clock_starting_padding", "dimen", mContext.getPackageName()));
+            int leftClockPaddingEnd = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_left_clock_end_padding", "dimen", mContext.getPackageName()));
 
-            if (mClockView != null) {
-                mClockView.setBackgroundResource(0);
-                mClockView.setPaddingRelative(leftClockPaddingStart, 0, leftClockPaddingEnd, 0);
-            }
-
-            if (mCenterClockView != null) {
-                mCenterClockView.setBackgroundResource(0);
-                mCenterClockView.setPaddingRelative(0, 0, 0, 0);
-            }
-
-            if (mRightClockView != null) {
-                mRightClockView.setBackgroundResource(0);
-                mRightClockView.setPaddingRelative(clockPaddingStart, 0, clockPaddingEnd, 0);
-            }
+            updateClockView(mClockView, leftClockPaddingStart, 0, leftClockPaddingEnd, 0, Gravity.START | Gravity.CENTER);
+            updateClockView(mCenterClockView, 0, 0, 0, 0, Gravity.CENTER);
+            updateClockView(mRightClockView, clockPaddingStart, 0, clockPaddingEnd, 0, Gravity.END | Gravity.CENTER);
         }
 
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
@@ -254,6 +219,31 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                 }
             }
         });
+    }
+
+    private void updateClockView(View clockView, int start, int top, int end, int bottom, int gravity) {
+        if (clockView != null && mShowSBClockBg) {
+            clockView.setPadding(start, top, end, bottom);
+            setStatusBarBackgroundChip(clockView);
+
+            if (statusBarClockColorOption == 0) {
+                ((TextView) clockView).getPaint().setXfermode(null);
+            } else if (statusBarClockColorOption == 1) {
+                ((TextView) clockView).getPaint().setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+            } else if (statusBarClockColorOption == 2) {
+                ((TextView) clockView).getPaint().setXfermode(null);
+                ((TextView) clockView).setTextColor(statusBarClockColorCode);
+            }
+
+            try {
+                ((LinearLayout.LayoutParams) clockView.getLayoutParams()).gravity = gravity;
+            } catch (Throwable t) {
+                ((FrameLayout.LayoutParams) clockView.getLayoutParams()).gravity = gravity;
+            }
+
+            clockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            clockView.setForegroundGravity(Gravity.CENTER);
+        }
     }
 
     private void setQSStatusIconsBg() {
