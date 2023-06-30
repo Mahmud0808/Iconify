@@ -1,0 +1,6 @@
+-keep class com.jaredrummler.android.colorpicker.**
+-keep class javax.annotation.Nullable
+-dontwarn sun.security.internal.spec.**
+-dontwarn sun.security.provider.**
+-dontwarn com.jaredrummler.android.colorpicker.**
+-dontwarn javax.annotation.Nullable
