@@ -13,6 +13,7 @@ import com.drdisagree.iconify.databinding.ActivityMiscellaneousBinding;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.SystemUtil;
 
 public class Miscellaneous extends BaseActivity {
 
@@ -58,6 +59,18 @@ public class Miscellaneous extends BaseActivity {
                 } else {
                     FabricatedUtil.disableOverlay(FABRICATED_TABLET_HEADER);
                 }
+            }, SWITCH_ANIMATION_DELAY);
+        });
+
+        binding.enableAccentPrivacyChip.setChecked(Prefs.getBoolean("IconifyComponentPCBG.overlay", false));
+        binding.enableAccentPrivacyChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            new Handler().postDelayed(() -> {
+                if (isChecked) {
+                    OverlayUtil.enableOverlay("IconifyComponentPCBG.overlay");
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentPCBG.overlay");
+                }
+                SystemUtil.restartSystemUI();
             }, SWITCH_ANIMATION_DELAY);
         });
     }
