@@ -56,6 +56,7 @@ android {
     buildFeatures {
         viewBinding true
         dataBinding true
+        buildConfig true
     }
 
     compileOptions {
@@ -63,6 +64,14 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    packagingOptions {
+        jniLibs.pickFirsts.add("src/main/jniLibs/**/**.so")
+        jniLibs.useLegacyPackaging true
+    }
 
     namespace 'com.drdisagree.iconify'
     lint {
@@ -75,7 +84,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.10.1'
 
     // Magisk libsu version
-    def libsuVersion = '5.0.5'
+    def libsuVersion = '5.1.0'
 
     // Xposed API
     compileOnly files('lib/api-82.jar')
@@ -111,8 +120,8 @@ dependencies {
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.15.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.0'
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
 
     // RecyclerView
     implementation "androidx.recyclerview:recyclerview:1.3.0"
@@ -125,20 +134,20 @@ dependencies {
     implementation 'me.relex:circleindicator:2.1.6'
 
     // Lottie Animation
-    implementation 'com.airbnb.android:lottie:6.0.0'
+    implementation 'com.airbnb.android:lottie:6.0.1'
 
     // Scalable dp snd sp
     implementation 'com.intuit.sdp:sdp-android:1.1.0'
     implementation 'com.intuit.ssp:ssp-android:1.1.0'
 
     // HTML Parser
-    implementation 'org.jsoup:jsoup:1.15.4'
+    implementation 'org.jsoup:jsoup:1.16.1'
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.work:work-runtime:2.8.1'
     implementation 'androidx.work:work-runtime-ktx:2.8.1'
-    implementation 'org.slf4j:slf4j-api:2.0.6'
+    implementation 'org.slf4j:slf4j-api:2.0.7'
 
     // Test Implementation
     testImplementation 'junit:junit:4.13.2'
