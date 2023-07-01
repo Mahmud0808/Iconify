@@ -3,12 +3,13 @@ package com.drdisagree.iconify.services;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 
+import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.OverlayUtil;
 
-public class TilePitchBlack extends TileService {
+public class TilePitchBlackDark extends TileService {
 
-    private boolean isPitchBlackEnabled = Prefs.getBoolean("IconifyComponentQSPBD.overlay") || Prefs.getBoolean("IconifyComponentQSPBA.overlay");
+    private boolean isPitchBlackEnabled = Prefs.getBoolean("IconifyComponentQSPBD.overlay");
 
     @Override
     public void onTileAdded() {
@@ -33,7 +34,7 @@ public class TilePitchBlack extends TileService {
         super.onClick();
 
         if (isPitchBlackEnabled) {
-            OverlayUtil.disableOverlays("IconifyComponentQSPBD.overlay", "IconifyComponentQSPBA.overlay");
+            OverlayUtil.disableOverlay("IconifyComponentQSPBD.overlay");
         } else {
             OverlayUtil.enableOverlay("IconifyComponentQSPBD.overlay");
         }
@@ -42,8 +43,8 @@ public class TilePitchBlack extends TileService {
 
         Tile pitchBlackTile = getQsTile();
         pitchBlackTile.setState(isPitchBlackEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
-        pitchBlackTile.setLabel("Pitch Black");
-        pitchBlackTile.setContentDescription(isPitchBlackEnabled ? "On" : "Off");
+        pitchBlackTile.setLabel(getResources().getString(R.string.pitch_black_dark_title));
+        pitchBlackTile.setContentDescription(isPitchBlackEnabled ? getResources().getString(R.string.general_on) : getResources().getString(R.string.general_off));
         pitchBlackTile.updateTile();
     }
 

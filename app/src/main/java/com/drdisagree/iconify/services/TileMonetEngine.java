@@ -5,6 +5,7 @@ import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 
+import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.OverlayUtil;
 
@@ -35,7 +36,6 @@ public class TileMonetEngine extends TileService {
         super.onClick();
 
         if (isCustomMonetEnabled) {
-            Prefs.putBoolean("IconifyComponentME.overlay", false);
             OverlayUtil.disableOverlays("IconifyComponentDM.overlay", "IconifyComponentME.overlay");
         } else {
             OverlayUtil.enableOverlays("IconifyComponentDM.overlay", "IconifyComponentME.overlay");
@@ -52,8 +52,8 @@ public class TileMonetEngine extends TileService {
 
         Tile customMonetTile = getQsTile();
         customMonetTile.setState(isCustomMonetEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
-        customMonetTile.setLabel("Monet Engine");
-        customMonetTile.setContentDescription(isCustomMonetEnabled ? "On" : "Off");
+        customMonetTile.setLabel(getResources().getString(R.string.activity_title_monet_engine));
+        customMonetTile.setContentDescription(isCustomMonetEnabled ? getResources().getString(R.string.general_on) : getResources().getString(R.string.general_off));
         customMonetTile.updateTile();
     }
 

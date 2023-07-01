@@ -577,4 +577,6 @@
     <string name="clock_color_picker_desc">Set color of statubsar clock text</string>
     <string name="accent_privacy_chip_title">Accent Privacy Chip</string>
     <string name="accent_privacy_chip_desc">Make privacy chip accent colored</string>
+    <string name="general_on">On</string>
+    <string name="general_off">Off</string>
 </resources>
