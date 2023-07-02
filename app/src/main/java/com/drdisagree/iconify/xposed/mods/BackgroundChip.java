@@ -12,7 +12,6 @@ import static com.drdisagree.iconify.common.Preferences.STATUSBAR_CLOCK_COLOR_CO
 import static com.drdisagree.iconify.common.Preferences.STATUSBAR_CLOCK_COLOR_OPTION;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
-import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
@@ -27,6 +26,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -64,8 +64,6 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     int statusBarClockColorOption = 0;
     int statusBarClockColorCode = Color.WHITE;
     boolean fixedStatusIcons = false;
-    private Object mCollapsedStatusBarFragment = null;
-    private ViewGroup mStatusBar = null;
     private View mClockView = null;
     private View mCenterClockView = null;
     private View mRightClockView = null;
@@ -109,13 +107,6 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         Class<?> CollapsedStatusBarFragment = findClassIfExists(CollapsedStatusBarFragmentClass, lpparam.classLoader);
         if (CollapsedStatusBarFragment == null)
             CollapsedStatusBarFragment = findClass(CollapsedStatusBarFragmentAltClass, lpparam.classLoader);
-
-        hookAllConstructors(CollapsedStatusBarFragment, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) {
-                mCollapsedStatusBarFragment = param.thisObject;
-            }
-        });
 
         findAndHookMethod(CollapsedStatusBarFragment, "onViewCreated", View.class, Bundle.class, new XC_MethodHook() {
             @Override
@@ -168,9 +159,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                     }
                 }
 
-                mStatusBar = (ViewGroup) getObjectField(mCollapsedStatusBarFragment, "mStatusBar");
-
-                mStatusBar.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+                ((ViewGroup) getObjectField(param.thisObject, "mStatusBar")).addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
                     updateStatusBarClock();
                 });
             }
@@ -250,55 +239,57 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
         if (ourResparam == null) return;
 
-        ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
-            @Override
-            public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
-                if (!mShowQSStatusIconsBg || hideStatusIcons) return;
+        if (Build.VERSION.SDK_INT < 33) {
+            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
+                @Override
+                public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
+                    if (!mShowQSStatusIconsBg || hideStatusIcons) return;
 
-                if (!fixedStatusIcons) {
-                    try {
-                        @SuppressLint("DiscouragedApi") LinearLayout statusIcons = liparam.view.findViewById(liparam.res.getIdentifier("statusIcons", "id", mContext.getPackageName()));
-                        LinearLayout statusIconContainer = (LinearLayout) statusIcons.getParent();
-
-                        ((FrameLayout.LayoutParams) statusIconContainer.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.END;
-                        statusIconContainer.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics());
-                        statusIconContainer.requestLayout();
-
-                        int paddingTopBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
-                        int paddingStartEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
-                        statusIconContainer.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
-
-                        setStatusIconsBackgroundChip(statusIconContainer);
-                    } catch (Throwable throwable) {
-                        log(TAG + throwable);
-                    }
-                }
-            }
-        });
-
-        ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_status_bar_header_date_privacy", new XC_LayoutInflated() {
-            @Override
-            public void handleLayoutInflated(LayoutInflatedParam liparam) {
-                if (!mShowQSStatusIconsBg || hideStatusIcons) return;
-
-                if (fixedStatusIcons) {
-                    try {
-                        @SuppressLint("DiscouragedApi") LinearLayout statusIcons = liparam.view.findViewById(liparam.res.getIdentifier("statusIcons", "id", mContext.getPackageName()));
-                        if (statusIcons != null) {
+                    if (!fixedStatusIcons) {
+                        try {
+                            @SuppressLint("DiscouragedApi") LinearLayout statusIcons = liparam.view.findViewById(liparam.res.getIdentifier("statusIcons", "id", mContext.getPackageName()));
                             LinearLayout statusIconContainer = (LinearLayout) statusIcons.getParent();
+
+                            ((FrameLayout.LayoutParams) statusIconContainer.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.END;
+                            statusIconContainer.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics());
+                            statusIconContainer.requestLayout();
 
                             int paddingTopBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
                             int paddingStartEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
                             statusIconContainer.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
 
                             setStatusIconsBackgroundChip(statusIconContainer);
+                        } catch (Throwable throwable) {
+                            log(TAG + throwable);
                         }
-                    } catch (Throwable throwable) {
-                        log(TAG + throwable);
                     }
                 }
-            }
-        });
+            });
+
+            ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_status_bar_header_date_privacy", new XC_LayoutInflated() {
+                @Override
+                public void handleLayoutInflated(LayoutInflatedParam liparam) {
+                    if (!mShowQSStatusIconsBg || hideStatusIcons) return;
+
+                    if (fixedStatusIcons) {
+                        try {
+                            @SuppressLint("DiscouragedApi") LinearLayout statusIcons = liparam.view.findViewById(liparam.res.getIdentifier("statusIcons", "id", mContext.getPackageName()));
+                            if (statusIcons != null) {
+                                LinearLayout statusIconContainer = (LinearLayout) statusIcons.getParent();
+
+                                int paddingTopBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
+                                int paddingStartEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
+                                statusIconContainer.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
+
+                                setStatusIconsBackgroundChip(statusIconContainer);
+                            }
+                        } catch (Throwable throwable) {
+                            log(TAG + throwable);
+                        }
+                    }
+                }
+            });
+        }
     }
 
     private void setStatusBarBackgroundChip(View view) {
