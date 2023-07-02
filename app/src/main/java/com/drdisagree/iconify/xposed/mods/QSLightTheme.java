@@ -75,7 +75,7 @@ public class QSLightTheme extends ModPack {
     private boolean wasDark;
     private Integer colorInactive = null;
     private Drawable lightFooterShape = null;
-    private Object mClockViewQSHeader;
+    private Object mClockViewQSHeader = null;
 
     public QSLightTheme(Context context) {
         super(context);
@@ -269,7 +269,10 @@ public class QSLightTheme extends ModPack {
         hookAllMethods(QuickStatusBarHeaderClass, "onFinishInflate", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                mClockViewQSHeader = getObjectField(param.thisObject, "mClockView");
+                try {
+                    mClockViewQSHeader = getObjectField(param.thisObject, "mClockView");
+                } catch (Throwable ignored) {
+                }
             }
         });
 
@@ -277,7 +280,7 @@ public class QSLightTheme extends ModPack {
         hookAllMethods(ClockClass, "onColorsChanged", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                if (lightQSHeaderEnabled && !SystemUtil.isDarkMode()) {
+                if (lightQSHeaderEnabled && !SystemUtil.isDarkMode() && mClockViewQSHeader != null) {
                     ((TextView) mClockViewQSHeader).setTextColor(Color.BLACK);
                 }
             }
