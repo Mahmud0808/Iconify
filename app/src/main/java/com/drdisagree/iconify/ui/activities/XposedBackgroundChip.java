@@ -209,16 +209,10 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
     @Override
     public void onItemSelected(int dialogId, int selectedIndex) {
         if (dialogId == 0) {
-            boolean needSysuiRestart = selectedClockColorOption == 2 && selectedIndex != 2;
-
             selectedClockColorOption = selectedIndex;
             RPrefs.putInt(STATUSBAR_CLOCK_COLOR_OPTION, selectedIndex);
             findViewById(R.id.sb_clock_color_picker).setVisibility(selectedClockColorOption == 2 ? View.VISIBLE : View.GONE);
             selected_sb_clock_color_option.setText(getResources().getString(R.string.opt_selected) + ' ' + selected_sb_clock_color_option.getText().toString().replaceAll(getResources().getString(R.string.opt_selected) + ' ', ""));
-
-            if (needSysuiRestart) {
-                new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
-            }
         }
     }
 

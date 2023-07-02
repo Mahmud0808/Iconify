@@ -14,6 +14,7 @@ import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
@@ -67,6 +68,8 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     private View mClockView = null;
     private View mCenterClockView = null;
     private View mRightClockView = null;
+    private Class<?> DependencyClass = null;
+    private Class<?> DarkIconDispatcherClass = null;
 
     public BackgroundChip(Context context) {
         super(context);
@@ -107,6 +110,9 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         Class<?> CollapsedStatusBarFragment = findClassIfExists(CollapsedStatusBarFragmentClass, lpparam.classLoader);
         if (CollapsedStatusBarFragment == null)
             CollapsedStatusBarFragment = findClass(CollapsedStatusBarFragmentAltClass, lpparam.classLoader);
+
+        DependencyClass = findClass(SYSTEMUI_PACKAGE + ".Dependency", lpparam.classLoader);
+        DarkIconDispatcherClass = findClass(SYSTEMUI_PACKAGE + ".plugins.DarkIconDispatcher", lpparam.classLoader);
 
         findAndHookMethod(CollapsedStatusBarFragment, "onViewCreated", View.class, Bundle.class, new XC_MethodHook() {
             @Override
@@ -217,10 +223,12 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
 
             if (statusBarClockColorOption == 0) {
                 ((TextView) clockView).getPaint().setXfermode(null);
+                callMethod(callStaticMethod(DependencyClass, "get", DarkIconDispatcherClass), "addDarkReceiver", clockView);
             } else if (statusBarClockColorOption == 1) {
                 ((TextView) clockView).getPaint().setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
             } else if (statusBarClockColorOption == 2) {
                 ((TextView) clockView).getPaint().setXfermode(null);
+                callMethod(callStaticMethod(DependencyClass, "get", DarkIconDispatcherClass), "removeDarkReceiver", clockView);
                 ((TextView) clockView).setTextColor(statusBarClockColorCode);
             }
 
