@@ -94,9 +94,9 @@ public class HookEntry implements IXposedHookLoadPackage {
                         }
                         instance.handleLoadPackage(lpparam);
                         runningMods.add(instance);
-                    } catch (Throwable T) {
+                    } catch (Throwable throwable) {
                         log("Start Error Dump - Occurred in " + mod.getName());
-                        T.printStackTrace();
+                        log(throwable);
                     }
                 }
             }
