@@ -111,7 +111,6 @@ public class Preferences {
     public static final String SELECTED_PROGRESSBAR = "selectedProgressbar";
     public static final String SELECTED_SWITCH = "selectedSwitch";
     public static final String COLORED_BATTERY_CHECK = "isColoredBatteryEnabledByUser";
-    public static final String SHOW_LSCLOCK_CUSTOMIZATION = "showLockscreenClockCustomization";
 
     // Settings
     public static final String APP_LANGUAGE = "IconifyAppLanguage";
