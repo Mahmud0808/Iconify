@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.xposed.mods;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_AUTOHIDE;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_BOTTOMMARGIN;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_LINEHEIGHT;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_SWITCH;
@@ -53,6 +54,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
 
     private static final String TAG = "Iconify - LockscreenClock: ";
     boolean showLockscreenClock = false;
+    boolean autoHideClock = false;
     int topMargin = 100;
     int bottomMargin = 40;
     int lockscreenClockStyle = 0;
@@ -61,6 +63,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
     boolean customFontEnabled = false;
     boolean forceWhiteText = false;
     private ViewGroup mStatusViewContainer = null;
+    private FrameLayout mLargeClockFrame = null;
 
     public LockscreenClock(Context context) {
         super(context);
@@ -71,6 +74,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
         if (Xprefs == null) return;
 
         showLockscreenClock = Xprefs.getBoolean(LSCLOCK_SWITCH, false);
+        autoHideClock = Xprefs.getBoolean(LSCLOCK_AUTOHIDE, false);
         lockscreenClockStyle = Xprefs.getInt(LSCLOCK_STYLE, 0);
         topMargin = Xprefs.getInt(LSCLOCK_TOPMARGIN, 100);
         bottomMargin = Xprefs.getInt(LSCLOCK_BOTTOMMARGIN, 40);
@@ -79,9 +83,13 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
         forceWhiteText = Xprefs.getBoolean(LSCLOCK_TEXT_WHITE, false);
         textScaling = (float) (Xprefs.getInt(LSCLOCK_FONT_TEXT_SCALING, 10) / 10.0);
 
-        if (Key.length > 0 && (Objects.equals(Key[0], LSCLOCK_SWITCH) || Objects.equals(Key[0], LSCLOCK_STYLE) || Objects.equals(Key[0], LSCLOCK_TOPMARGIN) || Objects.equals(Key[0], LSCLOCK_BOTTOMMARGIN) || Objects.equals(Key[0], LSCLOCK_FONT_LINEHEIGHT) || Objects.equals(Key[0], LSCLOCK_FONT_SWITCH) || Objects.equals(Key[0], LSCLOCK_TEXT_WHITE) || Objects.equals(Key[0], LSCLOCK_FONT_TEXT_SCALING))) {
-            if (mStatusViewContainer != null) {
+        if (Key.length > 0 && (Objects.equals(Key[0], LSCLOCK_SWITCH) || Objects.equals(Key[0], LSCLOCK_AUTOHIDE) || Objects.equals(Key[0], LSCLOCK_STYLE) || Objects.equals(Key[0], LSCLOCK_TOPMARGIN) || Objects.equals(Key[0], LSCLOCK_BOTTOMMARGIN) || Objects.equals(Key[0], LSCLOCK_FONT_LINEHEIGHT) || Objects.equals(Key[0], LSCLOCK_FONT_SWITCH) || Objects.equals(Key[0], LSCLOCK_TEXT_WHITE) || Objects.equals(Key[0], LSCLOCK_FONT_TEXT_SCALING))) {
+            if (!autoHideClock && mStatusViewContainer != null) {
                 updateClockView(mStatusViewContainer);
+            }
+
+            if (autoHideClock && mLargeClockFrame != null) {
+                updateClockView(mLargeClockFrame);
             }
         }
     }
@@ -97,11 +105,59 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
         if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE)) return;
 
         Class<?> KeyguardStatusViewClass = findClass("com.android.keyguard.KeyguardStatusView", lpparam.classLoader);
+        Class<?> KeyguardClockSwitchClass = findClass("com.android.keyguard.KeyguardClockSwitch", lpparam.classLoader);
+
+        hookAllMethods(KeyguardClockSwitchClass, "onFinishInflate", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                if (!showLockscreenClock || !autoHideClock) return;
+
+                mLargeClockFrame = (FrameLayout) getObjectField(param.thisObject, "mLargeClockFrame");
+
+                // Add broadcast receiver for updating clock
+                IntentFilter filter = new IntentFilter();
+                filter.addAction(Intent.ACTION_TIME_TICK);
+                filter.addAction(Intent.ACTION_TIME_CHANGED);
+                filter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
+                filter.addAction(Intent.ACTION_LOCALE_CHANGED);
+
+                BroadcastReceiver timeChangedReceiver = new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        if (mLargeClockFrame != null && intent != null) {
+                            (new Handler()).post(() -> {
+                                mLargeClockFrame.removeAllViews();
+                                updateClockView(mLargeClockFrame);
+                            });
+                        }
+                    }
+                };
+
+                mContext.registerReceiver(timeChangedReceiver, filter);
+                mLargeClockFrame.removeAllViews();
+                updateClockView(mLargeClockFrame);
+            }
+        });
+
+        hookAllMethods(KeyguardClockSwitchClass, "updateClockViews", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                if (!showLockscreenClock || !autoHideClock) return;
+
+                View mStatusArea = (View) getObjectField(param.thisObject, "mStatusArea");
+
+                if ((boolean) param.args[0]) {
+                    mStatusArea.findViewById(mContext.getResources().getIdentifier("keyguard_slice_view", "id", mContext.getPackageName())).setVisibility(View.INVISIBLE);
+                } else {
+                    mStatusArea.findViewById(mContext.getResources().getIdentifier("keyguard_slice_view", "id", mContext.getPackageName())).setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         hookAllMethods(KeyguardStatusViewClass, "onFinishInflate", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
-                if (!showLockscreenClock) return;
+                if (!showLockscreenClock || autoHideClock) return;
 
                 mStatusViewContainer = (ViewGroup) getObjectField(param.thisObject, "mStatusViewContainer");
                 GridLayout KeyguardStatusView = (GridLayout) param.thisObject;

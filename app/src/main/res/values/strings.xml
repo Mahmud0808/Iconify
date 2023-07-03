@@ -583,4 +583,6 @@
     <string name="header_clock_center_clock_desc">Move clock to center of view</string>
     <string name="header_clock_hide_landscape_title">Hide in Landscape</string>
     <string name="header_clock_hide_landscape_desc">Hide clock in landscape mode</string>
+    <string name="lockscreen_clock_auto_hide_clock_title">Auto Hide Clock</string>
+    <string name="lockscreen_clock_auto_hide_clock_desc">Hide clock on incoming notification</string>
 </resources>

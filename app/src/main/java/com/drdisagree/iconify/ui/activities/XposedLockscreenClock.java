@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_AUTOHIDE;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_BOTTOMMARGIN;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_LINEHEIGHT;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_SWITCH;
@@ -58,6 +59,14 @@ public class XposedLockscreenClock extends BaseActivity {
         enable_locksreen_clock.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(LSCLOCK_SWITCH, isChecked);
             if (!isChecked) RPrefs.putInt(LSCLOCK_STYLE, 0);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+        });
+
+        // Auto hide clock
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_auto_hide_clock = findViewById(R.id.enable_auto_hide_clock);
+        enable_auto_hide_clock.setChecked(RPrefs.getBoolean(LSCLOCK_AUTOHIDE, false));
+        enable_auto_hide_clock.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(LSCLOCK_AUTOHIDE, isChecked);
             new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 

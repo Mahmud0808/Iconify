@@ -30,6 +30,7 @@ public class Preferences {
     public static final String HEADER_CLOCK_STYLE = "xposed_headerclockstyle";
     public static final String HEADER_CLOCK_FONT_TEXT_SCALING = "xposed_headerclocktextscaling";
     public static final String LSCLOCK_SWITCH = "xposed_lockscreenclock";
+    public static final String LSCLOCK_AUTOHIDE = "xposed_lockscreenclockautohide";
     public static final String LSCLOCK_STYLE = "xposed_lockscreenclockstyle";
     public static final String LSCLOCK_TOPMARGIN = "xposed_lockscreenclocktopmargin";
     public static final String LSCLOCK_BOTTOMMARGIN = "xposed_lockscreenclockbottommargin";
