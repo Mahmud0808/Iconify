@@ -579,4 +579,8 @@
     <string name="accent_privacy_chip_desc">Make privacy chip accent colored</string>
     <string name="general_on">On</string>
     <string name="general_off">Off</string>
+    <string name="header_clock_center_clock_title">Center Clock</string>
+    <string name="header_clock_center_clock_desc">Move clock to center of view</string>
+    <string name="header_clock_hide_landscape_title">Hide in Landscape</string>
+    <string name="header_clock_hide_landscape_desc">Hide clock in landscape mode</string>
 </resources>

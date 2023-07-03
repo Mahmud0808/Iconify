@@ -23,6 +23,8 @@ public class Preferences {
     public static final String HEADER_CLOCK_SWITCH = "xposed_headerclock";
     public static final String HEADER_CLOCK_SIDEMARGIN = "xposed_headerclocksidemargin";
     public static final String HEADER_CLOCK_TOPMARGIN = "xposed_headerclocktopmargin";
+    public static final String HEADER_CLOCK_CENTERED = "xposed_headerclockcentered";
+    public static final String HEADER_CLOCK_LANDSCAPE_SWITCH = "xposed_headerclocklandscape";
     public static final String HEADER_CLOCK_TEXT_WHITE = "xposed_headerclocktextwhite";
     public static final String QSPANEL_HIDE_CARRIER = "xposed_qspanelhidecarrier";
     public static final String HEADER_CLOCK_STYLE = "xposed_headerclockstyle";

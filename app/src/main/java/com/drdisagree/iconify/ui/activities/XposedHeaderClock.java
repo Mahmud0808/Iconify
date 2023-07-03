@@ -1,7 +1,9 @@
 package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_CENTERED;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_FONT_TEXT_SCALING;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_LANDSCAPE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SIDEMARGIN;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_STYLE;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SWITCH;
@@ -10,7 +12,6 @@ import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TOPMARGIN;
 import static com.drdisagree.iconify.ui.utils.ViewBindingHelpers.disableNestedScrolling;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.SeekBar;
@@ -25,7 +26,6 @@ import com.drdisagree.iconify.ui.adapters.ClockPreviewAdapter;
 import com.drdisagree.iconify.ui.models.ClockModel;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.HeaderClockStyles;
-import com.drdisagree.iconify.utils.HelperUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 
 import java.text.DecimalFormat;
@@ -50,14 +50,7 @@ public class XposedHeaderClock extends BaseActivity {
         enable_header_clock.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HEADER_CLOCK_SWITCH, isChecked);
             if (!isChecked) RPrefs.putInt(HEADER_CLOCK_STYLE, 1);
-
-            new Handler().postDelayed(() -> {
-                if (Build.VERSION.SDK_INT >= 33) {
-                    SystemUtil.restartSystemUI();
-                } else {
-                    HelperUtil.forceApply();
-                }
-            }, SWITCH_ANIMATION_DELAY);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 
         // Header clock style
@@ -93,9 +86,6 @@ public class XposedHeaderClock extends BaseActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(HEADER_CLOCK_FONT_TEXT_SCALING, textScaling[0]);
-                if (RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false)) {
-                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
-                }
             }
         });
 
@@ -120,9 +110,6 @@ public class XposedHeaderClock extends BaseActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(HEADER_CLOCK_SIDEMARGIN, sideMargin[0]);
-                if (RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false)) {
-                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
-                }
             }
         });
 
@@ -147,10 +134,14 @@ public class XposedHeaderClock extends BaseActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(HEADER_CLOCK_TOPMARGIN, topMargin[0]);
-                if (RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false)) {
-                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
-                }
             }
+        });
+
+        // Center clock
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_center_clock = findViewById(R.id.enable_center_clock);
+        enable_center_clock.setChecked(RPrefs.getBoolean(HEADER_CLOCK_CENTERED, false));
+        enable_center_clock.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(HEADER_CLOCK_CENTERED, isChecked);
         });
 
         // Force white text
@@ -158,9 +149,13 @@ public class XposedHeaderClock extends BaseActivity {
         enable_force_white_text.setChecked(RPrefs.getBoolean(HEADER_CLOCK_TEXT_WHITE, false));
         enable_force_white_text.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HEADER_CLOCK_TEXT_WHITE, isChecked);
-            if (RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false)) {
-                new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
-            }
+        });
+
+        // Hide in landscape
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_hide_header_clock_landscape = findViewById(R.id.enable_hide_header_clock_landscape);
+        enable_hide_header_clock_landscape.setChecked(RPrefs.getBoolean(HEADER_CLOCK_LANDSCAPE_SWITCH, true));
+        enable_hide_header_clock_landscape.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(HEADER_CLOCK_LANDSCAPE_SWITCH, isChecked);
         });
     }
 
