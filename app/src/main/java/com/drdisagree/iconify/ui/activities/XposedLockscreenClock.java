@@ -89,14 +89,12 @@ public class XposedLockscreenClock extends BaseActivity {
         enable_lsclock_font = findViewById(R.id.enable_lsclock_font);
         enable_lsclock_font.setOnClickListener(v -> {
             RPrefs.putBoolean(LSCLOCK_FONT_SWITCH, true);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
             enable_lsclock_font.setVisibility(View.GONE);
             disable_lsclock_font.setVisibility(View.VISIBLE);
         });
 
         disable_lsclock_font.setOnClickListener(v -> {
             RPrefs.putBoolean(LSCLOCK_FONT_SWITCH, false);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
             disable_lsclock_font.setVisibility(View.GONE);
         });
 
@@ -202,10 +200,6 @@ public class XposedLockscreenClock extends BaseActivity {
         enable_force_white_text.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(LSCLOCK_TEXT_WHITE, isChecked);
         });
-
-        // Restart systemui
-        Button restart_sysui = findViewById(R.id.restart_sysui);
-        restart_sysui.setOnClickListener(v -> new Handler().postDelayed(SystemUtil::restartSystemUI, 200));
     }
 
     private ClockPreviewAdapter initLockscreenClockStyles() {
