@@ -61,7 +61,6 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
     boolean customFontEnabled = false;
     boolean forceWhiteText = false;
     private ViewGroup mStatusViewContainer = null;
-    private final String clock_tag = "iconify_clock";
 
     public LockscreenClock(Context context) {
         super(context);
@@ -142,6 +141,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
 
     private void updateClockView(ViewGroup viewGroup) {
         ViewGroup clockView = getClock();
+        String clock_tag = "iconify_lockscreen_clock";
         if (viewGroup.findViewWithTag(clock_tag) != null) {
             viewGroup.removeView(viewGroup.findViewWithTag(clock_tag));
         }
