@@ -160,12 +160,6 @@
         <item name="tint">@color/textColorPrimary</item>
     </style>
 
-    <style name="toolbarStyle" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="homeAsUpIndicator">@drawable/ic_home_as_up_indicator</item>
-        <item name="android:actionOverflowButtonStyle">@style/actionButtonOverflow</item>
-        <item name="colorControlHighlight">@color/rippleAccent</item>
-    </style>
-
     <style name="BottomNavigationView" parent="Base.Widget.Material3.BottomNavigationView">
         <item name="android:theme">@style/Theme.Iconify</item>
         <item name="android:background">@drawable/bottom_navbar_bg</item>
