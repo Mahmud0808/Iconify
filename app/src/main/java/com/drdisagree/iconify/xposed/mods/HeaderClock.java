@@ -58,7 +58,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
     boolean centeredClockView = false;
     boolean forceWhiteText = false;
     boolean hideLandscapeHeaderClock = true;
-    LinearLayout mQsHeaderLayout = new LinearLayout(mContext);
+    LinearLayout mQsClockContainer = new LinearLayout(mContext);
 
     public HeaderClock(Context context) {
         super(context);
@@ -102,10 +102,13 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     FrameLayout mQuickStatusBarHeader = (FrameLayout) param.thisObject;
 
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    mQsHeaderLayout.setLayoutParams(layoutParams);
-                    mQsHeaderLayout.setVisibility(View.GONE);
+                    mQsClockContainer.setLayoutParams(layoutParams);
+                    mQsClockContainer.setVisibility(View.GONE);
 
-                    mQuickStatusBarHeader.addView(mQsHeaderLayout);
+                    if (mQsClockContainer.getParent() != null) {
+                        ((ViewGroup) mQsClockContainer.getParent()).removeView(mQsClockContainer);
+                    }
+                    mQuickStatusBarHeader.addView(mQsClockContainer);
 
                     // Hide stock clock, date and carrier group
                     try {
@@ -263,31 +266,31 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
 
     private void updateClockView() {
         if (!showHeaderClock) {
-            mQsHeaderLayout.setVisibility(View.GONE);
+            mQsClockContainer.setVisibility(View.GONE);
             return;
         }
 
         ViewGroup clockView = getClock();
         String clock_tag = "iconify_header_clock";
-        if (mQsHeaderLayout.findViewWithTag(clock_tag) != null) {
-            mQsHeaderLayout.removeView(mQsHeaderLayout.findViewWithTag(clock_tag));
+        if (mQsClockContainer.findViewWithTag(clock_tag) != null) {
+            mQsClockContainer.removeView(mQsClockContainer.findViewWithTag(clock_tag));
         }
         if (clockView != null) {
             if (centeredClockView) {
-                mQsHeaderLayout.setGravity(Gravity.CENTER);
+                mQsClockContainer.setGravity(Gravity.CENTER);
             } else {
-                mQsHeaderLayout.setGravity(Gravity.START);
+                mQsClockContainer.setGravity(Gravity.START);
             }
             clockView.setTag(clock_tag);
-            mQsHeaderLayout.addView(clockView);
-            mQsHeaderLayout.requestLayout();
+            mQsClockContainer.addView(clockView);
+            mQsClockContainer.requestLayout();
         }
 
         Configuration config = mContext.getResources().getConfiguration();
         if (config.orientation == Configuration.ORIENTATION_LANDSCAPE && hideLandscapeHeaderClock) {
-            mQsHeaderLayout.setVisibility(View.GONE);
+            mQsClockContainer.setVisibility(View.GONE);
         } else {
-            mQsHeaderLayout.setVisibility(View.VISIBLE);
+            mQsClockContainer.setVisibility(View.VISIBLE);
         }
     }
 
