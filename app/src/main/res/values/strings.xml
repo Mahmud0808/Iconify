@@ -588,4 +588,8 @@
     <string name="toast_clear_cache">Iconify cache cleared</string>
     <string name="clear_app_cache_title">Clear App Cache</string>
     <string name="clear_app_cache_desc">Clear caches generated due to the usage of custom fonts, images, or gifs.</string>
+    <string name="lsclock_custom_color_title">Custom Clock Color</string>
+    <string name="lsclock_custom_color_desc">Custom color instead of primary color</string>
+    <string name="lsclock_color_picker_title">Clock Color Picker</string>
+    <string name="lsclock_color_picker_desc">Set color of lockscreen clock text</string>
 </resources>

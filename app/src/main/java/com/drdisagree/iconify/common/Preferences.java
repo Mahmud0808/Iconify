@@ -34,6 +34,8 @@ public class Preferences {
     public static final String LSCLOCK_STYLE = "xposed_lockscreenclockstyle";
     public static final String LSCLOCK_TOPMARGIN = "xposed_lockscreenclocktopmargin";
     public static final String LSCLOCK_BOTTOMMARGIN = "xposed_lockscreenclockbottommargin";
+    public static final String LSCLOCK_COLOR_SWITCH = "xposed_lockscreenclockcolor";
+    public static final String LSCLOCK_COLOR_CODE = "xposed_lockscreenclockcolorcode";
     public static final String LSCLOCK_FONT_SWITCH = "xposed_lockscreenclockfont";
     public static final String LSCLOCK_FONT_LINEHEIGHT = "xposed_lockscreenclockfontlineheight";
     public static final String LSCLOCK_FONT_TEXT_SCALING = "xposed_lockscreenclocktextscaling";
