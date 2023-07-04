@@ -69,7 +69,7 @@ android {
     }
 
     packagingOptions {
-        jniLibs.pickFirsts.add("src/main/jniLibs/**/**.so")
+        jniLibs.pickFirsts.add("**/**.so")
         jniLibs.useLegacyPackaging true
     }
 
