@@ -16,7 +16,6 @@ import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.xposed.utils.SystemUtil;
 
 public class LockscreenClockStyles {
 
@@ -452,7 +451,7 @@ public class LockscreenClockStyles {
                 String timeFormat71 = "It's";
                 time71.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 time71.setText(timeFormat71);
-                time71.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                time71.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : mContext.getResources().getColor(R.color.textColorPrimary));
                 time71.setTextSize(TypedValue.COMPLEX_UNIT_SP, 42 * textScaling);
                 time71.setTypeface(typeface != null ? typeface : time71.getTypeface(), Typeface.NORMAL);
                 time71.setIncludeFontPadding(false);
@@ -464,7 +463,7 @@ public class LockscreenClockStyles {
                 String timeFormat72 = "One";
                 time72.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 time72.setText(timeFormat72);
-                time72.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                time72.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : mContext.getResources().getColor(R.color.textColorPrimary));
                 time72.setTextSize(TypedValue.COMPLEX_UNIT_SP, 42 * textScaling);
                 time72.setTypeface(typeface != null ? typeface : time72.getTypeface(), Typeface.NORMAL);
                 time72.setIncludeFontPadding(false);
@@ -476,7 +475,7 @@ public class LockscreenClockStyles {
                 String timeFormat73 = "Sixteen";
                 time73.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 time73.setText(timeFormat73);
-                time73.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                time73.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : mContext.getResources().getColor(R.color.textColorPrimary));
                 time73.setTextSize(TypedValue.COMPLEX_UNIT_SP, 42 * textScaling);
                 time73.setTypeface(typeface != null ? typeface : time73.getTypeface(), Typeface.NORMAL);
                 time73.setIncludeFontPadding(false);
@@ -488,7 +487,7 @@ public class LockscreenClockStyles {
                 date7.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 date7.setFormat12Hour("EEEE, MMM dd");
                 date7.setFormat24Hour("EEEE, MMM dd");
-                date7.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                date7.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : mContext.getResources().getColor(R.color.textColorPrimary));
                 date7.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22 * textScaling);
                 date7.setTypeface(typeface != null ? typeface : date7.getTypeface(), Typeface.NORMAL);
                 date7.setIncludeFontPadding(false);
@@ -510,6 +509,59 @@ public class LockscreenClockStyles {
                 container7.addView(date7);
 
                 container = container7;
+                break;
+            case 8:
+                final TextClock day8 = new TextClock(mContext);
+                ViewGroup.MarginLayoutParams dayParams8 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                dayParams8.setMargins(0, 0, 0, 0);
+                day8.setLayoutParams(dayParams8);
+                day8.setFormat12Hour("EEEE");
+                day8.setFormat24Hour("EEEE");
+                day8.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : R.color.textColorPrimary));
+                day8.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
+                day8.setTypeface(typeface != null ? typeface : day8.getTypeface(), Typeface.BOLD);
+                day8.setIncludeFontPadding(false);
+
+                final TextClock clock8 = new TextClock(mContext);
+                ViewGroup.MarginLayoutParams clockParams8 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                clockParams8.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -4 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
+                clock8.setLayoutParams(clockParams8);
+                clock8.setFormat12Hour("hh:mm");
+                clock8.setFormat24Hour("HH:mm");
+                clock8.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : R.color.textColorPrimary));
+                clock8.setTextSize(TypedValue.COMPLEX_UNIT_SP, 100 * textScaling);
+                clock8.setTypeface(typeface != null ? typeface : clock8.getTypeface(), Typeface.BOLD);
+                clock8.setIncludeFontPadding(false);
+
+                final TextClock date8 = new TextClock(mContext);
+                ViewGroup.MarginLayoutParams dateParams8 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                dateParams8.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
+                date8.setLayoutParams(dateParams8);
+                date8.setFormat12Hour("MMMM dd");
+                date8.setFormat24Hour("MMMM dd");
+                date8.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : R.color.textColorPrimary));
+                date8.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
+                date8.setTypeface(typeface != null ? typeface : date8.getTypeface(), Typeface.NORMAL);
+                date8.setIncludeFontPadding(false);
+
+                final LinearLayout container8 = new LinearLayout(mContext);
+                LinearLayout.LayoutParams layoutParams8 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                layoutParams8.gravity = Gravity.CENTER_HORIZONTAL;
+                layoutParams8.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()), 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, bottomMargin, mContext.getResources().getDisplayMetrics()));
+                container8.setLayoutParams(layoutParams8);
+                container8.setGravity(Gravity.CENTER);
+                container8.setOrientation(LinearLayout.VERTICAL);
+                container8.setPadding((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40 * textScaling, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24 * textScaling, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40 * textScaling, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24 * textScaling, mContext.getResources().getDisplayMetrics()));
+                GradientDrawable mDrawable8 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{forceWhiteText ? android.R.color.white : R.color.textColorPrimary, forceWhiteText ? android.R.color.white : R.color.textColorPrimary});
+                mDrawable8.setCornerRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24 * textScaling, mContext.getResources().getDisplayMetrics()));
+                mDrawable8.setAlpha(50);
+                container8.setBackground(mDrawable8);
+
+                container8.addView(day8);
+                container8.addView(clock8);
+                container8.addView(date8);
+
+                container = container8;
                 break;
         }
 
