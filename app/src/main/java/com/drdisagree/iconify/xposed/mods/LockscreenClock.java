@@ -233,6 +233,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     date1.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
                     date1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20 * textScaling);
                     date1.setTypeface(typeface != null ? typeface : date1.getTypeface(), Typeface.BOLD);
+                    date1.setIncludeFontPadding(false);
                     ViewGroup.MarginLayoutParams dateParams1 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                     dateParams1.setMargins(0, 0, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -16, mContext.getResources().getDisplayMetrics()));
                     date1.setLayoutParams(dateParams1);
@@ -244,6 +245,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     clock1.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
                     clock1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 100 * textScaling);
                     clock1.setTypeface(typeface != null ? typeface : clock1.getTypeface(), Typeface.BOLD);
+                    clock1.setIncludeFontPadding(false);
                     ViewGroup.MarginLayoutParams clockParams1 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                     clockParams1.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
                     clock1.setLayoutParams(clockParams1);
@@ -268,6 +270,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     day2.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                     day2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50 * textScaling);
                     day2.setTypeface(typeface != null ? typeface : day2.getTypeface());
+                    day2.setIncludeFontPadding(false);
 
                     final TextView clock2 = new TextView(mContext);
                     clock2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -276,6 +279,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     clock2.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                     clock2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50 * textScaling);
                     clock2.setTypeface(typeface != null ? typeface : clock2.getTypeface());
+                    clock2.setIncludeFontPadding(false);
 
                     final TextView clockOverlay2 = new TextView(mContext);
                     clockOverlay2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -285,6 +289,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     clockOverlay2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50 * textScaling);
                     clockOverlay2.setMaxLines(1);
                     clockOverlay2.setTypeface(typeface != null ? typeface : clockOverlay2.getTypeface());
+                    clockOverlay2.setIncludeFontPadding(false);
                     int maxLength2 = 1;
                     InputFilter[] fArray2 = new InputFilter[1];
                     fArray2[0] = new InputFilter.LengthFilter(maxLength2);
@@ -304,6 +309,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     month2.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                     month2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20 * textScaling);
                     month2.setTypeface(typeface != null ? typeface : month2.getTypeface());
+                    month2.setIncludeFontPadding(false);
 
                     final LinearLayout wholeContainer2 = new LinearLayout(mContext);
                     LinearLayout.LayoutParams layoutparams2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -326,6 +332,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     date3.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
                     date3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24 * textScaling);
                     date3.setTypeface(typeface != null ? typeface : date3.getTypeface(), Typeface.BOLD);
+                    date3.setIncludeFontPadding(false);
 
                     final TextView clockHour3 = new TextView(mContext);
                     clockHour3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -334,8 +341,9 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     clockHour3.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
                     clockHour3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 160 * textScaling);
                     clockHour3.setTypeface(typeface != null ? typeface : clockHour3.getTypeface(), Typeface.BOLD);
+                    clockHour3.setIncludeFontPadding(false);
                     ViewGroup.MarginLayoutParams clockHourParams3 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                    clockHourParams3.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -30 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
+                    clockHourParams3.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -36 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
                     clockHour3.setLayoutParams(clockHourParams3);
 
                     final TextView clockMinute3 = new TextView(mContext);
@@ -345,6 +353,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     clockMinute3.setTextColor(mContext.getResources().getColor(forceWhiteText ? android.R.color.white : android.R.color.holo_blue_light));
                     clockMinute3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 160 * textScaling);
                     clockMinute3.setTypeface(typeface != null ? typeface : clockMinute3.getTypeface(), Typeface.BOLD);
+                    clockMinute3.setIncludeFontPadding(false);
                     ViewGroup.MarginLayoutParams clockMinuteParams3 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                     clockMinuteParams3.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -80 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
                     clockMinute3.setLayoutParams(clockMinuteParams3);
@@ -374,6 +383,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     day4.setTextColor(mContext.getResources().getColor(android.R.color.system_neutral1_200));
                     day4.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
                     day4.setTypeface(typeface != null ? typeface : day4.getTypeface(), Typeface.BOLD);
+                    day4.setIncludeFontPadding(false);
                     ViewGroup.MarginLayoutParams dayParams4 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                     dayParams4.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
                     day4.setLayoutParams(dayParams4);
@@ -398,6 +408,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     hour5.setTextColor(mContext.getResources().getColor(android.R.color.white));
                     hour5.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40 * textScaling);
                     hour5.setTypeface(typeface != null ? typeface : hour5.getTypeface(), Typeface.BOLD);
+                    hour5.setIncludeFontPadding(false);
 
                     final TextView minute5 = new TextView(mContext);
                     minute5.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -406,6 +417,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     minute5.setTextColor(mContext.getResources().getColor(android.R.color.white));
                     minute5.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40 * textScaling);
                     minute5.setTypeface(typeface != null ? typeface : minute5.getTypeface(), Typeface.BOLD);
+                    minute5.setIncludeFontPadding(false);
                     ViewGroup.MarginLayoutParams minuteParams5 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                     minuteParams5.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
                     minute5.setLayoutParams(minuteParams5);
@@ -432,6 +444,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     day5.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                     day5.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
                     day5.setTypeface(typeface != null ? typeface : day5.getTypeface(), Typeface.BOLD);
+                    day5.setIncludeFontPadding(false);
                     day5.setLetterSpacing(0.2f);
 
                     final TextView date5 = new TextView(mContext);
@@ -441,6 +454,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     date5.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                     date5.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
                     date5.setTypeface(typeface != null ? typeface : date5.getTypeface(), Typeface.BOLD);
+                    date5.setIncludeFontPadding(false);
                     date5.setLetterSpacing(0.2f);
                     ViewGroup.MarginLayoutParams dateParams5 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                     dateParams5.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -2 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
@@ -454,6 +468,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     month5.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                     month5.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
                     month5.setTypeface(typeface != null ? typeface : month5.getTypeface(), Typeface.BOLD);
+                    month5.setIncludeFontPadding(false);
                     month5.setLetterSpacing(0.2f);
                     ViewGroup.MarginLayoutParams monthParams5 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                     monthParams5.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -2 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
