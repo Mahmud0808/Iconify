@@ -214,7 +214,7 @@ public class XposedLockscreenClock extends BaseActivity {
     private ClockPreviewAdapter initLockscreenClockStyles() {
         ArrayList<ClockModel> ls_clock = new ArrayList<>();
 
-        for (int i = 0; i <= 5; i++)
+        for (int i = 0; i <= 6; i++)
             ls_clock.add(new ClockModel(LockscreenClockStyles.initLockscreenClockStyle(this, i)));
 
         return new ClockPreviewAdapter(this, ls_clock, LSCLOCK_SWITCH, LSCLOCK_STYLE);
