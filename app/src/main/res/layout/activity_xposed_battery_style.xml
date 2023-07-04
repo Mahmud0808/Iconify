@@ -103,7 +103,7 @@
 
                 <SeekBar
                     android:id="@+id/battery_width_seekbar"
-                    style="@style/customSeekBar"
+                    style="@style/SeekBar.Iconify"
                     android:max="30"
                     android:min="12"
                     android:progress="20" />
@@ -139,7 +139,7 @@
 
                 <SeekBar
                     android:id="@+id/battery_height_seekbar"
-                    style="@style/customSeekBar"
+                    style="@style/SeekBar.Iconify"
                     android:max="30"
                     android:min="12"
                     android:progress="20" />
@@ -176,7 +176,7 @@
 
                 <SeekBar
                     android:id="@+id/battery_margin_seekbar"
-                    style="@style/customSeekBar"
+                    style="@style/SeekBar.Iconify"
                     android:max="12"
                     android:min="0"
                     android:progress="6" />

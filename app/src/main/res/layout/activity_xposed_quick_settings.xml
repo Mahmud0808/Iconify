@@ -380,7 +380,7 @@
 
                     <SeekBar
                         android:id="@+id/qqs_top_margin_seekbar"
-                        style="@style/customSeekBar"
+                        style="@style/SeekBar.Iconify"
                         android:max="300"
                         android:min="20"
                         android:progress="100" />
@@ -436,7 +436,7 @@
 
                     <SeekBar
                         android:id="@+id/qs_top_margin_seekbar"
-                        style="@style/customSeekBar"
+                        style="@style/SeekBar.Iconify"
                         android:max="300"
                         android:min="20"
                         android:progress="100" />

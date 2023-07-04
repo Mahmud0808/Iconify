@@ -146,7 +146,7 @@
 
                 <SeekBar
                     android:id="@+id/header_clock_textscaling_seekbar"
-                    style="@style/customSeekBar"
+                    style="@style/SeekBar.Iconify"
                     android:max="15"
                     android:min="5"
                     android:progress="10" />
@@ -182,7 +182,7 @@
 
                 <SeekBar
                     android:id="@+id/header_clock_side_margin_seekbar"
-                    style="@style/customSeekBar"
+                    style="@style/SeekBar.Iconify"
                     android:max="200"
                     android:min="0"
                     android:progress="0" />
@@ -218,7 +218,7 @@
 
                 <SeekBar
                     android:id="@+id/header_clock_top_margin_seekbar"
-                    style="@style/customSeekBar"
+                    style="@style/SeekBar.Iconify"
                     android:max="200"
                     android:min="0"
                     android:progress="8" />

@@ -29,10 +29,22 @@
         <item name="android:textColor">@color/textColorPrimary</item>
     </style>
 
-    <style name="SeekBar.Iconify" parent="Widget.Material3.Slider">
-        <item name="android:progressBackgroundTint">@null</item>
-        <item name="android:progressTint">@null</item>
-        <item name="android:thumbTint">@null</item>
+    <style name="SeekBar.Iconify" parent="Widget.AppCompat.SeekBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/seekbar_progress_drawable</item>
+        <item name="android:indeterminateDrawable">@drawable/seekbar_progress_drawable</item>
+        <item name="android:layout_marginTop">@dimen/container_padding</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:thumb">@color/transparent</item>
+        <item name="android:splitTrack">false</item>
+        <item name="android:focusable">true</item>
+        <item name="android:mirrorForRtl">true</item>
+        <item name="android:background">@null</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:hapticFeedbackEnabled">true</item>
     </style>
 
     <style name="MenuLightTheme" parent="Theme.Material3.Light.NoActionBar">
@@ -70,21 +82,6 @@
         <item name="android:layout_gravity">start|center</item>
         <item name="android:thumb">@drawable/switch_thumb</item>
         <item name="android:track">@drawable/switch_track</item>
-    </style>
-
-    <style name="customSeekBar">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">@dimen/container_padding</item>
-        <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:background">@null</item>
-        <item name="android:hapticFeedbackEnabled">true</item>
-        <item name="android:progressDrawable">@drawable/seekbar</item>
-        <item name="android:splitTrack">false</item>
-        <item name="android:theme">@style/SeekBar.Iconify</item>
-        <item name="android:thumb">@drawable/seek_thumb</item>
-        <item name="android:paddingStart">0dp</item>
-        <item name="android:paddingEnd">0dp</item>
     </style>
 
     <style name="customRadioButtonColored">

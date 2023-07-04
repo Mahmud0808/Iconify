@@ -88,7 +88,7 @@
 
                 <SeekBar
                     android:id="@+id/port_nonexpanded_height_seekbar"
-                    style="@style/customSeekBar"
+                    style="@style/SeekBar.Iconify"
                     android:max="80"
                     android:min="50"
                     android:progress="60" />
@@ -160,7 +160,7 @@
 
                 <SeekBar
                     android:id="@+id/port_expanded_height_seekbar"
-                    style="@style/customSeekBar"
+                    style="@style/SeekBar.Iconify"
                     android:max="80"
                     android:min="50"
                     android:progress="80" />
@@ -233,7 +233,7 @@
 
                 <SeekBar
                     android:id="@+id/land_nonexpanded_height_seekbar"
-                    style="@style/customSeekBar"
+                    style="@style/SeekBar.Iconify"
                     android:max="80"
                     android:min="50"
                     android:progress="60" />
@@ -305,7 +305,7 @@
 
                 <SeekBar
                     android:id="@+id/land_expanded_height_seekbar"
-                    style="@style/customSeekBar"
+                    style="@style/SeekBar.Iconify"
                     android:max="80"
                     android:min="50"
                     android:progress="80" />
