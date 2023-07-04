@@ -2,8 +2,8 @@
 <resources>
     <color name="colorAccent">@android:color/system_accent1_300</color>
     <color name="colorAccentVariant">@android:color/system_accent3_300</color>
-    <color name="rippleAccent">@color/color_container_overlay_dark</color>
-    <color name="rippleDark">#1AFFFFFF</color>
+    <color name="rippleAccent">@color/color_accent_alpha_dark</color>
+    <color name="rippleDark">#66FFFFFF</color>
     <color name="holo_blue_light">@color/holo_blue_light_light</color>
     <color name="holo_green_light">@color/holo_green_light_light</color>
     <color name="colorBackground">@android:color/system_neutral2_900</color>
