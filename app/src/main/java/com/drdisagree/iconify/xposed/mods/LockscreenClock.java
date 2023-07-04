@@ -507,6 +507,8 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
 
                     return container5;
                 case 6:
+                    int margin6 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, mContext.getResources().getDisplayMetrics());
+
                     final TextView day6 = new TextView(mContext);
                     day6.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     sdf = new SimpleDateFormat("EEE", Locale.getDefault());
@@ -534,7 +536,6 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     final LinearLayout dayContainer6 = new LinearLayout(mContext);
                     LinearLayout.LayoutParams dayLayoutParams6 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                     dayLayoutParams6.gravity = Gravity.CENTER;
-                    int margin6 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, mContext.getResources().getDisplayMetrics());
                     dayLayoutParams6.setMargins(margin6, margin6, margin6, margin6);
                     dayContainer6.setLayoutParams(dayLayoutParams6);
                     dayContainer6.setGravity(Gravity.CENTER);
@@ -628,8 +629,76 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     container6.addView(minuteContainer6);
 
                     return container6;
+                case 7:
+                    final TextView time71 = new TextView(mContext);
+                    time71.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    time71.setText("It's");
+                    time71.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                    time71.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40 * textScaling);
+                    time71.setTypeface(typeface != null ? typeface : time71.getTypeface(), Typeface.NORMAL);
+                    time71.setIncludeFontPadding(false);
+                    ViewGroup.MarginLayoutParams timeLayoutParams71 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                    timeLayoutParams71.setMargins(0, 12 + lineHeight, 0, 0);
+                    time71.setLayoutParams(timeLayoutParams71);
+
+                    final TextView time72 = new TextView(mContext);
+                    time72.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    sdf = new SimpleDateFormat(DateFormat.is24HourFormat(mContext) ? "HH" : "hh", Locale.getDefault());
+                    time72.setText(getNumericToText(sdf.format(new Date())));
+                    time72.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                    time72.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40 * textScaling);
+                    time72.setTypeface(typeface != null ? typeface : time72.getTypeface(), Typeface.NORMAL);
+                    time72.setIncludeFontPadding(false);
+                    ViewGroup.MarginLayoutParams timeLayoutParams72 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                    timeLayoutParams72.setMargins(0, 12 + lineHeight, 0, 0);
+                    time71.setLayoutParams(timeLayoutParams72);
+
+                    final TextView time73 = new TextView(mContext);
+                    time73.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    sdf = new SimpleDateFormat("mm", Locale.getDefault());
+                    time73.setText(getNumericToText(sdf.format(new Date())));
+                    time73.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                    time73.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40 * textScaling);
+                    time73.setTypeface(typeface != null ? typeface : time73.getTypeface(), Typeface.NORMAL);
+                    time73.setIncludeFontPadding(false);
+                    ViewGroup.MarginLayoutParams timeLayoutParams73 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                    timeLayoutParams73.setMargins(0, 12 + lineHeight, 0, 0);
+                    time71.setLayoutParams(timeLayoutParams73);
+
+                    final TextView date7 = new TextView(mContext);
+                    date7.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    sdf = new SimpleDateFormat("EEEE, MMM dd", Locale.getDefault());
+                    date7.setText(sdf.format(new Date()));
+                    date7.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                    date7.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20 * textScaling);
+                    date7.setTypeface(typeface != null ? typeface : date7.getTypeface(), Typeface.NORMAL);
+                    date7.setIncludeFontPadding(false);
+                    ViewGroup.MarginLayoutParams dateLayoutParams7 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                    dateLayoutParams7.setMargins(0, 12 + lineHeight, 0, 0);
+                    date7.setLayoutParams(dateLayoutParams7);
+
+                    final LinearLayout container7 = new LinearLayout(mContext);
+                    LinearLayout.LayoutParams layoutParams7 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    layoutParams7.gravity = Gravity.CENTER_HORIZONTAL;
+                    layoutParams7.setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, bottomMargin, mContext.getResources().getDisplayMetrics()));
+                    container7.setLayoutParams(layoutParams7);
+                    container7.setGravity(Gravity.START | Gravity.CENTER_HORIZONTAL);
+                    container7.setOrientation(LinearLayout.VERTICAL);
+
+                    container7.addView(time71);
+                    container7.addView(time72);
+                    container7.addView(time73);
+                    container7.addView(date7);
+
+                    return container7;
             }
         }
         return null;
+    }
+
+    private String getNumericToText(String number) {
+        int num = Integer.parseInt(number);
+        String[] numbers = {"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen", "Twenty", "Twenty One", "Twenty Two", "Twenty Three", "Twenty Four", "Twenty Five", "Twenty Six", "Twenty Seven", "Twenty Eight", "Twenty Nine"};
+        return numbers[num];
     }
 }

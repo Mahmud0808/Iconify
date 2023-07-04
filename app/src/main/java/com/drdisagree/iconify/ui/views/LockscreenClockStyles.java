@@ -16,6 +16,7 @@ import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.xposed.utils.SystemUtil;
 
 public class LockscreenClockStyles {
 
@@ -445,6 +446,70 @@ public class LockscreenClockStyles {
                 container6.addView(minuteContainer6);
 
                 container = container6;
+                break;
+            case 7:
+                final TextView time71 = new TextView(mContext);
+                String timeFormat71 = "It's";
+                time71.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                time71.setText(timeFormat71);
+                time71.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                time71.setTextSize(TypedValue.COMPLEX_UNIT_SP, 42 * textScaling);
+                time71.setTypeface(typeface != null ? typeface : time71.getTypeface(), Typeface.NORMAL);
+                time71.setIncludeFontPadding(false);
+                ViewGroup.MarginLayoutParams timeLayoutParams71 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                timeLayoutParams71.setMargins(0, 12 + lineHeight, 0, 0);
+                time71.setLayoutParams(timeLayoutParams71);
+
+                final TextView time72 = new TextView(mContext);
+                String timeFormat72 = "One";
+                time72.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                time72.setText(timeFormat72);
+                time72.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                time72.setTextSize(TypedValue.COMPLEX_UNIT_SP, 42 * textScaling);
+                time72.setTypeface(typeface != null ? typeface : time72.getTypeface(), Typeface.NORMAL);
+                time72.setIncludeFontPadding(false);
+                ViewGroup.MarginLayoutParams timeLayoutParams72 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                timeLayoutParams72.setMargins(0, 12 + lineHeight, 0, 0);
+                time72.setLayoutParams(timeLayoutParams72);
+
+                final TextView time73 = new TextView(mContext);
+                String timeFormat73 = "Sixteen";
+                time73.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                time73.setText(timeFormat73);
+                time73.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                time73.setTextSize(TypedValue.COMPLEX_UNIT_SP, 42 * textScaling);
+                time73.setTypeface(typeface != null ? typeface : time73.getTypeface(), Typeface.NORMAL);
+                time73.setIncludeFontPadding(false);
+                ViewGroup.MarginLayoutParams timeLayoutParams73 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                timeLayoutParams73.setMargins(0, 12 + lineHeight, 0, 0);
+                time73.setLayoutParams(timeLayoutParams73);
+
+                final TextClock date7 = new TextClock(mContext);
+                date7.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                date7.setFormat12Hour("EEEE, MMM dd");
+                date7.setFormat24Hour("EEEE, MMM dd");
+                date7.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                date7.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22 * textScaling);
+                date7.setTypeface(typeface != null ? typeface : date7.getTypeface(), Typeface.NORMAL);
+                date7.setIncludeFontPadding(false);
+                ViewGroup.MarginLayoutParams dateLayoutParams7 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                dateLayoutParams7.setMargins(0, 16 + lineHeight, 0, 0);
+                date7.setLayoutParams(dateLayoutParams7);
+
+                final LinearLayout container7 = new LinearLayout(mContext);
+                LinearLayout.LayoutParams layoutParams7 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                layoutParams7.gravity = Gravity.CENTER_HORIZONTAL;
+                layoutParams7.setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, bottomMargin, mContext.getResources().getDisplayMetrics()));
+                container7.setLayoutParams(layoutParams7);
+                container7.setGravity(Gravity.START | Gravity.CENTER_HORIZONTAL);
+                container7.setOrientation(LinearLayout.VERTICAL);
+
+                container7.addView(time71);
+                container7.addView(time72);
+                container7.addView(time73);
+                container7.addView(date7);
+
+                container = container7;
                 break;
         }
 
