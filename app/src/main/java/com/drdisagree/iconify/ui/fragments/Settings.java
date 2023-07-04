@@ -18,7 +18,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.text.LineBreaker;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -27,7 +26,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -48,6 +46,7 @@ import com.drdisagree.iconify.ui.activities.Experimental;
 import com.drdisagree.iconify.ui.activities.Info;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.ui.views.RadioDialog;
+import com.drdisagree.iconify.utils.CacheUtil;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
@@ -176,17 +175,31 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         force_apply_method.setOnClickListener(v -> rd_force_apply_method.show(R.string.list_title_force_apply_method, R.array.xposed_force_apply_method, selected_force_apply_method));
         selected_force_apply_method.setText(Arrays.asList(getResources().getStringArray(R.array.xposed_force_apply_method)).get(rd_force_apply_method.getSelectedIndex() == -1 ? 2 : rd_force_apply_method.getSelectedIndex()));
 
+        // Clear App Cache
+        LinearLayout clear_cache = view.findViewById(R.id.clear_cache);
+        clear_cache.setOnClickListener(v -> {
+            CacheUtil.clearCache(Iconify.getAppContext());
+            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_clear_cache), Toast.LENGTH_SHORT).show();
+        });
+
+        // Restart SystemUI
+        LinearLayout button_restartSysui = view.findViewById(R.id.button_restartSysui);
+        button_restartSysui.setOnClickListener(v -> {
+            // Show loading dialog
+            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
+
+            new Handler().postDelayed(() -> {
+                // Hide loading dialog
+                loadingDialog.hide();
+
+                // Restart SystemUI
+                SystemUtil.restartSystemUI();
+            }, 1000);
+        });
+
         // Disable Everything
-        TextView list_title_disableEverything = view.findViewById(R.id.list_title_disableEverything);
-        TextView list_desc_disableEverything = view.findViewById(R.id.list_desc_disableEverything);
-        Button button_disableEverything = view.findViewById(R.id.button_disableEverything);
-
-        list_title_disableEverything.setText(getResources().getString(R.string.disable_everything_title));
-        list_desc_disableEverything.setText(getResources().getString(R.string.disable_everything_desc));
-        list_desc_disableEverything.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD);
-
+        LinearLayout button_disableEverything = view.findViewById(R.id.button_disableEverything);
         button_disableEverything.setOnClickListener(v -> Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disable_everything), Toast.LENGTH_SHORT).show());
-
         button_disableEverything.setOnLongClickListener(v -> {
             // Show loading dialog
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
@@ -204,32 +217,6 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
             };
             Thread thread = new Thread(runnable);
             thread.start();
-
-            return true;
-        });
-
-        // Restart SystemUI
-        TextView list_title_restartSysui = view.findViewById(R.id.list_title_restartSysui);
-        TextView list_desc_restartSysui = view.findViewById(R.id.list_desc_restartSysui);
-        Button button_restartSysui = view.findViewById(R.id.button_restartSysui);
-
-        list_title_restartSysui.setText(getResources().getString(R.string.restart_sysui_title));
-        list_desc_restartSysui.setText(getResources().getString(R.string.restart_sysui_desc));
-        list_desc_restartSysui.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD);
-
-        button_restartSysui.setOnClickListener(v -> Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_restart_sysui), Toast.LENGTH_SHORT).show());
-
-        button_restartSysui.setOnLongClickListener(v -> {
-            // Show loading dialog
-            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
-
-            new Handler().postDelayed(() -> {
-                // Hide loading dialog
-                loadingDialog.hide();
-
-                // Restart SystemUI
-                SystemUtil.restartSystemUI();
-            }, 1000);
 
             return true;
         });

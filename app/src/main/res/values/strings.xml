@@ -187,11 +187,11 @@
     <string name="toast_error">Something went wrong</string>
     <string name="reboot_needed">Reboot your device first!</string>
     <string name="disable_everything_title">Disable Everything</string>
-    <string name="disable_everything_desc">Disable all the applied overlays, colors and miscellaneous changes done by Iconify.</string>
+    <string name="disable_everything_desc">Disable all Iconify overlays, colors, and miscellaneous changes.</string>
     <string name="toast_disable_everything">Long press to disable everything</string>
     <string name="toast_disabled_everything">Everything is disabled</string>
     <string name="restart_sysui_title">Restart SystemUI</string>
-    <string name="restart_sysui_desc">Sometimes some of the options might get applied but not visible until a SystemUI reboot. In that case you can use this option to restart SystemUI.</string>
+    <string name="restart_sysui_desc">Restart SystemUI if applied options are not immediately visible.</string>
     <string name="toast_restart_sysui">Long press to restart SystemUI</string>
     <string name="navbar_fullscreen_title">Fullscreen</string>
     <string name="navbar_fullscreen_desc">Hide pill and keyboard spacing</string>
@@ -585,4 +585,7 @@
     <string name="header_clock_hide_landscape_desc">Hide clock in landscape mode</string>
     <string name="lockscreen_clock_auto_hide_clock_title">Auto Hide Clock</string>
     <string name="lockscreen_clock_auto_hide_clock_desc">Hide clock on incoming notification</string>
+    <string name="toast_clear_cache">Iconify cache cleared</string>
+    <string name="clear_app_cache_title">Clear App Cache</string>
+    <string name="clear_app_cache_desc">Clear caches generated due to the usage of custom fonts, images, or gifs.</string>
 </resources>
