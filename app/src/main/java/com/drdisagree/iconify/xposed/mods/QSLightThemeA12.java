@@ -255,12 +255,15 @@ public class QSLightThemeA12 extends ModPack {
         hookAllConstructors(StatusbarClass, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                hookAllMethods(getObjectField(param.thisObject, "mOnColorsChangedListener").getClass(), "onColorsChanged", new XC_MethodHook() {
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        applyOverlays();
-                    }
-                });
+                try {
+                    hookAllMethods(getObjectField(param.thisObject, "mOnColorsChangedListener").getClass(), "onColorsChanged", new XC_MethodHook() {
+                        @Override
+                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                            applyOverlays();
+                        }
+                    });
+                } catch (Throwable ignored) {
+                }
             }
         });
     }
