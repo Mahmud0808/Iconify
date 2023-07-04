@@ -247,7 +247,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     clock1.setTypeface(typeface != null ? typeface : clock1.getTypeface(), Typeface.BOLD);
                     clock1.setIncludeFontPadding(false);
                     ViewGroup.MarginLayoutParams clockParams1 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                    clockParams1.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
+                    clockParams1.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
                     clock1.setLayoutParams(clockParams1);
 
                     final LinearLayout clockContainer1 = new LinearLayout(mContext);
@@ -297,7 +297,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
 
                     final FrameLayout clockContainer2 = new FrameLayout(mContext);
                     clockContainer2.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    ((FrameLayout.LayoutParams) clockContainer2.getLayoutParams()).setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -12 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -8 + lineHeight, mContext.getResources().getDisplayMetrics()));
+                    ((FrameLayout.LayoutParams) clockContainer2.getLayoutParams()).setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -8 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -8 + lineHeight, mContext.getResources().getDisplayMetrics()));
 
                     clockContainer2.addView(clock2);
                     clockContainer2.addView(clockOverlay2);
@@ -310,6 +310,9 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     month2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20 * textScaling);
                     month2.setTypeface(typeface != null ? typeface : month2.getTypeface());
                     month2.setIncludeFontPadding(false);
+                    ViewGroup.MarginLayoutParams monthParams2 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                    monthParams2.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
+                    month2.setLayoutParams(monthParams2);
 
                     final LinearLayout wholeContainer2 = new LinearLayout(mContext);
                     LinearLayout.LayoutParams layoutparams2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -343,7 +346,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     clockHour3.setTypeface(typeface != null ? typeface : clockHour3.getTypeface(), Typeface.BOLD);
                     clockHour3.setIncludeFontPadding(false);
                     ViewGroup.MarginLayoutParams clockHourParams3 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                    clockHourParams3.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -36 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
+                    clockHourParams3.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -22 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
                     clockHour3.setLayoutParams(clockHourParams3);
 
                     final TextView clockMinute3 = new TextView(mContext);
@@ -355,7 +358,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     clockMinute3.setTypeface(typeface != null ? typeface : clockMinute3.getTypeface(), Typeface.BOLD);
                     clockMinute3.setIncludeFontPadding(false);
                     ViewGroup.MarginLayoutParams clockMinuteParams3 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                    clockMinuteParams3.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -80 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
+                    clockMinuteParams3.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -58 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
                     clockMinute3.setLayoutParams(clockMinuteParams3);
 
                     final LinearLayout clockContainer3 = new LinearLayout(mContext);
