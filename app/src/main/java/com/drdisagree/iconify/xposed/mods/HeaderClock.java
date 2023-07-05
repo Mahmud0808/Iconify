@@ -589,6 +589,71 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     container5.addView(date5);
 
                     return container5;
+                case 6:
+                    final TextClock time6 = new TextClock(mContext);
+                    time6.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    time6.setFormat12Hour("hh:mm");
+                    time6.setFormat24Hour("HH:mm");
+                    time6.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                    time6.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * textScaling);
+                    time6.setTypeface(typeface != null ? typeface : time6.getTypeface(), Typeface.BOLD);
+                    time6.setMaxLines(1);
+                    time6.setIncludeFontPadding(false);
+
+                    int px2dp8 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
+
+                    final View view61 = new View(mContext);
+                    LinearLayout.LayoutParams viewLayoutParams61 = new LinearLayout.LayoutParams(px2dp8, px2dp8);
+                    viewLayoutParams61.setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, mContext.getResources().getDisplayMetrics()), 0, px2dp8, 0);
+                    view61.setLayoutParams(viewLayoutParams61);
+                    GradientDrawable mDrawable61 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.parseColor("#3473B8"), Color.parseColor("#3473B8")});
+                    mDrawable61.setCornerRadius(100);
+                    view61.setBackground(mDrawable61);
+
+                    final View view62 = new View(mContext);
+                    LinearLayout.LayoutParams viewLayoutParams62 = new LinearLayout.LayoutParams(px2dp8, px2dp8);
+                    viewLayoutParams62.setMargins(0, 0, px2dp8, 0);
+                    view62.setLayoutParams(viewLayoutParams62);
+                    GradientDrawable mDrawable62 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.parseColor("#38AA4A"), Color.parseColor("#38AA4A")});
+                    mDrawable62.setCornerRadius(100);
+                    view62.setBackground(mDrawable62);
+
+                    final View view63 = new View(mContext);
+                    LinearLayout.LayoutParams viewLayoutParams63 = new LinearLayout.LayoutParams(px2dp8, px2dp8);
+                    viewLayoutParams63.setMargins(0, 0, px2dp8, 0);
+                    view63.setLayoutParams(viewLayoutParams63);
+                    GradientDrawable mDrawable63 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.parseColor("#FEBF32"), Color.parseColor("#FEBF32")});
+                    mDrawable63.setCornerRadius(100);
+                    view63.setBackground(mDrawable63);
+
+                    final View view64 = new View(mContext);
+                    LinearLayout.LayoutParams viewLayoutParams64 = new LinearLayout.LayoutParams(px2dp8, px2dp8);
+                    viewLayoutParams64.setMargins(0, 0, 0, 0);
+                    view64.setLayoutParams(viewLayoutParams64);
+                    GradientDrawable mDrawable64 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.parseColor("#E33830"), Color.parseColor("#E33830")});
+                    mDrawable64.setCornerRadius(100);
+                    view64.setBackground(mDrawable64);
+
+                    final LinearLayout container6 = new LinearLayout(mContext);
+                    LinearLayout.LayoutParams layoutParams6 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    layoutParams6.gravity = Gravity.START | Gravity.CENTER_VERTICAL;
+                    container6.setLayoutParams(layoutParams6);
+                    container6.setOrientation(LinearLayout.HORIZONTAL);
+                    container6.setPadding((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()));
+                    ((LinearLayout.LayoutParams) container6.getLayoutParams()).setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()));
+                    GradientDrawable mDrawable6 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.parseColor("#090909"), Color.parseColor("#090909")});
+                    mDrawable6.setCornerRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (Xprefs.getInt(UI_CORNER_RADIUS, 16) + 6) * mContext.getResources().getDisplayMetrics().density, mContext.getResources().getDisplayMetrics()));
+                    mDrawable6.setAlpha(102);
+                    container6.setBackground(mDrawable6);
+                    container6.setGravity(Gravity.CENTER);
+
+                    container6.addView(time6);
+                    container6.addView(view61);
+                    container6.addView(view62);
+                    container6.addView(view63);
+                    container6.addView(view64);
+
+                    return container6;
             }
         }
         return null;
