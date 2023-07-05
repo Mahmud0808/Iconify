@@ -372,6 +372,45 @@ public class HeaderClockStyles {
 
                 container = container6;
                 break;
+            case 7:
+                final TextClock time7 = new TextClock(mContext);
+                time7.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                time7.setFormat12Hour("hh.mm.");
+                time7.setFormat24Hour("HH.mm.");
+                time7.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                time7.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
+                time7.setTypeface(time7.getTypeface(), Typeface.BOLD);
+                time7.setMaxLines(1);
+                time7.setIncludeFontPadding(false);
+                time7.setLetterSpacing(0.1f);
+                ((LinearLayout.LayoutParams) time7.getLayoutParams()).setMargins(0, 0, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3, mContext.getResources().getDisplayMetrics()));
+
+                final TextClock second7 = new TextClock(mContext);
+                second7.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                second7.setFormat12Hour("ss");
+                second7.setFormat24Hour("ss");
+                second7.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                second7.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20 * textScaling);
+                second7.setTypeface(second7.getTypeface(), Typeface.NORMAL);
+                second7.setMaxLines(1);
+                second7.setIncludeFontPadding(false);
+                second7.setLetterSpacing(0.1f);
+                second7.setAlpha(0.4f);
+                second7.setGravity(Gravity.BOTTOM);
+                ((LinearLayout.LayoutParams) second7.getLayoutParams()).setMargins(0, 0, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3, mContext.getResources().getDisplayMetrics()));
+
+                final LinearLayout container7 = new LinearLayout(mContext);
+                LinearLayout.LayoutParams layoutParams7 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                layoutParams7.gravity = Gravity.START | Gravity.CENTER_VERTICAL;
+                container7.setLayoutParams(layoutParams7);
+                container7.setOrientation(LinearLayout.HORIZONTAL);
+                ((LinearLayout.LayoutParams) container7.getLayoutParams()).setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()));
+
+                container7.addView(time7);
+                container7.addView(second7);
+
+                container = container7;
+                break;
         }
         return container;
     }

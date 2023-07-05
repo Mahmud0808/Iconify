@@ -224,7 +224,7 @@ public class XposedHeaderClock extends BaseActivity implements ColorPickerDialog
     private ClockPreviewAdapter initHeaderClockStyles() {
         ArrayList<ClockModel> header_clock = new ArrayList<>();
 
-        for (int i = 1; i <= 6; i++)
+        for (int i = 1; i <= 7; i++)
             header_clock.add(new ClockModel(HeaderClockStyles.initHeaderClockStyle(this, i)));
 
         return new ClockPreviewAdapter(this, header_clock, HEADER_CLOCK_SWITCH, HEADER_CLOCK_STYLE);
