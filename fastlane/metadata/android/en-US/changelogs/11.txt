@@ -1,0 +1,18 @@
+Iconify v6.3.0 has arrived! It has the following new changes:
+
+Feature Changes:
+• Internal:
+>> Updated JNI libraries
+>> Bump compile SDK and target SDK
+>> Added support for x86 and x86_64 devices
+• Color Engine:
+>> Added back Pitch Black Amoled mode
+>> Fixed pitch black not applying automatically
+• Miscellaneous:
+>> Added Tablet Landscape AKA Better QS
+>> Added Tablet Header to disable QPR2 clock
+>> Added Accent Privacy Chip
+>> Added Notch Bar Killer QS tile
+>> And many more...
+
+Full changelog at https://github.com/Mahmud0808/Iconify/releases/tag/v6.3.0
