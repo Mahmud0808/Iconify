@@ -34,7 +34,7 @@ import com.drdisagree.iconify.utils.ModuleUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.RootUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.compiler.OverlayCompiler;
+import com.drdisagree.iconify.utils.compiler.OnBoardingCompiler;
 import com.drdisagree.iconify.utils.helpers.BackupRestore;
 import com.topjohnwu.superuser.Shell;
 
@@ -274,14 +274,14 @@ public class OnBoardingScreen3 extends BaseActivity {
                             if (overlay.isDirectory()) {
                                 String overlay_name = overlay.toString().replace(pkg.toString() + '/', "");
 
-                                if (OverlayCompiler.createManifest(overlay_name, pkg.toString().replace(Resources.DATA_DIR + "/Overlays/", ""), overlay.getAbsolutePath())) {
+                                if (OnBoardingCompiler.createManifest(overlay_name, pkg.toString().replace(Resources.DATA_DIR + "/Overlays/", ""), overlay.getAbsolutePath())) {
                                     hasErroredOut = true;
                                 }
 
                                 logger = "Building APK for " + overlay_name;
                                 publishProgress(step);
 
-                                if (!hasErroredOut && OverlayCompiler.runAapt(overlay.getAbsolutePath(), overlay_name)) {
+                                if (!hasErroredOut && OnBoardingCompiler.runAapt(overlay.getAbsolutePath(), overlay_name)) {
                                     hasErroredOut = true;
                                 }
                             }
@@ -306,7 +306,7 @@ public class OnBoardingScreen3 extends BaseActivity {
                         logger = "Zip aligning APK " + overlay_name.replace("-unsigned.apk", "");
                         publishProgress(step);
 
-                        if (OverlayCompiler.zipAlign(overlay.getAbsolutePath(), overlay_name)) {
+                        if (OnBoardingCompiler.zipAlign(overlay.getAbsolutePath(), overlay_name)) {
                             hasErroredOut = true;
                         }
                     }
@@ -330,7 +330,7 @@ public class OnBoardingScreen3 extends BaseActivity {
 
                         int attempt = 3;
                         while (attempt-- != 0) {
-                            hasErroredOut = OverlayCompiler.apkSigner(overlay.getAbsolutePath(), overlay_name);
+                            hasErroredOut = OnBoardingCompiler.apkSigner(overlay.getAbsolutePath(), overlay_name);
 
                             if (!hasErroredOut) break;
                             else try {
@@ -405,6 +405,7 @@ public class OnBoardingScreen3 extends BaseActivity {
                 }
             } else {
                 Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
+                Shell.cmd("rm -rf " + Resources.BACKUP_DIR).exec();
                 showInfo(R.string.installation_failed_title, R.string.installation_failed_desc);
                 install_module.setVisibility(View.VISIBLE);
                 reboot_phone.setVisibility(View.GONE);
