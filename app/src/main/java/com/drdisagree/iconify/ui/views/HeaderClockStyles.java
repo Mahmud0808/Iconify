@@ -411,6 +411,56 @@ public class HeaderClockStyles {
 
                 container = container7;
                 break;
+            case 8:
+                final TextClock clock8 = new TextClock(mContext);
+                clock8.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                clock8.setFormat12Hour("hh:mm");
+                clock8.setFormat24Hour("HH:mm");
+                clock8.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                clock8.setTextSize(TypedValue.COMPLEX_UNIT_SP, 44 * textScaling);
+                clock8.setTypeface(clock8.getTypeface(), Typeface.BOLD);
+                clock8.setMaxLines(1);
+                clock8.setIncludeFontPadding(false);
+
+                final TextClock clockOverlay8 = new TextClock(mContext);
+                clockOverlay8.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                clockOverlay8.setFormat12Hour("hh");
+                clockOverlay8.setFormat24Hour("HH");
+                clockOverlay8.setTextColor(mContext.getResources().getColor(android.R.color.holo_blue_light));
+                clockOverlay8.setTextSize(TypedValue.COMPLEX_UNIT_SP, 44 * textScaling);
+                clockOverlay8.setTypeface(clockOverlay8.getTypeface(), Typeface.BOLD);
+                clockOverlay8.setMaxLines(1);
+                clockOverlay8.setIncludeFontPadding(false);
+
+                final FrameLayout clockContainer8 = new FrameLayout(mContext);
+                clockContainer8.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+                clockContainer8.addView(clock8);
+                clockContainer8.addView(clockOverlay8);
+
+                final TextClock dayDate8 = new TextClock(mContext);
+                dayDate8.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                dayDate8.setFormat12Hour("EEE d MMM");
+                dayDate8.setFormat24Hour("EEE d MMM");
+                dayDate8.setLetterSpacing(0.2f);
+                dayDate8.setAllCaps(true);
+                dayDate8.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                dayDate8.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16 * textScaling);
+                dayDate8.setTypeface(clockOverlay8.getTypeface(), Typeface.NORMAL);
+                dayDate8.setIncludeFontPadding(false);
+                ((LinearLayout.LayoutParams) dayDate8.getLayoutParams()).setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()), 0, 0, 0);
+
+                final LinearLayout container8 = new LinearLayout(mContext);
+                container8.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                container8.setGravity(Gravity.START | Gravity.BOTTOM);
+                container8.setOrientation(LinearLayout.HORIZONTAL);
+                ((LinearLayout.LayoutParams) container8.getLayoutParams()).setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()));
+
+                container8.addView(clockContainer8);
+                container8.addView(dayDate8);
+
+                container = container8;
+                break;
         }
         return container;
     }
