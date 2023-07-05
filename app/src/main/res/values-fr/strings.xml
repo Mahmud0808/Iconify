@@ -76,8 +76,8 @@
     <string name="secondary_color">Couleur secondaire</string>
     <string name="minimal_qspanel">Panneau QS minimal</string>
     <string name="remove_top_shade_of_qspanel">Retirer le store supérieur du panneau QS</string>
-    <string name="pitch_black_theme">Thème Pitch Black</string>
-    <string name="enable_pitch_black_colored_theme">Activer le thème pitch black</string>
+    <string name="pitch_black_dark_title">Thème Pitch Black</string>
+    <string name="pitch_black_dark_desc">Activer le thème pitch black</string>
     <string name="warning">Attention</string>
     <string name="btn_continue">CONTINUER</string>
     <string name="iconify_logo">Logo Iconify</string>

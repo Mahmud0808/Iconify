@@ -121,8 +121,11 @@ public class QuickSettings extends ModPack {
                     fixTileLayout(((LinearLayout) param.thisObject), mParam);
 
                     if (QsTilePrimaryTextSize == null || QsTileSecondaryTextSize == null) {
-                        callStaticMethod(FontSizeUtils, "updateFontSize", mContext.getResources().getIdentifier("qs_tile_text_size", "dimen", mContext.getPackageName()), getObjectField(param.thisObject, "label"));
-                        callStaticMethod(FontSizeUtils, "updateFontSize", mContext.getResources().getIdentifier("qs_tile_text_size", "dimen", mContext.getPackageName()), getObjectField(param.thisObject, "secondaryLabel"));
+                        try {
+                            callStaticMethod(FontSizeUtils, "updateFontSize", mContext.getResources().getIdentifier("qs_tile_text_size", "dimen", mContext.getPackageName()), getObjectField(param.thisObject, "label"));
+                            callStaticMethod(FontSizeUtils, "updateFontSize", mContext.getResources().getIdentifier("qs_tile_text_size", "dimen", mContext.getPackageName()), getObjectField(param.thisObject, "secondaryLabel"));
+                        } catch (Throwable ignored) {
+                        }
 
                         TextView PrimaryText = (TextView) getObjectField(param.thisObject, "label");
                         TextView SecondaryText = (TextView) getObjectField(param.thisObject, "secondaryLabel");

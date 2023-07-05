@@ -1,7 +1,10 @@
 package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_AUTOHIDE;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_BOTTOMMARGIN;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_LINEHEIGHT;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_TEXT_SCALING;
@@ -13,11 +16,14 @@ import static com.drdisagree.iconify.ui.utils.ViewBindingHelpers.disableNestedSc
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -32,16 +38,20 @@ import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LockscreenClockStyles;
 import com.drdisagree.iconify.utils.FileUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.jaredrummler.android.colorpicker.ColorPickerDialog;
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import me.relex.circleindicator.CircleIndicator3;
 
-public class XposedLockscreenClock extends BaseActivity {
+public class XposedLockscreenClock extends BaseActivity implements ColorPickerDialogListener {
 
     private static final int PICKFILE_RESULT_CODE = 100;
     private Button enable_lsclock_font;
+    private static int colorLockscreenClock;
+    ColorPickerDialog.Builder colorPickerDialogLockscreenClock;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -58,6 +68,14 @@ public class XposedLockscreenClock extends BaseActivity {
         enable_locksreen_clock.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(LSCLOCK_SWITCH, isChecked);
             if (!isChecked) RPrefs.putInt(LSCLOCK_STYLE, 0);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+        });
+
+        // Auto hide clock
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_auto_hide_clock = findViewById(R.id.enable_auto_hide_clock);
+        enable_auto_hide_clock.setChecked(RPrefs.getBoolean(LSCLOCK_AUTOHIDE, false));
+        enable_auto_hide_clock.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(LSCLOCK_AUTOHIDE, isChecked);
             new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 
@@ -88,17 +106,34 @@ public class XposedLockscreenClock extends BaseActivity {
 
         enable_lsclock_font = findViewById(R.id.enable_lsclock_font);
         enable_lsclock_font.setOnClickListener(v -> {
+            RPrefs.putBoolean(LSCLOCK_FONT_SWITCH, false);
             RPrefs.putBoolean(LSCLOCK_FONT_SWITCH, true);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
             enable_lsclock_font.setVisibility(View.GONE);
             disable_lsclock_font.setVisibility(View.VISIBLE);
         });
 
         disable_lsclock_font.setOnClickListener(v -> {
             RPrefs.putBoolean(LSCLOCK_FONT_SWITCH, false);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
             disable_lsclock_font.setVisibility(View.GONE);
         });
+
+        // Custom clock color
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_ls_clock_custom_color = findViewById(R.id.enable_ls_clock_custom_color);
+        enable_ls_clock_custom_color.setChecked(RPrefs.getBoolean(LSCLOCK_COLOR_SWITCH, false));
+        enable_ls_clock_custom_color.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(LSCLOCK_COLOR_SWITCH, isChecked);
+            findViewById(R.id.ls_clock_color_picker).setVisibility(isChecked ? View.VISIBLE : View.GONE);
+        });
+
+        findViewById(R.id.ls_clock_color_picker).setVisibility(RPrefs.getBoolean(LSCLOCK_COLOR_SWITCH, false) ? View.VISIBLE : View.GONE);
+
+        // Clock color picker
+        colorPickerDialogLockscreenClock = ColorPickerDialog.newBuilder();
+        colorLockscreenClock = RPrefs.getInt(LSCLOCK_COLOR_CODE, Color.WHITE);
+        colorPickerDialogLockscreenClock.setDialogStyle(R.style.ColorPicker).setColor(colorLockscreenClock).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(true).setShowColorShades(true);
+        LinearLayout sb_clock_color_picker = findViewById(R.id.ls_clock_color_picker);
+        sb_clock_color_picker.setOnClickListener(v -> colorPickerDialogLockscreenClock.show(this));
+        updateColorPreview();
 
         // Line height
         SeekBar lsclock_lineheight_seekbar = findViewById(R.id.lsclock_lineheight_seekbar);
@@ -202,16 +237,12 @@ public class XposedLockscreenClock extends BaseActivity {
         enable_force_white_text.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(LSCLOCK_TEXT_WHITE, isChecked);
         });
-
-        // Restart systemui
-        Button restart_sysui = findViewById(R.id.restart_sysui);
-        restart_sysui.setOnClickListener(v -> new Handler().postDelayed(SystemUtil::restartSystemUI, 200));
     }
 
     private ClockPreviewAdapter initLockscreenClockStyles() {
         ArrayList<ClockModel> ls_clock = new ArrayList<>();
 
-        for (int i = 0; i <= 5; i++)
+        for (int i = 0; i <= 8; i++)
             ls_clock.add(new ClockModel(LockscreenClockStyles.initLockscreenClockStyle(this, i)));
 
         return new ClockPreviewAdapter(this, ls_clock, LSCLOCK_SWITCH, LSCLOCK_STYLE);
@@ -228,5 +259,28 @@ public class XposedLockscreenClock extends BaseActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         FileUtil.copyToIconifyHiddenDir(this, requestCode, resultCode, data, PICKFILE_RESULT_CODE, "lsclock_font.ttf", enable_lsclock_font);
+    }
+
+    @Override
+    public void onColorSelected(int dialogId, int color) {
+        if (dialogId == 1) {
+            colorLockscreenClock = color;
+            updateColorPreview();
+            RPrefs.putInt(LSCLOCK_COLOR_CODE, colorLockscreenClock);
+            colorPickerDialogLockscreenClock.setDialogStyle(R.style.ColorPicker).setColor(colorLockscreenClock).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(true).setShowColorShades(true);
+        }
+    }
+
+    @Override
+    public void onDialogDismissed(int dialogId) {
+    }
+
+    private void updateColorPreview() {
+        View preview_color_picker_clocktext = findViewById(R.id.preview_color_picker_clocktext);
+        GradientDrawable gd;
+
+        gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{colorLockscreenClock, colorLockscreenClock});
+        gd.setCornerRadius(getResources().getDimension(com.intuit.sdp.R.dimen._24sdp) * getResources().getDisplayMetrics().density);
+        preview_color_picker_clocktext.setBackgroundDrawable(gd);
     }
 }

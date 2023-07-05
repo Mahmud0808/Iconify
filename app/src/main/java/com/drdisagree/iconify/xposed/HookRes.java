@@ -1,7 +1,7 @@
 package com.drdisagree.iconify.xposed;
 
 /* Modified from AOSPMods
- * https://github.com/siavash79/AOSPMods/blob/canary/app/src/main/java/sh/siava/AOSPMods/ResourceManager.java
+ * https://github.com/siavash79/AOSPMods/blob/canary/app/src/main/java/sh/siava/AOSPMods/modpacks/ResourceManager.java
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,6 +17,8 @@ package com.drdisagree.iconify.xposed;
  * along with this program.  If not, see [http://www.gnu.org/licenses/].
  */
 
+import android.content.res.Resources;
+
 import java.util.HashMap;
 
 import de.robv.android.xposed.IXposedHookInitPackageResources;
@@ -26,6 +28,7 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 public class HookRes implements IXposedHookInitPackageResources, IXposedHookZygoteInit {
 
     public final static HashMap<String, XC_InitPackageResources.InitPackageResourcesParam> resparams = new HashMap<>();
+    public static Resources modRes;
     private String MODULE_PATH;
 
     @Override
@@ -35,11 +38,6 @@ public class HookRes implements IXposedHookInitPackageResources, IXposedHookZygo
 
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
-        try {
-            resparams.put(resparam.packageName, resparam);
-        } catch (Throwable ignored) {
-        }
+        resparams.put(resparam.packageName, resparam);
     }
-
-
 }

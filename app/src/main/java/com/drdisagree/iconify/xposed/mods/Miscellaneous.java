@@ -12,6 +12,7 @@ import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedHelpers.findClass;
+import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 import android.annotation.SuppressLint;
@@ -38,7 +39,8 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
 
     private static final String TAG = "Iconify - Miscellaneous: ";
     private static final String QuickStatusBarHeaderClass = SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader";
-    private static final String LargeScreenShadeHeaderControllerClass = SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController";
+    private static final String LargeScreenShadeHeaderController = SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController";
+    private static final String ShadeHeaderController = SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController";
     boolean QSCarrierGroupHidden = false;
     boolean hideStatusIcons = false;
     boolean fixedStatusIcons = false;
@@ -132,9 +134,11 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
         }
 
         try {
-            final Class<?> LargeScreenShadeHeaderController = findClass(LargeScreenShadeHeaderControllerClass, lpparam.classLoader);
+            Class<?> ShadeHeaderControllerClass = findClassIfExists(LargeScreenShadeHeaderController, lpparam.classLoader);
+            if (ShadeHeaderControllerClass == null)
+                ShadeHeaderControllerClass = findClass(ShadeHeaderController, lpparam.classLoader);
 
-            hookAllMethods(LargeScreenShadeHeaderController, "onInit", new XC_MethodHook() {
+            hookAllMethods(ShadeHeaderControllerClass, "onInit", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
                     if (hideStatusIcons) {

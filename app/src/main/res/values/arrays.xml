@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="module_scope">
+    <string-array name="module_scope" translatable="false">
         <item>android</item>
         <item>com.android.systemui</item>
         <item>com.google.android.apps.nexuslauncher</item>
@@ -16,7 +16,7 @@
         <item>Turkish</item>
         <item>Vietnamese</item>
     </string-array>
-    <string-array name="locale_code">
+    <string-array name="locale_code" translatable="false">
         <item>en</item>
         <item>zh</item>
         <item>fr</item>
@@ -26,6 +26,16 @@
         <item>ru</item>
         <item>tr</item>
         <item>vi</item>
+    </string-array>
+    <string-array name="app_icon">
+        <item>@string/app_icon_default</item>
+        <item>@string/app_icon_themed</item>
+        <item>@string/app_icon_retro</item>
+    </string-array>
+    <string-array name="app_icon_identifier" translatable="false">
+        <item>SplashActivity</item>
+        <item>SplashActivityThemed</item>
+        <item>SplashActivityRetro</item>
     </string-array>
     <string-array name="app_theme">
         <item>@string/app_theme_light</item>
@@ -77,5 +87,13 @@
         <item>Landscape iOS 16</item>
         <item>Portrait Origami</item>
         <item>Landscape Smiley</item>
+        <item>Landscape MIUI Pill</item>
+        <item>Landscape L ColorOS</item>
+        <item>Landscape R ColorOS</item>
+    </string-array>
+    <string-array name="statusbar_clock_color">
+        <item>@string/sbclock_color_follow_system</item>
+        <item>@string/sbclock_color_transparent_text</item>
+        <item>@string/sbclock_color_custom_color</item>
     </string-array>
 </resources>

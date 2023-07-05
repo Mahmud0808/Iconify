@@ -107,6 +107,25 @@ public class FabricatedUtil {
         Shell.cmd(disable_cmd).submit();
     }
 
+    public static void disableOverlays(String... names) {
+        StringBuilder command = new StringBuilder();
+
+        for (String name : names) {
+            Prefs.putBoolean("fabricated" + name, false);
+            Prefs.clearPref("FOCMDtarget" + name);
+            Prefs.clearPref("FOCMDname" + name);
+            Prefs.clearPref("FOCMDtype" + name);
+            Prefs.clearPref("FOCMDresourceName" + name);
+            Prefs.clearPref("FOCMDval" + name);
+
+            command.append("cmd overlay disable --user current com.android.shell:IconifyComponent").append(name).append("; ");
+
+            Shell.cmd("mv " + Resources.MODULE_DIR + "/post-exec.sh " + Resources.MODULE_DIR + "/post-exec.txt; grep -v \"IconifyComponent" + name + "\" " + Resources.MODULE_DIR + "/post-exec.txt > " + Resources.MODULE_DIR + "/post-exec.txt.tmp && mv " + Resources.MODULE_DIR + "/post-exec.txt.tmp " + Resources.MODULE_DIR + "/post-exec.sh; rm -rf " + Resources.MODULE_DIR + "/post-exec.txt; rm -rf " + Resources.MODULE_DIR + "/post-exec.txt.tmp").submit();
+        }
+
+        Shell.cmd(command.toString().trim()).submit();
+    }
+
     public static boolean isOverlayEnabled(List<String> overlays, String name) {
         for (String overlay : overlays) {
             if (overlay.equals("IconifyComponent" + name)) return true;

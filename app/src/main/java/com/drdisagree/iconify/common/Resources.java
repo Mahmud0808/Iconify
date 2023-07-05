@@ -22,9 +22,9 @@ public class Resources {
     public static final String TEMP_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.iconify";
     public static final String TEMP_OVERLAY_DIR = TEMP_DIR + "/overlays";
     public static final String TEMP_CACHE_DIR = TEMP_OVERLAY_DIR + "/cache";
-    public static final String UNSIGNED_UNALIGNED_DIR = TEMP_DIR + "/overlays/unsigned_unaligned";
-    public static final String UNSIGNED_DIR = TEMP_DIR + "/overlays/unsigned";
-    public static final String SIGNED_DIR = TEMP_DIR + "/overlays/signed";
+    public static final String UNSIGNED_UNALIGNED_DIR = TEMP_OVERLAY_DIR + "/unsigned_unaligned";
+    public static final String UNSIGNED_DIR = TEMP_OVERLAY_DIR + "/unsigned";
+    public static final String SIGNED_DIR = TEMP_OVERLAY_DIR + "/signed";
     public static final String COMPANION_TEMP_DIR = TEMP_DIR + "/companion";
     public static final String COMPANION_COMPILED_DIR = COMPANION_TEMP_DIR + "/compiled";
     public static final String COMPANION_MODULE_DIR = TEMP_DIR + "/module/IconifyCompanion";

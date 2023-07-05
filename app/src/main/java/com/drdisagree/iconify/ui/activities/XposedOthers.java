@@ -43,11 +43,13 @@ public class XposedOthers extends BaseActivity {
         hide_qs_carrier_group.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(QSPANEL_HIDE_CARRIER, isChecked);
 
-            if (Build.VERSION.SDK_INT >= 33) {
-                SystemUtil.restartSystemUI();
-            } else {
-                HelperUtil.forceApply();
-            }
+            new Handler().postDelayed(() -> {
+                if (Build.VERSION.SDK_INT >= 33) {
+                    SystemUtil.restartSystemUI();
+                } else {
+                    HelperUtil.forceApply();
+                }
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         // Hide status icons
@@ -56,11 +58,13 @@ public class XposedOthers extends BaseActivity {
         hide_status_icons.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_STATUS_ICONS_SWITCH, isChecked);
 
-            if (Build.VERSION.SDK_INT >= 33) {
-                SystemUtil.restartSystemUI();
-            } else {
-                HelperUtil.forceApply();
-            }
+            new Handler().postDelayed(() -> {
+                if (Build.VERSION.SDK_INT >= 33) {
+                    SystemUtil.restartSystemUI();
+                } else {
+                    HelperUtil.forceApply();
+                }
+            }, SWITCH_ANIMATION_DELAY);
         });
 
         // Hide lockscreen carrier

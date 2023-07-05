@@ -1,36 +1,23 @@
 package com.drdisagree.iconify.utils.compiler;
 
-import static com.drdisagree.iconify.common.Dynamic.AAPT;
-import static com.drdisagree.iconify.common.Dynamic.ZIPALIGN;
-import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readCertificate;
-import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;
 import static com.drdisagree.iconify.utils.helpers.Logger.writeLog;
 
 import android.util.Log;
 
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.Const;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.utils.FileUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.RootUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.apksigner.JarMap;
-import com.drdisagree.iconify.utils.apksigner.SignAPK;
 import com.drdisagree.iconify.utils.helpers.BinaryInstaller;
 import com.topjohnwu.superuser.Shell;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.security.PrivateKey;
-import java.security.cert.X509Certificate;
 
 public class MonetCompiler {
 
     private static final String TAG = "MonetCompiler";
-    private static final String aapt = AAPT.getAbsolutePath();
-    private static final String zipalign = ZIPALIGN.getAbsolutePath();
 
     public static boolean buildOverlay(String[] resources) throws IOException {
         preExecute();
@@ -52,21 +39,21 @@ public class MonetCompiler {
         }
 
         // Build APK using AAPT
-        if (runAapt(Resources.DATA_DIR + "/Overlays/android/ME", overlay_name)) {
+        if (OverlayCompiler.runAapt(Resources.DATA_DIR + "/Overlays/android/ME")) {
             Log.e(TAG, "Failed to build " + overlay_name + "! Exiting...");
             postExecute(true);
             return true;
         }
 
         // ZipAlign the APK
-        if (zipAlign(Resources.UNSIGNED_UNALIGNED_DIR + "/ME-unsigned-unaligned.apk")) {
+        if (OverlayCompiler.zipAlign(Resources.UNSIGNED_UNALIGNED_DIR + "/ME-unsigned-unaligned.apk")) {
             Log.e(TAG, "Failed to align ME-unsigned-unaligned.apk! Exiting...");
             postExecute(true);
             return true;
         }
 
         // Sign the APK
-        if (apkSigner(Resources.UNSIGNED_DIR + "/ME-unsigned.apk")) {
+        if (OverlayCompiler.apkSigner(Resources.UNSIGNED_DIR + "/ME-unsigned.apk")) {
             Log.e(TAG, "Failed to sign ME-unsigned.apk! Exiting...");
             postExecute(true);
             return true;
@@ -142,49 +129,5 @@ public class MonetCompiler {
         }
 
         return !result.isSuccess();
-    }
-
-    private static boolean runAapt(String source, String name) {
-        Shell.Result result = Shell.cmd(aapt + " p -f -v -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + Resources.UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk >/dev/null;").exec();
-
-        if (result.isSuccess()) Log.i(TAG + " - AAPT", "Successfully built APK for " + name);
-        else {
-            Log.e(TAG + " - AAPT", "Failed to build APK for " + name + '\n' + String.join("\n", result.getOut()));
-            writeLog(TAG + " - AAPT", "Failed to build APK for " + name, result.getOut());
-        }
-
-        return !result.isSuccess();
-    }
-
-    private static boolean zipAlign(String source) {
-        Shell.Result result = Shell.cmd(zipalign + " 4 " + source + ' ' + Resources.UNSIGNED_DIR + "/ME-unsigned.apk").exec();
-
-        if (result.isSuccess()) Log.i(TAG + " - ZipAlign", "Successfully zip aligned MonetEngine");
-        else {
-            Log.e(TAG + " - ZipAlign", "Failed to zip align MonetEngine\n" + String.join("\n", result.getOut()));
-            writeLog(TAG + " - ZipAlign", "Failed to zip align MonetEngine", result.getOut());
-        }
-
-        return !result.isSuccess();
-    }
-
-    private static boolean apkSigner(String source) {
-        try {
-            PrivateKey key = readPrivateKey(Iconify.getAppContext().getAssets().open("Keystore/testkey.pk8"));
-            X509Certificate cert = readCertificate(Iconify.getAppContext().getAssets().open("Keystore/testkey.x509.pem"));
-
-            JarMap jar = JarMap.open(new FileInputStream(source), true);
-            FileOutputStream out = new FileOutputStream(Resources.SIGNED_DIR + "/IconifyComponentME.apk");
-
-            SignAPK.sign(cert, key, jar, out);
-
-            Log.i(TAG + " - APKSigner", "Successfully signed MonetEngine");
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
-            writeLog(TAG + " - APKSigner", "Failed to sign MonetEngine", e.toString());
-            postExecute(true);
-            return true;
-        }
-        return false;
     }
 }

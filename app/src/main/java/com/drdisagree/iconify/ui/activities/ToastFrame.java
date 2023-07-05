@@ -6,6 +6,7 @@ import static com.drdisagree.iconify.common.Preferences.SELECTED_TOAST_FRAME;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,7 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
-import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.compiler.OnDemandCompiler;
 import com.google.android.flexbox.FlexboxLayout;
@@ -29,6 +30,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class ToastFrame extends BaseActivity {
 
     private FlexboxLayout container;
+    LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,8 @@ public class ToastFrame extends BaseActivity {
         // Header
         ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_toast_frame);
 
+        // Loading dialog while enabling or disabling pack
+        loadingDialog = new LoadingDialog(this);
 
         // Toast Frame style
         container = findViewById(R.id.toast_frame_container);
@@ -52,6 +56,8 @@ public class ToastFrame extends BaseActivity {
         toast_frame_style.add(new Object[]{R.drawable.toast_frame_style_7, R.string.style_7});
         toast_frame_style.add(new Object[]{R.drawable.toast_frame_style_8, R.string.style_8});
         toast_frame_style.add(new Object[]{R.drawable.toast_frame_style_9, R.string.style_9});
+        toast_frame_style.add(new Object[]{R.drawable.toast_frame_style_10, R.string.style_10});
+        toast_frame_style.add(new Object[]{R.drawable.toast_frame_style_11, R.string.style_11});
 
         addItem(toast_frame_style);
 
@@ -75,23 +81,37 @@ public class ToastFrame extends BaseActivity {
                 if (!Environment.isExternalStorageManager()) {
                     SystemUtil.getStoragePermission(this);
                 } else {
-                    AtomicBoolean hasErroredOut = new AtomicBoolean(false);
+                    // Show loading dialog
+                    loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
-                    try {
-                        hasErroredOut.set(OnDemandCompiler.buildOverlay("TSTFRM", finalI + 1, FRAMEWORK_PACKAGE));
-                    } catch (IOException e) {
-                        hasErroredOut.set(true);
-                        Log.e("ToastFrame", e.toString());
-                    }
+                    Runnable runnable = () -> {
+                        AtomicBoolean hasErroredOut = new AtomicBoolean(false);
 
-                    if (!hasErroredOut.get()) {
-                        Prefs.putInt(SELECTED_TOAST_FRAME, finalI);
-                        OverlayUtil.enableOverlay("IconifyComponentTSTFRM.overlay");
-                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
-                    } else
-                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                        try {
+                            hasErroredOut.set(OnDemandCompiler.buildOverlay("TSTFRM", finalI + 1, FRAMEWORK_PACKAGE));
+                        } catch (IOException e) {
+                            hasErroredOut.set(true);
+                            Log.e("ToastFrame", e.toString());
+                        }
 
-                    refreshBackground();
+                        if (!hasErroredOut.get()) {
+                            Prefs.putInt(SELECTED_TOAST_FRAME, finalI);
+                            refreshBackground();
+                        }
+
+                        runOnUiThread(() -> new Handler().postDelayed(() -> {
+                            // Hide loading dialog
+                            loadingDialog.hide();
+
+                            if (!hasErroredOut.get()) {
+                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                            }
+                        }, 3000));
+                    };
+                    Thread thread = new Thread(runnable);
+                    thread.start();
                 }
             });
 
@@ -111,5 +131,11 @@ public class ToastFrame extends BaseActivity {
                 title.setTextColor(getResources().getColor(R.color.textColorSecondary));
             }
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        loadingDialog.hide();
+        super.onDestroy();
     }
 }

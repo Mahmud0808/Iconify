@@ -2,6 +2,7 @@ package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_HEIGHT;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_MARGIN;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_STYLE;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_WIDTH;
 
@@ -101,6 +102,31 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(CUSTOM_BATTERY_HEIGHT, batteryHeight[0]);
                 new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
+            }
+        });
+
+        // Battery margin
+        SeekBar battery_margin_seekbar = findViewById(R.id.battery_margin_seekbar);
+        TextView battery_margin_output = findViewById(R.id.battery_margin_output);
+        final int[] batteryMargin = {RPrefs.getInt(CUSTOM_BATTERY_MARGIN, 6)};
+        battery_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryMargin[0] + "dp");
+        battery_margin_seekbar.setProgress(RPrefs.getInt(CUSTOM_BATTERY_MARGIN, 6));
+        battery_margin_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                batteryMargin[0] = progress;
+                battery_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                RPrefs.putInt(CUSTOM_BATTERY_MARGIN, batteryMargin[0]);
+                new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
             }
         });
     }

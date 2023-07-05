@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Notification service on boot -->
     <!-- <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> -->
     <!-- <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- To notify about new iconify updates -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- Access phone storage for installation of overlays in temporary folder -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- Access phone storage for installation of overlays in temporary folder -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- Access phone storage for creating overlays in a temporary folder -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- Access phone storage for creating overlays in a temporary folder -->
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" /> <!-- Access phone storage for installation of overlays in temporary folder -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- For checking new updates -->
 
+    <!-- Checking for Installed Music Players -->
     <queries>
         <package android:name="com.maxmpz.audioplayer" />
         <package android:name="code.name.monkey.retromusic" />
@@ -40,6 +42,7 @@
         android:theme="@style/Theme.Iconify"
         tools:replace="android:allowBackup"
         tools:targetApi="tiramisu">
+
         <activity
             android:name=".ui.activities.Switch"
             android:exported="false" />
@@ -169,6 +172,8 @@
         <activity
             android:name=".SplashActivity"
             android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:roundIcon="@mipmap/ic_launcher_round"
             android:theme="@style/Theme.Iconify.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -176,6 +181,36 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Custom App Icons -->
+        <activity-alias
+            android:name=".SplashActivityRetro"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_retro"
+            android:roundIcon="@mipmap/ic_launcher_round_retro"
+            android:targetActivity=".SplashActivity"
+            android:theme="@style/Theme.Iconify.SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".SplashActivityThemed"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_themed"
+            android:roundIcon="@mipmap/ic_launcher_round_themed"
+            android:targetActivity=".SplashActivity"
+            android:theme="@style/Theme.Iconify.SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
 
         <receiver
             android:name=".services.BootCompletedReceiver"
@@ -191,11 +226,13 @@
             android:enabled="true"
             android:exported="true"
             tools:ignore="ExportedService" />
+
+        <!-- Quick Settings Tiles -->
         <service
-            android:name=".services.TileMonetEngine"
+            android:name=".services.TileNotchBarKiller"
             android:exported="true"
             android:icon="@drawable/ic_app_logo"
-            android:label="Monet Engine"
+            android:label="@string/notch_bar_killer_title"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
@@ -206,10 +243,10 @@
                 android:value="true" />
         </service>
         <service
-            android:name=".services.TilePitchBlack"
+            android:name=".services.TileMonetEngine"
             android:exported="true"
             android:icon="@drawable/ic_app_logo"
-            android:label="Pitch Black"
+            android:label="@string/activity_title_monet_engine"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
@@ -218,7 +255,37 @@
             <meta-data
                 android:name="android.service.quicksettings.TOGGLEABLE_TILE"
                 android:value="true" />
-        </service> <!-- xposed meta data -->
+        </service>
+        <service
+            android:name=".services.TilePitchBlackDark"
+            android:exported="true"
+            android:icon="@drawable/ic_app_logo"
+            android:label="@string/pitch_black_dark_title"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.service.quicksettings.TOGGLEABLE_TILE"
+                android:value="true" />
+        </service>
+        <service
+            android:name=".services.TilePitchBlackAmoled"
+            android:exported="true"
+            android:icon="@drawable/ic_app_logo"
+            android:label="@string/pitch_black_amoled_title"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.service.quicksettings.TOGGLEABLE_TILE"
+                android:value="true" />
+        </service>
+
+        <!-- xposed meta data -->
         <meta-data
             android:name="xposedmodule"
             android:value="true" />
@@ -230,7 +297,9 @@
             android:value="82" />
         <meta-data
             android:name="xposedscope"
-            android:resource="@array/module_scope" /> <!-- Remote Preferences Provider -->
+            android:resource="@array/module_scope" />
+
+        <!-- Remote Preferences Provider -->
         <provider
             android:name=".services.RemotePrefProvider"
             android:authorities="${applicationId}"

@@ -89,7 +89,7 @@
 
                     <SeekBar
                         android:id="@+id/qqs_row_seekbar"
-                        style="@style/customSeekBar"
+                        style="@style/SeekBar.Iconify"
                         android:max="1"
                         android:min="0"
                         android:progress="1" />
@@ -125,7 +125,7 @@
 
                     <SeekBar
                         android:id="@+id/qs_row_seekbar"
-                        style="@style/customSeekBar"
+                        style="@style/SeekBar.Iconify"
                         android:max="5"
                         android:min="0"
                         android:progress="3" />
@@ -161,7 +161,7 @@
 
                     <SeekBar
                         android:id="@+id/qs_column_seekbar"
-                        style="@style/customSeekBar"
+                        style="@style/SeekBar.Iconify"
                         android:max="4"
                         android:min="0"
                         android:progress="1" />

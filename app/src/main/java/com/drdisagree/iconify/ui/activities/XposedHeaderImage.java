@@ -51,6 +51,7 @@ public class XposedHeaderImage extends BaseActivity {
 
         enable_header_image = findViewById(R.id.enable_header_image);
         enable_header_image.setOnClickListener(v -> {
+            RPrefs.putBoolean(HEADER_IMAGE_SWITCH, false);
             RPrefs.putBoolean(HEADER_IMAGE_SWITCH, true);
             enable_header_image.setVisibility(View.GONE);
             disable_header_image.setVisibility(View.VISIBLE);

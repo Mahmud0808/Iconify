@@ -338,9 +338,9 @@
 
                 <SeekBar
                     android:id="@+id/corner_radius_seekbar"
-                    style="@style/customSeekBar"
+                    style="@style/SeekBar.Iconify"
                     android:max="44"
-                    android:min="14"
+                    android:min="0"
                     android:progress="28" />
 
                 <Button

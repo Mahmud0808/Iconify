@@ -30,6 +30,7 @@
         android:background="@drawable/container"
         android:paddingStart="@dimen/_8sdp"
         android:paddingEnd="@dimen/_8sdp"
+        android:paddingBottom="@dimen/_2sdp"
         android:textAlignment="center"
         android:textColor="@color/textColorSecondary"
         android:textSize="@dimen/_9sdp"

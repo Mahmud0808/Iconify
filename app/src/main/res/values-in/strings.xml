@@ -54,7 +54,7 @@
     <string name="primary_color">Warna Primer</string>
     <string name="secondary_color">Color Sekunder</string>
     <string name="remove_top_shade_of_qspanel">Hapus bayangan diatas QS panel</string>
-    <string name="enable_pitch_black_colored_theme">Aktifkan pitch black theme</string>
+    <string name="pitch_black_dark_desc">Aktifkan pitch black theme</string>
     <string name="warning">Peringatan</string>
     <string name="btn_continue">LANJUTKAN</string>
     <string name="btn_disable">Nonaktifkan</string>

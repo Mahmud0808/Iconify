@@ -275,7 +275,7 @@
 
                     <SeekBar
                         android:id="@+id/status_icons_top_margin_seekbar"
-                        style="@style/customSeekBar"
+                        style="@style/SeekBar.Iconify"
                         android:max="48"
                         android:min="0"
                         android:progress="0" />
@@ -312,7 +312,7 @@
 
                     <SeekBar
                         android:id="@+id/status_icons_side_margin_seekbar"
-                        style="@style/customSeekBar"
+                        style="@style/SeekBar.Iconify"
                         android:max="48"
                         android:min="0"
                         android:progress="0" />

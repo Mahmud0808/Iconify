@@ -34,12 +34,11 @@ import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-@SuppressWarnings("RedundantThrows")
 public class IconUpdater extends ModPack implements IXposedHookLoadPackage {
 
     private static final String TAG = "Iconify - IconUpdater: ";
     private static final String listenPackage = PIXEL_LAUNCHER_PACKAGE;
-    private Object LauncherModel;
+    private Object LauncherModel = null;
 
     public IconUpdater(Context context) {
         super(context);
@@ -56,25 +55,30 @@ public class IconUpdater extends ModPack implements IXposedHookLoadPackage {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        Class<?> LauncherModelClass = findClass("com.android.launcher3.LauncherModel", lpparam.classLoader);
-        Class<?> BaseDraggingActivityClass = findClass("com.android.launcher3.BaseDraggingActivity", lpparam.classLoader);
+        try {
+            Class<?> LauncherModelClass = findClass("com.android.launcher3.LauncherModel", lpparam.classLoader);
+            Class<?> BaseDraggingActivityClass = findClass("com.android.launcher3.BaseDraggingActivity", lpparam.classLoader);
 
-        hookAllMethods(BaseDraggingActivityClass, "onResume", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                try {
-                    callMethod(LauncherModel, "onAppIconChanged", BuildConfig.APPLICATION_ID, UserHandle.getUserHandleForUid(0));
-                } catch (Throwable throwable) {
-                    log(TAG + throwable);
+            hookAllConstructors(LauncherModelClass, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    LauncherModel = param.thisObject;
                 }
-            }
-        });
-        hookAllConstructors(LauncherModelClass, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                LauncherModel = param.thisObject;
-            }
-        });
+            });
 
+            hookAllMethods(BaseDraggingActivityClass, "onResume", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    try {
+                        if (LauncherModel != null) {
+                            callMethod(LauncherModel, "onAppIconChanged", BuildConfig.APPLICATION_ID, UserHandle.getUserHandleForUid(0));
+                        }
+                    } catch (Throwable throwable) {
+                        log(TAG + throwable);
+                    }
+                }
+            });
+        } catch (Throwable ignored) {
+        }
     }
 }

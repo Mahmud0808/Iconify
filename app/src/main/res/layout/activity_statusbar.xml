@@ -58,7 +58,7 @@
 
                     <SeekBar
                         android:id="@+id/sb_left_padding_seekbar"
-                        style="@style/customSeekBar"
+                        style="@style/SeekBar.Iconify"
                         android:max="120"
                         android:min="0"
                         android:progress="8" />
@@ -94,7 +94,7 @@
 
                     <SeekBar
                         android:id="@+id/sb_right_padding_seekbar"
-                        style="@style/customSeekBar"
+                        style="@style/SeekBar.Iconify"
                         android:max="120"
                         android:min="0"
                         android:progress="8" />

@@ -1,6 +1,9 @@
 package com.drdisagree.iconify.xposed.mods;
 
+import static android.content.Context.CONTEXT_IGNORE_SECURITY;
+import static com.drdisagree.iconify.BuildConfig.APPLICATION_ID;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.FLUID_NOTIF_TRANSPARENCY;
 import static com.drdisagree.iconify.common.Preferences.FLUID_QSPANEL;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
@@ -15,8 +18,10 @@ import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.content.res.XResources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -26,14 +31,22 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RippleDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Build;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.content.res.ResourcesCompat;
+
+import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.xposed.HookEntry;
 import com.drdisagree.iconify.xposed.ModPack;
+import com.drdisagree.iconify.xposed.utils.RoundedCornerProgressDrawable;
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -52,6 +65,7 @@ public class QSFluidTheme extends ModPack {
     private static final float TILE_ALPHA = 0.2f;
     private static final float INACTIVE_ALPHA = 0.2f;
     private static boolean fluidQsThemeEnabled = false;
+    private static boolean fluidNotifEnabled = false;
     private boolean wasDark = getIsDark();
     final Integer[] colorAccent = {wasDark ? mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", listenPackage), mContext.getTheme()) : mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_600", "color", listenPackage), mContext.getTheme())};
     final Integer[] colorActiveAlpha = {Color.argb((int) (TILE_ALPHA * 255), Color.red(colorAccent[0]), Color.green(colorAccent[0]), Color.blue(colorAccent[0]))};
@@ -70,7 +84,8 @@ public class QSFluidTheme extends ModPack {
         if (Xprefs == null) return;
 
         fluidQsThemeEnabled = Xprefs.getBoolean(FLUID_QSPANEL, false);
-        initColors();
+        fluidNotifEnabled = Xprefs.getBoolean(FLUID_NOTIF_TRANSPARENCY, false);
+        initResources();
     }
 
     @Override
@@ -86,7 +101,7 @@ public class QSFluidTheme extends ModPack {
         Class<?> BrightnessMirrorControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.BrightnessMirrorController", lpparam.classLoader);
         Class<?> BrightnessSliderControllerClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessSliderController", lpparam.classLoader);
         SettingsLibUtils.init(lpparam.classLoader);
-        initColors();
+        initResources();
 
         // QS tile color
         hookAllMethods(QSTileViewImplClass, "getBackgroundColorForState", new XC_MethodHook() {
@@ -146,9 +161,14 @@ public class QSFluidTheme extends ModPack {
 
                 try {
                     ((Drawable) getObjectField(param.thisObject, "mProgressDrawable")).setTint(colorActiveAlpha[0]);
-                    ((DrawableWrapper) ((LayerDrawable) ((SeekBar) getObjectField(param.thisObject, "mSlider")).getProgressDrawable()).findDrawableByLayerId(android.R.id.background)).getDrawable().setTint(Color.TRANSPARENT);
-                } catch (Throwable throwable) {
-                    log(TAG + throwable);
+
+                    LayerDrawable progress = (LayerDrawable) ((SeekBar) getObjectField(param.thisObject, "mSlider")).getProgressDrawable();
+                    DrawableWrapper progressSlider = (DrawableWrapper) progress.findDrawableByLayerId(android.R.id.progress);
+                    LayerDrawable actualProgressSlider = (LayerDrawable) progressSlider.getDrawable();
+                    Drawable mBrightnessIcon = actualProgressSlider.findDrawableByLayerId(mContext.getResources().getIdentifier("slider_icon", "id", mContext.getPackageName()));
+                    mBrightnessIcon.setAlpha(0);
+                    mBrightnessIcon.setTint(Color.TRANSPARENT);
+                } catch (Throwable ignored) {
                 }
             }
         });
@@ -231,20 +251,51 @@ public class QSFluidTheme extends ModPack {
             }
         });
 
+        // For LineageOS based roms
+        hookAllConstructors(QSTileViewImplClass, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                if (!fluidQsThemeEnabled) return;
+
+                setObjectField(param.thisObject, "colorActive", colorActiveAlpha[0]);
+                setObjectField(param.thisObject, "colorInactive", colorInactiveAlpha[0]);
+                setObjectField(param.thisObject, "colorUnavailable", colorUnavailableAlpha[0]);
+                setObjectField(param.thisObject, "colorLabelActive", colorAccent[0]);
+                setObjectField(param.thisObject, "colorSecondaryLabelActive", colorAccent[0]);
+            }
+        });
+
         // Initialize colors
         hookAllConstructors(CentralSurfacesImplClass, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
-                initColors();
+                initResources();
             }
         });
 
         hookAllMethods(CentralSurfacesImplClass, "updateTheme", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
-                initColors();
+                initResources();
             }
         });
+    }
+
+    private boolean getIsDark() {
+        return (mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
+    }
+
+    private void initResources() {
+        boolean isDark = getIsDark();
+
+        if (isDark != wasDark) {
+            wasDark = isDark;
+        }
+
+        colorAccent[0] = wasDark ? mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", listenPackage), mContext.getTheme()) : mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_600", "color", listenPackage), mContext.getTheme());
+        colorActiveAlpha[0] = Color.argb((int) (TILE_ALPHA * 255), Color.red(colorAccent[0]), Color.green(colorAccent[0]), Color.blue(colorAccent[0]));
+        colorInactiveAlpha[0] = wasDark ? Color.parseColor("#0FFFFFFF") : Color.parseColor("#59FFFFFF");
+        colorUnavailableAlpha[0] = wasDark ? Color.parseColor("#08FFFFFF") : Color.parseColor("#33FFFFFF");
 
         // Replace drawables to match QS style
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
@@ -272,9 +323,19 @@ public class QSFluidTheme extends ModPack {
                     public Drawable newDrawable(XResources res, int id) {
                         GradientDrawable gradientDrawable = new GradientDrawable();
                         gradientDrawable.setShape(GradientDrawable.RECTANGLE);
-                        gradientDrawable.setColor(colorInactiveAlpha[0]);
+                        gradientDrawable.setColor(Color.TRANSPARENT);
                         gradientDrawable.setCornerRadius(mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("rounded_slider_background_rounded_corner", "dimen", mContext.getPackageName())));
                         return gradientDrawable;
+                    }
+                });
+            } catch (Throwable ignored) {
+            }
+
+            try {
+                ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "brightness_progress_drawable", new XResources.DrawableLoader() {
+                    @Override
+                    public Drawable newDrawable(XResources res, int id) throws PackageManager.NameNotFoundException {
+                        return createBrightnessBackgroundDrawable(mContext);
                     }
                 });
             } catch (Throwable ignored) {
@@ -353,28 +414,30 @@ public class QSFluidTheme extends ModPack {
 
             @SuppressLint("DiscouragedApi") ColorStateList states = getColorAttr(mContext.getResources().getIdentifier("android:attr/colorControlHighlight", "attr", listenPackage), mContext);
 
-            try {
-                ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "notification_material_bg", new XResources.DrawableLoader() {
-                    @Override
-                    public Drawable newDrawable(XResources res, int id) {
-                        GradientDrawable gradientDrawable = new GradientDrawable();
-                        gradientDrawable.setColor(colorInactiveAlpha[0]);
-                        return new RippleDrawable(ColorStateList.valueOf(states.getDefaultColor()), gradientDrawable, null);
-                    }
-                });
-            } catch (Throwable ignored) {
-            }
+            if (fluidNotifEnabled && states != null) {
+                try {
+                    ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "notification_material_bg", new XResources.DrawableLoader() {
+                        @Override
+                        public Drawable newDrawable(XResources res, int id) {
+                            GradientDrawable gradientDrawable = new GradientDrawable();
+                            gradientDrawable.setColor(colorInactiveAlpha[0]);
+                            return new RippleDrawable(ColorStateList.valueOf(states.getDefaultColor()), gradientDrawable, null);
+                        }
+                    });
+                } catch (Throwable ignored) {
+                }
 
-            try {
-                ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "notification_material_bg_monet", new XResources.DrawableLoader() {
-                    @Override
-                    public Drawable newDrawable(XResources res, int id) {
-                        GradientDrawable gradientDrawable = new GradientDrawable();
-                        gradientDrawable.setColor(colorInactiveAlpha[0]);
-                        return new RippleDrawable(ColorStateList.valueOf(states.getDefaultColor()), gradientDrawable, null);
-                    }
-                });
-            } catch (Throwable ignored) {
+                try {
+                    ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "notification_material_bg_monet", new XResources.DrawableLoader() {
+                        @Override
+                        public Drawable newDrawable(XResources res, int id) {
+                            GradientDrawable gradientDrawable = new GradientDrawable();
+                            gradientDrawable.setColor(colorInactiveAlpha[0]);
+                            return new RippleDrawable(ColorStateList.valueOf(states.getDefaultColor()), gradientDrawable, null);
+                        }
+                    });
+                } catch (Throwable ignored) {
+                }
             }
 
             try {
@@ -406,21 +469,53 @@ public class QSFluidTheme extends ModPack {
         }
     }
 
-    private boolean getIsDark() {
-        return (mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
-    }
+    private LayerDrawable createBrightnessBackgroundDrawable(Context context) throws PackageManager.NameNotFoundException {
+        Resources res = context.getResources();
+        int cornerRadius = context.getResources().getDimensionPixelSize(res.getIdentifier("rounded_slider_corner_radius", "dimen", context.getPackageName()));
+        int height = context.getResources().getDimensionPixelSize(res.getIdentifier("rounded_slider_height", "dimen", context.getPackageName()));
+        int startPadding = (int) dpToPx(context, 15);
+        int endPadding = (int) dpToPx(context, 15);
 
-    private void initColors() {
-        boolean isDark = getIsDark();
+        // Create the background shape
+        float[] radiusF = new float[8];
+        for (int i = 0; i < 8; i++) {
+            radiusF[i] = cornerRadius;
+        }
+        ShapeDrawable backgroundShape = new ShapeDrawable(new RoundRectShape(radiusF, null, null));
+        backgroundShape.setIntrinsicHeight(height);
+        backgroundShape.getPaint().setColor(colorInactiveAlpha[0]);
 
-        if (isDark != wasDark) {
-            wasDark = isDark;
+        // Create the progress drawable
+        RoundedCornerProgressDrawable progressDrawable = null;
+        try {
+            progressDrawable = new RoundedCornerProgressDrawable(AppCompatResources.getDrawable(context, res.getIdentifier("brightness_progress_full_drawable", "drawable", context.getPackageName())));
+        } catch (Throwable ignored) {
         }
 
-        colorAccent[0] = wasDark ? mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", listenPackage), mContext.getTheme()) : mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_600", "color", listenPackage), mContext.getTheme());
-        colorActiveAlpha[0] = Color.argb((int) (TILE_ALPHA * 255), Color.red(colorAccent[0]), Color.green(colorAccent[0]), Color.blue(colorAccent[0]));
-        colorInactiveAlpha[0] = wasDark ? Color.parseColor("#0FFFFFFF") : Color.parseColor("#59FFFFFF");
-        colorUnavailableAlpha[0] = wasDark ? Color.parseColor("#08FFFFFF") : Color.parseColor("#33FFFFFF");
+        // Create the start and end drawables
+        Resources appRes = context.createPackageContext(APPLICATION_ID, CONTEXT_IGNORE_SECURITY).getResources();
+        Drawable startDrawable = ResourcesCompat.getDrawable(appRes, R.drawable.ic_brightness_low, context.getTheme());
+        Drawable endDrawable = ResourcesCompat.getDrawable(appRes, R.drawable.ic_brightness_full, context.getTheme());
+        if (startDrawable != null && endDrawable != null) {
+            startDrawable.setTint(colorAccent[0]);
+            endDrawable.setTint(colorAccent[0]);
+        }
+
+        // Create the layer drawable
+        Drawable[] layers = {backgroundShape, progressDrawable, startDrawable, endDrawable};
+        LayerDrawable layerDrawable = new LayerDrawable(layers);
+        layerDrawable.setId(0, android.R.id.background);
+        layerDrawable.setId(1, android.R.id.progress);
+        layerDrawable.setLayerGravity(2, Gravity.START | Gravity.CENTER_VERTICAL);
+        layerDrawable.setLayerGravity(3, Gravity.END | Gravity.CENTER_VERTICAL);
+        layerDrawable.setLayerInsetStart(2, startPadding);
+        layerDrawable.setLayerInsetEnd(3, endPadding);
+
+        return layerDrawable;
+    }
+
+    private static float dpToPx(Context context, int dp) {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
 
     @Override

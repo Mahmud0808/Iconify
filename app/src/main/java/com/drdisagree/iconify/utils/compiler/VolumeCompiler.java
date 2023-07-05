@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.utils.compiler;
 
-import static com.drdisagree.iconify.common.Dynamic.AAPT;
 import static com.drdisagree.iconify.common.Dynamic.ZIP;
 import static com.drdisagree.iconify.utils.helpers.Logger.writeLog;
 
@@ -23,7 +22,6 @@ import java.util.Objects;
 public class VolumeCompiler {
 
     private static final String TAG = "VolumeCompiler";
-    private static final String aapt = AAPT.getAbsolutePath();
     private static final String zip = ZIP.getAbsolutePath();
     private static String mOverlayName = null;
 
@@ -44,7 +42,7 @@ public class VolumeCompiler {
             }
 
             String[] splitLocations = AppUtil.getSplitLocations(packageName);
-            if (runAapt(location, overlayName, splitLocations)) {
+            if (OverlayCompiler.runAapt(location, splitLocations)) {
                 Log.e(TAG, "Failed to build " + overlayName + "! Exiting...");
                 postExecute(true);
                 return true;
@@ -125,26 +123,6 @@ public class VolumeCompiler {
         else {
             Log.e(TAG + " - Manifest", "Failed to create manifest for " + pkgName + '\n' + String.join("\n", result.getOut()));
             writeLog(TAG + " - Manifest", "Failed to create manifest for " + pkgName, result.getOut());
-        }
-
-        return !result.isSuccess();
-    }
-
-    private static boolean runAapt(String source, String name, String[] splitLocations) {
-        StringBuilder aaptCommand = new StringBuilder(aapt + " p -M " + source + "/AndroidManifest.xml -S " + source + "/res -F " + Resources.COMPANION_COMPILED_DIR + '/' + name + ".zip --include-meta-data --auto-add-overlay -f -I /system/framework/framework-res.apk");
-
-        if (splitLocations != null) {
-            for (String split : splitLocations) {
-                aaptCommand.append(" -I ").append(split);
-            }
-        }
-
-        Shell.Result result = Shell.cmd(String.valueOf(aaptCommand)).exec();
-
-        if (result.isSuccess()) Log.i(TAG + " - AAPT", "Successfully built APK for " + name);
-        else {
-            Log.e(TAG + " - AAPT", "Failed to build APK for " + name + '\n' + String.join("\n", result.getOut()));
-            writeLog(TAG + " - AAPT", "Failed to build APK for " + name, result.getOut());
         }
 
         return !result.isSuccess();

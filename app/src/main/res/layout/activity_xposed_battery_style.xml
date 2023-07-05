@@ -103,7 +103,43 @@
 
                 <SeekBar
                     android:id="@+id/battery_width_seekbar"
-                    style="@style/customSeekBar"
+                    style="@style/SeekBar.Iconify"
+                    android:max="30"
+                    android:min="12"
+                    android:progress="20" />
+
+            </LinearLayout>
+
+            <View style="@style/dividerTransparent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/container_mid"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/container_paddingSide"
+                android:paddingTop="@dimen/container_padding"
+                android:paddingEnd="@dimen/container_paddingSide"
+                android:paddingBottom="@dimen/container_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/battery_height_title"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/cont_title_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/battery_height_output"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColorSecondary"
+                    android:textSize="@dimen/cont_desc_size" />
+
+                <SeekBar
+                    android:id="@+id/battery_height_seekbar"
+                    style="@style/SeekBar.Iconify"
                     android:max="30"
                     android:min="12"
                     android:progress="20" />
@@ -126,24 +162,24 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/battery_height_desc"
+                    android:text="@string/battery_margin_title"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/cont_title_size"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/battery_height_output"
+                    android:id="@+id/battery_margin_output"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/textColorSecondary"
                     android:textSize="@dimen/cont_desc_size" />
 
                 <SeekBar
-                    android:id="@+id/battery_height_seekbar"
-                    style="@style/customSeekBar"
-                    android:max="30"
-                    android:min="12"
-                    android:progress="20" />
+                    android:id="@+id/battery_margin_seekbar"
+                    style="@style/SeekBar.Iconify"
+                    android:max="12"
+                    android:min="0"
+                    android:progress="6" />
 
             </LinearLayout>
         </LinearLayout>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="config_use_split_notification_shade">true</bool>
+    <bool name="config_skinnyNotifsInLandscape">false</bool>
+    <bool name="can_use_one_handed_bouncer">true</bool>
+</resources>

@@ -1,24 +1,18 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
-    android:viewportWidth="108"
-    android:viewportHeight="108">
+    android:viewportWidth="24"
+    android:viewportHeight="24">
     <group
-        android:scaleX="0.6980769"
-        android:scaleY="0.6980769"
-        android:translateX="16.303846"
-        android:translateY="16.303846">
-        <group
-            android:scaleX="2.145"
-            android:scaleY="2.145"
-            android:translateX="28.26"
-            android:translateY="28.26">
-            <path
-                android:fillColor="#FFFFFFFF"
-                android:fillType="nonZero"
-                android:pathData="M12.85,0.35C15.49,2.50,18.63,5.59,20.12,8.52C24.93,18.37,17.40,24.00,12.00,24.00C6.60,24.00,-0.93,18.37,3.88,8.52C5.37,5.59,8.51,2.50,11.15,0.35Q12.04,-0.35,12.85,0.35zM12.00,5.98C10.67,5.98,9.59,7.06,9.59,8.38C9.59,9.71,10.67,10.79,12.00,10.79C13.33,10.79,14.41,9.71,14.41,8.38C14.41,7.06,13.33,5.98,12.00,5.98zM14.91,17.65Q15.71,16.21,14.56,13.48C10.77,15.15,10.40,11.76,8.82,11.81Q8.82,13.95,8.77,15.84C8.57,19.57,13.25,20.62,14.91,17.65z"
-                android:strokeLineCap="square"
-                android:strokeLineJoin="miter" />
-        </group>
+        android:scaleX="0.48"
+        android:scaleY="0.48"
+        android:translateX="6.24"
+        android:translateY="6.24">
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:fillType="nonZero"
+            android:pathData="M12.71,2.31C14.90,4.10,17.52,6.67,18.76,9.11C22.77,17.32,16.50,22.00,12.00,22.00C7.50,22.00,1.23,17.32,5.24,9.11C6.48,6.67,9.10,4.10,11.29,2.31Q12.03,1.73,12.71,2.31zM12.00,7.00C10.89,7.00,9.99,7.89,9.99,9.00C9.99,10.11,10.89,11.00,12.00,11.00C13.11,11.00,14.01,10.11,14.01,9.00C14.01,7.89,13.11,7.00,12.00,7.00zM14.42,16.71Q15.08,15.51,14.13,13.24C10.98,14.63,10.67,11.81,9.35,11.85Q9.36,13.64,9.31,15.20C9.14,18.32,13.04,19.19,14.42,16.71z"
+            android:strokeLineCap="square"
+            android:strokeLineJoin="miter" />
     </group>
 </vector>

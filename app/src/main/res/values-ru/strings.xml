@@ -110,7 +110,7 @@
     <string name="disable_everything_title">Отключить всё</string>
     <string name="enable_colored_battery_desc">Использовать свой цвет для иконки батареи</string>
     <string name="enable_colored_battery_title">Включить цветную батарею</string>
-    <string name="enable_pitch_black_colored_theme">Включить Pitch Black тему</string>
+    <string name="pitch_black_dark_desc">Включить Pitch Black тему</string>
     <string name="experimental_features">Экспериментальные функции</string>
     <string name="export_settings">Экспорт настроек</string>
     <string name="exported_settings">Настройки успешно сохранены</string>
@@ -214,7 +214,7 @@
     <string name="opt_default">(Стандартное)</string>
     <string name="opt_selected">Выбрано:</string>
     <string name="perm_storage_access">Сначала представьте доступ к хранилищу!</string>
-    <string name="pitch_black_theme">Тема Pitch Black</string>
+    <string name="pitch_black_dark_title">Тема Pitch Black</string>
     <string name="activity_desc_pixel_variant">Для прошивок с черной панелью быстрых настроек</string>
     <string name="activity_title_pixel_variant">Варианты Pixel</string>
     <string name="positive">Да</string>
@@ -417,7 +417,7 @@
     <string name="custom_battery_desc">Включить пользовательский стиль батареи</string>
     <string name="battery_style_title">Стиль батареи</string>
     <string name="battery_width_title">Ширина батареи</string>
-    <string name="battery_height_desc">Высота батареи</string>
+    <string name="battery_height_title">Высота батареи</string>
     <string name="activity_title_toast_frame">Рамка Toast-уведомления</string>
     <string name="activity_desc_toast_frame">Изменить стиль Toast-уведомлений</string>
     <string name="pt_translation">Перевод на португальский.</string>

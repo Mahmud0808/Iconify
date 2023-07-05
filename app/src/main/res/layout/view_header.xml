@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/transparent"
@@ -10,7 +11,7 @@
         android:id="@+id/collapsing_toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_152sdp"
-        android:background="@color/transparent"
+        android:background="@color/colorBackground"
         app:collapsedTitleTextAppearance="@style/Toolbar.TitleText.Collapsed"
         app:collapsedTitleTextColor="@color/textColorPrimary"
         app:contentScrim="@color/colorBackground"
@@ -36,7 +37,8 @@
             app:maxLines="1"
             app:popupTheme="@style/Theme.Iconify"
             app:titleTextAppearance="@style/Toolbar.TitleText"
-            app:titleTextEllipsize="end" />
+            app:titleTextEllipsize="end"
+            tools:ignore="RtlSymmetry" />
 
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 </com.google.android.material.appbar.AppBarLayout>

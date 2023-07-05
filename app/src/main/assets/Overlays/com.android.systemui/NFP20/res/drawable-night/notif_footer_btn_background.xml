@@ -6,7 +6,7 @@
         <shape
             android:shape="rectangle"
             android:tint="@*android:color/system_neutral2_800">
-            <solid android:color="#66FFFFFF" />
+            <solid android:color="#B3FFFFFF" />
             <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
         </shape>
     </item>

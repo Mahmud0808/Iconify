@@ -1,7 +1,7 @@
 package com.drdisagree.iconify.xposed;
 
 /* Modified from AOSPMods
- * https://github.com/siavash79/AOSPMods/blob/canary/app/src/main/java/sh/siava/AOSPMods/AOSPMods.java
+ * https://github.com/siavash79/AOSPMods/blob/canary/app/src/main/java/sh/siava/AOSPMods/modpacks/XPLauncher.java
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,6 +17,8 @@ package com.drdisagree.iconify.xposed;
  * along with this program.  If not, see [http://www.gnu.org/licenses/].
  */
 
+import static android.content.Context.CONTEXT_IGNORE_SECURITY;
+import static com.drdisagree.iconify.BuildConfig.APPLICATION_ID;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
@@ -26,19 +28,6 @@ import android.app.Instrumentation;
 import android.content.Context;
 
 import com.drdisagree.iconify.config.XPrefs;
-import com.drdisagree.iconify.xposed.mods.BackgroundChip;
-import com.drdisagree.iconify.xposed.mods.BatteryStyleManager;
-import com.drdisagree.iconify.xposed.mods.HeaderClock;
-import com.drdisagree.iconify.xposed.mods.HeaderImage;
-import com.drdisagree.iconify.xposed.mods.IconUpdater;
-import com.drdisagree.iconify.xposed.mods.LockscreenClock;
-import com.drdisagree.iconify.xposed.mods.Miscellaneous;
-import com.drdisagree.iconify.xposed.mods.QSBlackTheme;
-import com.drdisagree.iconify.xposed.mods.QSFluidTheme;
-import com.drdisagree.iconify.xposed.mods.QSLightTheme;
-import com.drdisagree.iconify.xposed.mods.QSLightThemeA12;
-import com.drdisagree.iconify.xposed.mods.QSTransparency;
-import com.drdisagree.iconify.xposed.mods.QuickSettings;
 import com.drdisagree.iconify.xposed.utils.SystemUtil;
 
 import java.util.ArrayList;
@@ -51,26 +40,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class HookEntry implements IXposedHookLoadPackage {
 
     public static boolean isChildProcess = false;
-
-    public static ArrayList<Class<?>> modPacks = new ArrayList<>();
     public static ArrayList<ModPack> runningMods = new ArrayList<>();
     public Context mContext = null;
-
-    public HookEntry() {
-        modPacks.add(BackgroundChip.class);
-        modPacks.add(HeaderClock.class);
-        modPacks.add(HeaderImage.class);
-        modPacks.add(IconUpdater.class);
-        modPacks.add(LockscreenClock.class);
-        modPacks.add(Miscellaneous.class);
-        modPacks.add(QSTransparency.class);
-        modPacks.add(QuickSettings.class);
-        modPacks.add(QSLightTheme.class);
-        modPacks.add(QSLightThemeA12.class);
-        modPacks.add(QSBlackTheme.class);
-        modPacks.add(QSFluidTheme.class);
-        modPacks.add(BatteryStyleManager.class);
-    }
 
     @SuppressLint("ApplySharedPref")
     private static boolean bootLooped(String packageName) {
@@ -79,10 +50,10 @@ public class HookEntry implements IXposedHookLoadPackage {
         long currentTime = Calendar.getInstance().getTime().getTime();
         long lastLoadTime = Xprefs.getLong(loadTimeKey, 0);
         int strikeCount = Xprefs.getInt(strikeKey, 0);
+
         if (currentTime - lastLoadTime > 40000) {
             Xprefs.edit().putLong(loadTimeKey, currentTime).putInt(strikeKey, 0).commit();
         } else if (strikeCount >= 3) {
-            log(String.format("HookEntry: Possible bootloop in %s ; Iconify will not load for now...", packageName));
             return true;
         } else {
             Xprefs.edit().putInt(strikeKey, ++strikeCount).commit();
@@ -96,13 +67,16 @@ public class HookEntry implements IXposedHookLoadPackage {
 
         findAndHookMethod(Instrumentation.class, "newApplication", ClassLoader.class, String.class, Context.class, new XC_MethodHook() {
             @Override
-            protected void afterHookedMethod(MethodHookParam param) {
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 if (mContext == null) {
                     mContext = (Context) param.args[2];
 
                     XPrefs.init(mContext);
 
+                    HookRes.modRes = mContext.createPackageContext(APPLICATION_ID, CONTEXT_IGNORE_SECURITY).getResources();
+
                     if (bootLooped(mContext.getPackageName())) {
+                        log(String.format("Possible bootloop in %s ; Iconify will not load for now...", mContext.getPackageName()));
                         return;
                     }
 
@@ -110,7 +84,7 @@ public class HookEntry implements IXposedHookLoadPackage {
                     XPrefs.loadEverything(mContext.getPackageName());
                 }
 
-                for (Class<?> mod : modPacks) {
+                for (Class<?> mod : EntryList.getEntries()) {
                     try {
                         ModPack instance = ((ModPack) mod.getConstructor(Context.class).newInstance(mContext));
                         if (!instance.listensTo(lpparam.packageName)) continue;
@@ -120,12 +94,12 @@ public class HookEntry implements IXposedHookLoadPackage {
                         }
                         instance.handleLoadPackage(lpparam);
                         runningMods.add(instance);
-                    } catch (Throwable T) {
-                        log("Start Error Dump - Occurred in " + mod.getName() + '\n' + T);
+                    } catch (Throwable throwable) {
+                        log("Start Error Dump - Occurred in " + mod.getName());
+                        log(throwable);
                     }
                 }
             }
         });
-
     }
 }

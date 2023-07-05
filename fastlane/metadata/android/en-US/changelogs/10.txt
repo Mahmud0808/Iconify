@@ -1,4 +1,4 @@
-Iconify v6.1.1 has arrived! It has the following new changes:
+Iconify v6.2.0 has arrived! It has the following new changes:
 
 Feature Changes:
 • Settings Icons:

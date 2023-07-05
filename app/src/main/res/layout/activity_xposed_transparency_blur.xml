@@ -149,7 +149,7 @@
 
                 <SeekBar
                     android:id="@+id/transparency_seekbar"
-                    style="@style/customSeekBar"
+                    style="@style/SeekBar.Iconify"
                     android:max="100"
                     android:min="0"
                     android:progress="60" />
@@ -237,7 +237,7 @@
 
                 <SeekBar
                     android:id="@+id/blur_seekbar"
-                    style="@style/customSeekBar"
+                    style="@style/SeekBar.Iconify"
                     android:max="600"
                     android:min="0"
                     android:progress="23" />

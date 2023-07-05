@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="holo_blue_light">@*android:color/system_accent1_300</color>
+    <color name="holo_green_light">@*android:color/system_accent3_300</color>
+    <color name="privacy_chip_background">@*android:color/system_accent1_300</color>
+    <dimen name="ongoing_appops_chip_bg_corner_radius">28dp</dimen>
+</resources>

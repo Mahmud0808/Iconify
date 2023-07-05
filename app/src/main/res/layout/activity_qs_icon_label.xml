@@ -109,7 +109,7 @@
 
                     <SeekBar
                         android:id="@+id/text_size"
-                        style="@style/customSeekBar"
+                        style="@style/SeekBar.Iconify"
                         android:max="18"
                         android:min="10"
                         android:progress="14" />
@@ -154,7 +154,7 @@
 
                     <SeekBar
                         android:id="@+id/icon_size"
-                        style="@style/customSeekBar"
+                        style="@style/SeekBar.Iconify"
                         android:max="30"
                         android:min="0"
                         android:progress="20" />
@@ -194,7 +194,7 @@
 
                     <SeekBar
                         android:id="@+id/move_icon"
-                        style="@style/customSeekBar"
+                        style="@style/SeekBar.Iconify"
                         android:max="100"
                         android:min="8"
                         android:progress="16" />

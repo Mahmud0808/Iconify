@@ -7,6 +7,8 @@ public class Preferences {
     public static final String NOTIF_TRANSPARENCY_SWITCH = "xposed_notiftransparency";
     public static final String QSALPHA_LEVEL = "xposed_qsalpha";
     public static final String STATUSBAR_CLOCKBG_SWITCH = "xposed_sbclockbg";
+    public static final String STATUSBAR_CLOCK_COLOR_OPTION = "xposed_sbclockcolor";
+    public static final String STATUSBAR_CLOCK_COLOR_CODE = "xposed_sbclockcolorcode";
     public static final String CHIP_STATUSBAR_CLOCKBG_STYLE = "xposed_chipstatusbarclockbgstyle";
     public static final String QSPANEL_STATUSICONSBG_SWITCH = "xposed_qsstatusiconsbg";
     public static final String CHIP_QSSTATUSICONS_STYLE = "xposed_chipqsstatusiconsstyle";
@@ -21,14 +23,22 @@ public class Preferences {
     public static final String HEADER_CLOCK_SWITCH = "xposed_headerclock";
     public static final String HEADER_CLOCK_SIDEMARGIN = "xposed_headerclocksidemargin";
     public static final String HEADER_CLOCK_TOPMARGIN = "xposed_headerclocktopmargin";
+    public static final String HEADER_CLOCK_CENTERED = "xposed_headerclockcentered";
+    public static final String HEADER_CLOCK_LANDSCAPE_SWITCH = "xposed_headerclocklandscape";
     public static final String HEADER_CLOCK_TEXT_WHITE = "xposed_headerclocktextwhite";
-    public static final String QSPANEL_HIDE_CARRIER = "xposed_qspanelhidecarrier";
     public static final String HEADER_CLOCK_STYLE = "xposed_headerclockstyle";
+    public static final String HEADER_CLOCK_FONT_SWITCH = "xposed_headerclockfont";
+    public static final String HEADER_CLOCK_COLOR_SWITCH = "xposed_headerclockcolor";
+    public static final String HEADER_CLOCK_COLOR_CODE = "xposed_headerclockcolorcode";
     public static final String HEADER_CLOCK_FONT_TEXT_SCALING = "xposed_headerclocktextscaling";
+    public static final String QSPANEL_HIDE_CARRIER = "xposed_qspanelhidecarrier";
     public static final String LSCLOCK_SWITCH = "xposed_lockscreenclock";
+    public static final String LSCLOCK_AUTOHIDE = "xposed_lockscreenclockautohide";
     public static final String LSCLOCK_STYLE = "xposed_lockscreenclockstyle";
     public static final String LSCLOCK_TOPMARGIN = "xposed_lockscreenclocktopmargin";
     public static final String LSCLOCK_BOTTOMMARGIN = "xposed_lockscreenclockbottommargin";
+    public static final String LSCLOCK_COLOR_SWITCH = "xposed_lockscreenclockcolor";
+    public static final String LSCLOCK_COLOR_CODE = "xposed_lockscreenclockcolorcode";
     public static final String LSCLOCK_FONT_SWITCH = "xposed_lockscreenclockfont";
     public static final String LSCLOCK_FONT_LINEHEIGHT = "xposed_lockscreenclockfontlineheight";
     public static final String LSCLOCK_FONT_TEXT_SCALING = "xposed_lockscreenclocktextscaling";
@@ -42,9 +52,14 @@ public class Preferences {
     public static final String DUALTONE_QSPANEL = "xposed_dualtoneqspanel";
     public static final String BLACK_QSPANEL = "xposed_blackqspanel";
     public static final String FLUID_QSPANEL = "xposed_fluidqspanel";
+    public static final String FLUID_NOTIF_TRANSPARENCY = "xposed_fluidnotiftransparency";
     public static final String CUSTOM_BATTERY_STYLE = "xposed_custombatterystyle";
     public static final String CUSTOM_BATTERY_WIDTH = "xposed_custombatterywidth";
     public static final String CUSTOM_BATTERY_HEIGHT = "xposed_custombatteryheight";
+    public static final String CUSTOM_BATTERY_MARGIN = "xposed_custombatterymargin";
+    public static final String HEADER_QQS_TOPMARGIN = "qqspanelTopMargin";
+
+    // Battery styles
     public static final int BATTERY_STYLE_DEFAULT = 0;
     public static final int BATTERY_STYLE_DEFAULT_RLANDSCAPE = 1;
     public static final int BATTERY_STYLE_DEFAULT_LANDSCAPE = 2;
@@ -62,7 +77,9 @@ public class Preferences {
     public static final int BATTERY_STYLE_LANDSCAPE_IOS_16 = 14;
     public static final int BATTERY_STYLE_PORTRAIT_ORIGAMI = 15;
     public static final int BATTERY_STYLE_LANDSCAPE_SMILEY = 16;
-    public static final String HEADER_QQS_TOPMARGIN = "qqspanelTopMargin";
+    public static final int BATTERY_STYLE_LANDSCAPE_MIUI_PILL = 17;
+    public static final int BATTERY_STYLE_LANDSCAPE_COLOROS = 18;
+    public static final int BATTERY_STYLE_RLANDSCAPE_COLOROS = 19;
 
     // Preference keys
     public static final String STR_NULL = "null";
@@ -105,6 +122,7 @@ public class Preferences {
 
     // Settings
     public static final String APP_LANGUAGE = "IconifyAppLanguage";
+    public static final String APP_ICON = "IconifyAppIcon";
     public static final String APP_THEME = "IconifyAppTheme";
     public static final String USE_LIGHT_ACCENT = "useLightAccent";
     public static final String SHOW_XPOSED_WARN = "showXposedMenuWarn";

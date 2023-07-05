@@ -22,28 +22,22 @@ import static de.robv.android.xposed.XposedBridge.log;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.XModuleResources;
 
 import com.crossbowffs.remotepreferences.RemotePreferences;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.xposed.HookEntry;
 import com.drdisagree.iconify.xposed.ModPack;
 
-import de.robv.android.xposed.IXposedHookZygoteInit;
+public class XPrefs {
 
-public class XPrefs implements IXposedHookZygoteInit {
-
-    public static String MOD_PATH = "";
-    public static XModuleResources modRes;
+    private static final SharedPreferences.OnSharedPreferenceChangeListener listener = (sharedPreferences, key) -> loadEverything(key);
     public static SharedPreferences Xprefs;
-    static SharedPreferences.OnSharedPreferenceChangeListener listener = (sharedPreferences, key) -> loadEverything(key);
     private static String packageName;
 
     public static void init(Context context) {
         packageName = context.getPackageName();
         Xprefs = new RemotePreferences(context, BuildConfig.APPLICATION_ID, SharedXPref, true);
         log("Iconify Version: " + BuildConfig.VERSION_NAME);
-        log("Iconify Records: " + Xprefs.getAll().keySet().size());
         Xprefs.registerOnSharedPreferenceChangeListener(listener);
     }
 
@@ -51,11 +45,5 @@ public class XPrefs implements IXposedHookZygoteInit {
         for (ModPack thisMod : HookEntry.runningMods) {
             thisMod.updatePrefs(key);
         }
-    }
-
-    @Override
-    public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) {
-        MOD_PATH = startupParam.modulePath;
-        modRes = XModuleResources.createInstance(XPrefs.MOD_PATH, null);
     }
 }

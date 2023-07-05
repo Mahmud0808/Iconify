@@ -32,7 +32,7 @@
 
         <SeekBar
             android:id="@+id/pill_width_seekbar"
-            style="@style/customSeekBar"
+            style="@style/SeekBar.Iconify"
             android:max="300"
             android:min="40"
             android:progress="108" />
@@ -68,7 +68,7 @@
 
         <SeekBar
             android:id="@+id/pill_thickness_seekbar"
-            style="@style/customSeekBar"
+            style="@style/SeekBar.Iconify"
             android:max="4"
             android:min="1"
             android:progress="2" />
@@ -104,7 +104,7 @@
 
         <SeekBar
             android:id="@+id/bottom_space_seekbar"
-            style="@style/customSeekBar"
+            style="@style/SeekBar.Iconify"
             android:max="14"
             android:min="2"
             android:progress="8" />

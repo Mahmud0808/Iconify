@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
+import static com.drdisagree.iconify.common.Preferences.APP_ICON;
 import static com.drdisagree.iconify.common.Preferences.APP_LANGUAGE;
 import static com.drdisagree.iconify.common.Preferences.APP_THEME;
 import static com.drdisagree.iconify.common.Preferences.EASTER_EGG;
@@ -12,10 +13,11 @@ import static com.drdisagree.iconify.common.Preferences.USE_LIGHT_ACCENT;
 import static com.drdisagree.iconify.utils.AppUtil.restartApplication;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.text.LineBreaker;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -24,7 +26,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.activities.AppUpdates;
@@ -44,20 +46,25 @@ import com.drdisagree.iconify.ui.activities.Experimental;
 import com.drdisagree.iconify.ui.activities.Info;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.ui.views.RadioDialog;
+import com.drdisagree.iconify.utils.CacheUtil;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.topjohnwu.superuser.Shell;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Settings extends BaseFragment implements RadioDialog.RadioDialogListener {
 
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
+    public static List<String> EnabledFabricatedOverlays = new ArrayList<>();
     LoadingDialog loadingDialog;
-    RadioDialog rd_force_apply_method, rd_app_language, rd_app_theme;
+    RadioDialog rd_force_apply_method, rd_app_language, rd_app_icon, rd_app_theme;
 
     public static void disableEverything() {
         SharedPreferences prefs = Iconify.getAppContext().getSharedPreferences(Iconify.getAppContext().getPackageName(), Context.MODE_PRIVATE);
@@ -65,23 +72,20 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
 
         for (Map.Entry<String, ?> item : map.entrySet()) {
             if (item.getValue() instanceof Boolean && ((Boolean) item.getValue()) && item.getKey().contains("fabricated")) {
-                Prefs.putBoolean(item.getKey(), (Boolean) item.getValue());
-                FabricatedUtil.disableOverlay(item.getKey().replace("fabricated", ""));
+                EnabledFabricatedOverlays.add(item.getKey().replace("fabricated", ""));
             }
         }
 
-        for (String overlay : EnabledOverlays) {
-            OverlayUtil.disableOverlay(overlay);
-        }
+        FabricatedUtil.disableOverlays(EnabledFabricatedOverlays.toArray(new String[0]));
+        OverlayUtil.disableOverlays(EnabledOverlays.toArray(new String[0]));
+        SystemUtil.disableBlur();
+        Shell.cmd("touch " + Resources.MODULE_DIR + "/post-exec.sh").submit();
 
         Prefs.clearAllPrefs();
         SystemUtil.getBootId();
         SystemUtil.getVersionCode();
         Prefs.putBoolean(FIRST_INSTALL, false);
-
         RPrefs.clearAllPrefs();
-
-        SystemUtil.restartSystemUI();
     }
 
     @Override
@@ -107,6 +111,14 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         app_language.setOnClickListener(v -> rd_app_language.show(R.string.app_language, R.array.locale_name, selected_app_language));
         selected_app_language.setText(Arrays.asList(getResources().getStringArray(R.array.locale_name)).get(rd_app_language.getSelectedIndex()));
 
+        // App Icon
+        LinearLayout app_icon = view.findViewById(R.id.app_icon);
+        TextView selected_app_icon = view.findViewById(R.id.selected_app_icon);
+        rd_app_icon = new RadioDialog(requireActivity(), 3, Prefs.getInt(APP_ICON, 0));
+        rd_app_icon.setRadioDialogListener(this);
+        app_icon.setOnClickListener(v -> rd_app_icon.show(R.string.app_icon, R.array.app_icon, selected_app_icon));
+        selected_app_icon.setText(Arrays.asList(getResources().getStringArray(R.array.app_icon)).get(rd_app_icon.getSelectedIndex()));
+
         // App Theme
         LinearLayout app_theme = view.findViewById(R.id.app_theme);
         TextView selected_app_theme = view.findViewById(R.id.selected_app_theme);
@@ -127,19 +139,15 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
             new Handler().postDelayed(() -> {
                 if (isChecked) {
                     if (Prefs.getBoolean("IconifyComponentAMAC.overlay")) {
-                        OverlayUtil.disableOverlay("IconifyComponentAMAC.overlay");
-                        OverlayUtil.enableOverlay("IconifyComponentAMACL.overlay");
+                        OverlayUtil.changeOverlayState("IconifyComponentAMAC.overlay", false, "IconifyComponentAMACL.overlay", true);
                     } else if (Prefs.getBoolean("IconifyComponentAMGC.overlay")) {
-                        OverlayUtil.disableOverlay("IconifyComponentAMGC.overlay");
-                        OverlayUtil.enableOverlay("IconifyComponentAMGCL.overlay");
+                        OverlayUtil.changeOverlayState("IconifyComponentAMGC.overlay", false, "IconifyComponentAMGCL.overlay", true);
                     }
                 } else {
                     if (Prefs.getBoolean("IconifyComponentAMACL.overlay")) {
-                        OverlayUtil.disableOverlay("IconifyComponentAMACL.overlay");
-                        OverlayUtil.enableOverlay("IconifyComponentAMAC.overlay");
+                        OverlayUtil.changeOverlayState("IconifyComponentAMACL.overlay", false, "IconifyComponentAMAC.overlay", true);
                     } else if (Prefs.getBoolean("IconifyComponentAMGCL.overlay")) {
-                        OverlayUtil.disableOverlay("IconifyComponentAMGCL.overlay");
-                        OverlayUtil.enableOverlay("IconifyComponentAMGC.overlay");
+                        OverlayUtil.changeOverlayState("IconifyComponentAMGCL.overlay", false, "IconifyComponentAMGC.overlay", true);
                     }
                 }
             }, SWITCH_ANIMATION_DELAY);
@@ -167,17 +175,31 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         force_apply_method.setOnClickListener(v -> rd_force_apply_method.show(R.string.list_title_force_apply_method, R.array.xposed_force_apply_method, selected_force_apply_method));
         selected_force_apply_method.setText(Arrays.asList(getResources().getStringArray(R.array.xposed_force_apply_method)).get(rd_force_apply_method.getSelectedIndex() == -1 ? 2 : rd_force_apply_method.getSelectedIndex()));
 
+        // Clear App Cache
+        LinearLayout clear_cache = view.findViewById(R.id.clear_cache);
+        clear_cache.setOnClickListener(v -> {
+            CacheUtil.clearCache(Iconify.getAppContext());
+            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_clear_cache), Toast.LENGTH_SHORT).show();
+        });
+
+        // Restart SystemUI
+        LinearLayout button_restartSysui = view.findViewById(R.id.button_restartSysui);
+        button_restartSysui.setOnClickListener(v -> {
+            // Show loading dialog
+            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
+
+            new Handler().postDelayed(() -> {
+                // Hide loading dialog
+                loadingDialog.hide();
+
+                // Restart SystemUI
+                SystemUtil.restartSystemUI();
+            }, 1000);
+        });
+
         // Disable Everything
-        TextView list_title_disableEverything = view.findViewById(R.id.list_title_disableEverything);
-        TextView list_desc_disableEverything = view.findViewById(R.id.list_desc_disableEverything);
-        Button button_disableEverything = view.findViewById(R.id.button_disableEverything);
-
-        list_title_disableEverything.setText(getResources().getString(R.string.disable_everything_title));
-        list_desc_disableEverything.setText(getResources().getString(R.string.disable_everything_desc));
-        list_desc_disableEverything.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD);
-
+        LinearLayout button_disableEverything = view.findViewById(R.id.button_disableEverything);
         button_disableEverything.setOnClickListener(v -> Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disable_everything), Toast.LENGTH_SHORT).show());
-
         button_disableEverything.setOnLongClickListener(v -> {
             // Show loading dialog
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
@@ -189,37 +211,12 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                     // Hide loading dialog
                     loadingDialog.hide();
 
-                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disabled_everything), Toast.LENGTH_SHORT).show();
+                    // Restart SystemUI
+                    SystemUtil.restartSystemUI();
                 }, 3000));
             };
             Thread thread = new Thread(runnable);
             thread.start();
-
-            return true;
-        });
-
-        // Restart SystemUI
-        TextView list_title_restartSysui = view.findViewById(R.id.list_title_restartSysui);
-        TextView list_desc_restartSysui = view.findViewById(R.id.list_desc_restartSysui);
-        Button button_restartSysui = view.findViewById(R.id.button_restartSysui);
-
-        list_title_restartSysui.setText(getResources().getString(R.string.restart_sysui_title));
-        list_desc_restartSysui.setText(getResources().getString(R.string.restart_sysui_desc));
-        list_desc_restartSysui.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD);
-
-        button_restartSysui.setOnClickListener(v -> Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_restart_sysui), Toast.LENGTH_SHORT).show());
-
-        button_restartSysui.setOnLongClickListener(v -> {
-            // Show loading dialog
-            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
-
-            new Handler().postDelayed(() -> {
-                // Hide loading dialog
-                loadingDialog.hide();
-
-                // Restart SystemUI
-                SystemUtil.restartSystemUI();
-            }, 1000);
 
             return true;
         });
@@ -231,6 +228,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
     public void onDestroy() {
         if (loadingDialog != null) loadingDialog.hide();
         if (rd_app_language != null) rd_app_language.dismiss();
+        if (rd_app_icon != null) rd_app_icon.dismiss();
         if (rd_app_theme != null) rd_app_theme.dismiss();
         if (rd_force_apply_method != null) rd_force_apply_method.dismiss();
         super.onDestroy();
@@ -280,6 +278,20 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
             case 2:
                 Prefs.putInt(FORCE_APPLY_XPOSED_CHOICE, selectedIndex == 2 ? -1 : selectedIndex);
                 break;
+            case 3:
+                Prefs.putInt(APP_ICON, selectedIndex);
+                String[] splashActivities = getResources().getStringArray(R.array.app_icon_identifier);
+                changeIcon(splashActivities[selectedIndex]);
+                break;
+        }
+    }
+
+    private void changeIcon(String splash) {
+        PackageManager manager = requireActivity().getPackageManager();
+        String[] splashActivities = getResources().getStringArray(R.array.app_icon_identifier);
+
+        for (String splashActivity : splashActivities) {
+            manager.setComponentEnabledSetting(new ComponentName(requireActivity(), "com.drdisagree.iconify." + splashActivity), Objects.equals(splash, splashActivity) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
         }
     }
 }

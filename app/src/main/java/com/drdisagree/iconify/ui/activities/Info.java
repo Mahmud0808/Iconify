@@ -73,6 +73,7 @@ public class Info extends BaseActivity {
         credits_list.add(new InfoModel(this, "modestCat", getResources().getString(R.string.info_rro_desc), "https://t.me/ModestCat03", R.drawable.ic_user));
         credits_list.add(new InfoModel(this, "Sanely Insane", getResources().getString(R.string.info_tester_desc), "https://t.me/sanely_insane", R.drawable.ic_user));
         credits_list.add(new InfoModel(this, "Jaguar", getResources().getString(R.string.info_tester_desc), "https://t.me/Jaguar0066", R.drawable.ic_user));
+        credits_list.add(new InfoModel(this, "hani & TeamFiles", getResources().getString(R.string.info_betterqs_desc), "https://github.com/itsHanibee", R.drawable.ic_user));
 
         return new InfoAdapter(this, credits_list);
     }
@@ -89,6 +90,7 @@ public class Info extends BaseActivity {
         contributors_list.add(new InfoModel(this, "mohamedamrnady", getResources().getString(R.string.info_contributor_desc), "https://github.com/mohamedamrnady", R.drawable.ic_user));
         contributors_list.add(new InfoModel(this, "H1mJT", getResources().getString(R.string.info_contributor_desc), "https://github.com/H1mJT", R.drawable.ic_user));
         contributors_list.add(new InfoModel(this, "KaeruShi", getResources().getString(R.string.info_contributor_desc), "https://github.com/KaeruShi", R.drawable.ic_user));
+        contributors_list.add(new InfoModel(this, "Displax", getResources().getString(R.string.info_contributor_desc), "https://github.com/Displax", R.drawable.ic_user));
 
         return new InfoAdapter(this, contributors_list);
     }

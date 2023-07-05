@@ -5,6 +5,7 @@ import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 
+import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.OverlayUtil;
 
@@ -35,17 +36,14 @@ public class TileMonetEngine extends TileService {
         super.onClick();
 
         if (isCustomMonetEnabled) {
-            Prefs.putBoolean("IconifyComponentME.overlay", false);
-            OverlayUtil.disableOverlay("IconifyComponentDM.overlay");
-            OverlayUtil.disableOverlay("IconifyComponentME.overlay");
+            OverlayUtil.disableOverlays("IconifyComponentDM.overlay", "IconifyComponentME.overlay");
         } else {
-            Prefs.putBoolean("IconifyComponentME.overlay", true);
-            OverlayUtil.enableOverlay("IconifyComponentDM.overlay");
-            OverlayUtil.enableOverlay("IconifyComponentME.overlay");
+            OverlayUtil.enableOverlays("IconifyComponentDM.overlay", "IconifyComponentME.overlay");
 
-            if (Prefs.getBoolean("IconifyComponentQSPB.overlay")) {
-                OverlayUtil.disableOverlay("IconifyComponentQSPB.overlay");
-                OverlayUtil.enableOverlay("IconifyComponentQSPB.overlay");
+            if (Prefs.getBoolean("IconifyComponentQSPBD.overlay")) {
+                OverlayUtil.changeOverlayState("IconifyComponentQSPBD.overlay", false, "IconifyComponentQSPBD.overlay", true);
+            } else if (Prefs.getBoolean("IconifyComponentQSPBA.overlay")) {
+                OverlayUtil.changeOverlayState("IconifyComponentQSPBA.overlay", false, "IconifyComponentQSPBA.overlay", true);
             }
         }
 
@@ -54,8 +52,8 @@ public class TileMonetEngine extends TileService {
 
         Tile customMonetTile = getQsTile();
         customMonetTile.setState(isCustomMonetEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
-        customMonetTile.setLabel("Monet Engine");
-        customMonetTile.setContentDescription(isCustomMonetEnabled ? "On" : "Off");
+        customMonetTile.setLabel(getResources().getString(R.string.activity_title_monet_engine));
+        customMonetTile.setContentDescription(isCustomMonetEnabled ? getResources().getString(R.string.general_on) : getResources().getString(R.string.general_off));
         customMonetTile.updateTile();
     }
 

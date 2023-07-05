@@ -107,7 +107,7 @@
 
                 <SeekBar
                     android:id="@+id/header_image_height_seekbar"
-                    style="@style/customSeekBar"
+                    style="@style/SeekBar.Iconify"
                     android:max="240"
                     android:min="48"
                     android:progress="140" />
@@ -143,7 +143,7 @@
 
                 <SeekBar
                     android:id="@+id/image_alpha_seekbar"
-                    style="@style/customSeekBar"
+                    style="@style/SeekBar.Iconify"
                     android:max="100"
                     android:min="0"
                     android:progress="100" />

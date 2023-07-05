@@ -312,7 +312,7 @@
 
                 <SeekBar
                     android:id="@+id/monet_accent_saturation_seekbar"
-                    style="@style/customSeekBar"
+                    style="@style/SeekBar.Iconify"
                     android:max="200"
                     android:min="0"
                     android:progress="100" />
@@ -367,7 +367,7 @@
 
                 <SeekBar
                     android:id="@+id/monet_background_saturation_seekbar"
-                    style="@style/customSeekBar"
+                    style="@style/SeekBar.Iconify"
                     android:max="200"
                     android:min="0"
                     android:progress="100" />
@@ -424,7 +424,7 @@
 
                 <SeekBar
                     android:id="@+id/monet_background_lightness_seekbar"
-                    style="@style/customSeekBar"
+                    style="@style/SeekBar.Iconify"
                     android:max="200"
                     android:min="0"
                     android:progress="100" />

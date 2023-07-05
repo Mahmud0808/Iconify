@@ -73,7 +73,13 @@ public class QsShapeAdapter extends RecyclerView.Adapter<QsShapeAdapter.ViewHold
         setDrawable(holder.qs_tile3, ResourcesCompat.getDrawable(context.getResources(), itemList.get(position).getDisabled_drawable(), null));
         setDrawable(holder.qs_tile4, ResourcesCompat.getDrawable(context.getResources(), itemList.get(position).getEnabled_drawable(), null));
 
-        int textColor = itemList.get(position).isInverse_color() && SystemUtil.isDarkMode() ? R.color.textColorPrimary : R.color.textColorPrimaryInverse;
+        int textColor;
+
+        if (Objects.equals(variant, "QSSN")) {
+            textColor = itemList.get(position).isInverse_color() ? R.color.textColorPrimary : R.color.textColorPrimaryInverse;
+        } else {
+            textColor = itemList.get(position).isInverse_color() && SystemUtil.isDarkMode() ? R.color.textColorPrimary : R.color.textColorPrimaryInverse;
+        }
 
         holder.qs_text1.setTextColor(ContextCompat.getColor(context, textColor));
         holder.qs_icon1.setColorFilter(ContextCompat.getColor(context, textColor), android.graphics.PorterDuff.Mode.SRC_IN);

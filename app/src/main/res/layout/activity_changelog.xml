@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/container_marginSide"
+            android:layout_marginTop="@dimen/container_padding"
             android:layout_marginEnd="@dimen/container_marginSide"
             android:layout_marginBottom="@dimen/_26sdp"
             android:background="@drawable/container"
