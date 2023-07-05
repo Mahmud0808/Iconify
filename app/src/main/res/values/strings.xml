@@ -84,7 +84,7 @@
     <string name="apply_monet_gradient_desc">Use system monet as gradient</string>
     <string name="color_picker_preview">Color Picker Preview</string>
     <string name="accurate_shades_title">Accurate Shades</string>
-    <string name="accurate_shades_desc">Disable this to get exact choosen colors</string>
+    <string name="accurate_shades_desc">Disable this to get exact chosen colors</string>
     <string name="primary_color">Primary Color</string>
     <string name="color_picker_title">Color Picker</string>
     <string name="secondary_color">Secondary Color</string>
@@ -187,7 +187,7 @@
     <string name="toast_error">Something went wrong</string>
     <string name="reboot_needed">Reboot your device first!</string>
     <string name="disable_everything_title">Disable Everything</string>
-    <string name="disable_everything_desc">Disable all Iconify overlays, colors, and miscellaneous changes.</string>
+    <string name="disable_everything_desc">Disable all Iconify overlays, colors, and miscellaneous changes. Disable twice for proper effect.</string>
     <string name="toast_disable_everything">Long press to disable everything</string>
     <string name="toast_disabled_everything">Everything is disabled</string>
     <string name="restart_sysui_title">Restart SystemUI</string>
