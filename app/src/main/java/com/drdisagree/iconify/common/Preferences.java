@@ -26,9 +26,12 @@ public class Preferences {
     public static final String HEADER_CLOCK_CENTERED = "xposed_headerclockcentered";
     public static final String HEADER_CLOCK_LANDSCAPE_SWITCH = "xposed_headerclocklandscape";
     public static final String HEADER_CLOCK_TEXT_WHITE = "xposed_headerclocktextwhite";
-    public static final String QSPANEL_HIDE_CARRIER = "xposed_qspanelhidecarrier";
     public static final String HEADER_CLOCK_STYLE = "xposed_headerclockstyle";
+    public static final String HEADER_CLOCK_FONT_SWITCH = "xposed_headerclockfont";
+    public static final String HEADER_CLOCK_COLOR_SWITCH = "xposed_headerclockcolor";
+    public static final String HEADER_CLOCK_COLOR_CODE = "xposed_headerclockcolorcode";
     public static final String HEADER_CLOCK_FONT_TEXT_SCALING = "xposed_headerclocktextscaling";
+    public static final String QSPANEL_HIDE_CARRIER = "xposed_qspanelhidecarrier";
     public static final String LSCLOCK_SWITCH = "xposed_lockscreenclock";
     public static final String LSCLOCK_AUTOHIDE = "xposed_lockscreenclockautohide";
     public static final String LSCLOCK_STYLE = "xposed_lockscreenclockstyle";

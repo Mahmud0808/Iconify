@@ -2,6 +2,9 @@ package com.drdisagree.iconify.xposed.mods;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_CENTERED;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_CODE;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_FONT_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_FONT_TEXT_SCALING;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_LANDSCAPE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SIDEMARGIN;
@@ -20,8 +23,10 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Environment;
 import android.text.InputFilter;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -36,6 +41,7 @@ import android.widget.TextView;
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.utils.SystemUtil;
 
+import java.io.File;
 import java.util.Objects;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -55,6 +61,9 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
     int topMargin = 8;
     int headerClockStyle = 1;
     float textScaling = 1;
+    boolean customColorEnabled = false;
+    int customColorCode = Color.WHITE;
+    boolean customFontEnabled = false;
     boolean centeredClockView = false;
     boolean forceWhiteText = false;
     boolean hideLandscapeHeaderClock = true;
@@ -72,12 +81,15 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         sideMargin = Xprefs.getInt(HEADER_CLOCK_SIDEMARGIN, 0);
         topMargin = Xprefs.getInt(HEADER_CLOCK_TOPMARGIN, 8);
         headerClockStyle = Xprefs.getInt(HEADER_CLOCK_STYLE, 1);
+        customColorEnabled = Xprefs.getBoolean(HEADER_CLOCK_COLOR_SWITCH, false);
+        customColorCode = Xprefs.getInt(HEADER_CLOCK_COLOR_CODE, Color.WHITE);
+        customFontEnabled = Xprefs.getBoolean(HEADER_CLOCK_FONT_SWITCH, false);
         centeredClockView = Xprefs.getBoolean(HEADER_CLOCK_CENTERED, false);
         forceWhiteText = Xprefs.getBoolean(HEADER_CLOCK_TEXT_WHITE, false);
         textScaling = (float) (Xprefs.getInt(HEADER_CLOCK_FONT_TEXT_SCALING, 10) / 10.0);
         hideLandscapeHeaderClock = Xprefs.getBoolean(HEADER_CLOCK_LANDSCAPE_SWITCH, true);
 
-        if (Key.length > 0 && (Objects.equals(Key[0], HEADER_CLOCK_SWITCH) || Objects.equals(Key[0], HEADER_CLOCK_SIDEMARGIN) || Objects.equals(Key[0], HEADER_CLOCK_TOPMARGIN) || Objects.equals(Key[0], HEADER_CLOCK_STYLE) || Objects.equals(Key[0], HEADER_CLOCK_CENTERED) || Objects.equals(Key[0], HEADER_CLOCK_TEXT_WHITE) || Objects.equals(Key[0], HEADER_CLOCK_FONT_TEXT_SCALING) || Objects.equals(Key[0], HEADER_CLOCK_LANDSCAPE_SWITCH))) {
+        if (Key.length > 0 && (Objects.equals(Key[0], HEADER_CLOCK_SWITCH) || Objects.equals(Key[0], HEADER_CLOCK_COLOR_SWITCH) || Objects.equals(Key[0], HEADER_CLOCK_COLOR_CODE) || Objects.equals(Key[0], HEADER_CLOCK_FONT_SWITCH) || Objects.equals(Key[0], HEADER_CLOCK_SIDEMARGIN) || Objects.equals(Key[0], HEADER_CLOCK_TOPMARGIN) || Objects.equals(Key[0], HEADER_CLOCK_STYLE) || Objects.equals(Key[0], HEADER_CLOCK_CENTERED) || Objects.equals(Key[0], HEADER_CLOCK_TEXT_WHITE) || Objects.equals(Key[0], HEADER_CLOCK_FONT_TEXT_SCALING) || Objects.equals(Key[0], HEADER_CLOCK_LANDSCAPE_SWITCH))) {
             updateClockView();
         }
     }
@@ -296,6 +308,10 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
 
     private ViewGroup getClock() {
         if (showHeaderClock) {
+            Typeface typeface = null;
+            if (customFontEnabled && (new File(Environment.getExternalStorageDirectory() + "/.iconify_files/headerclock_font.ttf").exists()))
+                typeface = Typeface.createFromFile(new File(Environment.getExternalStorageDirectory() + "/.iconify_files/headerclock_font.ttf"));
+
             switch (headerClockStyle) {
                 case 1:
                     final TextClock clockHour1 = new TextClock(mContext);
@@ -304,15 +320,17 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     clockHour1.setFormat24Hour("HH");
                     clockHour1.setTextColor(mContext.getResources().getColor(android.R.color.holo_blue_light));
                     clockHour1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40 * textScaling);
-                    clockHour1.setTypeface(clockHour1.getTypeface(), Typeface.BOLD);
+                    clockHour1.setTypeface(typeface != null ? typeface : clockHour1.getTypeface(), Typeface.BOLD);
+                    clockHour1.setIncludeFontPadding(false);
 
                     final TextClock clockMinute1 = new TextClock(mContext);
                     clockMinute1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     clockMinute1.setFormat12Hour(":mm");
                     clockMinute1.setFormat24Hour(":mm");
-                    clockMinute1.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                    clockMinute1.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : (customColorEnabled ? customColorCode : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary)));
                     clockMinute1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40 * textScaling);
-                    clockMinute1.setTypeface(clockMinute1.getTypeface(), Typeface.BOLD);
+                    clockMinute1.setTypeface(typeface != null ? typeface : clockMinute1.getTypeface(), Typeface.BOLD);
+                    clockMinute1.setIncludeFontPadding(false);
 
                     final LinearLayout divider1 = new LinearLayout(mContext);
                     ViewGroup.MarginLayoutParams dividerParams1 = new ViewGroup.MarginLayoutParams((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 40 * textScaling, mContext.getResources().getDisplayMetrics()));
@@ -326,17 +344,19 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     clockDay1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     clockDay1.setFormat12Hour("EEEE");
                     clockDay1.setFormat24Hour("EEEE");
-                    clockDay1.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                    clockDay1.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : (customColorEnabled ? customColorCode : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary)));
                     clockDay1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14 * textScaling);
-                    clockDay1.setTypeface(clockDay1.getTypeface(), Typeface.BOLD);
+                    clockDay1.setTypeface(typeface != null ? typeface : clockDay1.getTypeface(), Typeface.BOLD);
+                    clockDay1.setIncludeFontPadding(false);
 
                     final TextClock clockDate1 = new TextClock(mContext);
                     clockDate1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     clockDate1.setFormat12Hour("dd MMMM");
                     clockDate1.setFormat24Hour("dd MMMM");
-                    clockDate1.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                    clockDate1.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : (customColorEnabled ? customColorCode : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary)));
                     clockDate1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14 * textScaling);
-                    clockDate1.setTypeface(clockDate1.getTypeface(), Typeface.BOLD);
+                    clockDate1.setTypeface(typeface != null ? typeface : clockDate1.getTypeface(), Typeface.BOLD);
+                    clockDate1.setIncludeFontPadding(false);
 
                     final LinearLayout dateContainer1 = new LinearLayout(mContext);
                     dateContainer1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
@@ -363,9 +383,10 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     clock2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     clock2.setFormat12Hour("h:mm");
                     clock2.setFormat24Hour("H:mm");
-                    clock2.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                    clock2.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : (customColorEnabled ? customColorCode : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary)));
                     clock2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40 * textScaling);
-                    clock2.setTypeface(clock2.getTypeface(), Typeface.BOLD);
+                    clock2.setTypeface(typeface != null ? typeface : clock2.getTypeface(), Typeface.BOLD);
+                    clock2.setIncludeFontPadding(false);
 
                     final TextClock clockOverlay2 = new TextClock(mContext);
                     clockOverlay2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -373,8 +394,9 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     clockOverlay2.setFormat24Hour("H");
                     clockOverlay2.setTextColor(mContext.getResources().getColor(android.R.color.holo_blue_light));
                     clockOverlay2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40 * textScaling);
-                    clockOverlay2.setTypeface(clockOverlay2.getTypeface(), Typeface.BOLD);
+                    clockOverlay2.setTypeface(typeface != null ? typeface : clockOverlay2.getTypeface(), Typeface.BOLD);
                     clockOverlay2.setMaxLines(1);
+                    clockOverlay2.setIncludeFontPadding(false);
                     int maxLength2 = 1;
                     InputFilter[] fArray2 = new InputFilter[1];
                     fArray2[0] = new InputFilter.LengthFilter(maxLength2);
@@ -391,9 +413,10 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     dayDate2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     dayDate2.setFormat12Hour("EEEE, MMM dd");
                     dayDate2.setFormat24Hour("EEEE, MMM dd");
-                    dayDate2.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                    dayDate2.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : (customColorEnabled ? customColorCode : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary)));
                     dayDate2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * textScaling);
-                    dayDate2.setTypeface(clockOverlay2.getTypeface(), Typeface.BOLD);
+                    dayDate2.setTypeface(typeface != null ? typeface : clockOverlay2.getTypeface(), Typeface.BOLD);
+                    dayDate2.setIncludeFontPadding(false);
 
                     final LinearLayout container2 = new LinearLayout(mContext);
                     container2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -410,9 +433,10 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     clock3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     clock3.setFormat12Hour("hh:mm");
                     clock3.setFormat24Hour("HH:mm");
-                    clock3.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                    clock3.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : (customColorEnabled ? customColorCode : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary)));
                     clock3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
-                    clock3.setTypeface(clock3.getTypeface(), Typeface.BOLD);
+                    clock3.setTypeface(typeface != null ? typeface : clock3.getTypeface(), Typeface.BOLD);
+                    clock3.setIncludeFontPadding(false);
 
                     final TextClock clockOverlay3 = new TextClock(mContext);
                     clockOverlay3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -420,8 +444,9 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     clockOverlay3.setFormat24Hour("HH:mm");
                     clockOverlay3.setTextColor(mContext.getResources().getColor(android.R.color.holo_blue_light));
                     clockOverlay3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
-                    clockOverlay3.setTypeface(clockOverlay3.getTypeface(), Typeface.BOLD);
+                    clockOverlay3.setTypeface(typeface != null ? typeface : clockOverlay3.getTypeface(), Typeface.BOLD);
                     clockOverlay3.setAlpha(0.2f);
+                    clockOverlay3.setIncludeFontPadding(false);
                     LinearLayout.LayoutParams clockOverlayParams3 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     clockOverlayParams3.setMargins(6, 6, 0, 0);
                     clockOverlay3.setLayoutParams(clockOverlayParams3);
@@ -436,9 +461,10 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     dayDate3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     dayDate3.setFormat12Hour("EEE, MMM dd");
                     dayDate3.setFormat24Hour("EEE, MMM dd");
-                    dayDate3.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                    dayDate3.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : (customColorEnabled ? customColorCode : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary)));
                     dayDate3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * textScaling);
-                    dayDate3.setTypeface(clockOverlay3.getTypeface(), Typeface.BOLD);
+                    dayDate3.setTypeface(typeface != null ? typeface : clockOverlay3.getTypeface(), Typeface.BOLD);
+                    dayDate3.setIncludeFontPadding(false);
 
                     final TextClock dayDateOverlay3 = new TextClock(mContext);
                     dayDateOverlay3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -446,8 +472,9 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     dayDateOverlay3.setFormat24Hour("EEE, MMM dd");
                     dayDateOverlay3.setTextColor(mContext.getResources().getColor(android.R.color.holo_green_light));
                     dayDateOverlay3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * textScaling);
-                    dayDateOverlay3.setTypeface(dayDateOverlay3.getTypeface(), Typeface.BOLD);
+                    dayDateOverlay3.setTypeface(typeface != null ? typeface : dayDateOverlay3.getTypeface(), Typeface.BOLD);
                     dayDateOverlay3.setAlpha(0.2f);
+                    dayDateOverlay3.setIncludeFontPadding(false);
                     LinearLayout.LayoutParams dayDateOverlayParams3 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     dayDateOverlayParams3.setMargins(6, 6, 0, 0);
                     dayDateOverlay3.setLayoutParams(dayDateOverlayParams3);
@@ -479,15 +506,17 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     clockDay4.setFormat24Hour("EEEE");
                     clockDay4.setTextColor(mContext.getResources().getColor(android.R.color.holo_blue_light));
                     clockDay4.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16 * textScaling);
-                    clockDay4.setTypeface(clockDay4.getTypeface(), Typeface.BOLD);
+                    clockDay4.setTypeface(typeface != null ? typeface : clockDay4.getTypeface(), Typeface.BOLD);
+                    clockDay4.setIncludeFontPadding(false);
 
                     final TextClock clockDate4 = new TextClock(mContext);
                     clockDate4.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     clockDate4.setFormat12Hour("dd MMMM");
                     clockDate4.setFormat24Hour("dd MMMM");
-                    clockDate4.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                    clockDate4.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : (customColorEnabled ? customColorCode : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary)));
                     clockDate4.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16 * textScaling);
-                    clockDate4.setTypeface(clockDate4.getTypeface(), Typeface.BOLD);
+                    clockDate4.setTypeface(typeface != null ? typeface : clockDate4.getTypeface(), Typeface.BOLD);
+                    clockDate4.setIncludeFontPadding(false);
 
                     final LinearLayout dateContainer4 = new LinearLayout(mContext);
                     dateContainer4.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
@@ -514,8 +543,9 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     time5.setFormat24Hour("HH:mm");
                     time5.setTextColor(mContext.getResources().getColor(android.R.color.white));
                     time5.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14 * textScaling);
-                    time5.setTypeface(time5.getTypeface(), Typeface.BOLD);
+                    time5.setTypeface(typeface != null ? typeface : time5.getTypeface(), Typeface.BOLD);
                     time5.setMaxLines(1);
+                    time5.setIncludeFontPadding(false);
 
                     final LinearLayout timeContainer5 = new LinearLayout(mContext);
                     LinearLayout.LayoutParams timeLayoutParams5 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -534,14 +564,15 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     date5.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     date5.setFormat12Hour("EEE, MMM dd");
                     date5.setFormat24Hour("EEE, MMM dd");
-                    date5.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
+                    date5.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white) : (customColorEnabled ? customColorCode : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary)));
                     date5.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14 * textScaling);
-                    date5.setTypeface(date5.getTypeface(), Typeface.BOLD);
+                    date5.setTypeface(typeface != null ? typeface : date5.getTypeface(), Typeface.BOLD);
                     ViewGroup.MarginLayoutParams dateParams5 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                     dateParams5.setMarginStart((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()));
                     dateParams5.setMarginEnd((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()));
                     date5.setLayoutParams(dateParams5);
                     date5.setMaxLines(1);
+                    date5.setIncludeFontPadding(false);
 
                     final LinearLayout container5 = new LinearLayout(mContext);
                     LinearLayout.LayoutParams layoutParams5 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
