@@ -106,6 +106,7 @@ public class XposedLockscreenClock extends BaseActivity implements ColorPickerDi
 
         enable_lsclock_font = findViewById(R.id.enable_lsclock_font);
         enable_lsclock_font.setOnClickListener(v -> {
+            RPrefs.putBoolean(LSCLOCK_FONT_SWITCH, false);
             RPrefs.putBoolean(LSCLOCK_FONT_SWITCH, true);
             enable_lsclock_font.setVisibility(View.GONE);
             disable_lsclock_font.setVisibility(View.VISIBLE);
