@@ -4,15 +4,16 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.drdisagree.iconify"
         minSdk 31
-        targetSdk 33
+        targetSdk 34
         versionCode 10
         versionName "6.2.0"
         setProperty("archivesBaseName", "Iconify v" + versionName)
+        buildConfigField "int", "MIN_SDK_VERSION", "$minSdkVersion.apiLevel"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
