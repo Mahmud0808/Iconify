@@ -1,0 +1,17 @@
+Iconify v6.3.1 has arrived! It has the following new changes:
+
+Feature Changes:
+• Xposed Only Mode:
+>> Long press on "Let's Go" button to open xposed-only mode
+• Brightness Bar:
+>> Use light accent by default for Pixel Variant
+• QS Panel Tiles:
+>> Use light accent by default for Pixel Variant
+• Miscellaneous:
+>> Accent Privacy Chip follow iconify colors
+• Xposed Menu:
+>> Allow disabling Fluid Theme power menu transparency
+>> Background Chip follow iconify colors
+>> Fix Header Image resetting on theme change
+
+Full changelog at https://github.com/Mahmud0808/Iconify/releases/tag/v6.3.1
