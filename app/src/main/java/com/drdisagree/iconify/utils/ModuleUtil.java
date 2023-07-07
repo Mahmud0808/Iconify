@@ -61,6 +61,13 @@ public class ModuleUtil {
         Log.i(TAG, "Magisk module successfully created.");
     }
 
+    public static void flashModule() {
+        if (RootUtil.isMagiskInstalled()) {
+            Shell.cmd("magisk --install-module " + Resources.TEMP_DIR + "/Iconify.zip").exec();
+        } else {
+            Shell.cmd("/data/adb/ksud module install " + Resources.TEMP_DIR + "/Iconify.zip").exec();
+        }
+    }
 
     private static void writePostExec() {
         StringBuilder post_exec = new StringBuilder();
@@ -81,11 +88,15 @@ public class ModuleUtil {
         if (!primaryColorEnabled && shouldUseDefaultColors()) {
             post_exec.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimary android:color/holo_blue_light 0x1c " + ICONIFY_COLOR_ACCENT_PRIMARY + "\n");
             post_exec.append("cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentPrimary\n");
+            post_exec.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimaryLight android:color/holo_blue_dark 0x1c " + ICONIFY_COLOR_ACCENT_PRIMARY + "\n");
+            post_exec.append("cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentPrimaryLight\n");
         }
 
         if (!secondaryColorEnabled && shouldUseDefaultColors()) {
             post_exec.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary android:color/holo_green_light 0x1c " + ICONIFY_COLOR_ACCENT_SECONDARY + "\n");
             post_exec.append("cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentSecondary\n");
+            post_exec.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondaryLight android:color/holo_green_dark 0x1c " + ICONIFY_COLOR_ACCENT_SECONDARY + "\n");
+            post_exec.append("cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentSecondaryLight\n");
         }
 
         Shell.cmd("printf '" + post_exec + "' > " + Resources.MODULE_DIR + "/post-exec.sh").exec();
@@ -93,7 +104,7 @@ public class ModuleUtil {
     }
 
     private static boolean shouldUseDefaultColors() {
-        return OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMAC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMACL.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMGC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMGCL.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay");
+        return OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMAC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMGC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay");
     }
 
     public static boolean moduleExists() {

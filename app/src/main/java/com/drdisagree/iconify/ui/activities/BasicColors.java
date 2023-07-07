@@ -2,7 +2,9 @@ package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY;
+import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY_LIGHT;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
+import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY_LIGHT;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_PRIMARY_COLOR_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_SECONDARY_COLOR_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.STR_NULL;
@@ -42,10 +44,12 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
 
     public static void applyPrimaryColors() {
         FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_PRIMARY))));
+        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY_LIGHT, "color", "holo_blue_dark", ColorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_PRIMARY))));
     }
 
     public static void applySecondaryColors() {
         FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_SECONDARY))));
+        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY_LIGHT, "color", "holo_green_dark", ColorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_SECONDARY))));
     }
 
     public static void disableMonetColors() {
@@ -53,19 +57,25 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
         Prefs.clearPref(CUSTOM_PRIMARY_COLOR_SWITCH);
         Prefs.clearPref(CUSTOM_SECONDARY_COLOR_SWITCH);
         Prefs.clearPref(COLOR_ACCENT_PRIMARY);
+        Prefs.clearPref(COLOR_ACCENT_PRIMARY_LIGHT);
         Prefs.clearPref(COLOR_ACCENT_SECONDARY);
+        Prefs.clearPref(COLOR_ACCENT_SECONDARY_LIGHT);
 
         FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
+        FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY_LIGHT);
         FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
+        FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY_LIGHT);
 
         if (shouldUseDefaultColors()) {
             FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
+            FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY_LIGHT, "color", "holo_blue_dark", ICONIFY_COLOR_ACCENT_PRIMARY);
             FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
+            FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY_LIGHT, "color", "holo_green_dark", ICONIFY_COLOR_ACCENT_SECONDARY);
         }
     }
 
     private static boolean shouldUseDefaultColors() {
-        return OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMAC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMACL.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMGC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMGCL.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay");
+        return OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMAC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMGC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay");
     }
 
     @Override

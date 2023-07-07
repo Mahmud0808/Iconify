@@ -95,11 +95,12 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
                     mQsHeaderLayout.setVisibility(View.GONE);
 
                     mQsHeaderImageView = new ImageView(mContext);
-                    mQsHeaderImageView.setClipToOutline(true);
                     mQsHeaderImageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
                     mQsHeaderLayout.addView(mQsHeaderImageView);
                     mQuickStatusBarHeader.addView(mQsHeaderLayout, 0);
+
+                    updateQSHeaderImage();
                 }
             });
 

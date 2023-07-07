@@ -8,8 +8,8 @@
             <size android:height="12.0dip" />
             <gradient
                 android:angle="0.0"
-                android:endColor="@*android:color/holo_green_light"
-                android:startColor="@*android:color/holo_blue_light" />
+                android:endColor="@*android:color/holo_green_dark"
+                android:startColor="@*android:color/holo_blue_dark" />
         </shape>
     </item>
     <item android:gravity="end|center">
@@ -18,7 +18,7 @@
             <size
                 android:width="12.0dip"
                 android:height="24.0dip" />
-            <solid android:color="@*android:color/holo_green_light" />
+            <solid android:color="@*android:color/holo_green_dark" />
         </shape>
     </item>
     <item

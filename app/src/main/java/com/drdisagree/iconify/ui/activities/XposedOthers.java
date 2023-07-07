@@ -23,7 +23,6 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.FabricatedUtil;
-import com.drdisagree.iconify.utils.HelperUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 
 public class XposedOthers extends BaseActivity {
@@ -47,7 +46,7 @@ public class XposedOthers extends BaseActivity {
                 if (Build.VERSION.SDK_INT >= 33) {
                     SystemUtil.restartSystemUI();
                 } else {
-                    HelperUtil.forceApply();
+                    SystemUtil.doubleToggleDarkMode();
                 }
             }, SWITCH_ANIMATION_DELAY);
         });
@@ -62,7 +61,7 @@ public class XposedOthers extends BaseActivity {
                 if (Build.VERSION.SDK_INT >= 33) {
                     SystemUtil.restartSystemUI();
                 } else {
-                    HelperUtil.forceApply();
+                    SystemUtil.doubleToggleDarkMode();
                 }
             }, SWITCH_ANIMATION_DELAY);
         });
@@ -97,7 +96,7 @@ public class XposedOthers extends BaseActivity {
             else if (RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0) > 32)
                 FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (48 + RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0)) + "dp");
 
-            new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
+            new Handler().postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
         });
 
         // Status icons top margin
@@ -123,7 +122,7 @@ public class XposedOthers extends BaseActivity {
                 RPrefs.putInt(FIXED_STATUS_ICONS_TOPMARGIN, topMarginStatusIcons[0]);
                 if (RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)) {
                     FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (48 + topMarginStatusIcons[0]) + "dp");
-                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
+                    new Handler().postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
                 }
             }
         });
@@ -150,7 +149,7 @@ public class XposedOthers extends BaseActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(FIXED_STATUS_ICONS_SIDEMARGIN, sideMarginStatusIcons[0]);
                 if (RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)) {
-                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
+                    new Handler().postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
                 }
             }
         });

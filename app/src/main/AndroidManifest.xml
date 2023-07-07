@@ -44,6 +44,9 @@
         tools:targetApi="tiramisu">
 
         <activity
+            android:name=".ui.activities.XposedMenu"
+            android:exported="false" />
+        <activity
             android:name=".ui.activities.Switch"
             android:exported="false" />
         <activity

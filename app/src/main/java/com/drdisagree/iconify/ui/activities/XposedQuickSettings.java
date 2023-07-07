@@ -6,6 +6,7 @@ import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.BLACK_QSPANEL;
 import static com.drdisagree.iconify.common.Preferences.DUALTONE_QSPANEL;
 import static com.drdisagree.iconify.common.Preferences.FLUID_NOTIF_TRANSPARENCY;
+import static com.drdisagree.iconify.common.Preferences.FLUID_POWERMENU_TRANSPARENCY;
 import static com.drdisagree.iconify.common.Preferences.FLUID_QSPANEL;
 import static com.drdisagree.iconify.common.Preferences.HEADER_QQS_TOPMARGIN;
 import static com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH;
@@ -28,7 +29,6 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.FabricatedUtil;
-import com.drdisagree.iconify.utils.HelperUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 
 public class XposedQuickSettings extends BaseActivity {
@@ -47,7 +47,7 @@ public class XposedQuickSettings extends BaseActivity {
         enable_vertical_tile.setChecked(RPrefs.getBoolean(VERTICAL_QSTILE_SWITCH, false));
         enable_vertical_tile.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(VERTICAL_QSTILE_SWITCH, isChecked);
-            new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
+            new Handler().postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
         });
 
         // Hide label for vertical tiles
@@ -55,7 +55,7 @@ public class XposedQuickSettings extends BaseActivity {
         hide_tile_label.setChecked(RPrefs.getBoolean(HIDE_QSLABEL_SWITCH, false));
         hide_tile_label.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_QSLABEL_SWITCH, isChecked);
-            new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
+            new Handler().postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
         });
 
         // Light Theme
@@ -71,7 +71,7 @@ public class XposedQuickSettings extends BaseActivity {
         enable_dual_tone.setChecked(RPrefs.getBoolean(DUALTONE_QSPANEL, false));
         enable_dual_tone.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(DUALTONE_QSPANEL, isChecked);
-            new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
+            new Handler().postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
         });
 
         // Pixel Black Theme
@@ -95,6 +95,14 @@ public class XposedQuickSettings extends BaseActivity {
         enable_notification_transparency.setChecked(RPrefs.getBoolean(FLUID_NOTIF_TRANSPARENCY, false));
         enable_notification_transparency.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(FLUID_NOTIF_TRANSPARENCY, isChecked);
+            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+        });
+
+        // Fluid QS Power Menu Transparency
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_powermenu_transparency = findViewById(R.id.enable_powermenu_transparency);
+        enable_powermenu_transparency.setChecked(RPrefs.getBoolean(FLUID_POWERMENU_TRANSPARENCY, false));
+        enable_powermenu_transparency.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(FLUID_POWERMENU_TRANSPARENCY, isChecked);
             new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 

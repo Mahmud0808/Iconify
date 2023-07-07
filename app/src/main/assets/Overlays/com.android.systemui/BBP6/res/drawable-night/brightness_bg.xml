@@ -9,8 +9,8 @@
                 android:topRightRadius="14.0dp" />
             <gradient
                 android:angle="0.0"
-                android:endColor="@*android:color/holo_green_light"
-                android:startColor="@*android:color/holo_blue_light" />
+                android:endColor="@*android:color/holo_green_dark"
+                android:startColor="@*android:color/holo_blue_dark" />
             <size
                 android:width="48.0dip"
                 android:height="48.0dip" />

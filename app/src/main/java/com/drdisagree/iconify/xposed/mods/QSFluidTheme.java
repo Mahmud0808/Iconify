@@ -4,6 +4,7 @@ import static android.content.Context.CONTEXT_IGNORE_SECURITY;
 import static com.drdisagree.iconify.BuildConfig.APPLICATION_ID;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.FLUID_NOTIF_TRANSPARENCY;
+import static com.drdisagree.iconify.common.Preferences.FLUID_POWERMENU_TRANSPARENCY;
 import static com.drdisagree.iconify.common.Preferences.FLUID_QSPANEL;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
@@ -66,6 +67,7 @@ public class QSFluidTheme extends ModPack {
     private static final float INACTIVE_ALPHA = 0.2f;
     private static boolean fluidQsThemeEnabled = false;
     private static boolean fluidNotifEnabled = false;
+    private static boolean fluidPowerMenuEnabled = false;
     private boolean wasDark = getIsDark();
     final Integer[] colorAccent = {wasDark ? mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", listenPackage), mContext.getTheme()) : mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_600", "color", listenPackage), mContext.getTheme())};
     final Integer[] colorActiveAlpha = {Color.argb((int) (TILE_ALPHA * 255), Color.red(colorAccent[0]), Color.green(colorAccent[0]), Color.blue(colorAccent[0]))};
@@ -85,6 +87,7 @@ public class QSFluidTheme extends ModPack {
 
         fluidQsThemeEnabled = Xprefs.getBoolean(FLUID_QSPANEL, false);
         fluidNotifEnabled = Xprefs.getBoolean(FLUID_NOTIF_TRANSPARENCY, false);
+        fluidPowerMenuEnabled = Xprefs.getBoolean(FLUID_POWERMENU_TRANSPARENCY, false);
         initResources();
     }
 
@@ -323,7 +326,7 @@ public class QSFluidTheme extends ModPack {
                     public Drawable newDrawable(XResources res, int id) {
                         GradientDrawable gradientDrawable = new GradientDrawable();
                         gradientDrawable.setShape(GradientDrawable.RECTANGLE);
-                        gradientDrawable.setColor(Color.TRANSPARENT);
+                        gradientDrawable.setColor(colorInactiveAlpha[0]);
                         gradientDrawable.setCornerRadius(mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("rounded_slider_background_rounded_corner", "dimen", mContext.getPackageName())));
                         return gradientDrawable;
                     }
@@ -440,31 +443,33 @@ public class QSFluidTheme extends ModPack {
                 }
             }
 
-            try {
-                ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "global_actions_lite_background", new XResources.DrawableLoader() {
-                    @Override
-                    public Drawable newDrawable(XResources res, int id) {
-                        GradientDrawable gradientDrawable = new GradientDrawable();
-                        gradientDrawable.setShape(GradientDrawable.RECTANGLE);
-                        gradientDrawable.setColor(colorInactiveAlpha[0]);
-                        gradientDrawable.setCornerRadius(notifCornerRadius);
-                        return gradientDrawable;
-                    }
-                });
-            } catch (Throwable ignored) {
-            }
+            if (fluidPowerMenuEnabled) {
+                try {
+                    ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "global_actions_lite_background", new XResources.DrawableLoader() {
+                        @Override
+                        public Drawable newDrawable(XResources res, int id) {
+                            GradientDrawable gradientDrawable = new GradientDrawable();
+                            gradientDrawable.setShape(GradientDrawable.RECTANGLE);
+                            gradientDrawable.setColor(colorInactiveAlpha[0]);
+                            gradientDrawable.setCornerRadius(notifCornerRadius);
+                            return gradientDrawable;
+                        }
+                    });
+                } catch (Throwable ignored) {
+                }
 
-            try {
-                ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "global_actions_lite_button", new XResources.DrawableLoader() {
-                    @Override
-                    public Drawable newDrawable(XResources res, int id) {
-                        GradientDrawable gradientDrawable = new GradientDrawable();
-                        gradientDrawable.setShape(GradientDrawable.OVAL);
-                        gradientDrawable.setColor(colorInactiveAlpha[0]);
-                        return gradientDrawable;
-                    }
-                });
-            } catch (Throwable ignored) {
+                try {
+                    ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "global_actions_lite_button", new XResources.DrawableLoader() {
+                        @Override
+                        public Drawable newDrawable(XResources res, int id) {
+                            GradientDrawable gradientDrawable = new GradientDrawable();
+                            gradientDrawable.setShape(GradientDrawable.OVAL);
+                            gradientDrawable.setColor(colorInactiveAlpha[0]);
+                            return gradientDrawable;
+                        }
+                    });
+                } catch (Throwable ignored) {
+                }
             }
         }
     }

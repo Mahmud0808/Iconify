@@ -47,12 +47,12 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/xposed_warn_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="6dp"
         android:justificationMode="inter_word"
-        android:text="@string/lsposed_warn"
         android:textColor="@color/textColorSecondary"
         android:textSize="@dimen/cont_desc_size" />
 
