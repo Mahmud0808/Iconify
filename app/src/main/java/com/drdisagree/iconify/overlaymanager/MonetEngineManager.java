@@ -1,8 +1,5 @@
 package com.drdisagree.iconify.overlaymanager;
 
-import static com.drdisagree.iconify.common.Preferences.USE_LIGHT_ACCENT;
-
-import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.ColorUtil;
 import com.drdisagree.iconify.utils.compiler.MonetCompiler;
 
@@ -24,16 +21,18 @@ public class MonetEngineManager {
             }
         }
 
-        resources.append("    <color name=\"holo_blue_light\">").append(ColorUtil.ColorToHex((int) palette.get(0).get(Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? 5 : 8), false, true)).append("</color>\n");
-        resources.append("    <color name=\"holo_green_light\">").append(ColorUtil.ColorToHex((int) palette.get(2).get(Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? 5 : 8), false, true)).append("</color>\n");
+        resources.append("    <color name=\"holo_blue_light\">").append(ColorUtil.ColorToHex((int) palette.get(0).get(8), false, true)).append("</color>\n");
+        resources.append("    <color name=\"holo_blue_dark\">").append(ColorUtil.ColorToHex((int) palette.get(0).get(5), false, true)).append("</color>\n");
+        resources.append("    <color name=\"holo_green_light\">").append(ColorUtil.ColorToHex((int) palette.get(2).get(8), false, true)).append("</color>\n");
+        resources.append("    <color name=\"holo_green_dark\">").append(ColorUtil.ColorToHex((int) palette.get(2).get(5), false, true)).append("</color>\n");
         resources.append("    <color name=\"accent_device_default\">@*android:color/holo_blue_light</color>\n");
         resources.append("    <color name=\"accent_device_default_dark\">@*android:color/holo_blue_light</color>\n");
         resources.append("    <color name=\"accent_device_default_light\">@*android:color/holo_blue_light</color>\n");
         resources.append("    <color name=\"accent_material_dark\">@*android:color/holo_blue_light</color>\n");
         resources.append("    <color name=\"accent_material_light\">@*android:color/holo_blue_light</color>\n");
         resources.append("    <color name=\"accent_primary_device_default\">@*android:color/holo_blue_light</color>\n");
-        resources.append("    <color name=\"accent_secondary_device_default\">@*android:color/system_accent2_").append(Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? 300 : 600).append("</color>\n");
-        resources.append("    <color name=\"accent_tertiary_device_default\">@*android:color/system_accent3_").append(Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? 300 : 600).append("</color>\n");
+        resources.append("    <color name=\"accent_secondary_device_default\">@*android:color/system_accent2_600</color>\n");
+        resources.append("    <color name=\"accent_tertiary_device_default\">@*android:color/system_accent3_600</color>\n");
         resources.append("    <color name=\"autofill_background_material_dark\">@*android:color/background_dark</color>\n");
         resources.append("    <color name=\"background_dark\">@*android:color/system_neutral1_900</color>\n");
         resources.append("    <color name=\"background_light\">@*android:color/system_neutral1_50</color>\n");
@@ -70,7 +69,9 @@ public class MonetEngineManager {
         resources.append("</resources>\n");
 
         resources_night.append("    <color name=\"holo_blue_light\">").append(ColorUtil.ColorToHex((int) palette_night.get(0).get(5), false, true)).append("</color>\n");
+        resources_night.append("    <color name=\"holo_blue_dark\">").append(ColorUtil.ColorToHex((int) palette_night.get(0).get(5), false, true)).append("</color>\n");
         resources_night.append("    <color name=\"holo_green_light\">").append(ColorUtil.ColorToHex((int) palette_night.get(2).get(5), false, true)).append("</color>\n");
+        resources_night.append("    <color name=\"holo_green_dark\">").append(ColorUtil.ColorToHex((int) palette_night.get(2).get(5), false, true)).append("</color>\n");
         resources_night.append("    <color name=\"accent_device_default\">@*android:color/holo_blue_light</color>\n");
         resources_night.append("    <color name=\"accent_device_default_dark\">@*android:color/holo_blue_light</color>\n");
         resources_night.append("    <color name=\"accent_device_default_light\">@*android:color/holo_blue_light</color>\n");

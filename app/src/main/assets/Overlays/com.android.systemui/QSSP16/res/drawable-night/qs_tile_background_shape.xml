@@ -50,8 +50,8 @@
                     android:tintMode="multiply">
                     <gradient
                         android:angle="315.0"
-                        android:endColor="@*android:color/holo_green_light"
-                        android:startColor="@*android:color/holo_blue_light" />
+                        android:endColor="@*android:color/holo_green_dark"
+                        android:startColor="@*android:color/holo_blue_dark" />
                     <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
                 </shape>
             </item>

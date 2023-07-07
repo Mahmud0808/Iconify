@@ -11,7 +11,6 @@ import static com.drdisagree.iconify.common.Preferences.MONET_BACKGROUND_SATURAT
 import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.MONET_STYLE;
 import static com.drdisagree.iconify.common.Preferences.STR_NULL;
-import static com.drdisagree.iconify.common.Preferences.USE_LIGHT_ACCENT;
 import static com.drdisagree.iconify.utils.ColorSchemeUtil.GenerateColorPalette;
 
 import android.annotation.SuppressLint;
@@ -115,12 +114,12 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL))
             accentPrimary = Prefs.getString(COLOR_ACCENT_PRIMARY);
         else
-            accentPrimary = String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent1_300 : (Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? android.R.color.system_accent1_300 : android.R.color.system_accent1_600)));
+            accentPrimary = String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent1_300 : android.R.color.system_accent1_600));
 
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL))
             accentSecondary = Prefs.getString(COLOR_ACCENT_SECONDARY);
         else
-            accentSecondary = String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent3_300 : (Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? android.R.color.system_accent3_300 : android.R.color.system_accent3_600)));
+            accentSecondary = String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent3_300 : android.R.color.system_accent3_600));
 
         updatePrimaryColor();
         updateSecondaryColor();
@@ -424,7 +423,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                     palette_night.get(i).set(j, color);
 
                     if (!accurateShades) {
-                        if (i == 0 && j == (Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? 5 : 8))
+                        if (i == 0 && j == 8)
                             palette.get(i).set(j, Integer.parseInt(accentPrimary));
 
                         if (i == 0 && j == 5)
@@ -479,10 +478,12 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                     palette_night.get(i).set(j, color);
 
                     if (!accurateShades) {
-                        if (j == (Prefs.getBoolean(USE_LIGHT_ACCENT, false) ? 5 : 8))
+                        if (j == 8) {
                             palette.get(i).set(j, Integer.parseInt(accentSecondary));
-
-                        if (j == 5) palette_night.get(i).set(j, Integer.parseInt(accentSecondary));
+                        }
+                        if (j == 5) {
+                            palette_night.get(i).set(j, Integer.parseInt(accentSecondary));
+                        }
                     }
 
                     GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{!isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j), !isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j)});

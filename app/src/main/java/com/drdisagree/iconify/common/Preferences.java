@@ -91,7 +91,9 @@ public class Preferences {
     public static final String ON_HOME_PAGE = "onHomePage";
     public static final String COLORED_BATTERY_SWITCH = "isColoredBatteryEnabled";
     public static final String COLOR_ACCENT_PRIMARY = "colorAccentPrimary";
+    public static final String COLOR_ACCENT_PRIMARY_LIGHT = "colorAccentPrimaryLight";
     public static final String COLOR_ACCENT_SECONDARY = "colorAccentSecondary";
+    public static final String COLOR_ACCENT_SECONDARY_LIGHT = "colorAccentSecondaryLight";
     public static final String CUSTOM_PRIMARY_COLOR_SWITCH = "customPrimaryColor";
     public static final String CUSTOM_SECONDARY_COLOR_SWITCH = "customSecondaryColor";
     public static final String QS_ROW_COLUMN_SWITCH = "fabricatedqsRowColumn";
@@ -124,7 +126,6 @@ public class Preferences {
     public static final String APP_LANGUAGE = "IconifyAppLanguage";
     public static final String APP_ICON = "IconifyAppIcon";
     public static final String APP_THEME = "IconifyAppTheme";
-    public static final String USE_LIGHT_ACCENT = "useLightAccent";
     public static final String SHOW_XPOSED_WARN = "showXposedMenuWarn";
     public static final String FORCE_APPLY_XPOSED_CHOICE = "optionForceApplyXposed";
 

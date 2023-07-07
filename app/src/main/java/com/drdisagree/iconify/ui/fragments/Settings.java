@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.ui.fragments;
 
-import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.APP_ICON;
 import static com.drdisagree.iconify.common.Preferences.APP_LANGUAGE;
 import static com.drdisagree.iconify.common.Preferences.APP_THEME;
@@ -9,7 +8,6 @@ import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.FORCE_APPLY_XPOSED_CHOICE;
 import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_AFTER_BOOT;
 import static com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN;
-import static com.drdisagree.iconify.common.Preferences.USE_LIGHT_ACCENT;
 import static com.drdisagree.iconify.utils.AppUtil.restartApplication;
 
 import android.annotation.SuppressLint;
@@ -126,32 +124,6 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         rd_app_theme.setRadioDialogListener(this);
         app_theme.setOnClickListener(v -> rd_app_theme.show(R.string.app_theme, R.array.app_theme, selected_app_theme));
         selected_app_theme.setText(Arrays.asList(getResources().getStringArray(R.array.app_theme)).get(rd_app_theme.getSelectedIndex()));
-
-        // Use light accent
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch use_light_accent = view.findViewById(R.id.use_light_accent);
-        boolean useLightAccent = Prefs.getBoolean(USE_LIGHT_ACCENT, false) || Prefs.getBoolean("IconifyComponentAMACL.overlay") || Prefs.getBoolean("IconifyComponentAMGCL.overlay");
-
-        Prefs.putBoolean(USE_LIGHT_ACCENT, useLightAccent);
-        use_light_accent.setChecked(useLightAccent);
-
-        use_light_accent.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Prefs.putBoolean(USE_LIGHT_ACCENT, isChecked);
-            new Handler().postDelayed(() -> {
-                if (isChecked) {
-                    if (Prefs.getBoolean("IconifyComponentAMAC.overlay")) {
-                        OverlayUtil.changeOverlayState("IconifyComponentAMAC.overlay", false, "IconifyComponentAMACL.overlay", true);
-                    } else if (Prefs.getBoolean("IconifyComponentAMGC.overlay")) {
-                        OverlayUtil.changeOverlayState("IconifyComponentAMGC.overlay", false, "IconifyComponentAMGCL.overlay", true);
-                    }
-                } else {
-                    if (Prefs.getBoolean("IconifyComponentAMACL.overlay")) {
-                        OverlayUtil.changeOverlayState("IconifyComponentAMACL.overlay", false, "IconifyComponentAMAC.overlay", true);
-                    } else if (Prefs.getBoolean("IconifyComponentAMGCL.overlay")) {
-                        OverlayUtil.changeOverlayState("IconifyComponentAMGCL.overlay", false, "IconifyComponentAMGC.overlay", true);
-                    }
-                }
-            }, SWITCH_ANIMATION_DELAY);
-        });
 
         // Restart sysui after boot
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch restart_sysui_after_boot = view.findViewById(R.id.restart_sysui_after_boot);

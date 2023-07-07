@@ -5,8 +5,8 @@
             <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
             <gradient
                 android:angle="90.0"
-                android:endColor="@*android:color/holo_green_light"
-                android:startColor="@*android:color/holo_blue_light" />
+                android:endColor="@*android:color/holo_green_dark"
+                android:startColor="@*android:color/holo_blue_dark" />
             <size
                 android:width="48.0dip"
                 android:height="48.0dip" />
@@ -20,8 +20,8 @@
             <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
             <gradient
                 android:angle="270.0"
-                android:endColor="@*android:color/holo_green_light"
-                android:startColor="@*android:color/holo_blue_light" />
+                android:endColor="@*android:color/holo_green_dark"
+                android:startColor="@*android:color/holo_blue_dark" />
             <size
                 android:width="40.0dip"
                 android:height="40.0dip" />
