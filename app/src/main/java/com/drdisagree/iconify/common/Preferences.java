@@ -53,6 +53,7 @@ public class Preferences {
     public static final String BLACK_QSPANEL = "xposed_blackqspanel";
     public static final String FLUID_QSPANEL = "xposed_fluidqspanel";
     public static final String FLUID_NOTIF_TRANSPARENCY = "xposed_fluidnotiftransparency";
+    public static final String FLUID_POWERMENU_TRANSPARENCY = "xposed_fluidpowermenutransparency";
     public static final String CUSTOM_BATTERY_STYLE = "xposed_custombatterystyle";
     public static final String CUSTOM_BATTERY_WIDTH = "xposed_custombatterywidth";
     public static final String CUSTOM_BATTERY_HEIGHT = "xposed_custombatteryheight";
