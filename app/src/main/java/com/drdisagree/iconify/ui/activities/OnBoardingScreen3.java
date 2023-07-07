@@ -57,6 +57,7 @@ public class OnBoardingScreen3 extends BaseActivity {
     LottieAnimationView loading_anim;
     private InstallationDialog progressDialog;
     private String logger = null, prev_log = null;
+    private boolean skippedInsatllation = false;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -91,6 +92,7 @@ public class OnBoardingScreen3 extends BaseActivity {
 
         // Start installation on click
         install_module.setOnClickListener(v -> {
+            skippedInsatllation = false;
             hasErroredOut = false;
             if (RootUtil.isDeviceRooted()) {
                 if (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) {
@@ -112,18 +114,7 @@ public class OnBoardingScreen3 extends BaseActivity {
                                 RPrefs.clearAllPrefs();
                             }
 
-                            LottieCompositionFactory.fromRawRes(this, !isDarkMode() ? R.raw.loading_day : R.raw.loading_night).addListener(result -> {
-                                loading_anim = findViewById(R.id.loading_anim);
-                                loading_anim.setMaxWidth(install_module.getHeight());
-                                loading_anim.setMaxHeight(install_module.getHeight());
-                                install_module.setTextColor(Color.TRANSPARENT);
-                                loading_anim.setAnimation(!isDarkMode() ? R.raw.loading_day : R.raw.loading_night);
-                                loading_anim.setRenderMode(RenderMode.HARDWARE);
-                                loading_anim.setVisibility(View.VISIBLE);
-
-                                installModule = new startInstallationProcess();
-                                installModule.execute();
-                            });
+                            handleInstallation();
                         } else {
                             Intent intent = new Intent(OnBoardingScreen3.this, HomePage.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -140,12 +131,47 @@ public class OnBoardingScreen3 extends BaseActivity {
 
         // Skip installation on long click
         install_module.setOnLongClickListener(view -> {
-            Intent intent = new Intent(OnBoardingScreen3.this, XposedMenu.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            Toast.makeText(OnBoardingScreen3.this, R.string.toast_skipped_installation, Toast.LENGTH_LONG).show();
+            skippedInsatllation = true;
+            boolean moduleExists = ModuleUtil.moduleExists();
+
+            if (!Environment.isExternalStorageManager()) {
+                showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
+                Toast.makeText(OnBoardingScreen3.this, R.string.toast_storage_access, Toast.LENGTH_SHORT).show();
+
+                new Handler().postDelayed(() -> {
+                    clickedContinue.set(true);
+                    SystemUtil.getStoragePermission(this);
+                }, clickedContinue.get() ? 10 : 2000);
+            } else {
+                if (!moduleExists) {
+                    Prefs.clearAllPrefs();
+                    RPrefs.clearAllPrefs();
+
+                    handleInstallation();
+                } else {
+                    Intent intent = new Intent(OnBoardingScreen3.this, XposedMenu.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    Toast.makeText(OnBoardingScreen3.this, R.string.toast_skipped_installation, Toast.LENGTH_LONG).show();
+                }
+            }
 
             return true;
+        });
+    }
+
+    private void handleInstallation() {
+        LottieCompositionFactory.fromRawRes(this, !isDarkMode() ? R.raw.loading_day : R.raw.loading_night).addListener(result -> {
+            loading_anim = findViewById(R.id.loading_anim);
+            loading_anim.setMaxWidth(install_module.getHeight());
+            loading_anim.setMaxHeight(install_module.getHeight());
+            install_module.setTextColor(Color.TRANSPARENT);
+            loading_anim.setAnimation(!isDarkMode() ? R.raw.loading_day : R.raw.loading_night);
+            loading_anim.setRenderMode(RenderMode.HARDWARE);
+            loading_anim.setVisibility(View.VISIBLE);
+
+            installModule = new startInstallationProcess();
+            installModule.execute();
         });
     }
 
@@ -257,9 +283,14 @@ public class OnBoardingScreen3 extends BaseActivity {
 
                 logger = "Extracting overlays from assets";
                 publishProgress(step);
-                // Extract overlays from assets
-                FileUtil.copyAssets("Overlays");
-                ModuleUtil.extractPremadeOverlays();
+                if (skippedInsatllation) {
+                    logger = "Skipped...";
+                    publishProgress(step);
+                } else {
+                    // Extract overlays from assets
+                    FileUtil.copyAssets("Overlays");
+                    ModuleUtil.extractPremadeOverlays();
+                }
 
                 logger = "Creating temporary directories";
                 publishProgress(step);
@@ -276,88 +307,108 @@ public class OnBoardingScreen3 extends BaseActivity {
 
             logger = null;
             publishProgress(++step);
-            // Create AndroidManifest.xml and build APK using AAPT
-            File dir = new File(Resources.DATA_DIR + "/Overlays");
-            if (dir.listFiles() == null) hasErroredOut = true;
+            File dir;
+            if (skippedInsatllation) {
+                logger = "Skipping overlay builder...";
+                publishProgress(step);
+            } else {
+                // Create AndroidManifest.xml and build APK using AAPT
+                dir = new File(Resources.DATA_DIR + "/Overlays");
+                if (dir.listFiles() == null) hasErroredOut = true;
 
-            if (!hasErroredOut) {
-                for (File pkg : Objects.requireNonNull(dir.listFiles())) {
-                    if (pkg.isDirectory()) {
-                        for (File overlay : Objects.requireNonNull(pkg.listFiles())) {
-                            if (overlay.isDirectory()) {
-                                String overlay_name = overlay.toString().replace(pkg.toString() + '/', "");
+                if (!hasErroredOut) {
+                    for (File pkg : Objects.requireNonNull(dir.listFiles())) {
+                        if (pkg.isDirectory()) {
+                            for (File overlay : Objects.requireNonNull(pkg.listFiles())) {
+                                if (overlay.isDirectory()) {
+                                    String overlay_name = overlay.toString().replace(pkg.toString() + '/', "");
 
-                                if (OnBoardingCompiler.createManifest(overlay_name, pkg.toString().replace(Resources.DATA_DIR + "/Overlays/", ""), overlay.getAbsolutePath())) {
-                                    hasErroredOut = true;
+                                    if (OnBoardingCompiler.createManifest(overlay_name, pkg.toString().replace(Resources.DATA_DIR + "/Overlays/", ""), overlay.getAbsolutePath())) {
+                                        hasErroredOut = true;
+                                    }
+
+                                    logger = "Building APK for " + overlay_name;
+                                    publishProgress(step);
+
+                                    if (!hasErroredOut && OnBoardingCompiler.runAapt(overlay.getAbsolutePath(), overlay_name)) {
+                                        hasErroredOut = true;
+                                    }
                                 }
-
-                                logger = "Building APK for " + overlay_name;
-                                publishProgress(step);
-
-                                if (!hasErroredOut && OnBoardingCompiler.runAapt(overlay.getAbsolutePath(), overlay_name)) {
-                                    hasErroredOut = true;
-                                }
+                                if (hasErroredOut) break;
                             }
-                            if (hasErroredOut) break;
                         }
+                        if (hasErroredOut) break;
                     }
-                    if (hasErroredOut) break;
                 }
             }
 
             logger = null;
             publishProgress(++step);
-            // ZipAlign the APK
-            dir = new File(Resources.UNSIGNED_UNALIGNED_DIR);
-            if (dir.listFiles() == null) hasErroredOut = true;
+            if (skippedInsatllation) {
+                logger = "Skipping zipaligning process...";
+                publishProgress(step);
+            } else {
+                // ZipAlign the APK
+                dir = new File(Resources.UNSIGNED_UNALIGNED_DIR);
+                if (dir.listFiles() == null) hasErroredOut = true;
 
-            if (!hasErroredOut) {
-                for (File overlay : Objects.requireNonNull(dir.listFiles())) {
-                    if (!overlay.isDirectory()) {
-                        String overlay_name = overlay.toString().replace(Resources.UNSIGNED_UNALIGNED_DIR + '/', "").replace("-unaligned", "");
+                if (!hasErroredOut) {
+                    for (File overlay : Objects.requireNonNull(dir.listFiles())) {
+                        if (!overlay.isDirectory()) {
+                            String overlay_name = overlay.toString().replace(Resources.UNSIGNED_UNALIGNED_DIR + '/', "").replace("-unaligned", "");
 
-                        logger = "Zip aligning APK " + overlay_name.replace("-unsigned.apk", "");
-                        publishProgress(step);
+                            logger = "Zip aligning APK " + overlay_name.replace("-unsigned.apk", "");
+                            publishProgress(step);
 
-                        if (OnBoardingCompiler.zipAlign(overlay.getAbsolutePath(), overlay_name)) {
-                            hasErroredOut = true;
+                            if (OnBoardingCompiler.zipAlign(overlay.getAbsolutePath(), overlay_name)) {
+                                hasErroredOut = true;
+                            }
                         }
+                        if (hasErroredOut) break;
                     }
-                    if (hasErroredOut) break;
                 }
             }
 
             logger = null;
             publishProgress(++step);
-            // Sign the APK
-            dir = new File(Resources.UNSIGNED_DIR);
-            if (dir.listFiles() == null) hasErroredOut = true;
+            if (skippedInsatllation) {
+                logger = "Skipping signing process...";
+                publishProgress(step);
+            } else {
+                // Sign the APK
+                dir = new File(Resources.UNSIGNED_DIR);
+                if (dir.listFiles() == null) hasErroredOut = true;
 
-            if (!hasErroredOut) {
-                for (File overlay : Objects.requireNonNull(dir.listFiles())) {
-                    if (!overlay.isDirectory()) {
-                        String overlay_name = overlay.toString().replace(Resources.UNSIGNED_DIR + '/', "").replace("-unsigned", "");
+                if (!hasErroredOut) {
+                    for (File overlay : Objects.requireNonNull(dir.listFiles())) {
+                        if (!overlay.isDirectory()) {
+                            String overlay_name = overlay.toString().replace(Resources.UNSIGNED_DIR + '/', "").replace("-unsigned", "");
 
-                        logger = "Signing APK " + overlay_name.replace(".apk", "");
-                        publishProgress(step);
+                            logger = "Signing APK " + overlay_name.replace(".apk", "");
+                            publishProgress(step);
 
-                        int attempt = 3;
-                        while (attempt-- != 0) {
-                            hasErroredOut = OnBoardingCompiler.apkSigner(overlay.getAbsolutePath(), overlay_name);
+                            int attempt = 3;
+                            while (attempt-- != 0) {
+                                hasErroredOut = OnBoardingCompiler.apkSigner(overlay.getAbsolutePath(), overlay_name);
 
-                            if (!hasErroredOut) break;
-                            else try {
-                                Thread.sleep(2000);
-                            } catch (Exception ignored) {
+                                if (!hasErroredOut) break;
+                                else try {
+                                    Thread.sleep(2000);
+                                } catch (Exception ignored) {
+                                }
                             }
                         }
+                        if (hasErroredOut) break;
                     }
-                    if (hasErroredOut) break;
                 }
             }
 
             logger = "Moving overlays to system directory";
             publishProgress(++step);
+            if (skippedInsatllation) {
+                logger = "Skipping...";
+                publishProgress(step);
+            }
             // Move all generated overlays to system dir and flash as module
             if (!hasErroredOut) {
                 Shell.cmd("cp -a " + Resources.SIGNED_DIR + "/. " + Resources.OVERLAY_DIR).exec();
@@ -368,11 +419,7 @@ public class OnBoardingScreen3 extends BaseActivity {
                 Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
                 ZipUtil.pack(new File(Resources.TEMP_DIR + "/Iconify"), new File(Resources.TEMP_DIR + "/Iconify.zip"));
 
-                if (RootUtil.isMagiskInstalled()) {
-                    Shell.cmd("magisk --install-module " + Resources.TEMP_DIR + "/Iconify.zip").exec();
-                } else {
-                    Shell.cmd("/data/adb/ksud module install " + Resources.TEMP_DIR + "/Iconify.zip").exec();
-                }
+                ModuleUtil.flashModule();
             }
 
             logger = "Cleaning temporary directories";
@@ -394,27 +441,34 @@ public class OnBoardingScreen3 extends BaseActivity {
             progressDialog.hide();
 
             if (!hasErroredOut) {
-                if (BuildConfig.VERSION_CODE != Prefs.getInt(VER_CODE, -1)) {
-                    if (Prefs.getBoolean(FIRST_INSTALL, true)) {
-                        Prefs.putBoolean(FIRST_INSTALL, true);
-                        Prefs.putBoolean(UPDATE_DETECTED, false);
-                    } else {
-                        Prefs.putBoolean(FIRST_INSTALL, false);
-                        Prefs.putBoolean(UPDATE_DETECTED, true);
+                if (!skippedInsatllation) {
+                    if (BuildConfig.VERSION_CODE != Prefs.getInt(VER_CODE, -1)) {
+                        if (Prefs.getBoolean(FIRST_INSTALL, true)) {
+                            Prefs.putBoolean(FIRST_INSTALL, true);
+                            Prefs.putBoolean(UPDATE_DETECTED, false);
+                        } else {
+                            Prefs.putBoolean(FIRST_INSTALL, false);
+                            Prefs.putBoolean(UPDATE_DETECTED, true);
+                        }
+                        Prefs.putInt(VER_CODE, BuildConfig.VERSION_CODE);
                     }
-                    Prefs.putInt(VER_CODE, BuildConfig.VERSION_CODE);
-                }
 
-                if (OverlayUtil.overlayExists()) {
-                    new Handler().postDelayed(() -> {
-                        Intent intent = new Intent(OnBoardingScreen3.this, HomePage.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                    }, 10);
+                    if (OverlayUtil.overlayExists()) {
+                        new Handler().postDelayed(() -> {
+                            Intent intent = new Intent(OnBoardingScreen3.this, HomePage.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }, 10);
+                    } else {
+                        showInfo(R.string.need_reboot_title, R.string.need_reboot_desc);
+                        install_module.setVisibility(View.GONE);
+                        reboot_phone.setVisibility(View.VISIBLE);
+                    }
                 } else {
-                    showInfo(R.string.need_reboot_title, R.string.need_reboot_desc);
-                    install_module.setVisibility(View.GONE);
-                    reboot_phone.setVisibility(View.VISIBLE);
+                    Intent intent = new Intent(OnBoardingScreen3.this, XposedMenu.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    Toast.makeText(OnBoardingScreen3.this, R.string.one_time_reboot_needed, Toast.LENGTH_LONG).show();
                 }
             } else {
                 Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
