@@ -24,7 +24,6 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.RadioDialog;
-import com.drdisagree.iconify.utils.HelperUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.flexbox.FlexboxLayout;
@@ -110,7 +109,7 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
             RPrefs.putBoolean(QSPANEL_STATUSICONSBG_SWITCH, isChecked);
             new Handler().postDelayed(() -> {
                 OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
-                HelperUtil.forceApply();
+                SystemUtil.doubleToggleDarkMode();
             }, SWITCH_ANIMATION_DELAY);
         });
 
@@ -183,7 +182,7 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
                 RPrefs.putInt(CHIP_QSSTATUSICONS_STYLE, finalI);
                 refreshBackgroundStatusIcons();
                 if (RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false)) {
-                    new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
+                    new Handler().postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
                 }
             });
 

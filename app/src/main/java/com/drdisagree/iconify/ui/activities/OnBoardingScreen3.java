@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
+import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED;
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
 import static com.drdisagree.iconify.utils.SystemUtil.isDarkMode;
@@ -65,6 +66,8 @@ public class OnBoardingScreen3 extends BaseActivity {
         getWindow().setStatusBarColor(getResources().getColor(R.color.landing_page_three_background));
         getWindow().setNavigationBarColor(getResources().getColor(R.color.landing_page_three_background));
         setContentView(R.layout.activity_onboarding_screen_three);
+
+        Prefs.putBoolean(ON_HOME_PAGE, false);
 
         ((LottieAnimationView) findViewById(R.id.welcome_anim)).setAnimation(!isDarkMode() ? R.raw.anim_view_three_day : R.raw.anim_view_three_night);
 
@@ -133,6 +136,16 @@ public class OnBoardingScreen3 extends BaseActivity {
             } else {
                 showInfo(R.string.root_not_found_title, R.string.root_not_found_desc);
             }
+        });
+
+        // Skip installation on long click
+        install_module.setOnLongClickListener(view -> {
+            Intent intent = new Intent(OnBoardingScreen3.this, XposedMenu.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            Toast.makeText(OnBoardingScreen3.this, R.string.toast_skipped_installation, Toast.LENGTH_LONG).show();
+
+            return true;
         });
     }
 

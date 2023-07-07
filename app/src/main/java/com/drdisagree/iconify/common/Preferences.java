@@ -127,7 +127,6 @@ public class Preferences {
     public static final String APP_ICON = "IconifyAppIcon";
     public static final String APP_THEME = "IconifyAppTheme";
     public static final String SHOW_XPOSED_WARN = "showXposedMenuWarn";
-    public static final String FORCE_APPLY_XPOSED_CHOICE = "optionForceApplyXposed";
 
     // Others
     public static final String BOOT_ID = "boot_id";

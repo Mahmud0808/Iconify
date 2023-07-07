@@ -5,7 +5,6 @@ import static com.drdisagree.iconify.common.Preferences.APP_LANGUAGE;
 import static com.drdisagree.iconify.common.Preferences.APP_THEME;
 import static com.drdisagree.iconify.common.Preferences.EASTER_EGG;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
-import static com.drdisagree.iconify.common.Preferences.FORCE_APPLY_XPOSED_CHOICE;
 import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_AFTER_BOOT;
 import static com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN;
 import static com.drdisagree.iconify.utils.AppUtil.restartApplication;
@@ -62,7 +61,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
     public static List<String> EnabledFabricatedOverlays = new ArrayList<>();
     LoadingDialog loadingDialog;
-    RadioDialog rd_force_apply_method, rd_app_language, rd_app_icon, rd_app_theme;
+    RadioDialog rd_app_language, rd_app_icon, rd_app_theme;
 
     public static void disableEverything() {
         SharedPreferences prefs = Iconify.getAppContext().getSharedPreferences(Iconify.getAppContext().getPackageName(), Context.MODE_PRIVATE);
@@ -112,7 +111,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         // App Icon
         LinearLayout app_icon = view.findViewById(R.id.app_icon);
         TextView selected_app_icon = view.findViewById(R.id.selected_app_icon);
-        rd_app_icon = new RadioDialog(requireActivity(), 3, Prefs.getInt(APP_ICON, 0));
+        rd_app_icon = new RadioDialog(requireActivity(), 2, Prefs.getInt(APP_ICON, 0));
         rd_app_icon.setRadioDialogListener(this);
         app_icon.setOnClickListener(v -> rd_app_icon.show(R.string.app_icon, R.array.app_icon, selected_app_icon));
         selected_app_icon.setText(Arrays.asList(getResources().getStringArray(R.array.app_icon)).get(rd_app_icon.getSelectedIndex()));
@@ -138,14 +137,6 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_warn_message = view.findViewById(R.id.hide_warn_message);
         hide_warn_message.setChecked(Prefs.getBoolean(SHOW_XPOSED_WARN, true));
         hide_warn_message.setOnCheckedChangeListener((buttonView, isChecked) -> Prefs.putBoolean(SHOW_XPOSED_WARN, isChecked));
-
-        // Force apply method
-        LinearLayout force_apply_method = view.findViewById(R.id.force_apply_method);
-        TextView selected_force_apply_method = view.findViewById(R.id.selected_force_apply_method);
-        rd_force_apply_method = new RadioDialog(requireActivity(), 2, Prefs.getInt(FORCE_APPLY_XPOSED_CHOICE, 0) == -1 ? 2 : Prefs.getInt(FORCE_APPLY_XPOSED_CHOICE, 0));
-        rd_force_apply_method.setRadioDialogListener(this);
-        force_apply_method.setOnClickListener(v -> rd_force_apply_method.show(R.string.list_title_force_apply_method, R.array.xposed_force_apply_method, selected_force_apply_method));
-        selected_force_apply_method.setText(Arrays.asList(getResources().getStringArray(R.array.xposed_force_apply_method)).get(rd_force_apply_method.getSelectedIndex() == -1 ? 2 : rd_force_apply_method.getSelectedIndex()));
 
         // Clear App Cache
         LinearLayout clear_cache = view.findViewById(R.id.clear_cache);
@@ -202,7 +193,6 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         if (rd_app_language != null) rd_app_language.dismiss();
         if (rd_app_icon != null) rd_app_icon.dismiss();
         if (rd_app_theme != null) rd_app_theme.dismiss();
-        if (rd_force_apply_method != null) rd_force_apply_method.dismiss();
         super.onDestroy();
     }
 
@@ -248,9 +238,6 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                 restartApplication(requireActivity());
                 break;
             case 2:
-                Prefs.putInt(FORCE_APPLY_XPOSED_CHOICE, selectedIndex == 2 ? -1 : selectedIndex);
-                break;
-            case 3:
                 Prefs.putInt(APP_ICON, selectedIndex);
                 String[] splashActivities = getResources().getStringArray(R.array.app_icon_identifier);
                 changeIcon(splashActivities[selectedIndex]);

@@ -29,7 +29,7 @@
     <string name="activity_desc_monet_engine">Override monet color palette</string>
     <string name="activity_title_experimental">Experimental</string>
     <string name="activity_title_changelog">Changelog</string>
-    <string name="activity_title_xposed_menu">XPosed Menu</string>
+    <string name="activity_title_xposed_menu">Xposed Menu</string>
     <string name="activity_desc_xposed_menu">LSPosed required for these options</string>
     <string name="activity_title_miscellaneous">Miscellaneous</string>
     <string name="activity_desc_miscellaneous">Miscellaneous customization</string>
@@ -449,9 +449,9 @@
     <string name="method_toggle_dark_mode">Double Toggle Dark Mode</string>
     <string name="method_restart_systemui">Restart SystemUI</string>
     <string name="method_do_nothing">Do Nothing (I will do it myself)</string>
-    <string name="list_title_xposed_settings">XPosed Settings</string>
+    <string name="list_title_xposed_settings">Xposed Settings</string>
     <string name="list_title_show_warning">Show Warning</string>
-    <string name="list_desc_show_warning">Show warning on how to re-optimize module in XPosed Menu</string>
+    <string name="list_desc_show_warning">Show warning on how to re-optimize module in Xposed Menu</string>
     <string name="list_title_force_apply_method">Force Apply Method</string>
     <string name="list_desc_force_apply_method">Method to force apply the changes in xposed menu</string>
     <string name="list_title_miscellaneous_settings">Miscellaneous Settings</string>
@@ -594,4 +594,6 @@
     <string name="lsclock_color_picker_desc">Set color of lockscreen clock text</string>
     <string name="tablet_landscape_title">Tablet Landscape</string>
     <string name="tablet_landscape_desc">Also known as Better QS\nMust use Notch Bar Killer</string>
+    <string name="toast_skipped_installation">Installation skipped. Some features may not function properly.</string>
+    <string name="xposed_only_desc">You are currently in Xposed Only mode. This requires iconify to be enabled in LSPosed app. To get access to all features, simply re-open the app and go through the installation process!</string>
 </resources>

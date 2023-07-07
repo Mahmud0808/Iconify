@@ -1,8 +1,10 @@
 package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
+import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
 import static com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,6 +43,7 @@ public class XposedMenu extends BaseFragment {
 
     private ViewGroup listView;
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_xposed_menu, container, false);
@@ -52,23 +55,32 @@ public class XposedMenu extends BaseFragment {
         collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_xposed_menu));
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(view1 -> new Handler().postDelayed(() -> {
-            getParentFragmentManager().popBackStack();
-        }, FRAGMENT_BACK_BUTTON_DELAY));
+        if (Prefs.getBoolean(ON_HOME_PAGE, false)) {
+            Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+            Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
+            toolbar.setNavigationOnClickListener(view1 -> new Handler().postDelayed(() -> {
+                getParentFragmentManager().popBackStack();
+            }, FRAGMENT_BACK_BUTTON_DELAY));
+        }
 
         // Xposed warn
         LinearLayout xposed_warn = view.findViewById(R.id.xposed_warn);
         xposed_warn.setVisibility(Prefs.getBoolean(SHOW_XPOSED_WARN, true) ? View.VISIBLE : View.GONE);
 
         FrameLayout close_xposed_warn = view.findViewById(R.id.close_xposed_warn);
+        if (!Prefs.getBoolean(ON_HOME_PAGE, false)) {
+            close_xposed_warn.setVisibility(View.INVISIBLE);
+        }
         close_xposed_warn.setOnClickListener(v -> {
             new Handler().postDelayed(() -> {
                 Prefs.putBoolean(SHOW_XPOSED_WARN, false);
                 xposed_warn.animate().translationX(xposed_warn.getWidth() * 2f).alpha(0f).withEndAction(() -> xposed_warn.setVisibility(View.GONE)).start();
             }, 50);
         });
+
+        // Xposed warn text
+        TextView xposed_warn_text = view.findViewById(R.id.xposed_warn_text);
+        xposed_warn_text.setText((!Prefs.getBoolean(ON_HOME_PAGE, false) ? getResources().getString(R.string.xposed_only_desc) + "\n\n" : "") + getResources().getString(R.string.lsposed_warn));
 
         // Restart SystemUI
         Button button_restartSysui = view.findViewById(R.id.button_restartSysui);

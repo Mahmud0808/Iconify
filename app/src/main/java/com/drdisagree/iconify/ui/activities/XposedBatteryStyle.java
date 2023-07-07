@@ -18,7 +18,6 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.RadioDialog;
-import com.drdisagree.iconify.utils.HelperUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 
 import java.util.Arrays;
@@ -76,7 +75,7 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(CUSTOM_BATTERY_WIDTH, batteryWidth[0]);
-                new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
+                new Handler().postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
             }
         });
 
@@ -101,7 +100,7 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(CUSTOM_BATTERY_HEIGHT, batteryHeight[0]);
-                new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
+                new Handler().postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
             }
         });
 

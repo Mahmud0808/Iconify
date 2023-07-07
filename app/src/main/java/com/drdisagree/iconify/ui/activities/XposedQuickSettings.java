@@ -28,7 +28,6 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.FabricatedUtil;
-import com.drdisagree.iconify.utils.HelperUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 
 public class XposedQuickSettings extends BaseActivity {
@@ -47,7 +46,7 @@ public class XposedQuickSettings extends BaseActivity {
         enable_vertical_tile.setChecked(RPrefs.getBoolean(VERTICAL_QSTILE_SWITCH, false));
         enable_vertical_tile.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(VERTICAL_QSTILE_SWITCH, isChecked);
-            new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
+            new Handler().postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
         });
 
         // Hide label for vertical tiles
@@ -55,7 +54,7 @@ public class XposedQuickSettings extends BaseActivity {
         hide_tile_label.setChecked(RPrefs.getBoolean(HIDE_QSLABEL_SWITCH, false));
         hide_tile_label.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_QSLABEL_SWITCH, isChecked);
-            new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
+            new Handler().postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
         });
 
         // Light Theme
@@ -71,7 +70,7 @@ public class XposedQuickSettings extends BaseActivity {
         enable_dual_tone.setChecked(RPrefs.getBoolean(DUALTONE_QSPANEL, false));
         enable_dual_tone.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(DUALTONE_QSPANEL, isChecked);
-            new Handler().postDelayed(HelperUtil::forceApply, SWITCH_ANIMATION_DELAY);
+            new Handler().postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
         });
 
         // Pixel Black Theme
