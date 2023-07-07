@@ -61,6 +61,13 @@ public class ModuleUtil {
         Log.i(TAG, "Magisk module successfully created.");
     }
 
+    public static void flashModule() {
+        if (RootUtil.isMagiskInstalled()) {
+            Shell.cmd("magisk --install-module " + Resources.TEMP_DIR + "/Iconify.zip").exec();
+        } else {
+            Shell.cmd("/data/adb/ksud module install " + Resources.TEMP_DIR + "/Iconify.zip").exec();
+        }
+    }
 
     private static void writePostExec() {
         StringBuilder post_exec = new StringBuilder();

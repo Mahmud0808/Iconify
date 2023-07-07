@@ -595,5 +595,5 @@
     <string name="tablet_landscape_title">Tablet Landscape</string>
     <string name="tablet_landscape_desc">Also known as Better QS\nMust use Notch Bar Killer</string>
     <string name="toast_skipped_installation">Installation skipped. Some features may not function properly.</string>
-    <string name="xposed_only_desc">You are currently in Xposed Only mode. This requires iconify to be enabled in LSPosed app. To get access to all features, simply re-open the app and go through the installation process!</string>
+    <string name="xposed_only_desc">You are currently in Xposed Only mode. This requires iconify to be enabled in LSPosed app. Also make sure that Iconify module is shown in Magisk manager. To get access to all features, simply re-open the app and go through the installation process!</string>
 </resources>
