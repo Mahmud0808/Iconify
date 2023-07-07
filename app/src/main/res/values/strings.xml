@@ -592,4 +592,6 @@
     <string name="lsclock_custom_color_desc">Custom color instead of primary color</string>
     <string name="lsclock_color_picker_title">Clock Color Picker</string>
     <string name="lsclock_color_picker_desc">Set color of lockscreen clock text</string>
+    <string name="tablet_landscape_title">Tablet Landscape</string>
+    <string name="tablet_landscape_desc">Also known as Better QS\nMust use Notch Bar Killer</string>
 </resources>
