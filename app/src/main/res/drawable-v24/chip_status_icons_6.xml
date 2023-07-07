@@ -4,7 +4,7 @@
     <item>
         <shape
             android:shape="rectangle"
-            android:tint="@color/holo_blue_light_light">
+            android:tint="@android:color/holo_blue_light">
             <gradient
                 android:angle="0.0"
                 android:endColor="#00000000"
@@ -15,7 +15,7 @@
     <item>
         <shape
             android:shape="rectangle"
-            android:tint="@color/holo_green_light_light">
+            android:tint="@android:color/holo_green_light">
             <gradient
                 android:angle="0.0"
                 android:endColor="#66FFFFFF"
