@@ -5,6 +5,7 @@ import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED;
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
 import static com.drdisagree.iconify.utils.SystemUtil.isDarkMode;
+import static com.drdisagree.iconify.utils.helpers.Logger.writeLog;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -52,7 +53,7 @@ public class OnBoardingScreen3 extends BaseActivity {
     @SuppressLint("StaticFieldLeak")
     private static Button install_module, reboot_phone;
     private static startInstallationProcess installModule = null;
-    private final String TAG = "OnBoardingScreen3";
+    private final String TAG = "OnBoardingScreen";
     TextView info_title, info_desc;
     LottieAnimationView loading_anim;
     private InstallationDialog progressDialog;
@@ -265,12 +266,7 @@ public class OnBoardingScreen3 extends BaseActivity {
 
             logger = "Creating blank module template";
             publishProgress(++step);
-            try {
-                ModuleUtil.handleModule();
-            } catch (IOException e) {
-                hasErroredOut = true;
-                Log.e(TAG, e.toString());
-            }
+            ModuleUtil.handleModule();
 
             logger = null;
             publishProgress(++step);
@@ -417,7 +413,13 @@ public class OnBoardingScreen3 extends BaseActivity {
 
                 Shell.cmd("cp -r " + Resources.MODULE_DIR + ' ' + Resources.TEMP_DIR).exec();
                 Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
-                ZipUtil.pack(new File(Resources.TEMP_DIR + "/Iconify"), new File(Resources.TEMP_DIR + "/Iconify.zip"));
+                try {
+                    Thread.sleep(2000);
+                    ZipUtil.pack(new File(Resources.TEMP_DIR + "/Iconify"), new File(Resources.TEMP_DIR + "/Iconify.zip"));
+                } catch (Exception exception) {
+                    hasErroredOut = true;
+                    writeLog(TAG, "Error creating module zip", exception.toString());
+                }
 
                 ModuleUtil.flashModule();
             }
@@ -428,7 +430,7 @@ public class OnBoardingScreen3 extends BaseActivity {
             Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
             Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Overlays").exec();
 
-            logger = "Installtion process successfully finished";
+            logger = "Installtion process finished";
             publishProgress(step);
 
             return null;

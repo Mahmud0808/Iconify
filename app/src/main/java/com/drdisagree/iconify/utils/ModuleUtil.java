@@ -21,7 +21,6 @@ import com.drdisagree.iconify.utils.helpers.BinaryInstaller;
 import com.drdisagree.iconify.utils.helpers.TypedValueUtil;
 import com.topjohnwu.superuser.Shell;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +29,7 @@ public class ModuleUtil {
     private static final String TAG = "ModuleUtil";
     private static final List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
 
-    public static void handleModule() throws IOException {
+    public static void handleModule() {
         if (moduleExists()) {
             // Backup necessary files
             BackupRestore.backupFiles();
