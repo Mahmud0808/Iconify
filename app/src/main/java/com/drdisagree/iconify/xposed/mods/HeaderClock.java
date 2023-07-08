@@ -153,14 +153,6 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     } catch (Throwable ignored) {
                     }
 
-                    try {
-                        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
-                        if (ourResparam != null) {
-                            ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "bool", "config_use_large_screen_shade_header", false);
-                        }
-                    } catch (Throwable ignored) {
-                    }
-
                     updateClockView();
                 }
             });
