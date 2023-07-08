@@ -43,6 +43,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
 
     private static final String TAG = "Iconify - XposedHeaderImage: ";
     private static final String QuickStatusBarHeaderClass = SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader";
+    private static final String QSContainerImplClass = SYSTEMUI_PACKAGE + ".qs.QSContainerImpl";
     boolean showHeaderImage = false;
     int imageHeight = 140;
     int headerImageAlpha = 100;
@@ -80,6 +81,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
         if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE)) return;
 
         final Class<?> QuickStatusBarHeader = findClass(QuickStatusBarHeaderClass, lpparam.classLoader);
+        final Class<?> QSContainerImpl = findClass(QSContainerImplClass, lpparam.classLoader);
 
         try {
             hookAllMethods(QuickStatusBarHeader, "onFinishInflate", new XC_MethodHook() {
@@ -121,6 +123,16 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
                         setObjectField(param.thisObject, "mTopViewMeasureHeight", callMethod(mDatePrivacyView, "getMeasuredHeight"));
                         callMethod(param.thisObject, "updateAnimators");
                     }
+                }
+            });
+
+            hookAllMethods(QSContainerImpl, "onFinishInflate", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    FrameLayout mHeader = (FrameLayout) getObjectField(param.thisObject, "mHeader");
+                    ((FrameLayout) param.thisObject).removeView(mHeader);
+                    ((FrameLayout) param.thisObject).addView(mHeader, 0);
+                    ((FrameLayout) param.thisObject).requestLayout();
                 }
             });
         } catch (Throwable throwable) {
