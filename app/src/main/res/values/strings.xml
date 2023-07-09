@@ -539,7 +539,7 @@
     <string name="transparent_notif_shade_title">Transparent Notif Shade Only</string>
     <string name="transparent_notif_shade_desc">Make only notification shade transparent</string>
     <string name="fluid_qs_theme_title">Fluid QS Theme</string>
-    <string name="fluid_qs_theme_desc">Two tone translucent QS theme\nDo not use custom shapes</string>
+    <string name="fluid_qs_theme_desc">Two tone translucent QS theme\nSwitch theme to fix color\nDo not use custom shapes</string>
     <string name="disable_monet_title">Disable System Monet</string>
     <string name="disable_monet_desc">Helps to retain custom colors\nSystemUI restart required</string>
     <string name="iconpack_aurora_desc">Dual tone linear icon pack</string>
