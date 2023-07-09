@@ -133,28 +133,35 @@ public class OnBoardingScreen3 extends BaseActivity {
         // Skip installation on long click
         install_module.setOnLongClickListener(view -> {
             skippedInsatllation = true;
-            boolean moduleExists = ModuleUtil.moduleExists();
+            hasErroredOut = false;
+            if (RootUtil.isDeviceRooted()) {
+                if (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) {
+                    if (!Environment.isExternalStorageManager()) {
+                        showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
+                        Toast.makeText(OnBoardingScreen3.this, R.string.toast_storage_access, Toast.LENGTH_SHORT).show();
 
-            if (!Environment.isExternalStorageManager()) {
-                showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
-                Toast.makeText(OnBoardingScreen3.this, R.string.toast_storage_access, Toast.LENGTH_SHORT).show();
+                        new Handler().postDelayed(() -> {
+                            clickedContinue.set(true);
+                            SystemUtil.getStoragePermission(this);
+                        }, clickedContinue.get() ? 10 : 2000);
+                    } else {
+                        if (!ModuleUtil.moduleExists()) {
+                            Prefs.clearAllPrefs();
+                            RPrefs.clearAllPrefs();
 
-                new Handler().postDelayed(() -> {
-                    clickedContinue.set(true);
-                    SystemUtil.getStoragePermission(this);
-                }, clickedContinue.get() ? 10 : 2000);
-            } else {
-                if (!moduleExists) {
-                    Prefs.clearAllPrefs();
-                    RPrefs.clearAllPrefs();
-
-                    handleInstallation();
+                            handleInstallation();
+                        } else {
+                            Intent intent = new Intent(OnBoardingScreen3.this, XposedMenu.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            Toast.makeText(OnBoardingScreen3.this, R.string.toast_skipped_installation, Toast.LENGTH_LONG).show();
+                        }
+                    }
                 } else {
-                    Intent intent = new Intent(OnBoardingScreen3.this, XposedMenu.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    Toast.makeText(OnBoardingScreen3.this, R.string.toast_skipped_installation, Toast.LENGTH_LONG).show();
+                    showInfo(R.string.magisk_not_found_title, R.string.magisk_not_found_desc);
                 }
+            } else {
+                showInfo(R.string.root_not_found_title, R.string.root_not_found_desc);
             }
 
             return true;
@@ -414,7 +421,6 @@ public class OnBoardingScreen3 extends BaseActivity {
                 Shell.cmd("cp -r " + Resources.MODULE_DIR + ' ' + Resources.TEMP_DIR).exec();
                 Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
                 try {
-                    Thread.sleep(2000);
                     ZipUtil.pack(new File(Resources.TEMP_DIR + "/Iconify"), new File(Resources.TEMP_DIR + "/Iconify.zip"));
                 } catch (Exception exception) {
                     hasErroredOut = true;
