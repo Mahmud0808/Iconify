@@ -5,6 +5,7 @@ import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY_LIGHT;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY_LIGHT;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_ACCENT;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_PRIMARY_COLOR_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_SECONDARY_COLOR_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.STR_NULL;
@@ -52,7 +53,8 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
         FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY_LIGHT, "color", "holo_green_dark", ColorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_SECONDARY))));
     }
 
-    public static void disableMonetColors() {
+    public static void disableAccentColors() {
+        Prefs.putBoolean(CUSTOM_ACCENT, false);
         Prefs.clearPref(CUSTOM_PRIMARY_COLOR_SWITCH);
         Prefs.clearPref(CUSTOM_SECONDARY_COLOR_SWITCH);
         Prefs.clearPref(COLOR_ACCENT_PRIMARY);
@@ -64,10 +66,6 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
         FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY_LIGHT);
         FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
         FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY_LIGHT);
-
-        if (shouldUseDefaultColors()) {
-            applyDefaultColors();
-        }
     }
 
     public static void applyDefaultColors() {
@@ -127,11 +125,9 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
                 applyMonetColors();
 
                 runOnUiThread(() -> {
-                    Prefs.putBoolean("customMonetColor", true);
+                    Prefs.putBoolean(CUSTOM_ACCENT, true);
 
-                    new Handler().postDelayed(() -> {
-                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
-                    }, 2000);
+                    new Handler().postDelayed(() -> Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show(), 2000);
                 });
             };
             Thread thread = new Thread(runnable);
@@ -140,20 +136,17 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
 
         // Disable custom colors button
         Button disable_custom_color = findViewById(R.id.disable_custom_color);
-
-        if (Prefs.getBoolean("customMonetColor")) disable_custom_color.setVisibility(View.VISIBLE);
-        else disable_custom_color.setVisibility(View.GONE);
+        disable_custom_color.setVisibility(Prefs.getBoolean(CUSTOM_ACCENT, false) ? View.VISIBLE : View.GONE);
 
         disable_custom_color.setOnClickListener(v -> {
             disable_custom_color.setVisibility(View.GONE);
             Runnable runnable = () -> {
-                disableMonetColors();
+                disableAccentColors();
+                if (shouldUseDefaultColors()) {
+                    applyDefaultColors();
+                }
 
-                runOnUiThread(() -> {
-                    new Handler().postDelayed(() -> {
-                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
-                    }, 2000);
-                });
+                runOnUiThread(() -> new Handler().postDelayed(() -> Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show(), 2000));
             };
             Thread thread = new Thread(runnable);
             thread.start();
@@ -209,7 +202,7 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
     }
 
     private void applyMonetColors() {
-        Prefs.putBoolean("customMonetColor", true);
+        Prefs.putBoolean(CUSTOM_ACCENT, true);
 
         if (isSelectedPrimary) {
             Prefs.putString(COLOR_ACCENT_PRIMARY, accentPrimary);

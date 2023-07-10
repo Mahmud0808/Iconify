@@ -2,6 +2,7 @@ package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_ACCENT;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_PRIMARY_COLOR_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_SECONDARY_COLOR_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.MONET_ACCENT_SATURATION;
@@ -508,7 +509,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
     }
 
     private void disableBasicColors() {
-        Prefs.clearPref("customMonetColor");
+        Prefs.clearPref(CUSTOM_ACCENT);
         Prefs.clearPref(CUSTOM_PRIMARY_COLOR_SWITCH);
         Prefs.clearPref(CUSTOM_SECONDARY_COLOR_SWITCH);
 

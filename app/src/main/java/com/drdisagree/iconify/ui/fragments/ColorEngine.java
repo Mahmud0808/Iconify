@@ -1,15 +1,7 @@
 package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
-import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
-import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY;
-import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY_LIGHT;
-import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
-import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY_LIGHT;
-import static com.drdisagree.iconify.common.Preferences.STR_NULL;
-import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_PRIMARY;
-import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECONDARY;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -29,7 +21,6 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.activities.BasicColors;
 import com.drdisagree.iconify.ui.activities.MonetEngine;
-import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -116,51 +107,24 @@ public class ColorEngine extends BaseFragment {
 
     private void enableMonetAccent() {
         OverlayUtil.enableOverlay("IconifyComponentAMAC.overlay");
-        disableDefaultColors();
+        BasicColors.disableAccentColors();
     }
 
     private void disableMonetAccent() {
-        if (!((Switch) view.findViewById(R.id.apply_monet_gradient)).isChecked() && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay")) {
-            if (Prefs.getString(COLOR_ACCENT_PRIMARY).equals(STR_NULL)) {
-                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
-                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY_LIGHT, "color", "holo_blue_dark", ICONIFY_COLOR_ACCENT_PRIMARY);
-            }
-
-            if (Prefs.getString(COLOR_ACCENT_SECONDARY).equals(STR_NULL)) {
-                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
-                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY_LIGHT, "color", "holo_green_dark", ICONIFY_COLOR_ACCENT_SECONDARY);
-            }
-        }
-
         OverlayUtil.disableOverlays("IconifyComponentAMAC.overlay");
     }
 
     private void enableMonetGradient() {
         OverlayUtil.enableOverlay("IconifyComponentAMGC.overlay");
-        disableDefaultColors();
+        BasicColors.disableAccentColors();
     }
 
     private void disableMonetGradient() {
-        if (!((Switch) view.findViewById(R.id.apply_monet_accent)).isChecked() && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay")) {
-            if (Prefs.getString(COLOR_ACCENT_PRIMARY).equals(STR_NULL)) {
-                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
-                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY_LIGHT, "color", "holo_blue_dark", ICONIFY_COLOR_ACCENT_PRIMARY);
-            }
-
-            if (Prefs.getString(COLOR_ACCENT_SECONDARY).equals(STR_NULL)) {
-                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
-                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY_LIGHT, "color", "holo_green_dark", ICONIFY_COLOR_ACCENT_SECONDARY);
-            }
-        }
-
         OverlayUtil.disableOverlay("IconifyComponentAMGC.overlay");
     }
 
-    private void disableDefaultColors() {
-        FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
-        FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY_LIGHT);
-        FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
-        FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY_LIGHT);
+    private static boolean shouldUseDefaultColors() {
+        return OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay");
     }
 
     CompoundButton.OnCheckedChangeListener monetAccentListener = new CompoundButton.OnCheckedChangeListener() {
@@ -178,6 +142,9 @@ public class ColorEngine extends BaseFragment {
                     enableMonetAccent();
                 } else {
                     disableMonetAccent();
+                    if (shouldUseDefaultColors()) {
+                        BasicColors.applyDefaultColors();
+                    }
                 }
             }, SWITCH_ANIMATION_DELAY);
         }
@@ -196,6 +163,9 @@ public class ColorEngine extends BaseFragment {
                 enableMonetGradient();
             } else {
                 disableMonetGradient();
+                if (shouldUseDefaultColors()) {
+                    BasicColors.applyDefaultColors();
+                }
             }
         }, SWITCH_ANIMATION_DELAY);
     };
