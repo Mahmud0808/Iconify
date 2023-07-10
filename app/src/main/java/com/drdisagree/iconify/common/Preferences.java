@@ -122,6 +122,7 @@ public class Preferences {
     public static final String SELECTED_PROGRESSBAR = "selectedProgressbar";
     public static final String SELECTED_SWITCH = "selectedSwitch";
     public static final String COLORED_BATTERY_CHECK = "isColoredBatteryEnabledByUser";
+    public static final String CUSTOM_ACCENT = "customAccentColor";
 
     // Settings
     public static final String APP_LANGUAGE = "IconifyAppLanguage";
