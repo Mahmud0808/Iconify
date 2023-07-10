@@ -70,8 +70,16 @@ android {
     }
 
     packagingOptions {
-        jniLibs.pickFirsts.add("src/main/jniLibs/**/**.so")
         jniLibs.useLegacyPackaging true
+        exclude '/META-INF/*'
+        exclude '/META-INF/versions/**'
+        exclude '/org/bouncycastle/**'
+        exclude '/kotlin/**'
+        exclude '/kotlinx/**'
+        exclude 'rebel.xml'
+        exclude '/*.txt'
+        exclude '/*.bin'
+        exclude '/*.json'
     }
 
     namespace 'com.drdisagree.iconify'
