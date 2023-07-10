@@ -116,20 +116,7 @@ public class ColorEngine extends BaseFragment {
 
     private void enableMonetAccent() {
         OverlayUtil.enableOverlay("IconifyComponentAMAC.overlay");
-
-        if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL)) {
-            BasicColors.applyPrimaryColors();
-        } else {
-            FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
-            FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY_LIGHT);
-        }
-
-        if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL)) {
-            BasicColors.applySecondaryColors();
-        } else {
-            FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
-            FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY_LIGHT);
-        }
+        disableDefaultColors();
     }
 
     private void disableMonetAccent() {
@@ -150,20 +137,7 @@ public class ColorEngine extends BaseFragment {
 
     private void enableMonetGradient() {
         OverlayUtil.enableOverlay("IconifyComponentAMGC.overlay");
-
-        if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL)) {
-            BasicColors.applyPrimaryColors();
-        } else {
-            FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
-            FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY_LIGHT);
-        }
-
-        if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL)) {
-            BasicColors.applySecondaryColors();
-        } else {
-            FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
-            FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY_LIGHT);
-        }
+        disableDefaultColors();
     }
 
     private void disableMonetGradient() {
@@ -180,6 +154,13 @@ public class ColorEngine extends BaseFragment {
         }
 
         OverlayUtil.disableOverlay("IconifyComponentAMGC.overlay");
+    }
+
+    private void disableDefaultColors() {
+        FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
+        FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY_LIGHT);
+        FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
+        FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY_LIGHT);
     }
 
     CompoundButton.OnCheckedChangeListener monetAccentListener = new CompoundButton.OnCheckedChangeListener() {

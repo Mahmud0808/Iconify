@@ -53,7 +53,6 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
     }
 
     public static void disableMonetColors() {
-        Prefs.clearPref("customMonetColor");
         Prefs.clearPref(CUSTOM_PRIMARY_COLOR_SWITCH);
         Prefs.clearPref(CUSTOM_SECONDARY_COLOR_SWITCH);
         Prefs.clearPref(COLOR_ACCENT_PRIMARY);
@@ -67,11 +66,15 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
         FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY_LIGHT);
 
         if (shouldUseDefaultColors()) {
-            FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
-            FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY_LIGHT, "color", "holo_blue_dark", ICONIFY_COLOR_ACCENT_PRIMARY);
-            FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
-            FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY_LIGHT, "color", "holo_green_dark", ICONIFY_COLOR_ACCENT_SECONDARY);
+            applyDefaultColors();
         }
+    }
+
+    public static void applyDefaultColors() {
+        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
+        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY_LIGHT, "color", "holo_blue_dark", ICONIFY_COLOR_ACCENT_PRIMARY);
+        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
+        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY_LIGHT, "color", "holo_green_dark", ICONIFY_COLOR_ACCENT_SECONDARY);
     }
 
     private static boolean shouldUseDefaultColors() {
@@ -208,9 +211,15 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
     private void applyMonetColors() {
         Prefs.putBoolean("customMonetColor", true);
 
-        if (isSelectedPrimary) Prefs.putString(COLOR_ACCENT_PRIMARY, accentPrimary);
+        if (isSelectedPrimary) {
+            Prefs.putString(COLOR_ACCENT_PRIMARY, accentPrimary);
+            Prefs.putString(COLOR_ACCENT_PRIMARY_LIGHT, accentPrimary);
+        }
 
-        if (isSelectedSecondary) Prefs.putString(COLOR_ACCENT_SECONDARY, accentSecondary);
+        if (isSelectedSecondary) {
+            Prefs.putString(COLOR_ACCENT_SECONDARY, accentSecondary);
+            Prefs.putString(COLOR_ACCENT_SECONDARY_LIGHT, accentSecondary);
+        }
 
         if (isSelectedPrimary) applyPrimaryColors();
 
