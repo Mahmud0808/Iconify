@@ -376,6 +376,7 @@ open class PortraitBatteryDrawableLorn(private val context: Context, frameColor:
     /**
      * Set the fill level
      */
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun setBatteryLevel(l: Int) {
         invertFillIcon = if (l >= 67) true else if (l <= 33) false else invertFillIcon
         batteryLevel = l
