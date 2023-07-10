@@ -14,4 +14,12 @@
     <dimen name="reset_button_size">@dimen/_14sdp</dimen>
     <dimen name="header_title_size">@dimen/_14sdp</dimen>
     <dimen name="content_marginTop">@dimen/_16sdp</dimen>
+    <dimen name="switch_min_width">@dimen/_32sdp</dimen>
+    <dimen name="switch_bar_radius">@dimen/_23sdp</dimen>
+    <dimen name="switch_thumb_margin">@dimen/_6sdp</dimen>
+    <dimen name="switch_thumb_size">@dimen/_10sdp</dimen>
+    <dimen name="switch_track_width">@dimen/_32sdp</dimen>
+    <dimen name="switch_track_height">@dimen/_14sdp</dimen>
+    <dimen name="switch_track_radius">@dimen/_23sdp</dimen>
+    <item name="switch_track_on_alpha" format="float" type="dimen">1.0</item>
 </resources>

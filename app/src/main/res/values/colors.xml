@@ -48,6 +48,12 @@
     <color name="holo_blue_light_dark">@android:color/system_accent1_600</color>
     <color name="holo_green_light_light">@android:color/system_accent3_300</color>
     <color name="holo_green_light_dark">@android:color/system_accent3_600</color>
+    <color name="switch_thumb_on_color">@android:color/system_accent1_100</color>
+    <color name="switch_thumb_off_color">@android:color/system_neutral1_500</color>
+    <color name="switch_track_on_color">#FFFFFFFF</color>
+    <color name="switch_track_on_tint">@color/colorAccent</color>
+    <color name="switch_track_off_color">#FFFFFFFF</color>
+    <color name="switch_track_off_tint">@color/color_switch_track_off</color>
 
     <color name="colorPrimaryLight">@color/material_dynamic_primary40</color>
     <color name="colorPrimaryDark">@color/material_dynamic_primary80</color>

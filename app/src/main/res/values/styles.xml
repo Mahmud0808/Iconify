@@ -77,11 +77,13 @@
     </style>
 
     <style name="customSwitch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
-        <item name="android:layout_width">@dimen/_40sdp</item>
-        <item name="android:layout_height">@dimen/_22sdp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">start|center</item>
-        <item name="android:thumb">@drawable/switch_thumb</item>
+        <item name="android:switchMinWidth">@dimen/_32sdp</item>
+        <item name="android:minHeight">@dimen/_14sdp</item>
         <item name="android:track">@drawable/switch_track</item>
+        <item name="android:thumb">@drawable/switch_thumb</item>
     </style>
 
     <style name="customRadioButtonColored">
