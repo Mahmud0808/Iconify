@@ -8,7 +8,7 @@
                     <corners android:radius="24dp" />
                 </shape>
             </item>
-            <item android:bottom="2dp" android:end="2dp" android:start="2dp" android:top="2dp">
+            <item android:bottom="@dimen/_1sdp" android:end="@dimen/_1sdp" android:start="@dimen/_1sdp" android:top="@dimen/_1sdp">
                 <shape android:shape="rectangle">
                     <solid android:color="@color/switch_track_inactive" />
                     <corners android:radius="22dp" />

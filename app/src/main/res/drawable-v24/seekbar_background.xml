@@ -2,8 +2,8 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:alpha="0.8"
     android:shape="rectangle"
-    android:tint="@color/colorAccent">
-    <solid android:color="@color/offStateColor2" />
+    android:tint="@color/seekbar_track_tint">
+    <solid android:color="@color/seekbar_track_color" />
     <size android:height="@dimen/_16sdp" />
     <corners android:radius="@dimen/_8sdp" />
 </shape>

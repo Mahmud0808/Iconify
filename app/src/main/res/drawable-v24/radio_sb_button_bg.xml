@@ -4,28 +4,16 @@
         <layer-list>
             <item>
                 <shape android:shape="rectangle">
-                    <corners android:radius="16dp" />
-                    <gradient android:endColor="@color/holo_green_light" android:startColor="@color/holo_blue_light" />
-                </shape>
-            </item>
-            <item android:bottom="2dp" android:left="2dp" android:right="2dp" android:top="2dp">
-                <shape android:shape="rectangle">
-                    <solid android:color="@color/colorContainer" />
-                    <corners android:radius="14.5dp" />
-                </shape>
-            </item>
-            <item android:bottom="2dp" android:left="2dp" android:right="2dp" android:top="2dp">
-                <shape android:shape="rectangle">
-                    <solid android:color="@color/colorContainerOverlay" />
-                    <corners android:radius="14.5dp" />
+                    <corners android:radius="@dimen/_12sdp" />
+                    <stroke android:width="@dimen/_1sdp" android:color="@color/colorAccent" />
                 </shape>
             </item>
         </layer-list>
     </item>
     <item android:state_checked="true">
         <shape android:shape="rectangle">
-            <gradient android:endColor="@color/holo_green_light" android:startColor="@color/holo_blue_light" />
-            <corners android:radius="16dp" />
+            <solid android:color="@color/colorAccent" />
+            <corners android:radius="@dimen/_12sdp" />
             <stroke android:color="@color/colorAccent" />
         </shape>
     </item>

@@ -3,16 +3,12 @@
     android:autoMirrored="true">
     <item android:height="@dimen/_16sdp">
         <shape android:shape="rectangle">
-            <gradient
-                android:endColor="@color/holo_green_light"
-                android:startColor="@color/holo_blue_light" />
+            <solid android:color="@color/colorAccent" />
             <size android:height="@dimen/_16sdp" />
             <corners android:radius="@dimen/_8sdp" />
         </shape>
     </item>
     <item
-        android:height="@dimen/_10sdp"
         android:drawable="@drawable/seekbar_thumb"
-        android:end="4dp"
         android:gravity="end|center" />
 </layer-list>

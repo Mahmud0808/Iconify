@@ -39,6 +39,10 @@
     <color name="switch_track_on_tint">@color/colorAccent</color>
     <color name="switch_track_off_color">#99FFFFFF</color>
     <color name="switch_track_off_tint">@color/color_switch_track_off</color>
+    <color name="seekbar_thumb_color">#80626161</color>
+    <color name="seekbar_thumb_tint">@color/black</color>
+    <color name="seekbar_track_color">#33FFFFFF</color>
+    <color name="seekbar_track_tint">@color/colorAccent</color>
 
     <color name="colorPrimaryLight">@color/material_dynamic_primary40</color>
     <color name="colorPrimaryDark">@color/material_dynamic_primary80</color>

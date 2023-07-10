@@ -36,17 +36,17 @@
                     android:pivotY="0">
                     <shape>
                         <solid android:color="@android:color/system_accent2_400" />
-                        <corners android:radius="2dp" />
+                        <corners android:radius="@dimen/_1sdp" />
                     </shape>
                 </rotate>
             </item>
             <item
                 android:width="10dp"
                 android:height="16dp"
-                android:bottom="2dp">
+                android:bottom="@dimen/_1sdp">
                 <shape>
                     <solid android:color="@android:color/system_accent2_400" />
-                    <corners android:radius="2dp" />
+                    <corners android:radius="@dimen/_1sdp" />
                 </shape>
             </item>
         </layer-list>
