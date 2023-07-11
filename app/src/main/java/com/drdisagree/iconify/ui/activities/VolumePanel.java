@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -177,7 +178,7 @@ public class VolumePanel extends BaseActivity {
                 hasErroredOut.set(true);
                 Log.e("VolumePanel", e.toString());
             }
-            runOnUiThread(() -> new Handler().postDelayed(() -> {
+            runOnUiThread(() -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 loadingDialog.hide();
 
                 if (hasErroredOut.get()) {

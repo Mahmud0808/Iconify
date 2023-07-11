@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -120,7 +121,7 @@ public class SwitchAdapter extends RecyclerView.Adapter<SwitchAdapter.ViewHolder
     private void enableOnCheckedChangeListener(ViewHolder holder) {
         holder.aSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
             if (compoundButton.isPressed()) {
-                new Handler().postDelayed(() -> {
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     if (b) {
                         if (!Environment.isExternalStorageManager()) {
                             SystemUtil.getStoragePermission(context);
@@ -142,7 +143,7 @@ public class SwitchAdapter extends RecyclerView.Adapter<SwitchAdapter.ViewHolder
                                 }
 
                                 ((Activity) context).runOnUiThread(() -> {
-                                    new Handler().postDelayed(() -> {
+                                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
                                         // Hide loading dialog
                                         loadingDialog.hide();
 
@@ -171,7 +172,7 @@ public class SwitchAdapter extends RecyclerView.Adapter<SwitchAdapter.ViewHolder
                             OverlayUtil.disableOverlay("IconifyComponentSWITCH.overlay");
 
                             ((Activity) context).runOnUiThread(() -> {
-                                new Handler().postDelayed(() -> {
+                                new Handler(Looper.getMainLooper()).postDelayed(() -> {
                                     // Hide loading dialog
                                     loadingDialog.hide();
 

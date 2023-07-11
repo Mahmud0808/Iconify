@@ -10,6 +10,7 @@ import static com.drdisagree.iconify.common.References.FABRICATED_QS_TEXT_SIZE;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -140,7 +141,7 @@ public class QsIconLabel extends BaseActivity {
         label_white.setChecked(Prefs.getBoolean("IconifyComponentQST1.overlay"));
 
         label_white.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     label_whiteV2.setChecked(false);
                     label_systemInverse.setChecked(false);
@@ -158,7 +159,7 @@ public class QsIconLabel extends BaseActivity {
         label_whiteV2.setChecked(Prefs.getBoolean("IconifyComponentQST2.overlay"));
 
         label_whiteV2.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     label_white.setChecked(false);
                     label_systemInverse.setChecked(false);
@@ -176,7 +177,7 @@ public class QsIconLabel extends BaseActivity {
         label_systemInverse.setChecked(Prefs.getBoolean("IconifyComponentQST3.overlay"));
 
         label_systemInverse.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     label_white.setChecked(false);
                     label_whiteV2.setChecked(false);
@@ -194,7 +195,7 @@ public class QsIconLabel extends BaseActivity {
         label_systemInverseV2.setChecked(Prefs.getBoolean("IconifyComponentQST4.overlay"));
 
         label_systemInverseV2.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     label_white.setChecked(false);
                     label_whiteV2.setChecked(false);
@@ -212,7 +213,7 @@ public class QsIconLabel extends BaseActivity {
         label_fixtextcolor.setChecked(Prefs.getBoolean("IconifyComponentQST5.overlay"));
 
         label_fixtextcolor.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     label_white.setChecked(false);
                     label_whiteV2.setChecked(false);

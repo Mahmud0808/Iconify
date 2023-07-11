@@ -16,6 +16,7 @@ import static com.drdisagree.iconify.utils.ColorUtil.ColorToSpecialHex;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -135,7 +136,7 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
                 runOnUiThread(() -> {
                     Prefs.putBoolean(CUSTOM_ACCENT, true);
 
-                    new Handler().postDelayed(() -> Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show(), 2000);
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show(), 2000);
                 });
             };
             Thread thread = new Thread(runnable);
@@ -154,7 +155,7 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
                     applyDefaultColors();
                 }
 
-                runOnUiThread(() -> new Handler().postDelayed(() -> Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show(), 2000));
+                runOnUiThread(() -> new Handler(Looper.getMainLooper()).postDelayed(() -> Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show(), 2000));
             };
             Thread thread = new Thread(runnable);
             thread.start();

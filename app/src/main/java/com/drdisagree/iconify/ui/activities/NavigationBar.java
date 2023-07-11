@@ -10,6 +10,7 @@ import static com.drdisagree.iconify.common.References.FABRICATED_PILL_WIDTH;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -92,7 +93,7 @@ public class NavigationBar extends BaseActivity {
 
         // Fullscreen
         nb_fullscreen.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     nb_pill_menu.setVisibility(View.GONE);
                     nb_kb_buttons_menu.setVisibility(View.VISIBLE);
@@ -110,7 +111,7 @@ public class NavigationBar extends BaseActivity {
 
         // Immersive
         nb_immersive.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     nb_kb_buttons_menu.setVisibility(View.VISIBLE);
                     disableOthers("IconifyComponentNBImmersive.overlay");
@@ -124,7 +125,7 @@ public class NavigationBar extends BaseActivity {
 
         // Immersive v2
         nb_immersivev2.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     nb_kb_buttons_menu.setVisibility(View.VISIBLE);
                     disableOthers("IconifyComponentNBImmersiveSmall.overlay");
@@ -138,7 +139,7 @@ public class NavigationBar extends BaseActivity {
 
         // Immersive v3
         nb_immersivev3.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     nb_kb_buttons_menu.setVisibility(View.VISIBLE);
                     disableOthers("IconifyComponentNBImmersiveSmaller.overlay");
@@ -152,7 +153,7 @@ public class NavigationBar extends BaseActivity {
 
         // Lower Sensitivity
         nb_hide_pill.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     OverlayUtil.enableOverlay("IconifyComponentNBLowSens.overlay");
                 } else {
@@ -163,7 +164,7 @@ public class NavigationBar extends BaseActivity {
 
         // Hide Pill
         nb_hide_pill.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     nb_monet_pill_menu.setVisibility(View.GONE);
                     OverlayUtil.enableOverlay("IconifyComponentNBHidePill.overlay");
@@ -180,7 +181,7 @@ public class NavigationBar extends BaseActivity {
 
         // Monet Pill
         nb_monet_pill.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     OverlayUtil.enableOverlay("IconifyComponentNBMonetPill.overlay");
                     SystemUtil.restartSystemUI();
@@ -193,7 +194,7 @@ public class NavigationBar extends BaseActivity {
 
         // Hide Keyboard Buttons
         nb_hide_kb_buttons.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     OverlayUtil.enableOverlay("IconifyComponentNBHideKBButton.overlay");
                 } else {
@@ -204,7 +205,7 @@ public class NavigationBar extends BaseActivity {
 
         // Disable left gesture
         nb_disable_left_gesture.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     Shell.cmd("settings put secure back_gesture_inset_scale_left -1 &>/dev/null").exec();
                 } else {
@@ -215,7 +216,7 @@ public class NavigationBar extends BaseActivity {
 
         // Disable right gesture
         nb_disable_right_gesture.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     Shell.cmd("settings put secure back_gesture_inset_scale_right -1 &>/dev/null").exec();
                 } else {

@@ -8,6 +8,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -108,7 +109,7 @@ public class UiRoundness extends BaseActivity {
                             RPrefs.putInt(UI_CORNER_RADIUS, finalUiCornerRadius[0]);
                         }
 
-                        new Handler().postDelayed(() -> {
+                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
                             // Hide loading dialog
                             loadingDialog.hide();
 

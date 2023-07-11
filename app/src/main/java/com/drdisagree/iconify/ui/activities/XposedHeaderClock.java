@@ -2,6 +2,9 @@ package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_CENTERED;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_CODE;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_FONT_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_FONT_TEXT_SCALING;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_LANDSCAPE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SIDEMARGIN;
@@ -9,9 +12,6 @@ import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_STYLE;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TEXT_WHITE;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TOPMARGIN;
-import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_CODE;
-import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_SWITCH;
-import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_FONT_SWITCH;
 import static com.drdisagree.iconify.ui.utils.ViewBindingHelpers.disableNestedScrolling;
 
 import android.annotation.SuppressLint;
@@ -21,6 +21,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -49,9 +50,9 @@ import me.relex.circleindicator.CircleIndicator3;
 public class XposedHeaderClock extends BaseActivity implements ColorPickerDialogListener {
 
     private static final int PICKFILE_RESULT_CODE = 100;
-    private Button enable_header_clock_font;
     private static int colorHeaderClock;
     ColorPickerDialog.Builder colorPickerDialogHeaderClock;
+    private Button enable_header_clock_font;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -68,7 +69,7 @@ public class XposedHeaderClock extends BaseActivity implements ColorPickerDialog
         enable_header_clock.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HEADER_CLOCK_SWITCH, isChecked);
             if (!isChecked) RPrefs.putInt(HEADER_CLOCK_STYLE, 1);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 
         // Header clock style

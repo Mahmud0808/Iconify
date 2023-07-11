@@ -6,6 +6,7 @@ import static com.drdisagree.iconify.common.References.FABRICATED_TABLET_HEADER;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
@@ -30,7 +31,7 @@ public class Miscellaneous extends BaseActivity {
 
         binding.enableTabletLandscape.setChecked(Prefs.getBoolean("IconifyComponentBQS.overlay", false));
         binding.enableTabletLandscape.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     OverlayUtil.enableOverlay("IconifyComponentBQS.overlay");
                 } else {
@@ -41,7 +42,7 @@ public class Miscellaneous extends BaseActivity {
 
         binding.enableNotchBarKiller.setChecked(Prefs.getBoolean("IconifyComponentNBK.overlay", false));
         binding.enableNotchBarKiller.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     OverlayUtil.enableOverlay("IconifyComponentNBK.overlay");
                 } else {
@@ -52,7 +53,7 @@ public class Miscellaneous extends BaseActivity {
 
         binding.enableTabletHeader.setChecked(Prefs.getBoolean(FABRICATED_TABLET_HEADER, false));
         binding.enableTabletHeader.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 Prefs.putBoolean(FABRICATED_TABLET_HEADER, isChecked);
                 if (isChecked) {
                     FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_TABLET_HEADER, "bool", "config_use_large_screen_shade_header", "1");
@@ -64,7 +65,7 @@ public class Miscellaneous extends BaseActivity {
 
         binding.enableAccentPrivacyChip.setChecked(Prefs.getBoolean("IconifyComponentPCBG.overlay", false));
         binding.enableAccentPrivacyChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     OverlayUtil.enableOverlay("IconifyComponentPCBG.overlay");
                 } else {

@@ -17,6 +17,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -151,7 +152,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
             // Show loading dialog
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 // Hide loading dialog
                 loadingDialog.hide();
 
@@ -170,7 +171,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
             Runnable runnable = () -> {
                 disableEverything();
 
-                requireActivity().runOnUiThread(() -> new Handler().postDelayed(() -> {
+                requireActivity().runOnUiThread(() -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     // Hide loading dialog
                     loadingDialog.hide();
 

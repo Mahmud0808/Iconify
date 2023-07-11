@@ -21,6 +21,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -49,9 +50,9 @@ import me.relex.circleindicator.CircleIndicator3;
 public class XposedLockscreenClock extends BaseActivity implements ColorPickerDialogListener {
 
     private static final int PICKFILE_RESULT_CODE = 100;
-    private Button enable_lsclock_font;
     private static int colorLockscreenClock;
     ColorPickerDialog.Builder colorPickerDialogLockscreenClock;
+    private Button enable_lsclock_font;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -68,7 +69,7 @@ public class XposedLockscreenClock extends BaseActivity implements ColorPickerDi
         enable_locksreen_clock.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(LSCLOCK_SWITCH, isChecked);
             if (!isChecked) RPrefs.putInt(LSCLOCK_STYLE, 0);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 
         // Auto hide clock
@@ -76,7 +77,7 @@ public class XposedLockscreenClock extends BaseActivity implements ColorPickerDi
         enable_auto_hide_clock.setChecked(RPrefs.getBoolean(LSCLOCK_AUTOHIDE, false));
         enable_auto_hide_clock.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(LSCLOCK_AUTOHIDE, isChecked);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 
         // Lockscreen clock style

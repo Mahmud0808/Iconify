@@ -16,6 +16,7 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -51,7 +52,7 @@ public class ColoredBattery extends BaseActivity implements ColorPickerDialogLis
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_colored_battery = findViewById(R.id.enable_colored_battery);
         enable_colored_battery.setChecked(Prefs.getString(COLORED_BATTERY_CHECK, STR_NULL).equals(STR_NULL) ? (OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentIPSUI2.overlay") || OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentIPSUI4.overlay")) : Prefs.getBoolean(COLORED_BATTERY_SWITCH));
         enable_colored_battery.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     Prefs.putString(COLORED_BATTERY_CHECK, "On");
                     FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, FABRICATED_COLORED_BATTERY, "bool", "config_batterymeterDualTone", "1");

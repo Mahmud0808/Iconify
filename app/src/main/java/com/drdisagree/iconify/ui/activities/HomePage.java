@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -87,7 +88,7 @@ public class HomePage extends BaseActivity {
         thread1.start();
 
         if (!SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES && Build.VERSION.SDK_INT >= 33 && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 0);
             }, 2000);
         }

@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -58,7 +59,7 @@ public class XposedMenu extends BaseFragment {
         if (Prefs.getBoolean(ON_HOME_PAGE, false)) {
             Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
             Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
-            toolbar.setNavigationOnClickListener(view1 -> new Handler().postDelayed(() -> {
+            toolbar.setNavigationOnClickListener(view1 -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 getParentFragmentManager().popBackStack();
             }, FRAGMENT_BACK_BUTTON_DELAY));
         }
@@ -72,7 +73,7 @@ public class XposedMenu extends BaseFragment {
             close_xposed_warn.setVisibility(View.INVISIBLE);
         }
         close_xposed_warn.setOnClickListener(v -> {
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 Prefs.putBoolean(SHOW_XPOSED_WARN, false);
                 xposed_warn.animate().translationX(xposed_warn.getWidth() * 2f).alpha(0f).withEndAction(() -> xposed_warn.setVisibility(View.GONE)).start();
             }, 50);

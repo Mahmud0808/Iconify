@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,8 +31,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class IconShape extends BaseActivity {
 
-    private FlexboxLayout container;
     LoadingDialog loadingDialog;
+    private FlexboxLayout container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +115,7 @@ public class IconShape extends BaseActivity {
                                 refreshBackground();
                             }
 
-                            runOnUiThread(() -> new Handler().postDelayed(() -> {
+                            runOnUiThread(() -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
                                 // Hide loading dialog
                                 loadingDialog.hide();
 

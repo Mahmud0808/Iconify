@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import java.util.Objects;
 public class ColorEngine extends BaseFragment {
 
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
+    CompoundButton.OnCheckedChangeListener minimalQsListener = null;
     private View view;
 
     @Override
@@ -46,7 +48,7 @@ public class ColorEngine extends BaseFragment {
         ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(view1 -> new Handler().postDelayed(() -> {
+        toolbar.setNavigationOnClickListener(view1 -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
             getParentFragmentManager().popBackStack();
         }, FRAGMENT_BACK_BUTTON_DELAY));
 
@@ -97,7 +99,7 @@ public class ColorEngine extends BaseFragment {
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch disable_monet = view.findViewById(R.id.disable_monet);
         disable_monet.setChecked(Prefs.getBoolean("IconifyComponentDM.overlay"));
 
-        disable_monet.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler().postDelayed(() -> {
+        disable_monet.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
             if (isChecked) {
                 OverlayUtil.enableOverlay("IconifyComponentDM.overlay");
             } else {
@@ -143,9 +145,7 @@ public class ColorEngine extends BaseFragment {
                 BasicColors.applySecondaryColors();
             }
         }
-    }
-
-    CompoundButton.OnCheckedChangeListener monetAccentListener = new CompoundButton.OnCheckedChangeListener() {
+    }    CompoundButton.OnCheckedChangeListener monetAccentListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (isChecked) {
@@ -154,7 +154,7 @@ public class ColorEngine extends BaseFragment {
                 ((Switch) view.findViewById(R.id.apply_monet_gradient)).setOnCheckedChangeListener(monetGradientListener);
             }
 
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     disableMonetGradient();
                     enableMonetAccent();
@@ -166,14 +166,34 @@ public class ColorEngine extends BaseFragment {
         }
     };
 
-    CompoundButton.OnCheckedChangeListener monetGradientListener = (buttonView, isChecked) -> {
+    private void initializeMinimalQsListener() {
+        minimalQsListener = (buttonView, isChecked) -> {
+            if (isChecked) {
+                ((Switch) view.findViewById(R.id.apply_pitch_black_dark_theme)).setOnCheckedChangeListener(null);
+                ((Switch) view.findViewById(R.id.apply_pitch_black_dark_theme)).setChecked(false);
+                ((Switch) view.findViewById(R.id.apply_pitch_black_dark_theme)).setOnCheckedChangeListener(pitchBlackDarkListener);
+
+                ((Switch) view.findViewById(R.id.apply_pitch_black_amoled_theme)).setOnCheckedChangeListener(null);
+                ((Switch) view.findViewById(R.id.apply_pitch_black_amoled_theme)).setChecked(false);
+                ((Switch) view.findViewById(R.id.apply_pitch_black_amoled_theme)).setOnCheckedChangeListener(pitchBlackAmoledListener);
+            }
+
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                if (isChecked) {
+                    OverlayUtil.changeOverlayState("IconifyComponentQSPBD.overlay", false, "IconifyComponentQSPBA.overlay", false, "IconifyComponentQSST.overlay", true);
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentQSST.overlay");
+                }
+            }, SWITCH_ANIMATION_DELAY);
+        };
+    }    CompoundButton.OnCheckedChangeListener monetGradientListener = (buttonView, isChecked) -> {
         if (isChecked) {
             ((Switch) view.findViewById(R.id.apply_monet_accent)).setOnCheckedChangeListener(null);
             ((Switch) view.findViewById(R.id.apply_monet_accent)).setChecked(false);
             ((Switch) view.findViewById(R.id.apply_monet_accent)).setOnCheckedChangeListener(monetAccentListener);
         }
 
-        new Handler().postDelayed(() -> {
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
             if (isChecked) {
                 disableMonetAccent();
                 enableMonetGradient();
@@ -184,7 +204,7 @@ public class ColorEngine extends BaseFragment {
         }, SWITCH_ANIMATION_DELAY);
     };
 
-    CompoundButton.OnCheckedChangeListener minimalQsListener = null;
+
 
     CompoundButton.OnCheckedChangeListener pitchBlackDarkListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
@@ -203,7 +223,7 @@ public class ColorEngine extends BaseFragment {
                 ((Switch) view.findViewById(R.id.apply_pitch_black_amoled_theme)).setOnCheckedChangeListener(pitchBlackAmoledListener);
             }
 
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     OverlayUtil.changeOverlayState("IconifyComponentQSST.overlay", false, "IconifyComponentQSPBA.overlay", false, "IconifyComponentQSPBD.overlay", true);
                 } else {
@@ -228,7 +248,7 @@ public class ColorEngine extends BaseFragment {
             ((Switch) view.findViewById(R.id.apply_pitch_black_dark_theme)).setOnCheckedChangeListener(pitchBlackDarkListener);
         }
 
-        new Handler().postDelayed(() -> {
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
             if (isChecked) {
                 OverlayUtil.changeOverlayState("IconifyComponentQSST.overlay", false, "IconifyComponentQSPBD.overlay", false, "IconifyComponentQSPBA.overlay", true);
             } else {
@@ -237,25 +257,5 @@ public class ColorEngine extends BaseFragment {
         }, SWITCH_ANIMATION_DELAY);
     };
 
-    private void initializeMinimalQsListener() {
-        minimalQsListener = (buttonView, isChecked) -> {
-            if (isChecked) {
-                ((Switch) view.findViewById(R.id.apply_pitch_black_dark_theme)).setOnCheckedChangeListener(null);
-                ((Switch) view.findViewById(R.id.apply_pitch_black_dark_theme)).setChecked(false);
-                ((Switch) view.findViewById(R.id.apply_pitch_black_dark_theme)).setOnCheckedChangeListener(pitchBlackDarkListener);
 
-                ((Switch) view.findViewById(R.id.apply_pitch_black_amoled_theme)).setOnCheckedChangeListener(null);
-                ((Switch) view.findViewById(R.id.apply_pitch_black_amoled_theme)).setChecked(false);
-                ((Switch) view.findViewById(R.id.apply_pitch_black_amoled_theme)).setOnCheckedChangeListener(pitchBlackAmoledListener);
-            }
-
-            new Handler().postDelayed(() -> {
-                if (isChecked) {
-                    OverlayUtil.changeOverlayState("IconifyComponentQSPBD.overlay", false, "IconifyComponentQSPBA.overlay", false, "IconifyComponentQSST.overlay", true);
-                } else {
-                    OverlayUtil.disableOverlay("IconifyComponentQSST.overlay");
-                }
-            }, SWITCH_ANIMATION_DELAY);
-        };
-    }
 }

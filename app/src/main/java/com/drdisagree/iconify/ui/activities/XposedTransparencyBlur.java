@@ -11,6 +11,7 @@ import static com.drdisagree.iconify.common.References.FABRICATED_QSPANEL_BLUR_R
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -103,7 +104,7 @@ public class XposedTransparencyBlur extends BaseActivity {
                 Prefs.putInt(FABRICATED_QSPANEL_BLUR_RADIUS, blur_radius[0]);
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_QSPANEL_BLUR_RADIUS, "dimen", "max_window_blur_radius", blur_radius[0] + "px");
                 // Restart SystemUI
-                new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
             }
         });
     }
@@ -121,7 +122,7 @@ public class XposedTransparencyBlur extends BaseActivity {
             }
 
             // Restart SystemUI
-            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         }
     };
 
@@ -136,6 +137,6 @@ public class XposedTransparencyBlur extends BaseActivity {
         }
 
         // Restart SystemUI
-        new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+        new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
     };
 }

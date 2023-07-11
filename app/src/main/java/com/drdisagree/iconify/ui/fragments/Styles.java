@@ -18,6 +18,7 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,7 +107,7 @@ public class Styles extends BaseFragment {
                 LoadingDialog rebootingDialog = new LoadingDialog(requireActivity());
                 rebootingDialog.show(getResources().getString(R.string.rebooting_desc));
 
-                requireActivity().runOnUiThread(() -> new Handler().postDelayed(() -> {
+                requireActivity().runOnUiThread(() -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     rebootingDialog.hide();
 
                     SystemUtil.restartDevice();

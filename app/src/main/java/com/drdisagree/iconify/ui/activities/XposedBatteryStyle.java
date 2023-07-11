@@ -9,6 +9,7 @@ import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_WIDTH;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -51,7 +52,7 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
         Button apply_battery_style = findViewById(R.id.apply_battery_style);
         apply_battery_style.setOnClickListener(v -> {
             RPrefs.putInt(CUSTOM_BATTERY_STYLE, selectedBatteryStyle);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 
         // Battery width
@@ -75,7 +76,7 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(CUSTOM_BATTERY_WIDTH, batteryWidth[0]);
-                new Handler().postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
+                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
             }
         });
 
@@ -100,7 +101,7 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(CUSTOM_BATTERY_HEIGHT, batteryHeight[0]);
-                new Handler().postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
+                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
             }
         });
 
@@ -125,7 +126,7 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(CUSTOM_BATTERY_MARGIN, batteryMargin[0]);
-                new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
             }
         });
     }

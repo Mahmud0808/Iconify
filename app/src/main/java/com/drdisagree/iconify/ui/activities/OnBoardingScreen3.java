@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -101,7 +102,7 @@ public class OnBoardingScreen3 extends BaseActivity {
                         showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
                         Toast.makeText(OnBoardingScreen3.this, R.string.toast_storage_access, Toast.LENGTH_SHORT).show();
 
-                        new Handler().postDelayed(() -> {
+                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
                             clickedContinue.set(true);
                             SystemUtil.getStoragePermission(this);
                         }, clickedContinue.get() ? 10 : 2000);
@@ -140,7 +141,7 @@ public class OnBoardingScreen3 extends BaseActivity {
                         showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
                         Toast.makeText(OnBoardingScreen3.this, R.string.toast_storage_access, Toast.LENGTH_SHORT).show();
 
-                        new Handler().postDelayed(() -> {
+                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
                             clickedContinue.set(true);
                             SystemUtil.getStoragePermission(this);
                         }, clickedContinue.get() ? 10 : 2000);
@@ -462,7 +463,7 @@ public class OnBoardingScreen3 extends BaseActivity {
                     }
 
                     if (OverlayUtil.overlayExists()) {
-                        new Handler().postDelayed(() -> {
+                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
                             Intent intent = new Intent(OnBoardingScreen3.this, HomePage.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);

@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,9 +61,9 @@ public class Tweaks extends BaseFragment {
             if (isClickable[0]) {
                 isClickable[0] = false;
 
-                new Handler().postDelayed(() -> replaceFragment(new ColorEngine(), FRAGMENT_COLORENGINE), FRAGMENT_TRANSITION_DELAY);
+                new Handler(Looper.getMainLooper()).postDelayed(() -> replaceFragment(new ColorEngine(), FRAGMENT_COLORENGINE), FRAGMENT_TRANSITION_DELAY);
 
-                new Handler().postDelayed(() -> isClickable[0] = true, FRAGMENT_TRANSITION_DELAY + 50);
+                new Handler(Looper.getMainLooper()).postDelayed(() -> isClickable[0] = true, FRAGMENT_TRANSITION_DELAY + 50);
             }
         }, getResources().getString(R.string.activity_title_color_engine), getResources().getString(R.string.activity_desc_color_engine), R.drawable.ic_tweaks_color});
         tweaks_list.add(new Object[]{UiRoundness.class, getResources().getString(R.string.activity_title_ui_roundness), getResources().getString(R.string.activity_desc_ui_roundness), R.drawable.ic_tweaks_roundness});
@@ -70,9 +71,9 @@ public class Tweaks extends BaseFragment {
             if (isClickable[0]) {
                 isClickable[0] = false;
 
-                new Handler().postDelayed(() -> replaceFragment(new QsPanel(), FRAGMENT_QSPANEL), FRAGMENT_TRANSITION_DELAY);
+                new Handler(Looper.getMainLooper()).postDelayed(() -> replaceFragment(new QsPanel(), FRAGMENT_QSPANEL), FRAGMENT_TRANSITION_DELAY);
 
-                new Handler().postDelayed(() -> isClickable[0] = true, FRAGMENT_TRANSITION_DELAY + 50);
+                new Handler(Looper.getMainLooper()).postDelayed(() -> isClickable[0] = true, FRAGMENT_TRANSITION_DELAY + 50);
             }
         }, getResources().getString(R.string.activity_title_qs_panel), getResources().getString(R.string.activity_desc_qs_panel), R.drawable.ic_tweaks_qs_panel});
         tweaks_list.add(new Object[]{Statusbar.class, getResources().getString(R.string.activity_title_statusbar), getResources().getString(R.string.activity_desc_statusbar), R.drawable.ic_tweaks_statusbar});
@@ -89,9 +90,9 @@ public class Tweaks extends BaseFragment {
             if (isClickable[0]) {
                 isClickable[0] = false;
 
-                new Handler().postDelayed(() -> replaceFragment(new XposedMenu(), FRAGMENT_XPOSEDMENU), FRAGMENT_TRANSITION_DELAY);
+                new Handler(Looper.getMainLooper()).postDelayed(() -> replaceFragment(new XposedMenu(), FRAGMENT_XPOSEDMENU), FRAGMENT_TRANSITION_DELAY);
 
-                new Handler().postDelayed(() -> isClickable[0] = true, FRAGMENT_TRANSITION_DELAY + 50);
+                new Handler(Looper.getMainLooper()).postDelayed(() -> isClickable[0] = true, FRAGMENT_TRANSITION_DELAY + 50);
             }
         }, getResources().getString(R.string.activity_title_xposed_menu), getResources().getString(R.string.activity_desc_xposed_menu), R.drawable.ic_tweaks_xposed_menu});
         tweaks_list.add(new Object[]{Miscellaneous.class, getResources().getString(R.string.activity_title_miscellaneous), getResources().getString(R.string.activity_desc_miscellaneous), R.drawable.ic_tweaks_miscellaneous});

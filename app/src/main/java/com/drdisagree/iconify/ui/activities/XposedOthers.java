@@ -14,6 +14,7 @@ import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -42,7 +43,7 @@ public class XposedOthers extends BaseActivity {
         hide_qs_carrier_group.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(QSPANEL_HIDE_CARRIER, isChecked);
 
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (Build.VERSION.SDK_INT >= 33) {
                     SystemUtil.restartSystemUI();
                 } else {
@@ -57,7 +58,7 @@ public class XposedOthers extends BaseActivity {
         hide_status_icons.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_STATUS_ICONS_SWITCH, isChecked);
 
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (Build.VERSION.SDK_INT >= 33) {
                     SystemUtil.restartSystemUI();
                 } else {
@@ -71,7 +72,7 @@ public class XposedOthers extends BaseActivity {
         hide_lockscreen_carrier.setChecked(RPrefs.getBoolean(HIDE_LOCKSCREEN_CARRIER, false));
         hide_lockscreen_carrier.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_LOCKSCREEN_CARRIER, isChecked);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 
         // Hide lockscreen statusbar
@@ -79,7 +80,7 @@ public class XposedOthers extends BaseActivity {
         hide_lockscreen_statusbar.setChecked(RPrefs.getBoolean(HIDE_LOCKSCREEN_STATUSBAR, false));
         hide_lockscreen_statusbar.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_LOCKSCREEN_STATUSBAR, isChecked);
-            new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 
         // Fixed status icons
@@ -96,7 +97,7 @@ public class XposedOthers extends BaseActivity {
             else if (RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0) > 32)
                 FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (48 + RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0)) + "dp");
 
-            new Handler().postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
         });
 
         // Status icons top margin
@@ -122,7 +123,7 @@ public class XposedOthers extends BaseActivity {
                 RPrefs.putInt(FIXED_STATUS_ICONS_TOPMARGIN, topMarginStatusIcons[0]);
                 if (RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)) {
                     FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (48 + topMarginStatusIcons[0]) + "dp");
-                    new Handler().postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
+                    new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
                 }
             }
         });
@@ -149,7 +150,7 @@ public class XposedOthers extends BaseActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 RPrefs.putInt(FIXED_STATUS_ICONS_SIDEMARGIN, sideMarginStatusIcons[0]);
                 if (RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)) {
-                    new Handler().postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
+                    new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
                 }
             }
         });

@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -138,7 +139,7 @@ public class ProgressBarAdapter extends RecyclerView.Adapter<ProgressBarAdapter.
                     }
 
                     ((Activity) context).runOnUiThread(() -> {
-                        new Handler().postDelayed(() -> {
+                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
                             // Hide loading dialog
                             loadingDialog.hide();
 
@@ -171,7 +172,7 @@ public class ProgressBarAdapter extends RecyclerView.Adapter<ProgressBarAdapter.
                 OverlayUtil.disableOverlay("IconifyComponentPGB.overlay");
 
                 ((Activity) context).runOnUiThread(() -> {
-                    new Handler().postDelayed(() -> {
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
                         // Hide loading dialog
                         loadingDialog.hide();
 

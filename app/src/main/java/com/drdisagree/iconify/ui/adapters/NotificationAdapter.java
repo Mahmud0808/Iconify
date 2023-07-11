@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -147,7 +148,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     NotificationPixelManager.enableOverlay(holder.getBindingAdapterPosition() + 1);
 
                 ((Activity) context).runOnUiThread(() -> {
-                    new Handler().postDelayed(() -> {
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
                         // Hide loading dialog
                         loadingDialog.hide();
 
@@ -180,7 +181,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     NotificationPixelManager.disable_pack(holder.getBindingAdapterPosition() + 1);
 
                 ((Activity) context).runOnUiThread(() -> {
-                    new Handler().postDelayed(() -> {
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
                         // Hide loading dialog
                         loadingDialog.hide();
 

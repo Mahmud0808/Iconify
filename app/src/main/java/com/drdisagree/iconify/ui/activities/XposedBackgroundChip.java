@@ -14,6 +14,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -58,7 +59,7 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
             RPrefs.putBoolean(STATUSBAR_CLOCKBG_SWITCH, isChecked);
 
             if (!isChecked) {
-                new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
             }
         });
 
@@ -107,7 +108,7 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
         enable_status_icons_chip.setChecked(RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false));
         enable_status_icons_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(QSPANEL_STATUSICONSBG_SWITCH, isChecked);
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
                 SystemUtil.doubleToggleDarkMode();
             }, SWITCH_ANIMATION_DELAY);
@@ -182,7 +183,7 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
                 RPrefs.putInt(CHIP_QSSTATUSICONS_STYLE, finalI);
                 refreshBackgroundStatusIcons();
                 if (RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false)) {
-                    new Handler().postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
+                    new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
                 }
             });
 

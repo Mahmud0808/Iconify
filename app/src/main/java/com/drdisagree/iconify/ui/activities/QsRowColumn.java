@@ -12,6 +12,7 @@ import static com.drdisagree.iconify.common.References.FABRICATED_QS_TILE;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -165,7 +166,7 @@ public class QsRowColumn extends BaseActivity {
 
                 runOnUiThread(() -> {
 
-                    new Handler().postDelayed(() -> {
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
                         // Hide loading dialog
                         loadingDialog.hide();
 
@@ -194,7 +195,7 @@ public class QsRowColumn extends BaseActivity {
                 runOnUiThread(() -> {
                     Prefs.putBoolean(QS_ROW_COLUMN_SWITCH, false);
 
-                    new Handler().postDelayed(() -> {
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
                         // Hide loading dialog
                         loadingDialog.hide();
 

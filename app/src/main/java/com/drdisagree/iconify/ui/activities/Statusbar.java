@@ -11,6 +11,7 @@ import static com.drdisagree.iconify.utils.ColorUtil.ColorToSpecialHex;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
@@ -124,7 +125,7 @@ public class Statusbar extends BaseActivity implements ColorPickerDialogListener
                 if (!Objects.equals(selectedStyle, "Monet")) {
                     OverlayUtil.enableOverlay("IconifyComponentSBTint.overlay");
                     Prefs.putString(FABRICATED_SB_COLOR_SOURCE, "Monet");
-                    new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+                    new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
                 }
             } else if (Objects.equals(checkedId, R.id.sb_tint_custom)) {
                 colorPickerSBTint = ColorPickerDialog.newBuilder();
@@ -166,7 +167,7 @@ public class Statusbar extends BaseActivity implements ColorPickerDialogListener
         FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "colorSBTint6", "color", "light_mode_icon_color_single_tone", ColorToSpecialHex(Integer.parseInt(colorSBTint)));
         FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, "colorSBTint7", "color", "status_bar_clock_color", ColorToSpecialHex(Integer.parseInt(colorSBTint)));
 
-        new Handler().postDelayed(SystemUtil::restartSystemUI, 1000);
+        new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, 1000);
     }
 
     private void resetSBColor() {
@@ -179,6 +180,6 @@ public class Statusbar extends BaseActivity implements ColorPickerDialogListener
         FabricatedUtil.disableOverlay("colorSBTint7");
         OverlayUtil.disableOverlay("IconifyComponentSBTint.overlay");
 
-        new Handler().postDelayed(SystemUtil::restartSystemUI, 1000);
+        new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, 1000);
     }
 }

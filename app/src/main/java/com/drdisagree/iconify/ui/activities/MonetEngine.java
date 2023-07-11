@@ -19,6 +19,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -316,7 +317,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                             }
                         }
 
-                        new Handler().postDelayed(() -> {
+                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
                             if (!hasErroredOut.get()) {
                                 Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                                 enable_custom_monet.setVisibility(View.GONE);
@@ -341,7 +342,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                 OverlayUtil.disableOverlays("IconifyComponentDM.overlay", "IconifyComponentME.overlay");
 
                 runOnUiThread(() -> {
-                    new Handler().postDelayed(() -> {
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
                         Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
                         disable_custom_monet.setVisibility(View.GONE);
                         isSelectedPrimary = false;
