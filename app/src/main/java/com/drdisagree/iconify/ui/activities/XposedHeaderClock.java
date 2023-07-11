@@ -264,6 +264,6 @@ public class XposedHeaderClock extends BaseActivity implements ColorPickerDialog
 
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{colorHeaderClock, colorHeaderClock});
         gd.setCornerRadius(getResources().getDimension(com.intuit.sdp.R.dimen._24sdp) * getResources().getDisplayMetrics().density);
-        preview_color_picker_clocktext.setBackgroundDrawable(gd);
+        preview_color_picker_clocktext.setBackground(gd);
     }
 }

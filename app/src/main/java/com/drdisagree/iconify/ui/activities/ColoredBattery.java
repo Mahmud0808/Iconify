@@ -136,10 +136,10 @@ public class ColoredBattery extends BaseActivity implements ColorPickerDialogLis
 
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(colorBackground), Integer.parseInt(colorBackground)});
         gd.setCornerRadius(getResources().getDimension(com.intuit.sdp.R.dimen._24sdp) * getResources().getDisplayMetrics().density);
-        preview_color_picker_background.setBackgroundDrawable(gd);
+        preview_color_picker_background.setBackground(gd);
 
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(colorFilled), Integer.parseInt(colorFilled)});
         gd.setCornerRadius(getResources().getDimension(com.intuit.sdp.R.dimen._24sdp) * getResources().getDisplayMetrics().density);
-        preview_color_picker_fill.setBackgroundDrawable(gd);
+        preview_color_picker_fill.setBackground(gd);
     }
 }

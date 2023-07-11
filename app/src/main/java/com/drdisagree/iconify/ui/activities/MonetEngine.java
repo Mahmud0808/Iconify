@@ -385,14 +385,14 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         View preview_color_picker_primary = findViewById(R.id.preview_color_picker_primary);
         GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentPrimary)});
         gd.setCornerRadius(getResources().getDimension(com.intuit.sdp.R.dimen._24sdp) * getResources().getDisplayMetrics().density);
-        preview_color_picker_primary.setBackgroundDrawable(gd);
+        preview_color_picker_primary.setBackground(gd);
     }
 
     private void updateSecondaryColor() {
         View preview_color_picker_secondary = findViewById(R.id.preview_color_picker_secondary);
         GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentSecondary), Integer.parseInt(accentSecondary)});
         gd.setCornerRadius(getResources().getDimension(com.intuit.sdp.R.dimen._24sdp) * getResources().getDisplayMetrics().density);
-        preview_color_picker_secondary.setBackgroundDrawable(gd);
+        preview_color_picker_secondary.setBackground(gd);
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -401,7 +401,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
             for (int j = 0; j < colorTableRows[i].getChildCount(); j++) {
                 GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{systemColors[i][j], systemColors[i][j]});
                 colorbg.setCornerRadius(8 * getResources().getDisplayMetrics().density);
-                colorTableRows[i].getChildAt(j).setBackgroundDrawable(colorbg);
+                colorTableRows[i].getChildAt(j).setBackground(colorbg);
             }
         }
     }
@@ -490,14 +490,14 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
 
                     GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{!isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j), !isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j)});
                     colorbg.setCornerRadius(8 * getResources().getDisplayMetrics().density);
-                    colorTableRows[i].getChildAt(j).setBackgroundDrawable(colorbg);
+                    colorTableRows[i].getChildAt(j).setBackground(colorbg);
                 }
             } else {
                 for (int j = 0; j < colorTableRows[i].getChildCount(); j++) {
                     try {
                         GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{!isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j), !isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j)});
                         colorbg.setCornerRadius(8 * getResources().getDisplayMetrics().density);
-                        colorTableRows[i].getChildAt(j).setBackgroundDrawable(colorbg);
+                        colorTableRows[i].getChildAt(j).setBackground(colorbg);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
