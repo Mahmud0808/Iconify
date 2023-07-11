@@ -199,7 +199,12 @@ public class QSFluidTheme extends ModPack {
                     ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(colorAccent[0]));
                     ((ImageView) getObjectField(param.thisObject, "mIcon")).setBackgroundTintList(ColorStateList.valueOf(colorActiveAlpha[0]));
                 } catch (Throwable throwable) {
-                    log(TAG + throwable);
+                    try {
+                        ((ImageView) getObjectField(param.thisObject, "mIconView")).setImageTintList(ColorStateList.valueOf(colorAccent[0]));
+                        ((ImageView) getObjectField(param.thisObject, "mIconView")).setBackgroundTintList(ColorStateList.valueOf(colorActiveAlpha[0]));
+                    } catch (Throwable throwable1) {
+                        log(TAG + throwable1);
+                    }
                 }
             }
         });
