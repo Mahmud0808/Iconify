@@ -15,7 +15,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -45,6 +44,7 @@ import com.drdisagree.iconify.ui.activities.ProgressBar;
 import com.drdisagree.iconify.ui.activities.QsPanelTile;
 import com.drdisagree.iconify.ui.activities.Switch;
 import com.drdisagree.iconify.ui.activities.ToastFrame;
+import com.drdisagree.iconify.ui.utils.TaskExecutor;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -181,7 +181,7 @@ public class Styles extends BaseFragment {
 
             int finalI = i;
             list.setOnClickListener(view -> {
-                if (checkForUpdate != null && (checkForUpdate.getStatus() == AsyncTask.Status.PENDING || checkForUpdate.getStatus() == AsyncTask.Status.RUNNING))
+                if (checkForUpdate != null && (checkForUpdate.getStatus() == TaskExecutor.Status.PENDING || checkForUpdate.getStatus() == TaskExecutor.Status.RUNNING))
                     checkForUpdate.cancel(true);
 
                 Intent intent = new Intent(requireActivity(), (Class<?>) pack.get(finalI)[0]);
@@ -212,13 +212,12 @@ public class Styles extends BaseFragment {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private class CheckForUpdate extends AsyncTask<Integer, Integer, String> {
+    private class CheckForUpdate extends TaskExecutor<Integer, Integer, String> {
 
         String jsonURL = LATEST_VERSION;
 
         @Override
         protected void onPreExecute() {
-            super.onPreExecute();
         }
 
         @Override
@@ -265,8 +264,6 @@ public class Styles extends BaseFragment {
         @SuppressLint("SetTextI18n")
         @Override
         protected void onPostExecute(String jsonStr) {
-            super.onPostExecute(jsonStr);
-
             if (jsonStr != null) {
                 try {
                     JSONObject latestVersion = new JSONObject(jsonStr);

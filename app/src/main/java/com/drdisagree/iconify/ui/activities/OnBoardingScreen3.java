@@ -10,7 +10,6 @@ import static com.drdisagree.iconify.utils.helpers.Logger.writeLog;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -31,6 +30,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
+import com.drdisagree.iconify.ui.utils.TaskExecutor;
 import com.drdisagree.iconify.ui.views.InstallationDialog;
 import com.drdisagree.iconify.utils.FileUtil;
 import com.drdisagree.iconify.utils.ModuleUtil;
@@ -219,12 +219,10 @@ public class OnBoardingScreen3 extends BaseActivity {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private class startInstallationProcess extends AsyncTask<Void, Integer, Integer> {
+    private class startInstallationProcess extends TaskExecutor<Void, Integer, Integer> {
         @SuppressLint("SetTextI18n")
         @Override
         protected void onPreExecute() {
-            super.onPreExecute();
-
             showInfo(R.string.landing_page_three_title, R.string.landing_page_three_desc);
             reboot_phone.setVisibility(View.GONE);
 
@@ -445,8 +443,6 @@ public class OnBoardingScreen3 extends BaseActivity {
 
         @Override
         protected void onPostExecute(Integer integer) {
-            super.onPostExecute(integer);
-
             progressDialog.hide();
 
             if (!hasErroredOut) {
@@ -493,7 +489,6 @@ public class OnBoardingScreen3 extends BaseActivity {
 
         @Override
         protected void onCancelled() {
-            super.onCancelled();
             Shell.cmd("rm -rf " + Resources.DATA_DIR).exec();
             Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
             Shell.cmd("rm -rf " + Resources.BACKUP_DIR).exec();

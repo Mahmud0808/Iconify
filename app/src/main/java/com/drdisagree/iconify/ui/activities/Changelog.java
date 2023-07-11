@@ -5,7 +5,6 @@ import static com.drdisagree.iconify.common.Const.CHANGELOG_URL;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -20,6 +19,7 @@ import androidx.core.text.HtmlCompat;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.ui.utils.TaskExecutor;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 
@@ -93,7 +93,7 @@ public class Changelog extends BaseActivity {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private class GrabChangelog extends AsyncTask<Integer, Integer, JSONObject> {
+    private class GrabChangelog extends TaskExecutor<Integer, Integer, JSONObject> {
 
         LoadingDialog loadingDialog = new LoadingDialog(Changelog.this);
         boolean connectionAvailable = false;

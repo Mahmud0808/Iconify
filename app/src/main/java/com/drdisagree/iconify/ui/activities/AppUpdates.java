@@ -8,7 +8,6 @@ import static com.drdisagree.iconify.common.Preferences.VER_CODE;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -28,6 +27,7 @@ import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.ui.utils.TaskExecutor;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 
 import org.json.JSONArray;
@@ -119,7 +119,7 @@ public class AppUpdates extends BaseActivity {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private class CheckForUpdate extends AsyncTask<Integer, Integer, String> {
+    private class CheckForUpdate extends TaskExecutor<Integer, Integer, String> {
 
         String jsonURL = LATEST_VERSION;
 
@@ -175,8 +175,6 @@ public class AppUpdates extends BaseActivity {
         @SuppressLint("SetTextI18n")
         @Override
         protected void onPostExecute(String jsonStr) {
-            super.onPostExecute(jsonStr);
-
             if (jsonStr != null) {
                 try {
                     JSONObject latestVersion = new JSONObject(jsonStr);
