@@ -90,7 +90,7 @@ public class XposedLockscreenClock extends BaseActivity implements ColorPickerDi
         CircleIndicator3 indicator = findViewById(R.id.lockscreen_clock_preview_indicator);
         container.setCurrentItem(RPrefs.getInt(LSCLOCK_STYLE, 0));
         indicator.setViewPager(container);
-        indicator.tintIndicator(getResources().getColor(R.color.textColorSecondary));
+        indicator.tintIndicator(getResources().getColor(R.color.textColorSecondary, getTheme()));
 
         // Lockscreen clock font picker
         Button pick_lsclock_font = findViewById(R.id.pick_lsclock_font);

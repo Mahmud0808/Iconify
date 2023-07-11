@@ -127,9 +127,9 @@ public class ToastFrame extends BaseActivity {
             LinearLayout child = container.getChildAt(i).findViewById(R.id.list_item_toast);
             TextView title = child.findViewById(R.id.style_name);
             if (i == Prefs.getInt(SELECTED_TOAST_FRAME, -1)) {
-                title.setTextColor(getResources().getColor(R.color.colorSuccess));
+                title.setTextColor(getResources().getColor(R.color.colorSuccess, getTheme()));
             } else {
-                title.setTextColor(getResources().getColor(R.color.textColorSecondary));
+                title.setTextColor(getResources().getColor(R.color.textColorSecondary, getTheme()));
             }
         }
     }

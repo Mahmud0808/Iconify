@@ -159,9 +159,9 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
             LinearLayout child = containerStatusBar.getChildAt(i).findViewById(R.id.list_item_chip);
             TextView title = child.findViewById(R.id.style_name);
             if (i == RPrefs.getInt(CHIP_STATUSBAR_CLOCKBG_STYLE, 0)) {
-                title.setTextColor(getResources().getColor(R.color.colorSuccess));
+                title.setTextColor(getResources().getColor(R.color.colorSuccess, getTheme()));
             } else {
-                title.setTextColor(getResources().getColor(R.color.textColorSecondary));
+                title.setTextColor(getResources().getColor(R.color.textColorSecondary, getTheme()));
             }
         }
     }
@@ -198,9 +198,9 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
             LinearLayout child = containerStatusIcons.getChildAt(i).findViewById(R.id.list_item_chip);
             TextView title = child.findViewById(R.id.style_name);
             if (i == RPrefs.getInt(CHIP_QSSTATUSICONS_STYLE, 0)) {
-                title.setTextColor(getResources().getColor(R.color.colorSuccess));
+                title.setTextColor(getResources().getColor(R.color.colorSuccess, getTheme()));
             } else {
-                title.setTextColor(getResources().getColor(R.color.textColorSecondary));
+                title.setTextColor(getResources().getColor(R.color.textColorSecondary, getTheme()));
             }
         }
     }
