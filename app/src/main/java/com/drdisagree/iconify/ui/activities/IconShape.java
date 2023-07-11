@@ -142,9 +142,9 @@ public class IconShape extends BaseActivity {
             LinearLayout child = container.getChildAt(i).findViewById(R.id.list_item_shape);
             TextView title = child.findViewById(R.id.shape_name);
             if (i == Prefs.getInt(SELECTED_ICON_SHAPE, 0)) {
-                title.setTextColor(getResources().getColor(R.color.colorSuccess));
+                title.setTextColor(getResources().getColor(R.color.colorSuccess, getTheme()));
             } else {
-                title.setTextColor(getResources().getColor(R.color.textColorSecondary));
+                title.setTextColor(getResources().getColor(R.color.textColorSecondary, getTheme()));
             }
         }
     }

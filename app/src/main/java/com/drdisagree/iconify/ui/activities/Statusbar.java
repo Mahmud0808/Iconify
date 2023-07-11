@@ -99,7 +99,7 @@ public class Statusbar extends BaseActivity implements ColorPickerDialogListener
             }
         });
 
-        colorSBTint = String.valueOf(getResources().getColor(R.color.colorAccent));
+        colorSBTint = String.valueOf(getResources().getColor(R.color.colorAccent, getTheme()));
 
         //set current choosen style
         selectedStyle = Prefs.getString(FABRICATED_SB_COLOR_SOURCE);

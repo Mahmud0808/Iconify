@@ -14,9 +14,9 @@ public class OnBoardingScreen2 extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.landing_page_two_background));
-        getWindow().setStatusBarColor(getResources().getColor(R.color.landing_page_two_background));
-        getWindow().setNavigationBarColor(getResources().getColor(R.color.landing_page_two_background));
+        getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.landing_page_two_background, getTheme()));
+        getWindow().setStatusBarColor(getResources().getColor(R.color.landing_page_two_background, getTheme()));
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.landing_page_two_background, getTheme()));
         setContentView(R.layout.activity_onboarding_screen_two);
 
         ((LottieAnimationView) findViewById(R.id.welcome_anim)).setAnimation(!isDarkMode() ? R.raw.anim_view_two_day : R.raw.anim_view_two_night);

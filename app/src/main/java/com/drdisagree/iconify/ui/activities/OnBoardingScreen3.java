@@ -65,9 +65,9 @@ public class OnBoardingScreen3 extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.landing_page_three_background));
-        getWindow().setStatusBarColor(getResources().getColor(R.color.landing_page_three_background));
-        getWindow().setNavigationBarColor(getResources().getColor(R.color.landing_page_three_background));
+        getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.landing_page_three_background, getTheme()));
+        getWindow().setStatusBarColor(getResources().getColor(R.color.landing_page_three_background, getTheme()));
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.landing_page_three_background, getTheme()));
         setContentView(R.layout.activity_onboarding_screen_three);
 
         Prefs.putBoolean(ON_HOME_PAGE, false);
