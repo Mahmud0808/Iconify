@@ -219,6 +219,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                         date.getLayoutParams().width = 0;
                         date.setTextAppearance(0);
                         date.setTextColor(0);
+                        date.setVisibility(View.GONE);
                     } catch (Throwable ignored) {
                     }
 
@@ -229,6 +230,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                         jr_clock.getLayoutParams().width = 0;
                         jr_clock.setTextAppearance(0);
                         jr_clock.setTextColor(0);
+                        jr_clock.setVisibility(View.GONE);
                     } catch (Throwable ignored) {
                     }
 
@@ -240,6 +242,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                         jr_date.getLayoutParams().width = 0;
                         jr_date.setTextAppearance(0);
                         jr_date.setTextColor(0);
+                        jr_date.setVisibility(View.GONE);
                     } catch (Throwable ignored) {
                     }
                 }
@@ -260,6 +263,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                         date.getLayoutParams().width = 0;
                         date.setTextAppearance(0);
                         date.setTextColor(0);
+                        date.setVisibility(View.GONE);
                     } catch (Throwable ignored) {
                     }
                 }
