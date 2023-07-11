@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.ui.activities;
 
-import static com.drdisagree.iconify.common.Preferences.STR_NULL;
 import static com.drdisagree.iconify.common.Preferences.UI_CORNER_RADIUS;
 
 import android.annotation.SuppressLint;
@@ -51,27 +50,17 @@ public class UiRoundness extends BaseActivity {
 
         SeekBar corner_radius_seekbar = findViewById(R.id.corner_radius_seekbar);
         TextView corner_radius_output = findViewById(R.id.corner_radius_output);
-        final int[] finalUiCornerRadius = {16};
-        if (!Prefs.getString(UI_CORNER_RADIUS).equals(STR_NULL))
-            finalUiCornerRadius[0] = Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS));
+        final int[] finalUiCornerRadius = {Prefs.getInt(UI_CORNER_RADIUS, 28)};
 
-        if (!Prefs.getString(UI_CORNER_RADIUS).equals(STR_NULL)) {
-            if (Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS)) == 28) {
-                corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS)) + "dp " + getResources().getString(R.string.opt_default));
-            } else {
-                corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS)) + "dp");
-            }
-            for (GradientDrawable drawable : drawables) {
-                drawable.setCornerRadius(Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS)) * getResources().getDisplayMetrics().density);
-            }
-            finalUiCornerRadius[0] = Integer.parseInt(Prefs.getString(UI_CORNER_RADIUS));
-            corner_radius_seekbar.setProgress(finalUiCornerRadius[0]);
+        if (finalUiCornerRadius[0] == 28) {
+            corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + finalUiCornerRadius[0] + "dp " + getResources().getString(R.string.opt_default));
         } else {
-            corner_radius_output.setText(getResources().getString(R.string.opt_selected) + " 28dp " + getResources().getString(R.string.opt_default));
-            for (GradientDrawable drawable : drawables) {
-                drawable.setCornerRadius(28 * getResources().getDisplayMetrics().density);
-            }
+            corner_radius_output.setText(getResources().getString(R.string.opt_selected) + ' ' + finalUiCornerRadius[0] + "dp");
         }
+        for (GradientDrawable drawable : drawables) {
+            drawable.setCornerRadius(finalUiCornerRadius[0] * getResources().getDisplayMetrics().density);
+        }
+        corner_radius_seekbar.setProgress(finalUiCornerRadius[0]);
 
         corner_radius_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -115,8 +104,7 @@ public class UiRoundness extends BaseActivity {
 
                     runOnUiThread(() -> {
                         if (!hasErroredOut.get()) {
-                            Prefs.putString(UI_CORNER_RADIUS, String.valueOf(finalUiCornerRadius[0]));
-
+                            Prefs.putInt(UI_CORNER_RADIUS, finalUiCornerRadius[0]);
                             RPrefs.putInt(UI_CORNER_RADIUS, finalUiCornerRadius[0]);
                         }
 
