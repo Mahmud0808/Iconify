@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.Window;
@@ -13,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.text.HtmlCompat;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -38,10 +38,10 @@ public class InstallationDialog extends BaseActivity {
         dialog.setCanceledOnTouchOutside(false);
 
         TextView t = dialog.findViewById(R.id.title);
-        t.setText(Html.fromHtml(title));
+        t.setText(HtmlCompat.fromHtml(title, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         TextView d = dialog.findViewById(R.id.desc);
-        d.setText(Html.fromHtml(desc));
+        d.setText(HtmlCompat.fromHtml(desc, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         TextView l = dialog.findViewById(R.id.logs);
         l.setMovementMethod(new ScrollingMovementMethod());
@@ -70,16 +70,17 @@ public class InstallationDialog extends BaseActivity {
 
     public void setMessage(String title, String desc) {
         TextView t = dialog.findViewById(R.id.title);
-        t.setText(Html.fromHtml(title));
+        t.setText(HtmlCompat.fromHtml(title, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         TextView d = dialog.findViewById(R.id.desc);
-        d.setText(Html.fromHtml(desc));
+        d.setText(HtmlCompat.fromHtml(desc, HtmlCompat.FROM_HTML_MODE_LEGACY));
     }
 
     public void setLogs(String text) {
         TextView l = dialog.findViewById(R.id.logs);
-        if (l.getText() == null) l.setText(Html.fromHtml(text));
-        else l.append(Html.fromHtml("<br>" + text));
+        if (l.getText() == null)
+            l.setText(HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY));
+        else l.append(HtmlCompat.fromHtml("<br>" + text, HtmlCompat.FROM_HTML_MODE_LEGACY));
     }
 
     @Override

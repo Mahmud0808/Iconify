@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
@@ -15,6 +14,8 @@ import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.core.text.HtmlCompat;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
@@ -194,12 +195,12 @@ public class Changelog extends BaseActivity {
             TextView changelog_title = findViewById(R.id.changelog_title);
             TextView changelog_changes = findViewById(R.id.changelog_text);
 
-            changelog_title.setText(Html.fromHtml(title));
-            changelog_changes.setText(Html.fromHtml(changes));
+            changelog_title.setText(HtmlCompat.fromHtml(title, HtmlCompat.FROM_HTML_MODE_LEGACY));
+            changelog_changes.setText(HtmlCompat.fromHtml(changes, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
             if (Objects.equals(changes, "")) changelog_changes.setVisibility(View.GONE);
             else {
-                SpannableString spannableString = new SpannableString(Html.fromHtml(changes));
+                SpannableString spannableString = new SpannableString(HtmlCompat.fromHtml(changes, HtmlCompat.FROM_HTML_MODE_LEGACY));
                 URLSpan[] urls = spannableString.getSpans(0, spannableString.length(), URLSpan.class);
 
                 for (URLSpan urlSpan : urls) {

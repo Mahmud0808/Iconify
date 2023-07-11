@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
@@ -22,6 +21,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.text.HtmlCompat;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
@@ -215,10 +216,10 @@ public class AppUpdates extends BaseActivity {
                             TextView changelog_title = findViewById(R.id.changelog_title);
                             TextView changelog_changes = findViewById(R.id.changelog_text);
 
-                            changelog_title.setText(Html.fromHtml(title));
-                            changelog_changes.setText(Html.fromHtml(changes));
+                            changelog_title.setText(HtmlCompat.fromHtml(title, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                            changelog_changes.setText(HtmlCompat.fromHtml(changes, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
-                            SpannableString spannableString = new SpannableString(Html.fromHtml(changes));
+                            SpannableString spannableString = new SpannableString(HtmlCompat.fromHtml(changes, HtmlCompat.FROM_HTML_MODE_LEGACY));
                             URLSpan[] urls = spannableString.getSpans(0, spannableString.length(), URLSpan.class);
 
                             for (URLSpan urlSpan : urls) {
@@ -241,7 +242,7 @@ public class AppUpdates extends BaseActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
 
-                            ((TextView) findViewById(R.id.changelog_title)).setText(Html.fromHtml(getResources().getString(R.string.individual_changelog_not_found)));
+                            ((TextView) findViewById(R.id.changelog_title)).setText(HtmlCompat.fromHtml(getResources().getString(R.string.individual_changelog_not_found), HtmlCompat.FROM_HTML_MODE_LEGACY));
                             findViewById(R.id.changelog_text).setVisibility(View.GONE);
                         }
                         ((TextView) findViewById(R.id.show_changelog)).setText(getResources().getString(R.string.view_changelog));
