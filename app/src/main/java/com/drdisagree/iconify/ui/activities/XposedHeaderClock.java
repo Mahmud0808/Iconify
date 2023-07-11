@@ -82,7 +82,7 @@ public class XposedHeaderClock extends BaseActivity implements ColorPickerDialog
         CircleIndicator3 indicator = findViewById(R.id.header_clock_preview_indicator);
         container.setCurrentItem(RPrefs.getInt(HEADER_CLOCK_STYLE, 1) - 1);
         indicator.setViewPager(container);
-        indicator.tintIndicator(getResources().getColor(R.color.textColorSecondary));
+        indicator.tintIndicator(getResources().getColor(R.color.textColorSecondary, getTheme()));
 
         // Lockscreen clock font picker
         Button pick_header_clock_font = findViewById(R.id.pick_header_clock_font);

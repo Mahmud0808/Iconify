@@ -488,7 +488,7 @@ public class OnBoardingScreen3 extends BaseActivity {
             }
 
             loading_anim.setVisibility(View.GONE);
-            install_module.setTextColor(getResources().getColor(R.color.textColorPrimaryInverse));
+            install_module.setTextColor(getResources().getColor(R.color.textColorPrimaryInverse, getTheme()));
         }
 
         @Override
