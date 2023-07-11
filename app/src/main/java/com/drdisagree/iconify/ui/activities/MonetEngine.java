@@ -116,12 +116,12 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL))
             accentPrimary = Prefs.getString(COLOR_ACCENT_PRIMARY);
         else
-            accentPrimary = String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent1_300 : android.R.color.system_accent1_600));
+            accentPrimary = String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent1_300 : android.R.color.system_accent1_600, getTheme()));
 
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL))
             accentSecondary = Prefs.getString(COLOR_ACCENT_SECONDARY);
         else
-            accentSecondary = String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent3_300 : android.R.color.system_accent3_600));
+            accentSecondary = String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent3_300 : android.R.color.system_accent3_600, getTheme()));
 
         updatePrimaryColor();
         updateSecondaryColor();

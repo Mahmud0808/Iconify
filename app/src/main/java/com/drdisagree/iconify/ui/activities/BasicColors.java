@@ -102,12 +102,12 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL))
             accentPrimary = Prefs.getString(COLOR_ACCENT_PRIMARY);
         else
-            accentPrimary = String.valueOf(getResources().getColor(android.R.color.holo_blue_light));
+            accentPrimary = String.valueOf(getResources().getColor(android.R.color.holo_blue_light, getTheme()));
 
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL))
             accentSecondary = Prefs.getString(COLOR_ACCENT_SECONDARY);
         else
-            accentSecondary = String.valueOf(getResources().getColor(android.R.color.holo_green_light));
+            accentSecondary = String.valueOf(getResources().getColor(android.R.color.holo_green_light, getTheme()));
 
         updatePrimaryColor();
         updateSecondaryColor();
