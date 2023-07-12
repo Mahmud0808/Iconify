@@ -319,7 +319,7 @@ public class QSLightTheme extends ModPack {
         });
 
         try {
-            mBehindColors = GradientColorsClass.newInstance();
+            mBehindColors = GradientColorsClass.getDeclaredConstructor().newInstance();
         } catch (Throwable throwable) {
             log(TAG + throwable);
         }

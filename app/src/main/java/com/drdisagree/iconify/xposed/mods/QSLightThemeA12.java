@@ -109,14 +109,14 @@ public class QSLightThemeA12 extends ModPack {
         }
 
         try {
-            mBehindColors = GradientColorsClass.newInstance();
+            mBehindColors = GradientColorsClass.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }
         hookAllMethods(ScrimControllerClass, "onUiModeChanged", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                mBehindColors = GradientColorsClass.newInstance();
+                mBehindColors = GradientColorsClass.getDeclaredConstructor().newInstance();
             }
         });
 
