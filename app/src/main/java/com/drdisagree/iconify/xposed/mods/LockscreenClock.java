@@ -27,6 +27,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.InputFilter;
 import android.text.format.DateFormat;
 import android.util.TypedValue;
@@ -131,7 +132,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     @Override
                     public void onReceive(Context context, Intent intent) {
                         if (mLargeClockFrame != null && intent != null) {
-                            (new Handler()).post(() -> {
+                            new Handler(Looper.getMainLooper()).post(() -> {
                                 mLargeClockFrame.removeAllViews();
                                 updateClockView(mLargeClockFrame);
                             });
@@ -190,7 +191,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     @Override
                     public void onReceive(Context context, Intent intent) {
                         if (mStatusViewContainer != null && intent != null) {
-                            (new Handler()).post(() -> updateClockView(mStatusViewContainer));
+                            new Handler(Looper.getMainLooper()).post(() -> updateClockView(mStatusViewContainer));
                         }
                     }
                 };
