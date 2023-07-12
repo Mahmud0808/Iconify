@@ -10,6 +10,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.topjohnwu.superuser.Shell;
@@ -31,7 +33,7 @@ public class AppUtil {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     public static Drawable getAppIcon(String packageName) {
-        Drawable appIcon = Iconify.getAppContext().getResources().getDrawable(R.drawable.ic_android);
+        Drawable appIcon = ContextCompat.getDrawable(Iconify.getAppContext(), R.drawable.ic_android);
         try {
             appIcon = Iconify.getAppContext().getPackageManager().getApplicationIcon(packageName);
         } catch (PackageManager.NameNotFoundException ignored) {

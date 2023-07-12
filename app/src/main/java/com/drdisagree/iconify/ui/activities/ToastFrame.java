@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
@@ -72,7 +74,7 @@ public class ToastFrame extends BaseActivity {
             View list = LayoutInflater.from(this).inflate(R.layout.view_toast_frame, container, false);
 
             LinearLayout toast_container = list.findViewById(R.id.toast_container);
-            toast_container.setBackground(getResources().getDrawable((int) pack.get(i)[0]));
+            toast_container.setBackground(ContextCompat.getDrawable(getApplicationContext(), (int) pack.get(i)[0]));
 
             TextView style_name = list.findViewById(R.id.style_name);
             style_name.setText(getResources().getString((int) pack.get(i)[1]));

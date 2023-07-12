@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
@@ -80,7 +82,7 @@ public class IconShape extends BaseActivity {
             View list = LayoutInflater.from(this).inflate(R.layout.view_icon_shape, container, false);
 
             LinearLayout icon_container = list.findViewById(R.id.mask_shape);
-            icon_container.setBackground(getResources().getDrawable((int) pack.get(i)[0]));
+            icon_container.setBackground(ContextCompat.getDrawable(getApplicationContext(), (int) pack.get(i)[0]));
 
             TextView style_name = list.findViewById(R.id.shape_name);
             style_name.setText(getResources().getString((int) pack.get(i)[1]));

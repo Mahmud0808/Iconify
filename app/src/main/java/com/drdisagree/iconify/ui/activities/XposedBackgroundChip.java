@@ -21,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
@@ -137,7 +139,7 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
             View list = LayoutInflater.from(this).inflate(R.layout.view_status_bar_chip, containerStatusBar, false);
 
             LinearLayout clock_container = list.findViewById(R.id.clock_container);
-            clock_container.setBackground(getResources().getDrawable((int) pack.get(i)[0]));
+            clock_container.setBackground(ContextCompat.getDrawable(getApplicationContext(), (int) pack.get(i)[0]));
 
             TextView style_name = list.findViewById(R.id.style_name);
             style_name.setText(getResources().getString((int) pack.get(i)[1]));
@@ -173,7 +175,7 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
             View list = LayoutInflater.from(this).inflate(R.layout.view_status_icons_chip, containerStatusIcons, false);
 
             LinearLayout icon_container = list.findViewById(R.id.clock_container);
-            icon_container.setBackground(getResources().getDrawable((int) pack.get(i)[0]));
+            icon_container.setBackground(ContextCompat.getDrawable(getApplicationContext(), (int) pack.get(i)[0]));
 
             TextView style_name = list.findViewById(R.id.style_name);
             style_name.setText(getResources().getString((int) pack.get(i)[1]));
