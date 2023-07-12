@@ -5,8 +5,12 @@ import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_HEIGHT;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_LANDSCAPE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ZOOMTOFIT;
+import static com.drdisagree.iconify.common.Resources.HEADER_IMAGE_DIR;
+import static com.drdisagree.iconify.utils.FileUtil.copyToIconifyHiddenDir;
+import static com.drdisagree.iconify.utils.FileUtil.getRealPath;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,16 +19,18 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
-import com.drdisagree.iconify.utils.FileUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 
 public class XposedHeaderImage extends BaseActivity {
 
-    private static final int PICKFILE_RESULT_CODE = 100;
     private Button enable_header_image;
 
     @SuppressLint("SetTextI18n")
@@ -129,12 +135,21 @@ public class XposedHeaderImage extends BaseActivity {
         Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
         chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
         chooseFile.setType("image/*");
-        startActivityForResult(Intent.createChooser(chooseFile, getResources().getString(R.string.choose_header_image)), PICKFILE_RESULT_CODE);
+        startActivityIntent.launch(chooseFile);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        FileUtil.copyToIconifyHiddenDir(this, requestCode, resultCode, data, PICKFILE_RESULT_CODE, "header_image.png", enable_header_image);
-    }
+    ActivityResultLauncher<Intent> startActivityIntent = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    String path = getRealPath(data);
+
+                    if (path != null && copyToIconifyHiddenDir(path, HEADER_IMAGE_DIR)) {
+                        enable_header_image.setVisibility(View.VISIBLE);
+                    } else {
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
 }

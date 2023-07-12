@@ -1,18 +1,13 @@
 package com.drdisagree.iconify.utils;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.OpenableColumns;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.drdisagree.iconify.Iconify;
-import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.Resources;
 import com.topjohnwu.superuser.Shell;
 
@@ -21,6 +16,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class FileUtil {
 
@@ -51,7 +48,7 @@ public class FileUtil {
             }
             try {
                 InputStream inputStream = context.getAssets().open(inFileName);
-                copyAndClose(inputStream, new FileOutputStream(outFileName));
+                copyAndClose(inputStream, Files.newOutputStream(Paths.get(outFileName)));
             } catch (IOException e) {
                 new File(outFileName).mkdir();
                 copyFileOrDirectory(context, inFileName, outFileName);
@@ -82,32 +79,18 @@ public class FileUtil {
         }
     }
 
-    public static void copyToIconifyHiddenDir(Context context, int requestCode, int resultCode, Intent data, int PICKFILE_RESULT_CODE, String fileName, Button enableButton) {
-        if (data == null) return;
-
-        if (requestCode == PICKFILE_RESULT_CODE && resultCode == Activity.RESULT_OK) {
-            Uri uri = data.getData();
-            String source = getRealPathFromURI(uri);
-            if (source == null) {
-                Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            String destination = Resources.XPOSED_RESOURCE_TEMP_DIR + "/" + fileName;
-
-            Shell.cmd("mkdir -p " + Resources.XPOSED_RESOURCE_TEMP_DIR).exec();
-
-            if (Shell.cmd("cp \"" + source + "\" \"" + destination + "\"").exec().isSuccess())
-                enableButton.setVisibility(View.VISIBLE);
-            else
-                Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
+    public static String getRealPath(Object obj) {
+        if (obj instanceof Intent) {
+            return getRealPathFromURI(((Intent) obj).getData());
+        } else if (obj instanceof Uri) {
+            return getRealPathFromURI((Uri) obj);
         } else {
-            Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+            throw new IllegalArgumentException("Object must be an Intent or Uri");
         }
     }
 
     private static String getRealPathFromURI(Uri uri) {
-        File file = null;
+        File file;
         try {
             @SuppressLint("Recycle") Cursor returnCursor = Iconify.getAppContext().getContentResolver().query(uri, null, null, null, null);
             int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
@@ -116,7 +99,7 @@ public class FileUtil {
             file = new File(Iconify.getAppContext().getFilesDir(), name);
             @SuppressLint("Recycle") InputStream inputStream = Iconify.getAppContext().getContentResolver().openInputStream(uri);
             FileOutputStream outputStream = new FileOutputStream(file);
-            int read = 0;
+            int read;
             int maxBufferSize = 1024 * 1024;
             int bytesAvailable = inputStream.available();
             int bufferSize = Math.min(bytesAvailable, maxBufferSize);
@@ -131,5 +114,9 @@ public class FileUtil {
             return null;
         }
         return file.getPath();
+    }
+
+    public static boolean copyToIconifyHiddenDir(String source, String destination) {
+        return Shell.cmd("mkdir -p " + Resources.XPOSED_RESOURCE_TEMP_DIR, "cp \"" + source + "\" \"" + destination + "\"").exec().isSuccess();
     }
 }

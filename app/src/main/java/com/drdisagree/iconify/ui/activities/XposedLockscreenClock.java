@@ -12,9 +12,13 @@ import static com.drdisagree.iconify.common.Preferences.LSCLOCK_STYLE;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_TEXT_WHITE;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_TOPMARGIN;
+import static com.drdisagree.iconify.common.Resources.LSCLOCK_FONT_DIR;
 import static com.drdisagree.iconify.ui.utils.ViewBindingHelpers.disableNestedScrolling;
+import static com.drdisagree.iconify.utils.FileUtil.copyToIconifyHiddenDir;
+import static com.drdisagree.iconify.utils.FileUtil.getRealPath;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -28,7 +32,10 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.drdisagree.iconify.R;
@@ -37,7 +44,6 @@ import com.drdisagree.iconify.ui.adapters.ClockPreviewAdapter;
 import com.drdisagree.iconify.ui.models.ClockModel;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LockscreenClockStyles;
-import com.drdisagree.iconify.utils.FileUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
@@ -49,7 +55,6 @@ import me.relex.circleindicator.CircleIndicator3;
 
 public class XposedLockscreenClock extends BaseActivity implements ColorPickerDialogListener {
 
-    private static final int PICKFILE_RESULT_CODE = 100;
     private static int colorLockscreenClock;
     ColorPickerDialog.Builder colorPickerDialogLockscreenClock;
     private Button enable_lsclock_font;
@@ -252,15 +257,24 @@ public class XposedLockscreenClock extends BaseActivity implements ColorPickerDi
     public void browseLSClockFont() {
         Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
         chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
-        chooseFile.setType("font/ttf");
-        startActivityForResult(Intent.createChooser(chooseFile, getResources().getString(R.string.choose_clock_font)), PICKFILE_RESULT_CODE);
+        chooseFile.setType("font/*");
+        startActivityIntent.launch(chooseFile);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        FileUtil.copyToIconifyHiddenDir(this, requestCode, resultCode, data, PICKFILE_RESULT_CODE, "lsclock_font.ttf", enable_lsclock_font);
-    }
+    ActivityResultLauncher<Intent> startActivityIntent = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    String path = getRealPath(data);
+
+                    if (path != null && copyToIconifyHiddenDir(path, LSCLOCK_FONT_DIR)) {
+                        enable_lsclock_font.setVisibility(View.VISIBLE);
+                    } else {
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
 
     @Override
     public void onColorSelected(int dialogId, int color) {
