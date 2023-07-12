@@ -149,7 +149,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
         }
 
         loadImageOrGif(mQsHeaderImageView);
-        mQsHeaderImageView.setAlpha((int) (headerImageAlpha / 100.0 * 255.0));
+        mQsHeaderImageView.setImageAlpha((int) (headerImageAlpha / 100.0 * 255.0));
         mQsHeaderLayout.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, imageHeight, mContext.getResources().getDisplayMetrics());
         mQsHeaderLayout.requestLayout();
 
