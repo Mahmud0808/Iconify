@@ -43,16 +43,26 @@ public class XposedQuickSettings extends BaseActivity {
         // Header
         ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_quick_settings);
 
-        // Vertical QS Tile
+        // Declarations
         @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_vertical_tile = findViewById(R.id.enable_vertical_tile);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_tile_label = findViewById(R.id.hide_tile_label);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_light_theme = findViewById(R.id.enable_light_theme);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_dual_tone = findViewById(R.id.enable_dual_tone);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_black_theme = findViewById(R.id.enable_black_theme);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_fluid_theme = findViewById(R.id.enable_fluid_theme);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_notification_transparency = findViewById(R.id.enable_notification_transparency);
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_powermenu_transparency = findViewById(R.id.enable_powermenu_transparency);
+
+        // Vertical QS Tile
         enable_vertical_tile.setChecked(RPrefs.getBoolean(VERTICAL_QSTILE_SWITCH, false));
         enable_vertical_tile.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(VERTICAL_QSTILE_SWITCH, isChecked);
+            hide_tile_label.setEnabled(isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
         });
+        hide_tile_label.setEnabled(enable_vertical_tile.isChecked());
 
         // Hide label for vertical tiles
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_tile_label = findViewById(R.id.hide_tile_label);
         hide_tile_label.setChecked(RPrefs.getBoolean(HIDE_QSLABEL_SWITCH, false));
         hide_tile_label.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_QSLABEL_SWITCH, isChecked);
@@ -60,15 +70,15 @@ public class XposedQuickSettings extends BaseActivity {
         });
 
         // Light Theme
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_light_theme = findViewById(R.id.enable_light_theme);
         enable_light_theme.setChecked(RPrefs.getBoolean(LIGHT_QSPANEL, false));
         enable_light_theme.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(LIGHT_QSPANEL, isChecked);
+            enable_dual_tone.setEnabled(isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
+        enable_dual_tone.setEnabled(enable_light_theme.isChecked());
 
         // Dual Tone
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_dual_tone = findViewById(R.id.enable_dual_tone);
         enable_dual_tone.setChecked(RPrefs.getBoolean(DUALTONE_QSPANEL, false));
         enable_dual_tone.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(DUALTONE_QSPANEL, isChecked);
@@ -76,7 +86,6 @@ public class XposedQuickSettings extends BaseActivity {
         });
 
         // Pixel Black Theme
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_black_theme = findViewById(R.id.enable_black_theme);
         enable_black_theme.setChecked(RPrefs.getBoolean(BLACK_QSPANEL, false));
         enable_black_theme.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(BLACK_QSPANEL, isChecked);
@@ -84,15 +93,17 @@ public class XposedQuickSettings extends BaseActivity {
         });
 
         // Fluid QS Theme
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_fluid_theme = findViewById(R.id.enable_fluid_theme);
         enable_fluid_theme.setChecked(RPrefs.getBoolean(FLUID_QSPANEL, false));
         enable_fluid_theme.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(FLUID_QSPANEL, isChecked);
+            enable_notification_transparency.setEnabled(isChecked);
+            enable_powermenu_transparency.setEnabled(isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
+        enable_notification_transparency.setEnabled(enable_fluid_theme.isChecked());
+        enable_powermenu_transparency.setEnabled(enable_fluid_theme.isChecked());
 
         // Fluid QS Notification Transparency
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_notification_transparency = findViewById(R.id.enable_notification_transparency);
         enable_notification_transparency.setChecked(RPrefs.getBoolean(FLUID_NOTIF_TRANSPARENCY, false));
         enable_notification_transparency.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(FLUID_NOTIF_TRANSPARENCY, isChecked);
@@ -100,7 +111,6 @@ public class XposedQuickSettings extends BaseActivity {
         });
 
         // Fluid QS Power Menu Transparency
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_powermenu_transparency = findViewById(R.id.enable_powermenu_transparency);
         enable_powermenu_transparency.setChecked(RPrefs.getBoolean(FLUID_POWERMENU_TRANSPARENCY, false));
         enable_powermenu_transparency.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(FLUID_POWERMENU_TRANSPARENCY, isChecked);
