@@ -192,30 +192,16 @@ public class QSLightTheme extends ModPack {
                     Object iconManager = getObjectField(param.thisObject, "iconManager");
                     Object batteryIcon = getObjectField(param.thisObject, "batteryIcon");
                     Object configurationControllerListener = getObjectField(param.thisObject, "configurationControllerListener");
+
                     hookAllMethods(configurationControllerListener.getClass(), "onConfigChanged", new XC_MethodHook() {
                         @SuppressLint("DiscouragedApi")
                         @Override
                         protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                            if (!lightQSHeaderEnabled) return;
-
-                            int textColor = getColorAttrDefaultColor(android.R.attr.textColorPrimary, mContext);
-
-                            ((TextView) mView.findViewById(mContext.getResources().getIdentifier("clock", "id", mContext.getPackageName()))).setTextColor(textColor);
-                            ((TextView) mView.findViewById(mContext.getResources().getIdentifier("date", "id", mContext.getPackageName()))).setTextColor(textColor);
-
-                            callMethod(iconManager, "setTint", textColor);
-
-                            for (int i = 1; i <= 3; i++) {
-                                String id = String.format("carrier%s", i);
-
-                                ((TextView) getObjectField(mView.findViewById(mContext.getResources().getIdentifier(id, "id", mContext.getPackageName())), "mCarrierText")).setTextColor(textColor);
-                                ((ImageView) getObjectField(mView.findViewById(mContext.getResources().getIdentifier(id, "id", mContext.getPackageName())), "mMobileSignal")).setImageTintList(ColorStateList.valueOf(textColor));
-                                ((ImageView) getObjectField(mView.findViewById(mContext.getResources().getIdentifier(id, "id", mContext.getPackageName())), "mMobileRoaming")).setImageTintList(ColorStateList.valueOf(textColor));
-                            }
-
-                            callMethod(batteryIcon, "updateColors", textColor, textColor, textColor);
+                            setHeaderComponentsColor(mView, iconManager, batteryIcon);
                         }
                     });
+
+                    setHeaderComponentsColor(mView, iconManager, batteryIcon);
                 }
             });
 
@@ -495,6 +481,34 @@ public class QSLightTheme extends ModPack {
         colorInactive = res.getColor(res.getIdentifier("android:color/system_neutral1_10", "color", listenPackage), mContext.getTheme());
 
         lightFooterShape.setTint(colorInactive);
+    }
+
+    @SuppressLint("DiscouragedApi")
+    private void setHeaderComponentsColor(View mView, Object iconManager, Object batteryIcon) {
+        if (!lightQSHeaderEnabled) return;
+
+        int textColor = getColorAttrDefaultColor(android.R.attr.textColorPrimary, mContext);
+
+        try {
+            ((TextView) mView.findViewById(mContext.getResources().getIdentifier("clock", "id", mContext.getPackageName()))).setTextColor(textColor);
+            ((TextView) mView.findViewById(mContext.getResources().getIdentifier("date", "id", mContext.getPackageName()))).setTextColor(textColor);
+        } catch (Throwable ignored) {
+        }
+
+        callMethod(iconManager, "setTint", textColor);
+
+        for (int i = 1; i <= 3; i++) {
+            String id = String.format("carrier%s", i);
+
+            try {
+                ((TextView) getObjectField(mView.findViewById(mContext.getResources().getIdentifier(id, "id", mContext.getPackageName())), "mCarrierText")).setTextColor(textColor);
+                ((ImageView) getObjectField(mView.findViewById(mContext.getResources().getIdentifier(id, "id", mContext.getPackageName())), "mMobileSignal")).setImageTintList(ColorStateList.valueOf(textColor));
+                ((ImageView) getObjectField(mView.findViewById(mContext.getResources().getIdentifier(id, "id", mContext.getPackageName())), "mMobileRoaming")).setImageTintList(ColorStateList.valueOf(textColor));
+            } catch (Throwable ignored) {
+            }
+        }
+
+        callMethod(batteryIcon, "updateColors", textColor, textColor, textColor);
     }
 
     private boolean getIsDark() {
