@@ -310,7 +310,7 @@ public class HeaderClockStyles {
                 time6.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 time6.setFormat12Hour("hh:mm");
                 time6.setFormat24Hour("HH:mm");
-                time6.setTextColor(mContext.getResources().getColor(android.R.color.white, mContext.getTheme()));
+                time6.setTextColor(SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                 time6.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * textScaling);
                 time6.setTypeface(time6.getTypeface(), Typeface.BOLD);
                 time6.setMaxLines(1);
@@ -377,7 +377,7 @@ public class HeaderClockStyles {
                 time7.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 time7.setFormat12Hour("hh.mm.");
                 time7.setFormat24Hour("HH.mm.");
-                time7.setTextColor(mContext.getResources().getColor(android.R.color.white, mContext.getTheme()));
+                time7.setTextColor(SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                 time7.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
                 time7.setTypeface(time7.getTypeface(), Typeface.BOLD);
                 time7.setMaxLines(1);
@@ -389,7 +389,7 @@ public class HeaderClockStyles {
                 second7.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 second7.setFormat12Hour("ss");
                 second7.setFormat24Hour("ss");
-                second7.setTextColor(mContext.getResources().getColor(android.R.color.white, mContext.getTheme()));
+                second7.setTextColor(SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                 second7.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20 * textScaling);
                 second7.setTypeface(second7.getTypeface(), Typeface.NORMAL);
                 second7.setMaxLines(1);
