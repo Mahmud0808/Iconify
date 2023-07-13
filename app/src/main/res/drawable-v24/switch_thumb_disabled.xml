@@ -10,7 +10,7 @@
                 android:width="@dimen/switch_thumb_size"
                 android:height="@dimen/switch_thumb_size" />
             <stroke
-                android:width="3dp"
+                android:width="@dimen/_2sdp"
                 android:color="#42FFFFFF" />
             <solid android:color="@color/transparent" />
         </shape>

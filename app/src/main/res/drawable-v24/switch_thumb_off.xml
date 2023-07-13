@@ -8,7 +8,7 @@
                 android:width="@dimen/switch_thumb_size"
                 android:height="@dimen/switch_thumb_size" />
             <stroke
-                android:width="3dp"
+                android:width="@dimen/_2sdp"
                 android:alpha="?android:attr/disabledAlpha"
                 android:color="@color/switch_thumb_off_color" />
             <solid android:color="@color/transparent" />
