@@ -120,7 +120,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     if (mQsClockContainer.getParent() != null) {
                         ((ViewGroup) mQsClockContainer.getParent()).removeView(mQsClockContainer);
                     }
-                    mQuickStatusBarHeader.addView(mQsClockContainer);
+                    mQuickStatusBarHeader.addView(mQsClockContainer, mQuickStatusBarHeader.getChildCount());
 
                     // Hide stock clock, date and carrier group
                     try {
