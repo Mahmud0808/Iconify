@@ -24,12 +24,12 @@
             android:layout_gravity="start|center"
             android:layout_marginEnd="@dimen/container_padding"
             android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/_11sdp"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="@dimen/_1sdp"
+            android:layout_height="1dp"
             android:layout_gravity="center"
             android:layout_weight="1.0" />
 

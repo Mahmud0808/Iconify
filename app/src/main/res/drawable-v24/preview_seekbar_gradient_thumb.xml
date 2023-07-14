@@ -33,7 +33,7 @@
                 android:height="12.0dip" />
             <corners android:radius="24.0dip" />
             <stroke
-                android:width="@dimen/_1sdp"
+                android:width="1dp"
                 android:color="@android:color/system_accent2_900" />
         </shape>
     </item>

@@ -145,10 +145,6 @@ dependencies {
     // Lottie Animation
     implementation 'com.airbnb.android:lottie:6.0.1'
 
-    // Scalable dp snd sp
-    implementation 'com.intuit.sdp:sdp-android:1.1.0'
-    implementation 'com.intuit.ssp:ssp-android:1.1.0'
-
     // HTML Parser
     implementation 'org.jsoup:jsoup:1.16.1'
 

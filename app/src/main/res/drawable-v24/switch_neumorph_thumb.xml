@@ -8,7 +8,7 @@
                     <size android:width="20dp" android:height="20dp" />
                 </shape>
             </item>
-            <item android:bottom="6dp" android:left="@dimen/_1sdp" android:right="6dp" android:top="6dp">
+            <item android:bottom="6dp" android:left="1dp" android:right="6dp" android:top="6dp">
                 <shape android:shape="oval">
                     <gradient android:angle="270.0" android:endColor="@color/neumorph_outline_end" android:startColor="@color/neumorph_outline_start" />
                     <size android:width="18dp" android:height="18dp" />
@@ -30,7 +30,7 @@
                     <size android:width="20dp" android:height="20dp" />
                 </shape>
             </item>
-            <item android:bottom="6dp" android:left="6dp" android:right="@dimen/_1sdp" android:top="6dp">
+            <item android:bottom="6dp" android:left="6dp" android:right="1dp" android:top="6dp">
                 <shape android:shape="oval">
                     <gradient android:angle="270.0" android:endColor="@color/neumorph_outline_end" android:startColor="@color/neumorph_outline_start" />
                     <size android:width="18dp" android:height="18dp" />

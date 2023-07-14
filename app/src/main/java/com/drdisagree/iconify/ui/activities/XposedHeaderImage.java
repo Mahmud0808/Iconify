@@ -32,6 +32,20 @@ import com.drdisagree.iconify.utils.SystemUtil;
 public class XposedHeaderImage extends BaseActivity {
 
     private Button enable_header_image;
+    ActivityResultLauncher<Intent> startActivityIntent = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    String path = getRealPath(data);
+
+                    if (path != null && copyToIconifyHiddenDir(path, HEADER_IMAGE_DIR)) {
+                        enable_header_image.setVisibility(View.VISIBLE);
+                    } else {
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -137,19 +151,4 @@ public class XposedHeaderImage extends BaseActivity {
         chooseFile.setType("image/*");
         startActivityIntent.launch(chooseFile);
     }
-
-    ActivityResultLauncher<Intent> startActivityIntent = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    Intent data = result.getData();
-                    String path = getRealPath(data);
-
-                    if (path != null && copyToIconifyHiddenDir(path, HEADER_IMAGE_DIR)) {
-                        enable_header_image.setVisibility(View.VISIBLE);
-                    } else {
-                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
 }

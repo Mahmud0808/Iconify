@@ -145,26 +145,7 @@ public class ColorEngine extends BaseFragment {
                 BasicColors.applySecondaryColors();
             }
         }
-    }    CompoundButton.OnCheckedChangeListener monetAccentListener = new CompoundButton.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if (isChecked) {
-                ((Switch) view.findViewById(R.id.apply_monet_gradient)).setOnCheckedChangeListener(null);
-                ((Switch) view.findViewById(R.id.apply_monet_gradient)).setChecked(false);
-                ((Switch) view.findViewById(R.id.apply_monet_gradient)).setOnCheckedChangeListener(monetGradientListener);
-            }
-
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                if (isChecked) {
-                    disableMonetGradient();
-                    enableMonetAccent();
-                } else {
-                    disableMonetAccent();
-                    applyDefaultColors();
-                }
-            }, SWITCH_ANIMATION_DELAY);
-        }
-    };
+    }
 
     private void initializeMinimalQsListener() {
         minimalQsListener = (buttonView, isChecked) -> {
@@ -186,7 +167,30 @@ public class ColorEngine extends BaseFragment {
                 }
             }, SWITCH_ANIMATION_DELAY);
         };
-    }    CompoundButton.OnCheckedChangeListener monetGradientListener = (buttonView, isChecked) -> {
+    }    CompoundButton.OnCheckedChangeListener monetAccentListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (isChecked) {
+                ((Switch) view.findViewById(R.id.apply_monet_gradient)).setOnCheckedChangeListener(null);
+                ((Switch) view.findViewById(R.id.apply_monet_gradient)).setChecked(false);
+                ((Switch) view.findViewById(R.id.apply_monet_gradient)).setOnCheckedChangeListener(monetGradientListener);
+            }
+
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                if (isChecked) {
+                    disableMonetGradient();
+                    enableMonetAccent();
+                } else {
+                    disableMonetAccent();
+                    applyDefaultColors();
+                }
+            }, SWITCH_ANIMATION_DELAY);
+        }
+    };
+
+
+
+    CompoundButton.OnCheckedChangeListener monetGradientListener = (buttonView, isChecked) -> {
         if (isChecked) {
             ((Switch) view.findViewById(R.id.apply_monet_accent)).setOnCheckedChangeListener(null);
             ((Switch) view.findViewById(R.id.apply_monet_accent)).setChecked(false);
@@ -203,7 +207,6 @@ public class ColorEngine extends BaseFragment {
             }
         }, SWITCH_ANIMATION_DELAY);
     };
-
 
 
     CompoundButton.OnCheckedChangeListener pitchBlackDarkListener = new CompoundButton.OnCheckedChangeListener() {

@@ -106,10 +106,10 @@
 
                 <View
                     android:id="@+id/preview_color_picker_primary"
-                    android:layout_width="@dimen/_36sdp"
-                    android:layout_height="@dimen/_36sdp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="start|center"
-                    android:layout_margin="@dimen/_2sdp"
+                    android:layout_margin="3dp"
                     android:background="@drawable/preview_color_picker_primary"
                     android:contentDescription="@string/color_picker_preview" />
 
@@ -157,10 +157,10 @@
 
                 <View
                     android:id="@+id/preview_color_picker_secondary"
-                    android:layout_width="@dimen/_36sdp"
-                    android:layout_height="@dimen/_36sdp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="start|center"
-                    android:layout_margin="@dimen/_2sdp"
+                    android:layout_margin="3dp"
                     android:background="@drawable/preview_color_picker_secondary"
                     android:contentDescription="@string/color_picker_preview" />
 
@@ -214,7 +214,7 @@
                 </RadioGroup>
 
                 <View
-                    android:layout_width="@dimen/_6sdp"
+                    android:layout_width="8dp"
                     android:layout_height="match_parent" />
 
                 <RadioGroup

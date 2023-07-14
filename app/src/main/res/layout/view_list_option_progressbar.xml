@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|top"
-        android:layout_marginBottom="@dimen/_12sdp"
+        android:layout_marginBottom="16dp"
         android:textColor="@color/textColorPrimary"
         android:textSize="@dimen/cont_title_size"
         android:textStyle="bold"
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:background="@drawable/preview_seekbar_default"
-        android:minHeight="@dimen/_22sdp"
+        android:minHeight="30dp"
         tools:ignore="ContentDescription" />
 
     <Button

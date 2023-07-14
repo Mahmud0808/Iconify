@@ -58,6 +58,20 @@ public class XposedLockscreenClock extends BaseActivity implements ColorPickerDi
     private static int colorLockscreenClock;
     ColorPickerDialog.Builder colorPickerDialogLockscreenClock;
     private Button enable_lsclock_font;
+    ActivityResultLauncher<Intent> startActivityIntent = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    String path = getRealPath(data);
+
+                    if (path != null && copyToIconifyHiddenDir(path, LSCLOCK_FONT_DIR)) {
+                        enable_lsclock_font.setVisibility(View.VISIBLE);
+                    } else {
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -261,21 +275,6 @@ public class XposedLockscreenClock extends BaseActivity implements ColorPickerDi
         startActivityIntent.launch(chooseFile);
     }
 
-    ActivityResultLauncher<Intent> startActivityIntent = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    Intent data = result.getData();
-                    String path = getRealPath(data);
-
-                    if (path != null && copyToIconifyHiddenDir(path, LSCLOCK_FONT_DIR)) {
-                        enable_lsclock_font.setVisibility(View.VISIBLE);
-                    } else {
-                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-
     @Override
     public void onColorSelected(int dialogId, int color) {
         if (dialogId == 1) {
@@ -295,7 +294,7 @@ public class XposedLockscreenClock extends BaseActivity implements ColorPickerDi
         GradientDrawable gd;
 
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{colorLockscreenClock, colorLockscreenClock});
-        gd.setCornerRadius(getResources().getDimension(com.intuit.sdp.R.dimen._24sdp) * getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * getResources().getDisplayMetrics().density);
         preview_color_picker_clocktext.setBackground(gd);
     }
 }

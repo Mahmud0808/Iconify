@@ -12,16 +12,16 @@
         android:layout_gravity="center"
         android:background="@drawable/container"
         android:orientation="horizontal"
-        android:paddingStart="@dimen/_14sdp"
-        android:paddingTop="@dimen/_10sdp"
-        android:paddingEnd="@dimen/_14sdp"
-        android:paddingBottom="@dimen/_10sdp">
+        android:paddingStart="20dp"
+        android:paddingTop="14dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="14dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/_1sdp"
+            android:layout_marginBottom="1dp"
             android:text="@string/toast_message"
             android:textColor="@color/textColorPrimary"
             android:textSize="@dimen/cont_desc_size"
@@ -34,11 +34,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginTop="6dp"
         android:background="@drawable/container"
-        android:paddingStart="@dimen/_8sdp"
-        android:paddingEnd="@dimen/_8sdp"
-        android:paddingBottom="@dimen/_2sdp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="3dp"
         android:textColor="@color/textColorSecondary"
         android:textSize="@dimen/cont_desc_size"
         android:textStyle="bold" />

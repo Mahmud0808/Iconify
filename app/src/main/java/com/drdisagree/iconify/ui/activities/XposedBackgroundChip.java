@@ -243,7 +243,7 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
         GradientDrawable gd;
 
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{colorStatusbarClock, colorStatusbarClock});
-        gd.setCornerRadius(getResources().getDimension(com.intuit.sdp.R.dimen._24sdp) * getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * getResources().getDisplayMetrics().density);
         preview_color_picker_clocktext.setBackground(gd);
     }
 }

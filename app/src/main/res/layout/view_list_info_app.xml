@@ -10,11 +10,11 @@
     android:paddingBottom="@dimen/container_padding">
 
     <FrameLayout
-        android:layout_width="@dimen/_56sdp"
-        android:layout_height="@dimen/_56sdp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_gravity="center"
         android:background="@drawable/ic_launcher_bg2"
-        android:padding="@dimen/_6sdp">
+        android:padding="8dp">
 
         <ImageView
             android:layout_width="match_parent"
@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginTop="6dp"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -38,7 +38,7 @@
             android:text="@string/derived_app_name"
             android:textAlignment="center"
             android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/_15sdp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -47,7 +47,7 @@
             android:text="@string/iconify_slogan"
             android:textAlignment="center"
             android:textColor="@color/textColorSecondary"
-            android:textSize="@dimen/_12sdp" />
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -55,7 +55,7 @@
             android:text="@string/created_by_drdisagree"
             android:textAlignment="center"
             android:textColor="@color/textColorSecondary"
-            android:textSize="@dimen/_11sdp" />
+            android:textSize="15sp" />
 
     </LinearLayout>
 </LinearLayout>

@@ -6,7 +6,7 @@
             <solid android:color="@color/colorContainer" />
             <corners android:radius="@dimen/cont_corner_radius2" />
             <stroke
-                android:width="@dimen/_1sdp"
+                android:width="1dp"
                 android:color="@color/colorAccent" />
         </shape>
     </item>
@@ -15,7 +15,7 @@
             <solid android:color="@color/colorContainerOverlay" />
             <corners android:radius="@dimen/cont_corner_radius2" />
             <stroke
-                android:width="@dimen/_1sdp"
+                android:width="1dp"
                 android:color="@color/colorAccent" />
         </shape>
     </item>

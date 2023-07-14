@@ -188,7 +188,7 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
         View preview_color_picker_primary = findViewById(R.id.preview_color_picker_primary);
         GradientDrawable gd;
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentPrimary)});
-        gd.setCornerRadius(getResources().getDimension(com.intuit.sdp.R.dimen._24sdp) * getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * getResources().getDisplayMetrics().density);
         preview_color_picker_primary.setBackground(gd);
 
         View color_preview_large = findViewById(R.id.color_preview_large);
@@ -201,7 +201,7 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
         View preview_color_picker_secondary = findViewById(R.id.preview_color_picker_secondary);
         GradientDrawable gd;
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentSecondary), Integer.parseInt(accentSecondary)});
-        gd.setCornerRadius(getResources().getDimension(com.intuit.sdp.R.dimen._24sdp) * getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * getResources().getDisplayMetrics().density);
         preview_color_picker_secondary.setBackground(gd);
 
         View color_preview_large = findViewById(R.id.color_preview_large);

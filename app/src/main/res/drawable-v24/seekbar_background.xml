@@ -4,6 +4,6 @@
     android:shape="rectangle"
     android:tint="@color/seekbar_track_tint">
     <solid android:color="@color/seekbar_track_color" />
-    <size android:height="@dimen/_16sdp" />
-    <corners android:radius="@dimen/_8sdp" />
+    <size android:height="24dp" />
+    <corners android:radius="12dp" />
 </shape>

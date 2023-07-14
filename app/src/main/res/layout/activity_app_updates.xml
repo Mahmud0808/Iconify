@@ -79,16 +79,16 @@
                         android:orientation="horizontal">
 
                         <FrameLayout
-                            android:layout_width="@dimen/_40sdp"
-                            android:layout_height="@dimen/_40sdp"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
                             android:layout_gravity="start|center"
                             android:layout_marginEnd="@dimen/container_padding"
                             android:background="@drawable/menu_icon_bg">
 
                             <ImageView
                                 android:id="@+id/list_preview"
-                                android:layout_width="@dimen/_20sdp"
-                                android:layout_height="@dimen/_20sdp"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
                                 android:layout_gravity="center"
                                 android:background="@drawable/ic_update"
                                 android:backgroundTint="@color/textColorPrimary"
@@ -146,9 +146,9 @@
                         android:layout_marginTop="@dimen/container_padding"
                         android:letterSpacing="0"
                         android:paddingStart="24dp"
-                        android:paddingTop="@dimen/_4sdp"
+                        android:paddingTop="6dp"
                         android:paddingEnd="24dp"
-                        android:paddingBottom="@dimen/_6sdp"
+                        android:paddingBottom="8dp"
                         android:text="@string/btn_download"
                         android:visibility="gone" />
 
@@ -177,8 +177,8 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_20sdp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_marginEnd="@dimen/container_paddingSide"
                         android:background="@drawable/ic_changelog"
                         android:backgroundTint="@color/textColorPrimary"

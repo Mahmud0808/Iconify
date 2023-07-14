@@ -7,7 +7,7 @@
                     android:shape="rectangle"
                     android:tint="@color/colorBackground">
                     <solid android:color="#99FFFFFF" />
-                    <corners android:radius="@dimen/_12sdp" />
+                    <corners android:radius="16dp" />
                 </shape>
             </item>
         </layer-list>

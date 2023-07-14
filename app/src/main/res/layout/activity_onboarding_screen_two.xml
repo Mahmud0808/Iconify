@@ -18,10 +18,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingStart="@dimen/_14sdp"
-            android:paddingTop="@dimen/_20sdp"
-            android:paddingEnd="@dimen/_14sdp"
-            android:paddingBottom="@dimen/_20sdp">
+            android:paddingStart="20dp"
+            android:paddingTop="28dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="28dp">
 
             <Button
                 android:id="@+id/btn_skip"
@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center"
                 android:layout_marginTop="@dimen/container_margin"
-                android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_marginEnd="28dp"
                 android:background="@color/transparent"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
@@ -38,7 +38,7 @@
                 android:text="@string/btn_skip"
                 android:textAllCaps="false"
                 android:textColor="@color/textColorSecondary"
-                android:textSize="@dimen/_14sdp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:fontFamily="@font/regular" />
 
@@ -47,14 +47,14 @@
                 android:layout_height="0dp"
                 android:layout_weight="0.5"
                 android:gravity="center"
-                android:padding="@dimen/_10sdp">
+                android:padding="14dp">
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/welcome_anim"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    android:layout_marginBottom="@dimen/_16sdp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="24dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
                     app:lottie_autoPlay="true"
@@ -67,9 +67,9 @@
                 android:layout_height="0dp"
                 android:layout_weight="0.5"
                 android:orientation="vertical"
-                android:paddingStart="@dimen/_20sdp"
-                android:paddingEnd="@dimen/_20sdp"
-                android:paddingBottom="@dimen/_20sdp">
+                android:paddingStart="28dp"
+                android:paddingEnd="28dp"
+                android:paddingBottom="28dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -84,29 +84,31 @@
 
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_76sdp"
-                            android:layout_marginTop="@dimen/_14sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
                             android:lineSpacingMultiplier="1"
+                            android:maxHeight="100dp"
                             android:text="@string/landing_page_two_title"
                             android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/_30sdp"
+                            android:textSize="42sp"
                             android:textStyle="bold"
-                            app:autoSizeStepGranularity="@dimen/_1sdp"
+                            app:autoSizeStepGranularity="1sp"
                             app:autoSizeTextType="uniform"
                             app:fontFamily="@font/regular" />
 
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_44sdp"
-                            android:layout_marginTop="@dimen/_8sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
                             android:letterSpacing="0.02"
-                            android:lineHeight="@dimen/_18sdp"
+                            android:lineHeight="26dp"
                             android:lineSpacingMultiplier="1"
+                            android:maxHeight="60dp"
                             android:text="@string/landing_page_two_desc"
                             android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/_14sdp"
+                            android:textSize="20sp"
                             android:textStyle="bold"
-                            app:autoSizeStepGranularity="@dimen/_1sdp"
+                            app:autoSizeStepGranularity="1sp"
                             app:autoSizeTextType="uniform"
                             app:fontFamily="@font/regular" />
 
@@ -114,7 +116,7 @@
 
                     <View
                         android:layout_width="0dp"
-                        android:layout_height="@dimen/_1sdp"
+                        android:layout_height="1dp"
                         android:layout_weight="0.1" />
 
                 </LinearLayout>
@@ -139,17 +141,20 @@
                         android:minWidth="0dp"
                         android:minHeight="0dp"
                         android:padding="0dp"
+                        android:singleLine="true"
                         android:stateListAnimator="@null"
                         android:text="@string/btn_back"
                         android:textAllCaps="false"
                         android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/_14sdp"
+                        android:textSize="20sp"
                         android:textStyle="bold"
+                        app:autoSizeStepGranularity="1sp"
+                        app:autoSizeTextType="uniform"
                         app:fontFamily="@font/regular" />
 
                     <View
                         android:layout_width="0dp"
-                        android:layout_height="@dimen/_1sdp"
+                        android:layout_height="1dp"
                         android:layout_weight="1.0"
                         tools:ignore="NestedWeights" />
 
@@ -161,10 +166,13 @@
                         android:layout_gravity="end|center"
                         android:background="@drawable/button_landing_page_two"
                         android:letterSpacing="0.1"
-                        android:paddingTop="@dimen/_10sdp"
-                        android:paddingBottom="@dimen/_12sdp"
+                        android:paddingTop="14dp"
+                        android:paddingBottom="16dp"
+                        android:singleLine="true"
                         android:text="@string/btn_next"
-                        android:textSize="@dimen/_14sdp"
+                        android:textSize="20sp"
+                        app:autoSizeStepGranularity="1sp"
+                        app:autoSizeTextType="uniform"
                         app:fontFamily="@font/bold" />
 
                 </LinearLayout>

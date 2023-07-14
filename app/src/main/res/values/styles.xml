@@ -66,7 +66,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">2dp</item>
         <item name="android:background">@drawable/divider_accent</item>
-        <item name="android:layout_marginTop">@dimen/_10sdp</item>
+        <item name="android:layout_marginTop">14dp</item>
         <item name="android:layout_marginBottom">@dimen/container_paddingSide</item>
     </style>
 
@@ -80,8 +80,8 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">start|center</item>
-        <item name="android:switchMinWidth">@dimen/_32sdp</item>
-        <item name="android:minHeight">@dimen/_14sdp</item>
+        <item name="android:switchMinWidth">44dp</item>
+        <item name="android:minHeight">20dp</item>
         <item name="android:track">@drawable/switch_track</item>
         <item name="android:thumb">@drawable/switch_thumb</item>
     </style>
@@ -91,12 +91,12 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minHeight">0dp</item>
         <item name="android:minWidth">0dp</item>
-        <item name="android:paddingTop">@dimen/_8sdp</item>
-        <item name="android:paddingBottom">@dimen/_10sdp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">14dp</item>
         <item name="android:paddingStart">@dimen/container_paddingSide</item>
         <item name="android:paddingEnd">@dimen/container_paddingSide</item>
-        <item name="android:layout_marginTop">@dimen/_4sdp</item>
-        <item name="android:layout_marginBottom">@dimen/_4sdp</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:layout_marginBottom">6dp</item>
         <item name="android:button">@null</item>
         <item name="android:background">@drawable/radio_sb_button_bg</item>
         <item name="android:textColor">@drawable/radio_sb_text_color</item>
@@ -109,10 +109,10 @@
         <item name="android:textColor">@color/textColorPrimaryInverse</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:gravity">center</item>
-        <item name="android:paddingStart">@dimen/_28sdp</item>
-        <item name="android:paddingTop">@dimen/_6sdp</item>
-        <item name="android:paddingEnd">@dimen/_28sdp</item>
-        <item name="android:paddingBottom">@dimen/_6sdp</item>
+        <item name="android:paddingStart">40dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingEnd">40dp</item>
+        <item name="android:paddingBottom">8dp</item>
         <item name="android:stateListAnimator">@null</item>
         <item name="backgroundTint">@null</item>
     </style>
@@ -123,13 +123,13 @@
         <item name="android:letterSpacing">0.18</item>
         <item name="android:textColor">@color/textColorPrimaryInverse</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:textSize">@dimen/_12sdp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">center</item>
-        <item name="android:paddingStart">@dimen/_28sdp</item>
-        <item name="android:paddingTop">@dimen/_6sdp</item>
-        <item name="android:paddingEnd">@dimen/_28sdp</item>
-        <item name="android:paddingBottom">@dimen/_9sdp</item>
+        <item name="android:paddingStart">40dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingEnd">40dp</item>
+        <item name="android:paddingBottom">12dp</item>
         <item name="android:stateListAnimator">@null</item>
         <item name="android:minHeight">0dp</item>
         <item name="android:minWidth">0dp</item>
@@ -138,21 +138,21 @@
 
     <style name="Toolbar.TitleText" parent="TextAppearance.Material3.ActionBar.Title">
         <item name="fontFamily">@font/header</item>
-        <item name="android:textSize">@dimen/_24sdp</item>
+        <item name="android:textSize">34sp</item>
         <item name="android:letterSpacing">0.1</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Toolbar.TitleText.Collapsed" parent="TextAppearance.Material3.ActionBar.Title">
         <item name="fontFamily">@font/header</item>
-        <item name="android:textSize">@dimen/_15sdp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:letterSpacing">0.1</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Toolbar.TitleText.Expanded" parent="TextAppearance.Material3.ActionBar.Title">
         <item name="fontFamily">@font/header</item>
-        <item name="android:textSize">@dimen/_24sdp</item>
+        <item name="android:textSize">34sp</item>
         <item name="android:letterSpacing">0.1</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -170,27 +170,27 @@
         <item name="itemActiveIndicatorStyle">
             @style/BottomNavigationView.ActiveIndicator
         </item>
-        <item name="android:height">@dimen/_60sdp</item>
-        <item name="android:minHeight">@dimen/_60sdp</item>
-        <item name="itemIconSize">@dimen/_16sdp</item>
+        <item name="android:height">84dp</item>
+        <item name="android:minHeight">84dp</item>
+        <item name="itemIconSize">24dp</item>
         <item name="android:textSize">@dimen/cont_desc_size</item>
-        <item name="itemPaddingTop">@dimen/_8sdp</item>
-        <item name="itemPaddingBottom">@dimen/_12sdp</item>
+        <item name="itemPaddingTop">12dp</item>
+        <item name="itemPaddingBottom">18dp</item>
         <item name="itemTextAppearanceInactive">@style/TextAppearanceLabelMedium</item>
         <item name="itemTextAppearanceActive">@style/TextAppearanceLabelMedium</item>
     </style>
 
     <style name="BottomNavigationView.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">@color/navbarSelectedBackground</item>
-        <item name="marginHorizontal">@dimen/_4sdp</item>
-        <item name="android:width">@dimen/_52sdp</item>
-        <item name="android:height">@dimen/_26sdp</item>
+        <item name="marginHorizontal">6dp</item>
+        <item name="android:width">72dp</item>
+        <item name="android:height">36dp</item>
     </style>
 
     <style name="TextAppearanceLabelMedium" parent="@style/TextAppearance.Material3.LabelMedium">
         <item name="android:fontFamily">@font/normal</item>
         <item name="android:textSize">@dimen/cont_desc_size</item>
-        <item name="android:lineHeight">@dimen/_14sdp</item>
+        <item name="android:lineHeight">20sp</item>
     </style>
 
     <style name="radioButtonStyle">
@@ -198,14 +198,14 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minHeight">0dp</item>
         <item name="android:minWidth">0dp</item>
-        <item name="android:layout_marginTop">@dimen/_4sdp</item>
-        <item name="android:layout_marginBottom">@dimen/_4sdp</item>
-        <item name="android:paddingStart">@dimen/_8sdp</item>
-        <item name="android:paddingEnd">@dimen/_8sdp</item>
-        <item name="android:paddingBottom">@dimen/_3sdp</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:layout_marginBottom">6dp</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingBottom">4dp</item>
         <item name="android:buttonTint">@color/color_radio_button_circle</item>
         <item name="android:textColor">@color/textColorPrimary</item>
-        <item name="android:textSize">@dimen/_11sdp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:drawableRight">@null</item>
     </style>
 </resources>

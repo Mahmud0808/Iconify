@@ -25,8 +25,8 @@
             android:id="@+id/volume_style_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_6sdp"
-            android:layout_marginBottom="@dimen/_1sdp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="1dp"
             android:text="@string/volume_style"
             android:textColor="@color/textColorPrimary"
             android:textSize="@dimen/cont_title_size"
@@ -34,9 +34,9 @@
 
         <ImageView
             android:id="@+id/volume_style_info"
-            android:layout_width="@dimen/_18sdp"
-            android:layout_height="@dimen/_18sdp"
-            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="3dp"
             android:contentDescription="@string/icon"
             android:src="@drawable/ic_info"
             app:tint="@color/textColorPrimary" />
@@ -46,7 +46,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_2sdp"
+        android:layout_marginTop="3dp"
         android:justificationMode="inter_word"
         android:text="@string/volume_module_desc"
         android:textColor="@color/textColorSecondary"
@@ -55,7 +55,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_6sdp"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal">
 
         <RadioGroup
@@ -91,7 +91,7 @@
         </RadioGroup>
 
         <View
-            android:layout_width="@dimen/_6sdp"
+            android:layout_width="8dp"
             android:layout_height="match_parent" />
 
         <RadioGroup
@@ -132,7 +132,7 @@
         style="@style/buttonMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginTop="12dp"
         android:text="@string/btn_create_module" />
 
 </LinearLayout>

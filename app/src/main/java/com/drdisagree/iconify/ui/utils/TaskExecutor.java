@@ -12,19 +12,9 @@ public abstract class TaskExecutor<Params, Progress, Result> {
 
     private final Handler mHandler;
     private final Executor mExecutor;
-    private volatile Status mStatus;
     private final AtomicBoolean mCancelled;
     private final CountDownLatch preExecuteLatch;
-
-    public enum Status {
-        PENDING,
-        RUNNING,
-        FINISHED,
-    }
-
-    public final Status getStatus() {
-        return mStatus;
-    }
+    private volatile Status mStatus;
 
     public TaskExecutor() {
         mExecutor = Executors.newSingleThreadExecutor();
@@ -32,6 +22,10 @@ public abstract class TaskExecutor<Params, Progress, Result> {
         mStatus = Status.PENDING;
         mCancelled = new AtomicBoolean(false);
         preExecuteLatch = new CountDownLatch(1);
+    }
+
+    public final Status getStatus() {
+        return mStatus;
     }
 
     @SafeVarargs
@@ -123,5 +117,11 @@ public abstract class TaskExecutor<Params, Progress, Result> {
         if (mayInterruptIfRunning) {
             mHandler.removeCallbacksAndMessages(null);
         }
+    }
+
+    public enum Status {
+        PENDING,
+        RUNNING,
+        FINISHED,
     }
 }

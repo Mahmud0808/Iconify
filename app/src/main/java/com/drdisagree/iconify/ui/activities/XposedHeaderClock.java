@@ -58,6 +58,20 @@ public class XposedHeaderClock extends BaseActivity implements ColorPickerDialog
     private static int colorHeaderClock;
     ColorPickerDialog.Builder colorPickerDialogHeaderClock;
     private Button enable_header_clock_font;
+    ActivityResultLauncher<Intent> startActivityIntent = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    String path = getRealPath(data);
+
+                    if (path != null && copyToIconifyHiddenDir(path, HEADER_CLOCK_FONT_DIR)) {
+                        enable_header_clock_font.setVisibility(View.VISIBLE);
+                    } else {
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -243,21 +257,6 @@ public class XposedHeaderClock extends BaseActivity implements ColorPickerDialog
         startActivityIntent.launch(chooseFile);
     }
 
-    ActivityResultLauncher<Intent> startActivityIntent = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    Intent data = result.getData();
-                    String path = getRealPath(data);
-
-                    if (path != null && copyToIconifyHiddenDir(path, HEADER_CLOCK_FONT_DIR)) {
-                        enable_header_clock_font.setVisibility(View.VISIBLE);
-                    } else {
-                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-
     @Override
     public void onColorSelected(int dialogId, int color) {
         if (dialogId == 1) {
@@ -277,7 +276,7 @@ public class XposedHeaderClock extends BaseActivity implements ColorPickerDialog
         GradientDrawable gd;
 
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{colorHeaderClock, colorHeaderClock});
-        gd.setCornerRadius(getResources().getDimension(com.intuit.sdp.R.dimen._24sdp) * getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * getResources().getDisplayMetrics().density);
         preview_color_picker_clocktext.setBackground(gd);
     }
 }

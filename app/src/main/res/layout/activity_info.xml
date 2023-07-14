@@ -24,7 +24,7 @@
             android:clipToPadding="false"
             android:orientation="vertical"
             android:paddingTop="@dimen/content_marginTop"
-            android:paddingBottom="@dimen/_28sdp"
+            android:paddingBottom="40dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </androidx.core.widget.NestedScrollView>
