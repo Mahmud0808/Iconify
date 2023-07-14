@@ -56,7 +56,6 @@ import com.drdisagree.iconify.xposed.HookEntry;
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.utils.Helpers;
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils;
-import com.drdisagree.iconify.xposed.utils.SystemUtil;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -117,6 +116,9 @@ public class QSBlackTheme extends ModPack {
         Class<?> CentralSurfacesImplClass = findClass("com.android.systemui.statusbar.phone.CentralSurfacesImpl", lpparam.classLoader);
         Class<?> ClockClass = findClass("com.android.systemui.statusbar.policy.Clock", lpparam.classLoader);
         Class<?> QuickStatusBarHeaderClass = findClass("com.android.systemui.qs.QuickStatusBarHeader", lpparam.classLoader);
+        Class<?> BrightnessControllerClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessController", lpparam.classLoader);
+        Class<?> BrightnessMirrorControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.BrightnessMirrorController", lpparam.classLoader);
+        Class<?> BrightnessSliderControllerClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessSliderController", lpparam.classLoader);
         SettingsLibUtils.init(lpparam.classLoader);
 
         hookAllConstructors(QSPanelControllerClass, new XC_MethodHook() {
@@ -196,30 +198,98 @@ public class QSBlackTheme extends ModPack {
                 @SuppressLint("DiscouragedApi")
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    if (!wasDark && blackQSHeaderEnabled) {
-                        Resources res = mContext.getResources();
-                        ViewGroup view = (ViewGroup) param.thisObject;
+                    if (!blackQSHeaderEnabled) return;
 
-                        View settings_button_container = view.findViewById(res.getIdentifier("settings_button_container", "id", mContext.getPackageName()));
-                        ImageView icon = settings_button_container.findViewById(res.getIdentifier("icon", "id", mContext.getPackageName()));
-                        icon.setImageTintList(ColorStateList.valueOf(Color.WHITE));
+                    Resources res = mContext.getResources();
+                    ViewGroup view = (ViewGroup) param.thisObject;
 
-                        ((FrameLayout.LayoutParams) ((ViewGroup) settings_button_container.getParent()).getLayoutParams()).setMarginEnd(0);
+                    View settings_button_container = view.findViewById(res.getIdentifier("settings_button_container", "id", mContext.getPackageName()));
+                    ImageView icon = settings_button_container.findViewById(res.getIdentifier("icon", "id", mContext.getPackageName()));
+                    icon.setImageTintList(ColorStateList.valueOf(Color.WHITE));
 
-                        ViewGroup parent = (ViewGroup) settings_button_container.getParent();
-                        for (int i = 0; i < 3; i++) //Security + Foreground services containers
-                        {
-                            parent.getChildAt(i).setBackground(darkFooterShape.getConstantState().newDrawable().mutate());
-                        }
+                    ((FrameLayout.LayoutParams) ((ViewGroup) settings_button_container.getParent()).getLayoutParams()).setMarginEnd(0);
+
+                    ViewGroup parent = (ViewGroup) settings_button_container.getParent();
+                    for (int i = 0; i < 3; i++) //Security + Foreground services containers
+                    {
+                        parent.getChildAt(i).setBackground(darkFooterShape.getConstantState().newDrawable().mutate());
                     }
                 }
             });
         }
 
+        // QS tile primary label color
+        hookAllMethods(QSTileViewImplClass, "getLabelColorForState", new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) {
+                if (!blackQSHeaderEnabled) return;
+
+                if ((int) param.args[0] == STATE_ACTIVE) {
+                    param.setResult(colorText);
+                }
+            }
+        });
+
+        // QS tile secondary label color
+        hookAllMethods(QSTileViewImplClass, "getSecondaryLabelColorForState", new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) {
+                if (!blackQSHeaderEnabled) return;
+
+                if ((int) param.args[0] == STATE_ACTIVE) {
+                    param.setResult(colorText);
+                }
+            }
+        });
+
+        // Auto Brightness Icon Color
+        hookAllMethods(BrightnessControllerClass, "updateIcon", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                if (!blackQSHeaderEnabled) return;
+
+                try {
+                    ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(colorText));
+                } catch (Throwable throwable) {
+                    log(TAG + throwable);
+                }
+            }
+        });
+
+        hookAllConstructors(BrightnessSliderControllerClass, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                if (!blackQSHeaderEnabled) return;
+
+                try {
+                    ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(colorText));
+                } catch (Throwable throwable) {
+                    try {
+                        ((ImageView) getObjectField(param.thisObject, "mIconView")).setImageTintList(ColorStateList.valueOf(colorText));
+                    } catch (Throwable throwable1) {
+                        log(TAG + throwable1);
+                    }
+                }
+            }
+        });
+
+        hookAllMethods(BrightnessMirrorControllerClass, "updateIcon", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                if (!blackQSHeaderEnabled) return;
+
+                try {
+                    ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(colorText));
+                } catch (Throwable throwable) {
+                    log(TAG + throwable);
+                }
+            }
+        });
+
         hookAllMethods(QSIconViewImplClass, "updateIcon", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                if (blackQSHeaderEnabled && !getIsDark() && getIntField(param.args[1], "state") == STATE_ACTIVE) {
+                if (blackQSHeaderEnabled && getIntField(param.args[1], "state") == STATE_ACTIVE) {
                     ((ImageView) param.args[0]).setImageTintList(ColorStateList.valueOf(colorText));
                 }
             }
@@ -228,7 +298,7 @@ public class QSBlackTheme extends ModPack {
         hookAllMethods(QSIconViewImplClass, "setIcon", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                if (blackQSHeaderEnabled && !getIsDark()) {
+                if (blackQSHeaderEnabled) {
                     if (param.args[0] instanceof ImageView && getIntField(param.args[1], "state") == STATE_ACTIVE) {
                         setObjectField(param.thisObject, "mTint", colorText);
                     }
@@ -251,7 +321,7 @@ public class QSBlackTheme extends ModPack {
         hookAllMethods(ClockClass, "onColorsChanged", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                if (blackQSHeaderEnabled && !SystemUtil.isDarkMode() && mClockViewQSHeader != null) {
+                if (blackQSHeaderEnabled && mClockViewQSHeader != null) {
                     ((TextView) mClockViewQSHeader).setTextColor(Color.WHITE);
                 }
             }
@@ -268,24 +338,24 @@ public class QSBlackTheme extends ModPack {
             @Override
             @SuppressLint("DiscouragedApi")
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                if (!blackQSHeaderEnabled || wasDark) return;
+                if (!blackQSHeaderEnabled) return;
 
-                setObjectField(param.thisObject, "colorLabelActive", Color.WHITE);
-                setObjectField(param.thisObject, "colorSecondaryLabelActive", Color.WHITE);
+                setObjectField(param.thisObject, "colorLabelActive", colorText);
+                setObjectField(param.thisObject, "colorSecondaryLabelActive", colorText);
 
                 ViewGroup sideView = (ViewGroup) getObjectField(param.thisObject, "sideView");
                 ImageView customDrawable = sideView.findViewById(mContext.getResources().getIdentifier("customDrawable", "id", mContext.getPackageName()));
-                customDrawable.setImageTintList(ColorStateList.valueOf(Color.WHITE));
+                customDrawable.setImageTintList(ColorStateList.valueOf(colorText));
                 ImageView chevron = sideView.findViewById(mContext.getResources().getIdentifier("chevron", "id", mContext.getPackageName()));
-                chevron.setImageTintList(ColorStateList.valueOf(Color.WHITE));
+                chevron.setImageTintList(ColorStateList.valueOf(colorText));
             }
         });
 
         hookAllMethods(QSIconViewImplClass, "getIconColorForState", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                if (!wasDark && blackQSHeaderEnabled && ((boolean) param.args[1])) {
-                    param.setResult(Color.WHITE);
+                if (blackQSHeaderEnabled && ((boolean) param.args[1])) {
+                    param.setResult(colorText);
                 }
             }
         });
@@ -468,13 +538,13 @@ public class QSBlackTheme extends ModPack {
 
     @SuppressLint("DiscouragedApi")
     private void calculateColors() {
-        if (!blackQSHeaderEnabled || wasDark) return;
-
         Resources res = mContext.getResources();
-        colorText = res.getColor(res.getIdentifier("android:color/system_neutral1_10", "color", listenPackage), mContext.getTheme());
+        colorText = res.getColor(res.getIdentifier("android:color/system_neutral1_900", "color", listenPackage), mContext.getTheme());
         int colorInactive = res.getColor(res.getIdentifier("android:color/system_neutral1_900", "color", listenPackage), mContext.getTheme());
 
-        darkFooterShape.setTint(colorInactive);
+        if (!wasDark) {
+            darkFooterShape.setTint(colorInactive);
+        }
     }
 
     @SuppressLint("DiscouragedApi")
