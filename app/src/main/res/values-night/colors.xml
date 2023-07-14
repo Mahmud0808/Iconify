@@ -9,6 +9,7 @@
     <color name="colorBackground">@android:color/system_neutral2_900</color>
     <color name="colorContainer">@android:color/system_neutral2_900</color>
     <color name="colorContainerOverlay">@color/color_container_overlay_dark</color>
+    <color name="colorAppbarOverlay">@color/color_appbar_overlay_dark</color>
     <color name="colorNavbarOverlay">@color/color_navbar_overlay_dark</color>
     <color name="textColorPrimary">#FFFFFFFF</color>
     <color name="textColorPrimaryInverse">#FF000000</color>

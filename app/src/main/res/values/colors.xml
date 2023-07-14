@@ -16,6 +16,7 @@
     <color name="colorBackground">@android:color/system_neutral2_50</color>
     <color name="colorContainer">@android:color/system_neutral2_50</color>
     <color name="colorContainerOverlay">@color/color_container_overlay_light</color>
+    <color name="colorAppbarOverlay">@color/color_appbar_overlay_light</color>
     <color name="colorNavbarOverlay">@color/color_navbar_overlay_light</color>
     <color name="textColorPrimary">@color/black</color>
     <color name="textColorPrimaryInverse">#FFFFFFFF</color>

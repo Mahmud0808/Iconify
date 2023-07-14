@@ -145,7 +145,7 @@
 
     <style name="Toolbar.TitleText.Collapsed" parent="TextAppearance.Material3.ActionBar.Title">
         <item name="fontFamily">@font/header</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">22sp</item>
         <item name="android:letterSpacing">0.1</item>
         <item name="android:textStyle">bold</item>
     </style>
