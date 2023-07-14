@@ -36,9 +36,9 @@
     <color name="switch_track_inactive">@android:color/system_neutral2_100</color>
     <color name="switch_thumb_inactive">@android:color/system_neutral2_600</color>
     <color name="navbarSelectedBackground">@color/color_navbar_selected_bg_light</color>
-    <color name="landing_page_one_background">#FFFFF0F3</color>
-    <color name="landing_page_two_background">#FFEFF7FA</color>
-    <color name="landing_page_three_background">#FFEEF4FE</color>
+    <color name="onboarding_background_one">#FFFFF0F3</color>
+    <color name="onboarding_background_two">#FFEFF7FA</color>
+    <color name="onboarding_background_three">#FFEEF4FE</color>
     <color name="color_background_alpha">@color/color_background_alpha_light</color>
     <color name="ic_launcher_foreground_themed">@android:color/system_neutral2_700</color>
     <color name="ic_launcher_background_themed">@android:color/system_accent1_100</color>
@@ -58,6 +58,9 @@
     <color name="seekbar_thumb_tint">@color/black</color>
     <color name="seekbar_track_color">#66FFFFFF</color>
     <color name="seekbar_track_tint">@color/colorAccent</color>
+    <color name="onboarding_btn_one">#FF5678</color>
+    <color name="onboarding_btn_two">#345D99</color>
+    <color name="onboarding_btn_three">#012D7C</color>
 
     <color name="colorPrimaryLight">@color/material_dynamic_primary40</color>
     <color name="colorPrimaryDark">@color/material_dynamic_primary80</color>

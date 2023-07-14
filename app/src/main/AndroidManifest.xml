@@ -49,13 +49,7 @@
             android:name=".ui.activities.Switch"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.OnBoardingScreen3"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.OnBoardingScreen2"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.OnBoardingScreen1"
+            android:name=".ui.activities.Onboarding"
             android:exported="false" />
         <activity
             android:name=".ui.activities.ProgressBar"

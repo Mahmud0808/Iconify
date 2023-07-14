@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BounceScrollView">
+        <attr name="damping" format="float" />
+        <attr name="scrollOrientation" format="enum">
+            <enum name="vertical" value="0" />
+            <enum name="horizontal" value="1" />
+        </attr>
+        <attr name="incrementalDamping" format="boolean" />
+        <attr name="bounceDelay" format="integer" />
+        <attr name="triggerOverScrollThreshold" format="integer" />
+    </declare-styleable>
+</resources>

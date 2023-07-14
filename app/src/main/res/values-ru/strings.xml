@@ -400,8 +400,8 @@
     <string name="list_title_general_settings">Основные настройки</string>
     <string name="list_title_use_light_accent">Использовать светлый акцент</string>
     <string name="list_desc_use_light_accent">Использовать светлый цвет акцента в светлом режиме</string>
-    <string name="landing_page_three_title">Может, Начнем Прямо Сейчас?</string>
-    <string name="landing_page_three_desc">Iconify необходимо выполнить некоторую внутреннюю работу</string>
+    <string name="onboarding_title_3">Может, Начнем Прямо Сейчас?</string>
+    <string name="onboarding_desc_3">Iconify необходимо выполнить некоторую внутреннюю работу</string>
     <string name="btn_lets_go">Погнали!</string>
     <string name="need_storage_perm_title">Необходимо предоставить доступ к хранилищу</string>
     <string name="need_storage_perm_desc">Необходиимо предоставить доступ к хранилищу для создания нужных файлов</string>
@@ -443,12 +443,12 @@
     <string name="restart_systemui_after_boot_title">Перезапустить System UI после включения?</string>
     <string name="restart_systemui_after_boot_desc">Некоторые настройки, такие как \"размытие\" не применяются, пока System UI не будет перезапущен</string>
     <string name="btn_skip">Пропустить</string>
-    <string name="landing_page_one_title">Наскучил стандартный UI ?</string>
-    <string name="landing_page_one_desc">Давай настроим все по своему вкусу.</string>
+    <string name="onboarding_title_1">Наскучил стандартный UI ?</string>
+    <string name="onboarding_desc_1">Давай настроим все по своему вкусу.</string>
     <string name="btn_next">Далее</string>
     <string name="btn_back">Назад</string>
-    <string name="landing_page_two_title">Поддерживается ли мой девайс?</string>
-    <string name="landing_page_two_desc">Iconify поддерживается на всех Pixel или AOSP прошивках</string>
+    <string name="onboarding_title_2">Поддерживается ли мой девайс?</string>
+    <string name="onboarding_desc_2">Iconify поддерживается на всех Pixel или AOSP прошивках</string>
     <string name="activity_title_switch">Переключатель</string>
     <string name="activity_desc_switch">Изменить внешний вид переключателя</string>
     <string name="toast_message">Toast-уведомление</string>

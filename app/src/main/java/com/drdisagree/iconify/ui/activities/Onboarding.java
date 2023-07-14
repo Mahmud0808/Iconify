@@ -10,17 +10,22 @@ import static com.drdisagree.iconify.utils.helpers.Logger.writeLog;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.TransitionDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.window.OnBackInvokedDispatcher;
+
+import androidx.activity.OnBackPressedCallback;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.LottieCompositionFactory;
@@ -30,6 +35,9 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
+import com.drdisagree.iconify.databinding.ActivityOnboardingBinding;
+import com.drdisagree.iconify.ui.adapters.OnboardingAdapter;
+import com.drdisagree.iconify.ui.utils.Animatoo;
 import com.drdisagree.iconify.ui.utils.TaskExecutor;
 import com.drdisagree.iconify.ui.views.InstallationDialog;
 import com.drdisagree.iconify.utils.FileUtil;
@@ -48,183 +56,284 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class OnBoardingScreen3 extends BaseActivity {
+public class Onboarding extends BaseActivity {
 
-    private static boolean hasErroredOut = false;
+    private static boolean hasErroredOut = false, rebootRequired = false;
+    private static StartInstallationProcess installModule = null;
+    private final String TAG = Onboarding.class.getSimpleName();
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private int previousPage = 0;
+    private ViewPager2 mViewPager;
+    private Button btnNextStep;
+    private LottieAnimationView loading_anim;
     @SuppressLint("StaticFieldLeak")
-    private static Button install_module, reboot_phone;
-    private static startInstallationProcess installModule = null;
-    private final String TAG = "OnBoardingScreen";
-    TextView info_title, info_desc;
-    LottieAnimationView loading_anim;
     private InstallationDialog progressDialog;
     private String logger = null, prev_log = null;
     private boolean skippedInsatllation = false;
+    private OnboardingAdapter mAdapter = null;
 
-    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.landing_page_three_background, getTheme()));
-        getWindow().setStatusBarColor(getResources().getColor(R.color.landing_page_three_background, getTheme()));
-        getWindow().setNavigationBarColor(getResources().getColor(R.color.landing_page_three_background, getTheme()));
-        setContentView(R.layout.activity_onboarding_screen_three);
+        ActivityOnboardingBinding binding = ActivityOnboardingBinding.inflate(getLayoutInflater());
+        View mView = binding.getRoot();
+        setContentView(mView);
 
         Prefs.putBoolean(ON_HOME_PAGE, false);
 
-        ((LottieAnimationView) findViewById(R.id.welcome_anim)).setAnimation(!isDarkMode() ? R.raw.anim_view_three_day : R.raw.anim_view_three_night);
-
-        ((LottieAnimationView) findViewById(R.id.welcome_anim)).setRenderMode(RenderMode.HARDWARE);
+        mViewPager = binding.viewPager;
+        mAdapter = new OnboardingAdapter(this, this);
+        mViewPager.setAdapter(mAdapter);
 
         // Progress dialog while installing
         progressDialog = new InstallationDialog(this);
 
-        // Continue button
-        install_module = findViewById(R.id.install_module);
-
-        // Reboot button
-        reboot_phone = findViewById(R.id.btn_reboot);
-        reboot_phone.setOnClickListener(v -> SystemUtil.restartDevice());
-
-        // Showing info if necessary
-        info_title = findViewById(R.id.info_title);
-        info_desc = findViewById(R.id.info_desc);
-
         AtomicBoolean clickedContinue = new AtomicBoolean(false);
 
-        // Start installation on click
-        install_module.setOnClickListener(v -> {
-            skippedInsatllation = false;
-            hasErroredOut = false;
-            if (RootUtil.isDeviceRooted()) {
-                if (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) {
-                    if (!Environment.isExternalStorageManager()) {
-                        showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
-                        Toast.makeText(OnBoardingScreen3.this, R.string.toast_storage_access, Toast.LENGTH_SHORT).show();
+        // Skip button
+        TextView btnSkip = binding.btnSkip;
+        btnSkip.setOnClickListener(v -> {
+            int lastItemIndex = Objects.requireNonNull(mViewPager.getAdapter()).getItemCount() - 1;
+            mViewPager.setCurrentItem(lastItemIndex, true);
+            Animatoo.animateSlideLeft(this);
+        });
 
-                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                            clickedContinue.set(true);
-                            SystemUtil.getStoragePermission(this);
-                        }, clickedContinue.get() ? 10 : 2000);
+        // Next button
+        btnNextStep = findViewById(R.id.btn_next_step);
+        mViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                final int duration = 200;
+
+                if (position != previousPage) {
+                    handler.removeCallbacksAndMessages(null);
+
+                    if (position > previousPage) {
+                        getWindow().getDecorView().setBackground(getWindowDrawables()[previousPage]);
+                        btnNextStep.setBackground(getButtonDrawables()[previousPage]);
+
+                        ((TransitionDrawable) getWindow().getDecorView().getBackground()).startTransition(duration);
+                        ((TransitionDrawable) btnNextStep.getBackground()).startTransition(duration);
+
+                        handler.postDelayed(() -> {
+                            getWindow().getDecorView().setBackground(getWindowDrawables()[position]);
+                            btnNextStep.setBackground(getButtonDrawables()[position]);
+                        }, duration);
                     } else {
-                        boolean moduleExists = ModuleUtil.moduleExists();
-                        boolean overlayExists = OverlayUtil.overlayExists();
+                        getWindow().getDecorView().setBackground(getWindowDrawables()[position]);
+                        btnNextStep.setBackground(getButtonDrawables()[position]);
 
-                        if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !moduleExists || !overlayExists) {
-                            if (!moduleExists || !overlayExists) {
-                                Prefs.clearAllPrefs();
-                                RPrefs.clearAllPrefs();
+                        ((TransitionDrawable) getWindow().getDecorView().getBackground()).startTransition(0);
+                        ((TransitionDrawable) btnNextStep.getBackground()).startTransition(0);
+                        ((TransitionDrawable) getWindow().getDecorView().getBackground()).reverseTransition(duration);
+                        ((TransitionDrawable) btnNextStep.getBackground()).reverseTransition(duration);
+
+                        handler.postDelayed(() -> {
+                            getWindow().getDecorView().setBackground(getWindowDrawables()[position]);
+                            btnNextStep.setBackground(getButtonDrawables()[position]);
+                        }, duration);
+                    }
+
+                    previousPage = position;
+                } else {
+                    getWindow().getDecorView().setBackground(getWindowDrawables()[position]);
+                    btnNextStep.setBackground(getButtonDrawables()[position]);
+                }
+
+                if (position == 2) {
+                    btnSkip.setVisibility(View.INVISIBLE);
+                    btnNextStep.setText(R.string.btn_lets_go);
+                } else {
+                    btnSkip.setVisibility(View.VISIBLE);
+                    btnNextStep.setText(R.string.btn_next);
+                }
+
+                if (position == 2) {
+                    // Reboot button
+                    if (rebootRequired) {
+                        showInfoNow(R.string.need_reboot_title, R.string.need_reboot_desc);
+                        btnNextStep.setText(R.string.btn_reboot);
+                    }
+
+                    // Skip installation on long click
+                    btnNextStep.setOnLongClickListener(v -> {
+                        skippedInsatllation = true;
+                        hasErroredOut = false;
+
+                        if (RootUtil.isDeviceRooted()) {
+                            if (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) {
+                                if (!Environment.isExternalStorageManager()) {
+                                    showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
+                                    Toast.makeText(Onboarding.this, R.string.toast_storage_access, Toast.LENGTH_SHORT).show();
+
+                                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                                        clickedContinue.set(true);
+                                        SystemUtil.getStoragePermission(Onboarding.this);
+                                    }, clickedContinue.get() ? 10 : 2000);
+                                } else {
+                                    if (!ModuleUtil.moduleExists()) {
+                                        Prefs.clearAllPrefs();
+                                        RPrefs.clearAllPrefs();
+
+                                        handleInstallation();
+                                    } else {
+                                        Intent intent = new Intent(Onboarding.this, XposedMenu.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+                                        Animatoo.animateSlideLeft(Onboarding.this);
+                                        Toast.makeText(Onboarding.this, R.string.toast_skipped_installation, Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            } else {
+                                showInfo(R.string.magisk_not_found_title, R.string.magisk_not_found_desc);
                             }
-
-                            handleInstallation();
                         } else {
-                            Intent intent = new Intent(OnBoardingScreen3.this, HomePage.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
+                            showInfo(R.string.root_not_found_title, R.string.root_not_found_desc);
                         }
-                    }
+                        return true;
+                    });
                 } else {
-                    showInfo(R.string.magisk_not_found_title, R.string.magisk_not_found_desc);
+                    btnNextStep.setOnLongClickListener(null);
                 }
-            } else {
-                showInfo(R.string.root_not_found_title, R.string.root_not_found_desc);
             }
         });
 
-        // Skip installation on long click
-        install_module.setOnLongClickListener(view -> {
-            skippedInsatllation = true;
-            hasErroredOut = false;
-            if (RootUtil.isDeviceRooted()) {
-                if (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) {
-                    if (!Environment.isExternalStorageManager()) {
-                        showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
-                        Toast.makeText(OnBoardingScreen3.this, R.string.toast_storage_access, Toast.LENGTH_SHORT).show();
+        // Start installation on click
+        btnNextStep.setOnClickListener(v -> {
+            if (getItem() > mViewPager.getChildCount()) {
+                skippedInsatllation = false;
+                hasErroredOut = false;
 
-                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                            clickedContinue.set(true);
-                            SystemUtil.getStoragePermission(this);
-                        }, clickedContinue.get() ? 10 : 2000);
+                if (RootUtil.isDeviceRooted()) {
+                    if (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) {
+                        if (!Environment.isExternalStorageManager()) {
+                            showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
+                            Toast.makeText(Onboarding.this, R.string.toast_storage_access, Toast.LENGTH_SHORT).show();
+
+                            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                                clickedContinue.set(true);
+                                SystemUtil.getStoragePermission(this);
+                            }, clickedContinue.get() ? 10 : 2000);
+                        } else {
+                            boolean moduleExists = ModuleUtil.moduleExists();
+                            boolean overlayExists = OverlayUtil.overlayExists();
+
+                            if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !moduleExists || !overlayExists) {
+                                if (!moduleExists || !overlayExists) {
+                                    Prefs.clearAllPrefs();
+                                    RPrefs.clearAllPrefs();
+                                }
+
+                                handleInstallation();
+                            } else {
+                                Intent intent = new Intent(Onboarding.this, HomePage.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                Animatoo.animateSlideLeft(Onboarding.this);
+                            }
+                        }
                     } else {
-                        if (!ModuleUtil.moduleExists()) {
-                            Prefs.clearAllPrefs();
-                            RPrefs.clearAllPrefs();
-
-                            handleInstallation();
-                        } else {
-                            Intent intent = new Intent(OnBoardingScreen3.this, XposedMenu.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                            Toast.makeText(OnBoardingScreen3.this, R.string.toast_skipped_installation, Toast.LENGTH_LONG).show();
-                        }
+                        showInfo(R.string.magisk_not_found_title, R.string.magisk_not_found_desc);
                     }
                 } else {
-                    showInfo(R.string.magisk_not_found_title, R.string.magisk_not_found_desc);
+                    showInfo(R.string.root_not_found_title, R.string.root_not_found_desc);
                 }
             } else {
-                showInfo(R.string.root_not_found_title, R.string.root_not_found_desc);
+                mViewPager.setCurrentItem(getItem() + 1, true);
             }
-
-            return true;
         });
+
+        if (Build.VERSION.SDK_INT >= 33) {
+            getOnBackInvokedDispatcher().registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT, this::onBackPressed);
+        } else {
+            getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+                @Override
+                public void handleOnBackPressed() {
+                    onBackPressed();
+                }
+            });
+        }
     }
 
     private void handleInstallation() {
         LottieCompositionFactory.fromRawRes(this, !isDarkMode() ? R.raw.loading_day : R.raw.loading_night).addListener(result -> {
             loading_anim = findViewById(R.id.loading_anim);
-            loading_anim.setMaxWidth(install_module.getHeight());
-            loading_anim.setMaxHeight(install_module.getHeight());
-            install_module.setTextColor(Color.TRANSPARENT);
+            loading_anim.setMaxWidth(btnNextStep.getHeight());
+            loading_anim.setMaxHeight(btnNextStep.getHeight());
+            btnNextStep.setTextColor(Color.TRANSPARENT);
             loading_anim.setAnimation(!isDarkMode() ? R.raw.loading_day : R.raw.loading_night);
             loading_anim.setRenderMode(RenderMode.HARDWARE);
             loading_anim.setVisibility(View.VISIBLE);
 
-            installModule = new startInstallationProcess();
+            installModule = new Onboarding.StartInstallationProcess();
             installModule.execute();
         });
     }
 
     private void showInfo(int title, int desc) {
-        if (info_title.getText() == getResources().getString(title) && info_desc.getText() == getResources().getString(desc))
-            return;
+        ((com.drdisagree.iconify.ui.fragments.Onboarding) mAdapter.getCurrentFragment()).animateUpdateTextView(title, desc);
+    }
 
-        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
-        anim.setDuration(400);
-        anim.setRepeatCount(1);
-        anim.setRepeatMode(Animation.REVERSE);
-        anim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
+    private void showInfoNow(int title, int desc) {
+        ((com.drdisagree.iconify.ui.fragments.Onboarding) mAdapter.getCurrentFragment()).updateTextView(title, desc);
+    }
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-            }
+    private int getItem() {
+        return mViewPager.getCurrentItem();
+    }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-                info_title.setText(getResources().getString(title));
-                info_desc.setText(getResources().getString(desc));
-            }
-        });
+    private TransitionDrawable[] getWindowDrawables() {
+        TransitionDrawable[] transitionDrawable = new TransitionDrawable[3];
+        transitionDrawable[0] = (TransitionDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.onboarding_background_1, getTheme());
+        transitionDrawable[1] = (TransitionDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.onboarding_background_2, getTheme());
+        transitionDrawable[2] = (TransitionDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.onboarding_background_3, getTheme());
+        return transitionDrawable;
+    }
 
-        info_title.startAnimation(anim);
-        info_desc.startAnimation(anim);
+    private TransitionDrawable[] getButtonDrawables() {
+        TransitionDrawable[] transitionDrawable = new TransitionDrawable[3];
+        transitionDrawable[0] = (TransitionDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.onboarding_button_transition_1, getTheme());
+        transitionDrawable[1] = (TransitionDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.onboarding_button_transition_2, getTheme());
+        transitionDrawable[2] = (TransitionDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.onboarding_button_transition_3, getTheme());
+        return transitionDrawable;
     }
 
     @Override
-    public void onDestroy() {
-        if (installModule != null) installModule.cancel(true);
+    protected void onDestroy() {
         super.onDestroy();
+
+        if (Build.VERSION.SDK_INT >= 33) {
+            try {
+                getOnBackInvokedDispatcher().unregisterOnBackInvokedCallback(this::onBackPressed);
+            } catch (Exception ignored) {
+            }
+        }
+
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
+        }
+
+        if (installModule != null) {
+            installModule.cancel(true);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mViewPager.getCurrentItem() == 0) {
+            super.onBackPressed();
+        } else {
+            mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1, true);
+        }
     }
 
     @SuppressLint("StaticFieldLeak")
-    private class startInstallationProcess extends TaskExecutor<Void, Integer, Integer> {
+    private class StartInstallationProcess extends TaskExecutor<Void, Integer, Integer> {
         @SuppressLint("SetTextI18n")
         @Override
         protected void onPreExecute() {
-            showInfo(R.string.landing_page_three_title, R.string.landing_page_three_desc);
-            reboot_phone.setVisibility(View.GONE);
+            showInfo(R.string.onboarding_title_3, R.string.onboarding_desc_3);
+            btnNextStep.setText(R.string.btn_lets_go);
 
             progressDialog.show(getResources().getString(R.string.installing), getResources().getString(R.string.init_module_installation));
         }
@@ -441,6 +550,7 @@ public class OnBoardingScreen3 extends BaseActivity {
             return null;
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         @Override
         protected void onPostExecute(Integer integer) {
             progressDialog.hide();
@@ -460,31 +570,41 @@ public class OnBoardingScreen3 extends BaseActivity {
 
                     if (OverlayUtil.overlayExists()) {
                         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                            Intent intent = new Intent(OnBoardingScreen3.this, HomePage.class);
+                            Intent intent = new Intent(Onboarding.this, HomePage.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
+                            Animatoo.animateSlideLeft(Onboarding.this);
                         }, 10);
                     } else {
+                        rebootRequired = true;
                         showInfo(R.string.need_reboot_title, R.string.need_reboot_desc);
-                        install_module.setVisibility(View.GONE);
-                        reboot_phone.setVisibility(View.VISIBLE);
+                        btnNextStep.setText(R.string.btn_reboot);
+                        btnNextStep.setOnClickListener(view -> SystemUtil.restartDevice());
+                        btnNextStep.setOnLongClickListener(null);
                     }
                 } else {
-                    Intent intent = new Intent(OnBoardingScreen3.this, XposedMenu.class);
+                    Intent intent = new Intent(Onboarding.this, XposedMenu.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                    Toast.makeText(OnBoardingScreen3.this, R.string.one_time_reboot_needed, Toast.LENGTH_LONG).show();
+                    Animatoo.animateSlideLeft(Onboarding.this);
+                    Toast.makeText(Onboarding.this, R.string.one_time_reboot_needed, Toast.LENGTH_LONG).show();
                 }
             } else {
                 Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
                 Shell.cmd("rm -rf " + Resources.BACKUP_DIR).exec();
                 showInfo(R.string.installation_failed_title, R.string.installation_failed_desc);
-                install_module.setVisibility(View.VISIBLE);
-                reboot_phone.setVisibility(View.GONE);
+                btnNextStep.setText(R.string.btn_lets_go);
             }
 
             loading_anim.setVisibility(View.GONE);
-            install_module.setTextColor(getResources().getColor(R.color.textColorPrimaryInverse, getTheme()));
+            btnNextStep.setTextColor(getResources().getColor(R.color.textColorPrimaryInverse, getTheme()));
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                try {
+                    getOnBackInvokedDispatcher().unregisterOnBackInvokedCallback(Onboarding.this::onBackPressed);
+                } catch (Exception ignored) {
+                }
+            }
         }
 
         @Override
