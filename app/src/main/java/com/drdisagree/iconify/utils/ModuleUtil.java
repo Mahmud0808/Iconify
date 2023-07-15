@@ -16,6 +16,7 @@ import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.ui.activities.Onboarding;
 import com.drdisagree.iconify.utils.helpers.BackupRestore;
 import com.drdisagree.iconify.utils.helpers.BinaryInstaller;
 import com.drdisagree.iconify.utils.helpers.TypedValueUtil;
@@ -47,7 +48,11 @@ public class ModuleUtil {
         Shell.cmd("printf 'id=Iconify\nname=Iconify\nversion=" + BuildConfig.VERSION_NAME + "\nversionCode=" + BuildConfig.VERSION_CODE + "\nauthor=@DrDisagree\ndescription=Systemless module for Iconify.\n' > " + Resources.MODULE_DIR + "/module.prop").exec();
         Shell.cmd("mkdir -p " + Resources.MODULE_DIR + "/common").exec();
         Shell.cmd("printf 'MODDIR=${0%%/*}\n\n' > " + Resources.MODULE_DIR + "/post-fs-data.sh").exec();
-        Shell.cmd("printf 'MODDIR=${0%%/*}\n\nwhile [ \"$(getprop sys.boot_completed | tr -d \"\\r\")\" != \"1\" ]\ndo\n sleep 1\ndone\nsleep 5\n\nsh $MODDIR/post-exec.sh\n\n" + (Prefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false) ? "killall " + SYSTEMUI_PACKAGE + "\n" : "") + "sleep 6\n\nqspbd=$(cmd overlay list |  grep -E \"^.x..IconifyComponentQSPBD.overlay\" | sed -E \"s/^.x..//\")\ndm=$(cmd overlay list |  grep -E \"^.x..IconifyComponentDM.overlay\" | sed -E \"s/^.x..//\")\nif ([ ! -z \"$qspbd\" ] && [ -z \"$dm\" ])\nthen\n cmd overlay disable --user current IconifyComponentQSPBD.overlay\n cmd overlay enable --user current IconifyComponentQSPBD.overlay\n cmd overlay set-priority IconifyComponentQSPBD.overlay highest\nfi\n\nqspba=$(cmd overlay list |  grep -E \"^.x..IconifyComponentQSPBA.overlay\" | sed -E \"s/^.x..//\")\ndm=$(cmd overlay list |  grep -E \"^.x..IconifyComponentDM.overlay\" | sed -E \"s/^.x..//\")\nif ([ ! -z \"$qspba\" ] && [ -z \"$dm\" ])\nthen\n cmd overlay disable --user current IconifyComponentQSPBA.overlay\n cmd overlay enable --user current IconifyComponentQSPBA.overlay\n cmd overlay set-priority IconifyComponentQSPBA.overlay highest\nfi\n\n' > " + Resources.MODULE_DIR + "/service.sh").exec();
+        if (!Onboarding.skippedInstallation) {
+            Shell.cmd("printf 'MODDIR=${0%%/*}\n\nwhile [ \"$(getprop sys.boot_completed | tr -d \"\\r\")\" != \"1\" ]\ndo\n sleep 1\ndone\nsleep 5\n\nsh $MODDIR/post-exec.sh\n\n" + (Prefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false) ? "killall " + SYSTEMUI_PACKAGE + "\n" : "") + "sleep 6\n\nqspbd=$(cmd overlay list |  grep -E \"^.x..IconifyComponentQSPBD.overlay\" | sed -E \"s/^.x..//\")\ndm=$(cmd overlay list |  grep -E \"^.x..IconifyComponentDM.overlay\" | sed -E \"s/^.x..//\")\nif ([ ! -z \"$qspbd\" ] && [ -z \"$dm\" ])\nthen\n cmd overlay disable --user current IconifyComponentQSPBD.overlay\n cmd overlay enable --user current IconifyComponentQSPBD.overlay\n cmd overlay set-priority IconifyComponentQSPBD.overlay highest\nfi\n\nqspba=$(cmd overlay list |  grep -E \"^.x..IconifyComponentQSPBA.overlay\" | sed -E \"s/^.x..//\")\ndm=$(cmd overlay list |  grep -E \"^.x..IconifyComponentDM.overlay\" | sed -E \"s/^.x..//\")\nif ([ ! -z \"$qspba\" ] && [ -z \"$dm\" ])\nthen\n cmd overlay disable --user current IconifyComponentQSPBA.overlay\n cmd overlay enable --user current IconifyComponentQSPBA.overlay\n cmd overlay set-priority IconifyComponentQSPBA.overlay highest\nfi\n\n' > " + Resources.MODULE_DIR + "/service.sh").exec();
+        } else {
+            Shell.cmd("printf 'MODDIR=${0%%/*}\n\nwhile [ \"$(getprop sys.boot_completed | tr -d \"\\r\")\" != \"1\" ]\ndo\n sleep 1\ndone\nsleep 5\n\nsh $MODDIR/post-exec.sh\n\n' > " + Resources.MODULE_DIR + "/service.sh").exec();
+        }
         Shell.cmd("touch " + Resources.MODULE_DIR + "/common/system.prop").exec();
         Shell.cmd("touch " + Resources.MODULE_DIR + "/auto_mount").exec();
         Shell.cmd("mkdir -p " + Resources.MODULE_DIR + "/system").exec();
@@ -84,14 +89,14 @@ public class ModuleUtil {
             }
         }
 
-        if (!primaryColorEnabled && shouldUseDefaultColors()) {
+        if (!primaryColorEnabled && shouldUseDefaultColors() && !Onboarding.skippedInstallation) {
             post_exec.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimary android:color/holo_blue_light 0x1c " + ICONIFY_COLOR_ACCENT_PRIMARY + "\n");
             post_exec.append("cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentPrimary\n");
             post_exec.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimaryLight android:color/holo_blue_dark 0x1c " + ICONIFY_COLOR_ACCENT_PRIMARY + "\n");
             post_exec.append("cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentPrimaryLight\n");
         }
 
-        if (!secondaryColorEnabled && shouldUseDefaultColors()) {
+        if (!secondaryColorEnabled && shouldUseDefaultColors() && !Onboarding.skippedInstallation) {
             post_exec.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary android:color/holo_green_light 0x1c " + ICONIFY_COLOR_ACCENT_SECONDARY + "\n");
             post_exec.append("cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentSecondary\n");
             post_exec.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondaryLight android:color/holo_green_dark 0x1c " + ICONIFY_COLOR_ACCENT_SECONDARY + "\n");
