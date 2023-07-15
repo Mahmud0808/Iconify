@@ -5,6 +5,7 @@ import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SIDEMARGIN;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_TOPMARGIN;
+import static com.drdisagree.iconify.common.Preferences.HIDE_DATA_DISABLED_ICON;
 import static com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_CARRIER;
 import static com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_STATUSBAR;
 import static com.drdisagree.iconify.common.Preferences.HIDE_STATUS_ICONS_SWITCH;
@@ -65,6 +66,13 @@ public class XposedOthers extends BaseActivity {
                     SystemUtil.doubleToggleDarkMode();
                 }
             }, SWITCH_ANIMATION_DELAY);
+        });
+
+        // Hide data disabled icon
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_data_disabled_icon = findViewById(R.id.hide_data_disabled_icon);
+        hide_data_disabled_icon.setChecked(RPrefs.getBoolean(HIDE_DATA_DISABLED_ICON, false));
+        hide_data_disabled_icon.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(HIDE_DATA_DISABLED_ICON, isChecked);
         });
 
         // Hide lockscreen carrier

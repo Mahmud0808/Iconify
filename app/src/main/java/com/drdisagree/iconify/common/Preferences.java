@@ -59,6 +59,7 @@ public class Preferences {
     public static final String CUSTOM_BATTERY_HEIGHT = "xposed_custombatteryheight";
     public static final String CUSTOM_BATTERY_MARGIN = "xposed_custombatterymargin";
     public static final String HEADER_QQS_TOPMARGIN = "qqspanelTopMargin";
+    public static final String HIDE_DATA_DISABLED_ICON = "hideDataDisabledIcon";
 
     // Battery styles
     public static final int BATTERY_STYLE_DEFAULT = 0;
