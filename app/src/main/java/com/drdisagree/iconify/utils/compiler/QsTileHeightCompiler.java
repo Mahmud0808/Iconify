@@ -90,6 +90,7 @@ public class QsTileHeightCompiler {
         if (!hasErroredOut) {
             Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponentQSTH.apk " + Resources.OVERLAY_DIR + "/IconifyComponentQSTH.apk").exec();
             RootUtil.setPermissions(644, Resources.OVERLAY_DIR + "/IconifyComponentQSTH.apk");
+            Shell.cmd("pm install -r " + Resources.OVERLAY_DIR + "/IconifyComponentQSTH.apk").exec();
 
             SystemUtil.mountRW();
             Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponentQSTH.apk " + "/system/product/overlay/IconifyComponentQSTH.apk").exec();

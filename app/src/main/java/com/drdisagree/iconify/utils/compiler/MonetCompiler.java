@@ -90,6 +90,7 @@ public class MonetCompiler {
         if (!hasErroredOut) {
             Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponentME.apk " + Resources.OVERLAY_DIR + "/IconifyComponentME.apk").exec();
             RootUtil.setPermissions(644, Resources.OVERLAY_DIR + "/IconifyComponentME.apk");
+            Shell.cmd("pm install -r " + Resources.OVERLAY_DIR + "/IconifyComponentME.apk").exec();
 
             SystemUtil.mountRW();
             Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponentME.apk " + "/system/product/overlay/IconifyComponentME.apk").exec();
