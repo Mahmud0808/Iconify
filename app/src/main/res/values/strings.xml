@@ -605,4 +605,6 @@
     <string name="custom_header_clock_color_desc">Custom color instead of primary color</string>
     <string name="header_clock_color_picker_title">Clock Color Picker</string>
     <string name="header_clock_color_picker_desc">Set color of header clock text</string>
+    <string name="hide_data_disabled_icon_title">Hide Data Disabled Icon</string>
+    <string name="hide_data_disabled_icon_desc">Hide data disabled indicator</string>
 </resources>

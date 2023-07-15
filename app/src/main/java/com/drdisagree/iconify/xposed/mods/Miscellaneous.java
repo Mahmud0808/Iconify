@@ -4,6 +4,7 @@ import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SIDEMARGIN;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_TOPMARGIN;
+import static com.drdisagree.iconify.common.Preferences.HIDE_DATA_DISABLED_ICON;
 import static com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_CARRIER;
 import static com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_STATUSBAR;
 import static com.drdisagree.iconify.common.Preferences.HIDE_STATUS_ICONS_SWITCH;
@@ -11,9 +12,11 @@ import static com.drdisagree.iconify.common.Preferences.QSPANEL_HIDE_CARRIER;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
+import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -46,10 +49,12 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
     boolean fixedStatusIcons = false;
     boolean hideLockscreenCarrier = false;
     boolean hideLockscreenStatusbar = false;
+    boolean hideDataDisabledIcon = false;
     int sideMarginStatusIcons = 0;
     int topMarginStatusIcons = 8;
     LinearLayout statusIcons = null;
     LinearLayout statusIconContainer = null;
+    private Object MobileSignalControllerParam = null;
 
     public Miscellaneous(Context context) {
         super(context);
@@ -66,6 +71,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
         sideMarginStatusIcons = Xprefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0);
         hideLockscreenCarrier = Xprefs.getBoolean(HIDE_LOCKSCREEN_CARRIER, false);
         hideLockscreenStatusbar = Xprefs.getBoolean(HIDE_LOCKSCREEN_STATUSBAR, false);
+        hideDataDisabledIcon = Xprefs.getBoolean(HIDE_DATA_DISABLED_ICON, false);
 
         if (Key.length > 0) {
             if (Objects.equals(Key[0], QSPANEL_HIDE_CARRIER)) hideQSCarrierGroup();
@@ -77,6 +83,9 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
 
             if (Objects.equals(Key[0], HIDE_LOCKSCREEN_CARRIER) || Objects.equals(Key[0], HIDE_LOCKSCREEN_STATUSBAR))
                 hideLockscreenCarrierOrStatusbar();
+
+            if (Objects.equals(Key[0], HIDE_DATA_DISABLED_ICON) && MobileSignalControllerParam != null)
+                callMethod(MobileSignalControllerParam, "updateTelephony");
         }
     }
 
@@ -171,6 +180,44 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
         hideStatusIcons();
         fixedStatusIcons();
         hideLockscreenCarrierOrStatusbar();
+
+        Class<?> MobileSignalController = findClass(SYSTEMUI_PACKAGE + ".statusbar.connectivity.MobileSignalController", lpparam.classLoader);
+        final boolean[] alwaysShowDataRatIcon = {false};
+        final boolean[] mDataDisabledIcon = {false};
+
+        hookAllMethods(MobileSignalController, "updateTelephony", new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) {
+                if (MobileSignalControllerParam == null)
+                    MobileSignalControllerParam = param.thisObject;
+
+                if (!hideDataDisabledIcon) return;
+
+                alwaysShowDataRatIcon[0] = !(boolean) getObjectField(getObjectField(param.thisObject, "mConfig"), "alwaysShowDataRatIcon");
+                setObjectField(getObjectField(param.thisObject, "mConfig"), "alwaysShowDataRatIcon", false);
+
+                try {
+                    mDataDisabledIcon[0] = (boolean) getObjectField(param.thisObject, "mDataDisabledIcon");
+                    setObjectField(param.thisObject, "mDataDisabledIcon", false);
+                } catch (Throwable ignored) {
+                }
+            }
+
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                if (MobileSignalControllerParam == null)
+                    MobileSignalControllerParam = param.thisObject;
+
+                if (!hideDataDisabledIcon) return;
+
+                setObjectField(getObjectField(param.thisObject, "mConfig"), "alwaysShowDataRatIcon", alwaysShowDataRatIcon[0]);
+
+                try {
+                    setObjectField(param.thisObject, "mDataDisabledIcon", mDataDisabledIcon[0]);
+                } catch (Throwable ignored) {
+                }
+            }
+        });
     }
 
     private void hideQSCarrierGroup() {
