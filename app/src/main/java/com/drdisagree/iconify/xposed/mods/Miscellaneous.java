@@ -193,7 +193,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
 
                 if (!hideDataDisabledIcon) return;
 
-                alwaysShowDataRatIcon[0] = !(boolean) getObjectField(getObjectField(param.thisObject, "mConfig"), "alwaysShowDataRatIcon");
+                alwaysShowDataRatIcon[0] = (boolean) getObjectField(getObjectField(param.thisObject, "mConfig"), "alwaysShowDataRatIcon");
                 setObjectField(getObjectField(param.thisObject, "mConfig"), "alwaysShowDataRatIcon", false);
 
                 try {
