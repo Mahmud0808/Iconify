@@ -68,9 +68,9 @@ public class Onboarding extends BaseActivity {
     private LottieAnimationView loading_anim;
     @SuppressLint("StaticFieldLeak")
     private InstallationDialog progressDialog;
-    private String logger = null, prev_log = null;
-    private boolean skippedInsatllation = false;
     private OnboardingAdapter mAdapter = null;
+    private String logger = null, prev_log = null;
+    public static boolean skippedInstallation = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,7 +157,7 @@ public class Onboarding extends BaseActivity {
 
                     // Skip installation on long click
                     btnNextStep.setOnLongClickListener(v -> {
-                        skippedInsatllation = true;
+                        skippedInstallation = true;
                         hasErroredOut = false;
 
                         if (RootUtil.isDeviceRooted()) {
@@ -201,7 +201,7 @@ public class Onboarding extends BaseActivity {
         // Start installation on click
         btnNextStep.setOnClickListener(v -> {
             if (getItem() > mViewPager.getChildCount()) {
-                skippedInsatllation = false;
+                skippedInstallation = false;
                 hasErroredOut = false;
 
                 if (RootUtil.isDeviceRooted()) {
@@ -394,7 +394,7 @@ public class Onboarding extends BaseActivity {
 
                 logger = "Extracting overlays from assets";
                 publishProgress(step);
-                if (skippedInsatllation) {
+                if (skippedInstallation) {
                     logger = "Skipped...";
                     publishProgress(step);
                 } else {
@@ -419,7 +419,7 @@ public class Onboarding extends BaseActivity {
             logger = null;
             publishProgress(++step);
             File dir;
-            if (skippedInsatllation) {
+            if (skippedInstallation) {
                 logger = "Skipping overlay builder...";
                 publishProgress(step);
             } else {
@@ -455,7 +455,7 @@ public class Onboarding extends BaseActivity {
 
             logger = null;
             publishProgress(++step);
-            if (skippedInsatllation) {
+            if (skippedInstallation) {
                 logger = "Skipping zipaligning process...";
                 publishProgress(step);
             } else {
@@ -482,7 +482,7 @@ public class Onboarding extends BaseActivity {
 
             logger = null;
             publishProgress(++step);
-            if (skippedInsatllation) {
+            if (skippedInstallation) {
                 logger = "Skipping signing process...";
                 publishProgress(step);
             } else {
@@ -516,7 +516,7 @@ public class Onboarding extends BaseActivity {
 
             logger = "Moving overlays to system directory";
             publishProgress(++step);
-            if (skippedInsatllation) {
+            if (skippedInstallation) {
                 logger = "Skipping...";
                 publishProgress(step);
             }
@@ -556,7 +556,7 @@ public class Onboarding extends BaseActivity {
             progressDialog.hide();
 
             if (!hasErroredOut) {
-                if (!skippedInsatllation) {
+                if (!skippedInstallation) {
                     if (BuildConfig.VERSION_CODE != Prefs.getInt(VER_CODE, -1)) {
                         if (Prefs.getBoolean(FIRST_INSTALL, true)) {
                             Prefs.putBoolean(FIRST_INSTALL, true);
