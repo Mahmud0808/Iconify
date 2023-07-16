@@ -1,6 +1,6 @@
 name: Feature Request
 description: Suggest features you want the developers (or contributors) to make for the app.
-title: "[FEATURE] "
+title: "[FEATURE] Your title here"
 labels: [feature, enhancement]
 body:
   - type: markdown
