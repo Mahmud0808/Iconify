@@ -1,60 +1,33 @@
+<div align="center">
+  <img src="https://github.com/Mahmud0808/Iconify/raw/stable/banner.png" width="100%" alt="Banner">
+  
+  # v6.3.1 is out!
+  
+  <a href="https://github.com/Mahmud0808/Iconify/releases"><img src="https://img.shields.io/github/downloads/Mahmud0808/Iconify/total?color=%233DDC84&logo=android&logoColor=%23fff&style=for-the-badge" alt="Downloads"></a>
+  <a href="https://github.com/Mahmud0808/Iconify"><img alt="Repo Size" src="https://img.shields.io/github/repo-size/Mahmud0808/Iconify?style=for-the-badge"></a>
+  <a href="https://github.com/Mahmud0808/Iconify/actions"><img src="https://img.shields.io/github/actions/workflow/status/Mahmud0808/Iconify/build_debug.yml?branch=beta&label=Debug%20Build&style=for-the-badge" alt="Debug Build"></a>
+  <a href="https://telegram.me/IconifyOfficial"><img src="https://img.shields.io/badge/Telegram-5K+-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram"></a>
+
+  <a href="https://apt.izzysoft.de/fdroid/index/apk/com.drdisagree.iconify"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" width="30%"></a>
+  
 # Iconify
 
-<p align="center">
-  <a href="https://github.com/Mahmud0808/Iconify/actions"><img src="https://img.shields.io/github/actions/workflow/status/Mahmud0808/Iconify/build_debug.yml?branch=beta&label=Debug%20Build&style=for-the-badge" alt="Debug Build"></a>
-  <a href="https://github.com/Mahmud0808/Iconify"><img alt="Repo Size" src="https://img.shields.io/github/repo-size/Mahmud0808/Iconify?style=for-the-badge"></a>
-  <a href="https://telegram.me/IconifyOfficial"><img src="https://img.shields.io/badge/Telegram-5K+-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram"></a>
-  <a href="https://github.com/Mahmud0808/Iconify/releases"><img src="https://img.shields.io/github/downloads/Mahmud0808/Iconify/total?color=%233DDC84&logo=android&logoColor=%23fff&style=for-the-badge" alt="Downloads"></a>
-<br><br>
-<img src="https://github.com/Mahmud0808/Iconify/blob/beta/.github/resources/banner.png" width="100%" alt="Banner">
-</p>
+### Free and Open-Source Android Customizer Application
+Iconify is an open-source Android mobile application aimed at providing users with the ability to customize various aspects of their device's user interface. 📱
 
-Iconify is an open-source android mobile application, aimed at providing users with the ability to customize various aspects of their device's user interface.
+Furthermore, the open-source nature of Iconify encourages community contributions and continuous improvement, ensuring a dynamic and evolving user experience. 🤝
 
-Iconify was mainly created as a substratum theme to change the system icons of any aosp rom. After some time, I converted it to use as magisk module with Terminal GUI integration. But then I got bored of using substratum and terminal gui. Applying overlays without any previews made me frustrated. So I decided to make it easier for me by creating an application where I can see the previews and change anything I want. This was totally for my personal use but as people showed interest, I decided to release it in public.
+#### 🌟STAR THIS REPOSITORY TO SUPPORT THE DEVELOPER AND ENCOURAGE THE DEVELOPMENT OF THE APPLICATION!
 
-### 🌟STAR THIS REPOSITORY TO SUPPORT THE DEVELOPER AND ENCOURAGE THE DEVELOPMENT OF THE APPLICATION!
-<p align="center">
-<a href="https://apt.izzysoft.de/fdroid/index/apk/com.drdisagree.iconify"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" width="30%" /></a>
-</p>
+</div>
 
-## Features
+```diff
+- NOTE: This app requires Magisk or KernelSU for root access. Any alternative methods won't work.
+```
 
-What you can change using Iconify:
+# 🛠 Requirements
 
-- Solid or Gradient Colors
-
-- System & Settings Icon Packs
-
-- Custom Brightness Bar Styles
-
-- Custom QS Tile Shapes
-
-- Custom QS Rows & Columns
-
-- Custom Notification Styles
-
-- Media Player Styles (A12 / A12.1)
-
-- Volume Panel Styles
-
-- QS Transparency & Blur
-
-- Custom QS & Lockscreen Clocks
-
-- And many more...
-
-## Preview
-
-<p align="center">
-<a href="https://i.ibb.co/sCrYk8x/Iconify-1.png" target=”_blank”><img src="https://i.ibb.co/sCrYk8x/Iconify-1.png" alt="Preview 1" border="0" style="width: 24%; margin: 32px;"></a>
-<a href="https://i.ibb.co/W3SH7dG/Iconify-2.png" target=”_blank”><img src="https://i.ibb.co/W3SH7dG/Iconify-2.png" alt="Preview 2" border="0" style="width: 24%; margin: 32px;"></a>
-<a href="https://i.ibb.co/gS4nNP5/Iconify-3.png" target=”_blank”><img src="https://i.ibb.co/gS4nNP5/Iconify-3.png" alt="Preview 3" border="0" style="width: 24%; margin: 32px;"></a>
-</p>
-
-## Requirements
-
-- Android 12+ Pixel / AOSP Based Custom Rom
+- Android 12+ Pixel / AOSP based custom ROM
 
 - [Magisk](https://github.com/topjohnwu/Magisk) (Recommended) or [KernelSU](https://github.com/tiann/KernelSU)
 
@@ -62,99 +35,77 @@ What you can change using Iconify:
 
 - Decryption Supported Custom Recovery (Just in case)
 
-> KSU users must flash OverlayFS Module from [Here](https://github.com/HuskyDG/magic_overlayfs/releases)
+> KSU users must flash OverlayFS Module from [**HERE**](https://github.com/HuskyDG/magic_overlayfs/releases) before installing iconify.
 > 
-> Remember to edit _mode.sh_ file inside the module and change these values:
+> Remember to edit _mode.sh_ file inside the module and change these values before flashing:
 > 
 > `OVERLAY_MODE=1`
 > `DO_UNMOUNT_KSU=true`
 
-## Instructions
+# 👨‍💻 Installation 
 
-- Install and open the app
+1. Go to [Releases](https://github.com/Mahmud0808/Iconify/releases) section.
 
-- Grant root permission
+2. Download the `.apk` file.
 
-- Click on `CONTINUE` button
+3. Install and open the application.
 
-- Wait for it to finish loading
+4. Follow the instructions, wait for finishing overlay building process.
 
-- Reboot the device
+5. Reboot the device when prompted, profit.
 
-- Now just enable whatever you want from the app
+# 🤫 Roadmap
 
-## In Case of Bootloop
+You can track all the progress [HERE](https://github.com/Mahmud0808/Iconify/commits/beta)
 
-- Boot into safe mode ([Here's how to](https://www.androidauthority.com/how-to-enter-safe-mode-android-801476/))
+- Fix bugs.
 
-- Or, Remove Iconify folder from data/adb/modules directory
+- Improve UI/UX.
 
-## Download
+# 🤓 FAQ
 
-> Download latest version of Iconify from here.
+- How does Iconify work?
+  - Iconify uses Android overlays that allows modifications to be applied to the user interface (UI) of the device without directly modifying the underlying system files.
+- Do I need a root access for Iconify to work?
+  - Yes, root access is required for Iconify to function properly. While Iconify does support KernelSU, it is highly recommended to use Magisk for the best compatibility.
+- Which devices does Iconify support?
+  - Iconify exclusively supports stock Pixel or custom AOSP ROMs. It does not support other OEMs such as MIUI, OneUI, ColorOS, NothingOS, MotoUI, etc.
+- Is Android "X" supported?
+  - Iconify officially supports Android 12 and later versions. Compatibility with earlier Android versions is not provided, and there are no plans to introduce support for those versions.
+- I got bootloop. How do I fix it?
+  - Boot into [Safe Mode](https://www.androidauthority.com/how-to-enter-safe-mode-android-801476/). Or, you can remove the Iconify folder from /data/adb/modules/ using custom recovery.
+- What is the difference between Release build and Debug build?
+  - [Release build](https://github.com/Mahmud0808/Iconify/releases/latest) is an optimized version intended for distribution to end-users, while [Debug build](https://github.com/Mahmud0808/Iconify/actions) includes additional features and information for debugging and development purposes.
+- Can I use Iconify in conjunction with other customization apps?
+  - Yes, Iconify can be used alongside other customization apps. However, it's important to note that conflicts or overlapping modifications may occur, which could affect the overall user experience.
+- Is there any official support available for Iconify?
+  - Yes, you can visit the official [Iconify telegram group](https://t.me/IconifyDiscussion) to access resources, seek assistance, and engage with other Iconify users.
+- I found a bug. How do I report it?
+  - To report a bug, please navigate to the [Issues](https://github.com/Mahmud0808/Iconify/issues/new/choose) section. Create a new issue and ensure you select the `Bug Report` template. Provide as much detailed information as possible, including steps to reproduce the bug and any relevant error messages or screenshots.
+- How do I request a new feature?
+  - If you have a feature request, please go to the [Issues](https://github.com/Mahmud0808/Iconify/issues/new/choose) section. Create a new issue and choose the Feature Request template. Be sure to include comprehensive details about the desired feature, its potential benefits, and any other relevant information that can assist in understanding and evaluating the request.
+- How can I donate to this project?
+  - At present, I do not accept any form of donation. This project is purely a personal endeavor undertaken during my leisure time. Additionally, I prefer to maintain the freedom of releasing future updates without any obligations associated with accepting donations.
 
-- [Release Build](https://github.com/Mahmud0808/Iconify/releases/latest)
+# ❤ Credits 
 
-- [Debug Build](https://github.com/Mahmud0808/Iconify/actions)
+- [Android Open Source Project (AOSP)](https://source.android.com) for Android source code.
+- [Substratum](https://github.com/substratum/substratum) for overlay building tricks.
+- [icons8.com](https://icons8.com) for giving me permission to use their icons.
+- [iconsax.io](http://iconsax.io) for in-app icon set.
+- [@Jai](https://t.me/jai_08) for helping me with shell script.
+- [@Flodor](https://t.me/Rodolphe06), [@modestCat](https://t.me/ModestCat03), [@Jorge ARZ](https://t.me/ArzjoDev), [@ɦʏքɛʀ.sɦ](https://t.me/hyp3r_sh) for helping with resources.
+- [@Sanely_insane](https://t.me/sanely_insane), [@Jaguar](https://t.me/Jaguar0066) for support and motivation.
+- [AOSPMods](https://github.com/siavash79/AOSPMods) for helping with the Xposed part.
+- [HideNavBar](https://github.com/Magisk-Modules-Repo/HideNavBar) for the navbar tweaks.
 
-## Telegram
+# 🤝 Contribution
 
-> Follow to get latest news and updates.
+We highly appreciate and welcome all forms of contributions, ranging from code, documentation, graphics, design suggestions, to bug reports. We encourage you to make the most of GitHub's collaborative platform by submitting Pull Requests, providing tutorials or other relevant content. Whatever you have to offer, we value and can utilize it effectively in our project.
 
-- [@IconifyOfficial](https://t.me/IconifyOfficial)
+# 📝 Disclaimer
 
-## Discussion & Feedback
-
-> You can chit-chat here on topics related to Iconify.
-
-- [GitHub Discussions](https://github.com/Mahmud0808/Iconify/discussions/new)
-
-- [Telegram Group](https://t.me/IconifyDiscussion)
-
-## Bug Report & Feature Request
-
-> Make sure to mention as much details as possible.
-
-- [GitHub Issues](https://github.com/Mahmud0808/Iconify/issues/new/choose)
-
-## Special Thanks To
-
-- [Android Open Source Project (AOSP)](https://source.android.com) (For Android source code)
-
-- [Substratum](https://github.com/substratum/substratum) (For overlay building tricks)
-
-- [icons8.com](https://icons8.com) (For giving me permission to use their icons)
-
-- [iconsax.io](http://iconsax.io) (For in-app icon set)
-
-- [J@i](https://t.me/jai_08) (For helping me with shell scripting)
-
-- [Flodor](https://t.me/Rodolphe06) (For helping me with resources)
-
-- [modestCat](https://t.me/ModestCat03) (For helping me with resources)
-
-- [Sanely insane](https://t.me/sanely_insane) (For always being there and testing)
-
-- [Jaguar](https://t.me/Jaguar0066) (For always being there and testing)
-
-- [Jorge ARZ](https://t.me/ArzjoDev) (For helping me with resources)
-
-- [ɦʏքɛʀ.sɦ](https://t.me/hyp3r_sh) (For helping me with resources)
-
-- [AOSPMods](https://github.com/siavash79/AOSPMods) (For helping me with XPosed part)
-
-- [HideNavBar](https://github.com/Magisk-Modules-Repo/HideNavBar) (For the navbar tweaks)
-
-## Contribution
-
-All contributions are welcome, from code to documentation to graphics to design suggestions to bug reports. Please use GitHub to its fullest; contribute Pull Requests, contribute tutorials or other content - whatever you have to offer, we can use it!
-
-## Disclaimer
-
-- Some roms might not be fully compatible with Iconify.
-
-- I won't be responsible if anything happens to your device.
-
-- Make sure you have custom recovery installed to revert changes if anything goes wrong.
-
-- PremadeOverlays are used as embedded APKs to reduce the overlay compilation time. For details, [check here](https://github.com/Mahmud0808/Iconify/blob/beta/app/src/main/assets/PremadeOverlays/cheatsheet).
+- Please note that Iconify may not be fully compatible with all custom ROMs. It is discouraged to use on heavily modified ROMs.
+- I cannot be held responsible for any potential damage or issues that may occur to your device while using Iconify.
+- It is highly recommended to have a custom recovery installed on your device to revert any changes in case of unexpected problems.
+- The use of PremadeOverlays involves the inclusion of embedded APKs to expedite overlay compilation. For the source code, [click here](https://github.com/Mahmud0808/Iconify/blob/beta/app/src/main/assets/PremadeOverlays/cheatsheet).
