@@ -9,6 +9,8 @@ import java.io.File;
 
 public class QsShapeManager {
 
+    private static final String common_overlay = "IconifyComponentQSC.overlay";
+
     public static void enableOverlay(int n) {
         disable_others(n);
         enable_pack(n);
@@ -25,7 +27,7 @@ public class QsShapeManager {
             String overlay = "IconifyComponentQSSN" + n + ".overlay";
 
             if (!Prefs.getBoolean(overlay))
-                OverlayUtil.enableOverlay(overlay);
+                OverlayUtil.enableOverlays(overlay, common_overlay);
         }
     }
 
@@ -36,7 +38,7 @@ public class QsShapeManager {
             String overlay = "IconifyComponentQSSN" + n + ".overlay";
 
             if (Prefs.getBoolean(overlay))
-                OverlayUtil.disableOverlay(overlay);
+                OverlayUtil.disableOverlays(overlay, common_overlay);
         }
     }
 

@@ -9,6 +9,8 @@ import java.io.File;
 
 public class QsShapePixelManager {
 
+    private static final String common_overlay = "IconifyComponentQSC.overlay";
+
     public static void enableOverlay(int n) {
         disable_others(n);
         enable_pack(n);
@@ -24,7 +26,8 @@ public class QsShapePixelManager {
         if (new File(path).exists()) {
             String overlay = "IconifyComponentQSSP" + n + ".overlay";
 
-            if (!Prefs.getBoolean(overlay)) OverlayUtil.enableOverlay(overlay);
+            if (!Prefs.getBoolean(overlay))
+                OverlayUtil.enableOverlays(overlay, common_overlay);
         }
     }
 
@@ -34,7 +37,8 @@ public class QsShapePixelManager {
         if (new File(path).exists()) {
             String overlay = "IconifyComponentQSSP" + n + ".overlay";
 
-            if (Prefs.getBoolean(overlay)) OverlayUtil.disableOverlay(overlay);
+            if (Prefs.getBoolean(overlay))
+                OverlayUtil.disableOverlays(overlay, common_overlay);
         }
     }
 
@@ -46,7 +50,8 @@ public class QsShapePixelManager {
                 if (new File(path).exists()) {
                     String overlay = "IconifyComponentQSSP" + i + ".overlay";
 
-                    if (Prefs.getBoolean(overlay)) OverlayUtil.disableOverlay(overlay);
+                    if (Prefs.getBoolean(overlay))
+                        OverlayUtil.disableOverlay(overlay);
                 }
             }
         }
