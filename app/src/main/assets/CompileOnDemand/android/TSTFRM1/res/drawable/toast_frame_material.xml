@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <padding
+                android:bottom="6.0dip"
+                android:left="12.0dip"
+                android:right="12.0dip"
+                android:top="6.0dip" />
+            <solid android:color="?android:colorBackgroundFloating" />
+            <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
+        </shape>
+    </item>
+</layer-list>
