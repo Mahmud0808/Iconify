@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/Mahmud0808/Iconify/raw/stable/banner.png" width="100%" alt="Banner">
+  <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/.github/resources/banner.png" width="100%" alt="Banner">
   
   # v6.3.1 is out!
   
@@ -18,6 +18,8 @@ Iconify is an open-source Android mobile application aimed at providing users wi
 Furthermore, the open-source nature of Iconify encourages community contributions and continuous improvement, ensuring a dynamic and evolving user experience. 🤝
 
 #### 🌟STAR THIS REPOSITORY TO SUPPORT THE DEVELOPER AND ENCOURAGE THE DEVELOPMENT OF THE APPLICATION!
+
+  <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/.github/resources/features.png" width="100%" alt="Features">
 
 </div>
 
