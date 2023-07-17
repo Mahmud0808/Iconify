@@ -32,7 +32,7 @@ public class MediaPlayer extends BaseActivity {
             if (isChecked) {
                 mp_system.setChecked(false);
                 mp_pitch_black.setChecked(false);
-                OverlayUtil.disableOverlays("IconifyComponentMPS.overlay", "IconifyComponentMPB.overlay", "IconifyComponentMPA.overlay");
+                OverlayUtil.changeOverlayState("IconifyComponentMPS.overlay", false, "IconifyComponentMPB.overlay", false, "IconifyComponentMPA.overlay", true);
             } else {
                 OverlayUtil.disableOverlay("IconifyComponentMPA.overlay");
             }
@@ -45,7 +45,7 @@ public class MediaPlayer extends BaseActivity {
             if (isChecked) {
                 mp_accent.setChecked(false);
                 mp_pitch_black.setChecked(false);
-                OverlayUtil.disableOverlays("IconifyComponentMPA.overlay", "IconifyComponentMPB.overlay", "IconifyComponentMPS.overlay");
+                OverlayUtil.changeOverlayState("IconifyComponentMPA.overlay", false, "IconifyComponentMPB.overlay", false, "IconifyComponentMPS.overlay", true);
             } else {
                 OverlayUtil.disableOverlay("IconifyComponentMPS.overlay");
             }
@@ -58,7 +58,7 @@ public class MediaPlayer extends BaseActivity {
             if (isChecked) {
                 mp_accent.setChecked(false);
                 mp_system.setChecked(false);
-                OverlayUtil.disableOverlays("IconifyComponentMPA.overlay", "IconifyComponentMPS.overlay", "IconifyComponentMPB.overlay");
+                OverlayUtil.changeOverlayState("IconifyComponentMPA.overlay", false, "IconifyComponentMPS.overlay", false, "IconifyComponentMPB.overlay", true);
             } else {
                 OverlayUtil.disableOverlay("IconifyComponentMPB.overlay");
             }
