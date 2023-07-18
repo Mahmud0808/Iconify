@@ -13,12 +13,14 @@
                     </shape>
                 </item>
                 <item
-                    android:bottom="2dp"
-                    android:left="2dp"
-                    android:right="2dp"
-                    android:top="2dp">
-                    <shape android:shape="rectangle">
-                        <solid android:color="?android:colorBackground" />
+                    android:bottom="3dp"
+                    android:end="3dp"
+                    android:start="3dp"
+                    android:top="3dp">
+                    <shape
+                        android:shape="rectangle"
+                        android:tint="?android:colorBackground">
+                        <solid android:color="#ff000000" />
                         <corners android:radius="24dp" />
                     </shape>
                 </item>
@@ -27,21 +29,22 @@
         <item android:state_checked="false">
             <layer-list>
                 <item>
-                    <shape android:shape="rectangle">
-                        <gradient
-                            android:angle="0.0"
-                            android:endColor="@*android:color/holo_green_light"
-                            android:startColor="@*android:color/holo_blue_light" />
+                    <shape
+                        android:shape="rectangle"
+                        android:tint="?android:colorForeground">
+                        <solid android:color="#66000000" />
                         <corners android:radius="24dp" />
                     </shape>
                 </item>
                 <item
-                    android:bottom="2dp"
-                    android:left="2dp"
-                    android:right="2dp"
-                    android:top="2dp">
-                    <shape android:shape="rectangle">
-                        <solid android:color="?android:colorBackground" />
+                    android:bottom="3dp"
+                    android:end="3dp"
+                    android:start="3dp"
+                    android:top="3dp">
+                    <shape
+                        android:shape="rectangle"
+                        android:tint="?android:colorBackground">
+                        <solid android:color="#ff000000" />
                         <corners android:radius="24dp" />
                     </shape>
                 </item>

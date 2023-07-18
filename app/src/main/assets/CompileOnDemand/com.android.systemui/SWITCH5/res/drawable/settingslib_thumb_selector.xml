@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true">
+        <layer-list>
+            <item>
+                <shape android:shape="oval">
+                    <solid android:color="@*android:color/holo_green_light" />
+                    <size
+                        android:width="24dp"
+                        android:height="24dp" />
+                </shape>
+            </item>
+            <item
+                android:bottom="2dp"
+                android:end="2dp"
+                android:start="2dp"
+                android:top="2dp">
+                <shape android:shape="oval">
+                    <solid android:color="?android:colorBackground" />
+                    <size
+                        android:width="24dp"
+                        android:height="24dp" />
+                </shape>
+            </item>
+            <item
+                android:drawable="@drawable/ic_switch_thumb_power_on"
+                android:gravity="center" />
+        </layer-list>
+    </item>
+    <item android:state_checked="false">
+        <layer-list>
+            <item>
+                <shape android:shape="oval">
+                    <solid android:color="@*android:color/holo_blue_light" />
+                    <size
+                        android:width="24dp"
+                        android:height="24dp" />
+                </shape>
+            </item>
+            <item
+                android:bottom="2dp"
+                android:end="2dp"
+                android:start="2dp"
+                android:top="2dp">
+                <shape android:shape="oval">
+                    <solid android:color="?android:colorBackground" />
+                    <size
+                        android:width="24dp"
+                        android:height="24dp" />
+                </shape>
+            </item>
+            <item
+                android:drawable="@drawable/ic_switch_thumb_power_off"
+                android:gravity="center" />
+        </layer-list>
+    </item>
+</selector>

@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.ui.adapters;
 
-import static com.drdisagree.iconify.common.Const.SETTINGS_PACKAGE;
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.SELECTED_SWITCH;
 
@@ -32,7 +31,7 @@ import com.drdisagree.iconify.ui.models.SwitchModel;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.compiler.OnDemandCompiler;
+import com.drdisagree.iconify.utils.compiler.SwitchCompiler;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -135,7 +134,7 @@ public class SwitchAdapter extends RecyclerView.Adapter<SwitchAdapter.ViewHolder
                                 Prefs.putInt(SELECTED_SWITCH, holder.getBindingAdapterPosition());
 
                                 try {
-                                    hasErroredOut.set(OnDemandCompiler.buildOverlay("SWITCH", holder.getBindingAdapterPosition() + 1, SETTINGS_PACKAGE));
+                                    hasErroredOut.set(SwitchCompiler.buildOverlay(holder.getBindingAdapterPosition() + 1));
                                 } catch (IOException e) {
                                     hasErroredOut.set(true);
                                     holder.aSwitch.setChecked(false);

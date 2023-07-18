@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="switch_thumb_active">?android:colorBackground</color>
+    <color name="switch_thumb_inactive">@*android:color/system_neutral2_600</color>
+    <color name="switch_track_inactive">@*android:color/system_neutral2_100</color>
+</resources>
