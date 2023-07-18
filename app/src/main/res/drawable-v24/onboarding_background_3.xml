@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <transition xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/onboarding_background_three" />
-    <item android:drawable="@color/onboarding_background_three" />
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="90.0"
+                android:endColor="@color/onboarding_background_three_top"
+                android:startColor="@color/onboarding_background_three_bottom" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="90.0"
+                android:endColor="@color/onboarding_background_three_top"
+                android:startColor="@color/onboarding_background_three_bottom" />
+        </shape>
+    </item>
 </transition>

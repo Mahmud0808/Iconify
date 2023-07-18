@@ -1,7 +1,5 @@
 package com.drdisagree.iconify.ui.adapters;
 
-import static com.drdisagree.iconify.utils.SystemUtil.isDarkMode;
-
 import android.content.Context;
 
 import androidx.annotation.NonNull;
@@ -31,21 +29,21 @@ public class OnboardingAdapter extends FragmentStateAdapter {
                 currentFragment = Onboarding.newInstance(
                         context.getResources().getString(R.string.onboarding_title_1),
                         context.getResources().getString(R.string.onboarding_desc_1),
-                        !isDarkMode() ? R.raw.onboarding_lottie_1_light : R.raw.onboarding_lottie_1_dark
+                        R.raw.onboarding_lottie_1
                 );
                 return currentFragment;
             case 1:
                 currentFragment = Onboarding.newInstance(
                         context.getResources().getString(R.string.onboarding_title_2),
                         context.getResources().getString(R.string.onboarding_desc_2),
-                        !isDarkMode() ? R.raw.onboarding_lottie_2_light : R.raw.onboarding_lottie_2_dark
+                        R.raw.onboarding_lottie_2
                 );
                 return currentFragment;
             case 2:
                 currentFragment = Onboarding.newInstance(
                         context.getResources().getString(R.string.onboarding_title_3),
                         context.getResources().getString(R.string.onboarding_desc_3),
-                        !isDarkMode() ? R.raw.onboarding_lottie_3_light : R.raw.onboarding_lottie_3_dark
+                        R.raw.onboarding_lottie_3
                 );
                 return currentFragment;
         }

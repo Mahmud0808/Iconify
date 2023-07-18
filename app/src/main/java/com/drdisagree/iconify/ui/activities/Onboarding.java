@@ -84,6 +84,7 @@ public class Onboarding extends BaseActivity {
         mViewPager = binding.viewPager;
         mAdapter = new OnboardingAdapter(this, this);
         mViewPager.setAdapter(mAdapter);
+        mViewPager.setOffscreenPageLimit(mAdapter.getItemCount());
 
         // Progress dialog while installing
         progressDialog = new InstallationDialog(this);

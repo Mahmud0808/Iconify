@@ -1,7 +1,6 @@
 package com.drdisagree.iconify;
 
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
-import static com.drdisagree.iconify.utils.SystemUtil.isDarkMode;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -59,15 +58,9 @@ public class SplashActivity extends AppCompatActivity {
         thread.start();
 
         new Thread(() -> {
-            if (!isDarkMode()) {
-                LottieCompositionFactory.fromRawRes(this, R.raw.onboarding_lottie_1_light);
-                LottieCompositionFactory.fromRawRes(this, R.raw.onboarding_lottie_2_light);
-                LottieCompositionFactory.fromRawRes(this, R.raw.onboarding_lottie_3_light);
-            } else {
-                LottieCompositionFactory.fromRawRes(this, R.raw.onboarding_lottie_1_dark);
-                LottieCompositionFactory.fromRawRes(this, R.raw.onboarding_lottie_2_dark);
-                LottieCompositionFactory.fromRawRes(this, R.raw.onboarding_lottie_3_dark);
-            }
+            LottieCompositionFactory.fromRawRes(this, R.raw.onboarding_lottie_1);
+            LottieCompositionFactory.fromRawRes(this, R.raw.onboarding_lottie_2);
+            LottieCompositionFactory.fromRawRes(this, R.raw.onboarding_lottie_3);
         }).start();
     }
 }
