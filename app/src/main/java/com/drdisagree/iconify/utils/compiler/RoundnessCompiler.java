@@ -86,8 +86,11 @@ public class RoundnessCompiler {
         Shell.cmd("mkdir -p " + Resources.SIGNED_DIR).exec();
 
         // Disable the overlay in case it is already enabled
-        for (String overlayName : mOverlayName)
-            OverlayUtil.disableOverlay("IconifyComponent" + overlayName + ".overlay");
+        String[] overlayNames = new String[mOverlayName.length];
+        for (int i = 1; i <= mOverlayName.length; i++) {
+            overlayNames[i - 1] = "IconifyComponentCR" + i + ".overlay";
+        }
+        OverlayUtil.disableOverlays(overlayNames);
     }
 
     private static void postExecute(boolean hasErroredOut) {
@@ -106,8 +109,11 @@ public class RoundnessCompiler {
             }
             SystemUtil.mountRO();
 
-            for (String overlayName : mOverlayName)
-                OverlayUtil.enableOverlay("IconifyComponent" + overlayName + ".overlay");
+            String[] overlayNames = new String[mOverlayName.length];
+            for (int i = 1; i <= mOverlayName.length; i++) {
+                overlayNames[i - 1] = "IconifyComponentCR" + i + ".overlay";
+            }
+            OverlayUtil.enableOverlays(overlayNames);
         }
 
         // Clean temp directory

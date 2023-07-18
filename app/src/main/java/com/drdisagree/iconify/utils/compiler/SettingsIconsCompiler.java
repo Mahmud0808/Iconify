@@ -96,8 +96,11 @@ public class SettingsIconsCompiler {
             Shell.cmd("mkdir -p " + Resources.TEMP_CACHE_DIR + "/" + aPackages + "/").exec();
 
         // Disable the overlay in case it is already enabled
-        for (int i = 1; i <= packages.length; i++)
-            OverlayUtil.disableOverlay("IconifyComponentSIP" + i + ".overlay");
+        String[] overlayNames = new String[packages.length];
+        for (int i = 1; i <= packages.length; i++) {
+            overlayNames[i - 1] = "IconifyComponentSIP" + i + ".overlay";
+        }
+        OverlayUtil.disableOverlays(overlayNames);
     }
 
     private static void postExecute(boolean hasErroredOut) {
@@ -116,9 +119,11 @@ public class SettingsIconsCompiler {
             }
             SystemUtil.mountRO();
 
-            for (int i = 1; i <= 3; i++) {
-                OverlayUtil.enableOverlay("IconifyComponentSIP" + i + ".overlay");
+            String[] overlayNames = new String[packages.length];
+            for (int i = 1; i <= packages.length; i++) {
+                overlayNames[i - 1] = "IconifyComponentSIP" + i + ".overlay";
             }
+            OverlayUtil.enableOverlays(overlayNames);
         }
 
         // Clean temp directory
