@@ -423,7 +423,7 @@ public class Onboarding extends BaseActivity {
                 logger = "Skipping overlay builder...";
                 publishProgress(step);
             } else {
-                // Create AndroidManifest.xml and build APK using AAPT
+                // Create AndroidManifest.xml and build Overlay using AAPT
                 dir = new File(Resources.DATA_DIR + "/Overlays");
                 if (dir.listFiles() == null) hasErroredOut = true;
 
@@ -438,7 +438,7 @@ public class Onboarding extends BaseActivity {
                                         hasErroredOut = true;
                                     }
 
-                                    logger = "Building APK for " + overlay_name;
+                                    logger = "Building Overlay for " + overlay_name;
                                     publishProgress(step);
 
                                     if (!hasErroredOut && OnBoardingCompiler.runAapt(overlay.getAbsolutePath(), overlay_name)) {
@@ -459,7 +459,7 @@ public class Onboarding extends BaseActivity {
                 logger = "Skipping zipaligning process...";
                 publishProgress(step);
             } else {
-                // ZipAlign the APK
+                // ZipAlign the Overlay
                 dir = new File(Resources.UNSIGNED_UNALIGNED_DIR);
                 if (dir.listFiles() == null) hasErroredOut = true;
 
@@ -468,7 +468,7 @@ public class Onboarding extends BaseActivity {
                         if (!overlay.isDirectory()) {
                             String overlay_name = overlay.toString().replace(Resources.UNSIGNED_UNALIGNED_DIR + '/', "").replace("-unaligned", "");
 
-                            logger = "Zip aligning APK " + overlay_name.replace("-unsigned.apk", "");
+                            logger = "Zip aligning Overlay " + overlay_name.replace("-unsigned.apk", "");
                             publishProgress(step);
 
                             if (OnBoardingCompiler.zipAlign(overlay.getAbsolutePath(), overlay_name)) {
@@ -486,7 +486,7 @@ public class Onboarding extends BaseActivity {
                 logger = "Skipping signing process...";
                 publishProgress(step);
             } else {
-                // Sign the APK
+                // Sign the Overlay
                 dir = new File(Resources.UNSIGNED_DIR);
                 if (dir.listFiles() == null) hasErroredOut = true;
 
@@ -495,7 +495,7 @@ public class Onboarding extends BaseActivity {
                         if (!overlay.isDirectory()) {
                             String overlay_name = overlay.toString().replace(Resources.UNSIGNED_DIR + '/', "").replace("-unsigned", "");
 
-                            logger = "Signing APK " + overlay_name.replace(".apk", "");
+                            logger = "Signing Overlay " + overlay_name.replace(".apk", "");
                             publishProgress(step);
 
                             int attempt = 3;
