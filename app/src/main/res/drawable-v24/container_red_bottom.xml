@@ -12,17 +12,17 @@
         </shape>
     </item>
     <item
-        android:bottom="1dp"
-        android:left="1dp"
-        android:right="1dp"
-        android:top="1dp">
+        android:bottom="2dp"
+        android:left="2dp"
+        android:right="2dp"
+        android:top="2dp">
         <shape android:shape="rectangle">
             <solid android:color="@color/offStateColor4" />
             <corners
-                android:bottomLeftRadius="@dimen/cont_corner_radius"
-                android:bottomRightRadius="@dimen/cont_corner_radius"
-                android:topLeftRadius="7dp"
-                android:topRightRadius="7dp" />
+                android:bottomLeftRadius="@dimen/cont_corner_radius2"
+                android:bottomRightRadius="@dimen/cont_corner_radius2"
+                android:topLeftRadius="5dp"
+                android:topRightRadius="5dp" />
         </shape>
     </item>
 </ripple>

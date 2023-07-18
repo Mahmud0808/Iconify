@@ -12,15 +12,15 @@
         </shape>
     </item>
     <item
-        android:bottom="1dp"
-        android:left="1dp"
-        android:right="1dp"
-        android:top="1dp">
+        android:bottom="2dp"
+        android:left="2dp"
+        android:right="2dp"
+        android:top="2dp">
         <shape android:shape="rectangle">
             <solid android:color="@color/offStateColor4" />
             <corners
-                android:bottomLeftRadius="7dp"
-                android:bottomRightRadius="7dp"
+                android:bottomLeftRadius="5dp"
+                android:bottomRightRadius="5dp"
                 android:topLeftRadius="@dimen/cont_corner_radius"
                 android:topRightRadius="@dimen/cont_corner_radius" />
         </shape>
