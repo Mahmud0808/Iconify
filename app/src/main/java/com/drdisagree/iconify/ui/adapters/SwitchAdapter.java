@@ -168,7 +168,7 @@ public class SwitchAdapter extends RecyclerView.Adapter<SwitchAdapter.ViewHolder
 
                         Runnable runnable = () -> {
                             Prefs.putInt(SELECTED_SWITCH, -1);
-                            OverlayUtil.disableOverlay("IconifyComponentSWITCH.overlay");
+                            OverlayUtil.disableOverlays("IconifyComponentSWITCH1.overlay", "IconifyComponentSWITCH2.overlay");
 
                             ((Activity) context).runOnUiThread(() -> {
                                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
