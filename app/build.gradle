@@ -148,6 +148,10 @@ dependencies {
     // HTML Parser
     implementation 'org.jsoup:jsoup:1.16.1'
 
+    // Color-java
+    // https://github.com/ngageoint/color-java
+    implementation 'mil.nga:color:1.0.0'
+
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.work:work-runtime:2.8.1'
