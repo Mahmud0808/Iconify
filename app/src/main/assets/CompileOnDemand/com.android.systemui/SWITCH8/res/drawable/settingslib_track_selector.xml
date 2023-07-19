@@ -7,8 +7,8 @@
                     <shape android:shape="rectangle">
                         <gradient
                             android:angle="0.0"
-                            android:endColor="@*android:color/holo_green_light"
-                            android:startColor="@*android:color/holo_blue_light" />
+                            android:endColor="@color/settingslib_track_on_color_end"
+                            android:startColor="@color/settingslib_track_on_color_start" />
                         <corners android:radius="24dp" />
                     </shape>
                 </item>
@@ -19,7 +19,7 @@
                     android:top="3dp">
                     <shape
                         android:shape="rectangle"
-                        android:tint="?android:colorBackground">
+                        android:tint="@color/settingslib_colorBackground">
                         <solid android:color="#ff000000" />
                         <corners android:radius="24dp" />
                     </shape>
@@ -31,7 +31,7 @@
                 <item>
                     <shape
                         android:shape="rectangle"
-                        android:tint="?android:colorForeground">
+                        android:tint="@color/settingslib_colorForeground">
                         <solid android:color="#66000000" />
                         <corners android:radius="24dp" />
                     </shape>
@@ -43,7 +43,7 @@
                     android:top="3dp">
                     <shape
                         android:shape="rectangle"
-                        android:tint="?android:colorBackground">
+                        android:tint="@color/settingslib_colorBackground">
                         <solid android:color="#ff000000" />
                         <corners android:radius="24dp" />
                     </shape>

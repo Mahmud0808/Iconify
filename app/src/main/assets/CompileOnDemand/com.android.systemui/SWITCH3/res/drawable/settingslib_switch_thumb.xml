@@ -9,14 +9,14 @@
                 android:top="7dp">
                 <shape
                     android:shape="oval"
-                    android:tint="?android:colorForeground">
+                    android:tint="@color/settingslib_colorForeground">
                     <solid android:color="#00000000" />
                     <stroke
                         android:width="4dp"
                         android:color="#ffffffff" />
                     <size
-                        android:width="18dp"
-                        android:height="18dp" />
+                        android:width="16dp"
+                        android:height="16dp" />
                 </shape>
             </item>
         </layer-list>
@@ -29,7 +29,7 @@
                 android:start="-2.7dp"
                 android:top="4dp">
                 <shape android:shape="oval">
-                    <solid android:color="?android:colorBackground" />
+                    <solid android:color="@color/settingslib_colorBackground" />
                     <size
                         android:width="24dp"
                         android:height="24dp" />

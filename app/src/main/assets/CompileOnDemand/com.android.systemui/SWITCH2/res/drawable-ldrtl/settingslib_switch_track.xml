@@ -25,8 +25,8 @@
             <item>
                 <shape android:shape="rectangle">
                     <gradient
-                        android:endColor="@*android:color/holo_green_light"
-                        android:startColor="@*android:color/holo_blue_light" />
+                        android:endColor="@color/settingslib_track_on_color_end"
+                        android:startColor="@color/settingslib_track_on_color_start" />
                     <corners android:radius="24dp" />
                 </shape>
             </item>
