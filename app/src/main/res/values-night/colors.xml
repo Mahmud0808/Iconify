@@ -50,6 +50,8 @@
     <color name="onboarding_background_two_bottom">#0A1212</color>
     <color name="onboarding_background_three_top">#00040C</color>
     <color name="onboarding_background_three_bottom">#000919</color>
+    <color name="settingslib_track_on_color_start">@android:color/system_accent1_100</color>
+    <color name="settingslib_track_on_color_end">@android:color/system_accent3_100</color>
 
     <color name="colorPrimaryLight">@color/material_dynamic_primary40</color>
     <color name="colorPrimaryDark">@color/material_dynamic_primary80</color>
