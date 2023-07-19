@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:alpha="?android:attr/disabledAlpha"
+        android:bottom="4dp"
+        android:top="4dp">
+        <shape
+            android:shape="oval"
+            android:tint="@color/settingslib_thumb_off_color">
+            <solid android:color="#ffffffff" />
+            <size
+                android:width="20dp"
+                android:height="20dp" />
+        </shape>
+    </item>
+</layer-list>

@@ -1,19 +1,12 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<inset xmlns:android="http://schemas.android.com/apk/res/android">
-    <selector>
-        <item android:state_checked="true">
-            <shape android:shape="rectangle">
-                <solid android:color="#FF34C85B" />
-                <corners android:radius="28dp" />
-            </shape>
-        </item>
-        <item android:state_checked="false">
-            <shape
-                android:shape="rectangle"
-                android:tint="?android:colorForeground">
-                <solid android:color="#1A000000" />
-                <corners android:radius="28dp" />
-            </shape>
-        </item>
-    </selector>
-</inset>
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/settingslib_track_on_background"
+        android:state_checked="true" />
+    <item
+        android:drawable="@drawable/settingslib_track_off_background"
+        android:state_checked="false" />
+    <item
+        android:drawable="@drawable/settingslib_track_disabled_background"
+        android:state_enabled="false" />
+</selector>

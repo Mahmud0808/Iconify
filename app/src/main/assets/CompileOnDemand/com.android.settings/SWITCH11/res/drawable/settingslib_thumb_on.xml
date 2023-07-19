@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <layer-list>
+            <item
+                android:width="25dp"
+                android:height="25dp"
+                android:drawable="@drawable/switch_checkmark_thumb_on" />
+        </layer-list>
+    </item>
+</layer-list>

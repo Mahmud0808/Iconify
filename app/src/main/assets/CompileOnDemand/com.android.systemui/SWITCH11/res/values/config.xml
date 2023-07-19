@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="settingslib_track_on_color_start">#2e6c4c</color>
+    <color name="settingslib_track_on_color_end">#2e6c4c</color>
+    <color name="settingslib_track_off_color">@*android:color/system_neutral1_900</color>
+</resources>
