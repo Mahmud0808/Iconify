@@ -20,7 +20,7 @@ public class ColorSchemeUtil {
 
     public static final int[] tones = {100, 99, 95, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0};
 
-    public static List<List<Object>> GenerateColorPalette(Context context, String style, int color) {
+    public static List<List<Object>> generateColorPalette(Context context, String style, int color) {
         List<List<Object>> palette = new ArrayList<>();
         List<Object> system_accent1 = new ArrayList<>();
         List<Object> system_accent2 = new ArrayList<>();

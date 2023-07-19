@@ -12,7 +12,7 @@ import static com.drdisagree.iconify.common.Preferences.MONET_BACKGROUND_SATURAT
 import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.MONET_STYLE;
 import static com.drdisagree.iconify.common.Preferences.STR_NULL;
-import static com.drdisagree.iconify.utils.ColorSchemeUtil.GenerateColorPalette;
+import static com.drdisagree.iconify.utils.ColorSchemeUtil.generateColorPalette;
 
 import android.annotation.SuppressLint;
 import android.graphics.drawable.GradientDrawable;
@@ -79,7 +79,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         disable_custom_monet = findViewById(R.id.disable_custom_monet);
 
         colorTableRows = new LinearLayout[]{findViewById(R.id.monet_engine).findViewById(R.id.system_accent1), findViewById(R.id.monet_engine).findViewById(R.id.system_accent2), findViewById(R.id.monet_engine).findViewById(R.id.system_accent3), findViewById(R.id.monet_engine).findViewById(R.id.system_neutral1), findViewById(R.id.monet_engine).findViewById(R.id.system_neutral2)};
-        systemColors = ColorUtil.getSystemColors();
+        systemColors = ColorUtil.getSystemColors(this);
 
         for (int[] row : systemColors) {
             List<Object> temp = new ArrayList<>();
@@ -113,15 +113,8 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
             radioGroup2.clearCheck();
         }
 
-        if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL))
-            accentPrimary = Prefs.getString(COLOR_ACCENT_PRIMARY);
-        else
-            accentPrimary = String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent1_300 : android.R.color.system_accent1_600, getTheme()));
-
-        if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL))
-            accentSecondary = Prefs.getString(COLOR_ACCENT_SECONDARY);
-        else
-            accentSecondary = String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent3_300 : android.R.color.system_accent3_600, getTheme()));
+        accentPrimary = String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent1_300 : android.R.color.system_accent1_600, getTheme()));
+        accentSecondary = String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent3_300 : android.R.color.system_accent3_600, getTheme()));
 
         updatePrimaryColor();
         updateSecondaryColor();
@@ -133,7 +126,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         radioGroup2.setOnCheckedChangeListener(listener2);
 
         if (Prefs.getBoolean(MONET_ENGINE_SWITCH, false) && !Objects.equals(selectedStyle, STR_NULL))
-            assignCustomColorToPalette(GenerateColorPalette(MonetEngine.this, selectedStyle, Integer.parseInt(accentPrimary)));
+            assignCustomColorToPalette();
         else assignStockColorToPalette();
 
         colorPickerDialogPrimary = ColorPickerDialog.newBuilder();
@@ -153,7 +146,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         monet_accurate_shades.setChecked(Prefs.getBoolean(MONET_ACCURATE_SHADES, true));
         monet_accurate_shades.setOnCheckedChangeListener((buttonView, isChecked) -> {
             accurateShades = isChecked;
-            assignCustomColorToPalette(GenerateColorPalette(MonetEngine.this, selectedStyle, Integer.parseInt(accentPrimary)));
+            assignCustomColorToPalette();
             enable_custom_monet.setVisibility(View.VISIBLE);
         });
 
@@ -170,7 +163,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         reset_accent_saturation.setOnLongClickListener(v -> {
             monetAccentSaturation[0] = 100;
             monet_accent_saturation_seekbar.setProgress(100);
-            assignCustomColorToPalette(GenerateColorPalette(MonetEngine.this, selectedStyle, Integer.parseInt(accentPrimary)));
+            assignCustomColorToPalette();
             reset_accent_saturation.setVisibility(View.INVISIBLE);
             enable_custom_monet.setVisibility(View.VISIBLE);
             return true;
@@ -186,7 +179,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                 monetAccentSaturation[0] = progress;
                 if (progress == 100) reset_accent_saturation.setVisibility(View.INVISIBLE);
                 monet_accent_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress - 100) + "%");
-                assignCustomColorToPalette(GenerateColorPalette(MonetEngine.this, selectedStyle, Integer.parseInt(accentPrimary)));
+                assignCustomColorToPalette();
             }
 
             @Override
@@ -209,7 +202,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         reset_background_saturation.setOnLongClickListener(v -> {
             monetBackgroundSaturation[0] = 100;
             monet_background_saturation_seekbar.setProgress(100);
-            assignCustomColorToPalette(GenerateColorPalette(MonetEngine.this, selectedStyle, Integer.parseInt(accentPrimary)));
+            assignCustomColorToPalette();
             reset_background_saturation.setVisibility(View.INVISIBLE);
             enable_custom_monet.setVisibility(View.VISIBLE);
             return true;
@@ -225,7 +218,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                 monetBackgroundSaturation[0] = progress;
                 if (progress == 100) reset_background_saturation.setVisibility(View.INVISIBLE);
                 monet_background_saturation_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress - 100) + "%");
-                assignCustomColorToPalette(GenerateColorPalette(MonetEngine.this, selectedStyle, Integer.parseInt(accentPrimary)));
+                assignCustomColorToPalette();
             }
 
             @Override
@@ -248,7 +241,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         reset_background_lightness.setOnLongClickListener(v -> {
             monetBackgroundLightness[0] = 100;
             monet_background_lightness_seekbar.setProgress(100);
-            assignCustomColorToPalette(GenerateColorPalette(MonetEngine.this, selectedStyle, Integer.parseInt(accentPrimary)));
+            assignCustomColorToPalette();
             reset_background_lightness.setVisibility(View.INVISIBLE);
             enable_custom_monet.setVisibility(View.VISIBLE);
             return true;
@@ -264,7 +257,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                 monetBackgroundLightness[0] = progress;
                 if (progress == 100) reset_background_lightness.setVisibility(View.INVISIBLE);
                 monet_background_lightness_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress - 100) + "%");
-                assignCustomColorToPalette(GenerateColorPalette(MonetEngine.this, selectedStyle, Integer.parseInt(accentPrimary)));
+                assignCustomColorToPalette();
             }
 
             @Override
@@ -284,7 +277,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
             } else {
                 Prefs.putBoolean(MONET_ACCURATE_SHADES, accurateShades);
                 Prefs.putInt(MONET_ACCENT_SATURATION, monetAccentSaturation[0]);
-                Prefs.putInt(MONET_BACKGROUND_SATURATION, monetBackgroundSaturation[0]);
+                Prefs.putInt(MONET_BACKGROUND_SATURATION, (int) monetBackgroundSaturation[0]);
                 Prefs.putInt(MONET_BACKGROUND_LIGHTNESS, monetBackgroundLightness[0]);
 
                 if (isSelectedPrimary) Prefs.putString(COLOR_ACCENT_PRIMARY, accentPrimary);
@@ -363,7 +356,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                 accentPrimary = String.valueOf(color);
                 updatePrimaryColor();
                 enable_custom_monet.setVisibility(View.VISIBLE);
-                assignCustomColorToPalette(GenerateColorPalette(MonetEngine.this, selectedStyle, Integer.parseInt(accentPrimary)));
+                assignCustomColorToPalette();
                 colorPickerDialogPrimary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentPrimary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);
                 break;
             case 2:
@@ -371,7 +364,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                 accentSecondary = String.valueOf(color);
                 updateSecondaryColor();
                 enable_custom_monet.setVisibility(View.VISIBLE);
-                assignCustomColorToPalette(GenerateColorPalette(MonetEngine.this, selectedStyle, Integer.parseInt(accentPrimary)));
+                assignCustomColorToPalette();
                 colorPickerDialogSecondary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentSecondary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(false).setShowColorShades(true);
                 break;
         }
@@ -395,7 +388,6 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         preview_color_picker_secondary.setBackground(gd);
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     private void assignStockColorToPalette() {
         for (int i = 0; i < colorTableRows.length; i++) {
             for (int j = 0; j < colorTableRows[i].getChildCount(); j++) {
@@ -406,8 +398,8 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         }
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private void assignCustomColorToPalette(List<List<Object>> palette) {
+    private void assignCustomColorToPalette() {
+        List<List<Object>> palette = generateColorPalette(MonetEngine.this, selectedStyle, Integer.parseInt(accentPrimary));
         List<List<Object>> palette_night = cloneList(palette);
 
         // Set accent saturation
@@ -464,7 +456,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         for (int i = 0; i < colorTableRows.length; i++) {
             if (i == 2 && (Prefs.getBoolean(CUSTOM_SECONDARY_COLOR_SWITCH) || isSelectedSecondary) && !Objects.equals(selectedStyle, getResources().getString(R.string.monet_monochrome))) {
                 Prefs.putBoolean(CUSTOM_SECONDARY_COLOR_SWITCH, true);
-                List<List<Object>> secondaryPalette = GenerateColorPalette(MonetEngine.this, selectedStyle, Integer.parseInt(accentSecondary));
+                List<List<Object>> secondaryPalette = generateColorPalette(MonetEngine.this, selectedStyle, Integer.parseInt(accentSecondary));
 
                 for (int j = colorTableRows[i].getChildCount() - 1; j >= 0; j--) {
                     int color;
@@ -534,7 +526,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                 radioGroup2.setOnCheckedChangeListener(null);
                 radioGroup2.clearCheck();
                 radioGroup2.setOnCheckedChangeListener(listener2);
-                assignCustomColorToPalette(GenerateColorPalette(MonetEngine.this, selectedStyle, Integer.parseInt(accentPrimary)));
+                assignCustomColorToPalette();
                 enable_custom_monet.setVisibility(View.VISIBLE);
             }
         }
@@ -548,7 +540,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                 radioGroup1.setOnCheckedChangeListener(null);
                 radioGroup1.clearCheck();
                 radioGroup1.setOnCheckedChangeListener(listener1);
-                assignCustomColorToPalette(GenerateColorPalette(MonetEngine.this, selectedStyle, Integer.parseInt(accentPrimary)));
+                assignCustomColorToPalette();
                 enable_custom_monet.setVisibility(View.VISIBLE);
             }
         }
