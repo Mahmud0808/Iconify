@@ -187,7 +187,7 @@
     <string name="toast_error">Something went wrong</string>
     <string name="reboot_needed">Reboot your device first!</string>
     <string name="disable_everything_title">Disable Everything</string>
-    <string name="disable_everything_desc">Disable all Iconify overlays, colors, and miscellaneous changes. Disable twice for proper effect.</string>
+    <string name="disable_everything_desc">Disable all Iconify overlays, colors, and miscellaneous changes.</string>
     <string name="toast_disable_everything">Long press to disable everything</string>
     <string name="toast_disabled_everything">Everything is disabled</string>
     <string name="restart_sysui_title">Restart SystemUI</string>

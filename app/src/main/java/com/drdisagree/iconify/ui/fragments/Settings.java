@@ -5,15 +5,15 @@ import static com.drdisagree.iconify.common.Preferences.APP_LANGUAGE;
 import static com.drdisagree.iconify.common.Preferences.APP_THEME;
 import static com.drdisagree.iconify.common.Preferences.EASTER_EGG;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
+import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
 import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_AFTER_BOOT;
 import static com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN;
+import static com.drdisagree.iconify.common.Resources.MODULE_DIR;
 import static com.drdisagree.iconify.utils.AppUtil.restartApplication;
 
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,7 +35,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.activities.AppUpdates;
@@ -45,45 +44,29 @@ import com.drdisagree.iconify.ui.activities.Info;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.ui.views.RadioDialog;
 import com.drdisagree.iconify.utils.CacheUtil;
-import com.drdisagree.iconify.utils.FabricatedUtil;
-import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class Settings extends BaseFragment implements RadioDialog.RadioDialogListener {
 
-    public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
-    public static List<String> EnabledFabricatedOverlays = new ArrayList<>();
     LoadingDialog loadingDialog;
     RadioDialog rd_app_language, rd_app_icon, rd_app_theme;
 
     public static void disableEverything() {
-        SharedPreferences prefs = Iconify.getAppContext().getSharedPreferences(Iconify.getAppContext().getPackageName(), Context.MODE_PRIVATE);
-        Map<String, ?> map = prefs.getAll();
-
-        for (Map.Entry<String, ?> item : map.entrySet()) {
-            if (item.getValue() instanceof Boolean && ((Boolean) item.getValue()) && item.getKey().contains("fabricated")) {
-                EnabledFabricatedOverlays.add(item.getKey().replace("fabricated", ""));
-            }
-        }
-
-        FabricatedUtil.disableOverlays(EnabledFabricatedOverlays.toArray(new String[0]));
-        OverlayUtil.disableOverlays(EnabledOverlays.toArray(new String[0]));
-        SystemUtil.disableBlur();
-        Shell.cmd("touch " + Resources.MODULE_DIR + "/post-exec.sh").submit();
-
         Prefs.clearAllPrefs();
-        SystemUtil.getBootId();
-        SystemUtil.getVersionCode();
-        Prefs.putBoolean(FIRST_INSTALL, false);
         RPrefs.clearAllPrefs();
+
+        SystemUtil.getBootId();
+        SystemUtil.disableBlur();
+        SystemUtil.getVersionCode();
+        Prefs.putBoolean(ON_HOME_PAGE, true);
+        Prefs.putBoolean(FIRST_INSTALL, false);
+
+        Shell.cmd("> " + MODULE_DIR + "/common/system.prop; > " + MODULE_DIR + "/post-exec.sh; for ol in $(cmd overlay list | grep -E '^.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable $ol; done; killall com.android.systemui").submit();
     }
 
     @Override
