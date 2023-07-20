@@ -10,7 +10,13 @@ public class ColorUtil {
     }
 
     public static float getHue(int color) {
-        return mil.nga.color.Color.color(color).getHue();
+        int r = Color.red(color);
+        int g = Color.green(color);
+        int b = Color.blue(color);
+
+        float[] hsv = new float[3];
+        Color.RGBToHSV(r, g, b, hsv);
+        return hsv[0];
     }
 
     public static int setHue(int color, float hue) {
@@ -26,7 +32,13 @@ public class ColorUtil {
     }
 
     public static float getSaturation(int color) {
-        return mil.nga.color.Color.color(color).getSaturation();
+        int r = Color.red(color);
+        int g = Color.green(color);
+        int b = Color.blue(color);
+
+        float[] hsv = new float[3];
+        Color.RGBToHSV(r, g, b, hsv);
+        return hsv[1];
     }
 
     public static int setSaturation(int color, float saturation) {
@@ -42,7 +54,13 @@ public class ColorUtil {
     }
 
     public static float getLightness(int color) {
-        return mil.nga.color.Color.color(color).getLightness();
+        int r = Color.red(color);
+        int g = Color.green(color);
+        int b = Color.blue(color);
+
+        float[] hsv = new float[3];
+        Color.RGBToHSV(r, g, b, hsv);
+        return hsv[2];
     }
 
     public static int setLightness(int color, float lightness) {
