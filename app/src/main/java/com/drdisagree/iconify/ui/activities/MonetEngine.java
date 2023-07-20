@@ -60,10 +60,10 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
     private int[][] systemColors;
     private RadioGroup radioGroup1, radioGroup2;
     private Button enable_custom_monet, disable_custom_monet;
-    private ColorPickerDialog.Builder colorPickerDialogPrimary, colorPickerDialogSecondary;
-    private List<List<Object>> generatedColorPalette = new ArrayList<>();
-    private List<List<Object>> generatedColorPaletteNight = new ArrayList<>();
+    private ColorPickerDialog.Builder colorPickerDialogPrimary, colorPickerDialogSecondary, colorPickerDialogCustom;
+    private final List<List<List<Object>>> finalPalette = new ArrayList<>();
     private boolean isDarkMode = SystemUtil.isDarkMode();
+    private final int[] selectedChild = new int[2];
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -79,16 +79,19 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         disable_custom_monet = findViewById(R.id.disable_custom_monet);
 
         colorTableRows = new LinearLayout[]{findViewById(R.id.monet_engine).findViewById(R.id.system_accent1), findViewById(R.id.monet_engine).findViewById(R.id.system_accent2), findViewById(R.id.monet_engine).findViewById(R.id.system_accent3), findViewById(R.id.monet_engine).findViewById(R.id.system_neutral1), findViewById(R.id.monet_engine).findViewById(R.id.system_neutral2)};
-        systemColors = ColorUtil.getSystemColors(this);
+        systemColors = ColorUtil.getSystemColors(MonetEngine.this);
 
+        List<List<Object>> temp = new ArrayList<>();
         for (int[] row : systemColors) {
-            List<Object> temp = new ArrayList<>();
+            List<Object> temp2 = new ArrayList<>();
             for (int col : row) {
-                temp.add(col);
+                temp2.add(col);
             }
-            generatedColorPalette.add(temp);
-            generatedColorPaletteNight.add(temp);
+            temp.add(temp2);
         }
+        finalPalette.clear();
+        finalPalette.add(temp);
+        finalPalette.add(temp);
 
         isDarkMode = SystemUtil.isDarkMode();
         selectedStyle = Prefs.getString(MONET_STYLE, getResources().getString(R.string.monet_neutral));
@@ -125,12 +128,11 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         radioGroup1.setOnCheckedChangeListener(listener1);
         radioGroup2.setOnCheckedChangeListener(listener2);
 
-        if (Prefs.getBoolean(MONET_ENGINE_SWITCH, false) && !Objects.equals(selectedStyle, STR_NULL))
-            assignCustomColorToPalette();
-        else assignStockColorToPalette();
+        assignStockColorToPalette();
 
         colorPickerDialogPrimary = ColorPickerDialog.newBuilder();
         colorPickerDialogSecondary = ColorPickerDialog.newBuilder();
+        colorPickerDialogCustom = ColorPickerDialog.newBuilder();
 
         colorPickerDialogPrimary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentPrimary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);
         colorPickerDialogSecondary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentSecondary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(false).setShowColorShades(true);
@@ -289,7 +291,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
 
                 Runnable runnable1 = () -> {
                     try {
-                        if (MonetEngineManager.enableOverlay(generatedColorPalette, generatedColorPaletteNight)) {
+                        if (MonetEngineManager.enableOverlay(finalPalette)) {
                             hasErroredOut.set(true);
                         } else {
                             Prefs.putString(MONET_STYLE, selectedStyle);
@@ -346,32 +348,20 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
             Thread thread2 = new Thread(runnable2);
             thread2.start();
         });
-    }
 
-    @Override
-    public void onColorSelected(int dialogId, int color) {
-        switch (dialogId) {
-            case 1:
-                isSelectedPrimary = true;
-                accentPrimary = String.valueOf(color);
-                updatePrimaryColor();
-                enable_custom_monet.setVisibility(View.VISIBLE);
-                assignCustomColorToPalette();
-                colorPickerDialogPrimary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentPrimary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);
-                break;
-            case 2:
-                isSelectedSecondary = true;
-                accentSecondary = String.valueOf(color);
-                updateSecondaryColor();
-                enable_custom_monet.setVisibility(View.VISIBLE);
-                assignCustomColorToPalette();
-                colorPickerDialogSecondary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentSecondary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(false).setShowColorShades(true);
-                break;
+        for (int i = 0; i < colorTableRows.length; i++) {
+            for (int j = 0; j < colorTableRows[i].getChildCount(); j++) {
+                View child = colorTableRows[i].getChildAt(j);
+                int finalI = i;
+                int finalJ = j;
+                child.setOnClickListener(view -> {
+                    selectedChild[0] = finalI;
+                    selectedChild[1] = finalJ;
+                    int[] color = ((GradientDrawable) child.getBackground()).getColors();
+                    colorPickerDialogCustom.setDialogStyle(R.style.ColorPicker).setColor(color[0]).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(3).setShowAlphaSlider(false).setShowColorShades(true).show(MonetEngine.this);
+                });
+            }
         }
-    }
-
-    @Override
-    public void onDialogDismissed(int dialogId) {
     }
 
     private void updatePrimaryColor() {
@@ -497,8 +487,9 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
             }
         }
 
-        generatedColorPalette = palette;
-        generatedColorPaletteNight = palette_night;
+        finalPalette.clear();
+        finalPalette.add(palette);
+        finalPalette.add(palette_night);
     }
 
     private void disableBasicColors() {
@@ -545,4 +536,38 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
             }
         }
     };
+
+    @Override
+    public void onColorSelected(int dialogId, int color) {
+        switch (dialogId) {
+            case 1:
+                isSelectedPrimary = true;
+                accentPrimary = String.valueOf(color);
+                updatePrimaryColor();
+                enable_custom_monet.setVisibility(View.VISIBLE);
+                assignCustomColorToPalette();
+                colorPickerDialogPrimary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentPrimary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);
+                break;
+            case 2:
+                isSelectedSecondary = true;
+                accentSecondary = String.valueOf(color);
+                updateSecondaryColor();
+                enable_custom_monet.setVisibility(View.VISIBLE);
+                assignCustomColorToPalette();
+                colorPickerDialogSecondary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentSecondary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(false).setShowColorShades(true);
+                break;
+            case 3:
+                GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{color, color});
+                gd.setCornerRadius(8 * getResources().getDisplayMetrics().density);
+                colorTableRows[selectedChild[0]].getChildAt(selectedChild[1]).setBackground(gd);
+                finalPalette.get(0).get(selectedChild[0]).set(selectedChild[1], color);
+                finalPalette.get(1).get(selectedChild[0]).set(selectedChild[1], color);
+                enable_custom_monet.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
+    @Override
+    public void onDialogDismissed(int dialogId) {
+    }
 }

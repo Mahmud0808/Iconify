@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MonetEngineManager {
 
-    public static boolean enableOverlay(List<List<Object>> palette, List<List<Object>> palette_night) throws IOException {
+    public static boolean enableOverlay(List<List<List<Object>>> palette) throws IOException {
         String[][] colors = ColorUtil.getColorNames();
 
         StringBuilder resources = new StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
@@ -16,15 +16,15 @@ public class MonetEngineManager {
 
         for (int i = 0; i < colors.length; i++) {
             for (int j = 0; j < colors[i].length; j++) {
-                resources.append("    <color name=\"").append(colors[i][j]).append("\">").append(ColorUtil.colorToHex((int) palette.get(i).get(j))).append("</color>\n");
-                resources_night.append("    <color name=\"").append(colors[i][j]).append("\">").append(ColorUtil.colorToHex((int) palette_night.get(i).get(j))).append("</color>\n");
+                resources.append("    <color name=\"").append(colors[i][j]).append("\">").append(ColorUtil.colorToHex((int) palette.get(0).get(i).get(j))).append("</color>\n");
+                resources_night.append("    <color name=\"").append(colors[i][j]).append("\">").append(ColorUtil.colorToHex((int) palette.get(1).get(i).get(j))).append("</color>\n");
             }
         }
 
-        resources.append("    <color name=\"holo_blue_light\">").append(ColorUtil.colorToHex((int) palette.get(0).get(8))).append("</color>\n");
-        resources.append("    <color name=\"holo_blue_dark\">").append(ColorUtil.colorToHex((int) palette.get(0).get(5))).append("</color>\n");
-        resources.append("    <color name=\"holo_green_light\">").append(ColorUtil.colorToHex((int) palette.get(2).get(8))).append("</color>\n");
-        resources.append("    <color name=\"holo_green_dark\">").append(ColorUtil.colorToHex((int) palette.get(2).get(5))).append("</color>\n");
+        resources.append("    <color name=\"holo_blue_light\">").append(ColorUtil.colorToHex((int) palette.get(0).get(0).get(8))).append("</color>\n");
+        resources.append("    <color name=\"holo_blue_dark\">").append(ColorUtil.colorToHex((int) palette.get(0).get(0).get(5))).append("</color>\n");
+        resources.append("    <color name=\"holo_green_light\">").append(ColorUtil.colorToHex((int) palette.get(0).get(2).get(8))).append("</color>\n");
+        resources.append("    <color name=\"holo_green_dark\">").append(ColorUtil.colorToHex((int) palette.get(0).get(2).get(5))).append("</color>\n");
         resources.append("    <color name=\"accent_device_default\">@*android:color/holo_blue_light</color>\n");
         resources.append("    <color name=\"accent_device_default_dark\">@*android:color/holo_blue_light</color>\n");
         resources.append("    <color name=\"accent_device_default_light\">@*android:color/holo_blue_light</color>\n");
@@ -68,10 +68,10 @@ public class MonetEngineManager {
         resources.append("    <color name=\"primary_material_settings\">@*android:color/background_dark</color>\n");
         resources.append("</resources>\n");
 
-        resources_night.append("    <color name=\"holo_blue_light\">").append(ColorUtil.colorToHex((int) palette_night.get(0).get(5))).append("</color>\n");
-        resources_night.append("    <color name=\"holo_blue_dark\">").append(ColorUtil.colorToHex((int) palette_night.get(0).get(5))).append("</color>\n");
-        resources_night.append("    <color name=\"holo_green_light\">").append(ColorUtil.colorToHex((int) palette_night.get(2).get(5))).append("</color>\n");
-        resources_night.append("    <color name=\"holo_green_dark\">").append(ColorUtil.colorToHex((int) palette_night.get(2).get(5))).append("</color>\n");
+        resources_night.append("    <color name=\"holo_blue_light\">").append(ColorUtil.colorToHex((int) palette.get(1).get(0).get(5))).append("</color>\n");
+        resources_night.append("    <color name=\"holo_blue_dark\">").append(ColorUtil.colorToHex((int) palette.get(1).get(0).get(5))).append("</color>\n");
+        resources_night.append("    <color name=\"holo_green_light\">").append(ColorUtil.colorToHex((int) palette.get(1).get(2).get(5))).append("</color>\n");
+        resources_night.append("    <color name=\"holo_green_dark\">").append(ColorUtil.colorToHex((int) palette.get(1).get(2).get(5))).append("</color>\n");
         resources_night.append("    <color name=\"accent_device_default\">@*android:color/holo_blue_light</color>\n");
         resources_night.append("    <color name=\"accent_device_default_dark\">@*android:color/holo_blue_light</color>\n");
         resources_night.append("    <color name=\"accent_device_default_light\">@*android:color/holo_blue_light</color>\n");
