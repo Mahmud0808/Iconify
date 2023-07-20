@@ -5,6 +5,10 @@ import android.graphics.Color;
 
 public class ColorUtil {
 
+    public static int hsl(float hue, float saturation, float lightness) {
+        return HSLColor.hslToColor(hue, saturation, lightness);
+    }
+
     public static float getHue(int color) {
         return mil.nga.color.Color.color(color).getHue();
     }
@@ -68,6 +72,10 @@ public class ColorUtil {
         int red = Color.red(color);
 
         return String.format("0x%02X%02X%02X", red, green, blue);
+    }
+
+    public static float[] getSystemTintList() {
+        return new float[]{1.0f, 0.99f, 0.95f, 0.9f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.1f, 0.0f};
     }
 
     public static String[][] getColorNames() {
