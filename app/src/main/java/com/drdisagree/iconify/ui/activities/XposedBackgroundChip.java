@@ -86,7 +86,7 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
         selected_sb_clock_color_option = findViewById(R.id.selected_sb_clock_color_option);
         rd_sb_clock_color_option = new RadioDialog(this, 0, RPrefs.getInt(STATUSBAR_CLOCK_COLOR_OPTION, 0));
         rd_sb_clock_color_option.setRadioDialogListener(this);
-        sb_clock_color.setOnClickListener(v -> rd_sb_clock_color_option.show(R.string.battery_style_title, R.array.statusbar_clock_color, selected_sb_clock_color_option));
+        sb_clock_color.setOnClickListener(v -> rd_sb_clock_color_option.show(R.string.statusbar_clock_color_title, R.array.statusbar_clock_color, selected_sb_clock_color_option));
         selectedClockColorOption = rd_sb_clock_color_option.getSelectedIndex();
         selected_sb_clock_color_option.setText(Arrays.asList(getResources().getStringArray(R.array.statusbar_clock_color)).get(selectedClockColorOption));
         selected_sb_clock_color_option.setText(getResources().getString(R.string.opt_selected) + ' ' + selected_sb_clock_color_option.getText().toString().replaceAll(getResources().getString(R.string.opt_selected) + ' ', ""));
