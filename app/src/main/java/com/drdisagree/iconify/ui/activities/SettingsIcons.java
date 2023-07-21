@@ -144,7 +144,7 @@ public class SettingsIcons extends BaseActivity implements RadioDialog.RadioDial
 
                 Runnable runnable = () -> {
                     try {
-                        hasErroredOut.set(SettingsIconResourceManager.enableOverlay(selectedIcon, selectedBackground, selectedShape, selectedSize, selectedIconColor));
+                        hasErroredOut.set(SettingsIconResourceManager.enableOverlay(selectedIcon, selectedBackground, selectedShape, selectedSize, selectedIconColor, true));
                     } catch (IOException e) {
                         hasErroredOut.set(true);
                         Log.e("SettingsIcons", e.toString());

@@ -134,7 +134,7 @@ public class SwitchAdapter extends RecyclerView.Adapter<SwitchAdapter.ViewHolder
                                 Prefs.putInt(SELECTED_SWITCH, holder.getBindingAdapterPosition());
 
                                 try {
-                                    hasErroredOut.set(SwitchCompiler.buildOverlay(holder.getBindingAdapterPosition() + 1));
+                                    hasErroredOut.set(SwitchCompiler.buildOverlay(holder.getBindingAdapterPosition() + 1, true));
                                 } catch (IOException e) {
                                     hasErroredOut.set(true);
                                     holder.aSwitch.setChecked(false);

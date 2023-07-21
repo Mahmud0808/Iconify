@@ -103,6 +103,7 @@ public class Preferences {
     public static final String QSPANEL_BLUR_SWITCH = "qsBlurSwitch";
     public static final String UI_CORNER_RADIUS = "uiCornerRadius";
     public static final String MONET_STYLE = "customMonetStyle";
+    public static final String MONET_COLOR_PALETTE = "monetColorPalette";
     public static final String MONET_ACCENT_SATURATION = "monetAccentSaturation";
     public static final String MONET_BACKGROUND_SATURATION = "monetBackgroundSaturation";
     public static final String MONET_BACKGROUND_LIGHTNESS = "monetBackgroundLightness";

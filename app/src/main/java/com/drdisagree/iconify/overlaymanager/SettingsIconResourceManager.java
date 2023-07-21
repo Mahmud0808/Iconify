@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class SettingsIconResourceManager {
 
-    public static boolean enableOverlay(int iconSet, int backgroundStyle, int backgroundShape, int iconSize, int iconColor) throws IOException {
+    public static boolean enableOverlay(int iconSet, int backgroundStyle, int backgroundShape, int iconSize, int iconColor, boolean enable) throws IOException {
         String resources = "";
 
         if (iconSet >= 1 && iconSet <= 4) {
@@ -125,6 +125,6 @@ public class SettingsIconResourceManager {
             resources += "</resources>";
         }
 
-        return SettingsIconsCompiler.buildOverlay(iconSet, backgroundStyle, resources);
+        return SettingsIconsCompiler.buildOverlay(iconSet, backgroundStyle, resources, enable);
     }
 }

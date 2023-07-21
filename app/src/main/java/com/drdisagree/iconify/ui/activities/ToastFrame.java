@@ -91,7 +91,7 @@ public class ToastFrame extends BaseActivity {
                         AtomicBoolean hasErroredOut = new AtomicBoolean(false);
 
                         try {
-                            hasErroredOut.set(OnDemandCompiler.buildOverlay("TSTFRM", finalI + 1, FRAMEWORK_PACKAGE));
+                            hasErroredOut.set(OnDemandCompiler.buildOverlay("TSTFRM", finalI + 1, FRAMEWORK_PACKAGE, true));
                         } catch (IOException e) {
                             hasErroredOut.set(true);
                             Log.e("ToastFrame", e.toString());

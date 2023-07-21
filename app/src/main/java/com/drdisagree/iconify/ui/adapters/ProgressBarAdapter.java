@@ -132,7 +132,7 @@ public class ProgressBarAdapter extends RecyclerView.Adapter<ProgressBarAdapter.
                     Prefs.putInt(SELECTED_PROGRESSBAR, holder.getBindingAdapterPosition());
 
                     try {
-                        hasErroredOut.set(OnDemandCompiler.buildOverlay("PGB", holder.getBindingAdapterPosition() + 1, FRAMEWORK_PACKAGE));
+                        hasErroredOut.set(OnDemandCompiler.buildOverlay("PGB", holder.getBindingAdapterPosition() + 1, FRAMEWORK_PACKAGE, true));
                     } catch (IOException e) {
                         hasErroredOut.set(true);
                         Log.e("ProgressBar", e.toString());

@@ -106,7 +106,7 @@ public class IconShape extends BaseActivity {
                             AtomicBoolean hasErroredOut = new AtomicBoolean(false);
 
                             try {
-                                hasErroredOut.set(OnDemandCompiler.buildOverlay("SIS", finalI, FRAMEWORK_PACKAGE));
+                                hasErroredOut.set(OnDemandCompiler.buildOverlay("SIS", finalI, FRAMEWORK_PACKAGE, true));
                             } catch (IOException e) {
                                 hasErroredOut.set(true);
                                 Log.e("IconShape", e.toString());

@@ -15,7 +15,7 @@ public class RPrefs {
     @SuppressLint("StaticFieldLeak")
     private static final Context prefContext = Iconify.getAppContext().createDeviceProtectedStorageContext();
 
-    static SharedPreferences prefs = prefContext.getSharedPreferences(SharedXPref, MODE_PRIVATE);
+    public static SharedPreferences prefs = prefContext.getSharedPreferences(SharedXPref, MODE_PRIVATE);
     static SharedPreferences.Editor editor = prefs.edit();
 
     // Save sharedPref config

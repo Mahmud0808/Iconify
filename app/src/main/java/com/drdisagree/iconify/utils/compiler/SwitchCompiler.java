@@ -20,9 +20,11 @@ public class SwitchCompiler {
     private static final String[] mPackage = new String[]{"com.android.settings", "com.android.systemui"};
     private static final String[] mOverlayName = new String[]{"SWITCH1", "SWITCH2"};
     private static int mStyle = 0;
+    private static boolean mEnable = false;
 
-    public static boolean buildOverlay(int style) throws IOException {
+    public static boolean buildOverlay(int style, boolean enable) throws IOException {
         mStyle = style;
+        mEnable = enable;
 
         preExecute();
         moveOverlaysToCache();
@@ -84,11 +86,13 @@ public class SwitchCompiler {
             Shell.cmd("mkdir -p " + Resources.TEMP_CACHE_DIR + "/" + packageName + "/").exec();
 
         // Disable the overlay in case it is already enabled
-        String[] overlayNames = new String[mOverlayName.length];
-        for (int i = 1; i <= mOverlayName.length; i++) {
-            overlayNames[i - 1] = "IconifyComponentSWITCH" + i + ".overlay";
+        if (mEnable) {
+            String[] overlayNames = new String[mOverlayName.length];
+            for (int i = 1; i <= mOverlayName.length; i++) {
+                overlayNames[i - 1] = "IconifyComponentSWITCH" + i + ".overlay";
+            }
+            OverlayUtil.disableOverlays(overlayNames);
         }
-        OverlayUtil.disableOverlays(overlayNames);
     }
 
     private static void postExecute(boolean hasErroredOut) {
@@ -107,11 +111,14 @@ public class SwitchCompiler {
             }
             SystemUtil.mountRO();
 
-            String[] overlayNames = new String[mOverlayName.length];
-            for (int i = 1; i <= mOverlayName.length; i++) {
-                overlayNames[i - 1] = "IconifyComponentSWITCH" + i + ".overlay";
+            // Enable the overlays
+            if (mEnable) {
+                String[] overlayNames = new String[mOverlayName.length];
+                for (int i = 1; i <= mOverlayName.length; i++) {
+                    overlayNames[i - 1] = "IconifyComponentSWITCH" + i + ".overlay";
+                }
+                OverlayUtil.enableOverlays(overlayNames);
             }
-            OverlayUtil.enableOverlays(overlayNames);
         }
 
         // Clean temp directory
