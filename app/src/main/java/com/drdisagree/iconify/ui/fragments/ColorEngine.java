@@ -28,14 +28,12 @@ import com.drdisagree.iconify.ui.activities.MonetEngine;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
-import java.util.List;
 import java.util.Objects;
 
 public class ColorEngine extends BaseFragment {
 
-    public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
-    CompoundButton.OnCheckedChangeListener minimalQsListener = null;
     private View view;
+    private CompoundButton.OnCheckedChangeListener minimalQsListener = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -129,7 +127,7 @@ public class ColorEngine extends BaseFragment {
     }
 
     private boolean shouldUseDefaultColors() {
-        return OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay");
+        return OverlayUtil.isOverlayDisabled(OverlayUtil.getEnabledOverlayList(), "IconifyComponentME.overlay");
     }
 
     private void applyDefaultColors() {
@@ -167,7 +165,9 @@ public class ColorEngine extends BaseFragment {
                 }
             }, SWITCH_ANIMATION_DELAY);
         };
-    }    CompoundButton.OnCheckedChangeListener monetAccentListener = new CompoundButton.OnCheckedChangeListener() {
+    }
+
+    CompoundButton.OnCheckedChangeListener monetAccentListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (isChecked) {
@@ -187,7 +187,6 @@ public class ColorEngine extends BaseFragment {
             }, SWITCH_ANIMATION_DELAY);
         }
     };
-
 
 
     CompoundButton.OnCheckedChangeListener monetGradientListener = (buttonView, isChecked) -> {

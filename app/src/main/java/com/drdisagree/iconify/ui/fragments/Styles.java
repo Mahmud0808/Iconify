@@ -63,13 +63,14 @@ public class Styles extends BaseFragment {
     public static boolean isServiceRunning = false;
     @SuppressLint("StaticFieldLeak")
     private static LinearLayout check_update;
-    TextView update_desc;
+    private TextView update_desc;
     private CheckForUpdate checkForUpdate = null;
     private ViewGroup listView;
+    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_styles, container, false);
+        view = inflater.inflate(R.layout.fragment_styles, container, false);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);

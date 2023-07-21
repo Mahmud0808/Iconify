@@ -60,12 +60,74 @@ import java.util.Objects;
 
 public class Settings extends BaseFragment implements RadioDialog.RadioDialogListener {
 
-    LoadingDialog loadingDialog;
-    RadioDialog rd_app_language, rd_app_icon, rd_app_theme;
+    ActivityResultLauncher<Intent> startExportActivityIntent = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result1 -> {
+                if (result1.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result1.getData();
+                    if (data == null) return;
+
+                    try {
+                        ImportExport.exportSettings(Prefs.prefs, requireContext().getContentResolver().openOutputStream(data.getData()));
+                        Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_export_settings_successfull), Toast.LENGTH_SHORT).show();
+                    } catch (Exception exception) {
+                        Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                        Log.e("Settings", "Error exporting settings", exception);
+                    }
+                }
+            });
+    ActivityResultLauncher<Intent> startImportActivityIntent = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result2 -> {
+                if (result2.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result2.getData();
+                    if (data == null) return;
+
+                    AlertDialog alertDialog = new AlertDialog.Builder(requireContext()).create();
+                    alertDialog.setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title));
+                    alertDialog.setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc));
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, requireContext().getResources().getString(R.string.btn_positive),
+                            (dialog, which) -> {
+                                dialog.dismiss();
+                                new Handler(Looper.getMainLooper()).post(() -> {
+                                    try {
+                                        boolean success = ImportExport.importSettings(Prefs.prefs, requireContext().getContentResolver().openInputStream(data.getData()), true);
+                                        if (success) {
+                                            Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                        }
+                                    } catch (Exception exception) {
+                                        Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                        Log.e("Settings", "Error importing settings", exception);
+                                    }
+                                });
+                            });
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, requireContext().getResources().getString(R.string.btn_negative),
+                            (dialog, which) -> dialog.dismiss());
+                    alertDialog.show();
+                }
+            });
+    private View view;
+    private LoadingDialog loadingDialog;
+    private RadioDialog rd_app_language, rd_app_icon, rd_app_theme;
+
+    public static void disableEverything() {
+        Prefs.clearAllPrefs();
+        RPrefs.clearAllPrefs();
+
+        SystemUtil.getBootId();
+        SystemUtil.disableBlur();
+        SystemUtil.getVersionCode();
+        Prefs.putBoolean(ON_HOME_PAGE, true);
+        Prefs.putBoolean(FIRST_INSTALL, false);
+
+        Shell.cmd("> " + MODULE_DIR + "/common/system.prop; > " + MODULE_DIR + "/post-exec.sh; for ol in $(cmd overlay list | grep -E '^.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable $ol; done; killall com.android.systemui").submit();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        view = inflater.inflate(R.layout.fragment_settings, container, false);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
@@ -241,56 +303,6 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         }
     }
 
-    ActivityResultLauncher<Intent> startExportActivityIntent = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result1 -> {
-                if (result1.getResultCode() == Activity.RESULT_OK) {
-                    Intent data = result1.getData();
-                    if (data == null) return;
-
-                    try {
-                        ImportExport.exportSettings(Prefs.prefs, requireContext().getContentResolver().openOutputStream(data.getData()));
-                        Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_export_settings_successfull), Toast.LENGTH_SHORT).show();
-                    } catch (Exception exception) {
-                        Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                        Log.e("Settings", "Error exporting settings", exception);
-                    }
-                }
-            });
-
-    ActivityResultLauncher<Intent> startImportActivityIntent = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result2 -> {
-                if (result2.getResultCode() == Activity.RESULT_OK) {
-                    Intent data = result2.getData();
-                    if (data == null) return;
-
-                    AlertDialog alertDialog = new AlertDialog.Builder(requireContext()).create();
-                    alertDialog.setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title));
-                    alertDialog.setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc));
-                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, requireContext().getResources().getString(R.string.btn_positive),
-                            (dialog, which) -> {
-                                dialog.dismiss();
-                                new Handler(Looper.getMainLooper()).post(() -> {
-                                    try {
-                                        boolean success = ImportExport.importSettings(Prefs.prefs, requireContext().getContentResolver().openInputStream(data.getData()), true);
-                                        if (success) {
-                                            Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                                        }
-                                    } catch (Exception exception) {
-                                        Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                                        Log.e("Settings", "Error importing settings", exception);
-                                    }
-                                });
-                            });
-                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, requireContext().getResources().getString(R.string.btn_negative),
-                            (dialog, which) -> dialog.dismiss());
-                    alertDialog.show();
-                }
-            });
-
     private void changeIcon(String splash) {
         PackageManager manager = requireActivity().getPackageManager();
         String[] splashActivities = getResources().getStringArray(R.array.app_icon_identifier);
@@ -298,18 +310,5 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         for (String splashActivity : splashActivities) {
             manager.setComponentEnabledSetting(new ComponentName(requireActivity(), "com.drdisagree.iconify." + splashActivity), Objects.equals(splash, splashActivity) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
         }
-    }
-
-    public static void disableEverything() {
-        Prefs.clearAllPrefs();
-        RPrefs.clearAllPrefs();
-
-        SystemUtil.getBootId();
-        SystemUtil.disableBlur();
-        SystemUtil.getVersionCode();
-        Prefs.putBoolean(ON_HOME_PAGE, true);
-        Prefs.putBoolean(FIRST_INSTALL, false);
-
-        Shell.cmd("> " + MODULE_DIR + "/common/system.prop; > " + MODULE_DIR + "/post-exec.sh; for ol in $(cmd overlay list | grep -E '^.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable $ol; done; killall com.android.systemui").submit();
     }
 }

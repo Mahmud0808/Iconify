@@ -18,13 +18,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.databinding.ActivityBasicColorsBinding;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedUtil;
@@ -40,9 +38,9 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
     private static boolean isSelectedPrimary = false, isSelectedSecondary = false;
     private static String accentPrimary, accentSecondary;
-    Button enable_custom_color;
-    LoadingDialog loadingDialog;
-    ColorPickerDialog.Builder colorPickerDialogPrimary, colorPickerDialogSecondary;
+    private ActivityBasicColorsBinding binding;
+    private LoadingDialog loadingDialog;
+    private ColorPickerDialog.Builder colorPickerDialogPrimary, colorPickerDialogSecondary;
 
     public static void applyPrimaryColors() {
         FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", colorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_PRIMARY))));
@@ -88,10 +86,11 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_basic_colors);
+        binding = ActivityBasicColorsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_basic_colors);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_basic_colors);
 
         // Loading dialog
         loadingDialog = new LoadingDialog(this);
@@ -116,43 +115,38 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
         colorPickerDialogPrimary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentPrimary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);
         colorPickerDialogSecondary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentSecondary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(false).setShowColorShades(true);
 
-        LinearLayout preview_coloraccentprimary = findViewById(R.id.preview_coloraccentprimary);
-        preview_coloraccentprimary.setOnClickListener(v -> colorPickerDialogPrimary.show(BasicColors.this));
+        binding.previewColoraccentprimary.setOnClickListener(v -> colorPickerDialogPrimary.show(BasicColors.this));
 
-        LinearLayout preview_coloraccentsecondary = findViewById(R.id.preview_coloraccentsecondary);
-        preview_coloraccentsecondary.setOnClickListener(v -> colorPickerDialogSecondary.show(BasicColors.this));
+        binding.previewColoraccentsecondary.setOnClickListener(v -> colorPickerDialogSecondary.show(BasicColors.this));
 
-        // Enable custom colors button
-        enable_custom_color = findViewById(R.id.enable_custom_color);
-
-        enable_custom_color.setOnClickListener(v -> {
-            enable_custom_color.setVisibility(View.GONE);
+        // Enable custom colors
+        binding.enableCustomColor.setOnClickListener(v -> {
+            binding.enableCustomColor.setVisibility(View.GONE);
             Runnable runnable = () -> {
                 applyMonetColors();
 
                 runOnUiThread(() -> {
                     Prefs.putBoolean(CUSTOM_ACCENT, true);
 
-                    new Handler(Looper.getMainLooper()).postDelayed(() -> Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show(), 2000);
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show(), 2000);
                 });
             };
             Thread thread = new Thread(runnable);
             thread.start();
         });
 
-        // Disable custom colors button
-        Button disable_custom_color = findViewById(R.id.disable_custom_color);
-        disable_custom_color.setVisibility(Prefs.getBoolean(CUSTOM_ACCENT, false) ? View.VISIBLE : View.GONE);
+        // Disable custom colors
+        binding.disableCustomColor.setVisibility(Prefs.getBoolean(CUSTOM_ACCENT, false) ? View.VISIBLE : View.GONE);
 
-        disable_custom_color.setOnClickListener(v -> {
-            disable_custom_color.setVisibility(View.GONE);
+        binding.disableCustomColor.setOnClickListener(v -> {
+            binding.disableCustomColor.setVisibility(View.GONE);
             Runnable runnable = () -> {
                 disableAccentColors();
                 if (shouldUseDefaultColors()) {
                     applyDefaultColors();
                 }
 
-                runOnUiThread(() -> new Handler(Looper.getMainLooper()).postDelayed(() -> Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show(), 2000));
+                runOnUiThread(() -> new Handler(Looper.getMainLooper()).postDelayed(() -> Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show(), 2000));
             };
             Thread thread = new Thread(runnable);
             thread.start();
@@ -166,7 +160,7 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
                 isSelectedPrimary = true;
                 accentPrimary = String.valueOf(color);
                 updatePrimaryColor();
-                enable_custom_color.setVisibility(View.VISIBLE);
+                binding.enableCustomColor.setVisibility(View.VISIBLE);
                 Prefs.putBoolean(CUSTOM_PRIMARY_COLOR_SWITCH, true);
                 colorPickerDialogPrimary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentPrimary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);
                 break;
@@ -174,7 +168,7 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
                 isSelectedSecondary = true;
                 accentSecondary = String.valueOf(color);
                 updateSecondaryColor();
-                enable_custom_color.setVisibility(View.VISIBLE);
+                binding.enableCustomColor.setVisibility(View.VISIBLE);
                 Prefs.putBoolean(CUSTOM_SECONDARY_COLOR_SWITCH, true);
                 colorPickerDialogSecondary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentSecondary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(false).setShowColorShades(true);
                 break;
@@ -182,29 +176,25 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
     }
 
     private void updatePrimaryColor() {
-        View preview_color_picker_primary = findViewById(R.id.preview_color_picker_primary);
         GradientDrawable gd;
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentPrimary)});
         gd.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * getResources().getDisplayMetrics().density);
-        preview_color_picker_primary.setBackground(gd);
+        binding.previewColorPickerPrimary.setBackground(gd);
 
-        View color_preview_large = findViewById(R.id.color_preview_large);
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentSecondary)});
         gd.setCornerRadius(24 * getResources().getDisplayMetrics().density);
-        color_preview_large.setBackground(gd);
+        binding.colorPreviewLarge.setBackground(gd);
     }
 
     private void updateSecondaryColor() {
-        View preview_color_picker_secondary = findViewById(R.id.preview_color_picker_secondary);
         GradientDrawable gd;
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentSecondary), Integer.parseInt(accentSecondary)});
         gd.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * getResources().getDisplayMetrics().density);
-        preview_color_picker_secondary.setBackground(gd);
+        binding.previewColorPickerSecondary.setBackground(gd);
 
-        View color_preview_large = findViewById(R.id.color_preview_large);
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentSecondary)});
         gd.setCornerRadius(24 * getResources().getDisplayMetrics().density);
-        color_preview_large.setBackground(gd);
+        binding.colorPreviewLarge.setBackground(gd);
     }
 
     private void applyMonetColors() {

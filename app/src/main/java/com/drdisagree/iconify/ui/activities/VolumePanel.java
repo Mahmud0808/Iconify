@@ -12,18 +12,14 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.databinding.ActivityVolumePanelBinding;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.InfoDialog;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
@@ -36,28 +32,25 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class VolumePanel extends BaseActivity {
 
-    LoadingDialog loadingDialog;
-    InfoDialog infoDialog;
-    RadioGroup rg1, rg2;
-    private int checkedId1 = -1, checkedId2 = -1, realCheckedId = -1;
+    private ActivityVolumePanelBinding binding;
+    private LoadingDialog loadingDialog;
+    private InfoDialog infoDialog;
+    private int realCheckedId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_volume_panel);
+        binding = ActivityVolumePanelBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_volume_panel);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_volume_panel);
 
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch thin_bg = findViewById(R.id.thin_bg);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch thick_bg = findViewById(R.id.thick_bg);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch no_bg = findViewById(R.id.no_bg);
-
-        thin_bg.setChecked(Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 1);
-        thin_bg.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.thinBg.setChecked(Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 1);
+        binding.thinBg.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                thick_bg.setChecked(false);
-                no_bg.setChecked(false);
+                binding.thickBg.setChecked(false);
+                binding.noBg.setChecked(false);
                 Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 1);
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, "dimen", "volume_dialog_slider_width", "42dp");
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_TRACK_WIDTH, "dimen", "volume_dialog_track_width", "4dp");
@@ -71,11 +64,11 @@ public class VolumePanel extends BaseActivity {
             }
         });
 
-        thick_bg.setChecked(Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 2);
-        thick_bg.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.thickBg.setChecked(Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 2);
+        binding.thickBg.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                thin_bg.setChecked(false);
-                no_bg.setChecked(false);
+                binding.thinBg.setChecked(false);
+                binding.noBg.setChecked(false);
                 Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 2);
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, "dimen", "volume_dialog_slider_width", "42dp");
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_TRACK_WIDTH, "dimen", "volume_dialog_track_width", "42dp");
@@ -88,11 +81,11 @@ public class VolumePanel extends BaseActivity {
             }
         });
 
-        no_bg.setChecked(Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 3);
-        no_bg.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.noBg.setChecked(Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 3);
+        binding.noBg.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                thin_bg.setChecked(false);
-                thick_bg.setChecked(false);
+                binding.thinBg.setChecked(false);
+                binding.thickBg.setChecked(false);
                 Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 3);
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, "dimen", "volume_dialog_slider_width", "42dp");
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_TRACK_WIDTH, "dimen", "volume_dialog_track_width", "0dp");
@@ -113,28 +106,22 @@ public class VolumePanel extends BaseActivity {
         infoDialog = new InfoDialog(this);
 
         // Volume style
-        LinearLayout volume_style = findViewById(R.id.volume_style);
+        binding.volumeStyle.volumeStyleInfo.setOnClickListener(v -> infoDialog.show(R.string.read_carefully, R.string.volume_module_installation_guide));
 
-        ImageView info_img = volume_style.findViewById(R.id.volume_style_info);
-        info_img.setOnClickListener(v -> infoDialog.show(R.string.read_carefully, R.string.volume_module_installation_guide));
-
-        rg1 = volume_style.findViewById(R.id.volume_style1);
-        rg2 = volume_style.findViewById(R.id.volume_style2);
-        rg1.clearCheck();
-        rg2.clearCheck();
-        rg1.setOnCheckedChangeListener(listener1);
-        rg2.setOnCheckedChangeListener(listener2);
-        checkedId1 = rg1.getCheckedRadioButtonId();
-        checkedId2 = rg2.getCheckedRadioButtonId();
+        binding.volumeStyle.volumeStyle1.clearCheck();
+        binding.volumeStyle.volumeStyle2.clearCheck();
+        binding.volumeStyle.volumeStyle1.setOnCheckedChangeListener(listener1);
+        binding.volumeStyle.volumeStyle2.setOnCheckedChangeListener(listener2);
+        int checkedId1 = binding.volumeStyle.volumeStyle1.getCheckedRadioButtonId();
+        int checkedId2 = binding.volumeStyle.volumeStyle2.getCheckedRadioButtonId();
         realCheckedId = checkedId1 == -1 ? checkedId2 : checkedId1;
 
-        Button create_module = volume_style.findViewById(R.id.volume_style_create_module);
-        create_module.setOnClickListener(v -> {
+        binding.volumeStyle.volumeStyleCreateModule.setOnClickListener(v -> {
             if (!Environment.isExternalStorageManager()) {
                 SystemUtil.getStoragePermission(this);
             } else {
                 if (realCheckedId == -1) {
-                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
                 } else {
                     installVolumeModule(realCheckedId);
                 }
@@ -182,9 +169,9 @@ public class VolumePanel extends BaseActivity {
                 loadingDialog.hide();
 
                 if (hasErroredOut.get()) {
-                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_module_created), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_module_created), Toast.LENGTH_SHORT).show();
                 }
             }, 2000));
         };
@@ -214,31 +201,31 @@ public class VolumePanel extends BaseActivity {
     }
 
     private void setVolumeDrawable(int ringerDrawable, int progressDrawable, boolean ringerInverse, boolean progressInverse) {
-        findViewById(R.id.volume_thin_bg).findViewById(R.id.volume_ringer_bg).setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), ringerDrawable));
-        findViewById(R.id.volume_thin_bg).findViewById(R.id.volume_progress_drawable).setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), progressDrawable));
-        findViewById(R.id.volume_thick_bg).findViewById(R.id.volume_ringer_bg).setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), ringerDrawable));
-        findViewById(R.id.volume_thick_bg).findViewById(R.id.volume_progress_drawable).setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), progressDrawable));
-        findViewById(R.id.volume_no_bg).findViewById(R.id.volume_ringer_bg).setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), ringerDrawable));
-        findViewById(R.id.volume_no_bg).findViewById(R.id.volume_progress_drawable).setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), progressDrawable));
+        binding.volumeThinBg.volumeRingerBg.setBackground(ContextCompat.getDrawable(getApplicationContext(), ringerDrawable));
+        binding.volumeThinBg.volumeProgressDrawable.setBackground(ContextCompat.getDrawable(getApplicationContext(), progressDrawable));
+        binding.volumeThickBg.volumeRingerBg.setBackground(ContextCompat.getDrawable(getApplicationContext(), ringerDrawable));
+        binding.volumeThickBg.volumeProgressDrawable.setBackground(ContextCompat.getDrawable(getApplicationContext(), progressDrawable));
+        binding.volumeNoBg.volumeRingerBg.setBackground(ContextCompat.getDrawable(getApplicationContext(), ringerDrawable));
+        binding.volumeNoBg.volumeProgressDrawable.setBackground(ContextCompat.getDrawable(getApplicationContext(), progressDrawable));
 
         if (ringerInverse) {
-            findViewById(R.id.volume_thin_bg).findViewById(R.id.volume_ringer_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimary));
-            findViewById(R.id.volume_thick_bg).findViewById(R.id.volume_ringer_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimary));
-            findViewById(R.id.volume_no_bg).findViewById(R.id.volume_ringer_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimary));
+            binding.volumeThinBg.volumeRingerIcon.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.textColorPrimary));
+            binding.volumeThickBg.volumeRingerIcon.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.textColorPrimary));
+            binding.volumeNoBg.volumeRingerIcon.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.textColorPrimary));
         } else {
-            findViewById(R.id.volume_thin_bg).findViewById(R.id.volume_ringer_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimaryInverse));
-            findViewById(R.id.volume_thick_bg).findViewById(R.id.volume_ringer_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimaryInverse));
-            findViewById(R.id.volume_no_bg).findViewById(R.id.volume_ringer_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimaryInverse));
+            binding.volumeThinBg.volumeRingerIcon.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.textColorPrimaryInverse));
+            binding.volumeThickBg.volumeRingerIcon.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.textColorPrimaryInverse));
+            binding.volumeNoBg.volumeRingerIcon.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.textColorPrimaryInverse));
         }
 
         if (progressInverse) {
-            findViewById(R.id.volume_thin_bg).findViewById(R.id.volume_progress_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimary));
-            findViewById(R.id.volume_thick_bg).findViewById(R.id.volume_progress_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimary));
-            findViewById(R.id.volume_no_bg).findViewById(R.id.volume_progress_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimary));
+            binding.volumeThinBg.volumeProgressIcon.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.textColorPrimary));
+            binding.volumeThickBg.volumeProgressIcon.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.textColorPrimary));
+            binding.volumeNoBg.volumeProgressIcon.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.textColorPrimary));
         } else {
-            findViewById(R.id.volume_thin_bg).findViewById(R.id.volume_progress_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimaryInverse));
-            findViewById(R.id.volume_thick_bg).findViewById(R.id.volume_progress_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimaryInverse));
-            findViewById(R.id.volume_no_bg).findViewById(R.id.volume_progress_icon).setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimaryInverse));
+            binding.volumeThinBg.volumeProgressIcon.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.textColorPrimaryInverse));
+            binding.volumeThickBg.volumeProgressIcon.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.textColorPrimaryInverse));
+            binding.volumeNoBg.volumeProgressIcon.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.textColorPrimaryInverse));
         }
     }
 
@@ -246,9 +233,9 @@ public class VolumePanel extends BaseActivity {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if (checkedId != -1) {
-                rg2.setOnCheckedChangeListener(null);
-                rg2.clearCheck();
-                rg2.setOnCheckedChangeListener(listener2);
+                binding.volumeStyle.volumeStyle2.setOnCheckedChangeListener(null);
+                binding.volumeStyle.volumeStyle2.clearCheck();
+                binding.volumeStyle.volumeStyle2.setOnCheckedChangeListener(listener2);
                 realCheckedId = checkedId;
             }
             updateVolumePreview(checkedId);
@@ -259,9 +246,9 @@ public class VolumePanel extends BaseActivity {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if (checkedId != -1) {
-                rg1.setOnCheckedChangeListener(null);
-                rg1.clearCheck();
-                rg1.setOnCheckedChangeListener(listener1);
+                binding.volumeStyle.volumeStyle1.setOnCheckedChangeListener(null);
+                binding.volumeStyle.volumeStyle1.clearCheck();
+                binding.volumeStyle.volumeStyle1.setOnCheckedChangeListener(listener1);
                 realCheckedId = checkedId;
             }
             updateVolumePreview(checkedId);

@@ -20,110 +20,99 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.SeekBar;
-import android.widget.Switch;
-import android.widget.TextView;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
+import com.drdisagree.iconify.databinding.ActivityXposedQuickSettingsBinding;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 
 public class XposedQuickSettings extends BaseActivity {
 
+    private ActivityXposedQuickSettingsBinding binding;
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_xposed_quick_settings);
+        binding = ActivityXposedQuickSettingsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_quick_settings);
-
-        // Declarations
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_vertical_tile = findViewById(R.id.enable_vertical_tile);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_tile_label = findViewById(R.id.hide_tile_label);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_light_theme = findViewById(R.id.enable_light_theme);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_dual_tone = findViewById(R.id.enable_dual_tone);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_black_theme = findViewById(R.id.enable_black_theme);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_fluid_theme = findViewById(R.id.enable_fluid_theme);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_notification_transparency = findViewById(R.id.enable_notification_transparency);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_powermenu_transparency = findViewById(R.id.enable_powermenu_transparency);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_quick_settings);
 
         // Vertical QS Tile
-        enable_vertical_tile.setChecked(RPrefs.getBoolean(VERTICAL_QSTILE_SWITCH, false));
-        enable_vertical_tile.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.enableVerticalTile.setChecked(RPrefs.getBoolean(VERTICAL_QSTILE_SWITCH, false));
+        binding.enableVerticalTile.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(VERTICAL_QSTILE_SWITCH, isChecked);
-            hide_tile_label.setEnabled(isChecked);
+            binding.hideTileLabel.setEnabled(isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
         });
-        hide_tile_label.setEnabled(enable_vertical_tile.isChecked());
+        binding.hideTileLabel.setEnabled(binding.enableVerticalTile.isChecked());
 
         // Hide label for vertical tiles
-        hide_tile_label.setChecked(RPrefs.getBoolean(HIDE_QSLABEL_SWITCH, false));
-        hide_tile_label.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.hideTileLabel.setChecked(RPrefs.getBoolean(HIDE_QSLABEL_SWITCH, false));
+        binding.hideTileLabel.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_QSLABEL_SWITCH, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
         });
 
         // Light Theme
-        enable_light_theme.setChecked(RPrefs.getBoolean(LIGHT_QSPANEL, false));
-        enable_light_theme.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.enableLightTheme.setChecked(RPrefs.getBoolean(LIGHT_QSPANEL, false));
+        binding.enableLightTheme.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(LIGHT_QSPANEL, isChecked);
-            enable_dual_tone.setEnabled(isChecked);
+            binding.enableDualTone.setEnabled(isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
-        enable_dual_tone.setEnabled(enable_light_theme.isChecked());
+        binding.enableDualTone.setEnabled(binding.enableLightTheme.isChecked());
 
         // Dual Tone
-        enable_dual_tone.setChecked(RPrefs.getBoolean(DUALTONE_QSPANEL, false));
-        enable_dual_tone.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.enableDualTone.setChecked(RPrefs.getBoolean(DUALTONE_QSPANEL, false));
+        binding.enableDualTone.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(DUALTONE_QSPANEL, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
         });
 
         // Pixel Black Theme
-        enable_black_theme.setChecked(RPrefs.getBoolean(BLACK_QSPANEL, false));
-        enable_black_theme.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.enableBlackTheme.setChecked(RPrefs.getBoolean(BLACK_QSPANEL, false));
+        binding.enableBlackTheme.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(BLACK_QSPANEL, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 
         // Fluid QS Theme
-        enable_fluid_theme.setChecked(RPrefs.getBoolean(FLUID_QSPANEL, false));
-        enable_fluid_theme.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.enableFluidTheme.setChecked(RPrefs.getBoolean(FLUID_QSPANEL, false));
+        binding.enableFluidTheme.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(FLUID_QSPANEL, isChecked);
-            enable_notification_transparency.setEnabled(isChecked);
-            enable_powermenu_transparency.setEnabled(isChecked);
+            binding.enableNotificationTransparency.setEnabled(isChecked);
+            binding.enablePowermenuTransparency.setEnabled(isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
-        enable_notification_transparency.setEnabled(enable_fluid_theme.isChecked());
-        enable_powermenu_transparency.setEnabled(enable_fluid_theme.isChecked());
+        binding.enableNotificationTransparency.setEnabled(binding.enableFluidTheme.isChecked());
+        binding.enablePowermenuTransparency.setEnabled(binding.enableFluidTheme.isChecked());
 
         // Fluid QS Notification Transparency
-        enable_notification_transparency.setChecked(RPrefs.getBoolean(FLUID_NOTIF_TRANSPARENCY, false));
-        enable_notification_transparency.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.enableNotificationTransparency.setChecked(RPrefs.getBoolean(FLUID_NOTIF_TRANSPARENCY, false));
+        binding.enableNotificationTransparency.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(FLUID_NOTIF_TRANSPARENCY, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 
         // Fluid QS Power Menu Transparency
-        enable_powermenu_transparency.setChecked(RPrefs.getBoolean(FLUID_POWERMENU_TRANSPARENCY, false));
-        enable_powermenu_transparency.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.enablePowermenuTransparency.setChecked(RPrefs.getBoolean(FLUID_POWERMENU_TRANSPARENCY, false));
+        binding.enablePowermenuTransparency.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(FLUID_POWERMENU_TRANSPARENCY, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
 
         // QQS panel top margin slider
-        SeekBar qqs_top_margin_seekbar = findViewById(R.id.qqs_top_margin_seekbar);
-        TextView qqs_top_margin_output = findViewById(R.id.qqs_top_margin_output);
-        qqs_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(FABRICATED_QQS_TOPMARGIN, 100) + "dp");
-        qqs_top_margin_seekbar.setProgress(Prefs.getInt(FABRICATED_QQS_TOPMARGIN, 100));
+        binding.qqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(FABRICATED_QQS_TOPMARGIN, 100) + "dp");
+        binding.qqsTopMarginSeekbar.setProgress(Prefs.getInt(FABRICATED_QQS_TOPMARGIN, 100));
         final int[] qqsTopMargin = {Prefs.getInt(FABRICATED_QQS_TOPMARGIN, 100)};
-        qqs_top_margin_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.qqsTopMarginSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -132,7 +121,7 @@ public class XposedQuickSettings extends BaseActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 qqsTopMargin[0] = progress;
-                qqs_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+                binding.qqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
             }
 
             @Override
@@ -146,24 +135,21 @@ public class XposedQuickSettings extends BaseActivity {
         });
 
         // QQS Reset button
-        ImageView reset_qqs_top_margin = findViewById(R.id.reset_qqs_top_margin);
         boolean reset_qqs_top_margin_visible = Prefs.getBoolean("fabricatedquick_qs_offset_height", false) || Prefs.getBoolean("fabricatedqqs_layout_margin_top", false) || Prefs.getBoolean("fabricatedqs_header_row_min_height", false);
-        reset_qqs_top_margin.setVisibility(reset_qqs_top_margin_visible ? View.VISIBLE : View.INVISIBLE);
+        binding.resetQqsTopMargin.setVisibility(reset_qqs_top_margin_visible ? View.VISIBLE : View.INVISIBLE);
 
-        reset_qqs_top_margin.setOnLongClickListener(v -> {
+        binding.resetQqsTopMargin.setOnLongClickListener(v -> {
             FabricatedUtil.disableOverlays("quick_qs_offset_height", "qqs_layout_margin_top", "qs_header_row_min_height");
             RPrefs.putInt(HEADER_QQS_TOPMARGIN, -1);
-            reset_qqs_top_margin.setVisibility(View.INVISIBLE);
+            binding.resetQqsTopMargin.setVisibility(View.INVISIBLE);
             return true;
         });
 
         // QS panel top margin slider
-        SeekBar qs_top_margin_seekbar = findViewById(R.id.qs_top_margin_seekbar);
-        TextView qs_top_margin_output = findViewById(R.id.qs_top_margin_output);
-        qs_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(FABRICATED_QS_TOPMARGIN, 100) + "dp");
-        qs_top_margin_seekbar.setProgress(Prefs.getInt(FABRICATED_QS_TOPMARGIN, 100));
+        binding.qsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(FABRICATED_QS_TOPMARGIN, 100) + "dp");
+        binding.qsTopMarginSeekbar.setProgress(Prefs.getInt(FABRICATED_QS_TOPMARGIN, 100));
         final int[] qsTopMargin = {Prefs.getInt(FABRICATED_QS_TOPMARGIN, 100)};
-        qs_top_margin_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.qsTopMarginSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -172,7 +158,7 @@ public class XposedQuickSettings extends BaseActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 qsTopMargin[0] = progress;
-                qs_top_margin_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+                binding.qsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
             }
 
             @Override
@@ -185,13 +171,12 @@ public class XposedQuickSettings extends BaseActivity {
         });
 
         // QS Reset button
-        ImageView reset_qs_top_margin = findViewById(R.id.reset_qs_top_margin);
         boolean reset_qs_top_margin_visible = Prefs.getBoolean("fabricatedquick_qs_total_height", false) || Prefs.getBoolean("fabricatedqs_panel_padding_top", false) || Prefs.getBoolean("fabricatedqs_panel_padding_top_combined_headers", false);
-        reset_qs_top_margin.setVisibility(reset_qs_top_margin_visible ? View.VISIBLE : View.INVISIBLE);
+        binding.resetQsTopMargin.setVisibility(reset_qs_top_margin_visible ? View.VISIBLE : View.INVISIBLE);
 
-        reset_qs_top_margin.setOnLongClickListener(v -> {
+        binding.resetQsTopMargin.setOnLongClickListener(v -> {
             FabricatedUtil.disableOverlays("quick_qs_total_height", "qs_panel_padding_top", "qs_panel_padding_top_combined_headers");
-            reset_qs_top_margin.setVisibility(View.INVISIBLE);
+            binding.resetQsTopMargin.setVisibility(View.INVISIBLE);
             return true;
         });
     }

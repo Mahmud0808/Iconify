@@ -4,9 +4,9 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.databinding.ActivityNotificationsPixelBinding;
 import com.drdisagree.iconify.ui.adapters.NotificationAdapter;
 import com.drdisagree.iconify.ui.models.NotificationModel;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
@@ -16,25 +16,26 @@ import java.util.ArrayList;
 
 public class NotificationPixel extends BaseActivity {
 
-    LoadingDialog loadingDialog;
+    private ActivityNotificationsPixelBinding binding;
+    private LoadingDialog loadingDialog;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notifications_pixel);
+        binding = ActivityNotificationsPixelBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_notification);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_notification);
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
 
         // RecyclerView
-        RecyclerView container = findViewById(R.id.notifications_pixel_container);
-        container.setLayoutManager(new LinearLayoutManager(this));
-        container.setAdapter(initNotifItems());
-        container.setHasFixedSize(true);
+        binding.notificationsPixelContainer.setLayoutManager(new LinearLayoutManager(this));
+        binding.notificationsPixelContainer.setAdapter(initNotifItems());
+        binding.notificationsPixelContainer.setHasFixedSize(true);
     }
 
     private NotificationAdapter initNotifItems() {

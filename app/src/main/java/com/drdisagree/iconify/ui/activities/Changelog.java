@@ -12,13 +12,12 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.core.text.HtmlCompat;
 
 import com.drdisagree.iconify.BuildConfig;
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.databinding.ActivityChangelogBinding;
 import com.drdisagree.iconify.ui.utils.TaskExecutor;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
@@ -39,7 +38,8 @@ import java.util.regex.Pattern;
 
 public class Changelog extends BaseActivity {
 
-    Changelog.GrabChangelog grabChangelog = null;
+    private ActivityChangelogBinding binding;
+    private Changelog.GrabChangelog grabChangelog = null;
 
     public static String usernameToLink(String str) {
         String regexPattern = "@([A-Za-z\\d_-]+)";
@@ -60,10 +60,11 @@ public class Changelog extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_changelog);
+        binding = ActivityChangelogBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_changelog);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_changelog);
 
         grabChangelog = new Changelog.GrabChangelog();
         grabChangelog.execute();
@@ -100,7 +101,7 @@ public class Changelog extends BaseActivity {
 
         @Override
         protected void onPreExecute() {
-            loadingDialog.show(Iconify.getAppContext().getResources().getString(R.string.loading_dialog_wait), true);
+            loadingDialog.show(getApplicationContext().getResources().getString(R.string.loading_dialog_wait), true);
         }
 
         @Override
@@ -192,13 +193,10 @@ public class Changelog extends BaseActivity {
                 changes = "";
             }
 
-            TextView changelog_title = findViewById(R.id.changelog_title);
-            TextView changelog_changes = findViewById(R.id.changelog_text);
+            binding.changelogTitle.setText(HtmlCompat.fromHtml(title, HtmlCompat.FROM_HTML_MODE_LEGACY));
+            binding.changelogText.setText(HtmlCompat.fromHtml(changes, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
-            changelog_title.setText(HtmlCompat.fromHtml(title, HtmlCompat.FROM_HTML_MODE_LEGACY));
-            changelog_changes.setText(HtmlCompat.fromHtml(changes, HtmlCompat.FROM_HTML_MODE_LEGACY));
-
-            if (Objects.equals(changes, "")) changelog_changes.setVisibility(View.GONE);
+            if (Objects.equals(changes, "")) binding.changelogText.setVisibility(View.GONE);
             else {
                 SpannableString spannableString = new SpannableString(HtmlCompat.fromHtml(changes, HtmlCompat.FROM_HTML_MODE_LEGACY));
                 URLSpan[] urls = spannableString.getSpans(0, spannableString.length(), URLSpan.class);
@@ -218,11 +216,11 @@ public class Changelog extends BaseActivity {
                     spannableString.removeSpan(urlSpan);
                 }
 
-                changelog_changes.setText(spannableString);
-                changelog_changes.setMovementMethod(LinkMovementMethod.getInstance());
+                binding.changelogText.setText(spannableString);
+                binding.changelogText.setMovementMethod(LinkMovementMethod.getInstance());
             }
 
-            findViewById(R.id.changelog).setVisibility(View.VISIBLE);
+            binding.changelog.setVisibility(View.VISIBLE);
         }
     }
 }

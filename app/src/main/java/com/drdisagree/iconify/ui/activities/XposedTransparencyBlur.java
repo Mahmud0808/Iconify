@@ -14,44 +14,41 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
-import android.widget.Switch;
-import android.widget.TextView;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
+import com.drdisagree.iconify.databinding.ActivityXposedTransparencyBlurBinding;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 
 public class XposedTransparencyBlur extends BaseActivity {
 
+    private ActivityXposedTransparencyBlurBinding binding;
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_xposed_transparency_blur);
+        binding = ActivityXposedTransparencyBlurBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_transparency_blur);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_transparency_blur);
 
         // Qs Panel & Notification Shade Transparency
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_qs_transparency = findViewById(R.id.enable_qs_transparency);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_notif_transparency = findViewById(R.id.enable_notif_transparency);
+        binding.enableQsTransparency.setChecked(RPrefs.getBoolean(QS_TRANSPARENCY_SWITCH, false));
+        binding.enableQsTransparency.setOnCheckedChangeListener(qsTransparencyListener);
 
-        enable_qs_transparency.setChecked(RPrefs.getBoolean(QS_TRANSPARENCY_SWITCH, false));
-        enable_qs_transparency.setOnCheckedChangeListener(qsTransparencyListener);
-
-        enable_notif_transparency.setChecked(RPrefs.getBoolean(NOTIF_TRANSPARENCY_SWITCH, false));
-        enable_notif_transparency.setOnCheckedChangeListener(notifTransparencyListener);
+        binding.enableNotifTransparency.setChecked(RPrefs.getBoolean(NOTIF_TRANSPARENCY_SWITCH, false));
+        binding.enableNotifTransparency.setOnCheckedChangeListener(notifTransparencyListener);
 
         // Tansparency Alpha
-        SeekBar transparency_seekbar = findViewById(R.id.transparency_seekbar);
-        TextView transparency_output = findViewById(R.id.transparency_output);
         final int[] transparency = {RPrefs.getInt(QSALPHA_LEVEL, 60)};
-        transparency_output.setText(getResources().getString(R.string.opt_selected) + ' ' + transparency[0] + "%");
-        transparency_seekbar.setProgress(transparency[0]);
-        transparency_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.transparencyOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + transparency[0] + "%");
+        binding.transparencySeekbar.setProgress(transparency[0]);
+        binding.transparencySeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -60,7 +57,7 @@ public class XposedTransparencyBlur extends BaseActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 transparency[0] = progress;
-                transparency_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "%");
+                binding.transparencyOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "%");
             }
 
             @Override
@@ -70,10 +67,9 @@ public class XposedTransparencyBlur extends BaseActivity {
         });
 
         // Qs Panel Blur
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_blur = findViewById(R.id.enable_blur);
         Prefs.putBoolean(QSPANEL_BLUR_SWITCH, SystemUtil.isBlurEnabled());
-        enable_blur.setChecked(Prefs.getBoolean(QSPANEL_BLUR_SWITCH, false));
-        enable_blur.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.enableBlur.setChecked(Prefs.getBoolean(QSPANEL_BLUR_SWITCH, false));
+        binding.enableBlur.setOnCheckedChangeListener((buttonView, isChecked) -> {
             Prefs.putBoolean(QSPANEL_BLUR_SWITCH, isChecked);
             if (isChecked) SystemUtil.enableBlur();
             else {
@@ -82,12 +78,10 @@ public class XposedTransparencyBlur extends BaseActivity {
             }
         });
 
-        SeekBar blur_seekbar = findViewById(R.id.blur_seekbar);
-        TextView blur_output = findViewById(R.id.blur_output);
         final int[] blur_radius = {Prefs.getInt(FABRICATED_QSPANEL_BLUR_RADIUS, 23)};
-        blur_output.setText(getResources().getString(R.string.opt_selected) + ' ' + blur_radius[0] + "px");
-        blur_seekbar.setProgress(blur_radius[0]);
-        blur_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.blurOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + blur_radius[0] + "px");
+        binding.blurSeekbar.setProgress(blur_radius[0]);
+        binding.blurSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -96,7 +90,7 @@ public class XposedTransparencyBlur extends BaseActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 blur_radius[0] = progress;
-                blur_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "px");
+                binding.blurOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "px");
             }
 
             @Override
@@ -116,12 +110,11 @@ public class XposedTransparencyBlur extends BaseActivity {
 
             if (isChecked) {
                 RPrefs.putBoolean(NOTIF_TRANSPARENCY_SWITCH, false);
-                ((Switch) findViewById(R.id.enable_notif_transparency)).setOnCheckedChangeListener(null);
-                ((Switch) findViewById(R.id.enable_notif_transparency)).setChecked(false);
-                ((Switch) findViewById(R.id.enable_notif_transparency)).setOnCheckedChangeListener(notifTransparencyListener);
+                binding.enableNotifTransparency.setOnCheckedChangeListener(null);
+                binding.enableNotifTransparency.setChecked(false);
+                binding.enableNotifTransparency.setOnCheckedChangeListener(notifTransparencyListener);
             }
 
-            // Restart SystemUI
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         }
     };
@@ -131,12 +124,11 @@ public class XposedTransparencyBlur extends BaseActivity {
 
         if (isChecked) {
             RPrefs.putBoolean(QS_TRANSPARENCY_SWITCH, false);
-            ((Switch) findViewById(R.id.enable_qs_transparency)).setOnCheckedChangeListener(null);
-            ((Switch) findViewById(R.id.enable_qs_transparency)).setChecked(false);
-            ((Switch) findViewById(R.id.enable_qs_transparency)).setOnCheckedChangeListener(qsTransparencyListener);
+            binding.enableQsTransparency.setOnCheckedChangeListener(null);
+            binding.enableQsTransparency.setChecked(false);
+            binding.enableQsTransparency.setOnCheckedChangeListener(qsTransparencyListener);
         }
 
-        // Restart SystemUI
         new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
     };
 }

@@ -27,9 +27,11 @@ import java.util.Objects;
 
 public class QsPanel extends BaseFragment {
 
+    private View view;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_qs_panel, container, false);
+        view = inflater.inflate(R.layout.fragment_qs_panel, container, false);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);

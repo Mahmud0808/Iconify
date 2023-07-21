@@ -55,12 +55,62 @@ import java.util.Objects;
 
 public class XposedMenu extends BaseFragment {
 
+    ActivityResultLauncher<Intent> startExportActivityIntent = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result1 -> {
+                if (result1.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result1.getData();
+                    if (data == null) return;
+
+                    try {
+                        ImportExport.exportSettings(RPrefs.prefs, requireContext().getContentResolver().openOutputStream(data.getData()));
+                        Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_export_settings_successfull), Toast.LENGTH_SHORT).show();
+                    } catch (Exception exception) {
+                        Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                        Log.e("Settings", "Error exporting settings", exception);
+                    }
+                }
+            });
+    ActivityResultLauncher<Intent> startImportActivityIntent = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result2 -> {
+                if (result2.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result2.getData();
+                    if (data == null) return;
+
+                    AlertDialog alertDialog = new AlertDialog.Builder(requireContext()).create();
+                    alertDialog.setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title));
+                    alertDialog.setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc));
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, requireContext().getResources().getString(R.string.btn_positive),
+                            (dialog, which) -> {
+                                dialog.dismiss();
+                                new Handler(Looper.getMainLooper()).post(() -> {
+                                    try {
+                                        boolean success = ImportExport.importSettings(RPrefs.prefs, requireContext().getContentResolver().openInputStream(data.getData()), false);
+                                        if (success) {
+                                            Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
+                                            SystemUtil.restartSystemUI();
+                                        } else {
+                                            Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                        }
+                                    } catch (Exception exception) {
+                                        Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                        Log.e("Settings", "Error importing settings", exception);
+                                    }
+                                });
+                            });
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, requireContext().getResources().getString(R.string.btn_negative),
+                            (dialog, which) -> dialog.dismiss());
+                    alertDialog.show();
+                }
+            });
+    private View view;
     private ViewGroup listView;
 
     @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_xposed_menu, container, false);
+        view = inflater.inflate(R.layout.fragment_xposed_menu, container, false);
 
         listView = view.findViewById(R.id.xposed_list);
 
@@ -193,57 +243,6 @@ public class XposedMenu extends BaseFragment {
             }
         }
     }
-
-    ActivityResultLauncher<Intent> startExportActivityIntent = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result1 -> {
-                if (result1.getResultCode() == Activity.RESULT_OK) {
-                    Intent data = result1.getData();
-                    if (data == null) return;
-
-                    try {
-                        ImportExport.exportSettings(RPrefs.prefs, requireContext().getContentResolver().openOutputStream(data.getData()));
-                        Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_export_settings_successfull), Toast.LENGTH_SHORT).show();
-                    } catch (Exception exception) {
-                        Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                        Log.e("Settings", "Error exporting settings", exception);
-                    }
-                }
-            });
-
-    ActivityResultLauncher<Intent> startImportActivityIntent = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result2 -> {
-                if (result2.getResultCode() == Activity.RESULT_OK) {
-                    Intent data = result2.getData();
-                    if (data == null) return;
-
-                    AlertDialog alertDialog = new AlertDialog.Builder(requireContext()).create();
-                    alertDialog.setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title));
-                    alertDialog.setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc));
-                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, requireContext().getResources().getString(R.string.btn_positive),
-                            (dialog, which) -> {
-                                dialog.dismiss();
-                                new Handler(Looper.getMainLooper()).post(() -> {
-                                    try {
-                                        boolean success = ImportExport.importSettings(RPrefs.prefs, requireContext().getContentResolver().openInputStream(data.getData()), false);
-                                        if (success) {
-                                            Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
-                                            SystemUtil.restartSystemUI();
-                                        } else {
-                                            Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                                        }
-                                    } catch (Exception exception) {
-                                        Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                                        Log.e("Settings", "Error importing settings", exception);
-                                    }
-                                });
-                            });
-                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, requireContext().getResources().getString(R.string.btn_negative),
-                            (dialog, which) -> dialog.dismiss());
-                    alertDialog.show();
-                }
-            });
 
     private void resetSettings() {
         AlertDialog alertDialog = new AlertDialog.Builder(requireContext()).create();

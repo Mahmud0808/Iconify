@@ -38,7 +38,7 @@ import java.util.Objects;
 public class HomePage extends BaseActivity {
 
     private static final String mData = "mDataKey";
-    ActivityHomePageBinding binding;
+    private ActivityHomePageBinding binding;
     private Integer selectedFragment = null;
 
     @Override

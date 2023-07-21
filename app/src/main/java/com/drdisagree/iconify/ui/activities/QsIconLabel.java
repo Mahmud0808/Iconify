@@ -12,48 +12,44 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.databinding.ActivityQsIconLabelBinding;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 
 public class QsIconLabel extends BaseActivity {
 
+    private ActivityQsIconLabelBinding binding;
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qs_icon_label);
+        binding = ActivityQsIconLabelBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_qs_icon_label);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_qs_icon_label);
 
         // Text Size
-        SeekBar text_size = findViewById(R.id.text_size);
-
-        TextView text_size_output = findViewById(R.id.text_size_output);
-
         final int[] finalTextSize = {14};
 
         if (!Prefs.getString(FABRICATED_QS_TEXT_SIZE).equals(STR_NULL)) {
             if (Integer.parseInt(Prefs.getString(FABRICATED_QS_TEXT_SIZE)) == 14)
-                text_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_TEXT_SIZE)) + "sp " + getResources().getString(R.string.opt_default));
+                binding.textSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_TEXT_SIZE)) + "sp " + getResources().getString(R.string.opt_default));
             else
-                text_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_TEXT_SIZE)) + "sp");
+                binding.textSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_TEXT_SIZE)) + "sp");
             finalTextSize[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_TEXT_SIZE));
-            text_size.setProgress(finalTextSize[0]);
+            binding.textSize.setProgress(finalTextSize[0]);
         } else
-            text_size_output.setText(getResources().getString(R.string.opt_selected) + " 14sp " + getResources().getString(R.string.opt_default));
+            binding.textSizeOutput.setText(getResources().getString(R.string.opt_selected) + " 14sp " + getResources().getString(R.string.opt_default));
 
-        text_size.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.textSize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -64,9 +60,9 @@ public class QsIconLabel extends BaseActivity {
 
                 finalTextSize[0] = progress;
                 if (progress == 14)
-                    text_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "sp " + getResources().getString(R.string.opt_default));
+                    binding.textSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "sp " + getResources().getString(R.string.opt_default));
                 else
-                    text_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "sp");
+                    binding.textSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "sp");
 
             }
 
@@ -76,28 +72,24 @@ public class QsIconLabel extends BaseActivity {
 
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_QS_TEXT_SIZE, "dimen", "qs_tile_text_size", finalTextSize[0] + "sp");
 
-                Toast.makeText(Iconify.getAppContext(), finalTextSize[0] + "sp " + getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), finalTextSize[0] + "sp " + getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
             }
         });
 
         // Icon Size
-        SeekBar icon_size = findViewById(R.id.icon_size);
-
-        TextView icon_size_output = findViewById(R.id.icon_size_output);
-
         final int[] finalIconSize = {20};
 
         if (!Prefs.getString(FABRICATED_QS_ICON_SIZE).equals(STR_NULL)) {
             if (Integer.parseInt(Prefs.getString(FABRICATED_QS_ICON_SIZE)) == 20)
-                icon_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_ICON_SIZE)) + "dp " + getResources().getString(R.string.opt_default));
+                binding.iconSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_ICON_SIZE)) + "dp " + getResources().getString(R.string.opt_default));
             else
-                icon_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_ICON_SIZE)) + "dp");
+                binding.iconSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_ICON_SIZE)) + "dp");
             finalIconSize[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_ICON_SIZE));
-            icon_size.setProgress(finalIconSize[0]);
+            binding.iconSize.setProgress(finalIconSize[0]);
         } else
-            icon_size_output.setText(getResources().getString(R.string.opt_selected) + " 20dp " + getResources().getString(R.string.opt_default));
+            binding.iconSizeOutput.setText(getResources().getString(R.string.opt_selected) + " 20dp " + getResources().getString(R.string.opt_default));
 
-        icon_size.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.iconSize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -108,9 +100,9 @@ public class QsIconLabel extends BaseActivity {
 
                 finalIconSize[0] = progress;
                 if (progress == 20)
-                    icon_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp " + getResources().getString(R.string.opt_default));
+                    binding.iconSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp " + getResources().getString(R.string.opt_default));
                 else
-                    icon_size_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+                    binding.iconSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
             }
 
             @Override
@@ -119,34 +111,25 @@ public class QsIconLabel extends BaseActivity {
 
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_QS_ICON_SIZE, "dimen", "qs_icon_size", finalIconSize[0] + "dp");
 
-                Toast.makeText(Iconify.getAppContext(), finalIconSize[0] + "dp " + getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), finalIconSize[0] + "dp " + getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
             }
         });
 
         // Hide text size if hide label is enabled
-        LinearLayout text_size_container = findViewById(R.id.text_size_container);
-        View text_size_divider = findViewById(R.id.text_size_divider);
-
         if (Prefs.getBoolean("IconifyComponentQSHL.overlay")) {
-            text_size_container.setVisibility(View.GONE);
-            text_size_divider.setVisibility(View.GONE);
+            binding.textSizeContainer.setVisibility(View.GONE);
+            binding.textSizeDivider.setVisibility(View.GONE);
         }
 
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_white = findViewById(R.id.label_white);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_whiteV2 = findViewById(R.id.label_whiteV2);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_systemInverse = findViewById(R.id.label_systemInverse);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_systemInverseV2 = findViewById(R.id.label_systemInverseV2);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch label_fixtextcolor = findViewById(R.id.label_fixtextcolor);
+        binding.labelWhite.setChecked(Prefs.getBoolean("IconifyComponentQST1.overlay"));
 
-        label_white.setChecked(Prefs.getBoolean("IconifyComponentQST1.overlay"));
-
-        label_white.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.labelWhite.setOnCheckedChangeListener((buttonView, isChecked) -> {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
-                    label_whiteV2.setChecked(false);
-                    label_systemInverse.setChecked(false);
-                    label_systemInverseV2.setChecked(false);
-                    label_fixtextcolor.setChecked(false);
+                    binding.labelWhiteV2.setChecked(false);
+                    binding.labelSystemInverse.setChecked(false);
+                    binding.labelSystemInverseV2.setChecked(false);
+                    binding.labelFixtextcolor.setChecked(false);
 
                     OverlayUtil.disableOverlays("IconifyComponentQST2.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST4.overlay", "IconifyComponentQST5.overlay");
                     OverlayUtil.enableOverlay("IconifyComponentQST1.overlay");
@@ -156,15 +139,15 @@ public class QsIconLabel extends BaseActivity {
             }, SWITCH_ANIMATION_DELAY);
         });
 
-        label_whiteV2.setChecked(Prefs.getBoolean("IconifyComponentQST2.overlay"));
+        binding.labelWhiteV2.setChecked(Prefs.getBoolean("IconifyComponentQST2.overlay"));
 
-        label_whiteV2.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.labelWhiteV2.setOnCheckedChangeListener((buttonView, isChecked) -> {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
-                    label_white.setChecked(false);
-                    label_systemInverse.setChecked(false);
-                    label_systemInverseV2.setChecked(false);
-                    label_fixtextcolor.setChecked(false);
+                    binding.labelWhite.setChecked(false);
+                    binding.labelSystemInverse.setChecked(false);
+                    binding.labelSystemInverseV2.setChecked(false);
+                    binding.labelFixtextcolor.setChecked(false);
 
                     OverlayUtil.disableOverlays("IconifyComponentQST1.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST4.overlay", "IconifyComponentQST5.overlay");
                     OverlayUtil.enableOverlay("IconifyComponentQST2.overlay");
@@ -174,15 +157,15 @@ public class QsIconLabel extends BaseActivity {
             }, SWITCH_ANIMATION_DELAY);
         });
 
-        label_systemInverse.setChecked(Prefs.getBoolean("IconifyComponentQST3.overlay"));
+        binding.labelSystemInverse.setChecked(Prefs.getBoolean("IconifyComponentQST3.overlay"));
 
-        label_systemInverse.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.labelSystemInverse.setOnCheckedChangeListener((buttonView, isChecked) -> {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
-                    label_white.setChecked(false);
-                    label_whiteV2.setChecked(false);
-                    label_systemInverseV2.setChecked(false);
-                    label_fixtextcolor.setChecked(false);
+                    binding.labelWhite.setChecked(false);
+                    binding.labelWhiteV2.setChecked(false);
+                    binding.labelSystemInverseV2.setChecked(false);
+                    binding.labelFixtextcolor.setChecked(false);
 
                     OverlayUtil.disableOverlays("IconifyComponentQST1.overlay", "IconifyComponentQST2.overlay", "IconifyComponentQST4.overlay", "IconifyComponentQST5.overlay");
                     OverlayUtil.enableOverlay("IconifyComponentQST3.overlay");
@@ -192,15 +175,15 @@ public class QsIconLabel extends BaseActivity {
             }, SWITCH_ANIMATION_DELAY);
         });
 
-        label_systemInverseV2.setChecked(Prefs.getBoolean("IconifyComponentQST4.overlay"));
+        binding.labelSystemInverseV2.setChecked(Prefs.getBoolean("IconifyComponentQST4.overlay"));
 
-        label_systemInverseV2.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.labelSystemInverseV2.setOnCheckedChangeListener((buttonView, isChecked) -> {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
-                    label_white.setChecked(false);
-                    label_whiteV2.setChecked(false);
-                    label_systemInverse.setChecked(false);
-                    label_fixtextcolor.setChecked(false);
+                    binding.labelWhite.setChecked(false);
+                    binding.labelWhiteV2.setChecked(false);
+                    binding.labelSystemInverse.setChecked(false);
+                    binding.labelFixtextcolor.setChecked(false);
 
                     OverlayUtil.disableOverlays("IconifyComponentQST1.overlay", "IconifyComponentQST2.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST5.overlay");
                     OverlayUtil.enableOverlay("IconifyComponentQST4.overlay");
@@ -210,15 +193,15 @@ public class QsIconLabel extends BaseActivity {
             }, SWITCH_ANIMATION_DELAY);
         });
 
-        label_fixtextcolor.setChecked(Prefs.getBoolean("IconifyComponentQST5.overlay"));
+        binding.labelFixtextcolor.setChecked(Prefs.getBoolean("IconifyComponentQST5.overlay"));
 
-        label_fixtextcolor.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.labelFixtextcolor.setOnCheckedChangeListener((buttonView, isChecked) -> {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
-                    label_white.setChecked(false);
-                    label_whiteV2.setChecked(false);
-                    label_systemInverse.setChecked(false);
-                    label_systemInverseV2.setChecked(false);
+                    binding.labelWhite.setChecked(false);
+                    binding.labelWhiteV2.setChecked(false);
+                    binding.labelSystemInverse.setChecked(false);
+                    binding.labelSystemInverseV2.setChecked(false);
 
                     OverlayUtil.disableOverlays("IconifyComponentQST1.overlay", "IconifyComponentQST2.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST4.overlay");
                     OverlayUtil.enableOverlay("IconifyComponentQST5.overlay");
@@ -229,41 +212,36 @@ public class QsIconLabel extends BaseActivity {
         });
 
         // Hide Label
+        binding.hideLabel.setChecked(Prefs.getBoolean("IconifyComponentQSHL.overlay"));
 
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_label = findViewById(R.id.hide_label);
-
-        hide_label.setChecked(Prefs.getBoolean("IconifyComponentQSHL.overlay"));
-
-        hide_label.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.hideLabel.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 OverlayUtil.enableOverlay("IconifyComponentQSHL.overlay");
 
-                text_size_container.setVisibility(View.GONE);
-                text_size_divider.setVisibility(View.GONE);
+                binding.textSizeContainer.setVisibility(View.GONE);
+                binding.textSizeDivider.setVisibility(View.GONE);
             } else {
                 OverlayUtil.disableOverlay("IconifyComponentQSHL.overlay");
 
-                text_size_container.setVisibility(View.VISIBLE);
-                text_size_divider.setVisibility(View.VISIBLE);
+                binding.textSizeContainer.setVisibility(View.VISIBLE);
+                binding.textSizeDivider.setVisibility(View.VISIBLE);
             }
         });
 
         // Move Icon
-        SeekBar move_icon = findViewById(R.id.move_icon);
-        TextView move_icon_output = findViewById(R.id.move_icon_output);
         final int[] finalMoveIcon = {16};
 
         if (!Prefs.getString(FABRICATED_QS_MOVE_ICON).equals(STR_NULL)) {
             if (Integer.parseInt(Prefs.getString(FABRICATED_QS_MOVE_ICON)) == 16)
-                move_icon_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_MOVE_ICON)) + "dp " + getResources().getString(R.string.opt_default));
+                binding.moveIconOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_MOVE_ICON)) + "dp " + getResources().getString(R.string.opt_default));
             else
-                move_icon_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_MOVE_ICON)) + "dp");
+                binding.moveIconOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_MOVE_ICON)) + "dp");
             finalMoveIcon[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_MOVE_ICON));
-            move_icon.setProgress(finalMoveIcon[0]);
+            binding.moveIcon.setProgress(finalMoveIcon[0]);
         } else
-            move_icon_output.setText(getResources().getString(R.string.opt_selected) + " 16dp " + getResources().getString(R.string.opt_default));
+            binding.moveIconOutput.setText(getResources().getString(R.string.opt_selected) + " 16dp " + getResources().getString(R.string.opt_default));
 
-        move_icon.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.moveIcon.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -274,9 +252,9 @@ public class QsIconLabel extends BaseActivity {
 
                 finalMoveIcon[0] = progress;
                 if (progress == 16)
-                    move_icon_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp " + getResources().getString(R.string.opt_default));
+                    binding.moveIconOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp " + getResources().getString(R.string.opt_default));
                 else
-                    move_icon_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+                    binding.moveIconOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
             }
 
             @Override
@@ -285,7 +263,7 @@ public class QsIconLabel extends BaseActivity {
 
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_QS_MOVE_ICON, "dimen", "qs_tile_start_padding", finalMoveIcon[0] + "dp");
 
-                Toast.makeText(Iconify.getAppContext(), finalMoveIcon[0] + "dp " + getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), finalMoveIcon[0] + "dp " + getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
             }
         });
     }
