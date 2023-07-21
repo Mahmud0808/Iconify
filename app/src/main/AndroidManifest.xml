@@ -253,24 +253,10 @@
                 android:value="true" />
         </service>
         <service
-            android:name=".services.TilePitchBlackDark"
+            android:name=".services.TilePitchBlack"
             android:exported="true"
             android:icon="@drawable/ic_app_logo"
-            android:label="@string/pitch_black_dark_title"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.service.quicksettings.TOGGLEABLE_TILE"
-                android:value="true" />
-        </service>
-        <service
-            android:name=".services.TilePitchBlackAmoled"
-            android:exported="true"
-            android:icon="@drawable/ic_app_logo"
-            android:label="@string/pitch_black_amoled_title"
+            android:label="@string/tile_pitch_black"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />

@@ -94,6 +94,9 @@
     <string name="pitch_black_dark_desc">Enable pitch black dark theme</string>
     <string name="pitch_black_amoled_title">Pitch Black (Amoled)</string>
     <string name="pitch_black_amoled_desc">Enable pitch black amoled theme</string>
+    <string name="tile_pitch_black">Pitch Black</string>
+    <string name="tile_pitch_black_dark">Dark</string>
+    <string name="tile_pitch_black_amoled">Amoled</string>
     <string name="warning">Warning</string>
     <string name="btn_continue">CONTINUE</string>
     <string name="iconify_logo">Iconify Logo</string>

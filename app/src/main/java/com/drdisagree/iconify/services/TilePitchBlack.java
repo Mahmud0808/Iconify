@@ -7,9 +7,9 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.OverlayUtil;
 
-public class TilePitchBlackDark extends TileService {
+public class TilePitchBlack extends TileService {
 
-    private boolean isPitchBlackEnabled = Prefs.getBoolean("IconifyComponentQSPBD.overlay");
+    private boolean isPitchBlackEnabled = Prefs.getBoolean("IconifyComponentQSPBD.overlay") || Prefs.getBoolean("IconifyComponentQSPBA.overlay");
 
     @Override
     public void onTileAdded() {
@@ -33,18 +33,21 @@ public class TilePitchBlackDark extends TileService {
     public void onClick() {
         super.onClick();
 
-        if (isPitchBlackEnabled) {
-            OverlayUtil.disableOverlay("IconifyComponentQSPBD.overlay");
+        if (Prefs.getBoolean("IconifyComponentQSPBD.overlay")) {
+            OverlayUtil.changeOverlayState("IconifyComponentQSPBD.overlay", false, "IconifyComponentQSPBA.overlay", true);
+            isPitchBlackEnabled = true;
+        } else if (Prefs.getBoolean("IconifyComponentQSPBA.overlay")) {
+            OverlayUtil.disableOverlay("IconifyComponentQSPBA.overlay");
+            isPitchBlackEnabled = false;
         } else {
             OverlayUtil.enableOverlay("IconifyComponentQSPBD.overlay");
+            isPitchBlackEnabled = true;
         }
-
-        isPitchBlackEnabled = !isPitchBlackEnabled;
 
         Tile pitchBlackTile = getQsTile();
         pitchBlackTile.setState(isPitchBlackEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
-        pitchBlackTile.setLabel(getResources().getString(R.string.pitch_black_dark_title));
-        pitchBlackTile.setContentDescription(isPitchBlackEnabled ? getResources().getString(R.string.general_on) : getResources().getString(R.string.general_off));
+        pitchBlackTile.setLabel(getResources().getString(R.string.tile_pitch_black));
+        pitchBlackTile.setSubtitle(Prefs.getBoolean("IconifyComponentQSPBD.overlay") ? getResources().getString(R.string.tile_pitch_black_dark) : (Prefs.getBoolean("IconifyComponentQSPBA.overlay") ? getResources().getString(R.string.tile_pitch_black_amoled) : getResources().getString(R.string.general_off)));
         pitchBlackTile.updateTile();
     }
 
