@@ -1,7 +1,9 @@
 package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY;
+import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY_LIGHT;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
+import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY_LIGHT;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_ACCENT;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_PRIMARY_COLOR_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_SECONDARY_COLOR_SWITCH;
@@ -498,8 +500,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         Prefs.clearPref(CUSTOM_PRIMARY_COLOR_SWITCH);
         Prefs.clearPref(CUSTOM_SECONDARY_COLOR_SWITCH);
 
-        FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
-        FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
+        FabricatedUtil.disableOverlays(COLOR_ACCENT_PRIMARY, COLOR_ACCENT_PRIMARY_LIGHT, COLOR_ACCENT_SECONDARY, COLOR_ACCENT_SECONDARY_LIGHT);
     }
 
     private List<List<Object>> cloneList(final List<List<Object>> src) {

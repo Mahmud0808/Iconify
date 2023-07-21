@@ -63,10 +63,7 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
         Prefs.clearPref(COLOR_ACCENT_SECONDARY);
         Prefs.clearPref(COLOR_ACCENT_SECONDARY_LIGHT);
 
-        FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
-        FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY_LIGHT);
-        FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
-        FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY_LIGHT);
+        FabricatedUtil.disableOverlays(COLOR_ACCENT_PRIMARY, COLOR_ACCENT_PRIMARY_LIGHT, COLOR_ACCENT_SECONDARY, COLOR_ACCENT_SECONDARY_LIGHT);
     }
 
     public static void applyDefaultColors() {
