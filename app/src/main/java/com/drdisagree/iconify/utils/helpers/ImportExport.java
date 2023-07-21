@@ -117,13 +117,10 @@ public class ImportExport {
 
             SystemUtil.getBootId();
             SystemUtil.getVersionCode();
-            if (sharedPreferences.getBoolean(QSPANEL_BLUR_SWITCH, false)) {
-                SystemUtil.enableBlur();
-            } else {
-                SystemUtil.disableBlur();
-            }
+            SystemUtil.disableBlur();
             editor.putBoolean(ON_HOME_PAGE, true);
             editor.putBoolean(FIRST_INSTALL, false);
+            editor.putBoolean(QSPANEL_BLUR_SWITCH, false);
 
             boolean sip = false, pgb = false, sw = false, tstfrm = false, sis = false, cr = false, me = false, qsth = false;
 
