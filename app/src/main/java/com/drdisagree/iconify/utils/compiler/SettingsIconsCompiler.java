@@ -20,10 +20,12 @@ public class SettingsIconsCompiler {
     private static final String TAG = "SettingsIconsCompiler";
     private static final String[] packages = new String[]{"com.android.settings", "com.google.android.apps.wellbeing", "com.google.android.gms"};
     private static int mIconSet = 1, mIconBg = 1;
+    private static boolean mEnable = false;
 
-    public static boolean buildOverlay(int iconSet, int iconBg, String resources) throws IOException {
+    public static boolean buildOverlay(int iconSet, int iconBg, String resources, boolean enable) throws IOException {
         mIconSet = iconSet;
         mIconBg = iconBg;
+        mEnable = enable;
 
         preExecute();
         moveOverlaysToCache();
@@ -96,11 +98,13 @@ public class SettingsIconsCompiler {
             Shell.cmd("mkdir -p " + Resources.TEMP_CACHE_DIR + "/" + aPackages + "/").exec();
 
         // Disable the overlay in case it is already enabled
-        String[] overlayNames = new String[packages.length];
-        for (int i = 1; i <= packages.length; i++) {
-            overlayNames[i - 1] = "IconifyComponentSIP" + i + ".overlay";
+        if (mEnable) {
+            String[] overlayNames = new String[packages.length];
+            for (int i = 1; i <= packages.length; i++) {
+                overlayNames[i - 1] = "IconifyComponentSIP" + i + ".overlay";
+            }
+            OverlayUtil.disableOverlays(overlayNames);
         }
-        OverlayUtil.disableOverlays(overlayNames);
     }
 
     private static void postExecute(boolean hasErroredOut) {
@@ -119,11 +123,14 @@ public class SettingsIconsCompiler {
             }
             SystemUtil.mountRO();
 
-            String[] overlayNames = new String[packages.length];
-            for (int i = 1; i <= packages.length; i++) {
-                overlayNames[i - 1] = "IconifyComponentSIP" + i + ".overlay";
+            // Enable the overlays
+            if (mEnable) {
+                String[] overlayNames = new String[packages.length];
+                for (int i = 1; i <= packages.length; i++) {
+                    overlayNames[i - 1] = "IconifyComponentSIP" + i + ".overlay";
+                }
+                OverlayUtil.enableOverlays(overlayNames);
             }
-            OverlayUtil.enableOverlays(overlayNames);
         }
 
         // Clean temp directory

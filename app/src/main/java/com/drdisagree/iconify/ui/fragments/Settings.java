@@ -12,12 +12,16 @@ import static com.drdisagree.iconify.common.Resources.MODULE_DIR;
 import static com.drdisagree.iconify.utils.AppUtil.restartApplication;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +33,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -45,6 +51,7 @@ import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.ui.views.RadioDialog;
 import com.drdisagree.iconify.utils.CacheUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.utils.helpers.ImportExport;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
@@ -55,19 +62,6 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
 
     LoadingDialog loadingDialog;
     RadioDialog rd_app_language, rd_app_icon, rd_app_theme;
-
-    public static void disableEverything() {
-        Prefs.clearAllPrefs();
-        RPrefs.clearAllPrefs();
-
-        SystemUtil.getBootId();
-        SystemUtil.disableBlur();
-        SystemUtil.getVersionCode();
-        Prefs.putBoolean(ON_HOME_PAGE, true);
-        Prefs.putBoolean(FIRST_INSTALL, false);
-
-        Shell.cmd("> " + MODULE_DIR + "/common/system.prop; > " + MODULE_DIR + "/post-exec.sh; for ol in $(cmd overlay list | grep -E '^.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable $ol; done; killall com.android.systemui").submit();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -151,7 +145,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
             // Show loading dialog
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
-            Runnable runnable = () -> {
+            new Handler(Looper.getMainLooper()).post(() -> {
                 disableEverything();
 
                 requireActivity().runOnUiThread(() -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -161,9 +155,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                     // Restart SystemUI
                     SystemUtil.restartSystemUI();
                 }, 3000));
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
+            });
 
             return true;
         });
@@ -199,6 +191,10 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         } else if (itemID == R.id.menu_changelog) {
             Intent intent = new Intent(requireActivity(), Changelog.class);
             startActivity(intent);
+        } else if (itemID == R.id.menu_export_settings) {
+            importExportSettings(true);
+        } else if (itemID == R.id.menu_import_settings) {
+            importExportSettings(false);
         } else if (itemID == R.id.menu_experimental_features) {
             Intent intent = new Intent(requireActivity(), Experimental.class);
             startActivity(intent);
@@ -229,6 +225,72 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         }
     }
 
+    private void importExportSettings(boolean export) {
+        if (!Environment.isExternalStorageManager()) {
+            SystemUtil.getStoragePermission(requireContext());
+        } else {
+            Intent fileIntent = new Intent();
+            fileIntent.setAction(export ? Intent.ACTION_CREATE_DOCUMENT : Intent.ACTION_GET_CONTENT);
+            fileIntent.setType("*/*");
+            fileIntent.putExtra(Intent.EXTRA_TITLE, "configs" + ".iconify");
+            if (export) {
+                startExportActivityIntent.launch(fileIntent);
+            } else {
+                startImportActivityIntent.launch(fileIntent);
+            }
+        }
+    }
+
+    ActivityResultLauncher<Intent> startExportActivityIntent = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result1 -> {
+                if (result1.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result1.getData();
+                    if (data == null) return;
+
+                    try {
+                        ImportExport.exportSettings(Prefs.prefs, requireContext().getContentResolver().openOutputStream(data.getData()));
+                        Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_export_settings_successfull), Toast.LENGTH_SHORT).show();
+                    } catch (Exception exception) {
+                        Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                        Log.e("Settings", "Error exporting settings", exception);
+                    }
+                }
+            });
+
+    ActivityResultLauncher<Intent> startImportActivityIntent = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result2 -> {
+                if (result2.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result2.getData();
+                    if (data == null) return;
+
+                    AlertDialog alertDialog = new AlertDialog.Builder(requireContext()).create();
+                    alertDialog.setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title));
+                    alertDialog.setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc));
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, requireContext().getResources().getString(R.string.btn_positive),
+                            (dialog, which) -> {
+                                dialog.dismiss();
+                                new Handler(Looper.getMainLooper()).post(() -> {
+                                    try {
+                                        boolean success = ImportExport.importSettings(Prefs.prefs, requireContext().getContentResolver().openInputStream(data.getData()), true);
+                                        if (success) {
+                                            Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                        }
+                                    } catch (Exception exception) {
+                                        Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                        Log.e("Settings", "Error importing settings", exception);
+                                    }
+                                });
+                            });
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, requireContext().getResources().getString(R.string.btn_negative),
+                            (dialog, which) -> dialog.dismiss());
+                    alertDialog.show();
+                }
+            });
+
     private void changeIcon(String splash) {
         PackageManager manager = requireActivity().getPackageManager();
         String[] splashActivities = getResources().getStringArray(R.array.app_icon_identifier);
@@ -236,5 +298,18 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         for (String splashActivity : splashActivities) {
             manager.setComponentEnabledSetting(new ComponentName(requireActivity(), "com.drdisagree.iconify." + splashActivity), Objects.equals(splash, splashActivity) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
         }
+    }
+
+    public static void disableEverything() {
+        Prefs.clearAllPrefs();
+        RPrefs.clearAllPrefs();
+
+        SystemUtil.getBootId();
+        SystemUtil.disableBlur();
+        SystemUtil.getVersionCode();
+        Prefs.putBoolean(ON_HOME_PAGE, true);
+        Prefs.putBoolean(FIRST_INSTALL, false);
+
+        Shell.cmd("> " + MODULE_DIR + "/common/system.prop; > " + MODULE_DIR + "/post-exec.sh; for ol in $(cmd overlay list | grep -E '^.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable $ol; done; killall com.android.systemui").submit();
     }
 }

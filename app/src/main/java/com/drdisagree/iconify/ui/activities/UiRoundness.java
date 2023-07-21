@@ -97,7 +97,7 @@ public class UiRoundness extends BaseActivity {
 
                 Runnable runnable = () -> {
                     try {
-                        hasErroredOut.set(RoundnessManager.enableOverlay(finalUiCornerRadius[0]));
+                        hasErroredOut.set(RoundnessManager.enableOverlay(finalUiCornerRadius[0], true));
                     } catch (IOException e) {
                         hasErroredOut.set(true);
                         Log.e("UiRoundness", e.toString());

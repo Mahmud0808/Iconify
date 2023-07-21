@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.overlaymanager;
 
+import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.ColorUtil;
 import com.drdisagree.iconify.utils.compiler.MonetCompiler;
 
@@ -8,7 +9,7 @@ import java.util.List;
 
 public class MonetEngineManager {
 
-    public static boolean enableOverlay(List<List<List<Object>>> palette) throws IOException {
+    public static boolean enableOverlay(List<List<List<Object>>> palette, boolean enable) throws IOException {
         String[][] colors = ColorUtil.getColorNames();
 
         StringBuilder resources = new StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
@@ -16,6 +17,9 @@ public class MonetEngineManager {
 
         for (int i = 0; i < colors.length; i++) {
             for (int j = 0; j < colors[i].length; j++) {
+                Prefs.putString(colors[i][j] + "_day", String.valueOf(palette.get(0).get(i).get(j)));
+                Prefs.putString(colors[i][j] + "_night", String.valueOf(palette.get(1).get(i).get(j)));
+
                 resources.append("    <color name=\"").append(colors[i][j]).append("\">").append(ColorUtil.colorToHex((int) palette.get(0).get(i).get(j))).append("</color>\n");
                 resources_night.append("    <color name=\"").append(colors[i][j]).append("\">").append(ColorUtil.colorToHex((int) palette.get(1).get(i).get(j))).append("</color>\n");
             }
@@ -115,6 +119,6 @@ public class MonetEngineManager {
         resources_night.append("    <color name=\"primary_material_settings\">@*android:color/background_dark</color>\n");
         resources_night.append("</resources>\n");
 
-        return MonetCompiler.buildOverlay(new String[]{resources.toString(), resources_night.toString()});
+        return MonetCompiler.buildOverlay(new String[]{resources.toString(), resources_night.toString()}, enable);
     }
 }

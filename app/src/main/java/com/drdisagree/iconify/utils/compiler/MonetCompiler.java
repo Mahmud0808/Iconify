@@ -18,8 +18,11 @@ import java.io.IOException;
 public class MonetCompiler {
 
     private static final String TAG = "MonetCompiler";
+    private static boolean mEnable = false;
 
-    public static boolean buildOverlay(String[] resources) throws IOException {
+    public static boolean buildOverlay(String[] resources, boolean enable) throws IOException {
+        mEnable = enable;
+
         preExecute();
 
         // Create AndroidManifest.xml
@@ -82,7 +85,9 @@ public class MonetCompiler {
         Shell.cmd("mkdir -p " + Resources.SIGNED_DIR).exec();
 
         // Disable the overlay in case it is already enabled
-        OverlayUtil.disableOverlay("IconifyComponentME.overlay");
+        if (mEnable) {
+            OverlayUtil.disableOverlay("IconifyComponentME.overlay");
+        }
     }
 
     private static void postExecute(boolean hasErroredOut) {
@@ -97,7 +102,10 @@ public class MonetCompiler {
             RootUtil.setPermissions(644, "/system/product/overlay/IconifyComponentME.apk");
             SystemUtil.mountRO();
 
-            OverlayUtil.enableOverlays("IconifyComponentDM.overlay", "IconifyComponentME.overlay");
+            // Enable the overlays
+            if (mEnable) {
+                OverlayUtil.enableOverlays("IconifyComponentDM.overlay", "IconifyComponentME.overlay");
+            }
         }
 
         // Clean temp directory

@@ -9,6 +9,7 @@ import static com.drdisagree.iconify.common.Preferences.MONET_ACCENT_SATURATION;
 import static com.drdisagree.iconify.common.Preferences.MONET_ACCURATE_SHADES;
 import static com.drdisagree.iconify.common.Preferences.MONET_BACKGROUND_LIGHTNESS;
 import static com.drdisagree.iconify.common.Preferences.MONET_BACKGROUND_SATURATION;
+import static com.drdisagree.iconify.common.Preferences.MONET_COLOR_PALETTE;
 import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.MONET_STYLE;
 import static com.drdisagree.iconify.common.Preferences.STR_NULL;
@@ -291,11 +292,11 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
 
                 Runnable runnable1 = () -> {
                     try {
-                        if (MonetEngineManager.enableOverlay(finalPalette)) {
+                        if (MonetEngineManager.enableOverlay(finalPalette, true)) {
+                            Prefs.clearPref(MONET_COLOR_PALETTE);
                             hasErroredOut.set(true);
                         } else {
                             Prefs.putString(MONET_STYLE, selectedStyle);
-                            OverlayUtil.enableOverlay("IconifyComponentDM.overlay");
                         }
                     } catch (Exception e) {
                         hasErroredOut.set(true);
