@@ -89,7 +89,7 @@ public class ColorUtil {
         int green = Color.green(color);
         int red = Color.red(color);
 
-        return String.format("0x%02X%02X%02X", red, green, blue);
+        return String.format("0xff%02X%02X%02X", red, green, blue);
     }
 
     public static float[] getSystemTintList() {
