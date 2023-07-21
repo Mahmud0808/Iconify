@@ -6,8 +6,8 @@
                 <shape android:shape="oval">
                     <solid android:color="@color/settingslib_track_on_color_end" />
                     <size
-                        android:width="24dp"
-                        android:height="24dp" />
+                        android:width="22dp"
+                        android:height="22dp" />
                 </shape>
             </item>
             <item
@@ -18,8 +18,8 @@
                 <shape android:shape="oval">
                     <solid android:color="@color/settingslib_colorBackground" />
                     <size
-                        android:width="24dp"
-                        android:height="24dp" />
+                        android:width="22dp"
+                        android:height="22dp" />
                 </shape>
             </item>
             <item
