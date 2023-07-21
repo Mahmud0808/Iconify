@@ -221,6 +221,7 @@
     <string name="import_export">Import/Export</string>
     <string name="export_settings">Export Settings</string>
     <string name="import_settings">Import Settings</string>
+    <string name="reset_settings">Reset Settings</string>
     <string name="experimental_features">Experimental</string>
     <string name="no_internet_connection">Couldn\'t connect to server!\nThere might be an issue with your internet connection or the server might be down at this moment. Please try again later.</string>
     <string name="changelog_not_found">Changelog not found!\nThis might be an issue with your internet connection or the server might be down at this moment. Please try again later.</string>

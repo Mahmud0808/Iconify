@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_updates"
+        android:title="@string/app_updates" />
+
+    <item
+        android:id="@+id/menu_changelog"
+        android:title="@string/changelog" />
+
+    <item android:title="@string/import_export">
+        <menu>
+            <item
+                android:id="@+id/menu_export_settings"
+                android:title="@string/export_settings" />
+            <item
+                android:id="@+id/menu_import_settings"
+                android:title="@string/import_settings" />
+            <item
+                android:id="@+id/menu_reset_settings"
+                android:title="@string/reset_settings" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/menu_experimental_features"
+        android:title="@string/experimental_features" />
+
+    <item
+        android:id="@+id/menu_info"
+        android:title="@string/activity_title_info" />
+</menu>
