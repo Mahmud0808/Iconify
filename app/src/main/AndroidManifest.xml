@@ -227,7 +227,7 @@
         <service
             android:name=".services.TileNotchBarKiller"
             android:exported="true"
-            android:icon="@drawable/ic_app_logo"
+            android:icon="@drawable/ic_tile_notch_bar_killer"
             android:label="@string/notch_bar_killer_title"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
@@ -241,7 +241,7 @@
         <service
             android:name=".services.TileMonetEngine"
             android:exported="true"
-            android:icon="@drawable/ic_app_logo"
+            android:icon="@drawable/ic_tile_monet_engine"
             android:label="@string/activity_title_monet_engine"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
@@ -255,7 +255,7 @@
         <service
             android:name=".services.TilePitchBlack"
             android:exported="true"
-            android:icon="@drawable/ic_app_logo"
+            android:icon="@drawable/ic_tile_pitch_black"
             android:label="@string/tile_pitch_black"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>

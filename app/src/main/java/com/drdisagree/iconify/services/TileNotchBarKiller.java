@@ -44,7 +44,7 @@ public class TileNotchBarKiller extends TileService {
         Tile pitchBlackTile = getQsTile();
         pitchBlackTile.setState(isNotchBarKillerEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
         pitchBlackTile.setLabel(getResources().getString(R.string.notch_bar_killer_title));
-        pitchBlackTile.setContentDescription(isNotchBarKillerEnabled ? getResources().getString(R.string.general_on) : getResources().getString(R.string.general_off));
+        pitchBlackTile.setSubtitle(isNotchBarKillerEnabled ? getResources().getString(R.string.general_on) : getResources().getString(R.string.general_off));
         pitchBlackTile.updateTile();
     }
 
