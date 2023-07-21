@@ -7,11 +7,17 @@ import static com.drdisagree.iconify.common.Preferences.VER_CODE;
 import static com.drdisagree.iconify.common.References.DEVICE_BOOT_ID_CMD;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Insets;
 import android.net.Uri;
+import android.view.WindowInsets;
+import android.view.WindowMetrics;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
@@ -123,5 +129,17 @@ public class SystemUtil {
 
     public static void disableRestartSystemuiAfterBoot() {
         Shell.cmd("grep -v \"killall " + SYSTEMUI_PACKAGE + "\" " + Resources.MODULE_DIR + "/service.sh > " + Resources.MODULE_DIR + "/service.sh.tmp && mv " + Resources.MODULE_DIR + "/service.sh.tmp " + Resources.MODULE_DIR + "/service.sh").submit();
+    }
+
+    public static int getScreenWidth(@NonNull Activity activity) {
+        WindowMetrics windowMetrics = activity.getWindowManager().getCurrentWindowMetrics();
+        Insets insets = windowMetrics.getWindowInsets().getInsetsIgnoringVisibility(WindowInsets.Type.systemBars());
+        return windowMetrics.getBounds().width() - (insets.left + insets.right);
+    }
+
+    public static int getScreenHeight(@NonNull Activity activity) {
+        WindowMetrics windowMetrics = activity.getWindowManager().getCurrentWindowMetrics();
+        Insets insets = windowMetrics.getWindowInsets().getInsetsIgnoringVisibility(WindowInsets.Type.systemBars());
+        return windowMetrics.getBounds().height() - (insets.top + insets.bottom);
     }
 }
