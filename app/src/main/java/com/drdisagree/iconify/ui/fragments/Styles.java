@@ -21,13 +21,12 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
@@ -35,6 +34,7 @@ import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.databinding.FragmentStylesBinding;
 import com.drdisagree.iconify.ui.activities.AppUpdates;
 import com.drdisagree.iconify.ui.activities.BrightnessBar;
 import com.drdisagree.iconify.ui.activities.IconPack;
@@ -47,7 +47,6 @@ import com.drdisagree.iconify.ui.activities.ToastFrame;
 import com.drdisagree.iconify.ui.utils.TaskExecutor;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import org.json.JSONObject;
 
@@ -60,32 +59,29 @@ import java.util.ArrayList;
 
 public class Styles extends BaseFragment {
 
+    private FragmentStylesBinding binding;
     public static boolean isServiceRunning = false;
+    @SuppressLint("StaticFieldLeak")
+    private CheckForUpdate checkForUpdate = null;
     @SuppressLint("StaticFieldLeak")
     private static LinearLayout check_update;
     private TextView update_desc;
-    private CheckForUpdate checkForUpdate = null;
-    private ViewGroup listView;
-    private View view;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_styles, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentStylesBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_home_page));
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
-
-        listView = view.findViewById(R.id.home_page_list);
+        binding.header.collapsingToolbar.setTitle(getResources().getString(R.string.activity_title_home_page));
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.header.toolbar);
 
         // New update available dialog
-        View list_view1 = LayoutInflater.from(requireActivity()).inflate(R.layout.view_new_update, listView, false);
+        View list_view1 = LayoutInflater.from(requireActivity()).inflate(R.layout.view_new_update, binding.homePageList, false);
         check_update = list_view1.findViewById(R.id.check_update);
-        listView.addView(list_view1);
+        binding.homePageList.addView(list_view1);
         check_update.setVisibility(View.GONE);
-        update_desc = listView.findViewById(R.id.update_desc);
+        update_desc = binding.homePageList.findViewById(R.id.update_desc);
 
         long lastChecked = Prefs.getLong(LAST_UPDATE_CHECK_TIME, -1);
 
@@ -96,15 +92,14 @@ public class Styles extends BaseFragment {
         }
 
         // Reboot needed dialog
-        View list_view2 = LayoutInflater.from(requireActivity()).inflate(R.layout.view_reboot, listView, false);
+        View list_view2 = LayoutInflater.from(requireActivity()).inflate(R.layout.view_reboot, binding.homePageList, false);
         LinearLayout reboot_reminder = list_view2.findViewById(R.id.reboot_reminder);
-        listView.addView(list_view2);
+        binding.homePageList.addView(list_view2);
         reboot_reminder.setVisibility(View.GONE);
 
         if (!Prefs.getBoolean(FIRST_INSTALL) && Prefs.getBoolean(UPDATE_DETECTED)) {
             reboot_reminder.setVisibility(View.VISIBLE);
-            Button reboot_now = listView.findViewById(R.id.btn_reboot);
-            reboot_now.setOnClickListener(v -> {
+            binding.homePageList.findViewById(R.id.btn_reboot).setOnClickListener(v -> {
                 LoadingDialog rebootingDialog = new LoadingDialog(requireActivity());
                 rebootingDialog.show(getResources().getString(R.string.rebooting_desc));
 
@@ -132,7 +127,6 @@ public class Styles extends BaseFragment {
         home_page.add(new Object[]{Switch.class, getResources().getString(R.string.activity_title_switch), getResources().getString(R.string.activity_desc_switch), R.drawable.ic_styles_switch});
         home_page.add(new Object[]{ToastFrame.class, getResources().getString(R.string.activity_title_toast_frame), getResources().getString(R.string.activity_desc_toast_frame), R.drawable.ic_styles_toast_frame});
         home_page.add(new Object[]{IconShape.class, getResources().getString(R.string.activity_title_icon_shape), getResources().getString(R.string.activity_desc_icon_shape), R.drawable.ic_styles_icon_shape});
-        //home_page.add(new Object[]{Extras.class, getResources().getString(R.string.activity_title_extras), getResources().getString(R.string.activity_desc_extras), R.drawable.ic_home_extras});
 
         addItem(home_page);
 
@@ -169,7 +163,7 @@ public class Styles extends BaseFragment {
     // Function to add new item in list
     private void addItem(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(requireActivity()).inflate(R.layout.view_list_menu, listView, false);
+            View list = LayoutInflater.from(requireActivity()).inflate(R.layout.view_list_menu, binding.homePageList, false);
 
             TextView title = list.findViewById(R.id.list_title);
             title.setText((String) pack.get(i)[1]);
@@ -189,7 +183,7 @@ public class Styles extends BaseFragment {
                 startActivity(intent);
             });
 
-            listView.addView(list);
+            binding.homePageList.addView(list);
         }
     }
 

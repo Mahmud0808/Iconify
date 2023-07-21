@@ -22,7 +22,9 @@
             android:orientation="vertical"
             android:paddingTop="@dimen/content_marginTop">
 
-            <include layout="@layout/view_xposed_warn" />
+            <include
+                android:id="@+id/xposed_warn"
+                layout="@layout/view_xposed_warn" />
 
             <LinearLayout
                 android:id="@+id/xposed_list"

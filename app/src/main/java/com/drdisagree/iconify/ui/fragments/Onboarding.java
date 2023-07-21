@@ -2,7 +2,6 @@ package com.drdisagree.iconify.ui.fragments;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.databinding.FragmentOnboardingBinding;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.helpers.DisplayUtil;
 
 import java.util.Objects;
@@ -72,10 +72,8 @@ public class Onboarding extends BaseFragment {
 
     private void remeasureConstraints() {
         binding.getRoot().requestLayout();
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int screenWidth = displayMetrics.widthPixels;
-        int screenHeight = displayMetrics.heightPixels;
+        int screenWidth = SystemUtil.getScreenWidth(requireActivity());
+        int screenHeight = SystemUtil.getScreenHeight(requireActivity());
         Configuration configuration = getResources().getConfiguration();
 
         if (screenWidth > screenHeight || configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {

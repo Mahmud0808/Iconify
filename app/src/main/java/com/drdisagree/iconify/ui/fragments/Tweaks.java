@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -26,6 +27,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.databinding.FragmentTweaksBinding;
 import com.drdisagree.iconify.ui.activities.MediaPlayer;
 import com.drdisagree.iconify.ui.activities.Miscellaneous;
 import com.drdisagree.iconify.ui.activities.NavigationBar;
@@ -40,20 +42,16 @@ import java.util.Objects;
 
 public class Tweaks extends BaseFragment {
 
-    private View view;
-    private ViewGroup listView;
+    private FragmentTweaksBinding binding;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_tweaks, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentTweaksBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle(getResources().getString(R.string.navbar_tweaks));
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
-
-        listView = view.findViewById(R.id.tweaks_list);
+        binding.header.collapsingToolbar.setTitle(getResources().getString(R.string.navbar_tweaks));
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.header.toolbar);
 
         ArrayList<Object[]> tweaks_list = new ArrayList<>();
         final boolean[] isClickable = {true};
@@ -106,7 +104,7 @@ public class Tweaks extends BaseFragment {
     // Function to add new item in list
     private void addItem(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(requireActivity()).inflate(R.layout.view_list_menu, listView, false);
+            View list = LayoutInflater.from(requireActivity()).inflate(R.layout.view_list_menu, binding.tweaksList, false);
 
             TextView title = list.findViewById(R.id.list_title);
             title.setText((String) pack.get(i)[1]);
@@ -130,7 +128,7 @@ public class Tweaks extends BaseFragment {
             if (Objects.equals(pack.get(i)[1], getResources().getString(R.string.activity_title_media_player)) && Build.VERSION.SDK_INT >= 33)
                 list.setVisibility(View.GONE);
 
-            listView.addView(list);
+            binding.tweaksList.addView(list);
         }
     }
 

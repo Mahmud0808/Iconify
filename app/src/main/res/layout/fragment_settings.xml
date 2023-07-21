@@ -22,11 +22,17 @@
             android:orientation="vertical"
             android:paddingTop="@dimen/content_marginTop">
 
-            <include layout="@layout/view_settings_general" />
+            <include
+                android:id="@+id/settings_general"
+                layout="@layout/view_settings_general" />
 
-            <include layout="@layout/view_settings_xposed" />
+            <include
+                android:id="@+id/settings_xposed"
+                layout="@layout/view_settings_xposed" />
 
-            <include layout="@layout/view_settings_misc" />
+            <include
+                android:id="@+id/settings_misc"
+                layout="@layout/view_settings_misc" />
 
         </LinearLayout>
 

@@ -9,46 +9,43 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.databinding.FragmentQsPanelBinding;
 import com.drdisagree.iconify.ui.activities.QsIconLabel;
 import com.drdisagree.iconify.ui.activities.QsRowColumn;
 import com.drdisagree.iconify.ui.activities.QsTileSize;
 import com.drdisagree.iconify.ui.adapters.MenuAdapter;
 import com.drdisagree.iconify.ui.models.MenuModel;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class QsPanel extends BaseFragment {
 
-    private View view;
+    private FragmentQsPanelBinding binding;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_qs_panel, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentQsPanelBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_qs_panel));
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+        binding.header.collapsingToolbar.setTitle(getResources().getString(R.string.activity_title_qs_panel));
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.header.toolbar);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(view1 -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
+        binding.header.toolbar.setNavigationOnClickListener(view1 -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
             getParentFragmentManager().popBackStack();
         }, FRAGMENT_BACK_BUTTON_DELAY));
 
         // RecyclerView
-        RecyclerView listView = view.findViewById(R.id.qs_panel_container);
-        listView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        listView.setAdapter(initActivityItems());
-        listView.setHasFixedSize(true);
+        binding.qsPanelContainer.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        binding.qsPanelContainer.setAdapter(initActivityItems());
+        binding.qsPanelContainer.setHasFixedSize(true);
 
         return view;
     }

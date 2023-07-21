@@ -19,8 +19,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,12 +28,12 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
+import com.drdisagree.iconify.databinding.FragmentXposedMenuBinding;
 import com.drdisagree.iconify.ui.activities.XposedBackgroundChip;
 import com.drdisagree.iconify.ui.activities.XposedBatteryStyle;
 import com.drdisagree.iconify.ui.activities.XposedHeaderClock;
@@ -48,13 +46,13 @@ import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.helpers.ImportExport;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class XposedMenu extends BaseFragment {
 
+    private FragmentXposedMenuBinding binding;
     ActivityResultLauncher<Intent> startExportActivityIntent = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result1 -> {
@@ -104,55 +102,41 @@ public class XposedMenu extends BaseFragment {
                     alertDialog.show();
                 }
             });
-    private View view;
-    private ViewGroup listView;
 
     @SuppressLint("SetTextI18n")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_xposed_menu, container, false);
-
-        listView = view.findViewById(R.id.xposed_list);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentXposedMenuBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_xposed_menu));
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+        binding.header.collapsingToolbar.setTitle(getResources().getString(R.string.activity_title_xposed_menu));
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.header.toolbar);
         setHasOptionsMenu(true);
         if (Prefs.getBoolean(ON_HOME_PAGE, false)) {
             Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
             Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
-            toolbar.setNavigationOnClickListener(view1 -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                getParentFragmentManager().popBackStack();
-            }, FRAGMENT_BACK_BUTTON_DELAY));
+            binding.header.toolbar.setNavigationOnClickListener(view1 -> new Handler(Looper.getMainLooper()).postDelayed(() -> getParentFragmentManager().popBackStack(), FRAGMENT_BACK_BUTTON_DELAY));
         }
 
         // Xposed warn
-        LinearLayout xposed_warn = view.findViewById(R.id.xposed_warn);
-        xposed_warn.setVisibility(Prefs.getBoolean(SHOW_XPOSED_WARN, true) ? View.VISIBLE : View.GONE);
+        binding.xposedWarn.containerXposedWarn.setVisibility(Prefs.getBoolean(SHOW_XPOSED_WARN, true) ? View.VISIBLE : View.GONE);
 
-        FrameLayout close_xposed_warn = view.findViewById(R.id.close_xposed_warn);
         if (!Prefs.getBoolean(ON_HOME_PAGE, false)) {
-            close_xposed_warn.setVisibility(View.INVISIBLE);
+            binding.xposedWarn.closeXposedWarn.setVisibility(View.INVISIBLE);
         }
-        close_xposed_warn.setOnClickListener(v -> {
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                Prefs.putBoolean(SHOW_XPOSED_WARN, false);
-                xposed_warn.animate().translationX(xposed_warn.getWidth() * 2f).alpha(0f).withEndAction(() -> xposed_warn.setVisibility(View.GONE)).start();
-            }, 50);
-        });
+        binding.xposedWarn.closeXposedWarn.setOnClickListener(v -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            Prefs.putBoolean(SHOW_XPOSED_WARN, false);
+            binding.xposedWarn.containerXposedWarn.animate().translationX(binding.xposedWarn.containerXposedWarn.getWidth() * 2f).alpha(0f).withEndAction(() -> binding.xposedWarn.containerXposedWarn.setVisibility(View.GONE)).start();
+        }, 50));
 
         // Xposed warn text
-        TextView xposed_warn_text = view.findViewById(R.id.xposed_warn_text);
-        xposed_warn_text.setText((!Prefs.getBoolean(ON_HOME_PAGE, false) ? getResources().getString(R.string.xposed_only_desc) + "\n\n" : "") + getResources().getString(R.string.lsposed_warn));
+        binding.xposedWarn.xposedWarnText.setText((!Prefs.getBoolean(ON_HOME_PAGE, false) ? getResources().getString(R.string.xposed_only_desc) + "\n\n" : "") + getResources().getString(R.string.lsposed_warn));
 
         // Restart SystemUI
-        Button button_restartSysui = view.findViewById(R.id.button_restartSysui);
+        binding.xposedWarn.buttonRestartSysui.setOnClickListener(v -> Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_restart_sysui), Toast.LENGTH_SHORT).show());
 
-        button_restartSysui.setOnClickListener(v -> Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_restart_sysui), Toast.LENGTH_SHORT).show());
-
-        button_restartSysui.setOnLongClickListener(v -> {
+        binding.xposedWarn.buttonRestartSysui.setOnLongClickListener(v -> {
             SystemUtil.restartSystemUI();
             return true;
         });
@@ -173,7 +157,7 @@ public class XposedMenu extends BaseFragment {
 
         // Enable onClick event
         for (int i = 0; i < xposed_menu.size(); i++) {
-            LinearLayout child = listView.getChildAt(i).findViewById(R.id.list_info_item);
+            LinearLayout child = binding.xposedList.getChildAt(i).findViewById(R.id.list_info_item);
             int finalI = i;
             child.setOnClickListener(v -> {
                 Intent intent = new Intent(requireActivity(), (Class<?>) xposed_menu.get(finalI)[0]);
@@ -213,7 +197,7 @@ public class XposedMenu extends BaseFragment {
     // Function to add new item in list
     private void addItem(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(requireActivity()).inflate(R.layout.view_list_menu, listView, false);
+            View list = LayoutInflater.from(requireActivity()).inflate(R.layout.view_list_menu, binding.xposedList, false);
 
             TextView title = list.findViewById(R.id.list_title);
             title.setText((String) pack.get(i)[1]);
@@ -224,7 +208,7 @@ public class XposedMenu extends BaseFragment {
             ImageView preview = list.findViewById(R.id.list_preview);
             preview.setImageResource((int) pack.get(i)[3]);
 
-            listView.addView(list);
+            binding.xposedList.addView(list);
         }
     }
 

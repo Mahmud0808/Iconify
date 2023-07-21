@@ -11,7 +11,6 @@ import static com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN;
 import static com.drdisagree.iconify.common.Resources.MODULE_DIR;
 import static com.drdisagree.iconify.utils.AppUtil.restartApplication;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -28,21 +27,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
+import com.drdisagree.iconify.databinding.FragmentSettingsBinding;
 import com.drdisagree.iconify.ui.activities.AppUpdates;
 import com.drdisagree.iconify.ui.activities.Changelog;
 import com.drdisagree.iconify.ui.activities.Experimental;
@@ -52,7 +48,6 @@ import com.drdisagree.iconify.ui.views.RadioDialog;
 import com.drdisagree.iconify.utils.CacheUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.helpers.ImportExport;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.Arrays;
@@ -60,6 +55,7 @@ import java.util.Objects;
 
 public class Settings extends BaseFragment implements RadioDialog.RadioDialogListener {
 
+    private FragmentSettingsBinding binding;
     ActivityResultLauncher<Intent> startExportActivityIntent = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result1 -> {
@@ -108,7 +104,6 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                     alertDialog.show();
                 }
             });
-    private View view;
     private LoadingDialog loadingDialog;
     private RadioDialog rd_app_language, rd_app_icon, rd_app_theme;
 
@@ -126,68 +121,57 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_settings, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentSettingsBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_settings));
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+        binding.header.collapsingToolbar.setTitle(getResources().getString(R.string.activity_title_settings));
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.header.toolbar);
         setHasOptionsMenu(true);
 
         // Show loading dialog
         loadingDialog = new LoadingDialog(requireActivity());
 
         // Language
-        LinearLayout app_language = view.findViewById(R.id.app_language);
-        TextView selected_app_language = view.findViewById(R.id.selected_app_language);
         int current_language = Arrays.asList(getResources().getStringArray(R.array.locale_code)).indexOf(Prefs.getString(APP_LANGUAGE, getResources().getConfiguration().getLocales().get(0).getLanguage()));
         rd_app_language = new RadioDialog(requireActivity(), 0, current_language == -1 ? 0 : current_language);
         rd_app_language.setRadioDialogListener(this);
-        app_language.setOnClickListener(v -> rd_app_language.show(R.string.app_language, R.array.locale_name, selected_app_language));
-        selected_app_language.setText(Arrays.asList(getResources().getStringArray(R.array.locale_name)).get(rd_app_language.getSelectedIndex()));
+        binding.settingsGeneral.appLanguage.setOnClickListener(v -> rd_app_language.show(R.string.app_language, R.array.locale_name, binding.settingsGeneral.selectedAppLanguage));
+        binding.settingsGeneral.selectedAppLanguage.setText(Arrays.asList(getResources().getStringArray(R.array.locale_name)).get(rd_app_language.getSelectedIndex()));
 
         // App Icon
-        LinearLayout app_icon = view.findViewById(R.id.app_icon);
-        TextView selected_app_icon = view.findViewById(R.id.selected_app_icon);
         rd_app_icon = new RadioDialog(requireActivity(), 2, Prefs.getInt(APP_ICON, 0));
         rd_app_icon.setRadioDialogListener(this);
-        app_icon.setOnClickListener(v -> rd_app_icon.show(R.string.app_icon, R.array.app_icon, selected_app_icon));
-        selected_app_icon.setText(Arrays.asList(getResources().getStringArray(R.array.app_icon)).get(rd_app_icon.getSelectedIndex()));
+        binding.settingsGeneral.appIcon.setOnClickListener(v -> rd_app_icon.show(R.string.app_icon, R.array.app_icon, binding.settingsGeneral.selectedAppIcon));
+        binding.settingsGeneral.selectedAppIcon.setText(Arrays.asList(getResources().getStringArray(R.array.app_icon)).get(rd_app_icon.getSelectedIndex()));
 
         // App Theme
-        LinearLayout app_theme = view.findViewById(R.id.app_theme);
-        TextView selected_app_theme = view.findViewById(R.id.selected_app_theme);
         rd_app_theme = new RadioDialog(requireActivity(), 1, Prefs.getInt(APP_THEME, 2));
         rd_app_theme.setRadioDialogListener(this);
-        app_theme.setOnClickListener(v -> rd_app_theme.show(R.string.app_theme, R.array.app_theme, selected_app_theme));
-        selected_app_theme.setText(Arrays.asList(getResources().getStringArray(R.array.app_theme)).get(rd_app_theme.getSelectedIndex()));
+        binding.settingsGeneral.appTheme.setOnClickListener(v -> rd_app_theme.show(R.string.app_theme, R.array.app_theme, binding.settingsGeneral.selectedAppTheme));
+        binding.settingsGeneral.selectedAppTheme.setText(Arrays.asList(getResources().getStringArray(R.array.app_theme)).get(rd_app_theme.getSelectedIndex()));
 
         // Restart sysui after boot
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch restart_sysui_after_boot = view.findViewById(R.id.restart_sysui_after_boot);
-        restart_sysui_after_boot.setChecked(Prefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false));
-        restart_sysui_after_boot.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.settingsGeneral.restartSysuiAfterBoot.setChecked(Prefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false));
+        binding.settingsGeneral.restartSysuiAfterBoot.setOnCheckedChangeListener((buttonView, isChecked) -> {
             Prefs.putBoolean(RESTART_SYSUI_AFTER_BOOT, isChecked);
             if (isChecked) SystemUtil.enableRestartSystemuiAfterBoot();
             else SystemUtil.disableRestartSystemuiAfterBoot();
         });
 
         // Show xposed warn
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch hide_warn_message = view.findViewById(R.id.hide_warn_message);
-        hide_warn_message.setChecked(Prefs.getBoolean(SHOW_XPOSED_WARN, true));
-        hide_warn_message.setOnCheckedChangeListener((buttonView, isChecked) -> Prefs.putBoolean(SHOW_XPOSED_WARN, isChecked));
+        binding.settingsXposed.hideWarnMessage.setChecked(Prefs.getBoolean(SHOW_XPOSED_WARN, true));
+        binding.settingsXposed.hideWarnMessage.setOnCheckedChangeListener((buttonView, isChecked) -> Prefs.putBoolean(SHOW_XPOSED_WARN, isChecked));
 
         // Clear App Cache
-        LinearLayout clear_cache = view.findViewById(R.id.clear_cache);
-        clear_cache.setOnClickListener(v -> {
+        binding.settingsMisc.clearCache.setOnClickListener(v -> {
             CacheUtil.clearCache(Iconify.getAppContext());
             Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_clear_cache), Toast.LENGTH_SHORT).show();
         });
 
         // Restart SystemUI
-        LinearLayout button_restartSysui = view.findViewById(R.id.button_restartSysui);
-        button_restartSysui.setOnClickListener(v -> {
+        binding.settingsMisc.buttonRestartSysui.setOnClickListener(v -> {
             // Show loading dialog
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
@@ -201,9 +185,8 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         });
 
         // Disable Everything
-        LinearLayout button_disableEverything = view.findViewById(R.id.button_disableEverything);
-        button_disableEverything.setOnClickListener(v -> Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disable_everything), Toast.LENGTH_SHORT).show());
-        button_disableEverything.setOnLongClickListener(v -> {
+        binding.settingsMisc.buttonDisableEverything.setOnClickListener(v -> Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disable_everything), Toast.LENGTH_SHORT).show());
+        binding.settingsMisc.buttonDisableEverything.setOnLongClickListener(v -> {
             // Show loading dialog
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
