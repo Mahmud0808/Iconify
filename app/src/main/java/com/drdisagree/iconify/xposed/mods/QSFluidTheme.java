@@ -1,12 +1,11 @@
 package com.drdisagree.iconify.xposed.mods;
 
-import static android.content.Context.CONTEXT_IGNORE_SECURITY;
-import static com.drdisagree.iconify.BuildConfig.APPLICATION_ID;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.FLUID_NOTIF_TRANSPARENCY;
 import static com.drdisagree.iconify.common.Preferences.FLUID_POWERMENU_TRANSPARENCY;
 import static com.drdisagree.iconify.common.Preferences.FLUID_QSPANEL;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
+import static com.drdisagree.iconify.xposed.HookRes.modRes;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static com.drdisagree.iconify.xposed.utils.SettingsLibUtils.getColorAttr;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
@@ -116,12 +115,16 @@ public class QSFluidTheme extends ModPack {
             protected void beforeHookedMethod(MethodHookParam param) {
                 if (!fluidQsThemeEnabled) return;
 
-                if ((int) param.args[0] == STATE_ACTIVE) {
-                    param.setResult(colorActiveAlpha[0]);
-                } else if ((int) param.args[0] == STATE_INACTIVE) {
-                    param.setResult(colorInactiveAlpha[0]);
-                } else if ((int) param.args[0] == STATE_UNAVAILABLE) {
-                    param.setResult(colorUnavailableAlpha[0]);
+                try {
+                    if ((int) param.args[0] == STATE_ACTIVE) {
+                        param.setResult(colorActiveAlpha[0]);
+                    } else if ((int) param.args[0] == STATE_INACTIVE) {
+                        param.setResult(colorInactiveAlpha[0]);
+                    } else if ((int) param.args[0] == STATE_UNAVAILABLE) {
+                        param.setResult(colorUnavailableAlpha[0]);
+                    }
+                } catch (Throwable throwable) {
+                    log(TAG + throwable);
                 }
             }
         });
@@ -132,8 +135,12 @@ public class QSFluidTheme extends ModPack {
             protected void beforeHookedMethod(MethodHookParam param) {
                 if (!fluidQsThemeEnabled) return;
 
-                if ((int) getObjectField(param.args[1], "state") == STATE_ACTIVE) {
-                    param.setResult(colorAccent[0]);
+                try {
+                    if ((int) getObjectField(param.args[1], "state") == STATE_ACTIVE) {
+                        param.setResult(colorAccent[0]);
+                    }
+                } catch (Throwable throwable) {
+                    log(TAG + throwable);
                 }
             }
         });
@@ -143,8 +150,12 @@ public class QSFluidTheme extends ModPack {
             protected void afterHookedMethod(MethodHookParam param) {
                 if (!fluidQsThemeEnabled) return;
 
-                if (param.args[0] instanceof ImageView && getIntField(param.args[1], "state") == STATE_ACTIVE) {
-                    ((ImageView) param.args[0]).setImageTintList(ColorStateList.valueOf(colorAccent[0]));
+                try {
+                    if (param.args[0] instanceof ImageView && getIntField(param.args[1], "state") == STATE_ACTIVE) {
+                        ((ImageView) param.args[0]).setImageTintList(ColorStateList.valueOf(colorAccent[0]));
+                    }
+                } catch (Throwable throwable) {
+                    log(TAG + throwable);
                 }
             }
         });
@@ -154,8 +165,12 @@ public class QSFluidTheme extends ModPack {
             protected void beforeHookedMethod(MethodHookParam param) {
                 if (!fluidQsThemeEnabled) return;
 
-                if (param.args[0] instanceof ImageView && getIntField(param.args[1], "state") == STATE_ACTIVE) {
-                    setObjectField(param.thisObject, "mTint", colorAccent[0]);
+                try {
+                    if (param.args[0] instanceof ImageView && getIntField(param.args[1], "state") == STATE_ACTIVE) {
+                        setObjectField(param.thisObject, "mTint", colorAccent[0]);
+                    }
+                } catch (Throwable throwable) {
+                    log(TAG + throwable);
                 }
             }
         });
@@ -245,8 +260,12 @@ public class QSFluidTheme extends ModPack {
             protected void beforeHookedMethod(MethodHookParam param) {
                 if (!fluidQsThemeEnabled) return;
 
-                if ((int) param.args[0] == STATE_ACTIVE) {
-                    param.setResult(colorAccent[0]);
+                try {
+                    if ((int) param.args[0] == STATE_ACTIVE) {
+                        param.setResult(colorAccent[0]);
+                    }
+                } catch (Throwable throwable) {
+                    log(TAG + throwable);
                 }
             }
         });
@@ -257,8 +276,12 @@ public class QSFluidTheme extends ModPack {
             protected void beforeHookedMethod(MethodHookParam param) {
                 if (!fluidQsThemeEnabled) return;
 
-                if ((int) param.args[0] == STATE_ACTIVE) {
-                    param.setResult(colorAccent[0]);
+                try {
+                    if ((int) param.args[0] == STATE_ACTIVE) {
+                        param.setResult(colorAccent[0]);
+                    }
+                } catch (Throwable throwable) {
+                    log(TAG + throwable);
                 }
             }
         });
@@ -269,11 +292,15 @@ public class QSFluidTheme extends ModPack {
             protected void afterHookedMethod(MethodHookParam param) {
                 if (!fluidQsThemeEnabled) return;
 
-                setObjectField(param.thisObject, "colorActive", colorActiveAlpha[0]);
-                setObjectField(param.thisObject, "colorInactive", colorInactiveAlpha[0]);
-                setObjectField(param.thisObject, "colorUnavailable", colorUnavailableAlpha[0]);
-                setObjectField(param.thisObject, "colorLabelActive", colorAccent[0]);
-                setObjectField(param.thisObject, "colorSecondaryLabelActive", colorAccent[0]);
+                try {
+                    setObjectField(param.thisObject, "colorActive", colorActiveAlpha[0]);
+                    setObjectField(param.thisObject, "colorInactive", colorInactiveAlpha[0]);
+                    setObjectField(param.thisObject, "colorUnavailable", colorUnavailableAlpha[0]);
+                    setObjectField(param.thisObject, "colorLabelActive", colorAccent[0]);
+                    setObjectField(param.thisObject, "colorSecondaryLabelActive", colorAccent[0]);
+                } catch (Throwable throwable) {
+                    log(TAG + throwable);
+                }
             }
         });
 
@@ -304,10 +331,13 @@ public class QSFluidTheme extends ModPack {
             wasDark = isDark;
         }
 
-        colorAccent[0] = wasDark ? mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", listenPackage), mContext.getTheme()) : mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_600", "color", listenPackage), mContext.getTheme());
-        colorActiveAlpha[0] = Color.argb((int) (TILE_ALPHA * 255), Color.red(colorAccent[0]), Color.green(colorAccent[0]), Color.blue(colorAccent[0]));
-        colorInactiveAlpha[0] = wasDark ? Color.parseColor("#0FFFFFFF") : Color.parseColor("#59FFFFFF");
-        colorUnavailableAlpha[0] = wasDark ? Color.parseColor("#08FFFFFF") : Color.parseColor("#33FFFFFF");
+        try {
+            colorAccent[0] = wasDark ? mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", listenPackage), mContext.getTheme()) : mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_600", "color", listenPackage), mContext.getTheme());
+            colorActiveAlpha[0] = Color.argb((int) (TILE_ALPHA * 255), Color.red(colorAccent[0]), Color.green(colorAccent[0]), Color.blue(colorAccent[0]));
+            colorInactiveAlpha[0] = wasDark ? Color.parseColor("#0FFFFFFF") : Color.parseColor("#59FFFFFF");
+            colorUnavailableAlpha[0] = wasDark ? Color.parseColor("#08FFFFFF") : Color.parseColor("#33FFFFFF");
+        } catch (Throwable ignored) {
+        }
 
         // Replace drawables to match QS style
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
@@ -507,9 +537,8 @@ public class QSFluidTheme extends ModPack {
         }
 
         // Create the start and end drawables
-        Resources appRes = context.createPackageContext(APPLICATION_ID, CONTEXT_IGNORE_SECURITY).getResources();
-        Drawable startDrawable = ResourcesCompat.getDrawable(appRes, R.drawable.ic_brightness_low, context.getTheme());
-        Drawable endDrawable = ResourcesCompat.getDrawable(appRes, R.drawable.ic_brightness_full, context.getTheme());
+        Drawable startDrawable = ResourcesCompat.getDrawable(modRes, R.drawable.ic_brightness_low, context.getTheme());
+        Drawable endDrawable = ResourcesCompat.getDrawable(modRes, R.drawable.ic_brightness_full, context.getTheme());
         if (startDrawable != null && endDrawable != null) {
             startDrawable.setTint(colorAccent[0]);
             endDrawable.setTint(colorAccent[0]);
