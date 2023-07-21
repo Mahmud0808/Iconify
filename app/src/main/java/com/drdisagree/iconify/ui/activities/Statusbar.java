@@ -13,16 +13,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.databinding.ActivityStatusbarBinding;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
@@ -34,104 +30,57 @@ import java.util.Objects;
 
 public class Statusbar extends BaseActivity implements ColorPickerDialogListener {
 
-    private static String colorSBTint;
-    private static String selectedStyle;
+    private ActivityStatusbarBinding binding;
+    private static String colorSBTint, selectedStyle;
+    private ColorPickerDialog.Builder colorPickerSBTint;
     private final int[] finalSBLeftPadding = {Prefs.getInt(FABRICATED_SB_LEFT_PADDING, 8)};
     private final int[] finalSBRightPadding = {Prefs.getInt(FABRICATED_SB_RIGHT_PADDING, 8)};
-    private final SeekBar.OnSeekBarChangeListener sbRightPaddingListener = new SeekBar.OnSeekBarChangeListener() {
-        @SuppressLint("SetTextI18n")
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            finalSBRightPadding[0] = progress;
-            sb_right_padding_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
-        }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
-        }
-
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
-            Prefs.putInt(FABRICATED_SB_RIGHT_PADDING, finalSBRightPadding[0]);
-            FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_SB_RIGHT_PADDING, "dimen", "status_bar_padding_end", finalSBRightPadding[0] + "dp");
-            reset_sb_right_padding.setVisibility(View.VISIBLE);
-            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
-        }
-    };
-    private ColorPickerDialog.Builder colorPickerSBTint;
-    private TextView sb_left_padding_output, sb_right_padding_output;
-    private ImageView reset_sb_left_padding, reset_sb_right_padding;
-    private final SeekBar.OnSeekBarChangeListener sbLeftPaddingListener = new SeekBar.OnSeekBarChangeListener() {
-        @SuppressLint("SetTextI18n")
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            finalSBLeftPadding[0] = progress;
-            sb_left_padding_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
-        }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
-        }
-
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
-            Prefs.putInt(FABRICATED_SB_LEFT_PADDING, finalSBLeftPadding[0]);
-            FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_SB_LEFT_PADDING, "dimen", "status_bar_padding_start", finalSBLeftPadding[0] + "dp");
-            reset_sb_left_padding.setVisibility(View.VISIBLE);
-            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
-        }
-    };
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_statusbar);
+        binding = ActivityStatusbarBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_statusbar);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_statusbar);
 
         // Statusbar left padding
-        SeekBar sb_left_padding_seekbar = findViewById(R.id.sb_left_padding_seekbar);
-        sb_left_padding_output = findViewById(R.id.sb_left_padding_output);
-        sb_left_padding_output.setText(getResources().getString(R.string.opt_selected) + ' ' + finalSBLeftPadding[0] + "dp");
-        sb_left_padding_seekbar.setProgress(finalSBLeftPadding[0]);
-        sb_left_padding_seekbar.setOnSeekBarChangeListener(sbLeftPaddingListener);
+        binding.sbLeftPaddingOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalSBLeftPadding[0] + "dp");
+        binding.sbLeftPaddingSeekbar.setProgress(finalSBLeftPadding[0]);
+        binding.sbLeftPaddingSeekbar.setOnSeekBarChangeListener(sbLeftPaddingListener);
 
         // Reset left padding
-        reset_sb_left_padding = findViewById(R.id.reset_sb_left_padding);
-        reset_sb_left_padding.setVisibility(Prefs.getBoolean("fabricated" + FABRICATED_SB_LEFT_PADDING, false) ? View.VISIBLE : View.INVISIBLE);
+        binding.resetSbLeftPadding.setVisibility(Prefs.getBoolean("fabricated" + FABRICATED_SB_LEFT_PADDING, false) ? View.VISIBLE : View.INVISIBLE);
 
-        reset_sb_left_padding.setOnLongClickListener(v -> {
+        binding.resetSbLeftPadding.setOnLongClickListener(v -> {
             FabricatedUtil.disableOverlay(FABRICATED_SB_LEFT_PADDING);
             Prefs.putInt(FABRICATED_SB_LEFT_PADDING, 8);
-            reset_sb_left_padding.setVisibility(View.INVISIBLE);
-            sb_left_padding_seekbar.setOnSeekBarChangeListener(null);
-            sb_left_padding_seekbar.setProgress(8);
-            sb_left_padding_seekbar.setOnSeekBarChangeListener(sbLeftPaddingListener);
-            sb_left_padding_output.setText(getResources().getString(R.string.opt_selected) + " 8dp");
+            binding.resetSbLeftPadding.setVisibility(View.INVISIBLE);
+            binding.sbLeftPaddingSeekbar.setOnSeekBarChangeListener(null);
+            binding.sbLeftPaddingSeekbar.setProgress(8);
+            binding.sbLeftPaddingSeekbar.setOnSeekBarChangeListener(sbLeftPaddingListener);
+            binding.sbLeftPaddingOutput.setText(getResources().getString(R.string.opt_selected) + " 8dp");
             return true;
         });
 
         // Statusbar right padding
-        SeekBar sb_right_padding_seekbar = findViewById(R.id.sb_right_padding_seekbar);
-        sb_right_padding_output = findViewById(R.id.sb_right_padding_output);
-        sb_right_padding_output.setText(getResources().getString(R.string.opt_selected) + ' ' + finalSBRightPadding[0] + "dp");
-        sb_right_padding_seekbar.setProgress(finalSBRightPadding[0]);
-        sb_right_padding_seekbar.setOnSeekBarChangeListener(sbRightPaddingListener);
+        binding.sbRightPaddingOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalSBRightPadding[0] + "dp");
+        binding.sbRightPaddingSeekbar.setProgress(finalSBRightPadding[0]);
+        binding.sbRightPaddingSeekbar.setOnSeekBarChangeListener(sbRightPaddingListener);
 
         // Reset right padding
-        reset_sb_right_padding = findViewById(R.id.reset_sb_right_padding);
-        reset_sb_right_padding.setVisibility(Prefs.getBoolean("fabricated" + FABRICATED_SB_RIGHT_PADDING, false) ? View.VISIBLE : View.INVISIBLE);
+        binding.resetSbRightPadding.setVisibility(Prefs.getBoolean("fabricated" + FABRICATED_SB_RIGHT_PADDING, false) ? View.VISIBLE : View.INVISIBLE);
 
-        reset_sb_right_padding.setOnLongClickListener(v -> {
+        binding.resetSbRightPadding.setOnLongClickListener(v -> {
             FabricatedUtil.disableOverlay(FABRICATED_SB_RIGHT_PADDING);
             Prefs.putInt(FABRICATED_SB_RIGHT_PADDING, 8);
-            reset_sb_right_padding.setVisibility(View.INVISIBLE);
-            sb_right_padding_seekbar.setOnSeekBarChangeListener(null);
-            sb_right_padding_seekbar.setProgress(8);
-            sb_right_padding_seekbar.setOnSeekBarChangeListener(sbRightPaddingListener);
-            sb_right_padding_output.setText(getResources().getString(R.string.opt_selected) + " 8dp");
+            binding.resetSbRightPadding.setVisibility(View.INVISIBLE);
+            binding.sbRightPaddingSeekbar.setOnSeekBarChangeListener(null);
+            binding.sbRightPaddingSeekbar.setProgress(8);
+            binding.sbRightPaddingSeekbar.setOnSeekBarChangeListener(sbRightPaddingListener);
+            binding.sbRightPaddingOutput.setText(getResources().getString(R.string.opt_selected) + " 8dp");
             return true;
         });
 
@@ -141,17 +90,15 @@ public class Statusbar extends BaseActivity implements ColorPickerDialogListener
         selectedStyle = Prefs.getString(FABRICATED_SB_COLOR_SOURCE);
 
         if (Objects.equals(selectedStyle, "Monet") || Prefs.getBoolean("IconifyComponentSBTint.overlay")) {
-            ((RadioButton) findViewById(R.id.sb_tint_monet)).setChecked(true);
+            binding.sbTintMonet.setChecked(true);
             Prefs.putString(FABRICATED_SB_COLOR_SOURCE, "Monet");
         } else if (Objects.equals(selectedStyle, "System"))
-            ((RadioButton) findViewById(R.id.sb_tint_system)).setChecked(true);
+            binding.sbTintSystem.setChecked(true);
         else if (Objects.equals(selectedStyle, "Custom"))
-            ((RadioButton) findViewById(R.id.sb_tint_custom)).setChecked(true);
+            binding.sbTintCustom.setChecked(true);
 
         // Statusbar color source select
-        RadioGroup tint_selector = findViewById(R.id.sb_tint_source_selector);
-
-        tint_selector.setOnCheckedChangeListener((group, checkedId) -> {
+        binding.sbTintSourceSelector.setOnCheckedChangeListener((group, checkedId) -> {
             if (Objects.equals(checkedId, R.id.sb_tint_system)) {
                 if (!Objects.equals(selectedStyle, "System")) {
                     Prefs.putString(FABRICATED_SB_COLOR_SOURCE, "System");
@@ -171,6 +118,48 @@ public class Statusbar extends BaseActivity implements ColorPickerDialogListener
         });
     }
 
+    private final SeekBar.OnSeekBarChangeListener sbRightPaddingListener = new SeekBar.OnSeekBarChangeListener() {
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            finalSBRightPadding[0] = progress;
+            binding.sbRightPaddingOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            Prefs.putInt(FABRICATED_SB_RIGHT_PADDING, finalSBRightPadding[0]);
+            FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_SB_RIGHT_PADDING, "dimen", "status_bar_padding_end", finalSBRightPadding[0] + "dp");
+            binding.resetSbRightPadding.setVisibility(View.VISIBLE);
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    private final SeekBar.OnSeekBarChangeListener sbLeftPaddingListener = new SeekBar.OnSeekBarChangeListener() {
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            finalSBLeftPadding[0] = progress;
+            binding.sbLeftPaddingOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            Prefs.putInt(FABRICATED_SB_LEFT_PADDING, finalSBLeftPadding[0]);
+            FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_SB_LEFT_PADDING, "dimen", "status_bar_padding_start", finalSBLeftPadding[0] + "dp");
+            binding.resetSbLeftPadding.setVisibility(View.VISIBLE);
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+        }
+    };
+
     @Override
     public void onColorSelected(int dialogId, int color) {
         if (dialogId == 1) {
@@ -187,11 +176,11 @@ public class Statusbar extends BaseActivity implements ColorPickerDialogListener
     public void onDialogDismissed(int dialogId) {
         selectedStyle = Prefs.getString(FABRICATED_SB_COLOR_SOURCE);
         if (Objects.equals(selectedStyle, "System"))
-            ((RadioButton) findViewById(R.id.sb_tint_system)).setChecked(true);
+            binding.sbTintSystem.setChecked(true);
         else if (Objects.equals(selectedStyle, "Monet"))
-            ((RadioButton) findViewById(R.id.sb_tint_monet)).setChecked(true);
+            binding.sbTintMonet.setChecked(true);
         else if (Objects.equals(selectedStyle, "Custom"))
-            ((RadioButton) findViewById(R.id.sb_tint_custom)).setChecked(true);
+            binding.sbTintCustom.setChecked(true);
     }
 
     private void applySBColor() {
@@ -207,13 +196,7 @@ public class Statusbar extends BaseActivity implements ColorPickerDialogListener
     }
 
     private void resetSBColor() {
-        FabricatedUtil.disableOverlay("colorSBTint1");
-        FabricatedUtil.disableOverlay("colorSBTint2");
-        FabricatedUtil.disableOverlay("colorSBTint3");
-        FabricatedUtil.disableOverlay("colorSBTint4");
-        FabricatedUtil.disableOverlay("colorSBTint5");
-        FabricatedUtil.disableOverlay("colorSBTint6");
-        FabricatedUtil.disableOverlay("colorSBTint7");
+        FabricatedUtil.disableOverlays("colorSBTint1", "colorSBTint2", "colorSBTint3", "colorSBTint4", "colorSBTint5", "colorSBTint6", "colorSBTint7");
         OverlayUtil.disableOverlay("IconifyComponentSBTint.overlay");
 
         new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, 1000);

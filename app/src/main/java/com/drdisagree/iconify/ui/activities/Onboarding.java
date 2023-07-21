@@ -18,7 +18,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.window.OnBackInvokedDispatcher;
@@ -27,7 +26,6 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.LottieCompositionFactory;
 import com.airbnb.lottie.RenderMode;
 import com.drdisagree.iconify.BuildConfig;
@@ -58,14 +56,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Onboarding extends BaseActivity {
 
+    private ActivityOnboardingBinding binding;
     private static boolean hasErroredOut = false, rebootRequired = false;
     private static StartInstallationProcess installModule = null;
     private final String TAG = Onboarding.class.getSimpleName();
     private final Handler handler = new Handler(Looper.getMainLooper());
     private int previousPage = 0;
     private ViewPager2 mViewPager;
-    private Button btnNextStep;
-    private LottieAnimationView loading_anim;
     @SuppressLint("StaticFieldLeak")
     private InstallationDialog progressDialog;
     private OnboardingAdapter mAdapter = null;
@@ -75,9 +72,8 @@ public class Onboarding extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityOnboardingBinding binding = ActivityOnboardingBinding.inflate(getLayoutInflater());
-        View mView = binding.getRoot();
-        setContentView(mView);
+        binding = ActivityOnboardingBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         Prefs.putBoolean(ON_HOME_PAGE, false);
 
@@ -100,7 +96,6 @@ public class Onboarding extends BaseActivity {
         });
 
         // Next button
-        btnNextStep = findViewById(R.id.btn_next_step);
         mViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
@@ -111,53 +106,53 @@ public class Onboarding extends BaseActivity {
 
                     if (position > previousPage) {
                         getWindow().getDecorView().setBackground(getWindowDrawables()[previousPage]);
-                        btnNextStep.setBackground(getButtonDrawables()[previousPage]);
+                        binding.btnNextStep.setBackground(getButtonDrawables()[previousPage]);
 
                         ((TransitionDrawable) getWindow().getDecorView().getBackground()).startTransition(duration);
-                        ((TransitionDrawable) btnNextStep.getBackground()).startTransition(duration);
+                        ((TransitionDrawable) binding.btnNextStep.getBackground()).startTransition(duration);
 
                         handler.postDelayed(() -> {
                             getWindow().getDecorView().setBackground(getWindowDrawables()[position]);
-                            btnNextStep.setBackground(getButtonDrawables()[position]);
+                            binding.btnNextStep.setBackground(getButtonDrawables()[position]);
                         }, duration);
                     } else {
                         getWindow().getDecorView().setBackground(getWindowDrawables()[position]);
-                        btnNextStep.setBackground(getButtonDrawables()[position]);
+                        binding.btnNextStep.setBackground(getButtonDrawables()[position]);
 
                         ((TransitionDrawable) getWindow().getDecorView().getBackground()).startTransition(0);
-                        ((TransitionDrawable) btnNextStep.getBackground()).startTransition(0);
+                        ((TransitionDrawable) binding.btnNextStep.getBackground()).startTransition(0);
                         ((TransitionDrawable) getWindow().getDecorView().getBackground()).reverseTransition(duration);
-                        ((TransitionDrawable) btnNextStep.getBackground()).reverseTransition(duration);
+                        ((TransitionDrawable) binding.btnNextStep.getBackground()).reverseTransition(duration);
 
                         handler.postDelayed(() -> {
                             getWindow().getDecorView().setBackground(getWindowDrawables()[position]);
-                            btnNextStep.setBackground(getButtonDrawables()[position]);
+                            binding.btnNextStep.setBackground(getButtonDrawables()[position]);
                         }, duration);
                     }
 
                     previousPage = position;
                 } else {
                     getWindow().getDecorView().setBackground(getWindowDrawables()[position]);
-                    btnNextStep.setBackground(getButtonDrawables()[position]);
+                    binding.btnNextStep.setBackground(getButtonDrawables()[position]);
                 }
 
                 if (position == 2) {
                     btnSkip.setVisibility(View.INVISIBLE);
-                    btnNextStep.setText(R.string.btn_lets_go);
+                    binding.btnNextStep.setText(R.string.btn_lets_go);
                 } else {
                     btnSkip.setVisibility(View.VISIBLE);
-                    btnNextStep.setText(R.string.btn_next);
+                    binding.btnNextStep.setText(R.string.btn_next);
                 }
 
                 if (position == 2) {
                     // Reboot button
                     if (rebootRequired) {
                         showInfoNow(R.string.need_reboot_title, R.string.need_reboot_desc);
-                        btnNextStep.setText(R.string.btn_reboot);
+                        binding.btnNextStep.setText(R.string.btn_reboot);
                     }
 
                     // Skip installation on long click
-                    btnNextStep.setOnLongClickListener(v -> {
+                    binding.btnNextStep.setOnLongClickListener(v -> {
                         skippedInstallation = true;
                         hasErroredOut = false;
 
@@ -194,13 +189,13 @@ public class Onboarding extends BaseActivity {
                         return true;
                     });
                 } else {
-                    btnNextStep.setOnLongClickListener(null);
+                    binding.btnNextStep.setOnLongClickListener(null);
                 }
             }
         });
 
         // Start installation on click
-        btnNextStep.setOnClickListener(v -> {
+        binding.btnNextStep.setOnClickListener(v -> {
             if (getItem() > mViewPager.getChildCount()) {
                 skippedInstallation = false;
                 hasErroredOut = false;
@@ -258,13 +253,12 @@ public class Onboarding extends BaseActivity {
 
     private void handleInstallation() {
         LottieCompositionFactory.fromRawRes(this, !isDarkMode() ? R.raw.loading_day : R.raw.loading_night).addListener(result -> {
-            loading_anim = findViewById(R.id.loading_anim);
-            loading_anim.setMaxWidth(btnNextStep.getHeight());
-            loading_anim.setMaxHeight(btnNextStep.getHeight());
-            btnNextStep.setTextColor(Color.TRANSPARENT);
-            loading_anim.setAnimation(!isDarkMode() ? R.raw.loading_day : R.raw.loading_night);
-            loading_anim.setRenderMode(RenderMode.HARDWARE);
-            loading_anim.setVisibility(View.VISIBLE);
+            binding.loadingAnim.setMaxWidth(binding.btnNextStep.getHeight());
+            binding.loadingAnim.setMaxHeight(binding.btnNextStep.getHeight());
+            binding.btnNextStep.setTextColor(Color.TRANSPARENT);
+            binding.loadingAnim.setAnimation(!isDarkMode() ? R.raw.loading_day : R.raw.loading_night);
+            binding.loadingAnim.setRenderMode(RenderMode.HARDWARE);
+            binding.loadingAnim.setVisibility(View.VISIBLE);
 
             installModule = new Onboarding.StartInstallationProcess();
             installModule.execute();
@@ -334,7 +328,7 @@ public class Onboarding extends BaseActivity {
         @Override
         protected void onPreExecute() {
             showInfo(R.string.onboarding_title_3, R.string.onboarding_desc_3);
-            btnNextStep.setText(R.string.btn_lets_go);
+            binding.btnNextStep.setText(R.string.btn_lets_go);
 
             progressDialog.show(getResources().getString(R.string.installing), getResources().getString(R.string.init_module_installation));
         }
@@ -579,9 +573,9 @@ public class Onboarding extends BaseActivity {
                     } else {
                         rebootRequired = true;
                         showInfo(R.string.need_reboot_title, R.string.need_reboot_desc);
-                        btnNextStep.setText(R.string.btn_reboot);
-                        btnNextStep.setOnClickListener(view -> SystemUtil.restartDevice());
-                        btnNextStep.setOnLongClickListener(null);
+                        binding.btnNextStep.setText(R.string.btn_reboot);
+                        binding.btnNextStep.setOnClickListener(view -> SystemUtil.restartDevice());
+                        binding.btnNextStep.setOnLongClickListener(null);
                     }
                 } else {
                     Intent intent = new Intent(Onboarding.this, XposedMenu.class);
@@ -594,11 +588,11 @@ public class Onboarding extends BaseActivity {
                 Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
                 Shell.cmd("rm -rf " + Resources.BACKUP_DIR).exec();
                 showInfo(R.string.installation_failed_title, R.string.installation_failed_desc);
-                btnNextStep.setText(R.string.btn_lets_go);
+                binding.btnNextStep.setText(R.string.btn_lets_go);
             }
 
-            loading_anim.setVisibility(View.GONE);
-            btnNextStep.setTextColor(getResources().getColor(R.color.textColorPrimaryInverse, getTheme()));
+            binding.loadingAnim.setVisibility(View.GONE);
+            binding.btnNextStep.setTextColor(getResources().getColor(R.color.textColorPrimaryInverse, getTheme()));
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 try {

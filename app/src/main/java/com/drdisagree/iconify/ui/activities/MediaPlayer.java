@@ -1,37 +1,35 @@
 package com.drdisagree.iconify.ui.activities;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Switch;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.databinding.ActivityMediaPlayerBinding;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.OverlayUtil;
 
 public class MediaPlayer extends BaseActivity {
 
+    private ActivityMediaPlayerBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_media_player);
+        binding = ActivityMediaPlayerBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_media_player);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_media_player);
 
         refreshPreview();
 
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch mp_accent = findViewById(R.id.mp_accent);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch mp_system = findViewById(R.id.mp_system);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch mp_pitch_black = findViewById(R.id.mp_pitch_black);
+        binding.mpAccent.setChecked(Prefs.getBoolean("IconifyComponentMPA.overlay"));
 
-        mp_accent.setChecked(Prefs.getBoolean("IconifyComponentMPA.overlay"));
-
-        mp_accent.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.mpAccent.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                mp_system.setChecked(false);
-                mp_pitch_black.setChecked(false);
+                binding.mpSystem.setChecked(false);
+                binding.mpPitchBlack.setChecked(false);
                 OverlayUtil.changeOverlayState("IconifyComponentMPS.overlay", false, "IconifyComponentMPB.overlay", false, "IconifyComponentMPA.overlay", true);
             } else {
                 OverlayUtil.disableOverlay("IconifyComponentMPA.overlay");
@@ -39,12 +37,12 @@ public class MediaPlayer extends BaseActivity {
             refreshPreview();
         });
 
-        mp_system.setChecked(Prefs.getBoolean("IconifyComponentMPS.overlay"));
+        binding.mpSystem.setChecked(Prefs.getBoolean("IconifyComponentMPS.overlay"));
 
-        mp_system.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.mpSystem.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                mp_accent.setChecked(false);
-                mp_pitch_black.setChecked(false);
+                binding.mpAccent.setChecked(false);
+                binding.mpPitchBlack.setChecked(false);
                 OverlayUtil.changeOverlayState("IconifyComponentMPA.overlay", false, "IconifyComponentMPB.overlay", false, "IconifyComponentMPS.overlay", true);
             } else {
                 OverlayUtil.disableOverlay("IconifyComponentMPS.overlay");
@@ -52,12 +50,12 @@ public class MediaPlayer extends BaseActivity {
             refreshPreview();
         });
 
-        mp_pitch_black.setChecked(Prefs.getBoolean("IconifyComponentMPB.overlay"));
+        binding.mpPitchBlack.setChecked(Prefs.getBoolean("IconifyComponentMPB.overlay"));
 
-        mp_pitch_black.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.mpPitchBlack.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                mp_accent.setChecked(false);
-                mp_system.setChecked(false);
+                binding.mpAccent.setChecked(false);
+                binding.mpSystem.setChecked(false);
                 OverlayUtil.changeOverlayState("IconifyComponentMPA.overlay", false, "IconifyComponentMPS.overlay", false, "IconifyComponentMPB.overlay", true);
             } else {
                 OverlayUtil.disableOverlay("IconifyComponentMPB.overlay");
@@ -67,14 +65,15 @@ public class MediaPlayer extends BaseActivity {
     }
 
     private void refreshPreview() {
-        findViewById(R.id.preview_mp_accent).setVisibility(View.GONE);
-        findViewById(R.id.preview_mp_black).setVisibility(View.GONE);
-        findViewById(R.id.preview_mp_system).setVisibility(View.GONE);
+        binding.mpAccentPreview.previewMpAccent.setVisibility(View.GONE);
+        binding.mpPitchBlackPreview.previewMpBlack.setVisibility(View.GONE);
+        binding.mpSystemPreview.previewMpSystem.setVisibility(View.GONE);
 
         if (Prefs.getBoolean("IconifyComponentMPA.overlay"))
-            findViewById(R.id.preview_mp_accent).setVisibility(View.VISIBLE);
+            binding.mpAccentPreview.previewMpAccent.setVisibility(View.VISIBLE);
         else if (Prefs.getBoolean("IconifyComponentMPB.overlay"))
-            findViewById(R.id.preview_mp_black).setVisibility(View.VISIBLE);
-        else findViewById(R.id.preview_mp_system).setVisibility(View.VISIBLE);
+            binding.mpPitchBlackPreview.previewMpBlack.setVisibility(View.VISIBLE);
+        else
+            binding.mpSystemPreview.previewMpSystem.setVisibility(View.VISIBLE);
     }
 }

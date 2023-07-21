@@ -3,9 +3,9 @@ package com.drdisagree.iconify.ui.activities;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.databinding.ActivityProgressBarBinding;
 import com.drdisagree.iconify.ui.adapters.ProgressBarAdapter;
 import com.drdisagree.iconify.ui.models.ProgressBarModel;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
@@ -15,24 +15,25 @@ import java.util.ArrayList;
 
 public class ProgressBar extends BaseActivity {
 
-    LoadingDialog loadingDialog;
+    private ActivityProgressBarBinding binding;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_progress_bar);
+        binding = ActivityProgressBarBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_progress_bar);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_progress_bar);
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
 
         // RecyclerView
-        RecyclerView container = findViewById(R.id.progressbar_container);
-        container.setLayoutManager(new LinearLayoutManager(this));
-        container.setAdapter(initProgressBarItems());
-        container.setHasFixedSize(true);
+        binding.progressbarContainer.setLayoutManager(new LinearLayoutManager(this));
+        binding.progressbarContainer.setAdapter(initProgressBarItems());
+        binding.progressbarContainer.setHasFixedSize(true);
     }
 
     private ProgressBarAdapter initProgressBarItems() {

@@ -12,13 +12,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
-import android.widget.Button;
 import android.widget.SeekBar;
-import android.widget.Switch;
-import android.widget.TextView;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.databinding.ActivityNavigationBarBinding;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
@@ -30,65 +28,51 @@ import java.util.Objects;
 
 public class NavigationBar extends BaseActivity {
 
-    List<String> left_back_gesture = Shell.cmd("settings get secure back_gesture_inset_scale_left").exec().getOut();
-    List<String> right_back_gesture = Shell.cmd("settings get secure back_gesture_inset_scale_right").exec().getOut();
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
-    Switch nb_fullscreen, nb_immersive, nb_immersivev2, nb_immersivev3, nb_hide_pill, nb_monet_pill, nb_disable_left_gesture, nb_disable_right_gesture, nb_lower_sens, nb_hide_kb_buttons;
+    private ActivityNavigationBarBinding binding;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation_bar);
+        binding = ActivityNavigationBarBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_navigation_bar);
-
-        // Switches
-        nb_fullscreen = findViewById(R.id.nb_fullscreen);
-        nb_immersive = findViewById(R.id.nb_immersive);
-        nb_immersivev2 = findViewById(R.id.nb_immersivev2);
-        nb_immersivev3 = findViewById(R.id.nb_immersivev3);
-        nb_lower_sens = findViewById(R.id.nb_lower_sens);
-        nb_hide_pill = findViewById(R.id.nb_hide_pill);
-        nb_monet_pill = findViewById(R.id.nb_monet_pill);
-        nb_hide_kb_buttons = findViewById(R.id.nb_hide_kb_buttons);
-        nb_disable_left_gesture = findViewById(R.id.nb_disable_left_gesture);
-        nb_disable_right_gesture = findViewById(R.id.nb_disable_right_gesture);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_navigation_bar);
 
         // Switch states
-        nb_fullscreen.setChecked(Prefs.getBoolean("IconifyComponentNBFullScreen.overlay"));
-        nb_immersive.setChecked(Prefs.getBoolean("IconifyComponentNBImmersive.overlay"));
-        nb_immersivev2.setChecked(Prefs.getBoolean("IconifyComponentNBImmersiveSmall.overlay"));
-        nb_immersivev3.setChecked(Prefs.getBoolean("IconifyComponentNBImmersiveSmaller.overlay"));
-        nb_lower_sens.setChecked(Prefs.getBoolean("IconifyComponentNBLowSens.overlay"));
-        nb_hide_pill.setChecked(Prefs.getBoolean("IconifyComponentNBHidePill.overlay"));
-        nb_monet_pill.setChecked(Prefs.getBoolean("IconifyComponentNBMonetPill.overlay"));
-        nb_hide_kb_buttons.setChecked(Prefs.getBoolean("IconifyComponentNBHideKBButton.overlay"));
-        nb_disable_left_gesture.setChecked(initialize_left_gesture_switch());
-        nb_disable_right_gesture.setChecked(initialize_right_gesture_switch());
-        nb_hide_pill.setEnabled(!nb_fullscreen.isChecked());
-        nb_monet_pill.setEnabled(!nb_hide_pill.isChecked() && !nb_fullscreen.isChecked());
+        binding.nbFullscreen.setChecked(Prefs.getBoolean("IconifyComponentNBFullScreen.overlay"));
+        binding.nbImmersive.setChecked(Prefs.getBoolean("IconifyComponentNBImmersive.overlay"));
+        binding.nbImmersivev2.setChecked(Prefs.getBoolean("IconifyComponentNBImmersiveSmall.overlay"));
+        binding.nbImmersivev3.setChecked(Prefs.getBoolean("IconifyComponentNBImmersiveSmaller.overlay"));
+        binding.nbLowerSens.setChecked(Prefs.getBoolean("IconifyComponentNBLowSens.overlay"));
+        binding.nbHidePill.setChecked(Prefs.getBoolean("IconifyComponentNBHidePill.overlay"));
+        binding.nbMonetPill.setChecked(Prefs.getBoolean("IconifyComponentNBMonetPill.overlay"));
+        binding.nbHideKbButtons.setChecked(Prefs.getBoolean("IconifyComponentNBHideKBButton.overlay"));
+        binding.nbDisableLeftGesture.setChecked(initialize_left_gesture_switch());
+        binding.nbDisableRightGesture.setChecked(initialize_right_gesture_switch());
+        binding.nbHidePill.setEnabled(!binding.nbFullscreen.isChecked());
+        binding.nbMonetPill.setEnabled(!binding.nbHidePill.isChecked() && !binding.nbFullscreen.isChecked());
 
         // Fullscreen
-        nb_fullscreen.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            nb_hide_pill.setEnabled(!isChecked);
-            nb_monet_pill.setEnabled(!isChecked && !nb_hide_pill.isChecked());
+        binding.nbFullscreen.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            binding.nbHidePill.setEnabled(!isChecked);
+            binding.nbMonetPill.setEnabled(!isChecked && !binding.nbHidePill.isChecked());
 
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     disableOthers("IconifyComponentNBFullScreen.overlay");
                     OverlayUtil.enableOverlay("IconifyComponentNBFullScreen.overlay");
-                    findViewById(R.id.pill_shape).setVisibility(View.GONE);
+                    binding.pillShape.pillShapeContainer.setVisibility(View.GONE);
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentNBFullScreen.overlay");
-                    findViewById(R.id.pill_shape).setVisibility(View.VISIBLE);
+                    binding.pillShape.pillShapeContainer.setVisibility(View.VISIBLE);
                 }
             }, SWITCH_ANIMATION_DELAY);
         });
 
         // Immersive
-        nb_immersive.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
+        binding.nbImmersive.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
             if (isChecked) {
                 disableOthers("IconifyComponentNBImmersive.overlay");
                 OverlayUtil.enableOverlay("IconifyComponentNBImmersive.overlay");
@@ -98,7 +82,7 @@ public class NavigationBar extends BaseActivity {
         }, SWITCH_ANIMATION_DELAY));
 
         // Immersive v2
-        nb_immersivev2.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
+        binding.nbImmersivev2.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
             if (isChecked) {
                 disableOthers("IconifyComponentNBImmersiveSmall.overlay");
                 OverlayUtil.enableOverlay("IconifyComponentNBImmersiveSmall.overlay");
@@ -108,7 +92,7 @@ public class NavigationBar extends BaseActivity {
         }, SWITCH_ANIMATION_DELAY));
 
         // Immersive v3
-        nb_immersivev3.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
+        binding.nbImmersivev3.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
             if (isChecked) {
                 disableOthers("IconifyComponentNBImmersiveSmaller.overlay");
                 OverlayUtil.enableOverlay("IconifyComponentNBImmersiveSmaller.overlay");
@@ -118,7 +102,7 @@ public class NavigationBar extends BaseActivity {
         }, SWITCH_ANIMATION_DELAY));
 
         // Lower Sensitivity
-        nb_hide_pill.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
+        binding.nbHidePill.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
             if (isChecked) {
                 OverlayUtil.enableOverlay("IconifyComponentNBLowSens.overlay");
             } else {
@@ -127,24 +111,24 @@ public class NavigationBar extends BaseActivity {
         }, SWITCH_ANIMATION_DELAY));
 
         // Hide Pill
-        nb_hide_pill.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            nb_monet_pill.setEnabled(!isChecked && !nb_fullscreen.isChecked());
+        binding.nbHidePill.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            binding.nbMonetPill.setEnabled(!isChecked && !binding.nbFullscreen.isChecked());
 
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     OverlayUtil.enableOverlay("IconifyComponentNBHidePill.overlay");
-                    findViewById(R.id.pill_shape).setVisibility(View.GONE);
+                    binding.pillShape.pillShapeContainer.setVisibility(View.GONE);
                     SystemUtil.restartSystemUI();
                 } else {
                     OverlayUtil.disableOverlay("IconifyComponentNBHidePill.overlay");
-                    findViewById(R.id.pill_shape).setVisibility(View.VISIBLE);
+                    binding.pillShape.pillShapeContainer.setVisibility(View.VISIBLE);
                     SystemUtil.restartSystemUI();
                 }
             }, SWITCH_ANIMATION_DELAY);
         });
 
         // Monet Pill
-        nb_monet_pill.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
+        binding.nbMonetPill.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
             if (isChecked) {
                 OverlayUtil.enableOverlay("IconifyComponentNBMonetPill.overlay");
                 SystemUtil.restartSystemUI();
@@ -155,7 +139,7 @@ public class NavigationBar extends BaseActivity {
         }, SWITCH_ANIMATION_DELAY));
 
         // Hide Keyboard Buttons
-        nb_hide_kb_buttons.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
+        binding.nbHideKbButtons.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
             if (isChecked) {
                 OverlayUtil.enableOverlay("IconifyComponentNBHideKBButton.overlay");
             } else {
@@ -164,7 +148,7 @@ public class NavigationBar extends BaseActivity {
         }, SWITCH_ANIMATION_DELAY));
 
         // Disable left gesture
-        nb_disable_left_gesture.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
+        binding.nbDisableLeftGesture.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
             if (isChecked) {
                 Shell.cmd("settings put secure back_gesture_inset_scale_left -1 &>/dev/null").exec();
             } else {
@@ -173,7 +157,7 @@ public class NavigationBar extends BaseActivity {
         }, SWITCH_ANIMATION_DELAY));
 
         // Disable right gesture
-        nb_disable_right_gesture.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
+        binding.nbDisableRightGesture.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
             if (isChecked) {
                 Shell.cmd("settings put secure back_gesture_inset_scale_right -1 &>/dev/null").exec();
             } else {
@@ -182,20 +166,18 @@ public class NavigationBar extends BaseActivity {
         }, SWITCH_ANIMATION_DELAY));
 
         // Pill shape
-        findViewById(R.id.pill_shape).setVisibility((nb_fullscreen.isChecked() || nb_hide_pill.isChecked()) ? View.GONE : View.VISIBLE);
+        binding.pillShape.pillShapeContainer.setVisibility((binding.nbFullscreen.isChecked() || binding.nbHidePill.isChecked()) ? View.GONE : View.VISIBLE);
 
         // Pill width
-        SeekBar pill_width_seekbar = findViewById(R.id.pill_width_seekbar);
-        TextView pill_width_output = findViewById(R.id.pill_width_output);
         final int[] finalPillWidth = {Prefs.getInt(FABRICATED_PILL_WIDTH, 108)};
 
-        pill_width_output.setText(getResources().getString(R.string.opt_selected) + ' ' + finalPillWidth[0] + "dp");
-        pill_width_seekbar.setProgress(finalPillWidth[0]);
-        pill_width_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.pillShape.pillWidthOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalPillWidth[0] + "dp");
+        binding.pillShape.pillWidthSeekbar.setProgress(finalPillWidth[0]);
+        binding.pillShape.pillWidthSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 finalPillWidth[0] = progress;
-                pill_width_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+                binding.pillShape.pillWidthOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
             }
 
             @Override
@@ -208,17 +190,15 @@ public class NavigationBar extends BaseActivity {
         });
 
         // Pill thickness
-        SeekBar pill_thickness_seekbar = findViewById(R.id.pill_thickness_seekbar);
-        TextView pill_thickness_output = findViewById(R.id.pill_thickness_output);
         final int[] finalPillThickness = {Prefs.getInt(FABRICATED_PILL_THICKNESS, 2)};
 
-        pill_thickness_output.setText(getResources().getString(R.string.opt_selected) + ' ' + finalPillThickness[0] + "dp");
-        pill_thickness_seekbar.setProgress(finalPillThickness[0]);
-        pill_thickness_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.pillShape.pillThicknessOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalPillThickness[0] + "dp");
+        binding.pillShape.pillThicknessSeekbar.setProgress(finalPillThickness[0]);
+        binding.pillShape.pillThicknessSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 finalPillThickness[0] = progress;
-                pill_thickness_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+                binding.pillShape.pillThicknessOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
             }
 
             @Override
@@ -231,17 +211,15 @@ public class NavigationBar extends BaseActivity {
         });
 
         // Bottom space
-        SeekBar bottom_space_seekbar = findViewById(R.id.bottom_space_seekbar);
-        TextView bottom_space_output = findViewById(R.id.bottom_space_output);
         final int[] finalBottomSpace = {Prefs.getInt(FABRICATED_PILL_BOTTOM_SPACE, 6)};
 
-        bottom_space_output.setText(getResources().getString(R.string.opt_selected) + ' ' + finalBottomSpace[0] + "dp");
-        bottom_space_seekbar.setProgress(finalBottomSpace[0]);
-        bottom_space_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.pillShape.bottomSpaceOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalBottomSpace[0] + "dp");
+        binding.pillShape.bottomSpaceSeekbar.setProgress(finalBottomSpace[0]);
+        binding.pillShape.bottomSpaceSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 finalBottomSpace[0] = progress;
-                bottom_space_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+                binding.pillShape.bottomSpaceOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
             }
 
             @Override
@@ -253,14 +231,8 @@ public class NavigationBar extends BaseActivity {
             }
         });
 
-        // Apply button declaration
-        Button pill_thickness_column_apply = findViewById(R.id.pill_shape_apply);
-
-        // Reset button declaration
-        Button pill_thickness_column_reset = findViewById(R.id.pill_shape_reset);
-
         // Apply button
-        pill_thickness_column_apply.setOnClickListener(v -> {
+        binding.pillShape.pillShapeApply.setOnClickListener(v -> {
             Prefs.putBoolean(FABRICATED_PILL_SHAPE_SWITCH, true);
             Prefs.putInt(FABRICATED_PILL_WIDTH, finalPillWidth[0]);
             Prefs.putInt(FABRICATED_PILL_THICKNESS, finalPillThickness[0]);
@@ -270,59 +242,55 @@ public class NavigationBar extends BaseActivity {
             FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_PILL_THICKNESS, "dimen", "navigation_handle_radius", finalPillThickness[0] + "dp");
             FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_PILL_BOTTOM_SPACE, "dimen", "navigation_handle_bottom", finalBottomSpace[0] + "dp");
 
-            pill_thickness_column_reset.setVisibility(View.VISIBLE);
+            binding.pillShape.pillShapeReset.setVisibility(View.VISIBLE);
             SystemUtil.restartSystemUI();
         });
 
         // Reset button
-        pill_thickness_column_reset.setVisibility(Prefs.getBoolean(FABRICATED_PILL_SHAPE_SWITCH) ? View.VISIBLE : View.GONE);
-        pill_thickness_column_reset.setOnClickListener(v -> {
+        binding.pillShape.pillShapeReset.setVisibility(Prefs.getBoolean(FABRICATED_PILL_SHAPE_SWITCH) ? View.VISIBLE : View.GONE);
+        binding.pillShape.pillShapeReset.setOnClickListener(v -> {
             Prefs.putBoolean(FABRICATED_PILL_SHAPE_SWITCH, false);
 
             FabricatedUtil.disableOverlay(FABRICATED_PILL_WIDTH);
             FabricatedUtil.disableOverlay(FABRICATED_PILL_THICKNESS);
             FabricatedUtil.disableOverlay(FABRICATED_PILL_BOTTOM_SPACE);
 
-            pill_thickness_column_reset.setVisibility(View.GONE);
+            binding.pillShape.pillShapeReset.setVisibility(View.GONE);
             SystemUtil.restartSystemUI();
         });
     }
 
     private boolean initialize_left_gesture_switch() {
-        boolean left_gesture = false;
         try {
-            left_gesture = Integer.parseInt(left_back_gesture.get(0)) == -1;
-        } catch (Exception e) {
-            e.printStackTrace();
+            return Integer.parseInt(Shell.cmd("settings get secure back_gesture_inset_scale_left").exec().getOut().get(0)) == -1;
+        } catch (Exception ignored) {
+            return false;
         }
-        return left_gesture;
     }
 
     private boolean initialize_right_gesture_switch() {
-        boolean right_gesture = false;
         try {
-            right_gesture = Integer.parseInt(right_back_gesture.get(0)) == -1;
-        } catch (Exception e) {
-            e.printStackTrace();
+            return Integer.parseInt(Shell.cmd("settings get secure back_gesture_inset_scale_right").exec().getOut().get(0)) == -1;
+        } catch (Exception ignored) {
+            return false;
         }
-        return right_gesture;
     }
 
     private void disableOthers(String pkgName) {
         if (!Objects.equals(pkgName, "IconifyComponentNBFullScreen.overlay")) {
-            nb_fullscreen.setChecked(false);
+            binding.nbFullscreen.setChecked(false);
             OverlayUtil.disableOverlay("IconifyComponentNBFullScreen.overlay");
         }
         if (!Objects.equals(pkgName, "IconifyComponentNBImmersive.overlay")) {
-            nb_immersive.setChecked(false);
+            binding.nbImmersive.setChecked(false);
             OverlayUtil.disableOverlay("IconifyComponentNBImmersive.overlay");
         }
         if (!Objects.equals(pkgName, "IconifyComponentNBImmersiveSmall.overlay")) {
-            nb_immersivev2.setChecked(false);
+            binding.nbImmersivev2.setChecked(false);
             OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmall.overlay");
         }
         if (!Objects.equals(pkgName, "IconifyComponentNBImmersiveSmaller.overlay")) {
-            nb_immersivev3.setChecked(false);
+            binding.nbImmersivev3.setChecked(false);
             OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmaller.overlay");
         }
     }

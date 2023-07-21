@@ -165,6 +165,8 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <include layout="@layout/view_header" />
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

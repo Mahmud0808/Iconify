@@ -40,11 +40,12 @@ import java.util.Objects;
 
 public class Tweaks extends BaseFragment {
 
+    private View view;
     private ViewGroup listView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tweaks, container, false);
+        view = inflater.inflate(R.layout.fragment_tweaks, container, false);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);

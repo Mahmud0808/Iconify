@@ -33,9 +33,8 @@ import java.util.Objects;
 
 public class ColorEngine extends BaseFragment {
 
-    public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
-    CompoundButton.OnCheckedChangeListener minimalQsListener = null;
     private View view;
+    private CompoundButton.OnCheckedChangeListener minimalQsListener = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -129,7 +128,7 @@ public class ColorEngine extends BaseFragment {
     }
 
     private boolean shouldUseDefaultColors() {
-        return OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay");
+        return OverlayUtil.isOverlayDisabled(OverlayUtil.getEnabledOverlayList(), "IconifyComponentME.overlay");
     }
 
     private void applyDefaultColors() {

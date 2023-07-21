@@ -24,14 +24,17 @@
             android:paddingTop="@dimen/content_marginTop">
 
             <include
+                android:id="@+id/mp_accent_preview"
                 layout="@layout/view_media_player_preview_accent"
                 android:visibility="gone" />
 
             <include
+                android:id="@+id/mp_pitch_black_preview"
                 layout="@layout/view_media_player_preview_black"
                 android:visibility="gone" />
 
             <include
+                android:id="@+id/mp_system_preview"
                 layout="@layout/view_media_player_preview_system"
                 android:visibility="gone" />
 
@@ -150,6 +153,8 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <include layout="@layout/view_header" />
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

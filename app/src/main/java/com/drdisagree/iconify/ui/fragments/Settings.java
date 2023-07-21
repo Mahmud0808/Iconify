@@ -60,12 +60,13 @@ import java.util.Objects;
 
 public class Settings extends BaseFragment implements RadioDialog.RadioDialogListener {
 
-    LoadingDialog loadingDialog;
-    RadioDialog rd_app_language, rd_app_icon, rd_app_theme;
+    private View view;
+    private LoadingDialog loadingDialog;
+    private RadioDialog rd_app_language, rd_app_icon, rd_app_theme;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        view = inflater.inflate(R.layout.fragment_settings, container, false);
 
         // Header
         CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);

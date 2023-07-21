@@ -7,9 +7,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.databinding.ActivityQsPanelTileBinding;
 import com.drdisagree.iconify.ui.adapters.MenuAdapter;
 import com.drdisagree.iconify.ui.adapters.QsShapeAdapter;
 import com.drdisagree.iconify.ui.adapters.ViewAdapter;
@@ -22,27 +22,27 @@ import java.util.ArrayList;
 
 public class QsPanelTile extends BaseActivity {
 
-    LoadingDialog loadingDialog;
-    RecyclerView container;
-    ConcatAdapter adapter;
+    private ActivityQsPanelTileBinding binding;
+    private LoadingDialog loadingDialog;
+    private ConcatAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qs_panel_tile);
+        binding = ActivityQsPanelTileBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_qs_shape);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_qs_shape);
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
 
         // RecyclerView
-        container = findViewById(R.id.qs_shapes_container);
-        container.setLayoutManager(new LinearLayoutManager(this));
+        binding.qsShapesContainer.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ConcatAdapter(initActivityItems(), new ViewAdapter(this, R.layout.view_divider), initQsShapeItems());
-        container.setAdapter(adapter);
-        container.setHasFixedSize(true);
+        binding.qsShapesContainer.setAdapter(adapter);
+        binding.qsShapesContainer.setHasFixedSize(true);
     }
 
     private MenuAdapter initActivityItems() {

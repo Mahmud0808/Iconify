@@ -6,9 +6,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.databinding.ActivityQsPanelTilePixelBinding;
 import com.drdisagree.iconify.ui.adapters.QsShapeAdapter;
 import com.drdisagree.iconify.ui.models.QsShapeModel;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
@@ -18,27 +18,27 @@ import java.util.ArrayList;
 
 public class QsPanelTilePixel extends BaseActivity {
 
-    LoadingDialog loadingDialog;
-    RecyclerView container;
-    QsShapeAdapter adapter;
+    private ActivityQsPanelTilePixelBinding binding;
+    private LoadingDialog loadingDialog;
+    private QsShapeAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qs_panel_tile_pixel);
+        binding = ActivityQsPanelTilePixelBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_qs_shape);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_qs_shape);
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
 
         // RecyclerView
-        container = findViewById(R.id.qs_shapes_pixel_container);
-        container.setLayoutManager(new LinearLayoutManager(this));
+        binding.qsShapesPixelContainer.setLayoutManager(new LinearLayoutManager(this));
         adapter = initQsShapeItems();
-        container.setAdapter(adapter);
-        container.setHasFixedSize(true);
+        binding.qsShapesPixelContainer.setAdapter(adapter);
+        binding.qsShapesPixelContainer.setHasFixedSize(true);
     }
 
     private QsShapeAdapter initQsShapeItems() {

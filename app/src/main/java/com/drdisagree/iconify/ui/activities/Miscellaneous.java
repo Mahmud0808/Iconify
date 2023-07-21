@@ -18,7 +18,7 @@ import com.drdisagree.iconify.utils.SystemUtil;
 
 public class Miscellaneous extends BaseActivity {
 
-    ActivityMiscellaneousBinding binding;
+    private ActivityMiscellaneousBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +27,7 @@ public class Miscellaneous extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_miscellaneous);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_miscellaneous);
 
         binding.enableTabletLandscape.setChecked(Prefs.getBoolean("IconifyComponentBQS.overlay", false));
         binding.enableTabletLandscape.setOnCheckedChangeListener((buttonView, isChecked) -> {

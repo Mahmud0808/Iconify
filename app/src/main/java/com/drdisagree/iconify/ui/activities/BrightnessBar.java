@@ -4,9 +4,9 @@ import android.os.Bundle;
 
 import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.databinding.ActivityBrightnessBarsBinding;
 import com.drdisagree.iconify.ui.adapters.BrightnessBarAdapter;
 import com.drdisagree.iconify.ui.adapters.MenuAdapter;
 import com.drdisagree.iconify.ui.adapters.ViewAdapter;
@@ -19,25 +19,26 @@ import java.util.ArrayList;
 
 public class BrightnessBar extends BaseActivity {
 
-    LoadingDialog loadingDialog;
+    private ActivityBrightnessBarsBinding binding;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_brightness_bars);
+        binding = ActivityBrightnessBarsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_brightness_bar);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_brightness_bar);
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
 
         // RecyclerView
-        RecyclerView container = findViewById(R.id.brightness_bar_container);
-        container.setLayoutManager(new LinearLayoutManager(this));
+        binding.brightnessBarContainer.setLayoutManager(new LinearLayoutManager(this));
         ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new ViewAdapter(this, R.layout.view_divider), initBrightnessBarItems());
-        container.setAdapter(adapter);
-        container.setHasFixedSize(true);
+        binding.brightnessBarContainer.setAdapter(adapter);
+        binding.brightnessBarContainer.setHasFixedSize(true);
     }
 
     private MenuAdapter initActivityItems() {

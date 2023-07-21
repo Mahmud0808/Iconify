@@ -16,7 +16,7 @@ import java.util.Objects;
 
 public class XposedMenu extends BaseActivity {
 
-    ActivityXposedMenuBinding binding;
+    private ActivityXposedMenuBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

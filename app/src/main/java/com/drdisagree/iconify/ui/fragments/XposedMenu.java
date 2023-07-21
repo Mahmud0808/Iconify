@@ -55,12 +55,13 @@ import java.util.Objects;
 
 public class XposedMenu extends BaseFragment {
 
+    private View view;
     private ViewGroup listView;
 
     @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_xposed_menu, container, false);
+        view = inflater.inflate(R.layout.fragment_xposed_menu, container, false);
 
         listView = view.findViewById(R.id.xposed_list);
 
