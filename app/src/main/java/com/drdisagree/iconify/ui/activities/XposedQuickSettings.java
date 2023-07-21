@@ -151,9 +151,7 @@ public class XposedQuickSettings extends BaseActivity {
         reset_qqs_top_margin.setVisibility(reset_qqs_top_margin_visible ? View.VISIBLE : View.INVISIBLE);
 
         reset_qqs_top_margin.setOnLongClickListener(v -> {
-            FabricatedUtil.disableOverlay("quick_qs_offset_height");
-            FabricatedUtil.disableOverlay("qqs_layout_margin_top");
-            FabricatedUtil.disableOverlay("qs_header_row_min_height");
+            FabricatedUtil.disableOverlays("quick_qs_offset_height", "qqs_layout_margin_top", "qs_header_row_min_height");
             RPrefs.putInt(HEADER_QQS_TOPMARGIN, -1);
             reset_qqs_top_margin.setVisibility(View.INVISIBLE);
             return true;
@@ -192,9 +190,7 @@ public class XposedQuickSettings extends BaseActivity {
         reset_qs_top_margin.setVisibility(reset_qs_top_margin_visible ? View.VISIBLE : View.INVISIBLE);
 
         reset_qs_top_margin.setOnLongClickListener(v -> {
-            FabricatedUtil.disableOverlay("quick_qs_total_height");
-            FabricatedUtil.disableOverlay("qs_panel_padding_top");
-            FabricatedUtil.disableOverlay("qs_panel_padding_top_combined_headers");
+            FabricatedUtil.disableOverlays("quick_qs_total_height", "qs_panel_padding_top", "qs_panel_padding_top_combined_headers");
             reset_qs_top_margin.setVisibility(View.INVISIBLE);
             return true;
         });
