@@ -387,6 +387,37 @@ public class BatteryStyleManager extends ModPack {
             log(TAG + throwable);
         }
 
+        try {
+            hookAllMethods(BatteryMeterViewClass, "setPercentShowMode", new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) {
+                    if (showPercentInside) {
+                        param.setResult(2);
+                    }
+                }
+            });
+        } catch (Throwable throwable) {
+            log(TAG + throwable);
+        }
+
+        try {
+            hookAllMethods(BatteryMeterViewClass, "updateShowPercent", new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) {
+                    if (showPercentInside) {
+                        setObjectField(param.thisObject, "mShowPercentMode", 2);
+                        try {
+                            callMethod(param.thisObject, "removeView", getObjectField(param.thisObject, "mBatteryPercentView"));
+                            setObjectField(param.thisObject, "mBatteryPercentView", null);
+                        } catch (Throwable ignored) {
+                        }
+                    }
+                }
+            });
+        } catch (Throwable throwable) {
+            log(TAG + throwable);
+        }
+
         if (customBatteryEnabled) {
             try {
                 hookAllMethods(BatteryMeterViewClass, "updateDrawable", new XC_MethodReplacement() {
@@ -500,8 +531,6 @@ public class BatteryStyleManager extends ModPack {
     private void hidePercentage(XC_MethodHook.MethodHookParam param) {
         if (showPercentInside) {
             setObjectField(param.thisObject, "mShowPercentMode", 2);
-            callMethod(param.thisObject, "updateShowPercent");
-            callMethod(param.thisObject, "updatePercentText");
             try {
                 callMethod(param.thisObject, "removeView", getObjectField(param.thisObject, "mBatteryPercentView"));
                 setObjectField(param.thisObject, "mBatteryPercentView", null);
