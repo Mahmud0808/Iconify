@@ -37,6 +37,7 @@
         android:background="@drawable/container"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
+        android:paddingBottom="3dp"
         android:textColor="@color/textColorSecondary"
         android:textSize="@dimen/cont_desc_size"
         android:textStyle="bold" />
