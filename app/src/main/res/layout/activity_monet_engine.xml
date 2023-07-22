@@ -188,6 +188,8 @@
                         style="@style/customRadioButtonColored"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:singleLine="true"
                         android:text="@string/monet_neutral" />
 
                     <RadioButton
@@ -195,6 +197,8 @@
                         style="@style/customRadioButtonColored"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:singleLine="true"
                         android:text="@string/monet_monochrome" />
 
                     <RadioButton
@@ -202,6 +206,8 @@
                         style="@style/customRadioButtonColored"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:singleLine="true"
                         android:text="@string/monet_tonalspot" />
 
                     <RadioButton
@@ -209,7 +215,18 @@
                         style="@style/customRadioButtonColored"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:singleLine="true"
                         android:text="@string/monet_vibrant" />
+
+                    <RadioButton
+                        android:id="@+id/rainbow_style"
+                        style="@style/customRadioButtonColored"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:singleLine="true"
+                        android:text="@string/monet_rainbow" />
 
                 </RadioGroup>
 
@@ -228,6 +245,8 @@
                         style="@style/customRadioButtonColored"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:singleLine="true"
                         android:text="@string/monet_expressive" />
 
                     <RadioButton
@@ -235,6 +254,8 @@
                         style="@style/customRadioButtonColored"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:singleLine="true"
                         android:text="@string/monet_fidelity" />
 
                     <RadioButton
@@ -242,7 +263,18 @@
                         style="@style/customRadioButtonColored"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:singleLine="true"
                         android:text="@string/monet_content" />
+
+                    <RadioButton
+                        android:id="@+id/fruitsalad_style"
+                        style="@style/customRadioButtonColored"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:singleLine="true"
+                        android:text="@string/monet_fruitsalad" />
 
                 </RadioGroup>
             </LinearLayout>

@@ -105,12 +105,16 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
             binding.tonalspotStyle.setChecked(true);
         else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_vibrant)))
             binding.vibrantStyle.setChecked(true);
+        else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_rainbow)))
+            binding.rainbowStyle.setChecked(true);
         else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_expressive)))
             binding.expressiveStyle.setChecked(true);
         else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_fidelity)))
             binding.fidelityStyle.setChecked(true);
         else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_content)))
             binding.contentStyle.setChecked(true);
+        else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_fruitsalad)))
+            binding.fruitsaladStyle.setChecked(true);
         else {
             Prefs.putBoolean(MONET_ENGINE_SWITCH, false);
             binding.monetStyles1.clearCheck();

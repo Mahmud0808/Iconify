@@ -394,8 +394,10 @@
     <string name="monet_monochrome">Monochrome</string>
     <string name="monet_tonalspot">Tonal Spot</string>
     <string name="monet_vibrant">Vibrant</string>
+    <string name="monet_rainbow">Rainbow</string>
     <string name="monet_expressive">Expressive</string>
     <string name="monet_fidelity">Fidelity</string>
+    <string name="monet_fruitsalad">Fruit Salad</string>
     <string name="monet_content">Content</string>
     <string name="app_not_found">Application not found!</string>
     <string name="monet_accent_saturation_title">Accent Saturation</string>
