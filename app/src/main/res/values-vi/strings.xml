@@ -371,7 +371,7 @@
     <string name="monet_fidelity">Trung thực</string>
     <string name="monet_content">Nội dung</string>
     <string name="app_not_found">Ứng dụng không tìm thấy!</string>
-    <string name="monet_accent_saturation_title">Độ bão hòa của điểm nhấn</string>
+    <string name="monet_primary_accent_saturation_title">Độ bão hòa của điểm nhấn</string>
     <string name="monet_background_saturation_title">Độ bão hòa nền</string>
     <string name="monet_background_lightness_title">Độ sáng nền</string>
     <string name="media_player_preview_music_title">Tiêu đề âm nhạc</string>

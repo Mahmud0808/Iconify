@@ -347,7 +347,7 @@
     <string name="monet_fidelity">Fidelidade</string>
     <string name="monet_content">Conteúdo</string>
     <string name="app_not_found">Aplicação não encontrada!</string>
-    <string name="monet_accent_saturation_title">Saturação da acentuação</string>
+    <string name="monet_primary_accent_saturation_title">Saturação da acentuação</string>
     <string name="monet_background_saturation_title">Saturação do pano de fundo</string>
     <string name="monet_background_lightness_title">Brilho do pano de fundo</string>
     <string name="lockscreen_font_text_scaling_title">Escala do texto</string>

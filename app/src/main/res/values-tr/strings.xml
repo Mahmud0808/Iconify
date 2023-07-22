@@ -344,7 +344,7 @@
     <string name="monet_fidelity">Uygun</string>
     <string name="monet_content">İçerik</string>
     <string name="app_not_found">Uygulama bulunamadı!</string>
-    <string name="monet_accent_saturation_title">Vurgu Doygunluğu</string>
+    <string name="monet_primary_accent_saturation_title">Vurgu Doygunluğu</string>
     <string name="monet_background_saturation_title">Arka Plan Doygunluğu</string>
     <string name="monet_background_lightness_title">Arka Plan Açıklığı</string>
     <string name="media_player_preview_music_title">Müzik Başlığı</string>

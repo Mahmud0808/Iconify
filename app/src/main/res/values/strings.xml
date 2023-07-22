@@ -400,7 +400,8 @@
     <string name="monet_fruitsalad">Fruit Salad</string>
     <string name="monet_content">Content</string>
     <string name="app_not_found">Application not found!</string>
-    <string name="monet_accent_saturation_title">Accent Saturation</string>
+    <string name="monet_primary_accent_saturation_title">Primary Accent Saturation</string>
+    <string name="monet_secondary_accent_saturation_title">Secondary Accent Saturation</string>
     <string name="monet_background_saturation_title">Background Saturation</string>
     <string name="monet_background_lightness_title">Background Lightness</string>
     <string name="media_player_preview_music_title">Music Title</string>

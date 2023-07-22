@@ -378,7 +378,7 @@
     <string name="monet_fidelity">Fidelity</string>
     <string name="monet_content">Content</string>
     <string name="app_not_found">未找到应用程序！</string>
-    <string name="monet_accent_saturation_title">强调色饱和度</string>
+    <string name="monet_primary_accent_saturation_title">强调色饱和度</string>
     <string name="monet_background_saturation_title">背景色饱和度</string>
     <string name="monet_background_lightness_title">背景色亮度</string>
     <string name="media_player_preview_music_title">音乐标题</string>

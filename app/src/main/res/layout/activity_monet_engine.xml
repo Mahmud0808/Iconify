@@ -312,17 +312,16 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/monet_accent_saturation_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:longClickable="true"
-                        android:text="@string/monet_accent_saturation_title"
+                        android:text="@string/monet_primary_accent_saturation_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
 
                     <ImageView
-                        android:id="@+id/reset_accent_saturation"
+                        android:id="@+id/reset_primary_accent_saturation"
                         android:layout_width="@dimen/reset_button_size"
                         android:layout_height="@dimen/reset_button_size"
                         android:layout_gravity="start|center"
@@ -336,14 +335,14 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/monet_accent_saturation_output"
+                    android:id="@+id/monet_primary_accent_saturation_output"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/textColorSecondary"
                     android:textSize="@dimen/cont_desc_size" />
 
                 <SeekBar
-                    android:id="@+id/monet_accent_saturation_seekbar"
+                    android:id="@+id/monet_primary_accent_saturation_seekbar"
                     style="@style/SeekBar.Iconify"
                     android:max="200"
                     android:min="0"
@@ -368,7 +367,60 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/monet_background_saturation_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/monet_secondary_accent_saturation_title"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/reset_secondary_accent_saturation"
+                        android:layout_width="@dimen/reset_button_size"
+                        android:layout_height="@dimen/reset_button_size"
+                        android:layout_gravity="start|center"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:contentDescription="@string/icon"
+                        app:srcCompat="@drawable/ic_reset"
+                        app:tint="@color/textColorSecondary" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/monet_secondary_accent_saturation_output"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColorSecondary"
+                    android:textSize="@dimen/cont_desc_size" />
+
+                <SeekBar
+                    android:id="@+id/monet_secondary_accent_saturation_seekbar"
+                    style="@style/SeekBar.Iconify"
+                    android:max="200"
+                    android:min="0"
+                    android:progress="100" />
+
+            </LinearLayout>
+
+            <View style="@style/dividerTransparent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/container_mid"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/container_paddingSide"
+                android:paddingTop="@dimen/container_padding"
+                android:paddingEnd="@dimen/container_paddingSide"
+                android:paddingBottom="@dimen/container_padding">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/monet_background_saturation_title"
@@ -425,7 +477,6 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/monet_background_lightness_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/monet_background_lightness_title"

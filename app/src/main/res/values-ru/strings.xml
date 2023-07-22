@@ -367,7 +367,7 @@
     <string name="monet_fidelity">Точный</string>
     <string name="monet_content">Содержание</string>
     <string name="app_not_found">Приложение не найдено!</string>
-    <string name="monet_accent_saturation_title">Насыщенность акцента</string>
+    <string name="monet_primary_accent_saturation_title">Насыщенность акцента</string>
     <string name="monet_background_saturation_title">Насыщенность фона</string>
     <string name="monet_background_lightness_title">Яркость фона</string>
     <string name="lockscreen_font_text_scaling_title">Масштабирование текста</string>
