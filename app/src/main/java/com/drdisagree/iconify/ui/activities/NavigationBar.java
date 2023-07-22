@@ -237,9 +237,11 @@ public class NavigationBar extends BaseActivity {
             Prefs.putInt(FABRICATED_PILL_THICKNESS, finalPillThickness[0]);
             Prefs.putInt(FABRICATED_PILL_BOTTOM_SPACE, finalBottomSpace[0]);
 
-            FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_PILL_WIDTH, "dimen", "navigation_home_handle_width", finalPillWidth[0] + "dp");
-            FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_PILL_THICKNESS, "dimen", "navigation_handle_radius", finalPillThickness[0] + "dp");
-            FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_PILL_BOTTOM_SPACE, "dimen", "navigation_handle_bottom", finalBottomSpace[0] + "dp");
+            FabricatedUtil.buildAndEnableOverlays(
+                    new Object[]{SYSTEMUI_PACKAGE, FABRICATED_PILL_WIDTH, "dimen", "navigation_home_handle_width", finalPillWidth[0] + "dp"},
+                    new Object[]{SYSTEMUI_PACKAGE, FABRICATED_PILL_THICKNESS, "dimen", "navigation_handle_radius", finalPillThickness[0] + "dp"},
+                    new Object[]{SYSTEMUI_PACKAGE, FABRICATED_PILL_BOTTOM_SPACE, "dimen", "navigation_handle_bottom", finalBottomSpace[0] + "dp"}
+            );
 
             binding.pillShape.pillShapeReset.setVisibility(View.VISIBLE);
             SystemUtil.restartSystemUI();
@@ -250,9 +252,7 @@ public class NavigationBar extends BaseActivity {
         binding.pillShape.pillShapeReset.setOnClickListener(v -> {
             Prefs.putBoolean(FABRICATED_PILL_SHAPE_SWITCH, false);
 
-            FabricatedUtil.disableOverlay(FABRICATED_PILL_WIDTH);
-            FabricatedUtil.disableOverlay(FABRICATED_PILL_THICKNESS);
-            FabricatedUtil.disableOverlay(FABRICATED_PILL_BOTTOM_SPACE);
+            FabricatedUtil.disableOverlays(FABRICATED_PILL_WIDTH, FABRICATED_PILL_THICKNESS, FABRICATED_PILL_BOTTOM_SPACE);
 
             binding.pillShape.pillShapeReset.setVisibility(View.GONE);
             SystemUtil.restartSystemUI();

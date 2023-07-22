@@ -44,6 +44,36 @@ public class FabricatedUtil {
         Shell.cmd(commands.get(0), commands.get(1)).submit();
     }
 
+    public static void buildAndEnableOverlays(Object[]... args) {
+        List<String> commands = new ArrayList<>();
+        List<String> module = new ArrayList<>();
+
+        for (Object[] arg : args) {
+            if (arg.length % 5 != 0) {
+                throw new IllegalArgumentException("Mismatch in number of arguments.");
+            }
+        }
+
+        for (Object[] arg : args) {
+            List<String> tempCommands = buildCommands((String) arg[0], (String) arg[1], (String) arg[2], (String) arg[3], (String) arg[4]);
+
+            Prefs.putBoolean("fabricated" + (String) arg[1], true);
+            Prefs.putString("FOCMDtarget" + (String) arg[1], (String) arg[0]);
+            Prefs.putString("FOCMDname" + (String) arg[1], (String) arg[1]);
+            Prefs.putString("FOCMDtype" + (String) arg[1], (String) arg[2]);
+            Prefs.putString("FOCMDresourceName" + (String) arg[1], (String) arg[3]);
+            Prefs.putString("FOCMDval" + (String) arg[1], (String) arg[4]);
+
+            module.add("mv " + Resources.MODULE_DIR + "/post-exec.sh " + Resources.MODULE_DIR + "/post-exec.txt; grep -v \"IconifyComponent" + (String) arg[1] + "\" " + Resources.MODULE_DIR + "/post-exec.txt > " + Resources.MODULE_DIR + "/post-exec.txt.tmp && mv " + Resources.MODULE_DIR + "/post-exec.txt.tmp " + Resources.MODULE_DIR + "/post-exec.sh; rm -rf " + Resources.MODULE_DIR + "/post-exec.txt; rm -rf " + Resources.MODULE_DIR + "/post-exec.txt.tmp");
+            module.add("echo -e \"" + tempCommands.get(0) + "\n" + tempCommands.get(1) + "\" >> " + Resources.MODULE_DIR + "/post-exec.sh");
+
+            commands.add(tempCommands.get(0));
+            commands.add(tempCommands.get(1));
+        }
+
+        Shell.cmd(String.join("; ", module), String.join("; ", commands)).submit();
+    }
+
     public static List<String> buildCommands(String target, String name, String type, String resourceName, String val) {
         String resourceType = "0x1c";
 
