@@ -129,11 +129,13 @@ public class FabricatedUtil {
 
     public static void disableOverlay(String name) {
         Prefs.putBoolean("fabricated" + name, false);
-        Prefs.clearPref("FOCMDtarget" + name);
-        Prefs.clearPref("FOCMDname" + name);
-        Prefs.clearPref("FOCMDtype" + name);
-        Prefs.clearPref("FOCMDresourceName" + name);
-        Prefs.clearPref("FOCMDval" + name);
+        Prefs.clearPrefs(
+                "FOCMDtarget" + name,
+                "FOCMDname" + name,
+                "FOCMDtype" + name,
+                "FOCMDresourceName" + name,
+                "FOCMDval" + name
+        );
 
         String disable_cmd = "cmd overlay disable --user current com.android.shell:IconifyComponent" + name;
 
@@ -147,11 +149,13 @@ public class FabricatedUtil {
 
         for (String name : names) {
             Prefs.putBoolean("fabricated" + name, false);
-            Prefs.clearPref("FOCMDtarget" + name);
-            Prefs.clearPref("FOCMDname" + name);
-            Prefs.clearPref("FOCMDtype" + name);
-            Prefs.clearPref("FOCMDresourceName" + name);
-            Prefs.clearPref("FOCMDval" + name);
+            Prefs.clearPrefs(
+                    "FOCMDtarget" + name,
+                    "FOCMDname" + name,
+                    "FOCMDtype" + name,
+                    "FOCMDresourceName" + name,
+                    "FOCMDval" + name
+            );
 
             command.append("cmd overlay disable --user current com.android.shell:IconifyComponent").append(name).append("; ");
 

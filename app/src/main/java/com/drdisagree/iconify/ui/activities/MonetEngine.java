@@ -478,9 +478,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
     }
 
     private void disableBasicColors() {
-        Prefs.clearPref(CUSTOM_ACCENT);
-        Prefs.clearPref(CUSTOM_PRIMARY_COLOR_SWITCH);
-        Prefs.clearPref(CUSTOM_SECONDARY_COLOR_SWITCH);
+        Prefs.clearPrefs(CUSTOM_ACCENT, CUSTOM_PRIMARY_COLOR_SWITCH, CUSTOM_SECONDARY_COLOR_SWITCH);
 
         FabricatedUtil.disableOverlays(COLOR_ACCENT_PRIMARY, COLOR_ACCENT_PRIMARY_LIGHT, COLOR_ACCENT_SECONDARY, COLOR_ACCENT_SECONDARY_LIGHT);
     }
@@ -521,7 +519,9 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                 binding.enableCustomMonet.setVisibility(View.VISIBLE);
                 break;
         }
-    }    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
+    }
+
+    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if (checkedId != -1) {
@@ -537,7 +537,9 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
 
     @Override
     public void onDialogDismissed(int dialogId) {
-    }    private final RadioGroup.OnCheckedChangeListener listener2 = new RadioGroup.OnCheckedChangeListener() {
+    }
+
+    private final RadioGroup.OnCheckedChangeListener listener2 = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if (checkedId != -1) {
@@ -550,8 +552,6 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
             }
         }
     };
-
-
 
 
 }

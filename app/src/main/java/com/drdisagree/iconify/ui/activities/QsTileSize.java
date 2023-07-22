@@ -224,10 +224,7 @@ public class QsTileSize extends BaseActivity {
         });
 
         binding.qsTileHeightReset.setOnClickListener(v -> {
-            Prefs.clearPref(PORT_QSTILE_NONEXPANDED_HEIGHT);
-            Prefs.clearPref(PORT_QSTILE_EXPANDED_HEIGHT);
-            Prefs.clearPref(LAND_QSTILE_NONEXPANDED_HEIGHT);
-            Prefs.clearPref(LAND_QSTILE_EXPANDED_HEIGHT);
+            Prefs.clearPrefs(PORT_QSTILE_NONEXPANDED_HEIGHT, PORT_QSTILE_EXPANDED_HEIGHT, LAND_QSTILE_NONEXPANDED_HEIGHT, LAND_QSTILE_EXPANDED_HEIGHT);
 
             portNonExpandedHeight[0] = 60;
             portExpandedHeight[0] = 80;

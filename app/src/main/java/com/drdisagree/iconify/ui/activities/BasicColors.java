@@ -56,12 +56,7 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
 
     public static void disableAccentColors() {
         Prefs.putBoolean(CUSTOM_ACCENT, false);
-        Prefs.clearPref(CUSTOM_PRIMARY_COLOR_SWITCH);
-        Prefs.clearPref(CUSTOM_SECONDARY_COLOR_SWITCH);
-        Prefs.clearPref(COLOR_ACCENT_PRIMARY);
-        Prefs.clearPref(COLOR_ACCENT_PRIMARY_LIGHT);
-        Prefs.clearPref(COLOR_ACCENT_SECONDARY);
-        Prefs.clearPref(COLOR_ACCENT_SECONDARY_LIGHT);
+        Prefs.clearPrefs(CUSTOM_PRIMARY_COLOR_SWITCH, CUSTOM_SECONDARY_COLOR_SWITCH, COLOR_ACCENT_PRIMARY, COLOR_ACCENT_PRIMARY_LIGHT, COLOR_ACCENT_SECONDARY, COLOR_ACCENT_SECONDARY_LIGHT);
 
         FabricatedUtil.disableOverlays(COLOR_ACCENT_PRIMARY, COLOR_ACCENT_PRIMARY_LIGHT, COLOR_ACCENT_SECONDARY, COLOR_ACCENT_SECONDARY_LIGHT);
     }

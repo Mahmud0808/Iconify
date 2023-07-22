@@ -166,9 +166,7 @@ public class SettingsIcons extends BaseActivity implements RadioDialog.RadioDial
         });
 
         binding.disableSettingsIcons.setOnClickListener(v -> {
-            Prefs.clearPref(SELECTED_SETTINGS_ICONS_SET);
-            Prefs.clearPref(SELECTED_SETTINGS_ICONS_BG);
-            Prefs.clearPref(SELECTED_SETTINGS_ICONS_COLOR);
+            Prefs.clearPrefs(SELECTED_SETTINGS_ICONS_SET, SELECTED_SETTINGS_ICONS_BG, SELECTED_SETTINGS_ICONS_COLOR);
 
             binding.disableSettingsIcons.setVisibility(View.GONE);
 

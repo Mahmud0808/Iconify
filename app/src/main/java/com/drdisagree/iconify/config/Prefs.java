@@ -68,6 +68,12 @@ public class Prefs {
         editor.remove(key).apply();
     }
 
+    public static void clearPrefs(String... keys) {
+        for (String key : keys) {
+            editor.remove(key).apply();
+        }
+    }
+
     // Clear all sharedPref config
     public static void clearAllPrefs() {
         editor.clear().apply();
