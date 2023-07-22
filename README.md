@@ -103,8 +103,8 @@ You can track all the progress [HERE](https://github.com/Mahmud0808/Iconify/comm
 - [iconsax.io](http://iconsax.io) for in-app icon set.
 - [@Jai](https://t.me/jai_08) for helping me with shell script.
 - [@Flodor](https://t.me/Rodolphe06), [@modestCat](https://t.me/ModestCat03), [@Jorge ARZ](https://t.me/ArzjoDev), [@ɦʏքɛʀ.sɦ](https://t.me/hyp3r_sh) for helping with resources.
+- [AOSPMods](https://github.com/siavash79/AOSPMods), [@siavash79](https://t.me/siavash7999) for helping me with Xposed mods.
 - [@Sanely_insane](https://t.me/sanely_insane), [@Jaguar](https://t.me/Jaguar0066) for support and motivation.
-- [AOSPMods](https://github.com/siavash79/AOSPMods) for helping with the Xposed part.
 - [HideNavBar](https://github.com/Magisk-Modules-Repo/HideNavBar) for the navbar tweaks.
 - And everyone who contributed... :)
 
