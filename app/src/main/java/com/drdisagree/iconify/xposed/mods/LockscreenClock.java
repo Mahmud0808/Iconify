@@ -237,7 +237,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                 case 1:
                     final TextView date1 = new TextView(mContext);
                     date1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    date1.setText(formatDate("EEEE d MMMM", "EEEE MMMM d"));
+                    date1.setText(formatDate("EEEE, MMMM d", "EEEE d MMMM"));
                     date1.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white, mContext.getTheme()) : (customColorEnabled ? customColorCode : mContext.getResources().getColor(android.R.color.holo_blue_light, mContext.getTheme())));
                     date1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20 * textScaling);
                     date1.setTypeface(typeface != null ? typeface : date1.getTypeface(), Typeface.BOLD);
@@ -720,7 +720,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
 
                     final TextView date8 = new TextView(mContext);
                     date8.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    date8.setText(formatDate("dd MMMM", "MMMM dd"));
+                    date8.setText(formatDate("MMMM dd", "dd MMMM"));
                     date8.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white, mContext.getTheme()) : (customColorEnabled ? customColorCode : mContext.getResources().getColor(android.R.color.system_neutral1_10, mContext.getTheme())));
                     date8.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20 * textScaling);
                     date8.setTypeface(typeface != null ? typeface : date8.getTypeface(), Typeface.NORMAL);
