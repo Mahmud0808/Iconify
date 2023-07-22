@@ -33,7 +33,7 @@
         android:paddingBottom="3dp"
         android:textAlignment="center"
         android:textColor="@color/textColorSecondary"
-        android:textSize="12dp"
+        android:textSize="12sp"
         android:textStyle="bold" />
 
 </LinearLayout>
