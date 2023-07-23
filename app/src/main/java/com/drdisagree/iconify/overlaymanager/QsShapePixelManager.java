@@ -1,7 +1,8 @@
 package com.drdisagree.iconify.overlaymanager;
 
 import static com.drdisagree.iconify.common.Dynamic.TOTAL_QSSHAPESPIXEL;
-import static com.drdisagree.iconify.common.Resources.QSC_overlay;
+import static com.drdisagree.iconify.common.Resources.QSC1_overlay;
+import static com.drdisagree.iconify.common.Resources.QSC2_overlay;
 import static com.drdisagree.iconify.common.Resources.QSPT1_overlay;
 import static com.drdisagree.iconify.common.Resources.QSPT2_overlay;
 import static com.drdisagree.iconify.common.Resources.QSPT3_overlay;
@@ -35,7 +36,7 @@ public class QsShapePixelManager {
             String overlay = "IconifyComponentQSSP" + n + ".overlay";
 
             if (!Prefs.getBoolean(overlay))
-                OverlayUtil.changeOverlayState(overlay, true, QSC_overlay, true, QSPT1_overlay, QST1_state, QSPT2_overlay, QST2_state, QSPT3_overlay, QST3_state, QSPT4_overlay, QST4_state);
+                OverlayUtil.changeOverlayState(overlay, true, QSC1_overlay, true, QSC2_overlay, true, QSPT1_overlay, QST1_state, QSPT2_overlay, QST2_state, QSPT3_overlay, QST3_state, QSPT4_overlay, QST4_state);
         }
     }
 
@@ -46,7 +47,7 @@ public class QsShapePixelManager {
             String overlay = "IconifyComponentQSSP" + n + ".overlay";
 
             if (Prefs.getBoolean(overlay))
-                OverlayUtil.disableOverlays(overlay, QSC_overlay);
+                OverlayUtil.disableOverlays(overlay, QSC1_overlay, QSC2_overlay);
         }
     }
 
