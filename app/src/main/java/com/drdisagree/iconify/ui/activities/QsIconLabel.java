@@ -2,10 +2,21 @@ package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.QS_TEXT_COLOR_VARIANT;
+import static com.drdisagree.iconify.common.Preferences.QS_TEXT_COLOR_VARIANT_NORMAL;
+import static com.drdisagree.iconify.common.Preferences.QS_TEXT_COLOR_VARIANT_PIXEL;
 import static com.drdisagree.iconify.common.Preferences.STR_NULL;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_ICON_SIZE;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_MOVE_ICON;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_TEXT_SIZE;
+import static com.drdisagree.iconify.common.Resources.QSNT1_overlay;
+import static com.drdisagree.iconify.common.Resources.QSNT2_overlay;
+import static com.drdisagree.iconify.common.Resources.QSNT3_overlay;
+import static com.drdisagree.iconify.common.Resources.QSNT4_overlay;
+import static com.drdisagree.iconify.common.Resources.QSPT1_overlay;
+import static com.drdisagree.iconify.common.Resources.QSPT2_overlay;
+import static com.drdisagree.iconify.common.Resources.QSPT3_overlay;
+import static com.drdisagree.iconify.common.Resources.QSPT4_overlay;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -22,9 +33,12 @@ import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 
+import java.util.Objects;
+
 public class QsIconLabel extends BaseActivity {
 
     private ActivityQsIconLabelBinding binding;
+    private static String selectedVariant;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -122,7 +136,45 @@ public class QsIconLabel extends BaseActivity {
         }
 
         // QS Text Color
-        binding.labelWhite.setChecked(Prefs.getBoolean("IconifyComponentQST1.overlay"));
+        if (isNormalVariantActive()) {
+            binding.textColorNormal.setChecked(true);
+        } else if (isPixelVariantActive()) {
+            binding.textColorPixel.setChecked(true);
+        }
+
+        selectedVariant = binding.radioGroupTextColor.getCheckedRadioButtonId() == R.id.textColorNormal ? QS_TEXT_COLOR_VARIANT_NORMAL : QS_TEXT_COLOR_VARIANT_PIXEL;
+
+        binding.radioGroupTextColor.setOnCheckedChangeListener((radioGroup, checkedId) -> {
+            if (Objects.equals(checkedId, R.id.textColorNormal)) {
+                if (!Objects.equals(selectedVariant, QS_TEXT_COLOR_VARIANT_NORMAL)) {
+                    Prefs.putString(QS_TEXT_COLOR_VARIANT, QS_TEXT_COLOR_VARIANT_NORMAL);
+
+                    if (Prefs.getBoolean(QSPT1_overlay))
+                        OverlayUtil.changeOverlayState(QSPT1_overlay, false, QSNT1_overlay, true);
+                    if (Prefs.getBoolean(QSPT2_overlay))
+                        OverlayUtil.changeOverlayState(QSPT2_overlay, false, QSNT2_overlay, true);
+                    if (Prefs.getBoolean(QSPT3_overlay))
+                        OverlayUtil.changeOverlayState(QSPT3_overlay, false, QSNT3_overlay, true);
+                    if (Prefs.getBoolean(QSPT4_overlay))
+                        OverlayUtil.changeOverlayState(QSPT4_overlay, false, QSNT4_overlay, true);
+                }
+            } else if (Objects.equals(checkedId, R.id.textColorPixel)) {
+                if (!Objects.equals(selectedVariant, QS_TEXT_COLOR_VARIANT_PIXEL)) {
+                    Prefs.putString(QS_TEXT_COLOR_VARIANT, QS_TEXT_COLOR_VARIANT_PIXEL);
+
+                    if (Prefs.getBoolean(QSNT1_overlay))
+                        OverlayUtil.changeOverlayState(QSNT1_overlay, false, QSPT1_overlay, true);
+                    if (Prefs.getBoolean(QSNT2_overlay))
+                        OverlayUtil.changeOverlayState(QSNT2_overlay, false, QSPT2_overlay, true);
+                    if (Prefs.getBoolean(QSNT3_overlay))
+                        OverlayUtil.changeOverlayState(QSNT3_overlay, false, QSPT3_overlay, true);
+                    if (Prefs.getBoolean(QSNT4_overlay))
+                        OverlayUtil.changeOverlayState(QSNT4_overlay, false, QSPT4_overlay, true);
+                }
+            }
+        });
+
+        binding.labelWhite.setChecked(Prefs.getBoolean(replaceVariant("IconifyComponentQST1.overlay")));
 
         binding.labelWhite.setOnCheckedChangeListener((buttonView, isChecked) -> {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -130,17 +182,16 @@ public class QsIconLabel extends BaseActivity {
                     binding.labelWhiteV2.setChecked(false);
                     binding.labelSystemInverse.setChecked(false);
                     binding.labelSystemInverseV2.setChecked(false);
-                    binding.labelFixtextcolor.setChecked(false);
 
-                    OverlayUtil.disableOverlays("IconifyComponentQST2.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST4.overlay", "IconifyComponentQST5.overlay");
-                    OverlayUtil.enableOverlay("IconifyComponentQST1.overlay");
+                    OverlayUtil.disableOverlays(replaceVariant("IconifyComponentQST2.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST4.overlay"));
+                    OverlayUtil.enableOverlay(replaceVariant("IconifyComponentQST1.overlay"));
                 } else {
-                    OverlayUtil.disableOverlay("IconifyComponentQST1.overlay");
+                    OverlayUtil.disableOverlay(replaceVariant("IconifyComponentQST1.overlay"));
                 }
             }, SWITCH_ANIMATION_DELAY);
         });
 
-        binding.labelWhiteV2.setChecked(Prefs.getBoolean("IconifyComponentQST2.overlay"));
+        binding.labelWhiteV2.setChecked(Prefs.getBoolean(replaceVariant("IconifyComponentQST2.overlay")));
 
         binding.labelWhiteV2.setOnCheckedChangeListener((buttonView, isChecked) -> {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -148,17 +199,16 @@ public class QsIconLabel extends BaseActivity {
                     binding.labelWhite.setChecked(false);
                     binding.labelSystemInverse.setChecked(false);
                     binding.labelSystemInverseV2.setChecked(false);
-                    binding.labelFixtextcolor.setChecked(false);
 
-                    OverlayUtil.disableOverlays("IconifyComponentQST1.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST4.overlay", "IconifyComponentQST5.overlay");
-                    OverlayUtil.enableOverlay("IconifyComponentQST2.overlay");
+                    OverlayUtil.disableOverlays(replaceVariant("IconifyComponentQST1.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST4.overlay"));
+                    OverlayUtil.enableOverlay(replaceVariant("IconifyComponentQST2.overlay"));
                 } else {
-                    OverlayUtil.disableOverlay("IconifyComponentQST2.overlay");
+                    OverlayUtil.disableOverlay(replaceVariant("IconifyComponentQST2.overlay"));
                 }
             }, SWITCH_ANIMATION_DELAY);
         });
 
-        binding.labelSystemInverse.setChecked(Prefs.getBoolean("IconifyComponentQST3.overlay"));
+        binding.labelSystemInverse.setChecked(Prefs.getBoolean(replaceVariant("IconifyComponentQST3.overlay")));
 
         binding.labelSystemInverse.setOnCheckedChangeListener((buttonView, isChecked) -> {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -166,17 +216,16 @@ public class QsIconLabel extends BaseActivity {
                     binding.labelWhite.setChecked(false);
                     binding.labelWhiteV2.setChecked(false);
                     binding.labelSystemInverseV2.setChecked(false);
-                    binding.labelFixtextcolor.setChecked(false);
 
-                    OverlayUtil.disableOverlays("IconifyComponentQST1.overlay", "IconifyComponentQST2.overlay", "IconifyComponentQST4.overlay", "IconifyComponentQST5.overlay");
-                    OverlayUtil.enableOverlay("IconifyComponentQST3.overlay");
+                    OverlayUtil.disableOverlays(replaceVariant("IconifyComponentQST1.overlay", "IconifyComponentQST2.overlay", "IconifyComponentQST4.overlay"));
+                    OverlayUtil.enableOverlay(replaceVariant("IconifyComponentQST3.overlay"));
                 } else {
-                    OverlayUtil.disableOverlay("IconifyComponentQST3.overlay");
+                    OverlayUtil.disableOverlay(replaceVariant("IconifyComponentQST3.overlay"));
                 }
             }, SWITCH_ANIMATION_DELAY);
         });
 
-        binding.labelSystemInverseV2.setChecked(Prefs.getBoolean("IconifyComponentQST4.overlay"));
+        binding.labelSystemInverseV2.setChecked(Prefs.getBoolean(replaceVariant("IconifyComponentQST4.overlay")));
 
         binding.labelSystemInverseV2.setOnCheckedChangeListener((buttonView, isChecked) -> {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -184,30 +233,11 @@ public class QsIconLabel extends BaseActivity {
                     binding.labelWhite.setChecked(false);
                     binding.labelWhiteV2.setChecked(false);
                     binding.labelSystemInverse.setChecked(false);
-                    binding.labelFixtextcolor.setChecked(false);
 
-                    OverlayUtil.disableOverlays("IconifyComponentQST1.overlay", "IconifyComponentQST2.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST5.overlay");
-                    OverlayUtil.enableOverlay("IconifyComponentQST4.overlay");
+                    OverlayUtil.disableOverlays(replaceVariant("IconifyComponentQST1.overlay", "IconifyComponentQST2.overlay", "IconifyComponentQST3.overlay"));
+                    OverlayUtil.enableOverlay(replaceVariant("IconifyComponentQST4.overlay"));
                 } else {
-                    OverlayUtil.disableOverlay("IconifyComponentQST4.overlay");
-                }
-            }, SWITCH_ANIMATION_DELAY);
-        });
-
-        binding.labelFixtextcolor.setChecked(Prefs.getBoolean("IconifyComponentQST5.overlay"));
-
-        binding.labelFixtextcolor.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                if (isChecked) {
-                    binding.labelWhite.setChecked(false);
-                    binding.labelWhiteV2.setChecked(false);
-                    binding.labelSystemInverse.setChecked(false);
-                    binding.labelSystemInverseV2.setChecked(false);
-
-                    OverlayUtil.disableOverlays("IconifyComponentQST1.overlay", "IconifyComponentQST2.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST4.overlay");
-                    OverlayUtil.enableOverlay("IconifyComponentQST5.overlay");
-                } else {
-                    OverlayUtil.disableOverlay("IconifyComponentQST5.overlay");
+                    OverlayUtil.disableOverlay(replaceVariant("IconifyComponentQST4.overlay"));
                 }
             }, SWITCH_ANIMATION_DELAY);
         });
@@ -267,5 +297,27 @@ public class QsIconLabel extends BaseActivity {
                 Toast.makeText(getApplicationContext(), finalMoveIcon[0] + "dp " + getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private String[] replaceVariant(String... args) {
+        String[] newArgs = new String[args.length];
+
+        for (int i = 0; i < args.length; i++) {
+            newArgs[i] = args[i].replace("QST", Objects.equals(selectedVariant, QS_TEXT_COLOR_VARIANT_NORMAL) ? "QSNT" : "QSPT");
+        }
+
+        return newArgs;
+    }
+
+    private String replaceVariant(String arg) {
+        return arg.replace("QST", Objects.equals(selectedVariant, QS_TEXT_COLOR_VARIANT_NORMAL) ? "QSNT" : "QSPT");
+    }
+
+    private boolean isNormalVariantActive() {
+        return Prefs.getBoolean(QSNT1_overlay) || Prefs.getBoolean(QSNT2_overlay) || Prefs.getBoolean(QSNT3_overlay) || Prefs.getBoolean(QSNT4_overlay) || Objects.equals(Prefs.getString(QS_TEXT_COLOR_VARIANT), QS_TEXT_COLOR_VARIANT_NORMAL);
+    }
+
+    private boolean isPixelVariantActive() {
+        return Prefs.getBoolean(QSPT1_overlay) || Prefs.getBoolean(QSPT2_overlay) || Prefs.getBoolean(QSPT3_overlay) || Prefs.getBoolean(QSPT4_overlay) || Objects.equals(Prefs.getString(QS_TEXT_COLOR_VARIANT), QS_TEXT_COLOR_VARIANT_PIXEL);
     }
 }

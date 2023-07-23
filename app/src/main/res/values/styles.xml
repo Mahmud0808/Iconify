@@ -103,6 +103,10 @@
         <item name="android:textSize">@dimen/cont_desc_size</item>
     </style>
 
+    <style name="customRadioButtonColored.Tab" parent="customRadioButtonColored">
+        <item name="android:background">@drawable/radio_sb_tab_bg</item>
+    </style>
+
     <style name="buttonLandingPage">
         <item name="fontFamily">@font/regular</item>
         <item name="android:background">@drawable/button</item>

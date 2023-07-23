@@ -1,6 +1,11 @@
 package com.drdisagree.iconify.overlaymanager;
 
 import static com.drdisagree.iconify.common.Dynamic.TOTAL_QSSHAPES;
+import static com.drdisagree.iconify.common.Resources.QSC_overlay;
+import static com.drdisagree.iconify.common.Resources.QSNT1_overlay;
+import static com.drdisagree.iconify.common.Resources.QSNT2_overlay;
+import static com.drdisagree.iconify.common.Resources.QSNT3_overlay;
+import static com.drdisagree.iconify.common.Resources.QSNT4_overlay;
 
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.OverlayUtil;
@@ -8,13 +13,6 @@ import com.drdisagree.iconify.utils.OverlayUtil;
 import java.io.File;
 
 public class QsShapeManager {
-
-    public static final String QSC_overlay = "IconifyComponentQSC.overlay";
-    public static final String QST1_overlay = "IconifyComponentQST1.overlay";
-    public static final String QST2_overlay = "IconifyComponentQST2.overlay";
-    public static final String QST3_overlay = "IconifyComponentQST3.overlay";
-    public static final String QST4_overlay = "IconifyComponentQST4.overlay";
-    public static final String QST5_overlay = "IconifyComponentQST5.overlay";
 
     public static void enableOverlay(int n) {
         disable_others(n);
@@ -26,11 +24,10 @@ public class QsShapeManager {
     }
 
     protected static void enable_pack(int n) {
-        boolean QST1_state = Prefs.getBoolean(QST1_overlay);
-        boolean QST2_state = Prefs.getBoolean(QST2_overlay);
-        boolean QST3_state = Prefs.getBoolean(QST3_overlay);
-        boolean QST4_state = Prefs.getBoolean(QST4_overlay);
-        boolean QST5_state = Prefs.getBoolean(QST5_overlay);
+        boolean QST1_state = Prefs.getBoolean(QSNT1_overlay);
+        boolean QST2_state = Prefs.getBoolean(QSNT2_overlay);
+        boolean QST3_state = Prefs.getBoolean(QSNT3_overlay);
+        boolean QST4_state = Prefs.getBoolean(QSNT4_overlay);
 
         String path = "/system/product/overlay/IconifyComponentQSSN" + n + ".apk";
 
@@ -38,7 +35,7 @@ public class QsShapeManager {
             String overlay = "IconifyComponentQSSN" + n + ".overlay";
 
             if (!Prefs.getBoolean(overlay))
-                OverlayUtil.changeOverlayState(overlay, true, QSC_overlay, true, QST1_overlay, QST1_state, QST2_overlay, QST2_state, QST3_overlay, QST3_state, QST4_overlay, QST4_state, QST5_overlay, QST5_state);
+                OverlayUtil.changeOverlayState(overlay, true, QSC_overlay, true, QSNT1_overlay, QST1_state, QSNT2_overlay, QST2_state, QSNT3_overlay, QST3_state, QSNT4_overlay, QST4_state);
         }
     }
 

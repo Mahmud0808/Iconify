@@ -1,12 +1,11 @@
 package com.drdisagree.iconify.overlaymanager;
 
 import static com.drdisagree.iconify.common.Dynamic.TOTAL_QSSHAPESPIXEL;
-import static com.drdisagree.iconify.overlaymanager.QsShapeManager.QSC_overlay;
-import static com.drdisagree.iconify.overlaymanager.QsShapeManager.QST1_overlay;
-import static com.drdisagree.iconify.overlaymanager.QsShapeManager.QST2_overlay;
-import static com.drdisagree.iconify.overlaymanager.QsShapeManager.QST3_overlay;
-import static com.drdisagree.iconify.overlaymanager.QsShapeManager.QST4_overlay;
-import static com.drdisagree.iconify.overlaymanager.QsShapeManager.QST5_overlay;
+import static com.drdisagree.iconify.common.Resources.QSC_overlay;
+import static com.drdisagree.iconify.common.Resources.QSPT1_overlay;
+import static com.drdisagree.iconify.common.Resources.QSPT2_overlay;
+import static com.drdisagree.iconify.common.Resources.QSPT3_overlay;
+import static com.drdisagree.iconify.common.Resources.QSPT4_overlay;
 
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.OverlayUtil;
@@ -25,11 +24,10 @@ public class QsShapePixelManager {
     }
 
     protected static void enable_pack(int n) {
-        boolean QST1_state = Prefs.getBoolean(QST1_overlay);
-        boolean QST2_state = Prefs.getBoolean(QST2_overlay);
-        boolean QST3_state = Prefs.getBoolean(QST3_overlay);
-        boolean QST4_state = Prefs.getBoolean(QST4_overlay);
-        boolean QST5_state = Prefs.getBoolean(QST5_overlay);
+        boolean QST1_state = Prefs.getBoolean(QSPT1_overlay);
+        boolean QST2_state = Prefs.getBoolean(QSPT2_overlay);
+        boolean QST3_state = Prefs.getBoolean(QSPT3_overlay);
+        boolean QST4_state = Prefs.getBoolean(QSPT4_overlay);
 
         String path = "/system/product/overlay/IconifyComponentQSSP" + n + ".apk";
 
@@ -37,7 +35,7 @@ public class QsShapePixelManager {
             String overlay = "IconifyComponentQSSP" + n + ".overlay";
 
             if (!Prefs.getBoolean(overlay))
-                OverlayUtil.changeOverlayState(overlay, true, QSC_overlay, true, QST1_overlay, QST1_state, QST2_overlay, QST2_state, QST3_overlay, QST3_state, QST4_overlay, QST4_state, QST5_overlay, QST5_state);
+                OverlayUtil.changeOverlayState(overlay, true, QSC_overlay, true, QSPT1_overlay, QST1_state, QSPT2_overlay, QST2_state, QSPT3_overlay, QST3_state, QSPT4_overlay, QST4_state);
         }
     }
 

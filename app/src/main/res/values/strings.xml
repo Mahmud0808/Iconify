@@ -620,4 +620,6 @@
     <string name="btn_negative">No</string>
     <string name="toast_import_settings_successfull">Imported settings successfully</string>
     <string name="toast_export_settings_successfull">Exported settings successfully</string>
+    <string name="qs_text_color_normal">Normal</string>
+    <string name="qs_text_color_pixel">Pixel</string>
 </resources>

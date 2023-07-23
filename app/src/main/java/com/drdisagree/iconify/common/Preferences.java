@@ -129,6 +129,9 @@ public class Preferences {
     public static final String SELECTED_SWITCH = "selectedSwitch";
     public static final String COLORED_BATTERY_CHECK = "isColoredBatteryEnabledByUser";
     public static final String CUSTOM_ACCENT = "customAccentColor";
+    public static final String QS_TEXT_COLOR_VARIANT = "qsTextColorVariant";
+    public static final String QS_TEXT_COLOR_VARIANT_NORMAL = "qsTextColorVariantNormal";
+    public static final String QS_TEXT_COLOR_VARIANT_PIXEL = "qsTextColorVariantPixel";
 
     // Settings
     public static final String APP_LANGUAGE = "IconifyAppLanguage";
