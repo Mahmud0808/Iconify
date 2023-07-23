@@ -1,6 +1,12 @@
 package com.drdisagree.iconify.overlaymanager;
 
 import static com.drdisagree.iconify.common.Dynamic.TOTAL_QSSHAPESPIXEL;
+import static com.drdisagree.iconify.overlaymanager.QsShapeManager.QSC_overlay;
+import static com.drdisagree.iconify.overlaymanager.QsShapeManager.QST1_overlay;
+import static com.drdisagree.iconify.overlaymanager.QsShapeManager.QST2_overlay;
+import static com.drdisagree.iconify.overlaymanager.QsShapeManager.QST3_overlay;
+import static com.drdisagree.iconify.overlaymanager.QsShapeManager.QST4_overlay;
+import static com.drdisagree.iconify.overlaymanager.QsShapeManager.QST5_overlay;
 
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.OverlayUtil;
@@ -8,8 +14,6 @@ import com.drdisagree.iconify.utils.OverlayUtil;
 import java.io.File;
 
 public class QsShapePixelManager {
-
-    private static final String common_overlay = "IconifyComponentQSC.overlay";
 
     public static void enableOverlay(int n) {
         disable_others(n);
@@ -21,13 +25,19 @@ public class QsShapePixelManager {
     }
 
     protected static void enable_pack(int n) {
+        boolean QST1_state = Prefs.getBoolean(QST1_overlay);
+        boolean QST2_state = Prefs.getBoolean(QST2_overlay);
+        boolean QST3_state = Prefs.getBoolean(QST3_overlay);
+        boolean QST4_state = Prefs.getBoolean(QST4_overlay);
+        boolean QST5_state = Prefs.getBoolean(QST5_overlay);
+
         String path = "/system/product/overlay/IconifyComponentQSSP" + n + ".apk";
 
         if (new File(path).exists()) {
             String overlay = "IconifyComponentQSSP" + n + ".overlay";
 
             if (!Prefs.getBoolean(overlay))
-                OverlayUtil.enableOverlays(overlay, common_overlay);
+                OverlayUtil.changeOverlayState(overlay, true, QSC_overlay, true, QST1_overlay, QST1_state, QST2_overlay, QST2_state, QST3_overlay, QST3_state, QST4_overlay, QST4_state, QST5_overlay, QST5_state);
         }
     }
 
@@ -38,7 +48,7 @@ public class QsShapePixelManager {
             String overlay = "IconifyComponentQSSP" + n + ".overlay";
 
             if (Prefs.getBoolean(overlay))
-                OverlayUtil.disableOverlays(overlay, common_overlay);
+                OverlayUtil.disableOverlays(overlay, QSC_overlay);
         }
     }
 

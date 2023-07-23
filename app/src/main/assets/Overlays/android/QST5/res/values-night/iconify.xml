@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.SystemUI.QuickSettings" parent="@*android:style/Theme.DeviceDefault">
+        <item name="android:colorControlNormal">?android:textColorPrimary</item>
+    </style>
+</resources>

@@ -9,7 +9,12 @@ import java.io.File;
 
 public class QsShapeManager {
 
-    private static final String common_overlay = "IconifyComponentQSC.overlay";
+    public static final String QSC_overlay = "IconifyComponentQSC.overlay";
+    public static final String QST1_overlay = "IconifyComponentQST1.overlay";
+    public static final String QST2_overlay = "IconifyComponentQST2.overlay";
+    public static final String QST3_overlay = "IconifyComponentQST3.overlay";
+    public static final String QST4_overlay = "IconifyComponentQST4.overlay";
+    public static final String QST5_overlay = "IconifyComponentQST5.overlay";
 
     public static void enableOverlay(int n) {
         disable_others(n);
@@ -21,13 +26,19 @@ public class QsShapeManager {
     }
 
     protected static void enable_pack(int n) {
+        boolean QST1_state = Prefs.getBoolean(QST1_overlay);
+        boolean QST2_state = Prefs.getBoolean(QST2_overlay);
+        boolean QST3_state = Prefs.getBoolean(QST3_overlay);
+        boolean QST4_state = Prefs.getBoolean(QST4_overlay);
+        boolean QST5_state = Prefs.getBoolean(QST5_overlay);
+
         String path = "/system/product/overlay/IconifyComponentQSSN" + n + ".apk";
 
         if (new File(path).exists()) {
             String overlay = "IconifyComponentQSSN" + n + ".overlay";
 
             if (!Prefs.getBoolean(overlay))
-                OverlayUtil.enableOverlays(overlay, common_overlay);
+                OverlayUtil.changeOverlayState(overlay, true, QSC_overlay, true, QST1_overlay, QST1_state, QST2_overlay, QST2_state, QST3_overlay, QST3_state, QST4_overlay, QST4_state, QST5_overlay, QST5_state);
         }
     }
 
@@ -38,7 +49,7 @@ public class QsShapeManager {
             String overlay = "IconifyComponentQSSN" + n + ".overlay";
 
             if (Prefs.getBoolean(overlay))
-                OverlayUtil.disableOverlays(overlay, common_overlay);
+                OverlayUtil.disableOverlays(overlay, QSC_overlay);
         }
     }
 
