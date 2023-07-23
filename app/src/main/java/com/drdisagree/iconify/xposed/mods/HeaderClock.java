@@ -26,6 +26,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Environment;
 import android.text.InputFilter;
 import android.util.TypedValue;
@@ -105,65 +106,72 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
 
         final Class<?> QuickStatusBarHeader = findClass(QuickStatusBarHeaderClass, lpparam.classLoader);
 
-        try {
-            hookAllMethods(QuickStatusBarHeader, "onFinishInflate", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) {
-                    if (!showHeaderClock) return;
+        hookAllMethods(QuickStatusBarHeader, "onFinishInflate", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                if (!showHeaderClock) return;
 
-                    FrameLayout mQuickStatusBarHeader = (FrameLayout) param.thisObject;
+                FrameLayout mQuickStatusBarHeader = (FrameLayout) param.thisObject;
 
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    mQsClockContainer.setLayoutParams(layoutParams);
-                    mQsClockContainer.setVisibility(View.GONE);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                mQsClockContainer.setLayoutParams(layoutParams);
+                mQsClockContainer.setVisibility(View.GONE);
 
-                    if (mQsClockContainer.getParent() != null) {
-                        ((ViewGroup) mQsClockContainer.getParent()).removeView(mQsClockContainer);
-                    }
-                    mQuickStatusBarHeader.addView(mQsClockContainer, mQuickStatusBarHeader.getChildCount());
-
-                    // Hide stock clock, date and carrier group
-                    try {
-                        View mDateView = (View) getObjectField(param.thisObject, "mDateView");
-                        mDateView.getLayoutParams().height = 0;
-                        mDateView.getLayoutParams().width = 0;
-                        mDateView.setVisibility(View.INVISIBLE);
-                    } catch (Throwable ignored) {
-                    }
-
-                    try {
-                        TextView mClockView = (TextView) getObjectField(param.thisObject, "mClockView");
-                        mClockView.setVisibility(View.INVISIBLE);
-                        mClockView.setTextAppearance(0);
-                        mClockView.setTextColor(0);
-                    } catch (Throwable ignored) {
-                    }
-
-                    try {
-                        TextView mClockDateView = (TextView) getObjectField(param.thisObject, "mClockDateView");
-                        mClockDateView.setVisibility(View.INVISIBLE);
-                        mClockDateView.setTextAppearance(0);
-                        mClockDateView.setTextColor(0);
-                    } catch (Throwable ignored) {
-                    }
-
-                    try {
-                        View mQSCarriers = (View) getObjectField(param.thisObject, "mQSCarriers");
-                        mQSCarriers.setVisibility(View.INVISIBLE);
-                    } catch (Throwable ignored) {
-                    }
-
-                    updateClockView();
+                if (mQsClockContainer.getParent() != null) {
+                    ((ViewGroup) mQsClockContainer.getParent()).removeView(mQsClockContainer);
                 }
-            });
+                mQuickStatusBarHeader.addView(mQsClockContainer, mQuickStatusBarHeader.getChildCount());
 
-            hookAllMethods(QuickStatusBarHeader, "updateResources", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) {
-                    updateClockView();
+                // Hide stock clock, date and carrier group
+                try {
+                    View mDateView = (View) getObjectField(param.thisObject, "mDateView");
+                    mDateView.getLayoutParams().height = 0;
+                    mDateView.getLayoutParams().width = 0;
+                    mDateView.setVisibility(View.INVISIBLE);
+                } catch (Throwable ignored) {
                 }
-            });
-        } catch (Throwable ignored) {
+
+                try {
+                    TextView mClockView = (TextView) getObjectField(param.thisObject, "mClockView");
+                    mClockView.setVisibility(View.INVISIBLE);
+                    mClockView.setTextAppearance(0);
+                    mClockView.setTextColor(0);
+                } catch (Throwable ignored) {
+                }
+
+                try {
+                    TextView mClockDateView = (TextView) getObjectField(param.thisObject, "mClockDateView");
+                    mClockDateView.setVisibility(View.INVISIBLE);
+                    mClockDateView.setTextAppearance(0);
+                    mClockDateView.setTextColor(0);
+                } catch (Throwable ignored) {
+                }
+
+                try {
+                    View mQSCarriers = (View) getObjectField(param.thisObject, "mQSCarriers");
+                    mQSCarriers.setVisibility(View.INVISIBLE);
+                } catch (Throwable ignored) {
+                }
+
+                updateClockView();
+            }
+        });
+
+        hookAllMethods(QuickStatusBarHeader, "updateResources", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                updateClockView();
+            }
+        });
+
+        if (Build.VERSION.SDK_INT < 33) {
+            try {
+                XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
+                if (ourResparam != null) {
+                    ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "bool", "config_use_large_screen_shade_header", false);
+                }
+            } catch (Throwable ignored) {
+            }
         }
 
         try {
