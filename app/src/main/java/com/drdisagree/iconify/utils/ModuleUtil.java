@@ -10,7 +10,6 @@ import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECO
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.util.TypedValue;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
@@ -19,7 +18,6 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.activities.Onboarding;
 import com.drdisagree.iconify.utils.helpers.BackupRestore;
 import com.drdisagree.iconify.utils.helpers.BinaryInstaller;
-import com.drdisagree.iconify.utils.helpers.TypedValueUtil;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
@@ -81,10 +79,14 @@ public class ModuleUtil {
         SharedPreferences prefs = Iconify.getAppContext().getSharedPreferences(Iconify.getAppContext().getPackageName(), Context.MODE_PRIVATE);
         Map<String, ?> map = prefs.getAll();
         for (Map.Entry<String, ?> item : map.entrySet()) {
-            if (item.getValue() instanceof Boolean && ((Boolean) item.getValue()) && item.getKey().contains("fabricated") && !item.getKey().contains("quickQsOffsetHeight")) {
-                post_exec.append(buildFabricatedCommand(Prefs.getString("FOCMDtarget" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDname" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDtype" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDresourceName" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDval" + item.getKey().replace("fabricated", "")))).append('\n');
-                if (item.getKey().contains(COLOR_ACCENT_PRIMARY)) primaryColorEnabled = true;
-                else if (item.getKey().contains(COLOR_ACCENT_SECONDARY))
+            if (item.getValue() instanceof Boolean && ((Boolean) item.getValue()) && item.getKey().startsWith("fabricated")) {
+                String name = item.getKey().replace("fabricated", "");
+                List<String> commands = FabricatedUtil.buildCommands(Prefs.getString("FOCMDtarget" + name), Prefs.getString("FOCMDname" + name), Prefs.getString("FOCMDtype" + name), Prefs.getString("FOCMDresourceName" + name), Prefs.getString("FOCMDval" + name));
+                post_exec.append(commands.get(0)).append('\n').append(commands.get(1)).append('\n');
+
+                if (name.contains(COLOR_ACCENT_PRIMARY))
+                    primaryColorEnabled = true;
+                else if (name.contains(COLOR_ACCENT_SECONDARY))
                     secondaryColorEnabled = true;
             }
         }
@@ -126,57 +128,5 @@ public class ModuleUtil {
         } catch (Exception e) {
             Log.e(TAG, "Failed to extract pre-made overlays.\n" + e);
         }
-    }
-
-    public static String buildFabricatedCommand(String target, String name, String type, String resourceName, String val) {
-        String resourceType = "0x1c";
-
-        if (target.equals("systemui") || target.equals("sysui")) target = "com.android.systemui";
-
-        switch (type) {
-            case "color":
-                resourceType = "0x1c";
-                break;
-            case "dimen":
-                resourceType = "0x05";
-                break;
-            case "bool":
-                resourceType = "0x12";
-                break;
-            case "integer":
-                resourceType = "0x10";
-                break;
-        }
-
-        if (type.equals("dimen")) {
-            int valType = 1;
-
-            if (val.contains("dp") || val.contains("dip")) {
-                valType = TypedValue.COMPLEX_UNIT_DIP;
-                val = val.replace("dp", "").replace("dip", "");
-            } else if (val.contains("sp")) {
-                valType = TypedValue.COMPLEX_UNIT_SP;
-                val = val.replace("sp", "");
-            } else if (val.contains("px")) {
-                valType = TypedValue.COMPLEX_UNIT_PX;
-                val = val.replace("px", "");
-            } else if (val.contains("in")) {
-                valType = TypedValue.COMPLEX_UNIT_IN;
-                val = val.replace("in", "");
-            } else if (val.contains("pt")) {
-                valType = TypedValue.COMPLEX_UNIT_PT;
-                val = val.replace("pt", "");
-            } else if (val.contains("mm")) {
-                valType = TypedValue.COMPLEX_UNIT_MM;
-                val = val.replace("mm", "");
-            }
-
-            val = String.valueOf(TypedValueUtil.createComplexDimension(Integer.parseInt(val), valType));
-        }
-
-        String build_cmd = "cmd overlay fabricate --target " + target + " --name IconifyComponent" + name + " " + target + ":" + type + "/" + resourceName + " " + resourceType + " " + val;
-        String enable_cmd = "cmd overlay enable --user current com.android.shell:IconifyComponent" + name;
-
-        return build_cmd + '\n' + enable_cmd;
     }
 }

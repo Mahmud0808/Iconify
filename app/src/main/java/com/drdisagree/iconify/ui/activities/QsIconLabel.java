@@ -121,6 +121,7 @@ public class QsIconLabel extends BaseActivity {
             binding.textSizeDivider.setVisibility(View.GONE);
         }
 
+        // QS Text Color
         binding.labelWhite.setChecked(Prefs.getBoolean("IconifyComponentQST1.overlay"));
 
         binding.labelWhite.setOnCheckedChangeListener((buttonView, isChecked) -> {

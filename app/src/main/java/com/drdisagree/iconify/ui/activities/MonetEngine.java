@@ -13,7 +13,9 @@ import static com.drdisagree.iconify.common.Preferences.MONET_BACKGROUND_SATURAT
 import static com.drdisagree.iconify.common.Preferences.MONET_COLOR_PALETTE;
 import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.MONET_PRIMARY_ACCENT_SATURATION;
+import static com.drdisagree.iconify.common.Preferences.MONET_PRIMARY_COLOR;
 import static com.drdisagree.iconify.common.Preferences.MONET_SECONDARY_ACCENT_SATURATION;
+import static com.drdisagree.iconify.common.Preferences.MONET_SECONDARY_COLOR;
 import static com.drdisagree.iconify.common.Preferences.MONET_STYLE;
 import static com.drdisagree.iconify.common.Preferences.STR_NULL;
 import static com.drdisagree.iconify.utils.ColorSchemeUtil.generateColorPalette;
@@ -123,8 +125,8 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
             binding.monetStyles2.clearCheck();
         }
 
-        accentPrimary = String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent1_300 : android.R.color.system_accent1_600, getTheme()));
-        accentSecondary = String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent3_300 : android.R.color.system_accent3_600, getTheme()));
+        accentPrimary = Prefs.getString(MONET_PRIMARY_COLOR, String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent1_300 : android.R.color.system_accent1_600, getTheme())));
+        accentSecondary = Prefs.getString(MONET_SECONDARY_COLOR, String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent3_300 : android.R.color.system_accent3_600, getTheme())));
 
         updatePrimaryColor();
         updateSecondaryColor();
@@ -309,13 +311,12 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
             } else {
                 Prefs.putBoolean(MONET_ACCURATE_SHADES, accurateShades);
+                if (isSelectedPrimary) Prefs.putString(MONET_PRIMARY_COLOR, accentPrimary);
+                if (isSelectedSecondary) Prefs.putString(MONET_SECONDARY_COLOR, accentSecondary);
                 Prefs.putInt(MONET_PRIMARY_ACCENT_SATURATION, monetPrimaryAccentSaturation[0]);
                 Prefs.putInt(MONET_SECONDARY_ACCENT_SATURATION, monetSecondaryAccentSaturation[0]);
                 Prefs.putInt(MONET_BACKGROUND_SATURATION, monetBackgroundSaturation[0]);
                 Prefs.putInt(MONET_BACKGROUND_LIGHTNESS, monetBackgroundLightness[0]);
-
-                if (isSelectedPrimary) Prefs.putString(COLOR_ACCENT_PRIMARY, accentPrimary);
-                if (isSelectedSecondary) Prefs.putString(COLOR_ACCENT_SECONDARY, accentSecondary);
 
                 disableBasicColors();
 
@@ -364,8 +365,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         binding.disableCustomMonet.setOnClickListener(v -> {
             Runnable runnable2 = () -> {
                 Prefs.putBoolean(MONET_ENGINE_SWITCH, false);
-                Prefs.putString(COLOR_ACCENT_PRIMARY, STR_NULL);
-                Prefs.putString(COLOR_ACCENT_SECONDARY, STR_NULL);
+                Prefs.clearPrefs(MONET_PRIMARY_COLOR, MONET_SECONDARY_COLOR);
                 OverlayUtil.disableOverlays("IconifyComponentDM.overlay", "IconifyComponentME.overlay");
 
                 runOnUiThread(() -> {
@@ -537,7 +537,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
     }
 
     private void disableBasicColors() {
-        Prefs.clearPrefs(CUSTOM_ACCENT, CUSTOM_PRIMARY_COLOR_SWITCH, CUSTOM_SECONDARY_COLOR_SWITCH);
+        Prefs.clearPrefs(CUSTOM_ACCENT, COLOR_ACCENT_PRIMARY, COLOR_ACCENT_SECONDARY, CUSTOM_PRIMARY_COLOR_SWITCH, CUSTOM_SECONDARY_COLOR_SWITCH);
 
         FabricatedUtil.disableOverlays(COLOR_ACCENT_PRIMARY, COLOR_ACCENT_PRIMARY_LIGHT, COLOR_ACCENT_SECONDARY, COLOR_ACCENT_SECONDARY_LIGHT);
     }
