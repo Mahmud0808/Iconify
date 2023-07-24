@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:fillViewport="true"
+    android:fitsSystemWindows="true"
     tools:context=".ui.fragments.Settings">
 
     <androidx.core.widget.NestedScrollView
