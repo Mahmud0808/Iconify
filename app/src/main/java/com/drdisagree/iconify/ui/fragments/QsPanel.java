@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.databinding.FragmentQsPanelBinding;
 import com.drdisagree.iconify.ui.activities.QsIconLabel;
+import com.drdisagree.iconify.ui.activities.QsPanelMargin;
 import com.drdisagree.iconify.ui.activities.QsRowColumn;
 import com.drdisagree.iconify.ui.activities.QsTileSize;
 import com.drdisagree.iconify.ui.adapters.MenuAdapter;
@@ -56,6 +57,7 @@ public class QsPanel extends BaseFragment {
         qspanel_activity_list.add(new MenuModel(QsRowColumn.class, getResources().getString(R.string.row_and_column_title), getResources().getString(R.string.row_and_column_desc), R.drawable.ic_qs_row_column));
         qspanel_activity_list.add(new MenuModel(QsIconLabel.class, getResources().getString(R.string.icon_and_label_title), getResources().getString(R.string.icon_and_label_desc), R.drawable.ic_qs_icon_and_label));
         qspanel_activity_list.add(new MenuModel(QsTileSize.class, getResources().getString(R.string.activity_title_qs_tile_size), getResources().getString(R.string.activity_desc_qs_tile_size), R.drawable.ic_qs_tile_size));
+        qspanel_activity_list.add(new MenuModel(QsPanelMargin.class, getResources().getString(R.string.activity_title_qs_panel_margin), getResources().getString(R.string.activity_desc_qs_panel_margin), R.drawable.ic_qs_top_margin));
 
         return new MenuAdapter(requireActivity(), qspanel_activity_list);
     }

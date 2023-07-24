@@ -23,6 +23,8 @@ public class BackupRestore {
         backupFile(Resources.OVERLAY_DIR + "/IconifyComponentPGB.apk");
         backupFile(Resources.OVERLAY_DIR + "/IconifyComponentSWITCH1.apk");
         backupFile(Resources.OVERLAY_DIR + "/IconifyComponentSWITCH2.apk");
+        backupFile(Resources.OVERLAY_DIR + "/IconifyComponentHSIZE1.apk");
+        backupFile(Resources.OVERLAY_DIR + "/IconifyComponentHSIZE2.apk");
     }
 
     public static void restoreFiles() {
@@ -38,6 +40,8 @@ public class BackupRestore {
         restoreFile("IconifyComponentPGB.apk", Resources.OVERLAY_DIR);
         restoreFile("IconifyComponentSWITCH1.apk", Resources.OVERLAY_DIR);
         restoreFile("IconifyComponentSWITCH2.apk", Resources.OVERLAY_DIR);
+        restoreFile("IconifyComponentHSIZE1.apk", Resources.OVERLAY_DIR);
+        restoreFile("IconifyComponentHSIZE2.apk", Resources.OVERLAY_DIR);
         restoreBlurSettings();
 
         // Remove backup directory

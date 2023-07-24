@@ -132,6 +132,10 @@ public class Preferences {
     public static final String QS_TEXT_COLOR_VARIANT = "qsTextColorVariant";
     public static final String QS_TEXT_COLOR_VARIANT_NORMAL = "qsTextColorVariantNormal";
     public static final String QS_TEXT_COLOR_VARIANT_PIXEL = "qsTextColorVariantPixel";
+    public static final String PORT_QQS_TOP_MARGIN = "portraitQqsTopMargin";
+    public static final String PORT_QS_TOP_MARGIN = "portraitQsTopMargin";
+    public static final String LAND_QQS_TOP_MARGIN = "landscapeQqsTopMargin";
+    public static final String LAND_QS_TOP_MARGIN = "landscapeQsTopMargin";
 
     // Settings
     public static final String APP_LANGUAGE = "IconifyAppLanguage";

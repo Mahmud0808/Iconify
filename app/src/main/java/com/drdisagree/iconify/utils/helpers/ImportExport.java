@@ -6,11 +6,15 @@ import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY_LIG
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY_LIGHT;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
+import static com.drdisagree.iconify.common.Preferences.LAND_QQS_TOP_MARGIN;
 import static com.drdisagree.iconify.common.Preferences.LAND_QSTILE_EXPANDED_HEIGHT;
 import static com.drdisagree.iconify.common.Preferences.LAND_QSTILE_NONEXPANDED_HEIGHT;
+import static com.drdisagree.iconify.common.Preferences.LAND_QS_TOP_MARGIN;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
+import static com.drdisagree.iconify.common.Preferences.PORT_QQS_TOP_MARGIN;
 import static com.drdisagree.iconify.common.Preferences.PORT_QSTILE_EXPANDED_HEIGHT;
 import static com.drdisagree.iconify.common.Preferences.PORT_QSTILE_NONEXPANDED_HEIGHT;
+import static com.drdisagree.iconify.common.Preferences.PORT_QS_TOP_MARGIN;
 import static com.drdisagree.iconify.common.Preferences.QSPANEL_BLUR_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.SELECTED_ICON_SHAPE;
 import static com.drdisagree.iconify.common.Preferences.SELECTED_PROGRESSBAR;
@@ -32,6 +36,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.drdisagree.iconify.overlaymanager.MonetEngineManager;
+import com.drdisagree.iconify.overlaymanager.QsMarginManager;
 import com.drdisagree.iconify.overlaymanager.QsTileHeightManager;
 import com.drdisagree.iconify.overlaymanager.RoundnessManager;
 import com.drdisagree.iconify.overlaymanager.SettingsIconResourceManager;
@@ -122,7 +127,7 @@ public class ImportExport {
             editor.putBoolean(FIRST_INSTALL, false);
             editor.putBoolean(QSPANEL_BLUR_SWITCH, false);
 
-            boolean sip = false, pgb = false, sw = false, tstfrm = false, sis = false, cr = false, me = false, qsth = false;
+            boolean sip = false, pgb = false, sw = false, tstfrm = false, sis = false, cr = false, me = false, qsth = false, hsize = false;
 
             for (Map.Entry<String, Object> item : map.entrySet()) {
                 if (item.getValue() instanceof Boolean) {
@@ -222,6 +227,18 @@ public class ImportExport {
                                     QsTileHeightManager.enableOverlay(pneh, peh, lneh, leh, false);
                                 } catch (Exception exception) {
                                     Log.e("ImportSettings", "Error building QS Tile Size", exception);
+                                }
+                            } else if (item.getKey().contains("IconifyComponentHSIZE") && !hsize) { // QS Header Size
+                                hsize = true;
+                                try {
+                                    int pqqs = (int) Objects.requireNonNull(map.get(PORT_QQS_TOP_MARGIN));
+                                    int pqs = (int) Objects.requireNonNull(map.get(PORT_QS_TOP_MARGIN));
+                                    int lqqs = (int) Objects.requireNonNull(map.get(LAND_QQS_TOP_MARGIN));
+                                    int lqs = (int) Objects.requireNonNull(map.get(LAND_QS_TOP_MARGIN));
+
+                                    QsMarginManager.enableOverlay(pqqs, pqs, lqqs, lqs, false);
+                                } catch (Exception exception) {
+                                    Log.e("ImportSettings", "Error building QS Header Size", exception);
                                 }
                             }
                         } else if (item.getKey().startsWith("fabricated")) {
