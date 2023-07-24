@@ -234,8 +234,8 @@
     <string name="latest_version">最新版本：</string>
     <string name="update_checking_failed">检查更新失败！</string>
     <string name="not_available">不可用</string>
-    <string name="confirmation">你确定吗？</string>
-    <string name="you_will_loose_current_setup">你会失去当前的设置和配置。</string>
+    <string name="import_settings_confirmation_title">你确定吗？</string>
+    <string name="import_settings_confirmation_desc">你会失去当前的设置和配置。</string>
     <string name="positive">是的</string>
     <string name="negative">不</string>
     <string name="imported_settings">成功导入了设置</string>

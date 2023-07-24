@@ -272,8 +272,8 @@
     <string name="latest_version">Versão mais recente:</string>
     <string name="update_checking_failed">Falha ao verificar autalização!</string>
     <string name="not_available">N/A</string>
-    <string name="confirmation">Tem a certeza?</string>
-    <string name="you_will_loose_current_setup">Irá perder todas as suas definições atuais.</string>
+    <string name="import_settings_confirmation_title">Tem a certeza?</string>
+    <string name="import_settings_confirmation_desc">Irá perder todas as suas definições atuais.</string>
     <string name="positive">Sim</string>
     <string name="negative">Não</string>
     <string name="imported_settings">Definições importadas com sucesso</string>

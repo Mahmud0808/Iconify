@@ -164,8 +164,8 @@
     <string name="current_version">Versi Sekarang:</string>
     <string name="latest_version">Versi Terbaru:</string>
     <string name="update_checking_failed">Gagal memeriksa pembaruan!</string>
-    <string name="confirmation">Apa kamu yakin?</string>
-    <string name="you_will_loose_current_setup">Anda akan kehilangan setup dan pengaturan Anda saat ini.</string>
+    <string name="import_settings_confirmation_title">Apa kamu yakin?</string>
+    <string name="import_settings_confirmation_desc">Anda akan kehilangan setup dan pengaturan Anda saat ini.</string>
     <string name="positive">Ya</string>
     <string name="negative">Tidak</string>
     <string name="imported_settings">Pengaturan berhasil diimpor</string>

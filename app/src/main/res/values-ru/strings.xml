@@ -95,7 +95,7 @@
     <string name="activity_desc_basic_colors">Выбрать желаемые цвета</string>
     <string name="color_picker_preview">Превью выбора цвета</string>
     <string name="activity_title_basic_colors">Выбор цвета</string>
-    <string name="confirmation">Вы, уверены?</string>
+    <string name="import_settings_confirmation_title">Вы, уверены?</string>
     <string name="cont_desc_media_player">Превью медиаплеера</string>
     <string name="corner_radius_title">Радиус углов</string>
     <string name="current_version">Установленная версия:</string>
@@ -307,7 +307,7 @@
     <string name="warning">Внимание</string>
     <string name="window_level_blur_desc">Для начала работы необходимо выполнить перезагрузку</string>
     <string name="window_level_blur_title">Уровень размытия окна</string>
-    <string name="you_will_loose_current_setup">Вы потеряете текущие установки и настройки.</string>
+    <string name="import_settings_confirmation_desc">Вы потеряете текущие установки и настройки.</string>
     <string name="mp_pb_background_title">Pitch Black фон</string>
     <string name="mp_accent_background_title">Фон из цветового Акцента</string>
     <string name="mp_system_background_title">Системный фон</string>

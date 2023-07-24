@@ -231,8 +231,8 @@
     <string name="latest_version">Phiên bản mới nhất:</string>
     <string name="update_checking_failed">Không thể kiểm tra cập nhật!</string>
     <string name="not_available">Không có sẵn</string>
-    <string name="confirmation">Bạn có chắc không?</string>
-    <string name="you_will_loose_current_setup">Bạn sẽ mất thiết lập và cài đặt hiện tại của mình.</string>
+    <string name="import_settings_confirmation_title">Bạn có chắc không?</string>
+    <string name="import_settings_confirmation_desc">Bạn sẽ mất thiết lập và cài đặt hiện tại của mình.</string>
     <string name="positive">Đúng</string>
     <string name="negative">KHÔNG</string>
     <string name="imported_settings">Đã nhập cài đặt thành công</string>

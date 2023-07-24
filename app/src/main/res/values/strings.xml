@@ -241,8 +241,8 @@
     <string name="latest_version">Latest Version:</string>
     <string name="update_checking_failed">Failed to check for update!</string>
     <string name="not_available">N/A</string>
-    <string name="confirmation">Are you sure?</string>
-    <string name="you_will_loose_current_setup">You will loose your current setup and settings.</string>
+    <string name="import_settings_confirmation_title">Are you sure?</string>
+    <string name="import_settings_confirmation_desc">You will loose your current setup and settings.</string>
     <string name="positive">Yes</string>
     <string name="negative">No</string>
     <string name="imported_settings">Imported settings successfully</string>
@@ -616,8 +616,6 @@
     <string name="header_clock_color_picker_desc">Set color of header clock text</string>
     <string name="hide_data_disabled_icon_title">Hide Data Disabled Icon</string>
     <string name="hide_data_disabled_icon_desc">Hide data disabled indicator</string>
-    <string name="import_settings_confirmation_title">Are you sure?</string>
-    <string name="import_settings_confirmation_desc">You will loose your current setup and settings</string>
     <string name="btn_positive">Yes</string>
     <string name="btn_negative">No</string>
     <string name="toast_import_settings_successfull">Imported settings successfully</string>
