@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:fillViewport="true"
-    tools:context=".ui.activities.MonetEngine">
+    tools:context=".ui.activities.QsTileSize">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
