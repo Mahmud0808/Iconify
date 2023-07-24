@@ -180,7 +180,7 @@ public class QsTileSize extends BaseActivity {
 
         // Apply and reset button
         if (Prefs.getBoolean("IconifyComponentQSTH.overlay"))
-            binding.qsTileHeightApply.setVisibility(View.VISIBLE);
+            binding.qsTileHeightReset.setVisibility(View.VISIBLE);
 
         binding.qsTileHeightApply.setOnClickListener(v -> {
             if (!Environment.isExternalStorageManager()) {
@@ -250,5 +250,11 @@ public class QsTileSize extends BaseActivity {
 
             OverlayUtil.disableOverlay("IconifyComponentQSTH.overlay");
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        loadingDialog.hide();
+        super.onDestroy();
     }
 }
