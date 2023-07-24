@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import android.window.OnBackInvokedDispatcher;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -68,6 +70,8 @@ public class Onboarding extends BaseActivity {
     private InstallationDialog progressDialog;
     private OnboardingAdapter mAdapter = null;
     private String logger = null, prev_log = null;
+    private static final String mData = "mDataKey";
+    private int selectedItemPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +88,11 @@ public class Onboarding extends BaseActivity {
 
         // Progress dialog while installing
         progressDialog = new InstallationDialog(this);
+
+        if (savedInstanceState != null) {
+            selectedItemPosition = savedInstanceState.getInt(mData, 0);
+        }
+        mViewPager.setCurrentItem(selectedItemPosition);
 
         AtomicBoolean clickedContinue = new AtomicBoolean(false);
 
@@ -266,11 +275,15 @@ public class Onboarding extends BaseActivity {
     }
 
     private void showInfo(int title, int desc) {
-        ((com.drdisagree.iconify.ui.fragments.Onboarding) mAdapter.getCurrentFragment()).animateUpdateTextView(title, desc);
+        if (mAdapter.getCurrentFragment() instanceof com.drdisagree.iconify.ui.fragments.Onboarding) {
+            ((com.drdisagree.iconify.ui.fragments.Onboarding) mAdapter.getCurrentFragment()).animateUpdateTextView(title, desc);
+        }
     }
 
     private void showInfoNow(int title, int desc) {
-        ((com.drdisagree.iconify.ui.fragments.Onboarding) mAdapter.getCurrentFragment()).updateTextView(title, desc);
+        if (mAdapter.getCurrentFragment() instanceof com.drdisagree.iconify.ui.fragments.Onboarding) {
+            ((com.drdisagree.iconify.ui.fragments.Onboarding) mAdapter.getCurrentFragment()).updateTextView(title, desc);
+        }
     }
 
     private int getItem() {
@@ -609,5 +622,17 @@ public class Onboarding extends BaseActivity {
             Shell.cmd("rm -rf " + Resources.BACKUP_DIR).exec();
             Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putInt(mData, mViewPager.getCurrentItem());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        selectedItemPosition = savedInstanceState.getInt(mData);
     }
 }
