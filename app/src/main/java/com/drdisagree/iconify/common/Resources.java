@@ -39,8 +39,8 @@ public class Resources {
     public static final String HEADER_IMAGE_DIR = XPOSED_RESOURCE_TEMP_DIR + "/header_image.png";
 
     // Overlays
-    public static final String QSC1_overlay = "IconifyComponentQSC1.overlay";
-    public static final String QSC2_overlay = "IconifyComponentQSC2.overlay";
+    public static final String QSC_overlay = "IconifyComponentQSC.overlay";
+    public static final String QSNPT_overlay = "IconifyComponentQSNPT.overlay";
     public static final String QSNT1_overlay = "IconifyComponentQSNT1.overlay";
     public static final String QSNT2_overlay = "IconifyComponentQSNT2.overlay";
     public static final String QSNT3_overlay = "IconifyComponentQSNT3.overlay";

@@ -9,6 +9,7 @@ import static com.drdisagree.iconify.common.Preferences.STR_NULL;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_ICON_SIZE;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_MOVE_ICON;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_TEXT_SIZE;
+import static com.drdisagree.iconify.common.Resources.QSNPT_overlay;
 import static com.drdisagree.iconify.common.Resources.QSNT1_overlay;
 import static com.drdisagree.iconify.common.Resources.QSNT2_overlay;
 import static com.drdisagree.iconify.common.Resources.QSNT3_overlay;
@@ -157,6 +158,7 @@ public class QsIconLabel extends BaseActivity {
                         OverlayUtil.changeOverlayState(QSPT3_overlay, false, QSNT3_overlay, true);
                     if (Prefs.getBoolean(QSPT4_overlay))
                         OverlayUtil.changeOverlayState(QSPT4_overlay, false, QSNT4_overlay, true);
+                    handleCommonOverlay();
                 }
             } else if (Objects.equals(checkedId, R.id.textColorPixel)) {
                 if (!Objects.equals(selectedVariant, QS_TEXT_COLOR_VARIANT_PIXEL)) {
@@ -170,6 +172,7 @@ public class QsIconLabel extends BaseActivity {
                         OverlayUtil.changeOverlayState(QSNT3_overlay, false, QSPT3_overlay, true);
                     if (Prefs.getBoolean(QSNT4_overlay))
                         OverlayUtil.changeOverlayState(QSNT4_overlay, false, QSPT4_overlay, true);
+                    handleCommonOverlay();
                 }
             }
         });
@@ -188,6 +191,7 @@ public class QsIconLabel extends BaseActivity {
                 } else {
                     OverlayUtil.disableOverlay(replaceVariant("IconifyComponentQST1.overlay"));
                 }
+                handleCommonOverlay();
             }, SWITCH_ANIMATION_DELAY);
         });
 
@@ -205,6 +209,7 @@ public class QsIconLabel extends BaseActivity {
                 } else {
                     OverlayUtil.disableOverlay(replaceVariant("IconifyComponentQST2.overlay"));
                 }
+                handleCommonOverlay();
             }, SWITCH_ANIMATION_DELAY);
         });
 
@@ -222,6 +227,7 @@ public class QsIconLabel extends BaseActivity {
                 } else {
                     OverlayUtil.disableOverlay(replaceVariant("IconifyComponentQST3.overlay"));
                 }
+                handleCommonOverlay();
             }, SWITCH_ANIMATION_DELAY);
         });
 
@@ -239,6 +245,7 @@ public class QsIconLabel extends BaseActivity {
                 } else {
                     OverlayUtil.disableOverlay(replaceVariant("IconifyComponentQST4.overlay"));
                 }
+                handleCommonOverlay();
             }, SWITCH_ANIMATION_DELAY);
         });
 
@@ -319,5 +326,9 @@ public class QsIconLabel extends BaseActivity {
 
     private boolean isPixelVariantActive() {
         return Prefs.getBoolean(QSPT1_overlay) || Prefs.getBoolean(QSPT2_overlay) || Prefs.getBoolean(QSPT3_overlay) || Prefs.getBoolean(QSPT4_overlay) || Objects.equals(Prefs.getString(QS_TEXT_COLOR_VARIANT), QS_TEXT_COLOR_VARIANT_PIXEL);
+    }
+
+    private void handleCommonOverlay() {
+        OverlayUtil.changeOverlayState(QSNPT_overlay, Prefs.getBoolean(QSNT1_overlay) || Prefs.getBoolean(QSNT2_overlay) || Prefs.getBoolean(QSNT3_overlay) || Prefs.getBoolean(QSNT4_overlay) || Prefs.getBoolean(QSPT1_overlay) || Prefs.getBoolean(QSPT2_overlay) || Prefs.getBoolean(QSPT3_overlay) || Prefs.getBoolean(QSPT4_overlay));
     }
 }
