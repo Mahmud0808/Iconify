@@ -76,6 +76,8 @@ You can track all the progress [HERE](https://github.com/Mahmud0808/Iconify/comm
   - Iconify uses Android overlays that allows modifications to be applied to the user interface (UI) of the device without directly modifying the underlying system files.
 - Do I need a root access for Iconify to work?
   - Yes, root access is required for Iconify to function properly. While Iconify does support KernelSU, it is highly recommended to use Magisk for the best compatibility.
+- Why is LSPosed listed as an optional requirement?
+  - LSPosed is categorized as optional due to the fact that even without its installation, you can access the majority of the features offered by iconify. However, should you choose to install LSPosed, you will gain access to certain additional features such as header clocks, lockscreen clocks, header image, battery styles, among others.
 - Which devices does Iconify support?
   - Iconify exclusively supports stock Pixel or custom AOSP ROMs. It does not support other OEMs such as MIUI, OneUI, ColorOS, NothingOS, MotoUI, etc.
 - Is Android "X" supported?
