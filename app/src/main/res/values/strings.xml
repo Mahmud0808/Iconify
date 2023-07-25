@@ -622,4 +622,5 @@
     <string name="toast_export_settings_successfull">Exported settings successfully</string>
     <string name="qs_text_color_normal">Normal</string>
     <string name="qs_text_color_pixel">Pixel</string>
+    <string name="monet_style_title">Monet Style</string>
 </resources>

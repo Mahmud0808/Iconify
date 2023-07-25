@@ -167,116 +167,32 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/monet_styles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/container_margin"
                 android:background="@drawable/container"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:paddingStart="@dimen/container_paddingSide"
                 android:paddingTop="@dimen/container_padding"
                 android:paddingEnd="@dimen/container_paddingSide"
                 android:paddingBottom="@dimen/container_padding">
 
-                <RadioGroup
-                    android:id="@+id/monet_styles1"
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.0">
+                    android:text="@string/monet_style_title"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/cont_title_size"
+                    android:textStyle="bold" />
 
-                    <RadioButton
-                        android:id="@+id/neutral_style"
-                        style="@style/customRadioButtonColored"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="marquee"
-                        android:singleLine="true"
-                        android:text="@string/monet_neutral" />
-
-                    <RadioButton
-                        android:id="@+id/monochrome_style"
-                        style="@style/customRadioButtonColored"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="marquee"
-                        android:singleLine="true"
-                        android:text="@string/monet_monochrome" />
-
-                    <RadioButton
-                        android:id="@+id/tonalspot_style"
-                        style="@style/customRadioButtonColored"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="marquee"
-                        android:singleLine="true"
-                        android:text="@string/monet_tonalspot" />
-
-                    <RadioButton
-                        android:id="@+id/vibrant_style"
-                        style="@style/customRadioButtonColored"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="marquee"
-                        android:singleLine="true"
-                        android:text="@string/monet_vibrant" />
-
-                    <RadioButton
-                        android:id="@+id/rainbow_style"
-                        style="@style/customRadioButtonColored"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="marquee"
-                        android:singleLine="true"
-                        android:text="@string/monet_rainbow" />
-
-                </RadioGroup>
-
-                <View
-                    android:layout_width="8dp"
-                    android:layout_height="match_parent" />
-
-                <RadioGroup
-                    android:id="@+id/monet_styles2"
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/selected_monet_style"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.0">
+                    android:textColor="@color/textColorSecondary"
+                    android:textSize="@dimen/cont_desc_size" />
 
-                    <RadioButton
-                        android:id="@+id/expressive_style"
-                        style="@style/customRadioButtonColored"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="marquee"
-                        android:singleLine="true"
-                        android:text="@string/monet_expressive" />
-
-                    <RadioButton
-                        android:id="@+id/fidelity_style"
-                        style="@style/customRadioButtonColored"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="marquee"
-                        android:singleLine="true"
-                        android:text="@string/monet_fidelity" />
-
-                    <RadioButton
-                        android:id="@+id/content_style"
-                        style="@style/customRadioButtonColored"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="marquee"
-                        android:singleLine="true"
-                        android:text="@string/monet_content" />
-
-                    <RadioButton
-                        android:id="@+id/fruitsalad_style"
-                        style="@style/customRadioButtonColored"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="marquee"
-                        android:singleLine="true"
-                        android:text="@string/monet_fruitsalad" />
-
-                </RadioGroup>
             </LinearLayout>
 
             <LinearLayout

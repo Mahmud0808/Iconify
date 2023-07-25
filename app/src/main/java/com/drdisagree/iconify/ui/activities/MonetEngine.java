@@ -29,8 +29,6 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
@@ -39,6 +37,7 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityMonetEngineBinding;
 import com.drdisagree.iconify.overlaymanager.MonetEngineManager;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.views.RadioDialog;
 import com.drdisagree.iconify.utils.ColorUtil;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
@@ -47,11 +46,12 @@ import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class MonetEngine extends BaseActivity implements ColorPickerDialogListener {
+public class MonetEngine extends BaseActivity implements ColorPickerDialogListener, RadioDialog.RadioDialogListener {
 
     private static String accentPrimary, accentSecondary, selectedStyle;
     private static boolean isSelectedPrimary = false, isSelectedSecondary = false, accurateShades = Prefs.getBoolean(MONET_ACCURATE_SHADES, true);
@@ -66,6 +66,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
     private int[][] systemColors;
     private ColorPickerDialog.Builder colorPickerDialogPrimary, colorPickerDialogSecondary, colorPickerDialogCustom;
     private boolean isDarkMode = SystemUtil.isDarkMode();
+    private RadioDialog rd_monet_style;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -101,38 +102,18 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         isDarkMode = SystemUtil.isDarkMode();
         selectedStyle = Prefs.getString(MONET_STYLE, getResources().getString(R.string.monet_neutral));
 
-        if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_neutral)))
-            binding.neutralStyle.setChecked(true);
-        else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_monochrome)))
-            binding.monochromeStyle.setChecked(true);
-        else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_tonalspot)))
-            binding.tonalspotStyle.setChecked(true);
-        else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_vibrant)))
-            binding.vibrantStyle.setChecked(true);
-        else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_rainbow)))
-            binding.rainbowStyle.setChecked(true);
-        else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_expressive)))
-            binding.expressiveStyle.setChecked(true);
-        else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_fidelity)))
-            binding.fidelityStyle.setChecked(true);
-        else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_content)))
-            binding.contentStyle.setChecked(true);
-        else if (Objects.equals(selectedStyle, getResources().getString(R.string.monet_fruitsalad)))
-            binding.fruitsaladStyle.setChecked(true);
-        else {
-            Prefs.putBoolean(MONET_ENGINE_SWITCH, false);
-            binding.monetStyles1.clearCheck();
-            binding.monetStyles2.clearCheck();
-        }
+        // Monet Style
+        int selectedIndex = Arrays.asList(getResources().getStringArray(R.array.monet_style)).indexOf(selectedStyle);
+        rd_monet_style = new RadioDialog(this, 0, selectedIndex);
+        rd_monet_style.setRadioDialogListener(this);
+        binding.monetStyles.setOnClickListener(v -> rd_monet_style.show(R.string.monet_style_title, R.array.monet_style, binding.selectedMonetStyle));
+        binding.selectedMonetStyle.setText(getResources().getString(R.string.opt_selected) + " " + Arrays.asList(getResources().getStringArray(R.array.monet_style)).get(rd_monet_style.getSelectedIndex()));
 
         accentPrimary = Prefs.getString(MONET_PRIMARY_COLOR, String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent1_300 : android.R.color.system_accent1_600, getTheme())));
         accentSecondary = Prefs.getString(MONET_SECONDARY_COLOR, String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent3_300 : android.R.color.system_accent3_600, getTheme())));
 
         updatePrimaryColor();
         updateSecondaryColor();
-
-        binding.monetStyles1.setOnCheckedChangeListener(listener1);
-        binding.monetStyles2.setOnCheckedChangeListener(listener2);
 
         assignStockColorToPalette();
 
@@ -313,6 +294,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                 Prefs.putBoolean(MONET_ACCURATE_SHADES, accurateShades);
                 if (isSelectedPrimary) Prefs.putString(MONET_PRIMARY_COLOR, accentPrimary);
                 if (isSelectedSecondary) Prefs.putString(MONET_SECONDARY_COLOR, accentSecondary);
+                Prefs.putString(MONET_STYLE, selectedStyle);
                 Prefs.putInt(MONET_PRIMARY_ACCENT_SATURATION, monetPrimaryAccentSaturation[0]);
                 Prefs.putInt(MONET_SECONDARY_ACCENT_SATURATION, monetSecondaryAccentSaturation[0]);
                 Prefs.putInt(MONET_BACKGROUND_SATURATION, monetBackgroundSaturation[0]);
@@ -327,8 +309,6 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                         if (MonetEngineManager.enableOverlay(finalPalette, true)) {
                             Prefs.clearPref(MONET_COLOR_PALETTE);
                             hasErroredOut.set(true);
-                        } else {
-                            Prefs.putString(MONET_STYLE, selectedStyle);
                         }
                     } catch (Exception e) {
                         hasErroredOut.set(true);
@@ -580,37 +560,23 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         }
     }
 
-    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            if (checkedId != -1) {
-                selectedStyle = ((RadioButton) findViewById(checkedId)).getText().toString();
-                binding.monetStyles2.setOnCheckedChangeListener(null);
-                binding.monetStyles2.clearCheck();
-                binding.monetStyles2.setOnCheckedChangeListener(listener2);
-                assignCustomColorToPalette();
-                binding.enableCustomMonet.setVisibility(View.VISIBLE);
-            }
-        }
-    };
-
     @Override
     public void onDialogDismissed(int dialogId) {
     }
 
-    private final RadioGroup.OnCheckedChangeListener listener2 = new RadioGroup.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            if (checkedId != -1) {
-                selectedStyle = ((RadioButton) findViewById(checkedId)).getText().toString();
-                binding.monetStyles1.setOnCheckedChangeListener(null);
-                binding.monetStyles1.clearCheck();
-                binding.monetStyles1.setOnCheckedChangeListener(listener1);
-                assignCustomColorToPalette();
-                binding.enableCustomMonet.setVisibility(View.VISIBLE);
-            }
-        }
-    };
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onItemSelected(int dialogId, int selectedIndex) {
+        selectedStyle = Arrays.asList(getResources().getStringArray(R.array.monet_style)).get(selectedIndex);
+        assignCustomColorToPalette();
+        binding.enableCustomMonet.setVisibility(View.VISIBLE);
+        binding.selectedMonetStyle.setText(getResources().getString(R.string.opt_selected) + " " + Arrays.asList(getResources().getStringArray(R.array.monet_style)).get(selectedIndex));
+    }
 
-
+    @Override
+    protected void onDestroy() {
+        if (rd_monet_style != null)
+            rd_monet_style.dismiss();
+        super.onDestroy();
+    }
 }

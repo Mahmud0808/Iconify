@@ -96,4 +96,15 @@
         <item>@string/sbclock_color_transparent_text</item>
         <item>@string/sbclock_color_custom_color</item>
     </string-array>
+    <string-array name="monet_style">
+        <item>@string/monet_neutral</item>
+        <item>@string/monet_monochrome</item>
+        <item>@string/monet_tonalspot</item>
+        <item>@string/monet_vibrant</item>
+        <item>@string/monet_rainbow</item>
+        <item>@string/monet_expressive</item>
+        <item>@string/monet_fidelity</item>
+        <item>@string/monet_content</item>
+        <item>@string/monet_fruitsalad</item>
+    </string-array>
 </resources>
