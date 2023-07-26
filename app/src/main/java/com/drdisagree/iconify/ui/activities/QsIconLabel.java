@@ -185,8 +185,9 @@ public class QsIconLabel extends BaseActivity {
                     binding.labelWhiteV2.setChecked(false);
                     binding.labelSystemInverse.setChecked(false);
                     binding.labelSystemInverseV2.setChecked(false);
+                    binding.labelFixtextcolor.setChecked(false);
 
-                    OverlayUtil.disableOverlays(replaceVariant("IconifyComponentQST2.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST4.overlay"));
+                    OverlayUtil.disableOverlays(replaceVariant("IconifyComponentQST2.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST4.overlay", "IconifyComponentQST5.overlay"));
                     OverlayUtil.enableOverlay(replaceVariant("IconifyComponentQST1.overlay"));
                 } else {
                     OverlayUtil.disableOverlay(replaceVariant("IconifyComponentQST1.overlay"));
@@ -203,8 +204,9 @@ public class QsIconLabel extends BaseActivity {
                     binding.labelWhite.setChecked(false);
                     binding.labelSystemInverse.setChecked(false);
                     binding.labelSystemInverseV2.setChecked(false);
+                    binding.labelFixtextcolor.setChecked(false);
 
-                    OverlayUtil.disableOverlays(replaceVariant("IconifyComponentQST1.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST4.overlay"));
+                    OverlayUtil.disableOverlays(replaceVariant("IconifyComponentQST1.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST4.overlay", "IconifyComponentQST5.overlay"));
                     OverlayUtil.enableOverlay(replaceVariant("IconifyComponentQST2.overlay"));
                 } else {
                     OverlayUtil.disableOverlay(replaceVariant("IconifyComponentQST2.overlay"));
@@ -221,8 +223,9 @@ public class QsIconLabel extends BaseActivity {
                     binding.labelWhite.setChecked(false);
                     binding.labelWhiteV2.setChecked(false);
                     binding.labelSystemInverseV2.setChecked(false);
+                    binding.labelFixtextcolor.setChecked(false);
 
-                    OverlayUtil.disableOverlays(replaceVariant("IconifyComponentQST1.overlay", "IconifyComponentQST2.overlay", "IconifyComponentQST4.overlay"));
+                    OverlayUtil.disableOverlays(replaceVariant("IconifyComponentQST1.overlay", "IconifyComponentQST2.overlay", "IconifyComponentQST4.overlay", "IconifyComponentQST5.overlay"));
                     OverlayUtil.enableOverlay(replaceVariant("IconifyComponentQST3.overlay"));
                 } else {
                     OverlayUtil.disableOverlay(replaceVariant("IconifyComponentQST3.overlay"));
@@ -239,11 +242,31 @@ public class QsIconLabel extends BaseActivity {
                     binding.labelWhite.setChecked(false);
                     binding.labelWhiteV2.setChecked(false);
                     binding.labelSystemInverse.setChecked(false);
+                    binding.labelFixtextcolor.setChecked(false);
 
-                    OverlayUtil.disableOverlays(replaceVariant("IconifyComponentQST1.overlay", "IconifyComponentQST2.overlay", "IconifyComponentQST3.overlay"));
+                    OverlayUtil.disableOverlays(replaceVariant("IconifyComponentQST1.overlay", "IconifyComponentQST2.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST5.overlay"));
                     OverlayUtil.enableOverlay(replaceVariant("IconifyComponentQST4.overlay"));
                 } else {
                     OverlayUtil.disableOverlay(replaceVariant("IconifyComponentQST4.overlay"));
+                }
+                handleCommonOverlay();
+            }, SWITCH_ANIMATION_DELAY);
+        });
+
+        binding.labelFixtextcolor.setChecked(Prefs.getBoolean("IconifyComponentQST5.overlay"));
+
+        binding.labelFixtextcolor.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                if (isChecked) {
+                    binding.labelWhite.setChecked(false);
+                    binding.labelWhiteV2.setChecked(false);
+                    binding.labelSystemInverse.setChecked(false);
+                    binding.labelSystemInverseV2.setChecked(false);
+
+                    OverlayUtil.disableOverlays(replaceVariant("IconifyComponentQST1.overlay", "IconifyComponentQST2.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST4.overlay"));
+                    OverlayUtil.enableOverlay(replaceVariant("IconifyComponentQST5.overlay"));
+                } else {
+                    OverlayUtil.disableOverlay(replaceVariant("IconifyComponentQST5.overlay"));
                 }
                 handleCommonOverlay();
             }, SWITCH_ANIMATION_DELAY);
@@ -310,6 +333,7 @@ public class QsIconLabel extends BaseActivity {
         String[] newArgs = new String[args.length];
 
         for (int i = 0; i < args.length; i++) {
+            if (args[i].contains("QST5")) continue;
             newArgs[i] = args[i].replace("QST", Objects.equals(selectedVariant, QS_TEXT_COLOR_VARIANT_NORMAL) ? "QSNT" : "QSPT");
         }
 
@@ -317,7 +341,7 @@ public class QsIconLabel extends BaseActivity {
     }
 
     private String replaceVariant(String arg) {
-        return arg.replace("QST", Objects.equals(selectedVariant, QS_TEXT_COLOR_VARIANT_NORMAL) ? "QSNT" : "QSPT");
+        return arg.contains("QST5") ? arg : arg.replace("QST", Objects.equals(selectedVariant, QS_TEXT_COLOR_VARIANT_NORMAL) ? "QSNT" : "QSPT");
     }
 
     private boolean isNormalVariantActive() {
