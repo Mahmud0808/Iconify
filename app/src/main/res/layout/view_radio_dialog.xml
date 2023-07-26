@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_margin="@dimen/_20sdp"
+    android:layout_margin="28dp"
     android:background="@drawable/container"
     android:elevation="8dp"
     android:orientation="vertical"
@@ -14,16 +14,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginBottom="@dimen/_8sdp"
+        android:layout_marginBottom="12dp"
         android:gravity="start|center"
         android:textColor="@color/textColorPrimary"
-        android:textSize="@dimen/_14sdp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fadingEdgeLength="@dimen/_16sdp"
+        android:fadingEdgeLength="24dp"
         android:requiresFadingEdge="vertical">
 
         <RadioGroup

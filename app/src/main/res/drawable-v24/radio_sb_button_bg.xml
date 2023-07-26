@@ -5,28 +5,15 @@
             <item>
                 <shape android:shape="rectangle">
                     <corners android:radius="16dp" />
-                    <gradient android:endColor="@color/holo_green_light" android:startColor="@color/holo_blue_light" />
-                </shape>
-            </item>
-            <item android:bottom="2dp" android:left="2dp" android:right="2dp" android:top="2dp">
-                <shape android:shape="rectangle">
-                    <solid android:color="@color/colorContainer" />
-                    <corners android:radius="14.5dp" />
-                </shape>
-            </item>
-            <item android:bottom="2dp" android:left="2dp" android:right="2dp" android:top="2dp">
-                <shape android:shape="rectangle">
-                    <solid android:color="@color/colorContainerOverlay" />
-                    <corners android:radius="14.5dp" />
+                    <stroke android:width="2dp" android:color="@color/colorAccent" />
                 </shape>
             </item>
         </layer-list>
     </item>
     <item android:state_checked="true">
         <shape android:shape="rectangle">
-            <gradient android:endColor="@color/holo_green_light" android:startColor="@color/holo_blue_light" />
+            <solid android:color="@color/colorAccent" />
             <corners android:radius="16dp" />
-            <stroke android:color="@color/colorAccent" />
         </shape>
     </item>
 </selector>

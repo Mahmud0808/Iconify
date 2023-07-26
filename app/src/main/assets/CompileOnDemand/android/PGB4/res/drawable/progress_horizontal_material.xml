@@ -6,9 +6,9 @@
         <shape
             android:shape="rectangle"
             android:tint="?android:textColorPrimary">
-            <corners android:radius="24.0dip" />
-            <size android:height="4.0dip" />
+            <size android:height="12.0dip" />
             <solid android:color="#33000000" />
+            <corners android:radius="24.0dip" />
         </shape>
     </item>
     <item
@@ -23,9 +23,9 @@
                     <shape
                         android:shape="rectangle"
                         android:tint="?android:colorControlActivated">
-                        <corners android:radius="24.0dip" />
-                        <size android:height="4.0dip" />
+                        <size android:height="12.0dip" />
                         <solid android:color="#59000000" />
+                        <corners android:radius="24.0dip" />
                     </shape>
                 </item>
             </selector>
@@ -33,7 +33,11 @@
     </item>
     <item
         android:id="@*android:id/progress"
-        android:gravity="fill_horizontal|center">
+        android:bottom="3.0dip"
+        android:gravity="fill_horizontal|center"
+        android:left="4.0dip"
+        android:right="4.0dip"
+        android:top="3.0dip">
         <scale android:scaleWidth="100%">
             <selector>
                 <item
@@ -41,11 +45,12 @@
                     android:state_enabled="false" />
                 <item>
                     <shape android:shape="rectangle">
-                        <corners android:radius="24.0dip" />
-                        <size android:height="4.0dip" />
+                        <size android:height="6.0dip" />
                         <gradient
+                            android:angle="0.0"
                             android:endColor="@*android:color/holo_green_light"
                             android:startColor="@*android:color/holo_blue_light" />
+                        <corners android:radius="24.0dip" />
                     </shape>
                 </item>
             </selector>

@@ -7,6 +7,7 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.helpers.TypedValueUtil;
 import com.topjohnwu.superuser.Shell;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FabricatedUtil {
@@ -24,8 +25,11 @@ public class FabricatedUtil {
     }
 
     public static void buildAndEnableOverlay(String target, String name, String type, String resourceName, String val) {
-        if (target == null || name == null || type == null || resourceName == null || val == null)
-            return;
+        if (target == null || name == null || type == null || resourceName == null || val == null) {
+            throw new IllegalArgumentException("One or more arguments are null" + "\n" + "target: " + target + "\n" + "name: " + name + "\n" + "type: " + type + "\n" + "resourceName: " + resourceName + "\n" + "val: " + val);
+        }
+
+        List<String> commands = buildCommands(target, name, type, resourceName, val);
 
         Prefs.putBoolean("fabricated" + name, true);
         Prefs.putString("FOCMDtarget" + name, target);
@@ -34,6 +38,43 @@ public class FabricatedUtil {
         Prefs.putString("FOCMDresourceName" + name, resourceName);
         Prefs.putString("FOCMDval" + name, val);
 
+        Shell.cmd("mv " + Resources.MODULE_DIR + "/post-exec.sh " + Resources.MODULE_DIR + "/post-exec.txt; grep -v \"IconifyComponent" + name + "\" " + Resources.MODULE_DIR + "/post-exec.txt > " + Resources.MODULE_DIR + "/post-exec.txt.tmp && mv " + Resources.MODULE_DIR + "/post-exec.txt.tmp " + Resources.MODULE_DIR + "/post-exec.sh; rm -rf " + Resources.MODULE_DIR + "/post-exec.txt; rm -rf " + Resources.MODULE_DIR + "/post-exec.txt.tmp").submit();
+        Shell.cmd("echo -e \"" + commands.get(0) + "\n" + commands.get(1) + "\" >> " + Resources.MODULE_DIR + "/post-exec.sh").submit();
+
+        Shell.cmd(commands.get(0), commands.get(1)).submit();
+    }
+
+    public static void buildAndEnableOverlays(Object[]... args) {
+        List<String> commands = new ArrayList<>();
+        List<String> module = new ArrayList<>();
+
+        for (Object[] arg : args) {
+            if (arg.length % 5 != 0) {
+                throw new IllegalArgumentException("Mismatch in number of arguments.");
+            }
+        }
+
+        for (Object[] arg : args) {
+            List<String> tempCommands = buildCommands((String) arg[0], (String) arg[1], (String) arg[2], (String) arg[3], (String) arg[4]);
+
+            Prefs.putBoolean("fabricated" + (String) arg[1], true);
+            Prefs.putString("FOCMDtarget" + (String) arg[1], (String) arg[0]);
+            Prefs.putString("FOCMDname" + (String) arg[1], (String) arg[1]);
+            Prefs.putString("FOCMDtype" + (String) arg[1], (String) arg[2]);
+            Prefs.putString("FOCMDresourceName" + (String) arg[1], (String) arg[3]);
+            Prefs.putString("FOCMDval" + (String) arg[1], (String) arg[4]);
+
+            module.add("mv " + Resources.MODULE_DIR + "/post-exec.sh " + Resources.MODULE_DIR + "/post-exec.txt; grep -v \"IconifyComponent" + (String) arg[1] + "\" " + Resources.MODULE_DIR + "/post-exec.txt > " + Resources.MODULE_DIR + "/post-exec.txt.tmp && mv " + Resources.MODULE_DIR + "/post-exec.txt.tmp " + Resources.MODULE_DIR + "/post-exec.sh; rm -rf " + Resources.MODULE_DIR + "/post-exec.txt; rm -rf " + Resources.MODULE_DIR + "/post-exec.txt.tmp");
+            module.add("echo -e \"" + tempCommands.get(0) + "\n" + tempCommands.get(1) + "\" >> " + Resources.MODULE_DIR + "/post-exec.sh");
+
+            commands.add(tempCommands.get(0));
+            commands.add(tempCommands.get(1));
+        }
+
+        Shell.cmd(String.join("; ", module), String.join("; ", commands)).submit();
+    }
+
+    public static List<String> buildCommands(String target, String name, String type, String resourceName, String val) {
         String resourceType = "0x1c";
 
         if (target.equals("systemui") || target.equals("sysui")) target = "com.android.systemui";
@@ -77,28 +118,24 @@ public class FabricatedUtil {
             }
 
             val = String.valueOf(TypedValueUtil.createComplexDimension(Integer.parseInt(val), valType));
-
-            Prefs.putString("TypedValue." + name, val);
         }
 
-        String build_cmd = "cmd overlay fabricate --target " + target + " --name IconifyComponent" + name + " " + target + ":" + type + "/" + resourceName + " " + resourceType + " " + val;
-        String enable_cmd = "cmd overlay enable --user current com.android.shell:IconifyComponent" + name;
+        List<String> commands = new ArrayList<>();
+        commands.add("cmd overlay fabricate --target " + target + " --name IconifyComponent" + name + " " + target + ":" + type + "/" + resourceName + " " + resourceType + " " + val);
+        commands.add("cmd overlay enable --user current com.android.shell:IconifyComponent" + name);
 
-        Shell.cmd("mv " + Resources.MODULE_DIR + "/post-exec.sh " + Resources.MODULE_DIR + "/post-exec.txt; grep -v \"IconifyComponent" + name + "\" " + Resources.MODULE_DIR + "/post-exec.txt > " + Resources.MODULE_DIR + "/post-exec.txt.tmp && mv " + Resources.MODULE_DIR + "/post-exec.txt.tmp " + Resources.MODULE_DIR + "/post-exec.sh; rm -rf " + Resources.MODULE_DIR + "/post-exec.txt; rm -rf " + Resources.MODULE_DIR + "/post-exec.txt.tmp").submit();
-        Shell.cmd("echo \"" + build_cmd + "\" >> " + Resources.MODULE_DIR + "/post-exec.sh").submit();
-        Shell.cmd("echo \"" + enable_cmd + "\" >> " + Resources.MODULE_DIR + "/post-exec.sh").submit();
-
-        Shell.cmd(build_cmd).submit();
-        Shell.cmd(enable_cmd).submit();
+        return commands;
     }
 
     public static void disableOverlay(String name) {
         Prefs.putBoolean("fabricated" + name, false);
-        Prefs.clearPref("FOCMDtarget" + name);
-        Prefs.clearPref("FOCMDname" + name);
-        Prefs.clearPref("FOCMDtype" + name);
-        Prefs.clearPref("FOCMDresourceName" + name);
-        Prefs.clearPref("FOCMDval" + name);
+        Prefs.clearPrefs(
+                "FOCMDtarget" + name,
+                "FOCMDname" + name,
+                "FOCMDtype" + name,
+                "FOCMDresourceName" + name,
+                "FOCMDval" + name
+        );
 
         String disable_cmd = "cmd overlay disable --user current com.android.shell:IconifyComponent" + name;
 
@@ -112,11 +149,13 @@ public class FabricatedUtil {
 
         for (String name : names) {
             Prefs.putBoolean("fabricated" + name, false);
-            Prefs.clearPref("FOCMDtarget" + name);
-            Prefs.clearPref("FOCMDname" + name);
-            Prefs.clearPref("FOCMDtype" + name);
-            Prefs.clearPref("FOCMDresourceName" + name);
-            Prefs.clearPref("FOCMDval" + name);
+            Prefs.clearPrefs(
+                    "FOCMDtarget" + name,
+                    "FOCMDname" + name,
+                    "FOCMDtype" + name,
+                    "FOCMDresourceName" + name,
+                    "FOCMDval" + name
+            );
 
             command.append("cmd overlay disable --user current com.android.shell:IconifyComponent").append(name).append("; ");
 

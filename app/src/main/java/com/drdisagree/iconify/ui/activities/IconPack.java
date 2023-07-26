@@ -4,9 +4,9 @@ import android.os.Bundle;
 
 import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.databinding.ActivityIconPackBinding;
 import com.drdisagree.iconify.ui.adapters.IconPackAdapter;
 import com.drdisagree.iconify.ui.adapters.MenuAdapter;
 import com.drdisagree.iconify.ui.adapters.ViewAdapter;
@@ -19,25 +19,26 @@ import java.util.ArrayList;
 
 public class IconPack extends BaseActivity {
 
-    LoadingDialog loadingDialog;
+    private ActivityIconPackBinding binding;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_icon_pack);
+        binding = ActivityIconPackBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_icon_pack);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_icon_pack);
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
 
         // RecyclerView
-        RecyclerView container = findViewById(R.id.icon_pack_container);
-        container.setLayoutManager(new LinearLayoutManager(this));
+        binding.iconPackContainer.setLayoutManager(new LinearLayoutManager(this));
         ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new ViewAdapter(this, R.layout.view_divider), initIconPackItems());
-        container.setAdapter(adapter);
-        container.setHasFixedSize(true);
+        binding.iconPackContainer.setAdapter(adapter);
+        binding.iconPackContainer.setHasFixedSize(true);
     }
 
     private MenuAdapter initActivityItems() {

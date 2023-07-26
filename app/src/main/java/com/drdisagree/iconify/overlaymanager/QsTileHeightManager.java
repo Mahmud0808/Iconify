@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class QsTileHeightManager {
 
-    public static boolean enableOverlay(int portNonex, int portEx, int landNonex, int landEx) throws IOException {
+    public static boolean enableOverlay(int portNonex, int portEx, int landNonex, int landEx, boolean enable) throws IOException {
         String resourcesPortrait = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
                 "<resources>\n" +
                 "   <dimen name=\"qs_tile_height\">" + portEx + "dip</dimen>\n" +
@@ -19,6 +19,6 @@ public class QsTileHeightManager {
                 "   <dimen name=\"qs_quick_tile_size\">" + landNonex + "dip</dimen>\n" +
                 "</resources>\n";
 
-        return QsTileHeightCompiler.buildOverlay(new String[]{resourcesPortrait, resourcesLanscape});
+        return QsTileHeightCompiler.buildOverlay(new String[]{resourcesPortrait, resourcesLanscape}, enable);
     }
 }

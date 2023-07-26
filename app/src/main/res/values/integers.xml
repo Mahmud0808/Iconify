@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="transition_page_duration">400</integer>
+    <integer name="switch_track_off_lstar">75</integer>
+</resources>

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    android:fillViewport="true"
+    android:fitsSystemWindows="true"
     tools:context=".ui.activities.MediaPlayer">
 
     <androidx.core.widget.NestedScrollView
@@ -27,14 +27,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|center"
-                android:layout_marginStart="@dimen/_48sdp"
-                android:layout_marginTop="@dimen/_60sdp"
-                android:layout_marginEnd="@dimen/_48sdp"
+                android:layout_marginStart="68dp"
+                android:layout_marginTop="84dp"
+                android:layout_marginEnd="68dp"
                 android:layout_marginBottom="@dimen/container_marginSide"
                 android:text="@string/no_supported_music_player"
                 android:textAlignment="center"
                 android:textColor="@color/textColorSecondary"
-                android:textSize="@dimen/_18sdp"
+                android:textSize="26sp"
                 android:textStyle="bold"
                 android:visibility="gone" />
 
@@ -47,6 +47,8 @@
         </FrameLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <include layout="@layout/view_header" />
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

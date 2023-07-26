@@ -8,9 +8,7 @@ import static com.drdisagree.iconify.common.Preferences.VER_CODE;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
@@ -19,14 +17,15 @@ import android.text.style.URLSpan;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.text.HtmlCompat;
+
 import com.drdisagree.iconify.BuildConfig;
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.databinding.ActivityAppUpdatesBinding;
+import com.drdisagree.iconify.ui.utils.TaskExecutor;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 
 import org.json.JSONArray;
@@ -43,24 +42,18 @@ import java.util.List;
 
 public class AppUpdates extends BaseActivity {
 
-    AppUpdates.CheckForUpdate checkForUpdate = null;
-
-    @SuppressLint("SetTextI18n")
-    private void failedToCheck() {
-        ((TextView) findViewById(R.id.update_title)).setText(Iconify.getAppContext().getResources().getString(R.string.update_checking_failed));
-        ((TextView) findViewById(R.id.current_version)).setText(Iconify.getAppContext().getResources().getString(R.string.current_version) + " " + BuildConfig.VERSION_NAME);
-        ((TextView) findViewById(R.id.latest_version)).setText(Iconify.getAppContext().getResources().getString(R.string.latest_version) + " " + Iconify.getAppContext().getResources().getString(R.string.not_available));
-    }
+    private ActivityAppUpdatesBinding binding;
+    private AppUpdates.CheckForUpdate checkForUpdate = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_app_updates);
+        binding = ActivityAppUpdatesBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.app_updates);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.app_updates);
 
-        final Spinner check_update_every = findViewById(R.id.check_update_every);
         List<String> update_schedule = new ArrayList<>();
         update_schedule.add(getResources().getString(R.string.update_schedule1));
         update_schedule.add(getResources().getString(R.string.update_schedule2));
@@ -70,10 +63,10 @@ public class AppUpdates extends BaseActivity {
 
         ArrayAdapter<String> update_schedule_adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_item, update_schedule);
         update_schedule_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
-        check_update_every.setAdapter(update_schedule_adapter);
+        binding.checkUpdateEvery.setAdapter(update_schedule_adapter);
 
-        check_update_every.setSelection(Prefs.getInt(UPDATE_SCHEDULE, 0));
-        check_update_every.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.checkUpdateEvery.setSelection(Prefs.getInt(UPDATE_SCHEDULE, 0));
+        binding.checkUpdateEvery.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Prefs.putInt(UPDATE_SCHEDULE, position);
@@ -106,6 +99,13 @@ public class AppUpdates extends BaseActivity {
         checkForUpdate.execute();
     }
 
+    @SuppressLint("SetTextI18n")
+    private void failedToCheck() {
+        binding.updateTitle.setText(getApplicationContext().getResources().getString(R.string.update_checking_failed));
+        binding.currentVersion.setText(getApplicationContext().getResources().getString(R.string.current_version) + " " + BuildConfig.VERSION_NAME);
+        binding.latestVersion.setText(getApplicationContext().getResources().getString(R.string.latest_version) + " " + getApplicationContext().getResources().getString(R.string.not_available));
+    }
+
     @Override
     public void onDestroy() {
         if (checkForUpdate != null) checkForUpdate.cancel(true);
@@ -118,14 +118,14 @@ public class AppUpdates extends BaseActivity {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private class CheckForUpdate extends AsyncTask<Integer, Integer, String> {
+    private class CheckForUpdate extends TaskExecutor<Integer, Integer, String> {
 
         String jsonURL = LATEST_VERSION;
 
         @Override
         protected void onPreExecute() {
-            findViewById(R.id.checking_for_update).setVisibility(View.VISIBLE);
-            findViewById(R.id.checked_for_update).setVisibility(View.GONE);
+            binding.checkingForUpdate.setVisibility(View.VISIBLE);
+            binding.checkedForUpdate.setVisibility(View.GONE);
         }
 
         @Override
@@ -174,27 +174,25 @@ public class AppUpdates extends BaseActivity {
         @SuppressLint("SetTextI18n")
         @Override
         protected void onPostExecute(String jsonStr) {
-            super.onPostExecute(jsonStr);
-
             if (jsonStr != null) {
                 try {
                     JSONObject latestVersion = new JSONObject(jsonStr);
 
                     if (Integer.parseInt(latestVersion.getString(VER_CODE)) > BuildConfig.VERSION_CODE) {
-                        findViewById(R.id.check_update).setBackgroundResource(R.drawable.container_outline);
-                        ((TextView) findViewById(R.id.update_title)).setText(getResources().getString(R.string.new_update_available));
-                        findViewById(R.id.download_update).setOnClickListener(v -> {
+                        binding.checkUpdate.setBackgroundResource(R.drawable.container_outline);
+                        binding.updateTitle.setText(getResources().getString(R.string.new_update_available));
+                        binding.downloadUpdate.setOnClickListener(v -> {
                             try {
                                 String apkUrl = latestVersion.getString("apkUrl");
                                 Intent i = new Intent(Intent.ACTION_VIEW);
                                 i.setData(Uri.parse(apkUrl));
                                 startActivity(i);
                             } catch (JSONException e) {
-                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                                 e.printStackTrace();
                             }
                         });
-                        findViewById(R.id.download_update).setVisibility(View.VISIBLE);
+                        binding.downloadUpdate.setVisibility(View.VISIBLE);
 
                         String title, changes;
 
@@ -212,13 +210,10 @@ public class AppUpdates extends BaseActivity {
                             title = title.replace("### ", "<b>") + "</b>";
                             changes = Changelog.usernameToLink(changes.replace("## ", "<b>").replace(":\n", ":</b><br>").replace("- __", "<b>• ").replace("__\n", "</b><br>").replace("    - ", "&emsp;◦ ").replace("- ", "• ").replace("\n", "<br>"));
 
-                            TextView changelog_title = findViewById(R.id.changelog_title);
-                            TextView changelog_changes = findViewById(R.id.changelog_text);
+                            binding.changelogTitle.setText(HtmlCompat.fromHtml(title, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                            binding.changelogText.setText(HtmlCompat.fromHtml(changes, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
-                            changelog_title.setText(Html.fromHtml(title));
-                            changelog_changes.setText(Html.fromHtml(changes));
-
-                            SpannableString spannableString = new SpannableString(Html.fromHtml(changes));
+                            SpannableString spannableString = new SpannableString(HtmlCompat.fromHtml(changes, HtmlCompat.FROM_HTML_MODE_LEGACY));
                             URLSpan[] urls = spannableString.getSpans(0, spannableString.length(), URLSpan.class);
 
                             for (URLSpan urlSpan : urls) {
@@ -236,31 +231,31 @@ public class AppUpdates extends BaseActivity {
                                 spannableString.removeSpan(urlSpan);
                             }
 
-                            changelog_changes.setText(spannableString);
-                            changelog_changes.setMovementMethod(LinkMovementMethod.getInstance());
+                            binding.changelogText.setText(spannableString);
+                            binding.changelogText.setMovementMethod(LinkMovementMethod.getInstance());
                         } catch (Exception e) {
                             e.printStackTrace();
 
-                            ((TextView) findViewById(R.id.changelog_title)).setText(Html.fromHtml(getResources().getString(R.string.individual_changelog_not_found)));
-                            findViewById(R.id.changelog_text).setVisibility(View.GONE);
+                            binding.changelogTitle.setText(HtmlCompat.fromHtml(getResources().getString(R.string.individual_changelog_not_found), HtmlCompat.FROM_HTML_MODE_LEGACY));
+                            binding.changelogText.setVisibility(View.GONE);
                         }
-                        ((TextView) findViewById(R.id.show_changelog)).setText(getResources().getString(R.string.view_changelog));
-                        findViewById(R.id.show_changelog).setOnClickListener(v -> {
-                            if (findViewById(R.id.changelog).getVisibility() == View.GONE) {
-                                ((TextView) findViewById(R.id.show_changelog)).setText(getResources().getString(R.string.hide_changelog));
-                                findViewById(R.id.changelog).setVisibility(View.VISIBLE);
+                        binding.showChangelog.setText(getResources().getString(R.string.view_changelog));
+                        binding.showChangelog.setOnClickListener(v -> {
+                            if (binding.changelog.getVisibility() == View.GONE) {
+                                binding.showChangelog.setText(getResources().getString(R.string.hide_changelog));
+                                binding.changelog.setVisibility(View.VISIBLE);
                             } else {
-                                ((TextView) findViewById(R.id.show_changelog)).setText(getResources().getString(R.string.view_changelog));
-                                findViewById(R.id.changelog).setVisibility(View.GONE);
+                                binding.showChangelog.setText(getResources().getString(R.string.view_changelog));
+                                binding.changelog.setVisibility(View.GONE);
                             }
                         });
-                        findViewById(R.id.show_changelog).setVisibility(View.VISIBLE);
+                        binding.showChangelog.setVisibility(View.VISIBLE);
                     } else {
-                        ((TextView) findViewById(R.id.update_title)).setText(getResources().getString(R.string.already_up_to_date));
+                        binding.updateTitle.setText(getResources().getString(R.string.already_up_to_date));
                     }
 
-                    ((TextView) findViewById(R.id.current_version)).setText(getResources().getString(R.string.current_version) + " " + BuildConfig.VERSION_NAME);
-                    ((TextView) findViewById(R.id.latest_version)).setText(getResources().getString(R.string.latest_version) + " " + latestVersion.getString("versionName"));
+                    binding.currentVersion.setText(getResources().getString(R.string.current_version) + " " + BuildConfig.VERSION_NAME);
+                    binding.latestVersion.setText(getResources().getString(R.string.latest_version) + " " + latestVersion.getString("versionName"));
                 } catch (Exception e) {
                     failedToCheck();
                     e.printStackTrace();
@@ -268,8 +263,8 @@ public class AppUpdates extends BaseActivity {
             } else {
                 failedToCheck();
             }
-            findViewById(R.id.checking_for_update).setVisibility(View.GONE);
-            findViewById(R.id.checked_for_update).setVisibility(View.VISIBLE);
+            binding.checkingForUpdate.setVisibility(View.GONE);
+            binding.checkedForUpdate.setVisibility(View.VISIBLE);
         }
     }
 }

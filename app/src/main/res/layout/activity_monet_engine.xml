@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    android:fillViewport="true"
+    android:fitsSystemWindows="true"
     tools:context=".ui.activities.MonetEngine">
 
     <androidx.core.widget.NestedScrollView
@@ -106,10 +106,10 @@
 
                 <View
                     android:id="@+id/preview_color_picker_primary"
-                    android:layout_width="@dimen/_36sdp"
-                    android:layout_height="@dimen/_36sdp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="start|center"
-                    android:layout_margin="@dimen/_2sdp"
+                    android:layout_margin="3dp"
                     android:background="@drawable/preview_color_picker_primary"
                     android:contentDescription="@string/color_picker_preview" />
 
@@ -157,94 +157,42 @@
 
                 <View
                     android:id="@+id/preview_color_picker_secondary"
-                    android:layout_width="@dimen/_36sdp"
-                    android:layout_height="@dimen/_36sdp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="start|center"
-                    android:layout_margin="@dimen/_2sdp"
+                    android:layout_margin="3dp"
                     android:background="@drawable/preview_color_picker_secondary"
                     android:contentDescription="@string/color_picker_preview" />
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/monet_styles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/container_margin"
                 android:background="@drawable/container"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:paddingStart="@dimen/container_paddingSide"
                 android:paddingTop="@dimen/container_padding"
                 android:paddingEnd="@dimen/container_paddingSide"
                 android:paddingBottom="@dimen/container_padding">
 
-                <RadioGroup
-                    android:id="@+id/monet_styles1"
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.0">
+                    android:text="@string/monet_style_title"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/cont_title_size"
+                    android:textStyle="bold" />
 
-                    <RadioButton
-                        android:id="@+id/neutral_style"
-                        style="@style/customRadioButtonColored"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/monet_neutral" />
-
-                    <RadioButton
-                        android:id="@+id/monochrome_style"
-                        style="@style/customRadioButtonColored"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/monet_monochrome" />
-
-                    <RadioButton
-                        android:id="@+id/tonalspot_style"
-                        style="@style/customRadioButtonColored"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/monet_tonalspot" />
-
-                    <RadioButton
-                        android:id="@+id/vibrant_style"
-                        style="@style/customRadioButtonColored"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/monet_vibrant" />
-
-                </RadioGroup>
-
-                <View
-                    android:layout_width="@dimen/_6sdp"
-                    android:layout_height="match_parent" />
-
-                <RadioGroup
-                    android:id="@+id/monet_styles2"
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/selected_monet_style"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.0">
+                    android:textColor="@color/textColorSecondary"
+                    android:textSize="@dimen/cont_desc_size" />
 
-                    <RadioButton
-                        android:id="@+id/expressive_style"
-                        style="@style/customRadioButtonColored"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/monet_expressive" />
-
-                    <RadioButton
-                        android:id="@+id/fidelity_style"
-                        style="@style/customRadioButtonColored"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/monet_fidelity" />
-
-                    <RadioButton
-                        android:id="@+id/content_style"
-                        style="@style/customRadioButtonColored"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/monet_content" />
-
-                </RadioGroup>
             </LinearLayout>
 
             <LinearLayout
@@ -280,17 +228,16 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/monet_accent_saturation_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:longClickable="true"
-                        android:text="@string/monet_accent_saturation_title"
+                        android:text="@string/monet_primary_accent_saturation_title"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
 
                     <ImageView
-                        android:id="@+id/reset_accent_saturation"
+                        android:id="@+id/reset_primary_accent_saturation"
                         android:layout_width="@dimen/reset_button_size"
                         android:layout_height="@dimen/reset_button_size"
                         android:layout_gravity="start|center"
@@ -304,14 +251,14 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/monet_accent_saturation_output"
+                    android:id="@+id/monet_primary_accent_saturation_output"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/textColorSecondary"
                     android:textSize="@dimen/cont_desc_size" />
 
                 <SeekBar
-                    android:id="@+id/monet_accent_saturation_seekbar"
+                    android:id="@+id/monet_primary_accent_saturation_seekbar"
                     style="@style/SeekBar.Iconify"
                     android:max="200"
                     android:min="0"
@@ -336,7 +283,60 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/monet_background_saturation_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/monet_secondary_accent_saturation_title"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/reset_secondary_accent_saturation"
+                        android:layout_width="@dimen/reset_button_size"
+                        android:layout_height="@dimen/reset_button_size"
+                        android:layout_gravity="start|center"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:contentDescription="@string/icon"
+                        app:srcCompat="@drawable/ic_reset"
+                        app:tint="@color/textColorSecondary" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/monet_secondary_accent_saturation_output"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColorSecondary"
+                    android:textSize="@dimen/cont_desc_size" />
+
+                <SeekBar
+                    android:id="@+id/monet_secondary_accent_saturation_seekbar"
+                    style="@style/SeekBar.Iconify"
+                    android:max="200"
+                    android:min="0"
+                    android:progress="100" />
+
+            </LinearLayout>
+
+            <View style="@style/dividerTransparent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/container_mid"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/container_paddingSide"
+                android:paddingTop="@dimen/container_padding"
+                android:paddingEnd="@dimen/container_paddingSide"
+                android:paddingBottom="@dimen/container_padding">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/monet_background_saturation_title"
@@ -393,7 +393,6 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/monet_background_lightness_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/monet_background_lightness_title"
@@ -453,6 +452,8 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <include layout="@layout/view_header" />
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

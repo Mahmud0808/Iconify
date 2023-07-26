@@ -14,19 +14,21 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
+import com.drdisagree.iconify.databinding.ActivityXposedBackgroundChipBinding;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.RadioDialog;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.google.android.flexbox.FlexboxLayout;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
@@ -35,35 +37,32 @@ import java.util.Arrays;
 
 public class XposedBackgroundChip extends BaseActivity implements RadioDialog.RadioDialogListener, ColorPickerDialogListener {
 
-    private static int colorStatusbarClock;
-    private static int selectedClockColorOption = 0;
-    TextView selected_sb_clock_color_option;
-    RadioDialog rd_sb_clock_color_option;
-    ColorPickerDialog.Builder colorPickerDialogStatusbarClock;
-    private FlexboxLayout containerStatusBar, containerStatusIcons;
+    private static int colorStatusbarClock, selectedClockColorOption = 0;
+    private ActivityXposedBackgroundChipBinding binding;
+    private ColorPickerDialog.Builder colorPickerDialogStatusbarClock;
+    private RadioDialog rd_sb_clock_color_option;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_xposed_background_chip);
+        binding = ActivityXposedBackgroundChipBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_background_chip);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_background_chip);
 
         // Statusbar clock Chip
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_clock_bg_chip = findViewById(R.id.enable_clock_bg_chip);
-        enable_clock_bg_chip.setChecked(RPrefs.getBoolean(STATUSBAR_CLOCKBG_SWITCH, false));
-        enable_clock_bg_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.enableClockBgChip.setChecked(RPrefs.getBoolean(STATUSBAR_CLOCKBG_SWITCH, false));
+        binding.enableClockBgChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(STATUSBAR_CLOCKBG_SWITCH, isChecked);
 
             if (!isChecked) {
-                new Handler().postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
             }
         });
 
         // Statusbar clock chip style
-        containerStatusBar = findViewById(R.id.status_bar_chip_container);
         ArrayList<Object[]> status_bar_chip_style = new ArrayList<>();
 
         status_bar_chip_style.add(new Object[]{R.drawable.chip_status_bar_1, R.string.style_1});
@@ -79,42 +78,37 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
         refreshBackgroundStatusBar();
 
         // Statusbar Clock Color
-        LinearLayout sb_clock_color = findViewById(R.id.sb_clock_color);
-        selected_sb_clock_color_option = findViewById(R.id.selected_sb_clock_color_option);
         rd_sb_clock_color_option = new RadioDialog(this, 0, RPrefs.getInt(STATUSBAR_CLOCK_COLOR_OPTION, 0));
         rd_sb_clock_color_option.setRadioDialogListener(this);
-        sb_clock_color.setOnClickListener(v -> rd_sb_clock_color_option.show(R.string.battery_style_title, R.array.statusbar_clock_color, selected_sb_clock_color_option));
+        binding.sbClockColor.setOnClickListener(v -> rd_sb_clock_color_option.show(R.string.statusbar_clock_color_title, R.array.statusbar_clock_color, binding.selectedSbClockColorOption));
         selectedClockColorOption = rd_sb_clock_color_option.getSelectedIndex();
-        selected_sb_clock_color_option.setText(Arrays.asList(getResources().getStringArray(R.array.statusbar_clock_color)).get(selectedClockColorOption));
-        selected_sb_clock_color_option.setText(getResources().getString(R.string.opt_selected) + ' ' + selected_sb_clock_color_option.getText().toString().replaceAll(getResources().getString(R.string.opt_selected) + ' ', ""));
-        findViewById(R.id.sb_clock_color_picker).setVisibility(selectedClockColorOption == 2 ? View.VISIBLE : View.GONE);
+        binding.selectedSbClockColorOption.setText(Arrays.asList(getResources().getStringArray(R.array.statusbar_clock_color)).get(selectedClockColorOption));
+        binding.selectedSbClockColorOption.setText(getResources().getString(R.string.opt_selected) + ' ' + binding.selectedSbClockColorOption.getText().toString().replaceAll(getResources().getString(R.string.opt_selected) + ' ', ""));
+        binding.sbClockColorPicker.setVisibility(selectedClockColorOption == 2 ? View.VISIBLE : View.GONE);
         colorStatusbarClock = RPrefs.getInt(STATUSBAR_CLOCK_COLOR_CODE, Color.WHITE);
 
         // Clock Color Picker
         colorPickerDialogStatusbarClock = ColorPickerDialog.newBuilder();
         colorPickerDialogStatusbarClock.setDialogStyle(R.style.ColorPicker).setColor(colorStatusbarClock).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(true).setShowColorShades(true);
-        LinearLayout sb_clock_color_picker = findViewById(R.id.sb_clock_color_picker);
-        sb_clock_color_picker.setOnClickListener(v -> colorPickerDialogStatusbarClock.show(this));
+        binding.sbClockColorPicker.setOnClickListener(v -> colorPickerDialogStatusbarClock.show(this));
         updateColorPreview();
 
         // Status icons chip
         if (Build.VERSION.SDK_INT >= 33) {
-            findViewById(R.id.statusicons_chip_container).setVisibility(View.GONE);
+            binding.statusiconsChipContainer.setVisibility(View.GONE);
             RPrefs.putBoolean(QSPANEL_STATUSICONSBG_SWITCH, false);
         }
 
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch enable_status_icons_chip = findViewById(R.id.enable_status_icons_chip);
-        enable_status_icons_chip.setChecked(RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false));
-        enable_status_icons_chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.enableStatusIconsChip.setChecked(RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false));
+        binding.enableStatusIconsChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(QSPANEL_STATUSICONSBG_SWITCH, isChecked);
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
                 SystemUtil.doubleToggleDarkMode();
             }, SWITCH_ANIMATION_DELAY);
         });
 
         // Status icons chip style
-        containerStatusIcons = findViewById(R.id.status_icons_chip_container);
         ArrayList<Object[]> status_icons_chip_style = new ArrayList<>();
 
         status_icons_chip_style.add(new Object[]{R.drawable.chip_status_icons_1, R.string.style_1});
@@ -133,10 +127,10 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
     @SuppressLint("UseCompatLoadingForDrawables")
     private void addItemStatusBar(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(this).inflate(R.layout.view_status_bar_chip, containerStatusBar, false);
+            View list = LayoutInflater.from(this).inflate(R.layout.view_status_bar_chip, binding.statusBarChipContainer, false);
 
             LinearLayout clock_container = list.findViewById(R.id.clock_container);
-            clock_container.setBackground(getResources().getDrawable((int) pack.get(i)[0]));
+            clock_container.setBackground(ContextCompat.getDrawable(getApplicationContext(), (int) pack.get(i)[0]));
 
             TextView style_name = list.findViewById(R.id.style_name);
             style_name.setText(getResources().getString((int) pack.get(i)[1]));
@@ -147,20 +141,20 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
                 refreshBackgroundStatusBar();
             });
 
-            containerStatusBar.addView(list);
+            binding.statusBarChipContainer.addView(list);
         }
     }
 
     // Function to check for bg drawable changes
     @SuppressLint("SetTextI18n")
     private void refreshBackgroundStatusBar() {
-        for (int i = 0; i < containerStatusBar.getChildCount(); i++) {
-            LinearLayout child = containerStatusBar.getChildAt(i).findViewById(R.id.list_item_chip);
+        for (int i = 0; i < binding.statusBarChipContainer.getChildCount(); i++) {
+            LinearLayout child = binding.statusBarChipContainer.getChildAt(i).findViewById(R.id.list_item_chip);
             TextView title = child.findViewById(R.id.style_name);
             if (i == RPrefs.getInt(CHIP_STATUSBAR_CLOCKBG_STYLE, 0)) {
-                title.setTextColor(getResources().getColor(R.color.colorSuccess));
+                title.setTextColor(getResources().getColor(R.color.colorSuccess, getTheme()));
             } else {
-                title.setTextColor(getResources().getColor(R.color.textColorSecondary));
+                title.setTextColor(getResources().getColor(R.color.textColorSecondary, getTheme()));
             }
         }
     }
@@ -169,10 +163,10 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
     @SuppressLint("UseCompatLoadingForDrawables")
     private void addItemStatusIcons(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(this).inflate(R.layout.view_status_icons_chip, containerStatusIcons, false);
+            View list = LayoutInflater.from(this).inflate(R.layout.view_status_icons_chip, binding.statusIconsChipContainer, false);
 
             LinearLayout icon_container = list.findViewById(R.id.clock_container);
-            icon_container.setBackground(getResources().getDrawable((int) pack.get(i)[0]));
+            icon_container.setBackground(ContextCompat.getDrawable(getApplicationContext(), (int) pack.get(i)[0]));
 
             TextView style_name = list.findViewById(R.id.style_name);
             style_name.setText(getResources().getString((int) pack.get(i)[1]));
@@ -182,24 +176,24 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
                 RPrefs.putInt(CHIP_QSSTATUSICONS_STYLE, finalI);
                 refreshBackgroundStatusIcons();
                 if (RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false)) {
-                    new Handler().postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
+                    new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
                 }
             });
 
-            containerStatusIcons.addView(list);
+            binding.statusIconsChipContainer.addView(list);
         }
     }
 
     // Function to check for bg drawable changes
     @SuppressLint("SetTextI18n")
     private void refreshBackgroundStatusIcons() {
-        for (int i = 0; i < containerStatusIcons.getChildCount(); i++) {
-            LinearLayout child = containerStatusIcons.getChildAt(i).findViewById(R.id.list_item_chip);
+        for (int i = 0; i < binding.statusIconsChipContainer.getChildCount(); i++) {
+            LinearLayout child = binding.statusIconsChipContainer.getChildAt(i).findViewById(R.id.list_item_chip);
             TextView title = child.findViewById(R.id.style_name);
             if (i == RPrefs.getInt(CHIP_QSSTATUSICONS_STYLE, 0)) {
-                title.setTextColor(getResources().getColor(R.color.colorSuccess));
+                title.setTextColor(getResources().getColor(R.color.colorSuccess, getTheme()));
             } else {
-                title.setTextColor(getResources().getColor(R.color.textColorSecondary));
+                title.setTextColor(getResources().getColor(R.color.textColorSecondary, getTheme()));
             }
         }
     }
@@ -210,8 +204,8 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
         if (dialogId == 0) {
             selectedClockColorOption = selectedIndex;
             RPrefs.putInt(STATUSBAR_CLOCK_COLOR_OPTION, selectedIndex);
-            findViewById(R.id.sb_clock_color_picker).setVisibility(selectedClockColorOption == 2 ? View.VISIBLE : View.GONE);
-            selected_sb_clock_color_option.setText(getResources().getString(R.string.opt_selected) + ' ' + selected_sb_clock_color_option.getText().toString().replaceAll(getResources().getString(R.string.opt_selected) + ' ', ""));
+            binding.sbClockColorPicker.setVisibility(selectedClockColorOption == 2 ? View.VISIBLE : View.GONE);
+            binding.selectedSbClockColorOption.setText(getResources().getString(R.string.opt_selected) + ' ' + binding.selectedSbClockColorOption.getText().toString().replaceAll(getResources().getString(R.string.opt_selected) + ' ', ""));
         }
     }
 
@@ -236,11 +230,10 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
     }
 
     private void updateColorPreview() {
-        View preview_color_picker_clocktext = findViewById(R.id.preview_color_picker_clocktext);
         GradientDrawable gd;
 
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{colorStatusbarClock, colorStatusbarClock});
-        gd.setCornerRadius(getResources().getDimension(com.intuit.sdp.R.dimen._24sdp) * getResources().getDisplayMetrics().density);
-        preview_color_picker_clocktext.setBackgroundDrawable(gd);
+        gd.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * getResources().getDisplayMetrics().density);
+        binding.previewColorPickerClocktext.setBackground(gd);
     }
 }

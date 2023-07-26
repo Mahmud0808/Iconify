@@ -5,26 +5,25 @@ import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY_LIGHT;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY_LIGHT;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_ACCENT;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_PRIMARY_COLOR_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_SECONDARY_COLOR_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.STR_NULL;
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECONDARY;
-import static com.drdisagree.iconify.utils.ColorUtil.ColorToSpecialHex;
+import static com.drdisagree.iconify.utils.ColorUtil.colorToSpecialHex;
 
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.databinding.ActivityBasicColorsBinding;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
-import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
@@ -38,40 +37,47 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
     public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
     private static boolean isSelectedPrimary = false, isSelectedSecondary = false;
     private static String accentPrimary, accentSecondary;
-    Button enable_custom_color;
-    LoadingDialog loadingDialog;
-    ColorPickerDialog.Builder colorPickerDialogPrimary, colorPickerDialogSecondary;
+    private ActivityBasicColorsBinding binding;
+    private ColorPickerDialog.Builder colorPickerDialogPrimary, colorPickerDialogSecondary;
 
     public static void applyPrimaryColors() {
-        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ColorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_PRIMARY))));
-        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY_LIGHT, "color", "holo_blue_dark", ColorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_PRIMARY))));
+        FabricatedUtil.buildAndEnableOverlays(
+                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", colorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_PRIMARY)))},
+                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY_LIGHT, "color", "holo_blue_dark", colorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_PRIMARY)))}
+        );
     }
 
     public static void applySecondaryColors() {
-        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ColorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_SECONDARY))));
-        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY_LIGHT, "color", "holo_green_dark", ColorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_SECONDARY))));
+        FabricatedUtil.buildAndEnableOverlays(
+                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", colorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_SECONDARY)))},
+                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY_LIGHT, "color", "holo_green_dark", colorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_SECONDARY)))}
+        );
     }
 
-    public static void disableMonetColors() {
-        Prefs.clearPref("customMonetColor");
-        Prefs.clearPref(CUSTOM_PRIMARY_COLOR_SWITCH);
-        Prefs.clearPref(CUSTOM_SECONDARY_COLOR_SWITCH);
-        Prefs.clearPref(COLOR_ACCENT_PRIMARY);
-        Prefs.clearPref(COLOR_ACCENT_PRIMARY_LIGHT);
-        Prefs.clearPref(COLOR_ACCENT_SECONDARY);
-        Prefs.clearPref(COLOR_ACCENT_SECONDARY_LIGHT);
+    public static void disableAccentColors() {
+        Prefs.putBoolean(CUSTOM_ACCENT, false);
+        Prefs.clearPrefs(CUSTOM_PRIMARY_COLOR_SWITCH, CUSTOM_SECONDARY_COLOR_SWITCH, COLOR_ACCENT_PRIMARY, COLOR_ACCENT_PRIMARY_LIGHT, COLOR_ACCENT_SECONDARY, COLOR_ACCENT_SECONDARY_LIGHT);
 
-        FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
-        FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY_LIGHT);
-        FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
-        FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY_LIGHT);
+        FabricatedUtil.disableOverlays(COLOR_ACCENT_PRIMARY, COLOR_ACCENT_PRIMARY_LIGHT, COLOR_ACCENT_SECONDARY, COLOR_ACCENT_SECONDARY_LIGHT);
+    }
 
-        if (shouldUseDefaultColors()) {
-            FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
-            FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY_LIGHT, "color", "holo_blue_dark", ICONIFY_COLOR_ACCENT_PRIMARY);
-            FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
-            FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY_LIGHT, "color", "holo_green_dark", ICONIFY_COLOR_ACCENT_SECONDARY);
-        }
+    public static void applyDefaultColors() {
+        applyDefaultPrimaryColors();
+        applyDefaultSecondaryColors();
+    }
+
+    public static void applyDefaultPrimaryColors() {
+        FabricatedUtil.buildAndEnableOverlays(
+                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY},
+                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY_LIGHT, "color", "holo_blue_dark", ICONIFY_COLOR_ACCENT_PRIMARY}
+        );
+    }
+
+    public static void applyDefaultSecondaryColors() {
+        FabricatedUtil.buildAndEnableOverlays(
+                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY},
+                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY_LIGHT, "color", "holo_green_dark", ICONIFY_COLOR_ACCENT_SECONDARY}
+        );
     }
 
     private static boolean shouldUseDefaultColors() {
@@ -81,23 +87,21 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_basic_colors);
+        binding = ActivityBasicColorsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_basic_colors);
-
-        // Loading dialog
-        loadingDialog = new LoadingDialog(this);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_basic_colors);
 
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL))
             accentPrimary = Prefs.getString(COLOR_ACCENT_PRIMARY);
         else
-            accentPrimary = String.valueOf(getResources().getColor(android.R.color.holo_blue_light));
+            accentPrimary = String.valueOf(getResources().getColor(android.R.color.holo_blue_light, getTheme()));
 
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL))
             accentSecondary = Prefs.getString(COLOR_ACCENT_SECONDARY);
         else
-            accentSecondary = String.valueOf(getResources().getColor(android.R.color.holo_green_light));
+            accentSecondary = String.valueOf(getResources().getColor(android.R.color.holo_green_light, getTheme()));
 
         updatePrimaryColor();
         updateSecondaryColor();
@@ -109,48 +113,38 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
         colorPickerDialogPrimary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentPrimary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);
         colorPickerDialogSecondary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentSecondary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(false).setShowColorShades(true);
 
-        LinearLayout preview_coloraccentprimary = findViewById(R.id.preview_coloraccentprimary);
-        preview_coloraccentprimary.setOnClickListener(v -> colorPickerDialogPrimary.show(BasicColors.this));
+        binding.previewColoraccentprimary.setOnClickListener(v -> colorPickerDialogPrimary.show(BasicColors.this));
 
-        LinearLayout preview_coloraccentsecondary = findViewById(R.id.preview_coloraccentsecondary);
-        preview_coloraccentsecondary.setOnClickListener(v -> colorPickerDialogSecondary.show(BasicColors.this));
+        binding.previewColoraccentsecondary.setOnClickListener(v -> colorPickerDialogSecondary.show(BasicColors.this));
 
-        // Enable custom colors button
-        enable_custom_color = findViewById(R.id.enable_custom_color);
-
-        enable_custom_color.setOnClickListener(v -> {
-            enable_custom_color.setVisibility(View.GONE);
+        // Enable custom colors
+        binding.enableCustomColor.setOnClickListener(v -> {
+            binding.enableCustomColor.setVisibility(View.GONE);
             Runnable runnable = () -> {
                 applyMonetColors();
 
                 runOnUiThread(() -> {
-                    Prefs.putBoolean("customMonetColor", true);
+                    Prefs.putBoolean(CUSTOM_ACCENT, true);
 
-                    new Handler().postDelayed(() -> {
-                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
-                    }, 2000);
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show(), 2000);
                 });
             };
             Thread thread = new Thread(runnable);
             thread.start();
         });
 
-        // Disable custom colors button
-        Button disable_custom_color = findViewById(R.id.disable_custom_color);
+        // Disable custom colors
+        binding.disableCustomColor.setVisibility(Prefs.getBoolean(CUSTOM_ACCENT, false) ? View.VISIBLE : View.GONE);
 
-        if (Prefs.getBoolean("customMonetColor")) disable_custom_color.setVisibility(View.VISIBLE);
-        else disable_custom_color.setVisibility(View.GONE);
-
-        disable_custom_color.setOnClickListener(v -> {
-            disable_custom_color.setVisibility(View.GONE);
+        binding.disableCustomColor.setOnClickListener(v -> {
+            binding.disableCustomColor.setVisibility(View.GONE);
             Runnable runnable = () -> {
-                disableMonetColors();
+                disableAccentColors();
+                if (shouldUseDefaultColors()) {
+                    applyDefaultColors();
+                }
 
-                runOnUiThread(() -> {
-                    new Handler().postDelayed(() -> {
-                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
-                    }, 2000);
-                });
+                runOnUiThread(() -> new Handler(Looper.getMainLooper()).postDelayed(() -> Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show(), 2000));
             };
             Thread thread = new Thread(runnable);
             thread.start();
@@ -164,7 +158,7 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
                 isSelectedPrimary = true;
                 accentPrimary = String.valueOf(color);
                 updatePrimaryColor();
-                enable_custom_color.setVisibility(View.VISIBLE);
+                binding.enableCustomColor.setVisibility(View.VISIBLE);
                 Prefs.putBoolean(CUSTOM_PRIMARY_COLOR_SWITCH, true);
                 colorPickerDialogPrimary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentPrimary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(1).setShowAlphaSlider(false).setShowColorShades(true);
                 break;
@@ -172,7 +166,7 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
                 isSelectedSecondary = true;
                 accentSecondary = String.valueOf(color);
                 updateSecondaryColor();
-                enable_custom_color.setVisibility(View.VISIBLE);
+                binding.enableCustomColor.setVisibility(View.VISIBLE);
                 Prefs.putBoolean(CUSTOM_SECONDARY_COLOR_SWITCH, true);
                 colorPickerDialogSecondary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentSecondary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(false).setShowColorShades(true);
                 break;
@@ -180,37 +174,39 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
     }
 
     private void updatePrimaryColor() {
-        View preview_color_picker_primary = findViewById(R.id.preview_color_picker_primary);
         GradientDrawable gd;
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentPrimary)});
-        gd.setCornerRadius(getResources().getDimension(com.intuit.sdp.R.dimen._24sdp) * getResources().getDisplayMetrics().density);
-        preview_color_picker_primary.setBackgroundDrawable(gd);
+        gd.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * getResources().getDisplayMetrics().density);
+        binding.previewColorPickerPrimary.setBackground(gd);
 
-        View color_preview_large = findViewById(R.id.color_preview_large);
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentSecondary)});
         gd.setCornerRadius(24 * getResources().getDisplayMetrics().density);
-        color_preview_large.setBackgroundDrawable(gd);
+        binding.colorPreviewLarge.setBackground(gd);
     }
 
     private void updateSecondaryColor() {
-        View preview_color_picker_secondary = findViewById(R.id.preview_color_picker_secondary);
         GradientDrawable gd;
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentSecondary), Integer.parseInt(accentSecondary)});
-        gd.setCornerRadius(getResources().getDimension(com.intuit.sdp.R.dimen._24sdp) * getResources().getDisplayMetrics().density);
-        preview_color_picker_secondary.setBackgroundDrawable(gd);
+        gd.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * getResources().getDisplayMetrics().density);
+        binding.previewColorPickerSecondary.setBackground(gd);
 
-        View color_preview_large = findViewById(R.id.color_preview_large);
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentSecondary)});
         gd.setCornerRadius(24 * getResources().getDisplayMetrics().density);
-        color_preview_large.setBackgroundDrawable(gd);
+        binding.colorPreviewLarge.setBackground(gd);
     }
 
     private void applyMonetColors() {
-        Prefs.putBoolean("customMonetColor", true);
+        Prefs.putBoolean(CUSTOM_ACCENT, true);
 
-        if (isSelectedPrimary) Prefs.putString(COLOR_ACCENT_PRIMARY, accentPrimary);
+        if (isSelectedPrimary) {
+            Prefs.putString(COLOR_ACCENT_PRIMARY, accentPrimary);
+            Prefs.putString(COLOR_ACCENT_PRIMARY_LIGHT, accentPrimary);
+        }
 
-        if (isSelectedSecondary) Prefs.putString(COLOR_ACCENT_SECONDARY, accentSecondary);
+        if (isSelectedSecondary) {
+            Prefs.putString(COLOR_ACCENT_SECONDARY, accentSecondary);
+            Prefs.putString(COLOR_ACCENT_SECONDARY_LIGHT, accentSecondary);
+        }
 
         if (isSelectedPrimary) applyPrimaryColors();
 

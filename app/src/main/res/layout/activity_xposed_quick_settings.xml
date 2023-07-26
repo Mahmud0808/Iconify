@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    android:fillViewport="true"
+    android:fitsSystemWindows="true"
     tools:context=".ui.activities.XposedQuickSettings">
 
     <androidx.core.widget.NestedScrollView
@@ -490,6 +490,8 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <include layout="@layout/view_header" />
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

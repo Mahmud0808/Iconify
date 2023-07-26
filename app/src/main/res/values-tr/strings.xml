@@ -218,8 +218,8 @@
     <string name="latest_version">Son Versiyon:</string>
     <string name="update_checking_failed">Güncelleme kontrolü başarısız!</string>
     <string name="not_available">Mevcut değil</string>
-    <string name="confirmation">Emin misiniz?</string>
-    <string name="you_will_loose_current_setup">Şu anki ayarlarınızı ve özelleştirmelerinizi kaybedeceksiniz.</string>
+    <string name="import_settings_confirmation_title">Emin misiniz?</string>
+    <string name="import_settings_confirmation_desc">Şu anki ayarlarınızı ve özelleştirmelerinizi kaybedeceksiniz.</string>
     <string name="positive">Evet</string>
     <string name="negative">Hayır</string>
     <string name="imported_settings">Ayarları içe aktarma başarılı</string>
@@ -344,7 +344,7 @@
     <string name="monet_fidelity">Uygun</string>
     <string name="monet_content">İçerik</string>
     <string name="app_not_found">Uygulama bulunamadı!</string>
-    <string name="monet_accent_saturation_title">Vurgu Doygunluğu</string>
+    <string name="monet_primary_accent_saturation_title">Vurgu Doygunluğu</string>
     <string name="monet_background_saturation_title">Arka Plan Doygunluğu</string>
     <string name="monet_background_lightness_title">Arka Plan Açıklığı</string>
     <string name="media_player_preview_music_title">Müzik Başlığı</string>

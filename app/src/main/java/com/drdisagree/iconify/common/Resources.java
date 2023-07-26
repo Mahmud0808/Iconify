@@ -34,4 +34,19 @@ public class Resources {
 
     // Xposed resource dir
     public static final String XPOSED_RESOURCE_TEMP_DIR = Environment.getExternalStorageDirectory() + "/.iconify_files";
+    public static final String LSCLOCK_FONT_DIR = XPOSED_RESOURCE_TEMP_DIR + "/lsclock_font.ttf";
+    public static final String HEADER_CLOCK_FONT_DIR = XPOSED_RESOURCE_TEMP_DIR + "/headerclock_font.ttf";
+    public static final String HEADER_IMAGE_DIR = XPOSED_RESOURCE_TEMP_DIR + "/header_image.png";
+
+    // Overlays
+    public static final String QSC_overlay = "IconifyComponentQSC.overlay";
+    public static final String QSNPT_overlay = "IconifyComponentQSNPT.overlay";
+    public static final String QSNT1_overlay = "IconifyComponentQSNT1.overlay";
+    public static final String QSNT2_overlay = "IconifyComponentQSNT2.overlay";
+    public static final String QSNT3_overlay = "IconifyComponentQSNT3.overlay";
+    public static final String QSNT4_overlay = "IconifyComponentQSNT4.overlay";
+    public static final String QSPT1_overlay = "IconifyComponentQSPT1.overlay";
+    public static final String QSPT2_overlay = "IconifyComponentQSPT2.overlay";
+    public static final String QSPT3_overlay = "IconifyComponentQSPT3.overlay";
+    public static final String QSPT4_overlay = "IconifyComponentQSPT4.overlay";
 }

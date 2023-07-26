@@ -10,8 +10,8 @@ import com.drdisagree.iconify.Iconify;
 
 public class Prefs {
 
-    static SharedPreferences pref = Iconify.getAppContext().getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
-    static SharedPreferences.Editor editor = pref.edit();
+    public static SharedPreferences prefs = Iconify.getAppContext().getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
+    static SharedPreferences.Editor editor = prefs.edit();
 
     // Save sharedPref config
     public static void putBoolean(String key, boolean val) {
@@ -32,40 +32,46 @@ public class Prefs {
 
     // Load sharedPref config
     public static boolean getBoolean(String key) {
-        return pref.getBoolean(key, false);
+        return prefs.getBoolean(key, false);
     }
 
     public static boolean getBoolean(String key, Boolean defValue) {
-        return pref.getBoolean(key, defValue);
+        return prefs.getBoolean(key, defValue);
     }
 
     public static int getInt(String key) {
-        return pref.getInt(key, 0);
+        return prefs.getInt(key, 0);
     }
 
     public static int getInt(String key, int defValue) {
-        return pref.getInt(key, defValue);
+        return prefs.getInt(key, defValue);
     }
 
     public static long getLong(String key) {
-        return pref.getLong(key, 0);
+        return prefs.getLong(key, 0);
     }
 
     public static long getLong(String key, long defValue) {
-        return pref.getLong(key, defValue);
+        return prefs.getLong(key, defValue);
     }
 
     public static String getString(String key) {
-        return pref.getString(key, STR_NULL);
+        return prefs.getString(key, STR_NULL);
     }
 
     public static String getString(String key, String defValue) {
-        return pref.getString(key, defValue);
+        return prefs.getString(key, defValue);
     }
 
     // Clear specific sharedPref config
     public static void clearPref(String key) {
         editor.remove(key).apply();
+    }
+
+    public static void clearPrefs(String... keys) {
+        for (String key : keys) {
+            editor.remove(key).apply();
+        }
     }
 
     // Clear all sharedPref config

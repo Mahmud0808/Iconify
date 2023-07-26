@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="qqs_layout_margin_top">9dp</dimen>
+    <dimen name="qs_header_row_min_height">48dp</dimen>
+    <dimen name="qs_panel_padding_top">12dp</dimen>
+    <dimen name="qs_panel_padding_top_combined_headers">12dp</dimen>
+</resources>

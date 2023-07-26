@@ -10,8 +10,8 @@ android {
         applicationId "com.drdisagree.iconify"
         minSdk 31
         targetSdk 34
-        versionCode 12
-        versionName "6.3.1"
+        versionCode 13
+        versionName "6.4.0"
         setProperty("archivesBaseName", "Iconify v" + versionName)
         buildConfigField "int", "MIN_SDK_VERSION", "$minSdkVersion.apiLevel"
 
@@ -70,8 +70,16 @@ android {
     }
 
     packagingOptions {
-        jniLibs.pickFirsts.add("src/main/jniLibs/**/**.so")
         jniLibs.useLegacyPackaging true
+        exclude '/META-INF/*'
+        exclude '/META-INF/versions/**'
+        exclude '/org/bouncycastle/**'
+        exclude '/kotlin/**'
+        exclude '/kotlinx/**'
+        exclude 'rebel.xml'
+        exclude '/*.txt'
+        exclude '/*.bin'
+        exclude '/*.json'
     }
 
     namespace 'com.drdisagree.iconify'
@@ -136,10 +144,6 @@ dependencies {
 
     // Lottie Animation
     implementation 'com.airbnb.android:lottie:6.0.1'
-
-    // Scalable dp snd sp
-    implementation 'com.intuit.sdp:sdp-android:1.1.0'
-    implementation 'com.intuit.ssp:ssp-android:1.1.0'
 
     // HTML Parser
     implementation 'org.jsoup:jsoup:1.16.1'

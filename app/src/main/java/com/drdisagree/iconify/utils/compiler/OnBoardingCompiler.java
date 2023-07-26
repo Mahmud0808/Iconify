@@ -6,10 +6,8 @@ import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readCertificate
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;
 import static com.drdisagree.iconify.utils.helpers.Logger.writeLog;
 
-import android.os.Build;
 import android.util.Log;
 
-import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.utils.apksigner.JarMap;

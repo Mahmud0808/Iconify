@@ -53,7 +53,7 @@ public class TileMonetEngine extends TileService {
         Tile customMonetTile = getQsTile();
         customMonetTile.setState(isCustomMonetEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
         customMonetTile.setLabel(getResources().getString(R.string.activity_title_monet_engine));
-        customMonetTile.setContentDescription(isCustomMonetEnabled ? getResources().getString(R.string.general_on) : getResources().getString(R.string.general_off));
+        customMonetTile.setSubtitle(isCustomMonetEnabled ? getResources().getString(R.string.general_on) : getResources().getString(R.string.general_off));
         customMonetTile.updateTile();
     }
 

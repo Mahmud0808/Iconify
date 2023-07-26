@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="settingslib_colorForeground">@*android:color/system_neutral1_50</color>
+    <color name="settingslib_colorBackground">@*android:color/system_neutral1_900</color>
+    <color name="settingslib_track_on_color_start">@*android:color/system_accent1_300</color>
+    <color name="settingslib_track_on_color_end">@*android:color/system_accent3_300</color>
+</resources>

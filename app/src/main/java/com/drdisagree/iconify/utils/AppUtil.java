@@ -7,7 +7,10 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -30,7 +33,7 @@ public class AppUtil {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     public static Drawable getAppIcon(String packageName) {
-        Drawable appIcon = Iconify.getAppContext().getResources().getDrawable(R.drawable.ic_android);
+        Drawable appIcon = ContextCompat.getDrawable(Iconify.getAppContext(), R.drawable.ic_android);
         try {
             appIcon = Iconify.getAppContext().getPackageManager().getApplicationIcon(packageName);
         } catch (PackageManager.NameNotFoundException ignored) {
@@ -70,7 +73,7 @@ public class AppUtil {
     }
 
     public static void restartApplication(Activity activity) {
-        new Handler().postDelayed(() -> {
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
             Intent intent = activity.getIntent();
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             activity.finish();

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="oval">
+                    <solid android:color="@color/settingslib_track_on_color_end" />
+                    <size
+                        android:width="22dp"
+                        android:height="22dp" />
+                </shape>
+            </item>
+            <item
+                android:bottom="2dp"
+                android:end="2dp"
+                android:start="2dp"
+                android:top="2dp">
+                <shape android:shape="oval">
+                    <solid android:color="@color/settingslib_colorBackground" />
+                    <size
+                        android:width="22dp"
+                        android:height="22dp" />
+                </shape>
+            </item>
+            <item
+                android:drawable="@drawable/ic_switch_thumb_power_on"
+                android:gravity="center" />
+        </layer-list>
+    </item>
+</layer-list>

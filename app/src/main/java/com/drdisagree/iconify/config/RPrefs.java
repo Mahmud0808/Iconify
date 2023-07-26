@@ -15,24 +15,24 @@ public class RPrefs {
     @SuppressLint("StaticFieldLeak")
     private static final Context prefContext = Iconify.getAppContext().createDeviceProtectedStorageContext();
 
-    static SharedPreferences prefs = prefContext.getSharedPreferences(SharedXPref, MODE_PRIVATE);
+    public static SharedPreferences prefs = prefContext.getSharedPreferences(SharedXPref, MODE_PRIVATE);
     static SharedPreferences.Editor editor = prefs.edit();
 
     // Save sharedPref config
     public static void putBoolean(String key, boolean val) {
-        editor.putBoolean(key, val).commit();
+        editor.putBoolean(key, val).apply();
     }
 
     public static void putInt(String key, int val) {
-        editor.putInt(key, val).commit();
+        editor.putInt(key, val).apply();
     }
 
     public static void putFloat(String key, float val) {
-        editor.putFloat(key, val).commit();
+        editor.putFloat(key, val).apply();
     }
 
     public static void putString(String key, String val) {
-        editor.putString(key, val).commit();
+        editor.putString(key, val).apply();
     }
 
     // Load sharedPref config
@@ -71,6 +71,12 @@ public class RPrefs {
     // Clear specific sharedPref config
     public static void clearPref(String key) {
         editor.remove(key).apply();
+    }
+
+    public static void clearPrefs(String... keys) {
+        for (String key : keys) {
+            editor.remove(key).apply();
+        }
     }
 
     // Clear all sharedPref config

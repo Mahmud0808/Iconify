@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_margin="@dimen/_20sdp"
+    android:layout_margin="28dp"
     android:background="@drawable/container"
     android:elevation="8dp"
     android:orientation="vertical"
@@ -14,15 +14,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_8sdp"
+        android:layout_marginBottom="12dp"
         android:orientation="horizontal"
         tools:ignore="UseCompoundDrawables">
 
         <ImageView
-            android:layout_width="@dimen/_18sdp"
-            android:layout_height="@dimen/_18sdp"
-            android:layout_marginTop="@dimen/_2sdp"
-            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="12dp"
             android:contentDescription="@string/icon"
             android:src="@drawable/ic_info"
             app:tint="@color/textColorPrimary" />
@@ -42,7 +42,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fadingEdgeLength="@dimen/_16sdp"
+        android:fadingEdgeLength="24dp"
         android:requiresFadingEdge="vertical">
 
         <TextView
@@ -61,8 +61,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_marginTop="@dimen/_6sdp"
-        android:layout_marginBottom="@dimen/_minus6sdp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="-8dp"
         android:background="@color/transparent"
         android:gravity="center"
         android:minWidth="0dp"

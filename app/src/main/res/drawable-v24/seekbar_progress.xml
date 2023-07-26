@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:autoMirrored="true">
-    <item android:height="@dimen/_16sdp">
+    <item android:height="24dp">
         <shape android:shape="rectangle">
-            <gradient
-                android:endColor="@color/holo_green_light"
-                android:startColor="@color/holo_blue_light" />
-            <size android:height="@dimen/_16sdp" />
-            <corners android:radius="@dimen/_8sdp" />
+            <solid android:color="@color/colorAccent" />
+            <size android:height="24dp" />
+            <corners android:radius="12dp" />
         </shape>
     </item>
     <item
-        android:height="@dimen/_10sdp"
         android:drawable="@drawable/seekbar_thumb"
-        android:end="4dp"
         android:gravity="end|center" />
 </layer-list>

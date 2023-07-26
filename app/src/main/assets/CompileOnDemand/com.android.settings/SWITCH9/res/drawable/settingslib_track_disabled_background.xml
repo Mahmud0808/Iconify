@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:alpha="?android:attr/disabledAlpha">
+        <shape
+            android:shape="rectangle"
+            android:tint="@color/settingslib_track_off_color">
+            <padding
+                android:left="6dp"
+                android:right="6dp" />
+            <gradient
+                android:angle="270.0"
+                android:endColor="#33FFFFFF"
+                android:startColor="#66FFFFFF" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+</layer-list>

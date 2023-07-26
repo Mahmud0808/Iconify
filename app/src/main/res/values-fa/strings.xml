@@ -199,8 +199,8 @@
     <string name="current_version">تسخه فعلی:</string>
     <string name="latest_version">آخرین نسخه:</string>
     <string name="update_checking_failed">بررسی برای آپدیت با موفقیت انجام نشد!</string>
-    <string name="confirmation">آیا مطمئن هستید?</string>
-    <string name="you_will_loose_current_setup">تنظمیات فعلی برنامه از بین خواهند رفت.</string>
+    <string name="import_settings_confirmation_title">آیا مطمئن هستید?</string>
+    <string name="import_settings_confirmation_desc">تنظمیات فعلی برنامه از بین خواهند رفت.</string>
     <string name="positive">بله</string>
     <string name="negative">خیر</string>
     <string name="imported_settings">بازگرداندن تنظیمات با موفقیت انجام شد</string>

@@ -12,68 +12,64 @@ import static com.drdisagree.iconify.common.References.FABRICATED_QS_TILE;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
-import android.widget.Button;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.databinding.ActivityQsRowColumnBinding;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 
 public class QsRowColumn extends BaseActivity {
 
-    LoadingDialog loadingDialog;
+    private ActivityQsRowColumnBinding binding;
+    private LoadingDialog loadingDialog;
 
     public static void applyRowColumn() {
-        FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_QQS_ROW, "integer", "quick_qs_panel_max_rows", String.valueOf(Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW)) + 1));
-        FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_QS_ROW, "integer", "quick_settings_max_rows", String.valueOf(Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW)) + 1));
-        FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_QS_COLUMN, "integer", "quick_settings_num_columns", String.valueOf(Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1));
-        FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_QQS_TILE, "integer", "quick_qs_panel_max_tiles", String.valueOf((Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW)) + 1) * (Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1)));
-        FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_QS_TILE, "integer", "quick_settings_min_num_tiles", String.valueOf((Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1) * (Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW)) + 1)));
+        FabricatedUtil.buildAndEnableOverlays(
+                new Object[]{SYSTEMUI_PACKAGE, FABRICATED_QQS_ROW, "integer", "quick_qs_panel_max_rows", String.valueOf(Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW)) + 1)},
+                new Object[]{SYSTEMUI_PACKAGE, FABRICATED_QS_ROW, "integer", "quick_settings_max_rows", String.valueOf(Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW)) + 1)},
+                new Object[]{SYSTEMUI_PACKAGE, FABRICATED_QS_COLUMN, "integer", "quick_settings_num_columns", String.valueOf(Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1)},
+                new Object[]{SYSTEMUI_PACKAGE, FABRICATED_QQS_TILE, "integer", "quick_qs_panel_max_tiles", String.valueOf((Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW)) + 1) * (Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1))},
+                new Object[]{SYSTEMUI_PACKAGE, FABRICATED_QS_TILE, "integer", "quick_settings_min_num_tiles", String.valueOf((Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1) * (Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW)) + 1))}
+        );
     }
 
     public static void resetRowColumn() {
-        FabricatedUtil.disableOverlay(FABRICATED_QQS_ROW);
-        FabricatedUtil.disableOverlay(FABRICATED_QS_ROW);
-        FabricatedUtil.disableOverlay(FABRICATED_QS_COLUMN);
-        FabricatedUtil.disableOverlay(FABRICATED_QQS_TILE);
-        FabricatedUtil.disableOverlay(FABRICATED_QS_TILE);
+        FabricatedUtil.disableOverlays(FABRICATED_QQS_ROW, FABRICATED_QS_ROW, FABRICATED_QS_COLUMN, FABRICATED_QQS_TILE, FABRICATED_QS_TILE);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qs_row_column);
+        binding = ActivityQsRowColumnBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_qs_row_column);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_qs_row_column);
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
 
         // Quick QsPanel Row
-
-        SeekBar qqs_row_seekbar = findViewById(R.id.qqs_row_seekbar);
-        TextView qqs_row_output = findViewById(R.id.qqs_row_output);
         final int[] finalQqsRow = {1};
 
         if (!Prefs.getString(FABRICATED_QQS_ROW).equals(STR_NULL)) {
-            qqs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW)) + 1));
+            binding.qqsRowOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW)) + 1));
             finalQqsRow[0] = Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW));
-            qqs_row_seekbar.setProgress(finalQqsRow[0]);
-        } else qqs_row_output.setText(getResources().getString(R.string.opt_selected) + " 2");
+            binding.qqsRowSeekbar.setProgress(finalQqsRow[0]);
+        } else binding.qqsRowOutput.setText(getResources().getString(R.string.opt_selected) + " 2");
 
-        qqs_row_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.qqsRowSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 finalQqsRow[0] = progress;
-                qqs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 1));
+                binding.qqsRowOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 1));
             }
 
             @Override
@@ -86,22 +82,19 @@ public class QsRowColumn extends BaseActivity {
         });
 
         // QsPanel Row
-
-        SeekBar qs_row_seekbar = findViewById(R.id.qs_row_seekbar);
-        TextView qs_row_output = findViewById(R.id.qs_row_output);
         final int[] finalQsRow = {3};
 
         if (!Prefs.getString(FABRICATED_QS_ROW).equals(STR_NULL)) {
-            qs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW)) + 1));
+            binding.qsRowOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW)) + 1));
             finalQsRow[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW));
-            qs_row_seekbar.setProgress(finalQsRow[0]);
-        } else qs_row_output.setText(getResources().getString(R.string.opt_selected) + " 4");
+            binding.qsRowSeekbar.setProgress(finalQsRow[0]);
+        } else binding.qsRowOutput.setText(getResources().getString(R.string.opt_selected) + " 4");
 
-        qs_row_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.qsRowSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 finalQsRow[0] = progress;
-                qs_row_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 1));
+                binding.qsRowOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 1));
             }
 
             @Override
@@ -114,22 +107,20 @@ public class QsRowColumn extends BaseActivity {
         });
 
         // QsPanel Column
-
-        SeekBar qs_column_seekbar = findViewById(R.id.qs_column_seekbar);
-        TextView qs_column_output = findViewById(R.id.qs_column_output);
         final int[] finalQsColumn = {1};
 
         if (!Prefs.getString(FABRICATED_QS_COLUMN).equals(STR_NULL)) {
-            qs_column_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1));
+            binding.qsColumnOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1));
             finalQsColumn[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN));
-            qs_column_seekbar.setProgress(finalQsColumn[0]);
-        } else qs_column_output.setText(getResources().getString(R.string.opt_selected) + " 2");
+            binding.qsColumnSeekbar.setProgress(finalQsColumn[0]);
+        } else
+            binding.qsColumnOutput.setText(getResources().getString(R.string.opt_selected) + " 2");
 
-        qs_column_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.qsColumnSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 finalQsColumn[0] = progress;
-                qs_column_output.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 1));
+                binding.qsColumnOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 1));
             }
 
             @Override
@@ -141,14 +132,8 @@ public class QsRowColumn extends BaseActivity {
             }
         });
 
-        // Apply button declaration
-        Button qs_row_column_apply = findViewById(R.id.qs_row_column_apply);
-
-        // Reset button declaration
-        Button qs_row_column_reset = findViewById(R.id.qs_row_column_reset);
-
         // Apply button
-        qs_row_column_apply.setOnClickListener(v -> {
+        binding.qsRowColumnApply.setOnClickListener(v -> {
             // Show loading dialog
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
@@ -165,14 +150,14 @@ public class QsRowColumn extends BaseActivity {
 
                 runOnUiThread(() -> {
 
-                    new Handler().postDelayed(() -> {
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
                         // Hide loading dialog
                         loadingDialog.hide();
 
                         // Reset button visibility
-                        qs_row_column_reset.setVisibility(View.VISIBLE);
+                        binding.qsRowColumnReset.setVisibility(View.VISIBLE);
 
-                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                     }, 2000);
                 });
             };
@@ -181,10 +166,11 @@ public class QsRowColumn extends BaseActivity {
         });
 
         // Reset button
-        if (Prefs.getBoolean(QS_ROW_COLUMN_SWITCH)) qs_row_column_reset.setVisibility(View.VISIBLE);
-        else qs_row_column_reset.setVisibility(View.GONE);
+        if (Prefs.getBoolean(QS_ROW_COLUMN_SWITCH))
+            binding.qsRowColumnReset.setVisibility(View.VISIBLE);
+        else binding.qsRowColumnReset.setVisibility(View.GONE);
 
-        qs_row_column_reset.setOnClickListener(v -> {
+        binding.qsRowColumnReset.setOnClickListener(v -> {
             // Show loading dialog
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
@@ -194,14 +180,14 @@ public class QsRowColumn extends BaseActivity {
                 runOnUiThread(() -> {
                     Prefs.putBoolean(QS_ROW_COLUMN_SWITCH, false);
 
-                    new Handler().postDelayed(() -> {
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
                         // Hide loading dialog
                         loadingDialog.hide();
 
                         // Reset button visibility
-                        qs_row_column_reset.setVisibility(View.GONE);
+                        binding.qsRowColumnReset.setVisibility(View.GONE);
 
-                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_reset), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_reset), Toast.LENGTH_SHORT).show();
                     }, 2000);
                 });
             };

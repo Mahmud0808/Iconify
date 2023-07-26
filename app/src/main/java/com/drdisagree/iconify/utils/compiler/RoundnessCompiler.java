@@ -21,8 +21,11 @@ public class RoundnessCompiler {
     private static final String TAG = "RoundnessCompiler";
     private static final String[] mPackages = {FRAMEWORK_PACKAGE, SYSTEMUI_PACKAGE};
     private static final String[] mOverlayName = {"CR1", "CR2"};
+    private static boolean mEnable = false;
 
-    public static boolean buildOverlay(String[] resources) throws IOException {
+    public static boolean buildOverlay(String[] resources, boolean enable) throws IOException {
+        mEnable = enable;
+
         preExecute();
 
         for (int i = 0; i < 2; i++) {
@@ -86,8 +89,13 @@ public class RoundnessCompiler {
         Shell.cmd("mkdir -p " + Resources.SIGNED_DIR).exec();
 
         // Disable the overlay in case it is already enabled
-        for (String overlayName : mOverlayName)
-            OverlayUtil.disableOverlay("IconifyComponent" + overlayName + ".overlay");
+        if (mEnable) {
+            String[] overlayNames = new String[mOverlayName.length];
+            for (int i = 1; i <= mOverlayName.length; i++) {
+                overlayNames[i - 1] = "IconifyComponentCR" + i + ".overlay";
+            }
+            OverlayUtil.disableOverlays(overlayNames);
+        }
     }
 
     private static void postExecute(boolean hasErroredOut) {
@@ -96,6 +104,7 @@ public class RoundnessCompiler {
             for (String overlayName : mOverlayName) {
                 Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponent" + overlayName + ".apk " + Resources.OVERLAY_DIR + "/IconifyComponent" + overlayName + ".apk").exec();
                 RootUtil.setPermissions(644, Resources.OVERLAY_DIR + "/IconifyComponent" + overlayName + ".apk");
+                Shell.cmd("pm install -r " + Resources.OVERLAY_DIR + "/IconifyComponent" + overlayName + ".apk").exec();
             }
 
             SystemUtil.mountRW();
@@ -105,8 +114,14 @@ public class RoundnessCompiler {
             }
             SystemUtil.mountRO();
 
-            for (String overlayName : mOverlayName)
-                OverlayUtil.enableOverlay("IconifyComponent" + overlayName + ".overlay");
+            // Enable the overlays
+            if (mEnable) {
+                String[] overlayNames = new String[mOverlayName.length];
+                for (int i = 1; i <= mOverlayName.length; i++) {
+                    overlayNames[i - 1] = "IconifyComponentCR" + i + ".overlay";
+                }
+                OverlayUtil.enableOverlays(overlayNames);
+            }
         }
 
         // Clean temp directory

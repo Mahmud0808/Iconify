@@ -10,18 +10,16 @@ import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECO
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.util.TypedValue;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.ui.activities.Onboarding;
 import com.drdisagree.iconify.utils.helpers.BackupRestore;
 import com.drdisagree.iconify.utils.helpers.BinaryInstaller;
-import com.drdisagree.iconify.utils.helpers.TypedValueUtil;
 import com.topjohnwu.superuser.Shell;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +28,7 @@ public class ModuleUtil {
     private static final String TAG = "ModuleUtil";
     private static final List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
 
-    public static void handleModule() throws IOException {
+    public static void handleModule() {
         if (moduleExists()) {
             // Backup necessary files
             BackupRestore.backupFiles();
@@ -48,7 +46,11 @@ public class ModuleUtil {
         Shell.cmd("printf 'id=Iconify\nname=Iconify\nversion=" + BuildConfig.VERSION_NAME + "\nversionCode=" + BuildConfig.VERSION_CODE + "\nauthor=@DrDisagree\ndescription=Systemless module for Iconify.\n' > " + Resources.MODULE_DIR + "/module.prop").exec();
         Shell.cmd("mkdir -p " + Resources.MODULE_DIR + "/common").exec();
         Shell.cmd("printf 'MODDIR=${0%%/*}\n\n' > " + Resources.MODULE_DIR + "/post-fs-data.sh").exec();
-        Shell.cmd("printf 'MODDIR=${0%%/*}\n\nwhile [ \"$(getprop sys.boot_completed | tr -d \"\\r\")\" != \"1\" ]\ndo\n sleep 1\ndone\nsleep 5\n\nsh $MODDIR/post-exec.sh\n\n" + (Prefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false) ? "killall " + SYSTEMUI_PACKAGE + "\n" : "") + "sleep 6\n\nqspbd=$(cmd overlay list |  grep -E \"^.x..IconifyComponentQSPBD.overlay\" | sed -E \"s/^.x..//\")\ndm=$(cmd overlay list |  grep -E \"^.x..IconifyComponentDM.overlay\" | sed -E \"s/^.x..//\")\nif ([ ! -z \"$qspbd\" ] && [ -z \"$dm\" ])\nthen\n cmd overlay disable --user current IconifyComponentQSPBD.overlay\n cmd overlay enable --user current IconifyComponentQSPBD.overlay\n cmd overlay set-priority IconifyComponentQSPBD.overlay highest\nfi\n\nqspba=$(cmd overlay list |  grep -E \"^.x..IconifyComponentQSPBA.overlay\" | sed -E \"s/^.x..//\")\ndm=$(cmd overlay list |  grep -E \"^.x..IconifyComponentDM.overlay\" | sed -E \"s/^.x..//\")\nif ([ ! -z \"$qspba\" ] && [ -z \"$dm\" ])\nthen\n cmd overlay disable --user current IconifyComponentQSPBA.overlay\n cmd overlay enable --user current IconifyComponentQSPBA.overlay\n cmd overlay set-priority IconifyComponentQSPBA.overlay highest\nfi\n\n' > " + Resources.MODULE_DIR + "/service.sh").exec();
+        if (!Onboarding.skippedInstallation) {
+            Shell.cmd("printf 'MODDIR=${0%%/*}\n\nwhile [ \"$(getprop sys.boot_completed | tr -d \"\\r\")\" != \"1\" ]\ndo\n sleep 1\ndone\nsleep 5\n\nsh $MODDIR/post-exec.sh\n\nuntil [ -d /storage/emulated/0/Android ]; do\n  sleep 1\ndone\nsleep 3\n\n" + (Prefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false) ? "killall " + SYSTEMUI_PACKAGE + "\n" : "") + "sleep 6\n\nqspbd=$(cmd overlay list |  grep -E \"^.x..IconifyComponentQSPBD.overlay\" | sed -E \"s/^.x..//\")\ndm=$(cmd overlay list |  grep -E \"^.x..IconifyComponentDM.overlay\" | sed -E \"s/^.x..//\")\nif ([ ! -z \"$qspbd\" ] && [ -z \"$dm\" ])\nthen\n cmd overlay disable --user current IconifyComponentQSPBD.overlay\n cmd overlay enable --user current IconifyComponentQSPBD.overlay\n cmd overlay set-priority IconifyComponentQSPBD.overlay highest\nfi\n\nqspba=$(cmd overlay list |  grep -E \"^.x..IconifyComponentQSPBA.overlay\" | sed -E \"s/^.x..//\")\ndm=$(cmd overlay list |  grep -E \"^.x..IconifyComponentDM.overlay\" | sed -E \"s/^.x..//\")\nif ([ ! -z \"$qspba\" ] && [ -z \"$dm\" ])\nthen\n cmd overlay disable --user current IconifyComponentQSPBA.overlay\n cmd overlay enable --user current IconifyComponentQSPBA.overlay\n cmd overlay set-priority IconifyComponentQSPBA.overlay highest\nfi\n\n' > " + Resources.MODULE_DIR + "/service.sh").exec();
+        } else {
+            Shell.cmd("printf 'MODDIR=${0%%/*}\n\nwhile [ \"$(getprop sys.boot_completed | tr -d \"\\r\")\" != \"1\" ]\ndo\n sleep 1\ndone\nsleep 5\n\nsh $MODDIR/post-exec.sh\n\n' > " + Resources.MODULE_DIR + "/service.sh").exec();
+        }
         Shell.cmd("touch " + Resources.MODULE_DIR + "/common/system.prop").exec();
         Shell.cmd("touch " + Resources.MODULE_DIR + "/auto_mount").exec();
         Shell.cmd("mkdir -p " + Resources.MODULE_DIR + "/system").exec();
@@ -77,22 +79,26 @@ public class ModuleUtil {
         SharedPreferences prefs = Iconify.getAppContext().getSharedPreferences(Iconify.getAppContext().getPackageName(), Context.MODE_PRIVATE);
         Map<String, ?> map = prefs.getAll();
         for (Map.Entry<String, ?> item : map.entrySet()) {
-            if (item.getValue() instanceof Boolean && ((Boolean) item.getValue()) && item.getKey().contains("fabricated") && !item.getKey().contains("quickQsOffsetHeight")) {
-                post_exec.append(buildFabricatedCommand(Prefs.getString("FOCMDtarget" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDname" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDtype" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDresourceName" + item.getKey().replace("fabricated", "")), Prefs.getString("FOCMDval" + item.getKey().replace("fabricated", "")))).append('\n');
-                if (item.getKey().contains(COLOR_ACCENT_PRIMARY)) primaryColorEnabled = true;
-                else if (item.getKey().contains(COLOR_ACCENT_SECONDARY))
+            if (item.getValue() instanceof Boolean && ((Boolean) item.getValue()) && item.getKey().startsWith("fabricated")) {
+                String name = item.getKey().replace("fabricated", "");
+                List<String> commands = FabricatedUtil.buildCommands(Prefs.getString("FOCMDtarget" + name), Prefs.getString("FOCMDname" + name), Prefs.getString("FOCMDtype" + name), Prefs.getString("FOCMDresourceName" + name), Prefs.getString("FOCMDval" + name));
+                post_exec.append(commands.get(0)).append('\n').append(commands.get(1)).append('\n');
+
+                if (name.contains(COLOR_ACCENT_PRIMARY))
+                    primaryColorEnabled = true;
+                else if (name.contains(COLOR_ACCENT_SECONDARY))
                     secondaryColorEnabled = true;
             }
         }
 
-        if (!primaryColorEnabled && shouldUseDefaultColors()) {
+        if (!primaryColorEnabled && shouldUseDefaultColors() && !Onboarding.skippedInstallation) {
             post_exec.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimary android:color/holo_blue_light 0x1c " + ICONIFY_COLOR_ACCENT_PRIMARY + "\n");
             post_exec.append("cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentPrimary\n");
             post_exec.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimaryLight android:color/holo_blue_dark 0x1c " + ICONIFY_COLOR_ACCENT_PRIMARY + "\n");
             post_exec.append("cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentPrimaryLight\n");
         }
 
-        if (!secondaryColorEnabled && shouldUseDefaultColors()) {
+        if (!secondaryColorEnabled && shouldUseDefaultColors() && !Onboarding.skippedInstallation) {
             post_exec.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary android:color/holo_green_light 0x1c " + ICONIFY_COLOR_ACCENT_SECONDARY + "\n");
             post_exec.append("cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentSecondary\n");
             post_exec.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondaryLight android:color/holo_green_dark 0x1c " + ICONIFY_COLOR_ACCENT_SECONDARY + "\n");
@@ -122,57 +128,5 @@ public class ModuleUtil {
         } catch (Exception e) {
             Log.e(TAG, "Failed to extract pre-made overlays.\n" + e);
         }
-    }
-
-    public static String buildFabricatedCommand(String target, String name, String type, String resourceName, String val) {
-        String resourceType = "0x1c";
-
-        if (target.equals("systemui") || target.equals("sysui")) target = "com.android.systemui";
-
-        switch (type) {
-            case "color":
-                resourceType = "0x1c";
-                break;
-            case "dimen":
-                resourceType = "0x05";
-                break;
-            case "bool":
-                resourceType = "0x12";
-                break;
-            case "integer":
-                resourceType = "0x10";
-                break;
-        }
-
-        if (type.equals("dimen")) {
-            int valType = 1;
-
-            if (val.contains("dp") || val.contains("dip")) {
-                valType = TypedValue.COMPLEX_UNIT_DIP;
-                val = val.replace("dp", "").replace("dip", "");
-            } else if (val.contains("sp")) {
-                valType = TypedValue.COMPLEX_UNIT_SP;
-                val = val.replace("sp", "");
-            } else if (val.contains("px")) {
-                valType = TypedValue.COMPLEX_UNIT_PX;
-                val = val.replace("px", "");
-            } else if (val.contains("in")) {
-                valType = TypedValue.COMPLEX_UNIT_IN;
-                val = val.replace("in", "");
-            } else if (val.contains("pt")) {
-                valType = TypedValue.COMPLEX_UNIT_PT;
-                val = val.replace("pt", "");
-            } else if (val.contains("mm")) {
-                valType = TypedValue.COMPLEX_UNIT_MM;
-                val = val.replace("mm", "");
-            }
-
-            val = String.valueOf(TypedValueUtil.createComplexDimension(Integer.parseInt(val), valType));
-        }
-
-        String build_cmd = "cmd overlay fabricate --target " + target + " --name IconifyComponent" + name + " " + target + ":" + type + "/" + resourceName + " " + resourceType + " " + val;
-        String enable_cmd = "cmd overlay enable --user current com.android.shell:IconifyComponent" + name;
-
-        return build_cmd + '\n' + enable_cmd;
     }
 }

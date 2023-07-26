@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="@dimen/switch_track_width"
+    android:height="@dimen/switch_track_height"
+    android:shape="rectangle"
+    android:tint="@color/switch_track_on_tint">
+    <padding
+        android:left="@dimen/switch_thumb_margin"
+        android:right="@dimen/switch_thumb_margin" />
+    <solid android:color="@color/switch_track_on_color" />
+    <corners android:radius="@dimen/switch_track_radius" />
+</shape>

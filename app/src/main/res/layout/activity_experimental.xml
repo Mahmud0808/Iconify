@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    android:fillViewport="true"
+    android:fitsSystemWindows="true"
     tools:context=".ui.activities.Experimental">
 
     <androidx.core.widget.NestedScrollView
@@ -27,8 +27,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/container_margin"
-                android:background="@drawable/container"
+                android:background="@drawable/container_top"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/container_paddingSide"
                 android:paddingTop="@dimen/container_padding"
@@ -46,7 +45,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Placeholder Title"
+                        android:text="Overlap Header Image"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="@dimen/cont_title_size"
                         android:textStyle="bold" />
@@ -54,14 +53,59 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Placeholder Description"
+                        android:text="Overlap header image on expanded QS"
                         android:textColor="@color/textColorSecondary"
                         android:textSize="@dimen/cont_desc_size" />
 
                 </LinearLayout>
 
                 <Switch
-                    android:id="@+id/enable_placeholder"
+                    android:id="@+id/header_image_overlap"
+                    style="@style/customSwitch"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            </LinearLayout>
+
+            <View style="@style/dividerTransparent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/container_margin"
+                android:background="@drawable/container_bottom"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/container_paddingSide"
+                android:paddingTop="@dimen/container_padding"
+                android:paddingEnd="@dimen/container_paddingSide"
+                android:paddingBottom="@dimen/container_padding">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center"
+                    android:layout_marginEnd="@dimen/container_padding"
+                    android:layout_weight="1.0"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hide_data_disabled_icon_title"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/cont_title_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hide_data_disabled_icon_desc"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="@dimen/cont_desc_size" />
+
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/hide_data_disabled_icon"
                     style="@style/customSwitch"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 
@@ -69,6 +113,8 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <include layout="@layout/view_header" />
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

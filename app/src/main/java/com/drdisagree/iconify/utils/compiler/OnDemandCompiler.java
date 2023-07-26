@@ -20,11 +20,13 @@ public class OnDemandCompiler {
     private static String mOverlayName = null;
     private static String mPackage = null;
     private static int mStyle = 0;
+    private static boolean mEnable = false;
 
-    public static boolean buildOverlay(String overlay_name, int style, String package_name) throws IOException {
+    public static boolean buildOverlay(String overlay_name, int style, String package_name, boolean enable) throws IOException {
         mOverlayName = overlay_name;
         mPackage = package_name;
         mStyle = style;
+        mEnable = enable;
 
         preExecute();
         moveOverlaysToCache();
@@ -82,7 +84,9 @@ public class OnDemandCompiler {
         Shell.cmd("mkdir -p " + Resources.TEMP_CACHE_DIR + "/" + mPackage + "/").exec();
 
         // Disable the overlay in case it is already enabled
-        OverlayUtil.disableOverlay("IconifyComponent" + mOverlayName + ".overlay");
+        if (mEnable) {
+            OverlayUtil.disableOverlay("IconifyComponent" + mOverlayName + ".overlay");
+        }
     }
 
     private static void postExecute(boolean hasErroredOut) {
@@ -90,13 +94,16 @@ public class OnDemandCompiler {
         if (!hasErroredOut) {
             Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponent" + mOverlayName + ".apk " + Resources.OVERLAY_DIR + "/IconifyComponent" + mOverlayName + ".apk").exec();
             RootUtil.setPermissions(644, Resources.OVERLAY_DIR + "/IconifyComponent" + mOverlayName + ".apk");
+            Shell.cmd("pm install -r " + Resources.OVERLAY_DIR + "/IconifyComponent" + mOverlayName + ".apk").exec();
 
             SystemUtil.mountRW();
             Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponent" + mOverlayName + ".apk " + "/system/product/overlay/IconifyComponent" + mOverlayName + ".apk").exec();
             RootUtil.setPermissions(644, "/system/product/overlay/IconifyComponent" + mOverlayName + ".apk");
             SystemUtil.mountRO();
 
-            OverlayUtil.enableOverlay("IconifyComponent" + mOverlayName + ".overlay");
+            if (mEnable) {
+                OverlayUtil.enableOverlay("IconifyComponent" + mOverlayName + ".overlay");
+            }
         }
 
         // Clean temp directory

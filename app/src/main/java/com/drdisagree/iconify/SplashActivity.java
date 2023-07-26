@@ -1,7 +1,6 @@
 package com.drdisagree.iconify;
 
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
-import static com.drdisagree.iconify.utils.SystemUtil.isDarkMode;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -13,7 +12,7 @@ import androidx.core.splashscreen.SplashScreen;
 import com.airbnb.lottie.LottieCompositionFactory;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.activities.HomePage;
-import com.drdisagree.iconify.ui.activities.OnBoardingScreen1;
+import com.drdisagree.iconify.ui.activities.Onboarding;
 import com.drdisagree.iconify.utils.ModuleUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.RootUtil;
@@ -40,7 +39,7 @@ public class SplashActivity extends AppCompatActivity {
             intent = new Intent(SplashActivity.this, HomePage.class);
         } else {
             keepShowing = false;
-            intent = new Intent(SplashActivity.this, OnBoardingScreen1.class);
+            intent = new Intent(SplashActivity.this, Onboarding.class);
         }
 
         startActivity(intent);
@@ -59,15 +58,9 @@ public class SplashActivity extends AppCompatActivity {
         thread.start();
 
         new Thread(() -> {
-            if (!isDarkMode()) {
-                LottieCompositionFactory.fromRawRes(this, R.raw.anim_view_one_day);
-                LottieCompositionFactory.fromRawRes(this, R.raw.anim_view_two_day);
-                LottieCompositionFactory.fromRawRes(this, R.raw.anim_view_three_day);
-            } else {
-                LottieCompositionFactory.fromRawRes(this, R.raw.anim_view_one_night);
-                LottieCompositionFactory.fromRawRes(this, R.raw.anim_view_two_night);
-                LottieCompositionFactory.fromRawRes(this, R.raw.anim_view_three_night);
-            }
+            LottieCompositionFactory.fromRawRes(this, R.raw.onboarding_lottie_1);
+            LottieCompositionFactory.fromRawRes(this, R.raw.onboarding_lottie_2);
+            LottieCompositionFactory.fromRawRes(this, R.raw.onboarding_lottie_3);
         }).start();
     }
 }

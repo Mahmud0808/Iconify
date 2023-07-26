@@ -9,16 +9,14 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.databinding.ActivityQsTileSizeBinding;
 import com.drdisagree.iconify.overlaymanager.QsTileHeightManager;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
@@ -30,39 +28,38 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class QsTileSize extends BaseActivity {
 
-    LoadingDialog loadingDialog;
+    private ActivityQsTileSizeBinding binding;
+    private LoadingDialog loadingDialog;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qs_tile_size);
+        binding = ActivityQsTileSizeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_qs_tile_size);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_qs_tile_size);
 
         // Show loading dialog
         loadingDialog = new LoadingDialog(this);
 
         // Portrait Nonexpanded height
-        SeekBar port_nonexpanded_height_seekbar = findViewById(R.id.port_nonexpanded_height_seekbar);
-        TextView port_nonexpanded_height_output = findViewById(R.id.port_nonexpanded_height_output);
-        port_nonexpanded_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(PORT_QSTILE_NONEXPANDED_HEIGHT, 60) + "dp");
-        port_nonexpanded_height_seekbar.setProgress(Prefs.getInt(PORT_QSTILE_NONEXPANDED_HEIGHT, 60));
+        binding.portNonexpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(PORT_QSTILE_NONEXPANDED_HEIGHT, 60) + "dp");
+        binding.portNonexpandedHeightSeekbar.setProgress(Prefs.getInt(PORT_QSTILE_NONEXPANDED_HEIGHT, 60));
 
         // Reset button
-        ImageView reset_port_nonexpanded_height = findViewById(R.id.reset_port_nonexpanded_height);
-        reset_port_nonexpanded_height.setVisibility(Prefs.getInt(PORT_QSTILE_NONEXPANDED_HEIGHT, 60) == 60 ? View.INVISIBLE : View.VISIBLE);
+        binding.resetPortNonexpandedHeight.setVisibility(Prefs.getInt(PORT_QSTILE_NONEXPANDED_HEIGHT, 60) == 60 ? View.INVISIBLE : View.VISIBLE);
         int[] portNonExpandedHeight = new int[]{Prefs.getInt(PORT_QSTILE_NONEXPANDED_HEIGHT, 60)};
 
-        reset_port_nonexpanded_height.setOnLongClickListener(v -> {
+        binding.resetPortNonexpandedHeight.setOnLongClickListener(v -> {
             portNonExpandedHeight[0] = 60;
-            port_nonexpanded_height_seekbar.setProgress(60);
-            reset_port_nonexpanded_height.setVisibility(View.INVISIBLE);
+            binding.portNonexpandedHeightSeekbar.setProgress(60);
+            binding.resetPortNonexpandedHeight.setVisibility(View.INVISIBLE);
             return true;
         });
 
-        port_nonexpanded_height_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.portNonexpandedHeightSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
@@ -70,35 +67,33 @@ public class QsTileSize extends BaseActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 portNonExpandedHeight[0] = progress;
-                if (progress == 60) reset_port_nonexpanded_height.setVisibility(View.INVISIBLE);
-                port_nonexpanded_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+                if (progress == 60)
+                    binding.resetPortNonexpandedHeight.setVisibility(View.INVISIBLE);
+                binding.portNonexpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                reset_port_nonexpanded_height.setVisibility(portNonExpandedHeight[0] == 60 ? View.INVISIBLE : View.VISIBLE);
+                binding.resetPortNonexpandedHeight.setVisibility(portNonExpandedHeight[0] == 60 ? View.INVISIBLE : View.VISIBLE);
             }
         });
 
         // Portrait Expanded height
-        SeekBar port_expanded_height_seekbar = findViewById(R.id.port_expanded_height_seekbar);
-        TextView port_expanded_height_output = findViewById(R.id.port_expanded_height_output);
-        port_expanded_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(PORT_QSTILE_EXPANDED_HEIGHT, 80) + "dp");
-        port_expanded_height_seekbar.setProgress(Prefs.getInt(PORT_QSTILE_EXPANDED_HEIGHT, 80));
+        binding.portExpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(PORT_QSTILE_EXPANDED_HEIGHT, 80) + "dp");
+        binding.portExpandedHeightSeekbar.setProgress(Prefs.getInt(PORT_QSTILE_EXPANDED_HEIGHT, 80));
 
         // Reset button
-        ImageView reset_port_expanded_height = findViewById(R.id.reset_port_expanded_height);
-        reset_port_expanded_height.setVisibility(Prefs.getInt(PORT_QSTILE_EXPANDED_HEIGHT, 80) == 80 ? View.INVISIBLE : View.VISIBLE);
+        binding.resetPortExpandedHeight.setVisibility(Prefs.getInt(PORT_QSTILE_EXPANDED_HEIGHT, 80) == 80 ? View.INVISIBLE : View.VISIBLE);
         int[] portExpandedHeight = new int[]{Prefs.getInt(PORT_QSTILE_EXPANDED_HEIGHT, 80)};
 
-        reset_port_expanded_height.setOnLongClickListener(v -> {
+        binding.resetPortExpandedHeight.setOnLongClickListener(v -> {
             portExpandedHeight[0] = 80;
-            port_expanded_height_seekbar.setProgress(80);
-            reset_port_expanded_height.setVisibility(View.INVISIBLE);
+            binding.portExpandedHeightSeekbar.setProgress(80);
+            binding.resetPortExpandedHeight.setVisibility(View.INVISIBLE);
             return true;
         });
 
-        port_expanded_height_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.portExpandedHeightSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
@@ -106,35 +101,32 @@ public class QsTileSize extends BaseActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 portExpandedHeight[0] = progress;
-                if (progress == 80) reset_port_expanded_height.setVisibility(View.INVISIBLE);
-                port_expanded_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+                if (progress == 80) binding.resetPortExpandedHeight.setVisibility(View.INVISIBLE);
+                binding.portExpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                reset_port_expanded_height.setVisibility(portExpandedHeight[0] == 80 ? View.INVISIBLE : View.VISIBLE);
+                binding.resetPortExpandedHeight.setVisibility(portExpandedHeight[0] == 80 ? View.INVISIBLE : View.VISIBLE);
             }
         });
 
         // Landscape Nonexpanded height
-        SeekBar land_nonexpanded_height_seekbar = findViewById(R.id.land_nonexpanded_height_seekbar);
-        TextView land_nonexpanded_height_output = findViewById(R.id.land_nonexpanded_height_output);
-        land_nonexpanded_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(LAND_QSTILE_NONEXPANDED_HEIGHT, 60) + "dp");
-        land_nonexpanded_height_seekbar.setProgress(Prefs.getInt(LAND_QSTILE_NONEXPANDED_HEIGHT, 60));
+        binding.landNonexpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(LAND_QSTILE_NONEXPANDED_HEIGHT, 60) + "dp");
+        binding.landNonexpandedHeightSeekbar.setProgress(Prefs.getInt(LAND_QSTILE_NONEXPANDED_HEIGHT, 60));
 
         // Reset button
-        ImageView reset_land_nonexpanded_height = findViewById(R.id.reset_land_nonexpanded_height);
-        reset_land_nonexpanded_height.setVisibility(Prefs.getInt(LAND_QSTILE_NONEXPANDED_HEIGHT, 60) == 60 ? View.INVISIBLE : View.VISIBLE);
+        binding.resetLandNonexpandedHeight.setVisibility(Prefs.getInt(LAND_QSTILE_NONEXPANDED_HEIGHT, 60) == 60 ? View.INVISIBLE : View.VISIBLE);
         int[] landNonExpandedHeight = new int[]{Prefs.getInt(LAND_QSTILE_NONEXPANDED_HEIGHT, 60)};
 
-        reset_land_nonexpanded_height.setOnLongClickListener(v -> {
+        binding.resetLandNonexpandedHeight.setOnLongClickListener(v -> {
             landNonExpandedHeight[0] = 60;
-            land_nonexpanded_height_seekbar.setProgress(60);
-            reset_land_nonexpanded_height.setVisibility(View.INVISIBLE);
+            binding.landNonexpandedHeightSeekbar.setProgress(60);
+            binding.resetLandNonexpandedHeight.setVisibility(View.INVISIBLE);
             return true;
         });
 
-        land_nonexpanded_height_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.landNonexpandedHeightSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
@@ -142,35 +134,33 @@ public class QsTileSize extends BaseActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 landNonExpandedHeight[0] = progress;
-                if (progress == 60) reset_land_nonexpanded_height.setVisibility(View.INVISIBLE);
-                land_nonexpanded_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+                if (progress == 60)
+                    binding.resetLandNonexpandedHeight.setVisibility(View.INVISIBLE);
+                binding.landNonexpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                reset_land_nonexpanded_height.setVisibility(landNonExpandedHeight[0] == 60 ? View.INVISIBLE : View.VISIBLE);
+                binding.resetLandNonexpandedHeight.setVisibility(landNonExpandedHeight[0] == 60 ? View.INVISIBLE : View.VISIBLE);
             }
         });
 
         // Landscape Expanded height
-        SeekBar land_expanded_height_seekbar = findViewById(R.id.land_expanded_height_seekbar);
-        TextView land_expanded_height_output = findViewById(R.id.land_expanded_height_output);
-        land_expanded_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(LAND_QSTILE_EXPANDED_HEIGHT, 80) + "dp");
-        land_expanded_height_seekbar.setProgress(Prefs.getInt(LAND_QSTILE_EXPANDED_HEIGHT, 80));
+        binding.landExpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(LAND_QSTILE_EXPANDED_HEIGHT, 80) + "dp");
+        binding.landExpandedHeightSeekbar.setProgress(Prefs.getInt(LAND_QSTILE_EXPANDED_HEIGHT, 80));
 
         // Reset button
-        ImageView reset_land_expanded_height = findViewById(R.id.reset_land_expanded_height);
-        reset_land_expanded_height.setVisibility(Prefs.getInt(LAND_QSTILE_EXPANDED_HEIGHT, 80) == 80 ? View.INVISIBLE : View.VISIBLE);
+        binding.resetLandExpandedHeight.setVisibility(Prefs.getInt(LAND_QSTILE_EXPANDED_HEIGHT, 80) == 80 ? View.INVISIBLE : View.VISIBLE);
         int[] landExpandedHeight = new int[]{Prefs.getInt(LAND_QSTILE_EXPANDED_HEIGHT, 80)};
 
-        reset_land_expanded_height.setOnLongClickListener(v -> {
+        binding.resetLandExpandedHeight.setOnLongClickListener(v -> {
             landExpandedHeight[0] = 80;
-            land_expanded_height_seekbar.setProgress(80);
-            reset_land_expanded_height.setVisibility(View.INVISIBLE);
+            binding.landExpandedHeightSeekbar.setProgress(80);
+            binding.resetLandExpandedHeight.setVisibility(View.INVISIBLE);
             return true;
         });
 
-        land_expanded_height_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.landExpandedHeightSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
@@ -178,24 +168,21 @@ public class QsTileSize extends BaseActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 landExpandedHeight[0] = progress;
-                if (progress == 80) reset_land_expanded_height.setVisibility(View.INVISIBLE);
-                land_expanded_height_output.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+                if (progress == 80) binding.resetLandExpandedHeight.setVisibility(View.INVISIBLE);
+                binding.landExpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                reset_land_expanded_height.setVisibility(landExpandedHeight[0] == 80 ? View.INVISIBLE : View.VISIBLE);
+                binding.resetLandExpandedHeight.setVisibility(landExpandedHeight[0] == 80 ? View.INVISIBLE : View.VISIBLE);
             }
         });
 
         // Apply and reset button
-        Button qs_tile_height_apply = findViewById(R.id.qs_tile_height_apply);
-        Button qs_tile_height_reset = findViewById(R.id.qs_tile_height_reset);
-
         if (Prefs.getBoolean("IconifyComponentQSTH.overlay"))
-            qs_tile_height_reset.setVisibility(View.VISIBLE);
+            binding.qsTileHeightReset.setVisibility(View.VISIBLE);
 
-        qs_tile_height_apply.setOnClickListener(v -> {
+        binding.qsTileHeightApply.setOnClickListener(v -> {
             if (!Environment.isExternalStorageManager()) {
                 SystemUtil.getStoragePermission(this);
             } else {
@@ -205,7 +192,7 @@ public class QsTileSize extends BaseActivity {
 
                 Runnable runnable = () -> {
                     try {
-                        hasErroredOut.set(QsTileHeightManager.enableOverlay(portNonExpandedHeight[0], portExpandedHeight[0], landNonExpandedHeight[0], landExpandedHeight[0]));
+                        hasErroredOut.set(QsTileHeightManager.enableOverlay(portNonExpandedHeight[0], portExpandedHeight[0], landNonExpandedHeight[0], landExpandedHeight[0], true));
                     } catch (IOException e) {
                         hasErroredOut.set(true);
                     }
@@ -217,17 +204,17 @@ public class QsTileSize extends BaseActivity {
                             Prefs.putInt(LAND_QSTILE_NONEXPANDED_HEIGHT, landNonExpandedHeight[0]);
                             Prefs.putInt(LAND_QSTILE_EXPANDED_HEIGHT, landExpandedHeight[0]);
 
-                            qs_tile_height_reset.setVisibility(View.VISIBLE);
+                            binding.qsTileHeightReset.setVisibility(View.VISIBLE);
                         }
 
-                        new Handler().postDelayed(() -> {
+                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
                             // Hide loading dialog
                             loadingDialog.hide();
 
                             if (hasErroredOut.get())
-                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                             else
-                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                         }, 2000);
                     });
                 };
@@ -236,35 +223,38 @@ public class QsTileSize extends BaseActivity {
             }
         });
 
-        qs_tile_height_reset.setOnClickListener(v -> {
-            Prefs.clearPref(PORT_QSTILE_NONEXPANDED_HEIGHT);
-            Prefs.clearPref(PORT_QSTILE_EXPANDED_HEIGHT);
-            Prefs.clearPref(LAND_QSTILE_NONEXPANDED_HEIGHT);
-            Prefs.clearPref(LAND_QSTILE_EXPANDED_HEIGHT);
+        binding.qsTileHeightReset.setOnClickListener(v -> {
+            Prefs.clearPrefs(PORT_QSTILE_NONEXPANDED_HEIGHT, PORT_QSTILE_EXPANDED_HEIGHT, LAND_QSTILE_NONEXPANDED_HEIGHT, LAND_QSTILE_EXPANDED_HEIGHT);
 
             portNonExpandedHeight[0] = 60;
             portExpandedHeight[0] = 80;
             landNonExpandedHeight[0] = 60;
             landExpandedHeight[0] = 80;
 
-            port_nonexpanded_height_output.setText(getResources().getString(R.string.opt_selected) + "60dp");
-            port_expanded_height_output.setText(getResources().getString(R.string.opt_selected) + "80dp");
-            land_nonexpanded_height_output.setText(getResources().getString(R.string.opt_selected) + "60dp");
-            land_expanded_height_output.setText(getResources().getString(R.string.opt_selected) + "80dp");
+            binding.portNonexpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + "60dp");
+            binding.portExpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + "80dp");
+            binding.landNonexpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + "60dp");
+            binding.landExpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + "80dp");
 
-            port_nonexpanded_height_seekbar.setProgress(60);
-            port_expanded_height_seekbar.setProgress(80);
-            land_nonexpanded_height_seekbar.setProgress(60);
-            land_expanded_height_seekbar.setProgress(80);
+            binding.portNonexpandedHeightSeekbar.setProgress(60);
+            binding.portExpandedHeightSeekbar.setProgress(80);
+            binding.landNonexpandedHeightSeekbar.setProgress(60);
+            binding.landExpandedHeightSeekbar.setProgress(80);
 
-            reset_port_nonexpanded_height.setVisibility(View.INVISIBLE);
-            reset_port_expanded_height.setVisibility(View.INVISIBLE);
-            reset_land_nonexpanded_height.setVisibility(View.INVISIBLE);
-            reset_land_expanded_height.setVisibility(View.INVISIBLE);
+            binding.resetPortNonexpandedHeight.setVisibility(View.INVISIBLE);
+            binding.resetPortExpandedHeight.setVisibility(View.INVISIBLE);
+            binding.resetLandNonexpandedHeight.setVisibility(View.INVISIBLE);
+            binding.resetLandExpandedHeight.setVisibility(View.INVISIBLE);
 
-            qs_tile_height_reset.setVisibility(View.GONE);
+            binding.qsTileHeightReset.setVisibility(View.GONE);
 
             OverlayUtil.disableOverlay("IconifyComponentQSTH.overlay");
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        loadingDialog.hide();
+        super.onDestroy();
     }
 }

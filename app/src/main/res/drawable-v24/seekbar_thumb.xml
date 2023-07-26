@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval"
-    android:tint="@color/black">
-    <solid android:color="#80626161" />
-    <size
-        android:width="@dimen/_10sdp"
-        android:height="@dimen/_10sdp" />
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/transparent" />
+            <size
+                android:width="24dp"
+                android:height="24dp" />
+        </shape>
+    </item>
+    <item android:gravity="center">
+        <shape
+            android:shape="oval"
+            android:tint="@color/seekbar_thumb_tint">
+            <solid android:color="@color/seekbar_thumb_color" />
+            <size
+                android:width="14dp"
+                android:height="14dp" />
+        </shape>
+    </item>
+</layer-list>

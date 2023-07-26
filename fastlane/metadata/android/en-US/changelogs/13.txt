@@ -1,0 +1,12 @@
+Iconify v6.4.0 has arrived! It has the following new changes:
+
+Feature Changes:
+• Improve xposed-only mode
+• Fix icon color and crash on some devices
+• Improve internet dialog style
+• Redesign switches and show in more places
+• Fix media player appearance for A12 / A12.1
+• Manual color overriding for monet engine
+• and many more!
+
+Full changelog at https://github.com/Mahmud0808/Iconify/releases/tag/v6.4.0

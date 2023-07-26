@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,10 +69,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         if (Prefs.getBoolean(NOTIFICATION_KEY.get(position))) {
             holder.style_name.setText(holder.style_name.getText().toString().replace(' ' + context.getResources().getString(R.string.opt_applied), "") + ' ' + context.getResources().getString(R.string.opt_applied));
-            holder.style_name.setTextColor(context.getResources().getColor(R.color.colorSuccess));
+            holder.style_name.setTextColor(context.getResources().getColor(R.color.colorSuccess, context.getTheme()));
         } else {
             holder.style_name.setText(holder.style_name.getText().toString().replace(' ' + context.getResources().getString(R.string.opt_applied), ""));
-            holder.style_name.setTextColor(context.getResources().getColor(R.color.textColorPrimary));
+            holder.style_name.setTextColor(context.getResources().getColor(R.color.textColorPrimary, context.getTheme()));
         }
 
         refreshButton(holder);
@@ -91,10 +92,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         if (Prefs.getBoolean(NOTIFICATION_KEY.get(holder.getBindingAdapterPosition()))) {
             holder.style_name.setText(holder.style_name.getText().toString().replace(' ' + context.getResources().getString(R.string.opt_applied), "") + ' ' + context.getResources().getString(R.string.opt_applied));
-            holder.style_name.setTextColor(context.getResources().getColor(R.color.colorSuccess));
+            holder.style_name.setTextColor(context.getResources().getColor(R.color.colorSuccess, context.getTheme()));
         } else {
             holder.style_name.setText(holder.style_name.getText().toString().replace(' ' + context.getResources().getString(R.string.opt_applied), ""));
-            holder.style_name.setTextColor(context.getResources().getColor(R.color.textColorPrimary));
+            holder.style_name.setTextColor(context.getResources().getColor(R.color.textColorPrimary, context.getTheme()));
         }
 
         refreshButton(holder);
@@ -147,13 +148,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     NotificationPixelManager.enableOverlay(holder.getBindingAdapterPosition() + 1);
 
                 ((Activity) context).runOnUiThread(() -> {
-                    new Handler().postDelayed(() -> {
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
                         // Hide loading dialog
                         loadingDialog.hide();
 
                         // Change name to " - applied"
                         holder.style_name.setText(holder.style_name.getText().toString().replace(' ' + context.getResources().getString(R.string.opt_applied), "") + ' ' + context.getResources().getString(R.string.opt_applied));
-                        holder.style_name.setTextColor(context.getResources().getColor(R.color.colorSuccess));
+                        holder.style_name.setTextColor(context.getResources().getColor(R.color.colorSuccess, context.getTheme()));
 
                         // Change button visibility
                         holder.btn_enable.setVisibility(View.GONE);
@@ -180,13 +181,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     NotificationPixelManager.disable_pack(holder.getBindingAdapterPosition() + 1);
 
                 ((Activity) context).runOnUiThread(() -> {
-                    new Handler().postDelayed(() -> {
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
                         // Hide loading dialog
                         loadingDialog.hide();
 
                         // Change name back to original
                         holder.style_name.setText(holder.style_name.getText().toString().replace(' ' + context.getResources().getString(R.string.opt_applied), ""));
-                        holder.style_name.setTextColor(context.getResources().getColor(R.color.textColorPrimary));
+                        holder.style_name.setTextColor(context.getResources().getColor(R.color.textColorPrimary, context.getTheme()));
 
                         // Change button visibility
                         holder.btn_disable.setVisibility(View.GONE);
@@ -239,10 +240,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
                     if (i == holder.getAbsoluteAdapterPosition() && Prefs.getBoolean(NOTIFICATION_KEY.get(i - (holder.getAbsoluteAdapterPosition() - holder.getBindingAdapterPosition())))) {
                         title.setText(title.getText().toString().replace(' ' + context.getResources().getString(R.string.opt_applied), "") + ' ' + context.getResources().getString(R.string.opt_applied));
-                        title.setTextColor(context.getResources().getColor(R.color.colorSuccess));
+                        title.setTextColor(context.getResources().getColor(R.color.colorSuccess, context.getTheme()));
                     } else {
                         title.setText(title.getText().toString().replace(' ' + context.getResources().getString(R.string.opt_applied), ""));
-                        title.setTextColor(context.getResources().getColor(R.color.textColorPrimary));
+                        title.setTextColor(context.getResources().getColor(R.color.textColorPrimary, context.getTheme()));
                     }
                 }
             }

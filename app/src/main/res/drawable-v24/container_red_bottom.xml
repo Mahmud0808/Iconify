@@ -3,14 +3,12 @@
     android:color="@color/rippleDark">
     <item>
         <shape android:shape="rectangle">
-            <gradient
-                android:endColor="@color/pink"
-                android:startColor="@color/red" />
+            <solid android:color="@color/red" />
             <corners
                 android:bottomLeftRadius="@dimen/cont_corner_radius"
                 android:bottomRightRadius="@dimen/cont_corner_radius"
-                android:topLeftRadius="@dimen/_5sdp"
-                android:topRightRadius="@dimen/_5sdp" />
+                android:topLeftRadius="7dp"
+                android:topRightRadius="7dp" />
         </shape>
     </item>
     <item
@@ -21,10 +19,10 @@
         <shape android:shape="rectangle">
             <solid android:color="@color/offStateColor4" />
             <corners
-                android:bottomLeftRadius="@dimen/cont_corner_radius"
-                android:bottomRightRadius="@dimen/cont_corner_radius"
-                android:topLeftRadius="@dimen/_5sdp"
-                android:topRightRadius="@dimen/_5sdp" />
+                android:bottomLeftRadius="@dimen/cont_corner_radius2"
+                android:bottomRightRadius="@dimen/cont_corner_radius2"
+                android:topLeftRadius="5dp"
+                android:topRightRadius="5dp" />
         </shape>
     </item>
 </ripple>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    android:fillViewport="true"
+    android:fitsSystemWindows="true"
     tools:context=".ui.activities.IconShape">
 
     <androidx.core.widget.NestedScrollView
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/container_marginSide"
             android:layout_marginEnd="@dimen/container_marginSide"
-            android:layout_marginBottom="@dimen/_24sdp"
+            android:layout_marginBottom="34dp"
             android:background="@drawable/container"
             android:orientation="vertical"
             android:paddingStart="@dimen/container_paddingSide"
@@ -42,6 +42,8 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <include layout="@layout/view_header" />
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

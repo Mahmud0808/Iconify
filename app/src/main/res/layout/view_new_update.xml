@@ -13,8 +13,8 @@
     android:paddingBottom="@dimen/container_padding">
 
     <FrameLayout
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_gravity="start|center"
         android:layout_marginEnd="@dimen/container_padding"
         android:background="@drawable/container_semi_transparent"
@@ -22,8 +22,8 @@
 
         <ImageView
             android:id="@+id/list_preview"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:layout_gravity="center"
             android:background="@drawable/ic_update"
             android:backgroundTint="@color/textColorPrimary"
@@ -59,8 +59,8 @@
     </LinearLayout>
 
     <ImageView
-        android:layout_width="@dimen/_14sdp"
-        android:layout_height="@dimen/_14sdp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_gravity="center"
         android:contentDescription="@string/icon"
         android:src="@drawable/ic_arrow_end"

@@ -5,17 +5,18 @@ import static com.bumptech.glide.request.RequestOptions.centerCropTransform;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -31,11 +32,16 @@ public class ViewBindingHelpers {
         Glide.with(imageView.getContext()).load(drawable).into(imageView);
     }
 
-    public static void setDrawable(LinearLayout linearLayout, Drawable drawable) {
-        Glide.with(linearLayout.getContext()).load(drawable).into(new SimpleTarget<Drawable>() {
+    public static void setDrawable(ViewGroup viewGroup, Drawable drawable) {
+        Glide.with(viewGroup.getContext()).load(drawable).into(new CustomTarget<Drawable>() {
             @Override
             public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
-                linearLayout.setBackground(resource);
+                viewGroup.setBackground(resource);
+            }
+
+            @Override
+            public void onLoadCleared(@Nullable Drawable placeholder) {
+
             }
         });
     }

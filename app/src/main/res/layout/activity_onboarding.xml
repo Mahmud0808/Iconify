@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.activities.Onboarding">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/btn_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        android:text="@string/btn_skip"
+        android:textSize="18sp"
+        app:textAllCaps="true" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/frame_next_step"
+        android:layout_below="@id/btn_skip"
+        android:clipToPadding="false"
+        android:overScrollMode="never" />
+
+    <FrameLayout
+        android:id="@+id/frame_next_step"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="end|center"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp">
+
+        <Button
+            android:id="@+id/btn_next_step"
+            style="@style/buttonLandingPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/onboarding_button_transition_1"
+            android:letterSpacing="0.1"
+            android:paddingTop="14dp"
+            android:paddingBottom="16dp"
+            android:singleLine="true"
+            android:text="@string/btn_next"
+            android:textSize="20sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
+            app:fontFamily="@font/bold" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/loading_anim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:visibility="gone"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true" />
+
+    </FrameLayout>
+</RelativeLayout>

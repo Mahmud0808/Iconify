@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    android:fillViewport="true"
+    android:fitsSystemWindows="true"
     tools:context=".ui.activities.QsIconLabel">
 
     <androidx.core.widget.NestedScrollView
@@ -207,12 +207,57 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center"
                 android:layout_marginStart="40dp"
-                android:layout_marginTop="@dimen/_9sdp"
-                android:layout_marginBottom="@dimen/_12sdp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="16dp"
                 android:text="@string/section_title_qs_text_color"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupTextColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/container_marginSide"
+                android:layout_marginEnd="@dimen/container_marginSide"
+                android:layout_marginBottom="@dimen/container_margin"
+                android:background="@drawable/container"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <RadioButton
+                    android:id="@+id/textColorNormal"
+                    style="@style/customRadioButtonColored.Tab"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1.0"
+                    android:checked="true"
+                    android:ellipsize="marquee"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@string/qs_text_color_normal"
+                    android:textSize="@dimen/cont_title_size"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/textColorPixel"
+                    style="@style/customRadioButtonColored.Tab"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1.0"
+                    android:ellipsize="marquee"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@string/qs_text_color_pixel"
+                    android:textSize="@dimen/cont_title_size"
+                    android:textStyle="bold" />
+
+            </RadioGroup>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -220,8 +265,7 @@
                 android:layout_marginStart="@dimen/container_marginSide"
                 android:layout_marginEnd="@dimen/container_marginSide"
                 android:layout_marginBottom="@dimen/container_margin"
-                android:orientation="vertical"
-                tools:ignore="UselessParent">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -464,6 +508,8 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <include layout="@layout/view_header" />
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

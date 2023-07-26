@@ -17,12 +17,12 @@
         android:paddingStart="@dimen/container_paddingSide"
         android:paddingTop="@dimen/container_padding"
         android:paddingEnd="@dimen/container_paddingSide"
-        android:paddingBottom="@dimen/_10sdp">
+        android:paddingBottom="14dp">
 
         <ImageView
             android:id="@+id/app_icon"
-            android:layout_width="@dimen/_38sdp"
-            android:layout_height="@dimen/_38sdp"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:background="@drawable/ic_android"
@@ -34,8 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_2sdp"
-            android:layout_marginBottom="@dimen/_2sdp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
             android:textColor="@color/textColorPrimary"
             android:textSize="@dimen/cont_title_size"
             android:textStyle="bold" />
@@ -54,9 +54,9 @@
         android:background="@drawable/container_bottom"
         android:orientation="horizontal"
         android:paddingStart="@dimen/container_paddingSide"
-        android:paddingTop="@dimen/_14sdp"
+        android:paddingTop="20dp"
         android:paddingEnd="@dimen/container_paddingSide"
-        android:paddingBottom="@dimen/_14sdp">
+        android:paddingBottom="20dp">
 
         <Button
             android:id="@+id/aurora"
@@ -65,13 +65,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1.0"
+            android:ellipsize="marquee"
             android:letterSpacing="0"
             android:paddingStart="0dp"
-            android:paddingTop="@dimen/_4sdp"
+            android:paddingTop="6dp"
             android:paddingEnd="0dp"
-            android:paddingBottom="@dimen/_6sdp"
+            android:paddingBottom="8dp"
+            android:singleLine="true"
             android:text="@string/iconpack_aurora"
-            android:textSize="@dimen/_10sdp" />
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/gradicon"
@@ -82,13 +84,15 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_weight="1.0"
+            android:ellipsize="marquee"
             android:letterSpacing="0"
             android:paddingStart="0dp"
-            android:paddingTop="@dimen/_4sdp"
+            android:paddingTop="6dp"
             android:paddingEnd="0dp"
-            android:paddingBottom="@dimen/_6sdp"
+            android:paddingBottom="8dp"
+            android:singleLine="true"
             android:text="@string/iconpack_gradicon"
-            android:textSize="@dimen/_10sdp" />
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/plumpy"
@@ -97,13 +101,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1.0"
+            android:ellipsize="marquee"
             android:letterSpacing="0"
             android:paddingStart="0dp"
-            android:paddingTop="@dimen/_4sdp"
+            android:paddingTop="6dp"
             android:paddingEnd="0dp"
-            android:paddingBottom="@dimen/_6sdp"
+            android:paddingBottom="8dp"
+            android:singleLine="true"
             android:text="@string/iconpack_plumpy"
-            android:textSize="@dimen/_10sdp" />
+            android:textSize="14sp" />
 
     </LinearLayout>
 </LinearLayout>

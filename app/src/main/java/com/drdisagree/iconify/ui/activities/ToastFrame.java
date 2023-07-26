@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,14 +15,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.drdisagree.iconify.Iconify;
+import androidx.core.content.ContextCompat;
+
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.databinding.ActivityToastFrameBinding;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.compiler.OnDemandCompiler;
-import com.google.android.flexbox.FlexboxLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,22 +31,22 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ToastFrame extends BaseActivity {
 
-    private FlexboxLayout container;
-    LoadingDialog loadingDialog;
+    private ActivityToastFrameBinding binding;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_toast_frame);
+        binding = ActivityToastFrameBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_toast_frame);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_toast_frame);
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
 
         // Toast Frame style
-        container = findViewById(R.id.toast_frame_container);
         ArrayList<Object[]> toast_frame_style = new ArrayList<>();
 
         toast_frame_style.add(new Object[]{R.drawable.toast_frame_style_1, R.string.style_1});
@@ -68,10 +70,10 @@ public class ToastFrame extends BaseActivity {
     @SuppressLint("UseCompatLoadingForDrawables")
     private void addItem(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(this).inflate(R.layout.view_toast_frame, container, false);
+            View list = LayoutInflater.from(this).inflate(R.layout.view_toast_frame, binding.toastFrameContainer, false);
 
             LinearLayout toast_container = list.findViewById(R.id.toast_container);
-            toast_container.setBackground(getResources().getDrawable((int) pack.get(i)[0]));
+            toast_container.setBackground(ContextCompat.getDrawable(getApplicationContext(), (int) pack.get(i)[0]));
 
             TextView style_name = list.findViewById(R.id.style_name);
             style_name.setText(getResources().getString((int) pack.get(i)[1]));
@@ -88,7 +90,7 @@ public class ToastFrame extends BaseActivity {
                         AtomicBoolean hasErroredOut = new AtomicBoolean(false);
 
                         try {
-                            hasErroredOut.set(OnDemandCompiler.buildOverlay("TSTFRM", finalI + 1, FRAMEWORK_PACKAGE));
+                            hasErroredOut.set(OnDemandCompiler.buildOverlay("TSTFRM", finalI + 1, FRAMEWORK_PACKAGE, true));
                         } catch (IOException e) {
                             hasErroredOut.set(true);
                             Log.e("ToastFrame", e.toString());
@@ -99,14 +101,14 @@ public class ToastFrame extends BaseActivity {
                             refreshBackground();
                         }
 
-                        runOnUiThread(() -> new Handler().postDelayed(() -> {
+                        runOnUiThread(() -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
                             // Hide loading dialog
                             loadingDialog.hide();
 
                             if (!hasErroredOut.get()) {
-                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                             }
                         }, 3000));
                     };
@@ -115,20 +117,20 @@ public class ToastFrame extends BaseActivity {
                 }
             });
 
-            container.addView(list);
+            binding.toastFrameContainer.addView(list);
         }
     }
 
     // Function to check for bg drawable changes
     @SuppressLint("SetTextI18n")
     private void refreshBackground() {
-        for (int i = 0; i < container.getChildCount(); i++) {
-            LinearLayout child = container.getChildAt(i).findViewById(R.id.list_item_toast);
+        for (int i = 0; i < binding.toastFrameContainer.getChildCount(); i++) {
+            LinearLayout child = binding.toastFrameContainer.getChildAt(i).findViewById(R.id.list_item_toast);
             TextView title = child.findViewById(R.id.style_name);
             if (i == Prefs.getInt(SELECTED_TOAST_FRAME, -1)) {
-                title.setTextColor(getResources().getColor(R.color.colorSuccess));
+                title.setTextColor(getResources().getColor(R.color.colorSuccess, getTheme()));
             } else {
-                title.setTextColor(getResources().getColor(R.color.textColorSecondary));
+                title.setTextColor(getResources().getColor(R.color.textColorSecondary, getTheme()));
             }
         }
     }

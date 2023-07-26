@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="settingslib_thumb_off_color">@*android:color/system_neutral1_50</color>
+</resources>

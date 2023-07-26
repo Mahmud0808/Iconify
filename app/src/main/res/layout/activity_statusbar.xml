@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    android:fillViewport="true"
+    android:fitsSystemWindows="true"
     tools:context=".ui.activities.Statusbar">
 
     <androidx.core.widget.NestedScrollView
@@ -41,13 +41,32 @@
                     android:paddingEnd="@dimen/container_paddingSide"
                     android:paddingBottom="@dimen/container_padding">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/sb_left_padding"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/sb_left_padding"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/reset_sb_left_padding"
+                            android:layout_width="@dimen/reset_button_size"
+                            android:layout_height="@dimen/reset_button_size"
+                            android:layout_gravity="start|center"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:clickable="true"
+                            android:contentDescription="@string/icon"
+                            app:srcCompat="@drawable/ic_reset"
+                            app:tint="@color/textColorSecondary" />
+
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/sb_left_padding_output"
@@ -77,13 +96,32 @@
                     android:paddingEnd="@dimen/container_paddingSide"
                     android:paddingBottom="@dimen/container_padding">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/sb_right_padding"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/sb_right_padding"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/cont_title_size"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/reset_sb_right_padding"
+                            android:layout_width="@dimen/reset_button_size"
+                            android:layout_height="@dimen/reset_button_size"
+                            android:layout_gravity="start|center"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:clickable="true"
+                            android:contentDescription="@string/icon"
+                            app:srcCompat="@drawable/ic_reset"
+                            app:tint="@color/textColorSecondary" />
+
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/sb_right_padding_output"
@@ -177,6 +215,8 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <include layout="@layout/view_header" />
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

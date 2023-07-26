@@ -103,6 +103,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         return packageName.equals(SYSTEMUI_PACKAGE);
     }
 
+    @SuppressLint("DiscouragedApi")
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE)) return;
@@ -168,79 +169,29 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                 ((ViewGroup) getObjectField(param.thisObject, "mStatusBar")).addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
                     updateStatusBarClock();
                 });
-            }
-        });
 
-        updateStatusBarClock();
-        setQSStatusIconsBg();
-    }
+                updateStatusBarClock();
 
-    @SuppressLint("DiscouragedApi")
-    private void updateStatusBarClock() {
-        if (mShowSBClockBg) {
-            int clockPaddingStartEnd = (int) (8 * mContext.getResources().getDisplayMetrics().density);
-            int clockPaddingTopBottom = (int) (2 * mContext.getResources().getDisplayMetrics().density);
+                if (mShowSBClockBg) {
+                    try {
+                        FrameLayout mStatusBar = (FrameLayout) getObjectField(param.thisObject, "mStatusBar");
 
-            updateClockView(mClockView, clockPaddingStartEnd, clockPaddingTopBottom, clockPaddingStartEnd, clockPaddingTopBottom, Gravity.START | Gravity.CENTER);
-            updateClockView(mCenterClockView, clockPaddingStartEnd, clockPaddingTopBottom, clockPaddingStartEnd, clockPaddingTopBottom, Gravity.CENTER);
-            updateClockView(mRightClockView, clockPaddingStartEnd, clockPaddingTopBottom, clockPaddingStartEnd, clockPaddingTopBottom, Gravity.END | Gravity.CENTER);
-        } else {
-            int clockPaddingStart = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_clock_starting_padding", "dimen", mContext.getPackageName()));
-            int clockPaddingEnd = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_clock_end_padding", "dimen", mContext.getPackageName()));
-            int leftClockPaddingStart = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_left_clock_starting_padding", "dimen", mContext.getPackageName()));
-            int leftClockPaddingEnd = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_left_clock_end_padding", "dimen", mContext.getPackageName()));
+                        FrameLayout status_bar_start_side_content = mStatusBar.findViewById(mContext.getResources().getIdentifier("status_bar_start_side_content", "id", mContext.getPackageName()));
+                        status_bar_start_side_content.getLayoutParams().height = FrameLayout.LayoutParams.MATCH_PARENT;
+                        status_bar_start_side_content.requestLayout();
 
-            updateClockView(mClockView, leftClockPaddingStart, 0, leftClockPaddingEnd, 0, Gravity.START | Gravity.CENTER);
-            updateClockView(mCenterClockView, 0, 0, 0, 0, Gravity.CENTER);
-            updateClockView(mRightClockView, clockPaddingStart, 0, clockPaddingEnd, 0, Gravity.END | Gravity.CENTER);
-        }
-
-        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
-        if (ourResparam == null || !mShowSBClockBg) return;
-
-        ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "status_bar", new XC_LayoutInflated() {
-            @Override
-            public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
-                try {
-                    @SuppressLint("DiscouragedApi") FrameLayout status_bar_start_side_content = liparam.view.findViewById(liparam.res.getIdentifier("status_bar_start_side_content", "id", mContext.getPackageName()));
-                    status_bar_start_side_content.getLayoutParams().height = FrameLayout.LayoutParams.MATCH_PARENT;
-                    status_bar_start_side_content.requestLayout();
-
-                    @SuppressLint("DiscouragedApi") LinearLayout status_bar_start_side_except_heads_up = liparam.view.findViewById(liparam.res.getIdentifier("status_bar_start_side_except_heads_up", "id", mContext.getPackageName()));
-                    ((FrameLayout.LayoutParams) status_bar_start_side_except_heads_up.getLayoutParams()).gravity = Gravity.START | Gravity.CENTER;
-                    status_bar_start_side_except_heads_up.setGravity(Gravity.START | Gravity.CENTER);
-                    status_bar_start_side_except_heads_up.requestLayout();
-                } catch (Throwable ignored) {
+                        LinearLayout status_bar_start_side_except_heads_up = mStatusBar.findViewById(mContext.getResources().getIdentifier("status_bar_start_side_except_heads_up", "id", mContext.getPackageName()));
+                        ((FrameLayout.LayoutParams) status_bar_start_side_except_heads_up.getLayoutParams()).gravity = Gravity.START | Gravity.CENTER;
+                        status_bar_start_side_except_heads_up.setGravity(Gravity.START | Gravity.CENTER);
+                        status_bar_start_side_except_heads_up.requestLayout();
+                    } catch (Throwable throwable) {
+                        log(TAG + throwable);
+                    }
                 }
             }
         });
-    }
 
-    private void updateClockView(View clockView, int start, int top, int end, int bottom, int gravity) {
-        if (clockView != null && mShowSBClockBg) {
-            clockView.setPadding(start, top, end, bottom);
-            setStatusBarBackgroundChip(clockView);
-
-            if (statusBarClockColorOption == 0) {
-                ((TextView) clockView).getPaint().setXfermode(null);
-                callMethod(callStaticMethod(DependencyClass, "get", DarkIconDispatcherClass), "addDarkReceiver", clockView);
-            } else if (statusBarClockColorOption == 1) {
-                ((TextView) clockView).getPaint().setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
-            } else if (statusBarClockColorOption == 2) {
-                ((TextView) clockView).getPaint().setXfermode(null);
-                callMethod(callStaticMethod(DependencyClass, "get", DarkIconDispatcherClass), "removeDarkReceiver", clockView);
-                ((TextView) clockView).setTextColor(statusBarClockColorCode);
-            }
-
-            try {
-                ((LinearLayout.LayoutParams) clockView.getLayoutParams()).gravity = gravity;
-            } catch (Throwable t) {
-                ((FrameLayout.LayoutParams) clockView.getLayoutParams()).gravity = gravity;
-            }
-
-            clockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            clockView.setForegroundGravity(Gravity.CENTER);
-        }
+        setQSStatusIconsBg();
     }
 
     private void setQSStatusIconsBg() {
@@ -297,6 +248,47 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                     }
                 }
             });
+        }
+    }
+
+    @SuppressLint("DiscouragedApi")
+    private void updateStatusBarClock() {
+        if (!mShowSBClockBg) return;
+
+        int clockPaddingStartEnd = (int) (8 * mContext.getResources().getDisplayMetrics().density);
+        int clockPaddingTop = (int) (4 * mContext.getResources().getDisplayMetrics().density);
+        int clockPaddingBottom = (int) (3 * mContext.getResources().getDisplayMetrics().density);
+
+        updateClockView(mClockView, clockPaddingStartEnd, clockPaddingTop, clockPaddingStartEnd, clockPaddingBottom, Gravity.START | Gravity.CENTER);
+        updateClockView(mCenterClockView, clockPaddingStartEnd, clockPaddingTop, clockPaddingStartEnd, clockPaddingBottom, Gravity.CENTER);
+        updateClockView(mRightClockView, clockPaddingStartEnd, clockPaddingTop, clockPaddingStartEnd, clockPaddingBottom, Gravity.END | Gravity.CENTER);
+    }
+
+    private void updateClockView(View clockView, int start, int top, int end, int bottom, int gravity) {
+        if (clockView != null) {
+            clockView.setPadding(start, top, end, bottom);
+            setStatusBarBackgroundChip(clockView);
+
+            if (statusBarClockColorOption == 0) {
+                ((TextView) clockView).getPaint().setXfermode(null);
+                callMethod(callStaticMethod(DependencyClass, "get", DarkIconDispatcherClass), "addDarkReceiver", clockView);
+            } else if (statusBarClockColorOption == 1) {
+                ((TextView) clockView).getPaint().setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+            } else if (statusBarClockColorOption == 2) {
+                ((TextView) clockView).getPaint().setXfermode(null);
+                callMethod(callStaticMethod(DependencyClass, "get", DarkIconDispatcherClass), "removeDarkReceiver", clockView);
+                ((TextView) clockView).setTextColor(statusBarClockColorCode);
+            }
+
+            try {
+                ((LinearLayout.LayoutParams) clockView.getLayoutParams()).gravity = gravity;
+            } catch (Throwable t) {
+                ((FrameLayout.LayoutParams) clockView.getLayoutParams()).gravity = gravity;
+            }
+
+            ((TextView) clockView).setIncludeFontPadding(false);
+            clockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            clockView.setForegroundGravity(Gravity.CENTER);
         }
     }
 

@@ -4,8 +4,8 @@
         <shape android:shape="rectangle">
             <solid android:color="@color/transparent" />
             <size
-                android:width="@dimen/_18sdp"
-                android:height="@dimen/_24sdp" />
+                android:width="26dp"
+                android:height="34dp" />
         </shape>
     </item>
 </layer-list>

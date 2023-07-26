@@ -5,7 +5,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,6 +13,7 @@ import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.databinding.ActivityMediaIconsBinding;
 import com.drdisagree.iconify.overlaymanager.MediaPlayerIconManager;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.AppUtil;
@@ -25,18 +25,18 @@ public class MediaIcons extends BaseActivity {
 
     private final ArrayList<String[]> MPIP_KEY = new ArrayList<>();
     private final ArrayList<Object[]> mpip_list = new ArrayList<>();
-    private ViewGroup container;
+    private ActivityMediaIconsBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_media_icons);
+        binding = ActivityMediaIconsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_media_icons);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_media_icons);
 
         // Media Player Icon list items
-        container = findViewById(R.id.mediaplayer_icon_list);
 
         mpip_list.add(new Object[]{"defaultA13", false, R.id.defaulta13mp});
         mpip_list.add(new Object[]{"com.maxmpz.audioplayer", false, R.id.poweramp});
@@ -128,7 +128,7 @@ public class MediaIcons extends BaseActivity {
     }
 
     private void addItem(String appName, String packageName, Drawable appIcon, int viewId) {
-        View list = LayoutInflater.from(this).inflate(R.layout.view_list_option_mediaplayer_icons, container, false);
+        View list = LayoutInflater.from(this).inflate(R.layout.view_list_option_mediaplayer_icons, binding.mediaplayerIconList, false);
         list.setId(viewId);
 
         LinearLayout launch = list.findViewById(R.id.launch_app);
@@ -144,6 +144,6 @@ public class MediaIcons extends BaseActivity {
         TextView name = list.findViewById(R.id.app_name);
         name.setText(appName);
 
-        container.addView(list);
+        binding.mediaplayerIconList.addView(list);
     }
 }

@@ -5,18 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/transparent"
-    android:fitsSystemWindows="true">
+    app:liftOnScroll="true">
 
     <com.google.android.material.appbar.CollapsingToolbarLayout
         android:id="@+id/collapsing_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_152sdp"
+        android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
         android:background="@color/colorBackground"
         app:collapsedTitleTextAppearance="@style/Toolbar.TitleText.Collapsed"
         app:collapsedTitleTextColor="@color/textColorPrimary"
-        app:contentScrim="@color/colorBackground"
-        app:expandedTitleMarginEnd="@dimen/_28sdp"
-        app:expandedTitleMarginStart="@dimen/_28sdp"
+        app:contentScrim="@drawable/top_appbar_bg"
+        app:expandedTitleMarginEnd="40dp"
+        app:expandedTitleMarginStart="40dp"
         app:expandedTitleTextAppearance="@style/Toolbar.TitleText.Expanded"
         app:expandedTitleTextColor="@color/textColorPrimary"
         app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
@@ -31,7 +31,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:paddingEnd="@dimen/_16sdp"
+            android:paddingEnd="24dp"
             app:contentInsetStartWithNavigation="0dp"
             app:layout_collapseMode="pin"
             app:maxLines="1"

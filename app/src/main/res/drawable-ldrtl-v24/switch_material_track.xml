@@ -20,7 +20,7 @@
         <layer-list>
             <item>
                 <shape android:shape="rectangle">
-                    <gradient android:endColor="@color/holo_green_light" android:startColor="@color/holo_blue_light" />
+                    <gradient android:endColor="@color/settingslib_track_on_color_end" android:startColor="@color/settingslib_track_on_color_start" />
                     <corners android:radius="24dp" />
                 </shape>
             </item>

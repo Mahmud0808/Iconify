@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.ui.adapters;
 
-import static com.drdisagree.iconify.common.Const.SETTINGS_PACKAGE;
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.SELECTED_SWITCH;
 
@@ -9,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +31,7 @@ import com.drdisagree.iconify.ui.models.SwitchModel;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.compiler.OnDemandCompiler;
+import com.drdisagree.iconify.utils.compiler.SwitchCompiler;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -120,7 +120,7 @@ public class SwitchAdapter extends RecyclerView.Adapter<SwitchAdapter.ViewHolder
     private void enableOnCheckedChangeListener(ViewHolder holder) {
         holder.aSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
             if (compoundButton.isPressed()) {
-                new Handler().postDelayed(() -> {
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     if (b) {
                         if (!Environment.isExternalStorageManager()) {
                             SystemUtil.getStoragePermission(context);
@@ -134,7 +134,7 @@ public class SwitchAdapter extends RecyclerView.Adapter<SwitchAdapter.ViewHolder
                                 Prefs.putInt(SELECTED_SWITCH, holder.getBindingAdapterPosition());
 
                                 try {
-                                    hasErroredOut.set(OnDemandCompiler.buildOverlay("SWITCH", holder.getBindingAdapterPosition() + 1, SETTINGS_PACKAGE));
+                                    hasErroredOut.set(SwitchCompiler.buildOverlay(holder.getBindingAdapterPosition() + 1, true));
                                 } catch (IOException e) {
                                     hasErroredOut.set(true);
                                     holder.aSwitch.setChecked(false);
@@ -142,7 +142,7 @@ public class SwitchAdapter extends RecyclerView.Adapter<SwitchAdapter.ViewHolder
                                 }
 
                                 ((Activity) context).runOnUiThread(() -> {
-                                    new Handler().postDelayed(() -> {
+                                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
                                         // Hide loading dialog
                                         loadingDialog.hide();
 
@@ -168,10 +168,10 @@ public class SwitchAdapter extends RecyclerView.Adapter<SwitchAdapter.ViewHolder
 
                         Runnable runnable = () -> {
                             Prefs.putInt(SELECTED_SWITCH, -1);
-                            OverlayUtil.disableOverlay("IconifyComponentSWITCH.overlay");
+                            OverlayUtil.disableOverlays("IconifyComponentSWITCH1.overlay", "IconifyComponentSWITCH2.overlay");
 
                             ((Activity) context).runOnUiThread(() -> {
-                                new Handler().postDelayed(() -> {
+                                new Handler(Looper.getMainLooper()).postDelayed(() -> {
                                     // Hide loading dialog
                                     loadingDialog.hide();
 

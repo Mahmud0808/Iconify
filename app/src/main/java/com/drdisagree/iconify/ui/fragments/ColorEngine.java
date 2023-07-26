@@ -1,109 +1,89 @@
 package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
-import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY;
-import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY_LIGHT;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
-import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY_LIGHT;
 import static com.drdisagree.iconify.common.Preferences.STR_NULL;
-import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_PRIMARY;
-import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECONDARY;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
-import android.widget.Switch;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.databinding.FragmentColorEngineBinding;
 import com.drdisagree.iconify.ui.activities.BasicColors;
 import com.drdisagree.iconify.ui.activities.MonetEngine;
-import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
-import java.util.List;
 import java.util.Objects;
 
 public class ColorEngine extends BaseFragment {
 
-    public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
-    private View view;
+    private FragmentColorEngineBinding binding;
+    private CompoundButton.OnCheckedChangeListener minimalQsListener = null;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_color_engine, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentColorEngineBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
 
         // Header
-        CollapsingToolbarLayout collapsing_toolbar = view.findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle(getResources().getString(R.string.activity_title_color_engine));
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+        binding.header.collapsingToolbar.setTitle(getResources().getString(R.string.activity_title_color_engine));
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.header.toolbar);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(view1 -> new Handler().postDelayed(() -> {
+        binding.header.toolbar.setNavigationOnClickListener(view1 -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
             getParentFragmentManager().popBackStack();
         }, FRAGMENT_BACK_BUTTON_DELAY));
 
         // Basic colors
-        LinearLayout basic_colors = view.findViewById(R.id.basic_colors);
-        basic_colors.setOnClickListener(v -> {
+        binding.basicColors.setOnClickListener(v -> {
             Intent intent = new Intent(requireActivity(), BasicColors.class);
             startActivity(intent);
         });
 
         // Monet engine
-        LinearLayout monet_engine = view.findViewById(R.id.monet_engine);
-        monet_engine.setOnClickListener(v -> {
+        binding.monetEngine.setOnClickListener(v -> {
             Intent intent = new Intent(requireActivity(), MonetEngine.class);
             startActivity(intent);
         });
 
         // Apply monet accent and gradient
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_monet_accent = view.findViewById(R.id.apply_monet_accent);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_monet_gradient = view.findViewById(R.id.apply_monet_gradient);
+        binding.applyMonetAccent.setChecked(Prefs.getBoolean("IconifyComponentAMAC.overlay"));
+        binding.applyMonetAccent.setOnCheckedChangeListener(monetAccentListener);
 
-        apply_monet_accent.setChecked(Prefs.getBoolean("IconifyComponentAMAC.overlay"));
-        apply_monet_accent.setOnCheckedChangeListener(monetAccentListener);
-
-        apply_monet_gradient.setChecked(Prefs.getBoolean("IconifyComponentAMGC.overlay"));
-        apply_monet_gradient.setOnCheckedChangeListener(monetGradientListener);
-
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_minimal_qspanel = view.findViewById(R.id.apply_minimal_qspanel);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_pitch_black_dark_theme = view.findViewById(R.id.apply_pitch_black_dark_theme);
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch apply_pitch_black_amoled_theme = view.findViewById(R.id.apply_pitch_black_amoled_theme);
+        binding.applyMonetGradient.setChecked(Prefs.getBoolean("IconifyComponentAMGC.overlay"));
+        binding.applyMonetGradient.setOnCheckedChangeListener(monetGradientListener);
 
         // Minimal QsPanel
-        apply_minimal_qspanel.setChecked(Prefs.getBoolean("IconifyComponentQSST.overlay"));
+        binding.applyMinimalQspanel.setChecked(Prefs.getBoolean("IconifyComponentQSST.overlay"));
         if (minimalQsListener == null) {
             initializeMinimalQsListener();
         }
-        apply_minimal_qspanel.setOnCheckedChangeListener(minimalQsListener);
+        binding.applyMinimalQspanel.setOnCheckedChangeListener(minimalQsListener);
 
         // Pitch Black Dark
-        apply_pitch_black_dark_theme.setChecked(Prefs.getBoolean("IconifyComponentQSPBD.overlay"));
-        apply_pitch_black_dark_theme.setOnCheckedChangeListener(pitchBlackDarkListener);
+        binding.applyPitchBlackDarkTheme.setChecked(Prefs.getBoolean("IconifyComponentQSPBD.overlay"));
+        binding.applyPitchBlackDarkTheme.setOnCheckedChangeListener(pitchBlackDarkListener);
 
         // Pitch Black Amoled
-        apply_pitch_black_amoled_theme.setChecked(Prefs.getBoolean("IconifyComponentQSPBA.overlay"));
-        apply_pitch_black_amoled_theme.setOnCheckedChangeListener(pitchBlackAmoledListener);
+        binding.applyPitchBlackAmoledTheme.setChecked(Prefs.getBoolean("IconifyComponentQSPBA.overlay"));
+        binding.applyPitchBlackAmoledTheme.setOnCheckedChangeListener(pitchBlackAmoledListener);
 
         // Disable Monet
-        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch disable_monet = view.findViewById(R.id.disable_monet);
-        disable_monet.setChecked(Prefs.getBoolean("IconifyComponentDM.overlay"));
+        binding.disableMonet.setChecked(Prefs.getBoolean("IconifyComponentDM.overlay"));
 
-        disable_monet.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler().postDelayed(() -> {
+        binding.disableMonet.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
             if (isChecked) {
                 OverlayUtil.enableOverlay("IconifyComponentDM.overlay");
             } else {
@@ -116,110 +96,103 @@ public class ColorEngine extends BaseFragment {
 
     private void enableMonetAccent() {
         OverlayUtil.enableOverlay("IconifyComponentAMAC.overlay");
-
-        if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL)) {
-            BasicColors.applyPrimaryColors();
-        } else {
-            FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
-            FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY_LIGHT);
-        }
-
-        if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL)) {
-            BasicColors.applySecondaryColors();
-        } else {
-            FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
-            FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY_LIGHT);
-        }
+        BasicColors.disableAccentColors();
     }
 
     private void disableMonetAccent() {
-        if (!((Switch) view.findViewById(R.id.apply_monet_gradient)).isChecked() && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay")) {
-            if (Prefs.getString(COLOR_ACCENT_PRIMARY).equals(STR_NULL)) {
-                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
-                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY_LIGHT, "color", "holo_blue_dark", ICONIFY_COLOR_ACCENT_PRIMARY);
-            }
-
-            if (Prefs.getString(COLOR_ACCENT_SECONDARY).equals(STR_NULL)) {
-                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
-                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY_LIGHT, "color", "holo_green_dark", ICONIFY_COLOR_ACCENT_SECONDARY);
-            }
-        }
-
         OverlayUtil.disableOverlays("IconifyComponentAMAC.overlay");
     }
 
     private void enableMonetGradient() {
         OverlayUtil.enableOverlay("IconifyComponentAMGC.overlay");
-
-        if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL)) {
-            BasicColors.applyPrimaryColors();
-        } else {
-            FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY);
-            FabricatedUtil.disableOverlay(COLOR_ACCENT_PRIMARY_LIGHT);
-        }
-
-        if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL)) {
-            BasicColors.applySecondaryColors();
-        } else {
-            FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY);
-            FabricatedUtil.disableOverlay(COLOR_ACCENT_SECONDARY_LIGHT);
-        }
+        BasicColors.disableAccentColors();
     }
 
     private void disableMonetGradient() {
-        if (!((Switch) view.findViewById(R.id.apply_monet_accent)).isChecked() && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay")) {
-            if (Prefs.getString(COLOR_ACCENT_PRIMARY).equals(STR_NULL)) {
-                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY);
-                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY_LIGHT, "color", "holo_blue_dark", ICONIFY_COLOR_ACCENT_PRIMARY);
-            }
+        OverlayUtil.disableOverlay("IconifyComponentAMGC.overlay");
+    }
 
+    private boolean shouldUseDefaultColors() {
+        return OverlayUtil.isOverlayDisabled(OverlayUtil.getEnabledOverlayList(), "IconifyComponentME.overlay");
+    }
+
+    private void applyDefaultColors() {
+        if (shouldUseDefaultColors()) {
+            if (Prefs.getString(COLOR_ACCENT_PRIMARY).equals(STR_NULL)) {
+                BasicColors.applyDefaultPrimaryColors();
+            } else {
+                BasicColors.applyPrimaryColors();
+            }
             if (Prefs.getString(COLOR_ACCENT_SECONDARY).equals(STR_NULL)) {
-                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY);
-                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY_LIGHT, "color", "holo_green_dark", ICONIFY_COLOR_ACCENT_SECONDARY);
+                BasicColors.applyDefaultSecondaryColors();
+            } else {
+                BasicColors.applySecondaryColors();
             }
         }
+    }
 
-        OverlayUtil.disableOverlay("IconifyComponentAMGC.overlay");
+    private void initializeMinimalQsListener() {
+        minimalQsListener = (buttonView, isChecked) -> {
+            if (isChecked) {
+                binding.applyPitchBlackDarkTheme.setOnCheckedChangeListener(null);
+                binding.applyPitchBlackDarkTheme.setChecked(false);
+                binding.applyPitchBlackDarkTheme.setOnCheckedChangeListener(pitchBlackDarkListener);
+
+                binding.applyPitchBlackAmoledTheme.setOnCheckedChangeListener(null);
+                binding.applyPitchBlackAmoledTheme.setChecked(false);
+                binding.applyPitchBlackAmoledTheme.setOnCheckedChangeListener(pitchBlackAmoledListener);
+            }
+
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                if (isChecked) {
+                    OverlayUtil.changeOverlayState("IconifyComponentQSPBD.overlay", false, "IconifyComponentQSPBA.overlay", false, "IconifyComponentQSST.overlay", true);
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentQSST.overlay");
+                }
+            }, SWITCH_ANIMATION_DELAY);
+        };
     }
 
     CompoundButton.OnCheckedChangeListener monetAccentListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (isChecked) {
-                ((Switch) view.findViewById(R.id.apply_monet_gradient)).setOnCheckedChangeListener(null);
-                ((Switch) view.findViewById(R.id.apply_monet_gradient)).setChecked(false);
-                ((Switch) view.findViewById(R.id.apply_monet_gradient)).setOnCheckedChangeListener(monetGradientListener);
+                binding.applyMonetGradient.setOnCheckedChangeListener(null);
+                binding.applyMonetGradient.setChecked(false);
+                binding.applyMonetGradient.setOnCheckedChangeListener(monetGradientListener);
             }
 
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     disableMonetGradient();
                     enableMonetAccent();
                 } else {
                     disableMonetAccent();
+                    applyDefaultColors();
                 }
             }, SWITCH_ANIMATION_DELAY);
         }
     };
 
+
     CompoundButton.OnCheckedChangeListener monetGradientListener = (buttonView, isChecked) -> {
         if (isChecked) {
-            ((Switch) view.findViewById(R.id.apply_monet_accent)).setOnCheckedChangeListener(null);
-            ((Switch) view.findViewById(R.id.apply_monet_accent)).setChecked(false);
-            ((Switch) view.findViewById(R.id.apply_monet_accent)).setOnCheckedChangeListener(monetAccentListener);
+            binding.applyMonetAccent.setOnCheckedChangeListener(null);
+            binding.applyMonetAccent.setChecked(false);
+            binding.applyMonetAccent.setOnCheckedChangeListener(monetAccentListener);
         }
 
-        new Handler().postDelayed(() -> {
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
             if (isChecked) {
                 disableMonetAccent();
                 enableMonetGradient();
             } else {
                 disableMonetGradient();
+                applyDefaultColors();
             }
         }, SWITCH_ANIMATION_DELAY);
     };
 
-    CompoundButton.OnCheckedChangeListener minimalQsListener = null;
 
     CompoundButton.OnCheckedChangeListener pitchBlackDarkListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
@@ -229,16 +202,16 @@ public class ColorEngine extends BaseFragment {
                     initializeMinimalQsListener();
                 }
 
-                ((Switch) view.findViewById(R.id.apply_minimal_qspanel)).setOnCheckedChangeListener(null);
-                ((Switch) view.findViewById(R.id.apply_minimal_qspanel)).setChecked(false);
-                ((Switch) view.findViewById(R.id.apply_minimal_qspanel)).setOnCheckedChangeListener(minimalQsListener);
+                binding.applyMinimalQspanel.setOnCheckedChangeListener(null);
+                binding.applyMinimalQspanel.setChecked(false);
+                binding.applyMinimalQspanel.setOnCheckedChangeListener(minimalQsListener);
 
-                ((Switch) view.findViewById(R.id.apply_pitch_black_amoled_theme)).setOnCheckedChangeListener(null);
-                ((Switch) view.findViewById(R.id.apply_pitch_black_amoled_theme)).setChecked(false);
-                ((Switch) view.findViewById(R.id.apply_pitch_black_amoled_theme)).setOnCheckedChangeListener(pitchBlackAmoledListener);
+                binding.applyPitchBlackAmoledTheme.setOnCheckedChangeListener(null);
+                binding.applyPitchBlackAmoledTheme.setChecked(false);
+                binding.applyPitchBlackAmoledTheme.setOnCheckedChangeListener(pitchBlackAmoledListener);
             }
 
-            new Handler().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     OverlayUtil.changeOverlayState("IconifyComponentQSST.overlay", false, "IconifyComponentQSPBA.overlay", false, "IconifyComponentQSPBD.overlay", true);
                 } else {
@@ -254,16 +227,16 @@ public class ColorEngine extends BaseFragment {
                 initializeMinimalQsListener();
             }
 
-            ((Switch) view.findViewById(R.id.apply_minimal_qspanel)).setOnCheckedChangeListener(null);
-            ((Switch) view.findViewById(R.id.apply_minimal_qspanel)).setChecked(false);
-            ((Switch) view.findViewById(R.id.apply_minimal_qspanel)).setOnCheckedChangeListener(minimalQsListener);
+            binding.applyMinimalQspanel.setOnCheckedChangeListener(null);
+            binding.applyMinimalQspanel.setChecked(false);
+            binding.applyMinimalQspanel.setOnCheckedChangeListener(minimalQsListener);
 
-            ((Switch) view.findViewById(R.id.apply_pitch_black_dark_theme)).setOnCheckedChangeListener(null);
-            ((Switch) view.findViewById(R.id.apply_pitch_black_dark_theme)).setChecked(false);
-            ((Switch) view.findViewById(R.id.apply_pitch_black_dark_theme)).setOnCheckedChangeListener(pitchBlackDarkListener);
+            binding.applyPitchBlackDarkTheme.setOnCheckedChangeListener(null);
+            binding.applyPitchBlackDarkTheme.setChecked(false);
+            binding.applyPitchBlackDarkTheme.setOnCheckedChangeListener(pitchBlackDarkListener);
         }
 
-        new Handler().postDelayed(() -> {
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
             if (isChecked) {
                 OverlayUtil.changeOverlayState("IconifyComponentQSST.overlay", false, "IconifyComponentQSPBD.overlay", false, "IconifyComponentQSPBA.overlay", true);
             } else {
@@ -272,25 +245,5 @@ public class ColorEngine extends BaseFragment {
         }, SWITCH_ANIMATION_DELAY);
     };
 
-    private void initializeMinimalQsListener() {
-        minimalQsListener = (buttonView, isChecked) -> {
-            if (isChecked) {
-                ((Switch) view.findViewById(R.id.apply_pitch_black_dark_theme)).setOnCheckedChangeListener(null);
-                ((Switch) view.findViewById(R.id.apply_pitch_black_dark_theme)).setChecked(false);
-                ((Switch) view.findViewById(R.id.apply_pitch_black_dark_theme)).setOnCheckedChangeListener(pitchBlackDarkListener);
 
-                ((Switch) view.findViewById(R.id.apply_pitch_black_amoled_theme)).setOnCheckedChangeListener(null);
-                ((Switch) view.findViewById(R.id.apply_pitch_black_amoled_theme)).setChecked(false);
-                ((Switch) view.findViewById(R.id.apply_pitch_black_amoled_theme)).setOnCheckedChangeListener(pitchBlackAmoledListener);
-            }
-
-            new Handler().postDelayed(() -> {
-                if (isChecked) {
-                    OverlayUtil.changeOverlayState("IconifyComponentQSPBD.overlay", false, "IconifyComponentQSPBA.overlay", false, "IconifyComponentQSST.overlay", true);
-                } else {
-                    OverlayUtil.disableOverlay("IconifyComponentQSST.overlay");
-                }
-            }, SWITCH_ANIMATION_DELAY);
-        };
-    }
 }

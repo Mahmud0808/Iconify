@@ -18,8 +18,11 @@ import java.io.IOException;
 public class QsTileHeightCompiler {
 
     private static final String TAG = "QsTileHeightCompiler";
+    private static boolean mEnable = false;
 
-    public static boolean buildOverlay(String[] resources) throws IOException {
+    public static boolean buildOverlay(String[] resources, boolean enable) throws IOException {
+        mEnable = enable;
+
         preExecute();
 
         // Create AndroidManifest.xml
@@ -82,7 +85,9 @@ public class QsTileHeightCompiler {
         Shell.cmd("mkdir -p " + Resources.SIGNED_DIR).exec();
 
         // Disable the overlay in case it is already enabled
-        OverlayUtil.disableOverlay("IconifyComponentQSTH.overlay");
+        if (mEnable) {
+            OverlayUtil.disableOverlay("IconifyComponentQSTH.overlay");
+        }
     }
 
     private static void postExecute(boolean hasErroredOut) {
@@ -90,13 +95,17 @@ public class QsTileHeightCompiler {
         if (!hasErroredOut) {
             Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponentQSTH.apk " + Resources.OVERLAY_DIR + "/IconifyComponentQSTH.apk").exec();
             RootUtil.setPermissions(644, Resources.OVERLAY_DIR + "/IconifyComponentQSTH.apk");
+            Shell.cmd("pm install -r " + Resources.OVERLAY_DIR + "/IconifyComponentQSTH.apk").exec();
 
             SystemUtil.mountRW();
             Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponentQSTH.apk " + "/system/product/overlay/IconifyComponentQSTH.apk").exec();
             RootUtil.setPermissions(644, "/system/product/overlay/IconifyComponentQSTH.apk");
             SystemUtil.mountRO();
 
-            OverlayUtil.enableOverlay("IconifyComponentQSTH.overlay");
+            // Enable the overlay
+            if (mEnable) {
+                OverlayUtil.enableOverlay("IconifyComponentQSTH.overlay");
+            }
         }
 
         // Clean temp directory

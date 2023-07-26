@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    android:fillViewport="true"
+    android:fitsSystemWindows="true"
     tools:context=".ui.activities.Changelog">
 
     <androidx.core.widget.NestedScrollView
@@ -22,7 +22,7 @@
             android:layout_marginStart="@dimen/container_marginSide"
             android:layout_marginTop="@dimen/container_padding"
             android:layout_marginEnd="@dimen/container_marginSide"
-            android:layout_marginBottom="@dimen/_26sdp"
+            android:layout_marginBottom="36dp"
             android:background="@drawable/container"
             android:orientation="vertical"
             android:paddingStart="@dimen/container_paddingSide"
@@ -38,8 +38,8 @@
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:layout_marginEnd="@dimen/container_paddingSide"
                     android:background="@drawable/ic_changelog"
                     android:backgroundTint="@color/textColorPrimary"
@@ -50,8 +50,8 @@
                     android:id="@+id/changelog_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_minus2sdp"
-                    android:layout_marginBottom="@dimen/_minus1sdp"
+                    android:layout_marginTop="-3dp"
+                    android:layout_marginBottom="-1dp"
                     android:gravity="start|center"
                     android:textColor="@color/textColorPrimary"
                     android:textIsSelectable="true"
@@ -64,8 +64,8 @@
                 android:id="@+id/changelog_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_minus2sdp"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="-3dp"
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
                 android:textSize="@dimen/cont_desc_size" />
@@ -73,6 +73,8 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <include layout="@layout/view_header" />
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

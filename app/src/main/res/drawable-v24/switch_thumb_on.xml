@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:bottom="@dimen/switch_thumb_margin"
+        android:top="@dimen/switch_thumb_margin">
+        <shape android:shape="oval">
+            <size
+                android:width="@dimen/switch_thumb_size"
+                android:height="@dimen/switch_thumb_size" />
+            <solid android:color="@color/switch_thumb_on_color" />
+        </shape>
+    </item>
+</layer-list>

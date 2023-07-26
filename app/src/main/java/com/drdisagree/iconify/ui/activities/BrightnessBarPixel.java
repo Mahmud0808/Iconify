@@ -3,9 +3,9 @@ package com.drdisagree.iconify.ui.activities;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.databinding.ActivityBrightnessBarsPixelBinding;
 import com.drdisagree.iconify.ui.adapters.BrightnessBarAdapter;
 import com.drdisagree.iconify.ui.models.BrightnessBarModel;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
@@ -15,24 +15,25 @@ import java.util.ArrayList;
 
 public class BrightnessBarPixel extends BaseActivity {
 
-    LoadingDialog loadingDialog;
+    private ActivityBrightnessBarsPixelBinding binding;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_brightness_bars_pixel);
+        binding = ActivityBrightnessBarsPixelBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, findViewById(R.id.collapsing_toolbar), findViewById(R.id.toolbar), R.string.activity_title_brightness_bar);
+        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_brightness_bar);
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
 
         // RecyclerView
-        RecyclerView container = findViewById(R.id.brightness_bar_pixel_container);
-        container.setLayoutManager(new LinearLayoutManager(this));
-        container.setAdapter(initQsShapeItems());
-        container.setHasFixedSize(true);
+        binding.brightnessBarPixelContainer.setLayoutManager(new LinearLayoutManager(this));
+        binding.brightnessBarPixelContainer.setAdapter(initQsShapeItems());
+        binding.brightnessBarPixelContainer.setHasFixedSize(true);
     }
 
     private BrightnessBarAdapter initQsShapeItems() {

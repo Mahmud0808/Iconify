@@ -11,10 +11,10 @@
         </shape>
     </item>
     <item
-        android:bottom="2dp"
-        android:end="2dp"
-        android:start="2dp"
-        android:top="2dp">
+        android:bottom="1dp"
+        android:end="1dp"
+        android:start="1dp"
+        android:top="1dp">
         <shape android:shape="rectangle">
             <gradient
                 android:endColor="#B3FFFFFF"

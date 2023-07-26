@@ -4,6 +4,7 @@ import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ALPHA;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_HEIGHT;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_LANDSCAPE_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_OVERLAP;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ZOOMTOFIT;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
@@ -43,10 +44,12 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
 
     private static final String TAG = "Iconify - XposedHeaderImage: ";
     private static final String QuickStatusBarHeaderClass = SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader";
+    private static final String QSContainerImplClass = SYSTEMUI_PACKAGE + ".qs.QSContainerImpl";
     boolean showHeaderImage = false;
     int imageHeight = 140;
     int headerImageAlpha = 100;
     boolean zoomToFit = false;
+    boolean headerImageOverlap = false;
     boolean hideLandscapeHeaderImage = true;
     LinearLayout mQsHeaderLayout = null;
     ImageView mQsHeaderImageView = null;
@@ -63,6 +66,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
         headerImageAlpha = Xprefs.getInt(HEADER_IMAGE_ALPHA, 100);
         imageHeight = Xprefs.getInt(HEADER_IMAGE_HEIGHT, 140);
         zoomToFit = Xprefs.getBoolean(HEADER_IMAGE_ZOOMTOFIT, false);
+        headerImageOverlap = Xprefs.getBoolean(HEADER_IMAGE_OVERLAP, false);
         hideLandscapeHeaderImage = Xprefs.getBoolean(HEADER_IMAGE_LANDSCAPE_SWITCH, true);
 
         if (Key.length > 0 && (Objects.equals(Key[0], HEADER_IMAGE_SWITCH) || Objects.equals(Key[0], HEADER_IMAGE_LANDSCAPE_SWITCH) || Objects.equals(Key[0], HEADER_IMAGE_ALPHA) || Objects.equals(Key[0], HEADER_IMAGE_HEIGHT) || Objects.equals(Key[0], HEADER_IMAGE_ZOOMTOFIT))) {
@@ -80,6 +84,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
         if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE)) return;
 
         final Class<?> QuickStatusBarHeader = findClass(QuickStatusBarHeaderClass, lpparam.classLoader);
+        final Class<?> QSContainerImpl = findClass(QSContainerImplClass, lpparam.classLoader);
 
         try {
             hookAllMethods(QuickStatusBarHeader, "onFinishInflate", new XC_MethodHook() {
@@ -123,6 +128,18 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
                     }
                 }
             });
+
+            hookAllMethods(QSContainerImpl, "onFinishInflate", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (headerImageOverlap) return;
+
+                    FrameLayout mHeader = (FrameLayout) getObjectField(param.thisObject, "mHeader");
+                    ((FrameLayout) param.thisObject).removeView(mHeader);
+                    ((FrameLayout) param.thisObject).addView(mHeader, 0);
+                    ((FrameLayout) param.thisObject).requestLayout();
+                }
+            });
         } catch (Throwable throwable) {
             log(TAG + throwable);
         }
@@ -137,7 +154,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
         }
 
         loadImageOrGif(mQsHeaderImageView);
-        mQsHeaderImageView.setAlpha((int) (headerImageAlpha / 100.0 * 255.0));
+        mQsHeaderImageView.setImageAlpha((int) (headerImageAlpha / 100.0 * 255.0));
         mQsHeaderLayout.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, imageHeight, mContext.getResources().getDisplayMetrics());
         mQsHeaderLayout.requestLayout();
 

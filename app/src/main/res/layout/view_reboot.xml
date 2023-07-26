@@ -17,8 +17,8 @@
         android:orientation="horizontal">
 
         <FrameLayout
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:layout_gravity="start|center"
             android:layout_marginEnd="@dimen/container_padding"
             android:background="@drawable/container_semi_transparent"
@@ -26,8 +26,8 @@
 
             <ImageView
                 android:id="@+id/list_preview"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_gravity="center"
                 android:background="@drawable/ic_restart_device"
                 android:backgroundTint="@color/textColorPrimary"
@@ -65,12 +65,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginTop="16dp"
         android:letterSpacing="0"
         android:paddingStart="24dp"
-        android:paddingTop="@dimen/_4sdp"
+        android:paddingTop="6dp"
         android:paddingEnd="24dp"
-        android:paddingBottom="@dimen/_6sdp"
+        android:paddingBottom="8dp"
         android:text="@string/btn_reboot_now" />
 
 </LinearLayout>

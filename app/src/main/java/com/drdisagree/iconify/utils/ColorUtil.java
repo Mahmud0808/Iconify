@@ -1,10 +1,35 @@
 package com.drdisagree.iconify.utils;
 
+import android.content.Context;
 import android.graphics.Color;
 
-import com.drdisagree.iconify.Iconify;
-
 public class ColorUtil {
+
+    public static int hsl(float hue, float saturation, float lightness) {
+        return HSLColor.hslToColor(hue, saturation, lightness);
+    }
+
+    public static float getHue(int color) {
+        int r = Color.red(color);
+        int g = Color.green(color);
+        int b = Color.blue(color);
+
+        float[] hsv = new float[3];
+        Color.RGBToHSV(r, g, b, hsv);
+        return hsv[0];
+    }
+
+    public static int setHue(int color, float hue) {
+        int r = Color.red(color);
+        int g = Color.green(color);
+        int b = Color.blue(color);
+
+        float[] hsv = new float[3];
+        Color.RGBToHSV(r, g, b, hsv);
+        hsv[0] = hue;
+
+        return Color.HSVToColor(hsv);
+    }
 
     public static float getSaturation(int color) {
         int r = Color.red(color);
@@ -13,7 +38,6 @@ public class ColorUtil {
 
         float[] hsv = new float[3];
         Color.RGBToHSV(r, g, b, hsv);
-
         return hsv[1];
     }
 
@@ -36,7 +60,6 @@ public class ColorUtil {
 
         float[] hsv = new float[3];
         Color.RGBToHSV(r, g, b, hsv);
-
         return hsv[2];
     }
 
@@ -52,211 +75,122 @@ public class ColorUtil {
         return Color.HSVToColor(hsv);
     }
 
-    public static String[][] getColorNames() {
-        return new String[][]{
-                new String[]{
-                        "system_accent1_0",
-                        "system_accent1_10",
-                        "system_accent1_50",
-                        "system_accent1_100",
-                        "system_accent1_200",
-                        "system_accent1_300",
-                        "system_accent1_400",
-                        "system_accent1_500",
-                        "system_accent1_600",
-                        "system_accent1_700",
-                        "system_accent1_800",
-                        "system_accent1_900",
-                        "system_accent1_1000"
-                },
-                new String[]{
-                        "system_accent2_0",
-                        "system_accent2_10",
-                        "system_accent2_50",
-                        "system_accent2_100",
-                        "system_accent2_200",
-                        "system_accent2_300",
-                        "system_accent2_400",
-                        "system_accent2_500",
-                        "system_accent2_600",
-                        "system_accent2_700",
-                        "system_accent2_800",
-                        "system_accent2_900",
-                        "system_accent2_1000"
-                },
-                new String[]{
-                        "system_accent3_0",
-                        "system_accent3_10",
-                        "system_accent3_50",
-                        "system_accent3_100",
-                        "system_accent3_200",
-                        "system_accent3_300",
-                        "system_accent3_400",
-                        "system_accent3_500",
-                        "system_accent3_600",
-                        "system_accent3_700",
-                        "system_accent3_800",
-                        "system_accent3_900",
-                        "system_accent3_1000"
-                },
-                new String[]{
-                        "system_neutral1_0",
-                        "system_neutral1_10",
-                        "system_neutral1_50",
-                        "system_neutral1_100",
-                        "system_neutral1_200",
-                        "system_neutral1_300",
-                        "system_neutral1_400",
-                        "system_neutral1_500",
-                        "system_neutral1_600",
-                        "system_neutral1_700",
-                        "system_neutral1_800",
-                        "system_neutral1_900",
-                        "system_neutral1_1000"
-                },
-                new String[]{
-                        "system_neutral2_0",
-                        "system_neutral2_10",
-                        "system_neutral2_50",
-                        "system_neutral2_100",
-                        "system_neutral2_200",
-                        "system_neutral2_300",
-                        "system_neutral2_400",
-                        "system_neutral2_500",
-                        "system_neutral2_600",
-                        "system_neutral2_700",
-                        "system_neutral2_800",
-                        "system_neutral2_900",
-                        "system_neutral2_1000"
-                }
-        };
+    public static String colorToHex(int color) {
+        int alpha = Color.alpha(color);
+        int blue = Color.blue(color);
+        int green = Color.green(color);
+        int red = Color.red(color);
+
+        return String.format("#%02X%02X%02X%02X", alpha, red, green, blue);
     }
 
-    public static int[][] getSystemColors() {
+    public static String colorToSpecialHex(int color) {
+        int blue = Color.blue(color);
+        int green = Color.green(color);
+        int red = Color.red(color);
+
+        return String.format("0xff%02X%02X%02X", red, green, blue);
+    }
+
+    public static float[] getSystemTintList() {
+        return new float[]{1.0f, 0.99f, 0.95f, 0.9f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.1f, 0.0f};
+    }
+
+    public static String[][] getColorNames() {
+        String[] accentTypes = {"system_accent1", "system_accent2", "system_accent3", "system_neutral1", "system_neutral2"};
+        String[] values = {"0", "10", "50", "100", "200", "300", "400", "500", "600", "700", "800", "900", "1000"};
+
+        String[][] colorNames = new String[accentTypes.length][values.length];
+
+        for (int i = 0; i < accentTypes.length; i++) {
+            for (int j = 0; j < values.length; j++) {
+                colorNames[i][j] = accentTypes[i] + "_" + values[j];
+            }
+        }
+
+        return colorNames;
+    }
+
+    public static int[][] getSystemColors(Context context) {
         return new int[][]{
                 new int[]{
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_primary100),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_primary99),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_primary95),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_primary90),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_primary80),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_primary70),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_primary60),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_primary50),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_primary40),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_primary30),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_primary20),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_primary10),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_primary0)
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_primary100, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_primary99, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_primary95, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_primary90, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_primary80, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_primary70, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_primary60, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_primary50, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_primary40, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_primary30, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_primary20, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_primary10, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_primary0, context.getTheme())
                 },
 
                 new int[]{
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary100),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary99),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary95),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary90),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary80),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary70),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary60),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary50),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary40),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary30),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary20),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary10),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary0)
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary100, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary99, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary95, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary90, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary80, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary70, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary60, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary50, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary40, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary30, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary20, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary10, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_secondary0, context.getTheme())
                 },
 
                 new int[]{
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary100),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary99),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary95),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary90),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary80),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary70),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary60),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary50),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary40),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary30),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary20),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary10),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary0)
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary100, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary99, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary95, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary90, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary80, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary70, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary60, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary50, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary40, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary30, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary20, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary10, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_tertiary0, context.getTheme())
                 },
 
                 new int[]{
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral100),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral99),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral95),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral90),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral80),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral70),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral60),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral50),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral40),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral30),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral20),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral10),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral0)
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral100, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral99, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral95, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral90, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral80, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral70, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral60, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral50, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral40, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral30, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral20, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral10, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral0, context.getTheme())
                 },
 
                 new int[]{
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant100),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant99),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant95),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant90),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant80),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant70),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant60),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant50),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant40),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant30),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant20),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant10),
-                        Iconify.getAppContext().getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant0)
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant100, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant99, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant95, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant90, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant80, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant70, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant60, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant50, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant40, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant30, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant20, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant10, context.getTheme()),
+                        context.getResources().getColor(com.google.android.material.R.color.material_dynamic_neutral_variant0, context.getTheme())
                 }};
-    }
-
-    public static String ColorToHex(int color, boolean opacity, boolean hash) {
-        int alpha = android.graphics.Color.alpha(color);
-        int blue = android.graphics.Color.blue(color);
-        int green = android.graphics.Color.green(color);
-        int red = android.graphics.Color.red(color);
-
-        String alphaHex = To00Hex(alpha);
-        String blueHex = To00Hex(blue);
-        String greenHex = To00Hex(green);
-        String redHex = To00Hex(red);
-
-        StringBuilder str;
-
-        if (hash)
-            str = new StringBuilder("#");
-        else
-            str = new StringBuilder();
-
-        if (opacity)
-            str.append(alphaHex);
-        str.append(redHex);
-        str.append(greenHex);
-        str.append(blueHex);
-        return str.toString();
-    }
-
-    public static String ColorToSpecialHex(int color) {
-        int alpha = android.graphics.Color.alpha(color);
-        int blue = android.graphics.Color.blue(color);
-        int green = android.graphics.Color.green(color);
-        int red = android.graphics.Color.red(color);
-
-        String alphaHex = To00Hex(alpha);
-        String blueHex = To00Hex(blue);
-        String greenHex = To00Hex(green);
-        String redHex = To00Hex(red);
-
-        return "0xff" + redHex + greenHex + blueHex;
-    }
-
-    private static String To00Hex(int value) {
-        String hex = "00".concat(Integer.toHexString(value));
-        return hex.substring(hex.length() - 2);
     }
 }

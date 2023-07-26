@@ -4,7 +4,7 @@
         <layer-list>
             <item android:bottom="8dp" android:end="8dp" android:start="3dp" android:top="8dp">
                 <shape android:shape="rectangle">
-                    <gradient android:angle="0.0" android:endColor="@color/holo_green_light" android:startColor="@color/holo_blue_light" />
+                    <gradient android:angle="0.0" android:endColor="@color/settingslib_track_on_color_end" android:startColor="@color/settingslib_track_on_color_start" />
                     <corners android:radius="12dp" />
                     <size android:width="12dp" android:height="12dp" />
                 </shape>
