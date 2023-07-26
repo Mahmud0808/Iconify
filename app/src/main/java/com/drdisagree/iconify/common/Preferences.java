@@ -104,7 +104,6 @@ public class Preferences {
     public static final String QSPANEL_BLUR_SWITCH = "qsBlurSwitch";
     public static final String UI_CORNER_RADIUS = "uiCornerRadius";
     public static final String MONET_STYLE = "customMonetStyle";
-    public static final String MONET_COLOR_PALETTE = "monetColorPalette";
     public static final String MONET_PRIMARY_COLOR = "monetPrimaryColor";
     public static final String MONET_SECONDARY_COLOR = "monetSecondaryColor";
     public static final String MONET_PRIMARY_ACCENT_SATURATION = "monetPrimaryAccentSaturation";

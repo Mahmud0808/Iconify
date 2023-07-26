@@ -10,7 +10,6 @@ import static com.drdisagree.iconify.common.Preferences.CUSTOM_SECONDARY_COLOR_S
 import static com.drdisagree.iconify.common.Preferences.MONET_ACCURATE_SHADES;
 import static com.drdisagree.iconify.common.Preferences.MONET_BACKGROUND_LIGHTNESS;
 import static com.drdisagree.iconify.common.Preferences.MONET_BACKGROUND_SATURATION;
-import static com.drdisagree.iconify.common.Preferences.MONET_COLOR_PALETTE;
 import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.MONET_PRIMARY_ACCENT_SATURATION;
 import static com.drdisagree.iconify.common.Preferences.MONET_PRIMARY_COLOR;
@@ -21,16 +20,26 @@ import static com.drdisagree.iconify.common.Preferences.STR_NULL;
 import static com.drdisagree.iconify.utils.ColorSchemeUtil.generateColorPalette;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
@@ -42,12 +51,17 @@ import com.drdisagree.iconify.utils.ColorUtil;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.utils.helpers.ImportExport;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -289,7 +303,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
             if (!Environment.isExternalStorageManager()) {
                 SystemUtil.getStoragePermission(this);
             } else if (Objects.equals(selectedStyle, STR_NULL)) {
-                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MonetEngine.this, getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
             } else {
                 Prefs.putBoolean(MONET_ACCURATE_SHADES, accurateShades);
                 if (isSelectedPrimary) Prefs.putString(MONET_PRIMARY_COLOR, accentPrimary);
@@ -307,7 +321,6 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                 Runnable runnable1 = () -> {
                     try {
                         if (MonetEngineManager.enableOverlay(finalPalette, true)) {
-                            Prefs.clearPref(MONET_COLOR_PALETTE);
                             hasErroredOut.set(true);
                         }
                     } catch (Exception e) {
@@ -327,11 +340,11 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
 
                         new Handler(Looper.getMainLooper()).postDelayed(() -> {
                             if (!hasErroredOut.get()) {
-                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MonetEngine.this, getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                                 binding.enableCustomMonet.setVisibility(View.GONE);
                                 binding.disableCustomMonet.setVisibility(View.VISIBLE);
                             } else
-                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MonetEngine.this, getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                         }, 20);
                     });
                 };
@@ -350,7 +363,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
 
                 runOnUiThread(() -> {
                     new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MonetEngine.this, getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
                         binding.disableCustomMonet.setVisibility(View.GONE);
                         isSelectedPrimary = false;
                         isSelectedSecondary = false;
@@ -530,6 +543,72 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         return cloned;
     }
 
+    private void importExportSettings(boolean export) {
+        if (!Environment.isExternalStorageManager()) {
+            SystemUtil.getStoragePermission(MonetEngine.this);
+        } else {
+            Intent fileIntent = new Intent();
+            fileIntent.setAction(export ? Intent.ACTION_CREATE_DOCUMENT : Intent.ACTION_GET_CONTENT);
+            fileIntent.setType("*/*");
+            fileIntent.putExtra(Intent.EXTRA_TITLE, "monet_configs" + ".iconify");
+            if (export) {
+                startExportActivityIntent.launch(fileIntent);
+            } else {
+                startImportActivityIntent.launch(fileIntent);
+            }
+        }
+    }
+
+    ActivityResultLauncher<Intent> startExportActivityIntent = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result1 -> {
+                if (result1.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result1.getData();
+                    if (data == null) return;
+
+                    try {
+                        ImportExport.exportSettings(Prefs.prefs, MonetEngine.this.getContentResolver().openOutputStream(data.getData()));
+                        Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_export_settings_successfull), Toast.LENGTH_SHORT).show();
+                    } catch (Exception exception) {
+                        Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                        Log.e("MonetEngine", "Error exporting settings", exception);
+                    }
+                }
+            });
+    ActivityResultLauncher<Intent> startImportActivityIntent = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result2 -> {
+                if (result2.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result2.getData();
+                    if (data == null) return;
+
+                    AlertDialog alertDialog = new AlertDialog.Builder(MonetEngine.this).create();
+                    alertDialog.setTitle(MonetEngine.this.getResources().getString(R.string.import_settings_confirmation_title));
+                    alertDialog.setMessage(MonetEngine.this.getResources().getString(R.string.import_settings_confirmation_desc));
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, MonetEngine.this.getResources().getString(R.string.btn_positive),
+                            (dialog, which) -> {
+                                dialog.dismiss();
+                                new Handler(Looper.getMainLooper()).post(() -> {
+                                    try {
+                                        boolean success = importMonetSettings(Prefs.prefs, MonetEngine.this.getContentResolver().openInputStream(data.getData()));
+                                        if (success) {
+                                            Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                        }
+                                    } catch (Exception exception) {
+                                        Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                        Log.e("MonetEngine", "Error importing settings", exception);
+                                    }
+                                });
+                            });
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, MonetEngine.this.getResources().getString(R.string.btn_negative),
+                            (dialog, which) -> dialog.dismiss());
+                    alertDialog.show();
+                }
+            });
+
+
     @Override
     public void onColorSelected(int dialogId, int color) {
         switch (dialogId) {
@@ -578,5 +657,107 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         if (rd_monet_style != null)
             rd_monet_style.dismiss();
         super.onDestroy();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.monet_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemID = item.getItemId();
+
+        if (itemID == R.id.menu_export_settings) {
+            importExportSettings(true);
+        } else if (itemID == R.id.menu_import_settings) {
+            importExportSettings(false);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @SuppressWarnings("unchecked")
+    public boolean importMonetSettings(SharedPreferences sharedPreferences, final @NonNull InputStream inputStream) throws IOException {
+        ObjectInputStream objectInputStream = null;
+        Map<String, Object> map;
+        try {
+            objectInputStream = new ObjectInputStream(inputStream);
+            map = (Map<String, Object>) objectInputStream.readObject();
+        } catch (Exception exception) {
+            Log.e("ImportSettings", "Error deserializing preferences", exception);
+            return false;
+        } finally {
+            if (objectInputStream != null) {
+                objectInputStream.close();
+            }
+            inputStream.close();
+        }
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        for (Map.Entry<String, Object> e : map.entrySet()) {
+            if (e.getValue() instanceof Boolean && (e.getKey().contains(MONET_ENGINE_SWITCH) ||
+                    e.getKey().contains(MONET_ACCURATE_SHADES)
+            )) {
+                editor.putBoolean(e.getKey(), (Boolean) e.getValue());
+            } else if (e.getValue() instanceof String && (e.getKey().endsWith("_day") ||
+                    e.getKey().endsWith("_night") ||
+                    e.getKey().contains(MONET_STYLE) ||
+                    e.getKey().contains(MONET_PRIMARY_COLOR) ||
+                    e.getKey().contains(MONET_SECONDARY_COLOR)
+            )) {
+                editor.putString(e.getKey(), (String) e.getValue());
+            } else if (e.getValue() instanceof Integer && (e.getKey().contains(MONET_PRIMARY_ACCENT_SATURATION) ||
+                    e.getKey().contains(MONET_SECONDARY_ACCENT_SATURATION) ||
+                    e.getKey().contains(MONET_BACKGROUND_SATURATION) ||
+                    e.getKey().contains(MONET_BACKGROUND_LIGHTNESS)
+            )) {
+                editor.putInt(e.getKey(), (int) e.getValue());
+            }
+        }
+
+        boolean status = editor.commit();
+
+        try {
+            String[][] colors = ColorUtil.getColorNames();
+            List<List<List<Object>>> palette = new ArrayList<>();
+            String[] statNames = new String[]{"_day", "_night"};
+
+            for (String stat : statNames) {
+                List<List<Object>> temp = new ArrayList<>();
+                for (String[] types : colors) {
+                    List<Object> tmp = new ArrayList<>();
+                    for (String color : types) {
+                        tmp.add(Integer.parseInt(Objects.requireNonNull(map.get(color + stat)).toString()));
+                    }
+                    temp.add(tmp);
+                }
+                palette.add(temp);
+            }
+
+            status = status && !MonetEngineManager.enableOverlay(palette, true);
+
+            if (status) {
+                Prefs.putBoolean(MONET_ENGINE_SWITCH, true);
+
+                if (Prefs.getBoolean("IconifyComponentQSPBD.overlay")) {
+                    OverlayUtil.changeOverlayState("IconifyComponentQSPBD.overlay", false, "IconifyComponentQSPBD.overlay", true);
+                } else if (Prefs.getBoolean("IconifyComponentQSPBA.overlay")) {
+                    OverlayUtil.changeOverlayState("IconifyComponentQSPBA.overlay", false, "IconifyComponentQSPBA.overlay", true);
+                }
+
+                Toast.makeText(MonetEngine.this, getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                binding.enableCustomMonet.setVisibility(View.GONE);
+                binding.disableCustomMonet.setVisibility(View.VISIBLE);
+            } else
+                Toast.makeText(MonetEngine.this, getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+        } catch (Exception exception) {
+            Log.e("ImportSettings", "Error building Monet Engine", exception);
+        }
+
+        return status;
     }
 }
