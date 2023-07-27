@@ -699,6 +699,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         for (Map.Entry<String, Object> e : map.entrySet()) {
+            if (e.getKey() == null) continue;
             if (e.getValue() instanceof Boolean && (e.getKey().contains(MONET_ENGINE_SWITCH) ||
                     e.getKey().contains(MONET_ACCURATE_SHADES)
             )) {
