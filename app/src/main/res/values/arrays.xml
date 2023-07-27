@@ -6,7 +6,7 @@
         <item>com.google.android.apps.nexuslauncher</item>
     </string-array>
     <string-array name="locale_name">
-        <item>العربيه</item>
+        <item>Arabic</item>
         <item>English</item>
         <item>Chinese (China)</item>
         <item>French</item>
