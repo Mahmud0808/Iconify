@@ -6,6 +6,7 @@
         <item>com.google.android.apps.nexuslauncher</item>
     </string-array>
     <string-array name="locale_name">
+        <item>Arabic</item>
         <item>English</item>
         <item>Chinese (China)</item>
         <item>French</item>
@@ -17,6 +18,7 @@
         <item>Vietnamese</item>
     </string-array>
     <string-array name="locale_code" translatable="false">
+        <item>ar</item>
         <item>en</item>
         <item>zh</item>
         <item>fr</item>
