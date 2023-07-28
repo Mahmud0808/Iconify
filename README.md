@@ -1,11 +1,6 @@
 <div align="center">
   <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/.github/resources/banner.png" width="100%" alt="Banner">
-
-**This app It has been Arabized by <a href="github.com/mrx7014">MRX7014</a>
-and <a href="github.com/muhammadbahaa2001">Mohamed Bahaa</a> Dowload from <a href="https://github.com/mrx7014/Iconify-Arabic/releases/tag/v6.4.0">Here</a>**
-
-**Donate: https://bmc.link/mrx7014**
-
+  
   # v6.4.0 is out!
 </div>
 <p align="center">
