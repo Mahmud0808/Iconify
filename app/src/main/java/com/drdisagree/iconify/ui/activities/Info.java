@@ -100,6 +100,8 @@ public class Info extends BaseActivity {
         ArrayList<InfoModel> translators_list = new ArrayList<>();
 
         translators_list.add(new InfoModel(getResources().getString(R.string.section_title_translators)));
+        translators_list.add(new InfoModel(this, "MRX7014", getResources().getString(R.string.ar_translation), "https://github.com/mrx7014", R.drawable.ic_user));
+        translators_list.add(new InfoModel(this, "Mohamed Bahaa", getResources().getString(R.string.ar_translation), "https://github.com/muhammadbahaa2001", R.drawable.ic_user));
         translators_list.add(new InfoModel(this, "MXC48", getResources().getString(R.string.fr_translation), "https://github.com/MXC48", R.drawable.ic_user));
         translators_list.add(new InfoModel(this, "KaeruShi", getResources().getString(R.string.id_translation), "https://github.com/KaeruShi", R.drawable.ic_user));
         translators_list.add(new InfoModel(this, "Faceless1999", getResources().getString(R.string.fa_translation), "https://github.com/Faceless1999", R.drawable.ic_user));

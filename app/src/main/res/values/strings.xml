@@ -383,6 +383,7 @@
     <string name="new_update_desc">A new version of Iconify is available.</string>
     <string name="update_notification_channel_name">Updates</string>
     <string name="update_notification_channel_desc">This channel shows notification about the latest updates.</string>
+    <string name="ar_translation">Arabic translation.</string>
     <string name="fa_translation">Persian translation.</string>
     <string name="fr_translation">French translation.</string>
     <string name="id_translation">Indonesian translation.</string>
