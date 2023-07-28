@@ -110,6 +110,17 @@ You can track all the progress [HERE](https://github.com/Mahmud0808/Iconify/comm
 - [HideNavBar](https://github.com/Magisk-Modules-Repo/HideNavBar) for the navbar tweaks.
 - And everyone who contributed... :)
 
+# 🌐 Translations
+- Arabic [@MRX7014](https://github.com/mrx7014), [@Mohamed Bahaa](https://github.com/muhammadbahaa2001)
+- French [@MXC48](https://github.com/MXC48)
+- Indonesian [@KaeruShi](https://github.com/KaeruShi)
+- Persian [@Faceless1999](https://github.com/Faceless1999)
+- Portuguese [@ElTifo](https://github.com/ElTifo)
+- Russian [@B1ays](https://github.com/B1ays)
+- Simplified Chinese [@Cccc-owo](https://github.com/Cccc-owo)
+- Turkish [@serhat-demir](https://github.com/serhat-demir)
+- Vietnamese [@viettel1211](https://t.me/viettel1211)
+
 # 🤝 Contribution
 
 We highly appreciate and welcome all forms of contributions, ranging from code, documentation, graphics, design suggestions, to bug reports. We encourage you to make the most of GitHub's collaborative platform by submitting Pull Requests, providing tutorials or other relevant content. Whatever you have to offer, we value and can utilize it effectively in our project.
