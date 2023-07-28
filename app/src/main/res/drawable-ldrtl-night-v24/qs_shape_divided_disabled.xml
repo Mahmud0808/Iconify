@@ -12,7 +12,7 @@
             <corners android:radius="24dp" />
         </shape>
     </item>
-    <item android:gravity="left|center">
+    <item android:gravity="right|center">
         <rotate
             android:fromDegrees="@dimen/rotate_rtl_mode"
             android:toDegrees="0">

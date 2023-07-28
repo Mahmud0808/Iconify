@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:tintMode="src_atop">
-            <solid android:color="@color/offStateColor" />
+            <solid android:color="@color/offStateColorPixel" />
             <corners android:radius="24dp" />
         </shape>
     </item>
@@ -12,12 +12,12 @@
             <corners android:radius="24dp" />
         </shape>
     </item>
-    <item android:gravity="left|center">
+    <item android:gravity="right|center">
         <rotate
             android:fromDegrees="@dimen/rotate_rtl_mode"
             android:toDegrees="0">
             <shape android:tintMode="src_atop">
-                <solid android:color="@color/offStateColor" />
+                <solid android:color="@color/offStateColorPixel" />
                 <corners
                     android:bottomLeftRadius="24dp"
                     android:topLeftRadius="24dp" />

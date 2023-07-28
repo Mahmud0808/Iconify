@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="rotate_rtl_mode" format="float" type="dimen">180.0</item>
+    <item name="flip_rtl_mode" format="float" type="dimen">-1.0</item>
+</resources>

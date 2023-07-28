@@ -11,16 +11,20 @@
         </shape>
     </item>
     <item android:gravity="end|center">
-        <shape android:shape="rectangle">
-            <corners
-                android:bottomLeftRadius="0.0dp"
-                android:bottomRightRadius="23.0dp"
-                android:topLeftRadius="0.0dp"
-                android:topRightRadius="23.0dp" />
-            <size
-                android:width="80.0dp"
-                android:height="48.0dp" />
-            <solid android:color="@color/offStateColor" />
-        </shape>
+        <rotate
+            android:fromDegrees="@dimen/rotate_rtl_mode"
+            android:toDegrees="0">
+            <shape android:shape="rectangle">
+                <corners
+                    android:bottomLeftRadius="0.0dp"
+                    android:bottomRightRadius="23.0dp"
+                    android:topLeftRadius="0.0dp"
+                    android:topRightRadius="23.0dp" />
+                <size
+                    android:width="80.0dp"
+                    android:height="48.0dp" />
+                <solid android:color="@color/offStateColor" />
+            </shape>
+        </rotate>
     </item>
 </layer-list>

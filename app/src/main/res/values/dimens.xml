@@ -23,4 +23,6 @@
     <dimen name="switch_track_radius">32dp</dimen>
     <dimen name="preview_color_picker_radius">32dp</dimen>
     <item name="switch_track_on_alpha" format="float" type="dimen">1.0</item>
+    <item name="rotate_rtl_mode" format="float" type="dimen">0.0</item>
+    <item name="flip_rtl_mode" format="float" type="dimen">1.0</item>
 </resources>
