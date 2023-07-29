@@ -22,9 +22,9 @@ Iconify is an open-source Android mobile application aimed at providing users wi
 Furthermore, the open-source nature of Iconify encourages community contributions and continuous improvement, ensuring a dynamic and evolving user experience. 🤝
 </p>
 <div align="center">
-
-#### 🌟STAR THIS REPOSITORY TO SUPPORT THE DEVELOPER AND ENCOURAGE THE DEVELOPMENT OF THE APPLICATION!
-
+  <br>
+  <img src="https://github.com/Mahmud0808/Iconify/blob/beta/.github/resources/bmc-button.png" width="30%" alt="Buy me a coffee" />
+  <br><br>
   <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/.github/resources/features.png" width="100%" alt="Features">
 
 </div>
@@ -94,8 +94,8 @@ You can track all the progress [HERE](https://github.com/Mahmud0808/Iconify/comm
   - To report a bug, please navigate to the [Issues](https://github.com/Mahmud0808/Iconify/issues/new/choose) section. Create a new issue and ensure you select the `Bug Report` template. Provide as much detailed information as possible, including steps to reproduce the bug and any relevant error messages or screenshots.
 - How do I request a new feature?
   - If you have a feature request, please go to the [Issues](https://github.com/Mahmud0808/Iconify/issues/new/choose) section. Create a new issue and choose the `Feature Request` template. Be sure to include comprehensive details about the desired feature, its potential benefits, and any other relevant information that can assist in understanding and evaluating the request.
-- How can I donate to this project?
-  - At present, I do not accept any form of donation. This project is purely a personal endeavor undertaken during my leisure time. Additionally, I prefer to maintain the freedom of releasing future updates without any obligations associated with accepting donations.
+- Where can I make a donation?
+  - The preferred and designated means for donating to the project's developer is via the "[Buy me a coffee](https://www.buymeacoffee.com/DrDisagree)" page.
 
 # ❤ Credits 
 
