@@ -161,7 +161,7 @@ public class QsPanelMargin extends AppCompatActivity {
 
                             binding.qsMarginReset.setVisibility(View.VISIBLE);
                         } else {
-                            RPrefs.putInt(HEADER_QQS_TOPMARGIN, -1);
+                            RPrefs.clearPref(HEADER_QQS_TOPMARGIN);
                         }
 
                         new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -182,6 +182,7 @@ public class QsPanelMargin extends AppCompatActivity {
 
         binding.qsMarginReset.setOnClickListener(v -> {
             Prefs.clearPrefs(PORT_QQS_TOP_MARGIN, PORT_QS_TOP_MARGIN, LAND_QQS_TOP_MARGIN, LAND_QS_TOP_MARGIN);
+            RPrefs.clearPref(HEADER_QQS_TOPMARGIN);
 
             portQqsMargin[0] = 100;
             portQsMargin[0] = 100;
