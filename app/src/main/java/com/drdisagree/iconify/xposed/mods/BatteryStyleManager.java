@@ -63,11 +63,15 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XResources;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import androidx.annotation.NonNull;
 
 import com.drdisagree.iconify.xposed.HookEntry;
 import com.drdisagree.iconify.xposed.ModPack;
@@ -115,6 +119,7 @@ public class BatteryStyleManager extends ModPack {
     private int frameColor;
     private Object BatteryController = null;
     private int customBatteryMargin = 6;
+    private int textColorPrimary = Color.TRANSPARENT;
 
     public BatteryStyleManager(Context context) {
         super(context);
@@ -317,7 +322,7 @@ public class BatteryStyleManager extends ModPack {
         try {
             View.OnAttachStateChangeListener listener = new View.OnAttachStateChangeListener() {
                 @Override
-                public void onViewAttachedToWindow(View v) {
+                public void onViewAttachedToWindow(@NonNull View v) {
                     batteryViews.add(v);
                     new Thread(() -> {
                         try {
@@ -331,7 +336,7 @@ public class BatteryStyleManager extends ModPack {
                 }
 
                 @Override
-                public void onViewDetachedFromWindow(View v) {
+                public void onViewDetachedFromWindow(@NonNull View v) {
                     batteryViews.remove(v);
                 }
             };
@@ -388,6 +393,33 @@ public class BatteryStyleManager extends ModPack {
         }
 
         try {
+            Class<?> ShadeHeaderControllerClass = findClassIfExists("com.android.systemui.shade.ShadeHeaderController", lpparam.classLoader);
+            if (ShadeHeaderControllerClass == null)
+                ShadeHeaderControllerClass = findClass("com.android.systemui.shade.LargeScreenShadeHeaderController", lpparam.classLoader);
+
+            hookAllMethods(ShadeHeaderControllerClass, "updateResources", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!customBatteryEnabled) return;
+
+                    updateBatteryResources(mContext, param);
+                    hidePercentage(param);
+                }
+            });
+
+            hookAllMethods(ShadeHeaderControllerClass, "onConfigurationChanged", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!customBatteryEnabled) return;
+
+                    updateBatteryResources(mContext, param);
+                    hidePercentage(param);
+                }
+            });
+        } catch (Throwable ignored) {
+        }
+
+        try {
             hookAllMethods(BatteryMeterViewClass, "setPercentShowMode", new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) {
@@ -396,22 +428,11 @@ public class BatteryStyleManager extends ModPack {
                     }
                 }
             });
-        } catch (Throwable throwable) {
-            log(TAG + throwable);
-        }
 
-        try {
             hookAllMethods(BatteryMeterViewClass, "updateShowPercent", new XC_MethodHook() {
                 @Override
-                protected void beforeHookedMethod(MethodHookParam param) {
-                    if (showPercentInside) {
-                        setObjectField(param.thisObject, "mShowPercentMode", 2);
-                        try {
-                            callMethod(param.thisObject, "removeView", getObjectField(param.thisObject, "mBatteryPercentView"));
-                            setObjectField(param.thisObject, "mBatteryPercentView", null);
-                        } catch (Throwable ignored) {
-                        }
-                    }
+                protected void afterHookedMethod(MethodHookParam param) {
+                    hidePercentage(param);
                 }
             });
         } catch (Throwable throwable) {
@@ -438,6 +459,24 @@ public class BatteryStyleManager extends ModPack {
         }
 
         setCustomBatteryDimens();
+    }
+
+    private void updateBatteryResources(Context context, XC_MethodHook.MethodHookParam param) {
+        try {
+            int textColor = SettingsLibUtils.getColorAttrDefaultColor(context, android.R.attr.textColorPrimary);
+            LinearLayout batteryIcon = (LinearLayout) getObjectField(param.thisObject, "batteryIcon");
+
+            if (textColor != textColorPrimary) {
+                int textColorSecondary = SettingsLibUtils.getColorAttrDefaultColor(context, android.R.attr.textColorHint);
+                textColorPrimary = textColor;
+                if (getObjectField(param.thisObject, "iconManager") != null) {
+                    callMethod(getObjectField(param.thisObject, "iconManager"), "setTint", textColor);
+                }
+                callMethod(batteryIcon, "updateColors", textColorPrimary, textColorSecondary, textColorPrimary);
+            }
+        } catch (Throwable throwable) {
+            log(TAG + throwable);
+        }
     }
 
     @SuppressLint("DiscouragedApi")
