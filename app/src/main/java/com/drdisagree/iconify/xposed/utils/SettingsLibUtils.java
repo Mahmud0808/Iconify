@@ -31,6 +31,10 @@ public class SettingsLibUtils {
             UtilsClass = findClass("com.android.settingslib.Utils", classLoader);
     }
 
+    public static ColorStateList getColorAttr(Context context, int resID) {
+        return getColorAttr(resID, context);
+    }
+
     public static ColorStateList getColorAttr(int resID, Context context) {
         if (UtilsClass == null) return null;
 
@@ -39,6 +43,10 @@ public class SettingsLibUtils {
         } catch (Throwable t) {
             return (ColorStateList) callStaticMethod(UtilsClass, "getColorAttr", context, resID);
         }
+    }
+
+    public static int getColorAttrDefaultColor(Context context, int resID) {
+        return getColorAttrDefaultColor(resID, context);
     }
 
     public static int getColorAttrDefaultColor(int resID, Context context) {
