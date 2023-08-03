@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -33,10 +35,9 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled true
+            minifyEnabled false
             shrinkResources false
-            zipAlignEnabled true
-            crunchPngs true
+            crunchPngs false
             proguardFiles "proguard-android-optimize.txt", "proguard.pro", "proguard-rules.pro"
             applicationIdSuffix ".debug"
             resValue("string", "derived_app_name", "Iconify (Debug)")
@@ -46,7 +47,6 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            zipAlignEnabled true
             crunchPngs true
             proguardFiles "proguard-android-optimize.txt", "proguard.pro", "proguard-rules.pro"
             resValue("string", "derived_app_name", "Iconify")
@@ -70,16 +70,13 @@ android {
     }
 
     packagingOptions {
+        jniLibs {
+            excludes += ['/META-INF/*', '/META-INF/versions/**', '/org/bouncycastle/**', '/kotlin/**', '/kotlinx/**']
+        }
+        resources {
+            excludes += ['/META-INF/*', '/META-INF/versions/**', '/org/bouncycastle/**', '/kotlin/**', '/kotlinx/**', 'rebel.xml', '/*.txt', '/*.bin', '/*.json']
+        }
         jniLibs.useLegacyPackaging true
-        exclude '/META-INF/*'
-        exclude '/META-INF/versions/**'
-        exclude '/org/bouncycastle/**'
-        exclude '/kotlin/**'
-        exclude '/kotlinx/**'
-        exclude 'rebel.xml'
-        exclude '/*.txt'
-        exclude '/*.bin'
-        exclude '/*.json'
     }
 
     namespace 'com.drdisagree.iconify'
@@ -90,10 +87,14 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.10.1'
-
     // Magisk libsu version
     def libsuVersion = '5.2.0'
+
+    // Kotlin
+    implementation 'androidx.core:core-ktx:1.10.1'
+
+    // Data Binding
+    implementation 'com.android.databinding:library:8.1.0'
 
     // Xposed API
     compileOnly files('lib/api-82.jar')
@@ -148,6 +149,7 @@ dependencies {
     // HTML Parser
     implementation 'org.jsoup:jsoup:1.16.1'
 
+    // Misc
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.work:work-runtime:2.8.1'
@@ -160,6 +162,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
 
-task printVersionName {
+tasks.register('printVersionName') {
     println android.defaultConfig.versionName.replaceAll("-(Stable|Beta)", "")
 }
