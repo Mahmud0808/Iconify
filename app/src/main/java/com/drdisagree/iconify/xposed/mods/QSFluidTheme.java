@@ -7,7 +7,6 @@ import static com.drdisagree.iconify.common.Preferences.FLUID_QSPANEL;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.modRes;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
-import static com.drdisagree.iconify.xposed.utils.SettingsLibUtils.getColorAttr;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedBridge.log;
@@ -30,13 +29,13 @@ import android.graphics.drawable.DrawableWrapper;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Build;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
@@ -106,6 +105,8 @@ public class QSFluidTheme extends ModPack {
         Class<?> BrightnessControllerClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessController", lpparam.classLoader);
         Class<?> BrightnessMirrorControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.BrightnessMirrorController", lpparam.classLoader);
         Class<?> BrightnessSliderControllerClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessSliderController", lpparam.classLoader);
+        Class<?> ActivatableNotificationViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.ActivatableNotificationView", lpparam.classLoader);
+        Class<?> FooterViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.FooterView", lpparam.classLoader);
         SettingsLibUtils.init(lpparam.classLoader);
         initResources();
 
@@ -304,6 +305,39 @@ public class QSFluidTheme extends ModPack {
             }
         });
 
+        // Notifications
+        hookAllMethods(ActivatableNotificationViewClass, "onFinishInflate", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                if (!fluidQsThemeEnabled || !fluidNotifEnabled) return;
+
+                View mBackgroundNormal = (View) getObjectField(param.thisObject, "mBackgroundNormal");
+
+                if (mBackgroundNormal != null) {
+                    mBackgroundNormal.setAlpha(INACTIVE_ALPHA);
+                }
+            }
+        });
+
+        // Notification footer buttons
+        hookAllMethods(FooterViewClass, "updateColors", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                if (!fluidQsThemeEnabled || !fluidNotifEnabled) return;
+
+                Button mManageButton = (Button) getObjectField(param.thisObject, "mManageButton");
+                Button mClearAllButton = (Button) getObjectField(param.thisObject, "mClearAllButton");
+
+                if (mManageButton != null) {
+                    mManageButton.getBackground().setAlpha((int) (INACTIVE_ALPHA * 255));
+                }
+
+                if (mClearAllButton != null) {
+                    mClearAllButton.getBackground().setAlpha((int) (INACTIVE_ALPHA * 255));
+                }
+            }
+        });
+
         // Initialize colors
         hookAllConstructors(CentralSurfacesImplClass, new XC_MethodHook() {
             @Override
@@ -346,7 +380,6 @@ public class QSFluidTheme extends ModPack {
 
             int px2dp2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
             int px2dp4 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics());
-            int px2dp20 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, mContext.getResources().getDisplayMetrics());
             int notifCornerRadius = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("notification_corner_radius", "dimen", mContext.getPackageName()));
 
             try {
@@ -437,49 +470,6 @@ public class QSFluidTheme extends ModPack {
                     }
                 });
             } catch (Throwable ignored) {
-            }
-
-            try {
-                ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "notif_footer_btn_background", new XResources.DrawableLoader() {
-                    @Override
-                    public Drawable newDrawable(XResources res, int id) {
-                        GradientDrawable gradientDrawable = new GradientDrawable();
-                        gradientDrawable.setShape(GradientDrawable.RECTANGLE);
-                        gradientDrawable.setColor(colorInactiveAlpha[0]);
-                        gradientDrawable.setCornerRadius(notifCornerRadius);
-                        gradientDrawable.setPadding(px2dp20, 0, px2dp20, 0);
-                        return new InsetDrawable(gradientDrawable, 0, px2dp2, 0, px2dp2);
-                    }
-                });
-            } catch (Throwable ignored) {
-            }
-
-            @SuppressLint("DiscouragedApi") ColorStateList states = getColorAttr(mContext.getResources().getIdentifier("android:attr/colorControlHighlight", "attr", listenPackage), mContext);
-
-            if (fluidNotifEnabled && states != null) {
-                try {
-                    ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "notification_material_bg", new XResources.DrawableLoader() {
-                        @Override
-                        public Drawable newDrawable(XResources res, int id) {
-                            GradientDrawable gradientDrawable = new GradientDrawable();
-                            gradientDrawable.setColor(colorInactiveAlpha[0]);
-                            return new RippleDrawable(ColorStateList.valueOf(states.getDefaultColor()), gradientDrawable, null);
-                        }
-                    });
-                } catch (Throwable ignored) {
-                }
-
-                try {
-                    ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "notification_material_bg_monet", new XResources.DrawableLoader() {
-                        @Override
-                        public Drawable newDrawable(XResources res, int id) {
-                            GradientDrawable gradientDrawable = new GradientDrawable();
-                            gradientDrawable.setColor(colorInactiveAlpha[0]);
-                            return new RippleDrawable(ColorStateList.valueOf(states.getDefaultColor()), gradientDrawable, null);
-                        }
-                    });
-                } catch (Throwable ignored) {
-                }
             }
 
             if (fluidPowerMenuEnabled) {
