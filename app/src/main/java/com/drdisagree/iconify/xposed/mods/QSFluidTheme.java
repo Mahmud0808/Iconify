@@ -50,20 +50,16 @@ public class QSFluidTheme extends ModPack {
     private static final int STATE_UNAVAILABLE = 0;
     private static final int STATE_INACTIVE = 1;
     private static final int STATE_ACTIVE = 2;
-    private static final float UNAVAILABLE_ALPHA = 0.2f;
-    private static final float ACTIVE_ALPHA = 0.3f;
-    private static final float INACTIVE_ALPHA = 0.3f;
+    private static final float ACTIVE_ALPHA = 0.2f;
+    private static final float INACTIVE_ALPHA = ACTIVE_ALPHA + 0.2f;
+    private static final float UNAVAILABLE_ALPHA = INACTIVE_ALPHA - 0.1f;
     private static boolean fluidQsThemeEnabled = false;
     private static boolean fluidNotifEnabled = false;
     private static boolean fluidPowerMenuEnabled = false;
-    private static XC_MethodHook.MethodHookParam customParam = null;
     private boolean wasDark = getIsDark();
-    final Integer[] colorInactive = {null};
     final Integer[] colorAccent = {mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", listenPackage), mContext.getTheme())};
     final Integer[] colorActiveAlpha = {Color.argb((int) (ACTIVE_ALPHA * 255), Color.red(colorAccent[0]), Color.green(colorAccent[0]), Color.blue(colorAccent[0]))};
     final Integer[] colorInactiveAlpha = {wasDark ? Color.parseColor("#0FFFFFFF") : Color.parseColor("#59FFFFFF")};
-    final Integer[] colorInactiveQsAlpha = colorInactiveAlpha;
-    final Integer[] colorUnavailableAlpha = {wasDark ? Color.parseColor("#08FFFFFF") : Color.parseColor("#33FFFFFF")};
 
     public QSFluidTheme(Context context) {
         super(context);
@@ -80,14 +76,6 @@ public class QSFluidTheme extends ModPack {
         fluidNotifEnabled = Xprefs.getBoolean(FLUID_NOTIF_TRANSPARENCY, false);
         fluidPowerMenuEnabled = Xprefs.getBoolean(FLUID_POWERMENU_TRANSPARENCY, false);
 
-        boolean isDark = getIsDark();
-        if (isDark != wasDark) {
-            wasDark = isDark;
-        }
-
-        if (customParam != null) {
-            initColors(customParam);
-        }
         initResources();
     }
 
@@ -104,16 +92,16 @@ public class QSFluidTheme extends ModPack {
         Class<?> BrightnessMirrorControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.BrightnessMirrorController", lpparam.classLoader);
         Class<?> BrightnessSliderControllerClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessSliderController", lpparam.classLoader);
         Class<?> ActivatableNotificationViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.ActivatableNotificationView", lpparam.classLoader);
-        SettingsLibUtils.init(lpparam.classLoader);
 
         // Initialize resources and colors
+        SettingsLibUtils.init(lpparam.classLoader);
+        initResources();
+
         hookAllMethods(QSTileViewImplClass, "init", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
-                customParam = param;
                 if (!fluidQsThemeEnabled) return;
 
-                initColors(param);
                 initResources();
             }
         });
@@ -122,16 +110,21 @@ public class QSFluidTheme extends ModPack {
         hookAllMethods(QSTileViewImplClass, "getBackgroundColorForState", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
-                customParam = param;
                 if (!fluidQsThemeEnabled) return;
 
                 try {
                     if ((int) param.args[0] == STATE_ACTIVE) {
-                        param.setResult(colorActiveAlpha[0]);
-                    } else if ((int) param.args[0] == STATE_INACTIVE) {
-                        param.setResult(colorInactiveQsAlpha[0]);
-                    } else if ((int) param.args[0] == STATE_UNAVAILABLE) {
-                        param.setResult(colorUnavailableAlpha[0]);
+                        param.setResult(changeAlpha(colorAccent[0], ACTIVE_ALPHA));
+                    } else {
+                        Integer colorInactive = (Integer) param.getResult();
+
+                        if (colorInactive != null) {
+                            if ((int) param.args[0] == STATE_INACTIVE) {
+                                param.setResult(changeAlpha(colorInactive, INACTIVE_ALPHA));
+                            } else if ((int) param.args[0] == STATE_UNAVAILABLE) {
+                                param.setResult(changeAlpha(colorInactive, UNAVAILABLE_ALPHA));
+                            }
+                        }
                     }
                 } catch (Throwable throwable) {
                     log(TAG + throwable);
@@ -196,16 +189,19 @@ public class QSFluidTheme extends ModPack {
                     LayerDrawable progress = (LayerDrawable) mSlider.getProgressDrawable();
 
                     GradientDrawable backgroundSlider = (GradientDrawable) progress.findDrawableByLayerId(android.R.id.background);
-                    backgroundSlider.setAlpha((int) ((INACTIVE_ALPHA + 0.2f) * 255));
+                    backgroundSlider.setAlpha((int) (INACTIVE_ALPHA * 255));
 
                     DrawableWrapper progressSlider = (DrawableWrapper) progress.findDrawableByLayerId(android.R.id.progress);
                     LayerDrawable actualProgressSlider = (LayerDrawable) progressSlider.getDrawable();
-                    actualProgressSlider.setTint(colorAccent[0]);
+                    actualProgressSlider.setTintList(ColorStateList.valueOf(colorAccent[0]));
                     actualProgressSlider.setAlpha((int) (ACTIVE_ALPHA * 255));
 
-                    Drawable mBrightnessIcon = actualProgressSlider.findDrawableByLayerId(mContext.getResources().getIdentifier("slider_icon", "id", mContext.getPackageName()));
-                    mBrightnessIcon.setTint(colorAccent[0]);
-                    mBrightnessIcon.setAlpha(255);
+                    try {
+                        Drawable mBrightnessIcon = actualProgressSlider.findDrawableByLayerId(mContext.getResources().getIdentifier("slider_icon", "id", mContext.getPackageName()));
+                        mBrightnessIcon.setTintList(ColorStateList.valueOf(colorAccent[0]));
+                        mBrightnessIcon.setAlpha(255);
+                    } catch (Throwable ignored) {
+                    }
                 } catch (Throwable throwable) {
                     log(TAG + throwable);
                 }
@@ -289,7 +285,6 @@ public class QSFluidTheme extends ModPack {
         hookAllMethods(QSTileViewImplClass, "getLabelColorForState", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
-                customParam = param;
                 if (!fluidQsThemeEnabled) return;
 
                 try {
@@ -306,7 +301,6 @@ public class QSFluidTheme extends ModPack {
         hookAllMethods(QSTileViewImplClass, "getSecondaryLabelColorForState", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
-                customParam = param;
                 if (!fluidQsThemeEnabled) return;
 
                 try {
@@ -323,16 +317,14 @@ public class QSFluidTheme extends ModPack {
         hookAllMethods(QSTileViewImplClass, "updateResources", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
-                customParam = param;
                 if (!fluidQsThemeEnabled) return;
 
-                initColors(param);
                 initResources();
 
                 try {
-                    setObjectField(param.thisObject, "colorActive", colorActiveAlpha[0]);
-                    setObjectField(param.thisObject, "colorInactive", colorInactiveQsAlpha[0]);
-                    setObjectField(param.thisObject, "colorUnavailable", colorUnavailableAlpha[0]);
+                    setObjectField(param.thisObject, "colorActive", changeAlpha(colorAccent[0], ACTIVE_ALPHA));
+                    setObjectField(param.thisObject, "colorInactive", changeAlpha((Integer) getObjectField(param.thisObject, "colorInactive"), INACTIVE_ALPHA));
+                    setObjectField(param.thisObject, "colorUnavailable", changeAlpha((Integer) getObjectField(param.thisObject, "colorUnavailable"), UNAVAILABLE_ALPHA));
                     setObjectField(param.thisObject, "colorLabelActive", colorAccent[0]);
                     setObjectField(param.thisObject, "colorSecondaryLabelActive", colorAccent[0]);
                 } catch (Throwable throwable) {
@@ -379,19 +371,21 @@ public class QSFluidTheme extends ModPack {
         return (mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
     }
 
-    private void initColors(XC_MethodHook.MethodHookParam param) {
-        try {
-            colorInactive[0] = (Integer) getObjectField(param.thisObject, "colorInactive");
-            colorAccent[0] = mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", mContext.getPackageName()), mContext.getTheme());
-            colorActiveAlpha[0] = Color.argb((int) (ACTIVE_ALPHA * 255), Color.red(colorAccent[0]), Color.green(colorAccent[0]), Color.blue(colorAccent[0]));
-            colorInactiveAlpha[0] = changeAlpha(colorInactive[0], INACTIVE_ALPHA);
-            colorInactiveQsAlpha[0] = changeAlpha(colorInactive[0], INACTIVE_ALPHA + 0.2f);
-            colorUnavailableAlpha[0] = changeAlpha(colorInactive[0], UNAVAILABLE_ALPHA);
-        } catch (Throwable ignored) {
-        }
+    private void initColors() {
+        colorAccent[0] = mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", listenPackage), mContext.getTheme());
+        colorActiveAlpha[0] = Color.argb((int) (ACTIVE_ALPHA * 255), Color.red(colorAccent[0]), Color.green(colorAccent[0]), Color.blue(colorAccent[0]));
+        colorInactiveAlpha[0] = wasDark ? Color.parseColor("#0FFFFFFF") : Color.parseColor("#59FFFFFF");
     }
 
     private void initResources() {
+        boolean isDark = getIsDark();
+
+        if (isDark != wasDark) {
+            wasDark = isDark;
+        }
+
+        initColors();
+
         // Replace drawables to match QS style
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
 
@@ -509,10 +503,6 @@ public class QSFluidTheme extends ModPack {
         int blue = Color.blue(color);
 
         return Color.argb(alpha, red, green, blue);
-    }
-
-    private static float dpToPx(Context context, int dp) {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
 
     @Override
