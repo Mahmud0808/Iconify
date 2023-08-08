@@ -15,8 +15,6 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
@@ -30,7 +28,7 @@ import com.drdisagree.iconify.utils.SystemUtil;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class QsPanelMargin extends AppCompatActivity {
+public class QsPanelMargin extends BaseActivity {
 
     private ActivityQsPanelMarginBinding binding;
     private LoadingDialog loadingDialog;
