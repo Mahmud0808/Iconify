@@ -5,7 +5,9 @@ import static com.drdisagree.iconify.common.Preferences.FLUID_NOTIF_TRANSPARENCY
 import static com.drdisagree.iconify.common.Preferences.FLUID_POWERMENU_TRANSPARENCY;
 import static com.drdisagree.iconify.common.Preferences.FLUID_QSPANEL;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
+import static com.drdisagree.iconify.xposed.HookRes.modRes;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
+import static com.drdisagree.iconify.xposed.utils.SettingsLibUtils.getColorAttr;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedBridge.log;
@@ -26,7 +28,10 @@ import android.graphics.drawable.DrawableWrapper;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RoundRectShape;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -34,8 +39,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.content.res.ResourcesCompat;
+
+import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.xposed.HookEntry;
 import com.drdisagree.iconify.xposed.ModPack;
+import com.drdisagree.iconify.xposed.utils.RoundedCornerProgressDrawable;
 import com.drdisagree.iconify.xposed.utils.SystemUtil;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -234,25 +244,16 @@ public class QSFluidTheme extends ModPack {
 
                 try {
                     SeekBar mSlider = (SeekBar) getObjectField(param.thisObject, "mSlider");
+                    mSlider.setProgressDrawable(createBrightnessBackgroundDrawable(mContext));
+
                     LayerDrawable progress = (LayerDrawable) mSlider.getProgressDrawable();
-
-                    try {
-                        GradientDrawable backgroundSlider = (GradientDrawable) progress.findDrawableByLayerId(android.R.id.background);
-                        backgroundSlider.setAlpha((int) (INACTIVE_ALPHA * 255));
-                    } catch (Throwable ignored) {
-                        InsetDrawable backgroundSlider = (InsetDrawable) progress.findDrawableByLayerId(android.R.id.background);
-                        backgroundSlider.setAlpha((int) (INACTIVE_ALPHA * 255));
-                    }
-
                     DrawableWrapper progressSlider = (DrawableWrapper) progress.findDrawableByLayerId(android.R.id.progress);
-                    LayerDrawable actualProgressSlider = (LayerDrawable) progressSlider.getDrawable();
-                    actualProgressSlider.setTintList(ColorStateList.valueOf(colorAccent[0]));
-                    actualProgressSlider.setAlpha((int) (ACTIVE_ALPHA * 255));
 
                     try {
+                        LayerDrawable actualProgressSlider = (LayerDrawable) progressSlider.getDrawable();
                         Drawable mBrightnessIcon = actualProgressSlider.findDrawableByLayerId(mContext.getResources().getIdentifier("slider_icon", "id", mContext.getPackageName()));
-                        mBrightnessIcon.setTintList(ColorStateList.valueOf(colorAccent[0]));
-                        mBrightnessIcon.setAlpha(255);
+                        mBrightnessIcon.setTintList(ColorStateList.valueOf(Color.TRANSPARENT));
+                        mBrightnessIcon.setAlpha(0);
                     } catch (Throwable ignored) {
                     }
                 } catch (Throwable throwable) {
@@ -449,7 +450,7 @@ public class QSFluidTheme extends ModPack {
         colorAccent[0] = mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", mContext.getPackageName()), mContext.getTheme());
         colorActiveAlpha[0] = Color.argb((int) (ACTIVE_ALPHA * 255), Color.red(colorAccent[0]), Color.green(colorAccent[0]), Color.blue(colorAccent[0]));
         if (QSTileViewImplParam != null) {
-            colorInactiveAlpha[0] = (Integer) getObjectField(QSTileViewImplParam.thisObject, "colorInactive");
+            colorInactiveAlpha[0] = changeAlpha((Integer) getObjectField(QSTileViewImplParam.thisObject, "colorInactive"), INACTIVE_ALPHA);
         } else {
             colorInactiveAlpha[0] = colorInactiveAlpha[0] == null ? (wasDark ? Color.parseColor("#0FFFFFFF") : Color.parseColor("#59FFFFFF")) : colorInactiveAlpha[0];
         }
@@ -555,6 +556,62 @@ public class QSFluidTheme extends ModPack {
         int blue = Color.blue(color);
 
         return Color.argb(alpha, red, green, blue);
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    private static float dpToPx(Context context, int dp) {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
+    }
+
+    private LayerDrawable createBrightnessBackgroundDrawable(Context context) {
+        Resources res = context.getResources();
+        int cornerRadius = context.getResources().getDimensionPixelSize(res.getIdentifier("rounded_slider_corner_radius", "dimen", context.getPackageName()));
+        int height = context.getResources().getDimensionPixelSize(res.getIdentifier("rounded_slider_height", "dimen", context.getPackageName()));
+        int startPadding = (int) dpToPx(context, 15);
+        int endPadding = (int) dpToPx(context, 15);
+
+        // Create the background shape
+        float[] radiusF = new float[8];
+        for (int i = 0; i < 8; i++) {
+            radiusF[i] = cornerRadius;
+        }
+        ShapeDrawable backgroundShape = new ShapeDrawable(new RoundRectShape(radiusF, null, null));
+        backgroundShape.setIntrinsicHeight(height);
+
+        @SuppressLint("DiscouragedApi") ColorStateList states = getColorAttr(mContext.getResources().getIdentifier("attr/offStateColor", "attr", mContext.getPackageName()), mContext);
+        if (states != null) {
+            backgroundShape.getPaint().setColor(states.getDefaultColor());
+        } else {
+            backgroundShape.getPaint().setColor(colorInactiveAlpha[0]);
+        }
+
+        // Create the progress drawable
+        RoundedCornerProgressDrawable progressDrawable = null;
+        try {
+            progressDrawable = new RoundedCornerProgressDrawable(AppCompatResources.getDrawable(context, res.getIdentifier("brightness_progress_full_drawable", "drawable", context.getPackageName())));
+            progressDrawable.setAlpha((int) (ACTIVE_ALPHA * 255));
+        } catch (Throwable ignored) {
+        }
+
+        // Create the start and end drawables
+        Drawable startDrawable = ResourcesCompat.getDrawable(modRes, R.drawable.ic_brightness_low, context.getTheme());
+        Drawable endDrawable = ResourcesCompat.getDrawable(modRes, R.drawable.ic_brightness_full, context.getTheme());
+        if (startDrawable != null && endDrawable != null) {
+            startDrawable.setTint(colorAccent[0]);
+            endDrawable.setTint(colorAccent[0]);
+        }
+
+        // Create the layer drawable
+        Drawable[] layers = {backgroundShape, progressDrawable, startDrawable, endDrawable};
+        LayerDrawable layerDrawable = new LayerDrawable(layers);
+        layerDrawable.setId(0, android.R.id.background);
+        layerDrawable.setId(1, android.R.id.progress);
+        layerDrawable.setLayerGravity(2, Gravity.START | Gravity.CENTER_VERTICAL);
+        layerDrawable.setLayerGravity(3, Gravity.END | Gravity.CENTER_VERTICAL);
+        layerDrawable.setLayerInsetStart(2, startPadding);
+        layerDrawable.setLayerInsetEnd(3, endPadding);
+
+        return layerDrawable;
     }
 
     @Override
