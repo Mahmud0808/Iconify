@@ -124,7 +124,7 @@ public class QSFluidTheme extends ModPack {
         // QS tile color
         hookAllMethods(QSTileViewImplClass, "getBackgroundColorForState", new XC_MethodHook() {
             @Override
-            protected void beforeHookedMethod(MethodHookParam param) {
+            protected void afterHookedMethod(MethodHookParam param) {
                 QSTileViewImplParam = param;
 
                 if (!fluidQsThemeEnabled) return;
@@ -371,6 +371,25 @@ public class QSFluidTheme extends ModPack {
         });
 
         // For LineageOS based roms
+        hookAllConstructors(QSTileViewImplClass, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                QSTileViewImplParam = param;
+
+                if (!fluidQsThemeEnabled) return;
+
+                try {
+                    setObjectField(param.thisObject, "colorActive", changeAlpha(colorAccent[0], ACTIVE_ALPHA));
+                    setObjectField(param.thisObject, "colorInactive", changeAlpha((Integer) getObjectField(param.thisObject, "colorInactive"), INACTIVE_ALPHA));
+                    setObjectField(param.thisObject, "colorUnavailable", changeAlpha((Integer) getObjectField(param.thisObject, "colorInactive"), UNAVAILABLE_ALPHA));
+                    setObjectField(param.thisObject, "colorLabelActive", colorAccent[0]);
+                    setObjectField(param.thisObject, "colorSecondaryLabelActive", colorAccent[0]);
+                } catch (Throwable throwable) {
+                    log(TAG + throwable);
+                }
+            }
+        });
+
         hookAllMethods(QSTileViewImplClass, "updateResources", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
@@ -427,7 +446,7 @@ public class QSFluidTheme extends ModPack {
     }
 
     private void initColors() {
-        colorAccent[0] = mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", listenPackage), mContext.getTheme());
+        colorAccent[0] = mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", mContext.getPackageName()), mContext.getTheme());
         colorActiveAlpha[0] = Color.argb((int) (ACTIVE_ALPHA * 255), Color.red(colorAccent[0]), Color.green(colorAccent[0]), Color.blue(colorAccent[0]));
         if (QSTileViewImplParam != null) {
             colorInactiveAlpha[0] = (Integer) getObjectField(QSTileViewImplParam.thisObject, "colorInactive");
@@ -494,12 +513,13 @@ public class QSFluidTheme extends ModPack {
 
         if (fluidPowerMenuEnabled) {
             try {
+                int color = mContext.getResources().getColor(mContext.getResources().getIdentifier("global_actions_lite_background", "color", mContext.getPackageName()), mContext.getTheme());
                 ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "global_actions_lite_background", new XResources.DrawableLoader() {
                     @Override
                     public Drawable newDrawable(XResources res, int id) {
                         GradientDrawable gradientDrawable = new GradientDrawable();
                         gradientDrawable.setShape(GradientDrawable.RECTANGLE);
-                        gradientDrawable.setColor(colorInactiveAlpha[0]);
+                        gradientDrawable.setColor(changeAlpha(color, INACTIVE_ALPHA));
                         gradientDrawable.setCornerRadius(notifCornerRadius);
                         return gradientDrawable;
                     }
@@ -508,12 +528,13 @@ public class QSFluidTheme extends ModPack {
             }
 
             try {
+                int color = mContext.getResources().getColor(mContext.getResources().getIdentifier("global_actions_lite_button_background", "color", mContext.getPackageName()), mContext.getTheme());
                 ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "global_actions_lite_button", new XResources.DrawableLoader() {
                     @Override
                     public Drawable newDrawable(XResources res, int id) {
                         GradientDrawable gradientDrawable = new GradientDrawable();
                         gradientDrawable.setShape(GradientDrawable.OVAL);
-                        gradientDrawable.setColor(colorInactiveAlpha[0]);
+                        gradientDrawable.setColor(changeAlpha(color, INACTIVE_ALPHA));
                         return gradientDrawable;
                     }
                 });
