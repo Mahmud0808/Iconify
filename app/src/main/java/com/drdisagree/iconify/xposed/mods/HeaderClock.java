@@ -697,8 +697,8 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                 case 8:
                     final TextClock clock8 = new TextClock(mContext);
                     clock8.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    clock8.setFormat12Hour("hh:mm");
-                    clock8.setFormat24Hour("HH:mm");
+                    clock8.setFormat12Hour("h:mm");
+                    clock8.setFormat24Hour("H:mm");
                     clock8.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white, mContext.getTheme()) : (customColorEnabled ? customColorCode : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary)));
                     clock8.setTextSize(TypedValue.COMPLEX_UNIT_SP, 44 * textScaling);
                     clock8.setTypeface(typeface != null ? typeface : clock8.getTypeface(), Typeface.BOLD);
@@ -707,8 +707,8 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
 
                     final TextClock clockOverlay8 = new TextClock(mContext);
                     clockOverlay8.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    clockOverlay8.setFormat12Hour("hh");
-                    clockOverlay8.setFormat24Hour("HH");
+                    clockOverlay8.setFormat12Hour("h");
+                    clockOverlay8.setFormat24Hour("H");
                     clockOverlay8.setTextColor(mContext.getResources().getColor(android.R.color.holo_blue_light, mContext.getTheme()));
                     clockOverlay8.setTextSize(TypedValue.COMPLEX_UNIT_SP, 44 * textScaling);
                     clockOverlay8.setTypeface(typeface != null ? typeface : clockOverlay8.getTypeface(), Typeface.BOLD);
@@ -728,10 +728,10 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                     dayDate8.setLetterSpacing(0.2f);
                     dayDate8.setAllCaps(true);
                     dayDate8.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white, mContext.getTheme()) : (customColorEnabled ? customColorCode : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary)));
-                    dayDate8.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16 * textScaling);
+                    dayDate8.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14 * textScaling);
                     dayDate8.setTypeface(clockOverlay8.getTypeface(), Typeface.NORMAL);
                     dayDate8.setIncludeFontPadding(false);
-                    ((LinearLayout.LayoutParams) dayDate8.getLayoutParams()).setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()), 0, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3, mContext.getResources().getDisplayMetrics()));
+                    ((LinearLayout.LayoutParams) dayDate8.getLayoutParams()).setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()), 0, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()));
 
                     final LinearLayout container8 = new LinearLayout(mContext);
                     container8.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
