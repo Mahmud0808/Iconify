@@ -113,7 +113,12 @@ public class SettingsIconsCompiler {
             for (int i = 1; i <= packages.length; i++) {
                 Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponentSIP" + i + ".apk " + Resources.OVERLAY_DIR + "/IconifyComponentSIP" + i + ".apk").exec();
                 RootUtil.setPermissions(644, Resources.OVERLAY_DIR + "/IconifyComponentSIP" + i + ".apk");
-                Shell.cmd("pm install -r " + Resources.OVERLAY_DIR + "/IconifyComponentSIP" + i + ".apk").exec();
+
+                // Move to files dir and install
+                Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponentSIP" + i + ".apk " + Resources.DATA_DIR + "/IconifyComponentSIP" + i + ".apk").exec();
+                RootUtil.setPermissions(644, Resources.DATA_DIR + "/IconifyComponentSIP" + i + ".apk");
+                Shell.cmd("pm install -r " + Resources.DATA_DIR + "/IconifyComponentSIP" + i + ".apk").exec();
+                Shell.cmd("rm -rf " + Resources.DATA_DIR + "/IconifyComponentSIP" + i + ".apk").exec();
             }
 
             SystemUtil.mountRW();

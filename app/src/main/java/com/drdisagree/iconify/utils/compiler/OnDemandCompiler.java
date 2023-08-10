@@ -94,7 +94,12 @@ public class OnDemandCompiler {
         if (!hasErroredOut) {
             Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponent" + mOverlayName + ".apk " + Resources.OVERLAY_DIR + "/IconifyComponent" + mOverlayName + ".apk").exec();
             RootUtil.setPermissions(644, Resources.OVERLAY_DIR + "/IconifyComponent" + mOverlayName + ".apk");
-            Shell.cmd("pm install -r " + Resources.OVERLAY_DIR + "/IconifyComponent" + mOverlayName + ".apk").exec();
+
+            // Move to files dir and install
+            Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponent" + mOverlayName + ".apk " + Resources.DATA_DIR + "/IconifyComponent" + mOverlayName + ".apk").exec();
+            RootUtil.setPermissions(644, Resources.DATA_DIR + "/IconifyComponent" + mOverlayName + ".apk");
+            Shell.cmd("pm install -r " + Resources.DATA_DIR + "/IconifyComponent" + mOverlayName + ".apk").exec();
+            Shell.cmd("rm -rf " + Resources.DATA_DIR + "/IconifyComponent" + mOverlayName + ".apk").exec();
 
             SystemUtil.mountRW();
             Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponent" + mOverlayName + ".apk " + "/system/product/overlay/IconifyComponent" + mOverlayName + ".apk").exec();
