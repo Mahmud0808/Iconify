@@ -17,7 +17,7 @@ import static de.robv.android.xposed.XposedHelpers.setObjectField;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.content.res.XResources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -26,9 +26,9 @@ import android.graphics.drawable.DrawableWrapper;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
-import android.os.Build;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -36,7 +36,7 @@ import android.widget.SeekBar;
 
 import com.drdisagree.iconify.xposed.HookEntry;
 import com.drdisagree.iconify.xposed.ModPack;
-import com.drdisagree.iconify.xposed.utils.SettingsLibUtils;
+import com.drdisagree.iconify.xposed.utils.SystemUtil;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
@@ -56,16 +56,17 @@ public class QSFluidTheme extends ModPack {
     private static boolean fluidQsThemeEnabled = false;
     private static boolean fluidNotifEnabled = false;
     private static boolean fluidPowerMenuEnabled = false;
-    private boolean wasDark = getIsDark();
+    private boolean wasDark = SystemUtil.isDarkMode();
+    private XC_MethodHook.MethodHookParam QSTileViewImplParam = null;
     final Integer[] colorAccent = {mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", listenPackage), mContext.getTheme())};
     final Integer[] colorActiveAlpha = {Color.argb((int) (ACTIVE_ALPHA * 255), Color.red(colorAccent[0]), Color.green(colorAccent[0]), Color.blue(colorAccent[0]))};
-    final Integer[] colorInactiveAlpha = {wasDark ? Color.parseColor("#0FFFFFFF") : Color.parseColor("#59FFFFFF")};
+    final Integer[] colorInactiveAlpha = {null};
 
     public QSFluidTheme(Context context) {
         super(context);
         if (!listensTo(context.getPackageName())) return;
 
-        wasDark = getIsDark();
+        wasDark = SystemUtil.isDarkMode();
     }
 
     @Override
@@ -86,6 +87,7 @@ public class QSFluidTheme extends ModPack {
         Class<?> QsPanelClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSPanel", lpparam.classLoader);
         Class<?> QSTileViewImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSTileViewImpl", lpparam.classLoader);
         Class<?> QSIconViewImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSIconViewImpl", lpparam.classLoader);
+        Class<?> CentralSurfacesImplClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.CentralSurfacesImpl", lpparam.classLoader);
         Class<?> FooterViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.FooterView", lpparam.classLoader);
         Class<?> BrightnessSliderViewClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessSliderView", lpparam.classLoader);
         Class<?> BrightnessControllerClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessController", lpparam.classLoader);
@@ -94,13 +96,27 @@ public class QSFluidTheme extends ModPack {
         Class<?> ActivatableNotificationViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.ActivatableNotificationView", lpparam.classLoader);
 
         // Initialize resources and colors
-        initResources();
-
         hookAllMethods(QSTileViewImplClass, "init", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
+                QSTileViewImplParam = param;
+
                 if (!fluidQsThemeEnabled) return;
 
+                initResources();
+            }
+        });
+
+        hookAllConstructors(CentralSurfacesImplClass, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                initResources();
+            }
+        });
+
+        hookAllMethods(CentralSurfacesImplClass, "updateTheme", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
                 initResources();
             }
         });
@@ -109,6 +125,8 @@ public class QSFluidTheme extends ModPack {
         hookAllMethods(QSTileViewImplClass, "getBackgroundColorForState", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
+                QSTileViewImplParam = param;
+
                 if (!fluidQsThemeEnabled) return;
 
                 try {
@@ -118,6 +136,8 @@ public class QSFluidTheme extends ModPack {
                         Integer colorInactive = (Integer) param.getResult();
 
                         if (colorInactive != null) {
+                            colorInactiveAlpha[0] = changeAlpha(colorInactive, INACTIVE_ALPHA);
+
                             if ((int) param.args[0] == STATE_INACTIVE) {
                                 param.setResult(changeAlpha(colorInactive, INACTIVE_ALPHA));
                             } else if ((int) param.args[0] == STATE_UNAVAILABLE) {
@@ -176,6 +196,35 @@ public class QSFluidTheme extends ModPack {
                 }
             }
         });
+
+        try {
+            Class<?> QSContainerImplClass = findClass("com.android.systemui.qs.QSContainerImpl", lpparam.classLoader);
+
+            hookAllMethods(QSContainerImplClass, "updateResources", new XC_MethodHook() {
+                @SuppressLint("DiscouragedApi")
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!fluidQsThemeEnabled) return;
+
+                    try {
+                        Resources res = mContext.getResources();
+                        ViewGroup view = (ViewGroup) param.thisObject;
+
+                        View settings_button_container = view.findViewById(res.getIdentifier("settings_button_container", "id", mContext.getPackageName()));
+                        settings_button_container.getBackground().setAlpha((int) (INACTIVE_ALPHA * 255));
+
+                        View pm_button_container = view.findViewById(res.getIdentifier("pm_lite", "id", mContext.getPackageName()));
+                        pm_button_container.getBackground().setTint(colorActiveAlpha[0]);
+
+                        ImageView pm_icon = pm_button_container.findViewById(res.getIdentifier("icon", "id", mContext.getPackageName()));
+                        pm_icon.setImageTintList(ColorStateList.valueOf(colorAccent[0]));
+                    } catch (Throwable throwable) {
+                        log(TAG + throwable);
+                    }
+                }
+            });
+        } catch (Throwable ignored) {
+        }
 
         // Brightness slider and auto brightness color
         hookAllMethods(BrightnessSliderViewClass, "onFinishInflate", new XC_MethodHook() {
@@ -284,6 +333,8 @@ public class QSFluidTheme extends ModPack {
         hookAllMethods(QSTileViewImplClass, "getLabelColorForState", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
+                QSTileViewImplParam = param;
+
                 if (!fluidQsThemeEnabled) return;
 
                 try {
@@ -300,6 +351,8 @@ public class QSFluidTheme extends ModPack {
         hookAllMethods(QSTileViewImplClass, "getSecondaryLabelColorForState", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
+                QSTileViewImplParam = param;
+
                 if (!fluidQsThemeEnabled) return;
 
                 try {
@@ -316,6 +369,8 @@ public class QSFluidTheme extends ModPack {
         hookAllMethods(QSTileViewImplClass, "updateResources", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
+                QSTileViewImplParam = param;
+
                 if (!fluidQsThemeEnabled) return;
 
                 initResources();
@@ -323,7 +378,7 @@ public class QSFluidTheme extends ModPack {
                 try {
                     setObjectField(param.thisObject, "colorActive", changeAlpha(colorAccent[0], ACTIVE_ALPHA));
                     setObjectField(param.thisObject, "colorInactive", changeAlpha((Integer) getObjectField(param.thisObject, "colorInactive"), INACTIVE_ALPHA));
-                    setObjectField(param.thisObject, "colorUnavailable", changeAlpha((Integer) getObjectField(param.thisObject, "colorUnavailable"), UNAVAILABLE_ALPHA));
+                    setObjectField(param.thisObject, "colorUnavailable", changeAlpha((Integer) getObjectField(param.thisObject, "colorInactive"), UNAVAILABLE_ALPHA));
                     setObjectField(param.thisObject, "colorLabelActive", colorAccent[0]);
                     setObjectField(param.thisObject, "colorSecondaryLabelActive", colorAccent[0]);
                 } catch (Throwable throwable) {
@@ -366,18 +421,18 @@ public class QSFluidTheme extends ModPack {
         });
     }
 
-    private boolean getIsDark() {
-        return (mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
-    }
-
     private void initColors() {
         colorAccent[0] = mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", listenPackage), mContext.getTheme());
         colorActiveAlpha[0] = Color.argb((int) (ACTIVE_ALPHA * 255), Color.red(colorAccent[0]), Color.green(colorAccent[0]), Color.blue(colorAccent[0]));
-        colorInactiveAlpha[0] = wasDark ? Color.parseColor("#0FFFFFFF") : Color.parseColor("#59FFFFFF");
+        if (QSTileViewImplParam != null) {
+            colorInactiveAlpha[0] = (Integer) getObjectField(QSTileViewImplParam.thisObject, "colorInactive");
+        } else {
+            colorInactiveAlpha[0] = colorInactiveAlpha[0] == null ? (wasDark ? Color.parseColor("#0FFFFFFF") : Color.parseColor("#59FFFFFF")) : colorInactiveAlpha[0];
+        }
     }
 
     private void initResources() {
-        boolean isDark = getIsDark();
+        boolean isDark = SystemUtil.isDarkMode();
 
         if (isDark != wasDark) {
             wasDark = isDark;
@@ -399,34 +454,6 @@ public class QSFluidTheme extends ModPack {
                 @Override
                 public Drawable newDrawable(XResources res, int id) {
                     return new ColorDrawable(Color.TRANSPARENT);
-                }
-            });
-        } catch (Throwable ignored) {
-        }
-
-        try {
-            ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "qs_footer_action_circle", new XResources.DrawableLoader() {
-                @Override
-                public Drawable newDrawable(XResources res, int id) {
-                    GradientDrawable gradientDrawable = new GradientDrawable();
-                    gradientDrawable.setShape(GradientDrawable.RECTANGLE);
-                    gradientDrawable.setColor(colorInactiveAlpha[0]);
-                    gradientDrawable.setCornerRadius(notifCornerRadius);
-                    return new InsetDrawable(gradientDrawable, px2dp4, px2dp4, px2dp4, px2dp4);
-                }
-            });
-        } catch (Throwable ignored) {
-        }
-
-        try {
-            ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "qs_footer_action_circle_color", new XResources.DrawableLoader() {
-                @Override
-                public Drawable newDrawable(XResources res, int id) {
-                    GradientDrawable gradientDrawable = new GradientDrawable();
-                    gradientDrawable.setShape(GradientDrawable.RECTANGLE);
-                    gradientDrawable.setColor(colorActiveAlpha[0]);
-                    gradientDrawable.setCornerRadius(notifCornerRadius);
-                    return new InsetDrawable(gradientDrawable, px2dp4, px2dp4, px2dp4, px2dp4);
                 }
             });
         } catch (Throwable ignored) {
@@ -506,6 +533,6 @@ public class QSFluidTheme extends ModPack {
 
     @Override
     public boolean listensTo(String packageName) {
-        return listenPackage.equals(packageName) && !HookEntry.isChildProcess && Build.VERSION.SDK_INT >= 33;
+        return listenPackage.equals(packageName) && !HookEntry.isChildProcess;
     }
 }
