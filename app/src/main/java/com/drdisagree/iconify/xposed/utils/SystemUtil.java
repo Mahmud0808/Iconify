@@ -6,10 +6,13 @@ package com.drdisagree.iconify.xposed.utils;
  */
 
 import android.annotation.SuppressLint;
+import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.os.Build;
+import android.os.Process;
 import android.util.TypedValue;
 
 import androidx.annotation.AttrRes;
@@ -63,5 +66,14 @@ public class SystemUtil {
 
     private boolean getIsDark() {
         return (mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
+    }
+
+    public static <Method> void killSelf() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            BootLoopProtector.resetCounter(Process.myProcessName());
+        } else {
+            BootLoopProtector.resetCounter(Application.getProcessName());
+        }
+        Process.killProcess(Process.myPid());
     }
 }

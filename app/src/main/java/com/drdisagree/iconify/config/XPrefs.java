@@ -25,14 +25,16 @@ import android.content.SharedPreferences;
 
 import com.crossbowffs.remotepreferences.RemotePreferences;
 import com.drdisagree.iconify.BuildConfig;
+import com.drdisagree.iconify.common.Const;
 import com.drdisagree.iconify.xposed.HookEntry;
 import com.drdisagree.iconify.xposed.ModPack;
 
 public class XPrefs {
 
-    private static final SharedPreferences.OnSharedPreferenceChangeListener listener = (sharedPreferences, key) -> loadEverything(key);
     public static SharedPreferences Xprefs;
     private static String packageName;
+
+    private static final SharedPreferences.OnSharedPreferenceChangeListener listener = (sharedPreferences, key) -> loadEverything(key);
 
     public static void init(Context context) {
         packageName = context.getPackageName();
@@ -42,6 +44,9 @@ public class XPrefs {
     }
 
     public static void loadEverything(String... key) {
+        if (key.length > 0 && Const.PREF_UPDATE_EXCLUSIONS.stream().anyMatch(exclusion -> key[0].startsWith(exclusion)))
+            return;
+
         for (ModPack thisMod : HookEntry.runningMods) {
             thisMod.updatePrefs(key);
         }

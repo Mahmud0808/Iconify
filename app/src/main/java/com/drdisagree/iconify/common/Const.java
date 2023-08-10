@@ -1,5 +1,10 @@
 package com.drdisagree.iconify.common;
 
+import com.drdisagree.iconify.xposed.utils.BootLoopProtector;
+
+import java.util.Arrays;
+import java.util.List;
+
 public class Const {
 
     // System packages
@@ -18,4 +23,7 @@ public class Const {
     public static final int FRAGMENT_TRANSITION_DELAY = 120;
     public static final int FRAGMENT_BACK_BUTTON_DELAY = 50;
     public static final int SWITCH_ANIMATION_DELAY = 300;
+
+    // Xposed variables
+    public static final List<String> PREF_UPDATE_EXCLUSIONS = Arrays.asList(BootLoopProtector.LOAD_TIME_KEY_KEY, BootLoopProtector.PACKAGE_STRIKE_KEY_KEY);
 }

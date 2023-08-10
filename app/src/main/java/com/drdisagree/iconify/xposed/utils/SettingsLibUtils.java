@@ -17,19 +17,21 @@ package com.drdisagree.iconify.xposed.utils;
  * along with this program.  If not, see [http://www.gnu.org/licenses/].
  */
 
+import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
 
-public class SettingsLibUtils {
-    private static Class<?> UtilsClass = null;
+import com.drdisagree.iconify.xposed.HookEntry;
+import com.drdisagree.iconify.xposed.ModPack;
 
-    public static void init(ClassLoader classLoader) {
-        if (UtilsClass == null)
-            UtilsClass = findClass("com.android.settingslib.Utils", classLoader);
-    }
+import de.robv.android.xposed.callbacks.XC_LoadPackage;
+
+public class SettingsLibUtils extends ModPack {
+    private static final String listenPackage = SYSTEMUI_PACKAGE;
+    private static Class<?> UtilsClass = null;
 
     public static ColorStateList getColorAttr(Context context, int resID) {
         return getColorAttr(resID, context);
@@ -61,5 +63,23 @@ public class SettingsLibUtils {
                 return (int) callStaticMethod(UtilsClass, "getColorAttrDefaultColor", context, resID);
             }
         }
+    }
+
+    public SettingsLibUtils(Context context) {
+        super(context);
+    }
+
+    @Override
+    public void updatePrefs(String... Key) {
+    }
+
+    @Override
+    public boolean listensTo(String packageName) {
+        return listenPackage.equals(packageName) && !HookEntry.isChildProcess;
+    }
+
+    @Override
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+        UtilsClass = findClass("com.android.settingslib.Utils", lpparam.classLoader);
     }
 }

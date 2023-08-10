@@ -246,7 +246,6 @@ public class BatteryStyleManager extends ModPack {
         if (BatteryMeterViewClass == null) {
             BatteryMeterViewClass = findClass("com.android.systemui.BatteryMeterView", lpparam.classLoader);
         }
-        SettingsLibUtils.init(lpparam.classLoader);
 
         try {
             findAndHookConstructor("com.android.settingslib.graph.ThemedBatteryDrawable", lpparam.classLoader, Context.class, int.class, new XC_MethodHook() {

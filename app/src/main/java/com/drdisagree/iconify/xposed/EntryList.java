@@ -30,14 +30,16 @@ import com.drdisagree.iconify.xposed.mods.QSLightTheme;
 import com.drdisagree.iconify.xposed.mods.QSLightThemeA12;
 import com.drdisagree.iconify.xposed.mods.QSTransparency;
 import com.drdisagree.iconify.xposed.mods.QuickSettings;
+import com.drdisagree.iconify.xposed.utils.SettingsLibUtils;
 
 import java.util.ArrayList;
 
 public class EntryList {
 
-    public static ArrayList<Class<?>> getEntries() {
-        ArrayList<Class<?>> modPacks = new ArrayList<>();
+    public static ArrayList<Class<? extends ModPack>> getEntries() {
+        ArrayList<Class<? extends ModPack>> modPacks = new ArrayList<>();
 
+        modPacks.add(SettingsLibUtils.class);
         modPacks.add(BackgroundChip.class);
         modPacks.add(HeaderClock.class);
         modPacks.add(HeaderImage.class);

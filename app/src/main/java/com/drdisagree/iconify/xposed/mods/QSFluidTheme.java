@@ -94,7 +94,6 @@ public class QSFluidTheme extends ModPack {
         Class<?> ActivatableNotificationViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.ActivatableNotificationView", lpparam.classLoader);
 
         // Initialize resources and colors
-        SettingsLibUtils.init(lpparam.classLoader);
         initResources();
 
         hookAllMethods(QSTileViewImplClass, "init", new XC_MethodHook() {
