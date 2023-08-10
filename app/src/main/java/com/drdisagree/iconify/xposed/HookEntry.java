@@ -64,7 +64,7 @@ public class HookEntry implements IXposedHookLoadPackage {
                     XPrefs.loadEverything(mContext.getPackageName());
                 }
 
-                for (Class<? extends ModPack> mod : EntryList.getEntries()) {
+                for (Class<? extends ModPack> mod : EntryList.getEntries(lpparam.packageName)) {
                     try {
                         ModPack instance = ((ModPack) mod.getConstructor(Context.class).newInstance(mContext));
                         if (!instance.listensTo(lpparam.packageName)) continue;

@@ -17,6 +17,11 @@ package com.drdisagree.iconify.xposed;
  * along with this program.  If not, see [http://www.gnu.org/licenses/].
  */
 
+import static com.drdisagree.iconify.common.Const.PIXEL_LAUNCHER_PACKAGE;
+import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+
+import android.os.Build;
+
 import com.drdisagree.iconify.xposed.mods.BackgroundChip;
 import com.drdisagree.iconify.xposed.mods.BatteryStyleManager;
 import com.drdisagree.iconify.xposed.mods.HeaderClock;
@@ -36,23 +41,38 @@ import java.util.ArrayList;
 
 public class EntryList {
 
-    public static ArrayList<Class<? extends ModPack>> getEntries() {
+    public static ArrayList<Class<? extends ModPack>> getEntries(String packageName) {
         ArrayList<Class<? extends ModPack>> modPacks = new ArrayList<>();
 
         modPacks.add(SettingsLibUtils.class);
-        modPacks.add(BackgroundChip.class);
-        modPacks.add(HeaderClock.class);
-        modPacks.add(HeaderImage.class);
-        modPacks.add(IconUpdater.class);
-        modPacks.add(LockscreenClock.class);
-        modPacks.add(Miscellaneous.class);
-        modPacks.add(QSTransparency.class);
-        modPacks.add(QuickSettings.class);
-        modPacks.add(QSLightTheme.class);
-        modPacks.add(QSLightThemeA12.class);
-        modPacks.add(QSBlackTheme.class);
-        modPacks.add(QSFluidTheme.class);
-        modPacks.add(BatteryStyleManager.class);
+
+        switch (packageName) {
+            case SYSTEMUI_PACKAGE:
+                if (!HookEntry.isChildProcess) {
+                    modPacks.add(BackgroundChip.class);
+                    modPacks.add(HeaderClock.class);
+                    modPacks.add(HeaderImage.class);
+                    modPacks.add(LockscreenClock.class);
+                    modPacks.add(Miscellaneous.class);
+                    modPacks.add(QSBlackTheme.class);
+                    modPacks.add(QSFluidTheme.class);
+                    modPacks.add(QSTransparency.class);
+                    modPacks.add(QuickSettings.class);
+                    modPacks.add(BatteryStyleManager.class);
+                }
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    modPacks.add(QSLightTheme.class);
+                }
+
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                    modPacks.add(QSLightThemeA12.class);
+                }
+                break;
+            case PIXEL_LAUNCHER_PACKAGE:
+                modPacks.add(IconUpdater.class);
+                break;
+        }
 
         return modPacks;
     }

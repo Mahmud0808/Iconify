@@ -39,7 +39,6 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -576,6 +575,6 @@ public class QSLightTheme extends ModPack {
 
     @Override
     public boolean listensTo(String packageName) {
-        return listenPackage.equals(packageName) && !HookEntry.isChildProcess && Build.VERSION.SDK_INT >= 33;
+        return listenPackage.equals(packageName) && !HookEntry.isChildProcess;
     }
 }
