@@ -236,8 +236,13 @@ public class QSFluidTheme extends ModPack {
                     SeekBar mSlider = (SeekBar) getObjectField(param.thisObject, "mSlider");
                     LayerDrawable progress = (LayerDrawable) mSlider.getProgressDrawable();
 
-                    GradientDrawable backgroundSlider = (GradientDrawable) progress.findDrawableByLayerId(android.R.id.background);
-                    backgroundSlider.setAlpha((int) (INACTIVE_ALPHA * 255));
+                    try {
+                        GradientDrawable backgroundSlider = (GradientDrawable) progress.findDrawableByLayerId(android.R.id.background);
+                        backgroundSlider.setAlpha((int) (INACTIVE_ALPHA * 255));
+                    } catch (Throwable ignored) {
+                        InsetDrawable backgroundSlider = (InsetDrawable) progress.findDrawableByLayerId(android.R.id.background);
+                        backgroundSlider.setAlpha((int) (INACTIVE_ALPHA * 255));
+                    }
 
                     DrawableWrapper progressSlider = (DrawableWrapper) progress.findDrawableByLayerId(android.R.id.progress);
                     LayerDrawable actualProgressSlider = (LayerDrawable) progressSlider.getDrawable();
