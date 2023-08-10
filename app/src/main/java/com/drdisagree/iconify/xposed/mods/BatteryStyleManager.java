@@ -186,7 +186,9 @@ public class BatteryStyleManager extends ModPack {
         if (Xprefs == null) return;
 
         int batteryStyle = Xprefs.getInt(CUSTOM_BATTERY_STYLE, 0);
-        customBatteryEnabled = batteryStyle != BATTERY_STYLE_DEFAULT && batteryStyle != BATTERY_STYLE_DEFAULT_LANDSCAPE && batteryStyle != BATTERY_STYLE_DEFAULT_RLANDSCAPE;
+        customBatteryEnabled = batteryStyle != BATTERY_STYLE_DEFAULT
+                && batteryStyle != BATTERY_STYLE_DEFAULT_LANDSCAPE
+                && batteryStyle != BATTERY_STYLE_DEFAULT_RLANDSCAPE;
         customBatteryWidth = Xprefs.getInt(CUSTOM_BATTERY_WIDTH, 20);
         customBatteryHeight = Xprefs.getInt(CUSTOM_BATTERY_HEIGHT, 20);
         customBatteryMargin = Xprefs.getInt(CUSTOM_BATTERY_MARGIN, 6);
@@ -290,7 +292,9 @@ public class BatteryStyleManager extends ModPack {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
                     int level = getIntField(param.thisObject, "mLevel");
-                    boolean charging = getBooleanField(param.thisObject, "mPluggedIn") || getBooleanField(param.thisObject, "mCharging") || getBooleanField(param.thisObject, "mWirelessCharging");
+                    boolean charging = getBooleanField(param.thisObject, "mPluggedIn")
+                            || getBooleanField(param.thisObject, "mCharging")
+                            || getBooleanField(param.thisObject, "mWirelessCharging");
                     boolean powerSave = getBooleanField(param.thisObject, "mPowerSave");
 
                     if (!customBatteryEnabled) return;
@@ -345,9 +349,7 @@ public class BatteryStyleManager extends ModPack {
                 protected void afterHookedMethod(MethodHookParam param) {
                     ((View) param.thisObject).addOnAttachStateChangeListener(listener);
 
-                    ImageView mBatteryIconView = (ImageView) getObjectField(param.thisObject, "mBatteryIconView");
-                    initBatteryIfNull(param, mBatteryIconView);
-                    mBatteryIconView = (ImageView) getObjectField(param.thisObject, "mBatteryIconView");
+                    ImageView mBatteryIconView = initBatteryIfNull(param, (ImageView) getObjectField(param.thisObject, "mBatteryIconView"));
 
                     if (customBatteryEnabled || BatteryStyle == BATTERY_STYLE_DEFAULT_LANDSCAPE || BatteryStyle == BATTERY_STYLE_DEFAULT_RLANDSCAPE) {
                         mBatteryIconView.setRotation(batteryRotation);
@@ -356,6 +358,7 @@ public class BatteryStyleManager extends ModPack {
                     if (!customBatteryEnabled) return;
 
                     BatteryDrawable mBatteryDrawable = getNewDrawable(mContext);
+
                     if (mBatteryDrawable != null) {
                         setAdditionalInstanceField(param.thisObject, "mBatteryDrawable", mBatteryDrawable);
                         mBatteryIconView.setImageDrawable(mBatteryDrawable);
@@ -479,9 +482,10 @@ public class BatteryStyleManager extends ModPack {
     }
 
     @SuppressLint("DiscouragedApi")
-    private void initBatteryIfNull(XC_MethodHook.MethodHookParam param, ImageView mBatteryIconView) {
+    private ImageView initBatteryIfNull(XC_MethodHook.MethodHookParam param, ImageView mBatteryIconView) {
         if (mBatteryIconView == null) {
             mBatteryIconView = new ImageView(mContext);
+
             try {
                 mBatteryIconView.setImageDrawable((Drawable) getObjectField(param.thisObject, "mAccessorizedDrawable"));
             } catch (Throwable throwable) {
@@ -491,15 +495,19 @@ public class BatteryStyleManager extends ModPack {
                     mBatteryIconView.setImageDrawable((Drawable) getObjectField(param.thisObject, "mDrawable"));
                 }
             }
+
             final ViewGroup.MarginLayoutParams mlp = new ViewGroup.MarginLayoutParams(mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_battery_icon_width", "dimen", mContext.getPackageName())), mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_battery_icon_height", "dimen", mContext.getPackageName())));
             mlp.setMargins(0, 0, 0, mContext.getResources().getDimensionPixelOffset(mContext.getResources().getIdentifier("battery_margin_bottom", "dimen", mContext.getPackageName())));
             setObjectField(param.thisObject, "mBatteryIconView", mBatteryIconView);
             callMethod(param.thisObject, "addView", mBatteryIconView, mlp);
         }
+
+        return mBatteryIconView;
     }
 
     private BatteryDrawable getNewDrawable(Context context) {
         BatteryDrawable mBatteryDrawable = null;
+
         switch (BatteryStyle) {
             case BATTERY_STYLE_DEFAULT:
             case BATTERY_STYLE_DEFAULT_RLANDSCAPE:
