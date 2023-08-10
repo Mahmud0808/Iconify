@@ -119,7 +119,6 @@ public class QSBlackTheme extends ModPack {
         Class<?> BrightnessControllerClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessController", lpparam.classLoader);
         Class<?> BrightnessMirrorControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.BrightnessMirrorController", lpparam.classLoader);
         Class<?> BrightnessSliderControllerClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessSliderController", lpparam.classLoader);
-        SettingsLibUtils.init(lpparam.classLoader);
 
         hookAllConstructors(QSPanelControllerClass, new XC_MethodHook() {
             @Override
