@@ -44,7 +44,7 @@ public class XPrefs {
     }
 
     public static void loadEverything(String... key) {
-        if (key.length > 0 && Const.PREF_UPDATE_EXCLUSIONS.stream().anyMatch(exclusion -> key[0].startsWith(exclusion)))
+        if (key.length > 0 && (key[0] == null || Const.PREF_UPDATE_EXCLUSIONS.stream().anyMatch(exclusion -> key[0].startsWith(exclusion))))
             return;
 
         for (ModPack thisMod : HookEntry.runningMods) {
