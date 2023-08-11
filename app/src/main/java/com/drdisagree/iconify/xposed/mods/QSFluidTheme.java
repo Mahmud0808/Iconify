@@ -220,14 +220,10 @@ public class QSFluidTheme extends ModPack {
                         Resources res = mContext.getResources();
                         ViewGroup view = (ViewGroup) param.thisObject;
 
-                        View settings_button_container = view.findViewById(res.getIdentifier("settings_button_container", "id", mContext.getPackageName()));
-                        settings_button_container.getBackground().setAlpha((int) (INACTIVE_ALPHA * 255));
+                        setAlphaForBackgroundDrawables(view, INACTIVE_ALPHA);
 
                         View pm_button_container = view.findViewById(res.getIdentifier("pm_lite", "id", mContext.getPackageName()));
-                        pm_button_container.getBackground().setTint(colorActiveAlpha[0]);
-
-                        ImageView pm_icon = pm_button_container.findViewById(res.getIdentifier("icon", "id", mContext.getPackageName()));
-                        pm_icon.setImageTintList(ColorStateList.valueOf(colorAccent[0]));
+                        pm_button_container.getBackground().setAlpha((int) (ACTIVE_ALPHA * 255));
                     } catch (Throwable throwable) {
                         log(TAG + throwable);
                     }
@@ -580,7 +576,7 @@ public class QSFluidTheme extends ModPack {
 
         @SuppressLint("DiscouragedApi") ColorStateList states = getColorAttr(mContext.getResources().getIdentifier("attr/offStateColor", "attr", mContext.getPackageName()), mContext);
         if (states != null) {
-            backgroundShape.getPaint().setColor(states.getDefaultColor());
+            backgroundShape.getPaint().setColor(changeAlpha(states.getDefaultColor(), INACTIVE_ALPHA));
         } else {
             backgroundShape.getPaint().setColor(colorInactiveAlpha[0]);
         }
@@ -612,6 +608,37 @@ public class QSFluidTheme extends ModPack {
         layerDrawable.setLayerInsetEnd(3, endPadding);
 
         return layerDrawable;
+    }
+
+    private void setAlphaForBackgroundDrawables(View view, float alpha) {
+        setAlphaForBackgroundDrawables(view, (int) (alpha * 255));
+    }
+
+    private void setAlphaForBackgroundDrawables(View view, int alpha) {
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            int childCount = viewGroup.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View child = viewGroup.getChildAt(i);
+                setAlphaForBackgroundDrawablesRecursive(child, alpha);
+            }
+        }
+    }
+
+    private void setAlphaForBackgroundDrawablesRecursive(View view, int alpha) {
+        Drawable backgroundDrawable = view.getBackground();
+        if (backgroundDrawable != null) {
+            backgroundDrawable.setAlpha(alpha);
+        }
+
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            int childCount = viewGroup.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View child = viewGroup.getChildAt(i);
+                setAlphaForBackgroundDrawablesRecursive(child, alpha);
+            }
+        }
     }
 
     @Override
