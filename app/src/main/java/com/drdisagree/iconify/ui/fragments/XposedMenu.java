@@ -61,7 +61,7 @@ public class XposedMenu extends BaseFragment {
                     if (data == null) return;
 
                     try {
-                        ImportExport.exportSettings(RPrefs.prefs, requireContext().getContentResolver().openOutputStream(data.getData()));
+                        ImportExport.exportSettings(RPrefs.prefs, Objects.requireNonNull(requireContext().getContentResolver().openOutputStream(Objects.requireNonNull(data.getData()))));
                         Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_export_settings_successfull), Toast.LENGTH_SHORT).show();
                     } catch (Exception exception) {
                         Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
@@ -84,7 +84,7 @@ public class XposedMenu extends BaseFragment {
                                 dialog.dismiss();
                                 new Handler(Looper.getMainLooper()).post(() -> {
                                     try {
-                                        boolean success = ImportExport.importSettings(RPrefs.prefs, requireContext().getContentResolver().openInputStream(data.getData()), false);
+                                        boolean success = ImportExport.importSettings(RPrefs.prefs, Objects.requireNonNull(requireContext().getContentResolver().openInputStream(Objects.requireNonNull(data.getData()))), false);
                                         if (success) {
                                             Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
                                             SystemUtil.restartSystemUI();
