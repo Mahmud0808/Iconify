@@ -500,7 +500,7 @@ public class QSFluidTheme extends ModPack {
                 public Drawable newDrawable(XResources res, int id) {
                     GradientDrawable gradientDrawable = new GradientDrawable();
                     gradientDrawable.setShape(GradientDrawable.RECTANGLE);
-                    gradientDrawable.setColor(colorInactiveAlpha[0]);
+                    gradientDrawable.setColor(changeAlpha(colorInactiveAlpha[0], 1f));
                     gradientDrawable.setCornerRadius(notifCornerRadius);
                     return new InsetDrawable(gradientDrawable, 0, px2dp4, 0, px2dp4);
                 }
