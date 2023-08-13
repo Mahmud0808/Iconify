@@ -223,7 +223,7 @@ public class QSFluidTheme extends ModPack {
 
                     try {
                         Resources res = mContext.getResources();
-                        ViewGroup view = (ViewGroup) param.thisObject;
+                        ViewGroup view = ((ViewGroup) param.thisObject).findViewById(res.getIdentifier("qs_footer_actions", "id", mContext.getPackageName()));
 
                         setAlphaForBackgroundDrawables(view, INACTIVE_ALPHA);
 
