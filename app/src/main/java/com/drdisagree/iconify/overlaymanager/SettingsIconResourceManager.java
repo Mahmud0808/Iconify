@@ -13,7 +13,7 @@ public class SettingsIconResourceManager {
             resources += "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
                     "<resources>\n" +
                     "    <color name=\"holo_blue_light\">@*android:color/holo_blue_light</color>\n" +
-                    "    <color name=\"holo_green_light\">@*android:color/holo_green_light</color>\n" +
+                    "    <color name=\"holo_blue_dark\">@*android:color/holo_blue_dark</color>\n" +
                     "    <dimen name=\"dashboard_tile_foreground_image_inset\">-1.0dip</dimen>\n" +
                     "    <dimen name=\"dashboard_tile_foreground_image_size\">20.0dip</dimen>\n" +
                     "    <dimen name=\"dashboard_tile_image_size\">38.0dip</dimen>\n";
@@ -44,7 +44,7 @@ public class SettingsIconResourceManager {
                             "    <dimen name=\"bg_inset2\">0.0dip</dimen>\n";
                     break;
                 case 2:
-                    resources += "    <color name=\"bg_end_color\">@color/holo_green_light</color>\n" +
+                    resources += "    <color name=\"bg_end_color\">@color/holo_blue_dark</color>\n" +
                             "    <color name=\"bg_start_color\">@color/holo_blue_light</color>\n" +
                             "    <color name=\"outline_color\">#00000000</color>\n" +
                             "    <color name=\"outline_end_color\">#00000000</color>\n" +
@@ -56,17 +56,17 @@ public class SettingsIconResourceManager {
                     resources += "    <color name=\"bg_end_color\">?android:colorBackground</color>\n" +
                             "    <color name=\"bg_start_color\">?android:colorBackground</color>\n" +
                             "    <color name=\"outline_color\">@color/holo_blue_light</color>\n" +
-                            "    <color name=\"outline_end_color\">@color/holo_green_light</color>\n" +
+                            "    <color name=\"outline_end_color\">@color/holo_blue_dark</color>\n" +
                             "    <color name=\"outline_start_color\">@color/holo_blue_light</color>\n" +
                             "    <dimen name=\"bg_inset\">2.0dip</dimen>\n" +
                             "    <dimen name=\"bg_inset2\">0.0dip</dimen>\n";
                     break;
                 case 4:
-                    resources += "    <color name=\"bg_end_color\">@color/holo_green_light</color>\n" +
+                    resources += "    <color name=\"bg_end_color\">@color/holo_blue_dark</color>\n" +
                             "    <color name=\"bg_start_color\">@color/holo_blue_light</color>\n" +
                             "    <color name=\"outline_color\">@color/holo_blue_light</color>\n" +
                             "    <color name=\"outline_end_color\">@color/holo_blue_light</color>\n" +
-                            "    <color name=\"outline_start_color\">@color/holo_green_light</color>\n" +
+                            "    <color name=\"outline_start_color\">@color/holo_blue_dark</color>\n" +
                             "    <dimen name=\"bg_inset\">4.0dip</dimen>\n" +
                             "    <dimen name=\"bg_inset2\">0.0dip</dimen>\n";
                     break;

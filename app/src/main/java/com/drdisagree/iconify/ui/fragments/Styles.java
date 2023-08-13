@@ -59,12 +59,12 @@ import java.util.ArrayList;
 
 public class Styles extends BaseFragment {
 
-    private FragmentStylesBinding binding;
     public static boolean isServiceRunning = false;
     @SuppressLint("StaticFieldLeak")
-    private CheckForUpdate checkForUpdate = null;
-    @SuppressLint("StaticFieldLeak")
     private static LinearLayout check_update;
+    private FragmentStylesBinding binding;
+    @SuppressLint("StaticFieldLeak")
+    private CheckForUpdate checkForUpdate = null;
     private TextView update_desc;
 
     @Override

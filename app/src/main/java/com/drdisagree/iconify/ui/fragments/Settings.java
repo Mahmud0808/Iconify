@@ -55,7 +55,6 @@ import java.util.Objects;
 
 public class Settings extends BaseFragment implements RadioDialog.RadioDialogListener {
 
-    private FragmentSettingsBinding binding;
     ActivityResultLauncher<Intent> startExportActivityIntent = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result1 -> {
@@ -104,6 +103,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                     alertDialog.show();
                 }
             });
+    private FragmentSettingsBinding binding;
     private LoadingDialog loadingDialog;
     private RadioDialog rd_app_language, rd_app_icon, rd_app_theme;
 

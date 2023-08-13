@@ -64,10 +64,6 @@ public class SystemUtil {
         return arr.getColor(0, -1);
     }
 
-    private boolean getIsDark() {
-        return (mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
-    }
-
     public static <Method> void killSelf() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             BootLoopProtector.resetCounter(Process.myProcessName());
@@ -75,5 +71,9 @@ public class SystemUtil {
             BootLoopProtector.resetCounter(Application.getProcessName());
         }
         Process.killProcess(Process.myPid());
+    }
+
+    private boolean getIsDark() {
+        return (mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
     }
 }

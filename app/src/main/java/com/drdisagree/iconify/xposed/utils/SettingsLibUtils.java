@@ -33,6 +33,10 @@ public class SettingsLibUtils extends ModPack {
     private static final String listenPackage = SYSTEMUI_PACKAGE;
     private static Class<?> UtilsClass = null;
 
+    public SettingsLibUtils(Context context) {
+        super(context);
+    }
+
     public static ColorStateList getColorAttr(Context context, int resID) {
         return getColorAttr(resID, context);
     }
@@ -63,10 +67,6 @@ public class SettingsLibUtils extends ModPack {
                 return (int) callStaticMethod(UtilsClass, "getColorAttrDefaultColor", context, resID);
             }
         }
-    }
-
-    public SettingsLibUtils(Context context) {
-        super(context);
     }
 
     @Override

@@ -12,7 +12,7 @@
     <color name="rippleDark">#66000000</color>
     <color name="rippleDarker">#66000000</color>
     <color name="holo_blue_light">@color/holo_blue_light_dark</color>
-    <color name="holo_green_light">@color/holo_green_light_dark</color>
+    <color name="holo_blue_dark">@color/holo_blue_dark_dark</color>
     <color name="colorBackground">@android:color/system_neutral2_50</color>
     <color name="colorContainer">@android:color/system_neutral2_50</color>
     <color name="colorContainerOverlay">@color/color_container_overlay_light</color>
@@ -44,8 +44,8 @@
     <color name="ic_launcher_background_retro">#FF50A6D7</color>
     <color name="holo_blue_light_light">@android:color/system_accent1_300</color>
     <color name="holo_blue_light_dark">@android:color/system_accent1_600</color>
-    <color name="holo_green_light_light">@android:color/system_accent3_300</color>
-    <color name="holo_green_light_dark">@android:color/system_accent3_600</color>
+    <color name="holo_blue_dark_light">@android:color/system_accent3_300</color>
+    <color name="holo_blue_dark_dark">@android:color/system_accent3_600</color>
     <color name="switch_thumb_on_color">@android:color/system_accent1_100</color>
     <color name="switch_thumb_off_color">@android:color/system_neutral1_500</color>
     <color name="switch_track_on_color">#FFFFFFFF</color>
@@ -67,7 +67,8 @@
     <color name="onboarding_background_three_bottom">#CBDFFC</color>
     <color name="settingslib_track_on_color_start">@android:color/system_accent1_600</color>
     <color name="settingslib_track_on_color_end">@android:color/system_accent3_600</color>
-    <color name="settingslib_track_on_color_start_alpha">@color/settingslib_track_on_color_start</color>
+    <color name="settingslib_track_on_color_start_alpha">@color/settingslib_track_on_color_start
+    </color>
     <color name="settingslib_track_on_color_end_alpha">@color/settingslib_track_on_color_end</color>
 
     <color name="colorPrimaryLight">@color/material_dynamic_primary40</color>

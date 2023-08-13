@@ -52,7 +52,6 @@ import java.util.Objects;
 
 public class XposedMenu extends BaseFragment {
 
-    private FragmentXposedMenuBinding binding;
     ActivityResultLauncher<Intent> startExportActivityIntent = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result1 -> {
@@ -102,6 +101,7 @@ public class XposedMenu extends BaseFragment {
                     alertDialog.show();
                 }
             });
+    private FragmentXposedMenuBinding binding;
 
     @SuppressLint("SetTextI18n")
     @Override

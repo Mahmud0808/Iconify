@@ -19,8 +19,8 @@
             </item>
             <item
                 android:bottom="11dp"
-                android:start="3dp"
                 android:end="11dp"
+                android:start="3dp"
                 android:top="11dp">
                 <shape android:shape="rectangle">
                     <solid android:color="@color/settingslib_colorBackground" />
@@ -50,8 +50,8 @@
             </item>
             <item
                 android:bottom="11dp"
-                android:start="11dp"
                 android:end="3dp"
+                android:start="11dp"
                 android:top="11dp">
                 <shape android:shape="rectangle">
                     <solid android:color="@color/settingslib_colorBackground" />

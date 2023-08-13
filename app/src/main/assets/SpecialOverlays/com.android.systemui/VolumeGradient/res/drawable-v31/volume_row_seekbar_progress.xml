@@ -13,7 +13,7 @@
             <size android:height="@*com.android.systemui:dimen/volume_dialog_slider_width" />
             <gradient
                 android:angle="180.0"
-                android:endColor="@*android:color/holo_green_light"
+                android:endColor="@*android:color/holo_blue_dark"
                 android:startColor="@*android:color/holo_blue_light" />
             <corners android:radius="@*com.android.systemui:dimen/volume_dialog_slider_corner_radius" />
         </shape>

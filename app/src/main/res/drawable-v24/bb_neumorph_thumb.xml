@@ -15,7 +15,7 @@
             <size android:height="12.0dip" />
             <gradient
                 android:angle="0.0"
-                android:endColor="@color/holo_green_light"
+                android:endColor="@color/holo_blue_dark"
                 android:startColor="@color/holo_blue_light" />
         </shape>
     </item>
@@ -29,7 +29,7 @@
                 android:height="24.0dip" />
             <gradient
                 android:angle="90.0"
-                android:endColor="@color/holo_green_light"
+                android:endColor="@color/holo_blue_dark"
                 android:startColor="@color/holo_blue_light" />
         </shape>
     </item>
@@ -43,7 +43,7 @@
                 android:height="16.0dip" />
             <gradient
                 android:angle="270.0"
-                android:endColor="@color/holo_green_light"
+                android:endColor="@color/holo_blue_dark"
                 android:startColor="@color/holo_blue_light" />
         </shape>
     </item>

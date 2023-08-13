@@ -6,7 +6,7 @@
             <gradient
                 android:angle="0.0"
                 android:endColor="@android:color/holo_green_dark"
-                android:startColor="@android:color/holo_blue_dark" />
+                android:startColor="@android:color/holo_green_light" />
             <corners
                 android:bottomLeftRadius="8dp"
                 android:bottomRightRadius="@dimen/cont_corner_radius"

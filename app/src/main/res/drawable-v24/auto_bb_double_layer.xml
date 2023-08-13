@@ -5,7 +5,7 @@
             <corners android:radius="24.0dip" />
             <gradient
                 android:angle="0.0"
-                android:endColor="@color/holo_green_light"
+                android:endColor="@color/holo_blue_dark"
                 android:startColor="@color/holo_blue_light" />
             <corners android:radius="48.0dp" />
             <size
@@ -31,7 +31,7 @@
             <corners android:radius="24.0dip" />
             <gradient
                 android:angle="0.0"
-                android:endColor="@color/holo_green_light"
+                android:endColor="@color/holo_blue_dark"
                 android:startColor="@color/holo_blue_light" />
             <corners android:radius="48.0dp" />
             <size android:height="40.0dp" />

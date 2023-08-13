@@ -41,7 +41,7 @@
             <item>
                 <shape
                     android:shape="rectangle"
-                    android:tint="@*android:color/holo_green_light">
+                    android:tint="@*android:color/holo_blue_dark">
                     <solid android:color="#66000000" />
                     <size
                         android:width="18.0dip"
@@ -68,7 +68,7 @@
             <item>
                 <shape
                     android:shape="rectangle"
-                    android:tint="@*android:color/holo_green_light">
+                    android:tint="@*android:color/holo_blue_dark">
                     <solid android:color="#66000000" />
                     <size
                         android:width="18.0dip"

@@ -51,7 +51,7 @@
                     <gradient
                         android:angle="315.0"
                         android:endColor="@*android:color/holo_green_dark"
-                        android:startColor="@*android:color/holo_blue_dark" />
+                        android:startColor="@*android:color/holo_green_light" />
                     <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
                 </shape>
             </item>

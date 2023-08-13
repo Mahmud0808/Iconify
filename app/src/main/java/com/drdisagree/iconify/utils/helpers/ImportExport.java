@@ -254,14 +254,14 @@ public class ImportExport {
                                         commands.add(enable);
                                     }
                                     if (overlayName.contains(COLOR_ACCENT_PRIMARY_LIGHT)) {
-                                        String build = "cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimaryLight android:color/holo_blue_dark 0x1c " + ICONIFY_COLOR_ACCENT_PRIMARY;
+                                        String build = "cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimaryLight android:color/holo_green_light 0x1c " + ICONIFY_COLOR_ACCENT_PRIMARY;
                                         String enable = "cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentPrimaryLight";
                                         commands.add("echo -e \"" + build + "\n" + enable + "\" >> " + MODULE_DIR + "/post-exec.sh");
                                         commands.add(build);
                                         commands.add(enable);
                                     }
                                     if (overlayName.contains(COLOR_ACCENT_SECONDARY)) {
-                                        String build = "cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary android:color/holo_green_light 0x1c " + ICONIFY_COLOR_ACCENT_SECONDARY;
+                                        String build = "cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary android:color/holo_blue_dark 0x1c " + ICONIFY_COLOR_ACCENT_SECONDARY;
                                         String enable = "cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentSecondary";
                                         commands.add("echo -e \"" + build + "\n" + enable + "\" >> " + MODULE_DIR + "/post-exec.sh");
                                         commands.add(build);

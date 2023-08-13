@@ -38,8 +38,8 @@ import java.util.Objects;
 
 public class QsIconLabel extends BaseActivity {
 
-    private ActivityQsIconLabelBinding binding;
     private static String selectedVariant;
+    private ActivityQsIconLabelBinding binding;
 
     @SuppressLint("SetTextI18n")
     @Override

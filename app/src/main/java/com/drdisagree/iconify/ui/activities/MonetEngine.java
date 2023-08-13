@@ -75,7 +75,55 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
     int[] monetSecondaryAccentSaturation = new int[]{Prefs.getInt(MONET_SECONDARY_ACCENT_SATURATION, 100)};
     int[] monetBackgroundSaturation = new int[]{Prefs.getInt(MONET_BACKGROUND_SATURATION, 100)};
     int[] monetBackgroundLightness = new int[]{Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100)};
+    ActivityResultLauncher<Intent> startExportActivityIntent = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result1 -> {
+                if (result1.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result1.getData();
+                    if (data == null) return;
+
+                    try {
+                        ImportExport.exportSettings(Prefs.prefs, MonetEngine.this.getContentResolver().openOutputStream(data.getData()));
+                        Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_export_settings_successfull), Toast.LENGTH_SHORT).show();
+                    } catch (Exception exception) {
+                        Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                        Log.e("MonetEngine", "Error exporting settings", exception);
+                    }
+                }
+            });
     private ActivityMonetEngineBinding binding;
+    ActivityResultLauncher<Intent> startImportActivityIntent = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result2 -> {
+                if (result2.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result2.getData();
+                    if (data == null) return;
+
+                    AlertDialog alertDialog = new AlertDialog.Builder(MonetEngine.this).create();
+                    alertDialog.setTitle(MonetEngine.this.getResources().getString(R.string.import_settings_confirmation_title));
+                    alertDialog.setMessage(MonetEngine.this.getResources().getString(R.string.import_settings_confirmation_desc));
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, MonetEngine.this.getResources().getString(R.string.btn_positive),
+                            (dialog, which) -> {
+                                dialog.dismiss();
+                                new Handler(Looper.getMainLooper()).post(() -> {
+                                    try {
+                                        boolean success = importMonetSettings(Prefs.prefs, MonetEngine.this.getContentResolver().openInputStream(data.getData()));
+                                        if (success) {
+                                            Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                        }
+                                    } catch (Exception exception) {
+                                        Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                        Log.e("MonetEngine", "Error importing settings", exception);
+                                    }
+                                });
+                            });
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, MonetEngine.this.getResources().getString(R.string.btn_negative),
+                            (dialog, which) -> dialog.dismiss());
+                    alertDialog.show();
+                }
+            });
     private LinearLayout[] colorTableRows;
     private int[][] systemColors;
     private ColorPickerDialog.Builder colorPickerDialogPrimary, colorPickerDialogSecondary, colorPickerDialogCustom;
@@ -558,56 +606,6 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
             }
         }
     }
-
-    ActivityResultLauncher<Intent> startExportActivityIntent = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result1 -> {
-                if (result1.getResultCode() == Activity.RESULT_OK) {
-                    Intent data = result1.getData();
-                    if (data == null) return;
-
-                    try {
-                        ImportExport.exportSettings(Prefs.prefs, MonetEngine.this.getContentResolver().openOutputStream(data.getData()));
-                        Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_export_settings_successfull), Toast.LENGTH_SHORT).show();
-                    } catch (Exception exception) {
-                        Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                        Log.e("MonetEngine", "Error exporting settings", exception);
-                    }
-                }
-            });
-    ActivityResultLauncher<Intent> startImportActivityIntent = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result2 -> {
-                if (result2.getResultCode() == Activity.RESULT_OK) {
-                    Intent data = result2.getData();
-                    if (data == null) return;
-
-                    AlertDialog alertDialog = new AlertDialog.Builder(MonetEngine.this).create();
-                    alertDialog.setTitle(MonetEngine.this.getResources().getString(R.string.import_settings_confirmation_title));
-                    alertDialog.setMessage(MonetEngine.this.getResources().getString(R.string.import_settings_confirmation_desc));
-                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, MonetEngine.this.getResources().getString(R.string.btn_positive),
-                            (dialog, which) -> {
-                                dialog.dismiss();
-                                new Handler(Looper.getMainLooper()).post(() -> {
-                                    try {
-                                        boolean success = importMonetSettings(Prefs.prefs, MonetEngine.this.getContentResolver().openInputStream(data.getData()));
-                                        if (success) {
-                                            Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                                        }
-                                    } catch (Exception exception) {
-                                        Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                                        Log.e("MonetEngine", "Error importing settings", exception);
-                                    }
-                                });
-                            });
-                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, MonetEngine.this.getResources().getString(R.string.btn_negative),
-                            (dialog, which) -> dialog.dismiss());
-                    alertDialog.show();
-                }
-            });
-
 
     @Override
     public void onColorSelected(int dialogId, int color) {

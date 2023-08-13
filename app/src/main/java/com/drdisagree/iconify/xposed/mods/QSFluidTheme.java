@@ -66,17 +66,22 @@ public class QSFluidTheme extends ModPack {
     private static boolean fluidQsThemeEnabled = false;
     private static boolean fluidNotifEnabled = false;
     private static boolean fluidPowerMenuEnabled = false;
-    private boolean wasDark = SystemUtil.isDarkMode();
-    private XC_MethodHook.MethodHookParam QSTileViewImplParam = null;
     final Integer[] colorAccent = {mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", listenPackage), mContext.getTheme())};
     final Integer[] colorActiveAlpha = {Color.argb((int) (ACTIVE_ALPHA * 255), Color.red(colorAccent[0]), Color.green(colorAccent[0]), Color.blue(colorAccent[0]))};
     final Integer[] colorInactiveAlpha = {null};
+    private boolean wasDark = SystemUtil.isDarkMode();
+    private XC_MethodHook.MethodHookParam QSTileViewImplParam = null;
 
     public QSFluidTheme(Context context) {
         super(context);
         if (!listensTo(context.getPackageName())) return;
 
         wasDark = SystemUtil.isDarkMode();
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    private static float dpToPx(Context context, int dp) {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
 
     @Override
@@ -552,11 +557,6 @@ public class QSFluidTheme extends ModPack {
         int blue = Color.blue(color);
 
         return Color.argb(alpha, red, green, blue);
-    }
-
-    @SuppressWarnings("SameParameterValue")
-    private static float dpToPx(Context context, int dp) {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
 
     private LayerDrawable createBrightnessBackgroundDrawable(Context context) {

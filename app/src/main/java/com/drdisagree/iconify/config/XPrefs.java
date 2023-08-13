@@ -31,10 +31,9 @@ import com.drdisagree.iconify.xposed.ModPack;
 
 public class XPrefs {
 
+    private static final SharedPreferences.OnSharedPreferenceChangeListener listener = (sharedPreferences, key) -> loadEverything(key);
     public static SharedPreferences Xprefs;
     private static String packageName;
-
-    private static final SharedPreferences.OnSharedPreferenceChangeListener listener = (sharedPreferences, key) -> loadEverything(key);
 
     public static void init(Context context) {
         packageName = context.getPackageName();

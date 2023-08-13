@@ -43,13 +43,13 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
     public static void applyPrimaryColors() {
         FabricatedUtil.buildAndEnableOverlays(
                 new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", colorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_PRIMARY)))},
-                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY_LIGHT, "color", "holo_blue_dark", colorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_PRIMARY)))}
+                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY_LIGHT, "color", "holo_green_light", colorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_PRIMARY)))}
         );
     }
 
     public static void applySecondaryColors() {
         FabricatedUtil.buildAndEnableOverlays(
-                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", colorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_SECONDARY)))},
+                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_blue_dark", colorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_SECONDARY)))},
                 new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY_LIGHT, "color", "holo_green_dark", colorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_SECONDARY)))}
         );
     }
@@ -69,13 +69,13 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
     public static void applyDefaultPrimaryColors() {
         FabricatedUtil.buildAndEnableOverlays(
                 new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY},
-                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY_LIGHT, "color", "holo_blue_dark", ICONIFY_COLOR_ACCENT_PRIMARY}
+                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY_LIGHT, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_PRIMARY}
         );
     }
 
     public static void applyDefaultSecondaryColors() {
         FabricatedUtil.buildAndEnableOverlays(
-                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY},
+                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_blue_dark", ICONIFY_COLOR_ACCENT_SECONDARY},
                 new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY_LIGHT, "color", "holo_green_dark", ICONIFY_COLOR_ACCENT_SECONDARY}
         );
     }
@@ -101,7 +101,7 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL))
             accentSecondary = Prefs.getString(COLOR_ACCENT_SECONDARY);
         else
-            accentSecondary = String.valueOf(getResources().getColor(android.R.color.holo_green_light, getTheme()));
+            accentSecondary = String.valueOf(getResources().getColor(android.R.color.holo_blue_dark, getTheme()));
 
         updatePrimaryColor();
         updateSecondaryColor();

@@ -4,7 +4,7 @@
         <shape android:shape="rectangle">
             <gradient
                 android:angle="0.0"
-                android:endColor="@color/holo_green_light"
+                android:endColor="@color/holo_blue_dark"
                 android:startColor="@color/holo_blue_light" />
             <corners android:radius="24dp" />
         </shape>
@@ -26,7 +26,7 @@
             <gradient
                 android:angle="0.0"
                 android:endColor="@color/holo_blue_light"
-                android:startColor="@color/holo_green_light" />
+                android:startColor="@color/holo_blue_dark" />
             <corners
                 android:bottomRightRadius="24dp"
                 android:topRightRadius="24dp" />

@@ -58,6 +58,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Onboarding extends BaseActivity {
 
+    private static final String mData = "mDataKey";
     public static boolean skippedInstallation = false;
     private static boolean hasErroredOut = false, rebootRequired = false;
     private static StartInstallationProcess installModule = null;
@@ -70,7 +71,6 @@ public class Onboarding extends BaseActivity {
     private InstallationDialog progressDialog;
     private OnboardingAdapter mAdapter = null;
     private String logger = null, prev_log = null;
-    private static final String mData = "mDataKey";
     private int selectedItemPosition = 0;
 
     @Override
@@ -333,6 +333,18 @@ public class Onboarding extends BaseActivity {
         } else {
             mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1, true);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putInt(mData, mViewPager.getCurrentItem());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        selectedItemPosition = savedInstanceState.getInt(mData);
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -622,17 +634,5 @@ public class Onboarding extends BaseActivity {
             Shell.cmd("rm -rf " + Resources.BACKUP_DIR).exec();
             Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        outState.putInt(mData, mViewPager.getCurrentItem());
-    }
-
-    @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        selectedItemPosition = savedInstanceState.getInt(mData);
     }
 }
