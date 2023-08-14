@@ -63,7 +63,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                     if (data == null) return;
 
                     try {
-                        ImportExport.exportSettings(Prefs.prefs, requireContext().getContentResolver().openOutputStream(data.getData()));
+                        ImportExport.exportSettings(Prefs.prefs, Objects.requireNonNull(requireContext().getContentResolver().openOutputStream(Objects.requireNonNull(data.getData()))));
                         Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_export_settings_successfull), Toast.LENGTH_SHORT).show();
                     } catch (Exception exception) {
                         Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
@@ -86,7 +86,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                                 dialog.dismiss();
                                 new Handler(Looper.getMainLooper()).post(() -> {
                                     try {
-                                        boolean success = ImportExport.importSettings(Prefs.prefs, requireContext().getContentResolver().openInputStream(data.getData()), true);
+                                        boolean success = ImportExport.importSettings(Prefs.prefs, Objects.requireNonNull(requireContext().getContentResolver().openInputStream(Objects.requireNonNull(data.getData()))), true);
                                         if (success) {
                                             Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
                                         } else {

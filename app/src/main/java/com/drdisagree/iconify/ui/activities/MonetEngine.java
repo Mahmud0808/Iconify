@@ -24,6 +24,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Environment;
@@ -83,7 +84,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                     if (data == null) return;
 
                     try {
-                        ImportExport.exportSettings(Prefs.prefs, MonetEngine.this.getContentResolver().openOutputStream(data.getData()));
+                        ImportExport.exportSettings(Prefs.prefs, Objects.requireNonNull(MonetEngine.this.getContentResolver().openOutputStream(Objects.requireNonNull(data.getData()))));
                         Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_export_settings_successfull), Toast.LENGTH_SHORT).show();
                     } catch (Exception exception) {
                         Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
@@ -107,7 +108,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                                 dialog.dismiss();
                                 new Handler(Looper.getMainLooper()).post(() -> {
                                     try {
-                                        boolean success = importMonetSettings(Prefs.prefs, MonetEngine.this.getContentResolver().openInputStream(data.getData()));
+                                        boolean success = importMonetSettings(Prefs.prefs, Objects.requireNonNull(MonetEngine.this.getContentResolver().openInputStream(Objects.requireNonNull(data.getData()))));
                                         if (success) {
                                             Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
                                         } else {
@@ -431,7 +432,11 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                     selectedChild[0] = finalI;
                     selectedChild[1] = finalJ;
                     int[] color = ((GradientDrawable) child.getBackground()).getColors();
-                    colorPickerDialogCustom.setDialogStyle(R.style.ColorPicker).setColor(color[0]).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(3).setShowAlphaSlider(false).setShowColorShades(true).show(MonetEngine.this);
+                    if (color != null) {
+                        colorPickerDialogCustom.setDialogStyle(R.style.ColorPicker).setColor(color[0]).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(3).setShowAlphaSlider(false).setShowColorShades(true).show(MonetEngine.this);
+                    } else {
+                        colorPickerDialogCustom.setDialogStyle(R.style.ColorPicker).setColor(Color.WHITE).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(3).setShowAlphaSlider(false).setShowColorShades(true).show(MonetEngine.this);
+                    }
                 });
             }
         }
