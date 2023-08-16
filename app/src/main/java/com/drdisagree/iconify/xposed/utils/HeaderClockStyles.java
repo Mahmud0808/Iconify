@@ -33,6 +33,7 @@ import java.io.File;
 
 public class HeaderClockStyles {
 
+    @SuppressWarnings("deprecation")
     public static ViewGroup getClock(Context mContext) {
         boolean showHeaderClock = Xprefs.getBoolean(HEADER_CLOCK_SWITCH, false);
 
