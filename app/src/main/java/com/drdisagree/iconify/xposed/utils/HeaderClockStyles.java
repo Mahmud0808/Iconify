@@ -11,6 +11,9 @@ import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TEXT_WHITE;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TOPMARGIN;
 import static com.drdisagree.iconify.common.Preferences.UI_CORNER_RADIUS;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
+import static com.drdisagree.iconify.xposed.utils.ViewHelper.dp2px;
+import static com.drdisagree.iconify.xposed.utils.ViewHelper.setMargins;
+import static com.drdisagree.iconify.xposed.utils.ViewHelper.setPaddings;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -491,29 +494,5 @@ public class HeaderClockStyles {
             }
         }
         return null;
-    }
-
-    private static void setMargins(Object viewGroup, Context context, int left, int top, int right, int bottom) {
-        if (viewGroup instanceof View) {
-            if (((View) viewGroup).getLayoutParams() instanceof LinearLayout.LayoutParams)
-                ((LinearLayout.LayoutParams) ((View) viewGroup).getLayoutParams()).setMargins(dp2px(context, left), dp2px(context, top), dp2px(context, right), dp2px(context, bottom));
-            else if (((View) viewGroup).getLayoutParams() instanceof FrameLayout.LayoutParams)
-                ((FrameLayout.LayoutParams) ((View) viewGroup).getLayoutParams()).setMargins(dp2px(context, left), dp2px(context, top), dp2px(context, right), dp2px(context, bottom));
-        } else if (viewGroup instanceof ViewGroup.MarginLayoutParams)
-            ((ViewGroup.MarginLayoutParams) viewGroup).setMargins(dp2px(context, left), dp2px(context, top), dp2px(context, right), dp2px(context, bottom));
-        else
-            throw new IllegalArgumentException("The viewGroup object has to be either a View or a ViewGroup.MarginLayoutParams. Found " + viewGroup.getClass().getSimpleName() + " instead.");
-    }
-
-    private static void setPaddings(ViewGroup viewGroup, Context context, int left, int top, int right, int bottom) {
-        viewGroup.setPadding(dp2px(context, left), dp2px(context, top), dp2px(context, right), dp2px(context, bottom));
-    }
-
-    private static int dp2px(Context context, float dp) {
-        return dp2px(context, (int) dp);
-    }
-
-    private static int dp2px(Context context, int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
 }

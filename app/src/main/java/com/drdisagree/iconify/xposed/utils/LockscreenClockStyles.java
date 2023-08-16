@@ -11,7 +11,12 @@ import static com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_TEXT_WHITE;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_TOPMARGIN;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
-import static de.robv.android.xposed.XposedBridge.log;
+import static com.drdisagree.iconify.xposed.utils.TimeUtils.formatTime;
+import static com.drdisagree.iconify.xposed.utils.TimeUtils.getNumericToText;
+import static com.drdisagree.iconify.xposed.utils.TimeUtils.regionFormattedDate;
+import static com.drdisagree.iconify.xposed.utils.ViewHelper.dp2px;
+import static com.drdisagree.iconify.xposed.utils.ViewHelper.setMargins;
+import static com.drdisagree.iconify.xposed.utils.ViewHelper.setPaddings;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -20,10 +25,8 @@ import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Environment;
 import android.text.InputFilter;
-import android.text.format.DateFormat;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AnalogClock;
 import android.widget.FrameLayout;
@@ -33,13 +36,8 @@ import android.widget.TextView;
 import androidx.core.content.res.ResourcesCompat;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 public class LockscreenClockStyles {
-
-    private static final String TAG = "Iconify - LockscreenClockStyles: ";
 
     @SuppressLint("SetTextI18n")
     @SuppressWarnings({"unused", "deprecation"})
@@ -579,70 +577,5 @@ public class LockscreenClockStyles {
             }
         }
         return null;
-    }
-
-    private static String getNumericToText(String number) {
-        int num = Integer.parseInt(number);
-        String[] numbers = {
-                "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
-                "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen",
-                "Twenty", "Twenty One", "Twenty Two", "Twenty Three", "Twenty Four", "Twenty Five", "Twenty Six", "Twenty Seven", "Twenty Eight", "Twenty Nine",
-                "Thirty", "Thirty One", "Thirty Two", "Thirty Three", "Thirty Four", "Thirty Five", "Thirty Six", "Thirty Seven", "Thirty Eight", "Thirty Nine",
-                "Forty", "Forty One", "Forty Two", "Forty Three", "Forty Four", "Forty Five", "Forty Six", "Forty Seven", "Forty Eight", "Forty Nine",
-                "Fifty", "Fifty One", "Fifty Two", "Fifty Three", "Fifty Four", "Fifty Five", "Fifty Six", "Fifty Seven", "Fifty Eight", "Fifty Nine",
-                "Sixty"
-        };
-        return numbers[num];
-    }
-
-    private static String regionFormattedDate(String USformat, String EUformat) {
-        try {
-            Date currentDate = new Date();
-            Locale currentLocale = Locale.getDefault();
-
-            if (currentLocale.equals(Locale.US)) {
-                SimpleDateFormat usDateFormat = new SimpleDateFormat(USformat, Locale.US);
-                return usDateFormat.format(currentDate);
-            } else {
-                SimpleDateFormat euDateFormat = new SimpleDateFormat(EUformat, currentLocale);
-                return euDateFormat.format(currentDate);
-            }
-        } catch (Throwable throwable) {
-            log(TAG + throwable);
-        }
-
-        return new SimpleDateFormat(USformat, Locale.getDefault()).format(new Date());
-    }
-
-    private static String formatTime(Context context, String format24H, String format12H) {
-        return formatTime(DateFormat.is24HourFormat(context) ? format24H : format12H);
-    }
-
-    private static String formatTime(String format) {
-        return new SimpleDateFormat(format, Locale.getDefault()).format(new Date());
-    }
-
-    private static void setMargins(Object viewGroup, Context context, int left, int top, int right, int bottom) {
-        if (viewGroup instanceof View) {
-            if (((View) viewGroup).getLayoutParams() instanceof LinearLayout.LayoutParams)
-                ((LinearLayout.LayoutParams) ((View) viewGroup).getLayoutParams()).setMargins(dp2px(context, left), dp2px(context, top), dp2px(context, right), dp2px(context, bottom));
-            else if (((View) viewGroup).getLayoutParams() instanceof FrameLayout.LayoutParams)
-                ((FrameLayout.LayoutParams) ((View) viewGroup).getLayoutParams()).setMargins(dp2px(context, left), dp2px(context, top), dp2px(context, right), dp2px(context, bottom));
-        } else if (viewGroup instanceof ViewGroup.MarginLayoutParams)
-            ((ViewGroup.MarginLayoutParams) viewGroup).setMargins(dp2px(context, left), dp2px(context, top), dp2px(context, right), dp2px(context, bottom));
-        else
-            throw new IllegalArgumentException("The viewGroup object has to be either a View or a ViewGroup.MarginLayoutParams. Found " + viewGroup.getClass().getSimpleName() + " instead.");
-    }
-
-    private static void setPaddings(ViewGroup viewGroup, Context context, int left, int top, int right, int bottom) {
-        viewGroup.setPadding(dp2px(context, left), dp2px(context, top), dp2px(context, right), dp2px(context, bottom));
-    }
-
-    private static int dp2px(Context context, float dp) {
-        return dp2px(context, (int) dp);
-    }
-
-    private static int dp2px(Context context, int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
 }
