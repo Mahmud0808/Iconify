@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
 
+import androidx.core.content.res.ResourcesCompat;
+
 import com.drdisagree.iconify.R;
 
 public class LockscreenClockStyles {
@@ -25,11 +27,14 @@ public class LockscreenClockStyles {
     static int lineHeight = 0;
     static float textScaling = 0.6f;
     static boolean forceWhiteText = false;
+    static boolean customColorEnabled = false;
+    static int customColorCode = Color.WHITE;
 
     @SuppressLint("SetTextI18n")
     public static LinearLayout initLockscreenClockStyle(Context mContext, int style) {
         LinearLayout container = new LinearLayout(mContext);
         container.setGravity(Gravity.START | Gravity.CENTER);
+        customColorCode = ResourcesCompat.getColor(mContext.getResources(), R.color.textColorPrimary, mContext.getTheme());
 
         switch (style) {
             case 0:
@@ -552,7 +557,7 @@ public class LockscreenClockStyles {
                 container8.setGravity(Gravity.CENTER);
                 container8.setOrientation(LinearLayout.VERTICAL);
                 container8.setPadding((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40 * textScaling, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24 * textScaling, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40 * textScaling, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24 * textScaling, mContext.getResources().getDisplayMetrics()));
-                GradientDrawable mDrawable8 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{forceWhiteText ? android.R.color.white : R.color.textColorPrimary, forceWhiteText ? android.R.color.white : R.color.textColorPrimary});
+                GradientDrawable mDrawable8 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{forceWhiteText ? android.R.color.white : (customColorEnabled ? customColorCode : mContext.getResources().getColor(R.color.textColorPrimary, mContext.getTheme())), forceWhiteText ? android.R.color.white : (customColorEnabled ? customColorCode : mContext.getResources().getColor(R.color.textColorPrimary, mContext.getTheme()))});
                 mDrawable8.setCornerRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24 * textScaling, mContext.getResources().getDisplayMetrics()));
                 mDrawable8.setAlpha(50);
                 container8.setBackground(mDrawable8);
