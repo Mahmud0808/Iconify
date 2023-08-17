@@ -33,6 +33,7 @@ import java.lang.reflect.Method;
 
 import de.robv.android.xposed.XC_MethodHook;
 
+@SuppressWarnings("unused")
 public class Helpers {
 
     public static void enableOverlay(String pkgName) {
@@ -41,6 +42,26 @@ public class Helpers {
 
     public static void disableOverlay(String pkgName) {
         Shell.cmd("cmd overlay disable --user current " + pkgName).exec();
+    }
+
+    public static void enableOverlays(String... pkgNames) {
+        StringBuilder command = new StringBuilder();
+
+        for (String pkgName : pkgNames) {
+            command.append("cmd overlay enable --user current ").append(pkgName).append("; cmd overlay set-priority ").append(pkgName).append(" highest; ");
+        }
+
+        Shell.cmd(command.toString().trim()).submit();
+    }
+
+    public static void disableOverlays(String... pkgNames) {
+        StringBuilder command = new StringBuilder();
+
+        for (String pkgName : pkgNames) {
+            command.append("cmd overlay disable --user current ").append(pkgName).append("; ");
+        }
+
+        Shell.cmd(command.toString().trim()).submit();
     }
 
     @NonNull
@@ -54,7 +75,6 @@ public class Helpers {
         return findClassIfExists(className, classLoader);
     }
 
-    @SuppressWarnings("unused")
     public static void dumpClass(String className, ClassLoader classLoader) {
         Class<?> ourClass = findClassIfExists(className, classLoader);
         if (ourClass == null) {
