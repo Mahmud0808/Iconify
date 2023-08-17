@@ -102,8 +102,9 @@ public class QSFluidTheme extends ModPack {
         Class<?> QsPanelClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSPanel", lpparam.classLoader);
         Class<?> QSTileViewImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSTileViewImpl", lpparam.classLoader);
         Class<?> QSIconViewImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSIconViewImpl", lpparam.classLoader);
-        Class<?> CentralSurfacesImplClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.CentralSurfacesImpl", lpparam.classLoader);
         Class<?> FooterViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.FooterView", lpparam.classLoader);
+        Class<?> CentralSurfacesImplClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.CentralSurfacesImpl", lpparam.classLoader);
+        Class<?> NotificationExpandButtonClass = findClass("com.android.internal.widget.NotificationExpandButton", lpparam.classLoader);
         Class<?> BrightnessSliderViewClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessSliderView", lpparam.classLoader);
         Class<?> BrightnessControllerClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessController", lpparam.classLoader);
         Class<?> BrightnessMirrorControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.BrightnessMirrorController", lpparam.classLoader);
@@ -423,6 +424,20 @@ public class QSFluidTheme extends ModPack {
 
                 if (mBackgroundNormal != null) {
                     mBackgroundNormal.setAlpha(INACTIVE_ALPHA);
+                }
+            }
+        });
+
+        // Notification expand/collapse pill
+        hookAllMethods(NotificationExpandButtonClass, "onFinishInflate", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                if (!fluidQsThemeEnabled || !fluidNotifEnabled) return;
+
+                View mPillView = (View) getObjectField(param.thisObject, "mPillView");
+
+                if (mPillView != null) {
+                    mPillView.getBackground().setAlpha((int) (INACTIVE_ALPHA * 255));
                 }
             }
         });
