@@ -41,7 +41,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
 
-    private static final String TAG = "Iconify - LockscreenClock: ";
+    private static final String TAG = "Iconify - " + LockscreenClock.class.getSimpleName() + ": ";
     boolean showLockscreenClock = false;
     boolean autoHideClock = false;
     private ViewGroup mStatusViewContainer = null;

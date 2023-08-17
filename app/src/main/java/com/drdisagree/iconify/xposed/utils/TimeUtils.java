@@ -11,6 +11,8 @@ import java.util.Locale;
 
 public class TimeUtils {
 
+    private static final String TAG = "Iconify - " + TimeUtils.class.getSimpleName() + ": ";
+
     public static String getNumericToText(String number) {
         int num = Integer.parseInt(number);
         String[] numbers = {
@@ -38,7 +40,7 @@ public class TimeUtils {
                 return euDateFormat.format(currentDate);
             }
         } catch (Throwable throwable) {
-            log("Iconify - TimeUtils: " + throwable);
+            log(TAG + throwable);
         }
 
         return new SimpleDateFormat(USformat, Locale.getDefault()).format(new Date());

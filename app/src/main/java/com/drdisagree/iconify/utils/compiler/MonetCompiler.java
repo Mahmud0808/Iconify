@@ -17,7 +17,7 @@ import java.io.IOException;
 
 public class MonetCompiler {
 
-    private static final String TAG = "MonetCompiler";
+    private static final String TAG = MonetCompiler.class.getSimpleName();
     private static boolean mEnable = false;
 
     public static boolean buildOverlay(String[] resources, boolean enable) throws IOException {

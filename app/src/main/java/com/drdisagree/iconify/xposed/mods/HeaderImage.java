@@ -42,9 +42,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
 
-    private static final String TAG = "Iconify - XposedHeaderImage: ";
-    private static final String QuickStatusBarHeaderClass = SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader";
-    private static final String QSContainerImplClass = SYSTEMUI_PACKAGE + ".qs.QSContainerImpl";
+    private static final String TAG = "Iconify - " + HeaderImage.class.getSimpleName() + ": ";
     boolean showHeaderImage = false;
     int imageHeight = 140;
     int headerImageAlpha = 100;
@@ -83,8 +81,8 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE)) return;
 
-        final Class<?> QuickStatusBarHeader = findClass(QuickStatusBarHeaderClass, lpparam.classLoader);
-        final Class<?> QSContainerImpl = findClass(QSContainerImplClass, lpparam.classLoader);
+        final Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", lpparam.classLoader);
+        final Class<?> QSContainerImpl = findClass(SYSTEMUI_PACKAGE + ".qs.QSContainerImpl", lpparam.classLoader);
 
         try {
             hookAllMethods(QuickStatusBarHeader, "onFinishInflate", new XC_MethodHook() {

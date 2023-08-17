@@ -21,7 +21,7 @@ import java.util.Objects;
 
 public class VolumeCompiler {
 
-    private static final String TAG = "VolumeCompiler";
+    private static final String TAG = VolumeCompiler.class.getSimpleName();
     private static final String zip = ZIP.getAbsolutePath();
     private static String mOverlayName = null;
 

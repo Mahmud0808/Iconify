@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class SwitchCompiler {
 
-    private static final String TAG = "SwitchCompiler";
+    private static final String TAG = SwitchCompiler.class.getSimpleName();
     private static final String[] mPackage = new String[]{"com.android.settings", "com.android.systemui"};
     private static final String[] mOverlayName = new String[]{"SWITCH1", "SWITCH2"};
     private static int mStyle = 0;

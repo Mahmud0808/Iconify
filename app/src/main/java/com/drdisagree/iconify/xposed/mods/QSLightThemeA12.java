@@ -56,7 +56,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class QSLightThemeA12 extends ModPack {
 
     public static final String listenPackage = SYSTEMUI_PACKAGE;
-    private static final String TAG = "Iconify - QSLightThemeA12: ";
+    private static final String TAG = "Iconify - " + QSLightThemeA12.class.getSimpleName() + ": ";
     private static boolean lightQSHeaderEnabled = false;
     private static boolean dualToneQSEnabled = false;
     private Object mBehindColors;

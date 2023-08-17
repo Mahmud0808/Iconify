@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class OnDemandCompiler {
 
-    private static final String TAG = "OnDemandCompiler";
+    private static final String TAG = OnDemandCompiler.class.getSimpleName();
     private static String mOverlayName = null;
     private static String mPackage = null;
     private static int mStyle = 0;

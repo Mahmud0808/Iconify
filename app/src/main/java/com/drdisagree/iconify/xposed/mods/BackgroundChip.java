@@ -53,9 +53,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
 
-    private static final String TAG = "Iconify - XposedBackgroundChip: ";
-    private static final String CollapsedStatusBarFragmentClass = SYSTEMUI_PACKAGE + ".statusbar.phone.fragment.CollapsedStatusBarFragment";
-    private static final String CollapsedStatusBarFragmentAltClass = SYSTEMUI_PACKAGE + ".statusbar.phone.CollapsedStatusBarFragment";
+    private static final String TAG = "Iconify - " + BackgroundChip.class.getSimpleName() + ": ";
     boolean mShowSBClockBg = false;
     boolean hideStatusIcons = false;
     boolean mShowQSStatusIconsBg = false;
@@ -108,9 +106,9 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE)) return;
 
-        Class<?> CollapsedStatusBarFragment = findClassIfExists(CollapsedStatusBarFragmentClass, lpparam.classLoader);
+        Class<?> CollapsedStatusBarFragment = findClassIfExists(SYSTEMUI_PACKAGE + ".statusbar.phone.fragment.CollapsedStatusBarFragment", lpparam.classLoader);
         if (CollapsedStatusBarFragment == null)
-            CollapsedStatusBarFragment = findClass(CollapsedStatusBarFragmentAltClass, lpparam.classLoader);
+            CollapsedStatusBarFragment = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.CollapsedStatusBarFragment", lpparam.classLoader);
 
         DependencyClass = findClass(SYSTEMUI_PACKAGE + ".Dependency", lpparam.classLoader);
         DarkIconDispatcherClass = findClass(SYSTEMUI_PACKAGE + ".plugins.DarkIconDispatcher", lpparam.classLoader);

@@ -56,7 +56,7 @@ public class QSBlackTheme extends ModPack {
 
     public static final String listenPackage = SYSTEMUI_PACKAGE;
     public static final int STATE_ACTIVE = 2;
-    private static final String TAG = "Iconify - QSBlackTheme: ";
+    private static final String TAG = "Iconify - " + QSBlackTheme.class.getSimpleName() + ": ";
     private static boolean blackQSHeaderEnabled = false;
     private Object mBehindColors;
     private boolean isDark;

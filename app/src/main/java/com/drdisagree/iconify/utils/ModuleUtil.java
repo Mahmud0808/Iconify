@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class ModuleUtil {
 
-    private static final String TAG = "ModuleUtil";
+    private static final String TAG = ModuleUtil.class.getSimpleName();
     private static final List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
 
     public static void handleModule() {

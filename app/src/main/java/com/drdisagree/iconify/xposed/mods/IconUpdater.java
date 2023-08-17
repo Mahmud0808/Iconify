@@ -36,7 +36,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class IconUpdater extends ModPack implements IXposedHookLoadPackage {
 
-    private static final String TAG = "Iconify - IconUpdater: ";
+    private static final String TAG = "Iconify - " + IconUpdater.class.getSimpleName() + ": ";
     private static final String listenPackage = PIXEL_LAUNCHER_PACKAGE;
     private Object LauncherModel = null;
 

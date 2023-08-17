@@ -106,7 +106,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class BatteryStyleManager extends ModPack {
 
     public static final String listenPackage = SYSTEMUI_PACKAGE;
-    private static final String TAG = "Iconify - BatteryStyleManager: ";
+    private static final String TAG = "Iconify - " + BatteryStyleManager.class.getSimpleName() + ": ";
     private static final ArrayList<Object> batteryViews = new ArrayList<>();
     private static final int BatteryIconOpacity = 100;
     public static int BatteryStyle = 0;

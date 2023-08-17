@@ -17,7 +17,7 @@ import java.util.Objects;
 
 public class SettingsIconsCompiler {
 
-    private static final String TAG = "SettingsIconsCompiler";
+    private static final String TAG = SettingsIconsCompiler.class.getSimpleName();
     private static final String[] packages = new String[]{"com.android.settings", "com.google.android.apps.wellbeing", "com.google.android.gms"};
     private static int mIconSet = 1, mIconBg = 1;
     private static boolean mEnable = false;

@@ -22,7 +22,7 @@ import java.security.cert.X509Certificate;
 
 public class OnBoardingCompiler {
 
-    private static final String TAG = "OnBoardingCompiler";
+    private static final String TAG = OnBoardingCompiler.class.getSimpleName();
     private static final String aapt = AAPT.getAbsolutePath();
     private static final String zipalign = ZIPALIGN.getAbsolutePath();
 

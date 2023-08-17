@@ -40,10 +40,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
 
-    private static final String TAG = "Iconify - Miscellaneous: ";
-    private static final String QuickStatusBarHeaderClass = SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader";
-    private static final String LargeScreenShadeHeaderController = SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController";
-    private static final String ShadeHeaderController = SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController";
+    private static final String TAG = "Iconify - " + Miscellaneous.class.getSimpleName() + ": ";
     boolean QSCarrierGroupHidden = false;
     boolean hideStatusIcons = false;
     boolean fixedStatusIcons = false;
@@ -98,7 +95,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE)) return;
 
-        final Class<?> QuickStatusBarHeader = findClass(QuickStatusBarHeaderClass, lpparam.classLoader);
+        final Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", lpparam.classLoader);
 
         try {
             hookAllMethods(QuickStatusBarHeader, "onFinishInflate", new XC_MethodHook() {
@@ -143,9 +140,9 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
         }
 
         try {
-            Class<?> ShadeHeaderControllerClass = findClassIfExists(LargeScreenShadeHeaderController, lpparam.classLoader);
+            Class<?> ShadeHeaderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController", lpparam.classLoader);
             if (ShadeHeaderControllerClass == null)
-                ShadeHeaderControllerClass = findClass(ShadeHeaderController, lpparam.classLoader);
+                ShadeHeaderControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController", lpparam.classLoader);
 
             hookAllMethods(ShadeHeaderControllerClass, "onInit", new XC_MethodHook() {
                 @Override

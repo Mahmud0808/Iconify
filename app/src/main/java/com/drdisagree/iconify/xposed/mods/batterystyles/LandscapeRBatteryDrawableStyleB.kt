@@ -20,6 +20,7 @@ import android.graphics.*
 import android.util.TypedValue
 import androidx.core.graphics.PathParser
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
+import kotlin.math.floor
 
 /**
  * A battery meter drawable that respects paths configured in
@@ -180,8 +181,8 @@ open class LandscapeRBatteryDrawableStyleB(private val context: Context, frameCo
 
     init {
         val density = context.resources.displayMetrics.density
-        intrinsicHeight = (Companion.HEIGHT * density).toInt()
-        intrinsicWidth = (Companion.WIDTH * density).toInt()
+        intrinsicHeight = (HEIGHT * density).toInt()
+        intrinsicWidth = (WIDTH * density).toInt()
 
         val res = context.resources
         val levels = res.obtainTypedArray(
@@ -194,9 +195,9 @@ open class LandscapeRBatteryDrawableStyleB(private val context: Context, frameCo
                 "batterymeter_color_values", "array", context.packageName
             )
         )
-        val N = levels.length()
-        colorLevels = IntArray(2 * N)
-        for (i in 0 until N) {
+        val n = levels.length()
+        colorLevels = IntArray(2 * n)
+        for (i in 0 until n) {
             colorLevels[2 * i] = levels.getInt(i, 0)
             if (colors.getType(i) == TypedValue.TYPE_ATTRIBUTE) {
                 colorLevels[2 * i + 1] = SettingsLibUtils.getColorAttrDefaultColor(
@@ -221,7 +222,7 @@ open class LandscapeRBatteryDrawableStyleB(private val context: Context, frameCo
         val fillTop = if (batteryLevel >= 95) fillRect.right
         else fillRect.right - (fillRect.width() * (1 - fillFraction))
 
-        levelRect.right = Math.floor(fillTop.toDouble()).toFloat()
+        levelRect.right = floor(fillTop.toDouble()).toFloat()
         //levelPath.addRect(levelRect, Path.Direction.CCW)
         levelPath.addRoundRect(
             levelRect, floatArrayOf(
@@ -360,6 +361,10 @@ open class LandscapeRBatteryDrawableStyleB(private val context: Context, frameCo
     /**
      * Deprecated, but required by Drawable
      */
+    @Deprecated(
+        "Deprecated in Java",
+        ReplaceWith("PixelFormat.OPAQUE", "android.graphics.PixelFormat"),
+    )
     override fun getOpacity(): Int {
         return PixelFormat.OPAQUE
     }
@@ -440,7 +445,7 @@ open class LandscapeRBatteryDrawableStyleB(private val context: Context, frameCo
         // just pick one to scale the strokeWidths
         val scaledStrokeWidth =
 
-            Math.max(b.right / WIDTH * PROTECTION_STROKE_WIDTH, PROTECTION_MIN_STROKE_WIDTH)
+            (b.right / WIDTH * PROTECTION_STROKE_WIDTH).coerceAtLeast(PROTECTION_MIN_STROKE_WIDTH)
 
         fillColorStrokePaint.strokeWidth = scaledStrokeWidth
         fillColorStrokeProtection.strokeWidth = scaledStrokeWidth
@@ -474,7 +479,7 @@ open class LandscapeRBatteryDrawableStyleB(private val context: Context, frameCo
     }
 
     companion object {
-        private const val TAG = "LandscapeRBatteryDrawableStyleB"
+        private val TAG = LandscapeRBatteryDrawableStyleB::class.java.simpleName
         private const val WIDTH = 24f
         private const val HEIGHT = 12f
         private const val CRITICAL_LEVEL = 15

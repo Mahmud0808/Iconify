@@ -18,7 +18,7 @@ import java.io.IOException;
 
 public class RoundnessCompiler {
 
-    private static final String TAG = "RoundnessCompiler";
+    private static final String TAG = RoundnessCompiler.class.getSimpleName();
     private static final String[] mPackages = {FRAMEWORK_PACKAGE, SYSTEMUI_PACKAGE};
     private static final String[] mOverlayName = {"CR1", "CR2"};
     private static boolean mEnable = false;

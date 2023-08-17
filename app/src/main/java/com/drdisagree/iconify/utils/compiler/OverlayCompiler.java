@@ -23,7 +23,7 @@ import java.security.cert.X509Certificate;
 
 public class OverlayCompiler {
 
-    private static final String TAG = "OverlayCompiler";
+    private static final String TAG = OverlayCompiler.class.getSimpleName();
     private static final String aapt = AAPT.getAbsolutePath();
     private static final String zipalign = ZIPALIGN.getAbsolutePath();
     private static PrivateKey key = null;

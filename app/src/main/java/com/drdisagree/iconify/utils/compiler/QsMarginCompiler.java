@@ -18,7 +18,7 @@ import java.io.IOException;
 
 public class QsMarginCompiler {
 
-    private static final String TAG = "QsMarginCompiler";
+    private static final String TAG = QsMarginCompiler.class.getSimpleName();
     private static final String[] mPackages = {FRAMEWORK_PACKAGE, SYSTEMUI_PACKAGE};
     private static final String[] mOverlayName = {"HSIZE1", "HSIZE2"};
     private static boolean mEnable = false;

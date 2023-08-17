@@ -15,8 +15,9 @@ import com.topjohnwu.superuser.Shell;
 
 public class BinaryInstaller {
 
-    private static final String TAG = "BinaryInstaller";
+    private static final String TAG = BinaryInstaller.class.getSimpleName();
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void symLinkBinaries() {
         Shell.cmd("mkdir -p " + BIN_DIR).exec();
         extractTools();

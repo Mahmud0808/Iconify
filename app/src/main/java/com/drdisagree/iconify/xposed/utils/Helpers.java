@@ -66,7 +66,7 @@ public class Helpers {
 
     public static void dumpClass(Class<?> ourClass) {
         Method[] ms = ourClass.getDeclaredMethods();
-        log("Class: " + ourClass.getName());
+        log("\n\nClass: " + ourClass.getName());
         log("extends: " + ourClass.getSuperclass().getName());
         log("Subclasses:");
         Class<?>[] scs = ourClass.getClasses();
@@ -98,7 +98,7 @@ public class Helpers {
         for (Field f : fs) {
             log("\t\t" + f.getName() + "-" + f.getType().getName());
         }
-        log("End dump");
+        log("End dump\n\n");
     }
 
     public static void tryHookAllMethods(Class<?> clazz, String method, XC_MethodHook hook) {

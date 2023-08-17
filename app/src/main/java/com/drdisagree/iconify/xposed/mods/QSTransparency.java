@@ -25,8 +25,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class QSTransparency extends ModPack {
 
-    private static final String TAG = "Iconify - QSTransparency: ";
-    private static final String CLASS_SCRIMCONTROLLER = SYSTEMUI_PACKAGE + ".statusbar.phone.ScrimController";
+    private static final String TAG = "Iconify - " + QSTransparency.class.getSimpleName() + ": ";
     boolean qsTransparencyActive = false;
     boolean onlyNotifTransparencyActive = false;
     private Object paramThisObject = null;
@@ -84,7 +83,7 @@ public class QSTransparency extends ModPack {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpParam) {
         if (!lpParam.packageName.equals(SYSTEMUI_PACKAGE)) return;
 
-        final Class<?> ScrimController = XposedHelpers.findClass(CLASS_SCRIMCONTROLLER, lpParam.classLoader);
+        final Class<?> ScrimController = XposedHelpers.findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.ScrimController", lpParam.classLoader);
 
         hookAllConstructors(ScrimController, new XC_MethodHook() {
             @Override

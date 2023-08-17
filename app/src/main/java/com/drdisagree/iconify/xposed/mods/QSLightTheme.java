@@ -63,7 +63,7 @@ public class QSLightTheme extends ModPack {
 
     public static final String listenPackage = SYSTEMUI_PACKAGE;
     public static final int STATE_ACTIVE = 2;
-    private static final String TAG = "Iconify - QSLightTheme: ";
+    private static final String TAG = "Iconify - " + QSLightTheme.class.getSimpleName() + ": ";
     private static boolean lightQSHeaderEnabled = false;
     private static boolean dualToneQSEnabled = false;
     private Object mBehindColors;
@@ -121,7 +121,7 @@ public class QSLightTheme extends ModPack {
 
                         int colorPrimary = SettingsLibUtils.getColorAttrDefaultColor(mContext, android.R.attr.textColorPrimaryInverse);
                         int textColorSecondary = SettingsLibUtils.getColorAttrDefaultColor(mContext, android.R.attr.textColorSecondaryInverse);
-                        callMethod((LinearLayout) getObjectField(param.thisObject, "batteryMeterView"), "updateColors", colorPrimary, textColorSecondary, colorPrimary);
+                        callMethod(getObjectField(param.thisObject, "batteryMeterView"), "updateColors", colorPrimary, textColorSecondary, colorPrimary);
                     }
                 }
             });
