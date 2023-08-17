@@ -243,10 +243,10 @@ public class BatteryStyleManager extends ModPack {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (!lpparam.packageName.equals(listenPackage)) return;
 
-        Class<?> BatteryControllerImplClass = findClass("com.android.systemui.statusbar.policy.BatteryControllerImpl", lpparam.classLoader);
-        Class<?> BatteryMeterViewClass = findClassIfExists("com.android.systemui.battery.BatteryMeterView", lpparam.classLoader);
+        Class<?> BatteryControllerImplClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.BatteryControllerImpl", lpparam.classLoader);
+        Class<?> BatteryMeterViewClass = findClassIfExists(SYSTEMUI_PACKAGE + ".battery.BatteryMeterView", lpparam.classLoader);
         if (BatteryMeterViewClass == null) {
-            BatteryMeterViewClass = findClass("com.android.systemui.BatteryMeterView", lpparam.classLoader);
+            BatteryMeterViewClass = findClass(SYSTEMUI_PACKAGE + ".BatteryMeterView", lpparam.classLoader);
         }
 
         try {
@@ -395,9 +395,9 @@ public class BatteryStyleManager extends ModPack {
         }
 
         try {
-            Class<?> ShadeHeaderControllerClass = findClassIfExists("com.android.systemui.shade.ShadeHeaderController", lpparam.classLoader);
+            Class<?> ShadeHeaderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController", lpparam.classLoader);
             if (ShadeHeaderControllerClass == null)
-                ShadeHeaderControllerClass = findClass("com.android.systemui.shade.LargeScreenShadeHeaderController", lpparam.classLoader);
+                ShadeHeaderControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController", lpparam.classLoader);
 
             hookAllMethods(ShadeHeaderControllerClass, "updateResources", new XC_MethodHook() {
                 @Override

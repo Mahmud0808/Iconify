@@ -213,7 +213,7 @@ public class QSFluidTheme extends ModPack {
         });
 
         try {
-            Class<?> QSContainerImplClass = findClass("com.android.systemui.qs.QSContainerImpl", lpparam.classLoader);
+            Class<?> QSContainerImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSContainerImpl", lpparam.classLoader);
 
             hookAllMethods(QSContainerImplClass, "updateResources", new XC_MethodHook() {
                 @SuppressLint("DiscouragedApi")

@@ -97,20 +97,20 @@ public class QSLightTheme extends ModPack {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (!lpparam.packageName.equals(listenPackage)) return;
 
-        Class<?> QSTileViewImplClass = findClass("com.android.systemui.qs.tileimpl.QSTileViewImpl", lpparam.classLoader);
-        Class<?> FragmentHostManagerClass = findClass("com.android.systemui.fragments.FragmentHostManager", lpparam.classLoader);
-        Class<?> ScrimControllerClass = findClass("com.android.systemui.statusbar.phone.ScrimController", lpparam.classLoader);
+        Class<?> QSTileViewImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSTileViewImpl", lpparam.classLoader);
+        Class<?> FragmentHostManagerClass = findClass(SYSTEMUI_PACKAGE + ".fragments.FragmentHostManager", lpparam.classLoader);
+        Class<?> ScrimControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.ScrimController", lpparam.classLoader);
         Class<?> GradientColorsClass = findClass("com.android.internal.colorextraction.ColorExtractor$GradientColors", lpparam.classLoader);
-        Class<?> QSPanelControllerClass = findClass("com.android.systemui.qs.QSPanelController", lpparam.classLoader);
+        Class<?> QSPanelControllerClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSPanelController", lpparam.classLoader);
         Class<?> InterestingConfigChangesClass = findClass("com.android.settingslib.applications.InterestingConfigChanges", lpparam.classLoader);
-        Class<?> ScrimStateEnum = findClass("com.android.systemui.statusbar.phone.ScrimState", lpparam.classLoader);
-        Class<?> QSIconViewImplClass = findClass("com.android.systemui.qs.tileimpl.QSIconViewImpl", lpparam.classLoader);
-        Class<?> CentralSurfacesImplClass = findClass("com.android.systemui.statusbar.phone.CentralSurfacesImpl", lpparam.classLoader);
-        Class<?> ClockClass = findClass("com.android.systemui.statusbar.policy.Clock", lpparam.classLoader);
-        Class<?> QuickStatusBarHeaderClass = findClass("com.android.systemui.qs.QuickStatusBarHeader", lpparam.classLoader);
+        Class<?> ScrimStateEnum = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.ScrimState", lpparam.classLoader);
+        Class<?> QSIconViewImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSIconViewImpl", lpparam.classLoader);
+        Class<?> CentralSurfacesImplClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.CentralSurfacesImpl", lpparam.classLoader);
+        Class<?> ClockClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.Clock", lpparam.classLoader);
+        Class<?> QuickStatusBarHeaderClass = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", lpparam.classLoader);
 
         try {
-            Class<?> BatteryStatusChipClass = findClass("com.android.systemui.statusbar.BatteryStatusChip", lpparam.classLoader);
+            Class<?> BatteryStatusChipClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.BatteryStatusChip", lpparam.classLoader);
 
             //background color of android 14's charging chip. Fix for light QS theme situation
             hookAllMethods(BatteryStatusChipClass, "updateResources", new XC_MethodHook() {
@@ -147,8 +147,8 @@ public class QSLightTheme extends ModPack {
         });
 
         try { //13QPR1
-            Class<?> QSFgsManagerFooterClass = findClass("com.android.systemui.qs.QSFgsManagerFooter", lpparam.classLoader);
-            Class<?> FooterActionsControllerClass = findClass("com.android.systemui.qs.FooterActionsController", lpparam.classLoader);
+            Class<?> QSFgsManagerFooterClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSFgsManagerFooter", lpparam.classLoader);
+            Class<?> FooterActionsControllerClass = findClass(SYSTEMUI_PACKAGE + ".qs.FooterActionsController", lpparam.classLoader);
 
             hookAllConstructors(QSFgsManagerFooterClass, new XC_MethodHook() {
                 @Override
@@ -214,11 +214,11 @@ public class QSLightTheme extends ModPack {
             });
         } catch (Throwable throwable) { //13QPR2&3
             //13QPR3
-            Class<?> ShadeHeaderControllerClass = findClassIfExists("com.android.systemui.shade.ShadeHeaderController", lpparam.classLoader);
+            Class<?> ShadeHeaderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController", lpparam.classLoader);
             //13QPR2
             if (ShadeHeaderControllerClass == null)
-                ShadeHeaderControllerClass = findClass("com.android.systemui.shade.LargeScreenShadeHeaderController", lpparam.classLoader);
-            Class<?> QSContainerImplClass = findClass("com.android.systemui.qs.QSContainerImpl", lpparam.classLoader);
+                ShadeHeaderControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController", lpparam.classLoader);
+            Class<?> QSContainerImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSContainerImpl", lpparam.classLoader);
 
             hookAllMethods(ShadeHeaderControllerClass, "onInit", new XC_MethodHook() {
                 @Override
@@ -506,19 +506,21 @@ public class QSLightTheme extends ModPack {
         if (isCurrentlyDark == isDark && !force) return;
         isDark = isCurrentlyDark;
 
+        String QS_LIGHT_THEME_OVERLAY = "IconifyComponentQSLT.overlay";
+        String QS_DUAL_TONE_OVERLAY = "IconifyComponentQSDT.overlay";
+
         calculateColors();
 
-        Helpers.disableOverlay("IconifyComponentQSLT.overlay");
-        Helpers.disableOverlay("IconifyComponentQSDT.overlay");
+        Helpers.disableOverlays(QS_LIGHT_THEME_OVERLAY, QS_DUAL_TONE_OVERLAY);
 
         Thread.sleep(50);
 
-        if (lightQSHeaderEnabled && !isCurrentlyDark) {
-            Helpers.enableOverlay("IconifyComponentQSLT.overlay");
-        }
+        if (lightQSHeaderEnabled) {
+            if (!isCurrentlyDark)
+                Helpers.enableOverlay(QS_LIGHT_THEME_OVERLAY);
 
-        if (lightQSHeaderEnabled && dualToneQSEnabled) {
-            Helpers.enableOverlay("IconifyComponentQSDT.overlay");
+            if (dualToneQSEnabled)
+                Helpers.enableOverlay(QS_DUAL_TONE_OVERLAY);
         }
     }
 
