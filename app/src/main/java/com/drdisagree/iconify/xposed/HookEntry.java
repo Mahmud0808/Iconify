@@ -43,7 +43,11 @@ public class HookEntry implements IXposedHookLoadPackage {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        isChildProcess = lpparam.processName.contains(":");
+        try {
+            isChildProcess = lpparam.processName.contains(":");
+        } catch (Throwable ignored) {
+            isChildProcess = false;
+        }
 
         findAndHookMethod(Instrumentation.class, "newApplication", ClassLoader.class, String.class, Context.class, new XC_MethodHook() {
             @Override
