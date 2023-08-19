@@ -31,7 +31,7 @@ public class SplashActivity extends AppCompatActivity {
     private final Runnable runner = () -> Shell.getShell(shell -> {
         Intent intent;
 
-        if (SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES || (RootUtil.deviceProperlyRooted() && ModuleUtil.moduleProperlyInstalled() && (BuildConfig.VERSION_CODE == SystemUtil.getSavedVersionCode()))) {
+        if (SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES || (RootUtil.deviceProperlyRooted() && ModuleUtil.moduleProperlyInstalled() && BuildConfig.VERSION_CODE == SystemUtil.getSavedVersionCode())) {
             keepShowing = false;
             intent = new Intent(SplashActivity.this, HomePage.class);
         } else {
