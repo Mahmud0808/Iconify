@@ -14,6 +14,7 @@
         <item>Persian</item>
         <item>Portuguese</item>
         <item>Russian</item>
+        <item>Spanish</item>
         <item>Turkish</item>
         <item>Vietnamese</item>
     </string-array>
@@ -26,6 +27,7 @@
         <item>fa</item>
         <item>pt</item>
         <item>ru</item>
+        <item>es</item>
         <item>tr</item>
         <item>vi</item>
     </string-array>
