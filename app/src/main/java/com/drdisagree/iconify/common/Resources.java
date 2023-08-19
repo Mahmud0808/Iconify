@@ -20,6 +20,8 @@ public class Resources {
     public static final String BIN_DIR = Iconify.getAppContext().getDataDir() + "/bin";
     public static final String BACKUP_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.iconify_backup";
     public static final String TEMP_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.iconify";
+    public static final String TEMP_MODULE_DIR = TEMP_DIR + "/Iconify";
+    public static final String TEMP_MODULE_OVERLAY_DIR = TEMP_MODULE_DIR + "/system/product/overlay";
     public static final String TEMP_OVERLAY_DIR = TEMP_DIR + "/overlays";
     public static final String TEMP_CACHE_DIR = TEMP_OVERLAY_DIR + "/cache";
     public static final String UNSIGNED_UNALIGNED_DIR = TEMP_OVERLAY_DIR + "/unsigned_unaligned";
