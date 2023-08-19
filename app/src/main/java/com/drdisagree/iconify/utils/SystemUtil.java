@@ -110,8 +110,12 @@ public class SystemUtil {
         Prefs.putString(BOOT_ID, Shell.cmd(DEVICE_BOOT_ID_CMD).exec().getOut().toString());
     }
 
-    public static void getVersionCode() {
+    public static void saveVersionCode() {
         Prefs.putInt(VER_CODE, BuildConfig.VERSION_CODE);
+    }
+
+    public static int getSavedVersionCode() {
+        return Prefs.getInt(VER_CODE, -1);
     }
 
     public static void getStoragePermission(Context context) {

@@ -113,7 +113,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
 
         SystemUtil.getBootId();
         SystemUtil.disableBlur();
-        SystemUtil.getVersionCode();
+        SystemUtil.saveVersionCode();
         Prefs.putBoolean(ON_HOME_PAGE, true);
         Prefs.putBoolean(FIRST_INSTALL, false);
 

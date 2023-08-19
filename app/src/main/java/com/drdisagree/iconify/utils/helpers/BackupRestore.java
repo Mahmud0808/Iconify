@@ -28,20 +28,20 @@ public class BackupRestore {
     }
 
     public static void restoreFiles() {
-        restoreFile("system.prop", Resources.MODULE_DIR + "/common");
-        restoreFile("IconifyComponentME.apk", Resources.OVERLAY_DIR);
-        restoreFile("IconifyComponentCR1.apk", Resources.OVERLAY_DIR);
-        restoreFile("IconifyComponentCR2.apk", Resources.OVERLAY_DIR);
-        restoreFile("IconifyComponentQSTH.apk", Resources.OVERLAY_DIR);
-        restoreFile("IconifyComponentSIS.apk", Resources.OVERLAY_DIR);
-        restoreFile("IconifyComponentSIP1.apk", Resources.OVERLAY_DIR);
-        restoreFile("IconifyComponentSIP2.apk", Resources.OVERLAY_DIR);
-        restoreFile("IconifyComponentSIP3.apk", Resources.OVERLAY_DIR);
-        restoreFile("IconifyComponentPGB.apk", Resources.OVERLAY_DIR);
-        restoreFile("IconifyComponentSWITCH1.apk", Resources.OVERLAY_DIR);
-        restoreFile("IconifyComponentSWITCH2.apk", Resources.OVERLAY_DIR);
-        restoreFile("IconifyComponentHSIZE1.apk", Resources.OVERLAY_DIR);
-        restoreFile("IconifyComponentHSIZE2.apk", Resources.OVERLAY_DIR);
+        restoreFile("system.prop", Resources.TEMP_MODULE_DIR + "/common");
+        restoreFile("IconifyComponentME.apk", Resources.TEMP_MODULE_OVERLAY_DIR);
+        restoreFile("IconifyComponentCR1.apk", Resources.TEMP_MODULE_OVERLAY_DIR);
+        restoreFile("IconifyComponentCR2.apk", Resources.TEMP_MODULE_OVERLAY_DIR);
+        restoreFile("IconifyComponentQSTH.apk", Resources.TEMP_MODULE_OVERLAY_DIR);
+        restoreFile("IconifyComponentSIS.apk", Resources.TEMP_MODULE_OVERLAY_DIR);
+        restoreFile("IconifyComponentSIP1.apk", Resources.TEMP_MODULE_OVERLAY_DIR);
+        restoreFile("IconifyComponentSIP2.apk", Resources.TEMP_MODULE_OVERLAY_DIR);
+        restoreFile("IconifyComponentSIP3.apk", Resources.TEMP_MODULE_OVERLAY_DIR);
+        restoreFile("IconifyComponentPGB.apk", Resources.TEMP_MODULE_OVERLAY_DIR);
+        restoreFile("IconifyComponentSWITCH1.apk", Resources.TEMP_MODULE_OVERLAY_DIR);
+        restoreFile("IconifyComponentSWITCH2.apk", Resources.TEMP_MODULE_OVERLAY_DIR);
+        restoreFile("IconifyComponentHSIZE1.apk", Resources.TEMP_MODULE_OVERLAY_DIR);
+        restoreFile("IconifyComponentHSIZE2.apk", Resources.TEMP_MODULE_OVERLAY_DIR);
         restoreBlurSettings();
 
         // Remove backup directory
@@ -61,7 +61,6 @@ public class BackupRestore {
         if (backupExists(fileName)) {
             Shell.cmd("rm -rf " + dest + "/" + fileName).exec();
             Shell.cmd("cp -rf " + Resources.BACKUP_DIR + "/" + fileName + " " + dest + "/").exec();
-            RootUtil.setPermissions(644, dest + "/" + fileName);
         }
     }
 

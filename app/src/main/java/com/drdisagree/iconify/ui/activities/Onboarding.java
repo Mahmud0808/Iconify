@@ -409,7 +409,6 @@ public class Onboarding extends BaseActivity {
                 logger = "Cleaning iconify data directory";
                 publishProgress(step);
                 // Clean data directory
-                Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
                 Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Overlays").exec();
 
                 logger = "Extracting overlays from assets";
@@ -426,7 +425,6 @@ public class Onboarding extends BaseActivity {
                 logger = "Creating temporary directories";
                 publishProgress(step);
                 // Create temp directory
-                Shell.cmd("rm -rf " + Resources.TEMP_DIR + "; mkdir -p " + Resources.TEMP_DIR).exec();
                 Shell.cmd("mkdir -p " + Resources.TEMP_OVERLAY_DIR).exec();
                 Shell.cmd("mkdir -p " + Resources.UNSIGNED_UNALIGNED_DIR).exec();
                 Shell.cmd("mkdir -p " + Resources.UNSIGNED_DIR).exec();
@@ -542,12 +540,9 @@ public class Onboarding extends BaseActivity {
             }
             // Move all generated overlays to system dir and flash as module
             if (!hasErroredOut) {
-                Shell.cmd("cp -a " + Resources.SIGNED_DIR + "/. " + Resources.OVERLAY_DIR).exec();
+                Shell.cmd("cp -a " + Resources.SIGNED_DIR + "/. " + Resources.TEMP_MODULE_OVERLAY_DIR).exec();
                 BackupRestore.restoreFiles();
-                RootUtil.setPermissionsRecursively(644, Resources.OVERLAY_DIR + '/');
 
-                Shell.cmd("cp -r " + Resources.MODULE_DIR + ' ' + Resources.TEMP_DIR).exec();
-                Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
                 try {
                     ZipUtil.pack(new File(Resources.TEMP_DIR + "/Iconify"), new File(Resources.TEMP_DIR + "/Iconify.zip"));
                 } catch (Exception exception) {
@@ -577,7 +572,7 @@ public class Onboarding extends BaseActivity {
 
             if (!hasErroredOut) {
                 if (!skippedInstallation) {
-                    if (BuildConfig.VERSION_CODE != Prefs.getInt(VER_CODE, -1)) {
+                    if (BuildConfig.VERSION_CODE != SystemUtil.getSavedVersionCode()) {
                         if (Prefs.getBoolean(FIRST_INSTALL, true)) {
                             Prefs.putBoolean(FIRST_INSTALL, true);
                             Prefs.putBoolean(UPDATE_DETECTED, false);
@@ -610,8 +605,10 @@ public class Onboarding extends BaseActivity {
                     Toast.makeText(Onboarding.this, R.string.one_time_reboot_needed, Toast.LENGTH_LONG).show();
                 }
             } else {
-                Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
+                Shell.cmd("rm -rf " + Resources.DATA_DIR).exec();
+                Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
                 Shell.cmd("rm -rf " + Resources.BACKUP_DIR).exec();
+                Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
                 showInfo(R.string.installation_failed_title, R.string.installation_failed_desc);
                 binding.btnNextStep.setText(R.string.btn_lets_go);
             }

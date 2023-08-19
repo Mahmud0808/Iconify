@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
+import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.activities.Onboarding;
@@ -30,10 +31,11 @@ public class ModuleUtil {
 
     public static void handleModule() {
         if (moduleExists()) {
+            // Clean temporary directory
+            Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
+
             // Backup necessary files
             BackupRestore.backupFiles();
-
-            Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
         }
         installModule();
     }
@@ -42,20 +44,21 @@ public class ModuleUtil {
         Log.d(TAG, "Magisk module does not exist, creating...");
 
         // Clean temporary directory
-        Shell.cmd("mkdir -p " + Resources.MODULE_DIR).exec();
-        Shell.cmd("printf 'id=Iconify\nname=Iconify\nversion=" + BuildConfig.VERSION_NAME + "\nversionCode=" + BuildConfig.VERSION_CODE + "\nauthor=@DrDisagree\ndescription=Systemless module for Iconify.\n' > " + Resources.MODULE_DIR + "/module.prop").exec();
-        Shell.cmd("mkdir -p " + Resources.MODULE_DIR + "/common").exec();
-        Shell.cmd("printf 'MODDIR=${0%%/*}\n\n' > " + Resources.MODULE_DIR + "/post-fs-data.sh").exec();
+        Shell.cmd("mkdir -p " + Resources.TEMP_DIR).exec();
+        Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR).exec();
+        Shell.cmd("printf 'id=Iconify\nname=Iconify\nversion=" + BuildConfig.VERSION_NAME + "\nversionCode=" + BuildConfig.VERSION_CODE + "\nauthor=@DrDisagree\ndescription=Systemless module for Iconify. " + Iconify.getAppContext().getResources().getString(R.string.iconify_slogan) + "\n' > " + Resources.TEMP_MODULE_DIR + "/module.prop").exec();
+        Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR + "/common").exec();
+        Shell.cmd("printf 'MODDIR=${0%%/*}\n\n' > " + Resources.TEMP_MODULE_DIR + "/post-fs-data.sh").exec();
         if (!Onboarding.skippedInstallation) {
-            Shell.cmd("printf 'MODDIR=${0%%/*}\n\nwhile [ \"$(getprop sys.boot_completed | tr -d \"\\r\")\" != \"1\" ]\ndo\n sleep 1\ndone\nsleep 5\n\nsh $MODDIR/post-exec.sh\n\nuntil [ -d /storage/emulated/0/Android ]; do\n  sleep 1\ndone\nsleep 3\n\n" + (Prefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false) ? "killall " + SYSTEMUI_PACKAGE + "\n" : "") + "sleep 6\n\nqspbd=$(cmd overlay list |  grep -E \"^.x..IconifyComponentQSPBD.overlay\" | sed -E \"s/^.x..//\")\ndm=$(cmd overlay list |  grep -E \"^.x..IconifyComponentDM.overlay\" | sed -E \"s/^.x..//\")\nif ([ ! -z \"$qspbd\" ] && [ -z \"$dm\" ])\nthen\n cmd overlay disable --user current IconifyComponentQSPBD.overlay\n cmd overlay enable --user current IconifyComponentQSPBD.overlay\n cmd overlay set-priority IconifyComponentQSPBD.overlay highest\nfi\n\nqspba=$(cmd overlay list |  grep -E \"^.x..IconifyComponentQSPBA.overlay\" | sed -E \"s/^.x..//\")\ndm=$(cmd overlay list |  grep -E \"^.x..IconifyComponentDM.overlay\" | sed -E \"s/^.x..//\")\nif ([ ! -z \"$qspba\" ] && [ -z \"$dm\" ])\nthen\n cmd overlay disable --user current IconifyComponentQSPBA.overlay\n cmd overlay enable --user current IconifyComponentQSPBA.overlay\n cmd overlay set-priority IconifyComponentQSPBA.overlay highest\nfi\n\n' > " + Resources.MODULE_DIR + "/service.sh").exec();
+            Shell.cmd("printf 'MODDIR=${0%%/*}\n\nwhile [ \"$(getprop sys.boot_completed | tr -d \"\\r\")\" != \"1\" ]\ndo\n sleep 1\ndone\nsleep 5\n\nsh $MODDIR/post-exec.sh\n\nuntil [ -d /storage/emulated/0/Android ]; do\n  sleep 1\ndone\nsleep 3\n\n" + (Prefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false) ? "killall " + SYSTEMUI_PACKAGE + "\n" : "") + "sleep 6\n\nqspbd=$(cmd overlay list |  grep -E \"^.x..IconifyComponentQSPBD.overlay\" | sed -E \"s/^.x..//\")\ndm=$(cmd overlay list |  grep -E \"^.x..IconifyComponentDM.overlay\" | sed -E \"s/^.x..//\")\nif ([ ! -z \"$qspbd\" ] && [ -z \"$dm\" ])\nthen\n cmd overlay disable --user current IconifyComponentQSPBD.overlay\n cmd overlay enable --user current IconifyComponentQSPBD.overlay\n cmd overlay set-priority IconifyComponentQSPBD.overlay highest\nfi\n\nqspba=$(cmd overlay list |  grep -E \"^.x..IconifyComponentQSPBA.overlay\" | sed -E \"s/^.x..//\")\ndm=$(cmd overlay list |  grep -E \"^.x..IconifyComponentDM.overlay\" | sed -E \"s/^.x..//\")\nif ([ ! -z \"$qspba\" ] && [ -z \"$dm\" ])\nthen\n cmd overlay disable --user current IconifyComponentQSPBA.overlay\n cmd overlay enable --user current IconifyComponentQSPBA.overlay\n cmd overlay set-priority IconifyComponentQSPBA.overlay highest\nfi\n\n' > " + Resources.TEMP_MODULE_DIR + "/service.sh").exec();
         } else {
-            Shell.cmd("printf 'MODDIR=${0%%/*}\n\nwhile [ \"$(getprop sys.boot_completed | tr -d \"\\r\")\" != \"1\" ]\ndo\n sleep 1\ndone\nsleep 5\n\nsh $MODDIR/post-exec.sh\n\n' > " + Resources.MODULE_DIR + "/service.sh").exec();
+            Shell.cmd("printf 'MODDIR=${0%%/*}\n\nwhile [ \"$(getprop sys.boot_completed | tr -d \"\\r\")\" != \"1\" ]\ndo\n sleep 1\ndone\nsleep 5\n\nsh $MODDIR/post-exec.sh\n\n' > " + Resources.TEMP_MODULE_DIR + "/service.sh").exec();
         }
-        Shell.cmd("touch " + Resources.MODULE_DIR + "/common/system.prop").exec();
-        Shell.cmd("touch " + Resources.MODULE_DIR + "/auto_mount").exec();
-        Shell.cmd("mkdir -p " + Resources.MODULE_DIR + "/system").exec();
-        Shell.cmd("mkdir -p " + Resources.MODULE_DIR + "/system/product").exec();
-        Shell.cmd("mkdir -p " + Resources.MODULE_DIR + "/system/product/overlay").exec();
+        Shell.cmd("touch " + Resources.TEMP_MODULE_DIR + "/common/system.prop").exec();
+        Shell.cmd("touch " + Resources.TEMP_MODULE_DIR + "/auto_mount").exec();
+        Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR + "/system").exec();
+        Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR + "/system/product").exec();
+        Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR + "/system/product/overlay").exec();
 
         writePostExec();
         BinaryInstaller.symLinkBinaries();
@@ -105,8 +108,7 @@ public class ModuleUtil {
             post_exec.append("cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentSecondaryLight\n");
         }
 
-        Shell.cmd("printf '" + post_exec + "' > " + Resources.MODULE_DIR + "/post-exec.sh").exec();
-        Shell.cmd("chmod 755 " + Resources.MODULE_DIR + "/post-exec.sh").exec();
+        Shell.cmd("printf '" + post_exec + "' > " + Resources.TEMP_MODULE_DIR + "/post-exec.sh").exec();
     }
 
     private static boolean shouldUseDefaultColors() {
@@ -122,11 +124,14 @@ public class ModuleUtil {
         try {
             FileUtil.copyAssets("PremadeOverlays");
             Shell.cmd("rm " + Resources.DATA_DIR + "/PremadeOverlays/cheatsheet").exec();
-            Shell.cmd("cp -a " + Resources.DATA_DIR + "/PremadeOverlays/. " + Resources.OVERLAY_DIR).exec();
+            Shell.cmd("cp -a " + Resources.DATA_DIR + "/PremadeOverlays/. " + Resources.TEMP_MODULE_OVERLAY_DIR).exec();
             FileUtil.cleanDir("PremadeOverlays");
-            RootUtil.setPermissionsRecursively(644, Resources.OVERLAY_DIR + '/');
         } catch (Exception e) {
             Log.e(TAG, "Failed to extract pre-made overlays.\n" + e);
         }
+    }
+
+    public static boolean moduleProperlyInstalled() {
+        return moduleExists() && OverlayUtil.overlayExists();
     }
 }
