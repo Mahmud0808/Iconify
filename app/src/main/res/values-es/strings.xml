@@ -23,7 +23,7 @@
     <string name="activity_desc_qs_shape">Personaliza los botones del panel de Ajustes Rápidos</string>
     <string name="activity_title_settings">Ajustes</string>
     <string name="activity_desc_settings">Ajustes varios</string>
-    <string name="activity_title_volume_panel">Volume Panel</string>
+    <string name="activity_title_volume_panel">Panel de volumen</string>
     <string name="activity_desc_volume_panel">Personaliza el diseño del panel del volumen</string>
     <string name="activity_title_monet_engine">Motor de Monet</string>
     <string name="activity_desc_monet_engine">Reemplazar la paleta de colores de Monet</string>
@@ -517,9 +517,9 @@
     <string name="settings_icons_follow_system">Seguir el Sistema</string>
     <string name="settings_icons_system_inverse">Inverso del Sistema</string>
     <string name="settings_icons_monet_accent">Monet / Acento</string>
-    <string name="navbar_styles">Estilos de Barra de Navegación</string>
-    <string name="navbar_tweaks">Ajustes de Barra de Navegación</string>
-    <string name="navbar_settings">Configuración de Barra de Navegación</string>
+    <string name="navbar_styles">Estilos</string>
+    <string name="navbar_tweaks">Retoques</string>
+    <string name="navbar_settings">Configuración</string>
     <string name="btn_close">Cerrar</string>
     <string name="created_by_drdisagree">Hecho con \u2764\uFE0E por DrDisagree</string>
     <string name="no_supported_music_player">No se Encontró un Reproductor de Música Compatible</string>
