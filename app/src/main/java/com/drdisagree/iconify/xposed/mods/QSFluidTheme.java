@@ -22,6 +22,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.XResources;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.DrawableWrapper;
@@ -228,8 +229,9 @@ public class QSFluidTheme extends ModPack {
 
                         setAlphaForBackgroundDrawables(view, INACTIVE_ALPHA);
 
-                        View pm_button_container = view.findViewById(res.getIdentifier("pm_lite", "id", mContext.getPackageName()));
+                        ViewGroup pm_button_container = view.findViewById(res.getIdentifier("pm_lite", "id", mContext.getPackageName()));
                         pm_button_container.getBackground().setAlpha((int) (ACTIVE_ALPHA * 255));
+                        ((ImageView) pm_button_container.getChildAt(0)).setColorFilter(colorAccent[0], PorterDuff.Mode.SRC_IN);
                     } catch (Throwable throwable) {
                         log(TAG + throwable);
                     }
