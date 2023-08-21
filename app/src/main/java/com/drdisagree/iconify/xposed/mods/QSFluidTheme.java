@@ -8,6 +8,7 @@ import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.modRes;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static com.drdisagree.iconify.xposed.utils.SettingsLibUtils.getColorAttr;
+import static com.drdisagree.iconify.xposed.utils.ViewHelper.setAlphaForBackgroundDrawables;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedBridge.log;
@@ -625,37 +626,6 @@ public class QSFluidTheme extends ModPack {
         layerDrawable.setLayerInsetEnd(3, endPadding);
 
         return layerDrawable;
-    }
-
-    private void setAlphaForBackgroundDrawables(View view, float alpha) {
-        setAlphaForBackgroundDrawables(view, (int) (alpha * 255));
-    }
-
-    private void setAlphaForBackgroundDrawables(View view, int alpha) {
-        if (view instanceof ViewGroup) {
-            ViewGroup viewGroup = (ViewGroup) view;
-            int childCount = viewGroup.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View child = viewGroup.getChildAt(i);
-                setAlphaForBackgroundDrawablesRecursive(child, alpha);
-            }
-        }
-    }
-
-    private void setAlphaForBackgroundDrawablesRecursive(View view, int alpha) {
-        Drawable backgroundDrawable = view.getBackground();
-        if (backgroundDrawable != null) {
-            backgroundDrawable.setAlpha(alpha);
-        }
-
-        if (view instanceof ViewGroup) {
-            ViewGroup viewGroup = (ViewGroup) view;
-            int childCount = viewGroup.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View child = viewGroup.getChildAt(i);
-                setAlphaForBackgroundDrawablesRecursive(child, alpha);
-            }
-        }
     }
 
     @Override
