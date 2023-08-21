@@ -1,9 +1,11 @@
 package com.drdisagree.iconify.ui.activities;
 
+import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.References.FABRICATED_SB_COLOR_SOURCE;
 import static com.drdisagree.iconify.common.References.FABRICATED_SB_COLOR_TINT;
+import static com.drdisagree.iconify.common.References.FABRICATED_SB_HEIGHT;
 import static com.drdisagree.iconify.common.References.FABRICATED_SB_LEFT_PADDING;
 import static com.drdisagree.iconify.common.References.FABRICATED_SB_RIGHT_PADDING;
 import static com.drdisagree.iconify.utils.ColorUtil.colorToSpecialHex;
@@ -33,7 +35,10 @@ public class Statusbar extends BaseActivity implements ColorPickerDialogListener
     private static String colorSBTint, selectedStyle;
     private final int[] finalSBLeftPadding = {Prefs.getInt(FABRICATED_SB_LEFT_PADDING, 8)};
     private final int[] finalSBRightPadding = {Prefs.getInt(FABRICATED_SB_RIGHT_PADDING, 8)};
+    private final int[] finalSBHeight = {Prefs.getInt(FABRICATED_SB_HEIGHT, 28)};
+    private ColorPickerDialog.Builder colorPickerSBTint;
     private ActivityStatusbarBinding binding;
+
     private final SeekBar.OnSeekBarChangeListener sbRightPaddingListener = new SeekBar.OnSeekBarChangeListener() {
         @SuppressLint("SetTextI18n")
         @Override
@@ -74,7 +79,31 @@ public class Statusbar extends BaseActivity implements ColorPickerDialogListener
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
         }
     };
-    private ColorPickerDialog.Builder colorPickerSBTint;
+    private final SeekBar.OnSeekBarChangeListener sbPortraitHeightListener = new SeekBar.OnSeekBarChangeListener() {
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            finalSBHeight[0] = progress;
+            binding.sbHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            Prefs.putInt(FABRICATED_SB_HEIGHT, finalSBHeight[0]);
+            FabricatedUtil.buildAndEnableOverlays(
+                    new Object[]{FRAMEWORK_PACKAGE, FABRICATED_SB_HEIGHT, "dimen", "status_bar_height", finalSBHeight[0] + "dp"},
+                    new Object[]{FRAMEWORK_PACKAGE, FABRICATED_SB_HEIGHT + "Default", "dimen", "status_bar_height_default", finalSBHeight[0] + "dp"},
+                    new Object[]{FRAMEWORK_PACKAGE, FABRICATED_SB_HEIGHT + "Portrait", "dimen", "status_bar_height_portrait", finalSBHeight[0] + "dp"},
+                    new Object[]{FRAMEWORK_PACKAGE, FABRICATED_SB_HEIGHT + "Landscape", "dimen", "status_bar_height_landscape", finalSBHeight[0] + "dp"}
+            );
+            binding.resetSbHeight.setVisibility(View.VISIBLE);
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+        }
+    };
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -121,6 +150,25 @@ public class Statusbar extends BaseActivity implements ColorPickerDialogListener
             binding.sbRightPaddingSeekbar.setProgress(8);
             binding.sbRightPaddingSeekbar.setOnSeekBarChangeListener(sbRightPaddingListener);
             binding.sbRightPaddingOutput.setText(getResources().getString(R.string.opt_selected) + " 8dp");
+            return true;
+        });
+
+        // Statusbar height
+        binding.sbHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalSBHeight[0] + "dp");
+        binding.sbHeightSeekbar.setProgress(finalSBHeight[0]);
+        binding.sbHeightSeekbar.setOnSeekBarChangeListener(sbPortraitHeightListener);
+
+        // Reset height
+        binding.resetSbHeight.setVisibility(Prefs.getBoolean("fabricated" + FABRICATED_SB_HEIGHT, false) ? View.VISIBLE : View.INVISIBLE);
+
+        binding.resetSbHeight.setOnLongClickListener(v -> {
+            FabricatedUtil.disableOverlays(FABRICATED_SB_HEIGHT, FABRICATED_SB_HEIGHT + "Default", FABRICATED_SB_HEIGHT + "Portrait", FABRICATED_SB_HEIGHT + "Landscape");
+            Prefs.putInt(FABRICATED_SB_HEIGHT, 28);
+            binding.resetSbHeight.setVisibility(View.INVISIBLE);
+            binding.sbHeightSeekbar.setOnSeekBarChangeListener(null);
+            binding.sbHeightSeekbar.setProgress(28);
+            binding.sbHeightSeekbar.setOnSeekBarChangeListener(sbRightPaddingListener);
+            binding.sbHeightOutput.setText(getResources().getString(R.string.opt_selected) + " 28dp");
             return true;
         });
 

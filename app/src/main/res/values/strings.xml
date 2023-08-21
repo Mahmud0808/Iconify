@@ -335,6 +335,7 @@
     <string name="hide_carrier_group_desc">Hide carrier group from QS panel</string>
     <string name="sb_left_padding">Left Padding</string>
     <string name="sb_right_padding">Right Padding</string>
+    <string name="sb_height">Height</string>
     <string name="sb_color_tint_title">Color Tint</string>
     <string name="sb_color_tint_desc">Tint statusbar icons and texts</string>
     <string name="btn_reset_tint">Reset Tint</string>
