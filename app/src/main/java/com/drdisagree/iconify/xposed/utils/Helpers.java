@@ -23,6 +23,10 @@ import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 
 import com.topjohnwu.superuser.Shell;
@@ -133,5 +137,54 @@ public class Helpers {
             hookAllConstructors(clazz, hook);
         } catch (Throwable ignored) {
         }
+    }
+
+    public static void dumpChildViews(Context context, View view) {
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            logViewInfo(context, viewGroup, 0);
+            dumpChildViewsRecursive(context, viewGroup, 0);
+        } else {
+            logViewInfo(context, view, 0);
+        }
+    }
+
+    private static void logViewInfo(Context context, View view, int indentationLevel) {
+        String indentation = repeatString("\t", indentationLevel);
+        String viewName = view.getClass().getSimpleName();
+        try {
+            int viewId = view.getId();
+            String resourceIdName = context.getResources().getResourceName(viewId);
+            if (view instanceof ViewGroup) {
+                log(indentation + viewName + " - ID: " + resourceIdName + " - ChildCount: " + ((ViewGroup) view).getChildCount());
+            } else {
+                log(indentation + viewName + " - ID: " + resourceIdName);
+            }
+        } catch (Throwable ignored) {
+            if (view instanceof ViewGroup) {
+                log(indentation + viewName + " - ID: none - ChildCount: " + ((ViewGroup) view).getChildCount());
+            } else {
+                log(indentation + viewName + " - ID: none");
+            }
+        }
+    }
+
+    private static void dumpChildViewsRecursive(Context context, ViewGroup viewGroup, int indentationLevel) {
+        for (int i = 0; i < viewGroup.getChildCount(); i++) {
+            View childView = viewGroup.getChildAt(i);
+            logViewInfo(context, childView, indentationLevel + 1);
+            if (childView instanceof ViewGroup) {
+                dumpChildViewsRecursive(context, (ViewGroup) childView, indentationLevel + 1);
+            }
+        }
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    private static String repeatString(String str, int times) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < times; i++) {
+            result.append(str);
+        }
+        return result.toString();
     }
 }
