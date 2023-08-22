@@ -17,7 +17,6 @@ package com.drdisagree.iconify.xposed.mods;
  * along with this program.  If not, see [http://www.gnu.org/licenses/].
  */
 
-import static com.drdisagree.iconify.common.Const.PIXEL_LAUNCHER_PACKAGE;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedBridge.log;
@@ -37,7 +36,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class IconUpdater extends ModPack implements IXposedHookLoadPackage {
 
     private static final String TAG = "Iconify - " + IconUpdater.class.getSimpleName() + ": ";
-    private static final String listenPackage = PIXEL_LAUNCHER_PACKAGE;
+
     private Object LauncherModel = null;
 
     public IconUpdater(Context context) {
@@ -46,11 +45,6 @@ public class IconUpdater extends ModPack implements IXposedHookLoadPackage {
 
     @Override
     public void updatePrefs(String... Key) {
-    }
-
-    @Override
-    public boolean listensTo(String packageName) {
-        return listenPackage.equals(packageName);
     }
 
     @Override

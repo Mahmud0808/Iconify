@@ -96,11 +96,6 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         }
     }
 
-    @Override
-    public boolean listensTo(String packageName) {
-        return packageName.equals(SYSTEMUI_PACKAGE);
-    }
-
     @SuppressLint("DiscouragedApi")
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {

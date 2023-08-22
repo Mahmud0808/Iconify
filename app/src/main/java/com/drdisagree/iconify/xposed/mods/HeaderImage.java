@@ -73,11 +73,6 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
     }
 
     @Override
-    public boolean listensTo(String packageName) {
-        return packageName.equals(SYSTEMUI_PACKAGE);
-    }
-
-    @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE)) return;
 

@@ -75,11 +75,6 @@ public class QSTransparency extends ModPack {
         }
     }
 
-    @Override
-    public boolean listensTo(String packageName) {
-        return packageName.equals(SYSTEMUI_PACKAGE);
-    }
-
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpParam) {
         if (!lpParam.packageName.equals(SYSTEMUI_PACKAGE)) return;
 
