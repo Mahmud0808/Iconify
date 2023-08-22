@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
+import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.Prefs;
 import com.topjohnwu.superuser.Shell;
@@ -36,7 +37,7 @@ public class SystemUtil {
     private static long lastClickTime = 0;
 
     public static boolean isDarkMode() {
-        return (Iconify.getAppContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
+        return (Objects.requireNonNull(Iconify.getAppContext()).getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
     }
 
     public static void restartSystemUI() {
@@ -45,7 +46,7 @@ public class SystemUtil {
             lastClickTime = currentTime;
             Shell.cmd("killall " + SYSTEMUI_PACKAGE).submit();
         } else {
-            Toast.makeText(Iconify.getAppContext(), "Try again after a few seconds", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_try_again_later), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -121,7 +122,7 @@ public class SystemUtil {
     public static void getStoragePermission(Context context) {
         Intent intent = new Intent();
         intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-        Uri uri = Uri.fromParts("package", Iconify.getAppContext().getPackageName(), null);
+        Uri uri = Uri.fromParts("package", Objects.requireNonNull(Iconify.getAppContext()).getPackageName(), null);
         intent.setData(uri);
         context.startActivity(intent);
     }
