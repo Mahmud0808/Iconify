@@ -43,7 +43,6 @@ import android.graphics.Color;
 
 import androidx.core.graphics.ColorUtils;
 
-import com.drdisagree.iconify.xposed.HookEntry;
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.utils.Helpers;
 
@@ -55,7 +54,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 @SuppressWarnings("RedundantThrows")
 public class QSLightThemeA12 extends ModPack {
 
-    public static final String listenPackage = SYSTEMUI_PACKAGE;
     private static final String TAG = "Iconify - " + QSLightThemeA12.class.getSimpleName() + ": ";
     private static boolean lightQSHeaderEnabled = false;
     private static boolean dualToneQSEnabled = false;
@@ -87,8 +85,6 @@ public class QSLightThemeA12 extends ModPack {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (!lpparam.packageName.equals(listenPackage)) return;
-
         Class<?> UtilsClass = findClass("com.android.settingslib.Utils", lpparam.classLoader);
         Class<?> OngoingPrivacyChipClass = findClass(SYSTEMUI_PACKAGE + ".privacy.OngoingPrivacyChip", lpparam.classLoader);
         Class<?> FragmentHostManagerClass = findClass(SYSTEMUI_PACKAGE + ".fragments.FragmentHostManager", lpparam.classLoader);
@@ -142,7 +138,7 @@ public class QSLightThemeA12 extends ModPack {
                 if (!dualToneQSEnabled) return;
 
                 try {
-                    @SuppressLint("DiscouragedApi") ColorStateList states = (ColorStateList) callStaticMethod(UtilsClass, "getColorAttr", mContext, mContext.getResources().getIdentifier("android:attr/colorSurfaceHeader", "attr", listenPackage));
+                    @SuppressLint("DiscouragedApi") ColorStateList states = (ColorStateList) callStaticMethod(UtilsClass, "getColorAttr", mContext, mContext.getResources().getIdentifier("android:attr/colorSurfaceHeader", "attr", mContext.getPackageName()));
                     int surfaceBackground = states.getDefaultColor();
 
                     ColorStateList accentStates = (ColorStateList) callStaticMethod(UtilsClass, "getColorAccent", mContext);
@@ -311,10 +307,5 @@ public class QSLightThemeA12 extends ModPack {
 
     private boolean getIsDark() {
         return (mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
-    }
-
-    @Override
-    public boolean listensTo(String packageName) {
-        return listenPackage.equals(packageName) && !HookEntry.isChildProcess;
     }
 }

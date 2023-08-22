@@ -45,7 +45,6 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.xposed.HookEntry;
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.utils.RoundedCornerProgressDrawable;
 import com.drdisagree.iconify.xposed.utils.SystemUtil;
@@ -57,7 +56,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 @SuppressLint("DiscouragedApi")
 public class QSFluidTheme extends ModPack {
 
-    public static final String listenPackage = SYSTEMUI_PACKAGE;
     private static final String TAG = "Iconify - " + QSFluidTheme.class.getSimpleName() + ": ";
     private static final int STATE_UNAVAILABLE = 0;
     private static final int STATE_INACTIVE = 1;
@@ -68,7 +66,7 @@ public class QSFluidTheme extends ModPack {
     private static boolean fluidQsThemeEnabled = false;
     private static boolean fluidNotifEnabled = false;
     private static boolean fluidPowerMenuEnabled = false;
-    final Integer[] colorAccent = {mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", listenPackage), mContext.getTheme())};
+    final Integer[] colorAccent = {mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", mContext.getPackageName()), mContext.getTheme())};
     final Integer[] colorActiveAlpha = {Color.argb((int) (ACTIVE_ALPHA * 255), Color.red(colorAccent[0]), Color.green(colorAccent[0]), Color.blue(colorAccent[0]))};
     final Integer[] colorInactiveAlpha = {null};
     private boolean wasDark = SystemUtil.isDarkMode();
@@ -76,7 +74,6 @@ public class QSFluidTheme extends ModPack {
 
     public QSFluidTheme(Context context) {
         super(context);
-        if (!listensTo(context.getPackageName())) return;
 
         wasDark = SystemUtil.isDarkMode();
     }
@@ -99,8 +96,6 @@ public class QSFluidTheme extends ModPack {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (!lpparam.packageName.equals(listenPackage)) return;
-
         Class<?> QsPanelClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSPanel", lpparam.classLoader);
         Class<?> QSTileViewImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSTileViewImpl", lpparam.classLoader);
         Class<?> QSIconViewImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSIconViewImpl", lpparam.classLoader);
@@ -626,10 +621,5 @@ public class QSFluidTheme extends ModPack {
         layerDrawable.setLayerInsetEnd(3, endPadding);
 
         return layerDrawable;
-    }
-
-    @Override
-    public boolean listensTo(String packageName) {
-        return listenPackage.equals(packageName) && !HookEntry.isChildProcess;
     }
 }

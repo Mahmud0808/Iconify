@@ -73,7 +73,6 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 
-import com.drdisagree.iconify.xposed.HookEntry;
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.mods.batterystyles.BatteryDrawable;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawable;
@@ -105,7 +104,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class BatteryStyleManager extends ModPack {
 
-    public static final String listenPackage = SYSTEMUI_PACKAGE;
     private static final String TAG = "Iconify - " + BatteryStyleManager.class.getSimpleName() + ": ";
     private static final ArrayList<Object> batteryViews = new ArrayList<>();
     private static final int BatteryIconOpacity = 100;
@@ -241,8 +239,6 @@ public class BatteryStyleManager extends ModPack {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (!lpparam.packageName.equals(listenPackage)) return;
-
         Class<?> BatteryControllerImplClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.BatteryControllerImpl", lpparam.classLoader);
         Class<?> BatteryMeterViewClass = findClassIfExists(SYSTEMUI_PACKAGE + ".battery.BatteryMeterView", lpparam.classLoader);
         if (BatteryMeterViewClass == null) {
@@ -594,10 +590,5 @@ public class BatteryStyleManager extends ModPack {
             ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "dimen", "status_bar_battery_icon_height", new XResources.DimensionReplacement(customBatteryHeight, TypedValue.COMPLEX_UNIT_DIP));
             ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "dimen", "signal_cluster_battery_padding", new XResources.DimensionReplacement(customBatteryMargin, TypedValue.COMPLEX_UNIT_DIP));
         }
-    }
-
-    @Override
-    public boolean listensTo(String packageName) {
-        return listenPackage.equals(packageName) && !HookEntry.isChildProcess;
     }
 }

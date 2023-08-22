@@ -17,20 +17,18 @@ package com.drdisagree.iconify.xposed.utils;
  * along with this program.  If not, see [http://www.gnu.org/licenses/].
  */
 
-import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
 
-import com.drdisagree.iconify.xposed.HookEntry;
 import com.drdisagree.iconify.xposed.ModPack;
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class SettingsLibUtils extends ModPack {
-    private static final String listenPackage = SYSTEMUI_PACKAGE;
+
     private static Class<?> UtilsClass = null;
 
     public SettingsLibUtils(Context context) {
@@ -74,12 +72,10 @@ public class SettingsLibUtils extends ModPack {
     }
 
     @Override
-    public boolean listensTo(String packageName) {
-        return listenPackage.equals(packageName) && !HookEntry.isChildProcess;
-    }
-
-    @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        UtilsClass = findClass("com.android.settingslib.Utils", lpparam.classLoader);
+        try {
+            UtilsClass = findClass("com.android.settingslib.Utils", lpparam.classLoader);
+        } catch (Throwable ignored) {
+        }
     }
 }

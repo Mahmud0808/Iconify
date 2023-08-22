@@ -47,7 +47,6 @@ import android.widget.TextView;
 
 import androidx.core.graphics.ColorUtils;
 
-import com.drdisagree.iconify.xposed.HookEntry;
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.utils.Helpers;
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils;
@@ -61,7 +60,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 @SuppressWarnings("RedundantThrows")
 public class QSLightTheme extends ModPack {
 
-    public static final String listenPackage = SYSTEMUI_PACKAGE;
     public static final int STATE_ACTIVE = 2;
     private static final String TAG = "Iconify - " + QSLightTheme.class.getSimpleName() + ": ";
     private static boolean lightQSHeaderEnabled = false;
@@ -75,7 +73,6 @@ public class QSLightTheme extends ModPack {
 
     public QSLightTheme(Context context) {
         super(context);
-        if (!listensTo(context.getPackageName())) return;
 
         isDark = SystemUtil.isDarkMode();
     }
@@ -95,8 +92,6 @@ public class QSLightTheme extends ModPack {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (!lpparam.packageName.equals(listenPackage)) return;
-
         Class<?> QSTileViewImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSTileViewImpl", lpparam.classLoader);
         Class<?> FragmentHostManagerClass = findClass(SYSTEMUI_PACKAGE + ".fragments.FragmentHostManager", lpparam.classLoader);
         Class<?> ScrimControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.ScrimController", lpparam.classLoader);
@@ -366,7 +361,7 @@ public class QSLightTheme extends ModPack {
                 if (!dualToneQSEnabled) return;
 
                 try {
-                    @SuppressLint("DiscouragedApi") ColorStateList states = getColorAttr(mContext.getResources().getIdentifier("android:attr/colorSurfaceHeader", "attr", listenPackage), mContext);
+                    @SuppressLint("DiscouragedApi") ColorStateList states = getColorAttr(mContext.getResources().getIdentifier("android:attr/colorSurfaceHeader", "attr", mContext.getPackageName()), mContext);
 
                     int surfaceBackground = states.getDefaultColor();
 
@@ -536,7 +531,7 @@ public class QSLightTheme extends ModPack {
             if (!isDark) {
                 Resources res = mContext.getResources();
                 colorActive = mContext.getColor(android.R.color.system_accent1_600);
-                colorInactive = res.getColor(res.getIdentifier("android:color/system_neutral1_10", "color", listenPackage), mContext.getTheme());
+                colorInactive = res.getColor(res.getIdentifier("android:color/system_neutral1_10", "color", mContext.getPackageName()), mContext.getTheme());
             }
         } catch (Throwable throwable) {
             log(TAG + throwable);
@@ -573,10 +568,5 @@ public class QSLightTheme extends ModPack {
         } catch (Throwable throwable) {
             log(TAG + throwable);
         }
-    }
-
-    @Override
-    public boolean listensTo(String packageName) {
-        return listenPackage.equals(packageName) && !HookEntry.isChildProcess;
     }
 }

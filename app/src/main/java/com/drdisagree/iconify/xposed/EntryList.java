@@ -59,14 +59,14 @@ public class EntryList {
                     modPacks.add(QSTransparency.class);
                     modPacks.add(QuickSettings.class);
                     modPacks.add(BatteryStyleManager.class);
-                }
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    modPacks.add(QSLightTheme.class);
-                }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        modPacks.add(QSLightTheme.class);
+                    }
 
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-                    modPacks.add(QSLightThemeA12.class);
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                        modPacks.add(QSLightThemeA12.class);
+                    }
                 }
                 break;
             case PIXEL_LAUNCHER_PACKAGE:
