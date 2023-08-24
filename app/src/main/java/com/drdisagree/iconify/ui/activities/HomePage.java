@@ -152,7 +152,7 @@ public class HomePage extends BaseActivity {
     }
 
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
+    public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         selectedFragment = savedInstanceState.getInt(mData);
     }
