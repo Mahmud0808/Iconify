@@ -27,6 +27,10 @@
                 android:id="@+id/xposed_warn"
                 layout="@layout/view_xposed_warn" />
 
+            <include
+                android:id="@+id/xposed_hook_check"
+                layout="@layout/view_xposed_hook_check" />
+
             <LinearLayout
                 android:id="@+id/xposed_list"
                 android:layout_width="match_parent"

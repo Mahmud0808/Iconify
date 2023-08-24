@@ -26,6 +26,7 @@ import com.drdisagree.iconify.xposed.mods.BackgroundChip;
 import com.drdisagree.iconify.xposed.mods.BatteryStyleManager;
 import com.drdisagree.iconify.xposed.mods.HeaderClock;
 import com.drdisagree.iconify.xposed.mods.HeaderImage;
+import com.drdisagree.iconify.xposed.mods.HookCheck;
 import com.drdisagree.iconify.xposed.mods.IconUpdater;
 import com.drdisagree.iconify.xposed.mods.LockscreenClock;
 import com.drdisagree.iconify.xposed.mods.Miscellaneous;
@@ -45,6 +46,7 @@ public class EntryList {
         ArrayList<Class<? extends ModPack>> modPacks = new ArrayList<>();
 
         modPacks.add(SettingsLibUtils.class);
+        modPacks.add(HookCheck.class);
 
         switch (packageName) {
             case SYSTEMUI_PACKAGE:

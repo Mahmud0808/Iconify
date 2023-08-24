@@ -627,4 +627,6 @@
     <string name="qs_text_color_normal">Normal</string>
     <string name="qs_text_color_pixel">Pixel</string>
     <string name="monet_style_title">Monet Style</string>
+    <string name="xposed_module_disabled_title">Module Not Activated</string>
+    <string name="xposed_module_disabled_desc">System service not running</string>
 </resources>

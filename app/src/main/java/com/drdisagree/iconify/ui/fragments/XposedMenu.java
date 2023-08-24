@@ -1,5 +1,8 @@
 package com.drdisagree.iconify.ui.fragments;
 
+import static android.content.Context.RECEIVER_EXPORTED;
+import static com.drdisagree.iconify.common.Const.ACTION_HOOK_CHECK_REQUEST;
+import static com.drdisagree.iconify.common.Const.ACTION_HOOK_CHECK_RESULT;
 import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
 import static com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN;
@@ -7,8 +10,14 @@ import static com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
@@ -43,6 +52,7 @@ import com.drdisagree.iconify.ui.activities.XposedOthers;
 import com.drdisagree.iconify.ui.activities.XposedQuickSettings;
 import com.drdisagree.iconify.ui.activities.XposedTransparencyBlur;
 import com.drdisagree.iconify.utils.FabricatedUtil;
+import com.drdisagree.iconify.utils.ObservableVariable;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.helpers.ImportExport;
@@ -52,6 +62,8 @@ import java.util.Objects;
 
 public class XposedMenu extends BaseFragment {
 
+    private static final ObservableVariable<Boolean> isXposedHooked = new ObservableVariable<>();
+    private final Handler handler = new Handler(Looper.getMainLooper());
     ActivityResultLauncher<Intent> startExportActivityIntent = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result1 -> {
@@ -101,6 +113,24 @@ public class XposedMenu extends BaseFragment {
                     alertDialog.show();
                 }
             });
+    IntentFilter intentFilterHookedSystemUI = new IntentFilter();
+    private boolean isHookSuccessful = false;
+    private final Runnable checkSystemUIHooked = new Runnable() {
+        @Override
+        public void run() {
+            checkXposedHooked();
+            handler.postDelayed(this, 1000);
+        }
+    };
+    private final BroadcastReceiver receiverHookedSystemui = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Objects.equals(intent.getAction(), ACTION_HOOK_CHECK_RESULT)) {
+                isHookSuccessful = true;
+                isXposedHooked.setValue(true);
+            }
+        }
+    };
     private FragmentXposedMenuBinding binding;
 
     @SuppressLint("SetTextI18n")
@@ -132,6 +162,43 @@ public class XposedMenu extends BaseFragment {
 
         // Xposed warn text
         binding.xposedWarn.xposedWarnText.setText((!Prefs.getBoolean(ON_HOME_PAGE, false) ? getResources().getString(R.string.xposed_only_desc) + "\n\n" : "") + getResources().getString(R.string.lsposed_warn));
+
+        // Xposed hook check
+        intentFilterHookedSystemUI.addAction(ACTION_HOOK_CHECK_RESULT);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireContext().registerReceiver(receiverHookedSystemui, intentFilterHookedSystemUI, RECEIVER_EXPORTED);
+        } else {
+            requireContext().registerReceiver(receiverHookedSystemui, intentFilterHookedSystemUI);
+        }
+
+        binding.xposedHookCheck.container.setOnClickListener(view12 -> {
+            try {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.setComponent(new ComponentName("org.lsposed.manager", "org.lsposed.manager.ui.activity.MainActivity"));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            } catch (Exception ignored) {
+            }
+        });
+
+        isXposedHooked.setOnChangeListener(newValue -> {
+            try {
+                if (newValue) {
+                    if (binding.xposedHookCheck.container.getVisibility() != View.GONE) {
+                        binding.xposedHookCheck.container.setVisibility(View.GONE);
+                    }
+                } else {
+                    if (binding.xposedHookCheck.container.getVisibility() != View.VISIBLE) {
+                        binding.xposedHookCheck.container.setVisibility(View.VISIBLE);
+                    }
+                }
+            } catch (Exception ignored) {
+            }
+        });
+
+        isXposedHooked.setValue(false);
+        handler.post(checkSystemUIHooked);
 
         // Restart SystemUI
         binding.xposedWarn.buttonRestartSysui.setOnClickListener(v -> Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_restart_sysui), Toast.LENGTH_SHORT).show());
@@ -251,5 +318,46 @@ public class XposedMenu extends BaseFragment {
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, requireContext().getResources().getString(R.string.btn_negative),
                 (dialog, which) -> dialog.dismiss());
         alertDialog.show();
+    }
+
+    private void checkXposedHooked() {
+        isHookSuccessful = false;
+        new CountDownTimer(1600, 800) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if (isHookSuccessful) {
+                    cancel();
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                if (!isHookSuccessful) {
+                    isXposedHooked.setValue(false);
+                }
+            }
+        }.start();
+
+        new Thread(() -> requireContext().sendBroadcast(new Intent().setAction(ACTION_HOOK_CHECK_REQUEST))).start();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacks(checkSystemUIHooked);
+        requireContext().unregisterReceiver(receiverHookedSystemui);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        isXposedHooked.notifyChanged();
+        handler.post(checkSystemUIHooked);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        handler.removeCallbacks(checkSystemUIHooked);
     }
 }

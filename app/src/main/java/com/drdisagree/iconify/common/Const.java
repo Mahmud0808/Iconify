@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.common;
 
+import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.xposed.utils.BootLoopProtector;
 
 import java.util.Arrays;
@@ -26,4 +27,6 @@ public class Const {
 
     // Xposed variables
     public static final List<String> PREF_UPDATE_EXCLUSIONS = Arrays.asList(BootLoopProtector.LOAD_TIME_KEY_KEY, BootLoopProtector.PACKAGE_STRIKE_KEY_KEY);
+    public static final String ACTION_HOOK_CHECK_REQUEST = BuildConfig.APPLICATION_ID + ".ACTION_HOOK_CHECK_REQUEST";
+    public static final String ACTION_HOOK_CHECK_RESULT = BuildConfig.APPLICATION_ID + ".ACTION_HOOK_CHECK_RESULT";
 }
