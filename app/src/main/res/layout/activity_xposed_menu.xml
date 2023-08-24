@@ -12,6 +12,8 @@
         android:id="@+id/main_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/container_marginTopBottom" />
+        android:layout_marginBottom="@dimen/container_marginTopBottom"
+        android:clipChildren="false"
+        android:fitsSystemWindows="true" />
 
 </RelativeLayout>
