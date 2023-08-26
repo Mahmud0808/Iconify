@@ -118,6 +118,7 @@ You can track all the progress [HERE](https://github.com/Mahmud0808/Iconify/comm
 - Portuguese [@ElTifo](https://github.com/ElTifo)
 - Russian [@B1ays](https://github.com/B1ays)
 - Simplified Chinese [@Cccc-owo](https://github.com/Cccc-owo)
+- Spanish [@luckkmaxx](https://github.com/luckkmaxx)
 - Turkish [@serhat-demir](https://github.com/serhat-demir)
 - Vietnamese [@viettel1211](https://t.me/viettel1211)
 
