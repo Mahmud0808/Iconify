@@ -94,7 +94,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.10.1'
 
     // Data Binding
-    implementation 'com.android.databinding:library:8.1.0'
+    implementation 'com.android.databinding:library:8.1.1'
 
     // Xposed API
     compileOnly files('lib/api-82.jar')
