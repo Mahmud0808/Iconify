@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.overlaymanager;
+package com.drdisagree.iconify.utils.overlaymanager;
 
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.ColorUtil;
@@ -9,7 +9,7 @@ import java.util.List;
 
 public class MonetEngineManager {
 
-    public static boolean enableOverlay(List<List<List<Object>>> palette, boolean enable) throws IOException {
+    public static boolean buildOverlay(List<List<List<Object>>> palette, boolean force) throws IOException {
         String[][] colors = ColorUtil.getColorNames();
 
         StringBuilder resources = new StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n");
@@ -119,6 +119,6 @@ public class MonetEngineManager {
         resources_night.append("    <color name=\"primary_material_settings\">@*android:color/background_dark</color>\n");
         resources_night.append("</resources>\n");
 
-        return MonetCompiler.buildOverlay(new String[]{resources.toString(), resources_night.toString()}, enable);
+        return MonetCompiler.buildOverlay(new String[]{resources.toString(), resources_night.toString()}, force);
     }
 }

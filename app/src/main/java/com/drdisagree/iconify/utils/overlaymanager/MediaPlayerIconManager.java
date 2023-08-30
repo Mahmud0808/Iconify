@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.overlaymanager;
+package com.drdisagree.iconify.utils.overlaymanager;
 
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.OverlayUtil;

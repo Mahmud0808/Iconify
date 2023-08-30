@@ -52,8 +52,13 @@ import com.topjohnwu.superuser.Shell;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.concurrent.Executors;
 
 public class Settings extends BaseFragment implements RadioDialog.RadioDialogListener {
+
+    private FragmentSettingsBinding binding;
+    private LoadingDialog loadingDialog;
+    private RadioDialog rd_app_language, rd_app_icon, rd_app_theme;
 
     ActivityResultLauncher<Intent> startExportActivityIntent = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -62,13 +67,17 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                     Intent data = result1.getData();
                     if (data == null) return;
 
-                    try {
-                        ImportExport.exportSettings(Prefs.prefs, Objects.requireNonNull(requireContext().getContentResolver().openOutputStream(Objects.requireNonNull(data.getData()))));
-                        Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_export_settings_successfull), Toast.LENGTH_SHORT).show();
-                    } catch (Exception exception) {
-                        Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                        Log.e("Settings", "Error exporting settings", exception);
-                    }
+                    Executors.newSingleThreadExecutor().execute(() -> {
+                        try {
+                            ImportExport.exportSettings(Prefs.prefs, Objects.requireNonNull(Objects.requireNonNull(Iconify.getAppContext()).getContentResolver().openOutputStream(Objects.requireNonNull(data.getData()))));
+                            new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_export_settings_successfull), Toast.LENGTH_SHORT).show());
+                        } catch (Exception exception) {
+                            new Handler(Looper.getMainLooper()).post(() -> {
+                                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                Log.e("Settings", "Error exporting settings", exception);
+                            });
+                        }
+                    });
                 }
             });
     ActivityResultLauncher<Intent> startImportActivityIntent = registerForActivityResult(
@@ -84,17 +93,26 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                     alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, requireContext().getResources().getString(R.string.btn_positive),
                             (dialog, which) -> {
                                 dialog.dismiss();
-                                new Handler(Looper.getMainLooper()).post(() -> {
+                                loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
+
+                                Executors.newSingleThreadExecutor().execute(() -> {
                                     try {
-                                        boolean success = ImportExport.importSettings(Prefs.prefs, Objects.requireNonNull(requireContext().getContentResolver().openInputStream(Objects.requireNonNull(data.getData()))), true);
-                                        if (success) {
-                                            Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                                        }
+                                        boolean success = ImportExport.importSettings(Prefs.prefs, Objects.requireNonNull(Objects.requireNonNull(Iconify.getAppContext()).getContentResolver().openInputStream(Objects.requireNonNull(data.getData()))), true);
+
+                                        new Handler(Looper.getMainLooper()).post(() -> {
+                                            loadingDialog.hide();
+
+                                            if (success) {
+                                                Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                                     } catch (Exception exception) {
-                                        Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                                        Log.e("Settings", "Error importing settings", exception);
+                                        new Handler(Looper.getMainLooper()).post(() -> {
+                                            Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                            Log.e("Settings", "Error importing settings", exception);
+                                        });
                                     }
                                 });
                             });
@@ -103,9 +121,6 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                     alertDialog.show();
                 }
             });
-    private FragmentSettingsBinding binding;
-    private LoadingDialog loadingDialog;
-    private RadioDialog rd_app_language, rd_app_icon, rd_app_theme;
 
     public static void disableEverything() {
         Prefs.clearAllPrefs();
@@ -190,7 +205,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
             // Show loading dialog
             loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
-            new Handler(Looper.getMainLooper()).post(() -> {
+            Executors.newSingleThreadExecutor().execute(() -> {
                 disableEverything();
 
                 requireActivity().runOnUiThread(() -> new Handler(Looper.getMainLooper()).postDelayed(() -> {

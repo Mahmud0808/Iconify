@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.overlaymanager;
+package com.drdisagree.iconify.utils.overlaymanager;
 
 import com.drdisagree.iconify.utils.compiler.SettingsIconsCompiler;
 
@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class SettingsIconResourceManager {
 
-    public static boolean enableOverlay(int iconSet, int backgroundStyle, int backgroundShape, int iconSize, int iconColor, boolean enable) throws IOException {
+    public static boolean buildOverlay(int iconSet, int backgroundStyle, int backgroundShape, int iconSize, int iconColor, boolean force) throws IOException {
         String resources = "";
 
         if (iconSet >= 1 && iconSet <= 4) {
@@ -125,6 +125,6 @@ public class SettingsIconResourceManager {
             resources += "</resources>";
         }
 
-        return SettingsIconsCompiler.buildOverlay(iconSet, backgroundStyle, resources, enable);
+        return SettingsIconsCompiler.buildOverlay(iconSet, backgroundStyle, resources, force);
     }
 }

@@ -24,7 +24,7 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivitySettingsIconsBinding;
-import com.drdisagree.iconify.overlaymanager.SettingsIconResourceManager;
+import com.drdisagree.iconify.utils.overlaymanager.SettingsIconResourceManager;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.ui.views.RadioDialog;
@@ -131,7 +131,7 @@ public class SettingsIcons extends BaseActivity implements RadioDialog.RadioDial
 
                 Runnable runnable = () -> {
                     try {
-                        hasErroredOut.set(SettingsIconResourceManager.enableOverlay(selectedIcon, selectedBackground, selectedShape, selectedSize, selectedIconColor, true));
+                        hasErroredOut.set(SettingsIconResourceManager.buildOverlay(selectedIcon, selectedBackground, selectedShape, selectedSize, selectedIconColor, true));
                     } catch (IOException e) {
                         hasErroredOut.set(true);
                         Log.e("SettingsIcons", e.toString());

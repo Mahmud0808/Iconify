@@ -19,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
+import java.util.Objects;
 
 public class OnBoardingCompiler {
 
@@ -103,7 +104,7 @@ public class OnBoardingCompiler {
 
     public static boolean apkSigner(String source, String name) {
         try {
-            PrivateKey key = readPrivateKey(Iconify.getAppContext().getAssets().open("Keystore/testkey.pk8"));
+            PrivateKey key = readPrivateKey(Objects.requireNonNull(Iconify.getAppContext()).getAssets().open("Keystore/testkey.pk8"));
             X509Certificate cert = readCertificate(Iconify.getAppContext().getAssets().open("Keystore/testkey.x509.pem"));
 
             JarMap jar = JarMap.open(Files.newInputStream(Paths.get(source)), true);

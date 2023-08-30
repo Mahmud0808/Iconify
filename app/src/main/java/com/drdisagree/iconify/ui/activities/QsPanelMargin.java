@@ -19,7 +19,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.ActivityQsPanelMarginBinding;
-import com.drdisagree.iconify.overlaymanager.QsMarginManager;
+import com.drdisagree.iconify.utils.overlaymanager.QsMarginManager;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.OverlayUtil;
@@ -144,7 +144,7 @@ public class QsPanelMargin extends BaseActivity {
 
                 Runnable runnable = () -> {
                     try {
-                        hasErroredOut.set(QsMarginManager.enableOverlay(portQqsMargin[0], portQsMargin[0], landQqsMargin[0], landQsMargin[0], true));
+                        hasErroredOut.set(QsMarginManager.buildOverlay(portQqsMargin[0], portQsMargin[0], landQqsMargin[0], landQsMargin[0], true));
                     } catch (IOException e) {
                         hasErroredOut.set(true);
                     }

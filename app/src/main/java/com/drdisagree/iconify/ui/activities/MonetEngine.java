@@ -45,7 +45,7 @@ import androidx.annotation.NonNull;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityMonetEngineBinding;
-import com.drdisagree.iconify.overlaymanager.MonetEngineManager;
+import com.drdisagree.iconify.utils.overlaymanager.MonetEngineManager;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.RadioDialog;
 import com.drdisagree.iconify.utils.ColorUtil;
@@ -369,7 +369,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
 
                 Runnable runnable1 = () -> {
                     try {
-                        if (MonetEngineManager.enableOverlay(finalPalette, true)) {
+                        if (MonetEngineManager.buildOverlay(finalPalette, true)) {
                             hasErroredOut.set(true);
                         }
                     } catch (Exception e) {
@@ -742,7 +742,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                 palette.add(temp);
             }
 
-            status = status && !MonetEngineManager.enableOverlay(palette, true);
+            status = status && !MonetEngineManager.buildOverlay(palette, true);
 
             if (status) {
                 Prefs.putBoolean(MONET_ENGINE_SWITCH, true);
