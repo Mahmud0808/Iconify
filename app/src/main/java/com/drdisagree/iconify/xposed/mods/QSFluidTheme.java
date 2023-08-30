@@ -41,7 +41,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.drdisagree.iconify.R;
@@ -227,6 +226,7 @@ public class QSFluidTheme extends ModPack {
 
                         ViewGroup pm_button_container = view.findViewById(res.getIdentifier("pm_lite", "id", mContext.getPackageName()));
                         pm_button_container.getBackground().setAlpha((int) (ACTIVE_ALPHA * 255));
+                        pm_button_container.getBackground().setTint(colorAccent[0]);
                         ((ImageView) pm_button_container.getChildAt(0)).setColorFilter(colorAccent[0], PorterDuff.Mode.SRC_IN);
                     } catch (Throwable throwable) {
                         log(TAG + throwable);
@@ -587,7 +587,7 @@ public class QSFluidTheme extends ModPack {
         ShapeDrawable backgroundShape = new ShapeDrawable(new RoundRectShape(radiusF, null, null));
         backgroundShape.setIntrinsicHeight(height);
 
-        @SuppressLint("DiscouragedApi") ColorStateList states = getColorAttr(mContext.getResources().getIdentifier("attr/offStateColor", "attr", mContext.getPackageName()), mContext);
+        @SuppressLint("DiscouragedApi") ColorStateList states = getColorAttr(res.getIdentifier("attr/offStateColor", "attr", context.getPackageName()), context);
         if (states != null) {
             backgroundShape.getPaint().setColor(changeAlpha(states.getDefaultColor(), INACTIVE_ALPHA));
         } else {
@@ -597,8 +597,9 @@ public class QSFluidTheme extends ModPack {
         // Create the progress drawable
         RoundedCornerProgressDrawable progressDrawable = null;
         try {
-            progressDrawable = new RoundedCornerProgressDrawable(AppCompatResources.getDrawable(context, res.getIdentifier("brightness_progress_full_drawable", "drawable", context.getPackageName())));
+            progressDrawable = new RoundedCornerProgressDrawable(ResourcesCompat.getDrawable(res, res.getIdentifier("brightness_progress_full_drawable", "drawable", context.getPackageName()), context.getTheme()));
             progressDrawable.setAlpha((int) (ACTIVE_ALPHA * 255));
+            progressDrawable.setTint(colorAccent[0]);
         } catch (Throwable ignored) {
         }
 
