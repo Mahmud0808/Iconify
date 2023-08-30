@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityQsTileSizeBinding;
-import com.drdisagree.iconify.overlaymanager.QsTileHeightManager;
+import com.drdisagree.iconify.utils.overlaymanager.QsTileHeightManager;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.OverlayUtil;
@@ -192,7 +192,7 @@ public class QsTileSize extends BaseActivity {
 
                 Runnable runnable = () -> {
                     try {
-                        hasErroredOut.set(QsTileHeightManager.enableOverlay(portNonExpandedHeight[0], portExpandedHeight[0], landNonExpandedHeight[0], landExpandedHeight[0], true));
+                        hasErroredOut.set(QsTileHeightManager.buildOverlay(portNonExpandedHeight[0], portExpandedHeight[0], landNonExpandedHeight[0], landExpandedHeight[0], true));
                     } catch (IOException e) {
                         hasErroredOut.set(true);
                     }

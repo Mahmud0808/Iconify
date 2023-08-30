@@ -20,7 +20,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.ActivityUiRoundnessBinding;
-import com.drdisagree.iconify.overlaymanager.RoundnessManager;
+import com.drdisagree.iconify.utils.overlaymanager.RoundnessManager;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
@@ -102,7 +102,7 @@ public class UiRoundness extends BaseActivity {
 
                 Runnable runnable = () -> {
                     try {
-                        hasErroredOut.set(RoundnessManager.enableOverlay(finalUiCornerRadius[0], true));
+                        hasErroredOut.set(RoundnessManager.buildOverlay(finalUiCornerRadius[0], true));
                     } catch (IOException e) {
                         hasErroredOut.set(true);
                         Log.e("UiRoundness", e.toString());

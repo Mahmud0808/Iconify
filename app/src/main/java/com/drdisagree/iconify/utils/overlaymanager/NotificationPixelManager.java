@@ -1,13 +1,13 @@
-package com.drdisagree.iconify.overlaymanager;
+package com.drdisagree.iconify.utils.overlaymanager;
 
-import static com.drdisagree.iconify.common.Dynamic.TOTAL_BRIGHTNESSBARS;
+import static com.drdisagree.iconify.common.Dynamic.TOTAL_NOTIFICATIONSPIXEL;
 
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.OverlayUtil;
 
 import java.io.File;
 
-public class BrightnessBarManager {
+public class NotificationPixelManager {
 
     public static void enableOverlay(int n) {
         disable_others(n);
@@ -19,9 +19,10 @@ public class BrightnessBarManager {
     }
 
     protected static void enable_pack(int n) {
-        String path = "/system/product/overlay/IconifyComponentBBN" + n + ".apk";
+        String path = "/system/product/overlay/IconifyComponentNFP" + n + ".apk";
+
         if (new File(path).exists()) {
-            String overlay = "IconifyComponentBBN" + n + ".overlay";
+            String overlay = "IconifyComponentNFP" + n + ".overlay";
 
             if (!Prefs.getBoolean(overlay))
                 OverlayUtil.enableOverlay(overlay);
@@ -29,10 +30,10 @@ public class BrightnessBarManager {
     }
 
     public static void disable_pack(int n) {
-        String path = "/system/product/overlay/IconifyComponentBBN" + n + ".apk";
+        String path = "/system/product/overlay/IconifyComponentNFP" + n + ".apk";
 
         if (new File(path).exists()) {
-            String overlay = "IconifyComponentBBN" + n + ".overlay";
+            String overlay = "IconifyComponentNFP" + n + ".overlay";
 
             if (Prefs.getBoolean(overlay))
                 OverlayUtil.disableOverlay(overlay);
@@ -40,12 +41,12 @@ public class BrightnessBarManager {
     }
 
     protected static void disable_others(int n) {
-        for (int i = 1; i <= TOTAL_BRIGHTNESSBARS; i++) {
+        for (int i = 1; i <= TOTAL_NOTIFICATIONSPIXEL; i++) {
             if (i != n) {
-                String path = "/system/product/overlay/IconifyComponentBBN" + i + ".apk";
+                String path = "/system/product/overlay/IconifyComponentNFP" + i + ".apk";
 
                 if (new File(path).exists()) {
-                    String overlay = "IconifyComponentBBN" + i + ".overlay";
+                    String overlay = "IconifyComponentNFP" + i + ".overlay";
 
                     if (Prefs.getBoolean(overlay))
                         OverlayUtil.disableOverlay(overlay);

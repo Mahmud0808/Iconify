@@ -5,16 +5,19 @@ import android.os.Environment;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 
+import java.util.Objects;
+
 public class Resources {
 
     // Preference files
-    public static final String SharedPref = Iconify.getAppContext().getPackageName();
+    public static final String SharedPref = Objects.requireNonNull(Iconify.getAppContext()).getPackageName();
     public static final String SharedXPref = BuildConfig.APPLICATION_ID + "_xpreference";
 
     // Storage location
     public static final String DOC_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/documents";
     public static final String LOG_DIR = DOC_DIR + "/Iconify";
     public static final String MODULE_DIR = "/data/adb/modules/Iconify";
+    public static final String SYSTEM_OVERLAY_DIR = "/system/product/overlay";
     public static final String DATA_DIR = Iconify.getAppContext().getFilesDir().toString();
     public static final String OVERLAY_DIR = MODULE_DIR + "/system/product/overlay";
     public static final String BIN_DIR = Iconify.getAppContext().getDataDir() + "/bin";

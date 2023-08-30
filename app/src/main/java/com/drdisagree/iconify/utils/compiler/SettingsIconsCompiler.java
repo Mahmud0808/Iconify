@@ -20,12 +20,12 @@ public class SettingsIconsCompiler {
     private static final String TAG = SettingsIconsCompiler.class.getSimpleName();
     private static final String[] packages = new String[]{"com.android.settings", "com.google.android.apps.wellbeing", "com.google.android.gms"};
     private static int mIconSet = 1, mIconBg = 1;
-    private static boolean mEnable = false;
+    private static boolean mForce = false;
 
-    public static boolean buildOverlay(int iconSet, int iconBg, String resources, boolean enable) throws IOException {
+    public static boolean buildOverlay(int iconSet, int iconBg, String resources, boolean force) throws IOException {
         mIconSet = iconSet;
         mIconBg = iconBg;
-        mEnable = enable;
+        mForce = force;
 
         preExecute();
         moveOverlaysToCache();
@@ -96,9 +96,12 @@ public class SettingsIconsCompiler {
         Shell.cmd("mkdir -p " + Resources.SIGNED_DIR).exec();
         for (String aPackages : packages)
             Shell.cmd("mkdir -p " + Resources.TEMP_CACHE_DIR + "/" + aPackages + "/").exec();
+        if (!mForce) {
+            Shell.cmd("mkdir -p " + Resources.BACKUP_DIR).exec();
+        }
 
-        // Disable the overlay in case it is already enabled
-        if (mEnable) {
+        if (mForce) {
+            // Disable the overlay in case it is already enabled
             String[] overlayNames = new String[packages.length];
             for (int i = 1; i <= packages.length; i++) {
                 overlayNames[i - 1] = "IconifyComponentSIP" + i + ".overlay";
@@ -114,27 +117,34 @@ public class SettingsIconsCompiler {
                 Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponentSIP" + i + ".apk " + Resources.OVERLAY_DIR + "/IconifyComponentSIP" + i + ".apk").exec();
                 RootUtil.setPermissions(644, Resources.OVERLAY_DIR + "/IconifyComponentSIP" + i + ".apk");
 
-                // Move to files dir and install
-                Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponentSIP" + i + ".apk " + Resources.DATA_DIR + "/IconifyComponentSIP" + i + ".apk").exec();
-                RootUtil.setPermissions(644, Resources.DATA_DIR + "/IconifyComponentSIP" + i + ".apk");
-                Shell.cmd("pm install -r " + Resources.DATA_DIR + "/IconifyComponentSIP" + i + ".apk").exec();
-                Shell.cmd("rm -rf " + Resources.DATA_DIR + "/IconifyComponentSIP" + i + ".apk").exec();
+                if (mForce) {
+                    // Move to files dir and install
+                    Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponentSIP" + i + ".apk " + Resources.DATA_DIR + "/IconifyComponentSIP" + i + ".apk").exec();
+                    RootUtil.setPermissions(644, Resources.DATA_DIR + "/IconifyComponentSIP" + i + ".apk");
+                    Shell.cmd("pm install -r " + Resources.DATA_DIR + "/IconifyComponentSIP" + i + ".apk").exec();
+                    Shell.cmd("rm -rf " + Resources.DATA_DIR + "/IconifyComponentSIP" + i + ".apk").exec();
+                }
             }
 
-            SystemUtil.mountRW();
-            for (int i = 1; i <= 3; i++) {
-                Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponentSIP" + i + ".apk " + "/system/product/overlay/IconifyComponentSIP" + i + ".apk").exec();
-                RootUtil.setPermissions(644, "/system/product/overlay/IconifyComponentSIP" + i + ".apk");
-            }
-            SystemUtil.mountRO();
+            if (mForce) {
+                // Move to system overlay dir
+                SystemUtil.mountRW();
+                for (int i = 1; i <= packages.length; i++) {
+                    Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponentSIP" + i + ".apk " + Resources.SYSTEM_OVERLAY_DIR + "/IconifyComponentSIP" + i + ".apk").exec();
+                    RootUtil.setPermissions(644, "/system/product/overlay/IconifyComponentSIP" + i + ".apk");
+                }
+                SystemUtil.mountRO();
 
-            // Enable the overlays
-            if (mEnable) {
+                // Enable the overlays
                 String[] overlayNames = new String[packages.length];
                 for (int i = 1; i <= packages.length; i++) {
                     overlayNames[i - 1] = "IconifyComponentSIP" + i + ".overlay";
                 }
                 OverlayUtil.enableOverlays(overlayNames);
+            } else {
+                for (int i = 1; i <= packages.length; i++) {
+                    Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponentSIP" + i + ".apk " + Resources.BACKUP_DIR + "/IconifyComponentSIP" + i + ".apk").exec();
+                }
             }
         }
 

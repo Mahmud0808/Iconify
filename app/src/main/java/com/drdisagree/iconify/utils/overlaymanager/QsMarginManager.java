@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.overlaymanager;
+package com.drdisagree.iconify.utils.overlaymanager;
 
 import com.drdisagree.iconify.utils.compiler.QsMarginCompiler;
 
@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class QsMarginManager {
 
-    public static boolean enableOverlay(int portQqs, int portQs, int landQqs, int landQs, boolean enable) throws IOException {
+    public static boolean buildOverlay(int portQqs, int portQs, int landQqs, int landQs, boolean force) throws IOException {
         String resourcesPortraitFramework = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
                 "<resources>\n" +
                 "   <dimen name=\"quick_qs_offset_height\">" + portQqs + "dip</dimen>\n" +
@@ -35,6 +35,6 @@ public class QsMarginManager {
                 "   <dimen name=\"qs_panel_padding_top_combined_headers\">" + landQs + "dip</dimen>\n" +
                 "</resources>\n";
 
-        return QsMarginCompiler.buildOverlay(new Object[]{new String[]{resourcesPortraitFramework, resourcesLanscapeFramework}, new String[]{resourcesPortraitSystemui, resourcesLanscapeSystemui}}, enable);
+        return QsMarginCompiler.buildOverlay(new Object[]{new String[]{resourcesPortraitFramework, resourcesLanscapeFramework}, new String[]{resourcesPortraitSystemui, resourcesLanscapeSystemui}}, force);
     }
 }

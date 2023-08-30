@@ -21,10 +21,10 @@ public class QsMarginCompiler {
     private static final String TAG = QsMarginCompiler.class.getSimpleName();
     private static final String[] mPackages = {FRAMEWORK_PACKAGE, SYSTEMUI_PACKAGE};
     private static final String[] mOverlayName = {"HSIZE1", "HSIZE2"};
-    private static boolean mEnable = false;
+    private static boolean mForce = false;
 
-    public static boolean buildOverlay(Object[] resources, boolean enable) throws IOException {
-        mEnable = enable;
+    public static boolean buildOverlay(Object[] resources, boolean force) throws IOException {
+        mForce = force;
 
         preExecute();
 
@@ -87,9 +87,12 @@ public class QsMarginCompiler {
         Shell.cmd("mkdir -p " + Resources.UNSIGNED_UNALIGNED_DIR).exec();
         Shell.cmd("mkdir -p " + Resources.UNSIGNED_DIR).exec();
         Shell.cmd("mkdir -p " + Resources.SIGNED_DIR).exec();
+        if (!mForce) {
+            Shell.cmd("mkdir -p " + Resources.BACKUP_DIR).exec();
+        }
 
-        // Disable the overlay in case it is already enabled
-        if (mEnable) {
+        if (mForce) {
+            // Disable the overlay in case it is already enabled
             String[] overlayNames = new String[mOverlayName.length];
             for (int i = 1; i <= mOverlayName.length; i++) {
                 overlayNames[i - 1] = "IconifyComponentHSIZE" + i + ".overlay";
@@ -105,27 +108,34 @@ public class QsMarginCompiler {
                 Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponent" + overlayName + ".apk " + Resources.OVERLAY_DIR + "/IconifyComponent" + overlayName + ".apk").exec();
                 RootUtil.setPermissions(644, Resources.OVERLAY_DIR + "/IconifyComponent" + overlayName + ".apk");
 
-                // Move to files dir and install
-                Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponent" + overlayName + ".apk " + Resources.DATA_DIR + "/IconifyComponent" + overlayName + ".apk").exec();
-                RootUtil.setPermissions(644, Resources.DATA_DIR + "/IconifyComponent" + overlayName + ".apk");
-                Shell.cmd("pm install -r " + Resources.DATA_DIR + "/IconifyComponent" + overlayName + ".apk").exec();
-                Shell.cmd("rm -rf " + Resources.DATA_DIR + "/IconifyComponent" + overlayName + ".apk").exec();
+                if (mForce) {
+                    // Move to files dir and install
+                    Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponent" + overlayName + ".apk " + Resources.DATA_DIR + "/IconifyComponent" + overlayName + ".apk").exec();
+                    RootUtil.setPermissions(644, Resources.DATA_DIR + "/IconifyComponent" + overlayName + ".apk");
+                    Shell.cmd("pm install -r " + Resources.DATA_DIR + "/IconifyComponent" + overlayName + ".apk").exec();
+                    Shell.cmd("rm -rf " + Resources.DATA_DIR + "/IconifyComponent" + overlayName + ".apk").exec();
+                }
             }
 
-            SystemUtil.mountRW();
-            for (String overlayName : mOverlayName) {
-                Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponent" + overlayName + ".apk " + "/system/product/overlay/IconifyComponent" + overlayName + ".apk").exec();
-                RootUtil.setPermissions(644, "/system/product/overlay/IconifyComponent" + overlayName + ".apk");
-            }
-            SystemUtil.mountRO();
+            if (mForce) {
+                // Move to system overlay dir
+                SystemUtil.mountRW();
+                for (String overlayName : mOverlayName) {
+                    Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponent" + overlayName + ".apk " + Resources.SYSTEM_OVERLAY_DIR + "/IconifyComponent" + overlayName + ".apk").exec();
+                    RootUtil.setPermissions(644, "/system/product/overlay/IconifyComponent" + overlayName + ".apk");
+                }
+                SystemUtil.mountRO();
 
-            // Enable the overlays
-            if (mEnable) {
+                // Enable the overlays
                 String[] overlayNames = new String[mOverlayName.length];
                 for (int i = 1; i <= mOverlayName.length; i++) {
                     overlayNames[i - 1] = "IconifyComponentHSIZE" + i + ".overlay";
                 }
                 OverlayUtil.enableOverlays(overlayNames);
+            } else {
+                for (String overlayName : mOverlayName) {
+                    Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponent" + overlayName + ".apk " + Resources.BACKUP_DIR + "/IconifyComponent" + overlayName + ".apk").exec();
+                }
             }
         }
 

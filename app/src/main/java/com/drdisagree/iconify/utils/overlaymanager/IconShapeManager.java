@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.overlaymanager;
+package com.drdisagree.iconify.utils.overlaymanager;
 
 import static com.drdisagree.iconify.common.Dynamic.TOTAL_ICONSHAPES;
 

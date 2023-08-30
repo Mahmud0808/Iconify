@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.overlaymanager;
+package com.drdisagree.iconify.utils.overlaymanager;
 
 import com.drdisagree.iconify.utils.compiler.RoundnessCompiler;
 
@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class RoundnessManager {
 
-    public static boolean enableOverlay(int cornerRadius, boolean enable) throws IOException {
+    public static boolean buildOverlay(int cornerRadius, boolean force) throws IOException {
 
         String framework_resources = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n" +
                 "    <dimen name=\"config_buttonCornerRadius\">" + cornerRadius + "dip</dimen>\n" +
@@ -44,6 +44,6 @@ public class RoundnessManager {
                 "    <dimen name=\"abc_star_small\">" + Math.max((cornerRadius - 11), 0) + "dip</dimen>\n" +
                 "</resources>";
 
-        return RoundnessCompiler.buildOverlay(new String[]{framework_resources, sysui_resources}, enable);
+        return RoundnessCompiler.buildOverlay(new String[]{framework_resources, sysui_resources}, force);
     }
 }
