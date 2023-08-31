@@ -247,22 +247,12 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
         val xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
         textPaint.xfermode = xfermode
 
-        // Deal with unifiedPath clipping before it draws
-        if (charging && batteryLevel < 100) {
-            // Clip out the bolt shape
-            unifiedPath.op(mergedPath, Path.Op.DIFFERENCE)
-
-            if (!invertFillIcon) {
-                c.drawPath(mergedPath, textPaint)
-            }
-        } else {
+        if (!charging) {
             // Clip out the text path
             unifiedPath.op(textPath, Path.Op.DIFFERENCE)
-
             c.drawPath(textPath, textPaint)
         }
 
-        // Dual tone means we draw the shape again, clipped to the charge level
         c.drawPath(unifiedPath, dualToneBackgroundFill)
         c.save()
         c.clipRect(
@@ -273,6 +263,20 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
         )
         c.drawPath(unifiedPath, fillPaint)
         c.restore()
+
+        // Deal with unifiedPath clipping before it draws
+        if (charging) {
+            // Clip out the bolt shape
+            fillPaint.color = fillColor
+
+            if (charging && batteryLevel < 100) {
+                c.drawPath(mergedPath, fillPaint)
+            } else {
+                c.drawPath(textPath, fillPaint)
+            }
+
+            fillPaint.color = levelColor
+        }
 
         c.restore()
     }
