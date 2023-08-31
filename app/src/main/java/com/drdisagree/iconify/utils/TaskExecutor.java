@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.ui.utils;
+package com.drdisagree.iconify.utils;
 
 import android.os.Handler;
 import android.os.Looper;

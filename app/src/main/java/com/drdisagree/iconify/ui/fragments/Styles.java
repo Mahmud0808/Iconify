@@ -44,7 +44,7 @@ import com.drdisagree.iconify.ui.activities.ProgressBar;
 import com.drdisagree.iconify.ui.activities.QsPanelTile;
 import com.drdisagree.iconify.ui.activities.Switch;
 import com.drdisagree.iconify.ui.activities.ToastFrame;
-import com.drdisagree.iconify.ui.utils.TaskExecutor;
+import com.drdisagree.iconify.utils.TaskExecutor;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
 

@@ -25,7 +25,7 @@ import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityAppUpdatesBinding;
-import com.drdisagree.iconify.ui.utils.TaskExecutor;
+import com.drdisagree.iconify.utils.TaskExecutor;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 
 import org.json.JSONArray;

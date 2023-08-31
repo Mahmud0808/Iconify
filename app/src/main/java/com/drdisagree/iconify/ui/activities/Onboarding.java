@@ -38,7 +38,7 @@ import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.ActivityOnboardingBinding;
 import com.drdisagree.iconify.ui.adapters.OnboardingAdapter;
 import com.drdisagree.iconify.ui.utils.Animatoo;
-import com.drdisagree.iconify.ui.utils.TaskExecutor;
+import com.drdisagree.iconify.utils.TaskExecutor;
 import com.drdisagree.iconify.ui.views.InstallationDialog;
 import com.drdisagree.iconify.utils.FileUtil;
 import com.drdisagree.iconify.utils.ModuleUtil;
