@@ -59,6 +59,7 @@ import com.drdisagree.iconify.utils.helpers.ImportExport;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.concurrent.Executors;
 
 public class XposedMenu extends BaseFragment {
 
@@ -87,30 +88,32 @@ public class XposedMenu extends BaseFragment {
                     Intent data = result2.getData();
                     if (data == null) return;
 
-                    AlertDialog alertDialog = new AlertDialog.Builder(requireContext()).create();
-                    alertDialog.setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title));
-                    alertDialog.setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc));
-                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, requireContext().getResources().getString(R.string.btn_positive),
-                            (dialog, which) -> {
-                                dialog.dismiss();
-                                new Handler(Looper.getMainLooper()).post(() -> {
-                                    try {
-                                        boolean success = ImportExport.importSettings(RPrefs.prefs, Objects.requireNonNull(requireContext().getContentResolver().openInputStream(Objects.requireNonNull(data.getData()))), false);
-                                        if (success) {
-                                            Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
-                                            SystemUtil.restartSystemUI();
-                                        } else {
-                                            Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                                        }
-                                    } catch (Exception exception) {
-                                        Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                                        Log.e("Settings", "Error importing settings", exception);
-                                    }
-                                });
-                            });
-                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, requireContext().getResources().getString(R.string.btn_negative),
-                            (dialog, which) -> dialog.dismiss());
-                    alertDialog.show();
+                    new AlertDialog.Builder(requireContext())
+                            .setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title))
+                            .setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc))
+                            .setPositiveButton(requireContext().getResources().getString(R.string.btn_positive),
+                                    (dialog, which) -> {
+                                        dialog.dismiss();
+
+                                        Executors.newSingleThreadExecutor().execute(() -> {
+                                            try {
+                                                boolean success = ImportExport.importSettings(RPrefs.prefs, Objects.requireNonNull(Objects.requireNonNull(Iconify.getAppContext()).getContentResolver().openInputStream(Objects.requireNonNull(data.getData()))), false);
+                                                if (success) {
+                                                    new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show());
+                                                    SystemUtil.restartSystemUI();
+                                                } else {
+                                                    new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show());
+                                                }
+                                            } catch (Exception exception) {
+                                                new Handler(Looper.getMainLooper()).post(() -> {
+                                                    Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                                    Log.e("Settings", "Error exporting settings", exception);
+                                                });
+                                            }
+                                        });
+                                    })
+                            .setNegativeButton(requireContext().getResources().getString(R.string.btn_negative), (dialog, which) -> dialog.dismiss())
+                            .show();
                 }
             });
     IntentFilter intentFilterHookedSystemUI = new IntentFilter();
