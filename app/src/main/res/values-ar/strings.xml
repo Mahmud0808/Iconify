@@ -233,7 +233,6 @@
     <string name="update_checking_failed">فشل التحقق من التحديث!</string>
     <string name="not_available">غير متاح</string>
     <string name="confirmation">هل أنت متأكد؟</string>
-    <string name="you_will_loose_current_setup">ستفقد الإعداد والإعدادات الحالية.</string>
     <string name="positive">نعم</string>
     <string name="negative">لا</string>
     <string name="imported_settings">تم استيراد الإعدادات بنجاح</string>
