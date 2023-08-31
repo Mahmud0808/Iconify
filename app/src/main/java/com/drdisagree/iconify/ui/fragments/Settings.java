@@ -73,7 +73,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                             new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_export_settings_successfull), Toast.LENGTH_SHORT).show());
                         } catch (Exception exception) {
                             new Handler(Looper.getMainLooper()).post(() -> {
-                                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                                 Log.e("Settings", "Error exporting settings", exception);
                             });
                         }
@@ -87,38 +87,37 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                     Intent data = result2.getData();
                     if (data == null) return;
 
-                    AlertDialog alertDialog = new AlertDialog.Builder(requireContext()).create();
-                    alertDialog.setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title));
-                    alertDialog.setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc));
-                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, requireContext().getResources().getString(R.string.btn_positive),
-                            (dialog, which) -> {
-                                dialog.dismiss();
-                                loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
+                    new AlertDialog.Builder(requireContext())
+                            .setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title))
+                            .setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc))
+                            .setPositiveButton(requireContext().getResources().getString(R.string.btn_positive),
+                                    (dialog, which) -> {
+                                        dialog.dismiss();
+                                        loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
-                                Executors.newSingleThreadExecutor().execute(() -> {
-                                    try {
-                                        boolean success = ImportExport.importSettings(Prefs.prefs, Objects.requireNonNull(Objects.requireNonNull(Iconify.getAppContext()).getContentResolver().openInputStream(Objects.requireNonNull(data.getData()))), true);
+                                        Executors.newSingleThreadExecutor().execute(() -> {
+                                            try {
+                                                boolean success = ImportExport.importSettings(Prefs.prefs, Objects.requireNonNull(Objects.requireNonNull(Iconify.getAppContext()).getContentResolver().openInputStream(Objects.requireNonNull(data.getData()))), true);
 
-                                        new Handler(Looper.getMainLooper()).post(() -> {
-                                            loadingDialog.hide();
+                                                new Handler(Looper.getMainLooper()).post(() -> {
+                                                    loadingDialog.hide();
 
-                                            if (success) {
-                                                Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
-                                            } else {
-                                                Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                                    if (success) {
+                                                        Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            } catch (Exception exception) {
+                                                new Handler(Looper.getMainLooper()).post(() -> {
+                                                    Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                                    Log.e("Settings", "Error importing settings", exception);
+                                                });
                                             }
                                         });
-                                    } catch (Exception exception) {
-                                        new Handler(Looper.getMainLooper()).post(() -> {
-                                            Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                                            Log.e("Settings", "Error importing settings", exception);
-                                        });
-                                    }
-                                });
-                            });
-                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, requireContext().getResources().getString(R.string.btn_negative),
-                            (dialog, which) -> dialog.dismiss());
-                    alertDialog.show();
+                                    })
+                            .setNegativeButton(requireContext().getResources().getString(R.string.btn_negative), (dialog, which) -> dialog.dismiss())
+                            .show();
                 }
             });
 
@@ -200,25 +199,30 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         });
 
         // Disable Everything
-        binding.settingsMisc.buttonDisableEverything.setOnClickListener(v -> Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disable_everything), Toast.LENGTH_SHORT).show());
-        binding.settingsMisc.buttonDisableEverything.setOnLongClickListener(v -> {
-            // Show loading dialog
-            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
+        binding.settingsMisc.buttonDisableEverything.setOnClickListener(v -> new AlertDialog.Builder(requireActivity())
+                .setCancelable(true)
+                .setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title))
+                .setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc))
+                .setPositiveButton(getString(R.string.positive), (dialog, i) -> {
+                    dialog.dismiss();
 
-            Executors.newSingleThreadExecutor().execute(() -> {
-                disableEverything();
+                    // Show loading dialog
+                    loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
-                requireActivity().runOnUiThread(() -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    // Hide loading dialog
-                    loadingDialog.hide();
+                    Executors.newSingleThreadExecutor().execute(() -> {
+                        disableEverything();
 
-                    // Restart SystemUI
-                    SystemUtil.restartSystemUI();
-                }, 3000));
-            });
+                        requireActivity().runOnUiThread(() -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                            // Hide loading dialog
+                            loadingDialog.hide();
 
-            return true;
-        });
+                            // Restart SystemUI
+                            SystemUtil.restartSystemUI();
+                        }, 3000));
+                    });
+                })
+                .setNegativeButton(getString(R.string.negative), (dialog, i) -> dialog.dismiss())
+                .show());
 
         return view;
     }
