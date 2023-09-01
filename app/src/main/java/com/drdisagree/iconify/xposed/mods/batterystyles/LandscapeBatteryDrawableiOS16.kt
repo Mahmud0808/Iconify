@@ -247,7 +247,7 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
         val xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
         textPaint.xfermode = xfermode
 
-        if (!charging) {
+        if (!shouldChangePercentageColor()) {
             // Clip out the text path
             unifiedPath.op(textPath, Path.Op.DIFFERENCE)
             c.drawPath(textPath, textPaint)
@@ -265,7 +265,7 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
         c.restore()
 
         // Deal with unifiedPath clipping before it draws
-        if (charging) {
+        if (shouldChangePercentageColor()) {
             // Clip out the bolt shape
             fillPaint.color = fillColor
 
@@ -279,6 +279,15 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
         }
 
         c.restore()
+    }
+
+    /**
+     * Returns true if the battery percentage text should be colored.
+     * Battery percentage color should be fillColor when in charging state or in low battery state,
+     * otherwise it should be transparent.
+     */
+    private fun shouldChangePercentageColor(): Boolean {
+        return charging || (!powerSaveEnabled && batteryLevel <= CRITICAL_LEVEL)
     }
 
     private fun batteryColorForLevel(level: Int): Int {
