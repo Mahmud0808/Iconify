@@ -15,13 +15,12 @@
 
     <TextView
         android:id="@+id/list_title_qsshape"
+        style="@style/TextAppearance.Material3.TitleMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|top"
         android:layout_marginBottom="@dimen/container_padding"
-        android:textColor="@color/textColorPrimary"
-        android:textSize="@dimen/cont_title_size"
-        android:textStyle="bold" />
+        android:textColor="@color/text_color_primary" />
 
     <LinearLayout
         android:id="@+id/qs_tile_orientation"
@@ -62,14 +61,14 @@
 
                 <TextView
                     android:id="@+id/qs_text1"
+                    style="@style/TextAppearance.Material3.TitleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="1dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/qstile_btn1_title"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    android:textColor="@color/white" />
 
             </LinearLayout>
 
@@ -96,14 +95,14 @@
 
                 <TextView
                     android:id="@+id/qs_text2"
+                    style="@style/TextAppearance.Material3.TitleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="1dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/qstile_btn2_title"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    android:textColor="@color/white" />
 
             </LinearLayout>
         </LinearLayout>
@@ -139,14 +138,14 @@
 
                 <TextView
                     android:id="@+id/qs_text3"
+                    style="@style/TextAppearance.Material3.TitleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="1dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/qstile_btn3_title"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    android:textColor="@color/white" />
 
             </LinearLayout>
 
@@ -173,14 +172,14 @@
 
                 <TextView
                     android:id="@+id/qs_text4"
+                    style="@style/TextAppearance.Material3.TitleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="1dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/qstile_btn4_title"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    android:textColor="@color/white" />
 
             </LinearLayout>
 

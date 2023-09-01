@@ -24,6 +24,7 @@
 
     <TextView
         android:id="@+id/title"
+        style="@style/TextAppearance.Material3.TitleMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -31,8 +32,6 @@
         android:gravity="center"
         android:text="@string/loading_dialog_wait"
         android:textAlignment="center"
-        android:textColor="@color/textColorPrimary"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textColor="@color/text_color_primary" />
 
 </LinearLayout>

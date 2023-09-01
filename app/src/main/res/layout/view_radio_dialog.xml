@@ -11,14 +11,13 @@
 
     <TextView
         android:id="@+id/title"
+        style="@style/TextAppearance.Material3.TitleLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_marginBottom="12dp"
         android:gravity="start|center"
-        android:textColor="@color/textColorPrimary"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textColor="@color/text_color_primary" />
 
     <ScrollView
         android:layout_width="match_parent"

@@ -21,7 +21,7 @@
         android:backgroundTint="@color/colorAccent">
 
         <ImageView
-            android:id="@+id/list_preview"
+            android:id="@+id/list_icon"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_gravity="center"
@@ -41,20 +41,19 @@
         android:orientation="vertical">
 
         <TextView
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/new_update_available"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/cont_title_size"
-            android:textStyle="bold" />
+            android:textColor="@color/text_color_primary" />
 
         <TextView
             android:id="@+id/update_desc"
+            style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/update_dialog_desc"
-            android:textColor="@color/textColorSecondary"
-            android:textSize="@dimen/cont_desc_size" />
+            android:textColor="@color/text_color_secondary" />
 
     </LinearLayout>
 

@@ -44,9 +44,9 @@ import com.drdisagree.iconify.ui.activities.ProgressBar;
 import com.drdisagree.iconify.ui.activities.QsPanelTile;
 import com.drdisagree.iconify.ui.activities.Switch;
 import com.drdisagree.iconify.ui.activities.ToastFrame;
-import com.drdisagree.iconify.utils.TaskExecutor;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.utils.TaskExecutor;
 
 import org.json.JSONObject;
 
@@ -171,7 +171,7 @@ public class Styles extends BaseFragment {
             TextView desc = list.findViewById(R.id.list_desc);
             desc.setText((String) pack.get(i)[2]);
 
-            ImageView preview = list.findViewById(R.id.list_preview);
+            ImageView preview = list.findViewById(R.id.list_icon);
             preview.setImageResource((int) pack.get(i)[3]);
 
             int finalI = i;

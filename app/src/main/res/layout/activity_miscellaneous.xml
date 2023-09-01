@@ -43,26 +43,26 @@
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/tablet_landscape_title"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color_primary" />
 
                     <TextView
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/tablet_landscape_desc"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>
 
-                <Switch
+                <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/enable_tablet_landscape"
-                    style="@style/customSwitch"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    style="@style/Widget.MaterialSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
@@ -87,26 +87,26 @@
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/notch_bar_killer_title"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color_primary" />
 
                     <TextView
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/notch_bar_killer_desc"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>
 
-                <Switch
+                <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/enable_notch_bar_killer"
-                    style="@style/customSwitch"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    style="@style/Widget.MaterialSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
@@ -131,26 +131,26 @@
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/tablet_header_title"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color_primary" />
 
                     <TextView
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/tablet_header_desc"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>
 
-                <Switch
+                <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/enable_tablet_header"
-                    style="@style/customSwitch"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    style="@style/Widget.MaterialSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
@@ -176,26 +176,26 @@
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/accent_privacy_chip_title"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color_primary" />
 
                     <TextView
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/accent_privacy_chip_desc"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>
 
-                <Switch
+                <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/enable_accent_privacy_chip"
-                    style="@style/customSwitch"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    style="@style/Widget.MaterialSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
         </LinearLayout>

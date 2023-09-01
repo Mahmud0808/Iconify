@@ -44,26 +44,26 @@
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/accurate_shades_title"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color_primary" />
 
                     <TextView
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/accurate_shades_desc"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>
 
-                <Switch
+                <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/monet_accurate_shades"
-                    style="@style/customSwitch"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    style="@style/Widget.MaterialSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
@@ -88,19 +88,18 @@
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/primary_color"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color_primary" />
 
                     <TextView
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/primary_color_desc"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>
 
@@ -139,19 +138,18 @@
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/secondary_color"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color_primary" />
 
                     <TextView
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/secondary_color_desc"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>
 
@@ -179,19 +177,18 @@
                 android:paddingBottom="@dimen/container_padding">
 
                 <TextView
+                    style="@style/TextAppearance.Material3.TitleMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/monet_style_title"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
+                    android:textColor="@color/text_color_primary" />
 
                 <TextView
                     android:id="@+id/selected_monet_style"
+                    style="@style/TextAppearance.Material3.BodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_desc_size" />
+                    android:textColor="@color/text_color_secondary" />
 
             </LinearLayout>
 
@@ -228,13 +225,12 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:longClickable="true"
                         android:text="@string/monet_primary_accent_saturation_title"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color_primary" />
 
                     <ImageView
                         android:id="@+id/reset_primary_accent_saturation"
@@ -252,10 +248,10 @@
 
                 <TextView
                     android:id="@+id/monet_primary_accent_saturation_output"
+                    style="@style/TextAppearance.Material3.BodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_desc_size" />
+                    android:textColor="@color/text_color_secondary" />
 
                 <SeekBar
                     android:id="@+id/monet_primary_accent_saturation_seekbar"
@@ -283,12 +279,11 @@
                     android:layout_height="match_parent">
 
                     <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/monet_secondary_accent_saturation_title"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color_primary" />
 
                     <ImageView
                         android:id="@+id/reset_secondary_accent_saturation"
@@ -306,10 +301,10 @@
 
                 <TextView
                     android:id="@+id/monet_secondary_accent_saturation_output"
+                    style="@style/TextAppearance.Material3.BodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_desc_size" />
+                    android:textColor="@color/text_color_secondary" />
 
                 <SeekBar
                     android:id="@+id/monet_secondary_accent_saturation_seekbar"
@@ -337,12 +332,11 @@
                     android:layout_height="match_parent">
 
                     <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/monet_background_saturation_title"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color_primary" />
 
                     <ImageView
                         android:id="@+id/reset_background_saturation"
@@ -360,10 +354,10 @@
 
                 <TextView
                     android:id="@+id/monet_background_saturation_output"
+                    style="@style/TextAppearance.Material3.BodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_desc_size" />
+                    android:textColor="@color/text_color_secondary" />
 
                 <SeekBar
                     android:id="@+id/monet_background_saturation_seekbar"
@@ -393,12 +387,11 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/monet_background_lightness_title"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color_primary" />
 
                     <ImageView
                         android:id="@+id/reset_background_lightness"
@@ -416,10 +409,10 @@
 
                 <TextView
                     android:id="@+id/monet_background_lightness_output"
+                    style="@style/TextAppearance.Material3.BodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_desc_size" />
+                    android:textColor="@color/text_color_secondary" />
 
                 <SeekBar
                     android:id="@+id/monet_background_lightness_seekbar"

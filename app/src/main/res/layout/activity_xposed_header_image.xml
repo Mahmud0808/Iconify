@@ -35,19 +35,18 @@
                 android:paddingBottom="@dimen/container_padding">
 
                 <TextView
+                    style="@style/TextAppearance.Material3.TitleMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/header_image_title"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
+                    android:textColor="@color/text_color_primary" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/header_image_desc"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_desc_size" />
+                    android:textColor="@color/text_color_secondary" />
 
                 <Button
                     android:id="@+id/pick_header_image"
@@ -91,19 +90,18 @@
                 android:paddingBottom="@dimen/container_padding">
 
                 <TextView
+                    style="@style/TextAppearance.Material3.TitleMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/header_image_height_title"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
+                    android:textColor="@color/text_color_primary" />
 
                 <TextView
                     android:id="@+id/header_image_height_output"
+                    style="@style/TextAppearance.Material3.BodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_desc_size" />
+                    android:textColor="@color/text_color_secondary" />
 
                 <SeekBar
                     android:id="@+id/header_image_height_seekbar"
@@ -127,19 +125,18 @@
                 android:paddingBottom="@dimen/container_padding">
 
                 <TextView
+                    style="@style/TextAppearance.Material3.TitleMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/image_alpha"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
+                    android:textColor="@color/text_color_primary" />
 
                 <TextView
                     android:id="@+id/image_alpha_output"
+                    style="@style/TextAppearance.Material3.BodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_desc_size" />
+                    android:textColor="@color/text_color_secondary" />
 
                 <SeekBar
                     android:id="@+id/image_alpha_seekbar"
@@ -171,26 +168,26 @@
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/header_image_zoom_to_fit_title"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color_primary" />
 
                     <TextView
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/header_image_zoom_to_fit_desc"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>
 
-                <Switch
+                <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/enable_zoom_to_fit"
-                    style="@style/customSwitch"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    style="@style/Widget.MaterialSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
@@ -216,26 +213,26 @@
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/header_image_hide_in_landscape_title"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color_primary" />
 
                     <TextView
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/header_image_hide_in_landscape_desc"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>
 
-                <Switch
+                <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/enable_hide_image_landscape"
-                    style="@style/customSwitch"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    style="@style/Widget.MaterialSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
         </LinearLayout>

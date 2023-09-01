@@ -43,26 +43,26 @@
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/sb_clock_background_chip_title"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color_primary" />
 
                     <TextView
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/sb_clock_background_chip_desc"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>
 
-                <Switch
+                <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/enable_clock_bg_chip"
-                    style="@style/customSwitch"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    style="@style/Widget.MaterialSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
@@ -80,19 +80,18 @@
                 android:paddingBottom="@dimen/container_padding">
 
                 <TextView
+                    style="@style/TextAppearance.Material3.TitleMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/statusbar_clock_color_title"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
+                    android:textColor="@color/text_color_primary" />
 
                 <TextView
                     android:id="@+id/selected_sb_clock_color_option"
+                    style="@style/TextAppearance.Material3.BodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_desc_size" />
+                    android:textColor="@color/text_color_secondary" />
 
             </LinearLayout>
 
@@ -123,19 +122,18 @@
                         android:orientation="vertical">
 
                         <TextView
+                            style="@style/TextAppearance.Material3.TitleMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/clock_color_picker_title"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
+                            android:textColor="@color/text_color_primary" />
 
                         <TextView
+                            style="@style/TextAppearance.Material3.BodyMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/clock_color_picker_desc"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
+                            android:textColor="@color/text_color_secondary" />
 
                     </LinearLayout>
 
@@ -172,19 +170,18 @@
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/status_icons_chip_style_title"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color_primary" />
 
                     <TextView
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/pick_style"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>
 
@@ -228,26 +225,26 @@
                         android:orientation="vertical">
 
                         <TextView
+                            style="@style/TextAppearance.Material3.TitleMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/status_icons_chip_title"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
+                            android:textColor="@color/text_color_primary" />
 
                         <TextView
+                            style="@style/TextAppearance.Material3.BodyMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/status_icons_chip_desc"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
+                            android:textColor="@color/text_color_secondary" />
 
                     </LinearLayout>
 
-                    <Switch
+                    <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/enable_status_icons_chip"
-                        style="@style/customSwitch"
-                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+                        style="@style/Widget.MaterialSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
@@ -272,19 +269,18 @@
                         android:orientation="vertical">
 
                         <TextView
+                            style="@style/TextAppearance.Material3.TitleMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/status_icons_chip_style_title"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
+                            android:textColor="@color/text_color_primary" />
 
                         <TextView
+                            style="@style/TextAppearance.Material3.BodyMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/pick_style"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
+                            android:textColor="@color/text_color_secondary" />
 
                     </LinearLayout>
 

@@ -17,19 +17,18 @@
         android:paddingBottom="@dimen/container_padding">
 
         <TextView
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/pill_width_title"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/cont_title_size"
-            android:textStyle="bold" />
+            android:textColor="@color/text_color_primary" />
 
         <TextView
             android:id="@+id/pill_width_output"
+            style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/textColorSecondary"
-            android:textSize="@dimen/cont_desc_size" />
+            android:textColor="@color/text_color_secondary" />
 
         <SeekBar
             android:id="@+id/pill_width_seekbar"
@@ -53,19 +52,18 @@
         android:paddingBottom="@dimen/container_padding">
 
         <TextView
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/pill_thickness_title"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/cont_title_size"
-            android:textStyle="bold" />
+            android:textColor="@color/text_color_primary" />
 
         <TextView
             android:id="@+id/pill_thickness_output"
+            style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/textColorSecondary"
-            android:textSize="@dimen/cont_desc_size" />
+            android:textColor="@color/text_color_secondary" />
 
         <SeekBar
             android:id="@+id/pill_thickness_seekbar"
@@ -89,19 +87,18 @@
         android:paddingBottom="@dimen/container_padding">
 
         <TextView
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/pill_bottom_space_title"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/cont_title_size"
-            android:textStyle="bold" />
+            android:textColor="@color/text_color_primary" />
 
         <TextView
             android:id="@+id/bottom_space_output"
+            style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/textColorSecondary"
-            android:textSize="@dimen/cont_desc_size" />
+            android:textColor="@color/text_color_secondary" />
 
         <SeekBar
             android:id="@+id/bottom_space_seekbar"

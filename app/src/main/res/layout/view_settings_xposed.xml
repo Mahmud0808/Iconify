@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <TextView
+        style="@style/TextAppearance.Material3.TitleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/container_paddingSide"
         android:layout_marginTop="@dimen/container_marginSide"
         android:layout_marginBottom="@dimen/container_marginSide"
         android:text="@string/list_title_xposed_settings"
-        android:textColor="@color/textColorPrimary"
-        android:textSize="@dimen/header_title_size"
-        android:textStyle="bold" />
+        android:textColor="@color/text_color_primary" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,27 +33,26 @@
             android:orientation="vertical">
 
             <TextView
+                style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/list_title_show_warning"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="@dimen/cont_title_size"
-                android:textStyle="bold" />
+                android:textColor="@color/text_color_primary" />
 
             <TextView
+                style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/list_desc_show_warning"
-                android:textColor="@color/textColorSecondary"
-                android:textSize="@dimen/cont_desc_size" />
+                android:textColor="@color/text_color_secondary" />
 
         </LinearLayout>
 
-        <Switch
+        <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/hide_warn_message"
-            style="@style/customSwitch"
-            android:checked="true"
-            tools:ignore="UseSwitchCompatOrMaterialXml" />
+            style="@style/Widget.MaterialSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 </LinearLayout>

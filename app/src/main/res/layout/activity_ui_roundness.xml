@@ -37,19 +37,18 @@
                 tools:ignore="UselessParent">
 
                 <TextView
+                    style="@style/TextAppearance.Material3.TitleMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/corner_radius_title"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
+                    android:textColor="@color/text_color_primary" />
 
                 <TextView
                     android:id="@+id/corner_radius_output"
+                    style="@style/TextAppearance.Material3.BodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_desc_size" />
+                    android:textColor="@color/text_color_secondary" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -146,20 +145,20 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    style="@style/TextAppearance.Material3.TitleSmall"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="2dp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn1_title"
-                                    android:textColor="@color/textColorPrimaryInverse"
-                                    android:textStyle="bold" />
+                                    android:textColor="@color/textColorPrimaryInverse" />
 
                                 <TextView
+                                    style="@style/TextAppearance.Material3.TitleSmall"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="-3dp"
-                                    android:layout_marginBottom="3dp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn1_desc"
@@ -198,20 +197,20 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    style="@style/TextAppearance.Material3.TitleSmall"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="2dp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn2_title"
-                                    android:textColor="@color/textColorPrimary"
-                                    android:textStyle="bold" />
+                                    android:textColor="@color/textColorPrimary" />
 
                                 <TextView
+                                    style="@style/TextAppearance.Material3.TitleSmall"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="-3dp"
-                                    android:layout_marginBottom="3dp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn2_desc"
@@ -260,20 +259,20 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    style="@style/TextAppearance.Material3.TitleSmall"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="2dp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn3_title"
-                                    android:textColor="@color/textColorPrimary"
-                                    android:textStyle="bold" />
+                                    android:textColor="@color/textColorPrimary" />
 
                                 <TextView
+                                    style="@style/TextAppearance.Material3.TitleSmall"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="-3dp"
-                                    android:layout_marginBottom="3dp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn3_desc"
@@ -312,20 +311,20 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    style="@style/TextAppearance.Material3.TitleSmall"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="2dp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn4_title"
-                                    android:textColor="@color/textColorPrimaryInverse"
-                                    android:textStyle="bold" />
+                                    android:textColor="@color/textColorPrimaryInverse" />
 
                                 <TextView
+                                    style="@style/TextAppearance.Material3.TitleSmall"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="-3dp"
-                                    android:layout_marginBottom="3dp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@string/qstile_btn4_desc"

@@ -45,23 +45,21 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            style="@style/TextAppearance.Material3.TitleMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:longClickable="true"
                             android:text="@string/qs_tile_non_expanded_height"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
+                            android:textColor="@color/text_color_primary" />
 
                         <TextView
+                            style="@style/TextAppearance.Material3.TitleMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:longClickable="true"
                             android:text="@string/portrait"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size"
-                            android:textStyle="bold" />
+                            android:textColor="@color/text_color_secondary" />
 
                     </LinearLayout>
 
@@ -81,10 +79,10 @@
 
                 <TextView
                     android:id="@+id/port_nonexpanded_height_output"
+                    style="@style/TextAppearance.Material3.BodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_desc_size" />
+                    android:textColor="@color/text_color_secondary" />
 
                 <SeekBar
                     android:id="@+id/port_nonexpanded_height_seekbar"
@@ -118,22 +116,20 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            style="@style/TextAppearance.Material3.TitleMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/qs_tile_expanded_height"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
+                            android:textColor="@color/text_color_primary" />
 
                         <TextView
+                            style="@style/TextAppearance.Material3.TitleMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:longClickable="true"
                             android:text="@string/portrait"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size"
-                            android:textStyle="bold" />
+                            android:textColor="@color/text_color_secondary" />
 
                     </LinearLayout>
 
@@ -153,10 +149,10 @@
 
                 <TextView
                     android:id="@+id/port_expanded_height_output"
+                    style="@style/TextAppearance.Material3.BodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_desc_size" />
+                    android:textColor="@color/text_color_secondary" />
 
                 <SeekBar
                     android:id="@+id/port_expanded_height_seekbar"
@@ -190,23 +186,21 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            style="@style/TextAppearance.Material3.TitleMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:longClickable="true"
                             android:text="@string/qs_tile_non_expanded_height"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
+                            android:textColor="@color/text_color_primary" />
 
                         <TextView
+                            style="@style/TextAppearance.Material3.TitleMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:longClickable="true"
                             android:text="@string/landscape"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size"
-                            android:textStyle="bold" />
+                            android:textColor="@color/text_color_secondary" />
 
                     </LinearLayout>
 
@@ -226,10 +220,10 @@
 
                 <TextView
                     android:id="@+id/land_nonexpanded_height_output"
+                    style="@style/TextAppearance.Material3.BodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_desc_size" />
+                    android:textColor="@color/text_color_secondary" />
 
                 <SeekBar
                     android:id="@+id/land_nonexpanded_height_seekbar"
@@ -263,22 +257,20 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            style="@style/TextAppearance.Material3.TitleMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/qs_tile_expanded_height"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
+                            android:textColor="@color/text_color_primary" />
 
                         <TextView
+                            style="@style/TextAppearance.Material3.TitleMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:longClickable="true"
                             android:text="@string/landscape"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size"
-                            android:textStyle="bold" />
+                            android:textColor="@color/text_color_secondary" />
 
                     </LinearLayout>
 
@@ -298,10 +290,10 @@
 
                 <TextView
                     android:id="@+id/land_expanded_height_output"
+                    style="@style/TextAppearance.Material3.BodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_desc_size" />
+                    android:textColor="@color/text_color_secondary" />
 
                 <SeekBar
                     android:id="@+id/land_expanded_height_seekbar"

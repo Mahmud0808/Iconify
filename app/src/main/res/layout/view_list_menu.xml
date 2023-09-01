@@ -1,67 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/list_info_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/container_margin"
-    android:background="@drawable/container"
-    android:baselineAligned="false"
-    android:orientation="horizontal"
-    android:paddingStart="@dimen/container_paddingSide"
-    android:paddingTop="@dimen/container_padding"
-    android:paddingEnd="@dimen/container_paddingSide"
-    android:paddingBottom="@dimen/container_padding">
-
-    <FrameLayout
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_gravity="start|center"
-        android:layout_marginEnd="@dimen/container_padding"
-        android:background="@drawable/menu_icon_bg">
-
-        <ImageView
-            android:id="@+id/list_preview"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_gravity="center"
-            android:contentDescription="@string/icon"
-            app:tint="@color/textColorPrimary" />
-
-    </FrameLayout>
+    android:clickable="true"
+    android:focusable="true"
+    app:cardBackgroundColor="@color/colorBackground"
+    app:cardCornerRadius="@dimen/cont_corner_radius"
+    app:cardElevation="0dp"
+    app:cardMaxElevation="0dp"
+    app:strokeWidth="0dp">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:id="@+id/list_info_item"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="start|center"
-        android:layout_marginEnd="@dimen/container_padding"
-        android:layout_marginBottom="3dp"
-        android:layout_weight="1.0"
-        android:orientation="vertical">
+        android:background="@drawable/container_menu"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/container_paddingSide"
+        android:paddingTop="@dimen/container_padding"
+        android:paddingEnd="@dimen/container_paddingSide"
+        android:paddingBottom="@dimen/container_padding">
 
-        <TextView
-            android:id="@+id/list_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/cont_title_size"
-            android:textStyle="bold" />
+        <FrameLayout
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="start|center"
+            android:layout_marginEnd="@dimen/container_padding"
+            android:background="@drawable/menu_icon_bg">
 
-        <TextView
-            android:id="@+id/list_desc"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/list_icon"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/icon"
+                app:tint="@color/menu_icon_color" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/textColorSecondary"
-            android:textSize="@dimen/cont_desc_size" />
+            android:layout_gravity="start|center"
+            android:layout_marginEnd="@dimen/container_padding"
+            android:layout_marginBottom="3dp"
+            android:layout_weight="1.0"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/list_title"
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_color_primary" />
+
+            <TextView
+                android:id="@+id/list_desc"
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_color_secondary" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/icon"
+            android:src="@drawable/ic_arrow_end"
+            app:tint="@color/textColorPrimary" />
 
     </LinearLayout>
-
-    <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_gravity="center"
-        android:contentDescription="@string/icon"
-        android:src="@drawable/ic_arrow_end"
-        app:tint="@color/textColorPrimary" />
-
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

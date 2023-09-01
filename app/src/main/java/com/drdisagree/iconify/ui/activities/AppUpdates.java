@@ -19,14 +19,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.text.HtmlCompat;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityAppUpdatesBinding;
-import com.drdisagree.iconify.utils.TaskExecutor;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.utils.TaskExecutor;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -207,8 +208,8 @@ public class AppUpdates extends BaseActivity {
                             title = release_note.substring(0, release_note.indexOf("\n\n"));
                             changes = release_note.substring(release_note.indexOf("\n##")).substring(1);
 
-                            title = title.replace("### ", "<b>") + "</b>";
-                            changes = Changelog.usernameToLink(changes.replace("## ", "<b>").replace(":\n", ":</b><br>").replace("- __", "<b>• ").replace("__\n", "</b><br>").replace("    - ", "&emsp;◦ ").replace("- ", "• ").replace("\n", "<br>"));
+                            title = title.replace("### ", "");
+                            changes = Changelog.usernameToLink(changes.replace("## ", "<b>").replace(":\n", ":</b><br>").replace("- __", "<br><b>• ").replace("__\n", "</b><br>").replace("    - ", "&emsp;◦ ").replace("- ", "• ").replace("\n", "<br>"));
 
                             binding.changelogTitle.setText(HtmlCompat.fromHtml(title, HtmlCompat.FROM_HTML_MODE_LEGACY));
                             binding.changelogText.setText(HtmlCompat.fromHtml(changes, HtmlCompat.FROM_HTML_MODE_LEGACY));
@@ -219,7 +220,7 @@ public class AppUpdates extends BaseActivity {
                             for (URLSpan urlSpan : urls) {
                                 ClickableSpan clickableSpan = new ClickableSpan() {
                                     @Override
-                                    public void onClick(View view) {
+                                    public void onClick(@NonNull View view) {
                                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlSpan.getURL()));
                                         startActivity(intent);
                                     }

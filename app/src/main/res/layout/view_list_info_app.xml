@@ -33,29 +33,28 @@
         android:orientation="vertical">
 
         <TextView
+            style="@style/TextAppearance.Material3.TitleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/derived_app_name"
             android:textAlignment="center"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textColor="@color/text_color_primary" />
 
         <TextView
+            style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/iconify_slogan"
             android:textAlignment="center"
-            android:textColor="@color/textColorSecondary"
-            android:textSize="16sp" />
+            android:textColor="@color/text_color_secondary" />
 
         <TextView
+            style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/created_by_drdisagree"
             android:textAlignment="center"
-            android:textColor="@color/textColorSecondary"
-            android:textSize="15sp" />
+            android:textColor="@color/text_color_secondary" />
 
     </LinearLayout>
 </LinearLayout>

@@ -12,7 +12,6 @@ import static com.drdisagree.iconify.common.Resources.MODULE_DIR;
 import static com.drdisagree.iconify.utils.AppUtil.restartApplication;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -48,6 +47,7 @@ import com.drdisagree.iconify.ui.views.RadioDialog;
 import com.drdisagree.iconify.utils.CacheUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.helpers.ImportExport;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.Arrays;
@@ -55,10 +55,6 @@ import java.util.Objects;
 import java.util.concurrent.Executors;
 
 public class Settings extends BaseFragment implements RadioDialog.RadioDialogListener {
-
-    private FragmentSettingsBinding binding;
-    private LoadingDialog loadingDialog;
-    private RadioDialog rd_app_language, rd_app_icon, rd_app_theme;
 
     ActivityResultLauncher<Intent> startExportActivityIntent = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -80,6 +76,8 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                     });
                 }
             });
+    private FragmentSettingsBinding binding;
+    private LoadingDialog loadingDialog;
     ActivityResultLauncher<Intent> startImportActivityIntent = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result2 -> {
@@ -87,7 +85,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                     Intent data = result2.getData();
                     if (data == null) return;
 
-                    new AlertDialog.Builder(requireContext())
+                    new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialComponents_MaterialAlertDialog)
                             .setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title))
                             .setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc))
                             .setPositiveButton(requireContext().getResources().getString(R.string.btn_positive),
@@ -120,6 +118,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                             .show();
                 }
             });
+    private RadioDialog rd_app_language, rd_app_icon, rd_app_theme;
 
     public static void disableEverything() {
         Prefs.clearAllPrefs();
@@ -199,7 +198,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         });
 
         // Disable Everything
-        binding.settingsMisc.buttonDisableEverything.setOnClickListener(v -> new AlertDialog.Builder(requireActivity())
+        binding.settingsMisc.buttonDisableEverything.setOnClickListener(v -> new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialComponents_MaterialAlertDialog)
                 .setCancelable(true)
                 .setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title))
                 .setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc))

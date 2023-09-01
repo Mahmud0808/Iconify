@@ -57,21 +57,20 @@
         android:orientation="vertical">
 
         <TextView
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/media_player_preview_music_title"
-            android:textColor="@color/white"
-            android:textSize="@dimen/cont_title_size"
-            android:textStyle="bold" />
+            android:textColor="@color/white" />
 
         <TextView
+            style="@style/TextAppearance.Material3.TitleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="-4dp"
             android:layout_marginBottom="8dp"
             android:text="@string/media_player_preview_artist_name"
-            android:textColor="@color/offwhite"
-            android:textSize="16sp" />
+            android:textColor="@color/offwhite" />
 
     </LinearLayout>
 
@@ -101,13 +100,13 @@
                 android:contentDescription="@string/icon" />
 
             <TextView
+                style="@style/TextAppearance.Material3.TitleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginBottom="1dp"
                 android:text="@string/media_player_preview_playing_on"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="14sp" />
+                android:textColor="@color/textColorPrimary" />
 
         </LinearLayout>
 

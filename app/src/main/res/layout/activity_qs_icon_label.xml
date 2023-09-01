@@ -48,30 +48,30 @@
                         android:orientation="vertical">
 
                         <TextView
+                            style="@style/TextAppearance.Material3.TitleMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:paddingTop="3dp"
                             android:text="@string/hide_label_title"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
+                            android:textColor="@color/text_color_primary" />
 
                         <TextView
+                            style="@style/TextAppearance.Material3.BodyMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:paddingTop="3dp"
                             android:text="@string/hide_label_desc"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
+                            android:textColor="@color/text_color_secondary" />
 
                     </LinearLayout>
 
-                    <Switch
+                    <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/hide_label"
-                        style="@style/customSwitch"
-                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+                        style="@style/Widget.MaterialSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
@@ -89,23 +89,22 @@
                     android:paddingBottom="@dimen/container_padding">
 
                     <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:paddingTop="3dp"
                         android:text="@string/text_size_title"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color_primary" />
 
                     <TextView
                         android:id="@+id/text_size_output"
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:paddingTop="3dp"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:textColor="@color/text_color_secondary" />
 
                     <SeekBar
                         android:id="@+id/text_size"
@@ -134,23 +133,22 @@
                     android:paddingBottom="@dimen/container_padding">
 
                     <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:paddingTop="3dp"
                         android:text="@string/icon_size_title"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color_primary" />
 
                     <TextView
                         android:id="@+id/icon_size_output"
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:paddingTop="3dp"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:textColor="@color/text_color_secondary" />
 
                     <SeekBar
                         android:id="@+id/icon_size"
@@ -174,23 +172,22 @@
                     android:paddingBottom="@dimen/container_padding">
 
                     <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:paddingTop="3dp"
                         android:text="@string/move_icon_title"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color_primary" />
 
                     <TextView
                         android:id="@+id/move_icon_output"
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:paddingTop="3dp"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:textColor="@color/text_color_secondary" />
 
                     <SeekBar
                         android:id="@+id/move_icon"
@@ -203,16 +200,14 @@
             </LinearLayout>
 
             <TextView
+                style="@style/TextAppearance.Material3.TitleLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="16dp"
-                android:text="@string/section_title_qs_text_color"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:text="@string/section_title_qs_text_color" />
 
             <RadioGroup
                 android:id="@+id/radioGroupTextColor"
@@ -239,8 +234,7 @@
                     android:gravity="center"
                     android:singleLine="true"
                     android:text="@string/qs_text_color_normal"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/cont_title_size" />
 
                 <RadioButton
                     android:id="@+id/textColorPixel"
@@ -254,8 +248,7 @@
                     android:gravity="center"
                     android:singleLine="true"
                     android:text="@string/qs_text_color_pixel"
-                    android:textSize="@dimen/cont_title_size"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/cont_title_size" />
 
             </RadioGroup>
 
@@ -286,30 +279,30 @@
                         android:orientation="vertical">
 
                         <TextView
+                            style="@style/TextAppearance.Material3.TitleMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:paddingTop="3dp"
                             android:text="@string/label_always_white_title"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
+                            android:textColor="@color/text_color_primary" />
 
                         <TextView
+                            style="@style/TextAppearance.Material3.BodyMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:paddingTop="3dp"
                             android:text="@string/label_always_white_desc"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
+                            android:textColor="@color/text_color_secondary" />
 
                     </LinearLayout>
 
-                    <Switch
+                    <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/label_white"
-                        style="@style/customSwitch"
-                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+                        style="@style/Widget.MaterialSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
@@ -334,30 +327,30 @@
                         android:orientation="vertical">
 
                         <TextView
+                            style="@style/TextAppearance.Material3.TitleMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:paddingTop="3dp"
                             android:text="@string/label_always_white_v2_title"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
+                            android:textColor="@color/text_color_primary" />
 
                         <TextView
+                            style="@style/TextAppearance.Material3.BodyMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:paddingTop="3dp"
                             android:text="@string/label_always_white_v2_desc"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
+                            android:textColor="@color/text_color_secondary" />
 
                     </LinearLayout>
 
-                    <Switch
+                    <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/label_whiteV2"
-                        style="@style/customSwitch"
-                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+                        style="@style/Widget.MaterialSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
@@ -382,30 +375,30 @@
                         android:orientation="vertical">
 
                         <TextView
+                            style="@style/TextAppearance.Material3.TitleMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:paddingTop="3dp"
                             android:text="@string/label_follow_system_title"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
+                            android:textColor="@color/text_color_primary" />
 
                         <TextView
+                            style="@style/TextAppearance.Material3.BodyMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:paddingTop="3dp"
                             android:text="@string/label_follow_system_desc"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
+                            android:textColor="@color/text_color_secondary" />
 
                     </LinearLayout>
 
-                    <Switch
+                    <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/label_systemInverse"
-                        style="@style/customSwitch"
-                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+                        style="@style/Widget.MaterialSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
@@ -430,30 +423,30 @@
                         android:orientation="vertical">
 
                         <TextView
+                            style="@style/TextAppearance.Material3.TitleMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:paddingTop="3dp"
                             android:text="@string/label_follow_system_v2_title"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
+                            android:textColor="@color/text_color_primary" />
 
                         <TextView
+                            style="@style/TextAppearance.Material3.BodyMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:paddingTop="3dp"
                             android:text="@string/label_follow_system_v2_desc"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
+                            android:textColor="@color/text_color_secondary" />
 
                     </LinearLayout>
 
-                    <Switch
+                    <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/label_systemInverseV2"
-                        style="@style/customSwitch"
-                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+                        style="@style/Widget.MaterialSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
@@ -478,30 +471,30 @@
                         android:orientation="vertical">
 
                         <TextView
+                            style="@style/TextAppearance.Material3.TitleMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:paddingTop="3dp"
                             android:text="@string/label_fix_text_color_title"
-                            android:textColor="@color/textColorPrimary"
-                            android:textSize="@dimen/cont_title_size"
-                            android:textStyle="bold" />
+                            android:textColor="@color/text_color_primary" />
 
                         <TextView
+                            style="@style/TextAppearance.Material3.BodyMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:paddingTop="3dp"
                             android:text="@string/label_fix_text_color_desc"
-                            android:textColor="@color/textColorSecondary"
-                            android:textSize="@dimen/cont_desc_size" />
+                            android:textColor="@color/text_color_secondary" />
 
                     </LinearLayout>
 
-                    <Switch
+                    <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/label_fixtextcolor"
-                        style="@style/customSwitch"
-                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+                        style="@style/Widget.MaterialSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
             </LinearLayout>

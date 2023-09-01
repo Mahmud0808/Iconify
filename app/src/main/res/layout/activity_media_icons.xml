@@ -24,6 +24,7 @@
 
             <TextView
                 android:id="@+id/no_supported_musicplayer"
+                style="@style/TextAppearance.Material3.TitleLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|center"
@@ -33,9 +34,7 @@
                 android:layout_marginBottom="@dimen/container_marginSide"
                 android:text="@string/no_supported_music_player"
                 android:textAlignment="center"
-                android:textColor="@color/textColorSecondary"
-                android:textSize="26sp"
-                android:textStyle="bold"
+                android:textColor="@color/text_color_secondary"
                 android:visibility="gone" />
 
             <LinearLayout

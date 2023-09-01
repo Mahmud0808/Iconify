@@ -25,6 +25,7 @@
             android:foregroundTint="@color/textColorPrimaryInverse" />
 
         <TextView
+            style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
@@ -32,8 +33,7 @@
             android:layout_weight="1.0"
             android:text="@string/app_name"
             android:textAlignment="viewStart"
-            android:textColor="@color/textColorSecondary"
-            android:textSize="@dimen/cont_desc_size" />
+            android:textColor="@color/text_color_secondary" />
 
         <ImageView
             android:id="@+id/notif_arrow"
@@ -52,18 +52,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start|center"
-        android:layout_marginStart="35dp"
-        android:layout_marginEnd="35dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginEnd="38dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/notif_title"
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="viewStart"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/cont_title_size"
-            android:textStyle="bold" />
+            android:textColor="@color/text_color_primary" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -23,20 +23,18 @@
 
         <TextView
             android:id="@+id/volume_style_title"
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="1dp"
             android:text="@string/volume_style"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/cont_title_size"
-            android:textStyle="bold" />
+            android:textColor="@color/text_color_primary" />
 
         <ImageView
             android:id="@+id/volume_style_info"
             android:layout_width="26dp"
             android:layout_height="26dp"
-            android:layout_marginTop="3dp"
             android:contentDescription="@string/icon"
             android:src="@drawable/ic_info"
             app:tint="@color/textColorPrimary" />
@@ -44,13 +42,13 @@
     </LinearLayout>
 
     <TextView
+        style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
         android:justificationMode="inter_word"
         android:text="@string/volume_module_desc"
-        android:textColor="@color/textColorSecondary"
-        android:textSize="@dimen/cont_desc_size" />
+        android:textColor="@color/text_color_secondary" />
 
     <LinearLayout
         android:layout_width="match_parent"

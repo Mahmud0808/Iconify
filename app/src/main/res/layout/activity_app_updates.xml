@@ -53,6 +53,7 @@
                         android:progressDrawable="@drawable/circular_progress_bar" />
 
                     <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -60,9 +61,7 @@
                         android:gravity="center"
                         android:text="@string/checking_for_update"
                         android:textAlignment="center"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color_primary" />
 
                 </LinearLayout>
 
@@ -86,7 +85,7 @@
                             android:background="@drawable/menu_icon_bg">
 
                             <ImageView
-                                android:id="@+id/list_preview"
+                                android:id="@+id/list_icon"
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
                                 android:layout_gravity="center"
@@ -103,25 +102,24 @@
 
                             <TextView
                                 android:id="@+id/update_title"
+                                style="@style/TextAppearance.Material3.TitleMedium"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/textColorPrimary"
-                                android:textSize="@dimen/cont_title_size"
-                                android:textStyle="bold" />
+                                android:textColor="@color/text_color_primary" />
 
                             <TextView
                                 android:id="@+id/current_version"
+                                style="@style/TextAppearance.Material3.BodyMedium"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/cont_desc_size" />
+                                android:textColor="@color/text_color_secondary" />
 
                             <TextView
                                 android:id="@+id/latest_version"
+                                style="@style/TextAppearance.Material3.BodyMedium"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/textColorSecondary"
-                                android:textSize="@dimen/cont_desc_size" />
+                                android:textColor="@color/text_color_secondary" />
 
                             <TextView
                                 android:id="@+id/show_changelog"
@@ -177,25 +175,25 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
+                        style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:layout_marginEnd="@dimen/container_paddingSide"
                         android:background="@drawable/ic_changelog"
-                        android:backgroundTint="@color/textColorPrimary"
                         android:contentDescription="@string/icon"
-                        android:gravity="start|center" />
+                        android:gravity="start|center"
+                        android:textColor="@color/text_color_primary" />
 
                     <TextView
                         android:id="@+id/changelog_title"
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="-2dp"
                         android:layout_marginBottom="-2dp"
                         android:gravity="start|center"
-                        android:textColor="@color/textColorPrimary"
-                        android:textIsSelectable="true"
-                        android:textSize="@dimen/cont_desc_size"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color_secondary"
+                        android:textIsSelectable="true" />
 
                 </LinearLayout>
 
@@ -233,19 +231,18 @@
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/update_schedule_title"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color_primary" />
 
                     <TextView
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/update_schedule_des"
-                        android:textColor="@color/textColorSecondary"
-                        android:textSize="@dimen/cont_desc_size" />
+                        android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>
 

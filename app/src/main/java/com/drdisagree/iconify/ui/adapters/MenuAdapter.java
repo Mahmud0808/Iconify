@@ -75,7 +75,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             container = itemView.findViewById(R.id.list_info_item);
             title = itemView.findViewById(R.id.list_title);
             desc = itemView.findViewById(R.id.list_desc);
-            icon = itemView.findViewById(R.id.list_preview);
+            icon = itemView.findViewById(R.id.list_icon);
         }
     }
 }

@@ -28,18 +28,17 @@
 
             <TextView
                 android:id="@+id/iconpack_title"
+                style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="@dimen/cont_title_size"
-                android:textStyle="bold" />
+                android:textColor="@color/text_color_primary" />
 
             <TextView
                 android:id="@+id/iconpack_desc"
+                style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textColorSecondary"
-                android:textSize="@dimen/cont_desc_size" />
+                android:textColor="@color/text_color_secondary" />
 
         </LinearLayout>
 

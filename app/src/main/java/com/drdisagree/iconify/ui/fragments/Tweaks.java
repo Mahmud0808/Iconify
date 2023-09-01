@@ -110,7 +110,7 @@ public class Tweaks extends BaseFragment {
             TextView desc = list.findViewById(R.id.list_desc);
             desc.setText((String) pack.get(i)[2]);
 
-            ImageView preview = list.findViewById(R.id.list_preview);
+            ImageView preview = list.findViewById(R.id.list_icon);
             preview.setImageResource((int) pack.get(i)[3]);
 
             if (pack.get(i)[0] instanceof Class<?>) {

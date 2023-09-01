@@ -21,7 +21,6 @@ import static com.drdisagree.iconify.utils.ColorSchemeUtil.generateColorPalette;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -45,7 +44,6 @@ import androidx.annotation.NonNull;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityMonetEngineBinding;
-import com.drdisagree.iconify.utils.overlaymanager.MonetEngineManager;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.RadioDialog;
 import com.drdisagree.iconify.utils.ColorUtil;
@@ -53,6 +51,8 @@ import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.helpers.ImportExport;
+import com.drdisagree.iconify.utils.overlaymanager.MonetEngineManager;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
@@ -100,29 +100,29 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                     Intent data = result2.getData();
                     if (data == null) return;
 
-                    AlertDialog alertDialog = new AlertDialog.Builder(MonetEngine.this).create();
-                    alertDialog.setTitle(MonetEngine.this.getResources().getString(R.string.import_settings_confirmation_title));
-                    alertDialog.setMessage(MonetEngine.this.getResources().getString(R.string.import_settings_confirmation_desc));
-                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, MonetEngine.this.getResources().getString(R.string.btn_positive),
-                            (dialog, which) -> {
-                                dialog.dismiss();
-                                new Handler(Looper.getMainLooper()).post(() -> {
-                                    try {
-                                        boolean success = importMonetSettings(Prefs.prefs, Objects.requireNonNull(MonetEngine.this.getContentResolver().openInputStream(Objects.requireNonNull(data.getData()))));
-                                        if (success) {
-                                            Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                                        }
-                                    } catch (Exception exception) {
-                                        Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                                        Log.e("MonetEngine", "Error importing settings", exception);
-                                    }
-                                });
-                            });
-                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, MonetEngine.this.getResources().getString(R.string.btn_negative),
-                            (dialog, which) -> dialog.dismiss());
-                    alertDialog.show();
+                    new MaterialAlertDialogBuilder(MonetEngine.this, R.style.MaterialComponents_MaterialAlertDialog)
+                            .setTitle(MonetEngine.this.getResources().getString(R.string.import_settings_confirmation_title))
+                            .setMessage(MonetEngine.this.getResources().getString(R.string.import_settings_confirmation_desc))
+                            .setPositiveButton(MonetEngine.this.getResources().getString(R.string.btn_positive),
+                                    (dialog, which) -> {
+                                        dialog.dismiss();
+
+                                        new Handler(Looper.getMainLooper()).post(() -> {
+                                            try {
+                                                boolean success = importMonetSettings(Prefs.prefs, Objects.requireNonNull(MonetEngine.this.getContentResolver().openInputStream(Objects.requireNonNull(data.getData()))));
+                                                if (success) {
+                                                    Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                                }
+                                            } catch (Exception exception) {
+                                                Toast.makeText(MonetEngine.this, MonetEngine.this.getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                                Log.e("MonetEngine", "Error importing settings", exception);
+                                            }
+                                        });
+                                    })
+                            .setNegativeButton(MonetEngine.this.getResources().getString(R.string.btn_negative), (dialog, which) -> dialog.dismiss())
+                            .show();
                 }
             });
     private LinearLayout[] colorTableRows;

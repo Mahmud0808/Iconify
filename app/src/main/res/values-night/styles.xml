@@ -9,7 +9,6 @@
         <item name="android:background">@drawable/container</item>
         <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
-        <item name="android:fontFamily">@font/normal</item>
         <item name="android:tint">@color/colorAccent</item>
         <item name="android:radius">@dimen/cont_corner_radius</item>
         <item name="colorAccent">@color/colorAccent</item>

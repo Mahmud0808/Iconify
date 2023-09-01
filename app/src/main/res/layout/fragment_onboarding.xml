@@ -58,7 +58,7 @@
             android:layout_marginTop="12dp"
             android:letterSpacing="0.02"
             android:lineHeight="26dp"
-            android:lineSpacingMultiplier="1"
+            android:lineSpacingMultiplier="1.2"
             android:maxHeight="60dp"
             android:text="@string/onboarding_desc_1"
             android:textColor="@color/textColorSecondary"

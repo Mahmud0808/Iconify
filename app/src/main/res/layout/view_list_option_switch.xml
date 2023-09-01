@@ -19,13 +19,12 @@
 
         <TextView
             android:id="@+id/title"
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center"
             android:layout_marginEnd="@dimen/container_padding"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textColor="@color/text_color_primary" />
 
         <View
             android:layout_width="0dp"

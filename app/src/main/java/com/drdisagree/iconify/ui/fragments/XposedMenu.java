@@ -9,7 +9,6 @@ import static com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -37,6 +36,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -56,6 +56,7 @@ import com.drdisagree.iconify.utils.ObservableVariable;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.helpers.ImportExport;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -88,7 +89,7 @@ public class XposedMenu extends BaseFragment {
                     Intent data = result2.getData();
                     if (data == null) return;
 
-                    new AlertDialog.Builder(requireContext())
+                    new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialComponents_MaterialAlertDialog)
                             .setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title))
                             .setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc))
                             .setPositiveButton(requireContext().getResources().getString(R.string.btn_positive),
@@ -275,7 +276,7 @@ public class XposedMenu extends BaseFragment {
             TextView desc = list.findViewById(R.id.list_desc);
             desc.setText((String) pack.get(i)[2]);
 
-            ImageView preview = list.findViewById(R.id.list_preview);
+            ImageView preview = list.findViewById(R.id.list_icon);
             preview.setImageResource((int) pack.get(i)[3]);
 
             binding.xposedList.addView(list);
@@ -299,28 +300,28 @@ public class XposedMenu extends BaseFragment {
     }
 
     private void resetSettings() {
-        AlertDialog alertDialog = new AlertDialog.Builder(requireContext()).create();
-        alertDialog.setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title));
-        alertDialog.setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc));
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, requireContext().getResources().getString(R.string.btn_positive),
-                (dialog, which) -> {
-                    dialog.dismiss();
-                    new Handler(Looper.getMainLooper()).post(() -> {
-                        try {
-                            RPrefs.clearAllPrefs();
-                            SystemUtil.disableBlur();
-                            FabricatedUtil.disableOverlays("quick_qs_offset_height", "qqs_layout_margin_top", "qs_header_row_min_height", "quick_qs_total_height", "qs_panel_padding_top", "qs_panel_padding_top_combined_headers");
-                            OverlayUtil.disableOverlays("IconifyComponentQSLT.overlay", "IconifyComponentQSDT.overlay");
-                            SystemUtil.restartSystemUI();
-                        } catch (Exception exception) {
-                            Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                            Log.e("Settings", "Error importing settings", exception);
-                        }
-                    });
-                });
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, requireContext().getResources().getString(R.string.btn_negative),
-                (dialog, which) -> dialog.dismiss());
-        alertDialog.show();
+        new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialComponents_MaterialAlertDialog)
+                .setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title))
+                .setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc))
+                .setPositiveButton(requireContext().getResources().getString(R.string.btn_positive),
+                        (dialog, which) -> {
+                            dialog.dismiss();
+
+                            new Handler(Looper.getMainLooper()).post(() -> {
+                                try {
+                                    RPrefs.clearAllPrefs();
+                                    SystemUtil.disableBlur();
+                                    FabricatedUtil.disableOverlays("quick_qs_offset_height", "qqs_layout_margin_top", "qs_header_row_min_height", "quick_qs_total_height", "qs_panel_padding_top", "qs_panel_padding_top_combined_headers");
+                                    OverlayUtil.disableOverlays("IconifyComponentQSLT.overlay", "IconifyComponentQSDT.overlay");
+                                    SystemUtil.restartSystemUI();
+                                } catch (Exception exception) {
+                                    Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                    Log.e("Settings", "Error importing settings", exception);
+                                }
+                            });
+                        })
+                .setNegativeButton(requireContext().getResources().getString(R.string.btn_negative), (dialog, which) -> dialog.dismiss())
+                .show();
     }
 
     private void checkXposedHooked() {

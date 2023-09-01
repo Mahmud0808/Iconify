@@ -22,6 +22,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
+        app:itemIconTint="@color/bottom_nav_icon_color"
+        app:itemTextAppearanceActive="@style/BottomNavigationView.ItemTextAppearance.Selected"
+        app:itemTextAppearanceInactive="@style/BottomNavigationView.ItemTextAppearance"
         app:menu="@menu/bottom_navigation_menu" />
 
 </RelativeLayout>
