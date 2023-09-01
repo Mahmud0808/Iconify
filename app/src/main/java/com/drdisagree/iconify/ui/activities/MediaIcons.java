@@ -14,10 +14,10 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityMediaIconsBinding;
-import com.drdisagree.iconify.utils.overlaymanager.MediaPlayerIconManager;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.AppUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.overlaymanager.MediaPlayerIconManager;
 
 import java.util.ArrayList;
 

@@ -17,11 +17,11 @@ import android.widget.Toast;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityQsTileSizeBinding;
-import com.drdisagree.iconify.utils.overlaymanager.QsTileHeightManager;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.utils.overlaymanager.QsTileHeightManager;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;

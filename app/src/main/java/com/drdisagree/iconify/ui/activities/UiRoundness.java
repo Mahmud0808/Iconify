@@ -20,10 +20,10 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.ActivityUiRoundnessBinding;
-import com.drdisagree.iconify.utils.overlaymanager.RoundnessManager;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.utils.overlaymanager.RoundnessManager;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;

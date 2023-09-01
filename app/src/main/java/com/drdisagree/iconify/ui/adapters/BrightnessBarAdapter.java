@@ -22,10 +22,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.utils.overlaymanager.BrightnessBarManager;
-import com.drdisagree.iconify.utils.overlaymanager.BrightnessBarPixelManager;
 import com.drdisagree.iconify.ui.models.BrightnessBarModel;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
+import com.drdisagree.iconify.utils.overlaymanager.BrightnessBarManager;
+import com.drdisagree.iconify.utils.overlaymanager.BrightnessBarPixelManager;
 
 import java.util.ArrayList;
 import java.util.Objects;
