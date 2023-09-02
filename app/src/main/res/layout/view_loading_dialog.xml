@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
@@ -13,14 +14,16 @@
     android:paddingEnd="48dp"
     android:paddingBottom="28dp">
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:foregroundTint="@color/colorAccent"
-        android:indeterminateTint="@color/colorAccent"
-        android:progressDrawable="@drawable/circular_progress_bar" />
+        android:indeterminate="true"
+        app:indicatorColor="@color/colorAccent"
+        app:indicatorSize="80dp"
+        app:trackColor="@color/transparent"
+        app:trackCornerRadius="24dp"
+        app:trackThickness="6dp" />
 
     <TextView
         android:id="@+id/title"

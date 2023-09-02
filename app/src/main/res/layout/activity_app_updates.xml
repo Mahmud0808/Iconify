@@ -43,14 +43,16 @@
                     android:orientation="vertical"
                     android:visibility="gone">
 
-                    <ProgressBar
-                        style="?android:attr/progressBarStyleLarge"
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:foregroundTint="@color/colorAccent"
-                        android:indeterminateTint="@color/colorAccent"
-                        android:progressDrawable="@drawable/circular_progress_bar" />
+                        android:indeterminate="true"
+                        app:indicatorColor="@color/colorAccent"
+                        app:indicatorSize="80dp"
+                        app:trackColor="@color/transparent"
+                        app:trackCornerRadius="24dp"
+                        app:trackThickness="6dp" />
 
                     <TextView
                         style="@style/TextAppearance.Material3.TitleMedium"
