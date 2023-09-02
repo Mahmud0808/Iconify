@@ -483,7 +483,7 @@ open class PortraitBatteryDrawableCapsule(private val context: Context, frameCol
         private val TAG = PortraitBatteryDrawableCapsule::class.java.simpleName
         private const val WIDTH = 12f
         private const val HEIGHT = 20f
-        private const val CRITICAL_LEVEL = 15
+        private const val CRITICAL_LEVEL = 20
 
         // On a 12x20 grid, how wide to make the fill protection stroke.
         // Scales when our size changes

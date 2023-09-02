@@ -426,7 +426,7 @@ open class LandscapeBatteryDrawableMIUIPill(private val context: Context, frameC
         private val TAG = LandscapeBatteryDrawableMIUIPill::class.java.simpleName
         private const val WIDTH = 24f
         private const val HEIGHT = 12f
-        private const val CRITICAL_LEVEL = 15
+        private const val CRITICAL_LEVEL = 20
 
         // On a 12x20 grid, how wide to make the fill protection stroke.
         // Scales when our size changes

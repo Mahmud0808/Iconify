@@ -461,7 +461,7 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
         private val TAG = LandscapeBatteryDrawableiOS16::class.java.simpleName
         private const val WIDTH = 24f
         private const val HEIGHT = 12f
-        private const val CRITICAL_LEVEL = 15
+        private const val CRITICAL_LEVEL = 20
 
         // On a 12x20 grid, how wide to make the fill protection stroke.
         // Scales when our size changes
