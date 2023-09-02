@@ -135,6 +135,18 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
         p.style = Paint.Style.FILL_AND_STROKE
     }
 
+    private val boltPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+        p.color = context.resources.getColorStateList(
+            context.resources.getIdentifier(
+                "batterymeter_bolt_color", "color", context.packageName
+            ), context.theme
+        ).defaultColor
+        p.alpha = 255
+        p.isDither = true
+        p.strokeWidth = 0f
+        p.style = Paint.Style.FILL_AND_STROKE
+    }
+
     private val errorPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
         p.color = context.resources.getColorStateList(
             context.resources.getIdentifier(
@@ -267,15 +279,11 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
         // Deal with unifiedPath clipping before it draws
         if (shouldChangePercentageColor()) {
             // Clip out the bolt shape
-            fillPaint.color = fillColor
-
             if (charging && batteryLevel < 100) {
-                c.drawPath(mergedPath, fillPaint)
+                c.drawPath(mergedPath, boltPaint)
             } else {
-                c.drawPath(textPath, fillPaint)
+                c.drawPath(textPath, boltPaint)
             }
-
-            fillPaint.color = levelColor
         }
 
         c.restore()
