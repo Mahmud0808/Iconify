@@ -66,6 +66,10 @@
     <color name="neumorph_outline_end">#FF0F0F0F</color>
     <color name="settingslib_track_on_color_start">@android:color/system_accent1_300</color>
     <color name="settingslib_track_on_color_end">@android:color/system_accent3_300</color>
+    <color name="qstile_primary_label_active_color">#FF000000</color>
+    <color name="qstile_primary_label_inactive_color">#FFFFFFFF</color>
+    <color name="qstile_secondary_label_active_color">#BF000000</color>
+    <color name="qstile_secondary_label_inactive_color">#BFFFFFFF</color>
 
     <!-- Material3 -->
     <color name="colorPrimaryLight">@color/material_dynamic_primary40</color>

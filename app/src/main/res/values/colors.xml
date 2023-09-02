@@ -86,6 +86,10 @@
     <color name="settingslib_track_on_color_start_alpha">@color/settingslib_track_on_color_start
     </color>
     <color name="settingslib_track_on_color_end_alpha">@color/settingslib_track_on_color_end</color>
+    <color name="qstile_primary_label_active_color">#FFFFFFFF</color>
+    <color name="qstile_primary_label_inactive_color">#FF000000</color>
+    <color name="qstile_secondary_label_active_color">#BFFFFFFF</color>
+    <color name="qstile_secondary_label_inactive_color">#BF000000</color>
 
     <!-- Material3 -->
     <color name="colorPrimaryLight">@color/material_dynamic_primary40</color>
