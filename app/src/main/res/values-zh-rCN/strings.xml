@@ -335,6 +335,7 @@
     <string name="hide_carrier_group_desc">从快速设置面板上隐藏运营商组</string>
     <string name="sb_left_padding">左内边距</string>
     <string name="sb_right_padding">右内边距</string>
+    <string name="sb_height">高度</string>
     <string name="sb_color_tint_title">色调</string>
     <string name="sb_color_tint_desc">着色状态栏的图标和文本</string>
     <string name="btn_reset_tint">重置色调</string>
@@ -350,6 +351,7 @@
     <string name="toast_lsposed_not_found">未找到 LSPosed！</string>
     <string name="toast_easter_egg">你怎么知道的？</string>
     <string name="toast_easter_egg_activated">你为什么还在这样做？</string>
+    <string name="toast_try_again_later">你重启 SystemUI 太多次了。请稍后再试。</string>
     <string name="individual_changelog_not_found">出了点问题。\n这个更新日志可能在服务器上不可用。</string>
     <string name="style_0">无</string>
     <string name="style_1">样式 1</string>
@@ -383,6 +385,7 @@
     <string name="new_update_desc">Iconify 的新版本已经推出。</string>
     <string name="update_notification_channel_name">更新</string>
     <string name="update_notification_channel_desc">这个频道显示有关最新更新的通知。</string>
+    <string name="ar_translation">阿拉伯语翻译。</string>
     <string name="fa_translation">波斯语翻译。</string>
     <string name="fr_translation">法语翻译。</string>
     <string name="id_translation">印度尼西亚语翻译。</string>
@@ -390,6 +393,7 @@
     <string name="ru_translation">俄语翻译。</string>
     <string name="tr_translation">土耳其语翻译。</string>
     <string name="vi_translation">越南语翻译。</string>
+    <string name="es_translation">西班牙语翻译。</string>
     <string name="zh_cn_translation">简体中文翻译。</string>
     <string name="a13_default_media_player">Android 13 默认播放器</string>
     <string name="monet_neutral">Neutral</string>
@@ -623,4 +627,6 @@
     <string name="qs_text_color_normal">正常</string>
     <string name="qs_text_color_pixel">像素</string>
     <string name="monet_style_title">Monet 样式</string>
+    <string name="xposed_module_disabled_title">模块未激活</string>
+    <string name="xposed_module_disabled_desc">系统服务未运行</string>
 </resources>
