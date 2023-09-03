@@ -3,7 +3,7 @@ package com.drdisagree.iconify.ui.fragments;
 import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
 import static com.drdisagree.iconify.common.Const.FRAGMENT_TRANSITION_DELAY;
 import static com.drdisagree.iconify.common.References.FRAGMENT_COLORENGINE;
-import static com.drdisagree.iconify.common.References.FRAGMENT_STYLES;
+import static com.drdisagree.iconify.common.References.FRAGMENT_HOME;
 import static com.drdisagree.iconify.common.References.FRAGMENT_XPOSEDMENU;
 
 import android.content.Intent;
@@ -137,7 +137,7 @@ public class Tweaks extends BaseFragment {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out, R.anim.fragment_fade_in, R.anim.fragment_fade_out);
         fragmentTransaction.replace(R.id.main_fragment, fragment, tag);
-        fragmentManager.popBackStack(FRAGMENT_STYLES, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        fragmentManager.popBackStack(FRAGMENT_HOME, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         fragmentTransaction.addToBackStack(tag);
         fragmentTransaction.commit();
     }

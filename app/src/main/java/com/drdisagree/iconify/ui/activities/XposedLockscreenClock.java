@@ -84,7 +84,7 @@ public class XposedLockscreenClock extends BaseActivity implements ColorPickerDi
         binding.enableLockscreenClock.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(LSCLOCK_SWITCH, isChecked);
             if (!isChecked) RPrefs.putInt(LSCLOCK_STYLE, 0);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
         binding.enableLockscreenClockContainer.setOnClickListener(v -> binding.enableLockscreenClock.toggle());
 
@@ -92,7 +92,7 @@ public class XposedLockscreenClock extends BaseActivity implements ColorPickerDi
         binding.enableAutoHideClock.setChecked(RPrefs.getBoolean(LSCLOCK_AUTOHIDE, false));
         binding.enableAutoHideClock.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(LSCLOCK_AUTOHIDE, isChecked);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
         binding.autoHideClockContainer.setOnClickListener(v -> binding.enableAutoHideClock.toggle());
 

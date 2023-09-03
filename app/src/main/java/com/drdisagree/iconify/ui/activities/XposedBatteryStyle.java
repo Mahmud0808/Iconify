@@ -50,7 +50,7 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
         // Apply battery style
         binding.applyBatteryStyle.setOnClickListener(v -> {
             RPrefs.putInt(CUSTOM_BATTERY_STYLE, selectedBatteryStyle);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
 
         // Battery width
@@ -103,7 +103,7 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
                 batteryMargin[0] = (int) slider.getValue();
                 binding.batteryMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryMargin[0] + "dp");
                 RPrefs.putInt(CUSTOM_BATTERY_MARGIN, batteryMargin[0]);
-                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
             }
         });
     }

@@ -162,7 +162,7 @@ public class Home extends BaseFragment {
          */
 
         binding.homeCard.container.setVisibility(Prefs.getBoolean(SHOW_HOME_CARD, true) ? View.VISIBLE : View.GONE);
-        binding.homeCard.button.setOnClickListener(view1 -> binding.homeCard.container.animate().translationX(binding.homeCard.container.getWidth() * 2f).alpha(0f).withEndAction(() -> {
+        binding.homeCard.button.setOnClickListener(view1 -> binding.homeCard.container.animate().setDuration(400).translationX(binding.homeCard.container.getWidth() * 2f).alpha(0f).withEndAction(() -> {
             binding.homeCard.container.setVisibility(View.GONE);
             Prefs.putBoolean(SHOW_HOME_CARD, false);
         }).start());

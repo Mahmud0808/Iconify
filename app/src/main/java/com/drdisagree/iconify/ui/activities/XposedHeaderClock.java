@@ -84,7 +84,7 @@ public class XposedHeaderClock extends BaseActivity implements ColorPickerDialog
         binding.enableHeaderClock.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HEADER_CLOCK_SWITCH, isChecked);
             if (!isChecked) RPrefs.putInt(HEADER_CLOCK_STYLE, 1);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
         binding.enableHeaderClockContainer.setOnClickListener(v -> binding.enableHeaderClock.toggle());
 

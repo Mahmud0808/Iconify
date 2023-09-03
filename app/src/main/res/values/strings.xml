@@ -146,7 +146,7 @@
     <string name="label_follow_system_v2_desc">Title system, subtitle accent</string>
     <string name="label_fix_text_color_title">Fix Text Color</string>
     <string name="label_fix_text_color_desc">Use if above ones did not work</string>
-    <string name="qs_row_column_warn_desc">Some of the combinations might not work in some roms. In that case, just try some other combinations and choose which fits the best for you.</string>
+    <string name="qs_row_column_warn_desc">Certain combinations may not be compatible with certain ROMs. In such instances, simply experiment with alternative combinations until you find the one that best suits your needs.</string>
     <string name="quick_qspanel_row_title">Quick QS Panel Row</string>
     <string name="qspanel_row_title">QS Panel Row</string>
     <string name="qspanel_column_title">QS Panel Column</string>
@@ -466,7 +466,7 @@
     <string name="method_do_nothing">Do Nothing (I will do it myself)</string>
     <string name="list_title_xposed_settings">Xposed Settings</string>
     <string name="list_title_show_warning">Show Warning</string>
-    <string name="list_desc_show_warning">Show warning on how to re-optimize module in Xposed Menu</string>
+    <string name="list_desc_show_warning">Show warning on how to re-optimize module in Xposed Menu.</string>
     <string name="list_title_force_apply_method">Force Apply Method</string>
     <string name="list_desc_force_apply_method">Method to force apply the changes in xposed menu</string>
     <string name="list_title_miscellaneous_settings">Miscellaneous Settings</string>
@@ -634,4 +634,7 @@
     <string name="settings_current_version">Current version: %s</string>
     <string name="tap_to_select">Tap on preview to select</string>
     <string name="dont_show_again">Don\'t show again</string>
+    <string name="auto_restart_systemui">Automatically restart SystemUI.</string>
+    <string name="manual_restart_systemui">Notify for manual restart.</string>
+    <string name="systemui_restart_required">SystemUI restart required</string>
 </resources>

@@ -3,7 +3,6 @@
     android:id="@+id/pill_shape_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/container_margin"
     android:orientation="vertical">
 
     <com.google.android.material.textview.MaterialTextView

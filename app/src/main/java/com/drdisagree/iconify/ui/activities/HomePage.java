@@ -4,7 +4,7 @@ import static com.drdisagree.iconify.SplashActivity.SKIP_TO_HOMEPAGE_FOR_TESTING
 import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
 import static com.drdisagree.iconify.common.References.FRAGMENT_SETTINGS;
-import static com.drdisagree.iconify.common.References.FRAGMENT_STYLES;
+import static com.drdisagree.iconify.common.References.FRAGMENT_HOME;
 import static com.drdisagree.iconify.common.References.FRAGMENT_TWEAKS;
 
 import android.Manifest;
@@ -50,12 +50,12 @@ public class HomePage extends BaseActivity {
         Prefs.putBoolean(ON_HOME_PAGE, true);
 
         if (savedInstanceState == null) {
-            replaceFragment(new Home(), FRAGMENT_STYLES);
+            replaceFragment(new Home(), FRAGMENT_HOME);
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.addOnBackStackChangedListener(() -> {
-            if (Objects.equals(FragmentHelper.getTopFragment(fragmentManager), FRAGMENT_STYLES))
+            if (Objects.equals(FragmentHelper.getTopFragment(fragmentManager), FRAGMENT_HOME))
                 binding.bottomNavigation.getMenu().getItem(0).setChecked(true);
             else if (Objects.equals(FragmentHelper.getTopFragment(fragmentManager), FRAGMENT_TWEAKS))
                 binding.bottomNavigation.getMenu().getItem(1).setChecked(true);
@@ -99,7 +99,7 @@ public class HomePage extends BaseActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out, R.anim.fragment_fade_in, R.anim.fragment_fade_out);
         fragmentTransaction.replace(R.id.main_fragment, fragment, tag);
-        if (Objects.equals(tag, FRAGMENT_STYLES))
+        if (Objects.equals(tag, FRAGMENT_HOME))
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         else if (Objects.equals(tag, FRAGMENT_TWEAKS) || Objects.equals(tag, FRAGMENT_SETTINGS)) {
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -116,8 +116,8 @@ public class HomePage extends BaseActivity {
     private void setFragment(int id) {
         switch (id) {
             case R.id.navbar_home:
-                if (!Objects.equals(FragmentHelper.getTopFragment(getSupportFragmentManager()), FRAGMENT_STYLES)) {
-                    replaceFragment(new Home(), FRAGMENT_STYLES);
+                if (!Objects.equals(FragmentHelper.getTopFragment(getSupportFragmentManager()), FRAGMENT_HOME)) {
+                    replaceFragment(new Home(), FRAGMENT_HOME);
                     selectedFragment = R.id.navbar_home;
                 }
                 break;
@@ -138,7 +138,7 @@ public class HomePage extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (Objects.equals(FragmentHelper.getTopFragment(getSupportFragmentManager()), FRAGMENT_STYLES)) {
+        if (Objects.equals(FragmentHelper.getTopFragment(getSupportFragmentManager()), FRAGMENT_HOME)) {
             HomePage.this.finish();
             System.exit(0);
         }

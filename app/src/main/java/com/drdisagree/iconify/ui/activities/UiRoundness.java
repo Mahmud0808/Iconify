@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +23,7 @@ import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.overlaymanager.RoundnessManager;
+import com.google.android.material.slider.Slider;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -67,28 +67,26 @@ public class UiRoundness extends BaseActivity {
         for (GradientDrawable drawable : drawables) {
             drawable.setCornerRadius(finalUiCornerRadius[0] * getResources().getDisplayMetrics().density);
         }
-        binding.cornerRadiusSeekbar.setProgress(finalUiCornerRadius[0]);
+        binding.cornerRadiusSeekbar.setValue(finalUiCornerRadius[0]);
 
-        binding.cornerRadiusSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
+        binding.cornerRadiusSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                finalUiCornerRadius[0] = progress;
-                if (progress == 28)
-                    binding.cornerRadiusOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp " + getResources().getString(R.string.opt_default));
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                finalUiCornerRadius[0] = (int) slider.getValue();
+                if (finalUiCornerRadius[0] == 28)
+                    binding.cornerRadiusOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalUiCornerRadius[0] + "dp " + getResources().getString(R.string.opt_default));
                 else
-                    binding.cornerRadiusOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
-                for (GradientDrawable drawable : drawables) {
-                    drawable.setCornerRadius(finalUiCornerRadius[0] * getResources().getDisplayMetrics().density);
-                }
+                    binding.cornerRadiusOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalUiCornerRadius[0] + "dp");
             }
+        });
 
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+        binding.cornerRadiusSeekbar.addOnChangeListener((slider, value, fromUser) -> {
+            for (GradientDrawable drawable : drawables) {
+                drawable.setCornerRadius(value * getResources().getDisplayMetrics().density);
             }
         });
 

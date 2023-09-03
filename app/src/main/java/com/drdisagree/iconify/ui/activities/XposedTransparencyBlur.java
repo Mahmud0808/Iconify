@@ -93,7 +93,7 @@ public class XposedTransparencyBlur extends BaseActivity {
                 binding.blurOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + blur_radius[0] + "px");
                 Prefs.putInt(FABRICATED_QSPANEL_BLUR_RADIUS, blur_radius[0]);
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_QSPANEL_BLUR_RADIUS, "dimen", "max_window_blur_radius", blur_radius[0] + "px");
-                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
             }
         });
     }
@@ -110,7 +110,7 @@ public class XposedTransparencyBlur extends BaseActivity {
                 binding.enableNotifTransparency.setOnCheckedChangeListener(notifTransparencyListener);
             }
 
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         }
     };
 
@@ -124,6 +124,6 @@ public class XposedTransparencyBlur extends BaseActivity {
             binding.enableQsTransparency.setOnCheckedChangeListener(qsTransparencyListener);
         }
 
-        new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+        new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
     };
 }

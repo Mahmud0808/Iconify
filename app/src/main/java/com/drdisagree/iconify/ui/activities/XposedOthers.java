@@ -48,7 +48,7 @@ public class XposedOthers extends BaseActivity {
 
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (Build.VERSION.SDK_INT >= 33) {
-                    SystemUtil.restartSystemUI();
+                    SystemUtil.handleSystemUIRestart();
                 } else {
                     SystemUtil.doubleToggleDarkMode();
                 }
@@ -63,7 +63,7 @@ public class XposedOthers extends BaseActivity {
 
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (Build.VERSION.SDK_INT >= 33) {
-                    SystemUtil.restartSystemUI();
+                    SystemUtil.handleSystemUIRestart();
                 } else {
                     SystemUtil.doubleToggleDarkMode();
                 }
@@ -75,7 +75,7 @@ public class XposedOthers extends BaseActivity {
         binding.hideLockscreenCarrier.setChecked(RPrefs.getBoolean(HIDE_LOCKSCREEN_CARRIER, false));
         binding.hideLockscreenCarrier.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_LOCKSCREEN_CARRIER, isChecked);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
         binding.hideLockscreenCarrierContainer.setOnClickListener(v -> binding.hideLockscreenCarrier.toggle());
 
@@ -83,7 +83,7 @@ public class XposedOthers extends BaseActivity {
         binding.hideLockscreenStatusbar.setChecked(RPrefs.getBoolean(HIDE_LOCKSCREEN_STATUSBAR, false));
         binding.hideLockscreenStatusbar.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_LOCKSCREEN_STATUSBAR, isChecked);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
         binding.hideLockscreenStatusbarContainer.setOnClickListener(v -> binding.hideLockscreenStatusbar.toggle());
 

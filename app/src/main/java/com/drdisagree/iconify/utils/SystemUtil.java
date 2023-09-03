@@ -3,6 +3,7 @@ package com.drdisagree.iconify.utils;
 import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.BOOT_ID;
+import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_BEHAVIOR;
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
 import static com.drdisagree.iconify.common.References.DEVICE_BOOT_ID_CMD;
 
@@ -47,6 +48,14 @@ public class SystemUtil {
             Shell.cmd("killall " + SYSTEMUI_PACKAGE).submit();
         } else {
             Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_try_again_later), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static void handleSystemUIRestart() {
+        if (Prefs.getBoolean(RESTART_SYSUI_BEHAVIOR, true)) {
+            restartSystemUI();
+        } else {
+            Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.systemui_restart_required), Toast.LENGTH_SHORT).show();
         }
     }
 

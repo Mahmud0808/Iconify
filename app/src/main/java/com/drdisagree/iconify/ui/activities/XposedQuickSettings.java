@@ -70,7 +70,7 @@ public class XposedQuickSettings extends BaseActivity {
         binding.enableLightTheme.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(LIGHT_QSPANEL, isChecked);
             binding.enableDualTone.setEnabled(isChecked);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
         if (binding.enableLightTheme.isEnabled())
             binding.lightThemeContainer.setOnClickListener(v -> binding.enableLightTheme.toggle());
@@ -89,7 +89,7 @@ public class XposedQuickSettings extends BaseActivity {
         binding.enableBlackTheme.setChecked(RPrefs.getBoolean(BLACK_QSPANEL, false));
         binding.enableBlackTheme.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(BLACK_QSPANEL, isChecked);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
         if (binding.enableBlackTheme.isEnabled())
             binding.blackThemeContainer.setOnClickListener(v -> binding.enableBlackTheme.toggle());
@@ -100,7 +100,7 @@ public class XposedQuickSettings extends BaseActivity {
             RPrefs.putBoolean(FLUID_QSPANEL, isChecked);
             binding.enableNotificationTransparency.setEnabled(isChecked);
             binding.enablePowermenuTransparency.setEnabled(isChecked);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
         if (binding.enableFluidTheme.isEnabled())
             binding.fluidThemeContainer.setOnClickListener(v -> binding.enableFluidTheme.toggle());
@@ -111,7 +111,7 @@ public class XposedQuickSettings extends BaseActivity {
         binding.enableNotificationTransparency.setChecked(RPrefs.getBoolean(FLUID_NOTIF_TRANSPARENCY, false));
         binding.enableNotificationTransparency.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(FLUID_NOTIF_TRANSPARENCY, isChecked);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
         if (binding.enableNotificationTransparency.isEnabled())
             binding.notificationTransparencyContainer.setOnClickListener(v -> binding.enableNotificationTransparency.toggle());
@@ -120,7 +120,7 @@ public class XposedQuickSettings extends BaseActivity {
         binding.enablePowermenuTransparency.setChecked(RPrefs.getBoolean(FLUID_POWERMENU_TRANSPARENCY, false));
         binding.enablePowermenuTransparency.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(FLUID_POWERMENU_TRANSPARENCY, isChecked);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
         if (binding.enablePowermenuTransparency.isEnabled())
             binding.powermenuTransparencyContainer.setOnClickListener(v -> binding.enablePowermenuTransparency.toggle());

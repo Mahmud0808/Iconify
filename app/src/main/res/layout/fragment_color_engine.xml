@@ -18,47 +18,35 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/container_marginSide"
-            android:layout_marginEnd="@dimen/container_marginSide"
-            android:orientation="vertical"
-            android:paddingTop="@dimen/content_marginTop">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/basic_colors"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/container_top"
-                android:baselineAligned="false"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/container_paddingSide"
-                android:paddingTop="@dimen/container_padding"
-                android:paddingEnd="@dimen/container_paddingSide"
-                android:paddingBottom="@dimen/container_padding">
+                android:background="@drawable/item_background_material"
+                android:clickable="true">
 
-                <FrameLayout
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_gravity="start|center"
-                    android:layout_marginEnd="@dimen/container_padding"
-                    android:background="@drawable/menu_icon_bg">
-
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/icon"
-                        android:src="@drawable/ic_basic_colors"
-                        app:tint="@color/textColorPrimary" />
-
-                </FrameLayout>
+                <ImageView
+                    android:id="@+id/iv_basic_colors"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="24dp"
+                    android:contentDescription="@string/icon"
+                    android:src="@drawable/ic_basic_colors"
+                    app:tint="?attr/colorPrimary" />
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:layout_marginEnd="@dimen/container_padding"
-                    android:layout_marginBottom="3dp"
-                    android:layout_weight="1.0"
+                    android:layout_centerVertical="true"
+                    android:layout_marginVertical="22dp"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_toStartOf="@id/iv_basic_colors_arrow"
+                    android:layout_toEndOf="@id/iv_basic_colors"
                     android:orientation="vertical">
 
                     <TextView
@@ -69,7 +57,6 @@
                         android:textColor="@color/text_color_primary" />
 
                     <TextView
-                        android:id="@+id/color_picker_desc"
                         style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -79,53 +66,46 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:id="@+id/iv_basic_colors_arrow"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     android:layout_gravity="center"
+                    android:layout_marginEnd="24dp"
                     android:contentDescription="@string/icon"
                     android:src="@drawable/ic_arrow_end"
                     app:tint="@color/textColorPrimary" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
-            <View style="@style/dividerTransparent" />
-
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/monet_engine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/container_margin"
-                android:background="@drawable/container_bottom"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/container_paddingSide"
-                android:paddingTop="@dimen/container_padding"
-                android:paddingEnd="@dimen/container_paddingSide"
-                android:paddingBottom="@dimen/container_padding">
+                android:background="@drawable/item_background_material"
+                android:clickable="true">
 
-                <FrameLayout
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_gravity="start|center"
-                    android:layout_marginEnd="@dimen/container_padding"
-                    android:background="@drawable/menu_icon_bg">
-
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/icon"
-                        android:src="@drawable/ic_monet_engine"
-                        app:tint="@color/textColorPrimary" />
-
-                </FrameLayout>
+                <ImageView
+                    android:id="@+id/iv_monet_engine"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="24dp"
+                    android:contentDescription="@string/icon"
+                    android:src="@drawable/ic_monet_engine"
+                    app:tint="?attr/colorPrimary" />
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:layout_marginEnd="@dimen/container_padding"
-                    android:layout_marginBottom="3dp"
-                    android:layout_weight="1.0"
+                    android:layout_centerVertical="true"
+                    android:layout_marginVertical="22dp"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_toStartOf="@id/iv_monet_engine_arrow"
+                    android:layout_toEndOf="@id/iv_monet_engine"
                     android:orientation="vertical">
 
                     <TextView
@@ -145,31 +125,44 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:id="@+id/iv_monet_engine_arrow"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     android:layout_gravity="center"
+                    android:layout_marginEnd="24dp"
                     android:contentDescription="@string/icon"
                     android:src="@drawable/ic_arrow_end"
                     app:tint="@color/textColorPrimary" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
-            <LinearLayout
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="8dp"
+                android:text="Stock Colors"
+                android:textColor="?attr/colorPrimary" />
+
+            <RelativeLayout
+                android:id="@+id/apply_monet_accent_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/container_top"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/container_paddingSide"
-                android:paddingTop="@dimen/container_padding"
-                android:paddingEnd="@dimen/container_paddingSide"
-                android:paddingBottom="@dimen/container_padding">
+                android:background="@drawable/item_background_material"
+                android:clickable="true">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:layout_marginEnd="@dimen/container_padding"
-                    android:layout_weight="1.0"
+                    android:layout_centerVertical="true"
+                    android:layout_marginVertical="22dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/apply_monet_accent"
                     android:orientation="vertical">
 
                     <TextView
@@ -190,31 +183,29 @@
 
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/apply_monet_accent"
-                    style="@style/Widget.MaterialSwitch"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="24dp" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
-            <View style="@style/dividerTransparent" />
-
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/apply_monet_gradient_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/container_margin"
-                android:background="@drawable/container_bottom"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/container_paddingSide"
-                android:paddingTop="@dimen/container_padding"
-                android:paddingEnd="@dimen/container_paddingSide"
-                android:paddingBottom="@dimen/container_padding">
+                android:background="@drawable/item_background_material"
+                android:clickable="true">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:layout_marginEnd="@dimen/container_padding"
-                    android:layout_weight="1.0"
+                    android:layout_centerVertical="true"
+                    android:layout_marginVertical="22dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/apply_monet_gradient"
                     android:orientation="vertical">
 
                     <TextView
@@ -235,72 +226,39 @@
 
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/apply_monet_gradient"
-                    style="@style/Widget.MaterialSwitch"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="24dp" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
-            <LinearLayout
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="8dp"
+                android:text="Dark Theme"
+                android:textColor="?attr/colorPrimary" />
+
+            <RelativeLayout
+                android:id="@+id/apply_pitch_black_dark_theme_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/container_top"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/container_paddingSide"
-                android:paddingTop="@dimen/container_padding"
-                android:paddingEnd="@dimen/container_paddingSide"
-                android:paddingBottom="@dimen/container_padding">
+                android:background="@drawable/item_background_material"
+                android:clickable="true">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:layout_marginEnd="@dimen/container_padding"
-                    android:layout_weight="1.0"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/minimal_qspanel"
-                        android:textColor="@color/text_color_primary" />
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/remove_top_shade_of_qspanel"
-                        android:textColor="@color/text_color_secondary" />
-
-                </LinearLayout>
-
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/apply_minimal_qspanel"
-                    style="@style/Widget.MaterialSwitch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <View style="@style/dividerTransparent" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/container_mid"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/container_paddingSide"
-                android:paddingTop="@dimen/container_padding"
-                android:paddingEnd="@dimen/container_paddingSide"
-                android:paddingBottom="@dimen/container_padding">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:layout_marginEnd="@dimen/container_padding"
-                    android:layout_weight="1.0"
+                    android:layout_centerVertical="true"
+                    android:layout_marginVertical="22dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/apply_pitch_black_dark_theme"
                     android:orientation="vertical">
 
                     <TextView
@@ -321,30 +279,29 @@
 
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/apply_pitch_black_dark_theme"
-                    style="@style/Widget.MaterialSwitch"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="24dp" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
-            <View style="@style/dividerTransparent" />
-
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/apply_pitch_black_amoled_theme_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/container_mid"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/container_paddingSide"
-                android:paddingTop="@dimen/container_padding"
-                android:paddingEnd="@dimen/container_paddingSide"
-                android:paddingBottom="@dimen/container_padding">
+                android:background="@drawable/item_background_material"
+                android:clickable="true">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:layout_marginEnd="@dimen/container_padding"
-                    android:layout_weight="1.0"
+                    android:layout_centerVertical="true"
+                    android:layout_marginVertical="22dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/apply_pitch_black_amoled_theme"
                     android:orientation="vertical">
 
                     <TextView
@@ -365,31 +322,82 @@
 
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/apply_pitch_black_amoled_theme"
-                    style="@style/Widget.MaterialSwitch"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="24dp" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
-            <View style="@style/dividerTransparent" />
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="8dp"
+                android:text="Misc"
+                android:textColor="?attr/colorPrimary" />
 
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/apply_minimal_qspanel_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/container_margin"
-                android:background="@drawable/container_bottom"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/container_paddingSide"
-                android:paddingTop="@dimen/container_padding"
-                android:paddingEnd="@dimen/container_paddingSide"
-                android:paddingBottom="@dimen/container_padding">
+                android:background="@drawable/item_background_material"
+                android:clickable="true">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start|center"
-                    android:layout_marginEnd="@dimen/container_padding"
-                    android:layout_weight="1.0"
+                    android:layout_centerVertical="true"
+                    android:layout_marginVertical="22dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/apply_minimal_qspanel"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/minimal_qspanel"
+                        android:textColor="@color/text_color_primary" />
+
+                    <TextView
+                        style="@style/TextAppearance.Material3.BodyMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/remove_top_shade_of_qspanel"
+                        android:textColor="@color/text_color_secondary" />
+
+                </LinearLayout>
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/apply_minimal_qspanel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="24dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/disable_monet_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/item_background_material"
+                android:clickable="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginVertical="22dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/disable_monet"
                     android:orientation="vertical">
 
                     <TextView
@@ -401,7 +409,7 @@
 
                     <TextView
                         style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/disable_monet_desc"
                         android:textColor="@color/text_color_secondary" />
@@ -410,11 +418,14 @@
 
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/disable_monet"
-                    style="@style/Widget.MaterialSwitch"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="24dp" />
 
-            </LinearLayout>
+            </RelativeLayout>
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

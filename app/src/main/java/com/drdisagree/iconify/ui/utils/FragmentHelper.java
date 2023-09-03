@@ -2,7 +2,7 @@ package com.drdisagree.iconify.ui.utils;
 
 import static com.drdisagree.iconify.common.Preferences.STR_NULL;
 import static com.drdisagree.iconify.common.References.FRAGMENT_SETTINGS;
-import static com.drdisagree.iconify.common.References.FRAGMENT_STYLES;
+import static com.drdisagree.iconify.common.References.FRAGMENT_HOME;
 import static com.drdisagree.iconify.common.References.FRAGMENT_TWEAKS;
 
 import androidx.fragment.app.Fragment;
@@ -23,7 +23,7 @@ public class FragmentHelper {
             Fragment topFragment = fragmentManager.getFragments().get(last);
 
             if (topFragment instanceof Home)
-                fragment[0] = FRAGMENT_STYLES;
+                fragment[0] = FRAGMENT_HOME;
             else if (topFragment instanceof Tweaks)
                 fragment[0] = FRAGMENT_TWEAKS;
             else if (topFragment instanceof Settings)

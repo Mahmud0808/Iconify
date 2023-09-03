@@ -9,6 +9,7 @@ import static com.drdisagree.iconify.common.Preferences.EASTER_EGG;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
 import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_AFTER_BOOT;
+import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_BEHAVIOR;
 import static com.drdisagree.iconify.common.Preferences.SHOW_HOME_CARD;
 import static com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN;
 import static com.drdisagree.iconify.common.Resources.MODULE_DIR;
@@ -188,12 +189,29 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         // Auto update
         binding.settingsUpdate.buttonAutoUpdate.setChecked(Prefs.getBoolean(AUTO_UPDATE, true));
         binding.settingsUpdate.buttonAutoUpdate.setOnCheckedChangeListener((buttonView, isChecked) -> Prefs.putBoolean(AUTO_UPDATE, isChecked));
-        ((View) binding.settingsUpdate.buttonAutoUpdate.getParent()).setOnClickListener(v -> binding.settingsUpdate.buttonAutoUpdate.toggle());
+        binding.settingsUpdate.autoUpdate.setOnClickListener(v -> binding.settingsUpdate.buttonAutoUpdate.toggle());
 
         // Show xposed warn
         binding.settingsXposed.hideWarnMessage.setChecked(Prefs.getBoolean(SHOW_XPOSED_WARN, true));
         binding.settingsXposed.hideWarnMessage.setOnCheckedChangeListener((buttonView, isChecked) -> Prefs.putBoolean(SHOW_XPOSED_WARN, isChecked));
-        ((View) binding.settingsXposed.hideWarnMessage.getParent()).setOnClickListener(v -> binding.settingsXposed.hideWarnMessage.toggle());
+        binding.settingsXposed.hideWarnMessageContainer.setOnClickListener(v -> binding.settingsXposed.hideWarnMessage.toggle());
+
+        // Restart systemui behavior
+        binding.settingsXposed.restartSystemuiBehavior.setChecked(Prefs.getBoolean(RESTART_SYSUI_BEHAVIOR, true));
+        binding.settingsXposed.restartSystemuiBehavior.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            Prefs.putBoolean(RESTART_SYSUI_BEHAVIOR, isChecked);
+            if (isChecked) {
+                binding.settingsXposed.restartSystemuiBehaviorDesc.setText(getResources().getString(R.string.auto_restart_systemui));
+            } else {
+                binding.settingsXposed.restartSystemuiBehaviorDesc.setText(getResources().getString(R.string.manual_restart_systemui));
+            }
+        });
+        binding.settingsXposed.restartSystemuiBehaviorContainer.setOnClickListener(v -> binding.settingsXposed.restartSystemuiBehavior.toggle());
+        if (binding.settingsXposed.restartSystemuiBehavior.isChecked()) {
+            binding.settingsXposed.restartSystemuiBehaviorDesc.setText(getResources().getString(R.string.auto_restart_systemui));
+        } else {
+            binding.settingsXposed.restartSystemuiBehaviorDesc.setText(getResources().getString(R.string.manual_restart_systemui));
+        }
 
         // Restart sysui after boot
         binding.settingsMisc.restartSysuiAfterBoot.setChecked(Prefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false));
@@ -216,7 +234,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         });
 
         // Experimental features
-        binding.settingsMisc.settingsMiscTitle.setOnClickListener(v -> onAboutViewClicked());
+        binding.settingsMisc.settingsMiscTitle.setOnClickListener(v -> onEasterViewClicked());
         binding.settingsMisc.experimentalFeatures.setOnClickListener(v -> startActivity(new Intent(requireActivity(), Experimental.class)));
         binding.settingsMisc.experimentalFeatures.setVisibility(Prefs.getBoolean(EASTER_EGG) ? View.VISIBLE : View.GONE);
 
@@ -340,7 +358,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         }
     }
 
-    private void onAboutViewClicked() {
+    private void onEasterViewClicked() {
         long timeMillis = (new Date()).getTime();
 
         if (nextIndex == (NUM_CLICKS_REQUIRED - 1) || oldestIndex > 0) {

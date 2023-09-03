@@ -14,8 +14,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
-import android.widget.SeekBar;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
@@ -23,6 +24,8 @@ import com.drdisagree.iconify.databinding.ActivityQsRowColumnBinding;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedUtil;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.slider.Slider;
 
 public class QsRowColumn extends BaseActivity {
 
@@ -62,22 +65,18 @@ public class QsRowColumn extends BaseActivity {
         if (!Prefs.getString(FABRICATED_QQS_ROW).equals(STR_NULL)) {
             binding.qqsRowOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW)) + 1));
             finalQqsRow[0] = Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW));
-            binding.qqsRowSeekbar.setProgress(finalQqsRow[0]);
+            binding.qqsRowSeekbar.setValue(finalQqsRow[0]);
         } else binding.qqsRowOutput.setText(getResources().getString(R.string.opt_selected) + " 2");
 
-        binding.qqsRowSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.qqsRowSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                finalQqsRow[0] = progress;
-                binding.qqsRowOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 1));
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                finalQqsRow[0] = (int) slider.getValue();
+                binding.qqsRowOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (finalQqsRow[0] + 1));
             }
         });
 
@@ -87,22 +86,18 @@ public class QsRowColumn extends BaseActivity {
         if (!Prefs.getString(FABRICATED_QS_ROW).equals(STR_NULL)) {
             binding.qsRowOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW)) + 1));
             finalQsRow[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW));
-            binding.qsRowSeekbar.setProgress(finalQsRow[0]);
+            binding.qsRowSeekbar.setValue(finalQsRow[0]);
         } else binding.qsRowOutput.setText(getResources().getString(R.string.opt_selected) + " 4");
 
-        binding.qsRowSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.qsRowSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                finalQsRow[0] = progress;
-                binding.qsRowOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 1));
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                finalQsRow[0] = (int) slider.getValue();
+                binding.qsRowOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (finalQsRow[0] + 1));
             }
         });
 
@@ -112,23 +107,19 @@ public class QsRowColumn extends BaseActivity {
         if (!Prefs.getString(FABRICATED_QS_COLUMN).equals(STR_NULL)) {
             binding.qsColumnOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1));
             finalQsColumn[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN));
-            binding.qsColumnSeekbar.setProgress(finalQsColumn[0]);
+            binding.qsColumnSeekbar.setValue(finalQsColumn[0]);
         } else
             binding.qsColumnOutput.setText(getResources().getString(R.string.opt_selected) + " 2");
 
-        binding.qsColumnSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.qsColumnSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                finalQsColumn[0] = progress;
-                binding.qsColumnOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (progress + 1));
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                finalQsColumn[0] = (int) slider.getValue();
+                binding.qsColumnOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (finalQsColumn[0] + 1));
             }
         });
 
@@ -194,6 +185,13 @@ public class QsRowColumn extends BaseActivity {
             Thread thread = new Thread(runnable);
             thread.start();
         });
+
+        new MaterialAlertDialogBuilder(this, R.style.MaterialComponents_MaterialAlertDialog)
+                .setTitle(getResources().getString(R.string.hey_there))
+                .setMessage(getResources().getString(R.string.qs_row_column_warn_desc))
+                .setPositiveButton(getResources().getString(R.string.understood), (dialog, which) -> dialog.dismiss())
+                .setCancelable(true)
+                .show();
     }
 
     @Override

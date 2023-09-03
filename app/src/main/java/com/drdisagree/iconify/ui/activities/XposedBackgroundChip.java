@@ -59,7 +59,7 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
             RPrefs.putBoolean(STATUSBAR_CLOCKBG_SWITCH, isChecked);
 
             if (!isChecked) {
-                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
             }
         });
         binding.clockBgChip.setOnClickListener(v -> binding.enableClockBgChip.toggle());
