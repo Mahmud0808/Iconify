@@ -59,6 +59,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Home extends BaseFragment {
 
@@ -159,6 +160,12 @@ public class Home extends BaseFragment {
         }
          *
          */
+
+        binding.homeCard.container.setVisibility(Prefs.getBoolean(SHOW_HOME_CARD, true) ? View.VISIBLE : View.GONE);
+        binding.homeCard.button.setOnClickListener(view1 -> binding.homeCard.container.animate().translationX(binding.homeCard.container.getWidth() * 2f).alpha(0f).withEndAction(() -> {
+            binding.homeCard.container.setVisibility(View.GONE);
+            Prefs.putBoolean(SHOW_HOME_CARD, false);
+        }).start());
 
         return view;
     }
@@ -270,7 +277,7 @@ public class Home extends BaseFragment {
                     if (Integer.parseInt(latestVersion.getString(VER_CODE)) > BuildConfig.VERSION_CODE) {
                         NotificationManager notificationManager = (NotificationManager) requireActivity().getSystemService(Context.NOTIFICATION_SERVICE);
                         createChannel(notificationManager);
-                        NotificationManager manager = (NotificationManager) Iconify.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                        NotificationManager manager = (NotificationManager) Objects.requireNonNull(Iconify.getAppContext()).getSystemService(Context.NOTIFICATION_SERVICE);
                         NotificationChannel channel = manager.getNotificationChannel(getResources().getString(R.string.update_notification_channel_name));
                         if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED && channel.getImportance() != NotificationManager.IMPORTANCE_NONE) {
                             showUpdateNotification();

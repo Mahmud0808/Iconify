@@ -9,6 +9,7 @@ import static com.drdisagree.iconify.common.Preferences.EASTER_EGG;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
 import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_AFTER_BOOT;
+import static com.drdisagree.iconify.common.Preferences.SHOW_HOME_CARD;
 import static com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN;
 import static com.drdisagree.iconify.common.Resources.MODULE_DIR;
 import static com.drdisagree.iconify.utils.AppUtil.restartApplication;
@@ -201,7 +202,12 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
             if (isChecked) SystemUtil.enableRestartSystemuiAfterBoot();
             else SystemUtil.disableRestartSystemuiAfterBoot();
         });
-        ((View) binding.settingsMisc.restartSysuiAfterBoot.getParent()).setOnClickListener(v -> binding.settingsMisc.restartSysuiAfterBoot.toggle());
+        binding.settingsMisc.restartSysuiAfterBootContainer.setOnClickListener(v -> binding.settingsMisc.restartSysuiAfterBoot.toggle());
+
+        // Home page card
+        binding.settingsMisc.homePageCard.setChecked(Prefs.getBoolean(SHOW_HOME_CARD, true));
+        binding.settingsMisc.homePageCard.setOnCheckedChangeListener((buttonView, isChecked) -> Prefs.putBoolean(SHOW_HOME_CARD, isChecked));
+        binding.settingsMisc.homePageCardContainer.setOnClickListener(v -> binding.settingsMisc.homePageCard.toggle());
 
         // Clear App Cache
         binding.settingsMisc.clearCache.setOnClickListener(v -> {
