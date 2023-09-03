@@ -112,7 +112,7 @@
     <string name="qstile_btn3_desc">Tắt</string>
     <string name="qstile_btn4_title">Bluetooth</string>
     <string name="qstile_btn4_desc">TRÊN</string>
-    <string name="iconify_slogan">Tùy chỉnh giao diện người dùng Android nhàm chán</string>
+    <string name="app_moto">Tùy chỉnh giao diện người dùng Android nhàm chán</string>
     <string name="section_title_credits">Tín dụng</string>
     <string name="section_title_contributors">người đóng góp</string>
     <string name="cont_desc_media_player">Xem trước trình phát đa phương tiện</string>
@@ -223,7 +223,7 @@
     <string name="btn_download">Tải xuống</string>
     <string name="update_schedule_title">Cập nhật lịch biểu</string>
     <string name="update_schedule_des">Khi nào cần kiểm tra cập nhật</string>
-    <string name="new_update_available">Cập nhật mới có sẵn!</string>
+    <string name="update_available">Cập nhật mới có sẵn!</string>
     <string name="view_changelog">Xem nhật ký thay đổi</string>
     <string name="hide_changelog">Ẩn nhật ký thay đổi</string>
     <string name="already_up_to_date">Bạn đã được cập nhật.</string>
@@ -473,7 +473,7 @@
     <string name="settings_icons_follow_system">Theo hệ thống</string>
     <string name="settings_icons_system_inverse">Nghịch đảo hệ thống</string>
     <string name="settings_icons_monet_accent">Monet / Điểm nhấn</string>
-    <string name="navbar_styles">Phong cách</string>
+    <string name="navbar_home">Phong cách</string>
     <string name="navbar_tweaks">Tinh chỉnh</string>
     <string name="navbar_settings">Cài đặt</string>
     <string name="btn_close">Đóng</string>

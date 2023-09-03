@@ -28,15 +28,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -144,7 +144,7 @@ public class XposedMenu extends BaseFragment {
         View view = binding.getRoot();
 
         // Header
-        binding.header.collapsingToolbar.setTitle(getResources().getString(R.string.activity_title_xposed_menu));
+        binding.header.toolbar.setTitle(getResources().getString(R.string.activity_title_xposed_menu));
         ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.header.toolbar);
         setHasOptionsMenu(true);
         if (Prefs.getBoolean(ON_HOME_PAGE, false)) {
@@ -152,20 +152,6 @@ public class XposedMenu extends BaseFragment {
             Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
             binding.header.toolbar.setNavigationOnClickListener(view1 -> new Handler(Looper.getMainLooper()).postDelayed(() -> getParentFragmentManager().popBackStack(), FRAGMENT_BACK_BUTTON_DELAY));
         }
-
-        // Xposed warn
-        binding.xposedWarn.containerXposedWarn.setVisibility(Prefs.getBoolean(SHOW_XPOSED_WARN, true) ? View.VISIBLE : View.GONE);
-
-        if (!Prefs.getBoolean(ON_HOME_PAGE, false)) {
-            binding.xposedWarn.closeXposedWarn.setVisibility(View.INVISIBLE);
-        }
-        binding.xposedWarn.closeXposedWarn.setOnClickListener(v -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            Prefs.putBoolean(SHOW_XPOSED_WARN, false);
-            binding.xposedWarn.containerXposedWarn.animate().translationX(binding.xposedWarn.containerXposedWarn.getWidth() * 2f).alpha(0f).withEndAction(() -> binding.xposedWarn.containerXposedWarn.setVisibility(View.GONE)).start();
-        }, 50));
-
-        // Xposed warn text
-        binding.xposedWarn.xposedWarnText.setText((!Prefs.getBoolean(ON_HOME_PAGE, false) ? getResources().getString(R.string.xposed_only_desc) + "\n\n" : "") + getResources().getString(R.string.lsposed_warn));
 
         // Xposed hook check
         intentFilterHookedSystemUI.addAction(ACTION_HOOK_CHECK_RESULT);
@@ -204,14 +190,6 @@ public class XposedMenu extends BaseFragment {
         isXposedHooked.setValue(false);
         handler.post(checkSystemUIHooked);
 
-        // Restart SystemUI
-        binding.xposedWarn.buttonRestartSysui.setOnClickListener(v -> Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_restart_sysui), Toast.LENGTH_SHORT).show());
-
-        binding.xposedWarn.buttonRestartSysui.setOnLongClickListener(v -> {
-            SystemUtil.restartSystemUI();
-            return true;
-        });
-
         // Xposed menu list items
         ArrayList<Object[]> xposed_menu = new ArrayList<>();
 
@@ -228,7 +206,7 @@ public class XposedMenu extends BaseFragment {
 
         // Enable onClick event
         for (int i = 0; i < xposed_menu.size(); i++) {
-            LinearLayout child = binding.xposedList.getChildAt(i).findViewById(R.id.list_info_item);
+            RelativeLayout child = binding.xposedList.getChildAt(i).findViewById(R.id.list_info_item);
             int finalI = i;
             child.setOnClickListener(v -> {
                 Intent intent = new Intent(requireActivity(), (Class<?>) xposed_menu.get(finalI)[0]);
@@ -237,6 +215,24 @@ public class XposedMenu extends BaseFragment {
         }
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if (Prefs.getBoolean(SHOW_XPOSED_WARN, true)) {
+            new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialComponents_MaterialAlertDialog)
+                    .setTitle(requireContext().getResources().getString(R.string.attention))
+                    .setMessage((!Prefs.getBoolean(ON_HOME_PAGE, false) ? getResources().getString(R.string.xposed_only_desc) + "\n\n" : "") + getResources().getString(R.string.lsposed_warn))
+                    .setPositiveButton(requireContext().getResources().getString(R.string.understood), (dialog, which) -> dialog.dismiss())
+                    .setNegativeButton(requireContext().getResources().getString(R.string.dont_show_again), (dialog, which) -> {
+                        dialog.dismiss();
+                        Prefs.putBoolean(SHOW_XPOSED_WARN, false);
+                    })
+                    .setCancelable(true)
+                    .show();
+        }
     }
 
     @Override
@@ -260,6 +256,8 @@ public class XposedMenu extends BaseFragment {
             importExportSettings(false);
         } else if (itemID == R.id.menu_reset_settings) {
             resetSettings();
+        } else if (itemID == R.id.restart_systemui) {
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, 300);
         }
 
         return super.onOptionsItemSelected(item);

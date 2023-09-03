@@ -27,11 +27,11 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
-import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.drdisagree.iconify.R;
@@ -42,6 +42,7 @@ import com.drdisagree.iconify.ui.models.ClockModel;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LockscreenClockStyles;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.google.android.material.slider.Slider;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
@@ -76,7 +77,7 @@ public class XposedLockscreenClock extends BaseActivity implements ColorPickerDi
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_lockscreen_clock);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_lockscreen_clock);
 
         // Enable lockscreen clock
         binding.enableLockscreenClock.setChecked(RPrefs.getBoolean(LSCLOCK_SWITCH, false));
@@ -85,6 +86,7 @@ public class XposedLockscreenClock extends BaseActivity implements ColorPickerDi
             if (!isChecked) RPrefs.putInt(LSCLOCK_STYLE, 0);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
+        binding.enableLockscreenClockContainer.setOnClickListener(v -> binding.enableLockscreenClock.toggle());
 
         // Auto hide clock
         binding.enableAutoHideClock.setChecked(RPrefs.getBoolean(LSCLOCK_AUTOHIDE, false));
@@ -92,6 +94,7 @@ public class XposedLockscreenClock extends BaseActivity implements ColorPickerDi
             RPrefs.putBoolean(LSCLOCK_AUTOHIDE, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
+        binding.autoHideClockContainer.setOnClickListener(v -> binding.enableAutoHideClock.toggle());
 
         // Lockscreen clock style
         binding.lockscreenClockPreview.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
@@ -132,6 +135,7 @@ public class XposedLockscreenClock extends BaseActivity implements ColorPickerDi
             RPrefs.putBoolean(LSCLOCK_COLOR_SWITCH, isChecked);
             binding.lsClockColorPicker.setVisibility(isChecked ? View.VISIBLE : View.GONE);
         });
+        binding.lsClockCustomColorContainer.setOnClickListener(v -> binding.enableLsClockCustomColor.toggle());
 
         binding.lsClockColorPicker.setVisibility(RPrefs.getBoolean(LSCLOCK_COLOR_SWITCH, false) ? View.VISIBLE : View.GONE);
 
@@ -145,21 +149,16 @@ public class XposedLockscreenClock extends BaseActivity implements ColorPickerDi
         // Line height
         final int[] lineHeight = {RPrefs.getInt(LSCLOCK_FONT_LINEHEIGHT, 0)};
         binding.lsclockLineheightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + lineHeight[0] + "dp");
-        binding.lsclockLineheightSeekbar.setProgress(lineHeight[0]);
-        binding.lsclockLineheightSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
+        binding.lsclockLineheightSeekbar.setValue(lineHeight[0]);
+        binding.lsclockLineheightSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                lineHeight[0] = progress;
-                binding.lsclockLineheightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                lineHeight[0] = (int) slider.getValue();
+                binding.lsclockLineheightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + lineHeight[0] + "dp");
                 RPrefs.putInt(LSCLOCK_FONT_LINEHEIGHT, lineHeight[0]);
             }
         });
@@ -167,21 +166,16 @@ public class XposedLockscreenClock extends BaseActivity implements ColorPickerDi
         // Text Scaling
         final int[] textScaling = {RPrefs.getInt(LSCLOCK_FONT_TEXT_SCALING, 10)};
         binding.lsclockTextscalingOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + new DecimalFormat("#.#").format(textScaling[0] / 10.0) + "x");
-        binding.lsclockTextscalingSeekbar.setProgress(RPrefs.getInt(LSCLOCK_FONT_TEXT_SCALING, 10));
-        binding.lsclockTextscalingSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
+        binding.lsclockTextscalingSeekbar.setValue(RPrefs.getInt(LSCLOCK_FONT_TEXT_SCALING, 10));
+        binding.lsclockTextscalingSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                textScaling[0] = progress;
-                binding.lsclockTextscalingOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + new DecimalFormat("#.#").format(progress / 10.0) + "x");
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                textScaling[0] = (int) slider.getValue();
+                binding.lsclockTextscalingOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + new DecimalFormat("#.#").format(textScaling[0] / 10.0) + "x");
                 RPrefs.putInt(LSCLOCK_FONT_TEXT_SCALING, textScaling[0]);
             }
         });
@@ -189,21 +183,16 @@ public class XposedLockscreenClock extends BaseActivity implements ColorPickerDi
         // Top margin
         final int[] topMargin = {RPrefs.getInt(LSCLOCK_TOPMARGIN, 100)};
         binding.lsclockTopmarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + topMargin[0] + "dp");
-        binding.lsclockTopmarginSeekbar.setProgress(topMargin[0]);
-        binding.lsclockTopmarginSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
+        binding.lsclockTopmarginSeekbar.setValue(topMargin[0]);
+        binding.lsclockTopmarginSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                topMargin[0] = progress;
-                binding.lsclockTopmarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                topMargin[0] = (int) slider.getValue();
+                binding.lsclockTopmarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + topMargin[0] + "dp");
                 RPrefs.putInt(LSCLOCK_TOPMARGIN, topMargin[0]);
             }
         });
@@ -211,21 +200,16 @@ public class XposedLockscreenClock extends BaseActivity implements ColorPickerDi
         // Bottom margin
         final int[] bottomMargin = {RPrefs.getInt(LSCLOCK_BOTTOMMARGIN, 40)};
         binding.lsclockBottommarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + bottomMargin[0] + "dp");
-        binding.lsclockBottommarginSeekbar.setProgress(bottomMargin[0]);
-        binding.lsclockBottommarginSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
+        binding.lsclockBottommarginSeekbar.setValue(bottomMargin[0]);
+        binding.lsclockBottommarginSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                bottomMargin[0] = progress;
-                binding.lsclockBottommarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                bottomMargin[0] = (int) slider.getValue();
+                binding.lsclockBottommarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + bottomMargin[0] + "dp");
                 RPrefs.putInt(LSCLOCK_BOTTOMMARGIN, bottomMargin[0]);
             }
         });
@@ -235,6 +219,7 @@ public class XposedLockscreenClock extends BaseActivity implements ColorPickerDi
         binding.enableForceWhiteText.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(LSCLOCK_TEXT_WHITE, isChecked);
         });
+        binding.forceWhiteTextContainer.setOnClickListener(v -> binding.enableForceWhiteText.toggle());
     }
 
     private ClockPreviewAdapter initLockscreenClockStyles() {

@@ -113,7 +113,7 @@ public class Statusbar extends BaseActivity implements ColorPickerDialogListener
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_statusbar);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_statusbar);
 
         // Statusbar left padding
         binding.sbLeftPaddingOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalSBLeftPadding[0] + "dp");

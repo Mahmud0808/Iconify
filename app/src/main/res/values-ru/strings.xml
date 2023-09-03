@@ -144,7 +144,7 @@
     <string name="iconify_clipboard_label_version_code">Код версии:</string>
     <string name="iconify_clipboard_label_version_name">Имя версия:</string>
     <string name="iconify_logo">Логотип Iconify</string>
-    <string name="iconify_slogan">Улучшить скучный интерфейс Андроид</string>
+    <string name="app_moto">Улучшить скучный интерфейс Андроид</string>
     <string name="iconify_updated_title">Iconify только что обновился!</string>
     <string name="iconpack_aurora">Aurora</string>
     <string name="iconpack_gradicon">Gradicon</string>
@@ -208,7 +208,7 @@
     <string name="navbar_monet_pill_title">Цвет Monet в строке навигации</string>
     <string name="needs_systemui_restart">Необходим перезапуск System UI</string>
     <string name="negative">Нет</string>
-    <string name="new_update_available">Доступно обновление</string>
+    <string name="update_available">Доступно обновление</string>
     <string name="no_internet_connection">Не удалось подключится к серверу!\nЭто может быть вызвано проблемами с интернетом или доступностью серверов. Пожалуйста, попытайтесь снова позже.</string>
     <string name="not_available">Не доступно</string>
     <string name="notif_preview_desc">Превью уведомления.\nНажмите, чтобы применить этот стиль.</string>
@@ -480,7 +480,7 @@
     <string name="settings_icons_follow_system">Системный</string>
     <string name="settings_icons_system_inverse">Системный (инвертированный)</string>
     <string name="settings_icons_monet_accent">Monet / акцент</string>
-    <string name="navbar_styles">Стили</string>
+    <string name="navbar_home">Стили</string>
     <string name="navbar_tweaks">Твики</string>
     <string name="navbar_settings">Настройки</string>
     <string name="btn_close">Закрыть</string>

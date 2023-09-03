@@ -27,7 +27,7 @@ public class Miscellaneous extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_miscellaneous);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_miscellaneous);
 
         binding.enableTabletLandscape.setChecked(Prefs.getBoolean("IconifyComponentBQS.overlay", false));
         binding.enableTabletLandscape.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -39,6 +39,7 @@ public class Miscellaneous extends BaseActivity {
                 }
             }, SWITCH_ANIMATION_DELAY);
         });
+        binding.tabletLandscape.setOnClickListener(v -> binding.enableTabletLandscape.toggle());
 
         binding.enableNotchBarKiller.setChecked(Prefs.getBoolean("IconifyComponentNBK.overlay", false));
         binding.enableNotchBarKiller.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -50,6 +51,7 @@ public class Miscellaneous extends BaseActivity {
                 }
             }, SWITCH_ANIMATION_DELAY);
         });
+        binding.notchBarKiller.setOnClickListener(v -> binding.enableNotchBarKiller.toggle());
 
         binding.enableTabletHeader.setChecked(Prefs.getBoolean(FABRICATED_TABLET_HEADER, false));
         binding.enableTabletHeader.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -62,6 +64,7 @@ public class Miscellaneous extends BaseActivity {
                 }
             }, SWITCH_ANIMATION_DELAY);
         });
+        binding.tabletHeader.setOnClickListener(v -> binding.enableTabletHeader.toggle());
 
         binding.enableAccentPrivacyChip.setChecked(Prefs.getBoolean("IconifyComponentPCBG.overlay", false));
         binding.enableAccentPrivacyChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -74,5 +77,6 @@ public class Miscellaneous extends BaseActivity {
                 SystemUtil.restartSystemUI();
             }, SWITCH_ANIMATION_DELAY);
         });
+        binding.accentPrivacyChip.setOnClickListener(v -> binding.enableAccentPrivacyChip.toggle());
     }
 }

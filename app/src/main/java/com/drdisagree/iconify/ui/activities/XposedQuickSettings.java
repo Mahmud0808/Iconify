@@ -20,7 +20,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
-import android.widget.SeekBar;
+
+import androidx.annotation.NonNull;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
@@ -29,6 +30,7 @@ import com.drdisagree.iconify.databinding.ActivityXposedQuickSettingsBinding;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.google.android.material.slider.Slider;
 
 public class XposedQuickSettings extends BaseActivity {
 
@@ -42,7 +44,7 @@ public class XposedQuickSettings extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_quick_settings);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_quick_settings);
 
         // Vertical QS Tile
         binding.enableVerticalTile.setChecked(RPrefs.getBoolean(VERTICAL_QSTILE_SWITCH, false));
@@ -51,6 +53,7 @@ public class XposedQuickSettings extends BaseActivity {
             binding.hideTileLabel.setEnabled(isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
         });
+        binding.verticalTileContainer.setOnClickListener(v -> binding.enableVerticalTile.toggle());
         binding.hideTileLabel.setEnabled(binding.enableVerticalTile.isChecked());
 
         // Hide label for vertical tiles
@@ -59,6 +62,8 @@ public class XposedQuickSettings extends BaseActivity {
             RPrefs.putBoolean(HIDE_QSLABEL_SWITCH, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
         });
+        if (binding.hideTileLabel.isEnabled())
+            binding.hideTileLabelContainer.setOnClickListener(v -> binding.hideTileLabel.toggle());
 
         // Light Theme
         binding.enableLightTheme.setChecked(RPrefs.getBoolean(LIGHT_QSPANEL, false));
@@ -67,6 +72,8 @@ public class XposedQuickSettings extends BaseActivity {
             binding.enableDualTone.setEnabled(isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
+        if (binding.enableLightTheme.isEnabled())
+            binding.lightThemeContainer.setOnClickListener(v -> binding.enableLightTheme.toggle());
         binding.enableDualTone.setEnabled(binding.enableLightTheme.isChecked());
 
         // Dual Tone
@@ -75,6 +82,8 @@ public class XposedQuickSettings extends BaseActivity {
             RPrefs.putBoolean(DUALTONE_QSPANEL, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
         });
+        if (binding.enableDualTone.isEnabled())
+            binding.dualToneContainer.setOnClickListener(v -> binding.enableDualTone.toggle());
 
         // Pixel Black Theme
         binding.enableBlackTheme.setChecked(RPrefs.getBoolean(BLACK_QSPANEL, false));
@@ -82,6 +91,8 @@ public class XposedQuickSettings extends BaseActivity {
             RPrefs.putBoolean(BLACK_QSPANEL, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
+        if (binding.enableBlackTheme.isEnabled())
+            binding.blackThemeContainer.setOnClickListener(v -> binding.enableBlackTheme.toggle());
 
         // Fluid QS Theme
         binding.enableFluidTheme.setChecked(RPrefs.getBoolean(FLUID_QSPANEL, false));
@@ -91,6 +102,8 @@ public class XposedQuickSettings extends BaseActivity {
             binding.enablePowermenuTransparency.setEnabled(isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
+        if (binding.enableFluidTheme.isEnabled())
+            binding.fluidThemeContainer.setOnClickListener(v -> binding.enableFluidTheme.toggle());
         binding.enableNotificationTransparency.setEnabled(binding.enableFluidTheme.isChecked());
         binding.enablePowermenuTransparency.setEnabled(binding.enableFluidTheme.isChecked());
 
@@ -100,6 +113,8 @@ public class XposedQuickSettings extends BaseActivity {
             RPrefs.putBoolean(FLUID_NOTIF_TRANSPARENCY, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
+        if (binding.enableNotificationTransparency.isEnabled())
+            binding.notificationTransparencyContainer.setOnClickListener(v -> binding.enableNotificationTransparency.toggle());
 
         // Fluid QS Power Menu Transparency
         binding.enablePowermenuTransparency.setChecked(RPrefs.getBoolean(FLUID_POWERMENU_TRANSPARENCY, false));
@@ -107,25 +122,23 @@ public class XposedQuickSettings extends BaseActivity {
             RPrefs.putBoolean(FLUID_POWERMENU_TRANSPARENCY, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
+        if (binding.enablePowermenuTransparency.isEnabled())
+            binding.powermenuTransparencyContainer.setOnClickListener(v -> binding.enablePowermenuTransparency.toggle());
 
         // QQS panel top margin slider
         binding.qqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(FABRICATED_QQS_TOPMARGIN, 100) + "dp");
-        binding.qqsTopMarginSeekbar.setProgress(Prefs.getInt(FABRICATED_QQS_TOPMARGIN, 100));
+        binding.qqsTopMarginSeekbar.setValue(Prefs.getInt(FABRICATED_QQS_TOPMARGIN, 100));
         final int[] qqsTopMargin = {Prefs.getInt(FABRICATED_QQS_TOPMARGIN, 100)};
-        binding.qqsTopMarginSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
+        binding.qqsTopMarginSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                qqsTopMargin[0] = progress;
-                binding.qqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                qqsTopMargin[0] = (int) slider.getValue();
+                binding.qqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + qqsTopMargin[0] + "dp");
+                binding.resetQqsTopMargin.setVisibility(View.VISIBLE);
                 Prefs.putInt(FABRICATED_QQS_TOPMARGIN, qqsTopMargin[0]);
                 FabricatedUtil.buildAndEnableOverlays(
                         new Object[]{FRAMEWORK_PACKAGE, "quick_qs_offset_height", "dimen", "quick_qs_offset_height", qqsTopMargin[0] + "dp"},
@@ -149,22 +162,18 @@ public class XposedQuickSettings extends BaseActivity {
 
         // QS panel top margin slider
         binding.qsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(FABRICATED_QS_TOPMARGIN, 100) + "dp");
-        binding.qsTopMarginSeekbar.setProgress(Prefs.getInt(FABRICATED_QS_TOPMARGIN, 100));
+        binding.qsTopMarginSeekbar.setValue(Prefs.getInt(FABRICATED_QS_TOPMARGIN, 100));
         final int[] qsTopMargin = {Prefs.getInt(FABRICATED_QS_TOPMARGIN, 100)};
-        binding.qsTopMarginSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
+        binding.qsTopMarginSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                qsTopMargin[0] = progress;
-                binding.qsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                qsTopMargin[0] = (int) slider.getValue();
+                binding.qsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + qsTopMargin[0] + "dp");
+                binding.resetQsTopMargin.setVisibility(View.VISIBLE);
                 Prefs.putInt(FABRICATED_QS_TOPMARGIN, qsTopMargin[0]);
                 FabricatedUtil.buildAndEnableOverlays(
                         new Object[]{FRAMEWORK_PACKAGE, "quick_qs_total_height", "dimen", "quick_qs_total_height", qsTopMargin[0] + "dp"},

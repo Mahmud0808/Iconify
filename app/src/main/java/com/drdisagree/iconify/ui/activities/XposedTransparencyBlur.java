@@ -13,7 +13,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.CompoundButton;
-import android.widget.SeekBar;
+
+import androidx.annotation.NonNull;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
@@ -22,6 +23,7 @@ import com.drdisagree.iconify.databinding.ActivityXposedTransparencyBlurBinding;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.google.android.material.slider.Slider;
 
 public class XposedTransparencyBlur extends BaseActivity {
 
@@ -35,7 +37,7 @@ public class XposedTransparencyBlur extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_transparency_blur);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_transparency_blur);
 
         // Qs Panel & Notification Shade Transparency
         binding.enableQsTransparency.setChecked(RPrefs.getBoolean(QS_TRANSPARENCY_SWITCH, false));
@@ -44,24 +46,22 @@ public class XposedTransparencyBlur extends BaseActivity {
         binding.enableNotifTransparency.setChecked(RPrefs.getBoolean(NOTIF_TRANSPARENCY_SWITCH, false));
         binding.enableNotifTransparency.setOnCheckedChangeListener(notifTransparencyListener);
 
+        binding.qsTransparencyContainer.setOnClickListener(v -> binding.enableQsTransparency.toggle());
+        binding.notifTransparencyContainer.setOnClickListener(v -> binding.enableNotifTransparency.toggle());
+
         // Tansparency Alpha
         final int[] transparency = {RPrefs.getInt(QSALPHA_LEVEL, 60)};
         binding.transparencyOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + transparency[0] + "%");
-        binding.transparencySeekbar.setProgress(transparency[0]);
-        binding.transparencySeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
+        binding.transparencySeekbar.setValue(transparency[0]);
+        binding.transparencySeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                transparency[0] = progress;
-                binding.transparencyOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "%");
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                transparency[0] = (int) slider.getValue();
+                binding.transparencyOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + transparency[0] + "%");
                 RPrefs.putInt(QSALPHA_LEVEL, transparency[0]);
             }
         });
@@ -77,27 +77,22 @@ public class XposedTransparencyBlur extends BaseActivity {
                 FabricatedUtil.disableOverlay(FABRICATED_QSPANEL_BLUR_RADIUS);
             }
         });
+        binding.blurContainer.setOnClickListener(v -> binding.enableBlur.toggle());
 
         final int[] blur_radius = {Prefs.getInt(FABRICATED_QSPANEL_BLUR_RADIUS, 23)};
         binding.blurOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + blur_radius[0] + "px");
-        binding.blurSeekbar.setProgress(blur_radius[0]);
-        binding.blurSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
+        binding.blurSeekbar.setValue(blur_radius[0]);
+        binding.blurSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                blur_radius[0] = progress;
-                binding.blurOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "px");
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                blur_radius[0] = (int) slider.getValue();
+                binding.blurOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + blur_radius[0] + "px");
                 Prefs.putInt(FABRICATED_QSPANEL_BLUR_RADIUS, blur_radius[0]);
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_QSPANEL_BLUR_RADIUS, "dimen", "max_window_blur_radius", blur_radius[0] + "px");
-                // Restart SystemUI
                 new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
             }
         });

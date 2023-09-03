@@ -112,7 +112,7 @@
     <string name="qstile_btn3_desc">معطل</string>
     <string name="qstile_btn4_title">بلوتوث</string>
     <string name="qstile_btn4_desc">ممكن</string>
-    <string name="iconify_slogan">قم بتغيير واجهة المستخدم الممله </string>
+    <string name="app_moto">قم بتغيير واجهة المستخدم الممله </string>
     <string name="section_title_credits">شكرا ل</string>
     <string name="section_title_contributors">المساهمون</string>
     <string name="cont_desc_media_player">معاينة مشغل الوسائط</string>
@@ -224,7 +224,7 @@
     <string name="btn_download">تنزيل</string>
     <string name="update_schedule_title">تحديث الجدول</string>
     <string name="update_schedule_des">متى تحقق من التحديث</string>
-    <string name="new_update_available">تحديث جديد متاح!</string>
+    <string name="update_available">تحديث جديد متاح!</string>
     <string name="view_changelog">عرض سجل التغيير</string>
     <string name="hide_changelog">إخفاء سجل التغيير</string>
     <string name="already_up_to_date">أنت بالفعل في أحدث اصدار.</string>
@@ -503,7 +503,7 @@
     <string name="settings_icons_follow_system">اتبع النظام</string>
     <string name="settings_icons_system_inverse">عكس النظام</string>
     <string name="settings_icons_monet_accent">Monet / تمييز</string>
-    <string name="navbar_styles">أشكال</string>
+    <string name="navbar_home">أشكال</string>
     <string name="navbar_tweaks">تعديلات</string>
     <string name="navbar_settings">الإعدادات</string>
     <string name="btn_close">إغلاق</string>

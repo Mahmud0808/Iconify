@@ -35,7 +35,7 @@ public class QsPanel extends BaseFragment {
         View view = binding.getRoot();
 
         // Header
-        binding.header.collapsingToolbar.setTitle(getResources().getString(R.string.activity_title_qs_panel));
+        binding.header.toolbar.setTitle(getResources().getString(R.string.activity_title_qs_panel));
         ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.header.toolbar);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);

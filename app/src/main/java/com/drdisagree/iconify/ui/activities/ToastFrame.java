@@ -41,7 +41,7 @@ public class ToastFrame extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_toast_frame);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_toast_frame);
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);

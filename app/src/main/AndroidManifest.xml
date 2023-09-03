@@ -140,7 +140,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.Info"
+            android:name=".ui.activities.Credits"
             android:exported="false" />
         <activity
             android:name=".ui.activities.MediaPlayer"
@@ -281,7 +281,7 @@
             android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="@string/iconify_slogan" />
+            android:value="@string/app_moto" />
         <meta-data
             android:name="xposedminversion"
             android:value="82" />

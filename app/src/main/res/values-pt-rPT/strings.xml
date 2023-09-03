@@ -205,7 +205,7 @@
     <string name="qstile_btn3_desc">Desligado</string>
     <string name="qstile_btn4_title">Bluetooth</string>
     <string name="qstile_btn4_desc">Ligado</string>
-    <string name="iconify_slogan">Personalizar a IU Android</string>
+    <string name="app_moto">Personalizar a IU Android</string>
     <string name="section_title_credits">Créditos</string>
     <string name="section_title_contributors">Contribuidores</string>
     <string name="cont_desc_media_player">Pré-visualização do leitor multimédia</string>
@@ -264,7 +264,7 @@
     <string name="btn_download">Descarregar</string>
     <string name="update_schedule_title">Agenda de atualizações</string>
     <string name="update_schedule_des">Quando verificar por atualizações</string>
-    <string name="new_update_available">Nova atualização disponível!</string>
+    <string name="update_available">Nova atualização disponível!</string>
     <string name="view_changelog">Ver registo de alterações</string>
     <string name="hide_changelog">Ocultar registo de alterações</string>
     <string name="already_up_to_date">Já se encontra com a atualização mais recente.</string>
@@ -512,7 +512,7 @@
     <string name="fluid_qs_theme_desc">Tema das DR translúcido de duplo tom\\nNão utilizar formas personalizadas</string>
     <string name="disable_monet_title">Desativar o sistema Monet</string>
     <string name="disable_monet_desc">Ajuda a manter as cores personalizadas</string>
-    <string name="navbar_styles">Estilos</string>
+    <string name="navbar_home">Estilos</string>
     <string name="navbar_tweaks">\"Tweaks\"</string>
     <string name="navbar_settings">Definições</string>
     <string name="btn_close">Fechar</string>

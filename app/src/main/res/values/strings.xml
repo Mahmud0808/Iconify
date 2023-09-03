@@ -119,8 +119,9 @@
     <string name="qstile_btn3_desc">Off</string>
     <string name="qstile_btn4_title">Bluetooth</string>
     <string name="qstile_btn4_desc">On</string>
-    <string name="iconify_slogan">Customize Boring Android UI</string>
+    <string name="app_moto">Customize Boring Android UI</string>
     <string name="section_title_credits">Credits</string>
+    <string name="section_title_thanks">Special Thanks</string>
     <string name="section_title_contributors">Contributors</string>
     <string name="cont_desc_media_player">Media Player Preview</string>
     <string name="mp_accent_background_title">Accent Background</string>
@@ -233,7 +234,7 @@
     <string name="btn_download">Download</string>
     <string name="update_schedule_title">Update Schedule</string>
     <string name="update_schedule_des">When to check for update</string>
-    <string name="new_update_available">New update available!</string>
+    <string name="update_available">Update available!</string>
     <string name="view_changelog">View Changelog</string>
     <string name="hide_changelog">Hide Changelog</string>
     <string name="already_up_to_date">You are already up to date.</string>
@@ -245,6 +246,7 @@
     <string name="import_settings_confirmation_desc">You will loose your current setup and settings.</string>
     <string name="positive">Yes</string>
     <string name="negative">No</string>
+    <string name="understood">Understood</string>
     <string name="imported_settings">Imported settings successfully</string>
     <string name="exported_settings">Saved settings successfully</string>
     <string name="update_schedule1">Every Time</string>
@@ -520,7 +522,7 @@
     <string name="settings_icons_follow_system">Follow System</string>
     <string name="settings_icons_system_inverse">System Inverse</string>
     <string name="settings_icons_monet_accent">Monet / Accent</string>
-    <string name="navbar_styles">Styles</string>
+    <string name="navbar_home">Home</string>
     <string name="navbar_tweaks">Tweaks</string>
     <string name="navbar_settings">Settings</string>
     <string name="btn_close">Close</string>
@@ -629,4 +631,7 @@
     <string name="monet_style_title">Monet Style</string>
     <string name="xposed_module_disabled_title">Module Not Activated</string>
     <string name="xposed_module_disabled_desc">System service not running</string>
+    <string name="settings_current_version">Current version: %s</string>
+    <string name="tap_to_select">Tap on preview to select</string>
+    <string name="dont_show_again">Don\'t show again</string>
 </resources>

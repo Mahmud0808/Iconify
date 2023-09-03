@@ -46,7 +46,7 @@ public class ModuleUtil {
         // Clean temporary directory
         Shell.cmd("mkdir -p " + Resources.TEMP_DIR).exec();
         Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR).exec();
-        Shell.cmd("printf 'id=Iconify\nname=Iconify\nversion=" + BuildConfig.VERSION_NAME + "\nversionCode=" + BuildConfig.VERSION_CODE + "\nauthor=@DrDisagree\ndescription=Systemless module for Iconify. " + Iconify.getAppContext().getResources().getString(R.string.iconify_slogan) + ".\n' > " + Resources.TEMP_MODULE_DIR + "/module.prop").exec();
+        Shell.cmd("printf 'id=Iconify\nname=Iconify\nversion=" + BuildConfig.VERSION_NAME + "\nversionCode=" + BuildConfig.VERSION_CODE + "\nauthor=@DrDisagree\ndescription=Systemless module for Iconify. " + Iconify.getAppContext().getResources().getString(R.string.app_moto) + ".\n' > " + Resources.TEMP_MODULE_DIR + "/module.prop").exec();
         Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR + "/common").exec();
         Shell.cmd("printf 'MODDIR=${0%%/*}\n\n' > " + Resources.TEMP_MODULE_DIR + "/post-fs-data.sh").exec();
         if (!Onboarding.skippedInstallation) {

@@ -20,7 +20,7 @@ public class MediaPlayer extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_media_player);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_media_player);
 
         refreshPreview();
 

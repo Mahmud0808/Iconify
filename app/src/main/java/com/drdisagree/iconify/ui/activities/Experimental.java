@@ -27,7 +27,7 @@ public class Experimental extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_experimental);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_experimental);
 
         // Header image overlap
         binding.headerImageOverlap.setChecked(RPrefs.getBoolean(HEADER_IMAGE_OVERLAP, false));
@@ -35,11 +35,13 @@ public class Experimental extends BaseActivity {
             RPrefs.putBoolean(HEADER_IMAGE_OVERLAP, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
+        binding.headerImageOverlapContainer.setOnClickListener(v -> binding.headerImageOverlap.toggle());
 
         // Hide data disabled icon
         binding.hideDataDisabledIcon.setChecked(RPrefs.getBoolean(HIDE_DATA_DISABLED_ICON, false));
         binding.hideDataDisabledIcon.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_DATA_DISABLED_ICON, isChecked);
         });
+        binding.hideDataDisabledIconContainer.setOnClickListener(v -> binding.hideDataDisabledIcon.toggle());
     }
 }

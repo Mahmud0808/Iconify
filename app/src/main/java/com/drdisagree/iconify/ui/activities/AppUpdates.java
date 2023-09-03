@@ -53,7 +53,7 @@ public class AppUpdates extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.app_updates);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.app_updates);
 
         List<String> update_schedule = new ArrayList<>();
         update_schedule.add(getResources().getString(R.string.update_schedule1));
@@ -181,7 +181,7 @@ public class AppUpdates extends BaseActivity {
 
                     if (Integer.parseInt(latestVersion.getString(VER_CODE)) > BuildConfig.VERSION_CODE) {
                         binding.checkUpdate.setBackgroundResource(R.drawable.container_outline);
-                        binding.updateTitle.setText(getResources().getString(R.string.new_update_available));
+                        binding.updateTitle.setText(getResources().getString(R.string.update_available));
                         binding.downloadUpdate.setOnClickListener(v -> {
                             try {
                                 String apkUrl = latestVersion.getString("apkUrl");

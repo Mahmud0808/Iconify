@@ -1,8 +1,10 @@
 package com.drdisagree.iconify.ui.fragments;
 
+import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
 import static com.drdisagree.iconify.common.Preferences.APP_ICON;
 import static com.drdisagree.iconify.common.Preferences.APP_LANGUAGE;
 import static com.drdisagree.iconify.common.Preferences.APP_THEME;
+import static com.drdisagree.iconify.common.Preferences.AUTO_UPDATE;
 import static com.drdisagree.iconify.common.Preferences.EASTER_EGG;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
@@ -15,6 +17,7 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -33,15 +36,17 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.common.Const;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.FragmentSettingsBinding;
 import com.drdisagree.iconify.ui.activities.AppUpdates;
 import com.drdisagree.iconify.ui.activities.Changelog;
+import com.drdisagree.iconify.ui.activities.Credits;
 import com.drdisagree.iconify.ui.activities.Experimental;
-import com.drdisagree.iconify.ui.activities.Info;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.ui.views.RadioDialog;
 import com.drdisagree.iconify.utils.CacheUtil;
@@ -51,11 +56,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 
 public class Settings extends BaseFragment implements RadioDialog.RadioDialogListener {
 
+    final double SECONDS_FOR_CLICKS = 3;
+    final int NUM_CLICKS_REQUIRED = 7;
     ActivityResultLauncher<Intent> startExportActivityIntent = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result1 -> {
@@ -76,6 +84,9 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                     });
                 }
             });
+    long[] clickTimestamps = new long[NUM_CLICKS_REQUIRED];
+    int oldestIndex = 0;
+    int nextIndex = 0;
     private FragmentSettingsBinding binding;
     private LoadingDialog loadingDialog;
     ActivityResultLauncher<Intent> startImportActivityIntent = registerForActivityResult(
@@ -139,9 +150,13 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         View view = binding.getRoot();
 
         // Header
-        binding.header.collapsingToolbar.setTitle(getResources().getString(R.string.activity_title_settings));
+        binding.header.toolbar.setTitle(getResources().getString(R.string.activity_title_settings));
         ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.header.toolbar);
         setHasOptionsMenu(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        binding.header.toolbar.setNavigationOnClickListener(view1 -> new Handler(Looper.getMainLooper()).postDelayed(() -> getParentFragmentManager().popBackStack(), FRAGMENT_BACK_BUTTON_DELAY));
+
 
         // Show loading dialog
         loadingDialog = new LoadingDialog(requireActivity());
@@ -165,17 +180,28 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         binding.settingsGeneral.appTheme.setOnClickListener(v -> rd_app_theme.show(R.string.app_theme, R.array.app_theme, binding.settingsGeneral.selectedAppTheme));
         binding.settingsGeneral.selectedAppTheme.setText(Arrays.asList(getResources().getStringArray(R.array.app_theme)).get(rd_app_theme.getSelectedIndex()));
 
-        // Restart sysui after boot
-        binding.settingsGeneral.restartSysuiAfterBoot.setChecked(Prefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false));
-        binding.settingsGeneral.restartSysuiAfterBoot.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Prefs.putBoolean(RESTART_SYSUI_AFTER_BOOT, isChecked);
-            if (isChecked) SystemUtil.enableRestartSystemuiAfterBoot();
-            else SystemUtil.disableRestartSystemuiAfterBoot();
-        });
+        // Check for update
+        binding.settingsUpdate.currentVersion.setText(getResources().getString(R.string.settings_current_version, BuildConfig.VERSION_NAME));
+        binding.settingsUpdate.checkUpdate.setOnClickListener(v -> startActivity(new Intent(requireActivity(), AppUpdates.class)));
+
+        // Auto update
+        binding.settingsUpdate.buttonAutoUpdate.setChecked(Prefs.getBoolean(AUTO_UPDATE, true));
+        binding.settingsUpdate.buttonAutoUpdate.setOnCheckedChangeListener((buttonView, isChecked) -> Prefs.putBoolean(AUTO_UPDATE, isChecked));
+        ((View) binding.settingsUpdate.buttonAutoUpdate.getParent()).setOnClickListener(v -> binding.settingsUpdate.buttonAutoUpdate.toggle());
 
         // Show xposed warn
         binding.settingsXposed.hideWarnMessage.setChecked(Prefs.getBoolean(SHOW_XPOSED_WARN, true));
         binding.settingsXposed.hideWarnMessage.setOnCheckedChangeListener((buttonView, isChecked) -> Prefs.putBoolean(SHOW_XPOSED_WARN, isChecked));
+        ((View) binding.settingsXposed.hideWarnMessage.getParent()).setOnClickListener(v -> binding.settingsXposed.hideWarnMessage.toggle());
+
+        // Restart sysui after boot
+        binding.settingsMisc.restartSysuiAfterBoot.setChecked(Prefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false));
+        binding.settingsMisc.restartSysuiAfterBoot.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            Prefs.putBoolean(RESTART_SYSUI_AFTER_BOOT, isChecked);
+            if (isChecked) SystemUtil.enableRestartSystemuiAfterBoot();
+            else SystemUtil.disableRestartSystemuiAfterBoot();
+        });
+        ((View) binding.settingsMisc.restartSysuiAfterBoot.getParent()).setOnClickListener(v -> binding.settingsMisc.restartSysuiAfterBoot.toggle());
 
         // Clear App Cache
         binding.settingsMisc.clearCache.setOnClickListener(v -> {
@@ -183,19 +209,10 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
             Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_clear_cache), Toast.LENGTH_SHORT).show();
         });
 
-        // Restart SystemUI
-        binding.settingsMisc.buttonRestartSysui.setOnClickListener(v -> {
-            // Show loading dialog
-            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
-
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                // Hide loading dialog
-                loadingDialog.hide();
-
-                // Restart SystemUI
-                SystemUtil.restartSystemUI();
-            }, 1000);
-        });
+        // Experimental features
+        binding.settingsMisc.settingsMiscTitle.setOnClickListener(v -> onAboutViewClicked());
+        binding.settingsMisc.experimentalFeatures.setOnClickListener(v -> startActivity(new Intent(requireActivity(), Experimental.class)));
+        binding.settingsMisc.experimentalFeatures.setVisibility(Prefs.getBoolean(EASTER_EGG) ? View.VISIBLE : View.GONE);
 
         // Disable Everything
         binding.settingsMisc.buttonDisableEverything.setOnClickListener(v -> new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialComponents_MaterialAlertDialog)
@@ -223,6 +240,19 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                 .setNegativeButton(getString(R.string.negative), (dialog, i) -> dialog.dismiss())
                 .show());
 
+        // Github repository
+        binding.settingsAbout.githubRepository.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(Const.GITHUB_REPO))));
+
+        // Telegram group
+        binding.settingsAbout.telegramGroup.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(Const.TELEGRAM_GROUP));
+            startActivity(intent);
+        });
+
+        // Credits
+        binding.settingsAbout.credits.setOnClickListener(v -> startActivity(new Intent(requireActivity(), Credits.class)));
+
         return view;
     }
 
@@ -239,8 +269,6 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.settings_menu, menu);
-        menu.findItem(R.id.menu_experimental_features).setVisible(Prefs.getBoolean(EASTER_EGG));
-
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -248,22 +276,15 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemID = item.getItemId();
 
-        if (itemID == R.id.menu_updates) {
-            Intent intent = new Intent(requireActivity(), AppUpdates.class);
-            startActivity(intent);
-        } else if (itemID == R.id.menu_changelog) {
+        if (itemID == R.id.menu_changelog) {
             Intent intent = new Intent(requireActivity(), Changelog.class);
             startActivity(intent);
         } else if (itemID == R.id.menu_export_settings) {
             importExportSettings(true);
         } else if (itemID == R.id.menu_import_settings) {
             importExportSettings(false);
-        } else if (itemID == R.id.menu_experimental_features) {
-            Intent intent = new Intent(requireActivity(), Experimental.class);
-            startActivity(intent);
-        } else if (itemID == R.id.menu_info) {
-            Intent intent = new Intent(requireActivity(), Info.class);
-            startActivity(intent);
+        } else if (itemID == R.id.restart_systemui) {
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, 300);
         }
 
         return super.onOptionsItemSelected(item);
@@ -311,5 +332,31 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         for (String splashActivity : splashActivities) {
             manager.setComponentEnabledSetting(new ComponentName(requireActivity(), "com.drdisagree.iconify." + splashActivity), Objects.equals(splash, splashActivity) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
         }
+    }
+
+    private void onAboutViewClicked() {
+        long timeMillis = (new Date()).getTime();
+
+        if (nextIndex == (NUM_CLICKS_REQUIRED - 1) || oldestIndex > 0) {
+            int diff = (int) (timeMillis - clickTimestamps[oldestIndex]);
+            if (diff < SECONDS_FOR_CLICKS * 1000) {
+                if (!Prefs.getBoolean(EASTER_EGG)) {
+                    Prefs.putBoolean(EASTER_EGG, true);
+                    binding.settingsMisc.experimentalFeatures.setVisibility(View.VISIBLE);
+                    Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_easter_egg), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(requireContext(), requireContext().getResources().getString(R.string.toast_easter_egg_activated), Toast.LENGTH_SHORT).show();
+                }
+                oldestIndex = 0;
+                nextIndex = 0;
+            } else oldestIndex++;
+        }
+
+        clickTimestamps[nextIndex] = timeMillis;
+        nextIndex++;
+
+        if (nextIndex == NUM_CLICKS_REQUIRED) nextIndex = 0;
+
+        if (oldestIndex == NUM_CLICKS_REQUIRED) oldestIndex = 0;
     }
 }

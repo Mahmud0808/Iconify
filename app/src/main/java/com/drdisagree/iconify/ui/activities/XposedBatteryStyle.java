@@ -10,7 +10,8 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.SeekBar;
+
+import androidx.annotation.NonNull;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
@@ -18,6 +19,7 @@ import com.drdisagree.iconify.databinding.ActivityXposedBatteryStyleBinding;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.RadioDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.google.android.material.slider.Slider;
 
 import java.util.Arrays;
 
@@ -35,7 +37,7 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_battery_style);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_battery_style);
 
         // Custom battery style
         rd_battery_style = new RadioDialog(this, 0, RPrefs.getInt(CUSTOM_BATTERY_STYLE, 0));
@@ -54,21 +56,16 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
         // Battery width
         final int[] batteryWidth = {RPrefs.getInt(CUSTOM_BATTERY_WIDTH, 20)};
         binding.batteryWidthOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryWidth[0] + "dp");
-        binding.batteryWidthSeekbar.setProgress(RPrefs.getInt(CUSTOM_BATTERY_WIDTH, 20));
-        binding.batteryWidthSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
+        binding.batteryWidthSeekbar.setValue(RPrefs.getInt(CUSTOM_BATTERY_WIDTH, 20));
+        binding.batteryWidthSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                batteryWidth[0] = progress;
-                binding.batteryWidthOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                batteryWidth[0] = (int) slider.getValue();
+                binding.batteryWidthOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryWidth[0] + "dp");
                 RPrefs.putInt(CUSTOM_BATTERY_WIDTH, batteryWidth[0]);
                 new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
             }
@@ -77,21 +74,16 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
         // Battery height
         final int[] batteryHeight = {RPrefs.getInt(CUSTOM_BATTERY_HEIGHT, 20)};
         binding.batteryHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryHeight[0] + "dp");
-        binding.batteryHeightSeekbar.setProgress(RPrefs.getInt(CUSTOM_BATTERY_HEIGHT, 20));
-        binding.batteryHeightSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
+        binding.batteryHeightSeekbar.setValue(RPrefs.getInt(CUSTOM_BATTERY_HEIGHT, 20));
+        binding.batteryHeightSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                batteryHeight[0] = progress;
-                binding.batteryHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                batteryHeight[0] = (int) slider.getValue();
+                binding.batteryHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryHeight[0] + "dp");
                 RPrefs.putInt(CUSTOM_BATTERY_HEIGHT, batteryHeight[0]);
                 new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
             }
@@ -100,21 +92,16 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
         // Battery margin
         final int[] batteryMargin = {RPrefs.getInt(CUSTOM_BATTERY_MARGIN, 6)};
         binding.batteryMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryMargin[0] + "dp");
-        binding.batteryMarginSeekbar.setProgress(RPrefs.getInt(CUSTOM_BATTERY_MARGIN, 6));
-        binding.batteryMarginSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
+        binding.batteryMarginSeekbar.setValue(RPrefs.getInt(CUSTOM_BATTERY_MARGIN, 6));
+        binding.batteryMarginSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                batteryMargin[0] = progress;
-                binding.batteryMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                batteryMargin[0] = (int) slider.getValue();
+                binding.batteryMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryMargin[0] + "dp");
                 RPrefs.putInt(CUSTOM_BATTERY_MARGIN, batteryMargin[0]);
                 new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
             }

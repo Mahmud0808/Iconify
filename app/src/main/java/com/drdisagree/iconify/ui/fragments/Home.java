@@ -1,8 +1,10 @@
 package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Const.LATEST_VERSION;
+import static com.drdisagree.iconify.common.Preferences.AUTO_UPDATE;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.LAST_UPDATE_CHECK_TIME;
+import static com.drdisagree.iconify.common.Preferences.SHOW_HOME_CARD;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_CHECK_TIME;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED;
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
@@ -34,7 +36,7 @@ import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.databinding.FragmentStylesBinding;
+import com.drdisagree.iconify.databinding.FragmentHomeBinding;
 import com.drdisagree.iconify.ui.activities.AppUpdates;
 import com.drdisagree.iconify.ui.activities.BrightnessBar;
 import com.drdisagree.iconify.ui.activities.IconPack;
@@ -44,6 +46,7 @@ import com.drdisagree.iconify.ui.activities.ProgressBar;
 import com.drdisagree.iconify.ui.activities.QsPanelTile;
 import com.drdisagree.iconify.ui.activities.Switch;
 import com.drdisagree.iconify.ui.activities.ToastFrame;
+import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.TaskExecutor;
@@ -57,23 +60,23 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class Styles extends BaseFragment {
+public class Home extends BaseFragment {
 
     public static boolean isServiceRunning = false;
     @SuppressLint("StaticFieldLeak")
     private static LinearLayout check_update;
-    private FragmentStylesBinding binding;
+    private FragmentHomeBinding binding;
     @SuppressLint("StaticFieldLeak")
     private CheckForUpdate checkForUpdate = null;
     private TextView update_desc;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentStylesBinding.inflate(inflater, container, false);
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
         // Header
-        binding.header.collapsingToolbar.setTitle(getResources().getString(R.string.activity_title_home_page));
+        binding.header.toolbar.setTitle(getResources().getString(R.string.activity_title_home_page));
         ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.header.toolbar);
 
         // New update available dialog
@@ -85,7 +88,7 @@ public class Styles extends BaseFragment {
 
         long lastChecked = Prefs.getLong(LAST_UPDATE_CHECK_TIME, -1);
 
-        if (Prefs.getLong(UPDATE_CHECK_TIME, 0) != -1 && (lastChecked == -1 || (System.currentTimeMillis() - lastChecked >= Prefs.getLong("UPDATE_CHECK_TIME", 0)))) {
+        if (Prefs.getBoolean(AUTO_UPDATE, true) && (Prefs.getLong(UPDATE_CHECK_TIME, 0) != -1 && (lastChecked == -1 || (System.currentTimeMillis() - lastChecked >= Prefs.getLong("UPDATE_CHECK_TIME", 0))))) {
             Prefs.putLong(LAST_UPDATE_CHECK_TIME, System.currentTimeMillis());
             checkForUpdate = new CheckForUpdate();
             checkForUpdate.execute();
@@ -116,7 +119,7 @@ public class Styles extends BaseFragment {
         Prefs.putInt(VER_CODE, BuildConfig.VERSION_CODE);
         SystemUtil.getBootId();
 
-        // Styles page list items
+        // Home page list items
         ArrayList<Object[]> home_page = new ArrayList<>();
 
         home_page.add(new Object[]{IconPack.class, getResources().getString(R.string.activity_title_icon_pack), getResources().getString(R.string.activity_desc_icon_pack), R.drawable.ic_styles_iconpack});
@@ -164,6 +167,7 @@ public class Styles extends BaseFragment {
     private void addItem(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
             View list = LayoutInflater.from(requireActivity()).inflate(R.layout.view_list_menu, binding.homePageList, false);
+            list.setPadding(ViewBindingHelpers.dp2px(18), list.getPaddingTop(), ViewBindingHelpers.dp2px(18), list.getPaddingBottom());
 
             TextView title = list.findViewById(R.id.list_title);
             title.setText((String) pack.get(i)[1]);

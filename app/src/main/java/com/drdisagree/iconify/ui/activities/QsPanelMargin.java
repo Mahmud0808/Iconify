@@ -41,7 +41,7 @@ public class QsPanelMargin extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_qs_panel_margin);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_qs_panel_margin);
 
         // Show loading dialog
         loadingDialog = new LoadingDialog(this);

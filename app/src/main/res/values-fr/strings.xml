@@ -98,7 +98,7 @@
     <string name="qstile_btn3_desc">Off</string>
     <string name="qstile_btn4_title">Bluetooth</string>
     <string name="qstile_btn4_desc">On</string>
-    <string name="iconify_slogan">Personnaliser l\'interface utilisateur ennuyeuse d\'Android</string>
+    <string name="app_moto">Personnaliser l\'interface utilisateur ennuyeuse d\'Android</string>
     <string name="section_title_credits">Crédits</string>
     <string name="section_title_contributors">Contributeurs</string>
     <string name="cont_desc_media_player">Aperçu du lecteur multimédia</string>

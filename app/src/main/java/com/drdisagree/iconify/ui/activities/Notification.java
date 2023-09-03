@@ -31,7 +31,7 @@ public class Notification extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_notification);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_notification);
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);

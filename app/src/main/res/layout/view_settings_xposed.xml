@@ -1,35 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        style="@style/TextAppearance.Material3.TitleLarge"
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/TextAppearance.Material3.TitleMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/container_paddingSide"
-        android:layout_marginTop="@dimen/container_marginSide"
-        android:layout_marginBottom="@dimen/container_marginSide"
-        android:text="@string/list_title_xposed_settings"
-        android:textColor="@color/text_color_primary" />
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="8dp"
+        android:text="Xposed"
+        android:textColor="?attr/colorPrimary" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/container"
-        android:orientation="horizontal"
-        android:paddingStart="@dimen/container_paddingSide"
-        android:paddingTop="@dimen/container_padding"
-        android:paddingEnd="@dimen/container_paddingSide"
-        android:paddingBottom="@dimen/container_padding">
+        android:background="@drawable/item_background_material"
+        android:clickable="true">
+
+        <ImageView
+            android:id="@+id/settings_iv_xposed_warn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="24dp"
+            android:contentDescription="@string/icon"
+            android:src="@drawable/ic_xposed_warn"
+            app:tint="?attr/colorOnSurface" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="start|center"
-            android:layout_marginEnd="@dimen/container_padding"
-            android:layout_weight="1.0"
+            android:layout_centerVertical="true"
+            android:layout_marginVertical="22dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/hide_warn_message"
+            android:layout_toEndOf="@id/settings_iv_xposed_warn"
             android:orientation="vertical">
 
             <TextView
@@ -50,9 +61,11 @@
 
         <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/hide_warn_message"
-            style="@style/Widget.MaterialSwitch"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="24dp" />
 
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

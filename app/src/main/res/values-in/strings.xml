@@ -66,7 +66,7 @@
     <string name="qstile_btn2_desc">Mati</string>
     <string name="qstile_btn3_desc">Mati</string>
     <string name="qstile_btn4_desc">Nyala</string>
-    <string name="iconify_slogan">Kustomisasi UI Android yang Membosankan</string>
+    <string name="app_moto">Kustomisasi UI Android yang Membosankan</string>
     <string name="section_title_credits">Kredit</string>
     <string name="section_title_contributors">Kontributor</string>
     <string name="hide_label_title">Sembunyikan Label</string>
@@ -157,7 +157,7 @@
     <string name="changelog_not_found">Changelog tidak ditemukan!\nIni mungkin masalah dengan koneksi internet Anda atau server mungkin sedang tidak aktif saat ini. Coba lagi nanti.</string>
     <string name="update_schedule_title">Perbarui Jadwal</string>
     <string name="update_schedule_des">Kapan harus memeriksa pembaruan</string>
-    <string name="new_update_available">Pembaruan tersedia!</string>
+    <string name="update_available">Pembaruan tersedia!</string>
     <string name="view_changelog">Lihat Changelog</string>
     <string name="hide_changelog">Sembunyikan Changelog</string>
     <string name="already_up_to_date">Sudah diperbarui.</string>

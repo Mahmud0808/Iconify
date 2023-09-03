@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/appBarLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:fitsSystemWindows="true"
+    app:liftOnScroll="true">
+
+    <com.google.android.material.appbar.SubtitleCollapsingToolbarLayout
+        android:id="@+id/collapsing_toolbar"
+        style="?attr/collapsingToolbarLayoutLargeStyle"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
+        android:background="?android:windowBackground"
+        app:collapsedSubtitleTextAppearance="@style/Toolbar.SubTitleText.Collapsed"
+        app:collapsedSubtitleTextColor="@color/text_color_secondary"
+        app:collapsedTitleTextAppearance="@style/Toolbar.TitleText.Collapsed"
+        app:collapsedTitleTextColor="@color/text_color_primary"
+        app:contentScrim="@drawable/top_appbar_bg"
+        app:expandedSubtitleTextAppearance="@style/Toolbar.SubTitleText.Expanded"
+        app:expandedTitleMarginEnd="42dp"
+        app:expandedTitleMarginStart="42dp"
+        app:expandedTitleTextAppearance="@style/Toolbar.TitleText.Expanded"
+        app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+        app:maxLines="1"
+        app:subtitle="@string/app_moto"
+        app:title="@string/app_name"
+        app:titleCollapseMode="fade"
+        app:titleTextEllipsize="end">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:paddingEnd="24dp"
+            app:contentInsetStartWithNavigation="0dp"
+            app:layout_collapseMode="pin"
+            app:maxLines="1"
+            app:navigationIconTint="?attr/colorOnSurface"
+            app:popupTheme="@style/Theme.Iconify"
+            app:subtitle="@string/app_moto"
+            app:title="@string/app_name"
+            app:titleTextAppearance="@style/Toolbar.TitleText"
+            app:titleTextEllipsize="end"
+            tools:ignore="RtlSymmetry" />
+
+    </com.google.android.material.appbar.SubtitleCollapsingToolbarLayout>
+</com.google.android.material.appbar.AppBarLayout>

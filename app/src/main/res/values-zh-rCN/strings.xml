@@ -119,7 +119,7 @@
     <string name="qstile_btn3_desc">禁用</string>
     <string name="qstile_btn4_title">蓝牙</string>
     <string name="qstile_btn4_desc">开启</string>
-    <string name="iconify_slogan">自定义无趣的 Android UI</string>
+    <string name="app_moto">自定义无趣的 Android UI</string>
     <string name="section_title_credits">鸣谢</string>
     <string name="section_title_contributors">贡献者</string>
     <string name="cont_desc_media_player">媒体播放器预览</string>
@@ -233,7 +233,7 @@
     <string name="btn_download">下载</string>
     <string name="update_schedule_title">计划更新</string>
     <string name="update_schedule_des">何时检查更新</string>
-    <string name="new_update_available">新的更新可用！</string>
+    <string name="update_available">新的更新可用！</string>
     <string name="view_changelog">查看更新日志</string>
     <string name="hide_changelog">隐藏更新日志</string>
     <string name="already_up_to_date">你已经是最新版本了。</string>
@@ -516,7 +516,7 @@
     <string name="settings_icons_follow_system">跟随系统</string>
     <string name="settings_icons_system_inverse">系统反转</string>
     <string name="settings_icons_monet_accent">Monet / 强调色</string>
-    <string name="navbar_styles">样式</string>
+    <string name="navbar_home">样式</string>
     <string name="navbar_tweaks">调整</string>
     <string name="navbar_settings">设置</string>
     <string name="btn_close">禁用</string>

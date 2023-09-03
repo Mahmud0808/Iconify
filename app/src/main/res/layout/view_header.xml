@@ -2,43 +2,22 @@
 <com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/appBarLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/transparent"
-    app:liftOnScroll="true">
+    android:fitsSystemWindows="true">
 
-    <com.google.android.material.appbar.CollapsingToolbarLayout
-        android:id="@+id/collapsing_toolbar"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
-        android:background="@color/colorBackground"
-        app:collapsedTitleTextAppearance="@style/Toolbar.TitleText.Collapsed"
-        app:collapsedTitleTextColor="@color/textColorPrimary"
-        app:contentScrim="@drawable/top_appbar_bg"
-        app:expandedTitleMarginEnd="40dp"
-        app:expandedTitleMarginStart="40dp"
-        app:expandedTitleTextAppearance="@style/Toolbar.TitleText.Expanded"
-        app:expandedTitleTextColor="@color/textColorPrimary"
-        app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+        android:layout_height="?attr/actionBarSize"
+        android:paddingEnd="24dp"
+        app:contentInsetStartWithNavigation="0dp"
         app:maxLines="1"
-        app:scrimAnimationDuration="0"
+        app:navigationIconTint="?attr/colorOnSurface"
+        app:popupTheme="@style/Theme.Iconify"
         app:title="@string/app_name"
-        app:titleCollapseMode="fade"
         app:titleTextEllipsize="end"
-        app:toolbarId="@id/toolbar">
+        tools:ignore="RtlSymmetry" />
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:paddingEnd="24dp"
-            app:contentInsetStartWithNavigation="0dp"
-            app:layout_collapseMode="pin"
-            app:maxLines="1"
-            app:popupTheme="@style/Theme.Iconify"
-            app:titleTextAppearance="@style/Toolbar.TitleText"
-            app:titleTextEllipsize="end"
-            tools:ignore="RtlSymmetry" />
-
-    </com.google.android.material.appbar.CollapsingToolbarLayout>
 </com.google.android.material.appbar.AppBarLayout>

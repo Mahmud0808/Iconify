@@ -139,7 +139,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_monet_engine);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_monet_engine);
 
         colorTableRows = new LinearLayout[]{
                 binding.monetEngine.systemAccent1,

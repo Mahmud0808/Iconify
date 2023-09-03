@@ -34,7 +34,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="6dp"
-        android:background="@drawable/container"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:paddingBottom="3dp"

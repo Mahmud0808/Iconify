@@ -90,7 +90,7 @@
     <string name="qstile_btn3_desc">خاموش</string>
     <string name="qstile_btn4_title">بلوتوث</string>
     <string name="qstile_btn4_desc">روشن</string>
-    <string name="iconify_slogan">شخصی سازی رابط‌ کاربری خسته کننده اندروید</string>
+    <string name="app_moto">شخصی سازی رابط‌ کاربری خسته کننده اندروید</string>
     <string name="section_title_credits">اسامی دست‌اندرکاران</string>
     <string name="section_title_contributors">اسامی مشارکت کنندگان</string>
     <string name="cont_desc_media_player">پیش‌نمایش مدیا پلیر</string>
@@ -192,7 +192,7 @@
     <string name="btn_download">دانلود</string>
     <string name="update_schedule_title">زمانبندی آپدیت</string>
     <string name="update_schedule_des">چه زمانی وجود آپدیت جدید بررسی شود</string>
-    <string name="new_update_available">آپدیت جدید در دسترس است!</string>
+    <string name="update_available">آپدیت جدید در دسترس است!</string>
     <string name="view_changelog">نمایش تغییرات اخیر</string>
     <string name="hide_changelog">مخفی کردن تغییرات اخیر</string>
     <string name="already_up_to_date">آخرین نسخه برنامه در حال حاضر نصب است.</string>

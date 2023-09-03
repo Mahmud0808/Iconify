@@ -14,6 +14,12 @@ public class Const {
     public static final String PIXEL_LAUNCHER_PACKAGE = "com.google.android.apps.nexuslauncher";
     public static final String SETTINGS_PACKAGE = "com.android.settings";
 
+    // Github repo
+    public static final String GITHUB_REPO = "https://github.com/Mahmud0808/Iconify";
+
+    // Telegram group
+    public static final String TELEGRAM_GROUP = "https://t.me/IconifyDiscussion";
+
     // Parse new update
     public static final String LATEST_VERSION = "https://raw.githubusercontent.com/Mahmud0808/Iconify/stable/latestVersion.json";
 

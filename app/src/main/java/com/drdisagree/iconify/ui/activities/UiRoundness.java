@@ -44,7 +44,7 @@ public class UiRoundness extends BaseActivity {
         loadingDialog = new LoadingDialog(this);
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_ui_roundness);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_ui_roundness);
 
         // Corner Radius
         GradientDrawable[] drawables = new GradientDrawable[]{

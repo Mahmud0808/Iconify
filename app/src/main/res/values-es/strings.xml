@@ -119,7 +119,7 @@
     <string name="qstile_btn3_desc">Apagado</string>
     <string name="qstile_btn4_title">Bluetooth</string>
     <string name="qstile_btn4_desc">Encendido</string>
-    <string name="iconify_slogan">Personaliza la aburrida interfaz de Android</string>
+    <string name="app_moto">Personaliza la aburrida interfaz de Android</string>
     <string name="section_title_credits">Creditos</string>
     <string name="section_title_contributors">Colaboradores</string>
     <string name="cont_desc_media_player">Vista previa del Reproductor de medios</string>
@@ -233,7 +233,7 @@
     <string name="btn_download">Descargar</string>
     <string name="update_schedule_title">Programar actualizaciones</string>
     <string name="update_schedule_des">Cuándo buscar actualizaciones</string>
-    <string name="new_update_available">¡Nueva actualización disponible!</string>
+    <string name="update_available">¡Nueva actualización disponible!</string>
     <string name="view_changelog">Ver registro de cambios</string>
     <string name="hide_changelog">Ocultar registro de cambios</string>
     <string name="already_up_to_date">Ya tienes la versión más reciente.</string>
@@ -517,7 +517,7 @@
     <string name="settings_icons_follow_system">Seguir el Sistema</string>
     <string name="settings_icons_system_inverse">Inverso del Sistema</string>
     <string name="settings_icons_monet_accent">Monet / Acento</string>
-    <string name="navbar_styles">Estilos</string>
+    <string name="navbar_home">Estilos</string>
     <string name="navbar_tweaks">Retoques</string>
     <string name="navbar_settings">Configuración</string>
     <string name="btn_close">Cerrar</string>

@@ -25,8 +25,8 @@ import com.airbnb.lottie.LottieCompositionFactory;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityHomePageBinding;
+import com.drdisagree.iconify.ui.fragments.Home;
 import com.drdisagree.iconify.ui.fragments.Settings;
-import com.drdisagree.iconify.ui.fragments.Styles;
 import com.drdisagree.iconify.ui.fragments.Tweaks;
 import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.utils.FabricatedUtil;
@@ -50,7 +50,7 @@ public class HomePage extends BaseActivity {
         Prefs.putBoolean(ON_HOME_PAGE, true);
 
         if (savedInstanceState == null) {
-            replaceFragment(new Styles(), FRAGMENT_STYLES);
+            replaceFragment(new Home(), FRAGMENT_STYLES);
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -115,10 +115,10 @@ public class HomePage extends BaseActivity {
     @SuppressLint("NonConstantResourceId")
     private void setFragment(int id) {
         switch (id) {
-            case R.id.navbar_styles:
+            case R.id.navbar_home:
                 if (!Objects.equals(FragmentHelper.getTopFragment(getSupportFragmentManager()), FRAGMENT_STYLES)) {
-                    replaceFragment(new Styles(), FRAGMENT_STYLES);
-                    selectedFragment = R.id.navbar_styles;
+                    replaceFragment(new Home(), FRAGMENT_STYLES);
+                    selectedFragment = R.id.navbar_home;
                 }
                 break;
             case R.id.navbar_tweaks:

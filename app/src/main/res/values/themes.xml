@@ -1,21 +1,6 @@
 <resources>
     <!-- Base application theme. -->
     <style name="Theme.Iconify" parent="Theme.Material3.Light.NoActionBar">
-        <!-- Background color. -->
-        <item name="android:windowBackground">@color/colorBackground</item>
-        <item name="android:colorBackground">@color/colorBackground</item>
-
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/colorAccent</item>
-        <item name="colorPrimaryDark">@color/colorAccent</item>
-        <item name="colorPrimaryVariant">@color/colorAccent</item>
-        <item name="colorOnPrimary">@color/white</item>
-
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/colorAccent</item>
-        <item name="colorSecondaryVariant">@color/colorAccent</item>
-        <item name="colorOnSecondary">@color/black</item>
-
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
@@ -24,21 +9,9 @@
         <item name="android:navigationBarColor">@color/transparent</item>
         <item name="android:windowLightNavigationBar">true</item>
 
-        <!-- App theme -->
-        <item name="android:textColorPrimary">@color/text_color_primary</item>
-        <item name="android:textColorSecondary">@color/text_color_secondary</item>
-        <item name="android:colorControlNormal">@color/text_color_primary</item>
-        <item name="android:colorControlActivated">@color/text_color_primary</item>
-        <item name="android:colorControlHighlight">@color/colorAccent</item>
-        <item name="selectableItemBackground">?android:selectableItemBackground</item>
-        <item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>
+        <!-- App theme. -->
         <item name="android:actionOverflowButtonStyle">@style/actionButtonOverflow</item>
         <item name="homeAsUpIndicator">@drawable/ic_home_as_up_indicator</item>
-        <item name="colorControlHighlight">@color/rippleAccent</item>
-        <item name="colorBackgroundFloating">@color/colorContainer</item>
-        <item name="colorSurface">@color/colorContainer</item>
-        <item name="colorPrimarySurface">@color/colorContainer</item>
-        <item name="colorError">@color/red</item>
         <item name="android:lineSpacingMultiplier">1.4</item>
     </style>
 

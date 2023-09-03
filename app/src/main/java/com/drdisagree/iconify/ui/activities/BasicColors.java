@@ -91,7 +91,7 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_basic_colors);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_basic_colors);
 
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL))
             accentPrimary = Prefs.getString(COLOR_ACCENT_PRIMARY);

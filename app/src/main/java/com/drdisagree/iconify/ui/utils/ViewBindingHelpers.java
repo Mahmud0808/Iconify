@@ -5,6 +5,7 @@ import static com.bumptech.glide.request.RequestOptions.centerCropTransform;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.TypedValue;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -18,7 +19,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.drdisagree.iconify.Iconify;
 
 import java.util.Objects;
 
@@ -61,10 +62,18 @@ public class ViewBindingHelpers {
         }
     }
 
-    public static void setHeader(Context context, CollapsingToolbarLayout collapsing_toolbar, Toolbar toolbar, int title) {
-        collapsing_toolbar.setTitle(context.getResources().getString(title));
+    public static void setHeader(Context context, Toolbar toolbar, int title) {
         ((AppCompatActivity) context).setSupportActionBar(toolbar);
         Objects.requireNonNull(((AppCompatActivity) context).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity) context).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setTitle(title);
+    }
+
+    public static int dp2px(float dp) {
+        return dp2px((int) dp);
+    }
+
+    public static int dp2px(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Objects.requireNonNull(Iconify.getAppContext()).getResources().getDisplayMetrics());
     }
 }

@@ -65,7 +65,7 @@ public class Changelog extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_changelog);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_changelog);
 
         grabChangelog = new Changelog.GrabChangelog();
         grabChangelog.execute();

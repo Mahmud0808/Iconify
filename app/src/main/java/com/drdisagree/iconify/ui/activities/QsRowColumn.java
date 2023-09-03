@@ -51,7 +51,7 @@ public class QsRowColumn extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_qs_row_column);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_qs_row_column);
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);

@@ -51,7 +51,7 @@ public class SettingsIcons extends BaseActivity implements RadioDialog.RadioDial
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_settings_icons);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_settings_icons);
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);

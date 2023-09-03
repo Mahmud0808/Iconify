@@ -8,8 +8,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.WindowCompat;
 
+import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.ui.utils.ThemeHelper;
 import com.drdisagree.iconify.utils.helpers.LocaleHelper;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.shape.MaterialShapeDrawable;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -27,6 +30,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void setupEdgetoEdge() {
+        try {
+            ((AppBarLayout) findViewById(R.id.appBarLayout)).setStatusBarForeground(MaterialShapeDrawable.createWithElevationOverlay(getApplicationContext()));
+        } catch (Exception ignored) {
+        }
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
     }
 

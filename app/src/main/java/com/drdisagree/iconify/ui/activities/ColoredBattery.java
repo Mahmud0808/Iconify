@@ -44,7 +44,7 @@ public class ColoredBattery extends BaseActivity implements ColorPickerDialogLis
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_colored_battery);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_colored_battery);
 
         // Enable colored battery
         binding.enableColoredBattery.setChecked(Prefs.getString(COLORED_BATTERY_CHECK, STR_NULL).equals(STR_NULL) ? (OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentIPSUI2.overlay") || OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentIPSUI4.overlay")) : Prefs.getBoolean(COLORED_BATTERY_SWITCH));

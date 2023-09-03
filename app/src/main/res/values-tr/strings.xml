@@ -96,7 +96,7 @@
     <string name="qstile_btn3_desc">Kapalı</string>
     <string name="qstile_btn4_title">Bluetooth</string>
     <string name="qstile_btn4_desc">Açık</string>
-    <string name="iconify_slogan">Sıkıcı Android Arayüzünü Özelleştir</string>
+    <string name="app_moto">Sıkıcı Android Arayüzünü Özelleştir</string>
     <string name="section_title_credits">Katkıda Bulunanlar</string>
     <string name="section_title_contributors">Geliştiriciler</string>
     <string name="cont_desc_media_player">Medya Oynatıcı Ön İzleme</string>
@@ -210,7 +210,7 @@
     <string name="btn_download">İndir</string>
     <string name="update_schedule_title">Güncellemeyi Zamanla</string>
     <string name="update_schedule_des">Güncelleme kontrolü yapılacak zamanı ayarla</string>
-    <string name="new_update_available">Yeni güncelleme mevcut!</string>
+    <string name="update_available">Yeni güncelleme mevcut!</string>
     <string name="view_changelog">Değişim Günlüğünü Görüntüle</string>
     <string name="hide_changelog">Değişim Günlüğünü Gizle</string>
     <string name="already_up_to_date">Zaten güncel sürümü kullanıyorsunuz.</string>

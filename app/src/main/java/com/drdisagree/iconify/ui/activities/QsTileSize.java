@@ -39,7 +39,7 @@ public class QsTileSize extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_qs_tile_size);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_qs_tile_size);
 
         // Show loading dialog
         loadingDialog = new LoadingDialog(this);

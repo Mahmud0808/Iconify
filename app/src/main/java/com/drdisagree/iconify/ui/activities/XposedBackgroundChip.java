@@ -10,6 +10,7 @@ import static com.drdisagree.iconify.common.Preferences.STATUSBAR_CLOCK_COLOR_OP
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -50,7 +51,7 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_background_chip);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_background_chip);
 
         // Statusbar clock Chip
         binding.enableClockBgChip.setChecked(RPrefs.getBoolean(STATUSBAR_CLOCKBG_SWITCH, false));
@@ -61,6 +62,7 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
                 new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
             }
         });
+        binding.clockBgChip.setOnClickListener(v -> binding.enableClockBgChip.toggle());
 
         // Statusbar clock chip style
         ArrayList<Object[]> status_bar_chip_style = new ArrayList<>();
@@ -107,6 +109,7 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
                 SystemUtil.doubleToggleDarkMode();
             }, SWITCH_ANIMATION_DELAY);
         });
+        binding.statusIconsChip.setOnClickListener(v -> binding.enableStatusIconsChip.toggle());
 
         // Status icons chip style
         ArrayList<Object[]> status_icons_chip_style = new ArrayList<>();
@@ -153,8 +156,10 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
             TextView title = child.findViewById(R.id.style_name);
             if (i == RPrefs.getInt(CHIP_STATUSBAR_CLOCKBG_STYLE, 0)) {
                 title.setTextColor(getResources().getColor(R.color.colorSuccess, getTheme()));
+                title.setTypeface(title.getTypeface(), Typeface.BOLD);
             } else {
                 title.setTextColor(getResources().getColor(R.color.textColorSecondary, getTheme()));
+                title.setTypeface(title.getTypeface(), Typeface.NORMAL);
             }
         }
     }
@@ -192,8 +197,10 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
             TextView title = child.findViewById(R.id.style_name);
             if (i == RPrefs.getInt(CHIP_QSSTATUSICONS_STYLE, 0)) {
                 title.setTextColor(getResources().getColor(R.color.colorSuccess, getTheme()));
+                title.setTypeface(title.getTypeface(), Typeface.BOLD);
             } else {
                 title.setTextColor(getResources().getColor(R.color.textColorSecondary, getTheme()));
+                title.setTypeface(title.getTypeface(), Typeface.NORMAL);
             }
         }
     }

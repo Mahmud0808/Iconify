@@ -44,7 +44,7 @@ public class VolumePanel extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_volume_panel);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_volume_panel);
 
         binding.thinBg.setChecked(Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 1);
         binding.thinBg.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -102,7 +102,7 @@ public class VolumePanel extends BaseActivity {
         // Loading dialog while creating modules
         loadingDialog = new LoadingDialog(this);
 
-        // Info dialog for volume style modules
+        // Credits dialog for volume style modules
         infoDialog = new InfoDialog(this);
 
         // Volume style

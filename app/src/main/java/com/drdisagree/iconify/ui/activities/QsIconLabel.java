@@ -49,7 +49,7 @@ public class QsIconLabel extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_qs_icon_label);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_qs_icon_label);
 
         // Text Size
         final int[] finalTextSize = {14};

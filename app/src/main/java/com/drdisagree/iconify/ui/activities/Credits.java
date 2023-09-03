@@ -1,72 +1,42 @@
 package com.drdisagree.iconify.ui.activities;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.databinding.ActivityInfoBinding;
+import com.drdisagree.iconify.databinding.ActivityCreditsBinding;
 import com.drdisagree.iconify.ui.adapters.InfoAdapter;
 import com.drdisagree.iconify.ui.models.InfoModel;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 
 import java.util.ArrayList;
 
-public class Info extends BaseActivity {
+public class Credits extends BaseActivity {
 
-    private ActivityInfoBinding binding;
+    private ActivityCreditsBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityInfoBinding.inflate(getLayoutInflater());
+        binding = ActivityCreditsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_info);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.section_title_credits);
 
         // RecyclerView
         binding.infoContainer.setLayoutManager(new LinearLayoutManager(this));
-        ConcatAdapter adapter = new ConcatAdapter(initAppInfo(), initAppInfoExtended(), initCreditsList(), initContributorsList(), initTranslatorsList());
+        ConcatAdapter adapter = new ConcatAdapter(initCreditsList(), initContributorsList(), initTranslatorsList());
         binding.infoContainer.setAdapter(adapter);
         binding.infoContainer.setHasFixedSize(true);
-    }
-
-    private InfoAdapter initAppInfo() {
-        ArrayList<InfoModel> app_info = new ArrayList<>();
-
-        app_info.add(new InfoModel(R.layout.view_list_info_app));
-
-        return new InfoAdapter(this, app_info);
-    }
-
-    private InfoAdapter initAppInfoExtended() {
-        ArrayList<InfoModel> app_info = new ArrayList<>();
-
-        app_info.add(new InfoModel(""));
-        app_info.add(new InfoModel(getResources().getString(R.string.info_version_title), BuildConfig.VERSION_NAME, v -> {
-            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText(getResources().getString(R.string.iconify_clipboard_label_version), getResources().getString(R.string.app_name) + "\n" + getResources().getString(R.string.iconify_clipboard_label_version_name) + ' ' + BuildConfig.VERSION_NAME + "\n" + getResources().getString(R.string.iconify_clipboard_label_version_code) + ' ' + BuildConfig.VERSION_CODE);
-            clipboard.setPrimaryClip(clip);
-            Toast toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_copied), Toast.LENGTH_SHORT);
-            toast.show();
-        }, R.drawable.ic_info));
-        app_info.add(new InfoModel(this, getResources().getString(R.string.info_github_title), getResources().getString(R.string.info_github_desc), "https://github.com/Mahmud0808/Iconify", R.drawable.ic_github));
-        app_info.add(new InfoModel(this, getResources().getString(R.string.info_telegram_title), getResources().getString(R.string.info_telegram_desc), "https://t.me/IconifyOfficial", R.drawable.ic_telegram));
-
-        return new InfoAdapter(this, app_info);
     }
 
     private InfoAdapter initCreditsList() {
         ArrayList<InfoModel> credits_list = new ArrayList<>();
 
-        credits_list.add(new InfoModel(getResources().getString(R.string.section_title_credits)));
+        credits_list.add(new InfoModel(getResources().getString(R.string.section_title_thanks)));
         credits_list.add(new InfoModel(this, "Icons8.com", getResources().getString(R.string.info_icons8_desc), "https://icons8.com/", R.drawable.ic_link));
         credits_list.add(new InfoModel(this, "iconsax.io", getResources().getString(R.string.info_iconsax_desc), "http://iconsax.io/", R.drawable.ic_link));
         credits_list.add(new InfoModel(this, "Jai", getResources().getString(R.string.info_shell_desc), "https://t.me/Jai_08", R.drawable.ic_user));

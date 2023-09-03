@@ -140,7 +140,9 @@ public class Preferences {
     public static final String APP_LANGUAGE = "IconifyAppLanguage";
     public static final String APP_ICON = "IconifyAppIcon";
     public static final String APP_THEME = "IconifyAppTheme";
+    public static final String AUTO_UPDATE = "IconifyAutoUpdate";
     public static final String SHOW_XPOSED_WARN = "showXposedMenuWarn";
+    public static final String SHOW_HOME_CARD = "IconifyShowHomeCard";
 
     // Others
     public static final String BOOT_ID = "boot_id";

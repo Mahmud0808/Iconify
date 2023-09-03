@@ -16,7 +16,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
-import android.widget.SeekBar;
+
+import androidx.annotation.NonNull;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
@@ -24,6 +25,7 @@ import com.drdisagree.iconify.databinding.ActivityXposedOthersBinding;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.google.android.material.slider.Slider;
 
 public class XposedOthers extends BaseActivity {
 
@@ -37,7 +39,7 @@ public class XposedOthers extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_xposed_others);
+        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_xposed_others);
 
         // Hide carrier group
         binding.hideQsCarrierGroup.setChecked(RPrefs.getBoolean(QSPANEL_HIDE_CARRIER, false));
@@ -52,6 +54,7 @@ public class XposedOthers extends BaseActivity {
                 }
             }, SWITCH_ANIMATION_DELAY);
         });
+        binding.hideQsCarrierGroupContainer.setOnClickListener(v -> binding.hideQsCarrierGroup.toggle());
 
         // Hide status icons
         binding.hideStatusIcons.setChecked(RPrefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false));
@@ -66,6 +69,7 @@ public class XposedOthers extends BaseActivity {
                 }
             }, SWITCH_ANIMATION_DELAY);
         });
+        binding.hideStatusIconsContainer.setOnClickListener(v -> binding.hideStatusIcons.toggle());
 
         // Hide lockscreen carrier
         binding.hideLockscreenCarrier.setChecked(RPrefs.getBoolean(HIDE_LOCKSCREEN_CARRIER, false));
@@ -73,6 +77,7 @@ public class XposedOthers extends BaseActivity {
             RPrefs.putBoolean(HIDE_LOCKSCREEN_CARRIER, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
+        binding.hideLockscreenCarrierContainer.setOnClickListener(v -> binding.hideLockscreenCarrier.toggle());
 
         // Hide lockscreen statusbar
         binding.hideLockscreenStatusbar.setChecked(RPrefs.getBoolean(HIDE_LOCKSCREEN_STATUSBAR, false));
@@ -80,6 +85,7 @@ public class XposedOthers extends BaseActivity {
             RPrefs.putBoolean(HIDE_LOCKSCREEN_STATUSBAR, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
+        binding.hideLockscreenStatusbarContainer.setOnClickListener(v -> binding.hideLockscreenStatusbar.toggle());
 
         // Fixed status icons
         if (Build.VERSION.SDK_INT >= 33) {
@@ -99,22 +105,17 @@ public class XposedOthers extends BaseActivity {
 
         // Status icons top margin
         binding.statusIconsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0) + "dp");
-        binding.statusIconsTopMarginSeekbar.setProgress(RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0));
+        binding.statusIconsTopMarginSeekbar.setValue(RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0));
         final int[] topMarginStatusIcons = {RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0)};
-        binding.statusIconsTopMarginSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
+        binding.statusIconsTopMarginSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                topMarginStatusIcons[0] = progress;
-                binding.statusIconsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                topMarginStatusIcons[0] = (int) slider.getValue();
+                binding.statusIconsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + topMarginStatusIcons[0] + "dp");
                 RPrefs.putInt(FIXED_STATUS_ICONS_TOPMARGIN, topMarginStatusIcons[0]);
                 if (RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)) {
                     FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (48 + topMarginStatusIcons[0]) + "dp");
@@ -125,22 +126,17 @@ public class XposedOthers extends BaseActivity {
 
         // Status icons side margin
         binding.statusIconsSideMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + RPrefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0) + "dp");
-        binding.statusIconsSideMarginSeekbar.setProgress(RPrefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0));
+        binding.statusIconsSideMarginSeekbar.setValue(RPrefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0));
         final int[] sideMarginStatusIcons = {RPrefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0)};
-        binding.statusIconsSideMarginSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
+        binding.statusIconsSideMarginSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                sideMarginStatusIcons[0] = progress;
-                binding.statusIconsSideMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                sideMarginStatusIcons[0] = (int) slider.getValue();
+                binding.statusIconsSideMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + sideMarginStatusIcons[0] + "dp");
                 RPrefs.putInt(FIXED_STATUS_ICONS_SIDEMARGIN, sideMarginStatusIcons[0]);
                 if (RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)) {
                     new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);

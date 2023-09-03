@@ -8,8 +8,8 @@ import static com.drdisagree.iconify.common.References.FRAGMENT_TWEAKS;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.drdisagree.iconify.ui.fragments.Home;
 import com.drdisagree.iconify.ui.fragments.Settings;
-import com.drdisagree.iconify.ui.fragments.Styles;
 import com.drdisagree.iconify.ui.fragments.Tweaks;
 
 public class FragmentHelper {
@@ -22,7 +22,7 @@ public class FragmentHelper {
         if (last >= 0) {
             Fragment topFragment = fragmentManager.getFragments().get(last);
 
-            if (topFragment instanceof Styles)
+            if (topFragment instanceof Home)
                 fragment[0] = FRAGMENT_STYLES;
             else if (topFragment instanceof Tweaks)
                 fragment[0] = FRAGMENT_TWEAKS;
