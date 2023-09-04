@@ -9,21 +9,26 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
+import com.drdisagree.iconify.R;
+import com.google.android.material.textview.MaterialTextView;
+
+public class SectionTitleAdapter extends RecyclerView.Adapter<SectionTitleAdapter.ViewHolder> {
 
     Context context;
     int layout;
-    String identifier;
+    String text;
 
-    public ViewAdapter(Context context, int layout) {
+    public SectionTitleAdapter(Context context, int layout, int text) {
         this.context = context;
         this.layout = layout;
+        this.text = context.getString(text);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(layout, parent, false);
+        ((MaterialTextView) view.findViewById(R.id.section_title)).setText(text);
         return new ViewHolder(view);
     }
 

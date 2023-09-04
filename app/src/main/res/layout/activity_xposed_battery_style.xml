@@ -47,7 +47,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/enable_header_image"
-                    style="@style/buttonMain"
+                    style="@style/Widget.MaterialButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -68,7 +68,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/apply_battery_style"
-                    style="@style/buttonMain"
+                    style="@style/Widget.MaterialButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/btn_apply" />

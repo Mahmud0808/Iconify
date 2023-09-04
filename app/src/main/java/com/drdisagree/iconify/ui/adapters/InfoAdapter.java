@@ -83,7 +83,6 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         ImageView icon;
         TextView title, desc;
         RelativeLayout container;
-        View divider;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
@@ -92,7 +91,6 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             title = itemView.findViewById(R.id.title);
             desc = itemView.findViewById(R.id.desc);
             container = itemView.findViewById(R.id.list_info_item);
-            divider = itemView.findViewById(R.id.divider);
         }
     }
 }

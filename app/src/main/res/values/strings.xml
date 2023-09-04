@@ -637,4 +637,5 @@
     <string name="auto_restart_systemui">Automatically restart SystemUI.</string>
     <string name="manual_restart_systemui">Notify for manual restart.</string>
     <string name="systemui_restart_required">SystemUI restart required</string>
+    <string name="click_to_enable_or_disable">Click to enable or disable</string>
 </resources>

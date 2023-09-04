@@ -78,7 +78,6 @@
                 android:id="@+id/sb_clock_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:background="@drawable/item_background_material"
                 android:clickable="true"
                 android:orientation="vertical"
@@ -136,8 +135,8 @@
 
                 <View
                     android:id="@+id/preview_color_picker_clocktext"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="24dp"

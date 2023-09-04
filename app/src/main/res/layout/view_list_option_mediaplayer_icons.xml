@@ -59,7 +59,7 @@
 
         <Button
             android:id="@+id/aurora"
-            style="@style/buttonMain"
+            style="@style/Widget.MaterialButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -76,7 +76,7 @@
 
         <Button
             android:id="@+id/gradicon"
-            style="@style/buttonMain"
+            style="@style/Widget.MaterialButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -95,7 +95,7 @@
 
         <Button
             android:id="@+id/plumpy"
-            style="@style/buttonMain"
+            style="@style/Widget.MaterialButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

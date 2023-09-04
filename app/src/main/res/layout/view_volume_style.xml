@@ -127,7 +127,7 @@
 
     <Button
         android:id="@+id/volume_style_create_module"
-        style="@style/buttonMain"
+        style="@style/Widget.MaterialButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"

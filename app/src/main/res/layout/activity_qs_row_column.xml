@@ -142,17 +142,16 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/qs_row_column_apply"
-                    style="@style/buttonMain"
+                    style="@style/Widget.MaterialButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/btn_apply" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/qs_row_column_reset"
-                    style="@style/buttonMain"
+                    style="@style/Widget.MaterialButton.Red"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/button_red"
                     android:text="@string/btn_reset"
                     android:visibility="gone" />
 

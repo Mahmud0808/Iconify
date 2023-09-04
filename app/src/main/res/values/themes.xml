@@ -37,7 +37,7 @@
         <item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>
         <item name="android:actionOverflowButtonStyle">@style/actionButtonOverflow</item>
         <item name="homeAsUpIndicator">@drawable/ic_home_as_up_indicator</item>
-        <item name="colorControlHighlight">@color/rippleAccent</item>
+        <item name="colorControlHighlight">@color/color_material_ripple_no_tint</item>
         <item name="colorBackgroundFloating">@color/colorContainer</item>
         <item name="colorSurface">@color/colorContainer</item>
         <item name="colorPrimarySurface">@color/colorBackground</item>
