@@ -19,8 +19,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/container_marginTopBottom"
-            android:paddingTop="@dimen/content_marginTop">
+            android:layout_marginBottom="@dimen/container_marginTopBottom">
 
             <TextView
                 android:id="@+id/no_supported_musicplayer"

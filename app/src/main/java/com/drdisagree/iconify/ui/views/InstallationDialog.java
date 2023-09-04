@@ -8,7 +8,6 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.core.content.res.ResourcesCompat;
@@ -17,6 +16,9 @@ import androidx.core.text.HtmlCompat;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.ui.activities.BaseActivity;
+import com.google.android.material.button.MaterialButton;
+
+import java.util.Objects;
 
 public class InstallationDialog extends BaseActivity {
 
@@ -32,7 +34,7 @@ public class InstallationDialog extends BaseActivity {
 
         dialog = new Dialog(context);
         dialog.setContentView(R.layout.view_installation_dialog);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setCancelable(false);
         dialog.setOnCancelListener(null);
         dialog.setCanceledOnTouchOutside(false);
@@ -46,14 +48,14 @@ public class InstallationDialog extends BaseActivity {
         TextView l = dialog.findViewById(R.id.logs);
         l.setMovementMethod(new ScrollingMovementMethod());
 
-        ImageView lv = dialog.findViewById(R.id.view_logs);
-        lv.setOnClickListener(v -> {
+        MaterialButton arrow = dialog.findViewById(R.id.view_logs);
+        arrow.setOnClickListener(v -> {
             if (dialog.findViewById(R.id.logs_layout).getVisibility() == View.GONE) {
                 dialog.findViewById(R.id.logs_layout).setVisibility(View.VISIBLE);
-                lv.setForeground(ResourcesCompat.getDrawable(Iconify.getAppContext().getResources(), R.drawable.ic_collapse_arrow, null));
+                arrow.setIcon(ResourcesCompat.getDrawable(Objects.requireNonNull(Iconify.getAppContext()).getResources(), R.drawable.ic_collapse_arrow, null));
             } else {
                 dialog.findViewById(R.id.logs_layout).setVisibility(View.GONE);
-                lv.setForeground(ResourcesCompat.getDrawable(Iconify.getAppContext().getResources(), R.drawable.ic_expand_arrow, null));
+                arrow.setIcon(ResourcesCompat.getDrawable(Objects.requireNonNull(Iconify.getAppContext()).getResources(), R.drawable.ic_expand_arrow, null));
             }
         });
 

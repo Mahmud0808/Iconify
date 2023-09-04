@@ -3,12 +3,16 @@ package com.drdisagree.iconify.ui.utils;
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 import static com.bumptech.glide.request.RequestOptions.centerCropTransform;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -75,5 +79,13 @@ public class ViewBindingHelpers {
 
     public static int dp2px(int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Objects.requireNonNull(Iconify.getAppContext()).getResources().getDisplayMetrics());
+    }
+
+    public static int getColorResCompat(Context context, @AttrRes int id) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(id, typedValue, false);
+        @SuppressLint("Recycle") TypedArray arr = context.obtainStyledAttributes(typedValue.data, new int[]{id});
+        return arr.getColor(0, -1);
     }
 }

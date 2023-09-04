@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.activities;
 
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -99,9 +100,11 @@ public class MediaIcons extends BaseActivity {
 
                 for (int j = 0; j < 3; j++) {
                     if (Prefs.getBoolean(MPIP_KEY.get(i)[j])) {
-                        buttons[j].setBackground(ContextCompat.getDrawable(MediaIcons.this, R.drawable.button_red));
+                        buttons[j].setBackgroundTintList(ColorStateList.valueOf(ViewBindingHelpers.getColorResCompat(MediaIcons.this, com.google.android.material.R.attr.colorError)));
+                        buttons[j].setTextColor(ViewBindingHelpers.getColorResCompat(MediaIcons.this, com.google.android.material.R.attr.colorOnError));
                     } else {
-                        buttons[j].setBackground(ContextCompat.getDrawable(MediaIcons.this, R.drawable.button));
+                        buttons[j].setBackgroundTintList(ColorStateList.valueOf(ViewBindingHelpers.getColorResCompat(MediaIcons.this, com.google.android.material.R.attr.colorPrimary)));
+                        buttons[j].setTextColor(ViewBindingHelpers.getColorResCompat(MediaIcons.this, com.google.android.material.R.attr.colorOnPrimary));
                     }
                 }
             }

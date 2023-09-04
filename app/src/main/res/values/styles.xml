@@ -146,6 +146,7 @@
     <style name="Widget.MaterialButton.Red" parent="Widget.MaterialButton">
         <item name="backgroundTint">?attr/colorError</item>
         <item name="android:textColor">?attr/colorOnError</item>
+        <item name="rippleColor">@color/color_material_ripple_no_tint</item>
     </style>
 
     <style name="MaterialComponents.MaterialAlertDialog" parent="MaterialAlertDialog.Material3">

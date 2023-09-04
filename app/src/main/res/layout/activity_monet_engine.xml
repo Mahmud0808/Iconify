@@ -423,7 +423,7 @@
 
             </LinearLayout>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/enable_custom_monet"
                 style="@style/Widget.MaterialButton"
                 android:layout_width="match_parent"
@@ -432,7 +432,7 @@
                 android:text="@string/btn_enable_custom_colors"
                 android:visibility="gone" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/disable_custom_monet"
                 style="@style/Widget.MaterialButton.Red"
                 android:layout_width="match_parent"

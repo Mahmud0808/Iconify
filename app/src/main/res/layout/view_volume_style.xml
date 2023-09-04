@@ -125,7 +125,7 @@
         </RadioGroup>
     </LinearLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/volume_style_create_module"
         style="@style/Widget.MaterialButton"
         android:layout_width="match_parent"

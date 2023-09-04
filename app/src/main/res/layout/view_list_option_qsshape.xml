@@ -183,7 +183,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/enable_qsshape"
         style="@style/Widget.MaterialButton"
         android:layout_width="match_parent"
@@ -192,7 +192,7 @@
         android:text="@string/btn_enable"
         android:visibility="gone" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/disable_qsshape"
         style="@style/Widget.MaterialButton.Red"
         android:layout_width="match_parent"

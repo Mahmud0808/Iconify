@@ -177,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/enable_settings_icons"
                 style="@style/Widget.MaterialButton"
                 android:layout_width="match_parent"
@@ -185,7 +185,7 @@
                 android:layout_marginBottom="@dimen/container_margin"
                 android:text="@string/btn_enable" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/disable_settings_icons"
                 style="@style/Widget.MaterialButton.Red"
                 android:layout_width="match_parent"
