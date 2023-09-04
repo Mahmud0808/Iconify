@@ -90,8 +90,6 @@
     <string name="secondary_color">لون ثانوي</string>
     <string name="minimal_qspanel">الحد الأدنى من لوحة QS</string>
     <string name="remove_top_shade_of_qspanel">إزالة الظل العلوي للوحة QS</string>
-    <string name="pitch_black_theme">مظهر شديد السواد</string>
-    <string name="enable_pitch_black_colored_theme">تمكين مظهر شديد السواد</string>
     <string name="warning">تحذير</string>
     <string name="btn_continue">استمر</string>
     <string name="iconify_logo">شعار Iconify</string>
@@ -232,7 +230,6 @@
     <string name="latest_version">احدث اصدار:</string>
     <string name="update_checking_failed">فشل التحقق من التحديث!</string>
     <string name="not_available">غير متاح</string>
-    <string name="confirmation">هل أنت متأكد؟</string>
     <string name="positive">نعم</string>
     <string name="negative">لا</string>
     <string name="imported_settings">تم استيراد الإعدادات بنجاح</string>
@@ -390,7 +387,6 @@
     <string name="monet_fidelity">الاخلاص</string>
     <string name="monet_content">محتوى</string>
     <string name="app_not_found">التطبيق غير موجود!</string>
-    <string name="monet_accent_saturation_title">تشبع التمييز</string>
     <string name="monet_background_saturation_title">تشبع الخلفية</string>
     <string name="monet_background_lightness_title">إضاءة الخلفية</string>
     <string name="media_player_preview_music_title">عنوان الموسيقى</string>
@@ -459,20 +455,13 @@
     <string name="custom_battery_desc">تفعيل شكل مخصص للبطاريه</string>
     <string name="battery_style_title">شكل البطاريه</string>
     <string name="battery_width_title">عرض البطاريه</string>
-    <string name="battery_height_desc">طول البطاريه</string>
     <string name="disable_animation_title">إلغاء تفعيل الرسوم المتحركه</string>
     <string name="disable_animation_desc">تعطيل تحريك الرسوم المتحركة لـ Iconify</string>
     <string name="restart_systemui_after_boot_title">أعد تشغيل SystemUI بعد الأقلاع</string>
     <string name="restart_systemui_after_boot_desc">لا تسري بعض الخيارات مثل كثافة التعتيم حتى يتم إعادة تشغيل SystemUI</string>
     <string name="btn_skip">تخطي</string>
-    <string name="landing_page_one_title">هل مللت من واجهة المستخدم الخاصة بك؟</string>
-    <string name="landing_page_one_desc">دعونا نخصيص كل شيء حسب رغباتنا.</string>
     <string name="btn_next">التالي</string>
     <string name="btn_back">السابق</string>
-    <string name="landing_page_two_title">هل جهازي مدعوم؟</string>
-    <string name="landing_page_two_desc">يدعم Iconify جميع الرومات المبنيه علي Pixelو AOSP.</string>
-    <string name="landing_page_three_title">هل نبدأ الآن؟</string>
-    <string name="landing_page_three_desc">حان الوقت للقيام ببعض الأعمال الداخلية.</string>
     <string name="btn_lets_go">هيا بنا!</string>
     <string name="need_storage_perm_title">يحتاج لصلاحيات التخزين</string>
     <string name="need_storage_perm_desc">صلاحيات التخزين ضروريه لبناء الملفات المهمه</string>
