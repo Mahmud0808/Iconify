@@ -1,0 +1,18 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text eol=lf
+
+# Declare files that will always have CRLF line endings on checkout.
+*.bat text eol=crlf
+
+# Denote all files that are truly binary and should not be modified.
+app/src/main/res/raw/** binary
+app/src/main/assets/Tools/** binary
+app/src/main/assets/Module/IconifyCompanion/utils/** binary
+*.jar binary
+*.png binary
+*.apk binary
+*.otf binary
+*.so binary
+*.lottie binary
+*.jpg binary
+*.ttf binary
