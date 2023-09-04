@@ -60,7 +60,7 @@
 
     <Button
         android:id="@+id/btn_reboot"
-        style="@style/buttonMain"
+        style="@style/Widget.MaterialButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"

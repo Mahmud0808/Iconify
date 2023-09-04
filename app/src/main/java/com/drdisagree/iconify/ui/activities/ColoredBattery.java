@@ -73,6 +73,7 @@ public class ColoredBattery extends BaseActivity implements ColorPickerDialogLis
                 Prefs.putBoolean(COLORED_BATTERY_SWITCH, isChecked);
             }, SWITCH_ANIMATION_DELAY);
         });
+        binding.enableColoredBatteryContainer.setOnClickListener(v -> binding.enableColoredBattery.toggle());
 
         if (!Objects.equals(Prefs.getString(FABRICATED_BATTERY_COLOR_BG), STR_NULL))
             colorBackground = Prefs.getString(FABRICATED_BATTERY_COLOR_BG);

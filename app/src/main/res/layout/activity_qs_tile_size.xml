@@ -278,18 +278,17 @@
 
                 <Button
                     android:id="@+id/qs_tile_height_apply"
-                    style="@style/buttonMain"
+                    style="@style/Widget.MaterialButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/btn_apply" />
 
                 <Button
                     android:id="@+id/qs_tile_height_reset"
-                    style="@style/buttonMain"
+                    style="@style/Widget.MaterialButton.Red"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/container_padding"
-                    android:background="@drawable/button_red"
                     android:text="@string/btn_reset"
                     android:visibility="gone" />
 

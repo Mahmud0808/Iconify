@@ -10,7 +10,6 @@ import static com.drdisagree.iconify.common.Preferences.STATUSBAR_CLOCK_COLOR_OP
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -155,11 +154,9 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
             LinearLayout child = binding.statusBarChipContainer.getChildAt(i).findViewById(R.id.list_item_chip);
             TextView title = child.findViewById(R.id.style_name);
             if (i == RPrefs.getInt(CHIP_STATUSBAR_CLOCKBG_STYLE, 0)) {
-                title.setTextColor(getResources().getColor(R.color.colorSuccess, getTheme()));
-                title.setTypeface(title.getTypeface(), Typeface.BOLD);
+                title.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
             } else {
                 title.setTextColor(getResources().getColor(R.color.textColorSecondary, getTheme()));
-                title.setTypeface(title.getTypeface(), Typeface.NORMAL);
             }
         }
     }
@@ -196,11 +193,9 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
             LinearLayout child = binding.statusIconsChipContainer.getChildAt(i).findViewById(R.id.list_item_chip);
             TextView title = child.findViewById(R.id.style_name);
             if (i == RPrefs.getInt(CHIP_QSSTATUSICONS_STYLE, 0)) {
-                title.setTextColor(getResources().getColor(R.color.colorSuccess, getTheme()));
-                title.setTypeface(title.getTypeface(), Typeface.BOLD);
+                title.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
             } else {
                 title.setTextColor(getResources().getColor(R.color.textColorSecondary, getTheme()));
-                title.setTypeface(title.getTypeface(), Typeface.NORMAL);
             }
         }
     }

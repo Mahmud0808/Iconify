@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/list_item_shape"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_marginTop="@dimen/container_margin"
     android:layout_marginBottom="@dimen/container_margin"
+    android:minWidth="100dp"
     android:orientation="vertical"
     android:paddingStart="12dp"
-    android:paddingEnd="12dp"
-    app:justifyContent="space_evenly"
-    app:layout_flexGrow="1"
-    app:layout_flexShrink="1"
-    app:layout_minWidth="100dp">
+    android:paddingEnd="12dp">
 
     <LinearLayout
         android:id="@+id/mask_shape"
@@ -29,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
-        android:background="@drawable/container"
+        android:background="@drawable/item_background_material_rounded"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:paddingBottom="3dp"

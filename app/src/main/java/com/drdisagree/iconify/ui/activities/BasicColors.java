@@ -120,6 +120,8 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
         // Enable custom colors
         binding.enableCustomColor.setOnClickListener(v -> {
             binding.enableCustomColor.setVisibility(View.GONE);
+            refreshVisibility();
+
             Runnable runnable = () -> {
                 applyMonetColors();
 
@@ -138,6 +140,8 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
 
         binding.disableCustomColor.setOnClickListener(v -> {
             binding.disableCustomColor.setVisibility(View.GONE);
+            refreshVisibility();
+
             Runnable runnable = () -> {
                 disableAccentColors();
                 if (shouldUseDefaultColors()) {
@@ -149,6 +153,8 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
             Thread thread = new Thread(runnable);
             thread.start();
         });
+
+        refreshVisibility();
     }
 
     @Override
@@ -171,6 +177,16 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
                 colorPickerDialogSecondary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentSecondary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(false).setShowColorShades(true);
                 break;
         }
+
+        refreshVisibility();
+    }
+
+    private void refreshVisibility() {
+        if (binding.enableCustomColor.getVisibility() == View.VISIBLE || binding.disableCustomColor.getVisibility() == View.VISIBLE) {
+            binding.buttonContainer.setVisibility(View.VISIBLE);
+        } else {
+            binding.buttonContainer.setVisibility(View.GONE);
+        }
     }
 
     private void updatePrimaryColor() {
@@ -180,7 +196,6 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
         binding.previewColorPickerPrimary.setBackground(gd);
 
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentSecondary)});
-        gd.setCornerRadius(24 * getResources().getDisplayMetrics().density);
         binding.colorPreviewLarge.setBackground(gd);
     }
 
@@ -191,7 +206,6 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
         binding.previewColorPickerSecondary.setBackground(gd);
 
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentSecondary)});
-        gd.setCornerRadius(24 * getResources().getDisplayMetrics().density);
         binding.colorPreviewLarge.setBackground(gd);
     }
 

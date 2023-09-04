@@ -47,7 +47,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/pick_header_image"
-                    style="@style/buttonMain"
+                    style="@style/Widget.MaterialButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -56,7 +56,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/enable_header_image"
-                    style="@style/buttonMain"
+                    style="@style/Widget.MaterialButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -65,11 +65,10 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/disable_header_image"
-                    style="@style/buttonMain"
+                    style="@style/Widget.MaterialButton.Red"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:background="@drawable/button_red"
                     android:text="@string/btn_disable"
                     android:visibility="gone" />
 

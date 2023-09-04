@@ -9,7 +9,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.databinding.ActivityIconPackBinding;
 import com.drdisagree.iconify.ui.adapters.IconPackAdapter;
 import com.drdisagree.iconify.ui.adapters.MenuAdapter;
-import com.drdisagree.iconify.ui.adapters.ViewAdapter;
+import com.drdisagree.iconify.ui.adapters.SectionTitleAdapter;
 import com.drdisagree.iconify.ui.models.IconPackModel;
 import com.drdisagree.iconify.ui.models.MenuModel;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
@@ -36,7 +36,7 @@ public class IconPack extends BaseActivity {
 
         // RecyclerView
         binding.iconPackContainer.setLayoutManager(new LinearLayoutManager(this));
-        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new ViewAdapter(this, R.layout.view_divider), initIconPackItems());
+        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new SectionTitleAdapter(this, R.layout.view_section_title, R.string.activity_title_icon_pack), initIconPackItems());
         binding.iconPackContainer.setAdapter(adapter);
         binding.iconPackContainer.setHasFixedSize(true);
     }

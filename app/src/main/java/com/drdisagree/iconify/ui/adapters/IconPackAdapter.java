@@ -79,11 +79,7 @@ public class IconPackAdapter extends RecyclerView.Adapter<IconPackAdapter.ViewHo
     public void onViewAttachedToWindow(@NonNull ViewHolder holder) {
         super.onViewAttachedToWindow(holder);
 
-        if (Prefs.getBoolean(ICONPACK_KEY.get(holder.getBindingAdapterPosition())))
-            holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.container_selected));
-        else
-            holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.container));
-
+        itemSelected(holder.container, Prefs.getBoolean(ICONPACK_KEY.get(holder.getBindingAdapterPosition())));
         refreshButton(holder);
     }
 
@@ -199,10 +195,7 @@ public class IconPackAdapter extends RecyclerView.Adapter<IconPackAdapter.ViewHo
                 LinearLayout child = view.findViewById(R.id.icon_pack_child);
 
                 if (child != null) {
-                    if (i == holder.getAbsoluteAdapterPosition() && Prefs.getBoolean(ICONPACK_KEY.get(i - (holder.getAbsoluteAdapterPosition() - holder.getBindingAdapterPosition()))))
-                        child.setBackground(ContextCompat.getDrawable(context, R.drawable.container_selected));
-                    else
-                        child.setBackground(ContextCompat.getDrawable(context, R.drawable.container));
+                    itemSelected(child, i == holder.getAbsoluteAdapterPosition() && Prefs.getBoolean(ICONPACK_KEY.get(i - (holder.getAbsoluteAdapterPosition() - holder.getBindingAdapterPosition()))));
                 }
             }
         }
@@ -224,7 +217,6 @@ public class IconPackAdapter extends RecyclerView.Adapter<IconPackAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-
         LinearLayout container;
         TextView style_name, desc;
         ImageView icon1, icon2, icon3, icon4;
@@ -242,6 +234,18 @@ public class IconPackAdapter extends RecyclerView.Adapter<IconPackAdapter.ViewHo
             icon4 = itemView.findViewById(R.id.iconpack_preview4);
             btn_enable = itemView.findViewById(R.id.enable_iconpack);
             btn_disable = itemView.findViewById(R.id.disable_iconpack);
+        }
+    }
+
+    private void itemSelected(View parent, boolean state) {
+        if (state) {
+            ((TextView) parent.findViewById(R.id.iconpack_title)).setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+            ((TextView) parent.findViewById(R.id.iconpack_desc)).setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+            ((TextView) parent.findViewById(R.id.iconpack_desc)).setAlpha(0.8f);
+        } else {
+            ((TextView) parent.findViewById(R.id.iconpack_title)).setTextColor(ContextCompat.getColor(context, R.color.text_color_primary));
+            ((TextView) parent.findViewById(R.id.iconpack_desc)).setTextColor(ContextCompat.getColor(context, R.color.text_color_secondary));
+            ((TextView) parent.findViewById(R.id.iconpack_desc)).setAlpha(1f);
         }
     }
 }

@@ -179,7 +179,7 @@
 
             <Button
                 android:id="@+id/enable_settings_icons"
-                style="@style/buttonMain"
+                style="@style/Widget.MaterialButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/container_margin"
@@ -187,11 +187,10 @@
 
             <Button
                 android:id="@+id/disable_settings_icons"
-                style="@style/buttonMain"
+                style="@style/Widget.MaterialButton.Red"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/container_margin"
-                android:background="@drawable/button_red"
                 android:text="@string/btn_disable"
                 android:visibility="gone" />
 

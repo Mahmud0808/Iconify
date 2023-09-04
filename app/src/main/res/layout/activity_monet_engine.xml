@@ -425,7 +425,7 @@
 
             <Button
                 android:id="@+id/enable_custom_monet"
-                style="@style/buttonMain"
+                style="@style/Widget.MaterialButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/container_margin"
@@ -434,11 +434,10 @@
 
             <Button
                 android:id="@+id/disable_custom_monet"
-                style="@style/buttonMain"
+                style="@style/Widget.MaterialButton.Red"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/container_margin"
-                android:background="@drawable/button_red"
                 android:text="@string/btn_disable_custom_colors"
                 android:visibility="gone" />
 

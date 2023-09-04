@@ -83,9 +83,9 @@
     <color name="offStateColorPixel">@android:color/system_neutral2_800</color>
     <color name="settingslib_track_on_color_start">@android:color/system_accent1_600</color>
     <color name="settingslib_track_on_color_end">@android:color/system_accent3_600</color>
-    <color name="settingslib_track_on_color_start_alpha">@color/settingslib_track_on_color_start
+    <color name="settingslib_track_on_color_start_alpha">@color/holo_blue_light_alpha
     </color>
-    <color name="settingslib_track_on_color_end_alpha">@color/settingslib_track_on_color_end</color>
+    <color name="settingslib_track_on_color_end_alpha">@color/holo_blue_dark_alpha</color>
     <color name="qstile_primary_label_active_color">#FFFFFFFF</color>
     <color name="qstile_primary_label_inactive_color">#FF000000</color>
     <color name="qstile_secondary_label_active_color">#BFFFFFFF</color>

@@ -352,7 +352,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/apply_radius"
-                    style="@style/buttonMain"
+                    style="@style/Widget.MaterialButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/btn_apply" />
