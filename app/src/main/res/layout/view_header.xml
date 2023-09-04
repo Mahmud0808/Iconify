@@ -5,7 +5,9 @@
     android:id="@+id/appBarLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:fitsSystemWindows="true">
+    android:background="@drawable/bottom_navbar_bg"
+    android:fitsSystemWindows="true"
+    app:liftOnScroll="true">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -17,6 +19,7 @@
         app:navigationIconTint="?attr/colorOnSurface"
         app:popupTheme="@style/Theme.Iconify"
         app:title="@string/app_name"
+        app:titleTextAppearance="@style/Toolbar.TitleText"
         app:titleTextEllipsize="end"
         tools:ignore="RtlSymmetry" />
 

@@ -11,25 +11,24 @@
 
     <com.google.android.material.appbar.SubtitleCollapsingToolbarLayout
         android:id="@+id/collapsing_toolbar"
-        style="?attr/collapsingToolbarLayoutLargeStyle"
         android:layout_width="match_parent"
         android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
-        android:background="?android:windowBackground"
+        android:background="@color/colorBackground"
         app:collapsedSubtitleTextAppearance="@style/Toolbar.SubTitleText.Collapsed"
         app:collapsedSubtitleTextColor="@color/text_color_secondary"
         app:collapsedTitleTextAppearance="@style/Toolbar.TitleText.Collapsed"
         app:collapsedTitleTextColor="@color/text_color_primary"
         app:contentScrim="@drawable/top_appbar_bg"
         app:expandedSubtitleTextAppearance="@style/Toolbar.SubTitleText.Expanded"
+        app:expandedTitleMarginBottom="16dp"
         app:expandedTitleMarginEnd="42dp"
         app:expandedTitleMarginStart="42dp"
         app:expandedTitleTextAppearance="@style/Toolbar.TitleText.Expanded"
+        app:forceApplySystemWindowInsetTop="true"
         app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-        app:maxLines="1"
+        app:statusBarScrim="@null"
         app:subtitle="@string/app_moto"
-        app:title="@string/app_name"
-        app:titleCollapseMode="fade"
-        app:titleTextEllipsize="end">
+        app:title="@string/app_name">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
