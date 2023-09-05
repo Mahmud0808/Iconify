@@ -19,21 +19,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/container_marginTopBottom"
-            android:orientation="vertical"
-            android:paddingTop="@dimen/content_marginTop">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/container_marginSide"
-                android:layout_marginEnd="@dimen/container_marginSide"
-                android:layout_marginBottom="@dimen/container_margin"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingStart="@dimen/container_paddingSide"
-                android:paddingTop="@dimen/container_padding"
-                android:paddingEnd="@dimen/container_paddingSide"
-                android:paddingBottom="@dimen/container_padding">
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="22dp">
 
                 <View
                     android:layout_width="0dp"
@@ -69,115 +63,144 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="8dp"
+                android:text="Volume Slider Track"
+                android:textColor="?attr/colorPrimary" />
+
+            <RelativeLayout
+                android:id="@+id/thin_bg_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/container_marginSide"
-                android:layout_marginEnd="@dimen/container_marginSide"
-                android:layout_marginBottom="@dimen/container_margin"
-                android:orientation="vertical">
+                android:background="@drawable/item_background_material"
+                android:clickable="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/container_top"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
+                    android:layout_centerVertical="true"
+                    android:layout_marginVertical="22dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/thin_bg"
+                    android:orientation="vertical">
 
                     <TextView
                         style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:paddingTop="3dp"
                         android:text="@string/vp_thin_background_title"
                         android:textColor="@color/text_color_primary" />
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_weight="1.0" />
-
-                    <com.google.android.material.materialswitch.MaterialSwitch
-                        android:id="@+id/thin_bg"
-                        style="@style/Widget.MaterialSwitch"
+                    <TextView
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="Make track of volume slider thin"
+                        android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>
 
-                <View style="@style/dividerTransparent" />
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/thin_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="24dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/thick_bg_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/item_background_material"
+                android:clickable="true">
 
                 <LinearLayout
-                    android:id="@+id/text_size_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/container_mid"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
+                    android:layout_centerVertical="true"
+                    android:layout_marginVertical="22dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/thick_bg"
+                    android:orientation="vertical">
 
                     <TextView
                         style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:paddingTop="3dp"
                         android:text="@string/vp_thick_background_title"
                         android:textColor="@color/text_color_primary" />
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_weight="1.0" />
-
-                    <com.google.android.material.materialswitch.MaterialSwitch
-                        android:id="@+id/thick_bg"
-                        style="@style/Widget.MaterialSwitch"
+                    <TextView
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="Make track of volume slider thick"
+                        android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>
 
-                <View style="@style/dividerTransparent" />
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/thick_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="24dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/no_bg_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/item_background_material"
+                android:clickable="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/container_bottom"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
+                    android:layout_centerVertical="true"
+                    android:layout_marginVertical="22dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/no_bg"
+                    android:orientation="vertical">
 
                     <TextView
                         style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:paddingTop="3dp"
                         android:text="@string/vp_no_background_title"
                         android:textColor="@color/text_color_primary" />
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_weight="1.0" />
-
-                    <com.google.android.material.materialswitch.MaterialSwitch
-                        android:id="@+id/no_bg"
-                        style="@style/Widget.MaterialSwitch"
+                    <TextView
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="Remove track of volume slider"
+                        android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>
-            </LinearLayout>
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/no_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="24dp" />
+
+            </RelativeLayout>
 
             <include
                 android:id="@+id/volume_style"

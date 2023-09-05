@@ -20,12 +20,24 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <View
-                android:id="@+id/color_preview_large"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:background="@drawable/preview_color_picker_large"
-                android:contentDescription="@string/color_picker_preview" />
+                android:layout_height="wrap_content"
+                android:background="@drawable/item_background_material"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="22dp">
+
+                <View
+                    android:id="@+id/color_preview_large"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:background="@drawable/preview_color_picker_large"
+                    android:clickable="true"
+                    android:contentDescription="@string/color_picker_preview" />
+
+            </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/preview_coloraccentprimary"

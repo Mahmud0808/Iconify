@@ -5,4 +5,5 @@
         android:angle="0.0"
         android:endColor="@android:color/holo_blue_dark"
         android:startColor="@android:color/holo_blue_light" />
+    <corners android:radius="@dimen/preview_color_picker_radius" />
 </shape>

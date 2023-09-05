@@ -196,6 +196,7 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
         binding.previewColorPickerPrimary.setBackground(gd);
 
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentSecondary)});
+        gd.setCornerRadius(24 * getResources().getDisplayMetrics().density);
         binding.colorPreviewLarge.setBackground(gd);
     }
 
@@ -206,6 +207,7 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
         binding.previewColorPickerSecondary.setBackground(gd);
 
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentSecondary)});
+        gd.setCornerRadius(24 * getResources().getDisplayMetrics().density);
         binding.colorPreviewLarge.setBackground(gd);
     }
 
