@@ -31,7 +31,7 @@
             android:layout_marginStart="24dp"
             android:contentDescription="@string/icon"
             android:src="@drawable/ic_language"
-            app:tint="?attr/colorOnSurface" />
+            app:tint="?attr/colorPrimary" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -76,7 +76,7 @@
             android:layout_marginStart="24dp"
             android:contentDescription="@string/icon"
             android:src="@drawable/ic_app_icon"
-            app:tint="?attr/colorOnSurface" />
+            app:tint="?attr/colorPrimary" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -121,7 +121,7 @@
             android:layout_marginStart="24dp"
             android:contentDescription="@string/icon"
             android:src="@drawable/ic_dynamic_color"
-            app:tint="?attr/colorOnSurface" />
+            app:tint="?attr/colorPrimary" />
 
         <LinearLayout
             android:layout_width="match_parent"
