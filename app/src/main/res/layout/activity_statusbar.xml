@@ -239,22 +239,25 @@
                     android:id="@+id/sb_tint_source_selector"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp">
+                    android:layout_marginTop="8dp">
 
                     <RadioButton
                         android:id="@+id/sb_tint_system"
-                        style="@style/customRadioButtonColored"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:checked="true"
                         android:text="@string/sb_tint_system" />
 
                     <RadioButton
                         android:id="@+id/sb_tint_monet"
-                        style="@style/customRadioButtonColored"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:text="@string/sb_tint_monet" />
 
                     <RadioButton
                         android:id="@+id/sb_tint_custom"
-                        style="@style/customRadioButtonColored"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:text="@string/sb_tint_custom" />
 
                 </RadioGroup>

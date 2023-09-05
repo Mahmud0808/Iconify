@@ -63,6 +63,7 @@ public class VolumePanel extends BaseActivity {
                 FabricatedUtil.disableOverlays(FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, FABRICATED_VOLUME_DIALOG_TRACK_WIDTH, FABRICATED_ROUNDED_SLIDER_TRACK_INSET);
             }
         });
+        binding.thinBgContainer.setOnClickListener(v -> binding.thinBg.toggle());
 
         binding.thickBg.setChecked(Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 2);
         binding.thickBg.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -80,6 +81,7 @@ public class VolumePanel extends BaseActivity {
                 FabricatedUtil.disableOverlays(FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, FABRICATED_VOLUME_DIALOG_TRACK_WIDTH, FABRICATED_ROUNDED_SLIDER_TRACK_INSET);
             }
         });
+        binding.thickBgContainer.setOnClickListener(v -> binding.thickBg.toggle());
 
         binding.noBg.setChecked(Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 3);
         binding.noBg.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -98,6 +100,7 @@ public class VolumePanel extends BaseActivity {
                 FabricatedUtil.disableOverlays(FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, FABRICATED_VOLUME_DIALOG_TRACK_WIDTH, FABRICATED_ROUNDED_SLIDER_TRACK_INSET);
             }
         });
+        binding.noBgContainer.setOnClickListener(v -> binding.noBg.toggle());
 
         // Loading dialog while creating modules
         loadingDialog = new LoadingDialog(this);

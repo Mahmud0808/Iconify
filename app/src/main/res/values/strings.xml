@@ -100,13 +100,13 @@
     <string name="tile_pitch_black_dark">Dark</string>
     <string name="tile_pitch_black_amoled">Amoled</string>
     <string name="warning">Warning</string>
-    <string name="btn_continue">CONTINUE</string>
+    <string name="btn_continue">Continue</string>
     <string name="iconify_logo">Iconify Logo</string>
     <string name="hey_there">Hey There!</string>
     <string name="btn_restart">Restart</string>
     <string name="btn_disable">Disable</string>
     <string name="btn_enable">Enable</string>
-    <string name="btn_apply">APPLY</string>
+    <string name="btn_apply">Apply</string>
     <string name="corner_radius_title">Corner Radius</string>
     <string name="icon">Icon</string>
     <string name="btn_disable_custom_colors">Disable Custom Colors</string>
@@ -150,7 +150,7 @@
     <string name="quick_qspanel_row_title">Quick QS Panel Row</string>
     <string name="qspanel_row_title">QS Panel Row</string>
     <string name="qspanel_column_title">QS Panel Column</string>
-    <string name="btn_reset">RESET</string>
+    <string name="btn_reset">Reset</string>
     <string name="row_and_column_title">Row and Column</string>
     <string name="row_and_column_desc">Change Qs tile rows and columns</string>
     <string name="icon_and_label_title">Icon and Label</string>
