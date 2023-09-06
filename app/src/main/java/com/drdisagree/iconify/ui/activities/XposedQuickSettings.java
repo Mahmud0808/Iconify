@@ -62,8 +62,10 @@ public class XposedQuickSettings extends BaseActivity {
             RPrefs.putBoolean(HIDE_QSLABEL_SWITCH, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
         });
-        if (binding.hideTileLabel.isEnabled())
-            binding.hideTileLabelContainer.setOnClickListener(v -> binding.hideTileLabel.toggle());
+        binding.hideTileLabelContainer.setOnClickListener(v -> {
+            if (binding.hideTileLabel.isEnabled())
+                binding.hideTileLabel.toggle();
+        });
 
         // Light Theme
         binding.enableLightTheme.setChecked(RPrefs.getBoolean(LIGHT_QSPANEL, false));
@@ -72,8 +74,10 @@ public class XposedQuickSettings extends BaseActivity {
             binding.enableDualTone.setEnabled(isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
-        if (binding.enableLightTheme.isEnabled())
-            binding.lightThemeContainer.setOnClickListener(v -> binding.enableLightTheme.toggle());
+        binding.lightThemeContainer.setOnClickListener(v -> {
+            if (binding.enableLightTheme.isEnabled())
+                binding.enableLightTheme.toggle();
+        });
         binding.enableDualTone.setEnabled(binding.enableLightTheme.isChecked());
 
         // Dual Tone
@@ -82,8 +86,11 @@ public class XposedQuickSettings extends BaseActivity {
             RPrefs.putBoolean(DUALTONE_QSPANEL, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
         });
-        if (binding.enableDualTone.isEnabled())
-            binding.dualToneContainer.setOnClickListener(v -> binding.enableDualTone.toggle());
+
+        binding.dualToneContainer.setOnClickListener(v -> {
+            if (binding.enableDualTone.isEnabled())
+                binding.enableDualTone.toggle();
+        });
 
         // Pixel Black Theme
         binding.enableBlackTheme.setChecked(RPrefs.getBoolean(BLACK_QSPANEL, false));
@@ -91,8 +98,10 @@ public class XposedQuickSettings extends BaseActivity {
             RPrefs.putBoolean(BLACK_QSPANEL, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
-        if (binding.enableBlackTheme.isEnabled())
-            binding.blackThemeContainer.setOnClickListener(v -> binding.enableBlackTheme.toggle());
+        binding.blackThemeContainer.setOnClickListener(v -> {
+            if (binding.enableBlackTheme.isEnabled())
+                binding.enableBlackTheme.toggle();
+        });
 
         // Fluid QS Theme
         binding.enableFluidTheme.setChecked(RPrefs.getBoolean(FLUID_QSPANEL, false));
@@ -102,8 +111,10 @@ public class XposedQuickSettings extends BaseActivity {
             binding.enablePowermenuTransparency.setEnabled(isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
-        if (binding.enableFluidTheme.isEnabled())
-            binding.fluidThemeContainer.setOnClickListener(v -> binding.enableFluidTheme.toggle());
+        binding.fluidThemeContainer.setOnClickListener(v -> {
+            if (binding.enableFluidTheme.isEnabled())
+                binding.enableFluidTheme.toggle();
+        });
         binding.enableNotificationTransparency.setEnabled(binding.enableFluidTheme.isChecked());
         binding.enablePowermenuTransparency.setEnabled(binding.enableFluidTheme.isChecked());
 
@@ -113,8 +124,10 @@ public class XposedQuickSettings extends BaseActivity {
             RPrefs.putBoolean(FLUID_NOTIF_TRANSPARENCY, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
-        if (binding.enableNotificationTransparency.isEnabled())
-            binding.notificationTransparencyContainer.setOnClickListener(v -> binding.enableNotificationTransparency.toggle());
+        binding.notificationTransparencyContainer.setOnClickListener(v -> {
+            if (binding.enableNotificationTransparency.isEnabled())
+                binding.enableNotificationTransparency.toggle();
+        });
 
         // Fluid QS Power Menu Transparency
         binding.enablePowermenuTransparency.setChecked(RPrefs.getBoolean(FLUID_POWERMENU_TRANSPARENCY, false));
@@ -122,8 +135,10 @@ public class XposedQuickSettings extends BaseActivity {
             RPrefs.putBoolean(FLUID_POWERMENU_TRANSPARENCY, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
-        if (binding.enablePowermenuTransparency.isEnabled())
-            binding.powermenuTransparencyContainer.setOnClickListener(v -> binding.enablePowermenuTransparency.toggle());
+        binding.powermenuTransparencyContainer.setOnClickListener(v -> {
+            if (binding.enablePowermenuTransparency.isEnabled())
+                binding.enablePowermenuTransparency.toggle();
+        });
 
         // QQS panel top margin slider
         binding.qqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(FABRICATED_QQS_TOPMARGIN, 100) + "dp");
