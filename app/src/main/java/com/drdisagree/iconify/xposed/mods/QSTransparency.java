@@ -5,22 +5,17 @@ import static com.drdisagree.iconify.common.Preferences.NOTIF_TRANSPARENCY_SWITC
 import static com.drdisagree.iconify.common.Preferences.QSALPHA_LEVEL;
 import static com.drdisagree.iconify.common.Preferences.QS_TRANSPARENCY_SWITCH;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
-import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
-import static de.robv.android.xposed.XposedBridge.hookAllMethods;
-import static de.robv.android.xposed.XposedBridge.log;
-import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static de.robv.android.xposed.XposedHelpers.findClass;
+import static de.robv.android.xposed.XposedHelpers.findField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
-import static de.robv.android.xposed.XposedHelpers.setFloatField;
-import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 import android.content.Context;
+import android.view.View;
 
 import com.drdisagree.iconify.xposed.ModPack;
 
-import java.util.Objects;
-
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class QSTransparency extends ModPack {
@@ -28,8 +23,8 @@ public class QSTransparency extends ModPack {
     private static final String TAG = "Iconify - " + QSTransparency.class.getSimpleName() + ": ";
     boolean qsTransparencyActive = false;
     boolean onlyNotifTransparencyActive = false;
-    private Object paramThisObject = null;
-    private float alpha;
+    private final float keyguard_alpha = 0.85f;
+    private float alpha = 60;
 
     public QSTransparency(Context context) {
         super(context);
@@ -42,97 +37,47 @@ public class QSTransparency extends ModPack {
         qsTransparencyActive = Xprefs.getBoolean(QS_TRANSPARENCY_SWITCH, false);
         onlyNotifTransparencyActive = Xprefs.getBoolean(NOTIF_TRANSPARENCY_SWITCH, false);
         alpha = (float) ((float) Xprefs.getInt(QSALPHA_LEVEL, 60) / 100.0);
-
-        if (Key.length > 0 && (Objects.equals(Key[0], QS_TRANSPARENCY_SWITCH) || Objects.equals(Key[0], NOTIF_TRANSPARENCY_SWITCH) || Objects.equals(Key[0], QSALPHA_LEVEL))) {
-            if (paramThisObject != null) {
-                if (qsTransparencyActive || onlyNotifTransparencyActive) {
-                    try {
-                        setFloatField(paramThisObject, "mDefaultScrimAlpha", alpha);
-                    } catch (Throwable throwable) {
-                        log(TAG + throwable);
-                    }
-
-                    if (!onlyNotifTransparencyActive) {
-                        try {
-                            setFloatField(paramThisObject, "mBehindAlpha", alpha);
-                        } catch (Throwable throwable) {
-                            log(TAG + throwable);
-                        }
-
-                        try {
-                            setFloatField(paramThisObject, "mCustomScrimAlpha", alpha);
-                        } catch (Throwable ignored) {
-                        }
-                    }
-                }
-
-                try {
-                    callMethod(paramThisObject, "updateScrims");
-                } catch (Throwable throwable) {
-                    log(TAG + throwable);
-                }
-            }
-        }
     }
 
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpParam) {
         if (!lpParam.packageName.equals(SYSTEMUI_PACKAGE)) return;
 
-        final Class<?> ScrimController = XposedHelpers.findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.ScrimController", lpParam.classLoader);
+        final Class<?> ScrimController = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.ScrimController", lpParam.classLoader);
 
-        hookAllConstructors(ScrimController, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) {
+        findAndHookMethod(ScrimController, "updateScrimColor", View.class, Integer.TYPE, Float.TYPE, new XC_MethodHook() {
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 if (!qsTransparencyActive && !onlyNotifTransparencyActive) return;
 
-                paramThisObject = param.thisObject;
+                String scrimState = getObjectField(param.thisObject, "mState").toString();
 
-                if (qsTransparencyActive || onlyNotifTransparencyActive) {
-                    try {
-                        setFloatField(param.thisObject, "mDefaultScrimAlpha", alpha);
-                    } catch (Throwable throwable) {
-                        log(TAG + throwable);
+                if (scrimState.equals("KEYGUARD")) {
+                    param.args[2] = 0.0f;
+                } else if (scrimState.contains("BOUNCER")) {
+                    param.args[2] = (Float) param.args[2] * keyguard_alpha;
+                } else {
+                    String scrimName = "unknown_scrim";
+
+                    if (findField(ScrimController, "mScrimInFront").get(param.thisObject).equals(param.args[0])) {
+                        scrimName = "front_scrim";
+                    } else if (findField(ScrimController, "mScrimBehind").get(param.thisObject).equals(param.args[0])) {
+                        scrimName = "behind_scrim";
+                    } else if (findField(ScrimController, "mNotificationsScrim").get(param.thisObject).equals(param.args[0])) {
+                        scrimName = "notifications_scrim";
                     }
 
-                    if (!onlyNotifTransparencyActive) {
-                        try {
-                            setFloatField(param.thisObject, "mBehindAlpha", alpha);
-                        } catch (Throwable throwable) {
-                            log(TAG + throwable);
-                        }
-
-                        try {
-                            setFloatField(param.thisObject, "mCustomScrimAlpha", alpha);
-                        } catch (Throwable ignored) {
-                        }
+                    switch (scrimName) {
+                        case "behind_scrim":
+                            if (onlyNotifTransparencyActive) {
+                                break;
+                            }
+                        case "notifications_scrim":
+                            param.args[2] = (Float) param.args[2] * alpha;
+                            break;
+                        default:
+                            break;
                     }
                 }
             }
         });
-
-        hookAllMethods(ScrimController, "applyState", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) {
-                if (!qsTransparencyActive) return;
-
-                boolean mClipsQsScrim = (boolean) getObjectField(param.thisObject, "mClipsQsScrim");
-
-                if (mClipsQsScrim) {
-                    setObjectField(param.thisObject, "mBehindAlpha", alpha);
-                }
-            }
-        });
-
-        try {
-            hookAllMethods(ScrimController, "setCustomScrimAlpha", new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) {
-                    if (!qsTransparencyActive) return;
-
-                    param.args[0] = (int) (alpha * 100);
-                }
-            });
-        } catch (Throwable ignored) {
-        }
     }
 }
