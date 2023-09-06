@@ -46,7 +46,6 @@ import com.drdisagree.iconify.ui.activities.ProgressBar;
 import com.drdisagree.iconify.ui.activities.QsPanelTile;
 import com.drdisagree.iconify.ui.activities.Switch;
 import com.drdisagree.iconify.ui.activities.ToastFrame;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.TaskExecutor;
@@ -174,7 +173,6 @@ public class Home extends BaseFragment {
     private void addItem(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
             View list = LayoutInflater.from(requireActivity()).inflate(R.layout.view_list_menu, binding.homePageList, false);
-            list.setPadding(ViewBindingHelpers.dp2px(18), list.getPaddingTop(), ViewBindingHelpers.dp2px(18), list.getPaddingBottom());
 
             TextView title = list.findViewById(R.id.list_title);
             title.setText((String) pack.get(i)[1]);

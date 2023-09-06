@@ -216,7 +216,24 @@ public class IconPackAdapter extends RecyclerView.Adapter<IconPackAdapter.ViewHo
         }
     }
 
+    private void itemSelected(View parent, boolean state) {
+        if (state) {
+            parent.setBackground(ContextCompat.getDrawable(context, R.drawable.container_selected));
+            ((TextView) parent.findViewById(R.id.iconpack_title)).setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+            ((TextView) parent.findViewById(R.id.iconpack_desc)).setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+            parent.findViewById(R.id.icon_selected).setVisibility(View.VISIBLE);
+            parent.findViewById(R.id.iconpack_desc).setAlpha(0.8f);
+        } else {
+            parent.setBackground(ContextCompat.getDrawable(context, R.drawable.item_background_material));
+            ((TextView) parent.findViewById(R.id.iconpack_title)).setTextColor(ContextCompat.getColor(context, R.color.text_color_primary));
+            ((TextView) parent.findViewById(R.id.iconpack_desc)).setTextColor(ContextCompat.getColor(context, R.color.text_color_secondary));
+            parent.findViewById(R.id.icon_selected).setVisibility(View.INVISIBLE);
+            parent.findViewById(R.id.iconpack_desc).setAlpha(1f);
+        }
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
+
         LinearLayout container;
         TextView style_name, desc;
         ImageView icon1, icon2, icon3, icon4;
@@ -234,18 +251,6 @@ public class IconPackAdapter extends RecyclerView.Adapter<IconPackAdapter.ViewHo
             icon4 = itemView.findViewById(R.id.iconpack_preview4);
             btn_enable = itemView.findViewById(R.id.enable_iconpack);
             btn_disable = itemView.findViewById(R.id.disable_iconpack);
-        }
-    }
-
-    private void itemSelected(View parent, boolean state) {
-        if (state) {
-            ((TextView) parent.findViewById(R.id.iconpack_title)).setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
-            ((TextView) parent.findViewById(R.id.iconpack_desc)).setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
-            ((TextView) parent.findViewById(R.id.iconpack_desc)).setAlpha(0.8f);
-        } else {
-            ((TextView) parent.findViewById(R.id.iconpack_title)).setTextColor(ContextCompat.getColor(context, R.color.text_color_primary));
-            ((TextView) parent.findViewById(R.id.iconpack_desc)).setTextColor(ContextCompat.getColor(context, R.color.text_color_secondary));
-            ((TextView) parent.findViewById(R.id.iconpack_desc)).setAlpha(1f);
         }
     }
 }

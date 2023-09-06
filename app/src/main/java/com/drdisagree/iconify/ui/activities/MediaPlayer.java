@@ -6,7 +6,7 @@ import android.view.View;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityMediaPlayerBinding;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.OverlayUtil;
 
 public class MediaPlayer extends BaseActivity {
@@ -20,7 +20,7 @@ public class MediaPlayer extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_media_player);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_media_player);
 
         refreshPreview();
 

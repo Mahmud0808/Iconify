@@ -68,11 +68,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.ic_collapse_expand.setForeground(ContextCompat.getDrawable(context, R.drawable.ic_expand_arrow));
 
         if (Prefs.getBoolean(NOTIFICATION_KEY.get(position))) {
-            holder.style_name.setText(holder.style_name.getText().toString().replace(' ' + context.getResources().getString(R.string.opt_applied), "") + ' ' + context.getResources().getString(R.string.opt_applied));
             holder.style_name.setTextColor(context.getResources().getColor(R.color.colorAccent, context.getTheme()));
+            holder.container.findViewById(R.id.icon_selected).setVisibility(View.VISIBLE);
         } else {
-            holder.style_name.setText(holder.style_name.getText().toString().replace(' ' + context.getResources().getString(R.string.opt_applied), ""));
             holder.style_name.setTextColor(context.getResources().getColor(R.color.textColorPrimary, context.getTheme()));
+            holder.container.findViewById(R.id.icon_selected).setVisibility(View.INVISIBLE);
         }
 
         refreshButton(holder);
@@ -91,11 +91,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         super.onViewAttachedToWindow(holder);
 
         if (Prefs.getBoolean(NOTIFICATION_KEY.get(holder.getBindingAdapterPosition()))) {
-            holder.style_name.setText(holder.style_name.getText().toString().replace(' ' + context.getResources().getString(R.string.opt_applied), "") + ' ' + context.getResources().getString(R.string.opt_applied));
             holder.style_name.setTextColor(context.getResources().getColor(R.color.colorAccent, context.getTheme()));
+            holder.container.findViewById(R.id.icon_selected).setVisibility(View.VISIBLE);
         } else {
-            holder.style_name.setText(holder.style_name.getText().toString().replace(' ' + context.getResources().getString(R.string.opt_applied), ""));
             holder.style_name.setTextColor(context.getResources().getColor(R.color.textColorPrimary, context.getTheme()));
+            holder.container.findViewById(R.id.icon_selected).setVisibility(View.INVISIBLE);
         }
 
         refreshButton(holder);
@@ -152,9 +152,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                         // Hide loading dialog
                         loadingDialog.hide();
 
-                        // Change name to " - applied"
-                        holder.style_name.setText(holder.style_name.getText().toString().replace(' ' + context.getResources().getString(R.string.opt_applied), "") + ' ' + context.getResources().getString(R.string.opt_applied));
                         holder.style_name.setTextColor(context.getResources().getColor(R.color.colorAccent, context.getTheme()));
+                        holder.container.findViewById(R.id.icon_selected).setVisibility(View.VISIBLE);
 
                         // Change button visibility
                         holder.btn_enable.setVisibility(View.GONE);
@@ -185,9 +184,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                         // Hide loading dialog
                         loadingDialog.hide();
 
-                        // Change name back to original
-                        holder.style_name.setText(holder.style_name.getText().toString().replace(' ' + context.getResources().getString(R.string.opt_applied), ""));
                         holder.style_name.setTextColor(context.getResources().getColor(R.color.textColorPrimary, context.getTheme()));
+                        holder.container.findViewById(R.id.icon_selected).setVisibility(View.INVISIBLE);
 
                         // Change button visibility
                         holder.btn_disable.setVisibility(View.GONE);
@@ -237,13 +235,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
                 if (child != null) {
                     TextView title = child.findViewById(R.id.notif_title);
+                    ImageView selected = child.findViewById(R.id.icon_selected);
 
                     if (i == holder.getAbsoluteAdapterPosition() && Prefs.getBoolean(NOTIFICATION_KEY.get(i - (holder.getAbsoluteAdapterPosition() - holder.getBindingAdapterPosition())))) {
-                        title.setText(title.getText().toString().replace(' ' + context.getResources().getString(R.string.opt_applied), "") + ' ' + context.getResources().getString(R.string.opt_applied));
                         title.setTextColor(context.getResources().getColor(R.color.colorAccent, context.getTheme()));
+                        selected.setVisibility(View.VISIBLE);
                     } else {
-                        title.setText(title.getText().toString().replace(' ' + context.getResources().getString(R.string.opt_applied), ""));
                         title.setTextColor(context.getResources().getColor(R.color.textColorPrimary, context.getTheme()));
+                        selected.setVisibility(View.INVISIBLE);
                     }
                 }
             }

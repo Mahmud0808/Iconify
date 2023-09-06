@@ -113,10 +113,7 @@ public class QsShapeAdapter extends RecyclerView.Adapter<QsShapeAdapter.ViewHold
     public void onViewAttachedToWindow(@NonNull ViewHolder holder) {
         super.onViewAttachedToWindow(holder);
 
-        if (Prefs.getBoolean(QSSHAPE_KEY.get(holder.getBindingAdapterPosition())))
-            holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.container_selected));
-        else
-            holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.container));
+        itemSelected(holder.container, Prefs.getBoolean(QSSHAPE_KEY.get(holder.getBindingAdapterPosition())));
 
         refreshButton(holder);
     }
@@ -238,10 +235,7 @@ public class QsShapeAdapter extends RecyclerView.Adapter<QsShapeAdapter.ViewHold
                 LinearLayout child = view.findViewById(R.id.qsshape_child);
 
                 if (child != null) {
-                    if (i == holder.getAbsoluteAdapterPosition() && Prefs.getBoolean(QSSHAPE_KEY.get(i - (holder.getAbsoluteAdapterPosition() - holder.getBindingAdapterPosition()))))
-                        child.setBackground(ContextCompat.getDrawable(context, R.drawable.container_selected));
-                    else
-                        child.setBackground(ContextCompat.getDrawable(context, R.drawable.container));
+                    itemSelected(child, i == holder.getAbsoluteAdapterPosition() && Prefs.getBoolean(QSSHAPE_KEY.get(i - (holder.getAbsoluteAdapterPosition() - holder.getBindingAdapterPosition()))));
                 }
             }
         }
@@ -289,6 +283,18 @@ public class QsShapeAdapter extends RecyclerView.Adapter<QsShapeAdapter.ViewHold
         marginParams.setMarginEnd(DisplayUtil.IntToDp(iconMarginRight));
         layoutParams = new LinearLayout.LayoutParams(marginParams);
         holder.qs_icon4.setLayoutParams(layoutParams);
+    }
+
+    private void itemSelected(View parent, boolean state) {
+        if (state) {
+            parent.setBackground(ContextCompat.getDrawable(context, R.drawable.container_selected));
+            ((TextView) parent.findViewById(R.id.list_title_qsshape)).setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+            parent.findViewById(R.id.icon_selected).setVisibility(View.VISIBLE);
+        } else {
+            parent.setBackground(ContextCompat.getDrawable(context, R.drawable.item_background_material));
+            ((TextView) parent.findViewById(R.id.list_title_qsshape)).setTextColor(ContextCompat.getColor(context, R.color.text_color_primary));
+            parent.findViewById(R.id.icon_selected).setVisibility(View.INVISIBLE);
+        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/notification_child"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="18dp"
+    android:layout_marginStart="@dimen/container_marginSide"
+    android:layout_marginEnd="@dimen/container_marginSide"
+    android:layout_marginBottom="14dp"
     android:background="@drawable/container"
     android:orientation="vertical"
     android:padding="20dp">
@@ -28,8 +32,6 @@
             style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:layout_marginBottom="3dp"
             android:layout_weight="1.0"
             android:text="@string/app_name"
             android:textAlignment="viewStart"
@@ -56,13 +58,32 @@
         android:layout_marginEnd="38dp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/notif_title"
-            style="@style/TextAppearance.Material3.TitleMedium"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAlignment="viewStart"
-            android:textColor="@color/text_color_primary" />
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables">
+
+            <TextView
+                android:id="@+id/notif_title"
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center"
+                android:textColor="@color/text_color_primary" />
+
+            <ImageView
+                android:id="@+id/icon_selected"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="start|center"
+                android:layout_marginHorizontal="8dp"
+                android:contentDescription="@string/icon"
+                android:src="@drawable/ic_tick"
+                android:visibility="invisible"
+                app:tint="?attr/colorPrimary" />
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -80,7 +101,7 @@
         style="@style/Widget.MaterialButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/container_padding"
+        android:layout_marginTop="@dimen/container_margin"
         android:text="@string/btn_enable"
         android:visibility="gone" />
 
@@ -89,7 +110,7 @@
         style="@style/Widget.MaterialButton.Red"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/container_padding"
+        android:layout_marginTop="@dimen/container_margin"
         android:text="@string/btn_disable"
         android:visibility="gone" />
 

@@ -270,7 +270,7 @@
                     app:selectionRequired="true"
                     app:singleSelection="true">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/textColorNormal"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="0dp"
@@ -280,7 +280,7 @@
                         android:paddingBottom="12dp"
                         android:text="@string/qs_text_color_normal" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/textColorPixel"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="0dp"

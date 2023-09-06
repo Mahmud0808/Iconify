@@ -13,7 +13,6 @@ import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TEXT_WHITE;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TOPMARGIN;
 import static com.drdisagree.iconify.common.Resources.HEADER_CLOCK_FONT_DIR;
-import static com.drdisagree.iconify.ui.utils.ViewBindingHelpers.disableNestedScrolling;
 import static com.drdisagree.iconify.utils.FileUtil.copyToIconifyHiddenDir;
 import static com.drdisagree.iconify.utils.FileUtil.getRealPath;
 
@@ -39,7 +38,7 @@ import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.ActivityXposedHeaderClockBinding;
 import com.drdisagree.iconify.ui.adapters.ClockPreviewAdapter;
 import com.drdisagree.iconify.ui.models.ClockModel;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.HeaderClockStyles;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.slider.Slider;
@@ -77,7 +76,7 @@ public class XposedHeaderClock extends BaseActivity implements ColorPickerDialog
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_header_clock);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_header_clock);
 
         // Custom header clock
         binding.enableHeaderClock.setChecked(RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false));
@@ -92,7 +91,7 @@ public class XposedHeaderClock extends BaseActivity implements ColorPickerDialog
         binding.headerClockPreview.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
         ClockPreviewAdapter adapter = initHeaderClockStyles();
         binding.headerClockPreview.setAdapter(adapter);
-        disableNestedScrolling(binding.headerClockPreview);
+        ViewHelper.disableNestedScrolling(binding.headerClockPreview);
 
         binding.headerClockPreview.setCurrentItem(RPrefs.getInt(HEADER_CLOCK_STYLE, 1) - 1);
         binding.headerClockPreviewIndicator.setViewPager(binding.headerClockPreview);

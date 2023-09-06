@@ -4,13 +4,12 @@
     android:id="@+id/check_update"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="18dp"
     android:layout_marginBottom="@dimen/container_margin"
     android:background="@drawable/container_outline"
     android:orientation="horizontal"
-    android:paddingStart="@dimen/container_paddingSide"
-    android:paddingTop="@dimen/container_padding"
-    android:paddingEnd="@dimen/container_paddingSide"
-    android:paddingBottom="@dimen/container_padding">
+    android:paddingHorizontal="24dp"
+    android:paddingVertical="22dp">
 
     <FrameLayout
         android:layout_width="56dp"

@@ -26,7 +26,7 @@ import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityAppUpdatesBinding;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.TaskExecutor;
 
 import org.json.JSONArray;
@@ -53,7 +53,7 @@ public class AppUpdates extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.app_updates);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.app_updates);
 
         List<String> update_schedule = new ArrayList<>();
         update_schedule.add(getResources().getString(R.string.update_schedule1));

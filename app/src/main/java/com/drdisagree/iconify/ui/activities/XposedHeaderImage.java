@@ -24,7 +24,7 @@ import androidx.annotation.NonNull;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.ActivityXposedHeaderImageBinding;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.slider.Slider;
 
@@ -54,7 +54,7 @@ public class XposedHeaderImage extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_header_image);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_header_image);
 
         // Header image picker
         binding.pickHeaderImage.setOnClickListener(v -> {

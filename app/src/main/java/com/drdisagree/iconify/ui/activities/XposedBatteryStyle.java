@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.ActivityXposedBatteryStyleBinding;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.RadioDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.slider.Slider;
@@ -37,7 +37,7 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_battery_style);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_battery_style);
 
         // Custom battery style
         rd_battery_style = new RadioDialog(this, 0, RPrefs.getInt(CUSTOM_BATTERY_STYLE, 0));

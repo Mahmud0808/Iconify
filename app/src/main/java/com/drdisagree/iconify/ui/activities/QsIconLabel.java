@@ -31,7 +31,7 @@ import androidx.annotation.NonNull;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityQsIconLabelBinding;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.google.android.material.slider.Slider;
@@ -51,7 +51,7 @@ public class QsIconLabel extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_qs_icon_label);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_qs_icon_label);
 
         // Text Size
         final int[] finalTextSize = {14};

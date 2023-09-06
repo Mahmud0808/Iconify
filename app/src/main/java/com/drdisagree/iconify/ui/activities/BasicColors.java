@@ -23,7 +23,7 @@ import android.widget.Toast;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityBasicColorsBinding;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
@@ -91,7 +91,7 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_basic_colors);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_basic_colors);
 
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL))
             accentPrimary = Prefs.getString(COLOR_ACCENT_PRIMARY);

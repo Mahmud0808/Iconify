@@ -9,7 +9,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.databinding.ActivityCreditsBinding;
 import com.drdisagree.iconify.ui.adapters.InfoAdapter;
 import com.drdisagree.iconify.ui.models.InfoModel;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ public class Credits extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.section_title_credits);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.section_title_credits);
 
         // RecyclerView
         binding.infoContainer.setLayoutManager(new LinearLayoutManager(this));

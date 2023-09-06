@@ -64,10 +64,7 @@ public class ProgressBarAdapter extends RecyclerView.Adapter<ProgressBarAdapter.
         holder.style_name.setText(itemList.get(position).getName());
         holder.progressbar.setBackground(ContextCompat.getDrawable(context, itemList.get(position).getProgress()));
 
-        if (Prefs.getInt(SELECTED_PROGRESSBAR, -1) == position)
-            holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.container_selected));
-        else
-            holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.container));
+        itemSelected(holder.container, Prefs.getInt(SELECTED_PROGRESSBAR, -1) == position);
 
         refreshButton(holder);
 
@@ -84,10 +81,7 @@ public class ProgressBarAdapter extends RecyclerView.Adapter<ProgressBarAdapter.
     public void onViewAttachedToWindow(@NonNull ViewHolder holder) {
         super.onViewAttachedToWindow(holder);
 
-        if (Prefs.getInt(SELECTED_PROGRESSBAR, -1) == holder.getBindingAdapterPosition())
-            holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.container_selected));
-        else
-            holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.container));
+        itemSelected(holder.container, Prefs.getInt(SELECTED_PROGRESSBAR, -1) == holder.getBindingAdapterPosition());
 
         refreshButton(holder);
     }
@@ -222,10 +216,7 @@ public class ProgressBarAdapter extends RecyclerView.Adapter<ProgressBarAdapter.
                 LinearLayout child = view.findViewById(R.id.progressbar_child);
 
                 if (child != null) {
-                    if (i == holder.getAbsoluteAdapterPosition() && Prefs.getInt(SELECTED_PROGRESSBAR, -1) == (i - (holder.getAbsoluteAdapterPosition() - holder.getBindingAdapterPosition())))
-                        child.setBackground(ContextCompat.getDrawable(context, R.drawable.container_selected));
-                    else
-                        child.setBackground(ContextCompat.getDrawable(context, R.drawable.container));
+                    itemSelected(child, i == holder.getAbsoluteAdapterPosition() && Prefs.getInt(SELECTED_PROGRESSBAR, -1) == (i - (holder.getAbsoluteAdapterPosition() - holder.getBindingAdapterPosition())));
                 }
             }
         }
@@ -243,6 +234,18 @@ public class ProgressBarAdapter extends RecyclerView.Adapter<ProgressBarAdapter.
                 holder.btn_enable.setVisibility(View.VISIBLE);
                 holder.btn_disable.setVisibility(View.GONE);
             }
+        }
+    }
+
+    private void itemSelected(View parent, boolean state) {
+        if (state) {
+            parent.setBackground(ContextCompat.getDrawable(context, R.drawable.container_selected));
+            ((TextView) parent.findViewById(R.id.progressbar_title)).setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+            parent.findViewById(R.id.icon_selected).setVisibility(View.VISIBLE);
+        } else {
+            parent.setBackground(ContextCompat.getDrawable(context, R.drawable.item_background_material));
+            ((TextView) parent.findViewById(R.id.progressbar_title)).setTextColor(ContextCompat.getColor(context, R.color.text_color_primary));
+            parent.findViewById(R.id.icon_selected).setVisibility(View.INVISIBLE);
         }
     }
 

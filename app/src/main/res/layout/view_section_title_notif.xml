@@ -6,5 +6,5 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="24dp"
     android:layout_marginTop="20dp"
-    android:layout_marginBottom="8dp"
+    android:layout_marginBottom="20dp"
     android:textColor="?attr/colorPrimary" />

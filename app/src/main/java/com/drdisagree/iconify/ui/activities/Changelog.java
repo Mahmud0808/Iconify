@@ -19,7 +19,7 @@ import androidx.core.text.HtmlCompat;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.databinding.ActivityChangelogBinding;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.TaskExecutor;
 
@@ -65,7 +65,7 @@ public class Changelog extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_changelog);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_changelog);
 
         grabChangelog = new Changelog.GrabChangelog();
         grabChangelog.execute();

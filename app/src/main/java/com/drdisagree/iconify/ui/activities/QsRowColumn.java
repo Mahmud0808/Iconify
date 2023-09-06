@@ -21,7 +21,7 @@ import androidx.annotation.NonNull;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityQsRowColumnBinding;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -54,7 +54,7 @@ public class QsRowColumn extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_qs_row_column);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_qs_row_column);
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);

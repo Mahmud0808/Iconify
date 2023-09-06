@@ -12,7 +12,7 @@ import android.os.Looper;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.ActivityExperimentalBinding;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.SystemUtil;
 
 public class Experimental extends BaseActivity {
@@ -27,7 +27,7 @@ public class Experimental extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_experimental);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_experimental);
 
         // Header image overlap
         binding.headerImageOverlap.setChecked(RPrefs.getBoolean(HEADER_IMAGE_OVERLAP, false));

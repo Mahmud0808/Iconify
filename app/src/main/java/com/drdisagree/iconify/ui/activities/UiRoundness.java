@@ -19,7 +19,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.ActivityUiRoundnessBinding;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.overlaymanager.RoundnessManager;
@@ -44,7 +44,7 @@ public class UiRoundness extends BaseActivity {
         loadingDialog = new LoadingDialog(this);
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_ui_roundness);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_ui_roundness);
 
         // Corner Radius
         GradientDrawable[] drawables = new GradientDrawable[]{

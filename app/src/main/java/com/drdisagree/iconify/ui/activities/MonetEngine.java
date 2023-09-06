@@ -43,7 +43,7 @@ import androidx.annotation.NonNull;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityMonetEngineBinding;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.RadioDialog;
 import com.drdisagree.iconify.utils.ColorUtil;
 import com.drdisagree.iconify.utils.FabricatedUtil;
@@ -70,7 +70,6 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
 
     private static String accentPrimary, accentSecondary, selectedStyle;
     private static boolean isSelectedPrimary = false, isSelectedSecondary = false, accurateShades = Prefs.getBoolean(MONET_ACCURATE_SHADES, true);
-    private boolean showApplyButton = false, showDisableButton = false;
     private final List<List<List<Object>>> finalPalette = new ArrayList<>();
     private final int[] selectedChild = new int[2];
     int[] monetPrimaryAccentSaturation = new int[]{Prefs.getInt(MONET_PRIMARY_ACCENT_SATURATION, 100)};
@@ -93,6 +92,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                     }
                 }
             });
+    private boolean showApplyButton = false, showDisableButton = false;
     private ActivityMonetEngineBinding binding;
     ActivityResultLauncher<Intent> startImportActivityIntent = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -140,7 +140,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_monet_engine);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_monet_engine);
 
         colorTableRows = new LinearLayout[]{
                 binding.monetEngine.systemAccent1,

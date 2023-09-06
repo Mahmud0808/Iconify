@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/media_player_icon_child"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -39,22 +40,21 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/toggleButtonGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginTop="16dp"
-        android:orientation="horizontal">
+        android:gravity="center"
+        app:singleSelection="true">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/aurora"
-            style="@style/Widget.MaterialButton"
+            style="?attr/materialButtonOutlinedStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1.0"
             android:ellipsize="marquee"
-            android:letterSpacing="0"
             android:paddingStart="0dp"
             android:paddingTop="10dp"
             android:paddingEnd="0dp"
@@ -65,15 +65,13 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/gradicon"
-            style="@style/Widget.MaterialButton"
+            style="?attr/materialButtonOutlinedStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_weight="1.0"
             android:ellipsize="marquee"
-            android:letterSpacing="0"
             android:paddingStart="0dp"
             android:paddingTop="10dp"
             android:paddingEnd="0dp"
@@ -84,13 +82,11 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/plumpy"
-            style="@style/Widget.MaterialButton"
+            style="?attr/materialButtonOutlinedStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1.0"
             android:ellipsize="marquee"
-            android:letterSpacing="0"
             android:paddingStart="0dp"
             android:paddingTop="10dp"
             android:paddingEnd="0dp"
@@ -99,5 +95,6 @@
             android:text="@string/iconpack_plumpy"
             android:textSize="14sp" />
 
-    </LinearLayout>
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
 </LinearLayout>

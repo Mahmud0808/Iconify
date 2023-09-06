@@ -70,16 +70,27 @@
                         android:orientation="vertical"
                         android:visibility="visible">
 
-                        <ImageView
+                        <FrameLayout
                             android:id="@+id/settings_iv_check_update"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
+                            android:layout_gravity="start|center"
                             android:layout_marginStart="24dp"
-                            android:contentDescription="@string/icon"
-                            android:src="@drawable/ic_update"
-                            app:tint="?attr/colorOnSurface" />
+                            android:background="@drawable/container_semi_transparent"
+                            android:backgroundTint="@color/colorAccent">
+
+                            <ImageView
+                                android:id="@+id/list_icon"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:layout_gravity="center"
+                                android:contentDescription="@string/icon"
+                                android:src="@drawable/ic_update"
+                                app:tint="?attr/colorOnSurface" />
+
+                        </FrameLayout>
 
                         <LinearLayout
                             android:id="@+id/update_info"

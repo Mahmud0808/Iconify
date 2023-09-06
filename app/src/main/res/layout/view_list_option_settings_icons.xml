@@ -1,32 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/icon_pack_child"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/container_margin"
-    android:background="@drawable/container"
-    android:baselineAligned="false"
-    android:orientation="horizontal"
-    android:paddingStart="@dimen/container_paddingSide"
-    android:paddingTop="@dimen/container_padding"
-    android:paddingEnd="@dimen/container_paddingSide"
-    android:paddingBottom="@dimen/container_padding">
+    android:background="@drawable/item_background_material"
+    android:clickable="true">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="start|center"
-        android:layout_marginEnd="@dimen/container_padding"
-        android:layout_weight="1.0"
+        android:layout_centerVertical="true"
+        android:layout_marginVertical="22dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@id/icon_preview"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/iconpack_title"
-            style="@style/TextAppearance.Material3.TitleMedium"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_color_primary" />
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables">
+
+            <TextView
+                android:id="@+id/iconpack_title"
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center"
+                android:textColor="@color/text_color_primary" />
+
+            <ImageView
+                android:id="@+id/icon_selected"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="start|center"
+                android:layout_marginHorizontal="8dp"
+                android:contentDescription="@string/icon"
+                android:src="@drawable/ic_tick"
+                android:visibility="invisible"
+                app:tint="?attr/colorPrimary" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/iconpack_desc"
@@ -38,8 +55,12 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/icon_preview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="24dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -87,4 +108,4 @@
 
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

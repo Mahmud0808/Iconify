@@ -13,7 +13,6 @@ import static com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_TEXT_WHITE;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_TOPMARGIN;
 import static com.drdisagree.iconify.common.Resources.LSCLOCK_FONT_DIR;
-import static com.drdisagree.iconify.ui.utils.ViewBindingHelpers.disableNestedScrolling;
 import static com.drdisagree.iconify.utils.FileUtil.copyToIconifyHiddenDir;
 import static com.drdisagree.iconify.utils.FileUtil.getRealPath;
 
@@ -39,7 +38,7 @@ import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.ActivityXposedLockscreenClockBinding;
 import com.drdisagree.iconify.ui.adapters.ClockPreviewAdapter;
 import com.drdisagree.iconify.ui.models.ClockModel;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.LockscreenClockStyles;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.slider.Slider;
@@ -77,7 +76,7 @@ public class XposedLockscreenClock extends BaseActivity implements ColorPickerDi
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.toolbar, R.string.activity_title_lockscreen_clock);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_lockscreen_clock);
 
         // Enable lockscreen clock
         binding.enableLockscreenClock.setChecked(RPrefs.getBoolean(LSCLOCK_SWITCH, false));
@@ -100,7 +99,7 @@ public class XposedLockscreenClock extends BaseActivity implements ColorPickerDi
         binding.lockscreenClockPreview.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
         ClockPreviewAdapter adapter = initLockscreenClockStyles();
         binding.lockscreenClockPreview.setAdapter(adapter);
-        disableNestedScrolling(binding.lockscreenClockPreview);
+        ViewHelper.disableNestedScrolling(binding.lockscreenClockPreview);
 
         binding.lockscreenClockPreview.setCurrentItem(RPrefs.getInt(LSCLOCK_STYLE, 0));
         binding.lockscreenClockPreviewIndicator.setViewPager(binding.lockscreenClockPreview);
