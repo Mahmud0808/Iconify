@@ -23,6 +23,7 @@ import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class ModuleUtil {
 
@@ -46,7 +47,7 @@ public class ModuleUtil {
         // Clean temporary directory
         Shell.cmd("mkdir -p " + Resources.TEMP_DIR).exec();
         Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR).exec();
-        Shell.cmd("printf 'id=Iconify\nname=Iconify\nversion=" + BuildConfig.VERSION_NAME + "\nversionCode=" + BuildConfig.VERSION_CODE + "\nauthor=@DrDisagree\ndescription=Systemless module for Iconify. " + Iconify.getAppContext().getResources().getString(R.string.app_moto) + ".\n' > " + Resources.TEMP_MODULE_DIR + "/module.prop").exec();
+        Shell.cmd("printf 'id=Iconify\nname=Iconify\nversion=" + BuildConfig.VERSION_NAME + "\nversionCode=" + BuildConfig.VERSION_CODE + "\nauthor=@DrDisagree\ndescription=Systemless module for Iconify. " + Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.app_moto) + ".\n' > " + Resources.TEMP_MODULE_DIR + "/module.prop").exec();
         Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR + "/common").exec();
         Shell.cmd("printf 'MODDIR=${0%%/*}\n\n' > " + Resources.TEMP_MODULE_DIR + "/post-fs-data.sh").exec();
         if (!Onboarding.skippedInstallation) {
@@ -66,11 +67,11 @@ public class ModuleUtil {
         Log.i(TAG, "Magisk module successfully created.");
     }
 
-    public static void flashModule() {
+    public static boolean flashModule() {
         if (RootUtil.isMagiskInstalled()) {
-            Shell.cmd("magisk --install-module " + Resources.TEMP_DIR + "/Iconify.zip").exec();
+            return !Shell.cmd("magisk --install-module " + Resources.TEMP_DIR + "/Iconify.zip").exec().isSuccess();
         } else {
-            Shell.cmd("/data/adb/ksud module install " + Resources.TEMP_DIR + "/Iconify.zip").exec();
+            return !Shell.cmd("/data/adb/ksud module install " + Resources.TEMP_DIR + "/Iconify.zip").exec().isSuccess();
         }
     }
 
@@ -79,7 +80,7 @@ public class ModuleUtil {
         boolean primaryColorEnabled = false;
         boolean secondaryColorEnabled = false;
 
-        SharedPreferences prefs = Iconify.getAppContext().getSharedPreferences(Iconify.getAppContext().getPackageName(), Context.MODE_PRIVATE);
+        SharedPreferences prefs = Objects.requireNonNull(Iconify.getAppContext()).getSharedPreferences(Iconify.getAppContext().getPackageName(), Context.MODE_PRIVATE);
         Map<String, ?> map = prefs.getAll();
         for (Map.Entry<String, ?> item : map.entrySet()) {
             if (item.getValue() instanceof Boolean && ((Boolean) item.getValue()) && item.getKey().startsWith("fabricated")) {

@@ -555,7 +555,9 @@ public class Onboarding extends BaseActivity {
                     }
                 }
 
-                ModuleUtil.flashModule();
+                if (!hasErroredOut) {
+                    hasErroredOut = ModuleUtil.flashModule();
+                }
             }
 
             logger = "Cleaning temporary directories";
