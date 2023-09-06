@@ -280,6 +280,7 @@ public class Onboarding extends BaseActivity {
         }
     }
 
+    @SuppressWarnings("SameParameterValue")
     private void showInfoNow(int title, int desc) {
         if (mAdapter.getCurrentFragment() instanceof com.drdisagree.iconify.ui.fragments.Onboarding) {
             ((com.drdisagree.iconify.ui.fragments.Onboarding) mAdapter.getCurrentFragment()).updateTextView(title, desc);
@@ -545,9 +546,13 @@ public class Onboarding extends BaseActivity {
 
                 try {
                     ZipUtil.pack(new File(Resources.TEMP_DIR + "/Iconify"), new File(Resources.TEMP_DIR + "/Iconify.zip"));
-                } catch (Exception exception) {
+                } catch (Exception e) {
                     hasErroredOut = true;
-                    writeLog(TAG, "Error creating module zip", exception.toString());
+                    if (e.getCause() != null) {
+                        writeLog(TAG, "Error creating module zip", e.getCause().toString());
+                    } else {
+                        writeLog(TAG, "Error creating module zip", e.toString());
+                    }
                 }
 
                 ModuleUtil.flashModule();
