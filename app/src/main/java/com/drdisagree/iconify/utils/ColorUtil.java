@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.utils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -8,6 +7,7 @@ import android.graphics.Color;
 import android.util.TypedValue;
 
 import androidx.annotation.AttrRes;
+import androidx.annotation.ColorInt;
 
 public class ColorUtil {
 
@@ -204,7 +204,9 @@ public class ColorUtil {
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = context.getTheme();
         theme.resolveAttribute(id, typedValue, false);
-        @SuppressLint("Recycle") TypedArray arr = context.obtainStyledAttributes(typedValue.data, new int[]{id});
-        return arr.getColor(0, -1);
+        TypedArray arr = context.obtainStyledAttributes(typedValue.data, new int[]{id});
+        @ColorInt int color = arr.getColor(0, -1);
+        arr.recycle();
+        return color;
     }
 }
