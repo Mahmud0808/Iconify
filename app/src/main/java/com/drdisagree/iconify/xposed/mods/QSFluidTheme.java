@@ -7,6 +7,7 @@ import static com.drdisagree.iconify.common.Preferences.FLUID_QSPANEL;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.modRes;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
+import static com.drdisagree.iconify.xposed.utils.SettingsLibUtils.getColorAttr;
 import static com.drdisagree.iconify.xposed.utils.ViewHelper.setAlphaForBackgroundDrawables;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
@@ -20,7 +21,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.content.res.XResources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -41,7 +41,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
-import androidx.annotation.ColorInt;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.drdisagree.iconify.R;
@@ -135,13 +134,6 @@ public class QSFluidTheme extends ModPack {
         });
 
         // QS tile color
-        hookAllConstructors(QSTileViewImplClass, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) {
-                colorInactiveAlpha[0] = changeAlpha((Integer) getObjectField(param.thisObject, "colorInactive"), INACTIVE_ALPHA);
-            }
-        });
-
         hookAllMethods(QSTileViewImplClass, "getBackgroundColorForState", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
@@ -232,17 +224,10 @@ public class QSFluidTheme extends ModPack {
 
                         setAlphaForBackgroundDrawables(view, INACTIVE_ALPHA);
 
-                        try {
-                            ViewGroup pm_button_container = view.findViewById(res.getIdentifier("pm_lite", "id", mContext.getPackageName()));
-                            pm_button_container.getBackground().setAlpha((int) (ACTIVE_ALPHA * 255));
-                            pm_button_container.getBackground().setTint(colorAccent[0]);
-                            ((ImageView) pm_button_container.getChildAt(0)).setColorFilter(colorAccent[0], PorterDuff.Mode.SRC_IN);
-                        } catch (Throwable ignored) {
-                            ImageView pm_button = view.findViewById(res.getIdentifier("pm_lite", "id", mContext.getPackageName()));
-                            pm_button.getBackground().setAlpha((int) (ACTIVE_ALPHA * 255));
-                            pm_button.getBackground().setTint(colorAccent[0]);
-                            pm_button.setImageTintList(ColorStateList.valueOf(colorAccent[0]));
-                        }
+                        ViewGroup pm_button_container = view.findViewById(res.getIdentifier("pm_lite", "id", mContext.getPackageName()));
+                        pm_button_container.getBackground().setAlpha((int) (ACTIVE_ALPHA * 255));
+                        pm_button_container.getBackground().setTint(colorAccent[0]);
+                        ((ImageView) pm_button_container.getChildAt(0)).setColorFilter(colorAccent[0], PorterDuff.Mode.SRC_IN);
                     } catch (Throwable throwable) {
                         log(TAG + throwable);
                     }
@@ -303,7 +288,8 @@ public class QSFluidTheme extends ModPack {
                     try {
                         ((ImageView) getObjectField(param.thisObject, "mIconView")).setImageTintList(ColorStateList.valueOf(colorAccent[0]));
                         ((ImageView) getObjectField(param.thisObject, "mIconView")).setBackgroundTintList(ColorStateList.valueOf(colorActiveAlpha[0]));
-                    } catch (Throwable ignored) {
+                    } catch (Throwable throwable1) {
+                        log(TAG + throwable1);
                     }
                 }
             }
@@ -480,7 +466,7 @@ public class QSFluidTheme extends ModPack {
         if (QSTileViewImplParam != null) {
             colorInactiveAlpha[0] = changeAlpha((Integer) getObjectField(QSTileViewImplParam.thisObject, "colorInactive"), INACTIVE_ALPHA);
         } else {
-            colorInactiveAlpha[0] = colorInactiveAlpha[0] == null ? (wasDark ? Color.parseColor("#03D3D3DF") : Color.parseColor("#593D3D3D")) : colorInactiveAlpha[0];
+            colorInactiveAlpha[0] = colorInactiveAlpha[0] == null ? (wasDark ? Color.parseColor("#0FFFFFFF") : Color.parseColor("#59FFFFFF")) : colorInactiveAlpha[0];
         }
     }
 
@@ -601,8 +587,12 @@ public class QSFluidTheme extends ModPack {
         ShapeDrawable backgroundShape = new ShapeDrawable(new RoundRectShape(radiusF, null, null));
         backgroundShape.setIntrinsicHeight(height);
 
-        @SuppressLint("DiscouragedApi") int colorInactive = getColorAttrDefaultColor(context, res.getIdentifier("offStateColor", "attr", context.getPackageName()), colorInactiveAlpha[0]);
-        backgroundShape.getPaint().setColor(changeAlpha(colorInactive, INACTIVE_ALPHA));
+        @SuppressLint("DiscouragedApi") ColorStateList states = getColorAttr(res.getIdentifier("attr/offStateColor", "attr", context.getPackageName()), context);
+        if (states != null) {
+            backgroundShape.getPaint().setColor(changeAlpha(states.getDefaultColor(), INACTIVE_ALPHA));
+        } else {
+            backgroundShape.getPaint().setColor(colorInactiveAlpha[0]);
+        }
 
         // Create the progress drawable
         RoundedCornerProgressDrawable progressDrawable = null;
@@ -611,7 +601,6 @@ public class QSFluidTheme extends ModPack {
             progressDrawable.setAlpha((int) (ACTIVE_ALPHA * 255));
             progressDrawable.setTint(colorAccent[0]);
         } catch (Throwable ignored) {
-            // it shoudln't happen anyway
         }
 
         // Create the start and end drawables
@@ -633,12 +622,5 @@ public class QSFluidTheme extends ModPack {
         layerDrawable.setLayerInsetEnd(3, endPadding);
 
         return layerDrawable;
-    }
-
-    private static int getColorAttrDefaultColor(Context context, int attr, @ColorInt int defValue) {
-        TypedArray ta = context.obtainStyledAttributes(new int[]{attr});
-        @ColorInt int color = ta.getColor(0, defValue);
-        ta.recycle();
-        return color;
     }
 }
