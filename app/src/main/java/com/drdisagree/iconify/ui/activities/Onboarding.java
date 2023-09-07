@@ -67,7 +67,6 @@ public class Onboarding extends BaseActivity {
     private ActivityOnboardingBinding binding;
     private int previousPage = 0;
     private ViewPager2 mViewPager;
-    @SuppressLint("StaticFieldLeak")
     private InstallationDialog progressDialog;
     private OnboardingAdapter mAdapter = null;
     private String logger = null, prev_log = null;
@@ -548,15 +547,11 @@ public class Onboarding extends BaseActivity {
                     ZipUtil.pack(new File(Resources.TEMP_DIR + "/Iconify"), new File(Resources.TEMP_DIR + "/Iconify.zip"));
                 } catch (Exception e) {
                     hasErroredOut = true;
-                    if (e.getCause() != null) {
-                        writeLog(TAG, "Error creating module zip", e.getCause().toString());
-                    } else {
-                        writeLog(TAG, "Error creating module zip", e.toString());
-                    }
+                    writeLog(TAG, "Error creating module zip", e.toString());
                 }
 
                 if (!hasErroredOut) {
-                    hasErroredOut = ModuleUtil.flashModule();
+                    hasErroredOut = ModuleUtil.flashModule(Resources.TEMP_DIR + "/Iconify.zip");
                 }
             }
 

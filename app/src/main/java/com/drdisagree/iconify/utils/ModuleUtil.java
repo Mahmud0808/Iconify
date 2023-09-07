@@ -67,11 +67,11 @@ public class ModuleUtil {
         Log.i(TAG, "Magisk module successfully created.");
     }
 
-    public static boolean flashModule() {
+    public static boolean flashModule(String modulePath) {
         if (RootUtil.isMagiskInstalled()) {
-            return !Shell.cmd("magisk --install-module " + Resources.TEMP_DIR + "/Iconify.zip").exec().isSuccess();
+            return !Shell.cmd("magisk --install-module " + modulePath).exec().isSuccess();
         } else {
-            return !Shell.cmd("/data/adb/ksud module install " + Resources.TEMP_DIR + "/Iconify.zip").exec().isSuccess();
+            return !Shell.cmd("/data/adb/ksud module install " + modulePath).exec().isSuccess();
         }
     }
 
