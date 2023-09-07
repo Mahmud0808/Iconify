@@ -639,4 +639,10 @@ public class Onboarding extends BaseActivity {
             Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        binding.btnNextStep.requestLayout();
+    }
 }
