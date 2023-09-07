@@ -60,7 +60,6 @@ public class AppUpdates extends BaseActivity {
         update_schedule.add(getResources().getString(R.string.update_schedule2));
         update_schedule.add(getResources().getString(R.string.update_schedule3));
         update_schedule.add(getResources().getString(R.string.update_schedule4));
-        update_schedule.add(getResources().getString(R.string.update_schedule5));
 
         ArrayAdapter<String> update_schedule_adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_item, update_schedule);
         update_schedule_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
@@ -84,9 +83,6 @@ public class AppUpdates extends BaseActivity {
                         break;
                     case 3:
                         Prefs.putLong(UPDATE_CHECK_TIME, (long) 1000 * 60 * 60 * 24 * 7); // Every Week
-                        break;
-                    case 4:
-                        Prefs.putLong(UPDATE_CHECK_TIME, -1); // Never
                         break;
                 }
             }

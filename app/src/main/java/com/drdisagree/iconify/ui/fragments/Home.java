@@ -5,7 +5,6 @@ import static com.drdisagree.iconify.common.Preferences.AUTO_UPDATE;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.LAST_UPDATE_CHECK_TIME;
 import static com.drdisagree.iconify.common.Preferences.SHOW_HOME_CARD;
-import static com.drdisagree.iconify.common.Preferences.UPDATE_CHECK_TIME;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED;
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
 
@@ -88,7 +87,7 @@ public class Home extends BaseFragment {
 
         long lastChecked = Prefs.getLong(LAST_UPDATE_CHECK_TIME, -1);
 
-        if (Prefs.getBoolean(AUTO_UPDATE, true) && (Prefs.getLong(UPDATE_CHECK_TIME, 0) != -1 && (lastChecked == -1 || (System.currentTimeMillis() - lastChecked >= Prefs.getLong("UPDATE_CHECK_TIME", 0))))) {
+        if (Prefs.getBoolean(AUTO_UPDATE, true) && (lastChecked == -1 || (System.currentTimeMillis() - lastChecked >= Prefs.getLong("UPDATE_CHECK_TIME", 0)))) {
             Prefs.putLong(LAST_UPDATE_CHECK_TIME, System.currentTimeMillis());
             checkForUpdate = new CheckForUpdate();
             checkForUpdate.execute();
