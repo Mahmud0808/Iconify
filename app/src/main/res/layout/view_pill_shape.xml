@@ -12,7 +12,7 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="8dp"
-        android:text="Pill Appearance"
+        android:text="@string/pill_appearance"
         android:textColor="?attr/colorPrimary" />
 
     <LinearLayout

@@ -45,7 +45,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="Background Color"
+                android:text="@string/media_player_background_color"
                 android:textColor="?attr/colorPrimary" />
 
             <RelativeLayout
@@ -76,7 +76,7 @@
                         style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Make background follow accent"
+                        android:text="@string/mp_accent_background_desc"
                         android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>
@@ -119,7 +119,7 @@
                         style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Make background follow system"
+                        android:text="@string/mp_system_background_desc"
                         android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>
@@ -162,7 +162,7 @@
                         style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Make background pitch black"
+                        android:text="@string/mp_pb_background_desc"
                         android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>

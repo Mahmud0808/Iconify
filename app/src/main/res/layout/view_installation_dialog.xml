@@ -112,7 +112,8 @@
                 android:maxLines="12"
                 android:textAlignment="viewStart"
                 android:textColor="@color/textColorSecondary"
-                android:textSize="12dp" />
+                android:textSize="12dp"
+                tools:ignore="SpUsage" />
 
         </LinearLayout>
     </LinearLayout>

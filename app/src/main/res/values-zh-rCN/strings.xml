@@ -227,7 +227,7 @@
     <string name="export_settings">导出设置</string>
     <string name="import_settings">导入设置</string>
     <string name="reset_settings">重置设置</string>
-    <string name="experimental_features">实验性</string>
+    <string name="experimental_features_title">实验性</string>
     <string name="no_internet_connection">无法连接至服务器！\n这可能与您的互联网连接有关，或者此刻服务器可能已经宕机。请稍后再试。</string>
     <string name="changelog_not_found">未找到更新日志！\n这可能与您的互联网连接有关，或者此刻服务器可能已经宕机。请稍后再试。</string>
     <string name="btn_download">下载</string>

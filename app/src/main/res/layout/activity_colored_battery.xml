@@ -77,7 +77,7 @@
                     android:layout_marginVertical="22dp"
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/preview_color_picker_clocktext"
+                    android:layout_toStartOf="@id/preview_color_picker_background"
                     android:orientation="vertical">
 
                     <TextView
@@ -121,7 +121,7 @@
                     android:layout_marginVertical="22dp"
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/preview_color_picker_clocktext"
+                    android:layout_toStartOf="@id/preview_color_picker_fill"
                     android:orientation="vertical">
 
                     <TextView

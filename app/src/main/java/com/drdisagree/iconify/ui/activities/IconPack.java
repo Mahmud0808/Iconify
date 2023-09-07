@@ -36,7 +36,7 @@ public class IconPack extends BaseActivity {
 
         // RecyclerView
         binding.iconPackContainer.setLayoutManager(new LinearLayoutManager(this));
-        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new SectionTitleAdapter(this, R.layout.view_section_title, R.string.activity_title_icon_pack), initIconPackItems());
+        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new SectionTitleAdapter(this, R.layout.view_section_title, R.string.icon_pack_styles), initIconPackItems());
         binding.iconPackContainer.setAdapter(adapter);
         binding.iconPackContainer.setHasFixedSize(true);
     }

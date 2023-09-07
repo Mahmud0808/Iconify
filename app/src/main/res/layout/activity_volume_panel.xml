@@ -70,7 +70,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="Volume Slider Track"
+                android:text="@string/volume_slider_track"
                 android:textColor="?attr/colorPrimary" />
 
             <RelativeLayout
@@ -101,7 +101,7 @@
                         style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Make track of volume slider thin"
+                        android:text="@string/vp_thin_background_desc"
                         android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>
@@ -144,7 +144,7 @@
                         style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Make track of volume slider thick"
+                        android:text="@string/vp_thick_background_desc"
                         android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>
@@ -187,7 +187,7 @@
                         style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Remove track of volume slider"
+                        android:text="@string/vp_no_background_desc"
                         android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>

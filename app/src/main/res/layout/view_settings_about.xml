@@ -12,7 +12,7 @@
         android:layout_marginHorizontal="60dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="8dp"
-        android:text="About"
+        android:text="@string/about"
         android:textColor="?attr/colorPrimary" />
 
     <RelativeLayout
@@ -47,14 +47,14 @@
                 style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Github repository"
+                android:text="@string/github_repository_title"
                 android:textColor="@color/text_color_primary" />
 
             <TextView
                 style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mahmud0808/Iconify"
+                android:text="@string/github_repository_desc"
                 android:textColor="@color/text_color_secondary" />
 
         </LinearLayout>
@@ -92,14 +92,14 @@
                 style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Telegram group"
+                android:text="@string/telegram_group_title"
                 android:textColor="@color/text_color_primary" />
 
             <TextView
                 style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="\@IconifyDiscussion"
+                android:text="@string/telegram_group_desc"
                 android:textColor="@color/text_color_secondary" />
 
         </LinearLayout>
@@ -137,14 +137,14 @@
                 style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Credits"
+                android:text="@string/credits_title"
                 android:textColor="@color/text_color_primary" />
 
             <TextView
                 style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Thanking those who made this possible."
+                android:text="@string/credits_desc"
                 android:textColor="@color/text_color_secondary" />
 
         </LinearLayout>

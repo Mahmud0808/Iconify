@@ -215,7 +215,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="Schedule"
+                android:text="@string/schedule"
                 android:textColor="?attr/colorPrimary" />
 
             <RelativeLayout

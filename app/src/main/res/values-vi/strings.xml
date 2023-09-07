@@ -217,7 +217,7 @@
     <string name="import_export">Nhập khẩu xuất khẩu</string>
     <string name="export_settings">Xuất cài đặt</string>
     <string name="import_settings">Cài đặt nhập</string>
-    <string name="experimental_features">Tính năng thử nghiệm</string>
+    <string name="experimental_features_title">Tính năng thử nghiệm</string>
     <string name="no_internet_connection">Không thể kết nối với máy chủ!\nCó thể có sự cố với kết nối internet của bạn hoặc máy chủ có thể ngừng hoạt động vào lúc này. Vui lòng thử lại sau.</string>
     <string name="changelog_not_found">Không tìm thấy nhật ký thay đổi!\nĐây có thể là sự cố với kết nối internet của bạn hoặc máy chủ có thể ngừng hoạt động vào lúc này. Vui lòng thử lại sau.</string>
     <string name="btn_download">Tải xuống</string>

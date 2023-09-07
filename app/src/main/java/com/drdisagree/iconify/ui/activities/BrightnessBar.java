@@ -36,7 +36,7 @@ public class BrightnessBar extends BaseActivity {
 
         // RecyclerView
         binding.brightnessBarContainer.setLayoutManager(new LinearLayoutManager(this));
-        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new SectionTitleAdapter(this, R.layout.view_section_title, R.string.activity_title_brightness_bar), initBrightnessBarItems());
+        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new SectionTitleAdapter(this, R.layout.view_section_title, R.string.brightness_bar_styles), initBrightnessBarItems());
         binding.brightnessBarContainer.setAdapter(adapter);
         binding.brightnessBarContainer.setHasFixedSize(true);
     }

@@ -111,7 +111,7 @@
     <string name="enable_colored_battery_desc">Использовать свой цвет для иконки батареи</string>
     <string name="enable_colored_battery_title">Включить цветную батарею</string>
     <string name="pitch_black_dark_desc">Включить Pitch Black тему</string>
-    <string name="experimental_features">Экспериментальные функции</string>
+    <string name="experimental_features_title">Экспериментальные функции</string>
     <string name="export_settings">Экспорт настроек</string>
     <string name="exported_settings">Настройки успешно сохранены</string>
     <string name="force_enable_blur_desc">Включить размытие на не поддерживаемой прошивке</string>

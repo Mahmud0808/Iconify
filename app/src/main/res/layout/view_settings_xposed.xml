@@ -12,7 +12,7 @@
         android:layout_marginHorizontal="60dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="8dp"
-        android:text="Xposed"
+        android:text="@string/xposed"
         android:textColor="?attr/colorPrimary" />
 
     <RelativeLayout
@@ -104,7 +104,7 @@
                 style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Restart SystemUI Behavior"
+                android:text="@string/restart_systemui_behavior"
                 android:textColor="@color/text_color_primary" />
 
             <TextView
