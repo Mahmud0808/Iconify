@@ -1,14 +1,16 @@
 package com.drdisagree.iconify.utils.helpers;
 
-import static com.drdisagree.iconify.common.Resources.DOC_DIR;
 import static com.drdisagree.iconify.common.Resources.LOG_DIR;
 
 import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 
 import com.drdisagree.iconify.BuildConfig;
-import com.topjohnwu.superuser.Shell;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -17,6 +19,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class Logger {
+
+    private static final String TAG = Logger.class.getSimpleName();
 
     public static void writeLog(String tag, String header, List<String> details) {
         StringBuilder log = getDeviceInfo();
@@ -67,12 +71,21 @@ public class Logger {
     private static void writeLogToFile(StringBuilder log) {
         try {
             Files.createDirectories(Paths.get(LOG_DIR));
-            Shell.cmd("mkdir -p " + DOC_DIR, "mkdir -p " + LOG_DIR).exec();
+
             SimpleDateFormat dF = new SimpleDateFormat("dd-MM-yy_HH_mm_ss", Locale.getDefault());
-            String filename = "iconify_logcat_" + dF.format(new Date()) + ".txt";
-            Shell.cmd("printf \"" + log + "\" > " + LOG_DIR + '/' + filename).exec();
+            String fileName = "iconify_logcat_" + dF.format(new Date()) + ".txt";
+
+            File externalStorageDir = Environment.getExternalStorageDirectory();
+            File documentsDir = new File(externalStorageDir, "Documents");
+            File iconifyDir = new File(documentsDir, "Iconify");
+            File file = new File(iconifyDir, fileName);
+
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(log.toString());
+            bw.close();
         } catch (Exception e) {
-            Log.e("Logger", "Failed to write logs.\n" + e);
+            Log.e(TAG, "Failed to write logs.\n" + e);
         }
     }
 }
