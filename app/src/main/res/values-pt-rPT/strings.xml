@@ -257,7 +257,7 @@
     <string name="import_export">Importar/Exportar</string>
     <string name="export_settings">Definições de exportação</string>
     <string name="import_settings">Definições de importação</string>
-    <string name="experimental_features">Funcionalidades experimentais</string>
+    <string name="experimental_features_title">Funcionalidades experimentais</string>
     <string name="installation_failed_desc">Algo de errado aconteceu.\nVerifique os logs na pasta Documentos.</string>
     <string name="no_internet_connection">Não foi possível ligar ao servidor!\nPoderá haver um problema com a sua ligação à Internet ou o servidor poderá estar incontactável. Por favor, tente novamente mais tarde.</string>
     <string name="changelog_not_found">Registo de alterações indisponível!\nPoderá haver um problema com a sua ligação à Internet ou o servidor poderá estar incontactável. Por favor, tente novamente mais tarde.</string>

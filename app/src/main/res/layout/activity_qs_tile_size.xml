@@ -27,7 +27,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="Portrait Mode"
+                android:text="@string/portrait_mode"
                 android:textColor="?attr/colorPrimary" />
 
             <LinearLayout
@@ -151,7 +151,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="Landscape Mode"
+                android:text="@string/landscape_mode"
                 android:textColor="?attr/colorPrimary" />
 
             <LinearLayout

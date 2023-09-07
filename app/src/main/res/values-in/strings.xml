@@ -152,7 +152,7 @@
     <string name="import_export">Impor/Ekspor</string>
     <string name="export_settings">Setelan Ekspor</string>
     <string name="import_settings">Setelan Impor</string>
-    <string name="experimental_features">Fitur Eksperimental</string>
+    <string name="experimental_features_title">Fitur Eksperimental</string>
     <string name="no_internet_connection">Tidak dapat terhubung ke server!\nMungkin ada masalah dengan koneksi internet Anda atau server mungkin sedang tidak aktif saat ini. Coba lagi nanti.</string>
     <string name="changelog_not_found">Changelog tidak ditemukan!\nIni mungkin masalah dengan koneksi internet Anda atau server mungkin sedang tidak aktif saat ini. Coba lagi nanti.</string>
     <string name="update_schedule_title">Perbarui Jadwal</string>

@@ -13,7 +13,7 @@
         android:layout_marginHorizontal="60dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="8dp"
-        android:text="Miscellaneous"
+        android:text="@string/miscellaneous"
         android:textColor="?attr/colorPrimary" />
 
     <RelativeLayout
@@ -104,14 +104,14 @@
                 style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Show Home Page Card"
+                android:text="@string/show_home_page_card_title"
                 android:textColor="@color/text_color_primary" />
 
             <TextView
                 style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Show a beautiful card on the home page."
+                android:text="@string/show_home_page_card_desc"
                 android:textColor="@color/text_color_secondary" />
 
         </LinearLayout>
@@ -204,14 +204,14 @@
                 style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/experimental_features"
+                android:text="@string/experimental_features_title"
                 android:textColor="@color/text_color_primary" />
 
             <TextView
                 style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Try out experimental functionalities."
+                android:text="@string/experimental_features_desc"
                 android:textColor="@color/text_color_secondary" />
 
         </LinearLayout>

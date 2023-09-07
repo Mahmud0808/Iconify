@@ -28,7 +28,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="QS Header"
+                android:text="@string/qs_header"
                 android:textColor="?attr/colorPrimary" />
 
             <RelativeLayout
@@ -124,7 +124,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="Lock Screen"
+                android:text="@string/lock_screen"
                 android:textColor="?attr/colorPrimary" />
 
             <RelativeLayout
@@ -226,7 +226,7 @@
                     android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Status Icons"
+                    android:text="@string/status_icons"
                     android:textColor="?attr/colorPrimary" />
 
                 <RelativeLayout

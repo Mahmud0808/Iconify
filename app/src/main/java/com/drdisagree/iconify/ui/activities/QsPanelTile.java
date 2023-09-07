@@ -40,7 +40,7 @@ public class QsPanelTile extends BaseActivity {
 
         // RecyclerView
         binding.qsShapesContainer.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ConcatAdapter(initActivityItems(), new SectionTitleAdapter(this, R.layout.view_section_title, R.string.activity_title_qs_shape), initQsShapeItems());
+        adapter = new ConcatAdapter(initActivityItems(), new SectionTitleAdapter(this, R.layout.view_section_title, R.string.qspanel_tile_styles), initQsShapeItems());
         binding.qsShapesContainer.setAdapter(adapter);
         binding.qsShapesContainer.setHasFixedSize(true);
     }

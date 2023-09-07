@@ -14,7 +14,7 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="8dp"
-        android:text="Custom Magisk Module"
+        android:text="@string/custom_magisk_module"
         android:textColor="?attr/colorPrimary" />
 
     <LinearLayout

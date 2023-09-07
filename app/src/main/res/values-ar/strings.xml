@@ -216,7 +216,7 @@
     <string name="import_export">استيراد/تصدير</string>
     <string name="export_settings">إعدادات التصدير</string>
     <string name="import_settings">إعدادات الاستيراد</string>
-    <string name="experimental_features">الميزات التجريبية</string>
+    <string name="experimental_features_title">الميزات التجريبية</string>
     <string name="no_internet_connection">تعذر الاتصال بالخادم!\n قد تكون هناك مشكلة في الاتصال بالإنترنت أو ربما يكون الخادم معطلاً في الوقت الحالي. الرجاء معاودة المحاولة في وقت لاحق.</string>
     <string name="changelog_not_found">لم يتم العثور على سجل التغيير!\n قد تكون هذه مشكلة في اتصالك بالإنترنت أو ربما يكون الخادم معطلاً في الوقت الحالي. الرجاء معاودة المحاولة في وقت لاحق.</string>
     <string name="btn_download">تنزيل</string>

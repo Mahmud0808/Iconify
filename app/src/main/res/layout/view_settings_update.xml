@@ -12,7 +12,7 @@
         android:layout_marginHorizontal="60dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="8dp"
-        android:text="Update"
+        android:text="@string/update"
         android:textColor="?attr/colorPrimary" />
 
     <RelativeLayout
@@ -47,7 +47,7 @@
                 style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Check for update"
+                android:text="@string/check_for_update"
                 android:textColor="@color/text_color_primary" />
 
             <TextView
@@ -93,14 +93,14 @@
                 style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Auto Update"
+                android:text="@string/auto_update_title"
                 android:textColor="@color/text_color_primary" />
 
             <TextView
                 style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Check for new versions when opening the app."
+                android:text="@string/auto_update_desc"
                 android:textColor="@color/text_color_secondary" />
 
         </LinearLayout>

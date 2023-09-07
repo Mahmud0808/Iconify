@@ -203,7 +203,7 @@
     <string name="import_export">İçe Aktar/Dışa Aktar</string>
     <string name="export_settings">Dışa Aktarma Seçenekleri</string>
     <string name="import_settings">İçe Aktarma Seçenekleri</string>
-    <string name="experimental_features">Deneysel Yenilikler</string>
+    <string name="experimental_features_title">Deneysel Yenilikler</string>
     <string name="installation_failed_desc">Bir şeyler ters gitti.\nBu sorunu çözmek için geliştiriciye hata kaydını gönder.</string>
     <string name="no_internet_connection">Sunucuya bağlanılamadı!\nİnternet bağlantınızda bir sorun olabilir veya sunucu şu an kapalı olabilir. Lütfen daha sonra tekrar deneyin.</string>
     <string name="changelog_not_found">Değişim günlüğü bulunamadı!\nİnternet bağlantınızda bir sorun olabilir veya sunucu şu an kapalı olabilir. Lütfen daha sonra tekrar deneyin.</string>

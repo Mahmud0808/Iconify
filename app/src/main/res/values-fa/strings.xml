@@ -185,7 +185,7 @@
     <string name="import_export">پشتیبان گیری و بازگرداندن تنظمیات</string>
     <string name="export_settings">پشتیبان گرفتن از تنظمیات</string>
     <string name="import_settings">بازگرداندن تنظیمات</string>
-    <string name="experimental_features">امکانات آزمایشی</string>
+    <string name="experimental_features_title">امکانات آزمایشی</string>
     <string name="installation_failed_desc">ظاهرا مشکلی پیش آمده است.\nبرای کمک به حل مشکل لاگ برنامه را برای سازنده ارسال کنید.</string>
     <string name="no_internet_connection">ارتباط با سرور برقرار نشد. ممکن است مشکل از اینترنت شما یا سرور باشد. لطفا بعدا دوباره امتحان کنید</string>
     <string name="changelog_not_found">فایل تغییرات اخیر پیدا نشد. ممکن است مشکل از اینترنت شما یا سرور باشد. لطفا بعدا دوباره امتحان کنید.</string>

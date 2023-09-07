@@ -227,7 +227,7 @@
     <string name="export_settings">Exportar configuración</string>
     <string name="import_settings">Importar configuración</string>
     <string name="reset_settings">Restablecer configuración</string>
-    <string name="experimental_features">Funciones experimentales</string>
+    <string name="experimental_features_title">Funciones experimentales</string>
     <string name="no_internet_connection">¡No se pudo conectar al servidor!\nPodría haber un problema con tu conexión a Internet o el servidor podría estar caído en este momento. Por favor, inténtalo de nuevo más tarde.</string>
     <string name="changelog_not_found">¡No se encontró el registro de cambios!\nPodría ser un problema con tu conexión a Internet o el servidor podría estar caído en este momento. Por favor, inténtalo de nuevo más tarde.</string>
     <string name="btn_download">Descargar</string>

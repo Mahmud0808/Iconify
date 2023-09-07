@@ -38,7 +38,7 @@ public class Notification extends BaseActivity {
 
         // RecyclerView
         binding.notificationsContainer.setLayoutManager(new LinearLayoutManager(this));
-        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new SectionTitleAdapter(this, R.layout.view_section_title_notif, R.string.activity_title_notification), initNotifItems());
+        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new SectionTitleAdapter(this, R.layout.view_section_title_notif, R.string.notification_styles), initNotifItems());
         binding.notificationsContainer.setAdapter(adapter);
         binding.notificationsContainer.setHasFixedSize(true);
     }
