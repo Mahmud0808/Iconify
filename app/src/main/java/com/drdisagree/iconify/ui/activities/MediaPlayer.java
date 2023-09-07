@@ -25,7 +25,6 @@ public class MediaPlayer extends BaseActivity {
         refreshPreview();
 
         binding.mpAccent.setChecked(Prefs.getBoolean("IconifyComponentMPA.overlay"));
-
         binding.mpAccent.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 binding.mpSystem.setChecked(false);
@@ -36,9 +35,9 @@ public class MediaPlayer extends BaseActivity {
             }
             refreshPreview();
         });
+        binding.mpAccentContainer.setOnClickListener(v -> binding.mpAccent.toggle());
 
         binding.mpSystem.setChecked(Prefs.getBoolean("IconifyComponentMPS.overlay"));
-
         binding.mpSystem.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 binding.mpAccent.setChecked(false);
@@ -49,9 +48,9 @@ public class MediaPlayer extends BaseActivity {
             }
             refreshPreview();
         });
+        binding.mpSystemContainer.setOnClickListener(v -> binding.mpSystem.toggle());
 
         binding.mpPitchBlack.setChecked(Prefs.getBoolean("IconifyComponentMPB.overlay"));
-
         binding.mpPitchBlack.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 binding.mpAccent.setChecked(false);
@@ -62,6 +61,7 @@ public class MediaPlayer extends BaseActivity {
             }
             refreshPreview();
         });
+        binding.mpPitchBlackContainer.setOnClickListener(v -> binding.mpPitchBlack.toggle());
     }
 
     private void refreshPreview() {
