@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <!-- Notification service on boot -->
+
+    <!-- Re-apply customizations on boot (deprecated) -->
     <!-- <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> -->
     <!-- <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> -->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- To notify about new iconify updates -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- Access phone storage for creating overlays in a temporary folder -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- Access phone storage for creating overlays in a temporary folder -->
+
+    <!-- Access to the internet for checking for updates -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Notify about new iconify updates -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Access storage for compilation of APKs in .iconify folder -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- Read storage to be able to see what the compilation created -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" /> <!-- Access phone storage for installation of overlays in temporary folder -->
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- For checking new updates -->
+        tools:ignore="ScopedStorage" />
+
     <!-- Checking for Installed Music Players -->
     <queries>
         <package android:name="com.maxmpz.audioplayer" />
@@ -34,6 +41,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/derived_app_name"
         android:localeConfig="@xml/locales_config"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Iconify"
@@ -206,6 +214,9 @@
             </intent-filter>
         </activity-alias>
 
+        <!--
+        @Deprecated
+
         <receiver
             android:name=".services.BootCompletedReceiver"
             android:exported="true">
@@ -219,7 +230,10 @@
             android:name=".services.BackgroundService"
             android:enabled="true"
             android:exported="true"
-            tools:ignore="ExportedService" /> <!-- Quick Settings Tiles -->
+            tools:ignore="ExportedService" />
+        -->
+
+        <!-- Quick Settings Tiles -->
         <service
             android:name=".services.TileNotchBarKiller"
             android:exported="true"

@@ -15,7 +15,9 @@ import androidx.core.app.NotificationCompat;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.References;
+import com.topjohnwu.superuser.Shell;
 
+@Deprecated
 public class BackgroundService extends Service {
 
     private static final int NOTIFICATION_ID = 1;
@@ -32,13 +34,11 @@ public class BackgroundService extends Service {
 
         References.isNotificationServiceRunning = true;
 
-        /* Shell.getShell(shell -> {
-            ApplyOnBoot.applyColors();
-            ApplyOnBoot.applyQsCustomization();
+        Shell.getShell(shell -> {
+            // do stuff here
         });
 
         startForeground();
-        */
 
         return super.onStartCommand(intent, flags, startId);
     }
