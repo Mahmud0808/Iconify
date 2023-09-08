@@ -34,7 +34,7 @@ public class BaseActivity extends AppCompatActivity {
             ((AppBarLayout) findViewById(R.id.appBarLayout)).setStatusBarForeground(MaterialShapeDrawable.createWithElevationOverlay(getApplicationContext()));
         } catch (Exception ignored) {
         }
-        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
     }
 
     @Override
