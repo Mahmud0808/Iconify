@@ -29,7 +29,7 @@
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_gravity="center"
-                android:background="@drawable/ic_restart_device"
+                android:background="@drawable/ic_app_updated"
                 android:backgroundTint="@color/textColorPrimary"
                 android:contentDescription="@string/icon" />
 
