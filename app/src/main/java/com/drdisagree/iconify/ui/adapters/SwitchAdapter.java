@@ -6,7 +6,6 @@ import static com.drdisagree.iconify.common.Preferences.SELECTED_SWITCH;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -120,8 +119,8 @@ public class SwitchAdapter extends RecyclerView.Adapter<SwitchAdapter.ViewHolder
     private void switchAction(ViewHolder holder, boolean checked) {
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             if (checked) {
-                if (!Environment.isExternalStorageManager()) {
-                    SystemUtil.getStoragePermission(context);
+                if (!SystemUtil.hasStoragePermission()) {
+                    SystemUtil.requestStoragePermission(context);
                     holder.aSwitch.setChecked(false);
                 } else {
                     // Show loading dialog

@@ -8,7 +8,6 @@ import static com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -122,8 +121,8 @@ public class SettingsIcons extends BaseActivity implements RadioDialog.RadioDial
             binding.disableSettingsIcons.setVisibility(View.VISIBLE);
 
         binding.enableSettingsIcons.setOnClickListener(v -> {
-            if (!Environment.isExternalStorageManager()) {
-                SystemUtil.getStoragePermission(this);
+            if (!SystemUtil.hasStoragePermission()) {
+                SystemUtil.requestStoragePermission(this);
             } else {
                 // Show loading dialog
                 loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));

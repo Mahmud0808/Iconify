@@ -6,7 +6,6 @@ import static com.drdisagree.iconify.common.Preferences.SELECTED_PROGRESSBAR;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -115,8 +114,8 @@ public class ProgressBarAdapter extends RecyclerView.Adapter<ProgressBarAdapter.
 
         // Set onClick operation for Enable button
         holder.btn_enable.setOnClickListener(v -> {
-            if (!Environment.isExternalStorageManager()) {
-                SystemUtil.getStoragePermission(context);
+            if (!SystemUtil.hasStoragePermission()) {
+                SystemUtil.requestStoragePermission(context);
             } else {
                 // Show loading dialog
                 loadingDialog.show(context.getResources().getString(R.string.loading_dialog_wait));
