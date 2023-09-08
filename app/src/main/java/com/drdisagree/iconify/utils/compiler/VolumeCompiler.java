@@ -109,8 +109,8 @@ public class VolumeCompiler {
             Shell.cmd("cp -a " + Resources.COMPANION_COMPILED_DIR + "/res/layout-v31/. " + Resources.COMPANION_LAYOUT_DIR).exec();
 
             // Create flashable module
-            Shell.cmd("rm " + Environment.getExternalStorageDirectory() + "/Download/IconifyCompanion.zip").exec();
-            ModuleUtil.createModule(Resources.COMPANION_MODULE_DIR, Environment.getExternalStorageDirectory() + "/Download/IconifyCompanion.zip");
+            Shell.cmd("rm " + Resources.DOWNLOADS_DIR + "/IconifyCompanion.zip").exec();
+            ModuleUtil.createModule(Resources.COMPANION_MODULE_DIR, Resources.DOWNLOADS_DIR + "/IconifyCompanion.zip");
         }
 
         // Clean temp directory
