@@ -27,7 +27,6 @@ import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.compiler.VolumeCompiler;
 
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class VolumePanel extends BaseActivity {
@@ -164,7 +163,7 @@ public class VolumePanel extends BaseActivity {
         Runnable runnable = () -> {
             try {
                 hasErroredOut.set(VolumeCompiler.buildModule(finalSelectedStyle, SYSTEMUI_PACKAGE));
-            } catch (IOException e) {
+            } catch (Exception e) {
                 hasErroredOut.set(true);
                 Log.e("VolumePanel", e.toString());
             }

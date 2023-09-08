@@ -9,11 +9,12 @@ import android.util.Log;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.utils.AppUtil;
 import com.drdisagree.iconify.utils.FileUtil;
+import com.drdisagree.iconify.utils.ModuleUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.helpers.BinaryInstaller;
 import com.topjohnwu.superuser.Shell;
 
-import org.zeroturnaround.zip.ZipUtil;
+import net.lingala.zip4j.ZipFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class VolumeCompiler {
     private static final String zip = ZIP.getAbsolutePath();
     private static String mOverlayName = null;
 
-    public static boolean buildModule(String overlayName, String packageName) throws IOException {
+    public static boolean buildModule(String overlayName, String packageName) throws Exception {
         mOverlayName = overlayName;
 
         preExecute(overlayName, packageName);
@@ -54,11 +55,22 @@ public class VolumeCompiler {
 
         // Extract the necessary folders from zip
         String[] dirs = {"res/drawable-v30/", "res/drawable-v31/", "res/layout-v30/", "res/layout-v31/"};
-        for (String res : dirs) {
-            ZipUtil.unpack(new File(Resources.COMPANION_COMPILED_DIR + '/' + overlayName + ".zip"), new File(Resources.COMPANION_COMPILED_DIR), name -> name.startsWith(res) ? name : null);
+        try (ZipFile zipFile = new ZipFile(new File(Resources.COMPANION_COMPILED_DIR + '/' + overlayName + ".zip"))) {
+            for (String res : dirs) {
+                zipFile.extractFile(res, Resources.COMPANION_COMPILED_DIR);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to extract " + overlayName + ".zip! Exiting...");
+            e.printStackTrace();
+            return true;
         }
 
-        postExecute(false);
+        try {
+            postExecute(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return true;
+        }
         return false;
     }
 
@@ -88,7 +100,7 @@ public class VolumeCompiler {
         }
     }
 
-    private static void postExecute(boolean hasErroredOut) {
+    private static void postExecute(boolean hasErroredOut) throws Exception {
         // Move all generated files to module
         if (!hasErroredOut) {
             Shell.cmd("cp -a " + Resources.COMPANION_COMPILED_DIR + "/res/drawable-v30/. " + Resources.COMPANION_DRAWABLE_DIR).exec();
@@ -97,12 +109,8 @@ public class VolumeCompiler {
             Shell.cmd("cp -a " + Resources.COMPANION_COMPILED_DIR + "/res/layout-v31/. " + Resources.COMPANION_LAYOUT_DIR).exec();
 
             // Create flashable module
-            Shell.cmd("cd " + Resources.COMPANION_MODULE_DIR + "; " + zip + " -r IconifyCompanion *").exec();
-
-            // Move the module to Iconify folder
-            Shell.cmd("mkdir -p " + Environment.getExternalStorageDirectory() + "/Download").exec();
             Shell.cmd("rm " + Environment.getExternalStorageDirectory() + "/Download/IconifyCompanion.zip").exec();
-            Shell.cmd("mv " + Resources.COMPANION_MODULE_DIR + "/IconifyCompanion.zip " + Environment.getExternalStorageDirectory() + "/Download/IconifyCompanion.zip").exec();
+            ModuleUtil.createModule(Resources.COMPANION_MODULE_DIR, Environment.getExternalStorageDirectory() + "/Download/IconifyCompanion.zip");
         }
 
         // Clean temp directory

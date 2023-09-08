@@ -21,6 +21,12 @@ import com.drdisagree.iconify.utils.helpers.BackupRestore;
 import com.drdisagree.iconify.utils.helpers.BinaryInstaller;
 import com.topjohnwu.superuser.Shell;
 
+import net.lingala.zip4j.ZipFile;
+import net.lingala.zip4j.model.ZipParameters;
+import net.lingala.zip4j.model.enums.CompressionLevel;
+import net.lingala.zip4j.model.enums.CompressionMethod;
+
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -134,5 +140,22 @@ public class ModuleUtil {
 
     public static boolean moduleProperlyInstalled() {
         return moduleExists() && OverlayUtil.overlayExists();
+    }
+
+    public static String createModule(String sourceFolder, String destinationFilePath) throws Exception {
+        File input = new File(sourceFolder);
+        File output = new File(destinationFilePath);
+
+        ZipParameters parameters = new ZipParameters();
+        parameters.setIncludeRootFolder(false);
+        parameters.setOverrideExistingFilesInZip(true);
+        parameters.setCompressionMethod(CompressionMethod.DEFLATE);
+        parameters.setCompressionLevel(CompressionLevel.NORMAL);
+
+        try (ZipFile zipFile = new ZipFile(output)) {
+            zipFile.addFolder(input, parameters);
+
+            return zipFile.getFile().getAbsolutePath();
+        }
     }
 }

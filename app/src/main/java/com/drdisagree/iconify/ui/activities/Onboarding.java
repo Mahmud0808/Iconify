@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.activities;
 
+import static com.drdisagree.iconify.common.Const.FRAGMENT_TRANSITION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED;
@@ -48,8 +49,6 @@ import com.drdisagree.iconify.utils.TaskExecutor;
 import com.drdisagree.iconify.utils.compiler.OnBoardingCompiler;
 import com.drdisagree.iconify.utils.helpers.BackupRestore;
 import com.topjohnwu.superuser.Shell;
-
-import org.zeroturnaround.zip.ZipUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -203,47 +202,54 @@ public class Onboarding extends BaseActivity {
         });
 
         // Start installation on click
+        final boolean[] isClickable = {true};
         binding.btnNextStep.setOnClickListener(v -> {
-            if (getItem() > mViewPager.getChildCount()) {
-                skippedInstallation = false;
-                hasErroredOut = false;
+            if (isClickable[0]) {
+                isClickable[0] = false;
 
-                if (RootUtil.isDeviceRooted()) {
-                    if (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) {
-                        if (!Environment.isExternalStorageManager()) {
-                            showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
-                            Toast.makeText(Onboarding.this, R.string.toast_storage_access, Toast.LENGTH_SHORT).show();
+                if (getItem() > mViewPager.getChildCount()) {
+                    skippedInstallation = false;
+                    hasErroredOut = false;
 
-                            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                                clickedContinue.set(true);
-                                SystemUtil.getStoragePermission(this);
-                            }, clickedContinue.get() ? 10 : 2000);
-                        } else {
-                            boolean moduleExists = ModuleUtil.moduleExists();
-                            boolean overlayExists = OverlayUtil.overlayExists();
+                    if (RootUtil.isDeviceRooted()) {
+                        if (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) {
+                            if (!Environment.isExternalStorageManager()) {
+                                showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
+                                Toast.makeText(Onboarding.this, R.string.toast_storage_access, Toast.LENGTH_SHORT).show();
 
-                            if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !moduleExists || !overlayExists) {
-                                if (!moduleExists || !overlayExists) {
-                                    Prefs.clearAllPrefs();
-                                    RPrefs.clearAllPrefs();
-                                }
-
-                                handleInstallation();
+                                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                                    clickedContinue.set(true);
+                                    SystemUtil.getStoragePermission(this);
+                                }, clickedContinue.get() ? 10 : 2000);
                             } else {
-                                Intent intent = new Intent(Onboarding.this, HomePage.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                                Animatoo.animateSlideLeft(Onboarding.this);
+                                boolean moduleExists = ModuleUtil.moduleExists();
+                                boolean overlayExists = OverlayUtil.overlayExists();
+
+                                if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !moduleExists || !overlayExists) {
+                                    if (!moduleExists || !overlayExists) {
+                                        Prefs.clearAllPrefs();
+                                        RPrefs.clearAllPrefs();
+                                    }
+
+                                    handleInstallation();
+                                } else {
+                                    Intent intent = new Intent(Onboarding.this, HomePage.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                    Animatoo.animateSlideLeft(Onboarding.this);
+                                }
                             }
+                        } else {
+                            showInfo(R.string.magisk_not_found_title, R.string.magisk_not_found_desc);
                         }
                     } else {
-                        showInfo(R.string.magisk_not_found_title, R.string.magisk_not_found_desc);
+                        showInfo(R.string.root_not_found_title, R.string.root_not_found_desc);
                     }
                 } else {
-                    showInfo(R.string.root_not_found_title, R.string.root_not_found_desc);
+                    mViewPager.setCurrentItem(getItem() + 1, true);
                 }
-            } else {
-                mViewPager.setCurrentItem(getItem() + 1, true);
+
+                new Handler(Looper.getMainLooper()).postDelayed(() -> isClickable[0] = true, FRAGMENT_TRANSITION_DELAY + 50);
             }
         });
 
@@ -544,15 +550,11 @@ public class Onboarding extends BaseActivity {
                 BackupRestore.restoreFiles();
 
                 try {
-                    ZipUtil.pack(new File(Resources.TEMP_DIR + "/Iconify"), new File(Resources.TEMP_DIR + "/Iconify.zip"));
+                    hasErroredOut = ModuleUtil.flashModule(ModuleUtil.createModule(Resources.TEMP_MODULE_DIR, Resources.TEMP_DIR + "/Iconify.zip"));
                 } catch (Exception e) {
                     hasErroredOut = true;
                     writeLog(TAG, "Error creating module zip", e);
                     e.printStackTrace();
-                }
-
-                if (!hasErroredOut) {
-                    hasErroredOut = ModuleUtil.flashModule(Resources.TEMP_DIR + "/Iconify.zip");
                 }
             }
 
