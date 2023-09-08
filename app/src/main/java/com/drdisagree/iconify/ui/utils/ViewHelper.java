@@ -1,12 +1,8 @@
 package com.drdisagree.iconify.ui.utils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.util.TypedValue;
 
-import androidx.annotation.AttrRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;

@@ -17,7 +17,6 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -282,8 +281,8 @@ public class XposedMenu extends BaseFragment {
     }
 
     private void importExportSettings(boolean export) {
-        if (!Environment.isExternalStorageManager()) {
-            SystemUtil.getStoragePermission(requireContext());
+        if (!SystemUtil.hasStoragePermission()) {
+            SystemUtil.requestStoragePermission(requireContext());
         } else {
             Intent fileIntent = new Intent();
             fileIntent.setAction(export ? Intent.ACTION_CREATE_DOCUMENT : Intent.ACTION_GET_CONTENT);

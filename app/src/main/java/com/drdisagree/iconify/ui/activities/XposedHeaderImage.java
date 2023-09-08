@@ -13,7 +13,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 import android.widget.Toast;
 
@@ -58,8 +57,8 @@ public class XposedHeaderImage extends BaseActivity {
 
         // Header image picker
         binding.pickHeaderImage.setOnClickListener(v -> {
-            if (!Environment.isExternalStorageManager()) {
-                SystemUtil.getStoragePermission(this);
+            if (!SystemUtil.hasStoragePermission()) {
+                SystemUtil.requestStoragePermission(this);
             } else {
                 browseHeaderImage();
             }

@@ -26,7 +26,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -381,8 +380,8 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         binding.floatingActionMenu.hide();
         showApplyButton = false;
         binding.enableCustomMonet.setOnClickListener(v -> {
-            if (!Environment.isExternalStorageManager()) {
-                SystemUtil.getStoragePermission(this);
+            if (!SystemUtil.hasStoragePermission()) {
+                SystemUtil.requestStoragePermission(this);
             } else if (Objects.equals(selectedStyle, STR_NULL)) {
                 Toast.makeText(MonetEngine.this, getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
             } else {
@@ -660,8 +659,8 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
     }
 
     private void importExportSettings(boolean export) {
-        if (!Environment.isExternalStorageManager()) {
-            SystemUtil.getStoragePermission(MonetEngine.this);
+        if (!SystemUtil.hasStoragePermission()) {
+            SystemUtil.requestStoragePermission(MonetEngine.this);
         } else {
             Intent fileIntent = new Intent();
             fileIntent.setAction(export ? Intent.ACTION_CREATE_DOCUMENT : Intent.ACTION_GET_CONTENT);

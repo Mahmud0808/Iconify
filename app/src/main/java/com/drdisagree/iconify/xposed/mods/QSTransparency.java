@@ -21,9 +21,9 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class QSTransparency extends ModPack {
 
     private static final String TAG = "Iconify - " + QSTransparency.class.getSimpleName() + ": ";
+    private final float keyguard_alpha = 0.85f;
     boolean qsTransparencyActive = false;
     boolean onlyNotifTransparencyActive = false;
-    private final float keyguard_alpha = 0.85f;
     private float alpha = 60;
 
     public QSTransparency(Context context) {

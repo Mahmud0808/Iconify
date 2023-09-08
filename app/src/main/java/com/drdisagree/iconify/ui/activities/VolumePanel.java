@@ -8,7 +8,6 @@ import static com.drdisagree.iconify.common.References.FABRICATED_VOLUME_DIALOG_
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -119,8 +118,8 @@ public class VolumePanel extends BaseActivity {
         realCheckedId = checkedId1 == -1 ? checkedId2 : checkedId1;
 
         binding.volumeStyle.volumeStyleCreateModule.setOnClickListener(v -> {
-            if (!Environment.isExternalStorageManager()) {
-                SystemUtil.getStoragePermission(this);
+            if (!SystemUtil.hasStoragePermission()) {
+                SystemUtil.requestStoragePermission(this);
             } else {
                 if (realCheckedId == -1) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();

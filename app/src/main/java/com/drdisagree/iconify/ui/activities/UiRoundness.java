@@ -6,7 +6,6 @@ import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -91,8 +90,8 @@ public class UiRoundness extends BaseActivity {
         });
 
         binding.applyRadius.setOnClickListener(v -> {
-            if (!Environment.isExternalStorageManager()) {
-                SystemUtil.getStoragePermission(this);
+            if (!SystemUtil.hasStoragePermission()) {
+                SystemUtil.requestStoragePermission(this);
             } else {
                 // Show loading dialog
                 loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));

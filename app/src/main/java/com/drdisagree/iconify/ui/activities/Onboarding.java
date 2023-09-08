@@ -14,7 +14,6 @@ import android.graphics.Color;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.PersistableBundle;
@@ -165,13 +164,13 @@ public class Onboarding extends BaseActivity {
 
                         if (RootUtil.isDeviceRooted()) {
                             if (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) {
-                                if (!Environment.isExternalStorageManager()) {
+                                if (!SystemUtil.hasStoragePermission()) {
                                     showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
                                     Toast.makeText(Onboarding.this, R.string.toast_storage_access, Toast.LENGTH_SHORT).show();
 
                                     new Handler(Looper.getMainLooper()).postDelayed(() -> {
                                         clickedContinue.set(true);
-                                        SystemUtil.getStoragePermission(Onboarding.this);
+                                        SystemUtil.requestStoragePermission(Onboarding.this);
                                     }, clickedContinue.get() ? 10 : 2000);
                                 } else {
                                     if (!ModuleUtil.moduleExists()) {
@@ -213,13 +212,13 @@ public class Onboarding extends BaseActivity {
 
                     if (RootUtil.isDeviceRooted()) {
                         if (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) {
-                            if (!Environment.isExternalStorageManager()) {
+                            if (!SystemUtil.hasStoragePermission()) {
                                 showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
                                 Toast.makeText(Onboarding.this, R.string.toast_storage_access, Toast.LENGTH_SHORT).show();
 
                                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
                                     clickedContinue.set(true);
-                                    SystemUtil.getStoragePermission(this);
+                                    SystemUtil.requestStoragePermission(this);
                                 }, clickedContinue.get() ? 10 : 2000);
                             } else {
                                 boolean moduleExists = ModuleUtil.moduleExists();
@@ -351,6 +350,12 @@ public class Onboarding extends BaseActivity {
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         selectedItemPosition = savedInstanceState.getInt(mData);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        binding.btnNextStep.requestLayout();
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -636,11 +641,5 @@ public class Onboarding extends BaseActivity {
             Shell.cmd("rm -rf " + Resources.BACKUP_DIR).exec();
             Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        binding.btnNextStep.requestLayout();
     }
 }

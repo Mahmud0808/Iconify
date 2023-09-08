@@ -3,7 +3,6 @@ package com.drdisagree.iconify.utils.compiler;
 import static com.drdisagree.iconify.common.Dynamic.ZIP;
 import static com.drdisagree.iconify.utils.helpers.Logger.writeLog;
 
-import android.os.Environment;
 import android.util.Log;
 
 import com.drdisagree.iconify.common.Resources;

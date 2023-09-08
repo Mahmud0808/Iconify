@@ -8,7 +8,6 @@ import static com.drdisagree.iconify.common.Preferences.PORT_QS_TOP_MARGIN;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
@@ -121,8 +120,8 @@ public class QsPanelMargin extends BaseActivity {
             binding.qsMarginReset.setVisibility(View.VISIBLE);
 
         binding.qsMarginApply.setOnClickListener(v -> {
-            if (!Environment.isExternalStorageManager()) {
-                SystemUtil.getStoragePermission(this);
+            if (!SystemUtil.hasStoragePermission()) {
+                SystemUtil.requestStoragePermission(this);
             } else {
                 // Show loading dialog
                 loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));

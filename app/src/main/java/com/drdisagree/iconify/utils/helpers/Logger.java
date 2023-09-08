@@ -1,9 +1,9 @@
 package com.drdisagree.iconify.utils.helpers;
 
+import static com.drdisagree.iconify.common.Resources.DOCUMENTS_DIR;
 import static com.drdisagree.iconify.common.Resources.LOG_DIR;
 
 import android.os.Build;
-import android.os.Environment;
 import android.util.Log;
 
 import com.drdisagree.iconify.BuildConfig;
@@ -92,9 +92,7 @@ public class Logger {
             SimpleDateFormat dF = new SimpleDateFormat("dd-MM-yy_HH_mm_ss", Locale.getDefault());
             String fileName = "iconify_logcat_" + dF.format(new Date()) + ".txt";
 
-            File externalStorageDir = Environment.getExternalStorageDirectory();
-            File documentsDir = new File(externalStorageDir, "Documents");
-            File iconifyDir = new File(documentsDir, "Iconify");
+            File iconifyDir = new File(DOCUMENTS_DIR, "Iconify");
             File file = new File(iconifyDir, fileName);
 
             FileWriter fw = new FileWriter(file.getAbsoluteFile());

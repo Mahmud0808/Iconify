@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
@@ -107,8 +106,8 @@ public class XposedLockscreenClock extends BaseActivity implements ColorPickerDi
 
         // Lockscreen clock font picker
         binding.pickLsclockFont.setOnClickListener(v -> {
-            if (!Environment.isExternalStorageManager()) {
-                SystemUtil.getStoragePermission(this);
+            if (!SystemUtil.hasStoragePermission()) {
+                SystemUtil.requestStoragePermission(this);
             } else {
                 browseLSClockFont();
             }

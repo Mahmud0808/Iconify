@@ -7,6 +7,7 @@ import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_BEHAVIOR;
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
 import static com.drdisagree.iconify.common.References.DEVICE_BOOT_ID_CMD;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -14,11 +15,13 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Insets;
 import android.net.Uri;
+import android.os.Environment;
 import android.view.WindowInsets;
 import android.view.WindowMetrics;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
@@ -128,12 +131,21 @@ public class SystemUtil {
         return Prefs.getInt(VER_CODE, -1);
     }
 
-    public static void getStoragePermission(Context context) {
+    public static boolean hasStoragePermission() {
+        return Environment.isExternalStorageManager() || Environment.isExternalStorageLegacy();
+    }
+
+    public static void requestStoragePermission(Context context) {
         Intent intent = new Intent();
         intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-        Uri uri = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null);
-        intent.setData(uri);
-        context.startActivity(intent);
+        intent.setData(Uri.fromParts("package", BuildConfig.APPLICATION_ID, null));
+        ((Activity) context).startActivityForResult(intent, 0);
+
+        ActivityCompat.requestPermissions((Activity) context, new String[]{
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.MANAGE_EXTERNAL_STORAGE
+        }, 0);
     }
 
     public static void enableRestartSystemuiAfterBoot() {
