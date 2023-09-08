@@ -548,6 +548,7 @@ public class Onboarding extends BaseActivity {
                 } catch (Exception e) {
                     hasErroredOut = true;
                     writeLog(TAG, "Error creating module zip", e.toString());
+                    e.printStackTrace();
                 }
 
                 if (!hasErroredOut) {
