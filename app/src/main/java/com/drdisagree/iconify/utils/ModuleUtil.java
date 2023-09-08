@@ -86,7 +86,7 @@ public class ModuleUtil {
         boolean primaryColorEnabled = false;
         boolean secondaryColorEnabled = false;
 
-        SharedPreferences prefs = Objects.requireNonNull(Iconify.getAppContext()).getSharedPreferences(Iconify.getAppContext().getPackageName(), Context.MODE_PRIVATE);
+        SharedPreferences prefs = Objects.requireNonNull(Iconify.getAppContext()).getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE);
         Map<String, ?> map = prefs.getAll();
         for (Map.Entry<String, ?> item : map.entrySet()) {
             if (item.getValue() instanceof Boolean && ((Boolean) item.getValue()) && item.getKey().startsWith("fabricated")) {

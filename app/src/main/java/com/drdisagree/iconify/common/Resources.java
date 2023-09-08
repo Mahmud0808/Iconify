@@ -10,7 +10,7 @@ import java.util.Objects;
 public class Resources {
 
     // Preference files
-    public static final String SharedPref = Objects.requireNonNull(Iconify.getAppContext()).getPackageName();
+    public static final String SharedPref = BuildConfig.APPLICATION_ID;
     public static final String SharedXPref = BuildConfig.APPLICATION_ID + "_xpreference";
 
     // Storage location
@@ -19,7 +19,7 @@ public class Resources {
     public static final String LOG_DIR = DOCUMENTS_DIR + "/Iconify";
     public static final String MODULE_DIR = "/data/adb/modules/Iconify";
     public static final String SYSTEM_OVERLAY_DIR = "/system/product/overlay";
-    public static final String DATA_DIR = Iconify.getAppContext().getFilesDir().toString();
+    public static final String DATA_DIR = Objects.requireNonNull(Iconify.getAppContext()).getFilesDir().toString();
     public static final String OVERLAY_DIR = MODULE_DIR + "/system/product/overlay";
     public static final String BIN_DIR = Iconify.getAppContext().getDataDir() + "/bin";
     public static final String BACKUP_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.iconify_backup";

@@ -131,7 +131,7 @@ public class SystemUtil {
     public static void getStoragePermission(Context context) {
         Intent intent = new Intent();
         intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-        Uri uri = Uri.fromParts("package", Objects.requireNonNull(Iconify.getAppContext()).getPackageName(), null);
+        Uri uri = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null);
         intent.setData(uri);
         context.startActivity(intent);
     }
