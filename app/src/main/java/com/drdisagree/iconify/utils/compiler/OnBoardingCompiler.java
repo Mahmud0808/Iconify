@@ -115,7 +115,7 @@ public class OnBoardingCompiler {
             Log.i(TAG + " - APKSigner", "Successfully signed " + name.replace(".apk", ""));
         } catch (Exception e) {
             Log.e(TAG + " - APKSigner", "Failed to sign " + name.replace(".apk", "") + '\n' + e);
-            writeLog(TAG + " - APKSigner", "Failed to sign " + name, e.toString());
+            writeLog(TAG + " - APKSigner", "Failed to sign " + name, e);
             return true;
         }
         return false;

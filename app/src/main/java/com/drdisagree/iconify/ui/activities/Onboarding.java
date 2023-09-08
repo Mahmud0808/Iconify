@@ -547,7 +547,7 @@ public class Onboarding extends BaseActivity {
                     ZipUtil.pack(new File(Resources.TEMP_DIR + "/Iconify"), new File(Resources.TEMP_DIR + "/Iconify.zip"));
                 } catch (Exception e) {
                     hasErroredOut = true;
-                    writeLog(TAG, "Error creating module zip", e.toString());
+                    writeLog(TAG, "Error creating module zip", e);
                     e.printStackTrace();
                 }
 

@@ -98,7 +98,7 @@ public class OverlayCompiler {
             Log.i(TAG + " - APKSigner", "Successfully signed " + fileName);
         } catch (Exception e) {
             Log.e(TAG, e.toString());
-            writeLog(TAG + " - APKSigner", "Failed to sign " + fileName, e.toString());
+            writeLog(TAG + " - APKSigner", "Failed to sign " + fileName, e);
             return true;
         }
         return false;

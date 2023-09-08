@@ -11,6 +11,8 @@ import com.drdisagree.iconify.BuildConfig;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -41,6 +43,21 @@ public class Logger {
         log.append('\n');
         log.append(tag).append(":\n");
         log.append(details).append('\n');
+
+        writeLogToFile(log);
+    }
+
+    public static void writeLog(String tag, String header, Exception exception) {
+        StringBuilder log = getDeviceInfo();
+        log.append("error: ").append(header).append('\n');
+        log.append('\n');
+        log.append(tag).append(":\n");
+
+        StringWriter writer = new StringWriter();
+        exception.printStackTrace(new PrintWriter(writer));
+        String str = writer.toString();
+
+        log.append(str).append('\n');
 
         writeLogToFile(log);
     }
