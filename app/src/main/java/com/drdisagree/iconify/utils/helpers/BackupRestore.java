@@ -78,8 +78,8 @@ public class BackupRestore {
     }
 
     public static void disableBlur() {
-        Shell.cmd("mv " + Resources.TEMP_MODULE_DIR + "/common/system.prop " + Resources.TEMP_MODULE_DIR + "/common/system.txt; grep -v \"ro.surface_flinger.supports_background_blur\" " + Resources.TEMP_MODULE_DIR + "/common/system.txt > " + Resources.TEMP_MODULE_DIR + "/common/system.txt.tmp; rm -rf " + Resources.TEMP_MODULE_DIR + "/common/system.prop; mv " + Resources.TEMP_MODULE_DIR + "/common/system.txt.tmp " + Resources.TEMP_MODULE_DIR + "/common/system.prop; rm -rf " + Resources.TEMP_MODULE_DIR + "/common/system.txt; rm -rf " + Resources.TEMP_MODULE_DIR + "/common/system.txt.tmp").submit();
-        Shell.cmd("grep -v \"ro.surface_flinger.supports_background_blur\" " + Resources.TEMP_MODULE_DIR + "/service.sh > " + Resources.TEMP_MODULE_DIR + "/service.sh.tmp && mv " + Resources.TEMP_MODULE_DIR + "/service.sh.tmp " + Resources.TEMP_MODULE_DIR + "/service.sh").submit();
+        Shell.cmd("mv " + Resources.TEMP_MODULE_DIR + "/common/system.prop " + Resources.TEMP_MODULE_DIR + "/common/system.txt; grep -v \"ro.surface_flinger.supports_background_blur\" " + Resources.TEMP_MODULE_DIR + "/common/system.txt > " + Resources.TEMP_MODULE_DIR + "/common/system.txt.tmp; rm -rf " + Resources.TEMP_MODULE_DIR + "/common/system.prop; mv " + Resources.TEMP_MODULE_DIR + "/common/system.txt.tmp " + Resources.TEMP_MODULE_DIR + "/common/system.prop; rm -rf " + Resources.TEMP_MODULE_DIR + "/common/system.txt; rm -rf " + Resources.TEMP_MODULE_DIR + "/common/system.txt.tmp").exec();
+        Shell.cmd("grep -v \"ro.surface_flinger.supports_background_blur\" " + Resources.TEMP_MODULE_DIR + "/service.sh > " + Resources.TEMP_MODULE_DIR + "/service.sh.tmp && mv " + Resources.TEMP_MODULE_DIR + "/service.sh.tmp " + Resources.TEMP_MODULE_DIR + "/service.sh").exec();
     }
 
     public static void enableBlur() {
@@ -88,7 +88,7 @@ public class BackupRestore {
         String blur_cmd1 = "ro.surface_flinger.supports_background_blur=1";
         String blur_cmd2 = "resetprop ro.surface_flinger.supports_background_blur 1 && killall surfaceflinger";
 
-        Shell.cmd("echo \"" + blur_cmd1 + "\" >> " + Resources.TEMP_MODULE_DIR + "/common/system.prop").submit();
-        Shell.cmd("sed '/*}/a " + blur_cmd2 + "' " + Resources.TEMP_MODULE_DIR + "/service.sh > " + Resources.TEMP_MODULE_DIR + "/service.sh.tmp && mv " + Resources.TEMP_MODULE_DIR + "/service.sh.tmp " + Resources.TEMP_MODULE_DIR + "/service.sh").submit();
+        Shell.cmd("echo \"" + blur_cmd1 + "\" >> " + Resources.TEMP_MODULE_DIR + "/common/system.prop").exec();
+        Shell.cmd("sed '/*}/a " + blur_cmd2 + "' " + Resources.TEMP_MODULE_DIR + "/service.sh > " + Resources.TEMP_MODULE_DIR + "/service.sh.tmp && mv " + Resources.TEMP_MODULE_DIR + "/service.sh.tmp " + Resources.TEMP_MODULE_DIR + "/service.sh").exec();
     }
 }
