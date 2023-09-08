@@ -22,6 +22,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.airbnb.lottie.LottieCompositionFactory;
+import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityHomePageBinding;
@@ -87,7 +88,7 @@ public class HomePage extends BaseActivity {
         Thread thread1 = new Thread(runnable1);
         thread1.start();
 
-        if (!SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES && Build.VERSION.SDK_INT >= 33 && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+        if (!(SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES && BuildConfig.DEBUG) && Build.VERSION.SDK_INT >= 33 && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 0);
             }, 2000);
