@@ -2,11 +2,16 @@ package com.drdisagree.iconify.ui.activities;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.ui.utils.ThemeHelper;
@@ -34,7 +39,7 @@ public class BaseActivity extends AppCompatActivity {
             ((AppBarLayout) findViewById(R.id.appBarLayout)).setStatusBarForeground(MaterialShapeDrawable.createWithElevationOverlay(getApplicationContext()));
         } catch (Exception ignored) {
         }
-        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
     }
 
     @Override
