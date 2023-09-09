@@ -288,7 +288,7 @@
                     style="@style/Widget.MaterialButton.Red"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/container_padding"
+                    android:layout_marginTop="4dp"
                     android:text="@string/btn_reset"
                     android:visibility="gone" />
 

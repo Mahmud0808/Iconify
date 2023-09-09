@@ -146,7 +146,7 @@
                     style="@style/Widget.MaterialButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="4dp"
                     android:text="@string/btn_enable_custom_colors"
                     android:visibility="gone" />
 
@@ -155,12 +155,10 @@
                     style="@style/Widget.MaterialButton.Red"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
                     android:text="@string/btn_disable_custom_colors"
                     android:visibility="gone" />
 
             </LinearLayout>
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
