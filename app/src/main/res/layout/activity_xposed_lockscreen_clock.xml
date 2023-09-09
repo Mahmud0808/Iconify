@@ -399,7 +399,7 @@
                     android:stepSize="1"
                     android:value="100"
                     android:valueFrom="0"
-                    android:valueTo="400" />
+                    android:valueTo="600" />
 
             </LinearLayout>
 
@@ -436,7 +436,7 @@
                     android:stepSize="1"
                     android:value="40"
                     android:valueFrom="0"
-                    android:valueTo="400" />
+                    android:valueTo="600" />
 
             </LinearLayout>
 
