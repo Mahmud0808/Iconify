@@ -39,6 +39,7 @@ public class Credits extends BaseActivity {
         credits_list.add(new InfoModel(getResources().getString(R.string.section_title_thanks)));
         credits_list.add(new InfoModel(this, "Icons8.com", getResources().getString(R.string.info_icons8_desc), "https://icons8.com/", R.drawable.ic_link));
         credits_list.add(new InfoModel(this, "iconsax.io", getResources().getString(R.string.info_iconsax_desc), "http://iconsax.io/", R.drawable.ic_link));
+        credits_list.add(new InfoModel(this, "Siavash", getResources().getString(R.string.info_xposed_desc), "https://t.me/siavash7999", R.drawable.ic_user));
         credits_list.add(new InfoModel(this, "Jai", getResources().getString(R.string.info_shell_desc), "https://t.me/Jai_08", R.drawable.ic_user));
         credits_list.add(new InfoModel(this, "1perialf", getResources().getString(R.string.info_rro_desc), "https://t.me/Rodolphe06", R.drawable.ic_user));
         credits_list.add(new InfoModel(this, "modestCat", getResources().getString(R.string.info_rro_desc), "https://t.me/ModestCat03", R.drawable.ic_user));

@@ -591,6 +591,7 @@
     <string name="info_iconsax_desc">For in-app icon set.</string>
     <string name="info_shell_desc">For helping me with Shell Script.</string>
     <string name="info_rro_desc">For helping me with RRO.</string>
+    <string name="info_xposed_desc">For helping me with Xposed.</string>
     <string name="info_tester_desc">For testing the app.</string>
     <string name="info_betterqs_desc">For permission to use better QS.</string>
     <string name="section_title_contributors">Contributors</string>
