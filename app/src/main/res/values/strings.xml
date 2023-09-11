@@ -417,7 +417,7 @@
     <string name="activity_title_transparency_blur">Transparency &amp; Blur</string>
     <string name="activity_desc_transparency_blur">Enable QS blur and transparency</string>
     <string name="activity_title_themes">Themes</string>
-    <string name="activity_desc_themes">Theming related stuffs</string>
+    <string name="activity_desc_themes">Personalize with themes</string>
     <string name="activity_title_quick_settings">Quick Settings</string>
     <string name="activity_desc_quick_settings">Tweaks related to QS panel</string>
     <string name="activity_title_battery_style">Battery Style</string>

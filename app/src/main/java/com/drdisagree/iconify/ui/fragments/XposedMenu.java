@@ -49,6 +49,7 @@ import com.drdisagree.iconify.ui.activities.XposedHeaderImage;
 import com.drdisagree.iconify.ui.activities.XposedLockscreenClock;
 import com.drdisagree.iconify.ui.activities.XposedOthers;
 import com.drdisagree.iconify.ui.activities.XposedQuickSettings;
+import com.drdisagree.iconify.ui.activities.XposedThemes;
 import com.drdisagree.iconify.ui.activities.XposedTransparencyBlur;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.ObservableVariable;
@@ -194,6 +195,7 @@ public class XposedMenu extends BaseFragment {
 
         xposed_menu.add(new Object[]{XposedTransparencyBlur.class, getResources().getString(R.string.activity_title_transparency_blur), getResources().getString(R.string.activity_desc_transparency_blur), R.drawable.ic_xposed_transparency_blur});
         xposed_menu.add(new Object[]{XposedQuickSettings.class, getResources().getString(R.string.activity_title_quick_settings), getResources().getString(R.string.activity_desc_quick_settings), R.drawable.ic_xposed_quick_settings});
+        xposed_menu.add(new Object[]{XposedThemes.class, getResources().getString(R.string.activity_title_themes), getResources().getString(R.string.activity_desc_themes), R.drawable.ic_xposed_themes});
         xposed_menu.add(new Object[]{XposedBatteryStyle.class, getResources().getString(R.string.activity_title_battery_style), getResources().getString(R.string.activity_desc_battery_style), R.drawable.ic_colored_battery});
         xposed_menu.add(new Object[]{XposedHeaderImage.class, getResources().getString(R.string.activity_title_header_image), getResources().getString(R.string.activity_desc_header_image), R.drawable.ic_xposed_header_image});
         xposed_menu.add(new Object[]{XposedHeaderClock.class, getResources().getString(R.string.activity_title_header_clock), getResources().getString(R.string.activity_desc_header_clock), R.drawable.ic_xposed_header_clock});
