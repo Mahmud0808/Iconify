@@ -1,25 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Re-apply customizations on boot (deprecated) -->
     <!-- <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> -->
-
     <!-- Access to the internet for checking for updates -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!-- Schedule a job to check for updates -->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <!-- Notify about new iconify updates -->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <!-- Access storage for compilation of APKs in .iconify folder -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- Read storage to be able to see what the compilation created -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- Schedule a job to check for updates -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> <!-- Notify about new iconify updates -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- Access storage for compilation of APKs in .iconify folder -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- Read storage to be able to see what the compilation created -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
-
-    <!-- Checking for Installed Music Players -->
+        tools:ignore="ScopedStorage" /> <!-- Checking for Installed Music Players -->
     <queries>
         <package android:name="com.maxmpz.audioplayer" />
         <package android:name="code.name.monkey.retromusic" />
@@ -47,6 +39,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Iconify"
         tools:targetApi="tiramisu">
+        <activity
+            android:name=".ui.activities.XposedThemes"
+            android:exported="false" />
         <activity
             android:name=".ui.activities.QsPanelMargin"
             android:exported="false" />
@@ -184,14 +179,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
+        </activity> <!-- Custom App Icons -->
         <activity-alias
-            android:name=".SplashActivityThemed"
+            android:name=".SplashActivityRetro"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_launcher_themed"
-            android:roundIcon="@mipmap/ic_launcher_round_themed"
+            android:icon="@mipmap/ic_launcher_retro"
+            android:roundIcon="@mipmap/ic_launcher_round_retro"
             android:targetActivity=".SplashActivity"
             android:theme="@style/Theme.Iconify.SplashScreen">
             <intent-filter>
@@ -199,13 +193,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity-alias> <!-- Custom App Icons -->
+        </activity-alias>
         <activity-alias
-            android:name=".SplashActivityRetro"
+            android:name=".SplashActivityThemed"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_launcher_retro"
-            android:roundIcon="@mipmap/ic_launcher_round_retro"
+            android:icon="@mipmap/ic_launcher_themed"
+            android:roundIcon="@mipmap/ic_launcher_round_themed"
             android:targetActivity=".SplashActivity"
             android:theme="@style/Theme.Iconify.SplashScreen">
             <intent-filter>
@@ -224,7 +218,6 @@
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
-
         <!--
         @Deprecated
         <service
@@ -233,7 +226,6 @@
             android:exported="true"
             tools:ignore="ExportedService" />
         -->
-
         <!-- Quick Settings Tiles -->
         <service
             android:name=".services.TileNotchBarKiller"
