@@ -276,8 +276,8 @@
     <string name="negative">Não</string>
     <string name="imported_settings">Definições importadas com sucesso</string>
     <string name="exported_settings">Definições guardadas com sucesso</string>
-    <string name="update_schedule1">Sempre</string>
-    <string name="update_schedule2">De hora em hora</string>
+    <string name="update_schedule1">A cada 6 horas</string>
+    <string name="update_schedule2">A cada 12 horas</string>
     <string name="update_schedule3">Diariamente</string>
     <string name="update_schedule4">Uma vez por semana</string>
     <string name="update_schedule5">Nunca</string>

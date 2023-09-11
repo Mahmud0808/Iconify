@@ -218,47 +218,31 @@
                 android:text="@string/section_title_schedule"
                 android:textColor="?attr/colorPrimary" />
 
-            <RelativeLayout
+            <LinearLayout
+                android:id="@+id/update_schedule_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/item_background_material"
-                android:clickable="true">
+                android:orientation="vertical"
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="22dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginVertical="22dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/check_update_every"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/update_schedule_title"
-                        android:textColor="@color/text_color_primary" />
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/update_schedule_des"
-                        android:textColor="@color/text_color_secondary" />
-
-                </LinearLayout>
-
-                <Spinner
-                    android:id="@+id/check_update_every"
+                <TextView
+                    style="@style/TextAppearance.Material3.TitleMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="24dp" />
+                    android:text="@string/update_schedule_title"
+                    android:textColor="@color/text_color_primary" />
 
-            </RelativeLayout>
+                <TextView
+                    android:id="@+id/selected_update_schedule"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/update_schedule2"
+                    android:textColor="@color/text_color_secondary" />
+
+            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

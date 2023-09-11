@@ -203,8 +203,8 @@
     <string name="negative">خیر</string>
     <string name="imported_settings">بازگرداندن تنظیمات با موفقیت انجام شد</string>
     <string name="exported_settings">پشتیبان گیری از تنظیمات با موفقیت انجام شد</string>
-    <string name="update_schedule1">همیشه</string>
-    <string name="update_schedule2">هر ساعت</string>
+    <string name="update_schedule1">هر 6 ساعت</string>
+    <string name="update_schedule2">هر 12 ساعت</string>
     <string name="update_schedule3">هر روز</string>
     <string name="update_schedule4">هر هفته</string>
     <string name="update_schedule5">هرگز</string>

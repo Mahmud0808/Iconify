@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Iconify</string>
     <string name="activity_desc_brightness_bar">Mengubah progress slider</string>
     <string name="activity_desc_color_engine">Mengatur warna</string>
     <string name="activity_desc_extras">Tweak dan opsi tambahan</string>
@@ -168,8 +167,8 @@
     <string name="negative">Tidak</string>
     <string name="imported_settings">Pengaturan berhasil diimpor</string>
     <string name="exported_settings">Pengaturan berhasil disimpan</string>
-    <string name="update_schedule1">Setiap Saat</string>
-    <string name="update_schedule2">Setiap Jam</string>
+    <string name="update_schedule1">setiap 6 jam</string>
+    <string name="update_schedule2">setiap 12 jam</string>
     <string name="update_schedule3">Setiap Hari</string>
     <string name="update_schedule4">Setiap Minggu</string>
     <string name="update_schedule5">Tidak Pernah</string>

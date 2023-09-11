@@ -115,4 +115,60 @@
             android:checked="true" />
 
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/auto_update_wifi_only_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_background_material"
+        android:clickable="true">
+
+        <ImageView
+            android:id="@+id/settings_iv_auto_update_wifi_only"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="24dp"
+            android:contentDescription="@string/icon"
+            android:src="@drawable/ic_auto_update_wifi_only"
+            app:tint="?attr/colorPrimary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginVertical="22dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/button_auto_update_wifi_only"
+            android:layout_toEndOf="@id/settings_iv_auto_update_wifi_only"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_auto_update_title_wifi_only"
+                android:textColor="@color/text_color_primary" />
+
+            <TextView
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_auto_update_desc_wifi_only"
+                android:textColor="@color/text_color_secondary" />
+
+        </LinearLayout>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/button_auto_update_wifi_only"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="24dp"
+            android:checked="true" />
+
+    </RelativeLayout>
 </LinearLayout>

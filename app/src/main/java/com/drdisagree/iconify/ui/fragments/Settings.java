@@ -12,6 +12,7 @@ import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_AFTER_BOOT
 import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_BEHAVIOR;
 import static com.drdisagree.iconify.common.Preferences.SHOW_HOME_CARD;
 import static com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN;
+import static com.drdisagree.iconify.common.Preferences.UPDATE_OVER_WIFI;
 import static com.drdisagree.iconify.common.Resources.MODULE_DIR;
 import static com.drdisagree.iconify.utils.AppUtil.restartApplication;
 
@@ -44,6 +45,7 @@ import com.drdisagree.iconify.common.Const;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.FragmentSettingsBinding;
+import com.drdisagree.iconify.services.UpdateScheduler;
 import com.drdisagree.iconify.ui.activities.AppUpdates;
 import com.drdisagree.iconify.ui.activities.Changelog;
 import com.drdisagree.iconify.ui.activities.Credits;
@@ -187,8 +189,21 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
 
         // Auto update
         binding.settingsUpdate.buttonAutoUpdate.setChecked(Prefs.getBoolean(AUTO_UPDATE, true));
-        binding.settingsUpdate.buttonAutoUpdate.setOnCheckedChangeListener((buttonView, isChecked) -> Prefs.putBoolean(AUTO_UPDATE, isChecked));
+        binding.settingsUpdate.buttonAutoUpdate.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            Prefs.putBoolean(AUTO_UPDATE, isChecked);
+            UpdateScheduler.scheduleUpdates(requireContext().getApplicationContext());
+            binding.settingsUpdate.buttonAutoUpdateWifiOnly.setEnabled(isChecked);
+        });
         binding.settingsUpdate.autoUpdate.setOnClickListener(v -> binding.settingsUpdate.buttonAutoUpdate.toggle());
+        binding.settingsUpdate.buttonAutoUpdateWifiOnly.setEnabled(binding.settingsUpdate.buttonAutoUpdate.isChecked());
+
+        // Check over wifi only
+        binding.settingsUpdate.buttonAutoUpdateWifiOnly.setChecked(Prefs.getBoolean(UPDATE_OVER_WIFI, true));
+        binding.settingsUpdate.buttonAutoUpdateWifiOnly.setOnCheckedChangeListener((buttonView, isChecked) -> Prefs.putBoolean(UPDATE_OVER_WIFI, isChecked));
+        binding.settingsUpdate.autoUpdateWifiOnlyContainer.setOnClickListener(v -> {
+            if (binding.settingsUpdate.buttonAutoUpdateWifiOnly.isEnabled())
+                binding.settingsUpdate.buttonAutoUpdateWifiOnly.toggle();
+        });
 
         // Show xposed warn
         binding.settingsXposed.hideWarnMessage.setChecked(Prefs.getBoolean(SHOW_XPOSED_WARN, true));

@@ -222,8 +222,8 @@
     <string name="negative">Hayır</string>
     <string name="imported_settings">Ayarları içe aktarma başarılı</string>
     <string name="exported_settings">Ayarlar başarıyla kaydedildi</string>
-    <string name="update_schedule1">Her Zaman</string>
-    <string name="update_schedule2">Her Saat</string>
+    <string name="update_schedule1">Her 6 saatte bir</string>
+    <string name="update_schedule2">Her 12 saatte bir</string>
     <string name="update_schedule3">Her Gün</string>
     <string name="update_schedule4">Her Hafta</string>
     <string name="update_schedule5">Asla</string>

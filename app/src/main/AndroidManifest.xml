@@ -3,11 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Re-apply customizations on boot (deprecated) -->
-    <!-- <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> -->
     <!-- <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> -->
 
     <!-- Access to the internet for checking for updates -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Schedule a job to check for updates -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- Notify about new iconify updates -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- Access storage for compilation of APKs in .iconify folder -->
@@ -214,11 +215,9 @@
             </intent-filter>
         </activity-alias>
 
-        <!--
-        @Deprecated
-
         <receiver
-            android:name=".services.BootCompletedReceiver"
+            android:name=".services.BootReceiver"
+            android:enabled="true"
             android:exported="true">
             <intent-filter android:priority="999">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -226,6 +225,8 @@
             </intent-filter>
         </receiver>
 
+        <!--
+        @Deprecated
         <service
             android:name=".services.BackgroundService"
             android:enabled="true"

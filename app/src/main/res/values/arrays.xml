@@ -111,4 +111,10 @@
         <item>@string/monet_content</item>
         <item>@string/monet_fruitsalad</item>
     </string-array>
+    <string-array name="update_schedule">
+        <item>@string/update_schedule1</item>
+        <item>@string/update_schedule2</item>
+        <item>@string/update_schedule3</item>
+        <item>@string/update_schedule4</item>
+    </string-array>
 </resources>

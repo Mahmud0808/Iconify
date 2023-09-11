@@ -283,8 +283,8 @@
     <string name="transparent_qs_panel_title">Прозрачность панели быстрых настроек</string>
     <string name="update_checking_failed">Ошибка проверки обновлений!</string>
     <string name="update_dialog_desc">Обновление %s доступно для загрузки</string>
-    <string name="update_schedule1">Постоянно</string>
-    <string name="update_schedule2">Каждый час</string>
+    <string name="update_schedule1">Каждые 6 часов</string>
+    <string name="update_schedule2">Каждые 12 часов</string>
     <string name="update_schedule3">Каждый день</string>
     <string name="update_schedule4">Каждую неделю</string>
     <string name="update_schedule5">Никогда</string>

@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">Iconify</string>
 
     <!-- Activities -->
     <string name="activity_title_brightness_bar">亮度条</string>
@@ -245,8 +244,8 @@
     <string name="negative">不</string>
     <string name="imported_settings">成功导入了设置</string>
     <string name="exported_settings">成功保存了设置</string>
-    <string name="update_schedule1">每次</string>
-    <string name="update_schedule2">每小时</string>
+    <string name="update_schedule1">每 6 小时</string>
+    <string name="update_schedule2">每12小时一次</string>
     <string name="update_schedule3">每天</string>
     <string name="update_schedule4">每周</string>
     <string name="update_schedule5">从不</string>

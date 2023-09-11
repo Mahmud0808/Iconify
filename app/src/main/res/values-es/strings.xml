@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">Iconify</string>
 
     <!-- Activities -->
     <string name="activity_title_brightness_bar">Barra de brillo</string>
@@ -245,8 +244,8 @@
     <string name="negative">No</string>
     <string name="imported_settings">Configuración importada con éxito</string>
     <string name="exported_settings">Configuración guardada con éxito</string>
-    <string name="update_schedule1">Siempre</string>
-    <string name="update_schedule2">Cada hora</string>
+    <string name="update_schedule1">Cada 6 horas</string>
+    <string name="update_schedule2">Cada 12 horas</string>
     <string name="update_schedule3">Cada día</string>
     <string name="update_schedule4">Cada semana</string>
     <string name="update_schedule5">Nunca</string>

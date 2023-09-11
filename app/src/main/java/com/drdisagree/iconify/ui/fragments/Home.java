@@ -8,14 +8,8 @@ import static com.drdisagree.iconify.common.Preferences.SHOW_HOME_CARD;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED;
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -28,11 +22,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.BuildConfig;
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.FragmentHomeBinding;
@@ -57,7 +48,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Home extends BaseFragment {
 
@@ -195,26 +185,6 @@ public class Home extends BaseFragment {
         }
     }
 
-    private void showUpdateNotification() {
-        Intent notificationIntent = new Intent(requireActivity(), AppUpdates.class);
-        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(requireActivity(), 0, notificationIntent, PendingIntent.FLAG_MUTABLE);
-
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(requireActivity(), getResources().getString(R.string.update_notification_channel_name)).setSmallIcon(R.drawable.ic_launcher_fg).setContentTitle(getResources().getString(R.string.new_update_title)).setContentText(getResources().getString(R.string.new_update_desc)).setContentIntent(pendingIntent).setOnlyAlertOnce(true).setAutoCancel(true);
-
-        NotificationManager notificationManager = (NotificationManager) requireActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-        createChannel(notificationManager);
-        notificationManager.notify(0, notificationBuilder.build());
-    }
-
-    public void createChannel(NotificationManager notificationManager) {
-        NotificationChannel channel = new NotificationChannel(getResources().getString(R.string.update_notification_channel_name), getResources().getString(R.string.update_notification_channel_name), NotificationManager.IMPORTANCE_DEFAULT);
-        channel.setDescription(getResources().getString(R.string.update_notification_channel_desc));
-        notificationManager.createNotificationChannel(channel);
-    }
-
-    @SuppressLint("StaticFieldLeak")
     private class CheckForUpdate extends TaskExecutor<Integer, Integer, String> {
 
         String jsonURL = LATEST_VERSION;
@@ -264,7 +234,6 @@ public class Home extends BaseFragment {
             }
         }
 
-        @SuppressLint("SetTextI18n")
         @Override
         protected void onPostExecute(String jsonStr) {
             if (jsonStr != null) {
@@ -272,20 +241,12 @@ public class Home extends BaseFragment {
                     JSONObject latestVersion = new JSONObject(jsonStr);
 
                     if (Integer.parseInt(latestVersion.getString(VER_CODE)) > BuildConfig.VERSION_CODE) {
-                        NotificationManager notificationManager = (NotificationManager) requireActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-                        createChannel(notificationManager);
-                        NotificationManager manager = (NotificationManager) Objects.requireNonNull(Iconify.getAppContext()).getSystemService(Context.NOTIFICATION_SERVICE);
-                        NotificationChannel channel = manager.getNotificationChannel(getResources().getString(R.string.update_notification_channel_name));
-                        if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED && channel.getImportance() != NotificationManager.IMPORTANCE_NONE) {
-                            showUpdateNotification();
-                        } else {
-                            check_update.setOnClickListener(v -> {
-                                Intent intent = new Intent(requireActivity(), AppUpdates.class);
-                                startActivity(intent);
-                            });
-                            update_desc.setText(getResources().getString(R.string.update_dialog_desc, latestVersion.getString("versionName")));
-                            check_update.setVisibility(View.VISIBLE);
-                        }
+                        check_update.setOnClickListener(v -> {
+                            Intent intent = new Intent(requireActivity(), AppUpdates.class);
+                            startActivity(intent);
+                        });
+                        update_desc.setText(getResources().getString(R.string.update_dialog_desc, latestVersion.getString("versionName")));
+                        check_update.setVisibility(View.VISIBLE);
                     }
                 } catch (Exception ignored) {
                 }

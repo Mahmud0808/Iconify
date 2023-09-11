@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">Iconify</string>
 
     <!-- Activities -->
     <string name="activity_title_brightness_bar">شريط السطوع</string>
@@ -232,8 +231,8 @@
     <string name="negative">لا</string>
     <string name="imported_settings">تم استيراد الإعدادات بنجاح</string>
     <string name="exported_settings">تم حفظ الإعدادات بنجاح</string>
-    <string name="update_schedule1">كل مرة</string>
-    <string name="update_schedule2">كل ساعة</string>
+    <string name="update_schedule1">كل 6 ساعات</string>
+    <string name="update_schedule2">كل 12 ساعة</string>
     <string name="update_schedule3">كل يوم</string>
     <string name="update_schedule4">كل أسبوع</string>
     <string name="update_schedule5">مطلقاً</string>

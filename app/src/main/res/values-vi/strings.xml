@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">Iconify</string>
 
     <!-- Activities -->
     <string name="activity_title_brightness_bar">Thanh độ sáng</string>
@@ -112,6 +111,7 @@
     <string name="qstile_btn3_desc">Tắt</string>
     <string name="qstile_btn4_title">Bluetooth</string>
     <string name="qstile_btn4_desc">TRÊN</string>
+    <string name="app_name">update_schedule1</string>
     <string name="app_moto">Tùy chỉnh giao diện người dùng Android nhàm chán</string>
     <string name="section_title_credits">Tín dụng</string>
     <string name="section_title_contributors">người đóng góp</string>
@@ -235,8 +235,8 @@
     <string name="negative">KHÔNG</string>
     <string name="imported_settings">Đã nhập cài đặt thành công</string>
     <string name="exported_settings">Đã lưu cài đặt thành công</string>
-    <string name="update_schedule1">Mỗi lần</string>
-    <string name="update_schedule2">Mỗi tiếng</string>
+    <string name="update_schedule1">Cứ sau 6 giờ</string>
+    <string name="update_schedule2">Cứ sau 12 giờ</string>
     <string name="update_schedule3">Hằng ngày</string>
     <string name="update_schedule4">Mỗi tuần</string>
     <string name="update_schedule5">Không bao giờ</string>

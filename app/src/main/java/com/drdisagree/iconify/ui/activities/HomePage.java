@@ -1,31 +1,24 @@
 package com.drdisagree.iconify.ui.activities;
 
-import static com.drdisagree.iconify.SplashActivity.SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES;
 import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
 import static com.drdisagree.iconify.common.References.FRAGMENT_HOME;
 import static com.drdisagree.iconify.common.References.FRAGMENT_SETTINGS;
 import static com.drdisagree.iconify.common.References.FRAGMENT_TWEAKS;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.airbnb.lottie.LottieCompositionFactory;
-import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityHomePageBinding;
+import com.drdisagree.iconify.services.UpdateScheduler;
 import com.drdisagree.iconify.ui.fragments.Home;
 import com.drdisagree.iconify.ui.fragments.Settings;
 import com.drdisagree.iconify.ui.fragments.Tweaks;
@@ -88,11 +81,7 @@ public class HomePage extends BaseActivity {
         Thread thread1 = new Thread(runnable1);
         thread1.start();
 
-        if (!(SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES && BuildConfig.DEBUG) && Build.VERSION.SDK_INT >= 33 && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 0);
-            }, 2000);
-        }
+        UpdateScheduler.scheduleUpdates(getApplicationContext());
     }
 
     private void replaceFragment(Fragment fragment, String tag) {
