@@ -11,8 +11,6 @@
     <string name="module_installation_step4">Aligning overlay APKs</string>
     <string name="module_installation_step5">Signing overlay APKs</string>
     <string name="module_installation_step6">Cleaning directories</string>
-    <string name="disable_animation_title">Disable Animation</string>
-    <string name="disable_animation_desc">Disable scrolling animation of Iconify</string>
     <string name="onboarding_title_1">Got Bored of Stock UI ?</string>
     <string name="onboarding_desc_1">Let\'s customize everything to our likings.</string>
     <string name="onboarding_title_2">Is My Device Supported ?</string>
@@ -786,6 +784,8 @@
     <string name="list_title_general_settings">General Settings</string>
     <string name="list_title_use_light_accent">Use Light Accent</string>
     <string name="list_desc_use_light_accent">Use light accent color in light mode</string>
+    <string name="disable_animation_title">Disable Animation</string>
+    <string name="disable_animation_desc">Disable scrolling animation of Iconify</string>
     <string name="custom_battery_title">Custom Battery</string>
     <string name="custom_battery_desc">Enable custom battery style</string>
     <string name="toast_message">Toast Message</string>
