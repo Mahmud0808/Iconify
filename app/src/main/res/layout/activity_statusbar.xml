@@ -27,7 +27,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/spacing"
+                android:text="@string/section_title_spacing"
                 android:textColor="?attr/colorPrimary" />
 
             <LinearLayout
@@ -208,7 +208,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/color"
+                android:text="@string/section_title_color"
                 android:textColor="?attr/colorPrimary" />
 
             <LinearLayout

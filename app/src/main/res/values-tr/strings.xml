@@ -127,10 +127,8 @@
     <string name="qspanel_row_title">Hızlı Ayarlar Paneli Satır</string>
     <string name="qspanel_column_title">Hızlı Ayarlar Paneli Sütun</string>
     <string name="btn_reset">YENİLE</string>
-    <string name="row_and_column_title">Satır ve Sütun</string>
-    <string name="row_and_column_desc">Hızlı ayarlar paneli satır ve sütunlarını değiştir</string>
-    <string name="icon_and_label_title">İkon ve Etiket</string>
-    <string name="icon_and_label_desc">İkon ve etiket ayarlarını değiştir</string>
+    <string name="activity_desc_qs_row_column">Hızlı ayarlar paneli satır ve sütunlarını değiştir</string>
+    <string name="activity_desc_qs_icon_label">İkon ve etiket ayarlarını değiştir</string>
     <string name="vp_thin_background_title">İnce Arka Plan</string>
     <string name="vp_thick_background_title">Yoğun Arka Plan</string>
     <string name="vp_no_background_title">Arka Plan Yok</string>
@@ -168,8 +166,8 @@
     <string name="reboot_needed">Önce cihazınızı yeniden başlatın!</string>
     <string name="magisk_not_found_desc">Cihazınızı rootlamak için Magisk kullanın!</string>
     <string name="root_not_found_desc">Cihazınız rootlanmamış!</string>
-    <string name="disable_everything_title">Her Şeyi Devre Dışı Bırak</string>
-    <string name="disable_everything_desc">Iconify tarafından yapılan bütün özelleştirmeleri, düzenlemeleri ve tasarım değişikliklerini devre dışı bırak.</string>
+    <string name="settings_disable_everything_title">Her Şeyi Devre Dışı Bırak</string>
+    <string name="settings_disable_everything_desc">Iconify tarafından yapılan bütün özelleştirmeleri, düzenlemeleri ve tasarım değişikliklerini devre dışı bırak.</string>
     <string name="toast_disable_everything">Her şeyi devre dışı bırakmak için basılı tutun</string>
     <string name="toast_disabled_everything">Her şey devre dışı bırakıldı</string>
     <string name="restart_sysui_title">Sistem Arayüzünü Yeniden Başlat</string>
@@ -229,8 +227,7 @@
     <string name="update_schedule3">Her Gün</string>
     <string name="update_schedule4">Her Hafta</string>
     <string name="update_schedule5">Asla</string>
-    <!-- do not change {latestVersionName} -->
-    <string name="update_dialog_desc">{latestVersionName} sürümü indirmeye hazır.</string>
+    <string name="update_dialog_desc">%s sürümü indirmeye hazır.</string>
     <string name="checking_for_update">Güncelleme Kontrolü Yapılıyor</string>
     <string name="toast_module_created">Modül başarıyla oluşturuldu</string>
     <string name="volume_style">Ses Tasarımı</string>
@@ -253,7 +250,7 @@
     <string name="header_image_height_title">Resim Yüksekliği</string>
     <string name="hide_status_icons_title">Durum İkonlarını Gizle</string>
     <string name="hide_status_icons_desc">Saat, tarih ve batarya ikonlarını kaldır</string>
-    <string name="image_alpha">Resim Şeffaflığı</string>
+    <string name="header_image_alpha">Resim Şeffaflığı</string>
     <string name="toast_rename_file">Dosyayı daha basit bir isimle tekrar isimlendirin</string>
     <string name="custom_lockscreen_clock_title">Özel Kilit Ekranı Saati</string>
     <string name="custom_lockscreen_clock_desc">Kilit ekranında özel saati etkinleştir</string>

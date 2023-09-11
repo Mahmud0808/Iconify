@@ -58,7 +58,7 @@ public class SystemUtil {
         if (Prefs.getBoolean(RESTART_SYSUI_BEHAVIOR, true)) {
             restartSystemUI();
         } else {
-            Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.systemui_restart_required), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.settings_systemui_restart_required), Toast.LENGTH_SHORT).show();
         }
     }
 

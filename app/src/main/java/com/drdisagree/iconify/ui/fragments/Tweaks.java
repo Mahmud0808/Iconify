@@ -71,8 +71,8 @@ public class Tweaks extends BaseFragment {
             }
         }, getResources().getString(R.string.activity_title_color_engine), getResources().getString(R.string.activity_desc_color_engine), R.drawable.ic_tweaks_color});
         tweaks_list.add(new Object[]{UiRoundness.class, getResources().getString(R.string.activity_title_ui_roundness), getResources().getString(R.string.activity_desc_ui_roundness), R.drawable.ic_tweaks_roundness});
-        tweaks_list.add(new Object[]{QsRowColumn.class, getResources().getString(R.string.row_and_column_title), getResources().getString(R.string.row_and_column_desc), R.drawable.ic_qs_row_column});
-        tweaks_list.add(new Object[]{QsIconLabel.class, getResources().getString(R.string.icon_and_label_title), getResources().getString(R.string.icon_and_label_desc), R.drawable.ic_qs_icon_and_label});
+        tweaks_list.add(new Object[]{QsRowColumn.class, getResources().getString(R.string.activity_title_qs_row_column), getResources().getString(R.string.activity_desc_qs_row_column), R.drawable.ic_qs_row_column});
+        tweaks_list.add(new Object[]{QsIconLabel.class, getResources().getString(R.string.activity_title_qs_icon_label), getResources().getString(R.string.activity_desc_qs_icon_label), R.drawable.ic_qs_icon_and_label});
         tweaks_list.add(new Object[]{QsTileSize.class, getResources().getString(R.string.activity_title_qs_tile_size), getResources().getString(R.string.activity_desc_qs_tile_size), R.drawable.ic_qs_tile_size});
         tweaks_list.add(new Object[]{QsPanelMargin.class, getResources().getString(R.string.activity_title_qs_panel_margin), getResources().getString(R.string.activity_desc_qs_panel_margin), R.drawable.ic_qs_top_margin});
         tweaks_list.add(new Object[]{Statusbar.class, getResources().getString(R.string.activity_title_statusbar), getResources().getString(R.string.activity_desc_statusbar), R.drawable.ic_tweaks_statusbar});

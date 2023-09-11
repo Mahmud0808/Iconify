@@ -125,7 +125,7 @@
                     style="@style/TextAppearance.Material3.TitleMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/image_alpha"
+                    android:text="@string/header_image_alpha"
                     android:textColor="@color/text_color_primary" />
 
                 <TextView

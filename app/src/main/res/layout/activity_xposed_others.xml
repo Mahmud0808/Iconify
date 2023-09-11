@@ -226,7 +226,7 @@
                     android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="8dp"
-                    android:text="@string/status_icons"
+                    android:text="@string/section_title_status_icons"
                     android:textColor="?attr/colorPrimary" />
 
                 <RelativeLayout

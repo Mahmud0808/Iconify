@@ -121,10 +121,8 @@
     <string name="qspanel_row_title">تعداد ردیف‌های نوارابزار</string>
     <string name="qspanel_column_title">تعداد ستون‌های نوارابزار</string>
     <string name="btn_reset">بازنشانی به حالت اولیه</string>
-    <string name="row_and_column_title">تنظیمات ستون و ردیف</string>
-    <string name="row_and_column_desc">تغییر تعداد ردیف و ستون در نوارابزار</string>
-    <string name="icon_and_label_title">تنظیمات آیکون‌ها و متن</string>
-    <string name="icon_and_label_desc">تغییر تنظیمات مربوط به آیکون‌ها و متن</string>
+    <string name="activity_desc_qs_row_column">تغییر تعداد ردیف و ستون در نوارابزار</string>
+    <string name="activity_desc_qs_icon_label">تغییر تنظیمات مربوط به آیکون‌ها و متن</string>
     <string name="vp_thin_background_title">پیش‌زمینه لاغر</string>
     <string name="vp_thick_background_title">پیش‌زمینه ضخیم</string>
     <string name="vp_no_background_title">بدون پیش‌زمینه</string>
@@ -151,8 +149,8 @@
     <string name="reboot_needed">ابتدا دستگاه را ریستارت کنید!</string>
     <string name="magisk_not_found_desc">ابتدا با Magisk دستگاه خود را روت کنید!</string>
     <string name="root_not_found_desc">ظاهرا دستگاه شما روت نشده است!</string>
-    <string name="disable_everything_title">غیرفعال کردن همه چیز</string>
-    <string name="disable_everything_desc">تمام مواردی که توسط آیکونفای تغییر پیدا کرده به حالت اولیه باز می‌گردد.</string>
+    <string name="settings_disable_everything_title">غیرفعال کردن همه چیز</string>
+    <string name="settings_disable_everything_desc">تمام مواردی که توسط آیکونفای تغییر پیدا کرده به حالت اولیه باز می‌گردد.</string>
     <string name="toast_disable_everything">انگشت خود را روی گزینه نگه دارید</string>
     <string name="toast_disabled_everything">همه موارد غیرفعال شدند</string>
     <string name="restart_sysui_title">ریستارت کردن رابط کاربری</string>
@@ -210,8 +208,7 @@
     <string name="update_schedule3">هر روز</string>
     <string name="update_schedule4">هر هفته</string>
     <string name="update_schedule5">هرگز</string>
-    <!-- do not change {latestVersionName} -->
-    <string name="update_dialog_desc">آپدیت {latestVersionName} آماده دانلود است.</string>
+    <string name="update_dialog_desc">آپدیت %s آماده دانلود است.</string>
     <string name="checking_for_update">درحال بررسی وجود آپدیت</string>
     <string name="toast_module_created">ماژول با موفقیت ساخته شد</string>
     <string name="volume_style">ظاهر نوار تنظیم صدا</string>
@@ -234,7 +231,7 @@
     <string name="header_image_height_title">ارتفاع تصویر</string>
     <string name="hide_status_icons_title">مخفی کردن آیکون‌های نوار اعلان</string>
     <string name="hide_status_icons_desc">مخفی کردن آیکون ساعت و تارخ و باتری</string>
-    <string name="image_alpha">میزان شفافیت تصویر هدر</string>
+    <string name="header_image_alpha">میزان شفافیت تصویر هدر</string>
     <string name="toast_rename_file">نام ساده‌تری برای فایل انتخاب کنید</string>
     <string name="custom_lockscreen_clock_title">شخصی سازی ساعت صفحه قفل</string>
     <string name="custom_lockscreen_clock_desc">فعال کردن ساعت سفارشی برای صفحه قفل</string>

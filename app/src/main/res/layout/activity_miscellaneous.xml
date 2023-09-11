@@ -28,7 +28,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/tablet_mode"
+                android:text="@string/section_title_tablet_mode"
                 android:textColor="?attr/colorPrimary" />
 
             <RelativeLayout
@@ -167,7 +167,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/privacy_chip"
+                android:text="@string/section_title_privacy_chip"
                 android:textColor="?attr/colorPrimary" />
 
             <RelativeLayout

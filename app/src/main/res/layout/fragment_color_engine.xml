@@ -145,7 +145,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/stock_colors"
+                android:text="@string/section_title_stock_colors"
                 android:textColor="?attr/colorPrimary" />
 
             <RelativeLayout
@@ -241,7 +241,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/dark_theme"
+                android:text="@string/section_title_dark_theme"
                 android:textColor="?attr/colorPrimary" />
 
             <RelativeLayout
@@ -337,7 +337,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/misc"
+                android:text="@string/section_title_misc"
                 android:textColor="?attr/colorPrimary" />
 
             <RelativeLayout

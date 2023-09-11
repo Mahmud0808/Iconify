@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="35dp"
-                android:text="@string/hide"
+                android:text="@string/home_card_hide"
                 app:icon="@drawable/ic_hide" />
 
         </LinearLayout>

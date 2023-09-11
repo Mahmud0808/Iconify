@@ -166,19 +166,19 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         int current_language = Arrays.asList(getResources().getStringArray(R.array.locale_code)).indexOf(Prefs.getString(APP_LANGUAGE, getResources().getConfiguration().getLocales().get(0).getLanguage()));
         rd_app_language = new RadioDialog(requireActivity(), 0, current_language == -1 ? 0 : current_language);
         rd_app_language.setRadioDialogListener(this);
-        binding.settingsGeneral.appLanguage.setOnClickListener(v -> rd_app_language.show(R.string.app_language, R.array.locale_name, binding.settingsGeneral.selectedAppLanguage));
+        binding.settingsGeneral.appLanguage.setOnClickListener(v -> rd_app_language.show(R.string.settings_app_language, R.array.locale_name, binding.settingsGeneral.selectedAppLanguage));
         binding.settingsGeneral.selectedAppLanguage.setText(Arrays.asList(getResources().getStringArray(R.array.locale_name)).get(rd_app_language.getSelectedIndex()));
 
         // App Icon
         rd_app_icon = new RadioDialog(requireActivity(), 2, Prefs.getInt(APP_ICON, 0));
         rd_app_icon.setRadioDialogListener(this);
-        binding.settingsGeneral.appIcon.setOnClickListener(v -> rd_app_icon.show(R.string.app_icon, R.array.app_icon, binding.settingsGeneral.selectedAppIcon));
+        binding.settingsGeneral.appIcon.setOnClickListener(v -> rd_app_icon.show(R.string.settings_app_icon, R.array.app_icon, binding.settingsGeneral.selectedAppIcon));
         binding.settingsGeneral.selectedAppIcon.setText(Arrays.asList(getResources().getStringArray(R.array.app_icon)).get(rd_app_icon.getSelectedIndex()));
 
         // App Theme
         rd_app_theme = new RadioDialog(requireActivity(), 1, Prefs.getInt(APP_THEME, 2));
         rd_app_theme.setRadioDialogListener(this);
-        binding.settingsGeneral.appTheme.setOnClickListener(v -> rd_app_theme.show(R.string.app_theme, R.array.app_theme, binding.settingsGeneral.selectedAppTheme));
+        binding.settingsGeneral.appTheme.setOnClickListener(v -> rd_app_theme.show(R.string.settings_app_theme, R.array.app_theme, binding.settingsGeneral.selectedAppTheme));
         binding.settingsGeneral.selectedAppTheme.setText(Arrays.asList(getResources().getStringArray(R.array.app_theme)).get(rd_app_theme.getSelectedIndex()));
 
         // Check for update
@@ -200,16 +200,16 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         binding.settingsXposed.restartSystemuiBehavior.setOnCheckedChangeListener((buttonView, isChecked) -> {
             Prefs.putBoolean(RESTART_SYSUI_BEHAVIOR, isChecked);
             if (isChecked) {
-                binding.settingsXposed.restartSystemuiBehaviorDesc.setText(getResources().getString(R.string.auto_restart_systemui));
+                binding.settingsXposed.restartSystemuiBehaviorDesc.setText(getResources().getString(R.string.settings_auto_restart_systemui));
             } else {
-                binding.settingsXposed.restartSystemuiBehaviorDesc.setText(getResources().getString(R.string.manual_restart_systemui));
+                binding.settingsXposed.restartSystemuiBehaviorDesc.setText(getResources().getString(R.string.settings_manual_restart_systemui));
             }
         });
         binding.settingsXposed.restartSystemuiBehaviorContainer.setOnClickListener(v -> binding.settingsXposed.restartSystemuiBehavior.toggle());
         if (binding.settingsXposed.restartSystemuiBehavior.isChecked()) {
-            binding.settingsXposed.restartSystemuiBehaviorDesc.setText(getResources().getString(R.string.auto_restart_systemui));
+            binding.settingsXposed.restartSystemuiBehaviorDesc.setText(getResources().getString(R.string.settings_auto_restart_systemui));
         } else {
-            binding.settingsXposed.restartSystemuiBehaviorDesc.setText(getResources().getString(R.string.manual_restart_systemui));
+            binding.settingsXposed.restartSystemuiBehaviorDesc.setText(getResources().getString(R.string.settings_manual_restart_systemui));
         }
 
         // Restart sysui after boot

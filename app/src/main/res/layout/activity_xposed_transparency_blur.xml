@@ -28,7 +28,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/transparency"
+                android:text="@string/section_title_transparency"
                 android:textColor="?attr/colorPrimary" />
 
             <RelativeLayout
@@ -161,7 +161,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/blur"
+                android:text="@string/section_title_blur"
                 android:textColor="?attr/colorPrimary" />
 
             <RelativeLayout

@@ -32,9 +32,9 @@
         <item>vi</item>
     </string-array>
     <string-array name="app_icon">
-        <item>@string/app_icon_default</item>
-        <item>@string/app_icon_themed</item>
-        <item>@string/app_icon_retro</item>
+        <item>@string/settings_app_icon_default</item>
+        <item>@string/settings_app_icon_themed</item>
+        <item>@string/settings_app_icon_retro</item>
     </string-array>
     <string-array name="app_icon_identifier" translatable="false">
         <item>SplashActivity</item>
@@ -42,9 +42,9 @@
         <item>SplashActivityRetro</item>
     </string-array>
     <string-array name="app_theme">
-        <item>@string/app_theme_light</item>
-        <item>@string/app_theme_dark</item>
-        <item>@string/app_theme_system</item>
+        <item>@string/settings_app_theme_light</item>
+        <item>@string/settings_app_theme_dark</item>
+        <item>@string/settings_app_theme_system</item>
     </string-array>
     <string-array name="settings_icon_bg">
         <item>@string/settings_icons_minimal</item>

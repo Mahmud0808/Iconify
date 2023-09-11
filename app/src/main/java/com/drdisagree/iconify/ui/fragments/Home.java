@@ -283,7 +283,7 @@ public class Home extends BaseFragment {
                                 Intent intent = new Intent(requireActivity(), AppUpdates.class);
                                 startActivity(intent);
                             });
-                            update_desc.setText(getResources().getString(R.string.update_dialog_desc).replace("{latestVersionName}", latestVersion.getString("versionName")));
+                            update_desc.setText(getResources().getString(R.string.update_dialog_desc, latestVersion.getString("versionName")));
                             check_update.setVisibility(View.VISIBLE);
                         }
                     }

@@ -45,7 +45,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/media_player_background_color"
+                android:text="@string/section_title_background_color"
                 android:textColor="?attr/colorPrimary" />
 
             <RelativeLayout

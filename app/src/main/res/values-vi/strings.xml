@@ -143,10 +143,8 @@
     <string name="qspanel_row_title">Hàng Bảng điều khiển QS</string>
     <string name="qspanel_column_title">Cột bảng QS</string>
     <string name="btn_reset">CÀI LẠI</string>
-    <string name="row_and_column_title">Hàng và cột</string>
-    <string name="row_and_column_desc">Thay đổi hàng và cột ô vuông Qs</string>
-    <string name="icon_and_label_title">Biểu tượng và Nhãn</string>
-    <string name="icon_and_label_desc">Thay đổi tùy chọn biểu tượng và nhãn</string>
+    <string name="activity_desc_qs_row_column">Thay đổi hàng và cột ô vuông Qs</string>
+    <string name="activity_desc_qs_icon_label">Thay đổi tùy chọn biểu tượng và nhãn</string>
     <string name="vp_thin_background_title">Nền mỏng</string>
     <string name="vp_thick_background_title">Nền dày</string>
     <string name="vp_no_background_title">Không có nền</string>
@@ -182,8 +180,8 @@
     <string name="installing">Đang cài đặt</string>
     <string name="toast_error">Đã xảy ra sự cố</string>
     <string name="reboot_needed">Khởi động lại thiết bị của bạn trước!</string>
-    <string name="disable_everything_title">Vô hiệu hóa mọi thứ</string>
-    <string name="disable_everything_desc">Vô hiệu hóa tất cả các lớp phủ, màu sắc và các thay đổi linh tinh được áp dụng do Iconify thực hiện.</string>
+    <string name="settings_disable_everything_title">Vô hiệu hóa mọi thứ</string>
+    <string name="settings_disable_everything_desc">Vô hiệu hóa tất cả các lớp phủ, màu sắc và các thay đổi linh tinh được áp dụng do Iconify thực hiện.</string>
     <string name="toast_disable_everything">Nhấn và giữ để tắt mọi thứ</string>
     <string name="toast_disabled_everything">Mọi thứ đều bị vô hiệu hóa</string>
     <string name="restart_sysui_title">Khởi động lại SystemUI</string>
@@ -242,8 +240,7 @@
     <string name="update_schedule3">Hằng ngày</string>
     <string name="update_schedule4">Mỗi tuần</string>
     <string name="update_schedule5">Không bao giờ</string>
-    <!-- do not change {latestVersionName} -->
-    <string name="update_dialog_desc">Đã có bản cập nhật {latestVersionName} để tải xuống.</string>
+    <string name="update_dialog_desc">Đã có bản cập nhật %s để tải xuống.</string>
     <string name="checking_for_update">Đang kiểm tra cập nhật</string>
     <string name="toast_module_created">Mô-đun được tạo thành công</string>
     <string name="volume_style">Kiểu âm lượng</string>
@@ -266,7 +263,7 @@
     <string name="header_image_height_title">Chiều cao hình ảnh</string>
     <string name="hide_status_icons_title">Ẩn biểu tượng trạng thái</string>
     <string name="hide_status_icons_desc">Xóa các biểu tượng thời gian, ngày tháng và pin</string>
-    <string name="image_alpha">Hình ảnh Alpha</string>
+    <string name="header_image_alpha">Hình ảnh Alpha</string>
     <string name="toast_rename_file">Đổi tên tệp thành một cái gì đó đơn giản hơn</string>
     <string name="custom_lockscreen_clock_title">Đồng hồ màn hình khóa tùy chỉnh</string>
     <string name="custom_lockscreen_clock_desc">Bật đồng hồ màn hình khóa tùy chỉnh</string>
@@ -418,17 +415,17 @@
     <string name="module_installation_step4">Căn chỉnh lớp phủ APKs</string>
     <string name="module_installation_step5">Ký lớp phủ APKs</string>
     <string name="module_installation_step6">Làm sạch thư mục</string>
-    <string name="portrait">(Chân dung)</string>
+    <string name="section_title_portrait">Chân dung</string>
     <string name="qs_tile_expanded_height">Chiều cao mở rộng</string>
-    <string name="landscape">(Phong cảnh)</string>
+    <string name="section_title_landscape">Phong cảnh</string>
     <string name="toast_storage_access">Khởi chạy trang \"Tất cả quyền truy cập tệp\"</string>
     <string name="qs_tile_non_expanded_height">Chiều cao không mở rộng</string>
     <string name="method_toggle_dark_mode">Double Toggle Dark Mode</string>
     <string name="method_restart_systemui">Khởi động lại SystemUI</string>
     <string name="method_do_nothing">Không Làm Gì (Tôi sẽ tự làm)</string>
     <string name="list_title_xposed_settings">Cài đặt Xposed</string>
-    <string name="list_title_show_warning">Hiển thị cảnh báo</string>
-    <string name="list_desc_show_warning">Hiển thị cảnh báo về cách tối ưu lại mô-đun trong Menu XPosed</string>
+    <string name="settings_show_warning_title">Hiển thị cảnh báo</string>
+    <string name="settings_show_warning_desc">Hiển thị cảnh báo về cách tối ưu lại mô-đun trong Menu XPosed</string>
     <string name="list_title_force_apply_method">Buộc áp dụng phương pháp</string>
     <string name="list_desc_force_apply_method">Phương pháp buộc áp dụng các thay đổi trong menu xposed</string>
     <string name="list_title_miscellaneous_settings">Cài đặt linh tinh</string>
@@ -441,8 +438,8 @@
     <string name="battery_height_title">Chiều cao pin</string>
     <string name="disable_animation_title">Tắt hoạt hình</string>
     <string name="disable_animation_desc">Tắt hoạt ảnh cuộn của Iconify</string>
-    <string name="restart_systemui_after_boot_title">Khởi động lại SystemUI sau khi khởi động</string>
-    <string name="restart_systemui_after_boot_desc">Một số tùy chọn như cường độ mờ không có hiệu lực cho đến khi khởi động lại systemui</string>
+    <string name="settings_restart_systemui_after_boot_title">Khởi động lại SystemUI sau khi khởi động</string>
+    <string name="settings_restart_systemui_after_boot_desc">Một số tùy chọn như cường độ mờ không có hiệu lực cho đến khi khởi động lại systemui</string>
     <string name="btn_skip">Bỏ qua</string>
     <string name="onboarding_title_1">Chán giao diện người dùng gốc?</string>
     <string name="onboarding_desc_1">Hãy tùy chỉnh mọi thứ theo ý thích của chúng ta.</string>

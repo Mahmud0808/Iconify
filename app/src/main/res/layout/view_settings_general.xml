@@ -12,7 +12,7 @@
         android:layout_marginHorizontal="60dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/general"
+        android:text="@string/settings_section_title_general"
         android:textColor="?attr/colorPrimary" />
 
     <RelativeLayout
@@ -47,7 +47,7 @@
                 style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_language"
+                android:text="@string/settings_app_language"
                 android:textColor="@color/text_color_primary" />
 
             <TextView
@@ -92,7 +92,7 @@
                 style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_icon"
+                android:text="@string/settings_app_icon"
                 android:textColor="@color/text_color_primary" />
 
             <TextView
@@ -137,7 +137,7 @@
                 style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_theme"
+                android:text="@string/settings_app_theme"
                 android:textColor="@color/text_color_primary" />
 
             <TextView

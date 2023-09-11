@@ -28,7 +28,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/qs_tile"
+                android:text="@string/section_title_qs_tile"
                 android:textColor="?attr/colorPrimary" />
 
             <RelativeLayout
@@ -124,7 +124,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/for_pixel_roms"
+                android:text="@string/section_title_for_pixel_roms"
                 android:textColor="?attr/colorPrimary" />
 
             <RelativeLayout
@@ -220,7 +220,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/for_custom_roms"
+                android:text="@string/section_title_for_custom_roms"
                 android:textColor="?attr/colorPrimary" />
 
             <RelativeLayout
@@ -273,7 +273,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/translucent_theme"
+                android:text="@string/section_title_translucent_theme"
                 android:textColor="?attr/colorPrimary" />
 
             <RelativeLayout
@@ -411,7 +411,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/qs_margin"
+                android:text="@string/section_title_qs_margin"
                 android:textColor="?attr/colorPrimary" />
 
             <LinearLayout
