@@ -1,8 +1,8 @@
 package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.ALERT_DIALOG_QSROWCOL;
 import static com.drdisagree.iconify.common.Preferences.QS_ROW_COLUMN_SWITCH;
-import static com.drdisagree.iconify.common.Preferences.STR_NULL;
 import static com.drdisagree.iconify.common.References.FABRICATED_QQS_ROW;
 import static com.drdisagree.iconify.common.References.FABRICATED_QQS_TILE;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_COLUMN;
@@ -34,11 +34,11 @@ public class QsRowColumn extends BaseActivity {
 
     public static void applyRowColumn() {
         FabricatedUtil.buildAndEnableOverlays(
-                new Object[]{SYSTEMUI_PACKAGE, FABRICATED_QQS_ROW, "integer", "quick_qs_panel_max_rows", String.valueOf(Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW)) + 1)},
-                new Object[]{SYSTEMUI_PACKAGE, FABRICATED_QS_ROW, "integer", "quick_settings_max_rows", String.valueOf(Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW)) + 1)},
-                new Object[]{SYSTEMUI_PACKAGE, FABRICATED_QS_COLUMN, "integer", "quick_settings_num_columns", String.valueOf(Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1)},
-                new Object[]{SYSTEMUI_PACKAGE, FABRICATED_QQS_TILE, "integer", "quick_qs_panel_max_tiles", String.valueOf((Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW)) + 1) * (Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1))},
-                new Object[]{SYSTEMUI_PACKAGE, FABRICATED_QS_TILE, "integer", "quick_settings_min_num_tiles", String.valueOf((Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1) * (Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW)) + 1))}
+                new Object[]{SYSTEMUI_PACKAGE, FABRICATED_QQS_ROW, "integer", "quick_qs_panel_max_rows", String.valueOf(Prefs.getInt(FABRICATED_QQS_ROW, 2))},
+                new Object[]{SYSTEMUI_PACKAGE, FABRICATED_QS_ROW, "integer", "quick_settings_max_rows", String.valueOf(Prefs.getInt(FABRICATED_QS_ROW, 4))},
+                new Object[]{SYSTEMUI_PACKAGE, FABRICATED_QS_COLUMN, "integer", "quick_settings_num_columns", String.valueOf(Prefs.getInt(FABRICATED_QS_COLUMN, 2))},
+                new Object[]{SYSTEMUI_PACKAGE, FABRICATED_QQS_TILE, "integer", "quick_qs_panel_max_tiles", String.valueOf((Prefs.getInt(FABRICATED_QQS_ROW, 2) * Prefs.getInt(FABRICATED_QS_COLUMN, 2)))},
+                new Object[]{SYSTEMUI_PACKAGE, FABRICATED_QS_TILE, "integer", "quick_settings_min_num_tiles", String.valueOf((Prefs.getInt(FABRICATED_QS_COLUMN, 2) * Prefs.getInt(FABRICATED_QS_ROW, 4)))}
         );
     }
 
@@ -60,14 +60,9 @@ public class QsRowColumn extends BaseActivity {
         loadingDialog = new LoadingDialog(this);
 
         // Quick QsPanel Row
-        final int[] finalQqsRow = {1};
-
-        if (!Prefs.getString(FABRICATED_QQS_ROW).equals(STR_NULL)) {
-            binding.qqsRowOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW)) + 1));
-            finalQqsRow[0] = Integer.parseInt(Prefs.getString(FABRICATED_QQS_ROW));
-            binding.qqsRowSeekbar.setValue(finalQqsRow[0]);
-        } else binding.qqsRowOutput.setText(getResources().getString(R.string.opt_selected) + " 2");
-
+        final int[] finalQqsRow = {Prefs.getInt(FABRICATED_QQS_ROW, 2)};
+        binding.qqsRowOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalQqsRow[0]);
+        binding.qqsRowSeekbar.setValue(finalQqsRow[0]);
         binding.qqsRowSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
@@ -76,19 +71,14 @@ public class QsRowColumn extends BaseActivity {
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 finalQqsRow[0] = (int) slider.getValue();
-                binding.qqsRowOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (finalQqsRow[0] + 1));
+                binding.qqsRowOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalQqsRow[0]);
             }
         });
 
         // QsPanel Row
-        final int[] finalQsRow = {3};
-
-        if (!Prefs.getString(FABRICATED_QS_ROW).equals(STR_NULL)) {
-            binding.qsRowOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW)) + 1));
-            finalQsRow[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_ROW));
-            binding.qsRowSeekbar.setValue(finalQsRow[0]);
-        } else binding.qsRowOutput.setText(getResources().getString(R.string.opt_selected) + " 4");
-
+        final int[] finalQsRow = {Prefs.getInt(FABRICATED_QS_ROW, 4)};
+        binding.qsRowOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalQsRow[0]);
+        binding.qsRowSeekbar.setValue(finalQsRow[0]);
         binding.qsRowSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
@@ -97,20 +87,14 @@ public class QsRowColumn extends BaseActivity {
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 finalQsRow[0] = (int) slider.getValue();
-                binding.qsRowOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (finalQsRow[0] + 1));
+                binding.qsRowOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalQsRow[0]);
             }
         });
 
         // QsPanel Column
-        final int[] finalQsColumn = {1};
-
-        if (!Prefs.getString(FABRICATED_QS_COLUMN).equals(STR_NULL)) {
-            binding.qsColumnOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN)) + 1));
-            finalQsColumn[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_COLUMN));
-            binding.qsColumnSeekbar.setValue(finalQsColumn[0]);
-        } else
-            binding.qsColumnOutput.setText(getResources().getString(R.string.opt_selected) + " 2");
-
+        final int[] finalQsColumn = {Prefs.getInt(FABRICATED_QS_COLUMN, 2)};
+        binding.qsColumnOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalQsColumn[0]);
+        binding.qsColumnSeekbar.setValue(finalQsColumn[0]);
         binding.qsColumnSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
@@ -119,7 +103,7 @@ public class QsRowColumn extends BaseActivity {
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 finalQsColumn[0] = (int) slider.getValue();
-                binding.qsColumnOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (finalQsColumn[0] + 1));
+                binding.qsColumnOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalQsColumn[0]);
             }
         });
 
@@ -131,11 +115,11 @@ public class QsRowColumn extends BaseActivity {
             Runnable runnable = () -> {
                 Prefs.putBoolean(QS_ROW_COLUMN_SWITCH, true);
 
-                Prefs.putString(FABRICATED_QQS_ROW, String.valueOf(finalQqsRow[0]));
-                Prefs.putString(FABRICATED_QS_ROW, String.valueOf(finalQsRow[0]));
-                Prefs.putString(FABRICATED_QS_COLUMN, String.valueOf(finalQsColumn[0]));
-                Prefs.putString(FABRICATED_QQS_TILE, String.valueOf((finalQqsRow[0] + 1) * (finalQsColumn[0] + 1)));
-                Prefs.putString(FABRICATED_QS_TILE, String.valueOf((finalQsColumn[0] + 1) * (finalQsRow[0] + 1)));
+                Prefs.putInt(FABRICATED_QQS_ROW, finalQqsRow[0]);
+                Prefs.putInt(FABRICATED_QS_ROW, finalQsRow[0]);
+                Prefs.putInt(FABRICATED_QS_COLUMN, finalQsColumn[0]);
+                Prefs.putInt(FABRICATED_QQS_TILE, (finalQqsRow[0] * finalQsColumn[0]));
+                Prefs.putInt(FABRICATED_QS_TILE, (finalQsColumn[0] * finalQsRow[0]));
 
                 applyRowColumn();
 
@@ -157,9 +141,7 @@ public class QsRowColumn extends BaseActivity {
         });
 
         // Reset button
-        if (Prefs.getBoolean(QS_ROW_COLUMN_SWITCH))
-            binding.qsRowColumnReset.setVisibility(View.VISIBLE);
-        else binding.qsRowColumnReset.setVisibility(View.GONE);
+        binding.qsRowColumnReset.setVisibility(Prefs.getBoolean(QS_ROW_COLUMN_SWITCH) ? View.VISIBLE : View.GONE);
 
         binding.qsRowColumnReset.setOnClickListener(v -> {
             // Show loading dialog
@@ -186,12 +168,18 @@ public class QsRowColumn extends BaseActivity {
             thread.start();
         });
 
-        new MaterialAlertDialogBuilder(this, R.style.MaterialComponents_MaterialAlertDialog)
-                .setTitle(getResources().getString(R.string.hey_there))
-                .setMessage(getResources().getString(R.string.qs_row_column_warn_desc))
-                .setPositiveButton(getResources().getString(R.string.understood), (dialog, which) -> dialog.dismiss())
-                .setCancelable(true)
-                .show();
+        if (Prefs.getBoolean(ALERT_DIALOG_QSROWCOL, true)) {
+            new MaterialAlertDialogBuilder(this, R.style.MaterialComponents_MaterialAlertDialog)
+                    .setTitle(getResources().getString(R.string.hey_there))
+                    .setMessage(getResources().getString(R.string.qs_row_column_warn_desc))
+                    .setPositiveButton(getResources().getString(R.string.understood), (dialog, which) -> dialog.dismiss())
+                    .setNegativeButton(getString(R.string.dont_show_again), (dialog, which) -> {
+                        dialog.dismiss();
+                        Prefs.putBoolean(ALERT_DIALOG_QSROWCOL, false);
+                    })
+                    .setCancelable(true)
+                    .show();
+        }
     }
 
     @Override

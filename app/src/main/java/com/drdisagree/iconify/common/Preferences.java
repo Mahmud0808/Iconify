@@ -150,4 +150,5 @@ public class Preferences {
     public static final String BOOT_ID = "boot_id";
     public static final String VER_CODE = "versionCode";
     public static final String EASTER_EGG = "iconify_easter_egg";
+    public static final String ALERT_DIALOG_QSROWCOL = "alertDialogQsRowCol";
 }

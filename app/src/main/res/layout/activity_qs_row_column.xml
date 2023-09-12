@@ -52,9 +52,9 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="4dp"
                     android:stepSize="1"
-                    android:value="1"
+                    android:value="2"
                     android:valueFrom="0"
-                    android:valueTo="1" />
+                    android:valueTo="3" />
 
             </LinearLayout>
 
@@ -89,9 +89,9 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="4dp"
                     android:stepSize="1"
-                    android:value="3"
-                    android:valueFrom="0"
-                    android:valueTo="5" />
+                    android:value="4"
+                    android:valueFrom="1"
+                    android:valueTo="8" />
 
             </LinearLayout>
 
@@ -126,9 +126,9 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="4dp"
                     android:stepSize="1"
-                    android:value="1"
-                    android:valueFrom="0"
-                    android:valueTo="4" />
+                    android:value="2"
+                    android:valueFrom="1"
+                    android:valueTo="5" />
 
             </LinearLayout>
 
