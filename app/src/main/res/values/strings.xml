@@ -151,11 +151,11 @@
     <string name="iconpack_victor_desc">Edgy icon pack</string>
 
     <!-- Colored Battery -->
-    <string name="enable_colored_battery_title">Enable colored battery</string>
+    <string name="enable_colored_battery_title">Enable Colored Battery</string>
     <string name="enable_colored_battery_desc">Use custom color for battery icon</string>
-    <string name="battery_background_color_title">Background color</string>
+    <string name="battery_background_color_title">Background Color</string>
     <string name="battery_background_color_desc">Battery fill container color</string>
-    <string name="battery_filled_color_title">Filled color</string>
+    <string name="battery_filled_color_title">Filled Color</string>
     <string name="battery_filled_color_desc">Battery level indicator color</string>
 
     <!-- Media Icons -->
