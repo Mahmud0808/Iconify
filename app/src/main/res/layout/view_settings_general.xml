@@ -120,7 +120,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="24dp"
             android:contentDescription="@string/icon"
-            android:src="@drawable/ic_dynamic_color"
+            android:src="@drawable/ic_app_theme"
             app:tint="?attr/colorPrimary" />
 
         <LinearLayout
