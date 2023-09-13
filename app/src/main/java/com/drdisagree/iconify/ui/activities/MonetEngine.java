@@ -71,10 +71,10 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
     private static boolean isSelectedPrimary = false, isSelectedSecondary = false, accurateShades = Prefs.getBoolean(MONET_ACCURATE_SHADES, true);
     private final List<List<List<Object>>> finalPalette = new ArrayList<>();
     private final int[] selectedChild = new int[2];
-    int[] monetPrimaryAccentSaturation = new int[]{Prefs.getInt(MONET_PRIMARY_ACCENT_SATURATION, 100)};
-    int[] monetSecondaryAccentSaturation = new int[]{Prefs.getInt(MONET_SECONDARY_ACCENT_SATURATION, 100)};
-    int[] monetBackgroundSaturation = new int[]{Prefs.getInt(MONET_BACKGROUND_SATURATION, 100)};
-    int[] monetBackgroundLightness = new int[]{Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100)};
+    int[] monetPrimaryAccentSaturation = new int[]{Prefs.getInt(MONET_PRIMARY_ACCENT_SATURATION, 0)};
+    int[] monetSecondaryAccentSaturation = new int[]{Prefs.getInt(MONET_SECONDARY_ACCENT_SATURATION, 0)};
+    int[] monetBackgroundSaturation = new int[]{Prefs.getInt(MONET_BACKGROUND_SATURATION, 0)};
+    int[] monetBackgroundLightness = new int[]{Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 0)};
     ActivityResultLauncher<Intent> startExportActivityIntent = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result1 -> {
@@ -212,15 +212,15 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         binding.monetAccurateShadesContainer.setOnClickListener(v -> binding.monetAccurateShades.toggle());
 
         // Monet primary accent saturation
-        binding.monetPrimaryAccentSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt(MONET_PRIMARY_ACCENT_SATURATION, 100) - 100) + "%");
-        binding.monetPrimaryAccentSaturationSeekbar.setValue(Prefs.getInt(MONET_PRIMARY_ACCENT_SATURATION, 100));
+        binding.monetPrimaryAccentSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(MONET_PRIMARY_ACCENT_SATURATION, 0) + "%");
+        binding.monetPrimaryAccentSaturationSeekbar.setValue(Prefs.getInt(MONET_PRIMARY_ACCENT_SATURATION, 0));
 
         // Long Click Reset
-        binding.resetPrimaryAccentSaturation.setVisibility(Prefs.getInt(MONET_PRIMARY_ACCENT_SATURATION, 100) == 100 ? View.INVISIBLE : View.VISIBLE);
+        binding.resetPrimaryAccentSaturation.setVisibility(Prefs.getInt(MONET_PRIMARY_ACCENT_SATURATION, 0) == 0 ? View.INVISIBLE : View.VISIBLE);
 
         binding.resetPrimaryAccentSaturation.setOnLongClickListener(v -> {
-            monetPrimaryAccentSaturation[0] = 100;
-            binding.monetPrimaryAccentSaturationSeekbar.setValue(100);
+            monetPrimaryAccentSaturation[0] = 0;
+            binding.monetPrimaryAccentSaturationSeekbar.setValue(0);
             assignCustomColorToPalette();
             binding.resetPrimaryAccentSaturation.setVisibility(View.INVISIBLE);
             binding.floatingActionMenu.show();
@@ -230,9 +230,6 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
 
         binding.monetPrimaryAccentSaturationSeekbar.addOnChangeListener((slider, value, fromUser) -> {
             monetPrimaryAccentSaturation[0] = (int) value;
-            if (monetPrimaryAccentSaturation[0] == 100)
-                binding.resetPrimaryAccentSaturation.setVisibility(View.INVISIBLE);
-            binding.monetPrimaryAccentSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (monetPrimaryAccentSaturation[0] - 100) + "%");
             assignCustomColorToPalette();
         });
 
@@ -245,22 +242,24 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
 
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
+                monetPrimaryAccentSaturation[0] = (int) slider.getValue();
+                binding.monetPrimaryAccentSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + monetPrimaryAccentSaturation[0] + "%");
                 binding.floatingActionMenu.show();
                 showApplyButton = true;
-                binding.resetPrimaryAccentSaturation.setVisibility(monetPrimaryAccentSaturation[0] == 100 ? View.INVISIBLE : View.VISIBLE);
+                binding.resetPrimaryAccentSaturation.setVisibility(monetPrimaryAccentSaturation[0] == 0 ? View.INVISIBLE : View.VISIBLE);
             }
         });
 
         // Monet secondary accent saturation
-        binding.monetSecondaryAccentSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt(MONET_SECONDARY_ACCENT_SATURATION, 100) - 100) + "%");
-        binding.monetSecondaryAccentSaturationSeekbar.setValue(Prefs.getInt(MONET_SECONDARY_ACCENT_SATURATION, 100));
+        binding.monetSecondaryAccentSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(MONET_SECONDARY_ACCENT_SATURATION, 0) + "%");
+        binding.monetSecondaryAccentSaturationSeekbar.setValue(Prefs.getInt(MONET_SECONDARY_ACCENT_SATURATION, 0));
 
         // Long Click Reset
-        binding.resetSecondaryAccentSaturation.setVisibility(Prefs.getInt(MONET_SECONDARY_ACCENT_SATURATION, 100) == 100 ? View.INVISIBLE : View.VISIBLE);
+        binding.resetSecondaryAccentSaturation.setVisibility(Prefs.getInt(MONET_SECONDARY_ACCENT_SATURATION, 0) == 0 ? View.INVISIBLE : View.VISIBLE);
 
         binding.resetSecondaryAccentSaturation.setOnLongClickListener(v -> {
-            monetSecondaryAccentSaturation[0] = 100;
-            binding.monetSecondaryAccentSaturationSeekbar.setValue(100);
+            monetSecondaryAccentSaturation[0] = 0;
+            binding.monetSecondaryAccentSaturationSeekbar.setValue(0);
             assignCustomColorToPalette();
             binding.resetSecondaryAccentSaturation.setVisibility(View.INVISIBLE);
             binding.floatingActionMenu.show();
@@ -270,9 +269,6 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
 
         binding.monetSecondaryAccentSaturationSeekbar.addOnChangeListener((slider, value, fromUser) -> {
             monetSecondaryAccentSaturation[0] = (int) value;
-            if (monetSecondaryAccentSaturation[0] == 100)
-                binding.resetSecondaryAccentSaturation.setVisibility(View.INVISIBLE);
-            binding.monetSecondaryAccentSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (monetSecondaryAccentSaturation[0] - 100) + "%");
             assignCustomColorToPalette();
         });
 
@@ -285,22 +281,24 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
 
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
+                monetSecondaryAccentSaturation[0] = (int) slider.getValue();
+                binding.monetSecondaryAccentSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + monetSecondaryAccentSaturation[0] + "%");
                 binding.floatingActionMenu.show();
                 showApplyButton = true;
-                binding.resetSecondaryAccentSaturation.setVisibility(monetSecondaryAccentSaturation[0] == 100 ? View.INVISIBLE : View.VISIBLE);
+                binding.resetSecondaryAccentSaturation.setVisibility(monetSecondaryAccentSaturation[0] == 0 ? View.INVISIBLE : View.VISIBLE);
             }
         });
 
         // Monet background saturation
-        binding.monetBackgroundSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt(MONET_BACKGROUND_SATURATION, 100) - 100) + "%");
-        binding.monetBackgroundSaturationSeekbar.setValue(Prefs.getInt(MONET_BACKGROUND_SATURATION, 100));
+        binding.monetBackgroundSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(MONET_BACKGROUND_SATURATION, 0) + "%");
+        binding.monetBackgroundSaturationSeekbar.setValue(Prefs.getInt(MONET_BACKGROUND_SATURATION, 0));
 
         // Reset button
-        binding.resetBackgroundSaturation.setVisibility(Prefs.getInt(MONET_BACKGROUND_SATURATION, 100) == 100 ? View.INVISIBLE : View.VISIBLE);
+        binding.resetBackgroundSaturation.setVisibility(Prefs.getInt(MONET_BACKGROUND_SATURATION, 0) == 0 ? View.INVISIBLE : View.VISIBLE);
 
         binding.resetBackgroundSaturation.setOnLongClickListener(v -> {
-            monetBackgroundSaturation[0] = 100;
-            binding.monetBackgroundSaturationSeekbar.setValue(100);
+            monetBackgroundSaturation[0] = 0;
+            binding.monetBackgroundSaturationSeekbar.setValue(0);
             assignCustomColorToPalette();
             binding.resetBackgroundSaturation.setVisibility(View.INVISIBLE);
             binding.floatingActionMenu.show();
@@ -312,9 +310,6 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
 
         binding.monetBackgroundSaturationSeekbar.addOnChangeListener((slider, value, fromUser) -> {
             monetBackgroundSaturation[0] = (int) value;
-            if (monetBackgroundSaturation[0] == 100)
-                binding.resetBackgroundSaturation.setVisibility(View.INVISIBLE);
-            binding.monetBackgroundSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (monetBackgroundSaturation[0] - 100) + "%");
             assignCustomColorToPalette();
         });
 
@@ -327,22 +322,24 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
 
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
+                monetBackgroundSaturation[0] = (int) slider.getValue();
+                binding.monetBackgroundSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + monetBackgroundSaturation[0] + "%");
                 binding.floatingActionMenu.show();
                 showApplyButton = true;
-                binding.resetBackgroundSaturation.setVisibility(monetBackgroundSaturation[0] == 100 ? View.INVISIBLE : View.VISIBLE);
+                binding.resetBackgroundSaturation.setVisibility(monetBackgroundSaturation[0] == 0 ? View.INVISIBLE : View.VISIBLE);
             }
         });
 
         // Monet background lightness
-        binding.monetBackgroundLightnessOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100) - 100) + "%");
-        binding.monetBackgroundLightnessSeekbar.setValue(Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100));
+        binding.monetBackgroundLightnessOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 0) + "%");
+        binding.monetBackgroundLightnessSeekbar.setValue(Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 0));
 
         // Long Click Reset
-        binding.resetBackgroundLightness.setVisibility(Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 100) == 100 ? View.INVISIBLE : View.VISIBLE);
+        binding.resetBackgroundLightness.setVisibility(Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 0) == 0 ? View.INVISIBLE : View.VISIBLE);
 
         binding.resetBackgroundLightness.setOnLongClickListener(v -> {
-            monetBackgroundLightness[0] = 100;
-            binding.monetBackgroundLightnessSeekbar.setValue(100);
+            monetBackgroundLightness[0] = 0;
+            binding.monetBackgroundLightnessSeekbar.setValue(0);
             assignCustomColorToPalette();
             binding.resetBackgroundLightness.setVisibility(View.INVISIBLE);
             binding.floatingActionMenu.show();
@@ -354,9 +351,6 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
 
         binding.monetBackgroundLightnessSeekbar.addOnChangeListener((slider, value, fromUser) -> {
             monetBackgroundLightness[0] = (int) value;
-            if (monetBackgroundLightness[0] == 100)
-                binding.resetBackgroundLightness.setVisibility(View.INVISIBLE);
-            binding.monetBackgroundLightnessOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + (monetBackgroundLightness[0] - 100) + "%");
             assignCustomColorToPalette();
         });
 
@@ -369,10 +363,11 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
 
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
+                monetBackgroundLightness[0] = (int) slider.getValue();
+                binding.monetBackgroundLightnessOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + monetBackgroundLightness[0] + "%");
                 binding.floatingActionMenu.show();
                 showApplyButton = true;
-                binding.resetBackgroundLightness.setVisibility(monetBackgroundLightness[0] == 100 ? View.INVISIBLE : View.VISIBLE);
-
+                binding.resetBackgroundLightness.setVisibility(monetBackgroundLightness[0] == 0 ? View.INVISIBLE : View.VISIBLE);
             }
         });
 
@@ -539,7 +534,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                     if (j == 1)
                         color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j + 1))), -0.1F);
                     else
-                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), ((float) (monetPrimaryAccentSaturation[0] - 100) / 1000.0F) * (Math.min((3.0F - j / 5F), 3.0F)));
+                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), ((float) monetPrimaryAccentSaturation[0] / 1000.0F) * (Math.min((3.0F - j / 5F), 3.0F)));
 
                     palette.get(i).set(j, color);
                     palette_night.get(i).set(j, color);
@@ -562,7 +557,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                 if (j == 1)
                     color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j + 1))), -0.1F);
                 else
-                    color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), ((float) (monetSecondaryAccentSaturation[0] - 100) / 1000.0F) * (Math.min((3.0F - j / 5F), 3.0F)));
+                    color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), ((float) monetSecondaryAccentSaturation[0] / 1000.0F) * (Math.min((3.0F - j / 5F), 3.0F)));
 
                 palette.get(i).set(j, color);
                 palette_night.get(i).set(j, color);
@@ -577,7 +572,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                     if (j == 1)
                         color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j + 1))), -0.1F);
                     else
-                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), ((float) (monetBackgroundSaturation[0] - 100) / 1000.0F) * (Math.min((3.0F - j / 5F), 3.0F)));
+                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), ((float) monetBackgroundSaturation[0] / 1000.0F) * (Math.min((3.0F - j / 5F), 3.0F)));
 
                     palette.get(i).set(j, color);
                     palette_night.get(i).set(j, color);
@@ -588,7 +583,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         // Set background lightness
         for (int i = Objects.equals(selectedStyle, getResources().getString(R.string.monet_monochrome)) ? 0 : 3; i < palette.size(); i++) {
             for (int j = 1; j < palette.get(i).size() - 1; j++) {
-                int color = ColorUtil.setLightness(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), (float) (monetBackgroundLightness[0] - 100) / 1000.0F);
+                int color = ColorUtil.setLightness(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), (float) monetBackgroundLightness[0] / 1000.0F);
 
                 palette.get(i).set(j, color);
                 palette_night.get(i).set(j, color);
@@ -608,7 +603,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
                     else if (j == 1)
                         color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) palette.get(i).get(j + 1))), -0.1F);
                     else
-                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) secondaryPalette.get(0).get(j))), ((float) (monetSecondaryAccentSaturation[0] - 100) / 1000.0F) * (Math.min((3.0F - j / 5F), 3.0F)));
+                        color = ColorUtil.setSaturation(Integer.parseInt(String.valueOf((int) secondaryPalette.get(0).get(j))), ((float) monetSecondaryAccentSaturation[0] / 1000.0F) * (Math.min((3.0F - j / 5F), 3.0F)));
 
                     palette.get(i).set(j, color);
                     palette_night.get(i).set(j, color);
