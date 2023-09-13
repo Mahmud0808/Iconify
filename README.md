@@ -23,8 +23,6 @@ Furthermore, the open-source nature of Iconify encourages community contribution
 </p>
 <div align="center">
   <br>
-  <a href="https://www.buymeacoffee.com/DrDisagree"><img src="https://github.com/Mahmud0808/Iconify/blob/beta/.github/resources/bmc-button.png" width="30%" alt="Buy me a coffee" /></a>
-  <br><br>
   <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/.github/resources/features.png" width="100%" alt="Features">
 
 </div>
@@ -95,7 +93,7 @@ You can track all the progress [HERE](https://github.com/Mahmud0808/Iconify/comm
 - How do I request a new feature?
   - If you have a feature request, please go to the [Issues](https://github.com/Mahmud0808/Iconify/issues/new/choose) section. Create a new issue and choose the `Feature Request` template. Be sure to include comprehensive details about the desired feature, its potential benefits, and any other relevant information that can assist in understanding and evaluating the request.
 - Where can I make a donation?
-  - The preferred and designated means for donating to the project's developer is via the "[Buy me a coffee](https://www.buymeacoffee.com/DrDisagree)" page.
+  - At present, I do not accept any form of donation. This project is purely a personal endeavor undertaken during my leisure time. Additionally, I prefer to maintain the freedom of releasing future updates without any obligations associated with accepting donations.
 
 # ❤ Credits 
 
