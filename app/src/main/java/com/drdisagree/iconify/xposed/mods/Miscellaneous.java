@@ -162,6 +162,12 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                             ((ViewGroup) qsCarrierGroup.getParent()).removeView(qsCarrierGroup);
                         } catch (Throwable ignored) {
                         }
+
+                        try {
+                            LinearLayout mShadeCarrierGroup = (LinearLayout) getObjectField(param.thisObject, "mShadeCarrierGroup");
+                            ((ViewGroup) mShadeCarrierGroup.getParent()).removeView(mShadeCarrierGroup);
+                        } catch (Throwable ignored) {
+                        }
                     }
                 }
             });
