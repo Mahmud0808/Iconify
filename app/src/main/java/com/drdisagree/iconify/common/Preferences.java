@@ -106,10 +106,10 @@ public class Preferences {
     public static final String MONET_STYLE = "customMonetStyle";
     public static final String MONET_PRIMARY_COLOR = "monetPrimaryColor";
     public static final String MONET_SECONDARY_COLOR = "monetSecondaryColor";
-    public static final String MONET_PRIMARY_ACCENT_SATURATION = "monetPrimaryAccentSaturation";
-    public static final String MONET_SECONDARY_ACCENT_SATURATION = "monetSecondaryAccentSaturation";
-    public static final String MONET_BACKGROUND_SATURATION = "monetBackgroundSaturation";
-    public static final String MONET_BACKGROUND_LIGHTNESS = "monetBackgroundLightness";
+    public static final String MONET_PRIMARY_ACCENT_SATURATION = "monetPrimaryAccentSaturationValue";
+    public static final String MONET_SECONDARY_ACCENT_SATURATION = "monetSecondaryAccentSaturationValue";
+    public static final String MONET_BACKGROUND_SATURATION = "monetBackgroundSaturationValue";
+    public static final String MONET_BACKGROUND_LIGHTNESS = "monetBackgroundLightnessValue";
     public static final String MONET_ACCURATE_SHADES = "monetAccurateShades";
     public static final String PORT_QSTILE_EXPANDED_HEIGHT = "portraitQsTileExpandedHeight";
     public static final String PORT_QSTILE_NONEXPANDED_HEIGHT = "portraitQsTileNonExpandedHeight";
