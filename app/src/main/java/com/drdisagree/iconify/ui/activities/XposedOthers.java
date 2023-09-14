@@ -9,6 +9,7 @@ import static com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_CARRIER;
 import static com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_STATUSBAR;
 import static com.drdisagree.iconify.common.Preferences.HIDE_STATUS_ICONS_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.QSPANEL_HIDE_CARRIER;
+import static com.drdisagree.iconify.common.Preferences.QSPANEL_STATUSICONSBG_SWITCH;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
@@ -89,7 +90,8 @@ public class XposedOthers extends BaseActivity {
 
         // Fixed status icons
         if (Build.VERSION.SDK_INT >= 33) {
-            binding.statusIconsContainer.setVisibility(View.GONE);
+            binding.enableFixedStatusIconsContainer.setVisibility(View.GONE);
+            ((View) binding.statusIconsSideMarginSeekbar.getParent()).setVisibility(View.GONE);
             RPrefs.putBoolean(FIXED_STATUS_ICONS_SWITCH, false);
         }
 
@@ -97,16 +99,25 @@ public class XposedOthers extends BaseActivity {
         binding.enableFixedStatusIcons.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(FIXED_STATUS_ICONS_SWITCH, isChecked);
             if (!isChecked) FabricatedUtil.disableOverlay("quickQsOffsetHeight");
-            else if (RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0) > 32)
-                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (48 + RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0)) + "dp");
+            else if (RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8) > 32)
+                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (48 + RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8)) + "dp");
 
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                if (Build.VERSION.SDK_INT >= 33) {
+                    SystemUtil.handleSystemUIRestart();
+                } else {
+                    SystemUtil.doubleToggleDarkMode();
+                }
+            }, SWITCH_ANIMATION_DELAY);
         });
+        binding.enableFixedStatusIconsContainer.setOnClickListener(v -> binding.enableFixedStatusIcons.toggle());
 
         // Status icons top margin
-        binding.statusIconsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0) + "dp");
-        binding.statusIconsTopMarginSeekbar.setValue(RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0));
-        final int[] topMarginStatusIcons = {RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0)};
+        binding.statusIconsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8) + "dp");
+        binding.statusIconsTopMarginSeekbar.setValue(RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8));
+        binding.statusIconsTopMarginSeekbar.setEnabled(Build.VERSION.SDK_INT >= 33 ? RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false) : RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false));
+        if (Build.VERSION.SDK_INT >= 33) binding.statusIconsTopMarginSeekbar.setValueTo(200);
+        final int[] topMarginStatusIcons = {RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8)};
         binding.statusIconsTopMarginSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
@@ -117,9 +128,12 @@ public class XposedOthers extends BaseActivity {
                 topMarginStatusIcons[0] = (int) slider.getValue();
                 binding.statusIconsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + topMarginStatusIcons[0] + "dp");
                 RPrefs.putInt(FIXED_STATUS_ICONS_TOPMARGIN, topMarginStatusIcons[0]);
-                if (RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)) {
-                    FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (48 + topMarginStatusIcons[0]) + "dp");
-                    new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
+                if (Build.VERSION.SDK_INT >= 33 ? RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false) : RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)) {
+                    if (Build.VERSION.SDK_INT < 33) {
+                        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (40 + topMarginStatusIcons[0]) + "dp");
+
+                        new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
+                    }
                 }
             }
         });
@@ -127,6 +141,7 @@ public class XposedOthers extends BaseActivity {
         // Status icons side margin
         binding.statusIconsSideMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + RPrefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0) + "dp");
         binding.statusIconsSideMarginSeekbar.setValue(RPrefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0));
+        binding.statusIconsSideMarginSeekbar.setEnabled(RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false));
         final int[] sideMarginStatusIcons = {RPrefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0)};
         binding.statusIconsSideMarginSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
@@ -139,7 +154,13 @@ public class XposedOthers extends BaseActivity {
                 binding.statusIconsSideMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + sideMarginStatusIcons[0] + "dp");
                 RPrefs.putInt(FIXED_STATUS_ICONS_SIDEMARGIN, sideMarginStatusIcons[0]);
                 if (RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)) {
-                    new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                        if (Build.VERSION.SDK_INT >= 33) {
+                            SystemUtil.handleSystemUIRestart();
+                        } else {
+                            SystemUtil.doubleToggleDarkMode();
+                        }
+                    }, SWITCH_ANIMATION_DELAY);
                 }
             }
         });
