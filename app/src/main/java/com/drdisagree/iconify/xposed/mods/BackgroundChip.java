@@ -204,8 +204,6 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         if (Build.VERSION.SDK_INT >= 33) {
             Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", lpparam.classLoader);
             Class<?> ShadeHeaderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController", lpparam.classLoader);
-            if (ShadeHeaderControllerClass == null)
-                ShadeHeaderControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController", lpparam.classLoader);
 
             try {
                 getObjectField(QuickStatusBarHeader, "mIconContainer");
@@ -257,6 +255,9 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                     }
                 });
             } catch (Throwable ignored) {
+                if (ShadeHeaderControllerClass == null)
+                    ShadeHeaderControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController", lpparam.classLoader);
+
                 hookAllMethods(ShadeHeaderControllerClass, "onInit", new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) {
