@@ -95,17 +95,17 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
         updateColorPreview();
 
         // Status icons chip
-        if (Build.VERSION.SDK_INT >= 33) {
-            binding.statusiconsChipContainer.setVisibility(View.GONE);
-            RPrefs.putBoolean(QSPANEL_STATUSICONSBG_SWITCH, false);
-        }
-
         binding.enableStatusIconsChip.setChecked(RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false));
         binding.enableStatusIconsChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(QSPANEL_STATUSICONSBG_SWITCH, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
-                SystemUtil.doubleToggleDarkMode();
+
+                if (Build.VERSION.SDK_INT >= 33) {
+                    SystemUtil.handleSystemUIRestart();
+                } else {
+                    SystemUtil.doubleToggleDarkMode();
+                }
             }, SWITCH_ANIMATION_DELAY);
         });
         binding.statusIconsChip.setOnClickListener(v -> binding.enableStatusIconsChip.toggle());
@@ -177,7 +177,7 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
             list.setOnClickListener(v -> {
                 RPrefs.putInt(CHIP_QSSTATUSICONS_STYLE, finalI);
                 refreshBackgroundStatusIcons();
-                if (RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false)) {
+                if (RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false) && Build.VERSION.SDK_INT < 33) {
                     new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
                 }
             });

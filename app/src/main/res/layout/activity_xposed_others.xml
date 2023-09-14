@@ -303,7 +303,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="4dp"
                         android:stepSize="1"
-                        android:value="0"
+                        android:value="8"
                         android:valueFrom="0"
                         android:valueTo="48" />
 
