@@ -49,6 +49,7 @@ import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.xposed.ModPack;
 
+import java.lang.reflect.Field;
 import java.util.Objects;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -203,21 +204,27 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
 
         if (Build.VERSION.SDK_INT >= 33) {
             Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", lpparam.classLoader);
-            Class<?> ShadeHeaderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController", lpparam.classLoader);
 
-            try {
-                getObjectField(QuickStatusBarHeader, "mIconContainer");
+            boolean correctClass = false;
+            Field[] fs = QuickStatusBarHeader.getDeclaredFields();
+            for (Field f : fs) {
+                if (f.getName().equals("mIconContainer")) {
+                    correctClass = true;
+                }
+            }
+
+            if (correctClass) {
                 hookAllMethods(QuickStatusBarHeader, "onFinishInflate", new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) {
-                        if (!mShowQSStatusIconsBg || hideStatusIcons) return;
+                        if ((!mShowQSStatusIconsBg && !fixedStatusIcons) || hideStatusIcons) return;
 
                         FrameLayout mQuickStatusBarHeader = (FrameLayout) param.thisObject;
                         LinearLayout mIconContainer = (LinearLayout) getObjectField(param.thisObject, "mIconContainer");
                         LinearLayout mBatteryRemainingIcon = (LinearLayout) getObjectField(param.thisObject, "mBatteryRemainingIcon");
 
                         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        layoutParams.height = dp2px(mContext, 28);
+                        layoutParams.height = dp2px(mContext, 32);
 
                         mQsStatusIconsContainer.setLayoutParams(layoutParams);
                         mQsStatusIconsContainer.setGravity(Gravity.CENTER);
@@ -234,7 +241,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                         layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                         ((ViewGroup) mIconContainer.getParent()).removeView(mIconContainer);
                         mIconContainer.setLayoutParams(layoutParams);
-                        mIconContainer.getLayoutParams().height = dp2px(mContext, 28);
+                        mIconContainer.getLayoutParams().height = dp2px(mContext, 32);
 
                         ((ViewGroup) mBatteryRemainingIcon.getParent()).removeView(mBatteryRemainingIcon);
 
@@ -251,17 +258,20 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                 hookAllMethods(QuickStatusBarHeader, "updateResources", new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) {
+                        if ((!mShowQSStatusIconsBg && !fixedStatusIcons) || hideStatusIcons) return;
+
                         updateStatusIcons();
                     }
                 });
-            } catch (Throwable ignored) {
+            } else {
+                Class<?> ShadeHeaderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController", lpparam.classLoader);
                 if (ShadeHeaderControllerClass == null)
                     ShadeHeaderControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController", lpparam.classLoader);
 
                 hookAllMethods(ShadeHeaderControllerClass, "onInit", new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) {
-                        if (!mShowQSStatusIconsBg || hideStatusIcons) return;
+                        if ((!mShowQSStatusIconsBg && !fixedStatusIcons) || hideStatusIcons) return;
 
                         LinearLayout iconContainer = (LinearLayout) getObjectField(param.thisObject, "iconContainer");
                         LinearLayout batteryIcon = (LinearLayout) getObjectField(param.thisObject, "batteryIcon");
@@ -271,7 +281,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                         constraintLayoutId = View.generateViewId();
                         constraintLayoutParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
                         constraintLayoutParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID;
-                        constraintLayoutParams.height = dp2px(mContext, 28);
+                        constraintLayoutParams.height = dp2px(mContext, 32);
 
                         mQsStatusIconsContainer.setLayoutParams(constraintLayoutParams);
                         mQsStatusIconsContainer.setGravity(Gravity.CENTER);
@@ -289,7 +299,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                         LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                         ((ViewGroup) iconContainer.getParent()).removeView(iconContainer);
                         iconContainer.setLayoutParams(linearLayoutParams);
-                        iconContainer.getLayoutParams().height = dp2px(mContext, 28);
+                        iconContainer.getLayoutParams().height = dp2px(mContext, 32);
 
                         ((ViewGroup) batteryIcon.getParent()).removeView(batteryIcon);
 
@@ -305,7 +315,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                 hookAllMethods(ShadeHeaderControllerClass, "updateResources", new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) {
-                        if (!mShowQSStatusIconsBg || hideStatusIcons) return;
+                        if ((!mShowQSStatusIconsBg && !fixedStatusIcons) || hideStatusIcons) return;
 
                         updateStatusIcons();
                     }
@@ -329,44 +339,49 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     }
 
     private void updateStatusIcons() {
-        if (!mShowQSStatusIconsBg || mQsStatusIconsContainer.getChildCount() == 0) return;
+        if (mQsStatusIconsContainer.getChildCount() == 0)
+            return;
 
         int paddingTopBottom = dp2px(mContext, 4);
         int paddingStartEnd = dp2px(mContext, 12);
 
-        setStatusIconsBackgroundChip(mQsStatusIconsContainer);
-        mQsStatusIconsContainer.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
-        try {
+        if (mShowQSStatusIconsBg) {
+            setStatusIconsBackgroundChip(mQsStatusIconsContainer);
+            mQsStatusIconsContainer.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
+        }
+
+        if (mQsStatusIconsContainer.getLayoutParams() instanceof FrameLayout.LayoutParams) {
             ((FrameLayout.LayoutParams) mQsStatusIconsContainer.getLayoutParams()).setMargins(0, dp2px(mContext, topMarginStatusIcons), 0, 0);
-        } catch (Throwable ignored) {
-            if (mLoadPackageParam != null && header != null && constraintLayoutId != -1) {
-                try {
-                    Class<?> ConstraintSetClass = findClass("androidx.constraintlayout.widget.ConstraintSet", mLoadPackageParam.classLoader);
-                    Object mConstraintSet = ConstraintSetClass.newInstance();
+        } else if (mQsStatusIconsContainer.getLayoutParams() instanceof LinearLayout.LayoutParams) {
+            ((LinearLayout.LayoutParams) mQsStatusIconsContainer.getLayoutParams()).setMargins(0, dp2px(mContext, topMarginStatusIcons), 0, 0);
+        } else if (mLoadPackageParam != null && header != null && constraintLayoutId != -1) {
+            try {
+                Class<?> ConstraintSetClass = findClass("androidx.constraintlayout.widget.ConstraintSet", mLoadPackageParam.classLoader);
+                Object mConstraintSet = ConstraintSetClass.newInstance();
 
-                    callMethod(mConstraintSet, "clone", header);
-                    callMethod(mConstraintSet,
-                            "connect",
-                            constraintLayoutId,
-                            ConstraintSet.TOP,
-                            ConstraintSet.PARENT_ID,
-                            ConstraintSet.TOP,
-                            0);
-                    callMethod(mConstraintSet,
-                            "connect",
-                            constraintLayoutId,
-                            ConstraintSet.END,
-                            ConstraintSet.PARENT_ID,
-                            ConstraintSet.END,
-                            0);
-                    callMethod(mConstraintSet, "applyTo", header);
+                callMethod(mConstraintSet, "clone", header);
+                callMethod(mConstraintSet,
+                        "connect",
+                        constraintLayoutId,
+                        ConstraintSet.TOP,
+                        ConstraintSet.PARENT_ID,
+                        ConstraintSet.TOP,
+                        0);
+                callMethod(mConstraintSet,
+                        "connect",
+                        constraintLayoutId,
+                        ConstraintSet.END,
+                        ConstraintSet.PARENT_ID,
+                        ConstraintSet.END,
+                        0);
+                callMethod(mConstraintSet, "applyTo", header);
 
-                    callMethod(callMethod(mQsStatusIconsContainer, "getLayoutParams"), "setMargins", 0, dp2px(mContext, topMarginStatusIcons), 0, 0);
-                } catch (Throwable throwable) {
-                    log(TAG + throwable);
-                }
+                callMethod(callMethod(mQsStatusIconsContainer, "getLayoutParams"), "setMargins", 0, dp2px(mContext, topMarginStatusIcons), 0, 0);
+            } catch (Throwable throwable) {
+                log(TAG + throwable);
             }
         }
+
         mQsStatusIconsContainer.requestLayout();
 
         Configuration config = mContext.getResources().getConfiguration();
@@ -375,6 +390,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         } else {
             mQsStatusIconsContainer.setVisibility(View.VISIBLE);
         }
+
     }
 
     private void setSBClockBackgroundChip(View view) {
@@ -487,25 +503,23 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_qs_status_icons", new XC_LayoutInflated() {
             @Override
             public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) {
-                if (!mShowQSStatusIconsBg || hideStatusIcons) return;
+                if (!mShowQSStatusIconsBg || hideStatusIcons || fixedStatusIcons) return;
 
-                if (!fixedStatusIcons) {
-                    try {
-                        @SuppressLint("DiscouragedApi") LinearLayout statusIcons = liparam.view.findViewById(liparam.res.getIdentifier("statusIcons", "id", mContext.getPackageName()));
-                        LinearLayout statusIconContainer = (LinearLayout) statusIcons.getParent();
+                try {
+                    @SuppressLint("DiscouragedApi") LinearLayout statusIcons = liparam.view.findViewById(liparam.res.getIdentifier("statusIcons", "id", mContext.getPackageName()));
+                    LinearLayout statusIconContainer = (LinearLayout) statusIcons.getParent();
 
-                        ((FrameLayout.LayoutParams) statusIconContainer.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.END;
-                        statusIconContainer.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics());
-                        statusIconContainer.requestLayout();
+                    ((FrameLayout.LayoutParams) statusIconContainer.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL | Gravity.END;
+                    statusIconContainer.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics());
+                    statusIconContainer.requestLayout();
 
-                        int paddingTopBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
-                        int paddingStartEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
-                        statusIconContainer.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
+                    int paddingTopBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
+                    int paddingStartEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
+                    statusIconContainer.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
 
-                        setStatusIconsBackgroundChip(statusIconContainer);
-                    } catch (Throwable throwable) {
-                        log(TAG + throwable);
-                    }
+                    setStatusIconsBackgroundChip(statusIconContainer);
+                } catch (Throwable throwable) {
+                    log(TAG + throwable);
                 }
             }
         });
@@ -513,23 +527,21 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         ourResparam.res.hookLayout(SYSTEMUI_PACKAGE, "layout", "quick_status_bar_header_date_privacy", new XC_LayoutInflated() {
             @Override
             public void handleLayoutInflated(LayoutInflatedParam liparam) {
-                if (!mShowQSStatusIconsBg || hideStatusIcons) return;
+                if (!mShowQSStatusIconsBg || hideStatusIcons || !fixedStatusIcons) return;
 
-                if (fixedStatusIcons) {
-                    try {
-                        @SuppressLint("DiscouragedApi") LinearLayout statusIcons = liparam.view.findViewById(liparam.res.getIdentifier("statusIcons", "id", mContext.getPackageName()));
-                        if (statusIcons != null) {
-                            LinearLayout statusIconContainer = (LinearLayout) statusIcons.getParent();
+                try {
+                    @SuppressLint("DiscouragedApi") LinearLayout statusIcons = liparam.view.findViewById(liparam.res.getIdentifier("statusIcons", "id", mContext.getPackageName()));
+                    if (statusIcons != null) {
+                        LinearLayout statusIconContainer = (LinearLayout) statusIcons.getParent();
 
-                            int paddingTopBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
-                            int paddingStartEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
-                            statusIconContainer.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
+                        int paddingTopBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
+                        int paddingStartEnd = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
+                        statusIconContainer.setPadding(paddingStartEnd, paddingTopBottom, paddingStartEnd, paddingTopBottom);
 
-                            setStatusIconsBackgroundChip(statusIconContainer);
-                        }
-                    } catch (Throwable throwable) {
-                        log(TAG + throwable);
+                        setStatusIconsBackgroundChip(statusIconContainer);
                     }
+                } catch (Throwable throwable) {
+                    log(TAG + throwable);
                 }
             }
         });

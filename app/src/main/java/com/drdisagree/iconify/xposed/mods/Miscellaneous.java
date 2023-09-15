@@ -20,6 +20,7 @@ import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -76,7 +77,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
             if (Objects.equals(Key[0], HIDE_STATUS_ICONS_SWITCH)) hideStatusIcons();
 
             if (Objects.equals(Key[0], FIXED_STATUS_ICONS_SWITCH) || Objects.equals(Key[0], HIDE_STATUS_ICONS_SWITCH) || Objects.equals(Key[0], FIXED_STATUS_ICONS_TOPMARGIN) || Objects.equals(Key[0], FIXED_STATUS_ICONS_SIDEMARGIN))
-                fixedStatusIcons();
+                fixedStatusIconsA12();
 
             if (Objects.equals(Key[0], HIDE_LOCKSCREEN_CARRIER) || Objects.equals(Key[0], HIDE_LOCKSCREEN_STATUSBAR))
                 hideLockscreenCarrierOrStatusbar();
@@ -176,7 +177,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
 
         hideQSCarrierGroup();
         hideStatusIcons();
-        fixedStatusIcons();
+        fixedStatusIconsA12();
         hideLockscreenCarrierOrStatusbar();
 
         Class<?> MobileSignalController = findClass(SYSTEMUI_PACKAGE + ".statusbar.connectivity.MobileSignalController", lpparam.classLoader);
@@ -355,7 +356,9 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
         }
     }
 
-    private void fixedStatusIcons() {
+    private void fixedStatusIconsA12() {
+        if (Build.VERSION.SDK_INT >= 33) return;
+
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
         if (ourResparam == null) return;
 

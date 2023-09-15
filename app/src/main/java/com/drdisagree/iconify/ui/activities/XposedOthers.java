@@ -90,13 +90,14 @@ public class XposedOthers extends BaseActivity {
 
         // Fixed status icons
         if (Build.VERSION.SDK_INT >= 33) {
-            binding.enableFixedStatusIconsContainer.setVisibility(View.GONE);
             ((View) binding.statusIconsSideMarginSeekbar.getParent()).setVisibility(View.GONE);
-            RPrefs.putBoolean(FIXED_STATUS_ICONS_SWITCH, false);
         }
 
         binding.enableFixedStatusIcons.setChecked(RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false));
         binding.enableFixedStatusIcons.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            binding.statusIconsSideMarginSeekbar.setEnabled(isChecked);
+            binding.statusIconsTopMarginSeekbar.setEnabled(isChecked);
+
             RPrefs.putBoolean(FIXED_STATUS_ICONS_SWITCH, isChecked);
             if (!isChecked) FabricatedUtil.disableOverlay("quickQsOffsetHeight");
             else if (RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8) > 32)
@@ -115,7 +116,11 @@ public class XposedOthers extends BaseActivity {
         // Status icons top margin
         binding.statusIconsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8) + "dp");
         binding.statusIconsTopMarginSeekbar.setValue(RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8));
-        binding.statusIconsTopMarginSeekbar.setEnabled(Build.VERSION.SDK_INT >= 33 ? RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false) : RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false));
+        binding.statusIconsTopMarginSeekbar.setEnabled(
+                Build.VERSION.SDK_INT >= 33 ?
+                        RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false) || RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false) :
+                        RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)
+        );
         if (Build.VERSION.SDK_INT >= 33) binding.statusIconsTopMarginSeekbar.setValueTo(200);
         final int[] topMarginStatusIcons = {RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8)};
         binding.statusIconsTopMarginSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
@@ -128,7 +133,10 @@ public class XposedOthers extends BaseActivity {
                 topMarginStatusIcons[0] = (int) slider.getValue();
                 binding.statusIconsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + topMarginStatusIcons[0] + "dp");
                 RPrefs.putInt(FIXED_STATUS_ICONS_TOPMARGIN, topMarginStatusIcons[0]);
-                if (Build.VERSION.SDK_INT >= 33 ? RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false) : RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)) {
+                if (Build.VERSION.SDK_INT >= 33 ?
+                        RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false) || RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false) :
+                        RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)
+                ) {
                     if (Build.VERSION.SDK_INT < 33) {
                         FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (40 + topMarginStatusIcons[0]) + "dp");
                     }
