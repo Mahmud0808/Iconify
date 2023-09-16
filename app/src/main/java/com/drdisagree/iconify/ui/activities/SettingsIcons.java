@@ -230,7 +230,7 @@ public class SettingsIcons extends BaseActivity implements RadioDialog.RadioDial
             parent.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.container_selected));
             ((TextView) parent.findViewById(R.id.iconpack_title)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
             ((TextView) parent.findViewById(R.id.iconpack_desc)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
-            parent.findViewById(R.id.icon_selected).setVisibility(View.VISIBLE);
+            parent.findViewById(R.id.icon_selected).setVisibility(Prefs.getBoolean("IconifyComponentSIP1.overlay") ? View.VISIBLE : View.INVISIBLE);
             parent.findViewById(R.id.iconpack_desc).setAlpha(0.8f);
         } else {
             parent.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.item_background_material));
