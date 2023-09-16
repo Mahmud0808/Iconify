@@ -240,7 +240,7 @@
     <string name="pitch_black_dark_desc">Enable pitch black dark theme</string>
     <string name="pitch_black_amoled_title">Pitch Black (Amoled)</string>
     <string name="pitch_black_amoled_desc">Enable pitch black amoled theme</string>
-    <string name="section_title_misc">Misc</string>
+    <string name="section_title_misc">Misc.</string>
     <string name="minimal_qspanel">Minimal QS Panel</string>
     <string name="remove_top_shade_of_qspanel">Remove top shade of QS panel</string>
     <string name="disable_monet_title">Disable System Monet</string>
