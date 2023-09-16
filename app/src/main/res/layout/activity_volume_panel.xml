@@ -100,7 +100,7 @@
                         android:paddingEnd="0dp"
                         android:paddingBottom="11dp"
                         android:singleLine="true"
-                        android:text="Thin"
+                        android:text="@string/vp_track_thin"
                         android:textSize="14sp" />
 
                     <com.google.android.material.button.MaterialButton
@@ -117,7 +117,7 @@
                         android:paddingEnd="0dp"
                         android:paddingBottom="11dp"
                         android:singleLine="true"
-                        android:text="Thick"
+                        android:text="@string/vp_track_thick"
                         android:textSize="14sp" />
 
                     <com.google.android.material.button.MaterialButton
@@ -132,7 +132,7 @@
                         android:paddingEnd="0dp"
                         android:paddingBottom="11dp"
                         android:singleLine="true"
-                        android:text="None"
+                        android:text="@string/vp_track_none"
                         android:textSize="14sp" />
 
                 </com.google.android.material.button.MaterialButtonToggleGroup>
