@@ -24,7 +24,6 @@ Furthermore, the open-source nature of Iconify encourages community contribution
 <div align="center">
   <br>
   <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/.github/resources/features.png" width="100%" alt="Features">
-
 </div>
 
 ```diff
@@ -68,6 +67,20 @@ You can track all the progress [HERE](https://github.com/Mahmud0808/Iconify/comm
 
 - Improve UI/UX.
 
+# 🤝 Contribution
+
+We highly appreciate and welcome all forms of contributions, ranging from code, documentation, graphics, design suggestions, to bug reports. We encourage you to make the most of GitHub's collaborative platform by submitting Pull Requests, providing tutorials or other relevant content. Whatever you have to offer, we value and can utilize it effectively in our project.
+
+# 🌐 Translation
+
+You can help translate Iconify [on Crowdin](https://crowdin.com/project/iconify). Here are a few tips:
+
+- When using quotation marks, insert the symbols specific to the target language, as listed in [this table](https://en.wikipedia.org/wiki/Quotation_mark#Summary_table).
+
+- Iconify uses title case for some English UI text. Title case isn’t used in other languages; opt for sentence case instead.
+
+- Some English terminology may have no commonly used equivalents in other languages. In such cases, use short descriptive phrases–for example, the equivalent of _shade generator_ for _monet engine_.
+
 # 🤓 FAQ
 
 - How does Iconify work?
@@ -97,6 +110,8 @@ You can track all the progress [HERE](https://github.com/Mahmud0808/Iconify/comm
 
 # ❤ Credits 
 
+### Thanks to:
+
 - [Android Open Source Project (AOSP)](https://source.android.com) for Android source code.
 - [Substratum](https://github.com/substratum/substratum) for overlay building tricks.
 - [icons8.com](https://icons8.com) for giving me permission to use their icons.
@@ -108,7 +123,8 @@ You can track all the progress [HERE](https://github.com/Mahmud0808/Iconify/comm
 - [HideNavBar](https://github.com/Magisk-Modules-Repo/HideNavBar) for the navbar tweaks.
 - And everyone who contributed... :)
 
-# 🌐 Translations
+### Translators:
+
 - Arabic [@MRX7014](https://github.com/mrx7014), [@Mohamed Bahaa](https://github.com/muhammadbahaa2001)
 - French [@MXC48](https://github.com/MXC48)
 - Indonesian [@KaeruShi](https://github.com/KaeruShi)
@@ -119,10 +135,6 @@ You can track all the progress [HERE](https://github.com/Mahmud0808/Iconify/comm
 - Spanish [@luckkmaxx](https://github.com/luckkmaxx)
 - Turkish [@serhat-demir](https://github.com/serhat-demir)
 - Vietnamese [@viettel1211](https://t.me/viettel1211)
-
-# 🤝 Contribution
-
-We highly appreciate and welcome all forms of contributions, ranging from code, documentation, graphics, design suggestions, to bug reports. We encourage you to make the most of GitHub's collaborative platform by submitting Pull Requests, providing tutorials or other relevant content. Whatever you have to offer, we value and can utilize it effectively in our project.
 
 # 📝 Disclaimer
 
