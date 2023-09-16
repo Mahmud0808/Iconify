@@ -409,6 +409,9 @@
     <string name="section_title_privacy_chip">Privacy Chip</string>
     <string name="accent_privacy_chip_title">Accent Privacy Chip</string>
     <string name="accent_privacy_chip_desc">Make privacy chip accent colored</string>
+    <string name="section_title_media_player">Media Player</string>
+    <string name="disable_progress_wave_title">Disable Progress Wave</string>
+    <string name="disable_progress_wave_desc">Disable progress bar wave animation</string>
 
     <!-- Xposed Menu -->
     <string name="lsposed_warn">Before enabling Iconify from LSPosed modules, long press on Iconify and click on Re-optimize. After that enable Iconify and restart your SystemUI. This is necessary for a smoother experience.</string>

@@ -165,17 +165,11 @@ public class FabricatedUtil {
         Shell.cmd(command.toString().trim()).submit();
     }
 
-    public static boolean isOverlayEnabled(List<String> overlays, String name) {
-        for (String overlay : overlays) {
-            if (overlay.equals("IconifyComponent" + name)) return true;
-        }
-        return false;
+    public static boolean isOverlayEnabled(String name) {
+        return Shell.cmd("[[ $(cmd overlay list | grep -o '\\[x\\] com.android.shell:IconifyComponent" + name + "') ]] && echo 1 || echo 0").exec().getOut().get(0).equals("1");
     }
 
-    public static boolean isOverlayDisabled(List<String> overlays, String name) {
-        for (String overlay : overlays) {
-            if (overlay.equals("IconifyComponent" + name)) return false;
-        }
-        return true;
+    public static boolean isOverlayDisabled(String name) {
+        return Shell.cmd("[[ $(cmd overlay list | grep -o '\\[ \\] com.android.shell:IconifyComponent" + name + "') ]] && echo 1 || echo 0").exec().getOut().get(0).equals("1");
     }
 }

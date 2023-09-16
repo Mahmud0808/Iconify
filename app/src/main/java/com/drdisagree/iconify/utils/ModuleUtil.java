@@ -34,7 +34,6 @@ import java.util.Objects;
 public class ModuleUtil {
 
     private static final String TAG = ModuleUtil.class.getSimpleName();
-    private static final List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
 
     public static void handleModule() {
         if (moduleExists()) {
@@ -119,7 +118,7 @@ public class ModuleUtil {
     }
 
     private static boolean shouldUseDefaultColors() {
-        return OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMAC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMGC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay");
+        return OverlayUtil.isOverlayDisabled("IconifyComponentAMAC.overlay") && OverlayUtil.isOverlayDisabled("IconifyComponentAMGC.overlay") && OverlayUtil.isOverlayDisabled("IconifyComponentME.overlay");
     }
 
     public static boolean moduleExists() {

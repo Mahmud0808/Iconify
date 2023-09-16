@@ -32,6 +32,8 @@ public class References {
     public static final String FABRICATED_QQS_TOPMARGIN = "qqspanelTopMargin";
     public static final String FABRICATED_QS_TOPMARGIN = "qspanelTopMargin";
     public static final String FABRICATED_TABLET_HEADER = "qspanelTabletHeader";
+    public static final String FABRICATED_MUSIC_AMPLITUDE = "musicProgressAmplitude";
+    public static final String FABRICATED_MUSIC_PHASE = "musicProgressPhase";
 
     // Commands
     public static final String DEVICE_BOOT_ID_CMD = "cat /proc/sys/kernel/random/boot_id";

@@ -29,12 +29,10 @@ import com.drdisagree.iconify.utils.OverlayUtil;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
-import java.util.List;
 import java.util.Objects;
 
 public class BasicColors extends BaseActivity implements ColorPickerDialogListener {
 
-    public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
     private static boolean isSelectedPrimary = false, isSelectedSecondary = false;
     private static String accentPrimary, accentSecondary;
     private ActivityBasicColorsBinding binding;
@@ -81,7 +79,7 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
     }
 
     private static boolean shouldUseDefaultColors() {
-        return OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMAC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMGC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay");
+        return OverlayUtil.isOverlayDisabled("IconifyComponentAMAC.overlay") && OverlayUtil.isOverlayDisabled("IconifyComponentAMGC.overlay") && OverlayUtil.isOverlayDisabled("IconifyComponentME.overlay");
     }
 
     @Override

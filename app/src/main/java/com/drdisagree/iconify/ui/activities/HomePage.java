@@ -64,16 +64,15 @@ public class HomePage extends BaseActivity {
 
         Runnable runnable1 = () -> {
             // Get list of enabled overlays
-            List<String> AllOverlays = OverlayUtil.getOverlayList();
             List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
-            for (String overlay : AllOverlays)
-                Prefs.putBoolean(overlay, OverlayUtil.isOverlayEnabled(EnabledOverlays, overlay));
+            for (String overlay : EnabledOverlays)
+                Prefs.putBoolean(overlay, true);
 
             List<String> FabricatedEnabledOverlays = FabricatedUtil.getEnabledOverlayList();
             for (String overlay : FabricatedEnabledOverlays)
                 Prefs.putBoolean("fabricated" + overlay, true);
 
-            Prefs.putBoolean(MONET_ENGINE_SWITCH, OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentME.overlay"));
+            Prefs.putBoolean(MONET_ENGINE_SWITCH, EnabledOverlays.contains("IconifyComponentME.overlay"));
 
             // Clear lottie cache
             LottieCompositionFactory.clearCache(this);

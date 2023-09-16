@@ -119,7 +119,7 @@ public class ColorEngine extends BaseFragment {
     }
 
     private boolean shouldUseDefaultColors() {
-        return OverlayUtil.isOverlayDisabled(OverlayUtil.getEnabledOverlayList(), "IconifyComponentME.overlay");
+        return OverlayUtil.isOverlayDisabled("IconifyComponentME.overlay");
     }
 
     private void applyDefaultColors() {
