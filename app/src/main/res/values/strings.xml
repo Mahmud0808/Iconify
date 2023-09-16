@@ -26,7 +26,7 @@
     <string name="need_reboot_title">Let\'s Reboot your device!</string>
     <string name="need_reboot_desc">Reboot your device to put all the files in place.</string>
     <string name="installation_failed_title">Oops!! Did Not Expect That.</string>
-    <string name="installation_failed_desc">The Logs have been saved in the Documents folder.</string>
+    <string name="installation_failed_desc">Logs have been saved in the Documents folder!</string>
     <string name="logs">Logs</string>
 
     <!-- Home -->
