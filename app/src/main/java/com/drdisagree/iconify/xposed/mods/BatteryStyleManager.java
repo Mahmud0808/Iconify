@@ -572,7 +572,10 @@ public class BatteryStyleManager extends ModPack {
 
     private void hidePercentage(XC_MethodHook.MethodHookParam param) {
         if (showPercentInside) {
-            setObjectField(param.thisObject, "mShowPercentMode", 2);
+            try {
+                setObjectField(param.thisObject, "mShowPercentMode", 2);
+            } catch (Throwable ignored) {
+            }
             try {
                 callMethod(param.thisObject, "removeView", getObjectField(param.thisObject, "mBatteryPercentView"));
                 setObjectField(param.thisObject, "mBatteryPercentView", null);
