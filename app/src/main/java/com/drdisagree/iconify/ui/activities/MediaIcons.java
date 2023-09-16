@@ -17,6 +17,7 @@ import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.AppUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.overlaymanager.MediaPlayerIconManager;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 
 import java.util.ArrayList;
@@ -117,11 +118,11 @@ public class MediaIcons extends BaseActivity {
 
         for (int i = 0; i < 3; i++) {
             int finalI = i + 1;
-            child.findViewById(buttons[i]).setOnClickListener(v -> {
-                if (Prefs.getBoolean(("IconifyComponentMPIP" + idx + finalI + ".overlay"))) {
-                    OverlayUtil.disableOverlay("IconifyComponentMPIP" + idx + finalI + ".overlay");
-                } else {
+            ((MaterialButton) child.findViewById(buttons[i])).addOnCheckedChangeListener((button, isChecked) -> {
+                if (isChecked) {
                     MediaPlayerIconManager.enableOverlay(idx, finalI);
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentMPIP" + idx + finalI + ".overlay");
                 }
                 refreshBackground();
             });
