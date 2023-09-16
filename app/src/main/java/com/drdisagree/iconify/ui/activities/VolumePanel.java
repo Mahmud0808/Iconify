@@ -45,10 +45,11 @@ public class VolumePanel extends BaseActivity {
         ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_volume_panel);
 
         binding.thinBg.setChecked(Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 1);
-        binding.thinBg.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.thinBg.addOnCheckedChangeListener((button, isChecked) -> {
             if (isChecked) {
-                binding.thickBg.setChecked(false);
-                binding.noBg.setChecked(false);
+                binding.toggleButtonGroup.uncheck(binding.thickBg.getId());
+                binding.toggleButtonGroup.uncheck(binding.noBg.getId());
+
                 Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 1);
                 FabricatedUtil.buildAndEnableOverlays(
                         new Object[]{SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, "dimen", "volume_dialog_slider_width", "42dp"},
@@ -61,13 +62,13 @@ public class VolumePanel extends BaseActivity {
                 FabricatedUtil.disableOverlays(FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, FABRICATED_VOLUME_DIALOG_TRACK_WIDTH, FABRICATED_ROUNDED_SLIDER_TRACK_INSET);
             }
         });
-        binding.thinBgContainer.setOnClickListener(v -> binding.thinBg.toggle());
 
         binding.thickBg.setChecked(Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 2);
-        binding.thickBg.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.thickBg.addOnCheckedChangeListener((button, isChecked) -> {
             if (isChecked) {
-                binding.thinBg.setChecked(false);
-                binding.noBg.setChecked(false);
+                binding.toggleButtonGroup.uncheck(binding.thinBg.getId());
+                binding.toggleButtonGroup.uncheck(binding.noBg.getId());
+
                 Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 2);
                 FabricatedUtil.buildAndEnableOverlays(
                         new Object[]{SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, "dimen", "volume_dialog_slider_width", "42dp"},
@@ -79,13 +80,13 @@ public class VolumePanel extends BaseActivity {
                 FabricatedUtil.disableOverlays(FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, FABRICATED_VOLUME_DIALOG_TRACK_WIDTH, FABRICATED_ROUNDED_SLIDER_TRACK_INSET);
             }
         });
-        binding.thickBgContainer.setOnClickListener(v -> binding.thickBg.toggle());
 
         binding.noBg.setChecked(Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 3);
-        binding.noBg.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.noBg.addOnCheckedChangeListener((button, isChecked) -> {
             if (isChecked) {
-                binding.thinBg.setChecked(false);
-                binding.thickBg.setChecked(false);
+                binding.toggleButtonGroup.uncheck(binding.thinBg.getId());
+                binding.toggleButtonGroup.uncheck(binding.thickBg.getId());
+
                 Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 3);
                 FabricatedUtil.buildAndEnableOverlays(
                         new Object[]{SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, "dimen", "volume_dialog_slider_width", "42dp"},
@@ -98,7 +99,6 @@ public class VolumePanel extends BaseActivity {
                 FabricatedUtil.disableOverlays(FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, FABRICATED_VOLUME_DIALOG_TRACK_WIDTH, FABRICATED_ROUNDED_SLIDER_TRACK_INSET);
             }
         });
-        binding.noBgContainer.setOnClickListener(v -> binding.noBg.toggle());
 
         // Loading dialog while creating modules
         loadingDialog = new LoadingDialog(this);
