@@ -1,7 +1,6 @@
 *.iml
 *.jks
 .gradle
-/local.properties
 .idea
 .DS_Store
 /captures
@@ -11,4 +10,5 @@ local.properties
 /app/release
 /app/debug
 /build
+crowdin.properties
 keystore.properties
