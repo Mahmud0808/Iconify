@@ -117,4 +117,13 @@
         <item>@string/update_schedule3</item>
         <item>@string/update_schedule4</item>
     </string-array>
+    <string-array name="volume_style">
+        <item>@string/style_0</item>
+        <item>@string/volume_style_gradient</item>
+        <item>@string/volume_style_doublelayer</item>
+        <item>@string/volume_style_shadedlayer</item>
+        <item>@string/volume_style_neumorph</item>
+        <item>@string/volume_style_outline</item>
+        <item>@string/volume_style_neumorphoutline</item>
+    </string-array>
 </resources>
