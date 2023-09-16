@@ -80,6 +80,8 @@ public class Logger {
         info.append("version.codename: ").append(Build.VERSION.CODENAME).append('\n');
         info.append("version.release: ").append(Build.VERSION.RELEASE).append('\n');
         info.append("version.sdk_int: ").append(Build.VERSION.SDK_INT).append('\n');
+        info.append("iconify.version_name: ").append(BuildConfig.VERSION_NAME).append('\n');
+        info.append("iconify.version_code: ").append(BuildConfig.VERSION_CODE).append('\n');
         info.append('\n');
 
         return info;
