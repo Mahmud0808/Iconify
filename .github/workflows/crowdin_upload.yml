@@ -2,8 +2,9 @@ name: Crowdin Upload
 
 on:
   push:
-    branches:
-      - 'beta'
+    branches: [ "beta" ]
+  
+  workflow_dispatch:
 
 jobs:
 
