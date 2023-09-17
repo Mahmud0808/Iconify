@@ -22,7 +22,7 @@ jobs:
           upload_translations: false
           upload_sources: true
           download_translations: false
-          localization_branch_name: beta
+          localization_branch_name: beta-localization
           create_pull_request: false
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}

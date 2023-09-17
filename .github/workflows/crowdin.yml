@@ -24,7 +24,7 @@ jobs:
           upload_translations: false
           upload_sources: true
           download_translations: true
-          localization_branch_name: beta
+          localization_branch_name: beta-localization
           create_pull_request: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
