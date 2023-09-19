@@ -448,7 +448,7 @@ public class HeaderClockStyles {
                 dayDate8.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14 * textScaling);
                 dayDate8.setTypeface(clockOverlay8.getTypeface(), Typeface.NORMAL);
                 dayDate8.setIncludeFontPadding(false);
-                ((LinearLayout.LayoutParams) dayDate8.getLayoutParams()).setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()), 0, 0, 0);
+                ((LinearLayout.LayoutParams) dayDate8.getLayoutParams()).setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()), 0, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()));
 
                 final LinearLayout container8 = new LinearLayout(mContext);
                 container8.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
