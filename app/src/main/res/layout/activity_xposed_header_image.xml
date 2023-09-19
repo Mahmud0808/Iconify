@@ -107,7 +107,7 @@
                     android:stepSize="1"
                     android:value="140"
                     android:valueFrom="40"
-                    android:valueTo="248" />
+                    android:valueTo="400" />
 
             </LinearLayout>
 
