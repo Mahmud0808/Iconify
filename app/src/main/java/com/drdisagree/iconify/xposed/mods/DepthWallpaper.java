@@ -55,6 +55,8 @@ public class DepthWallpaper extends ModPack {
         hookAllMethods(KeyguardBottomAreaViewClass, "onFinishInflate", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
+                if (!showDepthWallpaper) return;
+
                 View view = (View) param.thisObject;
                 ViewGroup container = view.findViewById(mContext.getResources().getIdentifier("keyguard_indication_area", "id", mContext.getPackageName()));
 
