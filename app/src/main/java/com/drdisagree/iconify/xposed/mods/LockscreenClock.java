@@ -1,7 +1,7 @@
 package com.drdisagree.iconify.xposed.mods;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
-import static com.drdisagree.iconify.common.Preferences.LSCLOCK_AUTOHIDE;
+import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_BOTTOMMARGIN;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_SWITCH;
@@ -24,10 +24,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.drdisagree.iconify.xposed.ModPack;
@@ -42,10 +44,10 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
 
     private static final String TAG = "Iconify - " + LockscreenClock.class.getSimpleName() + ": ";
-    boolean showLockscreenClock = false;
-    boolean autoHideClock = false;
+    private boolean showLockscreenClock = false;
+    private boolean showDepthWallpaper = false;
+    private ViewGroup mClockViewContainer = null;
     private ViewGroup mStatusViewContainer = null;
-    private FrameLayout mLargeClockFrame = null;
 
     public LockscreenClock(Context context) {
         super(context);
@@ -56,16 +58,20 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
         if (Xprefs == null) return;
 
         showLockscreenClock = Xprefs.getBoolean(LSCLOCK_SWITCH, false);
-        autoHideClock = Xprefs.getBoolean(LSCLOCK_AUTOHIDE, false);
+        showDepthWallpaper = Xprefs.getBoolean(DEPTH_WALLPAPER_SWITCH, false);
 
-        if (Key.length > 0 && (Objects.equals(Key[0], LSCLOCK_SWITCH) || Objects.equals(Key[0], LSCLOCK_AUTOHIDE) || Objects.equals(Key[0], LSCLOCK_COLOR_SWITCH) || Objects.equals(Key[0], LSCLOCK_COLOR_CODE) || Objects.equals(Key[0], LSCLOCK_STYLE) || Objects.equals(Key[0], LSCLOCK_TOPMARGIN) || Objects.equals(Key[0], LSCLOCK_BOTTOMMARGIN) || Objects.equals(Key[0], LSCLOCK_FONT_LINEHEIGHT) || Objects.equals(Key[0], LSCLOCK_FONT_SWITCH) || Objects.equals(Key[0], LSCLOCK_TEXT_WHITE) || Objects.equals(Key[0], LSCLOCK_FONT_TEXT_SCALING))) {
-            if (!autoHideClock && mStatusViewContainer != null) {
-                updateClockView(mStatusViewContainer);
-            }
-
-            if (autoHideClock && mLargeClockFrame != null) {
-                updateClockView(mLargeClockFrame);
-            }
+        if (Key.length > 0 && (Objects.equals(Key[0], LSCLOCK_SWITCH) ||
+                Objects.equals(Key[0], DEPTH_WALLPAPER_SWITCH) ||
+                Objects.equals(Key[0], LSCLOCK_COLOR_SWITCH) ||
+                Objects.equals(Key[0], LSCLOCK_COLOR_CODE) ||
+                Objects.equals(Key[0], LSCLOCK_STYLE) ||
+                Objects.equals(Key[0], LSCLOCK_TOPMARGIN) ||
+                Objects.equals(Key[0], LSCLOCK_BOTTOMMARGIN) ||
+                Objects.equals(Key[0], LSCLOCK_FONT_LINEHEIGHT) ||
+                Objects.equals(Key[0], LSCLOCK_FONT_SWITCH) ||
+                Objects.equals(Key[0], LSCLOCK_TEXT_WHITE) ||
+                Objects.equals(Key[0], LSCLOCK_FONT_TEXT_SCALING))) {
+            updateClockView();
         }
     }
 
@@ -75,64 +81,21 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
         if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE)) return;
 
         Class<?> KeyguardStatusViewClass = findClass("com.android.keyguard.KeyguardStatusView", lpparam.classLoader);
-        Class<?> KeyguardClockSwitchClass = findClass("com.android.keyguard.KeyguardClockSwitch", lpparam.classLoader);
-
-        hookAllMethods(KeyguardClockSwitchClass, "onFinishInflate", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) {
-                if (!showLockscreenClock || !autoHideClock) return;
-
-                mLargeClockFrame = (FrameLayout) getObjectField(param.thisObject, "mLargeClockFrame");
-
-                // Add broadcast receiver for updating clock
-                IntentFilter filter = new IntentFilter();
-                filter.addAction(Intent.ACTION_TIME_TICK);
-                filter.addAction(Intent.ACTION_TIME_CHANGED);
-                filter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
-                filter.addAction(Intent.ACTION_LOCALE_CHANGED);
-
-                BroadcastReceiver timeChangedReceiver = new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        if (mLargeClockFrame != null && intent != null) {
-                            new Handler(Looper.getMainLooper()).post(() -> {
-                                mLargeClockFrame.removeAllViews();
-                                updateClockView(mLargeClockFrame);
-                            });
-                        }
-                    }
-                };
-
-                mContext.registerReceiver(timeChangedReceiver, filter);
-                mLargeClockFrame.removeAllViews();
-                updateClockView(mLargeClockFrame);
-            }
-        });
-
-        hookAllMethods(KeyguardClockSwitchClass, "updateClockViews", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) {
-                if (!showLockscreenClock || !autoHideClock) return;
-
-                View mStatusArea = (View) getObjectField(param.thisObject, "mStatusArea");
-
-                if ((boolean) param.args[0]) {
-                    mStatusArea.findViewById(mContext.getResources().getIdentifier("keyguard_slice_view", "id", mContext.getPackageName())).setVisibility(View.INVISIBLE);
-                } else {
-                    mStatusArea.findViewById(mContext.getResources().getIdentifier("keyguard_slice_view", "id", mContext.getPackageName())).setVisibility(View.VISIBLE);
-                }
-            }
-        });
 
         hookAllMethods(KeyguardStatusViewClass, "onFinishInflate", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
-                if (!showLockscreenClock || autoHideClock) return;
+                if (!showLockscreenClock) return;
 
                 mStatusViewContainer = (ViewGroup) getObjectField(param.thisObject, "mStatusViewContainer");
-                GridLayout KeyguardStatusView = (GridLayout) param.thisObject;
+
+                if (!showDepthWallpaper) {
+                    mClockViewContainer = mStatusViewContainer;
+                }
 
                 // Hide stock clock
+                GridLayout KeyguardStatusView = (GridLayout) param.thisObject;
+
                 RelativeLayout mClockView = KeyguardStatusView.findViewById(mContext.getResources().getIdentifier("keyguard_clock_container", "id", mContext.getPackageName()));
                 mClockView.getLayoutParams().height = 0;
                 mClockView.getLayoutParams().width = 0;
@@ -143,38 +106,123 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                 mMediaHostContainer.getLayoutParams().width = 0;
                 mMediaHostContainer.setVisibility(View.INVISIBLE);
 
-                // Add broadcast receiver for updating clock
-                IntentFilter filter = new IntentFilter();
-                filter.addAction(Intent.ACTION_TIME_TICK);
-                filter.addAction(Intent.ACTION_TIME_CHANGED);
-                filter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
-                filter.addAction(Intent.ACTION_LOCALE_CHANGED);
+                registerClockUpdater();
+            }
+        });
 
-                BroadcastReceiver timeChangedReceiver = new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        if (mStatusViewContainer != null && intent != null) {
-                            new Handler(Looper.getMainLooper()).post(() -> updateClockView(mStatusViewContainer));
-                        }
-                    }
-                };
+        Class<?> KeyguardBottomAreaViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.KeyguardBottomAreaView", lpparam.classLoader);
 
-                mContext.registerReceiver(timeChangedReceiver, filter);
-                updateClockView(mStatusViewContainer);
+        hookAllMethods(KeyguardBottomAreaViewClass, "onFinishInflate", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                if (!showLockscreenClock || !showDepthWallpaper) return;
+
+                View view = (View) param.thisObject;
+                ViewGroup container = view.findViewById(mContext.getResources().getIdentifier("keyguard_indication_area", "id", mContext.getPackageName()));
+
+                container.setClipChildren(false);
+                container.setClipToPadding(false);
+                container.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+                container.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                ((ViewGroup.MarginLayoutParams) container.getLayoutParams()).bottomMargin = 0;
+
+                // Get the depth wallpaper layout
+                String depth_wall_tag = "iconify_depth_wallpaper";
+                mClockViewContainer = container.findViewWithTag(depth_wall_tag);
+
+                // Create the depth wallpaper layout if it doesn't exist
+                if (mClockViewContainer == null) {
+                    mClockViewContainer = new FrameLayout(mContext);
+                    mClockViewContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    mClockViewContainer.setTag(depth_wall_tag);
+
+                    container.addView(mClockViewContainer, 0);
+                }
+
+                registerClockUpdater();
             }
         });
     }
 
-    private void updateClockView(ViewGroup viewGroup) {
+    // Broadcast receiver for updating clock
+    private void registerClockUpdater() {
+        if (mClockViewContainer == null) return;
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_TIME_TICK);
+        filter.addAction(Intent.ACTION_TIME_CHANGED);
+        filter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
+        filter.addAction(Intent.ACTION_LOCALE_CHANGED);
+
+        BroadcastReceiver timeChangedReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent != null) {
+                    new Handler(Looper.getMainLooper()).post(() -> updateClockView());
+                }
+            }
+        };
+
+        mContext.registerReceiver(timeChangedReceiver, filter);
+
+        updateClockView();
+    }
+
+    private void updateClockView() {
+        if (mClockViewContainer == null) return;
+
         ViewGroup clockView = LockscreenClockStyles.getClock(mContext);
         String clock_tag = "iconify_lockscreen_clock";
-        if (viewGroup.findViewWithTag(clock_tag) != null) {
-            viewGroup.removeView(viewGroup.findViewWithTag(clock_tag));
+
+        // Remove existing clock view
+        if (mClockViewContainer.findViewWithTag(clock_tag) != null) {
+            mClockViewContainer.removeView(mClockViewContainer.findViewWithTag(clock_tag));
         }
+
         if (clockView != null) {
             clockView.setTag(clock_tag);
-            viewGroup.addView(clockView, 0);
-            viewGroup.requestLayout();
+
+            int idx = 0;
+            String depth_wall_tag = "iconify_depth_wallpaper";
+
+            if (mClockViewContainer.getTag() == depth_wall_tag) {
+                /*
+                 If the clock view container is the depth wallpaper container, we need to
+                 add the clock view to the middle of foreground and background images
+                 */
+                if (mClockViewContainer.getChildCount() == 2) {
+                    idx = 1;
+                }
+
+                // Add a dummy layout to the status view container so that we can move notifications
+                if (mStatusViewContainer != null) {
+                    String dummy_tag = "dummy_layout";
+                    LinearLayout dummyLayout = mStatusViewContainer.findViewWithTag(dummy_tag);
+
+                    if (dummyLayout == null) {
+                        dummyLayout = new LinearLayout(mContext);
+                        dummyLayout.setTag(dummy_tag);
+
+                        mStatusViewContainer.addView(dummyLayout, 0);
+                    }
+
+                    dummyLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
+                    ViewGroup.MarginLayoutParams clockParams = (ViewGroup.MarginLayoutParams) clockView.getLayoutParams();
+                    ((LinearLayout.LayoutParams) clockView.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL;
+                    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) dummyLayout.getLayoutParams();
+                    params.topMargin = clockParams.topMargin;
+                    params.bottomMargin = clockParams.bottomMargin;
+                    dummyLayout.setLayoutParams(params);
+
+                    mStatusViewContainer.requestLayout();
+                }
+            }
+
+            if (clockView.getParent() != null) {
+                ((ViewGroup) clockView.getParent()).removeView(clockView);
+            }
+            mClockViewContainer.addView(clockView, idx);
+            mClockViewContainer.requestLayout();
         }
     }
 }

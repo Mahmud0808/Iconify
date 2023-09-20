@@ -40,6 +40,9 @@
         android:theme="@style/Theme.Iconify"
         tools:targetApi="tiramisu">
         <activity
+            android:name=".ui.activities.XposedDepthWallpaper"
+            android:exported="false" />
+        <activity
             android:name=".ui.activities.XposedThemes"
             android:exported="false" />
         <activity
@@ -179,13 +182,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- Custom App Icons -->
+        </activity>
+
         <activity-alias
-            android:name=".SplashActivityRetro"
+            android:name=".SplashActivityThemed"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_launcher_retro"
-            android:roundIcon="@mipmap/ic_launcher_round_retro"
+            android:icon="@mipmap/ic_launcher_themed"
+            android:roundIcon="@mipmap/ic_launcher_round_themed"
             android:targetActivity=".SplashActivity"
             android:theme="@style/Theme.Iconify.SplashScreen">
             <intent-filter>
@@ -193,13 +197,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity-alias>
+        </activity-alias> <!-- Custom App Icons -->
         <activity-alias
-            android:name=".SplashActivityThemed"
+            android:name=".SplashActivityRetro"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/ic_launcher_themed"
-            android:roundIcon="@mipmap/ic_launcher_round_themed"
+            android:icon="@mipmap/ic_launcher_retro"
+            android:roundIcon="@mipmap/ic_launcher_round_retro"
             android:targetActivity=".SplashActivity"
             android:theme="@style/Theme.Iconify.SplashScreen">
             <intent-filter>

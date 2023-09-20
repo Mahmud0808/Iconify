@@ -43,6 +43,8 @@ public class Resources {
     public static final String LSCLOCK_FONT_DIR = XPOSED_RESOURCE_TEMP_DIR + "/lsclock_font.ttf";
     public static final String HEADER_CLOCK_FONT_DIR = XPOSED_RESOURCE_TEMP_DIR + "/headerclock_font.ttf";
     public static final String HEADER_IMAGE_DIR = XPOSED_RESOURCE_TEMP_DIR + "/header_image.png";
+    public static final String DEPTH_WALL_FG_DIR = XPOSED_RESOURCE_TEMP_DIR + "/depth_wallpaper_fg.png";
+    public static final String DEPTH_WALL_BG_DIR = XPOSED_RESOURCE_TEMP_DIR + "/depth_wallpaper_bg.png";
 
     // Overlays
     public static final String QSC_overlay = "IconifyComponentQSC.overlay";

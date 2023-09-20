@@ -331,19 +331,29 @@ public class LockscreenClockStyles {
                     right5.addView(date5);
                     right5.addView(month5);
 
-                    final LinearLayout container5 = new LinearLayout(mContext);
-                    LinearLayout.LayoutParams layoutParams5 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    layoutParams5.gravity = Gravity.CENTER_HORIZONTAL;
-                    setMargins(layoutParams5, mContext, 24, topMargin, 24, bottomMargin);
-                    container5.setLayoutParams(layoutParams5);
-                    container5.setOrientation(LinearLayout.HORIZONTAL);
-                    setPaddings(container5, mContext, 12, 12, 12, 12);
+                    final LinearLayout tempContainer5 = new LinearLayout(mContext);
+                    LinearLayout.LayoutParams tempLayoutParams5 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    tempLayoutParams5.gravity = Gravity.CENTER_HORIZONTAL;
+                    setMargins(tempLayoutParams5, mContext, 24, topMargin, 24, bottomMargin);
+                    tempContainer5.setLayoutParams(tempLayoutParams5);
+                    tempContainer5.setOrientation(LinearLayout.HORIZONTAL);
+                    setPaddings(tempContainer5, mContext, 12, 12, 12, 12);
                     GradientDrawable mDrawable5 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{accent1, accent1});
                     mDrawable5.setCornerRadius(dp2px(mContext, 28));
-                    container5.setBackground(mDrawable5);
+                    tempContainer5.setBackground(mDrawable5);
+                    tempContainer5.setGravity(Gravity.CENTER);
 
-                    container5.addView(time5);
-                    container5.addView(right5);
+                    tempContainer5.addView(time5);
+                    tempContainer5.addView(right5);
+
+                    final LinearLayout container5 = new LinearLayout(mContext);
+                    LinearLayout.LayoutParams layoutParams5 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    layoutParams5.gravity = Gravity.CENTER;
+                    setMargins(layoutParams5, mContext, 0, topMargin, 0, bottomMargin);
+                    container5.setLayoutParams(layoutParams5);
+                    container5.setGravity(Gravity.CENTER);
+
+                    container5.addView(tempContainer5);
 
                     return container5;
                 case 6:
@@ -446,21 +456,30 @@ public class LockscreenClockStyles {
                     minuteContainer6.addView(minute6);
                     minuteContainer6.addView(minuteText6);
 
-                    final LinearLayout container6 = new LinearLayout(mContext);
-                    LinearLayout.LayoutParams layoutParams6 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    layoutParams6.gravity = Gravity.CENTER_HORIZONTAL;
-                    setMargins(layoutParams6, mContext, 24, topMargin, 24, bottomMargin);
-                    container6.setLayoutParams(layoutParams6);
-                    container6.setGravity(Gravity.CENTER);
-                    container6.setOrientation(LinearLayout.HORIZONTAL);
-                    setPaddings(container6, mContext, 20, 20, 20, 24);
+                    final LinearLayout tempContainer6 = new LinearLayout(mContext);
+                    LinearLayout.LayoutParams tempLayoutParams6 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    tempLayoutParams6.gravity = Gravity.CENTER_HORIZONTAL;
+                    setMargins(tempLayoutParams6, mContext, 24, topMargin, 24, bottomMargin);
+                    tempContainer6.setLayoutParams(tempLayoutParams6);
+                    tempContainer6.setGravity(Gravity.CENTER);
+                    tempContainer6.setOrientation(LinearLayout.HORIZONTAL);
+                    setPaddings(tempContainer6, mContext, 20, 20, 20, 24);
                     GradientDrawable mDrawable6 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.parseColor("#090909"), Color.parseColor("#090909")});
                     mDrawable6.setCornerRadius(dp2px(mContext, 12));
-                    container6.setBackground(mDrawable6);
+                    tempContainer6.setBackground(mDrawable6);
 
-                    container6.addView(dayContainer6);
-                    container6.addView(hourContainer6);
-                    container6.addView(minuteContainer6);
+                    tempContainer6.addView(dayContainer6);
+                    tempContainer6.addView(hourContainer6);
+                    tempContainer6.addView(minuteContainer6);
+
+                    final LinearLayout container6 = new LinearLayout(mContext);
+                    LinearLayout.LayoutParams layoutParams6 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    layoutParams6.gravity = Gravity.CENTER;
+                    setMargins(layoutParams6, mContext, 0, topMargin, 0, bottomMargin);
+                    container6.setLayoutParams(layoutParams6);
+                    container6.setGravity(Gravity.CENTER);
+
+                    container6.addView(tempContainer6);
 
                     return container6;
                 case 7:
@@ -553,25 +572,33 @@ public class LockscreenClockStyles {
                     date8.setTypeface(typeface, Typeface.NORMAL);
                     date8.setIncludeFontPadding(false);
                     ViewGroup.MarginLayoutParams dateParams8 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                    setMargins(dateParams8, mContext, 0, -10 + lineHeight, 0, 0);
+                    setMargins(dateParams8, mContext, 0, -16 + lineHeight, 0, 0);
                     date8.setLayoutParams(dateParams8);
 
-                    final LinearLayout container8 = new LinearLayout(mContext);
-                    LinearLayout.LayoutParams layoutParams8 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    layoutParams8.gravity = Gravity.CENTER_HORIZONTAL;
-                    setMargins(layoutParams8, mContext, 0, topMargin, 0, bottomMargin);
-                    container8.setLayoutParams(layoutParams8);
-                    container8.setGravity(Gravity.CENTER);
-                    container8.setOrientation(LinearLayout.VERTICAL);
-                    setPaddings(container8, mContext, 40, 24, 40, 24);
+                    final LinearLayout tempContainer8 = new LinearLayout(mContext);
+                    LinearLayout.LayoutParams tempLayoutParams8 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    tempLayoutParams8.gravity = Gravity.CENTER_HORIZONTAL;
+                    tempContainer8.setLayoutParams(tempLayoutParams8);
+                    tempContainer8.setGravity(Gravity.CENTER);
+                    tempContainer8.setOrientation(LinearLayout.VERTICAL);
+                    setPaddings(tempContainer8, mContext, 40, 24, 40, 24);
                     GradientDrawable mDrawable8 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{textColor, textColor});
                     mDrawable8.setCornerRadius(dp2px(mContext, 24));
                     mDrawable8.setAlpha(50);
-                    container8.setBackground(mDrawable8);
+                    tempContainer8.setBackground(mDrawable8);
 
-                    container8.addView(day8);
-                    container8.addView(clock8);
-                    container8.addView(date8);
+                    tempContainer8.addView(day8);
+                    tempContainer8.addView(clock8);
+                    tempContainer8.addView(date8);
+
+                    final LinearLayout container8 = new LinearLayout(mContext);
+                    LinearLayout.LayoutParams layoutParams8 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    layoutParams8.gravity = Gravity.CENTER;
+                    setMargins(layoutParams8, mContext, 0, topMargin, 0, bottomMargin);
+                    container8.setLayoutParams(layoutParams8);
+                    container8.setGravity(Gravity.CENTER);
+
+                    container8.addView(tempContainer8);
 
                     return container8;
             }

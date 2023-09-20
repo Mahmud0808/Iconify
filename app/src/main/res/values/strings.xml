@@ -432,6 +432,8 @@
     <string name="activity_desc_header_clock">Add custom clock on QS panel</string>
     <string name="activity_title_lockscreen_clock">Lockscreen Clock</string>
     <string name="activity_desc_lockscreen_clock">Add custom clock on lockscreen</string>
+    <string name="activity_title_depth_wallpaper">Depth Wallpaper</string>
+    <string name="activity_desc_depth_wallpaper">Show iOS like depth wallpaper</string>
     <string name="activity_title_background_chip">Background Chip</string>
     <string name="activity_desc_background_chip">Add colored chip behind clock</string>
     <string name="activity_title_xposed_others">Others</string>
@@ -529,6 +531,15 @@
     <string name="lockscreen_clock_bottom_margin_title">Bottom Margin</string>
     <string name="lockscreen_clock_white_text_title">White Text</string>
     <string name="lockscreen_clock_white_text_desc">Force all colors to be white</string>
+
+    <!-- Depth Wallpaper -->
+    <string name="enable_depth_wallpaper_title">Enable Depth Wallpaper</string>
+    <string name="enable_depth_wallpaper_desc">Show iOS like depth wallpaper\nMust use custom lockscreen clock</string>
+    <string name="foreground_image_title">Foreground Image</string>
+    <string name="foreground_image_desc">Foreground image for depth wallpaper</string>
+    <string name="background_image_title">Background Image</string>
+    <string name="background_image_desc">Background image for depth wallpaper</string>
+    <string name="depth_wallpaper_alert_msg">This feature is currently in beta stage. So bugs are expected.\n\n<b>Known Bugs:</b>\n• Clock is not shown on AOD.\n• Tapping on lockscreen makes the wallpaper jump.</string>
 
     <!-- Background Chip -->
     <string name="section_title_status_bar">Status Bar</string>
@@ -714,6 +725,7 @@
     <string name="toast_skipped_installation">Installation skipped. Some features may not function properly.</string>
     <string name="toast_import_settings_successfull">Imported settings successfully</string>
     <string name="toast_export_settings_successfull">Exported settings successfully</string>
+    <string name="toast_selected_successfully">Selected successfully</string>
 
     <!-- Push Notification -->
     <string name="new_update_title">Update Available</string>

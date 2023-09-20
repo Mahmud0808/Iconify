@@ -34,7 +34,6 @@ public class Preferences {
     public static final String HEADER_CLOCK_FONT_TEXT_SCALING = "xposed_headerclocktextscaling";
     public static final String QSPANEL_HIDE_CARRIER = "xposed_qspanelhidecarrier";
     public static final String LSCLOCK_SWITCH = "xposed_lockscreenclock";
-    public static final String LSCLOCK_AUTOHIDE = "xposed_lockscreenclockautohide";
     public static final String LSCLOCK_STYLE = "xposed_lockscreenclockstyle";
     public static final String LSCLOCK_TOPMARGIN = "xposed_lockscreenclocktopmargin";
     public static final String LSCLOCK_BOTTOMMARGIN = "xposed_lockscreenclockbottommargin";
@@ -60,7 +59,8 @@ public class Preferences {
     public static final String CUSTOM_BATTERY_HEIGHT = "xposed_custombatteryheight";
     public static final String CUSTOM_BATTERY_MARGIN = "xposed_custombatterymargin";
     public static final String HEADER_QQS_TOPMARGIN = "qqspanelTopMargin";
-    public static final String HIDE_DATA_DISABLED_ICON = "hideDataDisabledIcon";
+    public static final String HIDE_DATA_DISABLED_ICON = "xposed_hideDataDisabledIcon";
+    public static final String DEPTH_WALLPAPER_SWITCH = "xposed_depthwallpaper";
 
     // Battery styles
     public static final int BATTERY_STYLE_DEFAULT = 0;
