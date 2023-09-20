@@ -56,6 +56,7 @@ public class QsTileSize extends BaseActivity {
         binding.resetPortNonexpandedHeight.setOnLongClickListener(v -> {
             portNonExpandedHeight[0] = 60;
             binding.portNonexpandedHeightSeekbar.setValue(60);
+            binding.portNonexpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + portNonExpandedHeight[0] + "dp");
             binding.resetPortNonexpandedHeight.setVisibility(View.INVISIBLE);
             return true;
         });
@@ -86,6 +87,7 @@ public class QsTileSize extends BaseActivity {
         binding.resetPortExpandedHeight.setOnLongClickListener(v -> {
             portExpandedHeight[0] = 80;
             binding.portExpandedHeightSeekbar.setValue(80);
+            binding.portExpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + portExpandedHeight[0] + "dp");
             binding.resetPortExpandedHeight.setVisibility(View.INVISIBLE);
             return true;
         });
@@ -117,6 +119,7 @@ public class QsTileSize extends BaseActivity {
         binding.resetLandNonexpandedHeight.setOnLongClickListener(v -> {
             landNonExpandedHeight[0] = 60;
             binding.landNonexpandedHeightSeekbar.setValue(60);
+            binding.landNonexpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + landNonExpandedHeight[0] + "dp");
             binding.resetLandNonexpandedHeight.setVisibility(View.INVISIBLE);
             return true;
         });
@@ -147,6 +150,7 @@ public class QsTileSize extends BaseActivity {
         binding.resetLandExpandedHeight.setOnLongClickListener(v -> {
             landExpandedHeight[0] = 80;
             binding.landExpandedHeightSeekbar.setValue(80);
+            binding.landExpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + landExpandedHeight[0] + "dp");
             binding.resetLandExpandedHeight.setVisibility(View.INVISIBLE);
             return true;
         });

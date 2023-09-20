@@ -221,6 +221,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         binding.resetPrimaryAccentSaturation.setOnLongClickListener(v -> {
             monetPrimaryAccentSaturation[0] = 0;
             binding.monetPrimaryAccentSaturationSeekbar.setValue(0);
+            binding.monetPrimaryAccentSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + monetPrimaryAccentSaturation[0] + "%");
             assignCustomColorToPalette();
             binding.resetPrimaryAccentSaturation.setVisibility(View.INVISIBLE);
             binding.floatingActionMenu.show();
@@ -260,6 +261,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         binding.resetSecondaryAccentSaturation.setOnLongClickListener(v -> {
             monetSecondaryAccentSaturation[0] = 0;
             binding.monetSecondaryAccentSaturationSeekbar.setValue(0);
+            binding.monetSecondaryAccentSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + monetSecondaryAccentSaturation[0] + "%");
             assignCustomColorToPalette();
             binding.resetSecondaryAccentSaturation.setVisibility(View.INVISIBLE);
             binding.floatingActionMenu.show();
@@ -299,6 +301,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         binding.resetBackgroundSaturation.setOnLongClickListener(v -> {
             monetBackgroundSaturation[0] = 0;
             binding.monetBackgroundSaturationSeekbar.setValue(0);
+            binding.monetBackgroundSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + monetBackgroundSaturation[0] + "%");
             assignCustomColorToPalette();
             binding.resetBackgroundSaturation.setVisibility(View.INVISIBLE);
             binding.floatingActionMenu.show();
@@ -340,6 +343,7 @@ public class MonetEngine extends BaseActivity implements ColorPickerDialogListen
         binding.resetBackgroundLightness.setOnLongClickListener(v -> {
             monetBackgroundLightness[0] = 0;
             binding.monetBackgroundLightnessSeekbar.setValue(0);
+            binding.monetBackgroundLightnessOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + monetBackgroundLightness[0] + "%");
             assignCustomColorToPalette();
             binding.resetBackgroundLightness.setVisibility(View.INVISIBLE);
             binding.floatingActionMenu.show();
