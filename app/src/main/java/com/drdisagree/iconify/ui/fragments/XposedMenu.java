@@ -44,6 +44,7 @@ import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.FragmentXposedMenuBinding;
 import com.drdisagree.iconify.ui.activities.XposedBackgroundChip;
 import com.drdisagree.iconify.ui.activities.XposedBatteryStyle;
+import com.drdisagree.iconify.ui.activities.XposedDepthWallpaper;
 import com.drdisagree.iconify.ui.activities.XposedHeaderClock;
 import com.drdisagree.iconify.ui.activities.XposedHeaderImage;
 import com.drdisagree.iconify.ui.activities.XposedLockscreenClock;
@@ -200,6 +201,7 @@ public class XposedMenu extends BaseFragment {
         xposed_menu.add(new Object[]{XposedHeaderImage.class, getResources().getString(R.string.activity_title_header_image), getResources().getString(R.string.activity_desc_header_image), R.drawable.ic_xposed_header_image});
         xposed_menu.add(new Object[]{XposedHeaderClock.class, getResources().getString(R.string.activity_title_header_clock), getResources().getString(R.string.activity_desc_header_clock), R.drawable.ic_xposed_header_clock});
         xposed_menu.add(new Object[]{XposedLockscreenClock.class, getResources().getString(R.string.activity_title_lockscreen_clock), getResources().getString(R.string.activity_desc_lockscreen_clock), R.drawable.ic_xposed_lockscreen});
+        xposed_menu.add(new Object[]{XposedDepthWallpaper.class, getResources().getString(R.string.activity_title_depth_wallpaper), getResources().getString(R.string.activity_desc_depth_wallpaper), R.drawable.ic_xposed_depth_wallpaper});
         xposed_menu.add(new Object[]{XposedBackgroundChip.class, getResources().getString(R.string.activity_title_background_chip), getResources().getString(R.string.activity_desc_background_chip), R.drawable.ic_xposed_background_chip});
         xposed_menu.add(new Object[]{XposedOthers.class, getResources().getString(R.string.activity_title_xposed_others), getResources().getString(R.string.activity_desc_xposed_others), R.drawable.ic_xposed_misc});
 

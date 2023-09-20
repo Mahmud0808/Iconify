@@ -540,7 +540,7 @@ public class LockscreenClockStyles {
 
                 final TextClock date8 = new TextClock(mContext);
                 ViewGroup.MarginLayoutParams dateParams8 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                dateParams8.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
+                dateParams8.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
                 date8.setLayoutParams(dateParams8);
                 date8.setFormat12Hour("MMMM dd");
                 date8.setFormat24Hour("MMMM dd");

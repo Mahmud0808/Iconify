@@ -1,7 +1,6 @@
 package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
-import static com.drdisagree.iconify.common.Preferences.LSCLOCK_AUTOHIDE;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_BOTTOMMARGIN;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_SWITCH;
@@ -85,14 +84,6 @@ public class XposedLockscreenClock extends BaseActivity implements ColorPickerDi
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
         binding.enableLockscreenClockContainer.setOnClickListener(v -> binding.enableLockscreenClock.toggle());
-
-        // Auto hide clock
-        binding.enableAutoHideClock.setChecked(RPrefs.getBoolean(LSCLOCK_AUTOHIDE, false));
-        binding.enableAutoHideClock.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RPrefs.putBoolean(LSCLOCK_AUTOHIDE, isChecked);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
-        });
-        binding.autoHideClockContainer.setOnClickListener(v -> binding.enableAutoHideClock.toggle());
 
         // Lockscreen clock style
         binding.lockscreenClockPreview.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);

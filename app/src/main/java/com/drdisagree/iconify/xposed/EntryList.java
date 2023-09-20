@@ -24,6 +24,7 @@ import android.os.Build;
 
 import com.drdisagree.iconify.xposed.mods.BackgroundChip;
 import com.drdisagree.iconify.xposed.mods.BatteryStyleManager;
+import com.drdisagree.iconify.xposed.mods.DepthWallpaper;
 import com.drdisagree.iconify.xposed.mods.HeaderClock;
 import com.drdisagree.iconify.xposed.mods.HeaderImage;
 import com.drdisagree.iconify.xposed.mods.HookCheck;
@@ -54,6 +55,7 @@ public class EntryList {
                     modPacks.add(BackgroundChip.class);
                     modPacks.add(HeaderClock.class);
                     modPacks.add(HeaderImage.class);
+                    modPacks.add(DepthWallpaper.class);
                     modPacks.add(LockscreenClock.class);
                     modPacks.add(Miscellaneous.class);
                     modPacks.add(QSBlackTheme.class);
