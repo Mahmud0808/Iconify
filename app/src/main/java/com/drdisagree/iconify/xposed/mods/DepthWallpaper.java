@@ -11,10 +11,13 @@ import android.content.Context;
 import android.graphics.ImageDecoder;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.drdisagree.iconify.xposed.ModPack;
 
@@ -66,6 +69,25 @@ public class DepthWallpaper extends ModPack {
                 container.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
                 ((ViewGroup.MarginLayoutParams) container.getLayoutParams()).bottomMargin = 0;
 
+                // Create a new layout for the indication text views
+                LinearLayout mIndicationView = new LinearLayout(mContext);
+                LinearLayout.LayoutParams mIndicationViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                int bottomMargin = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("keyguard_indication_margin_bottom", "dimen", mContext.getPackageName()));
+                mIndicationViewParams.setMargins(0, 0, 0, bottomMargin);
+                mIndicationViewParams.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
+                mIndicationView.setOrientation(LinearLayout.VERTICAL);
+                mIndicationView.setLayoutParams(mIndicationViewParams);
+
+                // Add the indication text views to the new layout
+                TextView mTopIndicationView = container.findViewById(mContext.getResources().getIdentifier("keyguard_indication_text", "id", mContext.getPackageName()));
+                TextView mLockScreenIndicationView = container.findViewById(mContext.getResources().getIdentifier("keyguard_indication_text_bottom", "id", mContext.getPackageName()));
+
+                ((ViewGroup) mTopIndicationView.getParent()).removeView(mTopIndicationView);
+                ((ViewGroup) mLockScreenIndicationView.getParent()).removeView(mLockScreenIndicationView);
+                mIndicationView.addView(mTopIndicationView);
+                mIndicationView.addView(mLockScreenIndicationView);
+                container.addView(mIndicationView);
+
                 // Get the depth wallpaper layout
                 String depth_wall_tag = "iconify_depth_wallpaper";
                 mDepthWallpaperLayout = container.findViewWithTag(depth_wall_tag);
@@ -76,7 +98,12 @@ public class DepthWallpaper extends ModPack {
                     mDepthWallpaperLayout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                     mDepthWallpaperLayout.setTag(depth_wall_tag);
 
-                    container.addView(mDepthWallpaperLayout, 0);
+                    FrameLayout mIndicationArea = new FrameLayout(mContext);
+                    FrameLayout.LayoutParams mIndicationAreaParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    mIndicationArea.setLayoutParams(mIndicationAreaParams);
+
+                    mIndicationArea.addView(mDepthWallpaperLayout, 0);
+                    container.addView(mIndicationArea, 0);
                 }
 
                 mDepthWallpaperBackground = new ImageView(mContext);
