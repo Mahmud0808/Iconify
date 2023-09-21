@@ -9,6 +9,7 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.ImageDecoder;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
@@ -116,6 +117,15 @@ public class DepthWallpaper extends ModPack {
                 mDepthWallpaperLayout.addView(mDepthWallpaperBackground, 0);
                 mDepthWallpaperLayout.addView(mDepthWallpaperForeground);
 
+                // Fix the bottom shortcuts pushing the wallpaper
+                ImageView startButton = view.findViewById(mContext.getResources().getIdentifier("start_button", "id", mContext.getPackageName()));
+                ImageView endButton = view.findViewById(mContext.getResources().getIdentifier("end_button", "id", mContext.getPackageName()));
+                int offset = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("keyguard_affordance_fixed_height", "dimen", mContext.getPackageName()))
+                        + mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("keyguard_affordance_horizontal_offset", "dimen", mContext.getPackageName()));
+
+                startButton.getViewTreeObserver().addOnGlobalLayoutListener(() -> ((ViewGroup.MarginLayoutParams) mIndicationView.getLayoutParams()).setMarginStart(startButton.getVisibility() == View.VISIBLE ? offset : 0));
+                endButton.getViewTreeObserver().addOnGlobalLayoutListener(() -> ((ViewGroup.MarginLayoutParams) mIndicationView.getLayoutParams()).setMarginEnd(endButton.getVisibility() == View.VISIBLE ? offset : 0));
+
                 updateWallpaper();
             }
         });
@@ -139,6 +149,17 @@ public class DepthWallpaper extends ModPack {
                 ViewGroup parent = (ViewGroup) keyguardBottomArea.getParent();
                 parent.removeView(keyguardBottomArea);
                 parent.addView(keyguardBottomArea, 0);
+            }
+        });
+
+        hookAllMethods(Resources.class, "getDimensionPixelOffset", new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) {
+                int resId = mContext.getResources().getIdentifier("keyguard_indication_area_padding", "dimen", mContext.getPackageName());
+
+                if (showDepthWallpaper && param.args[0].equals(resId)) {
+                    param.setResult(0);
+                }
             }
         });
     }
