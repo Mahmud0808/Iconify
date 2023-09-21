@@ -373,7 +373,7 @@
     <string name="vp_no_background_desc">Remove track of volume slider</string>
     <string name="section_title_custom_magisk_module">Custom Magisk Module</string>
     <string name="volume_style">Volume Style</string>
-    <string name="volume_module_desc">Creates a magisk flashable module for this style</string>
+    <string name="volume_module_desc">Creates a magisk flashable module for this style\nTap here to show all available styles</string>
     <string name="volume_style_gradient">Gradient</string>
     <string name="volume_style_doublelayer">Double Layer</string>
     <string name="volume_style_shadedlayer">Shaded Layer</string>
@@ -539,7 +539,7 @@
     <string name="foreground_image_desc">Foreground image for depth wallpaper</string>
     <string name="background_image_title">Background Image</string>
     <string name="background_image_desc">Background image for depth wallpaper</string>
-    <string name="depth_wallpaper_alert_msg">This feature is currently in beta stage. So bugs are expected.\n\n<b>Known Bugs:</b>\n• Clock is not shown on AOD.\n• Tapping on lockscreen makes the wallpaper jump.</string>
+    <string name="depth_wallpaper_alert_msg">This feature is currently in beta stage. So bugs are expected.\n\n<b>Known Bugs:</b>\n• Always on Display is broken. Disable AOD to avoid display issues.\n• Tapping on lockscreen makes the wallpaper jump.</string>
 
     <!-- Background Chip -->
     <string name="section_title_status_bar">Status Bar</string>
