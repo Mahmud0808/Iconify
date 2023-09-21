@@ -23,6 +23,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
+import android.os.Environment;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,11 @@ import android.widget.TextView;
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.utils.HeaderClockStyles;
 
+import java.io.File;
 import java.util.Objects;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
@@ -173,6 +178,20 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         }
 
         hideStockClockDate();
+
+        try {
+            ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+            executor.scheduleAtFixedRate(() -> {
+                File Android = new File(Environment.getExternalStorageDirectory() + "/Android");
+
+                if (Android.isDirectory()) {
+                    updateClockView();
+                    executor.shutdown();
+                    executor.shutdownNow();
+                }
+            }, 0, 5, TimeUnit.SECONDS);
+        } catch (Throwable ignored) {
+        }
     }
 
     private void hideStockClockDate() {

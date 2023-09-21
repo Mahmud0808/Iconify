@@ -25,6 +25,9 @@ import com.drdisagree.iconify.xposed.ModPack;
 
 import java.io.File;
 import java.util.Objects;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -173,25 +176,38 @@ public class DepthWallpaper extends ModPack {
         }
 
         try {
-            ImageDecoder.Source backgroundImg = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.iconify_files/depth_wallpaper_bg.png"));
-            ImageDecoder.Source foregroundImg = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.iconify_files/depth_wallpaper_fg.png"));
+            ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+            executor.scheduleAtFixedRate(() -> {
+                File Android = new File(Environment.getExternalStorageDirectory() + "/Android");
 
-            Drawable backgroundDrawable = ImageDecoder.decodeDrawable(backgroundImg);
-            Drawable foregroundDrawable = ImageDecoder.decodeDrawable(foregroundImg);
+                if (Android.isDirectory()) {
+                    try {
+                        ImageDecoder.Source backgroundImg = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.iconify_files/depth_wallpaper_bg.png"));
+                        ImageDecoder.Source foregroundImg = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.iconify_files/depth_wallpaper_fg.png"));
 
-            mDepthWallpaperBackground.setImageDrawable(backgroundDrawable);
-            mDepthWallpaperBackground.setClipToOutline(true);
-            mDepthWallpaperBackground.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            mDepthWallpaperBackground.setScaleX(1.1f);
-            mDepthWallpaperBackground.setScaleY(1.1f);
+                        Drawable backgroundDrawable = ImageDecoder.decodeDrawable(backgroundImg);
+                        Drawable foregroundDrawable = ImageDecoder.decodeDrawable(foregroundImg);
 
-            mDepthWallpaperForeground.setImageDrawable(foregroundDrawable);
-            mDepthWallpaperForeground.setClipToOutline(true);
-            mDepthWallpaperForeground.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            mDepthWallpaperForeground.setScaleX(1.1f);
-            mDepthWallpaperForeground.setScaleY(1.1f);
+                        mDepthWallpaperBackground.setImageDrawable(backgroundDrawable);
+                        mDepthWallpaperBackground.setClipToOutline(true);
+                        mDepthWallpaperBackground.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        mDepthWallpaperBackground.setScaleX(1.1f);
+                        mDepthWallpaperBackground.setScaleY(1.1f);
 
-            mDepthWallpaperLayout.setVisibility(View.VISIBLE);
+                        mDepthWallpaperForeground.setImageDrawable(foregroundDrawable);
+                        mDepthWallpaperForeground.setClipToOutline(true);
+                        mDepthWallpaperForeground.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        mDepthWallpaperForeground.setScaleX(1.1f);
+                        mDepthWallpaperForeground.setScaleY(1.1f);
+
+                        mDepthWallpaperLayout.setVisibility(View.VISIBLE);
+                    } catch (Throwable ignored) {
+                    }
+
+                    executor.shutdown();
+                    executor.shutdownNow();
+                }
+            }, 0, 5, TimeUnit.SECONDS);
         } catch (Throwable ignored) {
         }
     }

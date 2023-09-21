@@ -35,6 +35,9 @@ import com.drdisagree.iconify.xposed.ModPack;
 
 import java.io.File;
 import java.util.Objects;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
@@ -181,24 +184,38 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
 
     private void loadImageOrGif(ImageView iv) {
         try {
-            ImageDecoder.Source source = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.iconify_files/header_image.png"));
+            ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+            executor.scheduleAtFixedRate(() -> {
+                File Android = new File(Environment.getExternalStorageDirectory() + "/Android");
 
-            Drawable drawable = ImageDecoder.decodeDrawable(source);
-            iv.setImageDrawable(drawable);
-            iv.setClipToOutline(true);
-            if (!zoomToFit) {
-                iv.setScaleType(ImageView.ScaleType.FIT_XY);
-            } else {
-                iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                iv.setAdjustViewBounds(false);
-                iv.setCropToPadding(false);
-                iv.setMinimumWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-                addOrRemoveProperty(iv, RelativeLayout.CENTER_IN_PARENT, true);
-            }
+                if (Android.isDirectory()) {
+                    try {
+                        ImageDecoder.Source source = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.iconify_files/header_image.png"));
 
-            if (drawable instanceof AnimatedImageDrawable) {
-                ((AnimatedImageDrawable) drawable).start();
-            }
+                        Drawable drawable = ImageDecoder.decodeDrawable(source);
+                        iv.setImageDrawable(drawable);
+                        iv.setClipToOutline(true);
+                        if (!zoomToFit) {
+                            iv.setScaleType(ImageView.ScaleType.FIT_XY);
+                        } else {
+                            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                            iv.setAdjustViewBounds(false);
+                            iv.setCropToPadding(false);
+                            iv.setMinimumWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+                            addOrRemoveProperty(iv, RelativeLayout.CENTER_IN_PARENT, true);
+                        }
+
+                        if (drawable instanceof AnimatedImageDrawable) {
+                            ((AnimatedImageDrawable) drawable).start();
+                        }
+                    } catch (Throwable ignored) {
+                    }
+
+                    executor.shutdown();
+                    executor.shutdownNow();
+                }
+            }, 0, 5, TimeUnit.SECONDS);
+
         } catch (Throwable ignored) {
         }
     }

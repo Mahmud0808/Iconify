@@ -22,6 +22,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Gravity;
@@ -36,7 +37,11 @@ import android.widget.TextView;
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.utils.LockscreenClockStyles;
 
+import java.io.File;
 import java.util.Objects;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
@@ -167,6 +172,20 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                 registerClockUpdater();
             }
         });
+
+        try {
+            ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+            executor.scheduleAtFixedRate(() -> {
+                File Android = new File(Environment.getExternalStorageDirectory() + "/Android");
+
+                if (Android.isDirectory()) {
+                    updateClockView();
+                    executor.shutdown();
+                    executor.shutdownNow();
+                }
+            }, 0, 5, TimeUnit.SECONDS);
+        } catch (Throwable ignored) {
+        }
     }
 
     // Broadcast receiver for updating clock
