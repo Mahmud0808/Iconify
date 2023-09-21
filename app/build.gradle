@@ -97,8 +97,8 @@ dependencies {
     implementation 'com.android.databinding:library:8.1.1'
 
     // Xposed API
-    compileOnly files('lib/api-82.jar')
-    compileOnly files('lib/api-82-sources.jar')
+    compileOnly files('libs/api-82.jar')
+    compileOnly files('libs/api-82-sources.jar')
 
     // The core module that provides APIs to a shell
     implementation "com.github.topjohnwu.libsu:core:${libsuVersion}"
