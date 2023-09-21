@@ -5,6 +5,7 @@ import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedHelpers.findClass;
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -123,6 +124,21 @@ public class DepthWallpaper extends ModPack {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
                 updateWallpaper();
+            }
+        });
+
+        Class<?> NotificationPanelViewControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.NotificationPanelViewController", lpparam.classLoader);
+
+        hookAllMethods(NotificationPanelViewControllerClass, "onFinishInflate", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                if (!showDepthWallpaper) return;
+
+                View mView = (View) getObjectField(param.thisObject, "mView");
+                View keyguardBottomArea = mView.findViewById(mContext.getResources().getIdentifier("keyguard_bottom_area", "id", mContext.getPackageName()));
+                ViewGroup parent = (ViewGroup) keyguardBottomArea.getParent();
+                parent.removeView(keyguardBottomArea);
+                parent.addView(keyguardBottomArea, 0);
             }
         });
     }
