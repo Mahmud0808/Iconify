@@ -18,14 +18,13 @@
         android:textColor="?attr/colorPrimary" />
 
     <LinearLayout
-        android:id="@+id/volume_style_module"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/item_background_material"
         android:clickable="true"
         android:orientation="vertical"
         android:paddingHorizontal="24dp"
-        android:paddingVertical="22dp">
+        android:paddingTop="22dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,13 +61,74 @@
             android:text="@string/volume_module_desc"
             android:textColor="@color/text_color_secondary" />
 
-        <TextView
-            android:id="@+id/selected_volume_style"
-            style="@style/TextAppearance.Material3.BodyMedium"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_color_secondary" />
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
 
+            <RadioGroup
+                android:id="@+id/volume_style1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0">
+
+                <RadioButton
+                    android:id="@+id/gradient_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="@string/volume_style_gradient" />
+
+                <RadioButton
+                    android:id="@+id/doublelayer_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="@string/volume_style_doublelayer" />
+
+                <RadioButton
+                    android:id="@+id/shadedlayer_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="@string/volume_style_shadedlayer" />
+
+            </RadioGroup>
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="match_parent" />
+
+            <RadioGroup
+                android:id="@+id/volume_style2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0">
+
+                <RadioButton
+                    android:id="@+id/neumorph_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="@string/volume_style_neumorph" />
+
+                <RadioButton
+                    android:id="@+id/outline_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="@string/volume_style_outline" />
+
+                <RadioButton
+                    android:id="@+id/neumorphoutline_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="@string/volume_style_neumorphoutline" />
+
+            </RadioGroup>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

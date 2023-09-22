@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
@@ -21,23 +22,19 @@ import com.drdisagree.iconify.databinding.ActivityVolumePanelBinding;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.InfoDialog;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
-import com.drdisagree.iconify.ui.views.RadioDialog;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.compiler.VolumeCompiler;
 
-import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class VolumePanel extends BaseActivity implements RadioDialog.RadioDialogListener {
+public class VolumePanel extends BaseActivity {
 
     private ActivityVolumePanelBinding binding;
     private LoadingDialog loadingDialog;
     private InfoDialog infoDialog;
-    private RadioDialog rd_volume_style;
-    private int selectedStyle = 0;
+    private int realCheckedId = -1;
 
-    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,53 +103,57 @@ public class VolumePanel extends BaseActivity implements RadioDialog.RadioDialog
         // Loading dialog while creating modules
         loadingDialog = new LoadingDialog(this);
 
-        // Info dialog for volume style modules
+        // Credits dialog for volume style modules
         infoDialog = new InfoDialog(this);
 
         // Volume style
         binding.volumeStyle.volumeStyleInfo.setOnClickListener(v -> infoDialog.show(R.string.read_carefully, R.string.volume_module_installation_guide));
 
-        rd_volume_style = new RadioDialog(this, 0, selectedStyle);
-        rd_volume_style.setRadioDialogListener(this);
-        binding.volumeStyle.volumeStyleModule.setOnClickListener(v -> rd_volume_style.show(R.string.volume_style, R.array.volume_style, binding.volumeStyle.selectedVolumeStyle));
-        binding.volumeStyle.selectedVolumeStyle.setText(getResources().getString(R.string.opt_selected) + " " + Arrays.asList(getResources().getStringArray(R.array.volume_style)).get(rd_volume_style.getSelectedIndex()));
+        binding.volumeStyle.volumeStyle1.clearCheck();
+        binding.volumeStyle.volumeStyle2.clearCheck();
+        binding.volumeStyle.volumeStyle1.setOnCheckedChangeListener(listener1);
+        binding.volumeStyle.volumeStyle2.setOnCheckedChangeListener(listener2);
+        int checkedId1 = binding.volumeStyle.volumeStyle1.getCheckedRadioButtonId();
+        int checkedId2 = binding.volumeStyle.volumeStyle2.getCheckedRadioButtonId();
+        realCheckedId = checkedId1 == -1 ? checkedId2 : checkedId1;
 
         binding.volumeStyle.volumeStyleCreateModule.setOnClickListener(v -> {
             if (!SystemUtil.hasStoragePermission()) {
                 SystemUtil.requestStoragePermission(this);
             } else {
-                if (selectedStyle == 0) {
+                if (realCheckedId == -1) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
                 } else {
-                    installVolumeModule(selectedStyle);
+                    installVolumeModule(realCheckedId);
                 }
             }
         });
     }
 
-    private void installVolumeModule(int volumeStyle) {
+    @SuppressLint({"NonConstantResourceId"})
+    private void installVolumeModule(int volume) {
         loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
         AtomicBoolean hasErroredOut = new AtomicBoolean(false);
         String selectedStyle = null;
 
-        switch (volumeStyle) {
-            case 1:
+        switch (volume) {
+            case R.id.gradient_style:
                 selectedStyle = "VolumeGradient";
                 break;
-            case 2:
+            case R.id.doublelayer_style:
                 selectedStyle = "VolumeDoubleLayer";
                 break;
-            case 3:
+            case R.id.shadedlayer_style:
                 selectedStyle = "VolumeShadedLayer";
                 break;
-            case 4:
+            case R.id.neumorph_style:
                 selectedStyle = "VolumeNeumorph";
                 break;
-            case 5:
+            case R.id.outline_style:
                 selectedStyle = "VolumeOutline";
                 break;
-            case 6:
+            case R.id.neumorphoutline_style:
                 selectedStyle = "VolumeNeumorphOutline";
                 break;
         }
@@ -179,20 +180,24 @@ public class VolumePanel extends BaseActivity implements RadioDialog.RadioDialog
         thread.start();
     }
 
-    private void updateVolumePreview(int idx) {
-        if (idx == 0)
-            setVolumeDrawable(R.drawable.media_player_bg_accent, R.drawable.media_player_bg_accent, false, false);
-        else if (idx == 1)
+    @Override
+    public void onDestroy() {
+        loadingDialog.hide();
+        super.onDestroy();
+    }
+
+    private void updateVolumePreview(int id) {
+        if (id == R.id.gradient_style)
             setVolumeDrawable(R.drawable.volume_gradient, R.drawable.volume_gradient, false, false);
-        else if (idx == 2)
+        else if (id == R.id.doublelayer_style)
             setVolumeDrawable(R.drawable.volume_double_layer, R.drawable.volume_double_layer, false, false);
-        else if (idx == 3)
+        else if (id == R.id.shadedlayer_style)
             setVolumeDrawable(R.drawable.volume_shaded_layer, R.drawable.volume_shaded_layer, false, false);
-        else if (idx == 4)
+        else if (id == R.id.neumorph_style)
             setVolumeDrawable(R.drawable.volume_neumorph, R.drawable.volume_neumorph, false, false);
-        else if (idx == 5)
+        else if (id == R.id.outline_style)
             setVolumeDrawable(R.drawable.volume_outline_ringer, R.drawable.volume_outline, true, false);
-        else if (idx == 6)
+        else if (id == R.id.neumorphoutline_style)
             setVolumeDrawable(R.drawable.volume_neumorph_outline_ringer, R.drawable.volume_neumorph_outline, true, false);
     }
 
@@ -225,19 +230,30 @@ public class VolumePanel extends BaseActivity implements RadioDialog.RadioDialog
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onItemSelected(int dialogId, int selectedIndex) {
-        selectedStyle = selectedIndex;
-        updateVolumePreview(selectedIndex);
-        binding.volumeStyle.selectedVolumeStyle.setText(getResources().getString(R.string.opt_selected) + " " + Arrays.asList(getResources().getStringArray(R.array.volume_style)).get(selectedStyle));
-    }
+    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId != -1) {
+                binding.volumeStyle.volumeStyle2.setOnCheckedChangeListener(null);
+                binding.volumeStyle.volumeStyle2.clearCheck();
+                binding.volumeStyle.volumeStyle2.setOnCheckedChangeListener(listener2);
+                realCheckedId = checkedId;
+            }
+            updateVolumePreview(checkedId);
+        }
+    };
 
-    @Override
-    public void onDestroy() {
-        loadingDialog.hide();
-        if (rd_volume_style != null)
-            rd_volume_style.dismiss();
-        super.onDestroy();
-    }
+    private final RadioGroup.OnCheckedChangeListener listener2 = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId != -1) {
+                binding.volumeStyle.volumeStyle1.setOnCheckedChangeListener(null);
+                binding.volumeStyle.volumeStyle1.clearCheck();
+                binding.volumeStyle.volumeStyle1.setOnCheckedChangeListener(listener1);
+                realCheckedId = checkedId;
+            }
+            updateVolumePreview(checkedId);
+        }
+    };
+
 }
