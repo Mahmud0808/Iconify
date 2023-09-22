@@ -373,7 +373,7 @@
     <string name="vp_no_background_desc">Remove track of volume slider</string>
     <string name="section_title_custom_magisk_module">Custom Magisk Module</string>
     <string name="volume_style">Volume Style</string>
-    <string name="volume_module_desc">Creates a magisk flashable module for this style\nTap here to show all available styles</string>
+    <string name="volume_module_desc">Creates a magisk flashable module for this style</string>
     <string name="volume_style_gradient">Gradient</string>
     <string name="volume_style_doublelayer">Double Layer</string>
     <string name="volume_style_shadedlayer">Shaded Layer</string>
