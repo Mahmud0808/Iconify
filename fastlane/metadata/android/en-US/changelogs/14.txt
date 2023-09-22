@@ -1,0 +1,13 @@
+Iconify v6.5.0 has arrived! It has the following new changes:
+
+Feature Changes:
+• Introduced iOS-like depth wallpaper (Beta)
+• Added statusbar height changer
+• Improved xposed mods performance
+• Fixed QS transparency for tablet devices
+• Redesigned UI in material 3 style
+• Updated Chinese and Arabic translations
+• Bug fixes and improvements
+• and many more!
+
+Full changelog at https://github.com/Mahmud0808/Iconify/releases/tag/v6.5.0
