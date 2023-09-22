@@ -5,7 +5,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,10 +13,12 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityMediaIconsBinding;
-import com.drdisagree.iconify.overlaymanager.MediaPlayerIconManager;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.AppUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.overlaymanager.MediaPlayerIconManager;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 
 import java.util.ArrayList;
 
@@ -34,7 +35,7 @@ public class MediaIcons extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_media_icons);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_media_icons);
 
         // Media Player Icon list items
 
@@ -95,13 +96,14 @@ public class MediaIcons extends BaseActivity {
     private void refreshBackground() {
         for (int i = 0; i < mpip_list.size(); i++) {
             if ((Boolean) mpip_list.get(i)[1]) {
-                Button[] buttons = {findViewById((Integer) mpip_list.get(i)[2]).findViewById(R.id.aurora), findViewById((Integer) mpip_list.get(i)[2]).findViewById(R.id.gradicon), findViewById((Integer) mpip_list.get(i)[2]).findViewById(R.id.plumpy)};
+                MaterialButtonToggleGroup toggleButtonGroup = findViewById((Integer) mpip_list.get(i)[2]).findViewById(R.id.toggleButtonGroup);
+                int[] buttons = {R.id.aurora, R.id.gradicon, R.id.plumpy};
 
                 for (int j = 0; j < 3; j++) {
                     if (Prefs.getBoolean(MPIP_KEY.get(i)[j])) {
-                        buttons[j].setBackground(ContextCompat.getDrawable(MediaIcons.this, R.drawable.button_red));
+                        toggleButtonGroup.check(buttons[j]);
                     } else {
-                        buttons[j].setBackground(ContextCompat.getDrawable(MediaIcons.this, R.drawable.button));
+                        toggleButtonGroup.uncheck(buttons[j]);
                     }
                 }
             }
@@ -112,15 +114,15 @@ public class MediaIcons extends BaseActivity {
     private void enableOnClickListener(int idx) {
         LinearLayout child = findViewById((int) mpip_list.get(idx)[2]);
 
-        Button[] buttons = {child.findViewById(R.id.aurora), child.findViewById(R.id.gradicon), child.findViewById(R.id.plumpy)};
+        int[] buttons = {R.id.aurora, R.id.gradicon, R.id.plumpy};
 
         for (int i = 0; i < 3; i++) {
             int finalI = i + 1;
-            buttons[i].setOnClickListener(v -> {
-                if (Prefs.getBoolean(("IconifyComponentMPIP" + idx + finalI + ".overlay"))) {
-                    OverlayUtil.disableOverlay("IconifyComponentMPIP" + idx + finalI + ".overlay");
-                } else {
+            ((MaterialButton) child.findViewById(buttons[i])).addOnCheckedChangeListener((button, isChecked) -> {
+                if (isChecked) {
                     MediaPlayerIconManager.enableOverlay(idx, finalI);
+                } else {
+                    OverlayUtil.disableOverlay("IconifyComponentMPIP" + idx + finalI + ".overlay");
                 }
                 refreshBackground();
             });

@@ -8,7 +8,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.databinding.ActivityProgressBarBinding;
 import com.drdisagree.iconify.ui.adapters.ProgressBarAdapter;
 import com.drdisagree.iconify.ui.models.ProgressBarModel;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class ProgressBar extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_progress_bar);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_progress_bar);
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);

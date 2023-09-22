@@ -1,14 +1,18 @@
 package com.drdisagree.iconify.utils.helpers;
 
-import static com.drdisagree.iconify.common.Resources.DOC_DIR;
+import static com.drdisagree.iconify.common.Resources.DOCUMENTS_DIR;
 import static com.drdisagree.iconify.common.Resources.LOG_DIR;
 
 import android.os.Build;
 import android.util.Log;
 
 import com.drdisagree.iconify.BuildConfig;
-import com.topjohnwu.superuser.Shell;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -17,6 +21,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class Logger {
+
+    private static final String TAG = Logger.class.getSimpleName();
 
     public static void writeLog(String tag, String header, List<String> details) {
         StringBuilder log = getDeviceInfo();
@@ -41,6 +47,21 @@ public class Logger {
         writeLogToFile(log);
     }
 
+    public static void writeLog(String tag, String header, Exception exception) {
+        StringBuilder log = getDeviceInfo();
+        log.append("error: ").append(header).append('\n');
+        log.append('\n');
+        log.append(tag).append(":\n");
+
+        StringWriter writer = new StringWriter();
+        exception.printStackTrace(new PrintWriter(writer));
+        String str = writer.toString();
+
+        log.append(str).append('\n');
+
+        writeLogToFile(log);
+    }
+
     private static StringBuilder getDeviceInfo() {
         StringBuilder info = new StringBuilder("Iconify bug report ");
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy HH:mm:ss", Locale.getDefault());
@@ -59,6 +80,8 @@ public class Logger {
         info.append("version.codename: ").append(Build.VERSION.CODENAME).append('\n');
         info.append("version.release: ").append(Build.VERSION.RELEASE).append('\n');
         info.append("version.sdk_int: ").append(Build.VERSION.SDK_INT).append('\n');
+        info.append("iconify.version_name: ").append(BuildConfig.VERSION_NAME).append('\n');
+        info.append("iconify.version_code: ").append(BuildConfig.VERSION_CODE).append('\n');
         info.append('\n');
 
         return info;
@@ -67,12 +90,19 @@ public class Logger {
     private static void writeLogToFile(StringBuilder log) {
         try {
             Files.createDirectories(Paths.get(LOG_DIR));
-            Shell.cmd("mkdir -p " + DOC_DIR, "mkdir -p " + LOG_DIR).exec();
+
             SimpleDateFormat dF = new SimpleDateFormat("dd-MM-yy_HH_mm_ss", Locale.getDefault());
-            String filename = "iconify_logcat_" + dF.format(new Date()) + ".txt";
-            Shell.cmd("printf \"" + log + "\" > " + LOG_DIR + '/' + filename).exec();
+            String fileName = "iconify_logcat_" + dF.format(new Date()) + ".txt";
+
+            File iconifyDir = new File(DOCUMENTS_DIR, "Iconify");
+            File file = new File(iconifyDir, fileName);
+
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(log.toString());
+            bw.close();
         } catch (Exception e) {
-            Log.e("Logger", "Failed to write logs.\n" + e);
+            Log.e(TAG, "Failed to write logs.\n" + e);
         }
     }
 }

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.textview.MaterialTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/list_info_header"
+    style="@style/TextAppearance.Material3.TitleMedium"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="28dp"
-    android:layout_marginTop="12dp"
-    android:layout_marginBottom="16dp"
-    android:textColor="@color/textColorPrimary"
-    android:textSize="@dimen/header_title_size"
-    android:textStyle="bold" />
+    android:layout_marginHorizontal="60dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="8dp"
+    android:textColor="?attr/colorPrimary" />

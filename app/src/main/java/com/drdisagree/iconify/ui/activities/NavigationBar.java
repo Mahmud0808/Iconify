@@ -12,15 +12,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
-import android.widget.SeekBar;
+
+import androidx.annotation.NonNull;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityNavigationBarBinding;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.google.android.material.slider.Slider;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.Objects;
@@ -37,7 +39,7 @@ public class NavigationBar extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_navigation_bar);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_navigation_bar);
 
         // Switch states
         binding.nbFullscreen.setChecked(Prefs.getBoolean("IconifyComponentNBFullScreen.overlay"));
@@ -69,6 +71,7 @@ public class NavigationBar extends BaseActivity {
                 }
             }, SWITCH_ANIMATION_DELAY);
         });
+        binding.nbFullscreenContainer.setOnClickListener(v -> binding.nbFullscreen.toggle());
 
         // Immersive
         binding.nbImmersive.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -79,6 +82,7 @@ public class NavigationBar extends BaseActivity {
                 OverlayUtil.disableOverlay("IconifyComponentNBImmersive.overlay");
             }
         }, SWITCH_ANIMATION_DELAY));
+        binding.nbImmersiveContainer.setOnClickListener(v -> binding.nbImmersive.toggle());
 
         // Immersive v2
         binding.nbImmersivev2.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -89,6 +93,7 @@ public class NavigationBar extends BaseActivity {
                 OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmall.overlay");
             }
         }, SWITCH_ANIMATION_DELAY));
+        binding.nbImmersivev2Container.setOnClickListener(v -> binding.nbImmersivev2.toggle());
 
         // Immersive v3
         binding.nbImmersivev3.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -99,6 +104,7 @@ public class NavigationBar extends BaseActivity {
                 OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmaller.overlay");
             }
         }, SWITCH_ANIMATION_DELAY));
+        binding.nbImmersivev3Container.setOnClickListener(v -> binding.nbImmersivev3.toggle());
 
         // Lower Sensitivity
         binding.nbHidePill.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -108,6 +114,7 @@ public class NavigationBar extends BaseActivity {
                 OverlayUtil.disableOverlay("IconifyComponentNBLowSens.overlay");
             }
         }, SWITCH_ANIMATION_DELAY));
+        binding.nbLowerSensContainer.setOnClickListener(v -> binding.nbLowerSens.toggle());
 
         // Hide Pill
         binding.nbHidePill.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -125,6 +132,7 @@ public class NavigationBar extends BaseActivity {
                 }
             }, SWITCH_ANIMATION_DELAY);
         });
+        binding.nbHidePillContainer.setOnClickListener(v -> binding.nbHidePill.toggle());
 
         // Monet Pill
         binding.nbMonetPill.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -136,6 +144,7 @@ public class NavigationBar extends BaseActivity {
                 SystemUtil.restartSystemUI();
             }
         }, SWITCH_ANIMATION_DELAY));
+        binding.nbMonetPillContainer.setOnClickListener(v -> binding.nbMonetPill.toggle());
 
         // Hide Keyboard Buttons
         binding.nbHideKbButtons.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -145,6 +154,7 @@ public class NavigationBar extends BaseActivity {
                 OverlayUtil.disableOverlay("IconifyComponentNBHideKBButton.overlay");
             }
         }, SWITCH_ANIMATION_DELAY));
+        binding.nbHideKbButtonsContainer.setOnClickListener(v -> binding.nbHideKbButtons.toggle());
 
         // Disable left gesture
         binding.nbDisableLeftGesture.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -154,6 +164,7 @@ public class NavigationBar extends BaseActivity {
                 Shell.cmd("settings delete secure back_gesture_inset_scale_left &>/dev/null").exec();
             }
         }, SWITCH_ANIMATION_DELAY));
+        binding.nbDisableLeftGestureContainer.setOnClickListener(v -> binding.nbDisableLeftGesture.toggle());
 
         // Disable right gesture
         binding.nbDisableRightGesture.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -163,6 +174,7 @@ public class NavigationBar extends BaseActivity {
                 Shell.cmd("settings delete secure back_gesture_inset_scale_right &>/dev/null").exec();
             }
         }, SWITCH_ANIMATION_DELAY));
+        binding.nbDisableRightGestureContainer.setOnClickListener(v -> binding.nbDisableRightGesture.toggle());
 
         // Pill shape
         binding.pillShape.pillShapeContainer.setVisibility((binding.nbFullscreen.isChecked() || binding.nbHidePill.isChecked()) ? View.GONE : View.VISIBLE);
@@ -171,20 +183,16 @@ public class NavigationBar extends BaseActivity {
         final int[] finalPillWidth = {Prefs.getInt(FABRICATED_PILL_WIDTH, 108)};
 
         binding.pillShape.pillWidthOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalPillWidth[0] + "dp");
-        binding.pillShape.pillWidthSeekbar.setProgress(finalPillWidth[0]);
-        binding.pillShape.pillWidthSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.pillShape.pillWidthSeekbar.setValue(finalPillWidth[0]);
+        binding.pillShape.pillWidthSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                finalPillWidth[0] = progress;
-                binding.pillShape.pillWidthOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                finalPillWidth[0] = (int) slider.getValue();
+                binding.pillShape.pillWidthOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalPillWidth[0] + "dp");
             }
         });
 
@@ -192,20 +200,16 @@ public class NavigationBar extends BaseActivity {
         final int[] finalPillThickness = {Prefs.getInt(FABRICATED_PILL_THICKNESS, 2)};
 
         binding.pillShape.pillThicknessOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalPillThickness[0] + "dp");
-        binding.pillShape.pillThicknessSeekbar.setProgress(finalPillThickness[0]);
-        binding.pillShape.pillThicknessSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.pillShape.pillThicknessSeekbar.setValue(finalPillThickness[0]);
+        binding.pillShape.pillThicknessSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                finalPillThickness[0] = progress;
-                binding.pillShape.pillThicknessOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                finalPillThickness[0] = (int) slider.getValue();
+                binding.pillShape.pillThicknessOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalPillThickness[0] + "dp");
             }
         });
 
@@ -213,20 +217,16 @@ public class NavigationBar extends BaseActivity {
         final int[] finalBottomSpace = {Prefs.getInt(FABRICATED_PILL_BOTTOM_SPACE, 6)};
 
         binding.pillShape.bottomSpaceOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalBottomSpace[0] + "dp");
-        binding.pillShape.bottomSpaceSeekbar.setProgress(finalBottomSpace[0]);
-        binding.pillShape.bottomSpaceSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.pillShape.bottomSpaceSeekbar.setValue(finalBottomSpace[0]);
+        binding.pillShape.bottomSpaceSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                finalBottomSpace[0] = progress;
-                binding.pillShape.bottomSpaceOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                finalBottomSpace[0] = (int) slider.getValue();
+                binding.pillShape.bottomSpaceOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalBottomSpace[0] + "dp");
             }
         });
 

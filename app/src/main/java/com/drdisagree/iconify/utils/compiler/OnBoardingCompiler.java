@@ -19,10 +19,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
+import java.util.Objects;
 
 public class OnBoardingCompiler {
 
-    private static final String TAG = "OnBoardingCompiler";
+    private static final String TAG = OnBoardingCompiler.class.getSimpleName();
     private static final String aapt = AAPT.getAbsolutePath();
     private static final String zipalign = ZIPALIGN.getAbsolutePath();
 
@@ -103,7 +104,7 @@ public class OnBoardingCompiler {
 
     public static boolean apkSigner(String source, String name) {
         try {
-            PrivateKey key = readPrivateKey(Iconify.getAppContext().getAssets().open("Keystore/testkey.pk8"));
+            PrivateKey key = readPrivateKey(Objects.requireNonNull(Iconify.getAppContext()).getAssets().open("Keystore/testkey.pk8"));
             X509Certificate cert = readCertificate(Iconify.getAppContext().getAssets().open("Keystore/testkey.x509.pem"));
 
             JarMap jar = JarMap.open(Files.newInputStream(Paths.get(source)), true);
@@ -114,7 +115,7 @@ public class OnBoardingCompiler {
             Log.i(TAG + " - APKSigner", "Successfully signed " + name.replace(".apk", ""));
         } catch (Exception e) {
             Log.e(TAG + " - APKSigner", "Failed to sign " + name.replace(".apk", "") + '\n' + e);
-            writeLog(TAG + " - APKSigner", "Failed to sign " + name, e.toString());
+            writeLog(TAG + " - APKSigner", "Failed to sign " + name, e);
             return true;
         }
         return false;

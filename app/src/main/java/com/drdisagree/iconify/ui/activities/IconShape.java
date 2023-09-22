@@ -5,7 +5,6 @@ import static com.drdisagree.iconify.common.Preferences.SELECTED_ICON_SHAPE;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -20,7 +19,7 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityIconShapeBinding;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
@@ -42,7 +41,7 @@ public class IconShape extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_icon_shape);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_icon_shape);
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
@@ -95,8 +94,8 @@ public class IconShape extends BaseActivity {
 
                     refreshBackground();
                 } else {
-                    if (!Environment.isExternalStorageManager()) {
-                        SystemUtil.getStoragePermission(this);
+                    if (!SystemUtil.hasStoragePermission()) {
+                        SystemUtil.requestStoragePermission(this);
                     } else {
                         // Show loading dialog
                         loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));

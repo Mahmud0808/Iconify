@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.activities;
 
+import static com.drdisagree.iconify.common.Const.FRAGMENT_TRANSITION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED;
@@ -13,7 +14,6 @@ import android.graphics.Color;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.PersistableBundle;
@@ -38,18 +38,16 @@ import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.ActivityOnboardingBinding;
 import com.drdisagree.iconify.ui.adapters.OnboardingAdapter;
 import com.drdisagree.iconify.ui.utils.Animatoo;
-import com.drdisagree.iconify.ui.utils.TaskExecutor;
 import com.drdisagree.iconify.ui.views.InstallationDialog;
 import com.drdisagree.iconify.utils.FileUtil;
 import com.drdisagree.iconify.utils.ModuleUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.RootUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.utils.TaskExecutor;
 import com.drdisagree.iconify.utils.compiler.OnBoardingCompiler;
 import com.drdisagree.iconify.utils.helpers.BackupRestore;
 import com.topjohnwu.superuser.Shell;
-
-import org.zeroturnaround.zip.ZipUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,6 +56,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Onboarding extends BaseActivity {
 
+    private static final String mData = "mDataKey";
     public static boolean skippedInstallation = false;
     private static boolean hasErroredOut = false, rebootRequired = false;
     private static StartInstallationProcess installModule = null;
@@ -66,11 +65,9 @@ public class Onboarding extends BaseActivity {
     private ActivityOnboardingBinding binding;
     private int previousPage = 0;
     private ViewPager2 mViewPager;
-    @SuppressLint("StaticFieldLeak")
     private InstallationDialog progressDialog;
     private OnboardingAdapter mAdapter = null;
     private String logger = null, prev_log = null;
-    private static final String mData = "mDataKey";
     private int selectedItemPosition = 0;
 
     @Override
@@ -167,13 +164,13 @@ public class Onboarding extends BaseActivity {
 
                         if (RootUtil.isDeviceRooted()) {
                             if (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) {
-                                if (!Environment.isExternalStorageManager()) {
+                                if (!SystemUtil.hasStoragePermission()) {
                                     showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
                                     Toast.makeText(Onboarding.this, R.string.toast_storage_access, Toast.LENGTH_SHORT).show();
 
                                     new Handler(Looper.getMainLooper()).postDelayed(() -> {
                                         clickedContinue.set(true);
-                                        SystemUtil.getStoragePermission(Onboarding.this);
+                                        SystemUtil.requestStoragePermission(Onboarding.this);
                                     }, clickedContinue.get() ? 10 : 2000);
                                 } else {
                                     if (!ModuleUtil.moduleExists()) {
@@ -204,47 +201,54 @@ public class Onboarding extends BaseActivity {
         });
 
         // Start installation on click
+        final boolean[] isClickable = {true};
         binding.btnNextStep.setOnClickListener(v -> {
-            if (getItem() > mViewPager.getChildCount()) {
-                skippedInstallation = false;
-                hasErroredOut = false;
+            if (isClickable[0]) {
+                isClickable[0] = false;
 
-                if (RootUtil.isDeviceRooted()) {
-                    if (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) {
-                        if (!Environment.isExternalStorageManager()) {
-                            showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
-                            Toast.makeText(Onboarding.this, R.string.toast_storage_access, Toast.LENGTH_SHORT).show();
+                if (getItem() > mViewPager.getChildCount()) {
+                    skippedInstallation = false;
+                    hasErroredOut = false;
 
-                            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                                clickedContinue.set(true);
-                                SystemUtil.getStoragePermission(this);
-                            }, clickedContinue.get() ? 10 : 2000);
-                        } else {
-                            boolean moduleExists = ModuleUtil.moduleExists();
-                            boolean overlayExists = OverlayUtil.overlayExists();
+                    if (RootUtil.isDeviceRooted()) {
+                        if (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) {
+                            if (!SystemUtil.hasStoragePermission()) {
+                                showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
+                                Toast.makeText(Onboarding.this, R.string.toast_storage_access, Toast.LENGTH_SHORT).show();
 
-                            if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !moduleExists || !overlayExists) {
-                                if (!moduleExists || !overlayExists) {
-                                    Prefs.clearAllPrefs();
-                                    RPrefs.clearAllPrefs();
-                                }
-
-                                handleInstallation();
+                                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                                    clickedContinue.set(true);
+                                    SystemUtil.requestStoragePermission(this);
+                                }, clickedContinue.get() ? 10 : 2000);
                             } else {
-                                Intent intent = new Intent(Onboarding.this, HomePage.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                                Animatoo.animateSlideLeft(Onboarding.this);
+                                boolean moduleExists = ModuleUtil.moduleExists();
+                                boolean overlayExists = OverlayUtil.overlayExists();
+
+                                if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !moduleExists || !overlayExists) {
+                                    if (!moduleExists || !overlayExists) {
+                                        Prefs.clearAllPrefs();
+                                        RPrefs.clearAllPrefs();
+                                    }
+
+                                    handleInstallation();
+                                } else {
+                                    Intent intent = new Intent(Onboarding.this, HomePage.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                    Animatoo.animateSlideLeft(Onboarding.this);
+                                }
                             }
+                        } else {
+                            showInfo(R.string.magisk_not_found_title, R.string.magisk_not_found_desc);
                         }
                     } else {
-                        showInfo(R.string.magisk_not_found_title, R.string.magisk_not_found_desc);
+                        showInfo(R.string.root_not_found_title, R.string.root_not_found_desc);
                     }
                 } else {
-                    showInfo(R.string.root_not_found_title, R.string.root_not_found_desc);
+                    mViewPager.setCurrentItem(getItem() + 1, true);
                 }
-            } else {
-                mViewPager.setCurrentItem(getItem() + 1, true);
+
+                new Handler(Looper.getMainLooper()).postDelayed(() -> isClickable[0] = true, FRAGMENT_TRANSITION_DELAY + 50);
             }
         });
 
@@ -280,6 +284,7 @@ public class Onboarding extends BaseActivity {
         }
     }
 
+    @SuppressWarnings("SameParameterValue")
     private void showInfoNow(int title, int desc) {
         if (mAdapter.getCurrentFragment() instanceof com.drdisagree.iconify.ui.fragments.Onboarding) {
             ((com.drdisagree.iconify.ui.fragments.Onboarding) mAdapter.getCurrentFragment()).updateTextView(title, desc);
@@ -333,6 +338,24 @@ public class Onboarding extends BaseActivity {
         } else {
             mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1, true);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putInt(mData, mViewPager.getCurrentItem());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        selectedItemPosition = savedInstanceState.getInt(mData);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        binding.btnNextStep.requestLayout();
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -397,7 +420,6 @@ public class Onboarding extends BaseActivity {
                 logger = "Cleaning iconify data directory";
                 publishProgress(step);
                 // Clean data directory
-                Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
                 Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Overlays").exec();
 
                 logger = "Extracting overlays from assets";
@@ -414,7 +436,6 @@ public class Onboarding extends BaseActivity {
                 logger = "Creating temporary directories";
                 publishProgress(step);
                 // Create temp directory
-                Shell.cmd("rm -rf " + Resources.TEMP_DIR + "; mkdir -p " + Resources.TEMP_DIR).exec();
                 Shell.cmd("mkdir -p " + Resources.TEMP_OVERLAY_DIR).exec();
                 Shell.cmd("mkdir -p " + Resources.UNSIGNED_UNALIGNED_DIR).exec();
                 Shell.cmd("mkdir -p " + Resources.UNSIGNED_DIR).exec();
@@ -530,20 +551,16 @@ public class Onboarding extends BaseActivity {
             }
             // Move all generated overlays to system dir and flash as module
             if (!hasErroredOut) {
-                Shell.cmd("cp -a " + Resources.SIGNED_DIR + "/. " + Resources.OVERLAY_DIR).exec();
+                Shell.cmd("cp -a " + Resources.SIGNED_DIR + "/. " + Resources.TEMP_MODULE_OVERLAY_DIR).exec();
                 BackupRestore.restoreFiles();
-                RootUtil.setPermissionsRecursively(644, Resources.OVERLAY_DIR + '/');
 
-                Shell.cmd("cp -r " + Resources.MODULE_DIR + ' ' + Resources.TEMP_DIR).exec();
-                Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
                 try {
-                    ZipUtil.pack(new File(Resources.TEMP_DIR + "/Iconify"), new File(Resources.TEMP_DIR + "/Iconify.zip"));
-                } catch (Exception exception) {
+                    hasErroredOut = ModuleUtil.flashModule(ModuleUtil.createModule(Resources.TEMP_MODULE_DIR, Resources.TEMP_DIR + "/Iconify.zip"));
+                } catch (Exception e) {
                     hasErroredOut = true;
-                    writeLog(TAG, "Error creating module zip", exception.toString());
+                    writeLog(TAG, "Error creating module zip", e);
+                    e.printStackTrace();
                 }
-
-                ModuleUtil.flashModule();
             }
 
             logger = "Cleaning temporary directories";
@@ -565,7 +582,7 @@ public class Onboarding extends BaseActivity {
 
             if (!hasErroredOut) {
                 if (!skippedInstallation) {
-                    if (BuildConfig.VERSION_CODE != Prefs.getInt(VER_CODE, -1)) {
+                    if (BuildConfig.VERSION_CODE != SystemUtil.getSavedVersionCode()) {
                         if (Prefs.getBoolean(FIRST_INSTALL, true)) {
                             Prefs.putBoolean(FIRST_INSTALL, true);
                             Prefs.putBoolean(UPDATE_DETECTED, false);
@@ -598,8 +615,10 @@ public class Onboarding extends BaseActivity {
                     Toast.makeText(Onboarding.this, R.string.one_time_reboot_needed, Toast.LENGTH_LONG).show();
                 }
             } else {
-                Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
+                Shell.cmd("rm -rf " + Resources.DATA_DIR).exec();
+                Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
                 Shell.cmd("rm -rf " + Resources.BACKUP_DIR).exec();
+                Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
                 showInfo(R.string.installation_failed_title, R.string.installation_failed_desc);
                 binding.btnNextStep.setText(R.string.btn_lets_go);
             }
@@ -622,17 +641,5 @@ public class Onboarding extends BaseActivity {
             Shell.cmd("rm -rf " + Resources.BACKUP_DIR).exec();
             Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        outState.putInt(mData, mViewPager.getCurrentItem());
-    }
-
-    @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        selectedItemPosition = savedInstanceState.getInt(mData);
     }
 }

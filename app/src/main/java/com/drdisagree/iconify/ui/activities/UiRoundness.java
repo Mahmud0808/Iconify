@@ -6,12 +6,10 @@ import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,10 +18,11 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.ActivityUiRoundnessBinding;
-import com.drdisagree.iconify.overlaymanager.RoundnessManager;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.utils.overlaymanager.RoundnessManager;
+import com.google.android.material.slider.Slider;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -44,7 +43,7 @@ public class UiRoundness extends BaseActivity {
         loadingDialog = new LoadingDialog(this);
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_ui_roundness);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_ui_roundness);
 
         // Corner Radius
         GradientDrawable[] drawables = new GradientDrawable[]{
@@ -67,34 +66,32 @@ public class UiRoundness extends BaseActivity {
         for (GradientDrawable drawable : drawables) {
             drawable.setCornerRadius(finalUiCornerRadius[0] * getResources().getDisplayMetrics().density);
         }
-        binding.cornerRadiusSeekbar.setProgress(finalUiCornerRadius[0]);
+        binding.cornerRadiusSeekbar.setValue(finalUiCornerRadius[0]);
 
-        binding.cornerRadiusSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
+        binding.cornerRadiusSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                finalUiCornerRadius[0] = progress;
-                if (progress == 28)
-                    binding.cornerRadiusOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp " + getResources().getString(R.string.opt_default));
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                finalUiCornerRadius[0] = (int) slider.getValue();
+                if (finalUiCornerRadius[0] == 28)
+                    binding.cornerRadiusOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalUiCornerRadius[0] + "dp " + getResources().getString(R.string.opt_default));
                 else
-                    binding.cornerRadiusOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
-                for (GradientDrawable drawable : drawables) {
-                    drawable.setCornerRadius(finalUiCornerRadius[0] * getResources().getDisplayMetrics().density);
-                }
+                    binding.cornerRadiusOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalUiCornerRadius[0] + "dp");
             }
+        });
 
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+        binding.cornerRadiusSeekbar.addOnChangeListener((slider, value, fromUser) -> {
+            for (GradientDrawable drawable : drawables) {
+                drawable.setCornerRadius(value * getResources().getDisplayMetrics().density);
             }
         });
 
         binding.applyRadius.setOnClickListener(v -> {
-            if (!Environment.isExternalStorageManager()) {
-                SystemUtil.getStoragePermission(this);
+            if (!SystemUtil.hasStoragePermission()) {
+                SystemUtil.requestStoragePermission(this);
             } else {
                 // Show loading dialog
                 loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
@@ -102,7 +99,7 @@ public class UiRoundness extends BaseActivity {
 
                 Runnable runnable = () -> {
                     try {
-                        hasErroredOut.set(RoundnessManager.enableOverlay(finalUiCornerRadius[0], true));
+                        hasErroredOut.set(RoundnessManager.buildOverlay(finalUiCornerRadius[0], true));
                     } catch (IOException e) {
                         hasErroredOut.set(true);
                         Log.e("UiRoundness", e.toString());

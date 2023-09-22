@@ -1,48 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_item_switch"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:background="@drawable/item_background_material"
+    android:clickable="true"
+    tools:ignore="UseSwitchCompatOrMaterialXml">
 
     <LinearLayout
-        android:id="@+id/list_item_switch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/container_mid"
-        android:orientation="horizontal"
-        android:paddingStart="@dimen/container_paddingSide"
-        android:paddingTop="@dimen/container_padding"
-        android:paddingEnd="@dimen/container_paddingSide"
-        android:paddingBottom="@dimen/container_padding"
-        tools:ignore="UseSwitchCompatOrMaterialXml">
+        android:layout_centerVertical="true"
+        android:layout_marginVertical="22dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@id/switch_view"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/title"
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start|center"
-            android:layout_marginEnd="@dimen/container_padding"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textColor="@color/text_color_primary" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_gravity="center"
-            android:layout_weight="1.0" />
-
-        <Switch
-            android:id="@+id/switch_view"
+        <TextView
+            style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start|center" />
+            android:text="@string/click_to_enable_or_disable"
+            android:textColor="@color/text_color_secondary" />
 
     </LinearLayout>
 
-    <View
-        android:id="@+id/divider"
-        style="@style/dividerTransparent" />
+    <Switch
+        android:id="@+id/switch_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="24dp" />
 
-</LinearLayout>
+</RelativeLayout>

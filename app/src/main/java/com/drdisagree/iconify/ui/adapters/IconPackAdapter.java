@@ -22,9 +22,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.overlaymanager.IconPackManager;
 import com.drdisagree.iconify.ui.models.IconPackModel;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
+import com.drdisagree.iconify.utils.overlaymanager.IconPackManager;
 
 import java.util.ArrayList;
 
@@ -79,11 +79,7 @@ public class IconPackAdapter extends RecyclerView.Adapter<IconPackAdapter.ViewHo
     public void onViewAttachedToWindow(@NonNull ViewHolder holder) {
         super.onViewAttachedToWindow(holder);
 
-        if (Prefs.getBoolean(ICONPACK_KEY.get(holder.getBindingAdapterPosition())))
-            holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.container_selected));
-        else
-            holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.container));
-
+        itemSelected(holder.container, Prefs.getBoolean(ICONPACK_KEY.get(holder.getBindingAdapterPosition())));
         refreshButton(holder);
     }
 
@@ -199,10 +195,7 @@ public class IconPackAdapter extends RecyclerView.Adapter<IconPackAdapter.ViewHo
                 LinearLayout child = view.findViewById(R.id.icon_pack_child);
 
                 if (child != null) {
-                    if (i == holder.getAbsoluteAdapterPosition() && Prefs.getBoolean(ICONPACK_KEY.get(i - (holder.getAbsoluteAdapterPosition() - holder.getBindingAdapterPosition()))))
-                        child.setBackground(ContextCompat.getDrawable(context, R.drawable.container_selected));
-                    else
-                        child.setBackground(ContextCompat.getDrawable(context, R.drawable.container));
+                    itemSelected(child, i == holder.getAbsoluteAdapterPosition() && Prefs.getBoolean(ICONPACK_KEY.get(i - (holder.getAbsoluteAdapterPosition() - holder.getBindingAdapterPosition()))));
                 }
             }
         }
@@ -220,6 +213,22 @@ public class IconPackAdapter extends RecyclerView.Adapter<IconPackAdapter.ViewHo
                 holder.btn_enable.setVisibility(View.VISIBLE);
                 holder.btn_disable.setVisibility(View.GONE);
             }
+        }
+    }
+
+    private void itemSelected(View parent, boolean state) {
+        if (state) {
+            parent.setBackground(ContextCompat.getDrawable(context, R.drawable.container_selected));
+            ((TextView) parent.findViewById(R.id.iconpack_title)).setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+            ((TextView) parent.findViewById(R.id.iconpack_desc)).setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+            parent.findViewById(R.id.icon_selected).setVisibility(View.VISIBLE);
+            parent.findViewById(R.id.iconpack_desc).setAlpha(0.8f);
+        } else {
+            parent.setBackground(ContextCompat.getDrawable(context, R.drawable.item_background_material));
+            ((TextView) parent.findViewById(R.id.iconpack_title)).setTextColor(ContextCompat.getColor(context, R.color.text_color_primary));
+            ((TextView) parent.findViewById(R.id.iconpack_desc)).setTextColor(ContextCompat.getColor(context, R.color.text_color_secondary));
+            parent.findViewById(R.id.icon_selected).setVisibility(View.INVISIBLE);
+            parent.findViewById(R.id.iconpack_desc).setAlpha(1f);
         }
     }
 

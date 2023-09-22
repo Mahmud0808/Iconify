@@ -7,6 +7,7 @@ import android.util.TypedValue
 import androidx.core.graphics.PathParser
 import com.drdisagree.iconify.xposed.HookRes.modRes
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
+import kotlin.math.floor
 
 @SuppressLint("DiscouragedApi")
 open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColor: Int) :
@@ -134,6 +135,18 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
         p.style = Paint.Style.FILL_AND_STROKE
     }
 
+    private val boltPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+        p.color = context.resources.getColorStateList(
+            context.resources.getIdentifier(
+                "batterymeter_bolt_color", "color", context.packageName
+            ), context.theme
+        ).defaultColor
+        p.alpha = 255
+        p.isDither = true
+        p.strokeWidth = 0f
+        p.style = Paint.Style.FILL_AND_STROKE
+    }
+
     private val errorPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
         p.color = context.resources.getColorStateList(
             context.resources.getIdentifier(
@@ -177,9 +190,9 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
                 "batterymeter_color_values", "array", context.packageName
             )
         )
-        val N = levels.length()
-        colorLevels = IntArray(2 * N)
-        for (i in 0 until N) {
+        val n = levels.length()
+        colorLevels = IntArray(2 * n)
+        for (i in 0 until n) {
             colorLevels[2 * i] = levels.getInt(i, 0)
             if (colors.getType(i) == TypedValue.TYPE_ATTRIBUTE) {
                 colorLevels[2 * i + 1] = SettingsLibUtils.getColorAttrDefaultColor(
@@ -204,7 +217,7 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
         val fillTop = if (batteryLevel >= 95) fillRect.right
         else fillRect.right - (fillRect.width() * (1 - fillFraction))
 
-        levelRect.right = Math.floor(fillTop.toDouble()).toFloat()
+        levelRect.right = floor(fillTop.toDouble()).toFloat()
         //levelPath.addRect(levelRect, Path.Direction.CCW)
         levelPath.addRoundRect(
             levelRect, floatArrayOf(
@@ -246,22 +259,12 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
         val xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
         textPaint.xfermode = xfermode
 
-        // Deal with unifiedPath clipping before it draws
-        if (charging && batteryLevel < 100) {
-            // Clip out the bolt shape
-            unifiedPath.op(mergedPath, Path.Op.DIFFERENCE)
-
-            if (!invertFillIcon) {
-                c.drawPath(mergedPath, textPaint)
-            }
-        } else {
+        if (!shouldChangePercentageColor()) {
             // Clip out the text path
             unifiedPath.op(textPath, Path.Op.DIFFERENCE)
-
             c.drawPath(textPath, textPaint)
         }
 
-        // Dual tone means we draw the shape again, clipped to the charge level
         c.drawPath(unifiedPath, dualToneBackgroundFill)
         c.save()
         c.clipRect(
@@ -273,7 +276,26 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
         c.drawPath(unifiedPath, fillPaint)
         c.restore()
 
+        // Deal with unifiedPath clipping before it draws
+        if (shouldChangePercentageColor()) {
+            // Clip out the bolt shape
+            if (charging && batteryLevel < 100) {
+                c.drawPath(mergedPath, boltPaint)
+            } else {
+                c.drawPath(textPath, boltPaint)
+            }
+        }
+
         c.restore()
+    }
+
+    /**
+     * Returns true if the battery percentage text should be colored.
+     * Battery percentage color should be fillColor when in charging state or in low battery state,
+     * otherwise it should be transparent.
+     */
+    private fun shouldChangePercentageColor(): Boolean {
+        return charging || (!powerSaveEnabled && batteryLevel <= CRITICAL_LEVEL)
     }
 
     private fun batteryColorForLevel(level: Int): Int {
@@ -325,6 +347,10 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
     /**
      * Deprecated, but required by Drawable
      */
+    @Deprecated(
+        "Deprecated in Java",
+        ReplaceWith("PixelFormat.OPAQUE", "android.graphics.PixelFormat"),
+    )
     override fun getOpacity(): Int {
         return PixelFormat.OPAQUE
     }
@@ -405,7 +431,7 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
         // just pick one to scale the strokeWidths
         val scaledStrokeWidth =
 
-            Math.max(b.right / WIDTH * PROTECTION_STROKE_WIDTH, PROTECTION_MIN_STROKE_WIDTH)
+            (b.right / WIDTH * PROTECTION_STROKE_WIDTH).coerceAtLeast(PROTECTION_MIN_STROKE_WIDTH)
 
         fillColorStrokePaint.strokeWidth = scaledStrokeWidth
         fillColorStrokeProtection.strokeWidth = scaledStrokeWidth
@@ -440,10 +466,10 @@ open class LandscapeBatteryDrawableiOS16(private val context: Context, frameColo
     }
 
     companion object {
-        private const val TAG = "LandscapeBatteryDrawableiOS16"
+        private val TAG = LandscapeBatteryDrawableiOS16::class.java.simpleName
         private const val WIDTH = 24f
         private const val HEIGHT = 12f
-        private const val CRITICAL_LEVEL = 15
+        private const val CRITICAL_LEVEL = 20
 
         // On a 12x20 grid, how wide to make the fill protection stroke.
         // Scales when our size changes

@@ -16,6 +16,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
+        android:letterSpacing="0.1"
         android:text="@string/btn_skip"
         android:textSize="18sp"
         app:textAllCaps="true" />
@@ -40,7 +41,7 @@
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="30dp">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_next_step"
             style="@style/buttonLandingPage"
             android:layout_width="wrap_content"

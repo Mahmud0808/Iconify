@@ -9,7 +9,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.databinding.ActivityNotificationsPixelBinding;
 import com.drdisagree.iconify.ui.adapters.NotificationAdapter;
 import com.drdisagree.iconify.ui.models.NotificationModel;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class NotificationPixel extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_notification);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_notification);
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);

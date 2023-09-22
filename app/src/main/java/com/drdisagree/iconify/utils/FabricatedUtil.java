@@ -57,14 +57,14 @@ public class FabricatedUtil {
         for (Object[] arg : args) {
             List<String> tempCommands = buildCommands((String) arg[0], (String) arg[1], (String) arg[2], (String) arg[3], (String) arg[4]);
 
-            Prefs.putBoolean("fabricated" + (String) arg[1], true);
-            Prefs.putString("FOCMDtarget" + (String) arg[1], (String) arg[0]);
-            Prefs.putString("FOCMDname" + (String) arg[1], (String) arg[1]);
-            Prefs.putString("FOCMDtype" + (String) arg[1], (String) arg[2]);
-            Prefs.putString("FOCMDresourceName" + (String) arg[1], (String) arg[3]);
-            Prefs.putString("FOCMDval" + (String) arg[1], (String) arg[4]);
+            Prefs.putBoolean("fabricated" + arg[1], true);
+            Prefs.putString("FOCMDtarget" + arg[1], (String) arg[0]);
+            Prefs.putString("FOCMDname" + arg[1], (String) arg[1]);
+            Prefs.putString("FOCMDtype" + arg[1], (String) arg[2]);
+            Prefs.putString("FOCMDresourceName" + arg[1], (String) arg[3]);
+            Prefs.putString("FOCMDval" + arg[1], (String) arg[4]);
 
-            module.add("mv " + Resources.MODULE_DIR + "/post-exec.sh " + Resources.MODULE_DIR + "/post-exec.txt; grep -v \"IconifyComponent" + (String) arg[1] + "\" " + Resources.MODULE_DIR + "/post-exec.txt > " + Resources.MODULE_DIR + "/post-exec.txt.tmp && mv " + Resources.MODULE_DIR + "/post-exec.txt.tmp " + Resources.MODULE_DIR + "/post-exec.sh; rm -rf " + Resources.MODULE_DIR + "/post-exec.txt; rm -rf " + Resources.MODULE_DIR + "/post-exec.txt.tmp");
+            module.add("mv " + Resources.MODULE_DIR + "/post-exec.sh " + Resources.MODULE_DIR + "/post-exec.txt; grep -v \"IconifyComponent" + arg[1] + "\" " + Resources.MODULE_DIR + "/post-exec.txt > " + Resources.MODULE_DIR + "/post-exec.txt.tmp && mv " + Resources.MODULE_DIR + "/post-exec.txt.tmp " + Resources.MODULE_DIR + "/post-exec.sh; rm -rf " + Resources.MODULE_DIR + "/post-exec.txt; rm -rf " + Resources.MODULE_DIR + "/post-exec.txt.tmp");
             module.add("echo -e \"" + tempCommands.get(0) + "\n" + tempCommands.get(1) + "\" >> " + Resources.MODULE_DIR + "/post-exec.sh");
 
             commands.add(tempCommands.get(0));
@@ -165,17 +165,11 @@ public class FabricatedUtil {
         Shell.cmd(command.toString().trim()).submit();
     }
 
-    public static boolean isOverlayEnabled(List<String> overlays, String name) {
-        for (String overlay : overlays) {
-            if (overlay.equals("IconifyComponent" + name)) return true;
-        }
-        return false;
+    public static boolean isOverlayEnabled(String name) {
+        return Shell.cmd("[[ $(cmd overlay list | grep -o '\\[x\\] com.android.shell:IconifyComponent" + name + "') ]] && echo 1 || echo 0").exec().getOut().get(0).equals("1");
     }
 
-    public static boolean isOverlayDisabled(List<String> overlays, String name) {
-        for (String overlay : overlays) {
-            if (overlay.equals("IconifyComponent" + name)) return false;
-        }
-        return true;
+    public static boolean isOverlayDisabled(String name) {
+        return Shell.cmd("[[ $(cmd overlay list | grep -o '\\[ \\] com.android.shell:IconifyComponent" + name + "') ]] && echo 1 || echo 0").exec().getOut().get(0).equals("1");
     }
 }

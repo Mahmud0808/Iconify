@@ -20,6 +20,7 @@ import android.graphics.*
 import android.util.TypedValue
 import androidx.core.graphics.PathParser
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
+import kotlin.math.floor
 
 /**
  * A battery meter drawable that respects paths configured in
@@ -180,8 +181,8 @@ open class PortraitBatteryDrawableMx(private val context: Context, frameColor: I
 
     init {
         val density = context.resources.displayMetrics.density
-        intrinsicHeight = (Companion.HEIGHT * density).toInt()
-        intrinsicWidth = (Companion.WIDTH * density).toInt()
+        intrinsicHeight = (HEIGHT * density).toInt()
+        intrinsicWidth = (WIDTH * density).toInt()
 
         val res = context.resources
         val levels = res.obtainTypedArray(
@@ -194,9 +195,9 @@ open class PortraitBatteryDrawableMx(private val context: Context, frameColor: I
                 "batterymeter_color_values", "array", context.packageName
             )
         )
-        val N = levels.length()
-        colorLevels = IntArray(2 * N)
-        for (i in 0 until N) {
+        val n = levels.length()
+        colorLevels = IntArray(2 * n)
+        for (i in 0 until n) {
             colorLevels[2 * i] = levels.getInt(i, 0)
             if (colors.getType(i) == TypedValue.TYPE_ATTRIBUTE) {
                 colorLevels[2 * i + 1] = SettingsLibUtils.getColorAttrDefaultColor(
@@ -221,7 +222,7 @@ open class PortraitBatteryDrawableMx(private val context: Context, frameColor: I
         val fillTop = if (batteryLevel >= 95) fillRect.top
         else fillRect.top + (fillRect.height() * (1 - fillFraction))
 
-        levelRect.top = Math.floor(fillTop.toDouble()).toFloat()
+        levelRect.top = floor(fillTop.toDouble()).toFloat()
         levelPath.addRect(levelRect, Path.Direction.CCW)
 
         // The perimeter should never change
@@ -355,6 +356,10 @@ open class PortraitBatteryDrawableMx(private val context: Context, frameColor: I
     /**
      * Deprecated, but required by Drawable
      */
+    @Deprecated(
+        "Deprecated in Java",
+        ReplaceWith("PixelFormat.OPAQUE", "android.graphics.PixelFormat"),
+    )
     override fun getOpacity(): Int {
         return PixelFormat.OPAQUE
     }
@@ -434,7 +439,7 @@ open class PortraitBatteryDrawableMx(private val context: Context, frameColor: I
         // It is expected that this view only ever scale by the same factor in each dimension, so
         // just pick one to scale the strokeWidths
         val scaledStrokeWidth =
-            Math.max(b.right / WIDTH * PROTECTION_STROKE_WIDTH, PROTECTION_MIN_STROKE_WIDTH)
+            (b.right / WIDTH * PROTECTION_STROKE_WIDTH).coerceAtLeast(PROTECTION_MIN_STROKE_WIDTH)
 
         fillColorStrokePaint.strokeWidth = scaledStrokeWidth
         fillColorStrokeProtection.strokeWidth = scaledStrokeWidth
@@ -468,10 +473,10 @@ open class PortraitBatteryDrawableMx(private val context: Context, frameColor: I
     }
 
     companion object {
-        private const val TAG = "PortraitBatteryDrawableMx"
+        private val TAG = PortraitBatteryDrawableMx::class.java.simpleName
         private const val WIDTH = 12f
         private const val HEIGHT = 20f
-        private const val CRITICAL_LEVEL = 15
+        private const val CRITICAL_LEVEL = 20
 
         // On a 12x20 grid, how wide to make the fill protection stroke.
         // Scales when our size changes

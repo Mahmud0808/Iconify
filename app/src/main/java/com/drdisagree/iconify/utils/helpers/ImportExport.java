@@ -35,16 +35,17 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.drdisagree.iconify.overlaymanager.MonetEngineManager;
-import com.drdisagree.iconify.overlaymanager.QsMarginManager;
-import com.drdisagree.iconify.overlaymanager.QsTileHeightManager;
-import com.drdisagree.iconify.overlaymanager.RoundnessManager;
-import com.drdisagree.iconify.overlaymanager.SettingsIconResourceManager;
+import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.utils.ColorUtil;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.compiler.OnDemandCompiler;
 import com.drdisagree.iconify.utils.compiler.SwitchCompiler;
+import com.drdisagree.iconify.utils.overlaymanager.MonetEngineManager;
+import com.drdisagree.iconify.utils.overlaymanager.QsMarginManager;
+import com.drdisagree.iconify.utils.overlaymanager.QsTileHeightManager;
+import com.drdisagree.iconify.utils.overlaymanager.RoundnessManager;
+import com.drdisagree.iconify.utils.overlaymanager.SettingsIconResourceManager;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.IOException;
@@ -121,8 +122,8 @@ public class ImportExport {
             commands.add("> " + MODULE_DIR + "/common/system.prop; > " + MODULE_DIR + "/post-exec.sh; for ol in $(cmd overlay list | grep -E '^.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable $ol; done");
 
             SystemUtil.getBootId();
-            SystemUtil.getVersionCode();
             SystemUtil.disableBlur();
+            SystemUtil.saveVersionCode();
             editor.putBoolean(ON_HOME_PAGE, true);
             editor.putBoolean(FIRST_INSTALL, false);
             editor.putBoolean(QSPANEL_BLUR_SWITCH, false);
@@ -132,7 +133,7 @@ public class ImportExport {
             for (Map.Entry<String, Object> item : map.entrySet()) {
                 if (item.getValue() instanceof Boolean) {
                     if ((Boolean) item.getValue()) {
-                        if (item.getKey().startsWith("IconifyComponent") && item.getKey().endsWith(".overlay")) {
+                        if (item.getKey().startsWith("IconifyComponent") && item.getKey().endsWith(".overlay")) { // Handling overlays
                             commands.add(addOverlay(item.getKey()));
 
                             if (item.getKey().contains("IconifyComponentSIP") && !sip) { // Settings Icon Pack
@@ -144,7 +145,7 @@ public class ImportExport {
                                     int selectedSize = (int) Objects.requireNonNull(map.get(SELECTED_SETTINGS_ICONS_SIZE));
                                     int selectedIconColor = (int) Objects.requireNonNull(map.get(SELECTED_SETTINGS_ICONS_COLOR));
 
-                                    SettingsIconResourceManager.enableOverlay(selectedIcon, selectedBackground, selectedShape, selectedSize, selectedIconColor, false);
+                                    SettingsIconResourceManager.buildOverlay(selectedIcon, selectedBackground, selectedShape, selectedSize, selectedIconColor, false);
                                 } catch (Exception exception) {
                                     Log.e("ImportSettings", "Error building settings icon pack", exception);
                                 }
@@ -189,7 +190,7 @@ public class ImportExport {
                                 try {
                                     int radius = (int) Objects.requireNonNull(map.get(UI_CORNER_RADIUS));
 
-                                    RoundnessManager.enableOverlay(radius, false);
+                                    RoundnessManager.buildOverlay(radius, false);
                                 } catch (Exception exception) {
                                     Log.e("ImportSettings", "Error building UI roundness", exception);
                                 }
@@ -212,7 +213,7 @@ public class ImportExport {
                                         palette.add(temp);
                                     }
 
-                                    MonetEngineManager.enableOverlay(palette, false);
+                                    MonetEngineManager.buildOverlay(palette, false);
                                 } catch (Exception exception) {
                                     Log.e("ImportSettings", "Error building Monet Engine", exception);
                                 }
@@ -224,7 +225,7 @@ public class ImportExport {
                                     int lneh = (int) Objects.requireNonNull(map.get(LAND_QSTILE_NONEXPANDED_HEIGHT));
                                     int leh = (int) Objects.requireNonNull(map.get(LAND_QSTILE_EXPANDED_HEIGHT));
 
-                                    QsTileHeightManager.enableOverlay(pneh, peh, lneh, leh, false);
+                                    QsTileHeightManager.buildOverlay(pneh, peh, lneh, leh, false);
                                 } catch (Exception exception) {
                                     Log.e("ImportSettings", "Error building QS Tile Size", exception);
                                 }
@@ -236,12 +237,12 @@ public class ImportExport {
                                     int lqqs = (int) Objects.requireNonNull(map.get(LAND_QQS_TOP_MARGIN));
                                     int lqs = (int) Objects.requireNonNull(map.get(LAND_QS_TOP_MARGIN));
 
-                                    QsMarginManager.enableOverlay(pqqs, pqs, lqqs, lqs, false);
+                                    QsMarginManager.buildOverlay(pqqs, pqs, lqqs, lqs, false);
                                 } catch (Exception exception) {
                                     Log.e("ImportSettings", "Error building QS Header Size", exception);
                                 }
                             }
-                        } else if (item.getKey().startsWith("fabricated")) {
+                        } else if (item.getKey().startsWith("fabricated")) { // Handling fabricated overlays
                             String overlayName = item.getKey().replace("fabricated", "");
 
                             try {
@@ -254,14 +255,14 @@ public class ImportExport {
                                         commands.add(enable);
                                     }
                                     if (overlayName.contains(COLOR_ACCENT_PRIMARY_LIGHT)) {
-                                        String build = "cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimaryLight android:color/holo_blue_dark 0x1c " + ICONIFY_COLOR_ACCENT_PRIMARY;
+                                        String build = "cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimaryLight android:color/holo_green_light 0x1c " + ICONIFY_COLOR_ACCENT_PRIMARY;
                                         String enable = "cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentPrimaryLight";
                                         commands.add("echo -e \"" + build + "\n" + enable + "\" >> " + MODULE_DIR + "/post-exec.sh");
                                         commands.add(build);
                                         commands.add(enable);
                                     }
                                     if (overlayName.contains(COLOR_ACCENT_SECONDARY)) {
-                                        String build = "cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary android:color/holo_green_light 0x1c " + ICONIFY_COLOR_ACCENT_SECONDARY;
+                                        String build = "cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary android:color/holo_blue_dark 0x1c " + ICONIFY_COLOR_ACCENT_SECONDARY;
                                         String enable = "cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentSecondary";
                                         commands.add("echo -e \"" + build + "\n" + enable + "\" >> " + MODULE_DIR + "/post-exec.sh");
                                         commands.add(build);
@@ -293,6 +294,35 @@ public class ImportExport {
                     }
                 }
             }
+
+            // Copy overlay APK files
+            commands.add("find " + Resources.BACKUP_DIR + " -name \"*.apk\" -exec cp {} " + Resources.DATA_DIR + " \\; ");
+
+            // Change permissions for copied overlay APKs
+            commands.add("find " + Resources.DATA_DIR + " -name \"*.apk\" -exec chmod 644 {} \\; ");
+
+            // Install overlay APKs
+            commands.add("for file in " + Resources.DATA_DIR + "/IconifyComponent*.apk; do pm install -r \"$file\"; done");
+
+            // Remove copied overlay APKs
+            commands.add("for file in " + Resources.DATA_DIR + "/IconifyComponent*.apk; do rm -f \"$file\"; done");
+
+            // Remount the filesystem as read-write
+            commands.add("mount -o remount,rw /");
+
+            // Copy overlay APKs to system overlay
+            commands.add("find " + Resources.DATA_DIR + " -name \"*.apk\" -exec cp {} " + Resources.SYSTEM_OVERLAY_DIR + " \\; ");
+
+            // Change permissions for copied overlay APKs in system overlay
+            commands.add("find " + Resources.SYSTEM_OVERLAY_DIR + " -name \"IconifyComponent*.apk\" -exec chmod 644 {} \\; ");
+
+            // Remount the filesystem as read-only
+            commands.add("mount -o remount,ro /");
+
+            // Clear temp backup directory
+            commands.add("rm -rf " + Resources.BACKUP_DIR);
+
+            // Wait and restart SystemUI
             commands.add("sleep 3");
             commands.add("killall com.android.systemui");
 

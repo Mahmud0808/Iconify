@@ -25,7 +25,7 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.ActivityXposedBackgroundChipBinding;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.RadioDialog;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
@@ -50,7 +50,7 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_background_chip);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_background_chip);
 
         // Statusbar clock Chip
         binding.enableClockBgChip.setChecked(RPrefs.getBoolean(STATUSBAR_CLOCKBG_SWITCH, false));
@@ -58,9 +58,10 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
             RPrefs.putBoolean(STATUSBAR_CLOCKBG_SWITCH, isChecked);
 
             if (!isChecked) {
-                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
             }
         });
+        binding.clockBgChip.setOnClickListener(v -> binding.enableClockBgChip.toggle());
 
         // Statusbar clock chip style
         ArrayList<Object[]> status_bar_chip_style = new ArrayList<>();
@@ -94,19 +95,20 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
         updateColorPreview();
 
         // Status icons chip
-        if (Build.VERSION.SDK_INT >= 33) {
-            binding.statusiconsChipContainer.setVisibility(View.GONE);
-            RPrefs.putBoolean(QSPANEL_STATUSICONSBG_SWITCH, false);
-        }
-
         binding.enableStatusIconsChip.setChecked(RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false));
         binding.enableStatusIconsChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(QSPANEL_STATUSICONSBG_SWITCH, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
-                SystemUtil.doubleToggleDarkMode();
+
+                if (Build.VERSION.SDK_INT >= 33) {
+                    SystemUtil.handleSystemUIRestart();
+                } else {
+                    SystemUtil.doubleToggleDarkMode();
+                }
             }, SWITCH_ANIMATION_DELAY);
         });
+        binding.statusIconsChip.setOnClickListener(v -> binding.enableStatusIconsChip.toggle());
 
         // Status icons chip style
         ArrayList<Object[]> status_icons_chip_style = new ArrayList<>();
@@ -152,7 +154,7 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
             LinearLayout child = binding.statusBarChipContainer.getChildAt(i).findViewById(R.id.list_item_chip);
             TextView title = child.findViewById(R.id.style_name);
             if (i == RPrefs.getInt(CHIP_STATUSBAR_CLOCKBG_STYLE, 0)) {
-                title.setTextColor(getResources().getColor(R.color.colorSuccess, getTheme()));
+                title.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
             } else {
                 title.setTextColor(getResources().getColor(R.color.textColorSecondary, getTheme()));
             }
@@ -175,7 +177,7 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
             list.setOnClickListener(v -> {
                 RPrefs.putInt(CHIP_QSSTATUSICONS_STYLE, finalI);
                 refreshBackgroundStatusIcons();
-                if (RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false)) {
+                if (RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false) && Build.VERSION.SDK_INT < 33) {
                     new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
                 }
             });
@@ -191,7 +193,7 @@ public class XposedBackgroundChip extends BaseActivity implements RadioDialog.Ra
             LinearLayout child = binding.statusIconsChipContainer.getChildAt(i).findViewById(R.id.list_item_chip);
             TextView title = child.findViewById(R.id.style_name);
             if (i == RPrefs.getInt(CHIP_QSSTATUSICONS_STYLE, 0)) {
-                title.setTextColor(getResources().getColor(R.color.colorSuccess, getTheme()));
+                title.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
             } else {
                 title.setTextColor(getResources().getColor(R.color.textColorSecondary, getTheme()));
             }

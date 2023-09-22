@@ -6,24 +6,31 @@
     android:layout_margin="28dp"
     android:background="@drawable/container"
     android:elevation="8dp"
-    android:orientation="vertical"
-    android:padding="@dimen/container_paddingSide">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/title"
+        style="@style/TextAppearance.Material3.TitleLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
+        android:layout_marginHorizontal="@dimen/container_paddingSide"
+        android:layout_marginTop="@dimen/container_paddingSide"
         android:layout_marginBottom="12dp"
         android:gravity="start|center"
-        android:textColor="@color/textColorPrimary"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textColor="@color/text_color_primary" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/container_paddingSide"
+        android:layout_marginBottom="@dimen/container_paddingSide"
         android:fadingEdgeLength="24dp"
+        android:paddingTop="16dp"
         android:requiresFadingEdge="vertical">
 
         <RadioGroup

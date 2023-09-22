@@ -22,11 +22,8 @@ Iconify is an open-source Android mobile application aimed at providing users wi
 Furthermore, the open-source nature of Iconify encourages community contributions and continuous improvement, ensuring a dynamic and evolving user experience. 🤝
 </p>
 <div align="center">
-
-#### 🌟STAR THIS REPOSITORY TO SUPPORT THE DEVELOPER AND ENCOURAGE THE DEVELOPMENT OF THE APPLICATION!
-
+  <br>
   <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/.github/resources/features.png" width="100%" alt="Features">
-
 </div>
 
 ```diff
@@ -70,6 +67,20 @@ You can track all the progress [HERE](https://github.com/Mahmud0808/Iconify/comm
 
 - Improve UI/UX.
 
+# 🤝 Contribution
+
+We highly appreciate and welcome all forms of contributions, ranging from code, documentation, graphics, design suggestions, to bug reports. We encourage you to make the most of GitHub's collaborative platform by submitting Pull Requests, providing tutorials or other relevant content. Whatever you have to offer, we value and can utilize it effectively in our project.
+
+# 🌐 Translation
+
+You can help translate Iconify [on Crowdin](https://crowdin.com/project/iconify). Here are a few tips:
+
+- When using quotation marks, insert the symbols specific to the target language, as listed in [this table](https://en.wikipedia.org/wiki/Quotation_mark#Summary_table).
+
+- Iconify uses title case for some English UI text. Title case isn’t used in other languages; opt for sentence case instead.
+
+- Some English terminology may have no commonly used equivalents in other languages. In such cases, use short descriptive phrases–for example, the equivalent of _shade generator_ for _monet engine_.
+
 # 🤓 FAQ
 
 - How does Iconify work?
@@ -94,10 +105,12 @@ You can track all the progress [HERE](https://github.com/Mahmud0808/Iconify/comm
   - To report a bug, please navigate to the [Issues](https://github.com/Mahmud0808/Iconify/issues/new/choose) section. Create a new issue and ensure you select the `Bug Report` template. Provide as much detailed information as possible, including steps to reproduce the bug and any relevant error messages or screenshots.
 - How do I request a new feature?
   - If you have a feature request, please go to the [Issues](https://github.com/Mahmud0808/Iconify/issues/new/choose) section. Create a new issue and choose the `Feature Request` template. Be sure to include comprehensive details about the desired feature, its potential benefits, and any other relevant information that can assist in understanding and evaluating the request.
-- How can I donate to this project?
+- Where can I make a donation?
   - At present, I do not accept any form of donation. This project is purely a personal endeavor undertaken during my leisure time. Additionally, I prefer to maintain the freedom of releasing future updates without any obligations associated with accepting donations.
 
 # ❤ Credits 
+
+### Thanks to:
 
 - [Android Open Source Project (AOSP)](https://source.android.com) for Android source code.
 - [Substratum](https://github.com/substratum/substratum) for overlay building tricks.
@@ -110,9 +123,18 @@ You can track all the progress [HERE](https://github.com/Mahmud0808/Iconify/comm
 - [HideNavBar](https://github.com/Magisk-Modules-Repo/HideNavBar) for the navbar tweaks.
 - And everyone who contributed... :)
 
-# 🤝 Contribution
+### Translators:
 
-We highly appreciate and welcome all forms of contributions, ranging from code, documentation, graphics, design suggestions, to bug reports. We encourage you to make the most of GitHub's collaborative platform by submitting Pull Requests, providing tutorials or other relevant content. Whatever you have to offer, we value and can utilize it effectively in our project.
+- Arabic [@MRX7014](https://github.com/mrx7014), [@Mohamed Bahaa](https://github.com/muhammadbahaa2001)
+- French [@MXC48](https://github.com/MXC48)
+- Indonesian [@KaeruShi](https://github.com/KaeruShi)
+- Persian [@Faceless1999](https://github.com/Faceless1999)
+- Portuguese [@ElTifo](https://github.com/ElTifo)
+- Russian [@B1ays](https://github.com/B1ays)
+- Simplified Chinese [@Cccc-owo](https://github.com/Cccc-owo)
+- Spanish [@luckkmaxx](https://github.com/luckkmaxx)
+- Turkish [@serhat-demir](https://github.com/serhat-demir)
+- Vietnamese [@viettel1211](https://t.me/viettel1211)
 
 # 📝 Disclaimer
 

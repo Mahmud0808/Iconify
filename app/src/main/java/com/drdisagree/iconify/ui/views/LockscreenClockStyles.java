@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
 
+import androidx.core.content.res.ResourcesCompat;
+
 import com.drdisagree.iconify.R;
 
 public class LockscreenClockStyles {
@@ -22,14 +24,17 @@ public class LockscreenClockStyles {
     static Typeface typeface = null;
     static int topMargin = 0;
     static int bottomMargin = 0;
-    static int lineHeight = 0;
+    static int lineHeight = 4;
     static float textScaling = 0.6f;
     static boolean forceWhiteText = false;
+    static boolean customColorEnabled = false;
+    static int customColorCode = Color.WHITE;
 
     @SuppressLint("SetTextI18n")
     public static LinearLayout initLockscreenClockStyle(Context mContext, int style) {
         LinearLayout container = new LinearLayout(mContext);
         container.setGravity(Gravity.START | Gravity.CENTER);
+        customColorCode = ResourcesCompat.getColor(mContext.getResources(), R.color.textColorPrimary, mContext.getTheme());
 
         switch (style) {
             case 0:
@@ -166,7 +171,7 @@ public class LockscreenClockStyles {
                 clockHour3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 160 * textScaling);
                 clockHour3.setTypeface(typeface != null ? typeface : clockHour3.getTypeface(), Typeface.BOLD);
                 ViewGroup.MarginLayoutParams clockHourParams3 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                clockHourParams3.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -34 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
+                clockHourParams3.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -30 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
                 clockHour3.setLayoutParams(clockHourParams3);
 
                 final TextClock clockMinute3 = new TextClock(mContext);
@@ -177,7 +182,7 @@ public class LockscreenClockStyles {
                 clockMinute3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 160 * textScaling);
                 clockMinute3.setTypeface(typeface != null ? typeface : clockMinute3.getTypeface(), Typeface.BOLD);
                 ViewGroup.MarginLayoutParams clockMinuteParams3 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                clockMinuteParams3.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -60 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
+                clockMinuteParams3.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -54 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
                 clockMinute3.setLayoutParams(clockMinuteParams3);
 
                 final LinearLayout clockContainer3 = new LinearLayout(mContext);
@@ -535,7 +540,7 @@ public class LockscreenClockStyles {
 
                 final TextClock date8 = new TextClock(mContext);
                 ViewGroup.MarginLayoutParams dateParams8 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                dateParams8.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
+                dateParams8.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
                 date8.setLayoutParams(dateParams8);
                 date8.setFormat12Hour("MMMM dd");
                 date8.setFormat24Hour("MMMM dd");
@@ -552,7 +557,7 @@ public class LockscreenClockStyles {
                 container8.setGravity(Gravity.CENTER);
                 container8.setOrientation(LinearLayout.VERTICAL);
                 container8.setPadding((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40 * textScaling, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24 * textScaling, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40 * textScaling, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24 * textScaling, mContext.getResources().getDisplayMetrics()));
-                GradientDrawable mDrawable8 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{forceWhiteText ? android.R.color.white : R.color.textColorPrimary, forceWhiteText ? android.R.color.white : R.color.textColorPrimary});
+                GradientDrawable mDrawable8 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{forceWhiteText ? android.R.color.white : (customColorEnabled ? customColorCode : mContext.getResources().getColor(R.color.textColorPrimary, mContext.getTheme())), forceWhiteText ? android.R.color.white : (customColorEnabled ? customColorCode : mContext.getResources().getColor(R.color.textColorPrimary, mContext.getTheme()))});
                 mDrawable8.setCornerRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24 * textScaling, mContext.getResources().getDisplayMetrics()));
                 mDrawable8.setAlpha(50);
                 container8.setBackground(mDrawable8);

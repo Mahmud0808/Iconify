@@ -22,6 +22,7 @@ import android.content.Context;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public abstract class ModPack {
+
     protected Context mContext;
 
     public ModPack(Context context) {
@@ -29,8 +30,6 @@ public abstract class ModPack {
     }
 
     public abstract void updatePrefs(String... Key);
-
-    public abstract boolean listensTo(String packageName);
 
     public abstract void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable;
 }

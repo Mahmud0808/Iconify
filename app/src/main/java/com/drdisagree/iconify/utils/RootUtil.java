@@ -46,4 +46,8 @@ public class RootUtil {
         }
         return false;
     }
+
+    public static boolean deviceProperlyRooted() {
+        return isDeviceRooted() && (isMagiskInstalled() || isKSUInstalled());
+    }
 }

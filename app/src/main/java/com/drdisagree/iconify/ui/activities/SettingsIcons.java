@@ -8,14 +8,13 @@ import static com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,12 +23,12 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivitySettingsIconsBinding;
-import com.drdisagree.iconify.overlaymanager.SettingsIconResourceManager;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.ui.views.RadioDialog;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.utils.overlaymanager.SettingsIconResourceManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,7 +50,7 @@ public class SettingsIcons extends BaseActivity implements RadioDialog.RadioDial
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_settings_icons);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_settings_icons);
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
@@ -101,7 +100,7 @@ public class SettingsIcons extends BaseActivity implements RadioDialog.RadioDial
         addItem(iconpack_list);
 
         for (int i = 0; i < binding.iconPacksList.getChildCount(); i++) {
-            LinearLayout child = binding.iconPacksList.getChildAt(i).findViewById(R.id.icon_pack_child);
+            RelativeLayout child = binding.iconPacksList.getChildAt(i).findViewById(R.id.icon_pack_child);
             if (((TextView) child.findViewById(R.id.iconpack_title)).getText() == "Bubble" || ((TextView) child.findViewById(R.id.iconpack_title)).getText() == "Bubble v2") {
                 ((ImageView) child.findViewById(R.id.iconpack_preview1)).setColorFilter(0);
                 ((ImageView) child.findViewById(R.id.iconpack_preview2)).setColorFilter(0);
@@ -122,8 +121,8 @@ public class SettingsIcons extends BaseActivity implements RadioDialog.RadioDial
             binding.disableSettingsIcons.setVisibility(View.VISIBLE);
 
         binding.enableSettingsIcons.setOnClickListener(v -> {
-            if (!Environment.isExternalStorageManager()) {
-                SystemUtil.getStoragePermission(this);
+            if (!SystemUtil.hasStoragePermission()) {
+                SystemUtil.requestStoragePermission(this);
             } else {
                 // Show loading dialog
                 loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
@@ -131,7 +130,7 @@ public class SettingsIcons extends BaseActivity implements RadioDialog.RadioDial
 
                 Runnable runnable = () -> {
                     try {
-                        hasErroredOut.set(SettingsIconResourceManager.enableOverlay(selectedIcon, selectedBackground, selectedShape, selectedSize, selectedIconColor, true));
+                        hasErroredOut.set(SettingsIconResourceManager.buildOverlay(selectedIcon, selectedBackground, selectedShape, selectedSize, selectedIconColor, true));
                     } catch (IOException e) {
                         hasErroredOut.set(true);
                         Log.e("SettingsIcons", e.toString());
@@ -175,33 +174,26 @@ public class SettingsIcons extends BaseActivity implements RadioDialog.RadioDial
     }
 
     // Function to check for layout changes
-    private void refreshLayout(LinearLayout layout) {
+    private void refreshLayout(RelativeLayout layout) {
         for (int i = 0; i < binding.iconPacksList.getChildCount(); i++) {
-            LinearLayout child = binding.iconPacksList.getChildAt(i).findViewById(R.id.icon_pack_child);
-            if (!(child == layout)) {
-                binding.iconPacksList.getChildAt(i).setBackground(ContextCompat.getDrawable(SettingsIcons.this, R.drawable.container));
-            }
+            RelativeLayout child = binding.iconPacksList.getChildAt(i).findViewById(R.id.icon_pack_child);
+            itemSelected(child, child == layout);
         }
     }
 
     // Function to check for bg drawable changes
     private void refreshBackground() {
         for (int i = 0; i < binding.iconPacksList.getChildCount(); i++) {
-            LinearLayout child = binding.iconPacksList.getChildAt(i).findViewById(R.id.icon_pack_child);
-            if (Prefs.getInt(SELECTED_SETTINGS_ICONS_SET, 1) == i + 1) {
-                child.setBackground(ContextCompat.getDrawable(SettingsIcons.this, R.drawable.container_selected));
-            } else {
-                child.setBackground(ContextCompat.getDrawable(SettingsIcons.this, R.drawable.container));
-            }
+            RelativeLayout child = binding.iconPacksList.getChildAt(i).findViewById(R.id.icon_pack_child);
+            itemSelected(child, Prefs.getInt(SELECTED_SETTINGS_ICONS_SET, 1) == i + 1);
         }
     }
 
     // Function for onClick events
-    private void enableOnClickListener(LinearLayout layout, int index) {
+    private void enableOnClickListener(RelativeLayout layout, int index) {
         // Set onClick operation for options in list
         layout.setOnClickListener(v -> {
             refreshLayout(layout);
-            layout.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.container_selected));
             selectedIcon = index + 1;
         });
     }
@@ -230,6 +222,22 @@ public class SettingsIcons extends BaseActivity implements RadioDialog.RadioDial
             ic4.setImageResource((int) pack.get(i)[5]);
 
             binding.iconPacksList.addView(list);
+        }
+    }
+
+    private void itemSelected(View parent, boolean state) {
+        if (state) {
+            parent.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.container_selected));
+            ((TextView) parent.findViewById(R.id.iconpack_title)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+            ((TextView) parent.findViewById(R.id.iconpack_desc)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+            parent.findViewById(R.id.icon_selected).setVisibility(Prefs.getBoolean("IconifyComponentSIP1.overlay") ? View.VISIBLE : View.INVISIBLE);
+            parent.findViewById(R.id.iconpack_desc).setAlpha(0.8f);
+        } else {
+            parent.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.item_background_material));
+            ((TextView) parent.findViewById(R.id.iconpack_title)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.text_color_primary));
+            ((TextView) parent.findViewById(R.id.iconpack_desc)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.text_color_secondary));
+            parent.findViewById(R.id.icon_selected).setVisibility(View.INVISIBLE);
+            parent.findViewById(R.id.iconpack_desc).setAlpha(1f);
         }
     }
 

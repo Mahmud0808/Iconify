@@ -20,10 +20,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
+import java.util.Objects;
 
 public class OverlayCompiler {
 
-    private static final String TAG = "OverlayCompiler";
+    private static final String TAG = OverlayCompiler.class.getSimpleName();
     private static final String aapt = AAPT.getAbsolutePath();
     private static final String zipalign = ZIPALIGN.getAbsolutePath();
     private static PrivateKey key = null;
@@ -82,10 +83,10 @@ public class OverlayCompiler {
         String fileName = "null";
         try {
             if (key == null) {
-                key = readPrivateKey(Iconify.getAppContext().getAssets().open("Keystore/testkey.pk8"));
+                key = readPrivateKey(Objects.requireNonNull(Iconify.getAppContext()).getAssets().open("Keystore/testkey.pk8"));
             }
             if (cert == null) {
-                cert = readCertificate(Iconify.getAppContext().getAssets().open("Keystore/testkey.x509.pem"));
+                cert = readCertificate(Objects.requireNonNull(Iconify.getAppContext()).getAssets().open("Keystore/testkey.x509.pem"));
             }
 
             fileName = getOverlayName(source);
@@ -97,7 +98,7 @@ public class OverlayCompiler {
             Log.i(TAG + " - APKSigner", "Successfully signed " + fileName);
         } catch (Exception e) {
             Log.e(TAG, e.toString());
-            writeLog(TAG + " - APKSigner", "Failed to sign " + fileName, e.toString());
+            writeLog(TAG + " - APKSigner", "Failed to sign " + fileName, e);
             return true;
         }
         return false;

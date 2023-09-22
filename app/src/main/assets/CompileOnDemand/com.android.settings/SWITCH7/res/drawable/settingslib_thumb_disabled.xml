@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:alpha="?android:attr/disabledAlpha">
+    <item android:alpha="?android:attr/disabledAlpha">
         <layer-list>
             <item
                 android:width="25dp"

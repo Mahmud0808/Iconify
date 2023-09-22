@@ -2,17 +2,21 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:tintMode="multiply">
-            <solid android:color="@color/holo_green_light" />
+            <solid android:color="@color/holo_blue_dark" />
             <corners android:radius="24dp" />
         </shape>
     </item>
     <item android:gravity="left|center">
-        <shape android:tintMode="multiply">
-            <solid android:color="@color/holo_blue_light" />
-            <corners
-                android:bottomLeftRadius="24dp"
-                android:topLeftRadius="24dp" />
-            <size android:width="52.0dp" />
-        </shape>
+        <rotate
+            android:fromDegrees="@dimen/rotate_rtl_mode"
+            android:toDegrees="0">
+            <shape android:tintMode="multiply">
+                <solid android:color="@color/holo_blue_light" />
+                <corners
+                    android:bottomLeftRadius="24dp"
+                    android:topLeftRadius="24dp" />
+                <size android:width="52.0dp" />
+            </shape>
+        </rotate>
     </item>
 </layer-list>

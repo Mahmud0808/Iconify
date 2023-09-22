@@ -7,6 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.DrawableWrapper;
 import android.graphics.drawable.InsetDrawable;
 
+import androidx.annotation.NonNull;
+
 public final class RoundedCornerProgressDrawable extends InsetDrawable {
 
     public RoundedCornerProgressDrawable() {
@@ -63,13 +65,15 @@ public final class RoundedCornerProgressDrawable extends InsetDrawable {
             return mWrappedState.getChangingConfigurations();
         }
 
+        @NonNull
         public Drawable newDrawable() {
             return newDrawable(null, null);
         }
 
+        @NonNull
         public Drawable newDrawable(Resources resources, Resources.Theme theme) {
             Drawable drawable = mWrappedState.newDrawable(resources, theme);
-            return (Drawable) new RoundedCornerProgressDrawable(((DrawableWrapper) drawable).getDrawable());
+            return new RoundedCornerProgressDrawable(((DrawableWrapper) drawable).getDrawable());
         }
     }
 }

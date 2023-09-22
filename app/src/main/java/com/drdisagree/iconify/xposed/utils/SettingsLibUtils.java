@@ -23,12 +23,20 @@ import static de.robv.android.xposed.XposedHelpers.findClass;
 import android.content.Context;
 import android.content.res.ColorStateList;
 
-public class SettingsLibUtils {
+import com.drdisagree.iconify.xposed.ModPack;
+
+import de.robv.android.xposed.callbacks.XC_LoadPackage;
+
+public class SettingsLibUtils extends ModPack {
+
     private static Class<?> UtilsClass = null;
 
-    public static void init(ClassLoader classLoader) {
-        if (UtilsClass == null)
-            UtilsClass = findClass("com.android.settingslib.Utils", classLoader);
+    public SettingsLibUtils(Context context) {
+        super(context);
+    }
+
+    public static ColorStateList getColorAttr(Context context, int resID) {
+        return getColorAttr(resID, context);
     }
 
     public static ColorStateList getColorAttr(int resID, Context context) {
@@ -39,6 +47,10 @@ public class SettingsLibUtils {
         } catch (Throwable t) {
             return (ColorStateList) callStaticMethod(UtilsClass, "getColorAttr", context, resID);
         }
+    }
+
+    public static int getColorAttrDefaultColor(Context context, int resID) {
+        return getColorAttrDefaultColor(resID, context);
     }
 
     public static int getColorAttrDefaultColor(int resID, Context context) {
@@ -52,6 +64,18 @@ public class SettingsLibUtils {
             } catch (Throwable th) { // Custom roms
                 return (int) callStaticMethod(UtilsClass, "getColorAttrDefaultColor", context, resID);
             }
+        }
+    }
+
+    @Override
+    public void updatePrefs(String... Key) {
+    }
+
+    @Override
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+        try {
+            UtilsClass = findClass("com.android.settingslib.Utils", lpparam.classLoader);
+        } catch (Throwable ignored) {
         }
     }
 }

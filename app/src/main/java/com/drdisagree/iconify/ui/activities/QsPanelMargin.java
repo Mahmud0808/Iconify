@@ -8,29 +8,28 @@ import static com.drdisagree.iconify.common.Preferences.PORT_QS_TOP_MARGIN;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
-import android.widget.SeekBar;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.ActivityQsPanelMarginBinding;
-import com.drdisagree.iconify.overlaymanager.QsMarginManager;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.utils.overlaymanager.QsMarginManager;
+import com.google.android.material.slider.Slider;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class QsPanelMargin extends AppCompatActivity {
+public class QsPanelMargin extends BaseActivity {
 
     private ActivityQsPanelMarginBinding binding;
     private LoadingDialog loadingDialog;
@@ -43,92 +42,76 @@ public class QsPanelMargin extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_qs_panel_margin);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_qs_panel_margin);
 
         // Show loading dialog
         loadingDialog = new LoadingDialog(this);
 
         // Portrait qqs margin
         binding.portQqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(PORT_QQS_TOP_MARGIN, 100) + "dp");
-        binding.portQqsTopMarginSeekbar.setProgress(Prefs.getInt(PORT_QQS_TOP_MARGIN, 100));
+        binding.portQqsTopMarginSeekbar.setValue(Prefs.getInt(PORT_QQS_TOP_MARGIN, 100));
         int[] portQqsMargin = new int[]{Prefs.getInt(PORT_QQS_TOP_MARGIN, 100)};
 
-        binding.portQqsTopMarginSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.portQqsTopMarginSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                portQqsMargin[0] = progress;
-                binding.portQqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                portQqsMargin[0] = (int) slider.getValue();
+                binding.portQqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + portQqsMargin[0] + "dp");
             }
         });
 
         // Portrait qs margin
         binding.portQsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(PORT_QS_TOP_MARGIN, 100) + "dp");
-        binding.portQsTopMarginSeekbar.setProgress(Prefs.getInt(PORT_QS_TOP_MARGIN, 100));
+        binding.portQsTopMarginSeekbar.setValue(Prefs.getInt(PORT_QS_TOP_MARGIN, 100));
         int[] portQsMargin = new int[]{Prefs.getInt(PORT_QS_TOP_MARGIN, 100)};
 
-        binding.portQsTopMarginSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.portQsTopMarginSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                portQsMargin[0] = progress;
-                binding.portQsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                portQsMargin[0] = (int) slider.getValue();
+                binding.portQsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + portQsMargin[0] + "dp");
             }
         });
 
         // Landscape qqs margin
         binding.landQqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(LAND_QQS_TOP_MARGIN, 100) + "dp");
-        binding.landQqsTopMarginSeekbar.setProgress(Prefs.getInt(LAND_QQS_TOP_MARGIN, 100));
+        binding.landQqsTopMarginSeekbar.setValue(Prefs.getInt(LAND_QQS_TOP_MARGIN, 100));
         int[] landQqsMargin = new int[]{Prefs.getInt(LAND_QQS_TOP_MARGIN, 100)};
 
-        binding.landQqsTopMarginSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.landQqsTopMarginSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                landQqsMargin[0] = progress;
-                binding.landQqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                landQqsMargin[0] = (int) slider.getValue();
+                binding.landQqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + landQqsMargin[0] + "dp");
             }
         });
 
         // Landscape qs margin
         binding.landQsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(LAND_QS_TOP_MARGIN, 100) + "dp");
-        binding.landQsTopMarginSeekbar.setProgress(Prefs.getInt(LAND_QS_TOP_MARGIN, 100));
+        binding.landQsTopMarginSeekbar.setValue(Prefs.getInt(LAND_QS_TOP_MARGIN, 100));
         int[] landQsMargin = new int[]{Prefs.getInt(LAND_QS_TOP_MARGIN, 100)};
 
-        binding.landQsTopMarginSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.landQsTopMarginSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                landQsMargin[0] = progress;
-                binding.landQsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + progress + "dp");
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                landQsMargin[0] = (int) slider.getValue();
+                binding.landQsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + landQsMargin[0] + "dp");
             }
         });
 
@@ -137,8 +120,8 @@ public class QsPanelMargin extends AppCompatActivity {
             binding.qsMarginReset.setVisibility(View.VISIBLE);
 
         binding.qsMarginApply.setOnClickListener(v -> {
-            if (!Environment.isExternalStorageManager()) {
-                SystemUtil.getStoragePermission(this);
+            if (!SystemUtil.hasStoragePermission()) {
+                SystemUtil.requestStoragePermission(this);
             } else {
                 // Show loading dialog
                 loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
@@ -146,7 +129,7 @@ public class QsPanelMargin extends AppCompatActivity {
 
                 Runnable runnable = () -> {
                     try {
-                        hasErroredOut.set(QsMarginManager.enableOverlay(portQqsMargin[0], portQsMargin[0], landQqsMargin[0], landQsMargin[0], true));
+                        hasErroredOut.set(QsMarginManager.buildOverlay(portQqsMargin[0], portQsMargin[0], landQqsMargin[0], landQsMargin[0], true));
                     } catch (IOException e) {
                         hasErroredOut.set(true);
                     }
@@ -161,7 +144,7 @@ public class QsPanelMargin extends AppCompatActivity {
 
                             binding.qsMarginReset.setVisibility(View.VISIBLE);
                         } else {
-                            RPrefs.putInt(HEADER_QQS_TOPMARGIN, -1);
+                            RPrefs.clearPref(HEADER_QQS_TOPMARGIN);
                         }
 
                         new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -182,6 +165,7 @@ public class QsPanelMargin extends AppCompatActivity {
 
         binding.qsMarginReset.setOnClickListener(v -> {
             Prefs.clearPrefs(PORT_QQS_TOP_MARGIN, PORT_QS_TOP_MARGIN, LAND_QQS_TOP_MARGIN, LAND_QS_TOP_MARGIN);
+            RPrefs.clearPref(HEADER_QQS_TOPMARGIN);
 
             portQqsMargin[0] = 100;
             portQsMargin[0] = 100;
@@ -193,10 +177,10 @@ public class QsPanelMargin extends AppCompatActivity {
             binding.landQqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + "100dp");
             binding.landQsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + "100dp");
 
-            binding.portQqsTopMarginSeekbar.setProgress(100);
-            binding.portQsTopMarginSeekbar.setProgress(100);
-            binding.landQqsTopMarginSeekbar.setProgress(100);
-            binding.landQsTopMarginSeekbar.setProgress(100);
+            binding.portQqsTopMarginSeekbar.setValue(100);
+            binding.portQsTopMarginSeekbar.setValue(100);
+            binding.landQqsTopMarginSeekbar.setValue(100);
+            binding.landQsTopMarginSeekbar.setValue(100);
 
             binding.qsMarginReset.setVisibility(View.GONE);
 

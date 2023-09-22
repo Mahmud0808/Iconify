@@ -23,18 +23,16 @@ import android.widget.Toast;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityBasicColorsBinding;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
-import java.util.List;
 import java.util.Objects;
 
 public class BasicColors extends BaseActivity implements ColorPickerDialogListener {
 
-    public static List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
     private static boolean isSelectedPrimary = false, isSelectedSecondary = false;
     private static String accentPrimary, accentSecondary;
     private ActivityBasicColorsBinding binding;
@@ -43,13 +41,13 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
     public static void applyPrimaryColors() {
         FabricatedUtil.buildAndEnableOverlays(
                 new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", colorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_PRIMARY)))},
-                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY_LIGHT, "color", "holo_blue_dark", colorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_PRIMARY)))}
+                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY_LIGHT, "color", "holo_green_light", colorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_PRIMARY)))}
         );
     }
 
     public static void applySecondaryColors() {
         FabricatedUtil.buildAndEnableOverlays(
-                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", colorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_SECONDARY)))},
+                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_blue_dark", colorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_SECONDARY)))},
                 new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY_LIGHT, "color", "holo_green_dark", colorToSpecialHex(Integer.parseInt(Prefs.getString(COLOR_ACCENT_SECONDARY)))}
         );
     }
@@ -69,19 +67,19 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
     public static void applyDefaultPrimaryColors() {
         FabricatedUtil.buildAndEnableOverlays(
                 new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY, "color", "holo_blue_light", ICONIFY_COLOR_ACCENT_PRIMARY},
-                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY_LIGHT, "color", "holo_blue_dark", ICONIFY_COLOR_ACCENT_PRIMARY}
+                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_PRIMARY_LIGHT, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_PRIMARY}
         );
     }
 
     public static void applyDefaultSecondaryColors() {
         FabricatedUtil.buildAndEnableOverlays(
-                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_green_light", ICONIFY_COLOR_ACCENT_SECONDARY},
+                new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY, "color", "holo_blue_dark", ICONIFY_COLOR_ACCENT_SECONDARY},
                 new Object[]{FRAMEWORK_PACKAGE, COLOR_ACCENT_SECONDARY_LIGHT, "color", "holo_green_dark", ICONIFY_COLOR_ACCENT_SECONDARY}
         );
     }
 
     private static boolean shouldUseDefaultColors() {
-        return OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMAC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentAMGC.overlay") && OverlayUtil.isOverlayDisabled(EnabledOverlays, "IconifyComponentME.overlay");
+        return OverlayUtil.isOverlayDisabled("IconifyComponentAMAC.overlay") && OverlayUtil.isOverlayDisabled("IconifyComponentAMGC.overlay") && OverlayUtil.isOverlayDisabled("IconifyComponentME.overlay");
     }
 
     @Override
@@ -91,7 +89,7 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_basic_colors);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_basic_colors);
 
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL))
             accentPrimary = Prefs.getString(COLOR_ACCENT_PRIMARY);
@@ -101,7 +99,7 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL))
             accentSecondary = Prefs.getString(COLOR_ACCENT_SECONDARY);
         else
-            accentSecondary = String.valueOf(getResources().getColor(android.R.color.holo_green_light, getTheme()));
+            accentSecondary = String.valueOf(getResources().getColor(android.R.color.holo_blue_dark, getTheme()));
 
         updatePrimaryColor();
         updateSecondaryColor();
@@ -120,6 +118,8 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
         // Enable custom colors
         binding.enableCustomColor.setOnClickListener(v -> {
             binding.enableCustomColor.setVisibility(View.GONE);
+            refreshVisibility();
+
             Runnable runnable = () -> {
                 applyMonetColors();
 
@@ -138,6 +138,8 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
 
         binding.disableCustomColor.setOnClickListener(v -> {
             binding.disableCustomColor.setVisibility(View.GONE);
+            refreshVisibility();
+
             Runnable runnable = () -> {
                 disableAccentColors();
                 if (shouldUseDefaultColors()) {
@@ -149,6 +151,8 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
             Thread thread = new Thread(runnable);
             thread.start();
         });
+
+        refreshVisibility();
     }
 
     @Override
@@ -170,6 +174,16 @@ public class BasicColors extends BaseActivity implements ColorPickerDialogListen
                 Prefs.putBoolean(CUSTOM_SECONDARY_COLOR_SWITCH, true);
                 colorPickerDialogSecondary.setDialogStyle(R.style.ColorPicker).setColor(Integer.parseInt(accentSecondary)).setDialogType(ColorPickerDialog.TYPE_CUSTOM).setAllowCustom(false).setAllowPresets(true).setDialogId(2).setShowAlphaSlider(false).setShowColorShades(true);
                 break;
+        }
+
+        refreshVisibility();
+    }
+
+    private void refreshVisibility() {
+        if (binding.enableCustomColor.getVisibility() == View.VISIBLE || binding.disableCustomColor.getVisibility() == View.VISIBLE) {
+            binding.buttonContainer.setVisibility(View.VISIBLE);
+        } else {
+            binding.buttonContainer.setVisibility(View.GONE);
         }
     }
 

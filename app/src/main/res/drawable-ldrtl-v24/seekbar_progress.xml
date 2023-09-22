@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:autoMirrored="true">
+    <item android:height="24dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorAccent" />
+            <size android:height="24dp" />
+            <corners android:radius="12dp" />
+        </shape>
+    </item>
+    <item
+        android:drawable="@drawable/seekbar_thumb"
+        android:gravity="start|center" />
+</layer-list>

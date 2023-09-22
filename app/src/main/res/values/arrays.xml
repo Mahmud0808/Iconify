@@ -6,6 +6,7 @@
         <item>com.google.android.apps.nexuslauncher</item>
     </string-array>
     <string-array name="locale_name">
+        <item>Arabic</item>
         <item>English</item>
         <item>Chinese (China)</item>
         <item>French</item>
@@ -13,10 +14,12 @@
         <item>Persian</item>
         <item>Portuguese</item>
         <item>Russian</item>
+        <item>Spanish</item>
         <item>Turkish</item>
         <item>Vietnamese</item>
     </string-array>
     <string-array name="locale_code" translatable="false">
+        <item>ar</item>
         <item>en</item>
         <item>zh</item>
         <item>fr</item>
@@ -24,13 +27,14 @@
         <item>fa</item>
         <item>pt</item>
         <item>ru</item>
+        <item>es</item>
         <item>tr</item>
         <item>vi</item>
     </string-array>
     <string-array name="app_icon">
-        <item>@string/app_icon_default</item>
-        <item>@string/app_icon_themed</item>
-        <item>@string/app_icon_retro</item>
+        <item>@string/settings_app_icon_default</item>
+        <item>@string/settings_app_icon_themed</item>
+        <item>@string/settings_app_icon_retro</item>
     </string-array>
     <string-array name="app_icon_identifier" translatable="false">
         <item>SplashActivity</item>
@@ -38,9 +42,9 @@
         <item>SplashActivityRetro</item>
     </string-array>
     <string-array name="app_theme">
-        <item>@string/app_theme_light</item>
-        <item>@string/app_theme_dark</item>
-        <item>@string/app_theme_system</item>
+        <item>@string/settings_app_theme_light</item>
+        <item>@string/settings_app_theme_dark</item>
+        <item>@string/settings_app_theme_system</item>
     </string-array>
     <string-array name="settings_icon_bg">
         <item>@string/settings_icons_minimal</item>
@@ -106,5 +110,11 @@
         <item>@string/monet_fidelity</item>
         <item>@string/monet_content</item>
         <item>@string/monet_fruitsalad</item>
+    </string-array>
+    <string-array name="update_schedule">
+        <item>@string/update_schedule1</item>
+        <item>@string/update_schedule2</item>
+        <item>@string/update_schedule3</item>
+        <item>@string/update_schedule4</item>
     </string-array>
 </resources>

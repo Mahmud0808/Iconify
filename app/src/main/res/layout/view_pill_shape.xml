@@ -3,141 +3,150 @@
     android:id="@+id/pill_shape_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/container_margin"
     android:orientation="vertical">
+
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/TextAppearance.Material3.TitleMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/section_title_pill_appearance"
+        android:textColor="?attr/colorPrimary" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/container_top"
+        android:background="@drawable/item_background_material"
+        android:clickable="true"
         android:orientation="vertical"
-        android:paddingStart="@dimen/container_paddingSide"
-        android:paddingTop="@dimen/container_padding"
-        android:paddingEnd="@dimen/container_paddingSide"
-        android:paddingBottom="@dimen/container_padding">
+        android:paddingHorizontal="24dp"
+        android:paddingTop="22dp"
+        android:paddingBottom="4dp">
 
         <TextView
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/pill_width_title"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/cont_title_size"
-            android:textStyle="bold" />
+            android:textColor="@color/text_color_primary" />
 
         <TextView
             android:id="@+id/pill_width_output"
+            style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/textColorSecondary"
-            android:textSize="@dimen/cont_desc_size" />
+            android:textColor="@color/text_color_secondary" />
 
-        <SeekBar
+        <com.google.android.material.slider.Slider
             android:id="@+id/pill_width_seekbar"
-            style="@style/SeekBar.Iconify"
-            android:max="300"
-            android:min="40"
-            android:progress="108" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="4dp"
+            android:stepSize="1"
+            android:value="108"
+            android:valueFrom="40"
+            android:valueTo="300" />
 
     </LinearLayout>
-
-    <View style="@style/dividerTransparent" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/container_mid"
+        android:background="@drawable/item_background_material"
+        android:clickable="true"
         android:orientation="vertical"
-        android:paddingStart="@dimen/container_paddingSide"
-        android:paddingTop="@dimen/container_padding"
-        android:paddingEnd="@dimen/container_paddingSide"
-        android:paddingBottom="@dimen/container_padding">
+        android:paddingHorizontal="24dp"
+        android:paddingTop="22dp"
+        android:paddingBottom="4dp">
 
         <TextView
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/pill_thickness_title"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/cont_title_size"
-            android:textStyle="bold" />
+            android:textColor="@color/text_color_primary" />
 
         <TextView
             android:id="@+id/pill_thickness_output"
+            style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/textColorSecondary"
-            android:textSize="@dimen/cont_desc_size" />
+            android:textColor="@color/text_color_secondary" />
 
-        <SeekBar
+        <com.google.android.material.slider.Slider
             android:id="@+id/pill_thickness_seekbar"
-            style="@style/SeekBar.Iconify"
-            android:max="4"
-            android:min="1"
-            android:progress="2" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="4dp"
+            android:stepSize="1"
+            android:value="2"
+            android:valueFrom="0"
+            android:valueTo="12" />
 
     </LinearLayout>
-
-    <View style="@style/dividerTransparent" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/container_mid"
+        android:background="@drawable/item_background_material"
+        android:clickable="true"
         android:orientation="vertical"
-        android:paddingStart="@dimen/container_paddingSide"
-        android:paddingTop="@dimen/container_padding"
-        android:paddingEnd="@dimen/container_paddingSide"
-        android:paddingBottom="@dimen/container_padding">
+        android:paddingHorizontal="24dp"
+        android:paddingTop="22dp"
+        android:paddingBottom="4dp">
 
         <TextView
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/pill_bottom_space_title"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/cont_title_size"
-            android:textStyle="bold" />
+            android:textColor="@color/text_color_primary" />
 
         <TextView
             android:id="@+id/bottom_space_output"
+            style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/textColorSecondary"
-            android:textSize="@dimen/cont_desc_size" />
+            android:textColor="@color/text_color_secondary" />
 
-        <SeekBar
+        <com.google.android.material.slider.Slider
             android:id="@+id/bottom_space_seekbar"
-            style="@style/SeekBar.Iconify"
-            android:max="14"
-            android:min="2"
-            android:progress="8" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="4dp"
+            android:stepSize="1"
+            android:value="8"
+            android:valueFrom="2"
+            android:valueTo="14" />
 
     </LinearLayout>
-
-    <View style="@style/dividerTransparent" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/container_bottom"
+        android:background="@drawable/item_background_material"
+        android:clickable="true"
         android:orientation="vertical"
-        android:paddingStart="@dimen/container_paddingSide"
-        android:paddingTop="@dimen/container_padding"
-        android:paddingEnd="@dimen/container_paddingSide"
-        android:paddingBottom="@dimen/container_padding">
+        android:padding="@dimen/container_paddingSide">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/pill_shape_apply"
-            style="@style/buttonMain"
+            style="@style/Widget.MaterialButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_apply" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/pill_shape_reset"
-            style="@style/buttonMain"
+            style="@style/Widget.MaterialButton.Red"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/container_padding"
-            android:background="@drawable/button_red"
+            android:layout_marginTop="4dp"
             android:text="@string/btn_reset"
             android:visibility="gone" />
 

@@ -13,12 +13,16 @@
         </shape>
     </item>
     <item android:gravity="left|center">
-        <shape android:tintMode="src_atop">
-            <solid android:color="@color/offStateColorPixel" />
-            <corners
-                android:bottomLeftRadius="24dp"
-                android:topLeftRadius="24dp" />
-            <size android:width="52.0dp" />
-        </shape>
+        <rotate
+            android:fromDegrees="@dimen/rotate_rtl_mode"
+            android:toDegrees="0">
+            <shape android:tintMode="src_atop">
+                <solid android:color="@color/offStateColorPixel" />
+                <corners
+                    android:bottomLeftRadius="24dp"
+                    android:topLeftRadius="24dp" />
+                <size android:width="52.0dp" />
+            </shape>
+        </rotate>
     </item>
 </layer-list>

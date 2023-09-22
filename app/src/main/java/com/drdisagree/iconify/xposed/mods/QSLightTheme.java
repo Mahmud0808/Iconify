@@ -37,28 +37,22 @@ import static de.robv.android.xposed.XposedHelpers.setObjectField;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RoundRectShape;
-import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.core.graphics.ColorUtils;
 
-import com.drdisagree.iconify.xposed.HookEntry;
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.utils.Helpers;
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils;
 import com.drdisagree.iconify.xposed.utils.SystemUtil;
+
+import java.util.Arrays;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -66,67 +60,79 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 @SuppressWarnings("RedundantThrows")
 public class QSLightTheme extends ModPack {
 
-    public static final String listenPackage = SYSTEMUI_PACKAGE;
     public static final int STATE_ACTIVE = 2;
-    private static final String TAG = "Iconify - QSLightTheme: ";
+    private static final String TAG = "Iconify - " + QSLightTheme.class.getSimpleName() + ": ";
     private static boolean lightQSHeaderEnabled = false;
     private static boolean dualToneQSEnabled = false;
     private Object mBehindColors;
-    private boolean wasDark;
+    private boolean isDark;
+    private Integer colorActive = null;
     private Integer colorInactive = null;
-    private Drawable lightFooterShape = null;
     private Object mClockViewQSHeader = null;
+    private Object unlockedScrimState;
 
     public QSLightTheme(Context context) {
         super(context);
-        if (!listensTo(context.getPackageName())) return;
 
-        lightFooterShape = makeFooterShape();
-        wasDark = getIsDark();
+        isDark = SystemUtil.isDarkMode();
     }
 
     @Override
     public void updatePrefs(String... Key) {
         if (Xprefs == null) return;
 
+        lightQSHeaderEnabled = Xprefs.getBoolean(LIGHT_QSPANEL, false);
         dualToneQSEnabled = Xprefs.getBoolean(DUALTONE_QSPANEL, false);
-        if (dualToneQSEnabled) Helpers.enableOverlay("IconifyComponentQSDT.overlay");
-        else Helpers.disableOverlay("IconifyComponentQSDT.overlay");
 
-        boolean lightQSEnabled = Xprefs.getBoolean(LIGHT_QSPANEL, false);
-        if (lightQSEnabled) Helpers.enableOverlay("IconifyComponentQSLT.overlay");
-        else Helpers.disableOverlay("IconifyComponentQSLT.overlay");
-
-        setLightQSHeader(lightQSEnabled);
-    }
-
-    public void setLightQSHeader(boolean state) {
-        if (lightQSHeaderEnabled != state) {
-            lightQSHeaderEnabled = state;
-
-            try {
-                applyOverlays(true);
-            } catch (Throwable ignored) {
-            }
+        try {
+            applyOverlays(true);
+        } catch (Throwable ignored) {
         }
     }
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (!lpparam.packageName.equals(listenPackage)) return;
-
-        Class<?> QSTileViewImplClass = findClass("com.android.systemui.qs.tileimpl.QSTileViewImpl", lpparam.classLoader);
-        Class<?> FragmentHostManagerClass = findClass("com.android.systemui.fragments.FragmentHostManager", lpparam.classLoader);
-        Class<?> ScrimControllerClass = findClass("com.android.systemui.statusbar.phone.ScrimController", lpparam.classLoader);
+        Class<?> QSTileViewImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSTileViewImpl", lpparam.classLoader);
+        Class<?> FragmentHostManagerClass = findClass(SYSTEMUI_PACKAGE + ".fragments.FragmentHostManager", lpparam.classLoader);
+        Class<?> ScrimControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.ScrimController", lpparam.classLoader);
         Class<?> GradientColorsClass = findClass("com.android.internal.colorextraction.ColorExtractor$GradientColors", lpparam.classLoader);
-        Class<?> QSPanelControllerClass = findClass("com.android.systemui.qs.QSPanelController", lpparam.classLoader);
+        Class<?> QSPanelControllerClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSPanelController", lpparam.classLoader);
         Class<?> InterestingConfigChangesClass = findClass("com.android.settingslib.applications.InterestingConfigChanges", lpparam.classLoader);
-        Class<?> ScrimStateEnum = findClass("com.android.systemui.statusbar.phone.ScrimState", lpparam.classLoader);
-        Class<?> QSIconViewImplClass = findClass("com.android.systemui.qs.tileimpl.QSIconViewImpl", lpparam.classLoader);
-        Class<?> CentralSurfacesImplClass = findClass("com.android.systemui.statusbar.phone.CentralSurfacesImpl", lpparam.classLoader);
-        Class<?> ClockClass = findClass("com.android.systemui.statusbar.policy.Clock", lpparam.classLoader);
-        Class<?> QuickStatusBarHeaderClass = findClass("com.android.systemui.qs.QuickStatusBarHeader", lpparam.classLoader);
-        SettingsLibUtils.init(lpparam.classLoader);
+        Class<?> ScrimStateEnum = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.ScrimState", lpparam.classLoader);
+        Class<?> QSIconViewImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSIconViewImpl", lpparam.classLoader);
+        Class<?> CentralSurfacesImplClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.CentralSurfacesImpl", lpparam.classLoader);
+        Class<?> ClockClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.Clock", lpparam.classLoader);
+        Class<?> QuickStatusBarHeaderClass = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", lpparam.classLoader);
+
+        try {
+            Class<?> BatteryStatusChipClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.BatteryStatusChip", lpparam.classLoader);
+
+            //background color of android 14's charging chip. Fix for light QS theme situation
+            hookAllMethods(BatteryStatusChipClass, "updateResources", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    if (lightQSHeaderEnabled && !isDark) {
+                        ((LinearLayout) getObjectField(param.thisObject, "roundedContainer")).getBackground().setTint(colorActive);
+
+                        int colorPrimary = SettingsLibUtils.getColorAttrDefaultColor(mContext, android.R.attr.textColorPrimaryInverse);
+                        int textColorSecondary = SettingsLibUtils.getColorAttrDefaultColor(mContext, android.R.attr.textColorSecondaryInverse);
+                        callMethod(getObjectField(param.thisObject, "batteryMeterView"), "updateColors", colorPrimary, textColorSecondary, colorPrimary);
+                    }
+                }
+            });
+        } catch (Throwable ignored) {
+        }
+
+        unlockedScrimState = Arrays.stream(ScrimStateEnum.getEnumConstants()).filter(c -> c.toString().equals("UNLOCKED")).findFirst().get();
+
+        hookAllMethods(unlockedScrimState.getClass(), "prepare", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                if (!lightQSHeaderEnabled) return;
+
+                setObjectField(unlockedScrimState, "mBehindTint", Color.TRANSPARENT);
+            }
+        });
 
         hookAllConstructors(QSPanelControllerClass, new XC_MethodHook() {
             @Override
@@ -135,31 +141,16 @@ public class QSLightTheme extends ModPack {
             }
         });
 
-        try { //QPR1
-            Class<?> QSSecurityFooterClass = findClass("com.android.systemui.qs.QSSecurityFooter", lpparam.classLoader);
-            Class<?> QSFgsManagerFooterClass = findClass("com.android.systemui.qs.QSFgsManagerFooter", lpparam.classLoader);
-            Class<?> FooterActionsControllerClass = findClass("com.android.systemui.qs.FooterActionsController", lpparam.classLoader);
+        try { //13QPR1
+            Class<?> QSFgsManagerFooterClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSFgsManagerFooter", lpparam.classLoader);
+            Class<?> FooterActionsControllerClass = findClass(SYSTEMUI_PACKAGE + ".qs.FooterActionsController", lpparam.classLoader);
 
             hookAllConstructors(QSFgsManagerFooterClass, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    if (!wasDark && lightQSHeaderEnabled) {
+                    if (!isDark && lightQSHeaderEnabled) {
                         try {
                             ((View) getObjectField(param.thisObject, "mNumberContainer")).getBackground().setTint(colorInactive);
-                            ((View) getObjectField(param.thisObject, "mTextContainer")).setBackground(lightFooterShape.getConstantState().newDrawable().mutate()); //original has to be copied to new object otherwise will get affected by view changes
-                        } catch (Throwable throwable) {
-                            log(TAG + throwable);
-                        }
-                    }
-                }
-            });
-
-            hookAllConstructors(QSSecurityFooterClass, new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    if (!wasDark && lightQSHeaderEnabled) {
-                        try {
-                            ((View) getObjectField(param.thisObject, "mView")).setBackground(lightFooterShape.getConstantState().newDrawable().mutate());
                         } catch (Throwable throwable) {
                             log(TAG + throwable);
                         }
@@ -171,7 +162,7 @@ public class QSLightTheme extends ModPack {
                 @SuppressLint("DiscouragedApi")
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    if (!wasDark && lightQSHeaderEnabled) {
+                    if (!isDark && lightQSHeaderEnabled) {
                         try {
                             Resources res = mContext.getResources();
                             ViewGroup view = (ViewGroup) param.args[0];
@@ -180,8 +171,6 @@ public class QSLightTheme extends ModPack {
 
                             View settings_button_container = view.findViewById(res.getIdentifier("settings_button_container", "id", mContext.getPackageName()));
                             settings_button_container.getBackground().setTint(colorInactive);
-
-                            ((LinearLayout.LayoutParams) ((ViewGroup) settings_button_container.getParent()).getLayoutParams()).setMarginEnd(0);
                         } catch (Throwable throwable) {
                             log(TAG + throwable);
                         }
@@ -189,13 +178,42 @@ public class QSLightTheme extends ModPack {
                 }
             });
 
-        } catch (Throwable throwable) { //QPR2&3
-            //QPR3
-            Class<?> ShadeHeaderControllerClass = findClassIfExists("com.android.systemui.shade.ShadeHeaderController", lpparam.classLoader);
-            //QPR2
+            //White QS Clock bug - doesn't seem applicable on 13QPR3 and 14
+            hookAllMethods(QuickStatusBarHeaderClass, "onFinishInflate", new XC_MethodHook() {
+                @SuppressLint("DiscouragedApi")
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    View thisView = (View) param.thisObject;
+                    Resources res = mContext.getResources();
+
+                    try {
+                        mClockViewQSHeader = getObjectField(param.thisObject, "mClockView");
+                    } catch (Throwable ignored) {
+                        mClockViewQSHeader = thisView.findViewById(res.getIdentifier("clock", "id", mContext.getPackageName()));
+                    }
+                }
+            });
+
+            //White QS Clock bug - doesn't seem applicable on 13QPR3 and 14
+            hookAllMethods(ClockClass, "onColorsChanged", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    if (lightQSHeaderEnabled && isDark && mClockViewQSHeader != null) {
+                        try {
+                            ((TextView) mClockViewQSHeader).setTextColor(Color.BLACK);
+                        } catch (Throwable throwable) {
+                            log(TAG + throwable);
+                        }
+                    }
+                }
+            });
+        } catch (Throwable throwable) { //13QPR2&3
+            //13QPR3
+            Class<?> ShadeHeaderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController", lpparam.classLoader);
+            //13QPR2
             if (ShadeHeaderControllerClass == null)
-                ShadeHeaderControllerClass = findClass("com.android.systemui.shade.LargeScreenShadeHeaderController", lpparam.classLoader);
-            Class<?> QSContainerImplClass = findClass("com.android.systemui.qs.QSContainerImpl", lpparam.classLoader);
+                ShadeHeaderControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController", lpparam.classLoader);
+            Class<?> QSContainerImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSContainerImpl", lpparam.classLoader);
 
             hookAllMethods(ShadeHeaderControllerClass, "onInit", new XC_MethodHook() {
                 @Override
@@ -225,7 +243,7 @@ public class QSLightTheme extends ModPack {
                 @SuppressLint("DiscouragedApi")
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    if (!wasDark && lightQSHeaderEnabled) {
+                    if (!isDark && lightQSHeaderEnabled) {
                         try {
                             Resources res = mContext.getResources();
                             ViewGroup view = (ViewGroup) param.thisObject;
@@ -233,16 +251,12 @@ public class QSLightTheme extends ModPack {
                             View settings_button_container = view.findViewById(res.getIdentifier("settings_button_container", "id", mContext.getPackageName()));
                             settings_button_container.getBackground().setTint(colorInactive);
 
-                            ImageView icon = settings_button_container.findViewById(res.getIdentifier("icon", "id", mContext.getPackageName()));
-                            icon.setImageTintList(ColorStateList.valueOf(Color.BLACK));
+                            ImageView settings_icon = settings_button_container.findViewById(res.getIdentifier("icon", "id", mContext.getPackageName()));
+                            settings_icon.setImageTintList(ColorStateList.valueOf(Color.BLACK));
 
-                            ((FrameLayout.LayoutParams) ((ViewGroup) settings_button_container.getParent()).getLayoutParams()).setMarginEnd(0);
-
-                            ViewGroup parent = (ViewGroup) settings_button_container.getParent();
-                            for (int i = 0; i < 3; i++) //Security + Foreground services containers
-                            {
-                                parent.getChildAt(i).setBackground(lightFooterShape.getConstantState().newDrawable().mutate());
-                            }
+                            View pm_button_container = view.findViewById(res.getIdentifier("pm_lite", "id", mContext.getPackageName()));
+                            ImageView pm_icon = pm_button_container.findViewById(res.getIdentifier("icon", "id", mContext.getPackageName()));
+                            pm_icon.setImageTintList(ColorStateList.valueOf(Color.WHITE));
                         } catch (Throwable throwable) {
                             log(TAG + throwable);
                         }
@@ -254,7 +268,7 @@ public class QSLightTheme extends ModPack {
         hookAllMethods(QSIconViewImplClass, "updateIcon", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                if (lightQSHeaderEnabled && !getIsDark() && getIntField(param.args[1], "state") == STATE_ACTIVE) {
+                if (lightQSHeaderEnabled && !isDark && getIntField(param.args[1], "state") == STATE_ACTIVE) {
                     try {
                         ((ImageView) param.args[0]).setImageTintList(ColorStateList.valueOf(colorInactive));
                     } catch (Throwable throwable) {
@@ -267,36 +281,11 @@ public class QSLightTheme extends ModPack {
         hookAllMethods(QSIconViewImplClass, "setIcon", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                if (lightQSHeaderEnabled && !getIsDark()) {
+                if (lightQSHeaderEnabled && !isDark) {
                     try {
                         if (param.args[0] instanceof ImageView && getIntField(param.args[1], "state") == STATE_ACTIVE) {
                             setObjectField(param.thisObject, "mTint", colorInactive);
                         }
-                    } catch (Throwable throwable) {
-                        log(TAG + throwable);
-                    }
-                }
-            }
-        });
-
-        // White QS Clock bug
-        hookAllMethods(QuickStatusBarHeaderClass, "onFinishInflate", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                try {
-                    mClockViewQSHeader = getObjectField(param.thisObject, "mClockView");
-                } catch (Throwable ignored) {
-                }
-            }
-        });
-
-        // White QS Clock bug
-        hookAllMethods(ClockClass, "onColorsChanged", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                if (lightQSHeaderEnabled && !SystemUtil.isDarkMode() && mClockViewQSHeader != null) {
-                    try {
-                        ((TextView) mClockViewQSHeader).setTextColor(Color.BLACK);
                     } catch (Throwable throwable) {
                         log(TAG + throwable);
                     }
@@ -314,7 +303,7 @@ public class QSLightTheme extends ModPack {
         hookAllConstructors(QSTileViewImplClass, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                if (!lightQSHeaderEnabled || wasDark) return;
+                if (!lightQSHeaderEnabled || isDark) return;
 
                 try {
                     setObjectField(param.thisObject, "colorLabelActive", Color.WHITE);
@@ -327,20 +316,9 @@ public class QSLightTheme extends ModPack {
         hookAllMethods(QSIconViewImplClass, "getIconColorForState", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                if (!wasDark && lightQSHeaderEnabled && ((boolean) param.args[1])) {
-                    try {
-                        param.setResult(Color.WHITE);
-                    } catch (Throwable throwable) {
-                        log(TAG + throwable);
-                    }
+                if (!isDark && lightQSHeaderEnabled && ((boolean) param.args[1])) {
+                    param.setResult(Color.WHITE);
                 }
-            }
-        });
-
-        hookAllMethods(CentralSurfacesImplClass, "updateTheme", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                applyOverlays(false);
             }
         });
 
@@ -368,20 +346,22 @@ public class QSLightTheme extends ModPack {
             }
         });
 
-        hookAllMethods(ScrimControllerClass, "updateThemeColors", new XC_MethodHook() {
+        hookAllMethods(CentralSurfacesImplClass, "updateTheme", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                calculateColors();
+                applyOverlays(false);
             }
         });
 
         hookAllMethods(ScrimControllerClass, "updateThemeColors", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                calculateColors();
+
                 if (!dualToneQSEnabled) return;
 
                 try {
-                    @SuppressLint("DiscouragedApi") ColorStateList states = getColorAttr(mContext.getResources().getIdentifier("android:attr/colorSurfaceHeader", "attr", listenPackage), mContext);
+                    @SuppressLint("DiscouragedApi") ColorStateList states = getColorAttr(mContext.getResources().getIdentifier("android:attr/colorSurfaceHeader", "attr", mContext.getPackageName()), mContext);
 
                     int surfaceBackground = states.getDefaultColor();
 
@@ -474,11 +454,11 @@ public class QSLightTheme extends ModPack {
                             @Override
                             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                                 if (!lightQSHeaderEnabled) return;
+
                                 param.setResult(Color.TRANSPARENT);
                             }
                         });
                         break;
-
                     case "UNLOCKED":
                         hookAllMethods(constant.getClass(), "prepare", new XC_MethodHook() {
                             @Override
@@ -513,35 +493,46 @@ public class QSLightTheme extends ModPack {
                 }
             }
         });
-
     }
 
     private void applyOverlays(boolean force) throws Throwable {
-        boolean isDark = getIsDark();
+        boolean isCurrentlyDark = SystemUtil.isDarkMode();
 
-        if (isDark == wasDark && !force) return;
-        wasDark = isDark;
+        if (isCurrentlyDark == isDark && !force) return;
+        isDark = isCurrentlyDark;
+
+        String QS_LIGHT_THEME_OVERLAY = "IconifyComponentQSLT.overlay";
+        String QS_DUAL_TONE_OVERLAY = "IconifyComponentQSDT.overlay";
 
         calculateColors();
 
-        Helpers.disableOverlay("IconifyComponentQSLT.overlay");
+        Helpers.disableOverlays(QS_LIGHT_THEME_OVERLAY, QS_DUAL_TONE_OVERLAY);
 
         Thread.sleep(50);
 
-        if (lightQSHeaderEnabled && !isDark) {
-            Helpers.enableOverlay("IconifyComponentQSLT.overlay");
+        if (lightQSHeaderEnabled) {
+            if (!isCurrentlyDark)
+                Helpers.enableOverlay(QS_LIGHT_THEME_OVERLAY);
+
+            if (dualToneQSEnabled)
+                Helpers.enableOverlay(QS_DUAL_TONE_OVERLAY);
         }
     }
 
     @SuppressLint("DiscouragedApi")
     private void calculateColors() {
-        if (!lightQSHeaderEnabled || wasDark) return;
+        if (!lightQSHeaderEnabled) return;
 
         try {
-            Resources res = mContext.getResources();
-            colorInactive = res.getColor(res.getIdentifier("android:color/system_neutral1_10", "color", listenPackage), mContext.getTheme());
+            if (unlockedScrimState != null) {
+                setObjectField(unlockedScrimState, "mBehindTint", Color.TRANSPARENT);
+            }
 
-            lightFooterShape.setTint(colorInactive);
+            if (!isDark) {
+                Resources res = mContext.getResources();
+                colorActive = mContext.getColor(android.R.color.system_accent1_600);
+                colorInactive = res.getColor(res.getIdentifier("android:color/system_neutral1_10", "color", mContext.getPackageName()), mContext.getTheme());
+            }
         } catch (Throwable throwable) {
             log(TAG + throwable);
         }
@@ -577,25 +568,5 @@ public class QSLightTheme extends ModPack {
         } catch (Throwable throwable) {
             log(TAG + throwable);
         }
-    }
-
-    private boolean getIsDark() {
-        return (mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
-    }
-
-    private Drawable makeFooterShape() {
-        @SuppressLint("DiscouragedApi") int radius = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("qs_security_footer_corner_radius", "dimen", mContext.getPackageName()));
-        float[] radiusF = new float[8];
-        for (int i = 0; i < 8; i++) {
-            radiusF[i] = radius;
-        }
-        final ShapeDrawable result = new ShapeDrawable(new RoundRectShape(radiusF, null, null));
-        result.getPaint().setStyle(Paint.Style.FILL);
-        return result;
-    }
-
-    @Override
-    public boolean listensTo(String packageName) {
-        return listenPackage.equals(packageName) && !HookEntry.isChildProcess && Build.VERSION.SDK_INT >= 33;
     }
 }

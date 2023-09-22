@@ -17,11 +17,11 @@ import java.io.IOException;
 
 public class MonetCompiler {
 
-    private static final String TAG = "MonetCompiler";
-    private static boolean mEnable = false;
+    private static final String TAG = MonetCompiler.class.getSimpleName();
+    private static boolean mForce = false;
 
-    public static boolean buildOverlay(String[] resources, boolean enable) throws IOException {
-        mEnable = enable;
+    public static boolean buildOverlay(String[] resources, boolean force) throws IOException {
+        mForce = force;
 
         preExecute();
 
@@ -83,9 +83,12 @@ public class MonetCompiler {
         Shell.cmd("mkdir -p " + Resources.UNSIGNED_UNALIGNED_DIR).exec();
         Shell.cmd("mkdir -p " + Resources.UNSIGNED_DIR).exec();
         Shell.cmd("mkdir -p " + Resources.SIGNED_DIR).exec();
+        if (!mForce) {
+            Shell.cmd("mkdir -p " + Resources.BACKUP_DIR).exec();
+        }
 
-        // Disable the overlay in case it is already enabled
-        if (mEnable) {
+        if (mForce) {
+            // Disable the overlay in case it is already enabled
             OverlayUtil.disableOverlay("IconifyComponentME.overlay");
         }
     }
@@ -95,16 +98,24 @@ public class MonetCompiler {
         if (!hasErroredOut) {
             Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponentME.apk " + Resources.OVERLAY_DIR + "/IconifyComponentME.apk").exec();
             RootUtil.setPermissions(644, Resources.OVERLAY_DIR + "/IconifyComponentME.apk");
-            Shell.cmd("pm install -r " + Resources.OVERLAY_DIR + "/IconifyComponentME.apk").exec();
 
-            SystemUtil.mountRW();
-            Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponentME.apk " + "/system/product/overlay/IconifyComponentME.apk").exec();
-            RootUtil.setPermissions(644, "/system/product/overlay/IconifyComponentME.apk");
-            SystemUtil.mountRO();
+            if (mForce) {
+                // Move to files dir and install
+                Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponentME.apk " + Resources.DATA_DIR + "/IconifyComponentME.apk").exec();
+                RootUtil.setPermissions(644, Resources.DATA_DIR + "/IconifyComponentME.apk");
+                Shell.cmd("pm install -r " + Resources.DATA_DIR + "/IconifyComponentME.apk").exec();
+                Shell.cmd("rm -rf " + Resources.DATA_DIR + "/IconifyComponentME.apk").exec();
 
-            // Enable the overlays
-            if (mEnable) {
+                // Move to system overlay dir
+                SystemUtil.mountRW();
+                Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponentME.apk " + Resources.SYSTEM_OVERLAY_DIR + "/IconifyComponentME.apk").exec();
+                RootUtil.setPermissions(644, "/system/product/overlay/IconifyComponentME.apk");
+                SystemUtil.mountRO();
+
+                // Enable the overlays
                 OverlayUtil.enableOverlays("IconifyComponentDM.overlay", "IconifyComponentME.overlay");
+            } else {
+                Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponentME.apk " + Resources.BACKUP_DIR + "/IconifyComponentME.apk").exec();
             }
         }
 

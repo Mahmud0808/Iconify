@@ -10,7 +10,7 @@
             <gradient
                 android:angle="0.0"
                 android:endColor="@*android:color/holo_green_dark"
-                android:startColor="@*android:color/holo_blue_dark" />
+                android:startColor="@*android:color/holo_green_light" />
             <size
                 android:width="32.0dip"
                 android:height="32.0dip" />

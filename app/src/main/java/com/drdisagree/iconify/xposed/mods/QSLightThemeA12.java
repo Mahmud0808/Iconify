@@ -40,11 +40,9 @@ import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.os.Build;
 
 import androidx.core.graphics.ColorUtils;
 
-import com.drdisagree.iconify.xposed.HookEntry;
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.utils.Helpers;
 
@@ -56,8 +54,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 @SuppressWarnings("RedundantThrows")
 public class QSLightThemeA12 extends ModPack {
 
-    public static final String listenPackage = SYSTEMUI_PACKAGE;
-    private static final String TAG = "Iconify - QSLightThemeA12: ";
+    private static final String TAG = "Iconify - " + QSLightThemeA12.class.getSimpleName() + ": ";
     private static boolean lightQSHeaderEnabled = false;
     private static boolean dualToneQSEnabled = false;
     private Object mBehindColors;
@@ -71,13 +68,7 @@ public class QSLightThemeA12 extends ModPack {
         if (Xprefs == null) return;
 
         dualToneQSEnabled = Xprefs.getBoolean(DUALTONE_QSPANEL, false);
-        if (dualToneQSEnabled) Helpers.enableOverlay("IconifyComponentQSDT.overlay");
-        else Helpers.disableOverlay("IconifyComponentQSDT.overlay");
-
         boolean lightQSEnabled = Xprefs.getBoolean(LIGHT_QSPANEL, false);
-        if (lightQSEnabled) Helpers.enableOverlay("IconifyComponentQSLT.overlay");
-        else Helpers.disableOverlay("IconifyComponentQSLT.overlay");
-
         setLightQSHeader(lightQSEnabled);
     }
 
@@ -94,14 +85,12 @@ public class QSLightThemeA12 extends ModPack {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (!lpparam.packageName.equals(listenPackage)) return;
-
         Class<?> UtilsClass = findClass("com.android.settingslib.Utils", lpparam.classLoader);
-        Class<?> OngoingPrivacyChipClass = findClass("com.android.systemui.privacy.OngoingPrivacyChip", lpparam.classLoader);
-        Class<?> FragmentHostManagerClass = findClass("com.android.systemui.fragments.FragmentHostManager", lpparam.classLoader);
-        Class<?> ScrimControllerClass = findClass("com.android.systemui.statusbar.phone.ScrimController", lpparam.classLoader);
+        Class<?> OngoingPrivacyChipClass = findClass(SYSTEMUI_PACKAGE + ".privacy.OngoingPrivacyChip", lpparam.classLoader);
+        Class<?> FragmentHostManagerClass = findClass(SYSTEMUI_PACKAGE + ".fragments.FragmentHostManager", lpparam.classLoader);
+        Class<?> ScrimControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.ScrimController", lpparam.classLoader);
         Class<?> GradientColorsClass = findClass("com.android.internal.colorextraction.ColorExtractor.GradientColors", lpparam.classLoader);
-        Class<?> StatusbarClass = findClass("com.android.systemui.statusbar.phone.StatusBar", lpparam.classLoader);
+        Class<?> StatusbarClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.StatusBar", lpparam.classLoader);
         Class<?> InterestingConfigChangesClass = findClass("com.android.settingslib.applications.InterestingConfigChanges", lpparam.classLoader);
 
         Method applyStateMethod = findMethodExactIfExists(ScrimControllerClass, "applyStateToAlpha");
@@ -149,7 +138,7 @@ public class QSLightThemeA12 extends ModPack {
                 if (!dualToneQSEnabled) return;
 
                 try {
-                    @SuppressLint("DiscouragedApi") ColorStateList states = (ColorStateList) callStaticMethod(UtilsClass, "getColorAttr", mContext, mContext.getResources().getIdentifier("android:attr/colorSurfaceHeader", "attr", listenPackage));
+                    @SuppressLint("DiscouragedApi") ColorStateList states = (ColorStateList) callStaticMethod(UtilsClass, "getColorAttr", mContext, mContext.getResources().getIdentifier("android:attr/colorSurfaceHeader", "attr", mContext.getPackageName()));
                     int surfaceBackground = states.getDefaultColor();
 
                     ColorStateList accentStates = (ColorStateList) callStaticMethod(UtilsClass, "getColorAccent", mContext);
@@ -200,7 +189,7 @@ public class QSLightThemeA12 extends ModPack {
         });
 
         try {
-            Class<?> ScrimStateEnum = findClass("com.android.systemui.statusbar.phone.ScrimState", lpparam.classLoader);
+            Class<?> ScrimStateEnum = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.ScrimState", lpparam.classLoader);
 
             Object[] constants = ScrimStateEnum.getEnumConstants();
             for (Object constant : constants) {
@@ -300,21 +289,23 @@ public class QSLightThemeA12 extends ModPack {
     private void applyOverlays() throws Throwable {
         boolean isDark = getIsDark();
 
-        Helpers.disableOverlay("IconifyComponentQSLT.overlay");
+        String QS_LIGHT_THEME_OVERLAY = "IconifyComponentQSLT.overlay";
+        String QS_DUAL_TONE_OVERLAY = "IconifyComponentQSDT.overlay";
+
+        Helpers.disableOverlays(QS_LIGHT_THEME_OVERLAY, QS_DUAL_TONE_OVERLAY);
 
         Thread.sleep(50);
 
-        if (lightQSHeaderEnabled && !isDark) {
-            Helpers.enableOverlay("IconifyComponentQSLT.overlay");
+        if (lightQSHeaderEnabled) {
+            if (!isDark)
+                Helpers.enableOverlay(QS_LIGHT_THEME_OVERLAY);
+
+            if (dualToneQSEnabled)
+                Helpers.enableOverlay(QS_DUAL_TONE_OVERLAY);
         }
     }
 
     private boolean getIsDark() {
         return (mContext.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
-    }
-
-    @Override
-    public boolean listensTo(String packageName) {
-        return listenPackage.equals(packageName) && !HookEntry.isChildProcess && Build.VERSION.SDK_INT < 33;
     }
 }

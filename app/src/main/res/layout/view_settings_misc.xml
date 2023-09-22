@@ -1,106 +1,264 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/settings_misc_title"
+        style="@style/TextAppearance.Material3.TitleMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/container_paddingSide"
-        android:layout_marginTop="@dimen/container_marginSide"
-        android:layout_marginBottom="@dimen/container_marginSide"
-        android:text="@string/list_title_miscellaneous_settings"
-        android:textColor="@color/textColorPrimary"
-        android:textSize="@dimen/header_title_size"
-        android:textStyle="bold" />
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/settings_section_title_miscellaneous"
+        android:textColor="?attr/colorPrimary" />
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/restart_sysui_after_boot_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_background_material"
+        android:clickable="true">
+
+        <ImageView
+            android:id="@+id/settings_iv_restart_sysui_after_boot"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="24dp"
+            android:contentDescription="@string/icon"
+            android:src="@drawable/ic_restart_systemui_after_boot"
+            app:tint="?attr/colorPrimary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginVertical="22dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/restart_sysui_after_boot"
+            android:layout_toEndOf="@id/settings_iv_restart_sysui_after_boot"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_restart_systemui_after_boot_title"
+                android:textColor="@color/text_color_primary" />
+
+            <TextView
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_restart_systemui_after_boot_desc"
+                android:textColor="@color/text_color_secondary" />
+
+        </LinearLayout>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/restart_sysui_after_boot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="24dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/home_page_card_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_background_material"
+        android:clickable="true">
+
+        <ImageView
+            android:id="@+id/settings_iv_home_page_card"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="24dp"
+            android:contentDescription="@string/icon"
+            android:src="@drawable/ic_card"
+            app:tint="?attr/colorPrimary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginVertical="22dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/home_page_card"
+            android:layout_toEndOf="@id/settings_iv_home_page_card"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_show_home_page_card_title"
+                android:textColor="@color/text_color_primary" />
+
+            <TextView
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_show_home_page_card_desc"
+                android:textColor="@color/text_color_secondary" />
+
+        </LinearLayout>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/home_page_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="24dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/clear_cache"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/container_top"
-        android:orientation="vertical"
-        android:paddingStart="@dimen/container_paddingSide"
-        android:paddingTop="@dimen/container_padding"
-        android:paddingEnd="@dimen/container_paddingSide"
-        android:paddingBottom="@dimen/container_padding">
+        android:background="@drawable/item_background_material"
+        android:clickable="true">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/settings_iv_clear_cache"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="24dp"
+            android:contentDescription="@string/icon"
+            android:src="@drawable/ic_clear_cache"
+            app:tint="?attr/colorPrimary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/clear_app_cache_title"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/cont_title_size"
-            android:textStyle="bold" />
+            android:layout_centerVertical="true"
+            android:layout_marginVertical="22dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="24dp"
+            android:layout_toEndOf="@id/settings_iv_clear_cache"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/clear_app_cache_desc"
-            android:textColor="@color/textColorSecondary"
-            android:textSize="@dimen/cont_desc_size" />
+            <TextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_clear_app_cache_title"
+                android:textColor="@color/text_color_primary" />
 
-    </LinearLayout>
+            <TextView
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_clear_app_cache_desc"
+                android:textColor="@color/text_color_secondary" />
 
-    <View style="@style/dividerTransparent" />
+        </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/button_restartSysui"
+    <RelativeLayout
+        android:id="@+id/experimental_features"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/container_mid"
-        android:orientation="vertical"
-        android:paddingStart="@dimen/container_paddingSide"
-        android:paddingTop="@dimen/container_padding"
-        android:paddingEnd="@dimen/container_paddingSide"
-        android:paddingBottom="@dimen/container_padding">
+        android:background="@drawable/item_background_material"
+        android:clickable="true"
+        android:visibility="gone">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/settings_iv_experimental"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="24dp"
+            android:contentDescription="@string/icon"
+            android:src="@drawable/ic_experimental"
+            app:tint="?attr/colorPrimary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/restart_sysui_title"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/cont_title_size"
-            android:textStyle="bold" />
+            android:layout_centerVertical="true"
+            android:layout_marginVertical="22dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="24dp"
+            android:layout_toEndOf="@id/settings_iv_experimental"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/restart_sysui_desc"
-            android:textColor="@color/textColorSecondary"
-            android:textSize="@dimen/cont_desc_size" />
+            <TextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/experimental_features_title"
+                android:textColor="@color/text_color_primary" />
 
-    </LinearLayout>
+            <TextView
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_desc_experimental"
+                android:textColor="@color/text_color_secondary" />
 
-    <View style="@style/dividerTransparent" />
+        </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/button_disableEverything"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/container_margin"
-        android:background="@drawable/container_red_bottom"
-        android:orientation="vertical"
-        android:paddingStart="@dimen/container_paddingSide"
-        android:paddingTop="@dimen/container_padding"
-        android:paddingEnd="@dimen/container_paddingSide"
-        android:paddingBottom="@dimen/container_padding">
+        android:background="@drawable/item_background_material"
+        android:clickable="true">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/settings_iv_disable_everything"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="24dp"
+            android:contentDescription="@string/icon"
+            android:src="@drawable/ic_disable_everything"
+            app:tint="?attr/colorPrimary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/disable_everything_title"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/cont_title_size"
-            android:textStyle="bold" />
+            android:layout_centerVertical="true"
+            android:layout_marginVertical="22dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="24dp"
+            android:layout_toEndOf="@id/settings_iv_disable_everything"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/disable_everything_desc"
-            android:textColor="@color/textColorSecondary"
-            android:textSize="@dimen/cont_desc_size" />
+            <TextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_disable_everything_title"
+                android:textColor="@color/text_color_primary" />
 
-    </LinearLayout>
+            <TextView
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_disable_everything_desc"
+                android:textColor="@color/text_color_secondary" />
+
+        </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

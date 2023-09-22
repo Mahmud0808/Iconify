@@ -57,14 +57,13 @@
         android:orientation="vertical">
 
         <TextView
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
             android:singleLine="true"
             android:text="@string/media_player_preview_music_title"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/cont_title_size"
-            android:textStyle="bold" />
+            android:textColor="@color/text_color_primary" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -3,9 +3,11 @@ package com.drdisagree.iconify.utils;
 import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.BOOT_ID;
+import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_BEHAVIOR;
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
 import static com.drdisagree.iconify.common.References.DEVICE_BOOT_ID_CMD;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -13,14 +15,17 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Insets;
 import android.net.Uri;
+import android.os.Environment;
 import android.view.WindowInsets;
 import android.view.WindowMetrics;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
+import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.Prefs;
 import com.topjohnwu.superuser.Shell;
@@ -36,7 +41,7 @@ public class SystemUtil {
     private static long lastClickTime = 0;
 
     public static boolean isDarkMode() {
-        return (Iconify.getAppContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
+        return (Objects.requireNonNull(Iconify.getAppContext()).getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
     }
 
     public static void restartSystemUI() {
@@ -45,7 +50,15 @@ public class SystemUtil {
             lastClickTime = currentTime;
             Shell.cmd("killall " + SYSTEMUI_PACKAGE).submit();
         } else {
-            Toast.makeText(Iconify.getAppContext(), "Try again after a few seconds", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_try_again_later), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static void handleSystemUIRestart() {
+        if (Prefs.getBoolean(RESTART_SYSUI_BEHAVIOR, true)) {
+            restartSystemUI();
+        } else {
+            Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.settings_systemui_restart_required), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -110,16 +123,29 @@ public class SystemUtil {
         Prefs.putString(BOOT_ID, Shell.cmd(DEVICE_BOOT_ID_CMD).exec().getOut().toString());
     }
 
-    public static void getVersionCode() {
+    public static void saveVersionCode() {
         Prefs.putInt(VER_CODE, BuildConfig.VERSION_CODE);
     }
 
-    public static void getStoragePermission(Context context) {
+    public static int getSavedVersionCode() {
+        return Prefs.getInt(VER_CODE, -1);
+    }
+
+    public static boolean hasStoragePermission() {
+        return Environment.isExternalStorageManager() || Environment.isExternalStorageLegacy();
+    }
+
+    public static void requestStoragePermission(Context context) {
         Intent intent = new Intent();
         intent.setAction(ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-        Uri uri = Uri.fromParts("package", Iconify.getAppContext().getPackageName(), null);
-        intent.setData(uri);
-        context.startActivity(intent);
+        intent.setData(Uri.fromParts("package", BuildConfig.APPLICATION_ID, null));
+        ((Activity) context).startActivityForResult(intent, 0);
+
+        ActivityCompat.requestPermissions((Activity) context, new String[]{
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.MANAGE_EXTERNAL_STORAGE
+        }, 0);
     }
 
     public static void enableRestartSystemuiAfterBoot() {

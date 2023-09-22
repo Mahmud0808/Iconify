@@ -22,18 +22,12 @@ public class OverlayUtil {
         return Shell.cmd("cmd overlay list |  grep -E '^. ..IconifyComponent' | sed -E 's/^. ..//'").exec().getOut();
     }
 
-    public static boolean isOverlayEnabled(List<String> overlays, String pkgName) {
-        for (String overlay : overlays) {
-            if (overlay.equals(pkgName)) return true;
-        }
-        return false;
+    public static boolean isOverlayEnabled(String pkgName) {
+        return Shell.cmd("[[ $(cmd overlay list | grep -o '\\[x\\] " + pkgName + "') ]] && echo 1 || echo 0").exec().getOut().get(0).equals("1");
     }
 
-    public static boolean isOverlayDisabled(List<String> overlays, String pkgName) {
-        for (String overlay : overlays) {
-            if (overlay.equals(pkgName)) return false;
-        }
-        return true;
+    public static boolean isOverlayDisabled(String pkgName) {
+        return Shell.cmd("[[ $(cmd overlay list | grep -o '\\[ \\] " + pkgName + "') ]] && echo 1 || echo 0").exec().getOut().get(0).equals("1");
     }
 
     static boolean isOverlayInstalled(List<String> enabledOverlays, String pkgName) {
@@ -108,8 +102,9 @@ public class OverlayUtil {
             String[] packages = Iconify.getAppContext().getAssets().list("Overlays");
             int numberOfOverlaysInAssets = 0;
 
+            assert packages != null;
             for (String overlay : packages) {
-                numberOfOverlaysInAssets += Iconify.getAppContext().getAssets().list("Overlays/" + overlay).length;
+                numberOfOverlaysInAssets += Objects.requireNonNull(Iconify.getAppContext().getAssets().list("Overlays/" + overlay)).length;
             }
 
             int numberOfOverlaysInstalled = Integer.parseInt(Shell.cmd("find /" + Resources.OVERLAY_DIR + "/ -maxdepth 1 -type f -print| wc -l").exec().getOut().get(0));

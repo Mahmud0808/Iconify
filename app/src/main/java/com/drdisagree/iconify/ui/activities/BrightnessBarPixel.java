@@ -8,7 +8,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.databinding.ActivityBrightnessBarsPixelBinding;
 import com.drdisagree.iconify.ui.adapters.BrightnessBarAdapter;
 import com.drdisagree.iconify.ui.models.BrightnessBarModel;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class BrightnessBarPixel extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_brightness_bar);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_brightness_bar);
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);

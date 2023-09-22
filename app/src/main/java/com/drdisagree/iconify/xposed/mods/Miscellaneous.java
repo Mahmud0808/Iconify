@@ -20,6 +20,7 @@ import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -40,10 +41,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
 
-    private static final String TAG = "Iconify - Miscellaneous: ";
-    private static final String QuickStatusBarHeaderClass = SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader";
-    private static final String LargeScreenShadeHeaderController = SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController";
-    private static final String ShadeHeaderController = SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController";
+    private static final String TAG = "Iconify - " + Miscellaneous.class.getSimpleName() + ": ";
     boolean QSCarrierGroupHidden = false;
     boolean hideStatusIcons = false;
     boolean fixedStatusIcons = false;
@@ -79,7 +77,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
             if (Objects.equals(Key[0], HIDE_STATUS_ICONS_SWITCH)) hideStatusIcons();
 
             if (Objects.equals(Key[0], FIXED_STATUS_ICONS_SWITCH) || Objects.equals(Key[0], HIDE_STATUS_ICONS_SWITCH) || Objects.equals(Key[0], FIXED_STATUS_ICONS_TOPMARGIN) || Objects.equals(Key[0], FIXED_STATUS_ICONS_SIDEMARGIN))
-                fixedStatusIcons();
+                fixedStatusIconsA12();
 
             if (Objects.equals(Key[0], HIDE_LOCKSCREEN_CARRIER) || Objects.equals(Key[0], HIDE_LOCKSCREEN_STATUSBAR))
                 hideLockscreenCarrierOrStatusbar();
@@ -90,15 +88,10 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
     }
 
     @Override
-    public boolean listensTo(String packageName) {
-        return packageName.equals(SYSTEMUI_PACKAGE);
-    }
-
-    @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE)) return;
 
-        final Class<?> QuickStatusBarHeader = findClass(QuickStatusBarHeaderClass, lpparam.classLoader);
+        final Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", lpparam.classLoader);
 
         try {
             hookAllMethods(QuickStatusBarHeader, "onFinishInflate", new XC_MethodHook() {
@@ -143,9 +136,9 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
         }
 
         try {
-            Class<?> ShadeHeaderControllerClass = findClassIfExists(LargeScreenShadeHeaderController, lpparam.classLoader);
+            Class<?> ShadeHeaderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController", lpparam.classLoader);
             if (ShadeHeaderControllerClass == null)
-                ShadeHeaderControllerClass = findClass(ShadeHeaderController, lpparam.classLoader);
+                ShadeHeaderControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController", lpparam.classLoader);
 
             hookAllMethods(ShadeHeaderControllerClass, "onInit", new XC_MethodHook() {
                 @Override
@@ -170,6 +163,12 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                             ((ViewGroup) qsCarrierGroup.getParent()).removeView(qsCarrierGroup);
                         } catch (Throwable ignored) {
                         }
+
+                        try {
+                            LinearLayout mShadeCarrierGroup = (LinearLayout) getObjectField(param.thisObject, "mShadeCarrierGroup");
+                            ((ViewGroup) mShadeCarrierGroup.getParent()).removeView(mShadeCarrierGroup);
+                        } catch (Throwable ignored) {
+                        }
                     }
                 }
             });
@@ -178,7 +177,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
 
         hideQSCarrierGroup();
         hideStatusIcons();
-        fixedStatusIcons();
+        fixedStatusIconsA12();
         hideLockscreenCarrierOrStatusbar();
 
         Class<?> MobileSignalController = findClass(SYSTEMUI_PACKAGE + ".statusbar.connectivity.MobileSignalController", lpparam.classLoader);
@@ -357,7 +356,9 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
         }
     }
 
-    private void fixedStatusIcons() {
+    private void fixedStatusIconsA12() {
+        if (Build.VERSION.SDK_INT >= 33) return;
+
         XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
         if (ourResparam == null) return;
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="bg_end_color">@color/holo_green_light</color>
+    <color name="bg_end_color">@color/holo_blue_dark</color>
     <color name="bg_start_color">@color/holo_blue_light</color>
     <color name="holo_blue_light">@*android:color/holo_blue_light</color>
-    <color name="holo_green_light">@*android:color/holo_green_light</color>
+    <color name="holo_blue_dark">@*android:color/holo_blue_dark</color>
     <color name="icon_tint">?android:textColorPrimary</color>
     <color name="outline_color">#00000000</color>
     <color name="outline_end_color">#00000000</color>

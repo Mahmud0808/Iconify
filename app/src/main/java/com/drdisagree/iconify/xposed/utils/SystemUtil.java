@@ -6,13 +6,17 @@ package com.drdisagree.iconify.xposed.utils;
  */
 
 import android.annotation.SuppressLint;
+import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.os.Build;
+import android.os.Process;
 import android.util.TypedValue;
 
 import androidx.annotation.AttrRes;
+import androidx.annotation.ColorInt;
 
 import com.topjohnwu.superuser.Shell;
 
@@ -57,8 +61,19 @@ public class SystemUtil {
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = context.getTheme();
         theme.resolveAttribute(id, typedValue, false);
-        @SuppressLint("Recycle") TypedArray arr = context.obtainStyledAttributes(typedValue.data, new int[]{id});
-        return arr.getColor(0, -1);
+        TypedArray arr = context.obtainStyledAttributes(typedValue.data, new int[]{id});
+        @ColorInt int color = arr.getColor(0, -1);
+        arr.recycle();
+        return color;
+    }
+
+    public static <Method> void killSelf() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            BootLoopProtector.resetCounter(Process.myProcessName());
+        } else {
+            BootLoopProtector.resetCounter(Application.getProcessName());
+        }
+        Process.killProcess(Process.myPid());
     }
 
     private boolean getIsDark() {

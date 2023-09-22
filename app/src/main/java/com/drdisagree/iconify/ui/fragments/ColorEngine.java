@@ -38,7 +38,7 @@ public class ColorEngine extends BaseFragment {
         View view = binding.getRoot();
 
         // Header
-        binding.header.collapsingToolbar.setTitle(getResources().getString(R.string.activity_title_color_engine));
+        binding.header.toolbar.setTitle(getResources().getString(R.string.activity_title_color_engine));
         ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.header.toolbar);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
@@ -65,24 +65,29 @@ public class ColorEngine extends BaseFragment {
         binding.applyMonetGradient.setChecked(Prefs.getBoolean("IconifyComponentAMGC.overlay"));
         binding.applyMonetGradient.setOnCheckedChangeListener(monetGradientListener);
 
+        binding.applyMonetAccentContainer.setOnClickListener(v -> binding.applyMonetAccent.toggle());
+        binding.applyMonetGradientContainer.setOnClickListener(v -> binding.applyMonetGradient.toggle());
+
+        // Pitch Black Dark
+        binding.applyPitchBlackDarkTheme.setChecked(Prefs.getBoolean("IconifyComponentQSPBD.overlay"));
+        binding.applyPitchBlackDarkTheme.setOnCheckedChangeListener(pitchBlackDarkListener);
+        binding.applyPitchBlackDarkThemeContainer.setOnClickListener(v -> binding.applyPitchBlackDarkTheme.toggle());
+
+        // Pitch Black Amoled
+        binding.applyPitchBlackAmoledTheme.setChecked(Prefs.getBoolean("IconifyComponentQSPBA.overlay"));
+        binding.applyPitchBlackAmoledTheme.setOnCheckedChangeListener(pitchBlackAmoledListener);
+        binding.applyPitchBlackAmoledThemeContainer.setOnClickListener(v -> binding.applyPitchBlackAmoledTheme.toggle());
+
         // Minimal QsPanel
         binding.applyMinimalQspanel.setChecked(Prefs.getBoolean("IconifyComponentQSST.overlay"));
         if (minimalQsListener == null) {
             initializeMinimalQsListener();
         }
         binding.applyMinimalQspanel.setOnCheckedChangeListener(minimalQsListener);
-
-        // Pitch Black Dark
-        binding.applyPitchBlackDarkTheme.setChecked(Prefs.getBoolean("IconifyComponentQSPBD.overlay"));
-        binding.applyPitchBlackDarkTheme.setOnCheckedChangeListener(pitchBlackDarkListener);
-
-        // Pitch Black Amoled
-        binding.applyPitchBlackAmoledTheme.setChecked(Prefs.getBoolean("IconifyComponentQSPBA.overlay"));
-        binding.applyPitchBlackAmoledTheme.setOnCheckedChangeListener(pitchBlackAmoledListener);
+        binding.applyMinimalQspanelContainer.setOnClickListener(v -> binding.applyMinimalQspanel.toggle());
 
         // Disable Monet
         binding.disableMonet.setChecked(Prefs.getBoolean("IconifyComponentDM.overlay"));
-
         binding.disableMonet.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
             if (isChecked) {
                 OverlayUtil.enableOverlay("IconifyComponentDM.overlay");
@@ -90,6 +95,7 @@ public class ColorEngine extends BaseFragment {
                 OverlayUtil.disableOverlay("IconifyComponentDM.overlay");
             }
         }, SWITCH_ANIMATION_DELAY));
+        binding.disableMonetContainer.setOnClickListener(v -> binding.disableMonet.toggle());
 
         return view;
     }
@@ -113,7 +119,7 @@ public class ColorEngine extends BaseFragment {
     }
 
     private boolean shouldUseDefaultColors() {
-        return OverlayUtil.isOverlayDisabled(OverlayUtil.getEnabledOverlayList(), "IconifyComponentME.overlay");
+        return OverlayUtil.isOverlayDisabled("IconifyComponentME.overlay");
     }
 
     private void applyDefaultColors() {

@@ -19,21 +19,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/container_marginTopBottom"
-            android:orientation="vertical"
-            android:paddingTop="@dimen/content_marginTop">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/container_marginSide"
-                android:layout_marginEnd="@dimen/container_marginSide"
-                android:layout_marginBottom="@dimen/container_margin"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingStart="@dimen/container_paddingSide"
-                android:paddingTop="@dimen/container_padding"
-                android:paddingEnd="@dimen/container_paddingSide"
-                android:paddingBottom="@dimen/container_padding">
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="22dp">
 
                 <View
                     android:layout_width="0dp"
@@ -69,115 +63,80 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/section_title_volume_slider_track"
+                android:textColor="?attr/colorPrimary" />
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/container_marginSide"
-                android:layout_marginEnd="@dimen/container_marginSide"
-                android:layout_marginBottom="@dimen/container_margin"
-                android:orientation="vertical">
+                android:background="@drawable/item_background_material"
+                android:clickable="true">
 
-                <LinearLayout
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/toggleButtonGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/container_top"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginVertical="8dp"
+                    android:gravity="center"
+                    app:singleSelection="true">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:paddingTop="3dp"
-                        android:text="@string/vp_thin_background_title"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_weight="1.0" />
-
-                    <Switch
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/thin_bg"
-                        style="@style/customSwitch"
-                        tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-                </LinearLayout>
-
-                <View style="@style/dividerTransparent" />
-
-                <LinearLayout
-                    android:id="@+id/text_size_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/container_mid"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:paddingTop="3dp"
-                        android:text="@string/vp_thick_background_title"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
-
-                    <View
+                        style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_weight="1.0" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:ellipsize="marquee"
+                        android:paddingStart="0dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="0dp"
+                        android:paddingBottom="11dp"
+                        android:singleLine="true"
+                        android:text="@string/vp_track_thin"
+                        android:textSize="14sp" />
 
-                    <Switch
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/thick_bg"
-                        style="@style/customSwitch"
-                        tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-                </LinearLayout>
-
-                <View style="@style/dividerTransparent" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/container_bottom"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/container_paddingSide"
-                    android:paddingTop="@dimen/container_padding"
-                    android:paddingEnd="@dimen/container_paddingSide"
-                    android:paddingBottom="@dimen/container_padding">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:paddingTop="3dp"
-                        android:text="@string/vp_no_background_title"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
-
-                    <View
+                        style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_weight="1.0" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1.0"
+                        android:ellipsize="marquee"
+                        android:paddingStart="0dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="0dp"
+                        android:paddingBottom="11dp"
+                        android:singleLine="true"
+                        android:text="@string/vp_track_thick"
+                        android:textSize="14sp" />
 
-                    <Switch
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/no_bg"
-                        style="@style/customSwitch"
-                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:ellipsize="marquee"
+                        android:paddingStart="0dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="0dp"
+                        android:paddingBottom="11dp"
+                        android:singleLine="true"
+                        android:text="@string/vp_track_none"
+                        android:textSize="14sp" />
 
-                </LinearLayout>
-            </LinearLayout>
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+            </RelativeLayout>
 
             <include
                 android:id="@+id/volume_style"

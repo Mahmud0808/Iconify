@@ -1,7 +1,5 @@
 package com.drdisagree.iconify;
 
-import static com.drdisagree.iconify.common.Preferences.VER_CODE;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +8,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.splashscreen.SplashScreen;
 
 import com.airbnb.lottie.LottieCompositionFactory;
-import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.activities.HomePage;
 import com.drdisagree.iconify.ui.activities.Onboarding;
 import com.drdisagree.iconify.utils.ModuleUtil;
-import com.drdisagree.iconify.utils.OverlayUtil;
 import com.drdisagree.iconify.utils.RootUtil;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.color.DynamicColors;
 import com.topjohnwu.superuser.Shell;
 
@@ -34,7 +31,7 @@ public class SplashActivity extends AppCompatActivity {
     private final Runnable runner = () -> Shell.getShell(shell -> {
         Intent intent;
 
-        if (SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES || (RootUtil.isDeviceRooted() && (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) && ModuleUtil.moduleExists() && OverlayUtil.overlayExists() && (BuildConfig.VERSION_CODE == Prefs.getInt(VER_CODE)))) {
+        if ((SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES && BuildConfig.DEBUG) || (RootUtil.deviceProperlyRooted() && ModuleUtil.moduleProperlyInstalled() && BuildConfig.VERSION_CODE == SystemUtil.getSavedVersionCode())) {
             keepShowing = false;
             intent = new Intent(SplashActivity.this, HomePage.class);
         } else {

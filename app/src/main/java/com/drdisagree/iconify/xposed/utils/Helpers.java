@@ -23,6 +23,11 @@ import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 
 import com.topjohnwu.superuser.Shell;
@@ -33,6 +38,7 @@ import java.lang.reflect.Method;
 
 import de.robv.android.xposed.XC_MethodHook;
 
+@SuppressWarnings({"unused", "DiscouragedApi"})
 public class Helpers {
 
     public static void enableOverlay(String pkgName) {
@@ -41,6 +47,26 @@ public class Helpers {
 
     public static void disableOverlay(String pkgName) {
         Shell.cmd("cmd overlay disable --user current " + pkgName).exec();
+    }
+
+    public static void enableOverlays(String... pkgNames) {
+        StringBuilder command = new StringBuilder();
+
+        for (String pkgName : pkgNames) {
+            command.append("cmd overlay enable --user current ").append(pkgName).append("; cmd overlay set-priority ").append(pkgName).append(" highest; ");
+        }
+
+        Shell.cmd(command.toString().trim()).submit();
+    }
+
+    public static void disableOverlays(String... pkgNames) {
+        StringBuilder command = new StringBuilder();
+
+        for (String pkgName : pkgNames) {
+            command.append("cmd overlay disable --user current ").append(pkgName).append("; ");
+        }
+
+        Shell.cmd(command.toString().trim()).submit();
     }
 
     @NonNull
@@ -54,7 +80,6 @@ public class Helpers {
         return findClassIfExists(className, classLoader);
     }
 
-    @SuppressWarnings("unused")
     public static void dumpClass(String className, ClassLoader classLoader) {
         Class<?> ourClass = findClassIfExists(className, classLoader);
         if (ourClass == null) {
@@ -66,7 +91,7 @@ public class Helpers {
 
     public static void dumpClass(Class<?> ourClass) {
         Method[] ms = ourClass.getDeclaredMethods();
-        log("Class: " + ourClass.getName());
+        log("\n\nClass: " + ourClass.getName());
         log("extends: " + ourClass.getSuperclass().getName());
         log("Subclasses:");
         Class<?>[] scs = ourClass.getClasses();
@@ -98,7 +123,7 @@ public class Helpers {
         for (Field f : fs) {
             log("\t\t" + f.getName() + "-" + f.getType().getName());
         }
-        log("End dump");
+        log("End dump\n\n");
     }
 
     public static void tryHookAllMethods(Class<?> clazz, String method, XC_MethodHook hook) {
@@ -113,5 +138,59 @@ public class Helpers {
             hookAllConstructors(clazz, hook);
         } catch (Throwable ignored) {
         }
+    }
+
+    public static void dumpChildViews(Context context, View view) {
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            logViewInfo(context, viewGroup, 0);
+            dumpChildViewsRecursive(context, viewGroup, 0);
+        } else {
+            logViewInfo(context, view, 0);
+        }
+    }
+
+    private static void logViewInfo(Context context, View view, int indentationLevel) {
+        String indentation = repeatString("\t", indentationLevel);
+        String viewName = view.getClass().getSimpleName();
+        Drawable backgroundDrawable = view.getBackground();
+
+        int childCount = (view instanceof ViewGroup) ? ((ViewGroup) view).getChildCount() : 0;
+        String resourceIdName = "none";
+
+        try {
+            int viewId = view.getId();
+            resourceIdName = context.getResources().getResourceName(viewId);
+        } catch (Throwable ignored) {
+        }
+
+        String logMessage = indentation + viewName + " - ID: " + resourceIdName;
+        if (childCount > 0) {
+            logMessage += " - ChildCount: " + childCount;
+        }
+        if (backgroundDrawable != null) {
+            logMessage += " - Background: " + backgroundDrawable.getClass().getSimpleName() + "";
+        }
+
+        log(logMessage);
+    }
+
+    private static void dumpChildViewsRecursive(Context context, ViewGroup viewGroup, int indentationLevel) {
+        for (int i = 0; i < viewGroup.getChildCount(); i++) {
+            View childView = viewGroup.getChildAt(i);
+            logViewInfo(context, childView, indentationLevel + 1);
+            if (childView instanceof ViewGroup) {
+                dumpChildViewsRecursive(context, (ViewGroup) childView, indentationLevel + 1);
+            }
+        }
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    private static String repeatString(String str, int times) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < times; i++) {
+            result.append(str);
+        }
+        return result.toString();
     }
 }

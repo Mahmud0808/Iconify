@@ -6,6 +6,7 @@ import android.graphics.*
 import android.util.TypedValue
 import androidx.core.graphics.PathParser
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
+import kotlin.math.floor
 
 @SuppressLint("DiscouragedApi")
 open class LandscapeBatteryDrawableSmiley(private val context: Context, frameColor: Int) :
@@ -179,8 +180,8 @@ open class LandscapeBatteryDrawableSmiley(private val context: Context, frameCol
 
     init {
         val density = context.resources.displayMetrics.density
-        intrinsicHeight = (Companion.HEIGHT * density).toInt()
-        intrinsicWidth = (Companion.WIDTH * density).toInt()
+        intrinsicHeight = (HEIGHT * density).toInt()
+        intrinsicWidth = (WIDTH * density).toInt()
 
         val res = context.resources
         val levels = res.obtainTypedArray(
@@ -193,9 +194,9 @@ open class LandscapeBatteryDrawableSmiley(private val context: Context, frameCol
                 "batterymeter_color_values", "array", context.packageName
             )
         )
-        val N = levels.length()
-        colorLevels = IntArray(2 * N)
-        for (i in 0 until N) {
+        val n = levels.length()
+        colorLevels = IntArray(2 * n)
+        for (i in 0 until n) {
             colorLevels[2 * i] = levels.getInt(i, 0)
             if (colors.getType(i) == TypedValue.TYPE_ATTRIBUTE) {
                 colorLevels[2 * i + 1] = SettingsLibUtils.getColorAttrDefaultColor(
@@ -220,7 +221,7 @@ open class LandscapeBatteryDrawableSmiley(private val context: Context, frameCol
         val fillTop = if (batteryLevel >= 95) fillRect.right
         else fillRect.right - (fillRect.width() * (1 - fillFraction))
 
-        levelRect.right = Math.floor(fillTop.toDouble()).toFloat()
+        levelRect.right = floor(fillTop.toDouble()).toFloat()
         //levelPath.addRect(levelRect, Path.Direction.CCW)
         levelPath.addRoundRect(
             levelRect, floatArrayOf(
@@ -356,6 +357,10 @@ open class LandscapeBatteryDrawableSmiley(private val context: Context, frameCol
     /**
      * Deprecated, but required by Drawable
      */
+    @Deprecated(
+        "Deprecated in Java",
+        ReplaceWith("PixelFormat.OPAQUE", "android.graphics.PixelFormat"),
+    )
     override fun getOpacity(): Int {
         return PixelFormat.OPAQUE
     }
@@ -439,7 +444,7 @@ open class LandscapeBatteryDrawableSmiley(private val context: Context, frameCol
         // just pick one to scale the strokeWidths
         val scaledStrokeWidth =
 
-            Math.max(b.right / WIDTH * PROTECTION_STROKE_WIDTH, PROTECTION_MIN_STROKE_WIDTH)
+            (b.right / WIDTH * PROTECTION_STROKE_WIDTH).coerceAtLeast(PROTECTION_MIN_STROKE_WIDTH)
 
         fillColorStrokePaint.strokeWidth = scaledStrokeWidth
         fillColorStrokeProtection.strokeWidth = scaledStrokeWidth
@@ -485,10 +490,10 @@ open class LandscapeBatteryDrawableSmiley(private val context: Context, frameCol
     }
 
     companion object {
-        private const val TAG = "LandscapeBatteryDrawableSmiley"
+        private val TAG = LandscapeBatteryDrawableSmiley::class.java.simpleName
         private const val WIDTH = 24f
         private const val HEIGHT = 12f
-        private const val CRITICAL_LEVEL = 15
+        private const val CRITICAL_LEVEL = 20
 
         // On a 12x20 grid, how wide to make the fill protection stroke.
         // Scales when our size changes

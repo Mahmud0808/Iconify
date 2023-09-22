@@ -5,7 +5,6 @@ import static com.drdisagree.iconify.common.Preferences.SELECTED_TOAST_FRAME;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -20,7 +19,7 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityToastFrameBinding;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.compiler.OnDemandCompiler;
@@ -41,7 +40,7 @@ public class ToastFrame extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_toast_frame);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_toast_frame);
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
@@ -80,8 +79,8 @@ public class ToastFrame extends BaseActivity {
 
             int finalI = i;
             list.setOnClickListener(v -> {
-                if (!Environment.isExternalStorageManager()) {
-                    SystemUtil.getStoragePermission(this);
+                if (!SystemUtil.hasStoragePermission()) {
+                    SystemUtil.requestStoragePermission(this);
                 } else {
                     // Show loading dialog
                     loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
@@ -128,7 +127,7 @@ public class ToastFrame extends BaseActivity {
             LinearLayout child = binding.toastFrameContainer.getChildAt(i).findViewById(R.id.list_item_toast);
             TextView title = child.findViewById(R.id.style_name);
             if (i == Prefs.getInt(SELECTED_TOAST_FRAME, -1)) {
-                title.setTextColor(getResources().getColor(R.color.colorSuccess, getTheme()));
+                title.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
             } else {
                 title.setTextColor(getResources().getColor(R.color.textColorSecondary, getTheme()));
             }

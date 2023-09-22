@@ -56,9 +56,9 @@ public class HSLColor {
             throw new IllegalArgumentException("Unknown color space, please use a color space in ColorSpaces");
         }
 
-        float r = (float) (Math.max(0.0f, Math.min(red, 1.0f)) * 1023.0f + 0.5f);
-        float g = (float) (Math.max(0.0f, Math.min(green, 1.0f)) * 1023.0f + 0.5f);
-        float b = (float) (Math.max(0.0f, Math.min(blue, 1.0f)) * 1023.0f + 0.5f);
+        float r = Math.max(0.0f, Math.min(red, 1.0f)) * 1023.0f + 0.5f;
+        float g = Math.max(0.0f, Math.min(green, 1.0f)) * 1023.0f + 0.5f;
+        float b = Math.max(0.0f, Math.min(blue, 1.0f)) * 1023.0f + 0.5f;
         int a = (int) (Math.max(0.0f, Math.min(alpha, 1.0f)) * 1023.0f + 0.5f);
 
         return (int) ((((long) Float.floatToRawIntBits(r) & 0xffffL) << 48) |

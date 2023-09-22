@@ -25,6 +25,7 @@ import android.content.SharedPreferences;
 
 import com.crossbowffs.remotepreferences.RemotePreferences;
 import com.drdisagree.iconify.BuildConfig;
+import com.drdisagree.iconify.common.Const;
 import com.drdisagree.iconify.xposed.HookEntry;
 import com.drdisagree.iconify.xposed.ModPack;
 
@@ -42,6 +43,9 @@ public class XPrefs {
     }
 
     public static void loadEverything(String... key) {
+        if (key.length > 0 && (key[0] == null || Const.PREF_UPDATE_EXCLUSIONS.stream().anyMatch(exclusion -> key[0].startsWith(exclusion))))
+            return;
+
         for (ModPack thisMod : HookEntry.runningMods) {
             thisMod.updatePrefs(key);
         }

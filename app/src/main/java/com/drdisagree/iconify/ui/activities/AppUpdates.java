@@ -15,18 +15,18 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.text.HtmlCompat;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityAppUpdatesBinding;
-import com.drdisagree.iconify.ui.utils.TaskExecutor;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
+import com.drdisagree.iconify.ui.views.RadioDialog;
+import com.drdisagree.iconify.utils.TaskExecutor;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,13 +37,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
-public class AppUpdates extends BaseActivity {
+public class AppUpdates extends BaseActivity implements RadioDialog.RadioDialogListener {
 
     private ActivityAppUpdatesBinding binding;
     private AppUpdates.CheckForUpdate checkForUpdate = null;
+    private RadioDialog update_schedule_dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,48 +52,12 @@ public class AppUpdates extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.app_updates);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.app_updates);
 
-        List<String> update_schedule = new ArrayList<>();
-        update_schedule.add(getResources().getString(R.string.update_schedule1));
-        update_schedule.add(getResources().getString(R.string.update_schedule2));
-        update_schedule.add(getResources().getString(R.string.update_schedule3));
-        update_schedule.add(getResources().getString(R.string.update_schedule4));
-        update_schedule.add(getResources().getString(R.string.update_schedule5));
-
-        ArrayAdapter<String> update_schedule_adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_item, update_schedule);
-        update_schedule_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
-        binding.checkUpdateEvery.setAdapter(update_schedule_adapter);
-
-        binding.checkUpdateEvery.setSelection(Prefs.getInt(UPDATE_SCHEDULE, 0));
-        binding.checkUpdateEvery.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Prefs.putInt(UPDATE_SCHEDULE, position);
-                // Save update checking time
-                switch (position) {
-                    case 0:
-                        Prefs.putLong(UPDATE_CHECK_TIME, 0); // Every Time
-                        break;
-                    case 1:
-                        Prefs.putLong(UPDATE_CHECK_TIME, (long) 1000 * 60 * 60); // Every Hour
-                        break;
-                    case 2:
-                        Prefs.putLong(UPDATE_CHECK_TIME, (long) 1000 * 60 * 60 * 24); // Every Day
-                        break;
-                    case 3:
-                        Prefs.putLong(UPDATE_CHECK_TIME, (long) 1000 * 60 * 60 * 24 * 7); // Every Week
-                        break;
-                    case 4:
-                        Prefs.putLong(UPDATE_CHECK_TIME, -1); // Never
-                        break;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+        update_schedule_dialog = new RadioDialog(this, 0, Prefs.getInt(UPDATE_SCHEDULE, 1));
+        update_schedule_dialog.setRadioDialogListener(this);
+        binding.updateScheduleContainer.setOnClickListener(v -> update_schedule_dialog.show(R.string.update_schedule_title, R.array.update_schedule, binding.selectedUpdateSchedule));
+        binding.selectedUpdateSchedule.setText(Arrays.asList(getResources().getStringArray(R.array.update_schedule)).get(update_schedule_dialog.getSelectedIndex()));
 
         checkForUpdate = new AppUpdates.CheckForUpdate();
         checkForUpdate.execute();
@@ -108,6 +72,7 @@ public class AppUpdates extends BaseActivity {
 
     @Override
     public void onDestroy() {
+        update_schedule_dialog.dismiss();
         if (checkForUpdate != null) checkForUpdate.cancel(true);
         super.onDestroy();
     }
@@ -115,6 +80,28 @@ public class AppUpdates extends BaseActivity {
     public void onBackPressed() {
         if (checkForUpdate != null) checkForUpdate.cancel(true);
         super.onBackPressed();
+    }
+
+    @Override
+    public void onItemSelected(int dialogId, int selectedIndex) {
+        if (dialogId == 0) {
+            Prefs.putInt(UPDATE_SCHEDULE, selectedIndex);
+
+            switch (selectedIndex) {
+                case 0:
+                    Prefs.putLong(UPDATE_CHECK_TIME, 6); // Every 6 Hours
+                    break;
+                case 1:
+                    Prefs.putLong(UPDATE_CHECK_TIME, 12); // Every 12 Hour
+                    break;
+                case 2:
+                    Prefs.putLong(UPDATE_CHECK_TIME, 24); // Every Day
+                    break;
+                case 3:
+                    Prefs.putLong(UPDATE_CHECK_TIME, (long) 24 * 7); // Every Week
+                    break;
+            }
+        }
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -180,7 +167,7 @@ public class AppUpdates extends BaseActivity {
 
                     if (Integer.parseInt(latestVersion.getString(VER_CODE)) > BuildConfig.VERSION_CODE) {
                         binding.checkUpdate.setBackgroundResource(R.drawable.container_outline);
-                        binding.updateTitle.setText(getResources().getString(R.string.new_update_available));
+                        binding.updateTitle.setText(getResources().getString(R.string.update_available));
                         binding.downloadUpdate.setOnClickListener(v -> {
                             try {
                                 String apkUrl = latestVersion.getString("apkUrl");
@@ -207,8 +194,8 @@ public class AppUpdates extends BaseActivity {
                             title = release_note.substring(0, release_note.indexOf("\n\n"));
                             changes = release_note.substring(release_note.indexOf("\n##")).substring(1);
 
-                            title = title.replace("### ", "<b>") + "</b>";
-                            changes = Changelog.usernameToLink(changes.replace("## ", "<b>").replace(":\n", ":</b><br>").replace("- __", "<b>• ").replace("__\n", "</b><br>").replace("    - ", "&emsp;◦ ").replace("- ", "• ").replace("\n", "<br>"));
+                            title = title.replace("### ", "");
+                            changes = Changelog.usernameToLink(changes.replace("## ", "<b>").replace(":\n", ":</b><br>").replace("- __", "<br><b>• ").replace("__\n", "</b><br>").replace("    - ", "&emsp;◦ ").replace("- ", "• ").replace("\n", "<br>"));
 
                             binding.changelogTitle.setText(HtmlCompat.fromHtml(title, HtmlCompat.FROM_HTML_MODE_LEGACY));
                             binding.changelogText.setText(HtmlCompat.fromHtml(changes, HtmlCompat.FROM_HTML_MODE_LEGACY));
@@ -219,7 +206,7 @@ public class AppUpdates extends BaseActivity {
                             for (URLSpan urlSpan : urls) {
                                 ClickableSpan clickableSpan = new ClickableSpan() {
                                     @Override
-                                    public void onClick(View view) {
+                                    public void onClick(@NonNull View view) {
                                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlSpan.getURL()));
                                         startActivity(intent);
                                     }

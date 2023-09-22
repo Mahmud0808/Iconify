@@ -12,10 +12,10 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.databinding.ActivityQsPanelTileBinding;
 import com.drdisagree.iconify.ui.adapters.MenuAdapter;
 import com.drdisagree.iconify.ui.adapters.QsShapeAdapter;
-import com.drdisagree.iconify.ui.adapters.ViewAdapter;
+import com.drdisagree.iconify.ui.adapters.SectionTitleAdapter;
 import com.drdisagree.iconify.ui.models.MenuModel;
 import com.drdisagree.iconify.ui.models.QsShapeModel;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 
 import java.util.ArrayList;
@@ -33,14 +33,14 @@ public class QsPanelTile extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_qs_shape);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_qs_shape);
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
 
         // RecyclerView
         binding.qsShapesContainer.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ConcatAdapter(initActivityItems(), new ViewAdapter(this, R.layout.view_divider), initQsShapeItems());
+        adapter = new ConcatAdapter(initActivityItems(), new SectionTitleAdapter(this, R.layout.view_section_title, R.string.qspanel_tile_styles), initQsShapeItems());
         binding.qsShapesContainer.setAdapter(adapter);
         binding.qsShapesContainer.setHasFixedSize(true);
     }

@@ -34,7 +34,6 @@ public class Preferences {
     public static final String HEADER_CLOCK_FONT_TEXT_SCALING = "xposed_headerclocktextscaling";
     public static final String QSPANEL_HIDE_CARRIER = "xposed_qspanelhidecarrier";
     public static final String LSCLOCK_SWITCH = "xposed_lockscreenclock";
-    public static final String LSCLOCK_AUTOHIDE = "xposed_lockscreenclockautohide";
     public static final String LSCLOCK_STYLE = "xposed_lockscreenclockstyle";
     public static final String LSCLOCK_TOPMARGIN = "xposed_lockscreenclocktopmargin";
     public static final String LSCLOCK_BOTTOMMARGIN = "xposed_lockscreenclockbottommargin";
@@ -60,7 +59,8 @@ public class Preferences {
     public static final String CUSTOM_BATTERY_HEIGHT = "xposed_custombatteryheight";
     public static final String CUSTOM_BATTERY_MARGIN = "xposed_custombatterymargin";
     public static final String HEADER_QQS_TOPMARGIN = "qqspanelTopMargin";
-    public static final String HIDE_DATA_DISABLED_ICON = "hideDataDisabledIcon";
+    public static final String HIDE_DATA_DISABLED_ICON = "xposed_hideDataDisabledIcon";
+    public static final String DEPTH_WALLPAPER_SWITCH = "xposed_depthwallpaper";
 
     // Battery styles
     public static final int BATTERY_STYLE_DEFAULT = 0;
@@ -106,10 +106,10 @@ public class Preferences {
     public static final String MONET_STYLE = "customMonetStyle";
     public static final String MONET_PRIMARY_COLOR = "monetPrimaryColor";
     public static final String MONET_SECONDARY_COLOR = "monetSecondaryColor";
-    public static final String MONET_PRIMARY_ACCENT_SATURATION = "monetPrimaryAccentSaturation";
-    public static final String MONET_SECONDARY_ACCENT_SATURATION = "monetSecondaryAccentSaturation";
-    public static final String MONET_BACKGROUND_SATURATION = "monetBackgroundSaturation";
-    public static final String MONET_BACKGROUND_LIGHTNESS = "monetBackgroundLightness";
+    public static final String MONET_PRIMARY_ACCENT_SATURATION = "monetPrimaryAccentSaturationValue";
+    public static final String MONET_SECONDARY_ACCENT_SATURATION = "monetSecondaryAccentSaturationValue";
+    public static final String MONET_BACKGROUND_SATURATION = "monetBackgroundSaturationValue";
+    public static final String MONET_BACKGROUND_LIGHTNESS = "monetBackgroundLightnessValue";
     public static final String MONET_ACCURATE_SHADES = "monetAccurateShades";
     public static final String PORT_QSTILE_EXPANDED_HEIGHT = "portraitQsTileExpandedHeight";
     public static final String PORT_QSTILE_NONEXPANDED_HEIGHT = "portraitQsTileNonExpandedHeight";
@@ -140,10 +140,15 @@ public class Preferences {
     public static final String APP_LANGUAGE = "IconifyAppLanguage";
     public static final String APP_ICON = "IconifyAppIcon";
     public static final String APP_THEME = "IconifyAppTheme";
-    public static final String SHOW_XPOSED_WARN = "showXposedMenuWarn";
+    public static final String AUTO_UPDATE = "IconifyAutoUpdate";
+    public static final String UPDATE_OVER_WIFI = "IconifyUpdateOverWifi";
+    public static final String SHOW_XPOSED_WARN = "IconifyShowXposedWarn";
+    public static final String SHOW_HOME_CARD = "IconifyShowHomeCard";
+    public static final String RESTART_SYSUI_BEHAVIOR = "IconifyRestartSysuiBehavior";
 
     // Others
     public static final String BOOT_ID = "boot_id";
     public static final String VER_CODE = "versionCode";
     public static final String EASTER_EGG = "iconify_easter_egg";
+    public static final String ALERT_DIALOG_QSROWCOL = "alertDialogQsRowCol";
 }

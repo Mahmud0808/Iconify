@@ -1,58 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/list_info_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:background="@drawable/item_background_material"
+    android:clickable="true">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="24dp"
+        android:contentDescription="@string/icon"
+        app:tint="?attr/colorOnSurface" />
 
     <LinearLayout
-        android:id="@+id/list_info_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/container_mid"
-        android:orientation="horizontal"
-        android:paddingStart="@dimen/container_paddingSide"
-        android:paddingTop="16dp"
-        android:paddingEnd="@dimen/container_paddingSide"
-        android:paddingBottom="16dp">
+        android:layout_centerVertical="true"
+        android:layout_marginVertical="22dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="24dp"
+        android:layout_toEndOf="@id/icon"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:layout_gravity="start|center"
-            android:contentDescription="@string/icon"
-            app:tint="@color/textColorSecondary" />
-
-        <LinearLayout
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/title"
+            style="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start|center"
-            android:layout_marginStart="@dimen/container_padding"
-            android:layout_weight="1.0"
-            android:orientation="vertical">
+            android:textColor="@color/text_color_primary" />
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+        <TextView
+            android:id="@+id/desc"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_color_secondary" />
 
-            <TextView
-                android:id="@+id/desc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="1dp"
-                android:textColor="@color/textColorSecondary"
-                android:textSize="@dimen/cont_desc_size" />
-
-        </LinearLayout>
     </LinearLayout>
-
-    <View
-        android:id="@+id/divider"
-        style="@style/dividerTransparent" />
-
-</LinearLayout>
+</RelativeLayout>

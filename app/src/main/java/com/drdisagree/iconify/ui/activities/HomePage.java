@@ -1,22 +1,15 @@
 package com.drdisagree.iconify.ui.activities;
 
-import static com.drdisagree.iconify.SplashActivity.SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES;
 import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
+import static com.drdisagree.iconify.common.References.FRAGMENT_HOME;
 import static com.drdisagree.iconify.common.References.FRAGMENT_SETTINGS;
-import static com.drdisagree.iconify.common.References.FRAGMENT_STYLES;
 import static com.drdisagree.iconify.common.References.FRAGMENT_TWEAKS;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -25,8 +18,9 @@ import com.airbnb.lottie.LottieCompositionFactory;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityHomePageBinding;
+import com.drdisagree.iconify.services.UpdateScheduler;
+import com.drdisagree.iconify.ui.fragments.Home;
 import com.drdisagree.iconify.ui.fragments.Settings;
-import com.drdisagree.iconify.ui.fragments.Styles;
 import com.drdisagree.iconify.ui.fragments.Tweaks;
 import com.drdisagree.iconify.ui.utils.FragmentHelper;
 import com.drdisagree.iconify.utils.FabricatedUtil;
@@ -50,12 +44,12 @@ public class HomePage extends BaseActivity {
         Prefs.putBoolean(ON_HOME_PAGE, true);
 
         if (savedInstanceState == null) {
-            replaceFragment(new Styles(), FRAGMENT_STYLES);
+            replaceFragment(new Home(), FRAGMENT_HOME);
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.addOnBackStackChangedListener(() -> {
-            if (Objects.equals(FragmentHelper.getTopFragment(fragmentManager), FRAGMENT_STYLES))
+            if (Objects.equals(FragmentHelper.getTopFragment(fragmentManager), FRAGMENT_HOME))
                 binding.bottomNavigation.getMenu().getItem(0).setChecked(true);
             else if (Objects.equals(FragmentHelper.getTopFragment(fragmentManager), FRAGMENT_TWEAKS))
                 binding.bottomNavigation.getMenu().getItem(1).setChecked(true);
@@ -70,16 +64,15 @@ public class HomePage extends BaseActivity {
 
         Runnable runnable1 = () -> {
             // Get list of enabled overlays
-            List<String> AllOverlays = OverlayUtil.getOverlayList();
             List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
-            for (String overlay : AllOverlays)
-                Prefs.putBoolean(overlay, OverlayUtil.isOverlayEnabled(EnabledOverlays, overlay));
+            for (String overlay : EnabledOverlays)
+                Prefs.putBoolean(overlay, true);
 
             List<String> FabricatedEnabledOverlays = FabricatedUtil.getEnabledOverlayList();
             for (String overlay : FabricatedEnabledOverlays)
                 Prefs.putBoolean("fabricated" + overlay, true);
 
-            Prefs.putBoolean(MONET_ENGINE_SWITCH, OverlayUtil.isOverlayEnabled(EnabledOverlays, "IconifyComponentME.overlay"));
+            Prefs.putBoolean(MONET_ENGINE_SWITCH, EnabledOverlays.contains("IconifyComponentME.overlay"));
 
             // Clear lottie cache
             LottieCompositionFactory.clearCache(this);
@@ -87,11 +80,7 @@ public class HomePage extends BaseActivity {
         Thread thread1 = new Thread(runnable1);
         thread1.start();
 
-        if (!SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES && Build.VERSION.SDK_INT >= 33 && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 0);
-            }, 2000);
-        }
+        UpdateScheduler.scheduleUpdates(getApplicationContext());
     }
 
     private void replaceFragment(Fragment fragment, String tag) {
@@ -99,7 +88,7 @@ public class HomePage extends BaseActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out, R.anim.fragment_fade_in, R.anim.fragment_fade_out);
         fragmentTransaction.replace(R.id.main_fragment, fragment, tag);
-        if (Objects.equals(tag, FRAGMENT_STYLES))
+        if (Objects.equals(tag, FRAGMENT_HOME))
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         else if (Objects.equals(tag, FRAGMENT_TWEAKS) || Objects.equals(tag, FRAGMENT_SETTINGS)) {
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -115,10 +104,10 @@ public class HomePage extends BaseActivity {
     @SuppressLint("NonConstantResourceId")
     private void setFragment(int id) {
         switch (id) {
-            case R.id.navbar_styles:
-                if (!Objects.equals(FragmentHelper.getTopFragment(getSupportFragmentManager()), FRAGMENT_STYLES)) {
-                    replaceFragment(new Styles(), FRAGMENT_STYLES);
-                    selectedFragment = R.id.navbar_styles;
+            case R.id.navbar_home:
+                if (!Objects.equals(FragmentHelper.getTopFragment(getSupportFragmentManager()), FRAGMENT_HOME)) {
+                    replaceFragment(new Home(), FRAGMENT_HOME);
+                    selectedFragment = R.id.navbar_home;
                 }
                 break;
             case R.id.navbar_tweaks:
@@ -138,7 +127,7 @@ public class HomePage extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (Objects.equals(FragmentHelper.getTopFragment(getSupportFragmentManager()), FRAGMENT_STYLES)) {
+        if (Objects.equals(FragmentHelper.getTopFragment(getSupportFragmentManager()), FRAGMENT_HOME)) {
             HomePage.this.finish();
             System.exit(0);
         }
@@ -152,7 +141,7 @@ public class HomePage extends BaseActivity {
     }
 
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
+    public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         selectedFragment = savedInstanceState.getInt(mData);
     }

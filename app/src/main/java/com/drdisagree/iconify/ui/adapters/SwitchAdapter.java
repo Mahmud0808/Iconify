@@ -6,20 +6,18 @@ import static com.drdisagree.iconify.common.Preferences.SELECTED_SWITCH;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -66,18 +64,6 @@ public class SwitchAdapter extends RecyclerView.Adapter<SwitchAdapter.ViewHolder
         holder.aSwitch.setChecked(Prefs.getInt(SELECTED_SWITCH, -1) == position);
 
         enableOnCheckedChangeListener(holder);
-
-        if (getItemCount() == 1) {
-            holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.container));
-            holder.container.removeView(holder.divider);
-        } else {
-            if (position == 0)
-                holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.container_top));
-            else if (position == getItemCount() - 1) {
-                holder.container.removeView(holder.divider);
-                holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.container_bottom));
-            }
-        }
     }
 
     @Override
@@ -118,85 +104,93 @@ public class SwitchAdapter extends RecyclerView.Adapter<SwitchAdapter.ViewHolder
     }
 
     private void enableOnCheckedChangeListener(ViewHolder holder) {
+        holder.container.setOnClickListener(view -> {
+            holder.aSwitch.toggle();
+            switchAction(holder, holder.aSwitch.isChecked());
+        });
+
         holder.aSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
             if (compoundButton.isPressed()) {
-                new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    if (b) {
-                        if (!Environment.isExternalStorageManager()) {
-                            SystemUtil.getStoragePermission(context);
-                            holder.aSwitch.setChecked(false);
-                        } else {
-                            // Show loading dialog
-                            loadingDialog.show(context.getResources().getString(R.string.loading_dialog_wait));
-
-                            Runnable runnable = () -> {
-                                AtomicBoolean hasErroredOut = new AtomicBoolean(false);
-                                Prefs.putInt(SELECTED_SWITCH, holder.getBindingAdapterPosition());
-
-                                try {
-                                    hasErroredOut.set(SwitchCompiler.buildOverlay(holder.getBindingAdapterPosition() + 1, true));
-                                } catch (IOException e) {
-                                    hasErroredOut.set(true);
-                                    holder.aSwitch.setChecked(false);
-                                    Log.e("Switch", e.toString());
-                                }
-
-                                ((Activity) context).runOnUiThread(() -> {
-                                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                                        // Hide loading dialog
-                                        loadingDialog.hide();
-
-                                        if (!hasErroredOut.get()) {
-                                            // Change button visibility
-                                            refreshSwitches(holder);
-
-                                            Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            Prefs.putInt(SELECTED_SWITCH, -1);
-                                            holder.aSwitch.setChecked(false);
-                                            Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                                        }
-                                    }, 1000);
-                                });
-                            };
-                            Thread thread = new Thread(runnable);
-                            thread.start();
-                        }
-                    } else {
-                        // Show loading dialog
-                        loadingDialog.show(context.getResources().getString(R.string.loading_dialog_wait));
-
-                        Runnable runnable = () -> {
-                            Prefs.putInt(SELECTED_SWITCH, -1);
-                            OverlayUtil.disableOverlays("IconifyComponentSWITCH1.overlay", "IconifyComponentSWITCH2.overlay");
-
-                            ((Activity) context).runOnUiThread(() -> {
-                                new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                                    // Hide loading dialog
-                                    loadingDialog.hide();
-
-                                    // Change button visibility
-                                    refreshSwitches(holder);
-
-                                    Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
-                                }, 1000);
-                            });
-                        };
-                        Thread thread = new Thread(runnable);
-                        thread.start();
-                    }
-                }, SWITCH_ANIMATION_DELAY);
+                switchAction(holder, b);
             }
         });
     }
 
+    private void switchAction(ViewHolder holder, boolean checked) {
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            if (checked) {
+                if (!SystemUtil.hasStoragePermission()) {
+                    SystemUtil.requestStoragePermission(context);
+                    holder.aSwitch.setChecked(false);
+                } else {
+                    // Show loading dialog
+                    loadingDialog.show(context.getResources().getString(R.string.loading_dialog_wait));
+
+                    Runnable runnable = () -> {
+                        AtomicBoolean hasErroredOut = new AtomicBoolean(false);
+                        Prefs.putInt(SELECTED_SWITCH, holder.getBindingAdapterPosition());
+
+                        try {
+                            hasErroredOut.set(SwitchCompiler.buildOverlay(holder.getBindingAdapterPosition() + 1, true));
+                        } catch (IOException e) {
+                            hasErroredOut.set(true);
+                            holder.aSwitch.setChecked(false);
+                            Log.e("Switch", e.toString());
+                        }
+
+                        ((Activity) context).runOnUiThread(() -> {
+                            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                                // Hide loading dialog
+                                loadingDialog.hide();
+
+                                if (!hasErroredOut.get()) {
+                                    // Change button visibility
+                                    refreshSwitches(holder);
+
+                                    Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Prefs.putInt(SELECTED_SWITCH, -1);
+                                    holder.aSwitch.setChecked(false);
+                                    Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                }
+                            }, 1000);
+                        });
+                    };
+                    Thread thread = new Thread(runnable);
+                    thread.start();
+                }
+            } else {
+                // Show loading dialog
+                loadingDialog.show(context.getResources().getString(R.string.loading_dialog_wait));
+
+                Runnable runnable = () -> {
+                    Prefs.putInt(SELECTED_SWITCH, -1);
+                    OverlayUtil.disableOverlays("IconifyComponentSWITCH1.overlay", "IconifyComponentSWITCH2.overlay");
+
+                    ((Activity) context).runOnUiThread(() -> {
+                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                            // Hide loading dialog
+                            loadingDialog.hide();
+
+                            // Change button visibility
+                            refreshSwitches(holder);
+
+                            Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
+                        }, 1000);
+                    });
+                };
+                Thread thread = new Thread(runnable);
+                thread.start();
+            }
+        }, SWITCH_ANIMATION_DELAY);
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        LinearLayout container;
+        RelativeLayout container;
         TextView title;
         @SuppressLint("UseSwitchCompatOrMaterialCode")
         Switch aSwitch;
-        View divider;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -204,7 +198,6 @@ public class SwitchAdapter extends RecyclerView.Adapter<SwitchAdapter.ViewHolder
             container = itemView.findViewById(R.id.list_item_switch);
             title = itemView.findViewById(R.id.title);
             aSwitch = itemView.findViewById(R.id.switch_view);
-            divider = itemView.findViewById(R.id.divider);
         }
     }
 }

@@ -9,10 +9,10 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.databinding.ActivityBrightnessBarsBinding;
 import com.drdisagree.iconify.ui.adapters.BrightnessBarAdapter;
 import com.drdisagree.iconify.ui.adapters.MenuAdapter;
-import com.drdisagree.iconify.ui.adapters.ViewAdapter;
+import com.drdisagree.iconify.ui.adapters.SectionTitleAdapter;
 import com.drdisagree.iconify.ui.models.BrightnessBarModel;
 import com.drdisagree.iconify.ui.models.MenuModel;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 
 import java.util.ArrayList;
@@ -29,14 +29,14 @@ public class BrightnessBar extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_brightness_bar);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_brightness_bar);
 
         // Loading dialog while enabling or disabling pack
         loadingDialog = new LoadingDialog(this);
 
         // RecyclerView
         binding.brightnessBarContainer.setLayoutManager(new LinearLayoutManager(this));
-        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new ViewAdapter(this, R.layout.view_divider), initBrightnessBarItems());
+        ConcatAdapter adapter = new ConcatAdapter(initActivityItems(), new SectionTitleAdapter(this, R.layout.view_section_title, R.string.brightness_bar_styles), initBrightnessBarItems());
         binding.brightnessBarContainer.setAdapter(adapter);
         binding.brightnessBarContainer.setHasFixedSize(true);
     }

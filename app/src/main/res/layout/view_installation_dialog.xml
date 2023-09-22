@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -53,39 +54,39 @@
 
                     <TextView
                         android:id="@+id/title"
+                        style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="start|center"
                         android:text="@string/installing"
                         android:textAlignment="viewStart"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/cont_title_size"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_color_primary" />
 
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/desc"
+                    style="@style/TextAppearance.Material3.BodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="3dp"
                     android:gravity="start|center"
                     android:text="@string/loading_dialog_wait"
                     android:textAlignment="viewStart"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="@dimen/cont_desc_size" />
+                    android:textColor="@color/text_color_secondary" />
 
             </LinearLayout>
 
-            <ImageView
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/view_logs"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
+                style="@style/Widget.Material3.Button.IconButton.Filled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="end|center"
-                android:background="@drawable/button_round"
-                android:contentDescription="@string/icon"
-                android:foreground="@drawable/ic_expand_arrow"
-                android:foregroundTint="@color/textColorPrimaryInverse" />
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="3dp"
+                app:icon="@drawable/ic_expand_arrow" />
 
         </LinearLayout>
 
@@ -111,7 +112,8 @@
                 android:maxLines="12"
                 android:textAlignment="viewStart"
                 android:textColor="@color/textColorSecondary"
-                android:textSize="12dp" />
+                android:textSize="12dp"
+                tools:ignore="SpUsage" />
 
         </LinearLayout>
     </LinearLayout>

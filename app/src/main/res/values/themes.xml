@@ -25,25 +25,25 @@
         <item name="android:windowLightNavigationBar">true</item>
 
         <!-- App theme -->
-        <item name="fontFamily">@font/normal</item>
-        <item name="android:fontFamily">@font/normal</item>
-        <item name="android:lineSpacingMultiplier">1.5</item>
-        <item name="android:textColorPrimary">@color/textColorPrimary</item>
-        <item name="android:textColorSecondary">@color/textColorSecondary</item>
-        <item name="android:colorControlNormal">@color/textColorPrimary</item>
-        <item name="android:colorControlActivated">@color/textColorPrimary</item>
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+        <item name="android:textColorPrimary">@color/text_color_primary</item>
+        <item name="android:textColorSecondary">@color/text_color_secondary</item>
+        <item name="android:colorControlNormal">@color/text_color_primary</item>
+        <item name="android:colorControlActivated">@color/text_color_primary</item>
         <item name="android:colorControlHighlight">@color/colorAccent</item>
         <item name="selectableItemBackground">?android:selectableItemBackground</item>
         <item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>
         <item name="android:actionOverflowButtonStyle">@style/actionButtonOverflow</item>
         <item name="homeAsUpIndicator">@drawable/ic_home_as_up_indicator</item>
-        <item name="colorControlHighlight">@color/rippleAccent</item>
+        <item name="colorControlHighlight">@color/color_material_ripple_no_tint</item>
         <item name="colorBackgroundFloating">@color/colorContainer</item>
         <item name="colorSurface">@color/colorContainer</item>
-        <item name="colorPrimarySurface">@color/colorContainer</item>
+        <item name="colorPrimarySurface">@color/colorBackground</item>
         <item name="colorError">@color/red</item>
 
-        <!-- Material3 attributes (needed if parent="Theme.MaterialComponents"). -->
+        <!-- Material3 attributes -->
         <item name="colorPrimaryInverse">@color/colorPrimaryDark</item>
         <item name="colorPrimaryContainer">@color/colorPrimaryContainerLight</item>
         <item name="colorOnPrimaryContainer">@color/colorOnPrimaryContainerLight</item>

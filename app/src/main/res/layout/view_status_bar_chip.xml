@@ -17,29 +17,27 @@
         android:paddingBottom="4dp">
 
         <TextClock
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:format12Hour="hh:mm"
             android:format24Hour="HH:mm"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/cont_desc_size"
-            android:textStyle="bold" />
+            android:textColor="@color/text_color_primary" />
 
     </LinearLayout>
 
     <TextView
         android:id="@+id/style_name"
+        style="@style/TextAppearance.Material3.TitleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="6dp"
-        android:background="@drawable/container"
+        android:background="@drawable/item_background_material_rounded"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:paddingBottom="3dp"
-        android:textColor="@color/textColorSecondary"
-        android:textSize="@dimen/cont_desc_size"
-        android:textStyle="bold" />
+        android:textColor="@color/text_color_secondary" />
 
 </LinearLayout>

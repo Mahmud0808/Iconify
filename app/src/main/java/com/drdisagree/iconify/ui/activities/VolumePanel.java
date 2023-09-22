@@ -8,7 +8,6 @@ import static com.drdisagree.iconify.common.References.FABRICATED_VOLUME_DIALOG_
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -20,14 +19,13 @@ import androidx.core.content.ContextCompat;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityVolumePanelBinding;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.InfoDialog;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.FabricatedUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.compiler.VolumeCompiler;
 
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class VolumePanel extends BaseActivity {
@@ -44,13 +42,14 @@ public class VolumePanel extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_volume_panel);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_volume_panel);
 
         binding.thinBg.setChecked(Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 1);
-        binding.thinBg.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.thinBg.addOnCheckedChangeListener((button, isChecked) -> {
             if (isChecked) {
-                binding.thickBg.setChecked(false);
-                binding.noBg.setChecked(false);
+                binding.toggleButtonGroup.uncheck(binding.thickBg.getId());
+                binding.toggleButtonGroup.uncheck(binding.noBg.getId());
+
                 Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 1);
                 FabricatedUtil.buildAndEnableOverlays(
                         new Object[]{SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, "dimen", "volume_dialog_slider_width", "42dp"},
@@ -65,10 +64,11 @@ public class VolumePanel extends BaseActivity {
         });
 
         binding.thickBg.setChecked(Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 2);
-        binding.thickBg.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.thickBg.addOnCheckedChangeListener((button, isChecked) -> {
             if (isChecked) {
-                binding.thinBg.setChecked(false);
-                binding.noBg.setChecked(false);
+                binding.toggleButtonGroup.uncheck(binding.thinBg.getId());
+                binding.toggleButtonGroup.uncheck(binding.noBg.getId());
+
                 Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 2);
                 FabricatedUtil.buildAndEnableOverlays(
                         new Object[]{SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, "dimen", "volume_dialog_slider_width", "42dp"},
@@ -82,10 +82,11 @@ public class VolumePanel extends BaseActivity {
         });
 
         binding.noBg.setChecked(Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 3);
-        binding.noBg.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.noBg.addOnCheckedChangeListener((button, isChecked) -> {
             if (isChecked) {
-                binding.thinBg.setChecked(false);
-                binding.thickBg.setChecked(false);
+                binding.toggleButtonGroup.uncheck(binding.thinBg.getId());
+                binding.toggleButtonGroup.uncheck(binding.thickBg.getId());
+
                 Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 3);
                 FabricatedUtil.buildAndEnableOverlays(
                         new Object[]{SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, "dimen", "volume_dialog_slider_width", "42dp"},
@@ -102,7 +103,7 @@ public class VolumePanel extends BaseActivity {
         // Loading dialog while creating modules
         loadingDialog = new LoadingDialog(this);
 
-        // Info dialog for volume style modules
+        // Credits dialog for volume style modules
         infoDialog = new InfoDialog(this);
 
         // Volume style
@@ -117,8 +118,8 @@ public class VolumePanel extends BaseActivity {
         realCheckedId = checkedId1 == -1 ? checkedId2 : checkedId1;
 
         binding.volumeStyle.volumeStyleCreateModule.setOnClickListener(v -> {
-            if (!Environment.isExternalStorageManager()) {
-                SystemUtil.getStoragePermission(this);
+            if (!SystemUtil.hasStoragePermission()) {
+                SystemUtil.requestStoragePermission(this);
             } else {
                 if (realCheckedId == -1) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
@@ -161,7 +162,7 @@ public class VolumePanel extends BaseActivity {
         Runnable runnable = () -> {
             try {
                 hasErroredOut.set(VolumeCompiler.buildModule(finalSelectedStyle, SYSTEMUI_PACKAGE));
-            } catch (IOException e) {
+            } catch (Exception e) {
                 hasErroredOut.set(true);
                 Log.e("VolumePanel", e.toString());
             }

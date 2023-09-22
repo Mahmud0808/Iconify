@@ -59,7 +59,7 @@ public class HeaderClockStyles {
                 ViewGroup.MarginLayoutParams dividerParams1 = new ViewGroup.MarginLayoutParams((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40 * textScaling, mContext.getResources().getDisplayMetrics()));
                 dividerParams1.setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()));
                 divider1.setLayoutParams(dividerParams1);
-                GradientDrawable mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{mContext.getResources().getColor(R.color.holo_green_light, mContext.getTheme()), mContext.getResources().getColor(R.color.holo_green_light, mContext.getTheme())});
+                GradientDrawable mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{mContext.getResources().getColor(R.color.holo_blue_dark, mContext.getTheme()), mContext.getResources().getColor(R.color.holo_blue_dark, mContext.getTheme())});
                 mDrawable1.setCornerRadius(8);
                 divider1.setBackground(mDrawable1);
 
@@ -187,7 +187,7 @@ public class HeaderClockStyles {
                 dayDateOverlay3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 dayDateOverlay3.setFormat12Hour("EEE, MMM dd");
                 dayDateOverlay3.setFormat24Hour("EEE, MMM dd");
-                dayDateOverlay3.setTextColor(mContext.getResources().getColor(R.color.holo_green_light, mContext.getTheme()));
+                dayDateOverlay3.setTextColor(mContext.getResources().getColor(R.color.holo_blue_dark, mContext.getTheme()));
                 dayDateOverlay3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18 * textScaling);
                 dayDateOverlay3.setTypeface(dayDateOverlay3.getTypeface(), Typeface.BOLD);
                 dayDateOverlay3.setAlpha(0.4f);
@@ -295,7 +295,7 @@ public class HeaderClockStyles {
                 container5.setGravity(Gravity.CENTER);
                 container5.setOrientation(LinearLayout.HORIZONTAL);
                 container5.setPadding((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics()));
-                GradientDrawable mDrawable5 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{mContext.getResources().getColor(R.color.holo_blue_light, mContext.getTheme()), mContext.getResources().getColor(R.color.holo_green_light, mContext.getTheme())});
+                GradientDrawable mDrawable5 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{mContext.getResources().getColor(R.color.holo_blue_light, mContext.getTheme()), mContext.getResources().getColor(R.color.holo_blue_dark, mContext.getTheme())});
                 ((LinearLayout.LayoutParams) container5.getLayoutParams()).setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, sideMargin, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()));
                 mDrawable5.setCornerRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, RPrefs.getInt(UI_CORNER_RADIUS, 28) * mContext.getResources().getDisplayMetrics().density, mContext.getResources().getDisplayMetrics()));
                 container5.setBackground(mDrawable5);
@@ -414,8 +414,8 @@ public class HeaderClockStyles {
             case 8:
                 final TextClock clock8 = new TextClock(mContext);
                 clock8.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                clock8.setFormat12Hour("hh:mm");
-                clock8.setFormat24Hour("HH:mm");
+                clock8.setFormat12Hour("h:mm");
+                clock8.setFormat24Hour("H:mm");
                 clock8.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white, mContext.getTheme()) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
                 clock8.setTextSize(TypedValue.COMPLEX_UNIT_SP, 44 * textScaling);
                 clock8.setTypeface(clock8.getTypeface(), Typeface.BOLD);
@@ -424,8 +424,8 @@ public class HeaderClockStyles {
 
                 final TextClock clockOverlay8 = new TextClock(mContext);
                 clockOverlay8.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                clockOverlay8.setFormat12Hour("hh");
-                clockOverlay8.setFormat24Hour("HH");
+                clockOverlay8.setFormat12Hour("h");
+                clockOverlay8.setFormat24Hour("H");
                 clockOverlay8.setTextColor(mContext.getResources().getColor(android.R.color.holo_blue_light, mContext.getTheme()));
                 clockOverlay8.setTextSize(TypedValue.COMPLEX_UNIT_SP, 44 * textScaling);
                 clockOverlay8.setTypeface(clockOverlay8.getTypeface(), Typeface.BOLD);
@@ -445,10 +445,10 @@ public class HeaderClockStyles {
                 dayDate8.setLetterSpacing(0.2f);
                 dayDate8.setAllCaps(true);
                 dayDate8.setTextColor(forceWhiteText ? mContext.getResources().getColor(android.R.color.white, mContext.getTheme()) : SystemUtil.getColorResCompat(mContext, android.R.attr.textColorPrimary));
-                dayDate8.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16 * textScaling);
+                dayDate8.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14 * textScaling);
                 dayDate8.setTypeface(clockOverlay8.getTypeface(), Typeface.NORMAL);
                 dayDate8.setIncludeFontPadding(false);
-                ((LinearLayout.LayoutParams) dayDate8.getLayoutParams()).setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()), 0, 0, 0);
+                ((LinearLayout.LayoutParams) dayDate8.getLayoutParams()).setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()), 0, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()));
 
                 final LinearLayout container8 = new LinearLayout(mContext);
                 container8.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));

@@ -6,7 +6,7 @@ import android.view.View;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityMediaPlayerBinding;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.OverlayUtil;
 
 public class MediaPlayer extends BaseActivity {
@@ -20,12 +20,11 @@ public class MediaPlayer extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_media_player);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_media_player);
 
         refreshPreview();
 
         binding.mpAccent.setChecked(Prefs.getBoolean("IconifyComponentMPA.overlay"));
-
         binding.mpAccent.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 binding.mpSystem.setChecked(false);
@@ -36,9 +35,9 @@ public class MediaPlayer extends BaseActivity {
             }
             refreshPreview();
         });
+        binding.mpAccentContainer.setOnClickListener(v -> binding.mpAccent.toggle());
 
         binding.mpSystem.setChecked(Prefs.getBoolean("IconifyComponentMPS.overlay"));
-
         binding.mpSystem.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 binding.mpAccent.setChecked(false);
@@ -49,9 +48,9 @@ public class MediaPlayer extends BaseActivity {
             }
             refreshPreview();
         });
+        binding.mpSystemContainer.setOnClickListener(v -> binding.mpSystem.toggle());
 
         binding.mpPitchBlack.setChecked(Prefs.getBoolean("IconifyComponentMPB.overlay"));
-
         binding.mpPitchBlack.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 binding.mpAccent.setChecked(false);
@@ -62,6 +61,7 @@ public class MediaPlayer extends BaseActivity {
             }
             refreshPreview();
         });
+        binding.mpPitchBlackContainer.setOnClickListener(v -> binding.mpPitchBlack.toggle());
     }
 
     private void refreshPreview() {

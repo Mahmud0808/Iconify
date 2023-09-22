@@ -48,11 +48,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class QuickSettings extends ModPack {
 
-    private static final String TAG = "Iconify - QuickSettings: ";
-    private static final String QuickStatusBarHeaderClass = SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader";
-    private static final String CLASS_QSTILEVIEWIMPL = SYSTEMUI_PACKAGE + ".qs.tileimpl.QSTileViewImpl";
-    private static final String CLASS_FONTSIZEUTILS = SYSTEMUI_PACKAGE + ".FontSizeUtils";
-    private static int qqsHeaderSize = -1;
+    private static final String TAG = "Iconify - " + QuickSettings.class.getSimpleName() + ": ";
     private static boolean headerSizeFixActive = false;
     private static boolean isVerticalQSTileActive = false;
     private static boolean isHideLabelActive = false;
@@ -67,7 +63,7 @@ public class QuickSettings extends ModPack {
     public void updatePrefs(String... Key) {
         if (Xprefs == null) return;
 
-        qqsHeaderSize = Xprefs.getInt(HEADER_QQS_TOPMARGIN, -1);
+        int qqsHeaderSize = Xprefs.getInt(HEADER_QQS_TOPMARGIN, -1);
         headerSizeFixActive = qqsHeaderSize != -1;
 
         isVerticalQSTileActive = Xprefs.getBoolean(VERTICAL_QSTILE_SWITCH, false);
@@ -75,16 +71,11 @@ public class QuickSettings extends ModPack {
     }
 
     @Override
-    public boolean listensTo(String packageName) {
-        return packageName.equals(SYSTEMUI_PACKAGE);
-    }
-
-    @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE)) return;
 
-        Class<?> QSTileViewImpl = findClass(CLASS_QSTILEVIEWIMPL, lpparam.classLoader);
-        Class<?> FontSizeUtils = findClass(CLASS_FONTSIZEUTILS, lpparam.classLoader);
+        Class<?> QSTileViewImpl = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSTileViewImpl", lpparam.classLoader);
+        Class<?> FontSizeUtils = findClass(SYSTEMUI_PACKAGE + ".FontSizeUtils", lpparam.classLoader);
 
         hookAllMethods(QSTileViewImpl, "onConfigurationChanged", new XC_MethodHook() {
             @Override
@@ -139,7 +130,7 @@ public class QuickSettings extends ModPack {
             }
         });
 
-        final Class<?> QuickStatusBarHeader = findClass(QuickStatusBarHeaderClass, lpparam.classLoader);
+        final Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", lpparam.classLoader);
 
         try {
             hookAllMethods(QuickStatusBarHeader, "updateResources", new XC_MethodHook() {

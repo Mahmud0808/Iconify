@@ -13,14 +13,15 @@ import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.core.text.HtmlCompat;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.databinding.ActivityChangelogBinding;
-import com.drdisagree.iconify.ui.utils.TaskExecutor;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
+import com.drdisagree.iconify.utils.TaskExecutor;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,7 +65,7 @@ public class Changelog extends BaseActivity {
         setContentView(binding.getRoot());
 
         // Header
-        ViewBindingHelpers.setHeader(this, binding.header.collapsingToolbar, binding.header.toolbar, R.string.activity_title_changelog);
+        ViewHelper.setHeader(this, binding.header.toolbar, R.string.activity_title_changelog);
 
         grabChangelog = new Changelog.GrabChangelog();
         grabChangelog.execute();
@@ -181,8 +182,8 @@ public class Changelog extends BaseActivity {
                         title = data.substring(0, data.indexOf("\r\n\r\n"));
                         changes = data.substring(data.indexOf("\n##")).substring(1);
 
-                        title = title.replace("### ", "<b>") + "</b>";
-                        changes = usernameToLink(changes.replace("## ", "<b>").replace(":\r\n", ":</b><br>").replace("- __", "<b>• ").replace("__\r\n", "</b><br>").replace("    - ", "&emsp;◦ ").replace("- ", "• ").replace("\r\n", "<br>"));
+                        title = title.replace("### ", "");
+                        changes = usernameToLink(changes.replace("## ", "<b>").replace(":\r\n", ":</b><br>").replace("- __", "<br><b>• ").replace("__\r\n", "</b><br>").replace("    - ", "&emsp;◦ ").replace("- ", "• ").replace("\r\n", "<br>"));
                     } catch (JSONException e) {
                         title = getResources().getString(R.string.changelog_not_found);
                         changes = "";
@@ -204,7 +205,7 @@ public class Changelog extends BaseActivity {
                 for (URLSpan urlSpan : urls) {
                     ClickableSpan clickableSpan = new ClickableSpan() {
                         @Override
-                        public void onClick(View view) {
+                        public void onClick(@NonNull View view) {
                             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlSpan.getURL()));
                             startActivity(intent);
                         }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.textview.MaterialTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/section_title"
+    style="@style/TextAppearance.Material3.TitleMedium"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="24dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    android:textColor="?attr/colorPrimary" />

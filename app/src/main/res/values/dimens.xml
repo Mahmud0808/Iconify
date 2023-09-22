@@ -8,7 +8,7 @@
     <dimen name="cont_title_size">16sp</dimen>
     <dimen name="cont_desc_size">14sp</dimen>
     <dimen name="preview_margin">3dp</dimen>
-    <dimen name="preview_icon_size">20dp</dimen>
+    <dimen name="preview_icon_size">18dp</dimen>
     <dimen name="cont_corner_radius">24dp</dimen>
     <dimen name="cont_corner_radius2">22dp</dimen>
     <dimen name="reset_button_size">20dp</dimen>
@@ -23,4 +23,6 @@
     <dimen name="switch_track_radius">32dp</dimen>
     <dimen name="preview_color_picker_radius">32dp</dimen>
     <item name="switch_track_on_alpha" format="float" type="dimen">1.0</item>
+    <item name="rotate_rtl_mode" format="float" type="dimen">0.0</item>
+    <item name="flip_rtl_mode" format="float" type="dimen">1.0</item>
 </resources>

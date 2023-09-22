@@ -16,7 +16,7 @@
             <corners android:radius="24.0dip" />
             <size android:height="4.0dip" />
             <gradient
-                android:endColor="@color/holo_green_light"
+                android:endColor="@color/holo_blue_dark"
                 android:startColor="@color/holo_blue_light" />
         </shape>
     </item>
@@ -31,7 +31,7 @@
             <corners android:radius="24.0dip" />
             <stroke
                 android:width="4dp"
-                android:color="@color/holo_green_light" />
+                android:color="@color/holo_blue_dark" />
         </shape>
     </item>
 </layer-list>

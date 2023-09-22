@@ -22,10 +22,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.overlaymanager.BrightnessBarManager;
-import com.drdisagree.iconify.overlaymanager.BrightnessBarPixelManager;
 import com.drdisagree.iconify.ui.models.BrightnessBarModel;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
+import com.drdisagree.iconify.utils.overlaymanager.BrightnessBarManager;
+import com.drdisagree.iconify.utils.overlaymanager.BrightnessBarPixelManager;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -83,10 +83,7 @@ public class BrightnessBarAdapter extends RecyclerView.Adapter<BrightnessBarAdap
     public void onViewAttachedToWindow(@NonNull ViewHolder holder) {
         super.onViewAttachedToWindow(holder);
 
-        if (Prefs.getBoolean(BRIGHTNESSBAR_KEY.get(holder.getBindingAdapterPosition())))
-            holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.container_selected));
-        else
-            holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.container));
+        itemSelected(holder.container, Prefs.getBoolean(BRIGHTNESSBAR_KEY.get(holder.getBindingAdapterPosition())));
 
         refreshButton(holder);
     }
@@ -211,10 +208,7 @@ public class BrightnessBarAdapter extends RecyclerView.Adapter<BrightnessBarAdap
                 LinearLayout child = view.findViewById(R.id.brightness_bar_child);
 
                 if (child != null) {
-                    if (i == holder.getAbsoluteAdapterPosition() && Prefs.getBoolean(BRIGHTNESSBAR_KEY.get(i - (holder.getAbsoluteAdapterPosition() - holder.getBindingAdapterPosition()))))
-                        child.setBackground(ContextCompat.getDrawable(context, R.drawable.container_selected));
-                    else
-                        child.setBackground(ContextCompat.getDrawable(context, R.drawable.container));
+                    itemSelected(child, i == holder.getAbsoluteAdapterPosition() && Prefs.getBoolean(BRIGHTNESSBAR_KEY.get(i - (holder.getAbsoluteAdapterPosition() - holder.getBindingAdapterPosition()))));
                 }
             }
         }
@@ -232,6 +226,18 @@ public class BrightnessBarAdapter extends RecyclerView.Adapter<BrightnessBarAdap
                 holder.btn_enable.setVisibility(View.VISIBLE);
                 holder.btn_disable.setVisibility(View.GONE);
             }
+        }
+    }
+
+    private void itemSelected(View parent, boolean state) {
+        if (state) {
+            parent.setBackground(ContextCompat.getDrawable(context, R.drawable.container_selected));
+            ((TextView) parent.findViewById(R.id.brightnessbar_title)).setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+            parent.findViewById(R.id.icon_selected).setVisibility(View.VISIBLE);
+        } else {
+            parent.setBackground(ContextCompat.getDrawable(context, R.drawable.item_background_material));
+            ((TextView) parent.findViewById(R.id.brightnessbar_title)).setTextColor(ContextCompat.getColor(context, R.color.text_color_primary));
+            parent.findViewById(R.id.icon_selected).setVisibility(View.INVISIBLE);
         }
     }
 

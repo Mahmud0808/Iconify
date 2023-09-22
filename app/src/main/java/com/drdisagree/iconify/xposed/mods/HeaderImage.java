@@ -35,6 +35,9 @@ import com.drdisagree.iconify.xposed.ModPack;
 
 import java.io.File;
 import java.util.Objects;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
@@ -42,9 +45,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
 
-    private static final String TAG = "Iconify - XposedHeaderImage: ";
-    private static final String QuickStatusBarHeaderClass = SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader";
-    private static final String QSContainerImplClass = SYSTEMUI_PACKAGE + ".qs.QSContainerImpl";
+    private static final String TAG = "Iconify - " + HeaderImage.class.getSimpleName() + ": ";
     boolean showHeaderImage = false;
     int imageHeight = 140;
     int headerImageAlpha = 100;
@@ -75,16 +76,11 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
     }
 
     @Override
-    public boolean listensTo(String packageName) {
-        return packageName.equals(SYSTEMUI_PACKAGE);
-    }
-
-    @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE)) return;
 
-        final Class<?> QuickStatusBarHeader = findClass(QuickStatusBarHeaderClass, lpparam.classLoader);
-        final Class<?> QSContainerImpl = findClass(QSContainerImplClass, lpparam.classLoader);
+        final Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", lpparam.classLoader);
+        final Class<?> QSContainerImpl = findClass(SYSTEMUI_PACKAGE + ".qs.QSContainerImpl", lpparam.classLoader);
 
         try {
             hookAllMethods(QuickStatusBarHeader, "onFinishInflate", new XC_MethodHook() {
@@ -188,24 +184,38 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
 
     private void loadImageOrGif(ImageView iv) {
         try {
-            ImageDecoder.Source source = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.iconify_files/header_image.png"));
+            ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+            executor.scheduleAtFixedRate(() -> {
+                File Android = new File(Environment.getExternalStorageDirectory() + "/Android");
 
-            Drawable drawable = ImageDecoder.decodeDrawable(source);
-            iv.setImageDrawable(drawable);
-            iv.setClipToOutline(true);
-            if (!zoomToFit) {
-                iv.setScaleType(ImageView.ScaleType.FIT_XY);
-            } else {
-                iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                iv.setAdjustViewBounds(false);
-                iv.setCropToPadding(false);
-                iv.setMinimumWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-                addOrRemoveProperty(iv, RelativeLayout.CENTER_IN_PARENT, true);
-            }
+                if (Android.isDirectory()) {
+                    try {
+                        ImageDecoder.Source source = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.iconify_files/header_image.png"));
 
-            if (drawable instanceof AnimatedImageDrawable) {
-                ((AnimatedImageDrawable) drawable).start();
-            }
+                        Drawable drawable = ImageDecoder.decodeDrawable(source);
+                        iv.setImageDrawable(drawable);
+                        iv.setClipToOutline(true);
+                        if (!zoomToFit) {
+                            iv.setScaleType(ImageView.ScaleType.FIT_XY);
+                        } else {
+                            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                            iv.setAdjustViewBounds(false);
+                            iv.setCropToPadding(false);
+                            iv.setMinimumWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+                            addOrRemoveProperty(iv, RelativeLayout.CENTER_IN_PARENT, true);
+                        }
+
+                        if (drawable instanceof AnimatedImageDrawable) {
+                            ((AnimatedImageDrawable) drawable).start();
+                        }
+                    } catch (Throwable ignored) {
+                    }
+
+                    executor.shutdown();
+                    executor.shutdownNow();
+                }
+            }, 0, 5, TimeUnit.SECONDS);
+
         } catch (Throwable ignored) {
         }
     }

@@ -5,21 +5,27 @@ import android.os.Environment;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 
+import java.util.Objects;
+
 public class Resources {
 
     // Preference files
-    public static final String SharedPref = Iconify.getAppContext().getPackageName();
+    public static final String SharedPref = BuildConfig.APPLICATION_ID;
     public static final String SharedXPref = BuildConfig.APPLICATION_ID + "_xpreference";
 
     // Storage location
-    public static final String DOC_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/documents";
-    public static final String LOG_DIR = DOC_DIR + "/Iconify";
+    public static final String DOCUMENTS_DIR = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath();
+    public static final String DOWNLOADS_DIR = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+    public static final String LOG_DIR = DOCUMENTS_DIR + "/Iconify";
     public static final String MODULE_DIR = "/data/adb/modules/Iconify";
-    public static final String DATA_DIR = Iconify.getAppContext().getFilesDir().toString();
+    public static final String SYSTEM_OVERLAY_DIR = "/system/product/overlay";
+    public static final String DATA_DIR = Objects.requireNonNull(Iconify.getAppContext()).getFilesDir().toString();
     public static final String OVERLAY_DIR = MODULE_DIR + "/system/product/overlay";
     public static final String BIN_DIR = Iconify.getAppContext().getDataDir() + "/bin";
     public static final String BACKUP_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.iconify_backup";
     public static final String TEMP_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.iconify";
+    public static final String TEMP_MODULE_DIR = TEMP_DIR + "/Iconify";
+    public static final String TEMP_MODULE_OVERLAY_DIR = TEMP_MODULE_DIR + "/system/product/overlay";
     public static final String TEMP_OVERLAY_DIR = TEMP_DIR + "/overlays";
     public static final String TEMP_CACHE_DIR = TEMP_OVERLAY_DIR + "/cache";
     public static final String UNSIGNED_UNALIGNED_DIR = TEMP_OVERLAY_DIR + "/unsigned_unaligned";
@@ -37,6 +43,8 @@ public class Resources {
     public static final String LSCLOCK_FONT_DIR = XPOSED_RESOURCE_TEMP_DIR + "/lsclock_font.ttf";
     public static final String HEADER_CLOCK_FONT_DIR = XPOSED_RESOURCE_TEMP_DIR + "/headerclock_font.ttf";
     public static final String HEADER_IMAGE_DIR = XPOSED_RESOURCE_TEMP_DIR + "/header_image.png";
+    public static final String DEPTH_WALL_FG_DIR = XPOSED_RESOURCE_TEMP_DIR + "/depth_wallpaper_fg.png";
+    public static final String DEPTH_WALL_BG_DIR = XPOSED_RESOURCE_TEMP_DIR + "/depth_wallpaper_bg.png";
 
     // Overlays
     public static final String QSC_overlay = "IconifyComponentQSC.overlay";

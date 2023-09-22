@@ -16,15 +16,15 @@ import java.io.IOException;
 
 public class SwitchCompiler {
 
-    private static final String TAG = "SwitchCompiler";
+    private static final String TAG = SwitchCompiler.class.getSimpleName();
     private static final String[] mPackage = new String[]{"com.android.settings", "com.android.systemui"};
     private static final String[] mOverlayName = new String[]{"SWITCH1", "SWITCH2"};
     private static int mStyle = 0;
-    private static boolean mEnable = false;
+    private static boolean mForce = false;
 
-    public static boolean buildOverlay(int style, boolean enable) throws IOException {
+    public static boolean buildOverlay(int style, boolean force) throws IOException {
         mStyle = style;
-        mEnable = enable;
+        mForce = force;
 
         preExecute();
         moveOverlaysToCache();
@@ -84,9 +84,12 @@ public class SwitchCompiler {
         Shell.cmd("mkdir -p " + Resources.SIGNED_DIR).exec();
         for (String packageName : mPackage)
             Shell.cmd("mkdir -p " + Resources.TEMP_CACHE_DIR + "/" + packageName + "/").exec();
+        if (!mForce) {
+            Shell.cmd("mkdir -p " + Resources.BACKUP_DIR).exec();
+        }
 
-        // Disable the overlay in case it is already enabled
-        if (mEnable) {
+        if (mForce) {
+            // Disable the overlay in case it is already enabled
             String[] overlayNames = new String[mOverlayName.length];
             for (int i = 1; i <= mOverlayName.length; i++) {
                 overlayNames[i - 1] = "IconifyComponentSWITCH" + i + ".overlay";
@@ -101,23 +104,35 @@ public class SwitchCompiler {
             for (String overlayName : mOverlayName) {
                 Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponent" + overlayName + ".apk " + Resources.OVERLAY_DIR + "/IconifyComponent" + overlayName + ".apk").exec();
                 RootUtil.setPermissions(644, Resources.OVERLAY_DIR + "/IconifyComponent" + overlayName + ".apk");
-                Shell.cmd("pm install -r " + Resources.OVERLAY_DIR + "/IconifyComponent" + overlayName + ".apk").exec();
+
+                if (mForce) {
+                    // Move to files dir and install
+                    Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponent" + overlayName + ".apk " + Resources.DATA_DIR + "/IconifyComponent" + overlayName + ".apk").exec();
+                    RootUtil.setPermissions(644, Resources.DATA_DIR + "/IconifyComponent" + overlayName + ".apk");
+                    Shell.cmd("pm install -r " + Resources.DATA_DIR + "/IconifyComponent" + overlayName + ".apk").exec();
+                    Shell.cmd("rm -rf " + Resources.DATA_DIR + "/IconifyComponent" + overlayName + ".apk").exec();
+                }
             }
 
-            SystemUtil.mountRW();
-            for (String overlayName : mOverlayName) {
-                Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponent" + overlayName + ".apk " + "/system/product/overlay/IconifyComponent" + overlayName + ".apk").exec();
-                RootUtil.setPermissions(644, "/system/product/overlay/IconifyComponent" + overlayName + ".apk");
-            }
-            SystemUtil.mountRO();
+            if (mForce) {
+                // Move to system overlay dir
+                SystemUtil.mountRW();
+                for (String overlayName : mOverlayName) {
+                    Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponent" + overlayName + ".apk " + Resources.SYSTEM_OVERLAY_DIR + "/IconifyComponent" + overlayName + ".apk").exec();
+                    RootUtil.setPermissions(644, "/system/product/overlay/IconifyComponent" + overlayName + ".apk");
+                }
+                SystemUtil.mountRO();
 
-            // Enable the overlays
-            if (mEnable) {
+                // Enable the overlays
                 String[] overlayNames = new String[mOverlayName.length];
                 for (int i = 1; i <= mOverlayName.length; i++) {
                     overlayNames[i - 1] = "IconifyComponentSWITCH" + i + ".overlay";
                 }
                 OverlayUtil.enableOverlays(overlayNames);
+            } else {
+                for (String overlayName : mOverlayName) {
+                    Shell.cmd("cp -rf " + Resources.SIGNED_DIR + "/IconifyComponent" + overlayName + ".apk " + Resources.BACKUP_DIR + "/IconifyComponent" + overlayName + ".apk").exec();
+                }
             }
         }
 

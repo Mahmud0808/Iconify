@@ -1,61 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- General -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="offwhite">#BFFFFFFF</color>
     <color name="red">#FFFF6565</color>
     <color name="pink">#FFEE5166</color>
     <color name="transparent">#00000000</color>
+
+    <!-- UI -->
     <color name="colorAccent">@android:color/system_accent1_600</color>
+    <color name="colorAccentInverse">@android:color/system_accent1_300</color>
     <color name="colorAccentVariant">@android:color/system_accent3_600</color>
     <color name="rippleAccent">@color/color_accent_alpha_light</color>
     <color name="rippleDark">#66000000</color>
     <color name="rippleDarker">#66000000</color>
     <color name="holo_blue_light">@color/holo_blue_light_dark</color>
-    <color name="holo_green_light">@color/holo_green_light_dark</color>
+    <color name="holo_blue_dark">@color/holo_blue_dark_dark</color>
     <color name="colorBackground">@android:color/system_neutral2_50</color>
     <color name="colorContainer">@android:color/system_neutral2_50</color>
     <color name="colorContainerOverlay">@color/color_container_overlay_light</color>
     <color name="colorAppbarOverlay">@color/color_appbar_overlay_light</color>
     <color name="colorNavbarOverlay">@color/color_navbar_overlay_light</color>
-    <color name="textColorPrimary">@color/black</color>
-    <color name="textColorPrimaryInverse">#FFFFFFFF</color>
-    <color name="textColorSecondary">#CC000000</color>
-    <color name="textColorSecondaryInverse">#CCFFFFFF</color>
-    <color name="textColorSecondaryLight">@android:color/system_neutral1_800</color>
     <color name="colorSuccess">@android:color/system_accent1_400</color>
     <color name="colorBackground2">#14000000</color>
-    <color name="offStateColor">@android:color/system_neutral2_10</color>
-    <color name="offStateColor2">#1A000000</color>
-    <color name="offStateColor3">#40000000</color>
-    <color name="offStateColor4">#66FFFFFF</color>
-    <color name="shadow">#14000000</color>
-    <color name="neumorph_outline_start">#FFBDBDBD</color>
-    <color name="neumorph_outline_end">#FFF0F0F0</color>
-    <color name="offStateColorPixel">@android:color/system_neutral2_800</color>
-    <color name="splash_logo">@color/colorAccent</color>
     <color name="switch_track_inactive">@android:color/system_neutral2_100</color>
     <color name="switch_thumb_inactive">@android:color/system_neutral2_600</color>
     <color name="navbarSelectedBackground">@color/color_navbar_selected_bg_light</color>
     <color name="color_background_alpha">@color/color_background_alpha_light</color>
-    <color name="ic_launcher_foreground_themed">@android:color/system_neutral2_700</color>
-    <color name="ic_launcher_background_themed">@android:color/system_accent1_100</color>
-    <color name="ic_launcher_foreground_retro">#FFFFFFFF</color>
-    <color name="ic_launcher_background_retro">#FF50A6D7</color>
-    <color name="holo_blue_light_light">@android:color/system_accent1_300</color>
-    <color name="holo_blue_light_dark">@android:color/system_accent1_600</color>
-    <color name="holo_green_light_light">@android:color/system_accent3_300</color>
-    <color name="holo_green_light_dark">@android:color/system_accent3_600</color>
-    <color name="switch_thumb_on_color">@android:color/system_accent1_100</color>
-    <color name="switch_thumb_off_color">@android:color/system_neutral1_500</color>
-    <color name="switch_track_on_color">#FFFFFFFF</color>
-    <color name="switch_track_on_tint">@color/colorAccent</color>
-    <color name="switch_track_off_color">#FFFFFFFF</color>
-    <color name="switch_track_off_tint">@color/color_switch_track_off</color>
     <color name="seekbar_thumb_color">#66626161</color>
     <color name="seekbar_thumb_tint">@color/black</color>
     <color name="seekbar_track_color">#66FFFFFF</color>
     <color name="seekbar_track_tint">@color/colorAccent</color>
+    <color name="menu_icon_color">@android:color/system_accent1_900</color>
+    <color name="menu_icon_bg_color">@android:color/system_accent1_100</color>
+
+    <!-- Text -->
+    <color name="textColorPrimary">@android:color/system_neutral1_900</color>
+    <color name="textColorPrimaryInverse">@android:color/system_neutral1_100</color>
+    <color name="textColorSecondary">@android:color/system_neutral1_700</color>
+    <color name="textColorSecondaryInverse">@android:color/system_neutral1_300</color>
+    <color name="textColorSecondaryLight">@android:color/system_neutral1_800</color>
+
+    <!-- Splash screen -->
+    <color name="splash_logo">@color/colorAccent</color>
+
+    <!-- Launcher icon -->
+    <color name="ic_launcher_foreground_themed">@android:color/system_neutral2_700</color>
+    <color name="ic_launcher_background_themed">@android:color/system_accent1_100</color>
+    <color name="ic_launcher_foreground_retro">#FFFFFFFF</color>
+    <color name="ic_launcher_background_retro">#FF50A6D7</color>
+
+    <!-- Onboarding -->
     <color name="onboarding_btn_one">#FF5678</color>
     <color name="onboarding_btn_two">#52938F</color>
     <color name="onboarding_btn_three">#012D7C</color>
@@ -65,11 +61,37 @@
     <color name="onboarding_background_two_bottom">#D1EAE8</color>
     <color name="onboarding_background_three_top">#EEF4FE</color>
     <color name="onboarding_background_three_bottom">#CBDFFC</color>
+
+    <!-- Previews -->
+    <color name="holo_blue_light_light">@android:color/system_accent1_300</color>
+    <color name="holo_blue_light_dark">@android:color/system_accent1_600</color>
+    <color name="holo_blue_dark_light">@android:color/system_accent3_300</color>
+    <color name="holo_blue_dark_dark">@android:color/system_accent3_600</color>
+    <color name="switch_thumb_on_color">@android:color/system_accent1_100</color>
+    <color name="switch_thumb_off_color">@android:color/system_neutral1_500</color>
+    <color name="switch_track_on_color">#FFFFFFFF</color>
+    <color name="switch_track_on_tint">@color/colorAccent</color>
+    <color name="switch_track_off_color">#FFFFFFFF</color>
+    <color name="switch_track_off_tint">@color/color_switch_track_off</color>
+    <color name="offStateColor">@android:color/system_neutral2_10</color>
+    <color name="offStateColor2">#1A000000</color>
+    <color name="offStateColor3">#40000000</color>
+    <color name="offStateColor4">#66FFFFFF</color>
+    <color name="shadow">#14000000</color>
+    <color name="neumorph_outline_start">#FFBDBDBD</color>
+    <color name="neumorph_outline_end">#FFF0F0F0</color>
+    <color name="offStateColorPixel">@android:color/system_neutral2_800</color>
     <color name="settingslib_track_on_color_start">@android:color/system_accent1_600</color>
     <color name="settingslib_track_on_color_end">@android:color/system_accent3_600</color>
-    <color name="settingslib_track_on_color_start_alpha">@color/settingslib_track_on_color_start</color>
-    <color name="settingslib_track_on_color_end_alpha">@color/settingslib_track_on_color_end</color>
+    <color name="settingslib_track_on_color_start_alpha">@color/holo_blue_light_alpha
+    </color>
+    <color name="settingslib_track_on_color_end_alpha">@color/holo_blue_dark_alpha</color>
+    <color name="qstile_primary_label_active_color">#FFFFFFFF</color>
+    <color name="qstile_primary_label_inactive_color">#FF000000</color>
+    <color name="qstile_secondary_label_active_color">#BFFFFFFF</color>
+    <color name="qstile_secondary_label_inactive_color">#BF000000</color>
 
+    <!-- Material3 -->
     <color name="colorPrimaryLight">@color/material_dynamic_primary40</color>
     <color name="colorPrimaryDark">@color/material_dynamic_primary80</color>
     <color name="colorPrimaryContainerLight">@color/material_dynamic_primary90</color>

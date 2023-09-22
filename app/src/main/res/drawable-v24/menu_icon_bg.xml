@@ -4,9 +4,8 @@
         <layer-list>
             <item>
                 <shape
-                    android:shape="rectangle"
-                    android:tint="@color/colorBackground">
-                    <solid android:color="#99FFFFFF" />
+                    android:shape="rectangle">
+                    <solid android:color="@color/menu_icon_bg_color" />
                     <corners android:radius="16dp" />
                 </shape>
             </item>
