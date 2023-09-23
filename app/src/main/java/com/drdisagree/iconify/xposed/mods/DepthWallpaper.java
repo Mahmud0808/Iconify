@@ -2,6 +2,7 @@ package com.drdisagree.iconify.xposed.mods;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.ICONIFY_DEPTH_WALLPAPER_TAG;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedHelpers.findClass;
@@ -89,8 +90,19 @@ public class DepthWallpaper extends ModPack {
                 TextView mTopIndicationView = mIndicationArea.findViewById(mContext.getResources().getIdentifier("keyguard_indication_text", "id", mContext.getPackageName()));
                 TextView mLockScreenIndicationView = mIndicationArea.findViewById(mContext.getResources().getIdentifier("keyguard_indication_text_bottom", "id", mContext.getPackageName()));
 
+                /*
+                 We added a blank view to the top of the layout to push the indication text views to the bottom
+                 The reason we did this is because gravity is not working properly on the indication text views
+                 */
+                View blankView = new View(mContext);
+                blankView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1.0f));
+
+                // Remove the existing indication text views from the indication area
                 ((ViewGroup) mTopIndicationView.getParent()).removeView(mTopIndicationView);
                 ((ViewGroup) mLockScreenIndicationView.getParent()).removeView(mLockScreenIndicationView);
+
+                // Add the indication text views to the new layout
+                mIndicationTextView.addView(blankView);
                 mIndicationTextView.addView(mTopIndicationView);
                 mIndicationTextView.addView(mLockScreenIndicationView);
 
@@ -100,14 +112,13 @@ public class DepthWallpaper extends ModPack {
                 mIndicationArea.addView(mIndicationAreaDupe);
 
                 // Get the depth wallpaper layout
-                String depth_wall_tag = "iconify_depth_wallpaper";
-                mDepthWallpaperLayout = mIndicationArea.findViewWithTag(depth_wall_tag);
+                mDepthWallpaperLayout = mIndicationArea.findViewWithTag(ICONIFY_DEPTH_WALLPAPER_TAG);
 
                 // Create the depth wallpaper layout if it doesn't exist
                 if (mDepthWallpaperLayout == null) {
                     mDepthWallpaperLayout = new FrameLayout(mContext);
                     mDepthWallpaperLayout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                    mDepthWallpaperLayout.setTag(depth_wall_tag);
+                    mDepthWallpaperLayout.setTag(ICONIFY_DEPTH_WALLPAPER_TAG);
                     mIndicationAreaDupe.addView(mDepthWallpaperLayout, 0);
                 }
 
@@ -118,7 +129,7 @@ public class DepthWallpaper extends ModPack {
                 mDepthWallpaperForeground.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
                 mDepthWallpaperLayout.addView(mDepthWallpaperBackground, 0);
-                mDepthWallpaperLayout.addView(mDepthWallpaperForeground);
+                mDepthWallpaperLayout.addView(mDepthWallpaperForeground, -1);
 
                 // Fix the bottom shortcuts pushing the wallpaper
                 ImageView startButton = view.findViewById(mContext.getResources().getIdentifier("start_button", "id", mContext.getPackageName()));

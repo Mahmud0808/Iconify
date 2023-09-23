@@ -62,6 +62,11 @@ public class Preferences {
     public static final String HIDE_DATA_DISABLED_ICON = "xposed_hideDataDisabledIcon";
     public static final String DEPTH_WALLPAPER_SWITCH = "xposed_depthwallpaper";
 
+    // Xposed view tags
+    public static final String ICONIFY_HEADER_CLOCK_TAG = "iconify_header_clock";
+    public static final String ICONIFY_LOCKSCREEN_CLOCK_TAG = "iconify_lockscreen_clock";
+    public static final String ICONIFY_DEPTH_WALLPAPER_TAG = "iconify_depth_wallpaper";
+
     // Battery styles
     public static final int BATTERY_STYLE_DEFAULT = 0;
     public static final int BATTERY_STYLE_DEFAULT_RLANDSCAPE = 1;

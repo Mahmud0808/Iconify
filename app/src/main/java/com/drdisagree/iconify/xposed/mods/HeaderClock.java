@@ -12,6 +12,7 @@ import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_STYLE;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TEXT_WHITE;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TOPMARGIN;
+import static com.drdisagree.iconify.common.Preferences.ICONIFY_HEADER_CLOCK_TAG;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
@@ -272,9 +273,8 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         }
 
         ViewGroup clockView = HeaderClockStyles.getClock(mContext);
-        String clock_tag = "iconify_header_clock";
-        if (mQsClockContainer.findViewWithTag(clock_tag) != null) {
-            mQsClockContainer.removeView(mQsClockContainer.findViewWithTag(clock_tag));
+        if (mQsClockContainer.findViewWithTag(ICONIFY_HEADER_CLOCK_TAG) != null) {
+            mQsClockContainer.removeView(mQsClockContainer.findViewWithTag(ICONIFY_HEADER_CLOCK_TAG));
         }
         if (clockView != null) {
             if (centeredClockView) {
@@ -282,7 +282,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
             } else {
                 mQsClockContainer.setGravity(Gravity.START);
             }
-            clockView.setTag(clock_tag);
+            clockView.setTag(ICONIFY_HEADER_CLOCK_TAG);
             mQsClockContainer.addView(clockView);
             mQsClockContainer.requestLayout();
         }
