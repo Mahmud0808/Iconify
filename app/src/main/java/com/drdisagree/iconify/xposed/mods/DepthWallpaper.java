@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.ImageDecoder;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Environment;
 import android.view.Gravity;
 import android.view.View;
@@ -155,7 +156,7 @@ public class DepthWallpaper extends ModPack {
             }
         });
 
-        hookAllMethods(Resources.class, "getDimensionPixelOffset", new XC_MethodHook() {
+        XC_MethodHook noKeyguardIndicationPadding = new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
                 int resId = mContext.getResources().getIdentifier("keyguard_indication_area_padding", "dimen", mContext.getPackageName());
@@ -164,7 +165,27 @@ public class DepthWallpaper extends ModPack {
                     param.setResult(0);
                 }
             }
-        });
+        };
+
+        hookAllMethods(Resources.class, "getDimensionPixelOffset", noKeyguardIndicationPadding);
+        hookAllMethods(Resources.class, "getDimensionPixelSize", noKeyguardIndicationPadding);
+
+        if (Build.VERSION.SDK_INT <= 32) {
+            // This method is only available on Android 12L and below
+            hookAllMethods(KeyguardBottomAreaViewClass, "updateIndicationAreaPadding", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!showDepthWallpaper) return;
+
+                    View view = (View) param.thisObject;
+                    ViewGroup container = view.findViewById(mContext.getResources().getIdentifier("keyguard_indication_area", "id", mContext.getPackageName()));
+
+                    ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) container.getLayoutParams();
+                    mlp.bottomMargin = 0;
+                    container.setLayoutParams(mlp);
+                }
+            });
+        }
     }
 
     private void updateWallpaper() {
