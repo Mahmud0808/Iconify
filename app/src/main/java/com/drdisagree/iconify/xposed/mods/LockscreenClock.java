@@ -30,11 +30,9 @@ import android.os.Looper;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.utils.LockscreenClockStyles;
@@ -128,59 +126,25 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                 View view = (View) param.thisObject;
                 ViewGroup mIndicationArea = view.findViewById(mContext.getResources().getIdentifier("keyguard_indication_area", "id", mContext.getPackageName()));
 
-                mIndicationArea.setClipChildren(false);
-                mIndicationArea.setClipToPadding(false);
-                mIndicationArea.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-                mIndicationArea.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-                ((ViewGroup.MarginLayoutParams) mIndicationArea.getLayoutParams()).bottomMargin = 0;
+                // Get the depth wallpaper layout and register clock updater
+                try {
+                    ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+                    executor.scheduleAtFixedRate(() -> {
+                        mClockViewContainer = mIndicationArea.findViewWithTag(ICONIFY_DEPTH_WALLPAPER_TAG);
 
-                // Create a new layout for the indication text views
-                LinearLayout mIndicationTextView = new LinearLayout(mContext);
-                LinearLayout.LayoutParams mIndicationViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                int bottomMargin = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("keyguard_indication_margin_bottom", "dimen", mContext.getPackageName()));
-                mIndicationViewParams.setMargins(0, 0, 0, bottomMargin);
-                mIndicationViewParams.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
-                mIndicationTextView.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
-                mIndicationTextView.setOrientation(LinearLayout.VERTICAL);
-                mIndicationTextView.setLayoutParams(mIndicationViewParams);
+                        if (mClockViewContainer != null) {
+                            registerClockUpdater();
+                            executor.shutdown();
+                            executor.shutdownNow();
+                        }
 
-                // Add the indication text views to the new layout
-                TextView mTopIndicationView = mIndicationArea.findViewById(mContext.getResources().getIdentifier("keyguard_indication_text", "id", mContext.getPackageName()));
-                TextView mLockScreenIndicationView = mIndicationArea.findViewById(mContext.getResources().getIdentifier("keyguard_indication_text_bottom", "id", mContext.getPackageName()));
-
-                /*
-                 We added a blank view to the top of the layout to push the indication text views to the bottom
-                 The reason we did this is because gravity is not working properly on the indication text views
-                 */
-                View blankView = new View(mContext);
-                blankView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1.0f));
-
-                // Remove the existing indication text views from the indication area
-                ((ViewGroup) mTopIndicationView.getParent()).removeView(mTopIndicationView);
-                ((ViewGroup) mLockScreenIndicationView.getParent()).removeView(mLockScreenIndicationView);
-
-                // Add the indication text views to the new layout
-                mIndicationTextView.addView(blankView);
-                mIndicationTextView.addView(mTopIndicationView);
-                mIndicationTextView.addView(mLockScreenIndicationView);
-
-                FrameLayout mIndicationAreaDupe = new FrameLayout(mContext);
-                mIndicationAreaDupe.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                mIndicationAreaDupe.addView(mIndicationTextView, -1);
-                mIndicationArea.addView(mIndicationAreaDupe);
-
-                // Get the depth wallpaper layout
-                mClockViewContainer = mIndicationArea.findViewWithTag(ICONIFY_DEPTH_WALLPAPER_TAG);
-
-                // Create the depth wallpaper layout if it doesn't exist
-                if (mClockViewContainer == null) {
-                    mClockViewContainer = new FrameLayout(mContext);
-                    mClockViewContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                    mClockViewContainer.setTag(ICONIFY_DEPTH_WALLPAPER_TAG);
-                    mIndicationAreaDupe.addView(mClockViewContainer, 0);
+                        if (!showLockscreenClock || !showDepthWallpaper) {
+                            executor.shutdown();
+                            executor.shutdownNow();
+                        }
+                    }, 0, 200, TimeUnit.MILLISECONDS);
+                } catch (Throwable ignored) {
                 }
-
-                registerClockUpdater();
             }
         });
 
