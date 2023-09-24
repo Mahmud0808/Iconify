@@ -48,9 +48,9 @@
     <string name="iconify_updated_title">Iconify 刚刚得到更新！</string>
     <string name="iconify_updated_desc">重启你的手机以使用最新增加的功能和选项。</string>
     <!-- Home Card View -->
-    <string name="home_card_title">Design It Your Way</string>
-    <string name="home_card_subtitle">Unleash Your Imagination, Make It Yours</string>
-    <string name="home_card_hide">Hide</string>
+    <string name="home_card_title">按自己的方式设计</string>
+    <string name="home_card_subtitle">释放想象力，创造属于你的系统</string>
+    <string name="home_card_hide">隐藏</string>
     <!-- Tweaks -->
     <string name="activity_title_color_engine">颜色引擎</string>
     <string name="activity_desc_color_engine">控制颜色</string>
@@ -79,7 +79,7 @@
     <string name="activity_title_extras">额外</string>
     <string name="activity_desc_extras">额外的调整和选项</string>
     <!-- Settings -->
-    <string name="settings_section_title_general">General</string>
+    <string name="settings_section_title_general">通用</string>
     <string name="settings_app_language">语言</string>
     <string name="settings_app_icon">App 图标</string>
     <string name="settings_app_icon_default">默认图标</string>
@@ -89,36 +89,36 @@
     <string name="settings_app_theme_light">浅色主题</string>
     <string name="settings_app_theme_dark">深色主题</string>
     <string name="settings_app_theme_system">跟随系统</string>
-    <string name="settings_section_title_update">Update</string>
-    <string name="settings_check_for_update">Check For Update</string>
-    <string name="settings_current_version">Current version: %s</string>
-    <string name="settings_auto_update_title">Auto Update</string>
-    <string name="settings_auto_update_desc">Check for new versions in background.</string>
-    <string name="settings_auto_update_title_wifi_only">Check Over WiFi Only</string>
-    <string name="settings_auto_update_desc_wifi_only">Check for updates over wifi only.</string>
+    <string name="settings_section_title_update">更新</string>
+    <string name="settings_check_for_update">检查更新</string>
+    <string name="settings_current_version">当前版本：%s</string>
+    <string name="settings_auto_update_title">自动更新</string>
+    <string name="settings_auto_update_desc">在后台检查新版本。</string>
+    <string name="settings_auto_update_title_wifi_only">仅通过 WiFi 进行检查</string>
+    <string name="settings_auto_update_desc_wifi_only">只能通过无线网络检查更新。</string>
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">显示警告</string>
     <string name="settings_show_warning_desc">在 Xposed 菜单中显示关于如何重新优化模块的警告</string>
-    <string name="settings_restart_systemui_behavior">Restart SystemUI Behavior</string>
-    <string name="settings_auto_restart_systemui">Automatically restart SystemUI.</string>
-    <string name="settings_manual_restart_systemui">Notify for manual restart.</string>
-    <string name="settings_systemui_restart_required">SystemUI restart required</string>
-    <string name="settings_section_title_miscellaneous">Miscellaneous</string>
+    <string name="settings_restart_systemui_behavior">重启 SystemUI 行为</string>
+    <string name="settings_auto_restart_systemui">自动重启 SystemUI。</string>
+    <string name="settings_manual_restart_systemui">通知手动重启。</string>
+    <string name="settings_systemui_restart_required">需要重新启动 SystemUI</string>
+    <string name="settings_section_title_miscellaneous">杂项</string>
     <string name="settings_restart_systemui_after_boot_title">开机后重启 SystemUI</string>
     <string name="settings_restart_systemui_after_boot_desc">一些选项，如模糊强度，在重新启动 SystemUI 之前不会生效</string>
-    <string name="settings_show_home_page_card_title">Show Home Page Card</string>
-    <string name="settings_show_home_page_card_desc">Show a beautiful card on the home page.</string>
+    <string name="settings_show_home_page_card_title">显示主页卡</string>
+    <string name="settings_show_home_page_card_desc">在主页上展示一张精美的卡片。</string>
     <string name="settings_clear_app_cache_title">清理应用程序缓存</string>
     <string name="settings_clear_app_cache_desc">清除因使用自定义字体、图像或 gif 而产生的缓存。</string>
     <string name="activity_title_experimental">实验性</string>
-    <string name="activity_desc_experimental">Try out experimental functionalities.</string>
+    <string name="activity_desc_experimental">尝试实验性功能。</string>
     <string name="settings_disable_everything_title">禁用所有功能</string>
     <string name="settings_disable_everything_desc">禁用 Iconify 的所有应用覆盖、颜色和杂项修改。</string>
-    <string name="settings_section_title_about">About</string>
-    <string name="settings_github_repository_title">Github Repository</string>
-    <string name="settings_telegram_group_title">Telegram Group</string>
-    <string name="settings_credits_title">Credits</string>
-    <string name="settings_credits_desc">Thanking those who made this possible.</string>
+    <string name="settings_section_title_about">关于</string>
+    <string name="settings_github_repository_title">Github 仓库</string>
+    <string name="settings_telegram_group_title">Telegram 群组</string>
+    <string name="settings_credits_title">鸣谢</string>
+    <string name="settings_credits_desc">感谢那些使这一切成为可能的人。</string>
     <!-- Icon Pack -->
     <string name="activity_title_colored_battery">彩色电池</string>
     <string name="activity_desc_colored_battery">更改电池图标颜色</string>
@@ -126,12 +126,12 @@
     <string name="activity_desc_media_icons">改变媒体播放器图标</string>
     <string name="activity_title_settings_icons">设置图标</string>
     <string name="activity_desc_settings_icons">更改设置图标包</string>
-    <string name="icon_pack_styles">Icon Pack Styles</string>
+    <string name="icon_pack_styles">图标包风格</string>
     <string name="iconpack_aurora_desc">双色调线性图标包</string>
     <string name="iconpack_gradicon_desc">渐变阴影填充图标包</string>
     <string name="iconpack_lorn_desc">粗线图标包</string>
     <string name="iconpack_plumpy_desc">双色调填充图标包</string>
-    <string name="iconpack_acherus_desc">Acherus sub icon pack</string>
+    <string name="iconpack_acherus_desc">Acherus 子图标包</string>
     <string name="iconpack_circular_desc">细线图标包</string>
     <string name="iconpack_filled_desc">双色调填充图标包</string>
     <string name="iconpack_kai_desc">细线图标包</string>
@@ -180,14 +180,14 @@
     <string name="activity_title_pixel_variant">Pixel 变体</string>
     <string name="activity_desc_pixel_variant">适用于带有黑色快速设置面板的 ROM</string>
     <!-- Brightness Bar -->
-    <string name="brightness_bar_styles">Brightness Bar Styles</string>
+    <string name="brightness_bar_styles">亮度条样式</string>
     <!-- QS Panel Tiles -->
-    <string name="qspanel_tile_styles">QS Panel Tile Styles</string>
+    <string name="qspanel_tile_styles">快速设置面板图块样式</string>
     <!-- Notification -->
-    <string name="notification_styles">Notification Styles</string>
+    <string name="notification_styles">通知样式</string>
     <string name="notif_preview_desc">通知预览。\n点击应用这个样式。</string>
     <!-- Switch -->
-    <string name="click_to_enable_or_disable">Click to enable or disable</string>
+    <string name="click_to_enable_or_disable">点击以启用或禁用</string>
     <!-- Icon Shape -->
     <string name="icon_mask_style_none">无</string>
     <string name="icon_mask_style_pebble">Pebble</string>
@@ -265,7 +265,7 @@
     <string name="qspanel_row_title">快速设置面板行</string>
     <string name="qspanel_column_title">快速设置面板列</string>
     <!-- Icon and Label -->
-    <string name="section_title_size_and_position">Size and Position</string>
+    <string name="section_title_size_and_position">大小和位置</string>
     <string name="hide_label_title">隐藏标签</string>
     <string name="hide_label_desc">移除快速设置图块标签</string>
     <string name="text_size_title">文字大小</string>
@@ -293,18 +293,18 @@
     <string name="qqs_panel_top_margin_title">快速设置面板快捷开关顶部边距</string>
     <string name="qs_panel_top_margin_title">快速设置面板上边距</string>
     <!-- Statusbar -->
-    <string name="section_title_spacing">Spacing</string>
+    <string name="section_title_spacing">间距</string>
     <string name="sb_left_padding">左内边距</string>
     <string name="sb_right_padding">右内边距</string>
     <string name="sb_height">高度</string>
-    <string name="section_title_color">Color</string>
+    <string name="section_title_color">颜色</string>
     <string name="sb_color_tint_title">色调</string>
     <string name="sb_color_tint_desc">着色状态栏的图标和文本</string>
     <string name="sb_tint_system">默认系统色调</string>
     <string name="sb_tint_monet">Monet / 强调色色调</string>
     <string name="sb_tint_custom">自定义色调（颜色选择器）</string>
     <!-- Navigation Bar -->
-    <string name="section_title_display_mode">Display Mode</string>
+    <string name="section_title_display_mode">显示模式</string>
     <string name="navbar_fullscreen_title">全屏</string>
     <string name="navbar_fullscreen_desc">隐藏药丸和键盘的间距</string>
     <string name="navbar_immersive_title">沉浸</string>
@@ -313,37 +313,37 @@
     <string name="navbar_immersive_v2_desc">较小的键盘间距</string>
     <string name="navbar_immersive_v3_title">沉浸 v3</string>
     <string name="navbar_immersive_v3_desc">最小的键盘间距</string>
-    <string name="section_title_buttons">Buttons</string>
+    <string name="section_title_buttons">按钮</string>
     <string name="navbar_hide_kb_buttons_title">隐藏键盘按钮</string>
     <string name="navbar_hide_kb_buttons_desc">隐藏键盘的返回/切换按钮</string>
-    <string name="section_title_gesture">Gesture</string>
+    <string name="section_title_gesture">手势</string>
     <string name="navbar_lower_sensitivity_title">降低灵敏度</string>
     <string name="navbar_lower_sensitivity_desc">降低手势灵敏度</string>
     <string name="navbar_disable_left_gesture_title">禁用左侧手势</string>
     <string name="navbar_disable_left_gesture_desc">禁用左侧的返回手势</string>
     <string name="navbar_disable_right_gesture_title">禁用右侧手势</string>
     <string name="navbar_disable_right_gesture_desc">禁用右侧的返回手势</string>
-    <string name="section_title_pill_navigation">Pill Navigation</string>
+    <string name="section_title_pill_navigation">药丸导航</string>
     <string name="navbar_hide_pill_title">隐藏药丸</string>
     <string name="navbar_hide_pill_desc">隐藏手势导航药丸</string>
     <string name="navbar_monet_pill_title">Monet 药丸</string>
     <string name="navbar_monet_pill_desc">应用强调色至药丸</string>
-    <string name="section_title_pill_appearance">Pill Appearance</string>
+    <string name="section_title_pill_appearance">药丸外观</string>
     <string name="pill_width_title">药丸宽度</string>
     <string name="pill_thickness_title">药丸厚度</string>
     <string name="pill_bottom_space_title">底部间距</string>
     <!-- Volume Panel -->
-    <string name="section_title_volume_slider_track">Volume Slider Track</string>
-    <string name="vp_track_thin">Thin</string>
-    <string name="vp_track_thick">Thick</string>
-    <string name="vp_track_none">None</string>
+    <string name="section_title_volume_slider_track">音量滑块轨道</string>
+    <string name="vp_track_thin">细</string>
+    <string name="vp_track_thick">粗</string>
+    <string name="vp_track_none">无</string>
     <string name="vp_thin_background_title">薄背景</string>
-    <string name="vp_thin_background_desc">Make track of volume slider thin</string>
+    <string name="vp_thin_background_desc">使音量滑块轨道变细</string>
     <string name="vp_thick_background_title">厚背景</string>
-    <string name="vp_thick_background_desc">Make track of volume slider thick</string>
+    <string name="vp_thick_background_desc">使音量滑块轨道变粗</string>
     <string name="vp_no_background_title">无背景</string>
-    <string name="vp_no_background_desc">Remove track of volume slider</string>
-    <string name="section_title_custom_magisk_module">Custom Magisk Module</string>
+    <string name="vp_no_background_desc">移除音量滑块轨道</string>
+    <string name="section_title_custom_magisk_module">自定义 Magisk 模块</string>
     <string name="volume_style">音量样式</string>
     <string name="volume_module_desc">为这个样式创建一个可刷入 Magisk 的模块</string>
     <string name="volume_style_gradient">梯度</string>
@@ -361,15 +361,15 @@
     <string name="media_player_preview_music_title">音乐标题</string>
     <string name="media_player_preview_artist_name">艺术家姓名</string>
     <string name="media_player_preview_playing_on">手机扬声器</string>
-    <string name="section_title_background_color">Background Color</string>
+    <string name="section_title_background_color">背景颜色</string>
     <string name="mp_accent_background_title">强调色背景</string>
-    <string name="mp_accent_background_desc">Make background follow accent</string>
+    <string name="mp_accent_background_desc">让背景跟随强调色</string>
     <string name="mp_system_background_title">系统背景</string>
-    <string name="mp_system_background_desc">Make background follow system</string>
+    <string name="mp_system_background_desc">让背景跟随系统</string>
     <string name="mp_pb_background_title">深色背景</string>
-    <string name="mp_pb_background_desc">Make background pitch black</string>
+    <string name="mp_pb_background_desc">让背景为纯黑色</string>
     <!-- Miscellaneous -->
-    <string name="section_title_tablet_mode">Tablet Mode</string>
+    <string name="section_title_tablet_mode">平板模式</string>
     <string name="tablet_landscape_title">Tablet Landscape</string>
     <string name="tablet_landscape_desc">又称为「更好的快速设置」\n必须使用消除刘海屏功能</string>
     <string name="notch_bar_killer_title">消除刘海屏</string>
@@ -379,9 +379,9 @@
     <string name="section_title_privacy_chip">Privacy Chip</string>
     <string name="accent_privacy_chip_title">Accent Privacy Chip</string>
     <string name="accent_privacy_chip_desc">Make privacy chip accent colored</string>
-    <string name="section_title_media_player">Media Player</string>
-    <string name="disable_progress_wave_title">Disable Progress Wave</string>
-    <string name="disable_progress_wave_desc">Disable progress bar wave animation</string>
+    <string name="section_title_media_player">媒体播放器</string>
+    <string name="disable_progress_wave_title">禁用进度波</string>
+    <string name="disable_progress_wave_desc">禁用进度条波形动画</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">在启用 Iconify LSPosed 模块之前，长按 Iconify 并点击重新优化。之后，启用 Iconify 并重启你的 SystemUI。为了获得更流畅的体验，这是必要的。</string>
     <string name="xposed_only_desc">你目前处于 Xposed Only 模式。这需要在 LSPosed 应用程序中启用 iconify。还要确保 Iconify 模块显示在 Magisk 管理器中。要访问所有功能，只需重新打开应用程序并完成安装过程即可！</string>
@@ -389,8 +389,8 @@
     <string name="xposed_module_disabled_desc">系统服务未运行</string>
     <string name="activity_title_transparency_blur">透明度&amp;模糊</string>
     <string name="activity_desc_transparency_blur">启用快速设置模糊及透明度</string>
-    <string name="activity_title_themes">Themes</string>
-    <string name="activity_desc_themes">Personalize with themes</string>
+    <string name="activity_title_themes">主题</string>
+    <string name="activity_desc_themes">以主题个性化</string>
     <string name="activity_title_quick_settings">快速设置</string>
     <string name="activity_desc_quick_settings">与快速设置面板有关的调整</string>
     <string name="activity_title_battery_style">电池样式</string>
@@ -401,31 +401,33 @@
     <string name="activity_desc_header_clock">在快速设置面板上添加自定义时钟</string>
     <string name="activity_title_lockscreen_clock">锁屏时钟</string>
     <string name="activity_desc_lockscreen_clock">在锁屏上添加自定义时钟</string>
+    <string name="activity_title_depth_wallpaper">深度壁纸</string>
+    <string name="activity_desc_depth_wallpaper">显示类 iOS 系统的深度壁纸</string>
     <string name="activity_title_background_chip">背景 Chip</string>
     <string name="activity_desc_background_chip">在时钟后面添加彩色 Chip</string>
     <string name="activity_title_xposed_others">其他</string>
     <string name="activity_desc_xposed_others">Xposed 杂项调整</string>
     <!-- Transparency & Blur -->
-    <string name="section_title_transparency">Transparency</string>
+    <string name="section_title_transparency">透明度</string>
     <string name="transparent_qs_panel_title">透明快速设置面板</string>
     <string name="transparent_qs_panel_desc">使快速设置面板背景透明</string>
     <string name="transparency_alpha_title">透明度</string>
     <string name="transparent_notif_shade_title">透明通知栏</string>
     <string name="transparent_notif_shade_desc">仅使通知栏透明</string>
-    <string name="section_title_blur">Blur</string>
+    <string name="section_title_blur">模糊</string>
     <string name="window_level_blur_title">窗口级模糊</string>
     <string name="window_level_blur_desc">需要重启才能生效</string>
     <string name="blur_intensity_title">模糊强度</string>
     <!-- Themes -->
-    <string name="section_title_for_pixel_roms">For Pixel Roms</string>
+    <string name="section_title_for_pixel_roms">适用于 Pixel 系统</string>
     <string name="light_theme_title">浅色主题</string>
     <string name="light_theme_desc">浅色模式下的快速设置主题\n必须使用自定义的快速设置形状</string>
     <string name="dual_tone_title">双色调</string>
     <string name="dual_tone_desc">使用不同的颜色作为标头</string>
-    <string name="section_title_for_custom_roms">For Custom Roms</string>
+    <string name="section_title_for_custom_roms">适用于自定义系统</string>
     <string name="black_theme_title">Pixel 深色主题</string>
     <string name="black_theme_desc">浅色模式下的深色快速设置主题\n必须使用自定义的快速设置图形\n切换为深色主题以修复文本颜色</string>
-    <string name="section_title_translucent_theme">Translucent Theme</string>
+    <string name="section_title_translucent_theme">半透明主题</string>
     <string name="fluid_qs_theme_title">流体快速设置主题</string>
     <string name="fluid_qs_theme_desc">双色调半透明快速设置主题\n切换主题以修复颜色\n不使用自定义形状</string>
     <string name="notification_transparency_title">通知透明度</string>
@@ -433,12 +435,12 @@
     <string name="power_menu_transparency_title">电源菜单透明度</string>
     <string name="power_menu_transparency_desc">快速设置流体的电源菜单透明度\n不使用自定义通知样式</string>
     <!-- Quick Settings -->
-    <string name="section_title_qs_tile">QS Tile</string>
+    <string name="section_title_qs_tile">快速设置图块</string>
     <string name="vertical_qs_tile_title">纵向快速设置图块</string>
     <string name="vertical_qs_tile_desc">在快速设置图标下面显示标签</string>
     <string name="hide_qs_tile_label_title">隐藏快速设置图块标签</string>
     <string name="hide_qs_tile_label_desc">只能与垂直图块一起使用</string>
-    <string name="section_title_qs_margin">QS Margin</string>
+    <string name="section_title_qs_margin">快速设置边距</string>
     <!-- Battery Style -->
     <string name="battery_style_title">电池样式</string>
     <string name="battery_width_title">电池宽度</string>
@@ -491,8 +493,16 @@
     <string name="lockscreen_clock_bottom_margin_title">底边距</string>
     <string name="lockscreen_clock_white_text_title">白色文本</string>
     <string name="lockscreen_clock_white_text_desc">强制所有颜色为白色</string>
+    <!-- Depth Wallpaper -->
+    <string name="enable_depth_wallpaper_title">启用深度壁纸</string>
+    <string name="enable_depth_wallpaper_desc">显示类 iOS 系统的深度壁纸\n必须使用自定义锁屏时钟</string>
+    <string name="foreground_image_title">前景图</string>
+    <string name="foreground_image_desc">深度壁纸的前景图</string>
+    <string name="background_image_title">背景图</string>
+    <string name="background_image_desc">深度壁纸的背景图</string>
+    <string name="depth_wallpaper_alert_msg">该功能目前处于测试阶段。因此预计会出现错误。\n\n<b>已知错误：</b>\n• Always on Display 已损坏。禁用 AOD 可避免显示问题。\n• 点击锁屏会使壁纸跳动。</string>
     <!-- Background Chip -->
-    <string name="section_title_status_bar">Status Bar</string>
+    <string name="section_title_status_bar">状态栏</string>
     <string name="sb_clock_background_chip_title">状态条时钟 Chip</string>
     <string name="sb_clock_background_chip_desc">状态栏时钟后面的 Chip</string>
     <string name="statusbar_clock_color_title">状态栏时钟颜色</string>
@@ -501,7 +511,7 @@
     <string name="sbclock_color_custom_color">自定义颜色</string>
     <string name="clock_color_picker_title">时钟颜色选取</string>
     <string name="clock_color_picker_desc">设置状态栏时钟文字的颜色</string>
-    <string name="section_title_status_icons">Status Icons</string>
+    <string name="section_title_status_icons">状态图标</string>
     <string name="chip_style_title">Chip 样式</string>
     <string name="status_icons_chip_title">状态图标 Chip</string>
     <string name="status_icons_chip_desc">显示状态图标后的 Chip</string>
@@ -514,7 +524,7 @@
     <string name="hide_carrier_group_desc">从快速设置面板上隐藏运营商组</string>
     <string name="hide_status_icons_title">隐藏状态图标</string>
     <string name="hide_status_icons_desc">移除时间、日期和电池图标</string>
-    <string name="lock_screen">Lock Screen</string>
+    <string name="lock_screen">锁屏</string>
     <string name="hide_ls_carrier_title">隐藏锁屏运营商</string>
     <string name="hide_ls_carrier_desc">在锁屏上隐藏运营商名称</string>
     <string name="hide_ls_statusbar_title">隐藏锁屏状态栏</string>
@@ -537,7 +547,7 @@
     <string name="latest_version">最新版本：</string>
     <string name="update_checking_failed">检查更新失败！</string>
     <string name="not_available">不可用</string>
-    <string name="section_title_schedule">Schedule</string>
+    <string name="section_title_schedule">日程</string>
     <string name="update_schedule_title">计划更新</string>
     <string name="update_schedule_des">何时检查更新</string>
     <string name="update_schedule1">每 6 小时</string>
@@ -547,12 +557,12 @@
     <string name="update_schedule5">从不</string>
     <!-- Credits -->
     <string name="section_title_credits">鸣谢</string>
-    <string name="section_title_thanks">Special Thanks</string>
+    <string name="section_title_thanks">特别感谢</string>
     <string name="info_icons8_desc">Plumpy &amp; Fluency 图标包。</string>
     <string name="info_iconsax_desc">app内图标集。</string>
     <string name="info_shell_desc">帮助我完成 Shell 脚本。</string>
     <string name="info_rro_desc">帮助我解决 RRO 问题。</string>
-    <string name="info_xposed_desc">For helping me with Xposed.</string>
+    <string name="info_xposed_desc">在 Xposed 方面帮助我。</string>
     <string name="info_tester_desc">测试本应用程序。</string>
     <string name="info_betterqs_desc">许可使用「更好的快速设置」。</string>
     <string name="section_title_contributors">贡献者</string>
@@ -571,6 +581,8 @@
     <string name="zh_cn_translation">简体中文翻译。</string>
     <!-- Experimental -->
     <string name="experimental_features_title">实验性</string>
+    <string name="overlap_header_image_title">Overlap Header Image</string>
+    <string name="overlap_header_image_desc">Overlap header image on expanded QS</string>
     <string name="hide_data_disabled_icon_title">隐藏数据禁用图标</string>
     <string name="hide_data_disabled_icon_desc">隐藏数据禁用指示器</string>
     <!-- Bottom Navigation -->
@@ -662,6 +674,7 @@
     <string name="toast_skipped_installation">安装已跳过。某些功能可能无法正常运行。</string>
     <string name="toast_import_settings_successfull">成功导入设置</string>
     <string name="toast_export_settings_successfull">成功导出设置</string>
+    <string name="toast_selected_successfully">选择成功</string>
     <!-- Push Notification -->
     <string name="new_update_title">更新可用</string>
     <string name="new_update_desc">Iconify 的新版本已经推出。</string>
@@ -706,7 +719,7 @@
     <string name="app_updates">应用程序更新</string>
     <string name="positive">是的</string>
     <string name="negative">不</string>
-    <string name="understood">Understood</string>
+    <string name="understood">了解</string>
     <string name="custom_toast_title">自定义 Toast 通知</string>
     <string name="custom_toast_desc">启用自定义样式的 Toast 通知</string>
     <string name="custom_progressbar_title">自定义进度条</string>
@@ -749,6 +762,6 @@
     <string name="general_on">启用</string>
     <string name="general_off">关闭</string>
     <string name="one_time_reboot_needed">重启你的设备！</string>
-    <string name="tap_to_select">Tap on preview to select</string>
-    <string name="dont_show_again">Don\'t show again</string>
+    <string name="tap_to_select">点击预览进行选择</string>
+    <string name="dont_show_again">不要再次显示</string>
 </resources>
