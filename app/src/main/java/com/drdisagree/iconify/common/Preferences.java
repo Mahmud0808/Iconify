@@ -61,6 +61,7 @@ public class Preferences {
     public static final String HEADER_QQS_TOPMARGIN = "qqspanelTopMargin";
     public static final String HIDE_DATA_DISABLED_ICON = "xposed_hideDataDisabledIcon";
     public static final String DEPTH_WALLPAPER_SWITCH = "xposed_depthwallpaper";
+    public static final String UNZOOM_DEPTH_WALLPAPER = "xposed_unzoomdepthwallpaper";
 
     // Xposed view tags
     public static final String ICONIFY_HEADER_CLOCK_TAG = "iconify_header_clock";

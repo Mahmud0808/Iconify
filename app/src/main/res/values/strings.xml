@@ -628,6 +628,8 @@
     <string name="experimental_features_title">Experimental</string>
     <string name="overlap_header_image_title">Overlap Header Image</string>
     <string name="overlap_header_image_desc">Overlap header image on expanded QS</string>
+    <string name="unzoom_depth_wallpaper_title">Unzoom Depth Wallpaper</string>
+    <string name="unzoom_depth_wallpaper_desc">Remove the zoom effect on depth wallpaper</string>
     <string name="hide_data_disabled_icon_title">Hide Data Disabled Icon</string>
     <string name="hide_data_disabled_icon_desc">Hide data disabled indicator</string>
 

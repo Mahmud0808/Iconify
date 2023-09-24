@@ -3,6 +3,7 @@ package com.drdisagree.iconify.xposed.mods;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.ICONIFY_DEPTH_WALLPAPER_TAG;
+import static com.drdisagree.iconify.common.Preferences.UNZOOM_DEPTH_WALLPAPER;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedHelpers.findClass;
@@ -222,14 +223,22 @@ public class DepthWallpaper extends ModPack {
                         mDepthWallpaperBackground.setImageDrawable(backgroundDrawable);
                         mDepthWallpaperBackground.setClipToOutline(true);
                         mDepthWallpaperBackground.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        mDepthWallpaperBackground.setScaleX(1.1f);
-                        mDepthWallpaperBackground.setScaleY(1.1f);
+
+                        boolean zoomWallpaper = !Xprefs.getBoolean(UNZOOM_DEPTH_WALLPAPER, false);
+
+                        if (zoomWallpaper) {
+                            mDepthWallpaperBackground.setScaleX(1.1f);
+                            mDepthWallpaperBackground.setScaleY(1.1f);
+                        }
 
                         mDepthWallpaperForeground.setImageDrawable(foregroundDrawable);
                         mDepthWallpaperForeground.setClipToOutline(true);
                         mDepthWallpaperForeground.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        mDepthWallpaperForeground.setScaleX(1.1f);
-                        mDepthWallpaperForeground.setScaleY(1.1f);
+
+                        if (zoomWallpaper) {
+                            mDepthWallpaperForeground.setScaleX(1.1f);
+                            mDepthWallpaperForeground.setScaleY(1.1f);
+                        }
 
                         mDepthWallpaperLayout.setVisibility(View.VISIBLE);
                     } catch (Throwable ignored) {
