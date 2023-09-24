@@ -345,7 +345,7 @@
     <string name="vp_no_background_desc">Remove track of volume slider</string>
     <string name="section_title_custom_magisk_module">Custom Magisk Module</string>
     <string name="volume_style">Estilo do volume</string>
-    <string name="volume_module_desc">Cria um módulo Magisk para este estilo</string>
+    <string name="volume_module_desc">Creates a magisk flashable module for this style</string>
     <string name="volume_style_gradient">Gradiente</string>
     <string name="volume_style_doublelayer">Camada dupla</string>
     <string name="volume_style_shadedlayer">Camada sombreada</string>
@@ -401,6 +401,8 @@
     <string name="activity_desc_header_clock">Personalizar o relógio no cabeçalho das DR</string>
     <string name="activity_title_lockscreen_clock">Relógio no ecrã de bloqueio</string>
     <string name="activity_desc_lockscreen_clock">Personalizar o relógio no ecrã de bloqueio</string>
+    <string name="activity_title_depth_wallpaper">Depth Wallpaper</string>
+    <string name="activity_desc_depth_wallpaper">Show iOS like depth wallpaper</string>
     <string name="activity_title_background_chip">Chip de fundo</string>
     <string name="activity_desc_background_chip">Adicionar um chip colorido atrás do relógio</string>
     <string name="activity_title_xposed_others">Outros</string>
@@ -491,6 +493,14 @@
     <string name="lockscreen_clock_bottom_margin_title">Margem inferior</string>
     <string name="lockscreen_clock_white_text_title">Texto branco</string>
     <string name="lockscreen_clock_white_text_desc">Forçar branco em todo o lado</string>
+    <!-- Depth Wallpaper -->
+    <string name="enable_depth_wallpaper_title">Enable Depth Wallpaper</string>
+    <string name="enable_depth_wallpaper_desc">Show iOS like depth wallpaper\nMust use custom lockscreen clock</string>
+    <string name="foreground_image_title">Foreground Image</string>
+    <string name="foreground_image_desc">Foreground image for depth wallpaper</string>
+    <string name="background_image_title">Background Image</string>
+    <string name="background_image_desc">Background image for depth wallpaper</string>
+    <string name="depth_wallpaper_alert_msg">This feature is currently in beta stage. So bugs are expected.\n\n<b>Known Bugs:</b>\n• Always on Display is broken. Disable AOD to avoid display issues.\n• Tapping on lockscreen makes the wallpaper jump.</string>
     <!-- Background Chip -->
     <string name="section_title_status_bar">Status Bar</string>
     <string name="sb_clock_background_chip_title">Chip do relógio na barra de estado</string>
@@ -571,6 +581,8 @@
     <string name="zh_cn_translation">Tradução Chinesa Simples.</string>
     <!-- Experimental -->
     <string name="experimental_features_title">Funcionalidades experimentais</string>
+    <string name="overlap_header_image_title">Overlap Header Image</string>
+    <string name="overlap_header_image_desc">Overlap header image on expanded QS</string>
     <string name="hide_data_disabled_icon_title">Hide Data Disabled Icon</string>
     <string name="hide_data_disabled_icon_desc">Hide data disabled indicator</string>
     <!-- Bottom Navigation -->
@@ -662,6 +674,7 @@
     <string name="toast_skipped_installation">Installation skipped. Some features may not function properly.</string>
     <string name="toast_import_settings_successfull">Imported settings successfully</string>
     <string name="toast_export_settings_successfull">Exported settings successfully</string>
+    <string name="toast_selected_successfully">Selected successfully</string>
     <!-- Push Notification -->
     <string name="new_update_title">Atualização disponível</string>
     <string name="new_update_desc">Está disponível uma nova versão da Iconify</string>
