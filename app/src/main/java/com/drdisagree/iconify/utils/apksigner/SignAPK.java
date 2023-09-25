@@ -57,7 +57,7 @@ import java.util.regex.Pattern;
  *
  * <p>Source: <a href="https://github.com/topjohnwu/Magisk/blob/master/app/src/main/java/com/topjohnwu/magisk/signing/SignApk.java">...</a></p>
  */
-public class SignApk {
+public class SignAPK {
     private static final String CERT_SF_NAME = "META-INF/CERT.SF";
     private static final String CERT_SIG_NAME = "META-INF/CERT.%s";
     private static final String CERT_SF_MULTI_NAME = "META-INF/CERT%d.SF";
@@ -123,7 +123,7 @@ public class SignApk {
             main.putAll(input.getMainAttributes());
         } else {
             main.putValue("Manifest-Version", "1.0");
-            main.putValue("Created-By", "1.0 (Android SignApk)");
+            main.putValue("Created-By", "1.0 (Android SignAPK)");
         }
 
         MessageDigest md_sha1 = null;
@@ -199,7 +199,7 @@ public class SignApk {
         Manifest sf = new Manifest();
         Attributes main = sf.getMainAttributes();
         main.putValue("Signature-Version", "1.0");
-        main.putValue("Created-By", "1.0 (Android SignApk)");
+        main.putValue("Created-By", "1.0 (Android SignAPK)");
         // Add APK Signature Scheme v2 signature stripping protection.
         // This attribute indicates that this APK is supposed to have been signed using one or
         // more APK-specific signature schemes in addition to the standard JAR signature scheme

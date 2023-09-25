@@ -12,7 +12,7 @@ import android.util.Log;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.Resources;
-import com.drdisagree.iconify.utils.apksigner.SignApk;
+import com.drdisagree.iconify.utils.apksigner.SignAPK;
 import com.topjohnwu.superuser.Shell;
 
 import java.security.PrivateKey;
@@ -115,7 +115,7 @@ public class OnBoardingCompiler {
             PrivateKey key = readPrivateKey(Objects.requireNonNull(Iconify.getAppContext()).getAssets().open("Keystore/testkey.pk8"));
             X509Certificate cert = readCertificate(Iconify.getAppContext().getAssets().open("Keystore/testkey.x509.pem"));
 
-            SignApk.sign(cert, key, source, Resources.SIGNED_DIR + "/IconifyComponent" + name);
+            SignAPK.sign(cert, key, source, Resources.SIGNED_DIR + "/IconifyComponent" + name);
 
             Log.i(TAG + " - APKSigner", "Successfully signed " + name.replace(".apk", ""));
         } catch (Exception e) {
