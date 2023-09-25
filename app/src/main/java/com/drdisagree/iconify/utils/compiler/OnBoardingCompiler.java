@@ -12,13 +12,9 @@ import android.util.Log;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.Resources;
-import com.drdisagree.iconify.utils.apksigner.JarMap;
-import com.drdisagree.iconify.utils.apksigner.SignAPK;
+import com.drdisagree.iconify.utils.apksigner.SignApk;
 import com.topjohnwu.superuser.Shell;
 
-import java.io.FileOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -119,10 +115,7 @@ public class OnBoardingCompiler {
             PrivateKey key = readPrivateKey(Objects.requireNonNull(Iconify.getAppContext()).getAssets().open("Keystore/testkey.pk8"));
             X509Certificate cert = readCertificate(Iconify.getAppContext().getAssets().open("Keystore/testkey.x509.pem"));
 
-            JarMap jar = JarMap.open(Files.newInputStream(Paths.get(source)), true);
-            FileOutputStream out = new FileOutputStream(Resources.SIGNED_DIR + "/IconifyComponent" + name);
-
-            SignAPK.sign(cert, key, jar, out);
+            SignApk.sign(cert, key, source, Resources.SIGNED_DIR + "/IconifyComponent" + name);
 
             Log.i(TAG + " - APKSigner", "Successfully signed " + name.replace(".apk", ""));
         } catch (Exception e) {

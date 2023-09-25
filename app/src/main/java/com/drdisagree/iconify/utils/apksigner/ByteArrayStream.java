@@ -1,14 +1,13 @@
 package com.drdisagree.iconify.utils.apksigner;
 
-/* From
- * https://github.com/topjohnwu/Magisk/blob/master/app/signing/src/main/java/com/topjohnwu/signing/ByteArrayStream.java
- */
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * <p>Source: <a href="https://github.com/topjohnwu/Magisk/blob/master/app/src/main/java/com/topjohnwu/magisk/signing/ByteArrayStream.java">...</a></p>
+ */
 public class ByteArrayStream extends ByteArrayOutputStream {
 
     public synchronized void readFrom(InputStream is) {
