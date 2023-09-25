@@ -10,14 +10,10 @@ import android.util.Log;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.Resources;
-import com.drdisagree.iconify.utils.apksigner.JarMap;
-import com.drdisagree.iconify.utils.apksigner.SignAPK;
+import com.drdisagree.iconify.utils.apksigner.SignApk;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.util.Objects;
@@ -90,10 +86,7 @@ public class OverlayCompiler {
             }
 
             fileName = getOverlayName(source);
-            JarMap jar = JarMap.open(Files.newInputStream(Paths.get(source)), true);
-            FileOutputStream out = new FileOutputStream(Resources.SIGNED_DIR + "/IconifyComponent" + fileName + ".apk");
-
-            SignAPK.sign(cert, key, jar, out);
+            SignApk.sign(cert, key, source, Resources.SIGNED_DIR + "/IconifyComponent" + fileName + ".apk");
 
             Log.i(TAG + " - APKSigner", "Successfully signed " + fileName);
         } catch (Exception e) {
@@ -108,6 +101,6 @@ public class OverlayCompiler {
         File file = new File(filePath);
         String fileName = file.getName();
 
-        return fileName.replace("IconifyComponent", "").replace("-unsigned", "").replace("-unaligned", "").replace(".apk", "");
+        return fileName.replaceAll("IconifyComponent|-unsigned|-unaligned|.apk", "");
     }
 }

@@ -1,9 +1,5 @@
 package com.drdisagree.iconify.utils.apksigner;
 
-/* From
- * https://github.com/topjohnwu/Magisk/blob/master/app/signing/src/main/java/com/topjohnwu/signing/CryptoUtils.java
- */
-
 import org.bouncycastle.asn1.ASN1InputStream;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 
@@ -17,6 +13,9 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.spec.PKCS8EncodedKeySpec;
 
+/**
+ * <p>Source: <a href="https://github.com/topjohnwu/Magisk/blob/master/app/signing/src/main/java/com/topjohnwu/signing/CryptoUtils.java">...</a></p>
+ */
 public class CryptoUtils {
 
     public static X509Certificate readCertificate(InputStream input)

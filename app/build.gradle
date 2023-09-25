@@ -71,11 +71,25 @@ android {
 
     packagingOptions {
         jniLibs {
-            excludes += ['/META-INF/*', '/META-INF/versions/**', '/org/bouncycastle/**', '/kotlin/**', '/kotlinx/**']
+            excludes += ['/META-INF/*',
+                         '/META-INF/versions/**',
+                         '/org/bouncycastle/**',
+                         '/kotlin/**',
+                         '/kotlinx/**']
         }
+
         resources {
-            excludes += ['/META-INF/*', '/META-INF/versions/**', '/org/bouncycastle/**', '/kotlin/**', '/kotlinx/**', 'rebel.xml', '/*.txt', '/*.bin', '/*.json']
+            excludes += ['/META-INF/*',
+                         '/META-INF/versions/**',
+                         '/org/bouncycastle/**',
+                         '/kotlin/**',
+                         '/kotlinx/**',
+                         'rebel.xml',
+                         '/*.txt',
+                         '/*.bin',
+                         '/*.json']
         }
+
         jniLibs.useLegacyPackaging true
     }
 
@@ -117,8 +131,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0'
 
     // APK Signer
-    implementation 'org.bouncycastle:bc-fips:1.0.2.3'
-    implementation 'org.bouncycastle:bcpkix-fips:1.0.7'
+    implementation 'org.bouncycastle:bcpkix-jdk18on:1.76'
 
     // Zip Util
     implementation 'net.lingala.zip4j:zip4j:2.11.5'
