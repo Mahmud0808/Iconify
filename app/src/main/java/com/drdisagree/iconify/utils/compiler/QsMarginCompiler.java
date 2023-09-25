@@ -4,8 +4,10 @@ import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.utils.helpers.Logger.writeLog;
 
+import android.os.Build;
 import android.util.Log;
 
+import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.utils.FileUtil;
 import com.drdisagree.iconify.utils.OverlayUtil;
@@ -15,6 +17,8 @@ import com.drdisagree.iconify.utils.helpers.BinaryInstaller;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class QsMarginCompiler {
 
@@ -145,7 +149,15 @@ public class QsMarginCompiler {
     }
 
     private static boolean createManifest(String pkgName, String source, String target) {
-        Shell.Result result = Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + pkgName + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + target + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + source + "/AndroidManifest.xml;").exec();
+        List<String> module = new ArrayList<>();
+        module.add("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
+        module.add("<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + pkgName + ".overlay\">");
+        module.add("\\t<uses-sdk android:minSdkVersion=\"" + BuildConfig.MIN_SDK_VERSION + "\" android:targetSdkVersion=\"" + Build.VERSION.SDK_INT + "\" />");
+        module.add("\\t<overlay android:priority=\"1\" android:targetPackage=\"" + target + "\" />");
+        module.add("\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />");
+        module.add("</manifest>' > " + source + "/AndroidManifest.xml;");
+
+        Shell.Result result = Shell.cmd(String.join("\\n", module)).exec();
 
         if (result.isSuccess())
             Log.i(TAG + " - Manifest", "Successfully created manifest for " + pkgName);

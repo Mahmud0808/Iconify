@@ -6,8 +6,10 @@ import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readCertificate
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;
 import static com.drdisagree.iconify.utils.helpers.Logger.writeLog;
 
+import android.os.Build;
 import android.util.Log;
 
+import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.utils.apksigner.JarMap;
@@ -19,6 +21,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class OnBoardingCompiler {
@@ -32,7 +36,15 @@ public class OnBoardingCompiler {
         int attempt = 3;
 
         while (attempt-- != 0) {
-            result = Shell.cmd("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>\\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + name + ".overlay\">\\n\\t<overlay android:priority=\"1\" android:targetPackage=\"" + target + "\" />\\n\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />\\n</manifest>' > " + source + "/AndroidManifest.xml;").exec();
+            List<String> module = new ArrayList<>();
+            module.add("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
+            module.add("<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + name + ".overlay\">");
+            module.add("\\t<uses-sdk android:minSdkVersion=\"" + BuildConfig.MIN_SDK_VERSION + "\" android:targetSdkVersion=\"" + Build.VERSION.SDK_INT + "\" />");
+            module.add("\\t<overlay android:priority=\"1\" android:targetPackage=\"" + target + "\" />");
+            module.add("\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />");
+            module.add("</manifest>' > " + source + "/AndroidManifest.xml;");
+
+            result = Shell.cmd(String.join("\\n", module)).exec();
 
             if (result.isSuccess()) {
                 Log.i(TAG + " - Manifest", "Successfully created manifest for " + name);
