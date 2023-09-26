@@ -31,10 +31,10 @@ public class OverlayCompiler {
         Shell.Result result = Shell.cmd(aapt + " p -f -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + Resources.UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk").exec();
 
         if (result.isSuccess()) {
-            Log.i(TAG + " - AAPT2", "Successfully built APK for " + name);
+            Log.i(TAG + " - AAPT", "Successfully built APK for " + name);
         } else {
-            Log.e(TAG + " - AAPT2", "Failed to build APK for " + name + '\n' + String.join("\n", result.getOut()));
-            writeLog(TAG + " - AAPT2", "Failed to build APK for " + name, result.getOut());
+            Log.e(TAG + " - AAPT", "Failed to build APK for " + name + '\n' + String.join("\n", result.getOut()));
+            writeLog(TAG + " - AAPT", "Failed to build APK for " + name, result.getOut());
         }
 
         return !result.isSuccess();
@@ -52,10 +52,10 @@ public class OverlayCompiler {
 
         Shell.Result result = Shell.cmd(String.valueOf(aaptCommand)).exec();
 
-        if (result.isSuccess()) Log.i(TAG + " - AAPT2", "Successfully built APK for " + name);
+        if (result.isSuccess()) Log.i(TAG + " - AAPT", "Successfully built APK for " + name);
         else {
-            Log.e(TAG + " - AAPT2", "Failed to build APK for " + name + '\n' + String.join("\n", result.getOut()));
-            writeLog(TAG + " - AAPT2", "Failed to build APK for " + name, result.getOut());
+            Log.e(TAG + " - AAPT", "Failed to build APK for " + name + '\n' + String.join("\n", result.getOut()));
+            writeLog(TAG + " - AAPT", "Failed to build APK for " + name, result.getOut());
         }
 
         return !result.isSuccess();
