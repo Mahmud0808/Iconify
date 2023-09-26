@@ -100,7 +100,7 @@ public class QSLightTheme extends ModPack {
         Class<?> InterestingConfigChangesClass = findClass("com.android.settingslib.applications.InterestingConfigChanges", lpparam.classLoader);
         Class<?> ScrimStateEnum = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.ScrimState", lpparam.classLoader);
         Class<?> QSIconViewImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSIconViewImpl", lpparam.classLoader);
-        Class<?> CentralSurfacesImplClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.CentralSurfacesImpl", lpparam.classLoader);
+        Class<?> CentralSurfacesImplClass = findClassIfExists(SYSTEMUI_PACKAGE + ".statusbar.phone.CentralSurfacesImpl", lpparam.classLoader);
         Class<?> ClockClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.Clock", lpparam.classLoader);
         Class<?> QuickStatusBarHeaderClass = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", lpparam.classLoader);
 
@@ -293,12 +293,21 @@ public class QSLightTheme extends ModPack {
             }
         });
 
-        hookAllConstructors(CentralSurfacesImplClass, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                applyOverlays(true);
-            }
-        });
+        if (CentralSurfacesImplClass != null) {
+            hookAllConstructors(CentralSurfacesImplClass, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    applyOverlays(true);
+                }
+            });
+
+            hookAllMethods(CentralSurfacesImplClass, "updateTheme", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    applyOverlays(false);
+                }
+            });
+        }
 
         hookAllConstructors(QSTileViewImplClass, new XC_MethodHook() {
             @Override
@@ -343,13 +352,6 @@ public class QSLightTheme extends ModPack {
                 } catch (Throwable throwable) {
                     log(TAG + throwable);
                 }
-            }
-        });
-
-        hookAllMethods(CentralSurfacesImplClass, "updateTheme", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                applyOverlays(false);
             }
         });
 
