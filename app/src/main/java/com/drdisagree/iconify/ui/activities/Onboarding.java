@@ -558,8 +558,8 @@ public class Onboarding extends BaseActivity {
                     hasErroredOut = ModuleUtil.flashModule(ModuleUtil.createModule(Resources.TEMP_MODULE_DIR, Resources.TEMP_DIR + "/Iconify.zip"));
                 } catch (Exception e) {
                     hasErroredOut = true;
-                    writeLog(TAG, "Error creating module zip", e);
-                    e.printStackTrace();
+                    writeLog(TAG, "Failed to create/flash module zip", e);
+                    Log.e(TAG, "Failed to create/flash module zip\n" + e);
                 }
             }
 
