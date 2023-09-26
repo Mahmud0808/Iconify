@@ -7,6 +7,7 @@ import static com.drdisagree.iconify.common.Preferences.UNZOOM_DEPTH_WALLPAPER;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedHelpers.findClass;
+import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 import android.annotation.SuppressLint;
@@ -16,6 +17,8 @@ import android.graphics.ImageDecoder;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,10 +94,8 @@ public class DepthWallpaper extends ModPack {
                 TextView mTopIndicationView = mIndicationArea.findViewById(mContext.getResources().getIdentifier("keyguard_indication_text", "id", mContext.getPackageName()));
                 TextView mLockScreenIndicationView = mIndicationArea.findViewById(mContext.getResources().getIdentifier("keyguard_indication_text_bottom", "id", mContext.getPackageName()));
 
-                /*
-                 We added a blank view to the top of the layout to push the indication text views to the bottom
-                 The reason we did this is because gravity is not working properly on the indication text views
-                 */
+                // We added a blank view to the top of the layout to push the indication text views to the bottom
+                // The reason we did this is because gravity is not working properly on the indication text views
                 View blankView = new View(mContext);
                 blankView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1.0f));
 
@@ -133,13 +134,16 @@ public class DepthWallpaper extends ModPack {
                 mDepthWallpaperLayout.addView(mDepthWallpaperForeground, -1);
 
                 // Fix the bottom shortcuts pushing the wallpaper
-                ImageView startButton = view.findViewById(mContext.getResources().getIdentifier("start_button", "id", mContext.getPackageName()));
-                ImageView endButton = view.findViewById(mContext.getResources().getIdentifier("end_button", "id", mContext.getPackageName()));
-                int offset = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("keyguard_affordance_fixed_height", "dimen", mContext.getPackageName()))
-                        + mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("keyguard_affordance_horizontal_offset", "dimen", mContext.getPackageName()));
+                try {
+                    ImageView startButton = view.findViewById(mContext.getResources().getIdentifier("start_button", "id", mContext.getPackageName()));
+                    ImageView endButton = view.findViewById(mContext.getResources().getIdentifier("end_button", "id", mContext.getPackageName()));
+                    int offset = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("keyguard_affordance_fixed_height", "dimen", mContext.getPackageName()))
+                            + mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("keyguard_affordance_horizontal_offset", "dimen", mContext.getPackageName()));
 
-                startButton.getViewTreeObserver().addOnGlobalLayoutListener(() -> ((ViewGroup.MarginLayoutParams) mIndicationTextView.getLayoutParams()).setMarginStart(startButton.getVisibility() == View.VISIBLE ? offset : 0));
-                endButton.getViewTreeObserver().addOnGlobalLayoutListener(() -> ((ViewGroup.MarginLayoutParams) mIndicationTextView.getLayoutParams()).setMarginEnd(endButton.getVisibility() == View.VISIBLE ? offset : 0));
+                    startButton.getViewTreeObserver().addOnGlobalLayoutListener(() -> ((ViewGroup.MarginLayoutParams) mIndicationTextView.getLayoutParams()).setMarginStart(startButton.getVisibility() == View.VISIBLE ? offset : 0));
+                    endButton.getViewTreeObserver().addOnGlobalLayoutListener(() -> ((ViewGroup.MarginLayoutParams) mIndicationTextView.getLayoutParams()).setMarginEnd(endButton.getVisibility() == View.VISIBLE ? offset : 0));
+                } catch (Throwable ignored) {
+                }
 
                 updateWallpaper();
             }
@@ -152,7 +156,9 @@ public class DepthWallpaper extends ModPack {
             }
         });
 
-        Class<?> NotificationPanelViewControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.NotificationPanelViewController", lpparam.classLoader);
+        Class<?> NotificationPanelViewControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.NotificationPanelViewController", lpparam.classLoader);
+        if (NotificationPanelViewControllerClass == null)
+            NotificationPanelViewControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.NotificationPanelViewController", lpparam.classLoader);
 
         hookAllMethods(NotificationPanelViewControllerClass, "onFinishInflate", new XC_MethodHook() {
             @Override
@@ -213,36 +219,38 @@ public class DepthWallpaper extends ModPack {
                 File Android = new File(Environment.getExternalStorageDirectory() + "/Android");
 
                 if (Android.isDirectory()) {
-                    try {
-                        ImageDecoder.Source backgroundImg = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.iconify_files/depth_wallpaper_bg.png"));
-                        ImageDecoder.Source foregroundImg = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.iconify_files/depth_wallpaper_fg.png"));
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        try {
+                            ImageDecoder.Source backgroundImg = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.iconify_files/depth_wallpaper_bg.png"));
+                            ImageDecoder.Source foregroundImg = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.iconify_files/depth_wallpaper_fg.png"));
 
-                        Drawable backgroundDrawable = ImageDecoder.decodeDrawable(backgroundImg);
-                        Drawable foregroundDrawable = ImageDecoder.decodeDrawable(foregroundImg);
+                            Drawable backgroundDrawable = ImageDecoder.decodeDrawable(backgroundImg);
+                            Drawable foregroundDrawable = ImageDecoder.decodeDrawable(foregroundImg);
 
-                        mDepthWallpaperBackground.setImageDrawable(backgroundDrawable);
-                        mDepthWallpaperBackground.setClipToOutline(true);
-                        mDepthWallpaperBackground.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                            mDepthWallpaperBackground.setImageDrawable(backgroundDrawable);
+                            mDepthWallpaperBackground.setClipToOutline(true);
+                            mDepthWallpaperBackground.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-                        boolean zoomWallpaper = !Xprefs.getBoolean(UNZOOM_DEPTH_WALLPAPER, false);
+                            boolean zoomWallpaper = !Xprefs.getBoolean(UNZOOM_DEPTH_WALLPAPER, false);
 
-                        if (zoomWallpaper) {
-                            mDepthWallpaperBackground.setScaleX(1.1f);
-                            mDepthWallpaperBackground.setScaleY(1.1f);
+                            if (zoomWallpaper) {
+                                mDepthWallpaperBackground.setScaleX(1.1f);
+                                mDepthWallpaperBackground.setScaleY(1.1f);
+                            }
+
+                            mDepthWallpaperForeground.setImageDrawable(foregroundDrawable);
+                            mDepthWallpaperForeground.setClipToOutline(true);
+                            mDepthWallpaperForeground.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+                            if (zoomWallpaper) {
+                                mDepthWallpaperForeground.setScaleX(1.1f);
+                                mDepthWallpaperForeground.setScaleY(1.1f);
+                            }
+
+                            mDepthWallpaperLayout.setVisibility(View.VISIBLE);
+                        } catch (Throwable ignored) {
                         }
-
-                        mDepthWallpaperForeground.setImageDrawable(foregroundDrawable);
-                        mDepthWallpaperForeground.setClipToOutline(true);
-                        mDepthWallpaperForeground.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-                        if (zoomWallpaper) {
-                            mDepthWallpaperForeground.setScaleX(1.1f);
-                            mDepthWallpaperForeground.setScaleY(1.1f);
-                        }
-
-                        mDepthWallpaperLayout.setVisibility(View.VISIBLE);
-                    } catch (Throwable ignored) {
-                    }
+                    });
 
                     executor.shutdown();
                     executor.shutdownNow();
