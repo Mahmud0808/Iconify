@@ -134,14 +134,22 @@ public class DepthWallpaper extends ModPack {
                 mDepthWallpaperLayout.addView(mDepthWallpaperForeground, -1);
 
                 // Fix the bottom shortcuts pushing the wallpaper
+                int[] offset = {0};
+                try {
+                    offset[0] = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("keyguard_affordance_fixed_height", "dimen", mContext.getPackageName()))
+                            + mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("keyguard_affordance_horizontal_offset", "dimen", mContext.getPackageName()));
+                } catch (Throwable ignored) {
+                }
+
                 try {
                     ImageView startButton = view.findViewById(mContext.getResources().getIdentifier("start_button", "id", mContext.getPackageName()));
-                    ImageView endButton = view.findViewById(mContext.getResources().getIdentifier("end_button", "id", mContext.getPackageName()));
-                    int offset = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("keyguard_affordance_fixed_height", "dimen", mContext.getPackageName()))
-                            + mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("keyguard_affordance_horizontal_offset", "dimen", mContext.getPackageName()));
+                    startButton.getViewTreeObserver().addOnGlobalLayoutListener(() -> ((ViewGroup.MarginLayoutParams) mIndicationTextView.getLayoutParams()).setMarginStart(startButton.getVisibility() == View.VISIBLE ? offset[0] : 0));
+                } catch (Throwable ignored) {
+                }
 
-                    startButton.getViewTreeObserver().addOnGlobalLayoutListener(() -> ((ViewGroup.MarginLayoutParams) mIndicationTextView.getLayoutParams()).setMarginStart(startButton.getVisibility() == View.VISIBLE ? offset : 0));
-                    endButton.getViewTreeObserver().addOnGlobalLayoutListener(() -> ((ViewGroup.MarginLayoutParams) mIndicationTextView.getLayoutParams()).setMarginEnd(endButton.getVisibility() == View.VISIBLE ? offset : 0));
+                try {
+                    ImageView endButton = view.findViewById(mContext.getResources().getIdentifier("end_button", "id", mContext.getPackageName()));
+                    endButton.getViewTreeObserver().addOnGlobalLayoutListener(() -> ((ViewGroup.MarginLayoutParams) mIndicationTextView.getLayoutParams()).setMarginEnd(endButton.getVisibility() == View.VISIBLE ? offset[0] : 0));
                 } catch (Throwable ignored) {
                 }
 
