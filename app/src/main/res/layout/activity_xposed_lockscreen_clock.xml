@@ -77,7 +77,7 @@
                     style="@style/TextAppearance.Material3.TitleMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/header_clock_style_title"
+                    android:text="@string/custom_lockscreen_clock_style_title"
                     android:textColor="@color/text_color_primary" />
 
                 <TextView
@@ -123,14 +123,14 @@
                     style="@style/TextAppearance.Material3.TitleMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/header_clock_font_title"
+                    android:text="@string/lockscreen_clock_font_title"
                     android:textColor="@color/text_color_primary" />
 
                 <TextView
                     style="@style/TextAppearance.Material3.BodyMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/header_clock_font_desc"
+                    android:text="@string/lockscreen_clock_font_desc"
                     android:textColor="@color/text_color_secondary" />
 
                 <com.google.android.material.button.MaterialButton
@@ -183,14 +183,14 @@
                         style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/custom_header_clock_color_title"
+                        android:text="@string/lsclock_custom_color_title"
                         android:textColor="@color/text_color_primary" />
 
                     <TextView
                         style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/custom_header_clock_color_desc"
+                        android:text="@string/lsclock_custom_color_desc"
                         android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>
@@ -226,14 +226,14 @@
                         style="@style/TextAppearance.Material3.TitleMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/header_clock_color_picker_title"
+                        android:text="@string/lsclock_color_picker_title"
                         android:textColor="@color/text_color_primary" />
 
                     <TextView
                         style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/header_clock_color_picker_desc"
+                        android:text="@string/lsclock_color_picker_desc"
                         android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>
@@ -300,7 +300,7 @@
                     style="@style/TextAppearance.Material3.TitleMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/header_clock_font_text_scaling_title"
+                    android:text="@string/lockscreen_font_text_scaling_title"
                     android:textColor="@color/text_color_primary" />
 
                 <TextView
