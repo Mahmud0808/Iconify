@@ -82,6 +82,7 @@ public class Credits extends BaseActivity {
         translators_list.add(new InfoModel(this, "luckkmaxx", getResources().getString(R.string.es_translation), "https://github.com/luckkmaxx", R.drawable.ic_user));
         translators_list.add(new InfoModel(this, "Serhat Demir", getResources().getString(R.string.tr_translation), "https://github.com/serhat-demir", R.drawable.ic_user));
         translators_list.add(new InfoModel(this, "Đức Trọng", getResources().getString(R.string.vi_translation), "https://t.me/viettel1211", R.drawable.ic_user));
+        translators_list.add(new InfoModel(this, "Jakub Skorłutowski", getResources().getString(R.string.pl_translation), "https://github.com/SK00RUPA", R.drawable.ic_user));
 
         return new InfoAdapter(this, translators_list);
     }
