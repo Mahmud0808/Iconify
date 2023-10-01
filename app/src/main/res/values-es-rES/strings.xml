@@ -579,10 +579,13 @@
     <string name="vi_translation">Traducción al vietnamita.</string>
     <string name="es_translation">Spanish translation.</string>
     <string name="zh_cn_translation">Traducción al chino simplificado.</string>
+    <string name="pl_translation">Polish translation.</string>
     <!-- Experimental -->
     <string name="experimental_features_title">Funciones experimentales</string>
     <string name="overlap_header_image_title">Overlap Header Image</string>
     <string name="overlap_header_image_desc">Overlap header image on expanded QS</string>
+    <string name="unzoom_depth_wallpaper_title">Unzoom Depth Wallpaper</string>
+    <string name="unzoom_depth_wallpaper_desc">Remove the zoom effect on depth wallpaper</string>
     <string name="hide_data_disabled_icon_title">Ocultar Icono de Datos Desactivados</string>
     <string name="hide_data_disabled_icon_desc">Ocultar el indicador de datos desactivados</string>
     <!-- Bottom Navigation -->
