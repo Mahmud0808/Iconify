@@ -394,6 +394,7 @@ open class LandscapeBatteryDrawableMIUIPill(private val context: Context, frameC
         fillColorStrokeProtection.strokeWidth = scaledStrokeWidth
     }
 
+    @SuppressLint("RestrictedApi")
     private fun loadPaths() {
         val pathString =
             "M5.75,0.75L18.25,0.75A5.25 5.25 0 0 1 23.50,6.00L23.50,6.00A5.25 5.25 0 0 1 18.25,11.25L5.75,11.25A5.25 5.25 0 0 1 0.50,6.00L0.50,6.00A5.25 5.25 0 0 1 5.75,0.75zM1.75,6.00L1.75,6.00A4.00 4.00 0 0 0 5.75,10.00L18.25,10.00A4.00 4.00 0 0 0 22.25,6.00L22.25,6.00A4.00 4.00 0 0 0 18.25,2.00L5.75,2.00A4.00 4.00 0 0 0 1.75,6.00z"

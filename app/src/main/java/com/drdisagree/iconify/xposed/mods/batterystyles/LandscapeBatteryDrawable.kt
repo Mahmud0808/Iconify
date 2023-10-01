@@ -446,6 +446,7 @@ open class LandscapeBatteryDrawable(private val context: Context, frameColor: In
         fillColorStrokeProtection.strokeWidth = scaledStrokeWidth
     }
 
+    @SuppressLint("RestrictedApi")
     private fun loadPaths() {
         val pathString =
             "M3.77,0.80L21.85,0.80A1.97 1.97 0 0 1 23.82,2.77L23.82,9.31A1.97 1.97 0 0 1 21.85,11.27L3.77,11.27A1.97 1.97 0 0 1 1.81,9.31L1.81,2.77A1.97 1.97 0 0 1 3.77,0.80zM2.85,3.00L2.85,9.02A1.48 1.48 0 0 0 4.33,10.50L21.30,10.50A1.48 1.48 0 0 0 22.78,9.02L22.78,3.00A1.48 1.48 0 0 0 21.30,1.52L4.33,1.52A1.48 1.48 0 0 0 2.85,3.00zM1.26,7.97Q-1.14,5.86,1.29,3.81z"

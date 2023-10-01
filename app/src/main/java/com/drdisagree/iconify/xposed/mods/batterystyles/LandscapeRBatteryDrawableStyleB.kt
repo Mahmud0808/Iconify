@@ -451,6 +451,7 @@ open class LandscapeRBatteryDrawableStyleB(private val context: Context, frameCo
         fillColorStrokeProtection.strokeWidth = scaledStrokeWidth
     }
 
+    @SuppressLint("RestrictedApi")
     private fun loadPaths() {
         val pathString =
             "M6.10,0.80L15.78,0.80A5.18 5.18 0 0 1 20.96,5.98L20.96,5.98A5.18 5.18 0 0 1 15.78,11.16L6.10,11.16A5.18 5.18 0 0 1 0.92,5.98L0.92,5.98A5.18 5.18 0 0 1 6.10,0.80zM2.42,5.98L2.42,5.98A3.67 3.67 0 0 0 6.09,9.65L15.78,9.65A3.67 3.67 0 0 0 19.45,5.98L19.45,5.98A3.67 3.67 0 0 0 15.78,2.31L6.09,2.31A3.67 3.67 0 0 0 2.42,5.98zM21.70,5.05L21.70,7.02A0.92 0.92 0 0 0 22.62,7.94L22.62,7.94A0.92 0.92 0 0 0 23.54,7.02L23.54,5.05A0.92 0.92 0 0 0 22.62,4.13L22.62,4.13A0.92 0.92 0 0 0 21.70,5.05z"
