@@ -579,10 +579,13 @@
     <string name="vi_translation">越南语翻译。</string>
     <string name="es_translation">西班牙语翻译。</string>
     <string name="zh_cn_translation">简体中文翻译。</string>
+    <string name="pl_translation">Polish translation.</string>
     <!-- Experimental -->
     <string name="experimental_features_title">实验性</string>
     <string name="overlap_header_image_title">Overlap Header Image</string>
     <string name="overlap_header_image_desc">Overlap header image on expanded QS</string>
+    <string name="unzoom_depth_wallpaper_title">Unzoom Depth Wallpaper</string>
+    <string name="unzoom_depth_wallpaper_desc">Remove the zoom effect on depth wallpaper</string>
     <string name="hide_data_disabled_icon_title">隐藏数据禁用图标</string>
     <string name="hide_data_disabled_icon_desc">隐藏数据禁用指示器</string>
     <!-- Bottom Navigation -->
