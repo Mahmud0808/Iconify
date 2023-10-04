@@ -247,7 +247,7 @@ open class LandscapeBatterySmiley(private val context: Context, frameColor: Int)
         fillPaint.color = levelColor
 
         // Show colorError below this level
-        if (batteryLevel <= Companion.CRITICAL_LEVEL && !charging) {
+        if (batteryLevel <= CRITICAL_LEVEL && !charging) {
             c.save()
             c.clipPath(scaledFill)
             c.drawPath(levelPath, fillPaint)
