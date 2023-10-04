@@ -58,15 +58,16 @@ android {
         viewBinding true
         dataBinding true
         buildConfig true
+        aidl true
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
 
     packagingOptions {
@@ -113,6 +114,12 @@ dependencies {
     // Xposed API
     compileOnly files('libs/api-82.jar')
     compileOnly files('libs/api-82-sources.jar')
+
+    // SystemStubs
+    compileOnly project(path: ':systemstubs')
+
+    // Shizuku
+    implementation "dev.rikka.shizuku:api:12.1.0"
 
     // The core module that provides APIs to a shell
     implementation "com.github.topjohnwu.libsu:core:${libsuVersion}"

@@ -23,11 +23,16 @@ public class OverlayUtil {
     }
 
     public static boolean isOverlayEnabled(String pkgName) {
-        return Shell.cmd("[[ $(cmd overlay list | grep -o '\\[x\\] " + pkgName + "') ]] && echo 1 || echo 0").exec().getOut().get(0).equals("1");
+        try {
+            return Iconify.mRootServiceProvider.isOverlayEnabled(pkgName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public static boolean isOverlayDisabled(String pkgName) {
-        return Shell.cmd("[[ $(cmd overlay list | grep -o '\\[ \\] " + pkgName + "') ]] && echo 1 || echo 0").exec().getOut().get(0).equals("1");
+        return !isOverlayEnabled(pkgName);
     }
 
     static boolean isOverlayInstalled(List<String> enabledOverlays, String pkgName) {
@@ -38,13 +43,21 @@ public class OverlayUtil {
     }
 
     public static void enableOverlay(String pkgName) {
-        Prefs.putBoolean(pkgName, true);
-        Shell.cmd("cmd overlay enable --user current " + pkgName, "cmd overlay set-priority " + pkgName + " highest").submit();
+        try {
+            Iconify.mRootServiceProvider.enableOverlay(pkgName);
+            Prefs.putBoolean(pkgName, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void disableOverlay(String pkgName) {
-        Prefs.putBoolean(pkgName, false);
-        Shell.cmd("cmd overlay disable --user current " + pkgName).submit();
+        try {
+            Iconify.mRootServiceProvider.disableOverlay(pkgName);
+            Prefs.putBoolean(pkgName, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void enableOverlays(String... pkgNames) {
