@@ -19,6 +19,8 @@ import android.content.Context
 import android.graphics.*
 import android.util.TypedValue
 import androidx.core.graphics.PathParser
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.xposed.HookRes.modRes
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
 import kotlin.math.floor
 
@@ -439,28 +441,23 @@ open class PortraitBatteryOrigami(private val context: Context, frameColor: Int)
 
     @SuppressLint("RestrictedApi")
     private fun loadPaths() {
-        val pathString =
-            "M15.50,0.50C13.50,0.33,11.00,0.33,8.50,0.50C8.00,-0.21,6.00,-0.21,5.63,1.00C5.17,2.50,4.33,2.33,4.00,4.33C3.75,5.50,3.75,7.50,4.00,8.43C4.25,9.50,5.50,12.00,8.95,12.00L15.00,12.00C18.45,12.00,19.70,9.50,19.95,8.43C20.20,7.50,20.20,5.50,19.95,4.33C19.62,2.33,18.79,2.50,18.33,1.00C18.00,-0.21,16.00,-0.21,15.50,0.50zM15.25,10.50C12.50,10.57,11.50,10.57,8.75,10.50C7.50,10.40,6.00,9.75,5.50,7.75Q5.12,6.00,5.50,4.50C6.00,3.00,7.50,2.10,8.75,2.00C11.00,1.88,13.00,1.88,15.25,2.00C16.50,2.10,18.00,3.00,18.50,4.50Q18.88,6.00,18.50,7.75C18.00,9.75,16.50,10.40,15.25,10.50z"
+        val pathString = modRes.getString(R.string.config_portraitBatteryPerimeterOrigami)
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
 
-        val errorPathString =
-            "M15.50,0.50C13.50,0.33,11.00,0.33,8.50,0.50C8.00,-0.21,6.00,-0.21,5.63,1.00C5.17,2.50,4.33,2.33,4.00,4.33C3.75,5.50,3.75,7.50,4.00,8.43C4.25,9.50,5.50,12.00,8.95,12.00L15.00,12.00C18.45,12.00,19.70,9.50,19.95,8.43C20.20,7.50,20.20,5.50,19.95,4.33C19.62,2.33,18.79,2.50,18.33,1.00C18.00,-0.21,16.00,-0.21,15.50,0.50zM15.25,10.50C12.50,10.57,11.50,10.57,8.75,10.50C7.50,10.40,6.00,9.75,5.50,7.75Q5.12,6.00,5.50,4.50C6.00,3.00,7.50,2.10,8.75,2.00C11.00,1.88,13.00,1.88,15.25,2.00C16.50,2.10,18.00,3.00,18.50,4.50Q18.88,6.00,18.50,7.75C18.00,9.75,16.50,10.40,15.25,10.50z"
+        val errorPathString = modRes.getString(R.string.config_portraitBatteryErrorOrigami)
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
-        val fillMaskString =
-            "M9.10,1.55L14.90,1.55A4.10 4.10 0 0 1 19.00,5.64L19.00,6.86A4.10 4.10 0 0 1 14.90,10.95L9.10,10.95A4.10 4.10 0 0 1 5.00,6.86L5.00,5.64A4.10 4.10 0 0 1 9.10,1.55z"
+        val fillMaskString = modRes.getString(R.string.config_portraitBatteryFillMaskOrigami)
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
-        val boltPathString =
-            "M13.07,5.82C12.95,7.25,11.05,7.25,10.93,5.82C10.97,5.35,11.60,5.35,11.65,5.82C11.61,6.30,12.39,6.30,12.35,5.82C12.40,5.35,13.03,5.35,13.07,5.82zM15.57,5.11C15.96,5.11,16.28,5.43,16.28,5.82C16.28,6.22,15.96,6.54,15.57,6.54C15.17,6.54,14.85,6.22,14.85,5.82C14.85,5.43,15.17,5.11,15.57,5.11zM8.43,5.11C8.83,5.11,9.15,5.43,9.15,5.82C9.15,6.22,8.83,6.54,8.43,6.54C8.04,6.54,7.72,6.22,7.72,5.82C7.72,5.43,8.04,5.11,8.43,5.11z"
+        val boltPathString = modRes.getString(R.string.config_portraitBatteryBoltOrigami)
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
-        val plusPathString =
-            "M15.50,0.50C13.50,0.33,11.00,0.33,8.50,0.50C8.00,-0.21,6.00,-0.21,5.63,1.00C5.17,2.50,4.33,2.33,4.00,4.33C3.75,5.50,3.75,7.50,4.00,8.43C4.25,9.50,5.50,12.00,8.95,12.00L15.00,12.00C18.45,12.00,19.70,9.50,19.95,8.43C20.20,7.50,20.20,5.50,19.95,4.33C19.62,2.33,18.79,2.50,18.33,1.00C18.00,-0.21,16.00,-0.21,15.50,0.50zM15.25,10.50C12.50,10.57,11.50,10.57,8.75,10.50C7.50,10.40,6.00,9.75,5.50,7.75Q5.12,6.00,5.50,4.50C6.00,3.00,7.50,2.10,8.75,2.00C11.00,1.88,13.00,1.88,15.25,2.00C16.50,2.10,18.00,3.00,18.50,4.50Q18.88,6.00,18.50,7.75C18.00,9.75,16.50,10.40,15.25,10.50z"
+        val plusPathString = modRes.getString(R.string.config_portraitBatteryPlusOrigami)
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
         dualTone = false

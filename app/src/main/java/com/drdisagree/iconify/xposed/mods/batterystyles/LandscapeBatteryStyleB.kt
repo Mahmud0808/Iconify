@@ -19,6 +19,8 @@ import android.content.Context
 import android.graphics.*
 import android.util.TypedValue
 import androidx.core.graphics.PathParser
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.xposed.HookRes.modRes
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
 import kotlin.math.floor
 
@@ -453,27 +455,23 @@ open class LandscapeBatteryStyleB(private val context: Context, frameColor: Int)
 
     @SuppressLint("RestrictedApi")
     private fun loadPaths() {
-        val pathString =
-            "M8.22,0.80L17.90,0.80A5.18 5.18 0 0 1 23.08,5.98L23.08,5.98A5.18 5.18 0 0 1 17.90,11.16L8.22,11.16A5.18 5.18 0 0 1 3.04,5.98L3.04,5.98A5.18 5.18 0 0 1 8.22,0.80zM0.46,5.05L0.46,7.02A0.92 0.92 0 0 0 1.38,7.94L1.38,7.94A0.92 0.92 0 0 0 2.30,7.02L2.30,5.05A0.92 0.92 0 0 0 1.38,4.13L1.38,4.13A0.92 0.92 0 0 0 0.46,5.05zM4.55,5.98L4.55,5.98A3.67 3.67 0 0 0 8.22,9.65L17.91,9.65A3.67 3.67 0 0 0 21.58,5.98L21.58,5.98A3.67 3.67 0 0 0 17.91,2.31L8.22,2.31A3.67 3.67 0 0 0 4.55,5.98z"
+        val pathString = modRes.getString(R.string.config_landscapeBatteryPerimeterLStyleB)
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
 
-        val errorPathString =
-            "M8.22,0.80L17.90,0.80A5.18 5.18 0 0 1 23.08,5.98L23.08,5.98A5.18 5.18 0 0 1 17.90,11.16L8.22,11.16A5.18 5.18 0 0 1 3.04,5.98L3.04,5.98A5.18 5.18 0 0 1 8.22,0.80zM0.46,5.05L0.46,7.02A0.92 0.92 0 0 0 1.38,7.94L1.38,7.94A0.92 0.92 0 0 0 2.30,7.02L2.30,5.05A0.92 0.92 0 0 0 1.38,4.13L1.38,4.13A0.92 0.92 0 0 0 0.46,5.05zM4.55,5.98L4.55,5.98A3.67 3.67 0 0 0 8.22,9.65L17.91,9.65A3.67 3.67 0 0 0 21.58,5.98L21.58,5.98A3.67 3.67 0 0 0 17.91,2.31L8.22,2.31A3.67 3.67 0 0 0 4.55,5.98z"
+        val errorPathString = modRes.getString(R.string.config_landscapeBatteryErrorLStyleB)
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
-        val fillMaskString =
-            "M4.10,4.45L4.10,7.51A0.00 0.00 0 0 0 4.10,7.51L17.78,7.51A0.00 0.00 0 0 0 17.78,7.51L17.78,4.45A0.00 0.00 0 0 0 17.78,4.45L4.10,4.45A0.00 0.00 0 0 0 4.10,4.45z"
+        val fillMaskString = modRes.getString(R.string.config_landscapeBatteryFillMaskLStyleB)
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
-        val boltPathString = "M10.81,10.30L12.84,6.06L9.76,6.13L14.43,1.90L12.86,5.07L15.85,5.00z"
+        val boltPathString = modRes.getString(R.string.config_landscapeBatteryBoltLStyleB)
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
-        val plusPathString =
-            "M8.22,0.80L17.90,0.80A5.18 5.18 0 0 1 23.08,5.98L23.08,5.98A5.18 5.18 0 0 1 17.90,11.16L8.22,11.16A5.18 5.18 0 0 1 3.04,5.98L3.04,5.98A5.18 5.18 0 0 1 8.22,0.80zM0.46,5.05L0.46,7.02A0.92 0.92 0 0 0 1.38,7.94L1.38,7.94A0.92 0.92 0 0 0 2.30,7.02L2.30,5.05A0.92 0.92 0 0 0 1.38,4.13L1.38,4.13A0.92 0.92 0 0 0 0.46,5.05zM4.55,5.98L4.55,5.98A3.67 3.67 0 0 0 8.22,9.65L17.91,9.65A3.67 3.67 0 0 0 21.58,5.98L21.58,5.98A3.67 3.67 0 0 0 17.91,2.31L8.22,2.31A3.67 3.67 0 0 0 4.55,5.98z"
+        val plusPathString = modRes.getString(R.string.config_landscapeBatteryPlusLStyleB)
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
         dualTone = false

@@ -19,6 +19,8 @@ import android.content.Context
 import android.graphics.*
 import android.util.TypedValue
 import androidx.core.graphics.PathParser
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.xposed.HookRes.modRes
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
 import kotlin.math.floor
 
@@ -447,27 +449,23 @@ open class PortraitBatteryMx(private val context: Context, frameColor: Int) :
 
     @SuppressLint("RestrictedApi")
     private fun loadPaths() {
-        val pathString =
-            "M4.39,0.15C4.1,0.28,4.02,0.35,3.89,0.59C3.68,0.98,3.78,1.55,4.11,1.83C4.4,2.09,4.55,2.1,6.44,2.1C8.33,2.1,8.47,2.09,8.76,1.83C9.1,1.55,9.2,0.98,8.98,0.59C8.85,0.35,8.78,0.28,8.49,0.15C8.3,0.06,8.15,0.05,6.44,0.05C4.72,0.05,4.58,0.06,4.39,0.15ZM4.39,0.15M3.18,2.6C2.68,2.74,2.34,2.95,1.92,3.35C1.35,3.89,1.04,4.54,1.04,5.16L1.04,5.4L3.59,5.4L3.86,5.13C4.39,4.61,4.64,4.55,6.46,4.55C8.29,4.55,8.54,4.61,9.07,5.13L9.34,5.4L11.94,5.4L11.94,5.17C11.94,4.55,11.62,3.89,11.06,3.35C10.63,2.93,10.3,2.74,9.77,2.59C9.45,2.5,9.23,2.5,6.46,2.5C3.76,2.5,3.48,2.52,3.18,2.6ZM3.18,2.6M0.93,11L0.93,15.65L3.27,15.65L3.27,6.35L0.93,6.35ZM0.93,11M9.66,11L9.66,15.65L11.99,15.65L11.99,6.35L9.66,6.35ZM9.66,11M1.04,16.86C1.04,17.45,1.37,18.11,1.92,18.65C2.35,19.06,2.76,19.3,3.25,19.43C3.7,19.54,9.28,19.54,9.73,19.43C10.23,19.3,10.63,19.06,11.06,18.65C11.61,18.11,11.94,17.45,11.94,16.86L11.94,16.65L9.35,16.65L9.07,16.92C8.52,17.45,8.29,17.5,6.46,17.5C4.64,17.5,4.4,17.45,3.86,16.92L3.58,16.65L1.04,16.65ZM1.04,16.86"
+        val pathString = modRes.getString(R.string.config_portraitBatteryPerimeterMx)
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
 
-        val errorPathString =
-            "M4.39,0.15C4.1,0.28,4.02,0.35,3.89,0.59C3.68,0.98,3.78,1.55,4.11,1.83C4.4,2.09,4.55,2.1,6.44,2.1C8.33,2.1,8.47,2.09,8.76,1.83C9.1,1.55,9.2,0.98,8.98,0.59C8.85,0.35,8.78,0.28,8.49,0.15C8.3,0.06,8.15,0.05,6.44,0.05C4.72,0.05,4.58,0.06,4.39,0.15ZM4.39,0.15M3.18,2.6C2.68,2.74,2.34,2.95,1.92,3.35C1.35,3.89,1.04,4.54,1.04,5.16L1.04,5.4L3.59,5.4L3.86,5.13C4.39,4.61,4.64,4.55,6.46,4.55C8.29,4.55,8.54,4.61,9.07,5.13L9.34,5.4L11.94,5.4L11.94,5.17C11.94,4.55,11.62,3.89,11.06,3.35C10.63,2.93,10.3,2.74,9.77,2.59C9.45,2.5,9.23,2.5,6.46,2.5C3.76,2.5,3.48,2.52,3.18,2.6ZM3.18,2.6M0.93,11L0.93,15.65L3.27,15.65L3.27,6.35L0.93,6.35ZM0.93,11M9.66,11L9.66,15.65L11.99,15.65L11.99,6.35L9.66,6.35ZM9.66,11M1.04,16.86C1.04,17.45,1.37,18.11,1.92,18.65C2.35,19.06,2.76,19.3,3.25,19.43C3.7,19.54,9.28,19.54,9.73,19.43C10.23,19.3,10.63,19.06,11.06,18.65C11.61,18.11,11.94,17.45,11.94,16.86L11.94,16.65L9.35,16.65L9.07,16.92C8.52,17.45,8.29,17.5,6.46,17.5C4.64,17.5,4.4,17.45,3.86,16.92L3.58,16.65L1.04,16.65ZM1.04,16.86"
+        val errorPathString = modRes.getString(R.string.config_portraitBatteryErrorMx)
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
-        val fillMaskString =
-            "M5.32,6.04C5.09,6.15,4.98,6.25,4.88,6.46C4.78,6.64,4.78,6.82,4.78,11.08C4.78,15.32,4.78,15.52,4.88,15.69C5.11,16.14,5.32,16.2,6.46,16.2C7.61,16.2,7.82,16.14,8.05,15.69C8.14,15.52,8.15,15.32,8.15,11.08C8.15,6.82,8.15,6.64,8.05,6.46C7.94,6.25,7.84,6.14,7.59,6.03C7.36,5.91,5.55,5.91,5.32,6.04ZM5.32,6.04"
+        val fillMaskString = modRes.getString(R.string.config_portraitBatteryFillMaskMx)
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
-        val boltPathString = "M5,17.5 V12 H3 L7,4.5 V10 h2 L5,17.5 z"
+        val boltPathString = modRes.getString(R.string.config_portraitBatteryBoltMx)
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
-        val plusPathString =
-            "M4.39,0.15C4.1,0.28,4.02,0.35,3.89,0.59C3.68,0.98,3.78,1.55,4.11,1.83C4.4,2.09,4.55,2.1,6.44,2.1C8.33,2.1,8.47,2.09,8.76,1.83C9.1,1.55,9.2,0.98,8.98,0.59C8.85,0.35,8.78,0.28,8.49,0.15C8.3,0.06,8.15,0.05,6.44,0.05C4.72,0.05,4.58,0.06,4.39,0.15ZM4.39,0.15M3.18,2.6C2.68,2.74,2.34,2.95,1.92,3.35C1.35,3.89,1.04,4.54,1.04,5.16L1.04,5.4L3.59,5.4L3.86,5.13C4.39,4.61,4.64,4.55,6.46,4.55C8.29,4.55,8.54,4.61,9.07,5.13L9.34,5.4L11.94,5.4L11.94,5.17C11.94,4.55,11.62,3.89,11.06,3.35C10.63,2.93,10.3,2.74,9.77,2.59C9.45,2.5,9.23,2.5,6.46,2.5C3.76,2.5,3.48,2.52,3.18,2.6ZM3.18,2.6M0.93,11L0.93,15.65L3.27,15.65L3.27,6.35L0.93,6.35ZM0.93,11M9.66,11L9.66,15.65L11.99,15.65L11.99,6.35L9.66,6.35ZM9.66,11M1.04,16.86C1.04,17.45,1.37,18.11,1.92,18.65C2.35,19.06,2.76,19.3,3.25,19.43C3.7,19.54,9.28,19.54,9.73,19.43C10.23,19.3,10.63,19.06,11.06,18.65C11.61,18.11,11.94,17.45,11.94,16.86L11.94,16.65L9.35,16.65L9.07,16.92C8.52,17.45,8.29,17.5,6.46,17.5C4.64,17.5,4.4,17.45,3.86,16.92L3.58,16.65L1.04,16.65ZM1.04,16.86"
+        val plusPathString = modRes.getString(R.string.config_portraitBatteryPlusMx)
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
         dualTone = false

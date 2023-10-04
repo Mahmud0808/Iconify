@@ -19,6 +19,8 @@ import android.content.Context
 import android.graphics.*
 import android.util.TypedValue
 import androidx.core.graphics.PathParser
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.xposed.HookRes.modRes
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
 import kotlin.math.floor
 
@@ -453,28 +455,23 @@ open class PortraitBatteryLorn(private val context: Context, frameColor: Int) :
 
     @SuppressLint("RestrictedApi", "DiscouragedApi")
     private fun loadPaths() {
-        val pathString =
-            "M3.61,5.65L8.39,5.65A3.59 3.59 0 0 1 11.98,9.24L11.98,10.76A3.59 3.59 0 0 1 8.39,14.35L3.61,14.35A3.59 3.59 0 0 1 0.02,10.76L0.02,9.24A3.59 3.59 0 0 1 3.61,5.65zM1.32,9.13L1.32,10.87A2.17 2.17 0 0 0 3.50,13.04L8.50,13.04A2.17 2.17 0 0 0 10.68,10.87L10.68,9.13A2.17 2.17 0 0 0 8.50,6.96L3.50,6.96A2.17 2.17 0 0 0 1.32,9.13z"
+        val pathString = modRes.getString(R.string.config_portraitBatteryPerimeterLorn)
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
 
-        val errorPathString =
-            "M3.61,5.65L8.39,5.65A3.59 3.59 0 0 1 11.98,9.24L11.98,10.76A3.59 3.59 0 0 1 8.39,14.35L3.61,14.35A3.59 3.59 0 0 1 0.02,10.76L0.02,9.24A3.59 3.59 0 0 1 3.61,5.65zM1.32,9.13L1.32,10.87A2.17 2.17 0 0 0 3.50,13.04L8.50,13.04A2.17 2.17 0 0 0 10.68,10.87L10.68,9.13A2.17 2.17 0 0 0 8.50,6.96L3.50,6.96A2.17 2.17 0 0 0 1.32,9.13z"
+        val errorPathString = modRes.getString(R.string.config_portraitBatteryErrorLorn)
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
-        val fillMaskString =
-            "M6.00,7.72L6.00,7.72A0.65 0.65 0 0 1 6.65,8.37L6.65,11.63A0.65 0.65 0 0 1 6.00,12.28L6.00,12.28A0.65 0.65 0 0 1 5.35,11.63L5.35,8.37A0.65 0.65 0 0 1 6.00,7.72z"
+        val fillMaskString = modRes.getString(R.string.config_portraitBatteryFillMaskLorn)
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
-        val boltPathString =
-            "M5.61,10.76L5.60,12.15C5.58,12.42,5.95,12.49,6.14,12.15L7.25,10.09C7.44,9.66,7.07,9.24,6.39,9.24L6.40,7.85C6.42,7.58,6.05,7.51,5.86,7.85L4.75,9.91C4.56,10.34,4.93,10.76,5.61,10.76"
+        val boltPathString = modRes.getString(R.string.config_portraitBatteryBoltLorn)
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
-        val plusPathString =
-            "M1.71,6.00L8.79,6.00A1.71 1.71 0 0 1 10.50,7.71L10.50,12.29A1.71 1.71 0 0 1 8.79,14.00L1.71,14.00A1.71 1.71 0 0 1 0.00,12.29L0.00,7.71A1.71 1.71 0 0 1 1.71,6.00zM11.00,9.25L11.00,10.75A0.50 0.50 0 0 0 11.50,11.25L11.50,11.25A0.50 0.50 0 0 0 12.00,10.75L12.00,9.25A0.50 0.50 0 0 0 11.50,8.75L11.50,8.75A0.50 0.50 0 0 0 11.00,9.25zM1.00,8.00L1.00,12.00A1.00 1.00 0 0 0 2.00,13.00L8.50,13.00A1.00 1.00 0 0 0 9.50,12.00L9.50,8.00A1.00 1.00 0 0 0 8.50,7.00L2.00,7.00A1.00 1.00 0 0 0 1.00,8.00z"
+        val plusPathString = modRes.getString(R.string.config_portraitBatteryPlusLorn)
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
         dualTone = false

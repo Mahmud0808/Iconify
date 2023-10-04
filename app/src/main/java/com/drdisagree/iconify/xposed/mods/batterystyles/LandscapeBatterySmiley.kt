@@ -5,6 +5,8 @@ import android.content.Context
 import android.graphics.*
 import android.util.TypedValue
 import androidx.core.graphics.PathParser
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.xposed.HookRes.modRes
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
 import kotlin.math.floor
 
@@ -232,45 +234,29 @@ open class LandscapeBatterySmiley(private val context: Context, frameColor: Int)
         // The perimeter should never change
         unifiedPath.addPath(scaledPerimeter)
         // If drawing dual tone, the level is used only to clip the whole drawable path
-        if (!dualTone) {
-            unifiedPath.op(levelPath, Path.Op.UNION)
-        }
+        unifiedPath.op(levelPath, Path.Op.UNION)
 
         fillPaint.color = levelColor
 
-        if (dualTone) {
-            // Dual tone means we draw the shape again, clipped to the charge level
-            c.drawPath(unifiedPath, dualToneBackgroundFill)
+        // Non dual-tone means we draw the perimeter (with the level fill), and potentially
+        // draw the fill again with a critical color
+        fillPaint.color = fillColor
+        c.drawPath(scaledPerimeter, fillPaint)
+        if (charging) c.drawPath(levelPath, fillPaintCharging)
+        else c.drawPath(levelPath, dualToneBackgroundFill)
+        fillPaint.color = levelColor
+
+        // Show colorError below this level
+        if (batteryLevel <= Companion.CRITICAL_LEVEL && !charging) {
             c.save()
-            c.clipRect(
-                bounds.left.toFloat(),
-                0f,
-                bounds.right + bounds.width() * fillFraction,
-                bounds.left.toFloat()
-            )
-            c.drawPath(unifiedPath, fillPaint)
+            c.clipPath(scaledFill)
+            c.drawPath(levelPath, fillPaint)
             c.restore()
-        } else {
-            // Non dual-tone means we draw the perimeter (with the level fill), and potentially
-            // draw the fill again with a critical color
-            fillPaint.color = fillColor
-            c.drawPath(scaledPerimeter, fillPaint)
-            if (charging) c.drawPath(levelPath, fillPaintCharging)
-            else c.drawPath(levelPath, dualToneBackgroundFill)
-            fillPaint.color = levelColor
-
-            // Show colorError below this level
-            if (batteryLevel <= Companion.CRITICAL_LEVEL && !charging) {
-                c.save()
-                c.clipPath(scaledFill)
-                c.drawPath(levelPath, fillPaint)
-                c.restore()
-            }
-
-            if (charging || batteryLevel >= 75) c.drawPath(scaledSmileyHigh, fillPaint)
-            else if (batteryLevel > 25) c.drawPath(scaledSmileyMid, fillPaint)
-            else c.drawPath(scaledSmileyLow, fillPaint)
         }
+
+        if (charging || batteryLevel >= 75) c.drawPath(scaledSmileyHigh, fillPaint)
+        else if (batteryLevel > 25) c.drawPath(scaledSmileyMid, fillPaint)
+        else c.drawPath(scaledSmileyLow, fillPaint)
 
         if (charging) {
             c.clipOutPath(scaledBolt)
@@ -452,39 +438,32 @@ open class LandscapeBatterySmiley(private val context: Context, frameColor: Int)
 
     @SuppressLint("RestrictedApi")
     private fun loadPaths() {
-        val pathString =
-            "M3.76,0.62L18.03,0.62A2.74 2.74 0 0 1 20.78,3.36L20.78,8.64A2.74 2.74 0 0 1 18.03,11.38L3.76,11.38A2.74 2.74 0 0 1 1.02,8.64L1.02,3.36A2.74 2.74 0 0 1 3.76,0.62zM21.66,7.79C23.42,7.68,23.42,4.32,21.66,4.21L21.66,7.79zM1.93,3.37L1.93,8.66A1.85 1.85 0 0 0 3.78,10.51L18.04,10.51A1.85 1.85 0 0 0 19.89,8.66L19.89,3.37A1.85 1.85 0 0 0 18.04,1.52L3.78,1.52A1.85 1.85 0 0 0 1.93,3.37z"
+        val pathString = modRes.getString(R.string.config_landscapeBatteryPerimeterSmiley)
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
 
-        val errorPathString =
-            "M3.76,0.62L18.03,0.62A2.74 2.74 0 0 1 20.78,3.36L20.78,8.64A2.74 2.74 0 0 1 18.03,11.38L3.76,11.38A2.74 2.74 0 0 1 1.02,8.64L1.02,3.36A2.74 2.74 0 0 1 3.76,0.62zM21.66,7.79C23.42,7.68,23.42,4.32,21.66,4.21L21.66,7.79zM1.93,3.37L1.93,8.66A1.85 1.85 0 0 0 3.78,10.51L18.04,10.51A1.85 1.85 0 0 0 19.89,8.66L19.89,3.37A1.85 1.85 0 0 0 18.04,1.52L3.78,1.52A1.85 1.85 0 0 0 1.93,3.37z"
+        val errorPathString = modRes.getString(R.string.config_landscapeBatteryErrorSmiley)
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
-        val fillMaskString =
-            "M2.83,3.78L2.83,8.21A1.38 1.38 0 0 0 4.21,9.59L17.59,9.59A1.38 1.38 0 0 0 18.97,8.21L18.97,3.78A1.38 1.38 0 0 0 17.59,2.40L4.21,2.40A1.38 1.38 0 0 0 2.83,3.78z"
+        val fillMaskString = modRes.getString(R.string.config_landscapeBatteryFillMaskSmiley)
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
-        val boltPathString = ""
+        val boltPathString = modRes.getString(R.string.config_landscapeBatteryBoltSmiley)
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
-        val plusPathString =
-            "M3.76,0.62L18.03,0.62A2.74 2.74 0 0 1 20.78,3.36L20.78,8.64A2.74 2.74 0 0 1 18.03,11.38L3.76,11.38A2.74 2.74 0 0 1 1.02,8.64L1.02,3.36A2.74 2.74 0 0 1 3.76,0.62zM21.66,7.79C23.42,7.68,23.42,4.32,21.66,4.21L21.66,7.79zM1.93,3.37L1.93,8.66A1.85 1.85 0 0 0 3.78,10.51L18.04,10.51A1.85 1.85 0 0 0 19.89,8.66L19.89,3.37A1.85 1.85 0 0 0 18.04,1.52L3.78,1.52A1.85 1.85 0 0 0 1.93,3.37z"
+        val plusPathString = modRes.getString(R.string.config_landscapeBatteryPlusSmiley)
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
-        val smileyHighPathString =
-            "M12.21,6.01C12.05,7.95,9.45,7.95,9.29,6.01C9.34,5.36,10.21,5.36,10.27,6.01C10.22,6.66,11.28,6.66,11.23,6.01C11.29,5.36,12.16,5.36,12.21,6.01zM15.62,5.03C16.16,5.03,16.59,5.47,16.59,6.01C16.59,6.54,16.16,6.98,15.62,6.98C15.08,6.98,14.65,6.54,14.65,6.01C14.65,5.47,15.08,5.03,15.62,5.03zM5.88,5.03C6.42,5.03,6.86,5.47,6.86,6.01C6.86,6.54,6.42,6.98,5.88,6.98C5.34,6.98,4.91,6.54,4.91,6.01C4.91,5.47,5.34,5.03,5.88,5.03z"
+        val smileyHighPathString = modRes.getString(R.string.config_landscapeBatteryBoltSmileyHigh)
         smileyHighPath.set(PathParser.createPathFromPathData(smileyHighPathString))
 
-        val smileyMidPathString =
-            "M9.44,6.57L9.44,6.57A0.45 0.45 0 0 0 9.89,7.02L11.81,7.02A0.45 0.45 0 0 0 12.26,6.57L12.26,6.57A0.45 0.45 0 0 0 11.81,6.12L9.89,6.12A0.45 0.45 0 0 0 9.44,6.57zM15.33,5.11C15.83,5.11,16.23,5.51,16.23,6.01C16.23,6.50,15.83,6.90,15.33,6.90C14.84,6.90,14.44,6.50,14.44,6.01C14.44,5.51,14.84,5.11,15.33,5.11zM6.36,5.11C6.86,5.11,7.26,5.51,7.26,6.01C7.26,6.50,6.86,6.90,6.36,6.90C5.87,6.90,5.47,6.50,5.47,6.01C5.47,5.51,5.87,5.11,6.36,5.11z"
+        val smileyMidPathString = modRes.getString(R.string.config_landscapeBatteryBoltSmileyMid)
         smileyMidPath.set(PathParser.createPathFromPathData(smileyMidPathString))
 
-        val smileyLowPathString =
-            "M9.50,6.90C9.65,5.11,12.05,5.11,12.19,6.90C12.15,7.50,11.35,7.50,11.29,6.90C11.33,6.30,10.36,6.30,10.40,6.90C10.35,7.50,9.55,7.50,9.50,6.90zM15.33,5.11C15.83,5.11,16.23,5.51,16.23,6.01C16.23,6.50,15.83,6.90,15.33,6.90C14.84,6.90,14.44,6.50,14.44,6.01C14.44,5.51,14.84,5.11,15.33,5.11zM6.36,5.11C6.86,5.11,7.26,5.51,7.26,6.01C7.26,6.50,6.86,6.90,6.36,6.90C5.87,6.90,5.47,6.50,5.47,6.01C5.47,5.51,5.87,5.11,6.36,5.11z"
+        val smileyLowPathString = modRes.getString(R.string.config_landscapeBatteryBoltSmileyLow)
         smileyLowPath.set(PathParser.createPathFromPathData(smileyLowPathString))
 
         dualTone = false

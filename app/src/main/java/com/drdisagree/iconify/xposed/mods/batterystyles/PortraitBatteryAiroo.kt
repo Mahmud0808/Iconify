@@ -19,6 +19,8 @@ import android.content.Context
 import android.graphics.*
 import android.util.TypedValue
 import androidx.core.graphics.PathParser
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.xposed.HookRes.modRes
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
 import kotlin.math.floor
 
@@ -452,28 +454,23 @@ open class PortraitBatteryAiroo(private val context: Context, frameColor: Int) :
 
     @SuppressLint("RestrictedApi")
     private fun loadPaths() {
-        val pathString =
-            "M2.85,4.00L9.15,4.00A2.85 2.85 0 0 1 12.00,6.85L12.00,13.15A2.85 2.85 0 0 1 9.15,16.00L2.85,16.00A2.85 2.85 0 0 1 -0.00,13.15L-0.00,6.85A2.85 2.85 0 0 1 2.85,4.00zM8.00,4.00L4.00,4.00C4.00,3.50,4.00,3.00,4.50,3.00L7.50,3.00C8.00,3.00,8.00,3.50,8.00,4.00zM2.49,12.25L2.49,12.91A0.66 0.66 0 0 0 3.15,13.57L6.24,13.57A0.66 0.66 0 0 0 6.90,12.91L6.90,12.25A0.66 0.66 0 0 0 6.24,11.59L3.15,11.59A0.66 0.66 0 0 0 2.49,12.25zM2.48,9.71L2.48,10.37A0.66 0.66 0 0 0 3.14,11.03L6.24,11.03A0.66 0.66 0 0 0 6.90,10.37L6.90,9.71A0.66 0.66 0 0 0 6.24,9.05L3.14,9.05A0.66 0.66 0 0 0 2.48,9.71zM1.80,6.85L1.80,13.15A1.05 1.05 0 0 0 2.85,14.20L9.15,14.20A1.05 1.05 0 0 0 10.20,13.15L10.20,6.85A1.05 1.05 0 0 0 9.15,5.80L2.85,5.80A1.05 1.05 0 0 0 1.80,6.85zM2.49,7.18L2.49,7.84A0.66 0.66 0 0 0 3.15,8.50L6.24,8.50A0.66 0.66 0 0 0 6.90,7.84L6.90,7.18A0.66 0.66 0 0 0 6.24,6.52L3.15,6.52A0.66 0.66 0 0 0 2.49,7.18z"
+        val pathString = modRes.getString(R.string.config_portraitBatteryPerimeterAiroo)
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
 
-        val errorPathString =
-            "M2.85,4.00L9.15,4.00A2.85 2.85 0 0 1 12.00,6.85L12.00,13.15A2.85 2.85 0 0 1 9.15,16.00L2.85,16.00A2.85 2.85 0 0 1 -0.00,13.15L-0.00,6.85A2.85 2.85 0 0 1 2.85,4.00zM8.00,4.00L4.00,4.00C4.00,3.50,4.00,3.00,4.50,3.00L7.50,3.00C8.00,3.00,8.00,3.50,8.00,4.00zM2.49,12.25L2.49,12.91A0.66 0.66 0 0 0 3.15,13.57L6.24,13.57A0.66 0.66 0 0 0 6.90,12.91L6.90,12.25A0.66 0.66 0 0 0 6.24,11.59L3.15,11.59A0.66 0.66 0 0 0 2.49,12.25zM2.48,9.71L2.48,10.37A0.66 0.66 0 0 0 3.14,11.03L6.24,11.03A0.66 0.66 0 0 0 6.90,10.37L6.90,9.71A0.66 0.66 0 0 0 6.24,9.05L3.14,9.05A0.66 0.66 0 0 0 2.48,9.71zM1.80,6.85L1.80,13.15A1.05 1.05 0 0 0 2.85,14.20L9.15,14.20A1.05 1.05 0 0 0 10.20,13.15L10.20,6.85A1.05 1.05 0 0 0 9.15,5.80L2.85,5.80A1.05 1.05 0 0 0 1.80,6.85zM2.49,7.18L2.49,7.84A0.66 0.66 0 0 0 3.15,8.50L6.24,8.50A0.66 0.66 0 0 0 6.90,7.84L6.90,7.18A0.66 0.66 0 0 0 6.24,6.52L3.15,6.52A0.66 0.66 0 0 0 2.49,7.18z"
+        val errorPathString = modRes.getString(R.string.config_portraitBatteryErrorAiroo)
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
-        val fillMaskString =
-            "M8.28,6.53L8.89,6.53A0.61 0.61 0 0 1 9.50,7.14L9.50,12.96A0.61 0.61 0 0 1 8.89,13.57L8.28,13.57A0.61 0.61 0 0 1 7.67,12.96L7.67,7.14A0.61 0.61 0 0 1 8.28,6.53z"
+        val fillMaskString = modRes.getString(R.string.config_portraitBatteryFillMaskAiroo)
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
-        val boltPathString =
-            "M4.26,10.66L4.25,11.86C4.23,12.10,4.62,12.16,4.82,11.86L5.97,10.08C6.17,9.71,5.79,9.35,5.08,9.34L5.08,8.14C5.10,7.90,4.72,7.84,4.52,8.14L3.36,9.92C3.16,10.29,3.55,10.65,4.26,10.66"
+        val boltPathString = modRes.getString(R.string.config_portraitBatteryBoltAiroo)
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
-        val plusPathString =
-            "M2.85,4.00L9.15,4.00A2.85 2.85 0 0 1 12.00,6.85L12.00,13.15A2.85 2.85 0 0 1 9.15,16.00L2.85,16.00A2.85 2.85 0 0 1 -0.00,13.15L-0.00,6.85A2.85 2.85 0 0 1 2.85,4.00zM8.00,4.00L4.00,4.00C4.00,3.50,4.00,3.00,4.50,3.00L7.50,3.00C8.00,3.00,8.00,3.50,8.00,4.00zM2.49,12.25L2.49,12.91A0.66 0.66 0 0 0 3.15,13.57L6.24,13.57A0.66 0.66 0 0 0 6.90,12.91L6.90,12.25A0.66 0.66 0 0 0 6.24,11.59L3.15,11.59A0.66 0.66 0 0 0 2.49,12.25zM2.48,9.71L2.48,10.37A0.66 0.66 0 0 0 3.14,11.03L6.24,11.03A0.66 0.66 0 0 0 6.90,10.37L6.90,9.71A0.66 0.66 0 0 0 6.24,9.05L3.14,9.05A0.66 0.66 0 0 0 2.48,9.71zM1.80,6.85L1.80,13.15A1.05 1.05 0 0 0 2.85,14.20L9.15,14.20A1.05 1.05 0 0 0 10.20,13.15L10.20,6.85A1.05 1.05 0 0 0 9.15,5.80L2.85,5.80A1.05 1.05 0 0 0 1.80,6.85zM2.49,7.18L2.49,7.84A0.66 0.66 0 0 0 3.15,8.50L6.24,8.50A0.66 0.66 0 0 0 6.90,7.84L6.90,7.18A0.66 0.66 0 0 0 6.24,6.52L3.15,6.52A0.66 0.66 0 0 0 2.49,7.18z"
+        val plusPathString = modRes.getString(R.string.config_portraitBatteryPlusAiroo)
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
         dualTone = false
