@@ -27,7 +27,7 @@ import kotlin.math.floor
  * frameworks/base/core/res/res/values/config.xml to allow for an easily overrideable battery icon
  */
 @SuppressLint("DiscouragedApi")
-open class PortraitBatteryDrawableOrigami(private val context: Context, frameColor: Int) :
+open class RLandscapeBattery(private val context: Context, frameColor: Int) :
     BatteryDrawable() {
 
     // Need to load:
@@ -219,16 +219,11 @@ open class PortraitBatteryDrawableOrigami(private val context: Context, frameCol
         levelPath.reset()
         levelRect.set(fillRect)
         val fillFraction = batteryLevel / 100f
-        val fillTop = if (batteryLevel >= 95) fillRect.top
-        else fillRect.top + (fillRect.height() * (1 - fillFraction))
+        val fillTop = if (batteryLevel >= 95) fillRect.right
+        else fillRect.right - (fillRect.width() * (1 - fillFraction))
 
-        levelRect.top = floor(fillTop.toDouble()).toFloat()
-        //levelPath.addRect(levelRect, Path.Direction.CCW)
-        levelPath.addRoundRect(
-            levelRect, floatArrayOf(
-                9.0f, 9.0f, 9.0f, 9.0f, 9.0f, 9.0f, 9.0f, 9.0f
-            ), Path.Direction.CCW
-        )
+        levelRect.right = floor(fillTop.toDouble()).toFloat()
+        levelPath.addRect(levelRect, Path.Direction.CCW)
 
         // The perimeter should never change
         unifiedPath.addPath(scaledPerimeter)
@@ -239,15 +234,24 @@ open class PortraitBatteryDrawableOrigami(private val context: Context, frameCol
 
         fillPaint.color = levelColor
 
+        // Deal with unifiedPath clipping before it draws
+        if (charging) {
+            // Clip out the bolt shape
+            unifiedPath.op(scaledBolt, Path.Op.DIFFERENCE)
+            if (!invertFillIcon) {
+                c.drawPath(scaledBolt, fillPaint)
+            }
+        }
+
         if (dualTone) {
             // Dual tone means we draw the shape again, clipped to the charge level
             c.drawPath(unifiedPath, dualToneBackgroundFill)
             c.save()
             c.clipRect(
+                bounds.left.toFloat(),
                 0f,
-                bounds.bottom - bounds.height() * fillFraction,
-                bounds.right.toFloat(),
-                bounds.bottom.toFloat()
+                bounds.right + bounds.width() * fillFraction,
+                bounds.left.toFloat()
             )
             c.drawPath(unifiedPath, fillPaint)
             c.restore()
@@ -255,8 +259,7 @@ open class PortraitBatteryDrawableOrigami(private val context: Context, frameCol
             // Non dual-tone means we draw the perimeter (with the level fill), and potentially
             // draw the fill again with a critical color
             fillPaint.color = fillColor
-            c.drawPath(unifiedPath, dualToneBackgroundFill)
-            c.drawPath(scaledPerimeter, fillPaint)
+            c.drawPath(unifiedPath, fillPaint)
             fillPaint.color = levelColor
 
             // Show colorError below this level
@@ -269,7 +272,12 @@ open class PortraitBatteryDrawableOrigami(private val context: Context, frameCol
         }
 
         if (charging) {
-            c.drawPath(scaledBolt, fillPaint)
+            c.clipOutPath(scaledBolt)
+            if (invertFillIcon) {
+                c.drawPath(scaledBolt, fillColorStrokePaint)
+            } else {
+                c.drawPath(scaledBolt, fillColorStrokeProtection)
+            }
         } else if (powerSaveEnabled) {
             // If power save is enabled draw the perimeter path with colorError
             c.drawPath(scaledErrorPerimeter, errorPaint)
@@ -281,10 +289,10 @@ open class PortraitBatteryDrawableOrigami(private val context: Context, frameCol
         c.restore()
 
         if (!charging && batteryLevel < 100 && showPercent) {
-            textPaint.textSize = bounds.height() * 0.38f
-            val textHeight = -textPaint.fontMetrics.ascent
-            val pctX = bounds.width() * 0.5f
-            val pctY = (bounds.height() + textHeight) * 0.5f
+            textPaint.textSize = bounds.width() * 0.38f
+            val textHeight = +textPaint.fontMetrics.ascent
+            val pctX = (bounds.width() + textHeight) * 0.7f
+            val pctY = bounds.height() * 0.8f
 
             textPaint.color = fillColor
             c.drawText(batteryLevel.toString(), pctX, pctY, textPaint)
@@ -293,8 +301,8 @@ open class PortraitBatteryDrawableOrigami(private val context: Context, frameCol
             c.save()
             c.clipRect(
                 fillRect.left,
-                fillRect.top + (fillRect.height() * (1 - fillFraction)),
-                fillRect.right,
+                fillRect.top,
+                fillRect.right - (fillRect.width() * (1 - fillFraction)),
                 fillRect.bottom
             )
             c.drawText(batteryLevel.toString(), pctX, pctY, textPaint)
@@ -431,6 +439,7 @@ open class PortraitBatteryDrawableOrigami(private val context: Context, frameCol
         // It is expected that this view only ever scale by the same factor in each dimension, so
         // just pick one to scale the strokeWidths
         val scaledStrokeWidth =
+
             (b.right / WIDTH * PROTECTION_STROKE_WIDTH).coerceAtLeast(PROTECTION_MIN_STROKE_WIDTH)
 
         fillColorStrokePaint.strokeWidth = scaledStrokeWidth
@@ -440,35 +449,34 @@ open class PortraitBatteryDrawableOrigami(private val context: Context, frameCol
     @SuppressLint("RestrictedApi")
     private fun loadPaths() {
         val pathString =
-            "M15.50,0.50C13.50,0.33,11.00,0.33,8.50,0.50C8.00,-0.21,6.00,-0.21,5.63,1.00C5.17,2.50,4.33,2.33,4.00,4.33C3.75,5.50,3.75,7.50,4.00,8.43C4.25,9.50,5.50,12.00,8.95,12.00L15.00,12.00C18.45,12.00,19.70,9.50,19.95,8.43C20.20,7.50,20.20,5.50,19.95,4.33C19.62,2.33,18.79,2.50,18.33,1.00C18.00,-0.21,16.00,-0.21,15.50,0.50zM15.25,10.50C12.50,10.57,11.50,10.57,8.75,10.50C7.50,10.40,6.00,9.75,5.50,7.75Q5.12,6.00,5.50,4.50C6.00,3.00,7.50,2.10,8.75,2.00C11.00,1.88,13.00,1.88,15.25,2.00C16.50,2.10,18.00,3.00,18.50,4.50Q18.88,6.00,18.50,7.75C18.00,9.75,16.50,10.40,15.25,10.50z"
+            "M2.44,0.64L19.70,0.64A2.21 2.21 0 0 1 21.91,2.85L21.91,9.21A2.21 2.21 0 0 1 19.70,11.42L2.44,11.42A2.21 2.21 0 0 1 0.23,9.21L0.23,2.85A2.21 2.21 0 0 1 2.44,0.64zM0.87,3.59L0.87,8.41A2.28 2.28 0 0 0 3.15,10.69L18.98,10.69A2.28 2.28 0 0 0 21.26,8.41L21.26,3.59A2.28 2.28 0 0 0 18.98,1.31L3.15,1.31A2.28 2.28 0 0 0 0.87,3.59zM22.45,8.32Q25.10,5.95,22.42,3.62"
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
 
         val errorPathString =
-            "M15.50,0.50C13.50,0.33,11.00,0.33,8.50,0.50C8.00,-0.21,6.00,-0.21,5.63,1.00C5.17,2.50,4.33,2.33,4.00,4.33C3.75,5.50,3.75,7.50,4.00,8.43C4.25,9.50,5.50,12.00,8.95,12.00L15.00,12.00C18.45,12.00,19.70,9.50,19.95,8.43C20.20,7.50,20.20,5.50,19.95,4.33C19.62,2.33,18.79,2.50,18.33,1.00C18.00,-0.21,16.00,-0.21,15.50,0.50zM15.25,10.50C12.50,10.57,11.50,10.57,8.75,10.50C7.50,10.40,6.00,9.75,5.50,7.75Q5.12,6.00,5.50,4.50C6.00,3.00,7.50,2.10,8.75,2.00C11.00,1.88,13.00,1.88,15.25,2.00C16.50,2.10,18.00,3.00,18.50,4.50Q18.88,6.00,18.50,7.75C18.00,9.75,16.50,10.40,15.25,10.50z"
+            "M2.44,0.64L19.70,0.64A2.21 2.21 0 0 1 21.91,2.85L21.91,9.21A2.21 2.21 0 0 1 19.70,11.42L2.44,11.42A2.21 2.21 0 0 1 0.23,9.21L0.23,2.85A2.21 2.21 0 0 1 2.44,0.64zM0.87,3.59L0.87,8.41A2.28 2.28 0 0 0 3.15,10.69L18.98,10.69A2.28 2.28 0 0 0 21.26,8.41L21.26,3.59A2.28 2.28 0 0 0 18.98,1.31L3.15,1.31A2.28 2.28 0 0 0 0.87,3.59zM22.45,8.32Q25.10,5.95,22.42,3.62"
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
         val fillMaskString =
-            "M9.10,1.55L14.90,1.55A4.10 4.10 0 0 1 19.00,5.64L19.00,6.86A4.10 4.10 0 0 1 14.90,10.95L9.10,10.95A4.10 4.10 0 0 1 5.00,6.86L5.00,5.64A4.10 4.10 0 0 1 9.10,1.55z"
+            "M0.87,1.30L0.87,10.69A0.00 0.00 0 0 0 0.87,10.69L21.26,10.69A0.00 0.00 0 0 0 21.26,10.69L21.26,1.30A0.00 0.00 0 0 0 21.26,1.30L0.87,1.30A0.00 0.00 0 0 0 0.87,1.30z"
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
-        val boltPathString =
-            "M13.07,5.82C12.95,7.25,11.05,7.25,10.93,5.82C10.97,5.35,11.60,5.35,11.65,5.82C11.61,6.30,12.39,6.30,12.35,5.82C12.40,5.35,13.03,5.35,13.07,5.82zM15.57,5.11C15.96,5.11,16.28,5.43,16.28,5.82C16.28,6.22,15.96,6.54,15.57,6.54C15.17,6.54,14.85,6.22,14.85,5.82C14.85,5.43,15.17,5.11,15.57,5.11zM8.43,5.11C8.83,5.11,9.15,5.43,9.15,5.82C9.15,6.22,8.83,6.54,8.43,6.54C8.04,6.54,7.72,6.22,7.72,5.82C7.72,5.43,8.04,5.11,8.43,5.11z"
+        val boltPathString = "M8.92,10.42L10.91,6.05L7.88,6.12L12.48,1.77L10.93,5.03L13.88,4.96z"
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
         val plusPathString =
-            "M15.50,0.50C13.50,0.33,11.00,0.33,8.50,0.50C8.00,-0.21,6.00,-0.21,5.63,1.00C5.17,2.50,4.33,2.33,4.00,4.33C3.75,5.50,3.75,7.50,4.00,8.43C4.25,9.50,5.50,12.00,8.95,12.00L15.00,12.00C18.45,12.00,19.70,9.50,19.95,8.43C20.20,7.50,20.20,5.50,19.95,4.33C19.62,2.33,18.79,2.50,18.33,1.00C18.00,-0.21,16.00,-0.21,15.50,0.50zM15.25,10.50C12.50,10.57,11.50,10.57,8.75,10.50C7.50,10.40,6.00,9.75,5.50,7.75Q5.12,6.00,5.50,4.50C6.00,3.00,7.50,2.10,8.75,2.00C11.00,1.88,13.00,1.88,15.25,2.00C16.50,2.10,18.00,3.00,18.50,4.50Q18.88,6.00,18.50,7.75C18.00,9.75,16.50,10.40,15.25,10.50z"
+            "M14.92,5.01L11.69,5.18L11.97,2.85L10.23,2.97L10.41,5.12L7.65,4.97L7.43,6.69L10.37,6.61L10.26,9.22L12.14,9.08L11.82,6.69L14.91,6.78z"
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
         dualTone = false
     }
 
     companion object {
-        private val TAG = PortraitBatteryDrawableOrigami::class.java.simpleName
-        private const val WIDTH = 20f
+        private val TAG = RLandscapeBattery::class.java.simpleName
+        private const val WIDTH = 24f
         private const val HEIGHT = 12f
         private const val CRITICAL_LEVEL = 20
 

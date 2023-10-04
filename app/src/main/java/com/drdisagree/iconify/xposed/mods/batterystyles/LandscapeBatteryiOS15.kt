@@ -1,17 +1,3 @@
-/*
- * Copyright (C) 2019 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
- * except in compliance with the License. You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
- */
-
 package com.drdisagree.iconify.xposed.mods.batterystyles
 
 import android.annotation.SuppressLint
@@ -22,12 +8,8 @@ import androidx.core.graphics.PathParser
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
 import kotlin.math.floor
 
-/**
- * A battery meter drawable that respects paths configured in
- * frameworks/base/core/res/res/values/config.xml to allow for an easily overrideable battery icon
- */
 @SuppressLint("DiscouragedApi")
-open class LandscapeBatteryDrawableStyleB(private val context: Context, frameColor: Int) :
+open class LandscapeBatteryiOS15(private val context: Context, frameColor: Int) :
     BatteryDrawable() {
 
     // Need to load:
@@ -75,6 +57,7 @@ open class LandscapeBatteryDrawableStyleB(private val context: Context, frameCol
     private var colorLevels: IntArray
 
     private var fillColor: Int = Color.WHITE
+    private var boltColor: Int = Color.WHITE
     private var backgroundColor: Int = Color.WHITE
 
     // updated whenever level changes
@@ -128,7 +111,7 @@ open class LandscapeBatteryDrawableStyleB(private val context: Context, frameCol
         p.color = frameColor
         p.alpha = 255
         p.isDither = true
-        p.strokeWidth = 5f
+        p.strokeWidth = 1f
         p.style = Paint.Style.STROKE
         p.blendMode = BlendMode.SRC
         p.strokeMiter = 5f
@@ -219,23 +202,21 @@ open class LandscapeBatteryDrawableStyleB(private val context: Context, frameCol
         levelPath.reset()
         levelRect.set(fillRect)
         val fillFraction = batteryLevel / 100f
-        val fillTop = if (batteryLevel >= 95) fillRect.left
-        else fillRect.left + (fillRect.width() * (1 - fillFraction))
+        val fillTop = if (batteryLevel >= 95) fillRect.right
+        else fillRect.right - (fillRect.width() * (1 - fillFraction))
 
-        levelRect.left = floor(fillTop.toDouble()).toFloat()
+        levelRect.right = floor(fillTop.toDouble()).toFloat()
         //levelPath.addRect(levelRect, Path.Direction.CCW)
         levelPath.addRoundRect(
             levelRect, floatArrayOf(
-                3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f
+                4.0f, 4.0f, 4.0f, 4.0f, 4.0f, 4.0f, 4.0f, 4.0f
             ), Path.Direction.CCW
         )
 
         // The perimeter should never change
         unifiedPath.addPath(scaledPerimeter)
         // If drawing dual tone, the level is used only to clip the whole drawable path
-        if (!dualTone) {
-            unifiedPath.op(levelPath, Path.Op.UNION)
-        }
+        unifiedPath.op(levelPath, Path.Op.UNION)
 
         fillPaint.color = levelColor
 
@@ -243,81 +224,37 @@ open class LandscapeBatteryDrawableStyleB(private val context: Context, frameCol
         if (charging) {
             // Clip out the bolt shape
             unifiedPath.op(scaledBolt, Path.Op.DIFFERENCE)
+            levelPath.op(scaledBolt, Path.Op.DIFFERENCE)
             if (!invertFillIcon) {
                 c.drawPath(scaledBolt, fillPaint)
             }
         }
 
-        if (dualTone) {
-            // Dual tone means we draw the shape again, clipped to the charge level
-            c.drawPath(unifiedPath, dualToneBackgroundFill)
-            c.save()
-            c.clipRect(
-                bounds.left - bounds.width() * fillFraction,
-                0f,
-                bounds.right.toFloat(),
-                bounds.left.toFloat()
-            )
-            c.drawPath(unifiedPath, fillPaint)
-            c.restore()
-        } else {
-            // Non dual-tone means we draw the perimeter (with the level fill), and potentially
-            // draw the fill again with a critical color
-            fillPaint.color = fillColor
-            c.drawPath(unifiedPath, fillPaint)
-            fillPaint.color = levelColor
-
-            // Show colorError below this level
-            if (batteryLevel <= Companion.CRITICAL_LEVEL && !charging) {
-                c.save()
-                c.clipPath(scaledFill)
-                c.drawPath(levelPath, fillPaint)
-                c.restore()
-            }
-        }
+        // Non dual-tone means we draw the perimeter (with the level fill), and potentially
+        // draw the fill again with a critical color
+        c.drawPath(unifiedPath, dualToneBackgroundFill)
+        fillPaint.color = levelColor
+        c.drawPath(levelPath, fillPaint)
 
         if (charging) {
-            c.clipOutPath(scaledBolt)
-            if (invertFillIcon) {
-                c.drawPath(scaledBolt, fillColorStrokePaint)
-            } else {
-                c.drawPath(scaledBolt, fillColorStrokeProtection)
-            }
-        } else if (powerSaveEnabled) {
-            // If power save is enabled draw the perimeter path with colorError
-            c.drawPath(scaledErrorPerimeter, errorPaint)
-            // And draw the plus sign on top of the fill
-            if (!showPercent) {
-                c.drawPath(scaledPlus, errorPaint)
-            }
+            val xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
+            fillColorStrokePaint.xfermode = xfermode
+
+            c.drawPath(scaledBolt, fillColorStrokePaint)
+
+            fillPaint.color = boltColor
+            c.drawPath(scaledBolt, fillPaint)
+            fillPaint.color = levelColor
         }
         c.restore()
-
-        if (!charging && batteryLevel < 100 && showPercent) {
-            textPaint.textSize = bounds.width() * 0.38f
-            val textHeight = +textPaint.fontMetrics.ascent
-            val pctX = (bounds.width() + textHeight) * 0.7f
-            val pctY = bounds.height() * 0.8f
-
-            textPaint.color = fillColor
-            c.drawText(batteryLevel.toString(), pctX, pctY, textPaint)
-
-            textPaint.color = fillColor.toInt().inv() or 0xFF000000.toInt()
-            c.save()
-            c.clipRect(
-                fillRect.right,
-                fillRect.top,
-                fillRect.left + (fillRect.width() * (1 - fillFraction)),
-                fillRect.bottom
-            )
-            c.drawText(batteryLevel.toString(), pctX, pctY, textPaint)
-            c.restore()
-        }
     }
 
     private fun batteryColorForLevel(level: Int): Int {
         return when {
-            charging || powerSaveEnabled -> fillColor
+            charging -> 0xFF34C759.toInt()
+            powerSaveEnabled -> 0xFFFFCC0A.toInt()
+            level > 20 -> fillColor
+            level >= 0 -> 0xFFFF3B30.toInt()
             else -> getColorForLevel(level)
         }
     }
@@ -407,10 +344,11 @@ open class LandscapeBatteryDrawableStyleB(private val context: Context, frameCol
     }
 
     override fun setColors(fgColor: Int, bgColor: Int, singleToneColor: Int) {
-        fillColor = if (dualTone) fgColor else singleToneColor
+        fillColor = fgColor
+        boltColor = singleToneColor
 
-        fillPaint.color = fillColor
-        fillColorStrokePaint.color = fillColor
+        fillPaint.color = singleToneColor
+        fillColorStrokePaint.color = singleToneColor
 
         backgroundColor = bgColor
         dualToneBackgroundFill.color = bgColor
@@ -444,7 +382,6 @@ open class LandscapeBatteryDrawableStyleB(private val context: Context, frameCol
         // It is expected that this view only ever scale by the same factor in each dimension, so
         // just pick one to scale the strokeWidths
         val scaledStrokeWidth =
-
             (b.right / WIDTH * PROTECTION_STROKE_WIDTH).coerceAtLeast(PROTECTION_MIN_STROKE_WIDTH)
 
         fillColorStrokePaint.strokeWidth = scaledStrokeWidth
@@ -454,33 +391,34 @@ open class LandscapeBatteryDrawableStyleB(private val context: Context, frameCol
     @SuppressLint("RestrictedApi")
     private fun loadPaths() {
         val pathString =
-            "M8.22,0.80L17.90,0.80A5.18 5.18 0 0 1 23.08,5.98L23.08,5.98A5.18 5.18 0 0 1 17.90,11.16L8.22,11.16A5.18 5.18 0 0 1 3.04,5.98L3.04,5.98A5.18 5.18 0 0 1 8.22,0.80zM0.46,5.05L0.46,7.02A0.92 0.92 0 0 0 1.38,7.94L1.38,7.94A0.92 0.92 0 0 0 2.30,7.02L2.30,5.05A0.92 0.92 0 0 0 1.38,4.13L1.38,4.13A0.92 0.92 0 0 0 0.46,5.05zM4.55,5.98L4.55,5.98A3.67 3.67 0 0 0 8.22,9.65L17.91,9.65A3.67 3.67 0 0 0 21.58,5.98L21.58,5.98A3.67 3.67 0 0 0 17.91,2.31L8.22,2.31A3.67 3.67 0 0 0 4.55,5.98z"
+            "M3.79,0.78L18.21,0.78A2.82 2.82 0 0 1 21.03,3.60L21.03,8.40A2.82 2.82 0 0 1 18.21,11.22L3.79,11.22A2.82 2.82 0 0 1 0.97,8.40L0.97,3.60A2.82 2.82 0 0 1 3.79,0.78zM21.82,7.59C23.43,7.11,23.43,4.89,21.82,4.41L21.82,7.59zM2.00,3.75L2.00,8.25A2.00 2.00 0 0 0 4.00,10.25L18.00,10.25A2.00 2.00 0 0 0 20.00,8.25L20.00,3.75A2.00 2.00 0 0 0 18.00,1.75L4.00,1.75A2.00 2.00 0 0 0 2.00,3.75z"
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
 
         val errorPathString =
-            "M8.22,0.80L17.90,0.80A5.18 5.18 0 0 1 23.08,5.98L23.08,5.98A5.18 5.18 0 0 1 17.90,11.16L8.22,11.16A5.18 5.18 0 0 1 3.04,5.98L3.04,5.98A5.18 5.18 0 0 1 8.22,0.80zM0.46,5.05L0.46,7.02A0.92 0.92 0 0 0 1.38,7.94L1.38,7.94A0.92 0.92 0 0 0 2.30,7.02L2.30,5.05A0.92 0.92 0 0 0 1.38,4.13L1.38,4.13A0.92 0.92 0 0 0 0.46,5.05zM4.55,5.98L4.55,5.98A3.67 3.67 0 0 0 8.22,9.65L17.91,9.65A3.67 3.67 0 0 0 21.58,5.98L21.58,5.98A3.67 3.67 0 0 0 17.91,2.31L8.22,2.31A3.67 3.67 0 0 0 4.55,5.98z"
+            "M3.79,0.78L18.21,0.78A2.82 2.82 0 0 1 21.03,3.60L21.03,8.40A2.82 2.82 0 0 1 18.21,11.22L3.79,11.22A2.82 2.82 0 0 1 0.97,8.40L0.97,3.60A2.82 2.82 0 0 1 3.79,0.78zM21.82,7.59C23.43,7.11,23.43,4.89,21.82,4.41L21.82,7.59zM2.00,3.75L2.00,8.25A2.00 2.00 0 0 0 4.00,10.25L18.00,10.25A2.00 2.00 0 0 0 20.00,8.25L20.00,3.75A2.00 2.00 0 0 0 18.00,1.75L4.00,1.75A2.00 2.00 0 0 0 2.00,3.75z"
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
         val fillMaskString =
-            "M4.10,4.45L4.10,7.51A0.00 0.00 0 0 0 4.10,7.51L17.78,7.51A0.00 0.00 0 0 0 17.78,7.51L17.78,4.45A0.00 0.00 0 0 0 17.78,4.45L4.10,4.45A0.00 0.00 0 0 0 4.10,4.45z"
+            "M4.32,2.63L17.68,2.63A1.45 1.45 0 0 1 19.13,4.07L19.12,7.93A1.45 1.45 0 0 1 17.68,9.37L4.32,9.38A1.45 1.45 0 0 1 2.87,7.93L2.87,4.07A1.45 1.45 0 0 1 4.32,2.63z"
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
-        val boltPathString = "M10.81,10.30L12.84,6.06L9.76,6.13L14.43,1.90L12.86,5.07L15.85,5.00z"
+        val boltPathString =
+            "M10.39,6.94L7.95,6.94Q7.30,6.86,7.70,6.29L11.98,1.28C12.34,0.91,13.07,1.16,12.71,2.02L11.53,5.06L13.97,5.06Q14.62,5.14,14.21,5.71L9.94,10.72C9.58,11.09,8.84,10.84,9.21,9.98L10.39,6.94z"
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
         val plusPathString =
-            "M8.22,0.80L17.90,0.80A5.18 5.18 0 0 1 23.08,5.98L23.08,5.98A5.18 5.18 0 0 1 17.90,11.16L8.22,11.16A5.18 5.18 0 0 1 3.04,5.98L3.04,5.98A5.18 5.18 0 0 1 8.22,0.80zM0.46,5.05L0.46,7.02A0.92 0.92 0 0 0 1.38,7.94L1.38,7.94A0.92 0.92 0 0 0 2.30,7.02L2.30,5.05A0.92 0.92 0 0 0 1.38,4.13L1.38,4.13A0.92 0.92 0 0 0 0.46,5.05zM4.55,5.98L4.55,5.98A3.67 3.67 0 0 0 8.22,9.65L17.91,9.65A3.67 3.67 0 0 0 21.58,5.98L21.58,5.98A3.67 3.67 0 0 0 17.91,2.31L8.22,2.31A3.67 3.67 0 0 0 4.55,5.98z"
+            "M3.79,0.78L18.21,0.78A2.82 2.82 0 0 1 21.03,3.60L21.03,8.40A2.82 2.82 0 0 1 18.21,11.22L3.79,11.22A2.82 2.82 0 0 1 0.97,8.40L0.97,3.60A2.82 2.82 0 0 1 3.79,0.78zM21.82,7.59C23.43,7.11,23.43,4.89,21.82,4.41L21.82,7.59zM2.00,3.75L2.00,8.25A2.00 2.00 0 0 0 4.00,10.25L18.00,10.25A2.00 2.00 0 0 0 20.00,8.25L20.00,3.75A2.00 2.00 0 0 0 18.00,1.75L4.00,1.75A2.00 2.00 0 0 0 2.00,3.75z"
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
         dualTone = false
     }
 
     companion object {
-        private val TAG = LandscapeBatteryDrawableStyleB::class.java.simpleName
+        private val TAG = LandscapeBatteryiOS15::class.java.simpleName
         private const val WIDTH = 24f
         private const val HEIGHT = 12f
         private const val CRITICAL_LEVEL = 20

@@ -9,7 +9,7 @@ import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
 import kotlin.math.floor
 
 @SuppressLint("DiscouragedApi")
-open class LandscapeBatteryDrawableMIUIPill(private val context: Context, frameColor: Int) :
+open class LandscapeBatteryColorOS(private val context: Context, frameColor: Int) :
     BatteryDrawable() {
 
     // Need to load:
@@ -209,7 +209,7 @@ open class LandscapeBatteryDrawableMIUIPill(private val context: Context, frameC
         //levelPath.addRect(levelRect, Path.Direction.CCW)
         levelPath.addRoundRect(
             levelRect, floatArrayOf(
-                12.0f, 12.0f, 12.0f, 12.0f, 12.0f, 12.0f, 12.0f, 12.0f
+                6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f
             ), Path.Direction.CCW
         )
 
@@ -232,15 +232,7 @@ open class LandscapeBatteryDrawableMIUIPill(private val context: Context, frameC
         fillPaint.color = boltColor
         c.drawPath(unifiedPath, fillPaint)
         fillPaint.color = levelColor
-        c.save()
-        c.clipRect(
-            bounds.left + (fillRect.width() * (1 - fillFraction + 0.15f)),
-            bounds.top.toFloat(),
-            bounds.left.toFloat() + bounds.width(),
-            bounds.bottom.toFloat()
-        )
-        c.drawPath(scaledFill, fillPaint)
-        c.restore()
+        c.drawPath(levelPath, fillPaint)
 
         if (charging) {
             val xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
@@ -257,10 +249,10 @@ open class LandscapeBatteryDrawableMIUIPill(private val context: Context, frameC
 
     private fun batteryColorForLevel(level: Int): Int {
         return when {
-            charging -> 0xFF34C759.toInt()
-            powerSaveEnabled -> 0xFFFFCC0A.toInt()
+            charging -> 0xFF20D013.toInt()
+            powerSaveEnabled -> 0xFFFFBE26.toInt()
             level > 20 -> fillColor
-            level >= 0 -> 0xFFFF3B30.toInt()
+            level >= 0 -> 0xFFF6400F.toInt()
             else -> getColorForLevel(level)
         }
     }
@@ -397,34 +389,34 @@ open class LandscapeBatteryDrawableMIUIPill(private val context: Context, frameC
     @SuppressLint("RestrictedApi")
     private fun loadPaths() {
         val pathString =
-            "M5.75,0.75L18.25,0.75A5.25 5.25 0 0 1 23.50,6.00L23.50,6.00A5.25 5.25 0 0 1 18.25,11.25L5.75,11.25A5.25 5.25 0 0 1 0.50,6.00L0.50,6.00A5.25 5.25 0 0 1 5.75,0.75zM1.75,6.00L1.75,6.00A4.00 4.00 0 0 0 5.75,10.00L18.25,10.00A4.00 4.00 0 0 0 22.25,6.00L22.25,6.00A4.00 4.00 0 0 0 18.25,2.00L5.75,2.00A4.00 4.00 0 0 0 1.75,6.00z"
+            "M22.91,6.00L22.91,8.39C22.91,9.80,21.55,11.97,18.83,11.97L6.04,11.97C3.36,11.97,2.18,10.48,2.00,8.72C2.00,7.63,1.09,7.81,1.10,6.80L1.10,5.30C1.09,4.19,2.00,4.37,2.00,3.28C2.00,2.20,3.36,0.03,6.04,0.03L18.83,0.03C21.55,0.03,22.91,2.20,22.91,3.61L22.91,6.00zM3.25,4.38L3.25,7.62A3.13 3.13 0 0 0 6.38,10.75L18.50,10.75A3.13 3.13 0 0 0 21.63,7.62L21.63,4.38A3.13 3.13 0 0 0 18.50,1.25L6.38,1.25A3.13 3.13 0 0 0 3.25,4.38z"
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
 
         val errorPathString =
-            "M5.75,0.75L18.25,0.75A5.25 5.25 0 0 1 23.50,6.00L23.50,6.00A5.25 5.25 0 0 1 18.25,11.25L5.75,11.25A5.25 5.25 0 0 1 0.50,6.00L0.50,6.00A5.25 5.25 0 0 1 5.75,0.75zM1.75,6.00L1.75,6.00A4.00 4.00 0 0 0 5.75,10.00L18.25,10.00A4.00 4.00 0 0 0 22.25,6.00L22.25,6.00A4.00 4.00 0 0 0 18.25,2.00L5.75,2.00A4.00 4.00 0 0 0 1.75,6.00z"
+            "M22.91,6.00L22.91,8.39C22.91,9.80,21.55,11.97,18.83,11.97L6.04,11.97C3.36,11.97,2.18,10.48,2.00,8.72C2.00,7.63,1.09,7.81,1.10,6.80L1.10,5.30C1.09,4.19,2.00,4.37,2.00,3.28C2.00,2.20,3.36,0.03,6.04,0.03L18.83,0.03C21.55,0.03,22.91,2.20,22.91,3.61L22.91,6.00zM3.25,4.38L3.25,7.62A3.13 3.13 0 0 0 6.38,10.75L18.50,10.75A3.13 3.13 0 0 0 21.63,7.62L21.63,4.38A3.13 3.13 0 0 0 18.50,1.25L6.38,1.25A3.13 3.13 0 0 0 3.25,4.38z"
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
         val fillMaskString =
-            "M3.14,6.00L3.14,6.00A3.03 3.03 0 0 0 6.17,9.03L17.83,9.03A3.03 3.03 0 0 0 20.86,6.00L20.86,6.00A3.03 3.03 0 0 0 17.83,2.97L6.17,2.97A3.03 3.03 0 0 0 3.14,6.00z"
+            "M6.67,2.00L18.21,2.00A2.67 2.67 0 0 1 20.87,4.67L20.87,7.33A2.67 2.67 0 0 1 18.21,10.00L6.67,10.00A2.67 2.67 0 0 1 4.00,7.33L4.00,4.67A2.67 2.67 0 0 1 6.67,2.00z"
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
         val boltPathString =
-            "M9.11,6.11L13.68,1.21C13.91,0.93,14.25,1.15,14.06,1.58L12.77,4.50C12.39,5.40,12.86,5.41,13.49,5.39L14.65,5.36C15.15,5.36,15.15,5.63,14.89,5.89L10.32,10.79C10.09,11.07,9.75,10.85,9.94,10.42L11.23,7.50C11.61,6.60,11.14,6.59,10.51,6.61L9.35,6.64C8.85,6.64,8.85,6.37,9.11,6.11z"
+            "M10.43,6.08L13.70,2.57C13.86,2.37,14.11,2.53,13.97,2.83L13.05,4.93C12.78,5.57,13.12,5.58,13.57,5.56L14.39,5.54C14.76,5.54,14.76,5.74,14.57,5.92L11.30,9.43C11.14,9.63,10.89,9.47,11.03,9.17L11.95,7.07C12.22,6.43,11.88,6.42,11.43,6.44L10.61,6.46C10.24,6.46,10.24,6.26,10.43,6.08z"
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
         val plusPathString =
-            "M5.75,0.75L18.25,0.75A5.25 5.25 0 0 1 23.50,6.00L23.50,6.00A5.25 5.25 0 0 1 18.25,11.25L5.75,11.25A5.25 5.25 0 0 1 0.50,6.00L0.50,6.00A5.25 5.25 0 0 1 5.75,0.75zM1.75,6.00L1.75,6.00A4.00 4.00 0 0 0 5.75,10.00L18.25,10.00A4.00 4.00 0 0 0 22.25,6.00L22.25,6.00A4.00 4.00 0 0 0 18.25,2.00L5.75,2.00A4.00 4.00 0 0 0 1.75,6.00z"
+            "M22.91,6.00L22.91,8.39C22.91,9.80,21.55,11.97,18.83,11.97L6.04,11.97C3.36,11.97,2.18,10.48,2.00,8.72C2.00,7.63,1.09,7.81,1.10,6.80L1.10,5.30C1.09,4.19,2.00,4.37,2.00,3.28C2.00,2.20,3.36,0.03,6.04,0.03L18.83,0.03C21.55,0.03,22.91,2.20,22.91,3.61L22.91,6.00zM3.25,4.38L3.25,7.62A3.13 3.13 0 0 0 6.38,10.75L18.50,10.75A3.13 3.13 0 0 0 21.63,7.62L21.63,4.38A3.13 3.13 0 0 0 18.50,1.25L6.38,1.25A3.13 3.13 0 0 0 3.25,4.38z"
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
         dualTone = true
     }
 
     companion object {
-        private val TAG = LandscapeBatteryDrawableMIUIPill::class.java.simpleName
+        private val TAG = LandscapeBatteryColorOS::class.java.simpleName
         private const val WIDTH = 24f
         private const val HEIGHT = 12f
         private const val CRITICAL_LEVEL = 20

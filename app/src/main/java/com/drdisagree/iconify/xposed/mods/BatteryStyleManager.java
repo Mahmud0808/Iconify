@@ -75,23 +75,23 @@ import androidx.annotation.NonNull;
 
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.mods.batterystyles.BatteryDrawable;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawable;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableColorOS;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableMIUIPill;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableSmiley;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableStyleA;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableStyleB;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableiOS15;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableiOS16;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeRBatteryDrawable;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeRBatteryDrawableColorOS;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeRBatteryDrawableStyleA;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeRBatteryDrawableStyleB;
-import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableAiroo;
-import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableCapsule;
-import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableLorn;
-import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableMx;
-import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableOrigami;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBattery;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryColorOS;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryMIUIPill;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatterySmiley;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryStyleA;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryStyleB;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryiOS15;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryiOS16;
+import com.drdisagree.iconify.xposed.mods.batterystyles.RLandscapeBattery;
+import com.drdisagree.iconify.xposed.mods.batterystyles.RLandscapeBatteryColorOS;
+import com.drdisagree.iconify.xposed.mods.batterystyles.RLandscapeBatteryStyleA;
+import com.drdisagree.iconify.xposed.mods.batterystyles.RLandscapeBatteryStyleB;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryAiroo;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryCapsule;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryLorn;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryMx;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryOrigami;
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils;
 
 import java.util.ArrayList;
@@ -510,55 +510,55 @@ public class BatteryStyleManager extends ModPack {
             case BATTERY_STYLE_DEFAULT_LANDSCAPE:
                 break;
             case BATTERY_STYLE_CUSTOM_RLANDSCAPE:
-                mBatteryDrawable = new LandscapeRBatteryDrawable(context, frameColor);
+                mBatteryDrawable = new RLandscapeBattery(context, frameColor);
                 break;
             case BATTERY_STYLE_CUSTOM_LANDSCAPE:
-                mBatteryDrawable = new LandscapeBatteryDrawable(context, frameColor);
+                mBatteryDrawable = new LandscapeBattery(context, frameColor);
                 break;
             case BATTERY_STYLE_PORTRAIT_CAPSULE:
-                mBatteryDrawable = new PortraitBatteryDrawableCapsule(context, frameColor);
+                mBatteryDrawable = new PortraitBatteryCapsule(context, frameColor);
                 break;
             case BATTERY_STYLE_PORTRAIT_LORN:
-                mBatteryDrawable = new PortraitBatteryDrawableLorn(context, frameColor);
+                mBatteryDrawable = new PortraitBatteryLorn(context, frameColor);
                 break;
             case BATTERY_STYLE_PORTRAIT_MX:
-                mBatteryDrawable = new PortraitBatteryDrawableMx(context, frameColor);
+                mBatteryDrawable = new PortraitBatteryMx(context, frameColor);
                 break;
             case BATTERY_STYLE_PORTRAIT_AIROO:
-                mBatteryDrawable = new PortraitBatteryDrawableAiroo(context, frameColor);
+                mBatteryDrawable = new PortraitBatteryAiroo(context, frameColor);
                 break;
             case BATTERY_STYLE_RLANDSCAPE_STYLE_A:
-                mBatteryDrawable = new LandscapeRBatteryDrawableStyleA(context, frameColor);
+                mBatteryDrawable = new RLandscapeBatteryStyleA(context, frameColor);
                 break;
             case BATTERY_STYLE_LANDSCAPE_STYLE_A:
-                mBatteryDrawable = new LandscapeBatteryDrawableStyleA(context, frameColor);
+                mBatteryDrawable = new LandscapeBatteryStyleA(context, frameColor);
                 break;
             case BATTERY_STYLE_RLANDSCAPE_STYLE_B:
-                mBatteryDrawable = new LandscapeRBatteryDrawableStyleB(context, frameColor);
+                mBatteryDrawable = new RLandscapeBatteryStyleB(context, frameColor);
                 break;
             case BATTERY_STYLE_LANDSCAPE_STYLE_B:
-                mBatteryDrawable = new LandscapeBatteryDrawableStyleB(context, frameColor);
+                mBatteryDrawable = new LandscapeBatteryStyleB(context, frameColor);
                 break;
             case BATTERY_STYLE_LANDSCAPE_IOS_15:
-                mBatteryDrawable = new LandscapeBatteryDrawableiOS15(context, frameColor);
+                mBatteryDrawable = new LandscapeBatteryiOS15(context, frameColor);
                 break;
             case BATTERY_STYLE_LANDSCAPE_IOS_16:
-                mBatteryDrawable = new LandscapeBatteryDrawableiOS16(context, frameColor);
+                mBatteryDrawable = new LandscapeBatteryiOS16(context, frameColor);
                 break;
             case BATTERY_STYLE_PORTRAIT_ORIGAMI:
-                mBatteryDrawable = new PortraitBatteryDrawableOrigami(context, frameColor);
+                mBatteryDrawable = new PortraitBatteryOrigami(context, frameColor);
                 break;
             case BATTERY_STYLE_LANDSCAPE_SMILEY:
-                mBatteryDrawable = new LandscapeBatteryDrawableSmiley(context, frameColor);
+                mBatteryDrawable = new LandscapeBatterySmiley(context, frameColor);
                 break;
             case BATTERY_STYLE_LANDSCAPE_MIUI_PILL:
-                mBatteryDrawable = new LandscapeBatteryDrawableMIUIPill(context, frameColor);
+                mBatteryDrawable = new LandscapeBatteryMIUIPill(context, frameColor);
                 break;
             case BATTERY_STYLE_LANDSCAPE_COLOROS:
-                mBatteryDrawable = new LandscapeBatteryDrawableColorOS(context, frameColor);
+                mBatteryDrawable = new LandscapeBatteryColorOS(context, frameColor);
                 break;
             case BATTERY_STYLE_RLANDSCAPE_COLOROS:
-                mBatteryDrawable = new LandscapeRBatteryDrawableColorOS(context, frameColor);
+                mBatteryDrawable = new RLandscapeBatteryColorOS(context, frameColor);
                 break;
         }
 

@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 2019 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
+ * except in compliance with the License. You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package com.drdisagree.iconify.xposed.mods.batterystyles
 
 import android.annotation.SuppressLint
@@ -8,8 +22,12 @@ import androidx.core.graphics.PathParser
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
 import kotlin.math.floor
 
+/**
+ * A battery meter drawable that respects paths configured in
+ * frameworks/base/core/res/res/values/config.xml to allow for an easily overrideable battery icon
+ */
 @SuppressLint("DiscouragedApi")
-open class LandscapeBatteryDrawableSmiley(private val context: Context, frameColor: Int) :
+open class PortraitBatteryOrigami(private val context: Context, frameColor: Int) :
     BatteryDrawable() {
 
     // Need to load:
@@ -20,9 +38,6 @@ open class LandscapeBatteryDrawableSmiley(private val context: Context, frameCol
     private val scaledPerimeter = Path()
     private val errorPerimeterPath = Path()
     private val scaledErrorPerimeter = Path()
-    private val scaledSmileyHigh = Path()
-    private val scaledSmileyMid = Path()
-    private val scaledSmileyLow = Path()
 
     // Fill will cover the whole bounding rect of the fillMask, and be masked by the path
     private val fillMask = Path()
@@ -49,11 +64,6 @@ open class LandscapeBatteryDrawableSmiley(private val context: Context, frameCol
     // Plus sign (used for power save mode)
     private val plusPath = Path()
     private val scaledPlus = Path()
-
-    // Smiley sign (used based on level)
-    private val smileyHighPath = Path()
-    private val smileyMidPath = Path()
-    private val smileyLowPath = Path()
 
     private var intrinsicHeight: Int
     private var intrinsicWidth: Int
@@ -164,15 +174,6 @@ open class LandscapeBatteryDrawableSmiley(private val context: Context, frameCol
         p.style = Paint.Style.FILL_AND_STROKE
     }
 
-    // Only used if charging
-    private val fillPaintCharging = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.color = 0xFF34C759.toInt()
-        p.alpha = 255
-        p.isDither = true
-        p.strokeWidth = 0f
-        p.style = Paint.Style.FILL_AND_STROKE
-    }
-
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
         p.typeface = Typeface.create("sans-serif-condensed", Typeface.BOLD)
         p.textAlign = Paint.Align.CENTER
@@ -218,14 +219,14 @@ open class LandscapeBatteryDrawableSmiley(private val context: Context, frameCol
         levelPath.reset()
         levelRect.set(fillRect)
         val fillFraction = batteryLevel / 100f
-        val fillTop = if (batteryLevel >= 95) fillRect.right
-        else fillRect.right - (fillRect.width() * (1 - fillFraction))
+        val fillTop = if (batteryLevel >= 95) fillRect.top
+        else fillRect.top + (fillRect.height() * (1 - fillFraction))
 
-        levelRect.right = floor(fillTop.toDouble()).toFloat()
+        levelRect.top = floor(fillTop.toDouble()).toFloat()
         //levelPath.addRect(levelRect, Path.Direction.CCW)
         levelPath.addRoundRect(
             levelRect, floatArrayOf(
-                4.0f, 4.0f, 4.0f, 4.0f, 4.0f, 4.0f, 4.0f, 4.0f
+                9.0f, 9.0f, 9.0f, 9.0f, 9.0f, 9.0f, 9.0f, 9.0f
             ), Path.Direction.CCW
         )
 
@@ -243,10 +244,10 @@ open class LandscapeBatteryDrawableSmiley(private val context: Context, frameCol
             c.drawPath(unifiedPath, dualToneBackgroundFill)
             c.save()
             c.clipRect(
-                bounds.left.toFloat(),
                 0f,
-                bounds.right + bounds.width() * fillFraction,
-                bounds.left.toFloat()
+                bounds.bottom - bounds.height() * fillFraction,
+                bounds.right.toFloat(),
+                bounds.bottom.toFloat()
             )
             c.drawPath(unifiedPath, fillPaint)
             c.restore()
@@ -254,9 +255,8 @@ open class LandscapeBatteryDrawableSmiley(private val context: Context, frameCol
             // Non dual-tone means we draw the perimeter (with the level fill), and potentially
             // draw the fill again with a critical color
             fillPaint.color = fillColor
+            c.drawPath(unifiedPath, dualToneBackgroundFill)
             c.drawPath(scaledPerimeter, fillPaint)
-            if (charging) c.drawPath(levelPath, fillPaintCharging)
-            else c.drawPath(levelPath, dualToneBackgroundFill)
             fillPaint.color = levelColor
 
             // Show colorError below this level
@@ -266,19 +266,10 @@ open class LandscapeBatteryDrawableSmiley(private val context: Context, frameCol
                 c.drawPath(levelPath, fillPaint)
                 c.restore()
             }
-
-            if (charging || batteryLevel >= 75) c.drawPath(scaledSmileyHigh, fillPaint)
-            else if (batteryLevel > 25) c.drawPath(scaledSmileyMid, fillPaint)
-            else c.drawPath(scaledSmileyLow, fillPaint)
         }
 
         if (charging) {
-            c.clipOutPath(scaledBolt)
-            if (invertFillIcon) {
-                c.drawPath(scaledBolt, fillColorStrokePaint)
-            } else {
-                c.drawPath(scaledBolt, fillColorStrokeProtection)
-            }
+            c.drawPath(scaledBolt, fillPaint)
         } else if (powerSaveEnabled) {
             // If power save is enabled draw the perimeter path with colorError
             c.drawPath(scaledErrorPerimeter, errorPaint)
@@ -290,10 +281,10 @@ open class LandscapeBatteryDrawableSmiley(private val context: Context, frameCol
         c.restore()
 
         if (!charging && batteryLevel < 100 && showPercent) {
-            textPaint.textSize = bounds.width() * 0.38f
-            val textHeight = +textPaint.fontMetrics.ascent
-            val pctX = (bounds.width() + textHeight) * 0.7f
-            val pctY = bounds.height() * 0.8f
+            textPaint.textSize = bounds.height() * 0.38f
+            val textHeight = -textPaint.fontMetrics.ascent
+            val pctX = bounds.width() * 0.5f
+            val pctY = (bounds.height() + textHeight) * 0.5f
 
             textPaint.color = fillColor
             c.drawText(batteryLevel.toString(), pctX, pctY, textPaint)
@@ -302,8 +293,8 @@ open class LandscapeBatteryDrawableSmiley(private val context: Context, frameCol
             c.save()
             c.clipRect(
                 fillRect.left,
-                fillRect.top,
-                fillRect.right - (fillRect.width() * (1 - fillFraction)),
+                fillRect.top + (fillRect.height() * (1 - fillFraction)),
+                fillRect.right,
                 fillRect.bottom
             )
             c.drawText(batteryLevel.toString(), pctX, pctY, textPaint)
@@ -436,14 +427,10 @@ open class LandscapeBatteryDrawableSmiley(private val context: Context, frameCol
         scaledFill.computeBounds(fillRect, true)
         boltPath.transform(scaleMatrix, scaledBolt)
         plusPath.transform(scaleMatrix, scaledPlus)
-        smileyHighPath.transform(scaleMatrix, scaledSmileyHigh)
-        smileyMidPath.transform(scaleMatrix, scaledSmileyMid)
-        smileyLowPath.transform(scaleMatrix, scaledSmileyLow)
 
         // It is expected that this view only ever scale by the same factor in each dimension, so
         // just pick one to scale the strokeWidths
         val scaledStrokeWidth =
-
             (b.right / WIDTH * PROTECTION_STROKE_WIDTH).coerceAtLeast(PROTECTION_MIN_STROKE_WIDTH)
 
         fillColorStrokePaint.strokeWidth = scaledStrokeWidth
@@ -453,46 +440,35 @@ open class LandscapeBatteryDrawableSmiley(private val context: Context, frameCol
     @SuppressLint("RestrictedApi")
     private fun loadPaths() {
         val pathString =
-            "M3.76,0.62L18.03,0.62A2.74 2.74 0 0 1 20.78,3.36L20.78,8.64A2.74 2.74 0 0 1 18.03,11.38L3.76,11.38A2.74 2.74 0 0 1 1.02,8.64L1.02,3.36A2.74 2.74 0 0 1 3.76,0.62zM21.66,7.79C23.42,7.68,23.42,4.32,21.66,4.21L21.66,7.79zM1.93,3.37L1.93,8.66A1.85 1.85 0 0 0 3.78,10.51L18.04,10.51A1.85 1.85 0 0 0 19.89,8.66L19.89,3.37A1.85 1.85 0 0 0 18.04,1.52L3.78,1.52A1.85 1.85 0 0 0 1.93,3.37z"
+            "M15.50,0.50C13.50,0.33,11.00,0.33,8.50,0.50C8.00,-0.21,6.00,-0.21,5.63,1.00C5.17,2.50,4.33,2.33,4.00,4.33C3.75,5.50,3.75,7.50,4.00,8.43C4.25,9.50,5.50,12.00,8.95,12.00L15.00,12.00C18.45,12.00,19.70,9.50,19.95,8.43C20.20,7.50,20.20,5.50,19.95,4.33C19.62,2.33,18.79,2.50,18.33,1.00C18.00,-0.21,16.00,-0.21,15.50,0.50zM15.25,10.50C12.50,10.57,11.50,10.57,8.75,10.50C7.50,10.40,6.00,9.75,5.50,7.75Q5.12,6.00,5.50,4.50C6.00,3.00,7.50,2.10,8.75,2.00C11.00,1.88,13.00,1.88,15.25,2.00C16.50,2.10,18.00,3.00,18.50,4.50Q18.88,6.00,18.50,7.75C18.00,9.75,16.50,10.40,15.25,10.50z"
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
 
         val errorPathString =
-            "M3.76,0.62L18.03,0.62A2.74 2.74 0 0 1 20.78,3.36L20.78,8.64A2.74 2.74 0 0 1 18.03,11.38L3.76,11.38A2.74 2.74 0 0 1 1.02,8.64L1.02,3.36A2.74 2.74 0 0 1 3.76,0.62zM21.66,7.79C23.42,7.68,23.42,4.32,21.66,4.21L21.66,7.79zM1.93,3.37L1.93,8.66A1.85 1.85 0 0 0 3.78,10.51L18.04,10.51A1.85 1.85 0 0 0 19.89,8.66L19.89,3.37A1.85 1.85 0 0 0 18.04,1.52L3.78,1.52A1.85 1.85 0 0 0 1.93,3.37z"
+            "M15.50,0.50C13.50,0.33,11.00,0.33,8.50,0.50C8.00,-0.21,6.00,-0.21,5.63,1.00C5.17,2.50,4.33,2.33,4.00,4.33C3.75,5.50,3.75,7.50,4.00,8.43C4.25,9.50,5.50,12.00,8.95,12.00L15.00,12.00C18.45,12.00,19.70,9.50,19.95,8.43C20.20,7.50,20.20,5.50,19.95,4.33C19.62,2.33,18.79,2.50,18.33,1.00C18.00,-0.21,16.00,-0.21,15.50,0.50zM15.25,10.50C12.50,10.57,11.50,10.57,8.75,10.50C7.50,10.40,6.00,9.75,5.50,7.75Q5.12,6.00,5.50,4.50C6.00,3.00,7.50,2.10,8.75,2.00C11.00,1.88,13.00,1.88,15.25,2.00C16.50,2.10,18.00,3.00,18.50,4.50Q18.88,6.00,18.50,7.75C18.00,9.75,16.50,10.40,15.25,10.50z"
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
         val fillMaskString =
-            "M2.83,3.78L2.83,8.21A1.38 1.38 0 0 0 4.21,9.59L17.59,9.59A1.38 1.38 0 0 0 18.97,8.21L18.97,3.78A1.38 1.38 0 0 0 17.59,2.40L4.21,2.40A1.38 1.38 0 0 0 2.83,3.78z"
+            "M9.10,1.55L14.90,1.55A4.10 4.10 0 0 1 19.00,5.64L19.00,6.86A4.10 4.10 0 0 1 14.90,10.95L9.10,10.95A4.10 4.10 0 0 1 5.00,6.86L5.00,5.64A4.10 4.10 0 0 1 9.10,1.55z"
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
-        val boltPathString = ""
+        val boltPathString =
+            "M13.07,5.82C12.95,7.25,11.05,7.25,10.93,5.82C10.97,5.35,11.60,5.35,11.65,5.82C11.61,6.30,12.39,6.30,12.35,5.82C12.40,5.35,13.03,5.35,13.07,5.82zM15.57,5.11C15.96,5.11,16.28,5.43,16.28,5.82C16.28,6.22,15.96,6.54,15.57,6.54C15.17,6.54,14.85,6.22,14.85,5.82C14.85,5.43,15.17,5.11,15.57,5.11zM8.43,5.11C8.83,5.11,9.15,5.43,9.15,5.82C9.15,6.22,8.83,6.54,8.43,6.54C8.04,6.54,7.72,6.22,7.72,5.82C7.72,5.43,8.04,5.11,8.43,5.11z"
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
         val plusPathString =
-            "M3.76,0.62L18.03,0.62A2.74 2.74 0 0 1 20.78,3.36L20.78,8.64A2.74 2.74 0 0 1 18.03,11.38L3.76,11.38A2.74 2.74 0 0 1 1.02,8.64L1.02,3.36A2.74 2.74 0 0 1 3.76,0.62zM21.66,7.79C23.42,7.68,23.42,4.32,21.66,4.21L21.66,7.79zM1.93,3.37L1.93,8.66A1.85 1.85 0 0 0 3.78,10.51L18.04,10.51A1.85 1.85 0 0 0 19.89,8.66L19.89,3.37A1.85 1.85 0 0 0 18.04,1.52L3.78,1.52A1.85 1.85 0 0 0 1.93,3.37z"
+            "M15.50,0.50C13.50,0.33,11.00,0.33,8.50,0.50C8.00,-0.21,6.00,-0.21,5.63,1.00C5.17,2.50,4.33,2.33,4.00,4.33C3.75,5.50,3.75,7.50,4.00,8.43C4.25,9.50,5.50,12.00,8.95,12.00L15.00,12.00C18.45,12.00,19.70,9.50,19.95,8.43C20.20,7.50,20.20,5.50,19.95,4.33C19.62,2.33,18.79,2.50,18.33,1.00C18.00,-0.21,16.00,-0.21,15.50,0.50zM15.25,10.50C12.50,10.57,11.50,10.57,8.75,10.50C7.50,10.40,6.00,9.75,5.50,7.75Q5.12,6.00,5.50,4.50C6.00,3.00,7.50,2.10,8.75,2.00C11.00,1.88,13.00,1.88,15.25,2.00C16.50,2.10,18.00,3.00,18.50,4.50Q18.88,6.00,18.50,7.75C18.00,9.75,16.50,10.40,15.25,10.50z"
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
-
-        val smileyHighPathString =
-            "M12.21,6.01C12.05,7.95,9.45,7.95,9.29,6.01C9.34,5.36,10.21,5.36,10.27,6.01C10.22,6.66,11.28,6.66,11.23,6.01C11.29,5.36,12.16,5.36,12.21,6.01zM15.62,5.03C16.16,5.03,16.59,5.47,16.59,6.01C16.59,6.54,16.16,6.98,15.62,6.98C15.08,6.98,14.65,6.54,14.65,6.01C14.65,5.47,15.08,5.03,15.62,5.03zM5.88,5.03C6.42,5.03,6.86,5.47,6.86,6.01C6.86,6.54,6.42,6.98,5.88,6.98C5.34,6.98,4.91,6.54,4.91,6.01C4.91,5.47,5.34,5.03,5.88,5.03z"
-        smileyHighPath.set(PathParser.createPathFromPathData(smileyHighPathString))
-
-        val smileyMidPathString =
-            "M9.44,6.57L9.44,6.57A0.45 0.45 0 0 0 9.89,7.02L11.81,7.02A0.45 0.45 0 0 0 12.26,6.57L12.26,6.57A0.45 0.45 0 0 0 11.81,6.12L9.89,6.12A0.45 0.45 0 0 0 9.44,6.57zM15.33,5.11C15.83,5.11,16.23,5.51,16.23,6.01C16.23,6.50,15.83,6.90,15.33,6.90C14.84,6.90,14.44,6.50,14.44,6.01C14.44,5.51,14.84,5.11,15.33,5.11zM6.36,5.11C6.86,5.11,7.26,5.51,7.26,6.01C7.26,6.50,6.86,6.90,6.36,6.90C5.87,6.90,5.47,6.50,5.47,6.01C5.47,5.51,5.87,5.11,6.36,5.11z"
-        smileyMidPath.set(PathParser.createPathFromPathData(smileyMidPathString))
-
-        val smileyLowPathString =
-            "M9.50,6.90C9.65,5.11,12.05,5.11,12.19,6.90C12.15,7.50,11.35,7.50,11.29,6.90C11.33,6.30,10.36,6.30,10.40,6.90C10.35,7.50,9.55,7.50,9.50,6.90zM15.33,5.11C15.83,5.11,16.23,5.51,16.23,6.01C16.23,6.50,15.83,6.90,15.33,6.90C14.84,6.90,14.44,6.50,14.44,6.01C14.44,5.51,14.84,5.11,15.33,5.11zM6.36,5.11C6.86,5.11,7.26,5.51,7.26,6.01C7.26,6.50,6.86,6.90,6.36,6.90C5.87,6.90,5.47,6.50,5.47,6.01C5.47,5.51,5.87,5.11,6.36,5.11z"
-        smileyLowPath.set(PathParser.createPathFromPathData(smileyLowPathString))
 
         dualTone = false
     }
 
     companion object {
-        private val TAG = LandscapeBatteryDrawableSmiley::class.java.simpleName
-        private const val WIDTH = 24f
+        private val TAG = PortraitBatteryOrigami::class.java.simpleName
+        private const val WIDTH = 20f
         private const val HEIGHT = 12f
         private const val CRITICAL_LEVEL = 20
 

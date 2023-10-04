@@ -27,7 +27,7 @@ import kotlin.math.floor
  * frameworks/base/core/res/res/values/config.xml to allow for an easily overrideable battery icon
  */
 @SuppressLint("DiscouragedApi")
-open class LandscapeBatteryDrawable(private val context: Context, frameColor: Int) :
+open class LandscapeBattery(private val context: Context, frameColor: Int) :
     BatteryDrawable() {
 
     // Need to load:
@@ -475,7 +475,7 @@ open class LandscapeBatteryDrawable(private val context: Context, frameColor: In
     }
 
     companion object {
-        private val TAG = LandscapeBatteryDrawable::class.java.simpleName
+        private val TAG = LandscapeBattery::class.java.simpleName
         private const val WIDTH = 24f
         private const val HEIGHT = 12f
         private const val CRITICAL_LEVEL = 20
