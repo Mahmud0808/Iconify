@@ -96,6 +96,21 @@
         <item>Landscape MIUI Pill</item>
         <item>Landscape L ColorOS</item>
         <item>Landscape R ColorOS</item>
+        <item>Landscape Battery A</item>
+        <item>Landscape Battery B</item>
+        <item>Landscape Battery C</item>
+        <item>Landscape Battery D</item>
+        <item>Landscape Battery E</item>
+        <item>Landscape Battery F</item>
+        <item>Landscape Battery G</item>
+        <item>Landscape Battery H</item>
+        <item>Landscape Battery I</item>
+        <item>Landscape Battery J</item>
+        <item>Landscape Battery K</item>
+        <item>Landscape Battery L</item>
+        <item>Landscape Battery M</item>
+        <item>Landscape Battery N</item>
+        <item>Landscape Battery O</item>
     </string-array>
     <string-array name="statusbar_clock_color">
         <item>@string/sbclock_color_follow_system</item>

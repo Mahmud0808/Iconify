@@ -23,6 +23,21 @@ import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_CUSTOM_RLA
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_LANDSCAPE;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_RLANDSCAPE;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYA;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYB;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYC;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYD;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYE;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYF;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYG;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYH;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYI;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYJ;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYK;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYL;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYM;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYN;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYO;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_COLOROS;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_IOS_15;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_IOS_16;
@@ -76,22 +91,37 @@ import androidx.annotation.NonNull;
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.mods.batterystyles.BatteryDrawable;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBattery;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryA;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryB;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryC;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryColorOS;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryD;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryE;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryF;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryG;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryH;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryI;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryJ;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryK;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryL;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryM;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryMIUIPill;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryN;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryO;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatterySmiley;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryStyleA;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryStyleB;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryiOS15;
 import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryiOS16;
-import com.drdisagree.iconify.xposed.mods.batterystyles.RLandscapeBattery;
-import com.drdisagree.iconify.xposed.mods.batterystyles.RLandscapeBatteryColorOS;
-import com.drdisagree.iconify.xposed.mods.batterystyles.RLandscapeBatteryStyleA;
-import com.drdisagree.iconify.xposed.mods.batterystyles.RLandscapeBatteryStyleB;
 import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryAiroo;
 import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryCapsule;
 import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryLorn;
 import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryMx;
 import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryOrigami;
+import com.drdisagree.iconify.xposed.mods.batterystyles.RLandscapeBattery;
+import com.drdisagree.iconify.xposed.mods.batterystyles.RLandscapeBatteryColorOS;
+import com.drdisagree.iconify.xposed.mods.batterystyles.RLandscapeBatteryStyleA;
+import com.drdisagree.iconify.xposed.mods.batterystyles.RLandscapeBatteryStyleB;
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils;
 
 import java.util.ArrayList;
@@ -199,7 +229,8 @@ public class BatteryStyleManager extends ModPack {
             batteryRotation = 0;
         }
 
-        showPercentInside = batteryStyle == BATTERY_STYLE_LANDSCAPE_IOS_16;
+        showPercentInside = batteryStyle == BATTERY_STYLE_LANDSCAPE_IOS_16 ||
+                batteryStyle == BATTERY_STYLE_LANDSCAPE_BATTERYM;
 
         if (BatteryStyle != batteryStyle) {
             BatteryStyle = batteryStyle;
@@ -559,6 +590,51 @@ public class BatteryStyleManager extends ModPack {
                 break;
             case BATTERY_STYLE_RLANDSCAPE_COLOROS:
                 mBatteryDrawable = new RLandscapeBatteryColorOS(context, frameColor);
+                break;
+            case BATTERY_STYLE_LANDSCAPE_BATTERYA:
+                mBatteryDrawable = new LandscapeBatteryA(context, frameColor);
+                break;
+            case BATTERY_STYLE_LANDSCAPE_BATTERYB:
+                mBatteryDrawable = new LandscapeBatteryB(context, frameColor);
+                break;
+            case BATTERY_STYLE_LANDSCAPE_BATTERYC:
+                mBatteryDrawable = new LandscapeBatteryC(context, frameColor);
+                break;
+            case BATTERY_STYLE_LANDSCAPE_BATTERYD:
+                mBatteryDrawable = new LandscapeBatteryD(context, frameColor);
+                break;
+            case BATTERY_STYLE_LANDSCAPE_BATTERYE:
+                mBatteryDrawable = new LandscapeBatteryE(context, frameColor);
+                break;
+            case BATTERY_STYLE_LANDSCAPE_BATTERYF:
+                mBatteryDrawable = new LandscapeBatteryF(context, frameColor);
+                break;
+            case BATTERY_STYLE_LANDSCAPE_BATTERYG:
+                mBatteryDrawable = new LandscapeBatteryG(context, frameColor);
+                break;
+            case BATTERY_STYLE_LANDSCAPE_BATTERYH:
+                mBatteryDrawable = new LandscapeBatteryH(context, frameColor);
+                break;
+            case BATTERY_STYLE_LANDSCAPE_BATTERYI:
+                mBatteryDrawable = new LandscapeBatteryI(context, frameColor);
+                break;
+            case BATTERY_STYLE_LANDSCAPE_BATTERYJ:
+                mBatteryDrawable = new LandscapeBatteryJ(context, frameColor);
+                break;
+            case BATTERY_STYLE_LANDSCAPE_BATTERYK:
+                mBatteryDrawable = new LandscapeBatteryK(context, frameColor);
+                break;
+            case BATTERY_STYLE_LANDSCAPE_BATTERYL:
+                mBatteryDrawable = new LandscapeBatteryL(context, frameColor);
+                break;
+            case BATTERY_STYLE_LANDSCAPE_BATTERYM:
+                mBatteryDrawable = new LandscapeBatteryM(context, frameColor);
+                break;
+            case BATTERY_STYLE_LANDSCAPE_BATTERYN:
+                mBatteryDrawable = new LandscapeBatteryN(context, frameColor);
+                break;
+            case BATTERY_STYLE_LANDSCAPE_BATTERYO:
+                mBatteryDrawable = new LandscapeBatteryO(context, frameColor);
                 break;
         }
 

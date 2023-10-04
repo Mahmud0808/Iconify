@@ -89,6 +89,21 @@ public class Preferences {
     public static final int BATTERY_STYLE_LANDSCAPE_MIUI_PILL = 17;
     public static final int BATTERY_STYLE_LANDSCAPE_COLOROS = 18;
     public static final int BATTERY_STYLE_RLANDSCAPE_COLOROS = 19;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYA = 20;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYB = 21;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYC = 22;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYD = 23;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYE = 24;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYF = 25;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYG = 26;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYH = 27;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYI = 28;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYJ = 29;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYK = 30;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYL = 31;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYM = 32;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYN = 33;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYO = 34;
 
     // Preference keys
     public static final String STR_NULL = "null";
