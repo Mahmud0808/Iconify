@@ -136,7 +136,7 @@ You can help translate Iconify [on Crowdin](https://crowdin.com/project/iconify)
 - Russian [@B1ays](https://github.com/B1ays)
 - Simplified Chinese [@Cccc-owo](https://github.com/Cccc-owo)
 - Spanish [@luckkmaxx](https://github.com/luckkmaxx)
-- Turkish [@serhat-demir](https://github.com/serhat-demir)
+- Turkish [@serhat-demir](https://github.com/serhat-demir), [@Emre](https://crowdin.com/profile/khapnols), [@WINZORT](https://crowdin.com/profile/linuxthegoat)
 - Vietnamese [@viettel1211](https://t.me/viettel1211)
 
 # 📝 Disclaimer
