@@ -476,8 +476,21 @@ public class BatteryStyleManager extends ModPack {
                         return null;
                     }
                 });
+            } catch (Throwable ignored) {
+            }
 
+            try {
                 hookAllMethods(BatteryMeterViewClass, "updateBatteryStyle", new XC_MethodReplacement() {
+                    @Override
+                    protected Object replaceHookedMethod(MethodHookParam methodHookParam) {
+                        return null;
+                    }
+                });
+            } catch (Throwable ignored) {
+            }
+
+            try {
+                hookAllMethods(BatteryMeterViewClass, "updateDrawable", new XC_MethodReplacement() {
                     @Override
                     protected Object replaceHookedMethod(MethodHookParam methodHookParam) {
                         return null;
