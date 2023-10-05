@@ -468,38 +468,7 @@ public class BatteryStyleManager extends ModPack {
             log(TAG + throwable);
         }
 
-        if (customBatteryEnabled) {
-            try {
-                hookAllMethods(BatteryMeterViewClass, "updateDrawable", new XC_MethodReplacement() {
-                    @Override
-                    protected Object replaceHookedMethod(MethodHookParam methodHookParam) {
-                        return null;
-                    }
-                });
-            } catch (Throwable ignored) {
-            }
-
-            try {
-                hookAllMethods(BatteryMeterViewClass, "updateBatteryStyle", new XC_MethodReplacement() {
-                    @Override
-                    protected Object replaceHookedMethod(MethodHookParam methodHookParam) {
-                        return null;
-                    }
-                });
-            } catch (Throwable ignored) {
-            }
-
-            try {
-                hookAllMethods(BatteryMeterViewClass, "updateDrawable", new XC_MethodReplacement() {
-                    @Override
-                    protected Object replaceHookedMethod(MethodHookParam methodHookParam) {
-                        return null;
-                    }
-                });
-            } catch (Throwable ignored) {
-            }
-        }
-
+        removeBatteryMeterViewMethods(BatteryMeterViewClass);
         setCustomBatteryDimens();
     }
 
@@ -681,6 +650,25 @@ public class BatteryStyleManager extends ModPack {
             ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "dimen", "status_bar_battery_icon_width", new XResources.DimensionReplacement(customBatteryWidth, TypedValue.COMPLEX_UNIT_DIP));
             ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "dimen", "status_bar_battery_icon_height", new XResources.DimensionReplacement(customBatteryHeight, TypedValue.COMPLEX_UNIT_DIP));
             ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "dimen", "signal_cluster_battery_padding", new XResources.DimensionReplacement(customBatteryMargin, TypedValue.COMPLEX_UNIT_DIP));
+        }
+    }
+
+    private void removeBatteryMeterViewMethods(Class<?> BatteryMeterViewClass) {
+        if (customBatteryEnabled) {
+            String[] methodNames = {"updateDrawable", "updateDrawable", "updateBatteryStyle", "updateSettings"};
+            XC_MethodReplacement methodReplacement = new XC_MethodReplacement() {
+                @Override
+                protected Object replaceHookedMethod(MethodHookParam methodHookParam) {
+                    return null;
+                }
+            };
+
+            for (String methodName : methodNames) {
+                try {
+                    hookAllMethods(BatteryMeterViewClass, methodName, methodReplacement);
+                } catch (Throwable ignored) {
+                }
+            }
         }
     }
 }
