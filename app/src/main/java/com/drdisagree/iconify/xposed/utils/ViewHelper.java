@@ -39,8 +39,7 @@ public class ViewHelper {
     }
 
     private static void setAlphaForBackgroundDrawables(View view, int alpha) {
-        if (view instanceof ViewGroup) {
-            ViewGroup viewGroup = (ViewGroup) view;
+        if (view instanceof ViewGroup viewGroup) {
             int childCount = viewGroup.getChildCount();
             for (int i = 0; i < childCount; i++) {
                 View child = viewGroup.getChildAt(i);
@@ -55,8 +54,7 @@ public class ViewHelper {
             backgroundDrawable.setAlpha(alpha);
         }
 
-        if (view instanceof ViewGroup) {
-            ViewGroup viewGroup = (ViewGroup) view;
+        if (view instanceof ViewGroup viewGroup) {
             int childCount = viewGroup.getChildCount();
             for (int i = 0; i < childCount; i++) {
                 View child = viewGroup.getChildAt(i);
