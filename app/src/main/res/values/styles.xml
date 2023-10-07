@@ -150,7 +150,6 @@
     </style>
 
     <style name="MaterialComponents.MaterialAlertDialog" parent="MaterialAlertDialog.Material3">
-        <item name="android:background">@drawable/container</item>
         <item name="android:dialogCornerRadius">@dimen/cont_corner_radius</item>
         <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.Title.Text
         </item>
