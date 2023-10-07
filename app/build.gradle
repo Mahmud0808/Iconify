@@ -61,12 +61,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
 
     packagingOptions {
@@ -108,7 +108,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.12.0'
 
     // Data Binding
-    implementation 'com.android.databinding:library:8.1.1'
+    implementation 'com.android.databinding:library:8.1.2'
 
     // Xposed API
     compileOnly files('libs/api-82.jar')
@@ -128,7 +128,7 @@ dependencies {
     implementation 'androidx.core:core-splashscreen:1.0.1'
 
     // Material Components
-    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'com.google.android.material:material:1.10.0'
 
     // APK Signer
     implementation 'org.bouncycastle:bcpkix-jdk18on:1.76'
