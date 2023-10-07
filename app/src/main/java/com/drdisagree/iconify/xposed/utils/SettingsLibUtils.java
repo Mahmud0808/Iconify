@@ -67,6 +67,18 @@ public class SettingsLibUtils extends ModPack {
         }
     }
 
+    public static int getColorStateListDefaultColor(Context context, int resID) {
+        try {
+            return ((ColorStateList) callStaticMethod(UtilsClass, "getColorStateListDefaultColor", context, resID)).getDefaultColor();
+        } catch (Throwable t) {
+            try {
+                return ((ColorStateList) callStaticMethod(UtilsClass, "getColorStateListDefaultColor", resID, context)).getDefaultColor();
+            } catch (Throwable th) {
+                return 0;
+            }
+        }
+    }
+
     @Override
     public void updatePrefs(String... Key) {
     }
