@@ -60,6 +60,7 @@ open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int) 
 
     private var fillColor: Int = Color.WHITE
     private var backgroundColor: Int = Color.WHITE
+    private var boltColor: Int = Color.WHITE
 
     // updated whenever level changes
     private var levelColor: Int = Color.WHITE
@@ -137,11 +138,7 @@ open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int) 
     }
 
     private val boltPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.color = context.resources.getColorStateList(
-            context.resources.getIdentifier(
-                "batterymeter_bolt_color", "color", context.packageName
-            ), context.theme
-        ).defaultColor
+        p.color = boltColor
         p.alpha = 255
         p.isDither = true
         p.strokeWidth = 0f
@@ -149,11 +146,7 @@ open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int) 
     }
 
     private val errorPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.color = context.resources.getColorStateList(
-            context.resources.getIdentifier(
-                "batterymeter_plus_color", "color", context.packageName
-            ), context.theme
-        ).defaultColor
+        p.color = SettingsLibUtils.getColorAttrDefaultColor(context, android.R.attr.colorError)
         p.alpha = 255
         p.isDither = true
         p.strokeWidth = 0f
@@ -404,6 +397,9 @@ open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int) 
 
         // Also update the level color, since fillColor may have changed
         levelColor = batteryColorForLevel(batteryLevel)
+
+        boltColor = singleToneColor
+        boltPaint.color = boltColor
 
         invalidateSelf()
     }

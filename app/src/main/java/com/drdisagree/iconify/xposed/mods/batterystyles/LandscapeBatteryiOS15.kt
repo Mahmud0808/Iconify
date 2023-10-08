@@ -138,11 +138,7 @@ open class LandscapeBatteryiOS15(private val context: Context, frameColor: Int) 
     }
 
     private val errorPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.color = context.resources.getColorStateList(
-            context.resources.getIdentifier(
-                "batterymeter_plus_color", "color", context.packageName
-            ), context.theme
-        ).defaultColor
+        p.color = SettingsLibUtils.getColorAttrDefaultColor(context, android.R.attr.colorError)
         p.alpha = 255
         p.isDither = true
         p.strokeWidth = 0f

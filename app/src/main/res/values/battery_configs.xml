@@ -1,5 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="custom_battery_style">
+        <item>@string/battery_default</item>
+        <item>@string/battery_landscape_r_default</item>
+        <item>@string/battery_landscape_l_default</item>
+        <item>@string/battery_landscape_r_custom</item>
+        <item>@string/battery_landscape_l_custom</item>
+        <item>@string/battery_portrait_capsule</item>
+        <item>@string/battery_portrait_lorn</item>
+        <item>@string/battery_portrait_mx</item>
+        <item>@string/battery_portrait_airoo</item>
+        <item>@string/battery_landscape_r_style_a</item>
+        <item>@string/battery_landscape_l_style_a</item>
+        <item>@string/battery_landscape_r_style_b</item>
+        <item>@string/battery_landscape_l_style_b</item>
+        <item>@string/battery_landscape_ios_15</item>
+        <item>@string/battery_landscape_ios_16</item>
+        <item>@string/battery_portrait_origami</item>
+        <item>@string/battery_landscape_smiley</item>
+        <item>@string/battery_landscape_miui_pill</item>
+        <item>@string/battery_landscape_l_coloros</item>
+        <item>@string/battery_landscape_r_coloros</item>
+        <item>@string/battery_landscape_battery_a</item>
+        <item>@string/battery_landscape_battery_b</item>
+        <item>@string/battery_landscape_battery_c</item>
+        <item>@string/battery_landscape_battery_d</item>
+        <item>@string/battery_landscape_battery_e</item>
+        <item>@string/battery_landscape_battery_f</item>
+        <item>@string/battery_landscape_battery_g</item>
+        <item>@string/battery_landscape_battery_h</item>
+        <item>@string/battery_landscape_battery_i</item>
+        <item>@string/battery_landscape_battery_j</item>
+        <item>@string/battery_landscape_battery_k</item>
+        <item>@string/battery_landscape_battery_l</item>
+        <item>@string/battery_landscape_battery_m</item>
+        <item>@string/battery_landscape_battery_n</item>
+        <item>@string/battery_landscape_battery_o</item>
+    </string-array>
+
+    <!-- Battery level colors -->
+    <color name="cargingbolt_single_tone">#00000000</color>
+
     <!-- Landscape R Custom -->
     <string name="config_landscapeBatteryPerimeterCustomR" translatable="false">M2.44,0.64L19.70,0.64A2.21 2.21 0 0 1 21.91,2.85L21.91,9.21A2.21 2.21 0 0 1 19.70,11.42L2.44,11.42A2.21 2.21 0 0 1 0.23,9.21L0.23,2.85A2.21 2.21 0 0 1 2.44,0.64zM0.87,3.59L0.87,8.41A2.28 2.28 0 0 0 3.15,10.69L18.98,10.69A2.28 2.28 0 0 0 21.26,8.41L21.26,3.59A2.28 2.28 0 0 0 18.98,1.31L3.15,1.31A2.28 2.28 0 0 0 0.87,3.59zM22.45,8.32Q25.10,5.95,22.42,3.62</string>
     <string name="config_landscapeBatteryErrorCustomR" translatable="false">@string/config_landscapeBatteryPerimeterCustomR</string>

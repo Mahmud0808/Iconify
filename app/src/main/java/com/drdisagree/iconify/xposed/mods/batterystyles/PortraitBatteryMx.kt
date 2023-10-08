@@ -24,10 +24,6 @@ import com.drdisagree.iconify.xposed.HookRes.modRes
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
 import kotlin.math.floor
 
-/**
- * A battery meter drawable that respects paths configured in
- * frameworks/base/core/res/res/values/config.xml to allow for an easily overrideable battery icon
- */
 @SuppressLint("DiscouragedApi")
 open class PortraitBatteryMx(private val context: Context, frameColor: Int) :
     BatteryDrawable() {
@@ -155,11 +151,7 @@ open class PortraitBatteryMx(private val context: Context, frameColor: Int) :
     }
 
     private val errorPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.color = context.resources.getColorStateList(
-            context.resources.getIdentifier(
-                "batterymeter_plus_color", "color", context.packageName
-            ), context.theme
-        ).defaultColor
+        p.color = SettingsLibUtils.getColorAttrDefaultColor(context, android.R.attr.colorError)
         p.alpha = 255
         p.isDither = true
         p.strokeWidth = 0f

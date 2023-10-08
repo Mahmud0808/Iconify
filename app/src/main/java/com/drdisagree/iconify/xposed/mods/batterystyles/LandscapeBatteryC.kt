@@ -36,12 +36,9 @@ import com.drdisagree.iconify.xposed.HookRes.modRes
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
 import kotlin.math.floor
 
-/**
- * A battery meter drawable that respects paths configured in
- * frameworks/base/core/res/res/values/config.xml to allow for an easily overrideable battery icon
- */
 @SuppressLint("DiscouragedApi")
-open class LandscapeBatteryC(private val context: Context, frameColor: Int) : BatteryDrawable() {
+open class LandscapeBatteryC(private val context: Context, frameColor: Int) :
+    BatteryDrawable() {
 
     // Need to load:
     // 1. perimeter shape
@@ -87,27 +84,16 @@ open class LandscapeBatteryC(private val context: Context, frameColor: Int) : Ba
     // Colors can be configured based on battery level (see res/values/arrays.xml)
     private var colorLevels: IntArray
 
-    private var fillColor: Int = Color.MAGENTA
-    private var backgroundColor: Int = Color.MAGENTA
+    private var fillColor: Int = Color.WHITE
+    private var backgroundColor: Int = Color.WHITE
 
     // updated whenever level changes
-    private var levelColor: Int = Color.MAGENTA
+    private var levelColor: Int = Color.WHITE
 
     // Dual tone implies that battery level is a clipped overlay over top of the whole shape
     private var dualTone = false
 
     private var batteryLevel = 0
-
-    private var isRotation = false
-    private var scaledFillAlpha = false
-    private var scaledPerimeterAlpha = false
-    private var customBlendColor = false
-
-    private var chargingColor: Int = Color.TRANSPARENT
-    private var customFillColor: Int = Color.BLACK
-    private var customFillGradColor: Int = Color.BLACK
-    private var powerSaveColor: Int = Color.TRANSPARENT
-    private var powerSaveFillColor: Int = Color.TRANSPARENT
 
     private val invalidateRunnable: () -> Unit = {
         invalidateSelf()
@@ -154,28 +140,6 @@ open class LandscapeBatteryC(private val context: Context, frameColor: Int) : Ba
             postInvalidate()
         }
 
-    open fun customizeBatteryDrawable(
-        isRotation: Boolean,
-        scaledPerimeterAlpha: Boolean,
-        scaledFillAlpha: Boolean,
-        customBlendColor: Boolean,
-        customFillColor: Int,
-        customFillGradColor: Int,
-        chargingColor: Int,
-        powerSaveColor: Int,
-        powerSaveFillColor: Int
-    ) {
-        this.isRotation = isRotation
-        this.scaledPerimeterAlpha = scaledPerimeterAlpha
-        this.scaledFillAlpha = scaledFillAlpha
-        this.customBlendColor = customBlendColor
-        this.customFillColor = customFillColor
-        this.customFillGradColor = customFillGradColor
-        this.chargingColor = chargingColor
-        this.powerSaveColor = powerSaveColor
-        this.powerSaveFillColor = powerSaveFillColor
-    }
-
     private val fillColorStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
         p.color = frameColor
         p.alpha = 255
@@ -206,11 +170,7 @@ open class LandscapeBatteryC(private val context: Context, frameColor: Int) : Ba
 
     @SuppressLint("DiscouragedApi")
     private val errorPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.color = context.resources.getColorStateList(
-            context.resources.getIdentifier(
-                "batterymeter_plus_color", "color", context.packageName
-            ), context.theme
-        ).defaultColor
+        p.color = SettingsLibUtils.getColorAttrDefaultColor(context, android.R.attr.colorError)
         p.alpha = 255
         p.isDither = true
         p.strokeWidth = 0f
