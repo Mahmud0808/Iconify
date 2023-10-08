@@ -365,21 +365,17 @@ open class LandscapeBatteryF(private val context: Context, frameColor: Int) :
                 if (chargingColor == Color.BLACK) Color.TRANSPARENT else chargingColor
 
             powerSavePaint.color =
-                if (powerSaveColor == Color.BLACK) context.resources.getColorStateList(
-                    context.resources.getIdentifier(
-                        "batterymeter_plus_color", "color", context.packageName
-                    ), context.theme
-                ).defaultColor else powerSaveColor
+                if (powerSaveColor == Color.BLACK) SettingsLibUtils.getColorAttrDefaultColor(
+                    context,
+                    android.R.attr.colorError
+                ) else powerSaveColor
 
             powerSaveFillPaint.color =
                 if (powerSaveFillColor == Color.BLACK) Color.TRANSPARENT else powerSaveFillColor
         } else {
             chargingPaint.color = Color.TRANSPARENT
-            powerSavePaint.color = context.resources.getColorStateList(
-                context.resources.getIdentifier(
-                    "batterymeter_plus_color", "color", context.packageName
-                ), context.theme
-            ).defaultColor
+            powerSavePaint.color =
+                SettingsLibUtils.getColorAttrDefaultColor(context, android.R.attr.colorError)
             powerSaveFillPaint.color = Color.TRANSPARENT
         }
 

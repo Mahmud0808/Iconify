@@ -429,11 +429,10 @@ open class LandscapeBatteryI(private val context: Context, frameColor: Int) :
         val black = Color.BLACK
 
         powerSavePaint.color =
-            if (customBlendColor && powerSaveColor != black) powerSaveColor else context.resources.getColorStateList(
-                context.resources.getIdentifier(
-                    "batterymeter_plus_color", "color", context.packageName
-                ), context.theme
-            ).defaultColor
+            if (customBlendColor && powerSaveColor != black) powerSaveColor else SettingsLibUtils.getColorAttrDefaultColor(
+                context,
+                android.R.attr.colorError
+            )
 
         // Deal with unifiedPath clipping before it draws
         if (!showPercent) {
