@@ -39,14 +39,6 @@
     <color name="textColorSecondaryInverse">@android:color/system_neutral1_700</color>
     <color name="textColorSecondaryLight">@android:color/system_neutral1_100</color>
 
-    <!-- Onboarding text -->
-    <color name="onboarding_text_one_primary">#FFFFF6F7</color>
-    <color name="onboarding_text_one_secondary">#CCFFF6F7</color>
-    <color name="onboarding_text_two_primary">#FFF3F9F9</color>
-    <color name="onboarding_text_two_secondary">#CCF3F9F9</color>
-    <color name="onboarding_text_three_primary">#FFF6FBFF</color>
-    <color name="onboarding_text_three_secondary">#CCF6FBFF</color>
-
     <!-- Splash screen -->
     <color name="splash_logo">@color/colorAccent</color>
 
@@ -55,7 +47,6 @@
     <color name="ic_launcher_background_themed">@android:color/system_neutral1_800</color>
 
     <!-- Onboarding -->
-    <color name="onboarding_text_skip">#CCFFFFFF</color>
     <color name="onboarding_btn_one">#FFA1B3</color>
     <color name="onboarding_btn_two">#85C6C2</color>
     <color name="onboarding_btn_three">#A5D3FF</color>
@@ -65,6 +56,16 @@
     <color name="onboarding_background_two_bottom">#0A1212</color>
     <color name="onboarding_background_three_top">#00040C</color>
     <color name="onboarding_background_three_bottom">#000919</color>
+    <color name="onboarding_btn_text">#E6000000</color>
+
+    <!-- Onboarding text -->
+    <color name="onboarding_text_skip">#CCFFFFFF</color>
+    <color name="onboarding_text_one_primary">#FFFFF6F7</color>
+    <color name="onboarding_text_one_secondary">#CCFFF6F7</color>
+    <color name="onboarding_text_two_primary">#FFF3F9F9</color>
+    <color name="onboarding_text_two_secondary">#CCF3F9F9</color>
+    <color name="onboarding_text_three_primary">#FFF6FBFF</color>
+    <color name="onboarding_text_three_secondary">#CCF6FBFF</color>
 
     <!-- Previews -->
     <color name="offStateColor">@android:color/system_neutral2_800</color>

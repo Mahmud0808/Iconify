@@ -53,6 +53,7 @@
             android:paddingBottom="16dp"
             android:singleLine="true"
             android:text="@string/btn_next"
+            android:textColor="@color/onboarding_btn_text"
             android:textSize="20sp"
             app:autoSizeStepGranularity="1sp"
             app:autoSizeTextType="uniform"
