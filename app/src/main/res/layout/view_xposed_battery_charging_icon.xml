@@ -50,139 +50,146 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/charging_icon_style_container"
+        android:id="@+id/charging_icon_cust_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_background_material"
-        android:clickable="true"
-        android:orientation="vertical"
-        android:paddingHorizontal="24dp"
-        android:paddingVertical="22dp">
+        android:orientation="vertical">
 
-        <TextView
-            style="@style/TextAppearance.Material3.TitleMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/charging_icon_style_title"
-            android:textColor="@color/text_color_primary" />
-
-        <TextView
-            android:id="@+id/selected_custom_charging_icon_style"
-            style="@style/TextAppearance.Material3.BodyMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_color_secondary" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/item_background_material"
-        android:clickable="true"
-        android:orientation="vertical"
-        android:paddingHorizontal="24dp"
-        android:paddingTop="22dp"
-        android:paddingBottom="4dp">
-
-        <TextView
-            style="@style/TextAppearance.Material3.TitleMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/charging_icon_margin_left_title"
-            android:textColor="@color/text_color_primary" />
-
-        <TextView
-            android:id="@+id/charging_icon_margin_left_output"
-            style="@style/TextAppearance.Material3.BodyMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_color_secondary" />
-
-        <com.google.android.material.slider.Slider
-            android:id="@+id/charging_icon_margin_left_seekbar"
+        <LinearLayout
+            android:id="@+id/charging_icon_style_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="4dp"
-            android:stepSize="1"
-            android:value="6"
-            android:valueFrom="0"
-            android:valueTo="12" />
+            android:background="@drawable/item_background_material"
+            android:clickable="true"
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="22dp">
 
-    </LinearLayout>
+            <TextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/charging_icon_style_title"
+                android:textColor="@color/text_color_primary" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/item_background_material"
-        android:clickable="true"
-        android:orientation="vertical"
-        android:paddingHorizontal="24dp"
-        android:paddingTop="22dp"
-        android:paddingBottom="4dp">
+            <TextView
+                android:id="@+id/selected_custom_charging_icon_style"
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_color_secondary" />
 
-        <TextView
-            style="@style/TextAppearance.Material3.TitleMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/charging_icon_margin_right_title"
-            android:textColor="@color/text_color_primary" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/charging_icon_margin_right_output"
-            style="@style/TextAppearance.Material3.BodyMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_color_secondary" />
-
-        <com.google.android.material.slider.Slider
-            android:id="@+id/charging_icon_margin_right_seekbar"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="4dp"
-            android:stepSize="1"
-            android:value="6"
-            android:valueFrom="0"
-            android:valueTo="12" />
+            android:background="@drawable/item_background_material"
+            android:clickable="true"
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingTop="22dp"
+            android:paddingBottom="4dp">
 
-    </LinearLayout>
+            <TextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/charging_icon_margin_left_title"
+                android:textColor="@color/text_color_primary" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/item_background_material"
-        android:clickable="true"
-        android:orientation="vertical"
-        android:paddingHorizontal="24dp"
-        android:paddingTop="22dp"
-        android:paddingBottom="4dp">
+            <TextView
+                android:id="@+id/charging_icon_margin_left_output"
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_color_secondary" />
 
-        <TextView
-            style="@style/TextAppearance.Material3.TitleMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/charing_icon_size_title"
-            android:textColor="@color/text_color_primary" />
+            <com.google.android.material.slider.Slider
+                android:id="@+id/charging_icon_margin_left_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="4dp"
+                android:stepSize="1"
+                android:value="1"
+                android:valueFrom="0"
+                android:valueTo="6" />
 
-        <TextView
-            android:id="@+id/charging_icon_size_output"
-            style="@style/TextAppearance.Material3.BodyMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_color_secondary" />
+        </LinearLayout>
 
-        <com.google.android.material.slider.Slider
-            android:id="@+id/charging_icon_size_seekbar"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="4dp"
-            android:stepSize="1"
-            android:value="6"
-            android:valueFrom="0"
-            android:valueTo="12" />
+            android:background="@drawable/item_background_material"
+            android:clickable="true"
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingTop="22dp"
+            android:paddingBottom="4dp">
 
+            <TextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/charging_icon_margin_right_title"
+                android:textColor="@color/text_color_primary" />
+
+            <TextView
+                android:id="@+id/charging_icon_margin_right_output"
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_color_secondary" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/charging_icon_margin_right_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="4dp"
+                android:stepSize="1"
+                android:value="0"
+                android:valueFrom="0"
+                android:valueTo="6" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/item_background_material"
+            android:clickable="true"
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingTop="22dp"
+            android:paddingBottom="4dp">
+
+            <TextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/charing_icon_size_title"
+                android:textColor="@color/text_color_primary" />
+
+            <TextView
+                android:id="@+id/charging_icon_size_output"
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_color_secondary" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/charging_icon_size_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="4dp"
+                android:stepSize="1"
+                android:value="14"
+                android:valueFrom="8"
+                android:valueTo="20" />
+
+        </LinearLayout>
     </LinearLayout>
 </merge>

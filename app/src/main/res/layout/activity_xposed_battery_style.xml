@@ -81,6 +81,8 @@
 
             <include layout="@layout/view_xposed_battery_dimension" />
 
+            <include layout="@layout/view_xposed_battery_charging_icon" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

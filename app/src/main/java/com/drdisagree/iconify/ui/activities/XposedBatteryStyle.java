@@ -9,6 +9,11 @@ import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_IOS_16;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_BLEND_COLOR;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_CHARGING_COLOR;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_CHARGING_ICON_MARGIN_LEFT;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_CHARGING_ICON_STYLE;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_CHARGING_ICON_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_DIMENSION;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_FILL_ALPHA;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_FILL_COLOR;
@@ -41,6 +46,7 @@ import androidx.annotation.NonNull;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.ActivityXposedBatteryStyleBinding;
+import com.drdisagree.iconify.databinding.ViewXposedBatteryChargingIconBinding;
 import com.drdisagree.iconify.databinding.ViewXposedBatteryColorBinding;
 import com.drdisagree.iconify.databinding.ViewXposedBatteryDimensionBinding;
 import com.drdisagree.iconify.databinding.ViewXposedBatteryMiscBinding;
@@ -57,12 +63,13 @@ import java.util.List;
 @SuppressLint("SetTextI18n")
 public class XposedBatteryStyle extends BaseActivity implements RadioDialog.RadioDialogListener, ColorPickerDialogListener {
 
-    private static int selectedBatteryStyle = 0;
+    private static int selectedBatteryStyle = 0, selectedChargingIcon = 0;
     private ActivityXposedBatteryStyleBinding binding;
     private ViewXposedBatteryMiscBinding bindingMiscSettings;
     private ViewXposedBatteryColorBinding bindingCustomColors;
     private ViewXposedBatteryDimensionBinding bindingCustomDimens;
-    private RadioDialog rd_battery_style;
+    private ViewXposedBatteryChargingIconBinding bindingChargingIcon;
+    private RadioDialog rd_battery_style, rd_charging_icon_style;
     private ColorPickerDialog.Builder fillColorPicker, fillGradColorPicker, chargingFillColorPicker, powersaveFillColorPicker, powersaveIconColorPicker;
 
     @Override
@@ -72,6 +79,7 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
         bindingMiscSettings = ViewXposedBatteryMiscBinding.bind(binding.getRoot());
         bindingCustomColors = ViewXposedBatteryColorBinding.bind(binding.getRoot());
         bindingCustomDimens = ViewXposedBatteryDimensionBinding.bind(binding.getRoot());
+        bindingChargingIcon = ViewXposedBatteryChargingIconBinding.bind(binding.getRoot());
         setContentView(binding.getRoot());
 
         // Header
@@ -94,10 +102,55 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
         miscSettings();
         customColors();
         customDimension();
+        customCharginIcon();
         updateLayoutVisibility();
     }
 
     private void miscSettings() {
+        // Battery width
+        final int[] batteryWidth = {RPrefs.getInt(CUSTOM_BATTERY_WIDTH, 20)};
+        bindingMiscSettings.batteryWidthOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryWidth[0] + "dp");
+        bindingMiscSettings.batteryWidthSeekbar.setValue(RPrefs.getInt(CUSTOM_BATTERY_WIDTH, 20));
+        bindingMiscSettings.batteryWidthSeekbar.addOnChangeListener((slider, value, fromUser) -> {
+            batteryWidth[0] = (int) slider.getValue();
+            bindingMiscSettings.batteryWidthOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryWidth[0] + "dp");
+            RPrefs.putInt(CUSTOM_BATTERY_WIDTH, batteryWidth[0]);
+        });
+        bindingMiscSettings.batteryWidthSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+            @Override
+            public void onStartTrackingTouch(@NonNull Slider slider) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                if (selectedBatteryStyle < 3) {
+                    new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
+                }
+            }
+        });
+
+        // Battery height
+        final int[] batteryHeight = {RPrefs.getInt(CUSTOM_BATTERY_HEIGHT, 20)};
+        bindingMiscSettings.batteryHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryHeight[0] + "dp");
+        bindingMiscSettings.batteryHeightSeekbar.setValue(RPrefs.getInt(CUSTOM_BATTERY_HEIGHT, 20));
+        bindingMiscSettings.batteryHeightSeekbar.addOnChangeListener((slider, value, fromUser) -> {
+            batteryHeight[0] = (int) slider.getValue();
+            bindingMiscSettings.batteryHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryHeight[0] + "dp");
+            RPrefs.putInt(CUSTOM_BATTERY_HEIGHT, batteryHeight[0]);
+        });
+        bindingMiscSettings.batteryHeightSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+            @Override
+            public void onStartTrackingTouch(@NonNull Slider slider) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                if (selectedBatteryStyle < 3) {
+                    new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
+                }
+            }
+        });
+
         // Hide percentage
         bindingMiscSettings.hidePercentage.setChecked(RPrefs.getBoolean(CUSTOM_BATTERY_HIDE_PERCENTAGE, false));
         bindingMiscSettings.hidePercentage.setOnCheckedChangeListener((buttonView, isChecked) -> RPrefs.putBoolean(CUSTOM_BATTERY_HIDE_PERCENTAGE, isChecked));
@@ -230,46 +283,6 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
     }
 
     private void customDimension() {
-        // Battery width
-        final int[] batteryWidth = {RPrefs.getInt(CUSTOM_BATTERY_WIDTH, 20)};
-        bindingCustomDimens.batteryWidthOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryWidth[0] + "dp");
-        bindingCustomDimens.batteryWidthSeekbar.setValue(RPrefs.getInt(CUSTOM_BATTERY_WIDTH, 20));
-        bindingCustomDimens.batteryWidthSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
-            @Override
-            public void onStartTrackingTouch(@NonNull Slider slider) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(@NonNull Slider slider) {
-                batteryWidth[0] = (int) slider.getValue();
-                bindingCustomDimens.batteryWidthOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryWidth[0] + "dp");
-                RPrefs.putInt(CUSTOM_BATTERY_WIDTH, batteryWidth[0]);
-                if (selectedBatteryStyle < 3) {
-                    new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
-                }
-            }
-        });
-
-        // Battery height
-        final int[] batteryHeight = {RPrefs.getInt(CUSTOM_BATTERY_HEIGHT, 20)};
-        bindingCustomDimens.batteryHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryHeight[0] + "dp");
-        bindingCustomDimens.batteryHeightSeekbar.setValue(RPrefs.getInt(CUSTOM_BATTERY_HEIGHT, 20));
-        bindingCustomDimens.batteryHeightSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
-            @Override
-            public void onStartTrackingTouch(@NonNull Slider slider) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(@NonNull Slider slider) {
-                batteryHeight[0] = (int) slider.getValue();
-                bindingCustomDimens.batteryHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryHeight[0] + "dp");
-                RPrefs.putInt(CUSTOM_BATTERY_HEIGHT, batteryHeight[0]);
-                if (selectedBatteryStyle < 3) {
-                    new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
-                }
-            }
-        });
-
         // Custom dimensions
         bindingCustomDimens.customDimensions.setChecked(RPrefs.getBoolean(CUSTOM_BATTERY_DIMENSION, false));
         bindingCustomDimens.customDimensions.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -286,79 +299,93 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
         final int[] batteryMarginLeft = {RPrefs.getInt(CUSTOM_BATTERY_MARGIN_LEFT, 4)};
         bindingCustomDimens.batteryMarginLeftOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryMarginLeft[0] + "dp");
         bindingCustomDimens.batteryMarginLeftSeekbar.setValue(RPrefs.getInt(CUSTOM_BATTERY_MARGIN_LEFT, 4));
-        bindingCustomDimens.batteryMarginLeftSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
-            @Override
-            public void onStartTrackingTouch(@NonNull Slider slider) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(@NonNull Slider slider) {
-                batteryMarginLeft[0] = (int) slider.getValue();
-                bindingCustomDimens.batteryMarginLeftOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryMarginLeft[0] + "dp");
-                RPrefs.putInt(CUSTOM_BATTERY_MARGIN_LEFT, batteryMarginLeft[0]);
-            }
+        bindingCustomDimens.batteryMarginLeftSeekbar.addOnChangeListener((slider, value, fromUser) -> {
+            batteryMarginLeft[0] = (int) slider.getValue();
+            bindingCustomDimens.batteryMarginLeftOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryMarginLeft[0] + "dp");
+            RPrefs.putInt(CUSTOM_BATTERY_MARGIN_LEFT, batteryMarginLeft[0]);
         });
 
         // Battery margin right
         final int[] batteryMarginRight = {RPrefs.getInt(CUSTOM_BATTERY_MARGIN_RIGHT, 4)};
         bindingCustomDimens.batteryMarginRightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryMarginRight[0] + "dp");
         bindingCustomDimens.batteryMarginRightSeekbar.setValue(RPrefs.getInt(CUSTOM_BATTERY_MARGIN_RIGHT, 4));
-        bindingCustomDimens.batteryMarginRightSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
-            @Override
-            public void onStartTrackingTouch(@NonNull Slider slider) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(@NonNull Slider slider) {
-                batteryMarginRight[0] = (int) slider.getValue();
-                bindingCustomDimens.batteryMarginRightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryMarginRight[0] + "dp");
-                RPrefs.putInt(CUSTOM_BATTERY_MARGIN_RIGHT, batteryMarginRight[0]);
-            }
+        bindingCustomDimens.batteryMarginRightSeekbar.addOnChangeListener((slider, value, fromUser) -> {
+            batteryMarginRight[0] = (int) slider.getValue();
+            bindingCustomDimens.batteryMarginRightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryMarginRight[0] + "dp");
+            RPrefs.putInt(CUSTOM_BATTERY_MARGIN_RIGHT, batteryMarginRight[0]);
         });
 
         // Battery margin top
         final int[] batteryMarginTop = {RPrefs.getInt(CUSTOM_BATTERY_MARGIN_TOP, 0)};
         bindingCustomDimens.batteryMarginTopOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryMarginTop[0] + "dp");
         bindingCustomDimens.batteryMarginTopSeekbar.setValue(RPrefs.getInt(CUSTOM_BATTERY_MARGIN_TOP, 0));
-        bindingCustomDimens.batteryMarginTopSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
-            @Override
-            public void onStartTrackingTouch(@NonNull Slider slider) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(@NonNull Slider slider) {
-                batteryMarginTop[0] = (int) slider.getValue();
-                bindingCustomDimens.batteryMarginTopOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryMarginTop[0] + "dp");
-                RPrefs.putInt(CUSTOM_BATTERY_MARGIN_TOP, batteryMarginTop[0]);
-            }
+        bindingCustomDimens.batteryMarginTopSeekbar.addOnChangeListener((slider, value, fromUser) -> {
+            batteryMarginTop[0] = (int) slider.getValue();
+            bindingCustomDimens.batteryMarginTopOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryMarginTop[0] + "dp");
+            RPrefs.putInt(CUSTOM_BATTERY_MARGIN_TOP, batteryMarginTop[0]);
         });
 
         // Battery margin bottom
         final int[] batteryMarginBottom = {RPrefs.getInt(CUSTOM_BATTERY_MARGIN_BOTTOM, 0)};
         bindingCustomDimens.batteryMarginBottomOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryMarginBottom[0] + "dp");
         bindingCustomDimens.batteryMarginBottomSeekbar.setValue(RPrefs.getInt(CUSTOM_BATTERY_MARGIN_BOTTOM, 0));
-        bindingCustomDimens.batteryMarginBottomSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
-            @Override
-            public void onStartTrackingTouch(@NonNull Slider slider) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(@NonNull Slider slider) {
-                batteryMarginBottom[0] = (int) slider.getValue();
-                bindingCustomDimens.batteryMarginBottomOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryMarginBottom[0] + "dp");
-                RPrefs.putInt(CUSTOM_BATTERY_MARGIN_BOTTOM, batteryMarginBottom[0]);
-            }
+        bindingCustomDimens.batteryMarginBottomSeekbar.addOnChangeListener((slider, value, fromUser) -> {
+            batteryMarginBottom[0] = (int) slider.getValue();
+            bindingCustomDimens.batteryMarginBottomOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + batteryMarginBottom[0] + "dp");
+            RPrefs.putInt(CUSTOM_BATTERY_MARGIN_BOTTOM, batteryMarginBottom[0]);
         });
     }
 
-    @Override
-    public void onItemSelected(int dialogId, int selectedIndex) {
-        if (dialogId == 0) {
-            selectedBatteryStyle = selectedIndex;
-            binding.selectedCustomBatteryStyle.setText(getResources().getString(R.string.opt_selected) + ' ' + binding.selectedCustomBatteryStyle.getText().toString().replaceAll(getResources().getString(R.string.opt_selected) + ' ', ""));
-
+    private void customCharginIcon() {
+        // Enable charging icon
+        bindingChargingIcon.enableChargingIcon.setChecked(RPrefs.getBoolean(CUSTOM_BATTERY_CHARGING_ICON_SWITCH, false));
+        bindingChargingIcon.enableChargingIcon.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(CUSTOM_BATTERY_CHARGING_ICON_SWITCH, isChecked);
             updateLayoutVisibility();
-        }
+        });
+        bindingChargingIcon.enableChargingIconContainer.setOnClickListener(v -> {
+            if (bindingChargingIcon.enableChargingIcon.isEnabled()) {
+                bindingChargingIcon.enableChargingIcon.toggle();
+            }
+        });
+
+        // Charging icon style
+        rd_charging_icon_style = new RadioDialog(this, 1, RPrefs.getInt(CUSTOM_BATTERY_CHARGING_ICON_STYLE, 0));
+        rd_charging_icon_style.setRadioDialogListener(this);
+        bindingChargingIcon.chargingIconStyleContainer.setOnClickListener(v -> rd_charging_icon_style.show(R.string.charging_icon_style_title, R.array.custom_charging_icon_style, bindingChargingIcon.selectedCustomChargingIconStyle));
+        selectedChargingIcon = rd_charging_icon_style.getSelectedIndex();
+        bindingChargingIcon.selectedCustomChargingIconStyle.setText(Arrays.asList(getResources().getStringArray(R.array.custom_charging_icon_style)).get(selectedChargingIcon));
+        bindingChargingIcon.selectedCustomChargingIconStyle.setText(getResources().getString(R.string.opt_selected) + ' ' + bindingChargingIcon.selectedCustomChargingIconStyle.getText().toString().replaceAll(getResources().getString(R.string.opt_selected) + ' ', ""));
+
+        // Charging icon margin left
+        final int[] chargingIconMarginLeft = {RPrefs.getInt(CUSTOM_BATTERY_CHARGING_ICON_MARGIN_LEFT, 1)};
+        bindingChargingIcon.chargingIconMarginLeftOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + chargingIconMarginLeft[0] + "dp");
+        bindingChargingIcon.chargingIconMarginLeftSeekbar.setValue(RPrefs.getInt(CUSTOM_BATTERY_CHARGING_ICON_MARGIN_LEFT, 1));
+        bindingChargingIcon.chargingIconMarginLeftSeekbar.addOnChangeListener((slider, value, fromUser) -> {
+            chargingIconMarginLeft[0] = (int) slider.getValue();
+            bindingChargingIcon.chargingIconMarginLeftOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + chargingIconMarginLeft[0] + "dp");
+            RPrefs.putInt(CUSTOM_BATTERY_CHARGING_ICON_MARGIN_LEFT, chargingIconMarginLeft[0]);
+        });
+
+        // Charging icon margin right
+        final int[] chargingIconMarginRight = {RPrefs.getInt(CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT, 0)};
+        bindingChargingIcon.chargingIconMarginRightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + chargingIconMarginRight[0] + "dp");
+        bindingChargingIcon.chargingIconMarginRightSeekbar.setValue(RPrefs.getInt(CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT, 0));
+        bindingChargingIcon.chargingIconMarginRightSeekbar.addOnChangeListener((slider, value, fromUser) -> {
+            chargingIconMarginRight[0] = (int) slider.getValue();
+            bindingChargingIcon.chargingIconMarginRightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + chargingIconMarginRight[0] + "dp");
+            RPrefs.putInt(CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT, chargingIconMarginRight[0]);
+        });
+
+        // Charging icon size
+        final int[] chargingIconSize = {RPrefs.getInt(CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT, 14)};
+        bindingChargingIcon.chargingIconSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + chargingIconSize[0] + "dp");
+        bindingChargingIcon.chargingIconSizeSeekbar.setValue(RPrefs.getInt(CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT, 14));
+        bindingChargingIcon.chargingIconSizeSeekbar.addOnChangeListener((slider, value, fromUser) -> {
+            chargingIconSize[0] = (int) slider.getValue();
+            bindingChargingIcon.chargingIconSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + chargingIconSize[0] + "dp");
+            RPrefs.putInt(CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT, chargingIconSize[0]);
+        });
     }
 
     private void updateLayoutVisibility() {
@@ -371,7 +398,7 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
         boolean showColorPickers = bindingCustomColors.blendedColor.isChecked();
         boolean showRainbowBattery = battery_styles.indexOf(getString(R.string.battery_landscape_battery_i)) == selectedIndex ||
                 battery_styles.indexOf(getString(R.string.battery_landscape_battery_j)) == selectedIndex;
-        boolean showWidthHeight = selectedIndex != 0;
+        boolean showCommonCustomizations = selectedIndex != 0;
         boolean showBatteryDimensions = selectedIndex > 2 && bindingCustomDimens.customDimensions.isChecked();
         boolean showPercentage = selectedIndex != BATTERY_STYLE_DEFAULT &&
                 selectedIndex != BATTERY_STYLE_DEFAULT_LANDSCAPE &&
@@ -379,6 +406,7 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
                 selectedIndex != BATTERY_STYLE_LANDSCAPE_IOS_16 &&
                 selectedIndex != BATTERY_STYLE_LANDSCAPE_BATTERYL &&
                 selectedIndex != BATTERY_STYLE_LANDSCAPE_BATTERYM;
+        boolean showChargingIconCustomization = selectedIndex > 2 && bindingChargingIcon.enableChargingIcon.isChecked();
 
         int visibility_advanced = showAdvancedCustomizations ? View.VISIBLE : View.GONE;
         int visibility_colorpickers = showAdvancedCustomizations && showColorPickers ? View.VISIBLE : View.GONE;
@@ -386,8 +414,12 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
         int visibility_wh = selectedIndex > 2 ? View.VISIBLE : View.GONE;
         int visibility_dimensions = showBatteryDimensions ? View.VISIBLE : View.GONE;
         int visibility_percentage = showPercentage ? View.VISIBLE : View.GONE;
+        int visibility_charging_icon_switch = selectedIndex > 2 ? View.VISIBLE : View.GONE;
+        int visibility_charging_icon_cust = showChargingIconCustomization ? View.VISIBLE : View.GONE;
 
         // Misc settings
+        bindingMiscSettings.batteryWidthSeekbar.setEnabled(showCommonCustomizations);
+        bindingMiscSettings.batteryHeightSeekbar.setEnabled(showCommonCustomizations);
         bindingMiscSettings.hidePercentageContainer.setVisibility(visibility_percentage);
         bindingMiscSettings.reverseLayoutContainer.setVisibility(visibility_advanced);
         bindingMiscSettings.rotateLayoutContainer.setVisibility(visibility_advanced);
@@ -401,41 +433,14 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
 
         // Custom dimensions
         bindingCustomDimens.customDimensionsContainer.setVisibility(visibility_wh);
-        bindingCustomDimens.batteryWidthSeekbar.setEnabled(showWidthHeight);
-        bindingCustomDimens.batteryHeightSeekbar.setEnabled(showWidthHeight);
         bindingCustomDimens.batteryMarginLeftContainer.setVisibility(visibility_dimensions);
         bindingCustomDimens.batteryMarginTopContainer.setVisibility(visibility_dimensions);
         bindingCustomDimens.batteryMarginRightContainer.setVisibility(visibility_dimensions);
         bindingCustomDimens.batteryMarginBottomContainer.setVisibility(visibility_dimensions);
-    }
 
-    @Override
-    public void onColorSelected(int dialogId, int color) {
-        ColorPickerDialog.Builder[] colorPickers = {
-                fillColorPicker,
-                fillGradColorPicker,
-                chargingFillColorPicker,
-                powersaveFillColorPicker,
-                powersaveIconColorPicker
-        };
-        String[] prefKeys = {
-                CUSTOM_BATTERY_FILL_COLOR,
-                CUSTOM_BATTERY_FILL_GRAD_COLOR,
-                CUSTOM_BATTERY_CHARGING_COLOR,
-                CUSTOM_BATTERY_POWERSAVE_FILL_COLOR,
-                CUSTOM_BATTERY_POWERSAVE_INDICATOR_COLOR
-        };
-
-        RPrefs.putInt(prefKeys[dialogId - 1], color);
-        colorPickers[dialogId - 1].setDialogStyle(R.style.ColorPicker)
-                .setColor(color)
-                .setDialogType(ColorPickerDialog.TYPE_CUSTOM)
-                .setAllowCustom(false)
-                .setAllowPresets(true)
-                .setDialogId(dialogId)
-                .setShowAlphaSlider(false)
-                .setShowColorShades(true);
-        updateColorPreview(dialogId, color);
+        // Custom charging icon
+        bindingChargingIcon.enableChargingIconContainer.setVisibility(visibility_charging_icon_switch);
+        bindingChargingIcon.chargingIconCustContainer.setVisibility(visibility_charging_icon_cust);
     }
 
     private void updateColorPreview(int dialogId, int color) {
@@ -467,12 +472,58 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
     }
 
     @Override
+    public void onItemSelected(int dialogId, int selectedIndex) {
+        switch (dialogId) {
+            case 0 -> {
+                selectedBatteryStyle = selectedIndex;
+                binding.selectedCustomBatteryStyle.setText(getResources().getString(R.string.opt_selected) + ' ' + binding.selectedCustomBatteryStyle.getText().toString().replaceAll(getResources().getString(R.string.opt_selected) + ' ', ""));
+            }
+            case 1 -> {
+                selectedChargingIcon = selectedIndex;
+                bindingChargingIcon.selectedCustomChargingIconStyle.setText(getResources().getString(R.string.opt_selected) + ' ' + bindingChargingIcon.selectedCustomChargingIconStyle.getText().toString().replaceAll(getResources().getString(R.string.opt_selected) + ' ', ""));
+                RPrefs.putInt(CUSTOM_BATTERY_CHARGING_ICON_STYLE, selectedIndex);
+            }
+        }
+        updateLayoutVisibility();
+    }
+
+    @Override
+    public void onColorSelected(int dialogId, int color) {
+        ColorPickerDialog.Builder[] colorPickers = {
+                fillColorPicker,
+                fillGradColorPicker,
+                chargingFillColorPicker,
+                powersaveFillColorPicker,
+                powersaveIconColorPicker
+        };
+        String[] prefKeys = {
+                CUSTOM_BATTERY_FILL_COLOR,
+                CUSTOM_BATTERY_FILL_GRAD_COLOR,
+                CUSTOM_BATTERY_CHARGING_COLOR,
+                CUSTOM_BATTERY_POWERSAVE_FILL_COLOR,
+                CUSTOM_BATTERY_POWERSAVE_INDICATOR_COLOR
+        };
+
+        RPrefs.putInt(prefKeys[dialogId - 1], color);
+        colorPickers[dialogId - 1].setDialogStyle(R.style.ColorPicker)
+                .setColor(color)
+                .setDialogType(ColorPickerDialog.TYPE_CUSTOM)
+                .setAllowCustom(false)
+                .setAllowPresets(true)
+                .setDialogId(dialogId)
+                .setShowAlphaSlider(false)
+                .setShowColorShades(true);
+        updateColorPreview(dialogId, color);
+    }
+
+    @Override
     public void onDialogDismissed(int dialogId) {
     }
 
     @Override
     public void onDestroy() {
         rd_battery_style.dismiss();
+        rd_charging_icon_style.dismiss();
         super.onDestroy();
     }
 }

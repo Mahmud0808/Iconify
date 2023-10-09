@@ -6,6 +6,80 @@
     tools:orientation="vertical"
     tools:parentTag="LinearLayout">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_background_material"
+        android:clickable="true"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="22dp"
+        android:paddingBottom="4dp">
+
+        <TextView
+            style="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/battery_width_title"
+            android:textColor="@color/text_color_primary" />
+
+        <TextView
+            android:id="@+id/battery_width_output"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_color_secondary" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/battery_width_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="4dp"
+            android:stepSize="1"
+            android:value="20"
+            android:valueFrom="10"
+            android:valueTo="30" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_background_material"
+        android:clickable="true"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="22dp"
+        android:paddingBottom="4dp">
+
+        <TextView
+            style="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/battery_height_title"
+            android:textColor="@color/text_color_primary" />
+
+        <TextView
+            android:id="@+id/battery_height_output"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_color_secondary" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/battery_height_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="4dp"
+            android:stepSize="1"
+            android:value="20"
+            android:valueFrom="10"
+            android:valueTo="30" />
+
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/hide_percentage_container"
         android:layout_width="match_parent"
