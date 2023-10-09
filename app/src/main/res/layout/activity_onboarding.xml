@@ -18,6 +18,7 @@
         android:layout_marginEnd="30dp"
         android:letterSpacing="0.1"
         android:text="@string/btn_skip"
+        android:textColor="#CCFFFFFF"
         android:textSize="18sp"
         app:textAllCaps="true" />
 

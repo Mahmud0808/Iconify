@@ -39,6 +39,14 @@
     <color name="textColorSecondaryInverse">@android:color/system_neutral1_700</color>
     <color name="textColorSecondaryLight">@android:color/system_neutral1_100</color>
 
+    <!-- Onboarding text -->
+    <color name="onboarding_text_one_primary">#FFFFF6F7</color>
+    <color name="onboarding_text_one_secondary">#CCFFF6F7</color>
+    <color name="onboarding_text_two_primary">#FFF3F9F9</color>
+    <color name="onboarding_text_two_secondary">#CCF3F9F9</color>
+    <color name="onboarding_text_three_primary">#FFF6FBFF</color>
+    <color name="onboarding_text_three_secondary">#CCF6FBFF</color>
+
     <!-- Splash screen -->
     <color name="splash_logo">@color/colorAccent</color>
 

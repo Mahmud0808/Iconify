@@ -10,6 +10,7 @@ import android.view.animation.Animation;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.databinding.FragmentOnboardingBinding;
@@ -23,17 +24,22 @@ public class Onboarding extends BaseFragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String ARG_PARAM3 = "param3";
+    private static final String ARG_PARAM4 = "param4";
+    private static final String ARG_PARAM5 = "param5";
     private String title;
     private String description;
     private int imageResource;
+    private int textColorPrimary, textColorSecondary;
     private FragmentOnboardingBinding binding;
 
-    public static Onboarding newInstance(String title, String description, int imageResource) {
+    public static Onboarding newInstance(String title, String description, int imageResource, int textColorPrimary, int textColorSecondary) {
         Onboarding fragment = new Onboarding();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, title);
         args.putString(ARG_PARAM2, description);
         args.putInt(ARG_PARAM3, imageResource);
+        args.putInt(ARG_PARAM4, textColorPrimary);
+        args.putInt(ARG_PARAM5, textColorSecondary);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,6 +52,8 @@ public class Onboarding extends BaseFragment {
             title = getArguments().getString(ARG_PARAM1);
             description = getArguments().getString(ARG_PARAM2);
             imageResource = getArguments().getInt(ARG_PARAM3);
+            textColorPrimary = getArguments().getInt(ARG_PARAM4);
+            textColorSecondary = getArguments().getInt(ARG_PARAM5);
         }
     }
 
@@ -57,6 +65,8 @@ public class Onboarding extends BaseFragment {
         binding.textOnboardingTitle.setText(title);
         binding.textOnboardingDescription.setText(description);
         binding.imageOnboarding.setAnimation(imageResource);
+        binding.textOnboardingTitle.setTextColor(ContextCompat.getColor(requireActivity(), textColorPrimary));
+        binding.textOnboardingDescription.setTextColor(ContextCompat.getColor(requireActivity(), textColorSecondary));
 
         remeasureConstraints();
 
