@@ -1,6 +1,12 @@
 package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_LANDSCAPE;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_RLANDSCAPE;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYL;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYM;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_IOS_16;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_BLEND_COLOR;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_CHARGING_COLOR;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_DIMENSION;
@@ -360,20 +366,26 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
 
         List<String> battery_styles = Arrays.asList(getResources().getStringArray(R.array.custom_battery_style));
 
-        boolean showBatteryCustomizations = selectedIndex >= battery_styles.indexOf(getString(R.string.battery_landscape_battery_a)) &&
+        boolean showAdvancedCustomizations = selectedIndex >= battery_styles.indexOf(getString(R.string.battery_landscape_battery_a)) &&
                 selectedIndex <= battery_styles.indexOf(getString(R.string.battery_landscape_battery_o));
         boolean showColorPickers = bindingCustomColors.blendedColor.isChecked();
         boolean showRainbowBattery = battery_styles.indexOf(getString(R.string.battery_landscape_battery_i)) == selectedIndex ||
                 battery_styles.indexOf(getString(R.string.battery_landscape_battery_j)) == selectedIndex;
-        boolean showBatteryWH = selectedIndex != 0;
+        boolean showWidthHeight = selectedIndex != 0;
         boolean showBatteryDimensions = selectedIndex > 2 && bindingCustomDimens.customDimensions.isChecked();
+        boolean showPercentage = selectedIndex != BATTERY_STYLE_DEFAULT &&
+                selectedIndex != BATTERY_STYLE_DEFAULT_LANDSCAPE &&
+                selectedIndex != BATTERY_STYLE_DEFAULT_RLANDSCAPE &&
+                selectedIndex != BATTERY_STYLE_LANDSCAPE_IOS_16 &&
+                selectedIndex != BATTERY_STYLE_LANDSCAPE_BATTERYL &&
+                selectedIndex != BATTERY_STYLE_LANDSCAPE_BATTERYM;
 
-        int visibility_percentage = selectedIndex != 0 ? View.VISIBLE : View.GONE;
-        int visibility_advanced = showBatteryCustomizations ? View.VISIBLE : View.GONE;
-        int visibility_colorpickers = showBatteryCustomizations && showColorPickers ? View.VISIBLE : View.GONE;
-        int visibility_rainbow = showBatteryCustomizations && showRainbowBattery ? View.VISIBLE : View.GONE;
+        int visibility_advanced = showAdvancedCustomizations ? View.VISIBLE : View.GONE;
+        int visibility_colorpickers = showAdvancedCustomizations && showColorPickers ? View.VISIBLE : View.GONE;
+        int visibility_rainbow = showAdvancedCustomizations && showRainbowBattery ? View.VISIBLE : View.GONE;
         int visibility_wh = selectedIndex > 2 ? View.VISIBLE : View.GONE;
         int visibility_dimensions = showBatteryDimensions ? View.VISIBLE : View.GONE;
+        int visibility_percentage = showPercentage ? View.VISIBLE : View.GONE;
 
         // Misc settings
         bindingMiscSettings.hidePercentageContainer.setVisibility(visibility_percentage);
@@ -389,8 +401,8 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
 
         // Custom dimensions
         bindingCustomDimens.customDimensionsContainer.setVisibility(visibility_wh);
-        bindingCustomDimens.batteryWidthSeekbar.setEnabled(showBatteryWH);
-        bindingCustomDimens.batteryHeightSeekbar.setEnabled(showBatteryWH);
+        bindingCustomDimens.batteryWidthSeekbar.setEnabled(showWidthHeight);
+        bindingCustomDimens.batteryHeightSeekbar.setEnabled(showWidthHeight);
         bindingCustomDimens.batteryMarginLeftContainer.setVisibility(visibility_dimensions);
         bindingCustomDimens.batteryMarginTopContainer.setVisibility(visibility_dimensions);
         bindingCustomDimens.batteryMarginRightContainer.setVisibility(visibility_dimensions);
