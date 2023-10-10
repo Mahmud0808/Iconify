@@ -94,7 +94,7 @@ public class QSBlackTheme extends ModPack {
         Class<?> QuickStatusBarHeaderClass = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", lpparam.classLoader);
         Class<?> BrightnessControllerClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessController", lpparam.classLoader);
         Class<?> BrightnessMirrorControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.BrightnessMirrorController", lpparam.classLoader);
-        Class<?> BrightnessSliderControllerClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessSliderController", lpparam.classLoader);
+        Class<?> BrightnessSliderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessSliderController", lpparam.classLoader);
 
         hookAllConstructors(QSPanelControllerClass, new XC_MethodHook() {
             @Override
@@ -219,22 +219,26 @@ public class QSBlackTheme extends ModPack {
             }
         });
 
-        hookAllConstructors(BrightnessSliderControllerClass, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) {
-                if (!blackQSHeaderEnabled) return;
+        if (BrightnessSliderControllerClass != null) {
+            hookAllConstructors(BrightnessSliderControllerClass, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!blackQSHeaderEnabled) return;
 
-                try {
-                    ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(colorText));
-                } catch (Throwable throwable) {
                     try {
-                        ((ImageView) getObjectField(param.thisObject, "mIconView")).setImageTintList(ColorStateList.valueOf(colorText));
-                    } catch (Throwable throwable1) {
-                        log(TAG + throwable1);
+                        ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(colorText));
+                    } catch (Throwable throwable) {
+                        try {
+                            ((ImageView) getObjectField(param.thisObject, "mIconView")).setImageTintList(ColorStateList.valueOf(colorText));
+                        } catch (Throwable throwable1) {
+                            log(TAG + throwable1);
+                        }
                     }
                 }
-            }
-        });
+            });
+        } else {
+            log(TAG + "Not a crash... BrightnessSliderController class not found.");
+        }
 
         hookAllMethods(BrightnessMirrorControllerClass, "updateIcon", new XC_MethodHook() {
             @Override
@@ -431,36 +435,34 @@ public class QSBlackTheme extends ModPack {
             for (Object constant : constants) {
                 String enumVal = constant.toString();
                 switch (enumVal) {
-                    case "KEYGUARD":
-                        hookAllMethods(constant.getClass(), "prepare", new XC_MethodHook() {
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                                if (!blackQSHeaderEnabled) return;
-                                boolean mClipQsScrim = (boolean) getObjectField(param.thisObject, "mClipQsScrim");
-                                if (mClipQsScrim) {
-                                    Object mScrimBehind = getObjectField(param.thisObject, "mScrimBehind");
-                                    int mTintColor = getIntField(mScrimBehind, "mTintColor");
-                                    if (mTintColor != Color.BLACK) {
-                                        setObjectField(mScrimBehind, "mTintColor", Color.BLACK);
-                                        callMethod(mScrimBehind, "updateColorWithTint", false);
+                    case "KEYGUARD" ->
+                            hookAllMethods(constant.getClass(), "prepare", new XC_MethodHook() {
+                                @Override
+                                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                                    if (!blackQSHeaderEnabled) return;
+                                    boolean mClipQsScrim = (boolean) getObjectField(param.thisObject, "mClipQsScrim");
+                                    if (mClipQsScrim) {
+                                        Object mScrimBehind = getObjectField(param.thisObject, "mScrimBehind");
+                                        int mTintColor = getIntField(mScrimBehind, "mTintColor");
+                                        if (mTintColor != Color.BLACK) {
+                                            setObjectField(mScrimBehind, "mTintColor", Color.BLACK);
+                                            callMethod(mScrimBehind, "updateColorWithTint", false);
+                                        }
+
+                                        callMethod(mScrimBehind, "setViewAlpha", 1f);
                                     }
-
-                                    callMethod(mScrimBehind, "setViewAlpha", 1f);
                                 }
-                            }
-                        });
-                        break;
-                    case "BOUNCER":
-                        hookAllMethods(constant.getClass(), "prepare", new XC_MethodHook() {
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                                if (!blackQSHeaderEnabled) return;
+                            });
+                    case "BOUNCER" ->
+                            hookAllMethods(constant.getClass(), "prepare", new XC_MethodHook() {
+                                @Override
+                                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                                    if (!blackQSHeaderEnabled) return;
 
-                                setObjectField(param.thisObject, "mBehindTint", Color.BLACK);
-                            }
-                        });
-                        break;
-                    case "SHADE_LOCKED":
+                                    setObjectField(param.thisObject, "mBehindTint", Color.BLACK);
+                                }
+                            });
+                    case "SHADE_LOCKED" -> {
                         hookAllMethods(constant.getClass(), "prepare", new XC_MethodHook() {
                             @Override
                             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -487,26 +489,24 @@ public class QSBlackTheme extends ModPack {
                                 param.setResult(Color.BLACK);
                             }
                         });
-                        break;
+                    }
+                    case "UNLOCKED" ->
+                            hookAllMethods(constant.getClass(), "prepare", new XC_MethodHook() {
+                                @Override
+                                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                                    if (!blackQSHeaderEnabled) return;
 
-                    case "UNLOCKED":
-                        hookAllMethods(constant.getClass(), "prepare", new XC_MethodHook() {
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                                if (!blackQSHeaderEnabled) return;
+                                    setObjectField(param.thisObject, "mBehindTint", Color.BLACK);
 
-                                setObjectField(param.thisObject, "mBehindTint", Color.BLACK);
-
-                                Object mScrimBehind = getObjectField(param.thisObject, "mScrimBehind");
-                                int mTintColor = getIntField(mScrimBehind, "mTintColor");
-                                if (mTintColor != Color.BLACK) {
-                                    setObjectField(mScrimBehind, "mTintColor", Color.BLACK);
-                                    callMethod(mScrimBehind, "updateColorWithTint", false);
+                                    Object mScrimBehind = getObjectField(param.thisObject, "mScrimBehind");
+                                    int mTintColor = getIntField(mScrimBehind, "mTintColor");
+                                    if (mTintColor != Color.BLACK) {
+                                        setObjectField(mScrimBehind, "mTintColor", Color.BLACK);
+                                        callMethod(mScrimBehind, "updateColorWithTint", false);
+                                    }
+                                    callMethod(mScrimBehind, "setViewAlpha", 1f);
                                 }
-                                callMethod(mScrimBehind, "setViewAlpha", 1f);
-                            }
-                        });
-                        break;
+                            });
                 }
             }
         } catch (Throwable throwable) {

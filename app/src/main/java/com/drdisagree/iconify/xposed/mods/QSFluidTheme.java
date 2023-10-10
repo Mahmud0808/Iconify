@@ -104,7 +104,7 @@ public class QSFluidTheme extends ModPack {
         Class<?> BrightnessSliderViewClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessSliderView", lpparam.classLoader);
         Class<?> BrightnessControllerClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessController", lpparam.classLoader);
         Class<?> BrightnessMirrorControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.BrightnessMirrorController", lpparam.classLoader);
-        Class<?> BrightnessSliderControllerClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessSliderController", lpparam.classLoader);
+        Class<?> BrightnessSliderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessSliderController", lpparam.classLoader);
         Class<?> ActivatableNotificationViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.ActivatableNotificationView", lpparam.classLoader);
 
         // Initialize resources and colors
@@ -286,23 +286,27 @@ public class QSFluidTheme extends ModPack {
             }
         });
 
-        hookAllConstructors(BrightnessSliderControllerClass, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) {
-                if (!fluidQsThemeEnabled) return;
+        if (BrightnessSliderControllerClass != null) {
+            hookAllConstructors(BrightnessSliderControllerClass, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!fluidQsThemeEnabled) return;
 
-                try {
-                    ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(colorActive[0]));
-                    ((ImageView) getObjectField(param.thisObject, "mIcon")).setBackgroundTintList(ColorStateList.valueOf(colorActiveAlpha[0]));
-                } catch (Throwable throwable) {
                     try {
-                        ((ImageView) getObjectField(param.thisObject, "mIconView")).setImageTintList(ColorStateList.valueOf(colorActive[0]));
-                        ((ImageView) getObjectField(param.thisObject, "mIconView")).setBackgroundTintList(ColorStateList.valueOf(colorActiveAlpha[0]));
-                    } catch (Throwable ignored) {
+                        ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(colorActive[0]));
+                        ((ImageView) getObjectField(param.thisObject, "mIcon")).setBackgroundTintList(ColorStateList.valueOf(colorActiveAlpha[0]));
+                    } catch (Throwable throwable) {
+                        try {
+                            ((ImageView) getObjectField(param.thisObject, "mIconView")).setImageTintList(ColorStateList.valueOf(colorActive[0]));
+                            ((ImageView) getObjectField(param.thisObject, "mIconView")).setBackgroundTintList(ColorStateList.valueOf(colorActiveAlpha[0]));
+                        } catch (Throwable ignored) {
+                        }
                     }
                 }
-            }
-        });
+            });
+        } else {
+            log(TAG + "Not a crash... BrightnessSliderController class not found.");
+        }
 
         hookAllMethods(BrightnessMirrorControllerClass, "updateIcon", new XC_MethodHook() {
             @Override
