@@ -738,7 +738,7 @@ public class BatteryStyleManager extends ModPack {
             ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "dimen", "status_bar_battery_icon_height", new XResources.DimensionReplacement(mBatteryScaleHeight, TypedValue.COMPLEX_UNIT_DIP));
             ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "dimen", "signal_cluster_battery_padding", new XResources.DimensionReplacement(4, TypedValue.COMPLEX_UNIT_DIP));
         } else if (CustomBatteryEnabled) {
-            ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "dimen", "signal_cluster_battery_padding", new XResources.DimensionReplacement(4, TypedValue.COMPLEX_UNIT_DIP));
+            ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "dimen", "signal_cluster_battery_padding", new XResources.DimensionReplacement(3, TypedValue.COMPLEX_UNIT_DIP));
         }
     }
 
