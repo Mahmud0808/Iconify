@@ -392,7 +392,7 @@ public class BatteryStyleManager extends ModPack {
                                     mBatteryPercentView.setVisibility(mShowPercentInside ? View.GONE : View.VISIBLE);
                                 }
 
-                                scaleBatteryMeterViews(view);
+                                scaleBatteryMeterView(view);
                                 updateChargingIconView(view, mIsCharging);
                             });
                         } catch (Throwable ignored) {
@@ -584,6 +584,7 @@ public class BatteryStyleManager extends ModPack {
                 callMethod(getObjectField(param.thisObject, "iconManager"), "setTint", textColorPrimary);
             }
             callMethod(batteryIcon, "updateColors", textColorPrimary, textColorSecondary, textColorPrimary);
+            scaleBatteryMeterView((Object) batteryIcon);
         } catch (Throwable throwable) {
             log(TAG + throwable);
         }
@@ -603,7 +604,7 @@ public class BatteryStyleManager extends ModPack {
             }
 
             if (CustomBatteryEnabled) {
-                scaleBatteryMeterViews(mBatteryIconView);
+                scaleBatteryMeterView(mBatteryIconView);
 
                 try {
                     BatteryDrawable mBatteryDrawable = (BatteryDrawable) getAdditionalInstanceField(view, "mBatteryDrawable");
@@ -619,12 +620,12 @@ public class BatteryStyleManager extends ModPack {
         }
     }
 
-    public static void scaleBatteryMeterViews(Object thisObject) {
+    public static void scaleBatteryMeterView(Object thisObject) {
         ImageView mBatteryIconView = (ImageView) getObjectField(thisObject, "mBatteryIconView");
-        scaleBatteryMeterViews(mBatteryIconView);
+        scaleBatteryMeterView(mBatteryIconView);
     }
 
-    public static void scaleBatteryMeterViews(ImageView mBatteryIconView) {
+    public static void scaleBatteryMeterView(ImageView mBatteryIconView) {
         if (mBatteryIconView == null) {
             return;
         }
@@ -670,7 +671,15 @@ public class BatteryStyleManager extends ModPack {
                 }
             }
 
-            final ViewGroup.MarginLayoutParams mlp = new ViewGroup.MarginLayoutParams(mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_battery_icon_width", "dimen", mContext.getPackageName())), mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_battery_icon_height", "dimen", mContext.getPackageName())));
+            TypedValue typedValue = new TypedValue();
+
+            mContext.getResources().getValue(mContext.getResources().getIdentifier("status_bar_icon_scale_factor", "dimen", mContext.getPackageName()), typedValue, true);
+            float iconScaleFactor = typedValue.getFloat();
+
+            int batteryWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mBatteryScaleWidth, mBatteryIconView.getContext().getResources().getDisplayMetrics());
+            int batteryHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mBatteryScaleHeight, mBatteryIconView.getContext().getResources().getDisplayMetrics());
+
+            final ViewGroup.MarginLayoutParams mlp = new ViewGroup.MarginLayoutParams((int) (batteryWidth * iconScaleFactor), (int) (batteryHeight * iconScaleFactor));
             mlp.setMargins(0, 0, 0, mContext.getResources().getDimensionPixelOffset(mContext.getResources().getIdentifier("battery_margin_bottom", "dimen", mContext.getPackageName())));
             setObjectField(param.thisObject, "mBatteryIconView", mBatteryIconView);
             callMethod(param.thisObject, "addView", mBatteryIconView, mlp);
