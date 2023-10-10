@@ -46,6 +46,7 @@ import androidx.core.content.res.ResourcesCompat;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.utils.RoundedCornerProgressDrawable;
+import com.drdisagree.iconify.xposed.utils.SettingsLibUtils;
 import com.drdisagree.iconify.xposed.utils.SystemUtil;
 import com.drdisagree.iconify.xposed.utils.ViewHelper;
 
@@ -66,16 +67,14 @@ public class QSFluidTheme extends ModPack {
     private static boolean fluidQsThemeEnabled = false;
     private static boolean fluidNotifEnabled = false;
     private static boolean fluidPowerMenuEnabled = false;
-    final Integer[] colorAccent = {mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", mContext.getPackageName()), mContext.getTheme())};
-    final Integer[] colorActiveAlpha = {Color.argb((int) (ACTIVE_ALPHA * 255), Color.red(colorAccent[0]), Color.green(colorAccent[0]), Color.blue(colorAccent[0]))};
-    final Integer[] colorInactiveAlpha = {null};
+    final Integer[] colorActive = {mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", mContext.getPackageName()), mContext.getTheme())};
+    final Integer[] colorActiveAlpha = {Color.argb((int) (ACTIVE_ALPHA * 255), Color.red(colorActive[0]), Color.green(colorActive[0]), Color.blue(colorActive[0]))};
+    Integer[] colorInactive = {SettingsLibUtils.getColorAttrDefaultColor(mContext, mContext.getResources().getIdentifier("offStateColor", "attr", mContext.getPackageName()))};
+    final Integer[] colorInactiveAlpha = {changeAlpha(colorInactive[0], INACTIVE_ALPHA)};
     private boolean wasDark = SystemUtil.isDarkMode();
-    private XC_MethodHook.MethodHookParam QSTileViewImplParam = null;
 
     public QSFluidTheme(Context context) {
         super(context);
-
-        wasDark = SystemUtil.isDarkMode();
     }
 
     @SuppressWarnings("SameParameterValue")
@@ -112,10 +111,6 @@ public class QSFluidTheme extends ModPack {
         hookAllMethods(QSTileViewImplClass, "init", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
-                QSTileViewImplParam = param;
-
-                if (!fluidQsThemeEnabled) return;
-
                 initResources();
             }
         });
@@ -140,20 +135,18 @@ public class QSFluidTheme extends ModPack {
         hookAllConstructors(QSTileViewImplClass, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
-                colorInactiveAlpha[0] = changeAlpha((Integer) getObjectField(param.thisObject, "colorInactive"), INACTIVE_ALPHA);
+                colorInactiveAlpha[0] = changeAlpha(SettingsLibUtils.getColorAttrDefaultColor(mContext, mContext.getResources().getIdentifier("offStateColor", "attr", mContext.getPackageName())), INACTIVE_ALPHA);
             }
         });
 
         hookAllMethods(QSTileViewImplClass, "getBackgroundColorForState", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
-                QSTileViewImplParam = param;
-
                 if (!fluidQsThemeEnabled) return;
 
                 try {
                     if ((int) param.args[0] == STATE_ACTIVE) {
-                        param.setResult(changeAlpha(colorAccent[0], ACTIVE_ALPHA));
+                        param.setResult(changeAlpha(colorActive[0], ACTIVE_ALPHA));
                     } else {
                         Integer colorInactive = (Integer) param.getResult();
 
@@ -181,7 +174,7 @@ public class QSFluidTheme extends ModPack {
 
                 try {
                     if ((int) getObjectField(param.args[1], "state") == STATE_ACTIVE) {
-                        param.setResult(colorAccent[0]);
+                        param.setResult(colorActive[0]);
                     }
                 } catch (Throwable throwable) {
                     log(TAG + throwable);
@@ -196,7 +189,7 @@ public class QSFluidTheme extends ModPack {
 
                 try {
                     if (param.args[0] instanceof ImageView && getIntField(param.args[1], "state") == STATE_ACTIVE) {
-                        ((ImageView) param.args[0]).setImageTintList(ColorStateList.valueOf(colorAccent[0]));
+                        ((ImageView) param.args[0]).setImageTintList(ColorStateList.valueOf(colorActive[0]));
                     }
                 } catch (Throwable throwable) {
                     log(TAG + throwable);
@@ -211,7 +204,7 @@ public class QSFluidTheme extends ModPack {
 
                 try {
                     if (param.args[0] instanceof ImageView && getIntField(param.args[1], "state") == STATE_ACTIVE) {
-                        setObjectField(param.thisObject, "mTint", colorAccent[0]);
+                        setObjectField(param.thisObject, "mTint", colorActive[0]);
                     }
                 } catch (Throwable throwable) {
                     log(TAG + throwable);
@@ -237,13 +230,13 @@ public class QSFluidTheme extends ModPack {
                         try {
                             ViewGroup pm_button_container = view.findViewById(res.getIdentifier("pm_lite", "id", mContext.getPackageName()));
                             pm_button_container.getBackground().setAlpha((int) (ACTIVE_ALPHA * 255));
-                            pm_button_container.getBackground().setTint(colorAccent[0]);
-                            ((ImageView) pm_button_container.getChildAt(0)).setColorFilter(colorAccent[0], PorterDuff.Mode.SRC_IN);
+                            pm_button_container.getBackground().setTint(colorActive[0]);
+                            ((ImageView) pm_button_container.getChildAt(0)).setColorFilter(colorActive[0], PorterDuff.Mode.SRC_IN);
                         } catch (Throwable ignored) {
                             ImageView pm_button = view.findViewById(res.getIdentifier("pm_lite", "id", mContext.getPackageName()));
                             pm_button.getBackground().setAlpha((int) (ACTIVE_ALPHA * 255));
-                            pm_button.getBackground().setTint(colorAccent[0]);
-                            pm_button.setImageTintList(ColorStateList.valueOf(colorAccent[0]));
+                            pm_button.getBackground().setTint(colorActive[0]);
+                            pm_button.setImageTintList(ColorStateList.valueOf(colorActive[0]));
                         }
                     } catch (Throwable throwable) {
                         log(TAG + throwable);
@@ -285,7 +278,7 @@ public class QSFluidTheme extends ModPack {
                 if (!fluidQsThemeEnabled) return;
 
                 try {
-                    ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(colorAccent[0]));
+                    ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(colorActive[0]));
                     ((ImageView) getObjectField(param.thisObject, "mIcon")).setBackgroundTintList(ColorStateList.valueOf(colorActiveAlpha[0]));
                 } catch (Throwable throwable) {
                     log(TAG + throwable);
@@ -299,11 +292,11 @@ public class QSFluidTheme extends ModPack {
                 if (!fluidQsThemeEnabled) return;
 
                 try {
-                    ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(colorAccent[0]));
+                    ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(colorActive[0]));
                     ((ImageView) getObjectField(param.thisObject, "mIcon")).setBackgroundTintList(ColorStateList.valueOf(colorActiveAlpha[0]));
                 } catch (Throwable throwable) {
                     try {
-                        ((ImageView) getObjectField(param.thisObject, "mIconView")).setImageTintList(ColorStateList.valueOf(colorAccent[0]));
+                        ((ImageView) getObjectField(param.thisObject, "mIconView")).setImageTintList(ColorStateList.valueOf(colorActive[0]));
                         ((ImageView) getObjectField(param.thisObject, "mIconView")).setBackgroundTintList(ColorStateList.valueOf(colorActiveAlpha[0]));
                     } catch (Throwable ignored) {
                     }
@@ -317,7 +310,7 @@ public class QSFluidTheme extends ModPack {
                 if (!fluidQsThemeEnabled) return;
 
                 try {
-                    ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(colorAccent[0]));
+                    ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(colorActive[0]));
                     ((ImageView) getObjectField(param.thisObject, "mIcon")).setBackgroundTintList(ColorStateList.valueOf(colorActiveAlpha[0]));
                 } catch (Throwable throwable) {
                     log(TAG + throwable);
@@ -355,13 +348,11 @@ public class QSFluidTheme extends ModPack {
         hookAllMethods(QSTileViewImplClass, "getLabelColorForState", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
-                QSTileViewImplParam = param;
-
                 if (!fluidQsThemeEnabled) return;
 
                 try {
                     if ((int) param.args[0] == STATE_ACTIVE) {
-                        param.setResult(colorAccent[0]);
+                        param.setResult(colorActive[0]);
                     }
                 } catch (Throwable throwable) {
                     log(TAG + throwable);
@@ -373,13 +364,11 @@ public class QSFluidTheme extends ModPack {
         hookAllMethods(QSTileViewImplClass, "getSecondaryLabelColorForState", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
-                QSTileViewImplParam = param;
-
                 if (!fluidQsThemeEnabled) return;
 
                 try {
                     if ((int) param.args[0] == STATE_ACTIVE) {
-                        param.setResult(colorAccent[0]);
+                        param.setResult(colorActive[0]);
                     }
                 } catch (Throwable throwable) {
                     log(TAG + throwable);
@@ -391,16 +380,14 @@ public class QSFluidTheme extends ModPack {
         hookAllConstructors(QSTileViewImplClass, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
-                QSTileViewImplParam = param;
-
                 if (!fluidQsThemeEnabled) return;
 
                 try {
-                    setObjectField(param.thisObject, "colorActive", changeAlpha(colorAccent[0], ACTIVE_ALPHA));
+                    setObjectField(param.thisObject, "colorActive", changeAlpha(colorActive[0], ACTIVE_ALPHA));
                     setObjectField(param.thisObject, "colorInactive", changeAlpha((Integer) getObjectField(param.thisObject, "colorInactive"), INACTIVE_ALPHA));
                     setObjectField(param.thisObject, "colorUnavailable", changeAlpha((Integer) getObjectField(param.thisObject, "colorInactive"), UNAVAILABLE_ALPHA));
-                    setObjectField(param.thisObject, "colorLabelActive", colorAccent[0]);
-                    setObjectField(param.thisObject, "colorSecondaryLabelActive", colorAccent[0]);
+                    setObjectField(param.thisObject, "colorLabelActive", colorActive[0]);
+                    setObjectField(param.thisObject, "colorSecondaryLabelActive", colorActive[0]);
                 } catch (Throwable throwable) {
                     log(TAG + throwable);
                 }
@@ -410,18 +397,16 @@ public class QSFluidTheme extends ModPack {
         hookAllMethods(QSTileViewImplClass, "updateResources", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
-                QSTileViewImplParam = param;
-
                 if (!fluidQsThemeEnabled) return;
 
                 initResources();
 
                 try {
-                    setObjectField(param.thisObject, "colorActive", changeAlpha(colorAccent[0], ACTIVE_ALPHA));
+                    setObjectField(param.thisObject, "colorActive", changeAlpha(colorActive[0], ACTIVE_ALPHA));
                     setObjectField(param.thisObject, "colorInactive", changeAlpha((Integer) getObjectField(param.thisObject, "colorInactive"), INACTIVE_ALPHA));
                     setObjectField(param.thisObject, "colorUnavailable", changeAlpha((Integer) getObjectField(param.thisObject, "colorInactive"), UNAVAILABLE_ALPHA));
-                    setObjectField(param.thisObject, "colorLabelActive", colorAccent[0]);
-                    setObjectField(param.thisObject, "colorSecondaryLabelActive", colorAccent[0]);
+                    setObjectField(param.thisObject, "colorLabelActive", colorActive[0]);
+                    setObjectField(param.thisObject, "colorSecondaryLabelActive", colorActive[0]);
                 } catch (Throwable throwable) {
                     log(TAG + throwable);
                 }
@@ -477,13 +462,10 @@ public class QSFluidTheme extends ModPack {
     }
 
     private void initColors() {
-        colorAccent[0] = mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", mContext.getPackageName()), mContext.getTheme());
-        colorActiveAlpha[0] = Color.argb((int) (ACTIVE_ALPHA * 255), Color.red(colorAccent[0]), Color.green(colorAccent[0]), Color.blue(colorAccent[0]));
-        if (QSTileViewImplParam != null) {
-            colorInactiveAlpha[0] = changeAlpha((Integer) getObjectField(QSTileViewImplParam.thisObject, "colorInactive"), INACTIVE_ALPHA);
-        } else {
-            colorInactiveAlpha[0] = colorInactiveAlpha[0] == null ? (wasDark ? Color.parseColor("#0FFFFFFF") : Color.parseColor("#59FFFFFF")) : colorInactiveAlpha[0];
-        }
+        colorActive[0] = mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_300", "color", mContext.getPackageName()), mContext.getTheme());
+        colorActiveAlpha[0] = Color.argb((int) (ACTIVE_ALPHA * 255), Color.red(colorActive[0]), Color.green(colorActive[0]), Color.blue(colorActive[0]));
+        colorInactive[0] = SettingsLibUtils.getColorAttrDefaultColor(mContext, mContext.getResources().getIdentifier("offStateColor", "attr", mContext.getPackageName()));
+        colorInactiveAlpha[0] = changeAlpha(colorInactive[0], INACTIVE_ALPHA);
     }
 
     private void initResources() {
@@ -602,14 +584,14 @@ public class QSFluidTheme extends ModPack {
         }
         ShapeDrawable backgroundShape = new ShapeDrawable(new RoundRectShape(radiusF, null, null));
         backgroundShape.setIntrinsicHeight(height);
-        backgroundShape.getPaint().setColor(colorInactiveAlpha[0]);
+        backgroundShape.getPaint().setColor(changeAlpha(colorInactiveAlpha[0], UNAVAILABLE_ALPHA));
 
         // Create the progress drawable
         RoundedCornerProgressDrawable progressDrawable = null;
         try {
             progressDrawable = new RoundedCornerProgressDrawable(createBrightnessForegroundDrawable(context));
             progressDrawable.setAlpha((int) (ACTIVE_ALPHA * 255));
-            progressDrawable.setTint(colorAccent[0]);
+            progressDrawable.setTint(colorActive[0]);
         } catch (Throwable ignored) {
         }
 
@@ -617,8 +599,8 @@ public class QSFluidTheme extends ModPack {
         Drawable startDrawable = ResourcesCompat.getDrawable(modRes, R.drawable.ic_brightness_low, context.getTheme());
         Drawable endDrawable = ResourcesCompat.getDrawable(modRes, R.drawable.ic_brightness_full, context.getTheme());
         if (startDrawable != null && endDrawable != null) {
-            startDrawable.setTint(colorAccent[0]);
-            endDrawable.setTint(colorAccent[0]);
+            startDrawable.setTint(colorActive[0]);
+            endDrawable.setTint(colorActive[0]);
         }
 
         // Create the layer drawable
@@ -640,7 +622,7 @@ public class QSFluidTheme extends ModPack {
         GradientDrawable rectangleDrawable = new GradientDrawable();
         int cornerRadius = context.getResources().getDimensionPixelSize(res.getIdentifier("rounded_slider_corner_radius", "dimen", context.getPackageName()));
         rectangleDrawable.setCornerRadius(cornerRadius);
-        rectangleDrawable.setColor(colorAccent[0]);
+        rectangleDrawable.setColor(colorActive[0]);
 
         LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{rectangleDrawable});
         layerDrawable.setLayerGravity(0, Gravity.FILL_HORIZONTAL | Gravity.CENTER);
