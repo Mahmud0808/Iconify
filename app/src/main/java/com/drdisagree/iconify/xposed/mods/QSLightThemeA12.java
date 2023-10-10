@@ -195,30 +195,28 @@ public class QSLightThemeA12 extends ModPack {
             for (Object constant : constants) {
                 String enumVal = constant.toString();
                 switch (enumVal) {
-                    case "KEYGUARD":
-                        findAndHookMethod(constant.getClass(), "prepare", ScrimStateEnum, new XC_MethodHook() {
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                                if (!lightQSHeaderEnabled) return;
+                    case "KEYGUARD" ->
+                            findAndHookMethod(constant.getClass(), "prepare", ScrimStateEnum, new XC_MethodHook() {
+                                @Override
+                                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                                    if (!lightQSHeaderEnabled) return;
 
-                                boolean mClipQsScrim = (boolean) getObjectField(param.thisObject, "mClipQsScrim");
-                                if (mClipQsScrim) {
-                                    callMethod(param.thisObject, "updateScrimColor", getObjectField(param.thisObject, "mScrimBehind"), 1f, Color.TRANSPARENT);
+                                    boolean mClipQsScrim = (boolean) getObjectField(param.thisObject, "mClipQsScrim");
+                                    if (mClipQsScrim) {
+                                        callMethod(param.thisObject, "updateScrimColor", getObjectField(param.thisObject, "mScrimBehind"), 1f, Color.TRANSPARENT);
+                                    }
                                 }
-                            }
-                        });
-                        break;
-                    case "BOUNCER":
-                        findAndHookMethod(constant.getClass(), "prepare", ScrimStateEnum, new XC_MethodHook() {
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                                if (!lightQSHeaderEnabled) return;
+                            });
+                    case "BOUNCER" ->
+                            findAndHookMethod(constant.getClass(), "prepare", ScrimStateEnum, new XC_MethodHook() {
+                                @Override
+                                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                                    if (!lightQSHeaderEnabled) return;
 
-                                setObjectField(param.thisObject, "mBehindTint", Color.TRANSPARENT);
-                            }
-                        });
-                        break;
-                    case "SHADE_LOCKED":
+                                    setObjectField(param.thisObject, "mBehindTint", Color.TRANSPARENT);
+                                }
+                            });
+                    case "SHADE_LOCKED" -> {
                         hookAllMethods(constant.getClass(), "prepare", new XC_MethodHook() {
                             @Override
                             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -239,20 +237,18 @@ public class QSLightThemeA12 extends ModPack {
                                 param.setResult(Color.TRANSPARENT);
                             }
                         });
-                        break;
+                    }
+                    case "UNLOCKED" ->
+                            findAndHookMethod(constant.getClass(), "prepare", ScrimStateEnum, new XC_MethodHook() {
+                                @Override
+                                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                                    if (!lightQSHeaderEnabled) return;
 
-                    case "UNLOCKED":
-                        findAndHookMethod(constant.getClass(), "prepare", ScrimStateEnum, new XC_MethodHook() {
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                                if (!lightQSHeaderEnabled) return;
+                                    setObjectField(param.thisObject, "mBehindTint", Color.TRANSPARENT);
 
-                                setObjectField(param.thisObject, "mBehindTint", Color.TRANSPARENT);
-
-                                callMethod(param.thisObject, "updateScrimColor", getObjectField(param.thisObject, "mScrimBehind"), 1f, Color.TRANSPARENT);
-                            }
-                        });
-                        break;
+                                    callMethod(param.thisObject, "updateScrimColor", getObjectField(param.thisObject, "mScrimBehind"), 1f, Color.TRANSPARENT);
+                                }
+                            });
                 }
             }
         } catch (Throwable throwable) {
