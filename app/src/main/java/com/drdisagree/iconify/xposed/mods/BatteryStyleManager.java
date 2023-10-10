@@ -100,9 +100,11 @@ import static de.robv.android.xposed.XposedHelpers.setObjectField;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.content.res.XResources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -173,9 +175,8 @@ public class BatteryStyleManager extends ModPack {
     private static boolean CustomBatteryEnabled = false;
     private static int mBatteryScaleWidth = 20;
     private static int mBatteryScaleHeight = 20;
-    private int frameColor;
+    private int frameColor = Color.WHITE;
     private Object BatteryController = null;
-    private int textColorPrimary = Color.TRANSPARENT;
     private XC_MethodHook.MethodHookParam BatteryMeterViewParam;
     private boolean mBatteryLayoutReverse = false;
     private static boolean mBatteryCustomDimension = false;
@@ -296,8 +297,35 @@ public class BatteryStyleManager extends ModPack {
             setDefaultBatteryDimens();
         }
 
-        if (BatteryMeterViewParam != null) {
-            updateSettings(BatteryMeterViewParam);
+        if (Key.length > 0 && (Objects.equals(Key[0], CUSTOM_BATTERY_STYLE) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_HIDE_PERCENTAGE) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_LAYOUT_REVERSE) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_DIMENSION) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_WIDTH) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_HEIGHT) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_PERIMETER_ALPHA) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_FILL_ALPHA) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_RAINBOW_FILL_COLOR) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_BLEND_COLOR) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_CHARGING_COLOR) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_FILL_COLOR) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_FILL_GRAD_COLOR) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_POWERSAVE_INDICATOR_COLOR) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_POWERSAVE_FILL_COLOR) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_SWAP_PERCENTAGE) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_CHARGING_ICON_SWITCH) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_CHARGING_ICON_STYLE) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_CHARGING_ICON_MARGIN_LEFT) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_MARGIN_LEFT) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_MARGIN_TOP) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_MARGIN_RIGHT) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_MARGIN_BOTTOM))
+        ) {
+            if (BatteryMeterViewParam != null) {
+                updateSettings(BatteryMeterViewParam);
+            }
         }
     }
 
@@ -307,17 +335,6 @@ public class BatteryStyleManager extends ModPack {
         Class<?> BatteryMeterViewClass = findClassIfExists(SYSTEMUI_PACKAGE + ".battery.BatteryMeterView", lpparam.classLoader);
         if (BatteryMeterViewClass == null) {
             BatteryMeterViewClass = findClass(SYSTEMUI_PACKAGE + ".BatteryMeterView", lpparam.classLoader);
-        }
-
-        try {
-            findAndHookConstructor("com.android.settingslib.graph.ThemedBatteryDrawable", lpparam.classLoader, Context.class, int.class, new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) {
-                    frameColor = (int) param.args[1];
-                }
-            });
-        } catch (Throwable throwable) {
-            log(TAG + throwable);
         }
 
         try {
@@ -412,12 +429,26 @@ public class BatteryStyleManager extends ModPack {
                 }
             };
 
-            hookAllConstructors(BatteryMeterViewClass, new XC_MethodHook() {
+            findAndHookConstructor(BatteryMeterViewClass, Context.class, AttributeSet.class, int.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
                     if (BatteryMeterViewParam == null) {
                         BatteryMeterViewParam = param;
                     }
+
+                    final int[] styleableBatteryMeterView = new int[]{
+                            mContext.getResources().getIdentifier("frameColor", "attr", mContext.getPackageName()),
+                            mContext.getResources().getIdentifier("textAppearance", "attr", mContext.getPackageName())
+                    };
+                    TypedArray atts = mContext.obtainStyledAttributes((AttributeSet) param.args[1],
+                            styleableBatteryMeterView,
+                            (int) param.args[2],
+                            0);
+                    frameColor = atts.getColor(
+                            mContext.getResources().getIdentifier("BatteryMeterView_frameColor", "styleable", mContext.getPackageName()),
+                            mContext.getColor(mContext.getResources().getIdentifier("meter_background_color", "color", mContext.getPackageName()))
+                    );
+                    atts.recycle();
 
                     ((View) param.thisObject).addOnAttachStateChangeListener(listener);
 
@@ -466,7 +497,7 @@ public class BatteryStyleManager extends ModPack {
                         mBatteryDrawable.setColors((int) param.args[0], (int) param.args[1], (int) param.args[2]);
                     }
 
-                    ImageView mChargingIconView = (ImageView) callMethod(param.thisObject, "findViewWithTag", ICONIFY_CHARGING_ICON_TAG);
+                    ImageView mChargingIconView = ((LinearLayout) param.thisObject).findViewWithTag(ICONIFY_CHARGING_ICON_TAG);
                     if (mChargingIconView != null) {
                         mChargingIconView.setImageTintList(ColorStateList.valueOf((int) param.args[2]));
                     }
@@ -481,26 +512,26 @@ public class BatteryStyleManager extends ModPack {
             if (ShadeHeaderControllerClass == null)
                 ShadeHeaderControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController", lpparam.classLoader);
 
-            hookAllMethods(ShadeHeaderControllerClass, "updateResources", new XC_MethodHook() {
+            hookAllMethods(ShadeHeaderControllerClass, "onInit", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
-                    if (!CustomBatteryEnabled) return;
+                    try {
+                        Object configurationControllerListener = getObjectField(param.thisObject, "configurationControllerListener");
 
-                    updateBatteryResources(mContext, param);
-                    if (BatteryMeterViewParam != null) {
-                        updateSettings(BatteryMeterViewParam);
-                    }
-                }
-            });
+                        hookAllMethods(configurationControllerListener.getClass(), "onConfigChanged", new XC_MethodHook() {
+                            @Override
+                            protected void afterHookedMethod(MethodHookParam methodHookParam) {
+                                if (!CustomBatteryEnabled) return;
 
-            hookAllMethods(ShadeHeaderControllerClass, "onConfigurationChanged", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) {
-                    if (!CustomBatteryEnabled) return;
+                                updateBatteryResources(param);
+                            }
+                        });
 
-                    updateBatteryResources(mContext, param);
-                    if (BatteryMeterViewParam != null) {
-                        updateSettings(BatteryMeterViewParam);
+                        if (!CustomBatteryEnabled) return;
+
+                        updateBatteryResources(param);
+                    } catch (Throwable throwable) {
+                        log(TAG + throwable);
                     }
                 }
             });
@@ -542,19 +573,17 @@ public class BatteryStyleManager extends ModPack {
         setDefaultBatteryDimens();
     }
 
-    private void updateBatteryResources(Context context, XC_MethodHook.MethodHookParam param) {
+    private void updateBatteryResources(XC_MethodHook.MethodHookParam param) {
         try {
-            int textColor = SettingsLibUtils.getColorAttrDefaultColor(context, android.R.attr.textColorPrimary);
+            View header = (View) getObjectField(param.thisObject, "header");
+            int textColorPrimary = SettingsLibUtils.getColorAttrDefaultColor(header.getContext(), android.R.attr.textColorPrimary);
+            int textColorSecondary = SettingsLibUtils.getColorAttrDefaultColor(header.getContext(), android.R.attr.textColorSecondary);
             LinearLayout batteryIcon = (LinearLayout) getObjectField(param.thisObject, "batteryIcon");
 
-            if (textColor != textColorPrimary) {
-                int textColorSecondary = SettingsLibUtils.getColorAttrDefaultColor(context, android.R.attr.textColorHint);
-                textColorPrimary = textColor;
-                if (getObjectField(param.thisObject, "iconManager") != null) {
-                    callMethod(getObjectField(param.thisObject, "iconManager"), "setTint", textColor);
-                }
-                callMethod(batteryIcon, "updateColors", textColorPrimary, textColorSecondary, textColorPrimary);
+            if (getObjectField(param.thisObject, "iconManager") != null) {
+                callMethod(getObjectField(param.thisObject, "iconManager"), "setTint", textColorPrimary);
             }
+            callMethod(batteryIcon, "updateColors", textColorPrimary, textColorSecondary, textColorPrimary);
         } catch (Throwable throwable) {
             log(TAG + throwable);
         }
@@ -748,7 +777,7 @@ public class BatteryStyleManager extends ModPack {
         if (mChargingIconView == null) {
             mChargingIconView = new ImageView(mContext);
             mChargingIconView.setTag(ICONIFY_CHARGING_ICON_TAG);
-            ((ViewGroup) thisObject).addView(mChargingIconView);
+            ((ViewGroup) thisObject).addView(mChargingIconView, 1);
         }
 
         Drawable drawable = switch (mChargingIconStyle) {
@@ -797,7 +826,7 @@ public class BatteryStyleManager extends ModPack {
             default -> null;
         };
 
-        if (drawable != null) {
+        if (drawable != null && drawable != mChargingIconView.getDrawable()) {
             mChargingIconView.setImageDrawable(drawable);
         }
 
