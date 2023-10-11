@@ -753,7 +753,7 @@ public class BatteryStyleManager extends ModPack {
 
     private void removeBatteryMeterViewMethods(Class<?> BatteryMeterViewClass) {
         if (CustomBatteryEnabled) {
-            String[] methodNames = {"updateDrawable", "updateBatteryStyle", "updateSettings"};
+            String[] methodNames = {"updateDrawable", "updateBatteryStyle", "updateSettings", "updateVisibility"};
             XC_MethodReplacement methodReplacement = new XC_MethodReplacement() {
                 @Override
                 protected Object replaceHookedMethod(MethodHookParam methodHookParam) {
