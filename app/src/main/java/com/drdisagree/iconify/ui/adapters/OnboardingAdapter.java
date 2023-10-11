@@ -29,21 +29,27 @@ public class OnboardingAdapter extends FragmentStateAdapter {
                 currentFragment = Onboarding.newInstance(
                         context.getResources().getString(R.string.onboarding_title_1),
                         context.getResources().getString(R.string.onboarding_desc_1),
-                        R.raw.onboarding_lottie_1
+                        R.raw.onboarding_lottie_1,
+                        R.color.onboarding_text_one_primary,
+                        R.color.onboarding_text_one_secondary
                 );
                 return currentFragment;
             case 1:
                 currentFragment = Onboarding.newInstance(
                         context.getResources().getString(R.string.onboarding_title_2),
                         context.getResources().getString(R.string.onboarding_desc_2),
-                        R.raw.onboarding_lottie_2
+                        R.raw.onboarding_lottie_2,
+                        R.color.onboarding_text_two_primary,
+                        R.color.onboarding_text_two_secondary
                 );
                 return currentFragment;
             case 2:
                 currentFragment = Onboarding.newInstance(
                         context.getResources().getString(R.string.onboarding_title_3),
                         context.getResources().getString(R.string.onboarding_desc_3),
-                        R.raw.onboarding_lottie_3
+                        R.raw.onboarding_lottie_3,
+                        R.color.onboarding_text_three_primary,
+                        R.color.onboarding_text_three_secondary
                 );
                 return currentFragment;
         }

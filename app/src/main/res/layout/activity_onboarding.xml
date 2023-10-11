@@ -18,6 +18,7 @@
         android:layout_marginEnd="30dp"
         android:letterSpacing="0.1"
         android:text="@string/btn_skip"
+        android:textColor="@color/onboarding_text_skip"
         android:textSize="18sp"
         app:textAllCaps="true" />
 
@@ -52,6 +53,7 @@
             android:paddingBottom="16dp"
             android:singleLine="true"
             android:text="@string/btn_next"
+            android:textColor="@color/onboarding_btn_text"
             android:textSize="20sp"
             app:autoSizeStepGranularity="1sp"
             app:autoSizeTextType="uniform"

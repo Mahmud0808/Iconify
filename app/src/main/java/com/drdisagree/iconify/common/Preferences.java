@@ -57,10 +57,38 @@ public class Preferences {
     public static final String CUSTOM_BATTERY_STYLE = "xposed_custombatterystyle";
     public static final String CUSTOM_BATTERY_WIDTH = "xposed_custombatterywidth";
     public static final String CUSTOM_BATTERY_HEIGHT = "xposed_custombatteryheight";
-    public static final String CUSTOM_BATTERY_MARGIN = "xposed_custombatterymargin";
     public static final String HEADER_QQS_TOPMARGIN = "qqspanelTopMargin";
     public static final String HIDE_DATA_DISABLED_ICON = "xposed_hideDataDisabledIcon";
     public static final String DEPTH_WALLPAPER_SWITCH = "xposed_depthwallpaper";
+    public static final String UNZOOM_DEPTH_WALLPAPER = "xposed_unzoomdepthwallpaper";
+    public static final String CUSTOM_BATTERY_LAYOUT_REVERSE = "xposed_custombatterylayoutreverse";
+    public static final String CUSTOM_BATTERY_DIMENSION = "xposed_custombatterydimension";
+    public static final String CUSTOM_BATTERY_MARGIN_LEFT = "xposed_custombatterymarginleft";
+    public static final String CUSTOM_BATTERY_MARGIN_TOP = "xposed_custombatterymargintop";
+    public static final String CUSTOM_BATTERY_MARGIN_RIGHT = "xposed_custombatterymarginright";
+    public static final String CUSTOM_BATTERY_MARGIN_BOTTOM = "xposed_custombatterymarginbottom";
+    public static final String CUSTOM_BATTERY_PERIMETER_ALPHA = "xposed_custombatteryperimeteralpha";
+    public static final String CUSTOM_BATTERY_FILL_ALPHA = "xposed_custombatteryfilledalpha";
+    public static final String CUSTOM_BATTERY_RAINBOW_FILL_COLOR = "xposed_custombatteryrainbowfillcolor";
+    public static final String CUSTOM_BATTERY_BLEND_COLOR = "xposed_custombatteryblendcolor";
+    public static final String CUSTOM_BATTERY_CHARGING_COLOR = "xposed_custombatterychargingcolor";
+    public static final String CUSTOM_BATTERY_FILL_COLOR = "xposed_custombatteryfillcolor";
+    public static final String CUSTOM_BATTERY_FILL_GRAD_COLOR = "xposed_custombatteryfillgradcolor";
+    public static final String CUSTOM_BATTERY_POWERSAVE_INDICATOR_COLOR = "xposed_custombatterypowersaveindicatorcolor";
+    public static final String CUSTOM_BATTERY_POWERSAVE_FILL_COLOR = "xposed_custombatterypowersavefillcolor";
+    public static final String CUSTOM_BATTERY_SWAP_PERCENTAGE = "xposed_custombatteryswappercentage";
+    public static final String CUSTOM_BATTERY_CHARGING_ICON_SWITCH = "xposed_custombatterychargingiconswitch";
+    public static final String CUSTOM_BATTERY_CHARGING_ICON_STYLE = "xposed_custombatterychargingiconstyle";
+    public static final String CUSTOM_BATTERY_CHARGING_ICON_MARGIN_LEFT = "xposed_custombatterychargingiconmarginleft";
+    public static final String CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT = "xposed_custombatterychargingiconmarginright";
+    public static final String CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT = "xposed_custombatterychargingiconwidthheight";
+    public static final String CUSTOM_BATTERY_HIDE_PERCENTAGE = "xposed_custombatteryhidepercentage";
+
+    // Xposed view tags
+    public static final String ICONIFY_HEADER_CLOCK_TAG = "iconify_header_clock";
+    public static final String ICONIFY_LOCKSCREEN_CLOCK_TAG = "iconify_lockscreen_clock";
+    public static final String ICONIFY_DEPTH_WALLPAPER_TAG = "iconify_depth_wallpaper";
+    public static final String ICONIFY_CHARGING_ICON_TAG = "iconify_charging_icon";
 
     // Battery styles
     public static final int BATTERY_STYLE_DEFAULT = 0;
@@ -83,6 +111,21 @@ public class Preferences {
     public static final int BATTERY_STYLE_LANDSCAPE_MIUI_PILL = 17;
     public static final int BATTERY_STYLE_LANDSCAPE_COLOROS = 18;
     public static final int BATTERY_STYLE_RLANDSCAPE_COLOROS = 19;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYA = 20;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYB = 21;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYC = 22;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYD = 23;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYE = 24;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYF = 25;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYG = 26;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYH = 27;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYI = 28;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYJ = 29;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYK = 30;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYL = 31;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYM = 32;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYN = 33;
+    public static final int BATTERY_STYLE_LANDSCAPE_BATTERYO = 34;
 
     // Preference keys
     public static final String STR_NULL = "null";

@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <!-- Re-apply customizations on boot (deprecated) -->
-    <!-- <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> -->
-    <!-- Access to the internet for checking for updates -->
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- Schedule a job to check for updates -->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> <!-- Notify about new iconify updates -->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- Access storage for compilation of APKs in .iconify folder -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- Read storage to be able to see what the compilation created -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> --> <!-- Re-apply customizations on boot (deprecated) -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- Access to the internet for checking for updates -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> <!-- Schedule a job to check for updates -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- Notify about new iconify updates -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- Access storage for compilation of APKs in .iconify folder -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- Read storage to be able to see what the compilation created -->
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" /> <!-- Checking for Installed Music Players -->
-    <queries>
+        tools:ignore="ScopedStorage" /> <!-- Manage storage to be able to see what the compilation created -->
+    <queries> <!-- Checking for Installed Music Players -->
         <package android:name="com.maxmpz.audioplayer" />
         <package android:name="code.name.monkey.retromusic" />
         <package android:name="com.awedea.nyx" />
@@ -197,7 +195,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity-alias> <!-- Custom App Icons -->
+        </activity-alias> <!-- Custom App Icon -->
         <activity-alias
             android:name=".SplashActivityRetro"
             android:enabled="false"
@@ -211,7 +209,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity-alias>
+        </activity-alias> <!-- Custom App Icon -->
 
         <receiver
             android:name=".services.BootReceiver"
@@ -221,7 +219,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
-        </receiver>
+        </receiver> <!-- Boot Receiver -->
         <!--
         @Deprecated
         <service
@@ -230,7 +228,6 @@
             android:exported="true"
             tools:ignore="ExportedService" />
         -->
-        <!-- Quick Settings Tiles -->
         <service
             android:name=".services.TileNotchBarKiller"
             android:exported="true"
@@ -244,7 +241,7 @@
             <meta-data
                 android:name="android.service.quicksettings.TOGGLEABLE_TILE"
                 android:value="true" />
-        </service>
+        </service> <!-- Quick Settings Tile -->
         <service
             android:name=".services.TileMonetEngine"
             android:exported="true"
@@ -258,7 +255,7 @@
             <meta-data
                 android:name="android.service.quicksettings.TOGGLEABLE_TILE"
                 android:value="true" />
-        </service>
+        </service> <!-- Quick Settings Tile -->
         <service
             android:name=".services.TilePitchBlack"
             android:exported="true"
@@ -272,7 +269,7 @@
             <meta-data
                 android:name="android.service.quicksettings.TOGGLEABLE_TILE"
                 android:value="true" />
-        </service>
+        </service> <!-- Quick Settings Tile -->
         <service
             android:name=".services.TileRestartSystemUI"
             android:exported="true"
@@ -286,25 +283,25 @@
             <meta-data
                 android:name="android.service.quicksettings.TOGGLEABLE_TILE"
                 android:value="true" />
-        </service> <!-- xposed meta data -->
+        </service> <!-- Quick Settings Tile -->
         <meta-data
             android:name="xposedmodule"
-            android:value="true" />
+            android:value="true" /> <!-- xposed meta data -->
         <meta-data
             android:name="xposeddescription"
-            android:value="@string/app_moto" />
+            android:value="@string/app_moto" /> <!-- xposed meta data -->
         <meta-data
             android:name="xposedminversion"
-            android:value="82" />
+            android:value="82" /> <!-- xposed meta data -->
         <meta-data
             android:name="xposedscope"
-            android:resource="@array/module_scope" /> <!-- Remote Preferences Provider -->
+            android:resource="@array/module_scope" /> <!-- xposed meta data -->
         <provider
             android:name=".services.RemotePrefProvider"
             android:authorities="${applicationId}"
             android:directBootAware="true"
             android:exported="true"
-            tools:ignore="ExportedContentProvider" />
+            tools:ignore="ExportedContentProvider" /> <!-- Remote Preferences Provider -->
     </application>
 
 </manifest>

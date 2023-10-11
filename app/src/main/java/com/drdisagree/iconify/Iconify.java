@@ -12,10 +12,7 @@ public class Iconify extends Application {
     private static WeakReference<Context> contextReference;
 
     public static Context getAppContext() {
-        if (contextReference != null) {
-            return contextReference.get();
-        }
-        return null;
+        return contextReference.get();
     }
 
     public void onCreate() {

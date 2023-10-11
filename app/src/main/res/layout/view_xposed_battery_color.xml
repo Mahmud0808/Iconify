@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:orientation="vertical"
+    tools:parentTag="LinearLayout">
+
+    <RelativeLayout
+        android:id="@+id/perimeter_alpha_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_background_material"
+        android:clickable="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginVertical="22dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/perimeter_alpha"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/perimeter_alpha_title"
+                android:textColor="@color/text_color_primary" />
+
+            <TextView
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/perimeter_alpha_desc"
+                android:textColor="@color/text_color_secondary" />
+
+        </LinearLayout>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/perimeter_alpha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="24dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/fill_alpha_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_background_material"
+        android:clickable="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginVertical="22dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/fill_alpha"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fill_alpha_title"
+                android:textColor="@color/text_color_primary" />
+
+            <TextView
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fill_alpha_desc"
+                android:textColor="@color/text_color_secondary" />
+
+        </LinearLayout>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/fill_alpha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="24dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rainbow_color_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_background_material"
+        android:clickable="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginVertical="22dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/rainbow_color"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rainbow_color_title"
+                android:textColor="@color/text_color_primary" />
+
+            <TextView
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rainbow_color_desc"
+                android:textColor="@color/text_color_secondary" />
+
+        </LinearLayout>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/rainbow_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="24dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/blended_color_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_background_material"
+        android:clickable="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginVertical="22dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/blended_color"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/blend_color_title"
+                android:textColor="@color/text_color_primary" />
+
+            <TextView
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/blend_color_desc"
+                android:textColor="@color/text_color_secondary" />
+
+        </LinearLayout>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/blended_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="24dp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/color_pickers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:id="@+id/fill_color_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/item_background_material"
+            android:clickable="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginVertical="22dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@id/preview_fill_color"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextAppearance.Material3.TitleMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fill_color_title"
+                    android:textColor="@color/text_color_primary" />
+
+                <TextView
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fill_color_desc"
+                    android:textColor="@color/text_color_secondary" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/preview_fill_color"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/preview_color_picker_primary"
+                android:contentDescription="@string/color_picker_preview" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fill_gradient_color_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/item_background_material"
+            android:clickable="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginVertical="22dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@id/preview_fill_gradient_color"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextAppearance.Material3.TitleMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fill_gradient_color_title"
+                    android:textColor="@color/text_color_primary" />
+
+                <TextView
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fill_gradient_color_desc"
+                    android:textColor="@color/text_color_secondary" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/preview_fill_gradient_color"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/preview_color_picker_secondary"
+                android:contentDescription="@string/color_picker_preview" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/charging_fill_color_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/item_background_material"
+            android:clickable="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginVertical="22dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@id/preview_charging_fill_color"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextAppearance.Material3.TitleMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/charging_fill_color_title"
+                    android:textColor="@color/text_color_primary" />
+
+                <TextView
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/charging_fill_color_desc"
+                    android:textColor="@color/text_color_secondary" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/preview_charging_fill_color"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/preview_color_picker_primary"
+                android:contentDescription="@string/color_picker_preview" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/powersave_fill_color_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/item_background_material"
+            android:clickable="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginVertical="22dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@id/preview_powersave_fill_color"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextAppearance.Material3.TitleMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/powersave_fill_color_title"
+                    android:textColor="@color/text_color_primary" />
+
+                <TextView
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/powersave_fill_color_desc"
+                    android:textColor="@color/text_color_secondary" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/preview_powersave_fill_color"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/preview_color_picker_primary"
+                android:contentDescription="@string/color_picker_preview" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/powersave_icon_color_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/item_background_material"
+            android:clickable="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginVertical="22dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@id/preview_powersave_icon_color"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextAppearance.Material3.TitleMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/powersave_indicator_color_title"
+                    android:textColor="@color/text_color_primary" />
+
+                <TextView
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/powersave_indicator_color_desc"
+                    android:textColor="@color/text_color_secondary" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/preview_powersave_icon_color"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/preview_color_picker_secondary"
+                android:contentDescription="@string/color_picker_preview" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</merge>

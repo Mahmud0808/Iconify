@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/container_marginTopBottom"
+            android:animateLayoutChanges="true"
             android:orientation="vertical">
 
             <LinearLayout
@@ -56,15 +57,14 @@
 
             </LinearLayout>
 
-            <View style="@style/dividerTransparent" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/item_background_material"
                 android:clickable="true"
                 android:orientation="vertical"
-                android:padding="@dimen/container_paddingSide">
+                android:paddingHorizontal="@dimen/container_paddingSide"
+                android:paddingVertical="12dp">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/apply_battery_style"
@@ -75,116 +75,14 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true"
-                android:orientation="vertical"
-                android:paddingHorizontal="24dp"
-                android:paddingTop="22dp"
-                android:paddingBottom="4dp">
+            <include layout="@layout/view_xposed_battery_misc" />
 
-                <TextView
-                    style="@style/TextAppearance.Material3.TitleMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/battery_width_title"
-                    android:textColor="@color/text_color_primary" />
+            <include layout="@layout/view_xposed_battery_color" />
 
-                <TextView
-                    android:id="@+id/battery_width_output"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text_color_secondary" />
+            <include layout="@layout/view_xposed_battery_dimension" />
 
-                <com.google.android.material.slider.Slider
-                    android:id="@+id/battery_width_seekbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="4dp"
-                    android:stepSize="1"
-                    android:value="20"
-                    android:valueFrom="12"
-                    android:valueTo="30" />
+            <include layout="@layout/view_xposed_battery_charging_icon" />
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true"
-                android:orientation="vertical"
-                android:paddingHorizontal="24dp"
-                android:paddingTop="22dp"
-                android:paddingBottom="4dp">
-
-                <TextView
-                    style="@style/TextAppearance.Material3.TitleMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/battery_height_title"
-                    android:textColor="@color/text_color_primary" />
-
-                <TextView
-                    android:id="@+id/battery_height_output"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text_color_secondary" />
-
-                <com.google.android.material.slider.Slider
-                    android:id="@+id/battery_height_seekbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="4dp"
-                    android:stepSize="1"
-                    android:value="20"
-                    android:valueFrom="12"
-                    android:valueTo="30" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true"
-                android:orientation="vertical"
-                android:paddingHorizontal="24dp"
-                android:paddingTop="22dp"
-                android:paddingBottom="4dp">
-
-                <TextView
-                    style="@style/TextAppearance.Material3.TitleMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/battery_margin_title"
-                    android:textColor="@color/text_color_primary" />
-
-                <TextView
-                    android:id="@+id/battery_margin_output"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text_color_secondary" />
-
-                <com.google.android.material.slider.Slider
-                    android:id="@+id/battery_margin_seekbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="4dp"
-                    android:stepSize="1"
-                    android:value="6"
-                    android:valueFrom="0"
-                    android:valueTo="12" />
-
-            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

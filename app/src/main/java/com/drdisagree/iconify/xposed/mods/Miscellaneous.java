@@ -12,6 +12,7 @@ import static com.drdisagree.iconify.common.Preferences.QSPANEL_HIDE_CARRIER;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
+import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
@@ -180,43 +181,47 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
         fixedStatusIconsA12();
         hideLockscreenCarrierOrStatusbar();
 
-        Class<?> MobileSignalController = findClass(SYSTEMUI_PACKAGE + ".statusbar.connectivity.MobileSignalController", lpparam.classLoader);
-        final boolean[] alwaysShowDataRatIcon = {false};
-        final boolean[] mDataDisabledIcon = {false};
+        try {
+            Class<?> MobileSignalController = findClass(SYSTEMUI_PACKAGE + ".statusbar.connectivity.MobileSignalController", lpparam.classLoader);
+            final boolean[] alwaysShowDataRatIcon = {false};
+            final boolean[] mDataDisabledIcon = {false};
 
-        hookAllMethods(MobileSignalController, "updateTelephony", new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) {
-                if (MobileSignalControllerParam == null)
-                    MobileSignalControllerParam = param.thisObject;
+            hookAllMethods(MobileSignalController, "updateTelephony", new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) {
+                    if (MobileSignalControllerParam == null)
+                        MobileSignalControllerParam = param.thisObject;
 
-                if (!hideDataDisabledIcon) return;
+                    if (!hideDataDisabledIcon) return;
 
-                alwaysShowDataRatIcon[0] = (boolean) getObjectField(getObjectField(param.thisObject, "mConfig"), "alwaysShowDataRatIcon");
-                setObjectField(getObjectField(param.thisObject, "mConfig"), "alwaysShowDataRatIcon", false);
+                    alwaysShowDataRatIcon[0] = (boolean) getObjectField(getObjectField(param.thisObject, "mConfig"), "alwaysShowDataRatIcon");
+                    setObjectField(getObjectField(param.thisObject, "mConfig"), "alwaysShowDataRatIcon", false);
 
-                try {
-                    mDataDisabledIcon[0] = (boolean) getObjectField(param.thisObject, "mDataDisabledIcon");
-                    setObjectField(param.thisObject, "mDataDisabledIcon", false);
-                } catch (Throwable ignored) {
+                    try {
+                        mDataDisabledIcon[0] = (boolean) getObjectField(param.thisObject, "mDataDisabledIcon");
+                        setObjectField(param.thisObject, "mDataDisabledIcon", false);
+                    } catch (Throwable ignored) {
+                    }
                 }
-            }
 
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) {
-                if (MobileSignalControllerParam == null)
-                    MobileSignalControllerParam = param.thisObject;
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (MobileSignalControllerParam == null)
+                        MobileSignalControllerParam = param.thisObject;
 
-                if (!hideDataDisabledIcon) return;
+                    if (!hideDataDisabledIcon) return;
 
-                setObjectField(getObjectField(param.thisObject, "mConfig"), "alwaysShowDataRatIcon", alwaysShowDataRatIcon[0]);
+                    setObjectField(getObjectField(param.thisObject, "mConfig"), "alwaysShowDataRatIcon", alwaysShowDataRatIcon[0]);
 
-                try {
-                    setObjectField(param.thisObject, "mDataDisabledIcon", mDataDisabledIcon[0]);
-                } catch (Throwable ignored) {
+                    try {
+                        setObjectField(param.thisObject, "mDataDisabledIcon", mDataDisabledIcon[0]);
+                    } catch (Throwable ignored) {
+                    }
                 }
-            }
-        });
+            });
+        } catch (Throwable ignored) {
+            log(TAG + "Not a crash... MobileSignalController class not found.");
+        }
     }
 
     private void hideQSCarrierGroup() {

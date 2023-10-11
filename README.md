@@ -1,7 +1,7 @@
 <div align="center">
   <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/.github/resources/banner.png" width="100%" alt="Banner">
   
-  # v6.5.0 is out!
+  # v6.5.1 is out!
 </div>
 <p align="center">
   <a href="https://github.com/Mahmud0808/Iconify/releases"><img src="https://img.shields.io/github/downloads/Mahmud0808/Iconify/total?color=%233DDC84&logo=android&logoColor=%23fff&style=for-the-badge" alt="Downloads"></a>
@@ -23,6 +23,8 @@ Furthermore, the open-source nature of Iconify encourages community contribution
 </p>
 <div align="center">
   <br>
+  <a href="https://www.buymeacoffee.com/DrDisagree"><img src="https://github.com/Mahmud0808/Iconify/blob/beta/.github/resources/bmc-button.png" width="30%" alt="Buy me a coffee" /></a>
+  <br><br>
   <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/.github/resources/features.png" width="100%" alt="Features">
 </div>
 
@@ -106,7 +108,7 @@ You can help translate Iconify [on Crowdin](https://crowdin.com/project/iconify)
 - How do I request a new feature?
   - If you have a feature request, please go to the [Issues](https://github.com/Mahmud0808/Iconify/issues/new/choose) section. Create a new issue and choose the `Feature Request` template. Be sure to include comprehensive details about the desired feature, its potential benefits, and any other relevant information that can assist in understanding and evaluating the request.
 - Where can I make a donation?
-  - At present, I do not accept any form of donation. This project is purely a personal endeavor undertaken during my leisure time. Additionally, I prefer to maintain the freedom of releasing future updates without any obligations associated with accepting donations.
+  - The preferred and designated means for donating to the project's developer is via the "[Buy me a coffee](https://www.buymeacoffee.com/DrDisagree)" page.
 
 # ❤ Credits 
 
@@ -129,11 +131,12 @@ You can help translate Iconify [on Crowdin](https://crowdin.com/project/iconify)
 - French [@MXC48](https://github.com/MXC48)
 - Indonesian [@KaeruShi](https://github.com/KaeruShi)
 - Persian [@Faceless1999](https://github.com/Faceless1999)
+- Polish [@SK00RUPA](https://github.com/SK00RUPA)
 - Portuguese [@ElTifo](https://github.com/ElTifo)
 - Russian [@B1ays](https://github.com/B1ays)
 - Simplified Chinese [@Cccc-owo](https://github.com/Cccc-owo)
 - Spanish [@luckkmaxx](https://github.com/luckkmaxx)
-- Turkish [@serhat-demir](https://github.com/serhat-demir)
+- Turkish [@serhat-demir](https://github.com/serhat-demir), [@Emre](https://crowdin.com/profile/khapnols), [@WINZORT](https://crowdin.com/profile/linuxthegoat)
 - Vietnamese [@viettel1211](https://t.me/viettel1211)
 
 # 📝 Disclaimer

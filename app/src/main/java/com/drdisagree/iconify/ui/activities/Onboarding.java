@@ -155,6 +155,7 @@ public class Onboarding extends BaseActivity {
                     if (rebootRequired) {
                         showInfoNow(R.string.need_reboot_title, R.string.need_reboot_desc);
                         binding.btnNextStep.setText(R.string.btn_reboot);
+                        binding.btnNextStep.setTextColor(getResources().getColor(R.color.onboarding_btn_text, getTheme()));
                     }
 
                     // Skip installation on long click
@@ -558,8 +559,8 @@ public class Onboarding extends BaseActivity {
                     hasErroredOut = ModuleUtil.flashModule(ModuleUtil.createModule(Resources.TEMP_MODULE_DIR, Resources.TEMP_DIR + "/Iconify.zip"));
                 } catch (Exception e) {
                     hasErroredOut = true;
-                    writeLog(TAG, "Error creating module zip", e);
-                    e.printStackTrace();
+                    writeLog(TAG, "Failed to create/flash module zip", e);
+                    Log.e(TAG, "Failed to create/flash module zip\n" + e);
                 }
             }
 
@@ -604,6 +605,7 @@ public class Onboarding extends BaseActivity {
                         rebootRequired = true;
                         showInfo(R.string.need_reboot_title, R.string.need_reboot_desc);
                         binding.btnNextStep.setText(R.string.btn_reboot);
+                        binding.btnNextStep.setTextColor(getResources().getColor(R.color.onboarding_btn_text, getTheme()));
                         binding.btnNextStep.setOnClickListener(view -> SystemUtil.restartDevice());
                         binding.btnNextStep.setOnLongClickListener(null);
                     }
@@ -624,7 +626,7 @@ public class Onboarding extends BaseActivity {
             }
 
             binding.loadingAnim.setVisibility(View.GONE);
-            binding.btnNextStep.setTextColor(getResources().getColor(R.color.textColorPrimaryInverse, getTheme()));
+            binding.btnNextStep.setTextColor(getResources().getColor(R.color.onboarding_btn_text, getTheme()));
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 try {

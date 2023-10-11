@@ -1,0 +1,15 @@
+Iconify v6.5.1 has arrived! It has the following new changes:
+
+Feature Changes:
+• Fix Xposed Menu not accessible in LSPosed beta (7010+)
+• Small fixes related to depth wallpaper
+• Update prebuilt overlays targeting android 14
+• Add 15 more battery styles
+• Add custom battery colors and margins
+• Add custom battery charging icon
+• Fix battery icon color in landscape mode
+• Improve battery styles to work on more roms
+• Fix battery styles crashing on android 14
+• and many more!
+
+Full changelog at https://github.com/Mahmud0808/Iconify/releases/tag/v6.5.1

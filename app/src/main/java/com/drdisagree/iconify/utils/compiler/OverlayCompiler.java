@@ -10,14 +10,10 @@ import android.util.Log;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.Resources;
-import com.drdisagree.iconify.utils.apksigner.JarMap;
 import com.drdisagree.iconify.utils.apksigner.SignAPK;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.util.Objects;
@@ -35,10 +31,10 @@ public class OverlayCompiler {
         Shell.Result result = Shell.cmd(aapt + " p -f -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + Resources.UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk").exec();
 
         if (result.isSuccess()) {
-            Log.i(TAG + " - AAPT2", "Successfully built APK for " + name);
+            Log.i(TAG + " - AAPT", "Successfully built APK for " + name);
         } else {
-            Log.e(TAG + " - AAPT2", "Failed to build APK for " + name + '\n' + String.join("\n", result.getOut()));
-            writeLog(TAG + " - AAPT2", "Failed to build APK for " + name, result.getOut());
+            Log.e(TAG + " - AAPT", "Failed to build APK for " + name + '\n' + String.join("\n", result.getOut()));
+            writeLog(TAG + " - AAPT", "Failed to build APK for " + name, result.getOut());
         }
 
         return !result.isSuccess();
@@ -56,10 +52,10 @@ public class OverlayCompiler {
 
         Shell.Result result = Shell.cmd(String.valueOf(aaptCommand)).exec();
 
-        if (result.isSuccess()) Log.i(TAG + " - AAPT2", "Successfully built APK for " + name);
+        if (result.isSuccess()) Log.i(TAG + " - AAPT", "Successfully built APK for " + name);
         else {
-            Log.e(TAG + " - AAPT2", "Failed to build APK for " + name + '\n' + String.join("\n", result.getOut()));
-            writeLog(TAG + " - AAPT2", "Failed to build APK for " + name, result.getOut());
+            Log.e(TAG + " - AAPT", "Failed to build APK for " + name + '\n' + String.join("\n", result.getOut()));
+            writeLog(TAG + " - AAPT", "Failed to build APK for " + name, result.getOut());
         }
 
         return !result.isSuccess();
@@ -90,10 +86,7 @@ public class OverlayCompiler {
             }
 
             fileName = getOverlayName(source);
-            JarMap jar = JarMap.open(Files.newInputStream(Paths.get(source)), true);
-            FileOutputStream out = new FileOutputStream(Resources.SIGNED_DIR + "/IconifyComponent" + fileName + ".apk");
-
-            SignAPK.sign(cert, key, jar, out);
+            SignAPK.sign(cert, key, source, Resources.SIGNED_DIR + "/IconifyComponent" + fileName + ".apk");
 
             Log.i(TAG + " - APKSigner", "Successfully signed " + fileName);
         } catch (Exception e) {
@@ -108,6 +101,6 @@ public class OverlayCompiler {
         File file = new File(filePath);
         String fileName = file.getName();
 
-        return fileName.replace("IconifyComponent", "").replace("-unsigned", "").replace("-unaligned", "").replace(".apk", "");
+        return fileName.replaceAll("IconifyComponent|-unsigned|-unaligned|.apk", "");
     }
 }

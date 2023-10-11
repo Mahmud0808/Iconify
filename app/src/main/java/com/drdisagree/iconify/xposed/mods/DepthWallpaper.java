@@ -2,9 +2,12 @@ package com.drdisagree.iconify.xposed.mods;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.ICONIFY_DEPTH_WALLPAPER_TAG;
+import static com.drdisagree.iconify.common.Preferences.UNZOOM_DEPTH_WALLPAPER;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedHelpers.findClass;
+import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 import android.annotation.SuppressLint;
@@ -12,7 +15,10 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.ImageDecoder;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,49 +72,56 @@ public class DepthWallpaper extends ModPack {
                 if (!showDepthWallpaper) return;
 
                 View view = (View) param.thisObject;
-                ViewGroup container = view.findViewById(mContext.getResources().getIdentifier("keyguard_indication_area", "id", mContext.getPackageName()));
+                ViewGroup mIndicationArea = view.findViewById(mContext.getResources().getIdentifier("keyguard_indication_area", "id", mContext.getPackageName()));
 
-                container.setClipChildren(false);
-                container.setClipToPadding(false);
-                container.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-                container.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-                ((ViewGroup.MarginLayoutParams) container.getLayoutParams()).bottomMargin = 0;
+                mIndicationArea.setClipChildren(false);
+                mIndicationArea.setClipToPadding(false);
+                mIndicationArea.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+                mIndicationArea.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                ((ViewGroup.MarginLayoutParams) mIndicationArea.getLayoutParams()).bottomMargin = 0;
 
                 // Create a new layout for the indication text views
-                LinearLayout mIndicationView = new LinearLayout(mContext);
+                LinearLayout mIndicationTextView = new LinearLayout(mContext);
                 LinearLayout.LayoutParams mIndicationViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 int bottomMargin = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("keyguard_indication_margin_bottom", "dimen", mContext.getPackageName()));
                 mIndicationViewParams.setMargins(0, 0, 0, bottomMargin);
                 mIndicationViewParams.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
-                mIndicationView.setOrientation(LinearLayout.VERTICAL);
-                mIndicationView.setLayoutParams(mIndicationViewParams);
+                mIndicationTextView.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+                mIndicationTextView.setOrientation(LinearLayout.VERTICAL);
+                mIndicationTextView.setLayoutParams(mIndicationViewParams);
 
                 // Add the indication text views to the new layout
-                TextView mTopIndicationView = container.findViewById(mContext.getResources().getIdentifier("keyguard_indication_text", "id", mContext.getPackageName()));
-                TextView mLockScreenIndicationView = container.findViewById(mContext.getResources().getIdentifier("keyguard_indication_text_bottom", "id", mContext.getPackageName()));
+                TextView mTopIndicationView = mIndicationArea.findViewById(mContext.getResources().getIdentifier("keyguard_indication_text", "id", mContext.getPackageName()));
+                TextView mLockScreenIndicationView = mIndicationArea.findViewById(mContext.getResources().getIdentifier("keyguard_indication_text_bottom", "id", mContext.getPackageName()));
 
+                // We added a blank view to the top of the layout to push the indication text views to the bottom
+                // The reason we did this is because gravity is not working properly on the indication text views
+                View blankView = new View(mContext);
+                blankView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1.0f));
+
+                // Remove the existing indication text views from the indication area
                 ((ViewGroup) mTopIndicationView.getParent()).removeView(mTopIndicationView);
                 ((ViewGroup) mLockScreenIndicationView.getParent()).removeView(mLockScreenIndicationView);
-                mIndicationView.addView(mTopIndicationView);
-                mIndicationView.addView(mLockScreenIndicationView);
-                container.addView(mIndicationView);
+
+                // Add the indication text views to the new layout
+                mIndicationTextView.addView(blankView);
+                mIndicationTextView.addView(mTopIndicationView);
+                mIndicationTextView.addView(mLockScreenIndicationView);
+
+                FrameLayout mIndicationAreaDupe = new FrameLayout(mContext);
+                mIndicationAreaDupe.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                mIndicationAreaDupe.addView(mIndicationTextView, -1);
+                mIndicationArea.addView(mIndicationAreaDupe);
 
                 // Get the depth wallpaper layout
-                String depth_wall_tag = "iconify_depth_wallpaper";
-                mDepthWallpaperLayout = container.findViewWithTag(depth_wall_tag);
+                mDepthWallpaperLayout = mIndicationArea.findViewWithTag(ICONIFY_DEPTH_WALLPAPER_TAG);
 
                 // Create the depth wallpaper layout if it doesn't exist
                 if (mDepthWallpaperLayout == null) {
                     mDepthWallpaperLayout = new FrameLayout(mContext);
                     mDepthWallpaperLayout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                    mDepthWallpaperLayout.setTag(depth_wall_tag);
-
-                    FrameLayout mIndicationArea = new FrameLayout(mContext);
-                    FrameLayout.LayoutParams mIndicationAreaParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                    mIndicationArea.setLayoutParams(mIndicationAreaParams);
-
-                    mIndicationArea.addView(mDepthWallpaperLayout, 0);
-                    container.addView(mIndicationArea, 0);
+                    mDepthWallpaperLayout.setTag(ICONIFY_DEPTH_WALLPAPER_TAG);
+                    mIndicationAreaDupe.addView(mDepthWallpaperLayout, 0);
                 }
 
                 mDepthWallpaperBackground = new ImageView(mContext);
@@ -118,16 +131,27 @@ public class DepthWallpaper extends ModPack {
                 mDepthWallpaperForeground.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
                 mDepthWallpaperLayout.addView(mDepthWallpaperBackground, 0);
-                mDepthWallpaperLayout.addView(mDepthWallpaperForeground);
+                mDepthWallpaperLayout.addView(mDepthWallpaperForeground, -1);
 
                 // Fix the bottom shortcuts pushing the wallpaper
-                ImageView startButton = view.findViewById(mContext.getResources().getIdentifier("start_button", "id", mContext.getPackageName()));
-                ImageView endButton = view.findViewById(mContext.getResources().getIdentifier("end_button", "id", mContext.getPackageName()));
-                int offset = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("keyguard_affordance_fixed_height", "dimen", mContext.getPackageName()))
-                        + mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("keyguard_affordance_horizontal_offset", "dimen", mContext.getPackageName()));
+                int[] offset = {0};
+                try {
+                    offset[0] = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("keyguard_affordance_fixed_height", "dimen", mContext.getPackageName()))
+                            + mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("keyguard_affordance_horizontal_offset", "dimen", mContext.getPackageName()));
+                } catch (Throwable ignored) {
+                }
 
-                startButton.getViewTreeObserver().addOnGlobalLayoutListener(() -> ((ViewGroup.MarginLayoutParams) mIndicationView.getLayoutParams()).setMarginStart(startButton.getVisibility() == View.VISIBLE ? offset : 0));
-                endButton.getViewTreeObserver().addOnGlobalLayoutListener(() -> ((ViewGroup.MarginLayoutParams) mIndicationView.getLayoutParams()).setMarginEnd(endButton.getVisibility() == View.VISIBLE ? offset : 0));
+                try {
+                    ImageView startButton = view.findViewById(mContext.getResources().getIdentifier("start_button", "id", mContext.getPackageName()));
+                    startButton.getViewTreeObserver().addOnGlobalLayoutListener(() -> ((ViewGroup.MarginLayoutParams) mIndicationTextView.getLayoutParams()).setMarginStart(startButton.getVisibility() == View.VISIBLE ? offset[0] : 0));
+                } catch (Throwable ignored) {
+                }
+
+                try {
+                    ImageView endButton = view.findViewById(mContext.getResources().getIdentifier("end_button", "id", mContext.getPackageName()));
+                    endButton.getViewTreeObserver().addOnGlobalLayoutListener(() -> ((ViewGroup.MarginLayoutParams) mIndicationTextView.getLayoutParams()).setMarginEnd(endButton.getVisibility() == View.VISIBLE ? offset[0] : 0));
+                } catch (Throwable ignored) {
+                }
 
                 updateWallpaper();
             }
@@ -140,7 +164,9 @@ public class DepthWallpaper extends ModPack {
             }
         });
 
-        Class<?> NotificationPanelViewControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.NotificationPanelViewController", lpparam.classLoader);
+        Class<?> NotificationPanelViewControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.NotificationPanelViewController", lpparam.classLoader);
+        if (NotificationPanelViewControllerClass == null)
+            NotificationPanelViewControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.NotificationPanelViewController", lpparam.classLoader);
 
         hookAllMethods(NotificationPanelViewControllerClass, "onFinishInflate", new XC_MethodHook() {
             @Override
@@ -155,16 +181,42 @@ public class DepthWallpaper extends ModPack {
             }
         });
 
-        hookAllMethods(Resources.class, "getDimensionPixelOffset", new XC_MethodHook() {
+        XC_MethodHook noKeyguardIndicationPadding = new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) {
-                int resId = mContext.getResources().getIdentifier("keyguard_indication_area_padding", "dimen", mContext.getPackageName());
+                if (showDepthWallpaper) {
+                    if (Build.VERSION.SDK_INT >= 33) {
+                        try {
+                            int resId = mContext.getResources().getIdentifier("keyguard_indication_area_padding", "dimen", mContext.getPackageName());
+                            if (param.args[0].equals(resId)) {
+                                param.setResult(0);
+                            }
+                        } catch (Throwable ignored) {
+                        }
+                    } else {
+                        // These resources are only available on Android 12L and below
+                        try {
+                            int resId = mContext.getResources().getIdentifier("keyguard_indication_margin_bottom", "dimen", mContext.getPackageName());
+                            if (param.args[0].equals(resId)) {
+                                param.setResult(0);
+                            }
+                        } catch (Throwable ignored) {
+                        }
 
-                if (showDepthWallpaper && param.args[0].equals(resId)) {
-                    param.setResult(0);
+                        try {
+                            int resId = mContext.getResources().getIdentifier("keyguard_indication_margin_bottom_fingerprint_in_display", "dimen", mContext.getPackageName());
+                            if (param.args[0].equals(resId)) {
+                                param.setResult(0);
+                            }
+                        } catch (Throwable ignored) {
+                        }
+                    }
                 }
             }
-        });
+        };
+
+        hookAllMethods(Resources.class, "getDimensionPixelOffset", noKeyguardIndicationPadding);
+        hookAllMethods(Resources.class, "getDimensionPixelSize", noKeyguardIndicationPadding);
     }
 
     private void updateWallpaper() {
@@ -181,28 +233,38 @@ public class DepthWallpaper extends ModPack {
                 File Android = new File(Environment.getExternalStorageDirectory() + "/Android");
 
                 if (Android.isDirectory()) {
-                    try {
-                        ImageDecoder.Source backgroundImg = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.iconify_files/depth_wallpaper_bg.png"));
-                        ImageDecoder.Source foregroundImg = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.iconify_files/depth_wallpaper_fg.png"));
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        try {
+                            ImageDecoder.Source backgroundImg = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.iconify_files/depth_wallpaper_bg.png"));
+                            ImageDecoder.Source foregroundImg = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.iconify_files/depth_wallpaper_fg.png"));
 
-                        Drawable backgroundDrawable = ImageDecoder.decodeDrawable(backgroundImg);
-                        Drawable foregroundDrawable = ImageDecoder.decodeDrawable(foregroundImg);
+                            Drawable backgroundDrawable = ImageDecoder.decodeDrawable(backgroundImg);
+                            Drawable foregroundDrawable = ImageDecoder.decodeDrawable(foregroundImg);
 
-                        mDepthWallpaperBackground.setImageDrawable(backgroundDrawable);
-                        mDepthWallpaperBackground.setClipToOutline(true);
-                        mDepthWallpaperBackground.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        mDepthWallpaperBackground.setScaleX(1.1f);
-                        mDepthWallpaperBackground.setScaleY(1.1f);
+                            mDepthWallpaperBackground.setImageDrawable(backgroundDrawable);
+                            mDepthWallpaperBackground.setClipToOutline(true);
+                            mDepthWallpaperBackground.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-                        mDepthWallpaperForeground.setImageDrawable(foregroundDrawable);
-                        mDepthWallpaperForeground.setClipToOutline(true);
-                        mDepthWallpaperForeground.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        mDepthWallpaperForeground.setScaleX(1.1f);
-                        mDepthWallpaperForeground.setScaleY(1.1f);
+                            boolean zoomWallpaper = !Xprefs.getBoolean(UNZOOM_DEPTH_WALLPAPER, false);
 
-                        mDepthWallpaperLayout.setVisibility(View.VISIBLE);
-                    } catch (Throwable ignored) {
-                    }
+                            if (zoomWallpaper) {
+                                mDepthWallpaperBackground.setScaleX(1.1f);
+                                mDepthWallpaperBackground.setScaleY(1.1f);
+                            }
+
+                            mDepthWallpaperForeground.setImageDrawable(foregroundDrawable);
+                            mDepthWallpaperForeground.setClipToOutline(true);
+                            mDepthWallpaperForeground.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+                            if (zoomWallpaper) {
+                                mDepthWallpaperForeground.setScaleX(1.1f);
+                                mDepthWallpaperForeground.setScaleY(1.1f);
+                            }
+
+                            mDepthWallpaperLayout.setVisibility(View.VISIBLE);
+                        } catch (Throwable ignored) {
+                        }
+                    });
 
                     executor.shutdown();
                     executor.shutdownNow();

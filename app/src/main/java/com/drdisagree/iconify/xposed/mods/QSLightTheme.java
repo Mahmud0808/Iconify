@@ -100,7 +100,7 @@ public class QSLightTheme extends ModPack {
         Class<?> InterestingConfigChangesClass = findClass("com.android.settingslib.applications.InterestingConfigChanges", lpparam.classLoader);
         Class<?> ScrimStateEnum = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.ScrimState", lpparam.classLoader);
         Class<?> QSIconViewImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSIconViewImpl", lpparam.classLoader);
-        Class<?> CentralSurfacesImplClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.CentralSurfacesImpl", lpparam.classLoader);
+        Class<?> CentralSurfacesImplClass = findClassIfExists(SYSTEMUI_PACKAGE + ".statusbar.phone.CentralSurfacesImpl", lpparam.classLoader);
         Class<?> ClockClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.Clock", lpparam.classLoader);
         Class<?> QuickStatusBarHeaderClass = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", lpparam.classLoader);
 
@@ -293,12 +293,21 @@ public class QSLightTheme extends ModPack {
             }
         });
 
-        hookAllConstructors(CentralSurfacesImplClass, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                applyOverlays(true);
-            }
-        });
+        if (CentralSurfacesImplClass != null) {
+            hookAllConstructors(CentralSurfacesImplClass, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    applyOverlays(true);
+                }
+            });
+
+            hookAllMethods(CentralSurfacesImplClass, "updateTheme", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    applyOverlays(false);
+                }
+            });
+        }
 
         hookAllConstructors(QSTileViewImplClass, new XC_MethodHook() {
             @Override
@@ -343,13 +352,6 @@ public class QSLightTheme extends ModPack {
                 } catch (Throwable throwable) {
                     log(TAG + throwable);
                 }
-            }
-        });
-
-        hookAllMethods(CentralSurfacesImplClass, "updateTheme", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                applyOverlays(false);
             }
         });
 
@@ -401,36 +403,34 @@ public class QSLightTheme extends ModPack {
             for (Object constant : constants) {
                 String enumVal = constant.toString();
                 switch (enumVal) {
-                    case "KEYGUARD":
-                        hookAllMethods(constant.getClass(), "prepare", new XC_MethodHook() {
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                                if (!lightQSHeaderEnabled) return;
-                                boolean mClipQsScrim = (boolean) getObjectField(param.thisObject, "mClipQsScrim");
-                                if (mClipQsScrim) {
-                                    Object mScrimBehind = getObjectField(param.thisObject, "mScrimBehind");
-                                    int mTintColor = getIntField(mScrimBehind, "mTintColor");
-                                    if (mTintColor != Color.TRANSPARENT) {
-                                        setObjectField(mScrimBehind, "mTintColor", Color.TRANSPARENT);
-                                        callMethod(mScrimBehind, "updateColorWithTint", false);
+                    case "KEYGUARD" ->
+                            hookAllMethods(constant.getClass(), "prepare", new XC_MethodHook() {
+                                @Override
+                                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                                    if (!lightQSHeaderEnabled) return;
+                                    boolean mClipQsScrim = (boolean) getObjectField(param.thisObject, "mClipQsScrim");
+                                    if (mClipQsScrim) {
+                                        Object mScrimBehind = getObjectField(param.thisObject, "mScrimBehind");
+                                        int mTintColor = getIntField(mScrimBehind, "mTintColor");
+                                        if (mTintColor != Color.TRANSPARENT) {
+                                            setObjectField(mScrimBehind, "mTintColor", Color.TRANSPARENT);
+                                            callMethod(mScrimBehind, "updateColorWithTint", false);
+                                        }
+
+                                        callMethod(mScrimBehind, "setViewAlpha", 1f);
                                     }
-
-                                    callMethod(mScrimBehind, "setViewAlpha", 1f);
                                 }
-                            }
-                        });
-                        break;
-                    case "BOUNCER":
-                        hookAllMethods(constant.getClass(), "prepare", new XC_MethodHook() {
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                                if (!lightQSHeaderEnabled) return;
+                            });
+                    case "BOUNCER" ->
+                            hookAllMethods(constant.getClass(), "prepare", new XC_MethodHook() {
+                                @Override
+                                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                                    if (!lightQSHeaderEnabled) return;
 
-                                setObjectField(param.thisObject, "mBehindTint", Color.TRANSPARENT);
-                            }
-                        });
-                        break;
-                    case "SHADE_LOCKED":
+                                    setObjectField(param.thisObject, "mBehindTint", Color.TRANSPARENT);
+                                }
+                            });
+                    case "SHADE_LOCKED" -> {
                         hookAllMethods(constant.getClass(), "prepare", new XC_MethodHook() {
                             @Override
                             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -458,25 +458,24 @@ public class QSLightTheme extends ModPack {
                                 param.setResult(Color.TRANSPARENT);
                             }
                         });
-                        break;
-                    case "UNLOCKED":
-                        hookAllMethods(constant.getClass(), "prepare", new XC_MethodHook() {
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                                if (!lightQSHeaderEnabled) return;
+                    }
+                    case "UNLOCKED" ->
+                            hookAllMethods(constant.getClass(), "prepare", new XC_MethodHook() {
+                                @Override
+                                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                                    if (!lightQSHeaderEnabled) return;
 
-                                setObjectField(param.thisObject, "mBehindTint", Color.TRANSPARENT);
+                                    setObjectField(param.thisObject, "mBehindTint", Color.TRANSPARENT);
 
-                                Object mScrimBehind = getObjectField(param.thisObject, "mScrimBehind");
-                                int mTintColor = getIntField(mScrimBehind, "mTintColor");
-                                if (mTintColor != Color.TRANSPARENT) {
-                                    setObjectField(mScrimBehind, "mTintColor", Color.TRANSPARENT);
-                                    callMethod(mScrimBehind, "updateColorWithTint", false);
+                                    Object mScrimBehind = getObjectField(param.thisObject, "mScrimBehind");
+                                    int mTintColor = getIntField(mScrimBehind, "mTintColor");
+                                    if (mTintColor != Color.TRANSPARENT) {
+                                        setObjectField(mScrimBehind, "mTintColor", Color.TRANSPARENT);
+                                        callMethod(mScrimBehind, "updateColorWithTint", false);
+                                    }
+                                    callMethod(mScrimBehind, "setViewAlpha", 1f);
                                 }
-                                callMethod(mScrimBehind, "setViewAlpha", 1f);
-                            }
-                        });
-                        break;
+                            });
                 }
             }
         } catch (Throwable throwable) {
@@ -542,29 +541,30 @@ public class QSLightTheme extends ModPack {
     private void setHeaderComponentsColor(View mView, Object iconManager, Object batteryIcon) {
         if (!lightQSHeaderEnabled) return;
 
-        int textColor = getColorAttrDefaultColor(android.R.attr.textColorPrimary, mContext);
+        int textColorPrimary = getColorAttrDefaultColor(android.R.attr.textColorPrimary, mContext);
+        int textColorSecondary = getColorAttrDefaultColor(android.R.attr.textColorSecondary, mContext);
 
         try {
-            ((TextView) mView.findViewById(mContext.getResources().getIdentifier("clock", "id", mContext.getPackageName()))).setTextColor(textColor);
-            ((TextView) mView.findViewById(mContext.getResources().getIdentifier("date", "id", mContext.getPackageName()))).setTextColor(textColor);
+            ((TextView) mView.findViewById(mContext.getResources().getIdentifier("clock", "id", mContext.getPackageName()))).setTextColor(textColorPrimary);
+            ((TextView) mView.findViewById(mContext.getResources().getIdentifier("date", "id", mContext.getPackageName()))).setTextColor(textColorPrimary);
         } catch (Throwable ignored) {
         }
 
         try {
-            callMethod(iconManager, "setTint", textColor);
+            callMethod(iconManager, "setTint", textColorPrimary);
 
             for (int i = 1; i <= 3; i++) {
                 String id = String.format("carrier%s", i);
 
                 try {
-                    ((TextView) getObjectField(mView.findViewById(mContext.getResources().getIdentifier(id, "id", mContext.getPackageName())), "mCarrierText")).setTextColor(textColor);
-                    ((ImageView) getObjectField(mView.findViewById(mContext.getResources().getIdentifier(id, "id", mContext.getPackageName())), "mMobileSignal")).setImageTintList(ColorStateList.valueOf(textColor));
-                    ((ImageView) getObjectField(mView.findViewById(mContext.getResources().getIdentifier(id, "id", mContext.getPackageName())), "mMobileRoaming")).setImageTintList(ColorStateList.valueOf(textColor));
+                    ((TextView) getObjectField(mView.findViewById(mContext.getResources().getIdentifier(id, "id", mContext.getPackageName())), "mCarrierText")).setTextColor(textColorPrimary);
+                    ((ImageView) getObjectField(mView.findViewById(mContext.getResources().getIdentifier(id, "id", mContext.getPackageName())), "mMobileSignal")).setImageTintList(ColorStateList.valueOf(textColorPrimary));
+                    ((ImageView) getObjectField(mView.findViewById(mContext.getResources().getIdentifier(id, "id", mContext.getPackageName())), "mMobileRoaming")).setImageTintList(ColorStateList.valueOf(textColorPrimary));
                 } catch (Throwable ignored) {
                 }
             }
 
-            callMethod(batteryIcon, "updateColors", textColor, textColor, textColor);
+            callMethod(batteryIcon, "updateColors", textColorPrimary, textColorSecondary, textColorPrimary);
         } catch (Throwable throwable) {
             log(TAG + throwable);
         }

@@ -69,7 +69,7 @@ public class AppUtil {
     }
 
     public static boolean isLsposedInstalled() {
-        return RootUtil.fileExists("/data/adb/lspd/manager.apk");
+        return RootUtil.fileExists("/data/adb/lspd/manager.apk") || RootUtil.fileExists("/data/adb/modules/*lsposed*/manager.apk");
     }
 
     public static void restartApplication(Activity activity) {

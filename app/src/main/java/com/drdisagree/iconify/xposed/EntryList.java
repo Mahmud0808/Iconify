@@ -50,7 +50,7 @@ public class EntryList {
         modPacks.add(HookCheck.class);
 
         switch (packageName) {
-            case SYSTEMUI_PACKAGE:
+            case SYSTEMUI_PACKAGE -> {
                 if (!HookEntry.isChildProcess) {
                     modPacks.add(BackgroundChip.class);
                     modPacks.add(HeaderClock.class);
@@ -72,10 +72,8 @@ public class EntryList {
                         modPacks.add(QSLightThemeA12.class);
                     }
                 }
-                break;
-            case PIXEL_LAUNCHER_PACKAGE:
-                modPacks.add(IconUpdater.class);
-                break;
+            }
+            case PIXEL_LAUNCHER_PACKAGE -> modPacks.add(IconUpdater.class);
         }
 
         return modPacks;

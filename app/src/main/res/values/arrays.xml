@@ -12,6 +12,7 @@
         <item>French</item>
         <item>Indonesian</item>
         <item>Persian</item>
+        <item>Polish</item>
         <item>Portuguese</item>
         <item>Russian</item>
         <item>Spanish</item>
@@ -25,6 +26,7 @@
         <item>fr</item>
         <item>in</item>
         <item>fa</item>
+        <item>pl</item>
         <item>pt</item>
         <item>ru</item>
         <item>es</item>
@@ -72,28 +74,6 @@
         <item>@string/method_toggle_dark_mode</item>
         <item>@string/method_restart_systemui</item>
         <item>@string/method_do_nothing</item>
-    </string-array>
-    <string-array name="custom_battery_style">
-        <item>Default</item>
-        <item>Landscape R Default</item>
-        <item>Landscape L Default</item>
-        <item>Landscape R Custom</item>
-        <item>Landscape L Custom</item>
-        <item>Portrait Capsule</item>
-        <item>Portrait Lorn</item>
-        <item>Portrait Mx</item>
-        <item>Portrait Airoo</item>
-        <item>Landscape R Style A</item>
-        <item>Landscape L Style A</item>
-        <item>Landscape R Style B</item>
-        <item>Landscape L Style B</item>
-        <item>Landscape iOS 15</item>
-        <item>Landscape iOS 16</item>
-        <item>Portrait Origami</item>
-        <item>Landscape Smiley</item>
-        <item>Landscape MIUI Pill</item>
-        <item>Landscape L ColorOS</item>
-        <item>Landscape R ColorOS</item>
     </string-array>
     <string-array name="statusbar_clock_color">
         <item>@string/sbclock_color_follow_system</item>

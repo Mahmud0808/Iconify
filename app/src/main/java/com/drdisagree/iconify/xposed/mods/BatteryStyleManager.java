@@ -23,6 +23,21 @@ import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_CUSTOM_RLA
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_LANDSCAPE;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_RLANDSCAPE;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYA;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYB;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYC;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYD;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYE;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYF;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYG;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYH;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYI;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYJ;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYK;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYL;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYM;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYN;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYO;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_COLOROS;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_IOS_15;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_IOS_16;
@@ -38,11 +53,34 @@ import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_PORTRAIT_O
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_RLANDSCAPE_COLOROS;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_RLANDSCAPE_STYLE_A;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_RLANDSCAPE_STYLE_B;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_BLEND_COLOR;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_CHARGING_COLOR;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_CHARGING_ICON_MARGIN_LEFT;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_CHARGING_ICON_STYLE;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_CHARGING_ICON_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_DIMENSION;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_FILL_ALPHA;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_FILL_COLOR;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_FILL_GRAD_COLOR;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_HEIGHT;
-import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_MARGIN;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_HIDE_PERCENTAGE;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_LAYOUT_REVERSE;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_MARGIN_BOTTOM;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_MARGIN_LEFT;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_MARGIN_RIGHT;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_MARGIN_TOP;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_PERIMETER_ALPHA;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_POWERSAVE_FILL_COLOR;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_POWERSAVE_INDICATOR_COLOR;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_RAINBOW_FILL_COLOR;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_STYLE;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_SWAP_PERCENTAGE;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_WIDTH;
+import static com.drdisagree.iconify.common.Preferences.ICONIFY_CHARGING_ICON_TAG;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
+import static com.drdisagree.iconify.xposed.HookRes.modRes;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
@@ -59,40 +97,62 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setAdditionalInstanceField;
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.content.res.XResources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 
+import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.mods.batterystyles.BatteryDrawable;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawable;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableColorOS;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableMIUIPill;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableSmiley;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableStyleA;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableStyleB;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableiOS15;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryDrawableiOS16;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeRBatteryDrawable;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeRBatteryDrawableColorOS;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeRBatteryDrawableStyleA;
-import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeRBatteryDrawableStyleB;
-import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableAiroo;
-import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableCapsule;
-import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableLorn;
-import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableMx;
-import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryDrawableOrigami;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBattery;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryA;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryB;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryC;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryColorOS;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryD;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryE;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryF;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryG;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryH;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryI;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryJ;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryK;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryL;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryM;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryMIUIPill;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryN;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryO;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatterySmiley;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryStyleA;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryStyleB;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryiOS15;
+import com.drdisagree.iconify.xposed.mods.batterystyles.LandscapeBatteryiOS16;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryAiroo;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryCapsule;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryLorn;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryMx;
+import com.drdisagree.iconify.xposed.mods.batterystyles.PortraitBatteryOrigami;
+import com.drdisagree.iconify.xposed.mods.batterystyles.RLandscapeBattery;
+import com.drdisagree.iconify.xposed.mods.batterystyles.RLandscapeBatteryColorOS;
+import com.drdisagree.iconify.xposed.mods.batterystyles.RLandscapeBatteryStyleA;
+import com.drdisagree.iconify.xposed.mods.batterystyles.RLandscapeBatteryStyleB;
 import com.drdisagree.iconify.xposed.utils.SettingsLibUtils;
+import com.drdisagree.iconify.xposed.utils.ViewHelper;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -102,138 +162,170 @@ import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
+@SuppressWarnings({"DiscouragedApi", "unused", "FieldCanBeLocal"})
 public class BatteryStyleManager extends ModPack {
 
     private static final String TAG = "Iconify - " + BatteryStyleManager.class.getSimpleName() + ": ";
     private static final ArrayList<Object> batteryViews = new ArrayList<>();
     private static final int BatteryIconOpacity = 100;
-    public static int BatteryStyle = 0;
-    public static boolean showPercentInside = false;
-    public static int scaleFactor = 100;
-    public static int batteryRotation = 0;
-    private static boolean customBatteryEnabled = false;
-    private static int customBatteryWidth = 20;
-    private static int customBatteryHeight = 20;
-    private int frameColor;
+    private static int BatteryStyle = 0;
+    private static boolean mShowPercentInside = false;
+    private boolean DefaultLandscapeBatteryEnabled = false;
+    private static int mBatteryRotation = 0;
+    private static boolean CustomBatteryEnabled = false;
+    private static int mBatteryScaleWidth = 20;
+    private static int mBatteryScaleHeight = 20;
+    private int frameColor = Color.WHITE;
     private Object BatteryController = null;
-    private int customBatteryMargin = 6;
-    private int textColorPrimary = Color.TRANSPARENT;
+    private XC_MethodHook.MethodHookParam BatteryMeterViewParam;
+    private boolean mBatteryLayoutReverse = false;
+    private static boolean mBatteryCustomDimension = false;
+    private static int mBatteryMarginLeft = 0;
+    private static int mBatteryMarginTop = 0;
+    private static int mBatteryMarginRight = 0;
+    private static int mBatteryMarginBottom = 0;
+    private boolean mScaledPerimeterAlpha = false;
+    private boolean mScaledFillAlpha = false;
+    private boolean mRainbowFillColor = false;
+    private boolean mCustomBlendColor = false;
+    private int mCustomChargingColor = Color.BLACK;
+    private int mCustomFillColor = Color.BLACK;
+    private int mCustomFillGradColor = Color.BLACK;
+    private int mCustomPowerSaveColor = Color.BLACK;
+    private int mCustomPowerSaveFillColor = Color.BLACK;
+    private boolean mSwapPercentage = false;
+    private ImageView mChargingIconView;
+    private boolean mChargingIconSwitch = false;
+    private int mChargingIconStyle = 0;
+    private int mChargingIconML = 1;
+    private int mChargingIconMR = 0;
+    private int mChargingIconWH = 14;
+    private boolean mIsCharging = false;
 
     public BatteryStyleManager(Context context) {
         super(context);
-    }
-
-    private static void refreshBatteryIcons() {
-        try {
-            for (Object view : batteryViews) {
-                ImageView mBatteryIconView = (ImageView) getObjectField(view, "mBatteryIconView");
-                if (mBatteryIconView != null) {
-                    mBatteryIconView.setRotation(batteryRotation);
-                }
-
-                if (customBatteryEnabled) {
-                    scale(mBatteryIconView);
-                    try {
-                        BatteryDrawable drawable = (BatteryDrawable) getAdditionalInstanceField(view, "mBatteryDrawable");
-                        drawable.setShowPercentEnabled(showPercentInside);
-                        drawable.setAlpha(Math.round(BatteryIconOpacity * 2.55f));
-                        drawable.invalidateSelf();
-                    } catch (Throwable ignored) {
-                    }
-                }
-            }
-        } catch (Throwable throwable) {
-            log(TAG + throwable);
-        }
-    }
-
-    public static void scale(Object thisObject) {
-        ImageView mBatteryIconView = (ImageView) getObjectField(thisObject, "mBatteryIconView");
-        scale(mBatteryIconView);
-    }
-
-    @SuppressLint("DiscouragedApi")
-    public static void scale(ImageView mBatteryIconView) {
-        if (mBatteryIconView == null) {
-            return;
-        }
-
-        try {
-            Context context = mBatteryIconView.getContext();
-            Resources res = context.getResources();
-
-            TypedValue typedValue = new TypedValue();
-
-            res.getValue(res.getIdentifier("status_bar_icon_scale_factor", "dimen", context.getPackageName()), typedValue, true);
-            float iconScaleFactor = typedValue.getFloat() * (scaleFactor / 100f);
-
-            int batteryHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, customBatteryHeight, mBatteryIconView.getContext().getResources().getDisplayMetrics());
-            int batteryWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, customBatteryWidth, mBatteryIconView.getContext().getResources().getDisplayMetrics());
-
-            ViewGroup.LayoutParams scaledLayoutParams = mBatteryIconView.getLayoutParams();
-            scaledLayoutParams.height = (int) (batteryHeight * iconScaleFactor);
-            scaledLayoutParams.width = (int) (batteryWidth * iconScaleFactor);
-
-            mBatteryIconView.setLayoutParams(scaledLayoutParams);
-        } catch (Throwable throwable) {
-            log(TAG + throwable);
-        }
     }
 
     public void updatePrefs(String... Key) {
         if (Xprefs == null) return;
 
         int batteryStyle = Xprefs.getInt(CUSTOM_BATTERY_STYLE, 0);
-        customBatteryEnabled = batteryStyle != BATTERY_STYLE_DEFAULT
-                && batteryStyle != BATTERY_STYLE_DEFAULT_LANDSCAPE
-                && batteryStyle != BATTERY_STYLE_DEFAULT_RLANDSCAPE;
-        customBatteryWidth = Xprefs.getInt(CUSTOM_BATTERY_WIDTH, 20);
-        customBatteryHeight = Xprefs.getInt(CUSTOM_BATTERY_HEIGHT, 20);
-        customBatteryMargin = Xprefs.getInt(CUSTOM_BATTERY_MARGIN, 6);
 
-        if (batteryStyle == BATTERY_STYLE_DEFAULT_RLANDSCAPE) {
-            batteryRotation = 90;
-        } else if (batteryStyle == BATTERY_STYLE_DEFAULT_LANDSCAPE) {
-            batteryRotation = 270;
+        DefaultLandscapeBatteryEnabled = batteryStyle == BATTERY_STYLE_DEFAULT_LANDSCAPE ||
+                batteryStyle == BATTERY_STYLE_DEFAULT_RLANDSCAPE;
+        CustomBatteryEnabled = batteryStyle != BATTERY_STYLE_DEFAULT &&
+                batteryStyle != BATTERY_STYLE_DEFAULT_LANDSCAPE &&
+                batteryStyle != BATTERY_STYLE_DEFAULT_RLANDSCAPE;
+
+        if (DefaultLandscapeBatteryEnabled) {
+            if (batteryStyle == BATTERY_STYLE_DEFAULT_RLANDSCAPE) {
+                mBatteryRotation = 90;
+            } else {
+                mBatteryRotation = 270;
+            }
         } else {
-            batteryRotation = 0;
+            mBatteryRotation = 0;
         }
 
-        showPercentInside = batteryStyle == BATTERY_STYLE_LANDSCAPE_IOS_16;
+        mShowPercentInside = batteryStyle == BATTERY_STYLE_LANDSCAPE_IOS_16 ||
+                batteryStyle == BATTERY_STYLE_LANDSCAPE_BATTERYL ||
+                batteryStyle == BATTERY_STYLE_LANDSCAPE_BATTERYM ||
+                Xprefs.getBoolean(CUSTOM_BATTERY_HIDE_PERCENTAGE, false);
+
+        mBatteryLayoutReverse = Xprefs.getBoolean(CUSTOM_BATTERY_LAYOUT_REVERSE, false);
+        mBatteryCustomDimension = Xprefs.getBoolean(CUSTOM_BATTERY_DIMENSION, false);
+        mBatteryScaleWidth = Xprefs.getInt(CUSTOM_BATTERY_WIDTH, 20);
+        mBatteryScaleHeight = Xprefs.getInt(CUSTOM_BATTERY_HEIGHT, 20);
+        mScaledPerimeterAlpha = Xprefs.getBoolean(CUSTOM_BATTERY_PERIMETER_ALPHA, false);
+        mScaledFillAlpha = Xprefs.getBoolean(CUSTOM_BATTERY_FILL_ALPHA, false);
+        mRainbowFillColor = Xprefs.getBoolean(CUSTOM_BATTERY_RAINBOW_FILL_COLOR, false);
+        mCustomBlendColor = Xprefs.getBoolean(CUSTOM_BATTERY_BLEND_COLOR, false);
+        mCustomChargingColor = Xprefs.getInt(CUSTOM_BATTERY_CHARGING_COLOR, Color.BLACK);
+        mCustomFillColor = Xprefs.getInt(CUSTOM_BATTERY_FILL_COLOR, Color.BLACK);
+        mCustomFillGradColor = Xprefs.getInt(CUSTOM_BATTERY_FILL_GRAD_COLOR, Color.BLACK);
+        mCustomPowerSaveColor = Xprefs.getInt(CUSTOM_BATTERY_POWERSAVE_INDICATOR_COLOR, Color.BLACK);
+        mCustomPowerSaveFillColor = Xprefs.getInt(CUSTOM_BATTERY_POWERSAVE_FILL_COLOR, Color.BLACK);
+        mSwapPercentage = Xprefs.getBoolean(CUSTOM_BATTERY_SWAP_PERCENTAGE, false);
+        mChargingIconSwitch = Xprefs.getBoolean(CUSTOM_BATTERY_CHARGING_ICON_SWITCH, false);
+        mChargingIconStyle = Xprefs.getInt(CUSTOM_BATTERY_CHARGING_ICON_STYLE, 0);
+        mChargingIconML = Xprefs.getInt(CUSTOM_BATTERY_CHARGING_ICON_MARGIN_LEFT, 1);
+        mChargingIconMR = Xprefs.getInt(CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT, 0);
+        mChargingIconWH = Xprefs.getInt(CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT, 14);
+        mBatteryMarginLeft = ViewHelper.dp2px(mContext, Xprefs.getInt(CUSTOM_BATTERY_MARGIN_LEFT, 4));
+        mBatteryMarginTop = ViewHelper.dp2px(mContext, Xprefs.getInt(CUSTOM_BATTERY_MARGIN_TOP, 0));
+        mBatteryMarginRight = ViewHelper.dp2px(mContext, Xprefs.getInt(CUSTOM_BATTERY_MARGIN_RIGHT, 4));
+        mBatteryMarginBottom = ViewHelper.dp2px(mContext, Xprefs.getInt(CUSTOM_BATTERY_MARGIN_BOTTOM, 0));
 
         if (BatteryStyle != batteryStyle) {
             BatteryStyle = batteryStyle;
-            try {
-                for (Object view : batteryViews) {
-                    ImageView mBatteryIconView = (ImageView) getObjectField(view, "mBatteryIconView");
-                    if (mBatteryIconView != null) {
-                        mBatteryIconView.setRotation(batteryRotation);
-                    }
 
-                    boolean mCharging = (boolean) getObjectField(view, "mCharging");
-                    int mLevel = (int) getObjectField(view, "mLevel");
+            for (Object view : batteryViews) {
+                ImageView mBatteryIconView = (ImageView) getObjectField(view, "mBatteryIconView");
+                if (mBatteryIconView != null) {
+                    updateBatteryRotation(mBatteryIconView);
+                    updateFlipper(mBatteryIconView.getParent());
+                }
 
-                    if (customBatteryEnabled) {
-                        BatteryDrawable newDrawable = getNewDrawable(mContext);
-                        if (newDrawable != null) {
-                            if (mBatteryIconView != null) {
-                                mBatteryIconView.setImageDrawable(newDrawable);
-                            }
-                            setAdditionalInstanceField(view, "mBatteryDrawable", newDrawable);
-                            newDrawable.setBatteryLevel(mLevel);
-                            newDrawable.setChargingEnabled(mCharging);
+                TextView mBatteryPercentView = (TextView) getObjectField(view, "mBatteryPercentView");
+                if (mBatteryPercentView != null) {
+                    mBatteryPercentView.setVisibility(mShowPercentInside ? View.GONE : View.VISIBLE);
+                }
+
+                boolean mCharging = (boolean) getObjectField(view, "mCharging");
+                int mLevel = (int) getObjectField(view, "mLevel");
+
+                if (CustomBatteryEnabled) {
+                    BatteryDrawable mBatteryDrawable = getNewBatteryDrawable(mContext);
+
+                    if (mBatteryDrawable != null) {
+                        if (mBatteryIconView != null) {
+                            mBatteryIconView.setImageDrawable(mBatteryDrawable);
                         }
+
+                        setAdditionalInstanceField(view, "mBatteryDrawable", mBatteryDrawable);
+                        mBatteryDrawable.setBatteryLevel(mLevel);
+                        mBatteryDrawable.setChargingEnabled(mCharging);
+                        updateCustomizeBatteryDrawable(mBatteryDrawable);
                     }
                 }
-            } catch (Throwable throwable) {
-                log(TAG + throwable);
             }
         }
 
         refreshBatteryIcons();
 
-        if (Key.length > 0 && (Objects.equals(Key[0], CUSTOM_BATTERY_WIDTH) || Objects.equals(Key[0], CUSTOM_BATTERY_HEIGHT) || Objects.equals(Key[0], CUSTOM_BATTERY_MARGIN))) {
-            setCustomBatteryDimens();
+        if (Key.length > 0 && (Objects.equals(Key[0], CUSTOM_BATTERY_WIDTH) || Objects.equals(Key[0], CUSTOM_BATTERY_HEIGHT))) {
+            setDefaultBatteryDimens();
+        }
+
+        if (Key.length > 0 && (Objects.equals(Key[0], CUSTOM_BATTERY_STYLE) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_HIDE_PERCENTAGE) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_LAYOUT_REVERSE) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_DIMENSION) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_WIDTH) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_HEIGHT) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_PERIMETER_ALPHA) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_FILL_ALPHA) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_RAINBOW_FILL_COLOR) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_BLEND_COLOR) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_CHARGING_COLOR) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_FILL_COLOR) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_FILL_GRAD_COLOR) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_POWERSAVE_INDICATOR_COLOR) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_POWERSAVE_FILL_COLOR) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_SWAP_PERCENTAGE) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_CHARGING_ICON_SWITCH) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_CHARGING_ICON_STYLE) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_CHARGING_ICON_MARGIN_LEFT) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_MARGIN_LEFT) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_MARGIN_TOP) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_MARGIN_RIGHT) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_MARGIN_BOTTOM))
+        ) {
+            if (BatteryMeterViewParam != null) {
+                updateSettings(BatteryMeterViewParam);
+            }
         }
     }
 
@@ -243,17 +335,6 @@ public class BatteryStyleManager extends ModPack {
         Class<?> BatteryMeterViewClass = findClassIfExists(SYSTEMUI_PACKAGE + ".battery.BatteryMeterView", lpparam.classLoader);
         if (BatteryMeterViewClass == null) {
             BatteryMeterViewClass = findClass(SYSTEMUI_PACKAGE + ".BatteryMeterView", lpparam.classLoader);
-        }
-
-        try {
-            findAndHookConstructor("com.android.settingslib.graph.ThemedBatteryDrawable", lpparam.classLoader, Context.class, int.class, new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) {
-                    frameColor = (int) param.args[1];
-                }
-            });
-        } catch (Throwable throwable) {
-            log(TAG + throwable);
         }
 
         try {
@@ -271,7 +352,7 @@ public class BatteryStyleManager extends ModPack {
             hookAllMethods(BatteryControllerImplClass, "fireBatteryUnknownStateChanged", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
-                    if (!customBatteryEnabled) return;
+                    if (!CustomBatteryEnabled) return;
 
                     for (Object view : batteryViews) {
                         BatteryDrawable mBatteryDrawable = (BatteryDrawable) getAdditionalInstanceField(view, "mBatteryDrawable");
@@ -287,27 +368,35 @@ public class BatteryStyleManager extends ModPack {
             XC_MethodHook batteryDataRefreshHook = new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
-                    int level = getIntField(param.thisObject, "mLevel");
-                    boolean charging = getBooleanField(param.thisObject, "mPluggedIn")
+                    if (!CustomBatteryEnabled) return;
+
+                    int mLevel = getIntField(param.thisObject, "mLevel");
+                    mIsCharging = getBooleanField(param.thisObject, "mPluggedIn")
                             || getBooleanField(param.thisObject, "mCharging")
                             || getBooleanField(param.thisObject, "mWirelessCharging");
-                    boolean powerSave = getBooleanField(param.thisObject, "mPowerSave");
+                    boolean mPowerSave = getBooleanField(param.thisObject, "mPowerSave");
 
-                    if (!customBatteryEnabled) return;
-
-                    try {
-                        for (Object view : batteryViews) {
+                    for (Object view : batteryViews) {
+                        try {
                             ((View) view).post(() -> {
-                                BatteryDrawable drawable = (BatteryDrawable) getAdditionalInstanceField(view, "mBatteryDrawable");
-                                if (drawable != null) {
-                                    drawable.setBatteryLevel(level);
-                                    drawable.setChargingEnabled(charging);
-                                    drawable.setPowerSavingEnabled(powerSave);
+                                BatteryDrawable mBatteryDrawable = (BatteryDrawable) getAdditionalInstanceField(view, "mBatteryDrawable");
+                                if (mBatteryDrawable != null) {
+                                    mBatteryDrawable.setBatteryLevel(mLevel);
+                                    mBatteryDrawable.setChargingEnabled(mIsCharging);
+                                    mBatteryDrawable.setPowerSavingEnabled(mPowerSave);
+                                    updateCustomizeBatteryDrawable(mBatteryDrawable);
                                 }
-                                scale(view);
+
+                                TextView mBatteryPercentView = (TextView) getObjectField(view, "mBatteryPercentView");
+                                if (mBatteryPercentView != null) {
+                                    mBatteryPercentView.setVisibility(mShowPercentInside ? View.GONE : View.VISIBLE);
+                                }
+
+                                scaleBatteryMeterView(view);
+                                updateChargingIconView(view, mIsCharging);
                             });
+                        } catch (Throwable ignored) {
                         }
-                    } catch (Throwable ignored) {
                     }
                 }
             };
@@ -340,20 +429,39 @@ public class BatteryStyleManager extends ModPack {
                 }
             };
 
-            hookAllConstructors(BatteryMeterViewClass, new XC_MethodHook() {
+            findAndHookConstructor(BatteryMeterViewClass, Context.class, AttributeSet.class, int.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
+                    if (BatteryMeterViewParam == null) {
+                        BatteryMeterViewParam = param;
+                    }
+
+                    final int[] styleableBatteryMeterView = new int[]{
+                            mContext.getResources().getIdentifier("frameColor", "attr", mContext.getPackageName()),
+                            mContext.getResources().getIdentifier("textAppearance", "attr", mContext.getPackageName())
+                    };
+                    TypedArray atts = mContext.obtainStyledAttributes((AttributeSet) param.args[1],
+                            styleableBatteryMeterView,
+                            (int) param.args[2],
+                            0);
+                    frameColor = atts.getColor(
+                            mContext.getResources().getIdentifier("BatteryMeterView_frameColor", "styleable", mContext.getPackageName()),
+                            mContext.getColor(mContext.getResources().getIdentifier("meter_background_color", "color", mContext.getPackageName()))
+                    );
+                    atts.recycle();
+
                     ((View) param.thisObject).addOnAttachStateChangeListener(listener);
 
                     ImageView mBatteryIconView = initBatteryIfNull(param, (ImageView) getObjectField(param.thisObject, "mBatteryIconView"));
 
-                    if (customBatteryEnabled || BatteryStyle == BATTERY_STYLE_DEFAULT_LANDSCAPE || BatteryStyle == BATTERY_STYLE_DEFAULT_RLANDSCAPE) {
-                        mBatteryIconView.setRotation(batteryRotation);
+                    if (CustomBatteryEnabled || BatteryStyle == BATTERY_STYLE_DEFAULT_LANDSCAPE || BatteryStyle == BATTERY_STYLE_DEFAULT_RLANDSCAPE) {
+                        updateBatteryRotation(mBatteryIconView);
+                        updateFlipper(mBatteryIconView.getParent());
                     }
 
-                    if (!customBatteryEnabled) return;
+                    if (!CustomBatteryEnabled) return;
 
-                    BatteryDrawable mBatteryDrawable = getNewDrawable(mContext);
+                    BatteryDrawable mBatteryDrawable = getNewBatteryDrawable(mContext);
 
                     if (mBatteryDrawable != null) {
                         setAdditionalInstanceField(param.thisObject, "mBatteryDrawable", mBatteryDrawable);
@@ -361,11 +469,13 @@ public class BatteryStyleManager extends ModPack {
                         setObjectField(param.thisObject, "mBatteryIconView", mBatteryIconView);
                     }
 
+                    boolean mCharging = (boolean) getObjectField(param.thisObject, "mCharging");
+                    updateChargingIconView(param.thisObject, mCharging);
+                    updateSettings(param);
+
                     if (BatteryController != null) {
                         callMethod(BatteryController, "fireBatteryLevelChanged");
                     }
-
-                    hidePercentage(param);
                 }
             });
         } catch (Throwable throwable) {
@@ -376,14 +486,21 @@ public class BatteryStyleManager extends ModPack {
             findAndHookMethod(BatteryMeterViewClass, "updateColors", int.class, int.class, int.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
-                    if (!customBatteryEnabled) return;
+                    if (BatteryMeterViewParam == null) {
+                        BatteryMeterViewParam = param;
+                    }
+
+                    if (!CustomBatteryEnabled) return;
 
                     BatteryDrawable mBatteryDrawable = (BatteryDrawable) getAdditionalInstanceField(param.thisObject, "mBatteryDrawable");
                     if (mBatteryDrawable != null) {
                         mBatteryDrawable.setColors((int) param.args[0], (int) param.args[1], (int) param.args[2]);
                     }
 
-                    hidePercentage(param);
+                    ImageView mChargingIconView = ((LinearLayout) param.thisObject).findViewWithTag(ICONIFY_CHARGING_ICON_TAG);
+                    if (mChargingIconView != null) {
+                        mChargingIconView.setImageTintList(ColorStateList.valueOf((int) param.args[2]));
+                    }
                 }
             });
         } catch (Throwable throwable) {
@@ -395,23 +512,27 @@ public class BatteryStyleManager extends ModPack {
             if (ShadeHeaderControllerClass == null)
                 ShadeHeaderControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController", lpparam.classLoader);
 
-            hookAllMethods(ShadeHeaderControllerClass, "updateResources", new XC_MethodHook() {
+            hookAllMethods(ShadeHeaderControllerClass, "onInit", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
-                    if (!customBatteryEnabled) return;
+                    try {
+                        Object configurationControllerListener = getObjectField(param.thisObject, "configurationControllerListener");
 
-                    updateBatteryResources(mContext, param);
-                    hidePercentage(param);
-                }
-            });
+                        hookAllMethods(configurationControllerListener.getClass(), "onConfigChanged", new XC_MethodHook() {
+                            @Override
+                            protected void afterHookedMethod(MethodHookParam methodHookParam) {
+                                if (!CustomBatteryEnabled) return;
 
-            hookAllMethods(ShadeHeaderControllerClass, "onConfigurationChanged", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) {
-                    if (!customBatteryEnabled) return;
+                                updateBatteryResources(param);
+                            }
+                        });
 
-                    updateBatteryResources(mContext, param);
-                    hidePercentage(param);
+                        if (!CustomBatteryEnabled) return;
+
+                        updateBatteryResources(param);
+                    } catch (Throwable throwable) {
+                        log(TAG + throwable);
+                    }
                 }
             });
         } catch (Throwable ignored) {
@@ -421,7 +542,11 @@ public class BatteryStyleManager extends ModPack {
             hookAllMethods(BatteryMeterViewClass, "setPercentShowMode", new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) {
-                    if (showPercentInside) {
+                    if (BatteryMeterViewParam == null) {
+                        BatteryMeterViewParam = param;
+                    }
+
+                    if ((CustomBatteryEnabled || DefaultLandscapeBatteryEnabled) && mShowPercentInside) {
                         param.setResult(2);
                     }
                 }
@@ -430,54 +555,108 @@ public class BatteryStyleManager extends ModPack {
             hookAllMethods(BatteryMeterViewClass, "updateShowPercent", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
-                    hidePercentage(param);
+                    if (BatteryMeterViewParam == null) {
+                        BatteryMeterViewParam = param;
+                    }
+
+                    TextView mBatteryPercentView = (TextView) getObjectField(param.thisObject, "mBatteryPercentView");
+                    if (mBatteryPercentView != null) {
+                        mBatteryPercentView.setVisibility(mShowPercentInside ? View.GONE : View.VISIBLE);
+                    }
                 }
             });
         } catch (Throwable throwable) {
             log(TAG + throwable);
         }
 
-        if (customBatteryEnabled) {
-            try {
-                hookAllMethods(BatteryMeterViewClass, "updateDrawable", new XC_MethodReplacement() {
-                    @Override
-                    protected Object replaceHookedMethod(MethodHookParam methodHookParam) {
-                        return null;
-                    }
-                });
-
-                hookAllMethods(BatteryMeterViewClass, "updateBatteryStyle", new XC_MethodReplacement() {
-                    @Override
-                    protected Object replaceHookedMethod(MethodHookParam methodHookParam) {
-                        return null;
-                    }
-                });
-            } catch (Throwable ignored) {
-            }
-        }
-
-        setCustomBatteryDimens();
+        removeBatteryMeterViewMethods(BatteryMeterViewClass);
+        setDefaultBatteryDimens();
     }
 
-    private void updateBatteryResources(Context context, XC_MethodHook.MethodHookParam param) {
+    private void updateBatteryResources(XC_MethodHook.MethodHookParam param) {
         try {
-            int textColor = SettingsLibUtils.getColorAttrDefaultColor(context, android.R.attr.textColorPrimary);
+            View header = (View) getObjectField(param.thisObject, "header");
+            int textColorPrimary = SettingsLibUtils.getColorAttrDefaultColor(header.getContext(), android.R.attr.textColorPrimary);
+            int textColorSecondary = SettingsLibUtils.getColorAttrDefaultColor(header.getContext(), android.R.attr.textColorSecondary);
             LinearLayout batteryIcon = (LinearLayout) getObjectField(param.thisObject, "batteryIcon");
 
-            if (textColor != textColorPrimary) {
-                int textColorSecondary = SettingsLibUtils.getColorAttrDefaultColor(context, android.R.attr.textColorHint);
-                textColorPrimary = textColor;
-                if (getObjectField(param.thisObject, "iconManager") != null) {
-                    callMethod(getObjectField(param.thisObject, "iconManager"), "setTint", textColor);
-                }
-                callMethod(batteryIcon, "updateColors", textColorPrimary, textColorSecondary, textColorPrimary);
+            if (getObjectField(param.thisObject, "iconManager") != null) {
+                callMethod(getObjectField(param.thisObject, "iconManager"), "setTint", textColorPrimary);
             }
+            callMethod(batteryIcon, "updateColors", textColorPrimary, textColorSecondary, textColorPrimary);
+            scaleBatteryMeterView((Object) batteryIcon);
         } catch (Throwable throwable) {
             log(TAG + throwable);
         }
     }
 
-    @SuppressLint("DiscouragedApi")
+    private void refreshBatteryIcons() {
+        for (Object view : batteryViews) {
+            ImageView mBatteryIconView = (ImageView) getObjectField(view, "mBatteryIconView");
+            if (mBatteryIconView != null) {
+                updateBatteryRotation(mBatteryIconView);
+                updateFlipper(mBatteryIconView.getParent());
+            }
+
+            TextView mBatteryPercentView = (TextView) getObjectField(view, "mBatteryPercentView");
+            if (mBatteryPercentView != null) {
+                mBatteryPercentView.setVisibility(mShowPercentInside ? View.GONE : View.VISIBLE);
+            }
+
+            if (CustomBatteryEnabled) {
+                scaleBatteryMeterView(mBatteryIconView);
+
+                try {
+                    BatteryDrawable mBatteryDrawable = (BatteryDrawable) getAdditionalInstanceField(view, "mBatteryDrawable");
+                    mBatteryDrawable.setShowPercentEnabled(mShowPercentInside);
+                    mBatteryDrawable.setAlpha(Math.round(BatteryIconOpacity * 2.55f));
+                    updateCustomizeBatteryDrawable(mBatteryDrawable);
+                } catch (Throwable ignored) {
+                }
+            }
+
+            boolean mCharging = (boolean) getObjectField(view, "mCharging");
+            updateChargingIconView(view, mCharging);
+        }
+    }
+
+    public static void scaleBatteryMeterView(Object thisObject) {
+        ImageView mBatteryIconView = (ImageView) getObjectField(thisObject, "mBatteryIconView");
+        scaleBatteryMeterView(mBatteryIconView);
+    }
+
+    public static void scaleBatteryMeterView(ImageView mBatteryIconView) {
+        if (mBatteryIconView == null) {
+            return;
+        }
+
+        try {
+            Context context = mBatteryIconView.getContext();
+            Resources res = context.getResources();
+
+            TypedValue typedValue = new TypedValue();
+
+            res.getValue(res.getIdentifier("status_bar_icon_scale_factor", "dimen", context.getPackageName()), typedValue, true);
+            float iconScaleFactor = typedValue.getFloat();
+
+            int batteryWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mBatteryScaleWidth, mBatteryIconView.getContext().getResources().getDisplayMetrics());
+            int batteryHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mBatteryScaleHeight, mBatteryIconView.getContext().getResources().getDisplayMetrics());
+
+            LinearLayout.LayoutParams scaledLayoutParams = (LinearLayout.LayoutParams) mBatteryIconView.getLayoutParams();
+            scaledLayoutParams.width = (int) (batteryWidth * iconScaleFactor);
+            scaledLayoutParams.height = (int) (batteryHeight * iconScaleFactor);
+            if (mBatteryCustomDimension) {
+                scaledLayoutParams.setMargins(mBatteryMarginLeft, mBatteryMarginTop, mBatteryMarginRight, mBatteryMarginBottom);
+            } else {
+                scaledLayoutParams.setMargins(0, 0, 0, context.getResources().getDimensionPixelOffset(context.getResources().getIdentifier("battery_margin_bottom", "dimen", context.getPackageName())));
+            }
+
+            mBatteryIconView.setLayoutParams(scaledLayoutParams);
+        } catch (Throwable throwable) {
+            log(TAG + throwable);
+        }
+    }
+
     private ImageView initBatteryIfNull(XC_MethodHook.MethodHookParam param, ImageView mBatteryIconView) {
         if (mBatteryIconView == null) {
             mBatteryIconView = new ImageView(mContext);
@@ -492,7 +671,15 @@ public class BatteryStyleManager extends ModPack {
                 }
             }
 
-            final ViewGroup.MarginLayoutParams mlp = new ViewGroup.MarginLayoutParams(mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_battery_icon_width", "dimen", mContext.getPackageName())), mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("status_bar_battery_icon_height", "dimen", mContext.getPackageName())));
+            TypedValue typedValue = new TypedValue();
+
+            mContext.getResources().getValue(mContext.getResources().getIdentifier("status_bar_icon_scale_factor", "dimen", mContext.getPackageName()), typedValue, true);
+            float iconScaleFactor = typedValue.getFloat();
+
+            int batteryWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mBatteryScaleWidth, mBatteryIconView.getContext().getResources().getDisplayMetrics());
+            int batteryHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mBatteryScaleHeight, mBatteryIconView.getContext().getResources().getDisplayMetrics());
+
+            final ViewGroup.MarginLayoutParams mlp = new ViewGroup.MarginLayoutParams((int) (batteryWidth * iconScaleFactor), (int) (batteryHeight * iconScaleFactor));
             mlp.setMargins(0, 0, 0, mContext.getResources().getDimensionPixelOffset(mContext.getResources().getIdentifier("battery_margin_bottom", "dimen", mContext.getPackageName())));
             setObjectField(param.thisObject, "mBatteryIconView", mBatteryIconView);
             callMethod(param.thisObject, "addView", mBatteryIconView, mlp);
@@ -501,97 +688,213 @@ public class BatteryStyleManager extends ModPack {
         return mBatteryIconView;
     }
 
-    private BatteryDrawable getNewDrawable(Context context) {
-        BatteryDrawable mBatteryDrawable = null;
-
-        switch (BatteryStyle) {
-            case BATTERY_STYLE_DEFAULT:
-            case BATTERY_STYLE_DEFAULT_RLANDSCAPE:
-            case BATTERY_STYLE_DEFAULT_LANDSCAPE:
-                break;
-            case BATTERY_STYLE_CUSTOM_RLANDSCAPE:
-                mBatteryDrawable = new LandscapeRBatteryDrawable(context, frameColor);
-                break;
-            case BATTERY_STYLE_CUSTOM_LANDSCAPE:
-                mBatteryDrawable = new LandscapeBatteryDrawable(context, frameColor);
-                break;
-            case BATTERY_STYLE_PORTRAIT_CAPSULE:
-                mBatteryDrawable = new PortraitBatteryDrawableCapsule(context, frameColor);
-                break;
-            case BATTERY_STYLE_PORTRAIT_LORN:
-                mBatteryDrawable = new PortraitBatteryDrawableLorn(context, frameColor);
-                break;
-            case BATTERY_STYLE_PORTRAIT_MX:
-                mBatteryDrawable = new PortraitBatteryDrawableMx(context, frameColor);
-                break;
-            case BATTERY_STYLE_PORTRAIT_AIROO:
-                mBatteryDrawable = new PortraitBatteryDrawableAiroo(context, frameColor);
-                break;
-            case BATTERY_STYLE_RLANDSCAPE_STYLE_A:
-                mBatteryDrawable = new LandscapeRBatteryDrawableStyleA(context, frameColor);
-                break;
-            case BATTERY_STYLE_LANDSCAPE_STYLE_A:
-                mBatteryDrawable = new LandscapeBatteryDrawableStyleA(context, frameColor);
-                break;
-            case BATTERY_STYLE_RLANDSCAPE_STYLE_B:
-                mBatteryDrawable = new LandscapeRBatteryDrawableStyleB(context, frameColor);
-                break;
-            case BATTERY_STYLE_LANDSCAPE_STYLE_B:
-                mBatteryDrawable = new LandscapeBatteryDrawableStyleB(context, frameColor);
-                break;
-            case BATTERY_STYLE_LANDSCAPE_IOS_15:
-                mBatteryDrawable = new LandscapeBatteryDrawableiOS15(context, frameColor);
-                break;
-            case BATTERY_STYLE_LANDSCAPE_IOS_16:
-                mBatteryDrawable = new LandscapeBatteryDrawableiOS16(context, frameColor);
-                break;
-            case BATTERY_STYLE_PORTRAIT_ORIGAMI:
-                mBatteryDrawable = new PortraitBatteryDrawableOrigami(context, frameColor);
-                break;
-            case BATTERY_STYLE_LANDSCAPE_SMILEY:
-                mBatteryDrawable = new LandscapeBatteryDrawableSmiley(context, frameColor);
-                break;
-            case BATTERY_STYLE_LANDSCAPE_MIUI_PILL:
-                mBatteryDrawable = new LandscapeBatteryDrawableMIUIPill(context, frameColor);
-                break;
-            case BATTERY_STYLE_LANDSCAPE_COLOROS:
-                mBatteryDrawable = new LandscapeBatteryDrawableColorOS(context, frameColor);
-                break;
-            case BATTERY_STYLE_RLANDSCAPE_COLOROS:
-                mBatteryDrawable = new LandscapeRBatteryDrawableColorOS(context, frameColor);
-                break;
-        }
+    private BatteryDrawable getNewBatteryDrawable(Context context) {
+        BatteryDrawable mBatteryDrawable = switch (BatteryStyle) {
+            case BATTERY_STYLE_CUSTOM_RLANDSCAPE -> new RLandscapeBattery(context, frameColor);
+            case BATTERY_STYLE_CUSTOM_LANDSCAPE -> new LandscapeBattery(context, frameColor);
+            case BATTERY_STYLE_PORTRAIT_CAPSULE -> new PortraitBatteryCapsule(context, frameColor);
+            case BATTERY_STYLE_PORTRAIT_LORN -> new PortraitBatteryLorn(context, frameColor);
+            case BATTERY_STYLE_PORTRAIT_MX -> new PortraitBatteryMx(context, frameColor);
+            case BATTERY_STYLE_PORTRAIT_AIROO -> new PortraitBatteryAiroo(context, frameColor);
+            case BATTERY_STYLE_RLANDSCAPE_STYLE_A ->
+                    new RLandscapeBatteryStyleA(context, frameColor);
+            case BATTERY_STYLE_LANDSCAPE_STYLE_A -> new LandscapeBatteryStyleA(context, frameColor);
+            case BATTERY_STYLE_RLANDSCAPE_STYLE_B ->
+                    new RLandscapeBatteryStyleB(context, frameColor);
+            case BATTERY_STYLE_LANDSCAPE_STYLE_B -> new LandscapeBatteryStyleB(context, frameColor);
+            case BATTERY_STYLE_LANDSCAPE_IOS_15 -> new LandscapeBatteryiOS15(context, frameColor);
+            case BATTERY_STYLE_LANDSCAPE_IOS_16 -> new LandscapeBatteryiOS16(context, frameColor);
+            case BATTERY_STYLE_PORTRAIT_ORIGAMI -> new PortraitBatteryOrigami(context, frameColor);
+            case BATTERY_STYLE_LANDSCAPE_SMILEY -> new LandscapeBatterySmiley(context, frameColor);
+            case BATTERY_STYLE_LANDSCAPE_MIUI_PILL ->
+                    new LandscapeBatteryMIUIPill(context, frameColor);
+            case BATTERY_STYLE_LANDSCAPE_COLOROS ->
+                    new LandscapeBatteryColorOS(context, frameColor);
+            case BATTERY_STYLE_RLANDSCAPE_COLOROS ->
+                    new RLandscapeBatteryColorOS(context, frameColor);
+            case BATTERY_STYLE_LANDSCAPE_BATTERYA -> new LandscapeBatteryA(context, frameColor);
+            case BATTERY_STYLE_LANDSCAPE_BATTERYB -> new LandscapeBatteryB(context, frameColor);
+            case BATTERY_STYLE_LANDSCAPE_BATTERYC -> new LandscapeBatteryC(context, frameColor);
+            case BATTERY_STYLE_LANDSCAPE_BATTERYD -> new LandscapeBatteryD(context, frameColor);
+            case BATTERY_STYLE_LANDSCAPE_BATTERYE -> new LandscapeBatteryE(context, frameColor);
+            case BATTERY_STYLE_LANDSCAPE_BATTERYF -> new LandscapeBatteryF(context, frameColor);
+            case BATTERY_STYLE_LANDSCAPE_BATTERYG -> new LandscapeBatteryG(context, frameColor);
+            case BATTERY_STYLE_LANDSCAPE_BATTERYH -> new LandscapeBatteryH(context, frameColor);
+            case BATTERY_STYLE_LANDSCAPE_BATTERYI -> new LandscapeBatteryI(context, frameColor);
+            case BATTERY_STYLE_LANDSCAPE_BATTERYJ -> new LandscapeBatteryJ(context, frameColor);
+            case BATTERY_STYLE_LANDSCAPE_BATTERYK -> new LandscapeBatteryK(context, frameColor);
+            case BATTERY_STYLE_LANDSCAPE_BATTERYL -> new LandscapeBatteryL(context, frameColor);
+            case BATTERY_STYLE_LANDSCAPE_BATTERYM -> new LandscapeBatteryM(context, frameColor);
+            case BATTERY_STYLE_LANDSCAPE_BATTERYN -> new LandscapeBatteryN(context, frameColor);
+            case BATTERY_STYLE_LANDSCAPE_BATTERYO -> new LandscapeBatteryO(context, frameColor);
+            default -> null;
+        };
 
         if (mBatteryDrawable != null) {
-            mBatteryDrawable.setShowPercentEnabled(showPercentInside);
+            mBatteryDrawable.setShowPercentEnabled(mShowPercentInside);
             mBatteryDrawable.setAlpha(Math.round(BatteryIconOpacity * 2.55f));
         }
 
         return mBatteryDrawable;
     }
 
-    private void hidePercentage(XC_MethodHook.MethodHookParam param) {
-        if (showPercentInside) {
-            try {
-                setObjectField(param.thisObject, "mShowPercentMode", 2);
-            } catch (Throwable ignored) {
-            }
-            try {
-                callMethod(param.thisObject, "removeView", getObjectField(param.thisObject, "mBatteryPercentView"));
-                setObjectField(param.thisObject, "mBatteryPercentView", null);
-            } catch (Throwable ignored) {
+    private void setDefaultBatteryDimens() {
+        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
+        if (ourResparam == null) return;
+
+        if (DefaultLandscapeBatteryEnabled) {
+            ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "dimen", "status_bar_battery_icon_width", new XResources.DimensionReplacement(mBatteryScaleWidth, TypedValue.COMPLEX_UNIT_DIP));
+            ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "dimen", "status_bar_battery_icon_height", new XResources.DimensionReplacement(mBatteryScaleHeight, TypedValue.COMPLEX_UNIT_DIP));
+            ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "dimen", "signal_cluster_battery_padding", new XResources.DimensionReplacement(4, TypedValue.COMPLEX_UNIT_DIP));
+        } else if (CustomBatteryEnabled) {
+            ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "dimen", "signal_cluster_battery_padding", new XResources.DimensionReplacement(3, TypedValue.COMPLEX_UNIT_DIP));
+        }
+    }
+
+    private void removeBatteryMeterViewMethods(Class<?> BatteryMeterViewClass) {
+        if (CustomBatteryEnabled) {
+            String[] methodNames = {"updateDrawable", "updateBatteryStyle", "updateSettings"};
+            XC_MethodReplacement methodReplacement = new XC_MethodReplacement() {
+                @Override
+                protected Object replaceHookedMethod(MethodHookParam methodHookParam) {
+                    return null;
+                }
+            };
+
+            for (String methodName : methodNames) {
+                try {
+                    hookAllMethods(BatteryMeterViewClass, methodName, methodReplacement);
+                } catch (Throwable ignored) {
+                }
             }
         }
     }
 
-    private void setCustomBatteryDimens() {
-        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
-        if (ourResparam == null) return;
-
-        if (BatteryStyle != BATTERY_STYLE_DEFAULT) {
-            ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "dimen", "status_bar_battery_icon_width", new XResources.DimensionReplacement(customBatteryWidth, TypedValue.COMPLEX_UNIT_DIP));
-            ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "dimen", "status_bar_battery_icon_height", new XResources.DimensionReplacement(customBatteryHeight, TypedValue.COMPLEX_UNIT_DIP));
-            ourResparam.res.setReplacement(SYSTEMUI_PACKAGE, "dimen", "signal_cluster_battery_padding", new XResources.DimensionReplacement(customBatteryMargin, TypedValue.COMPLEX_UNIT_DIP));
+    private void updateChargingIconView() {
+        for (Object view : batteryViews) {
+            updateChargingIconView(view, mIsCharging);
         }
+    }
+
+    private void updateChargingIconView(Object thisObject) {
+        updateChargingIconView(thisObject, mIsCharging);
+    }
+
+    private void updateChargingIconView(Object thisObject, boolean mCharging) {
+        ImageView mChargingIconView = ((LinearLayout) thisObject).findViewWithTag(ICONIFY_CHARGING_ICON_TAG);
+
+        if (mChargingIconView == null) {
+            mChargingIconView = new ImageView(mContext);
+            mChargingIconView.setTag(ICONIFY_CHARGING_ICON_TAG);
+            ((ViewGroup) thisObject).addView(mChargingIconView, 1);
+        }
+
+        Drawable drawable = switch (mChargingIconStyle) {
+            case 0 ->
+                    ResourcesCompat.getDrawable(modRes, R.drawable.ic_charging_bold, mContext.getTheme());
+            case 1 ->
+                    ResourcesCompat.getDrawable(modRes, R.drawable.ic_charging_asus, mContext.getTheme());
+            case 2 ->
+                    ResourcesCompat.getDrawable(modRes, R.drawable.ic_charging_buddy, mContext.getTheme());
+            case 3 ->
+                    ResourcesCompat.getDrawable(modRes, R.drawable.ic_charging_evplug, mContext.getTheme());
+            case 4 ->
+                    ResourcesCompat.getDrawable(modRes, R.drawable.ic_charging_idc, mContext.getTheme());
+            case 5 ->
+                    ResourcesCompat.getDrawable(modRes, R.drawable.ic_charging_ios, mContext.getTheme());
+            case 6 ->
+                    ResourcesCompat.getDrawable(modRes, R.drawable.ic_charging_koplak, mContext.getTheme());
+            case 7 ->
+                    ResourcesCompat.getDrawable(modRes, R.drawable.ic_charging_miui, mContext.getTheme());
+            case 8 ->
+                    ResourcesCompat.getDrawable(modRes, R.drawable.ic_charging_mmk, mContext.getTheme());
+            case 9 ->
+                    ResourcesCompat.getDrawable(modRes, R.drawable.ic_charging_moto, mContext.getTheme());
+            case 10 ->
+                    ResourcesCompat.getDrawable(modRes, R.drawable.ic_charging_nokia, mContext.getTheme());
+            case 11 ->
+                    ResourcesCompat.getDrawable(modRes, R.drawable.ic_charging_plug, mContext.getTheme());
+            case 12 ->
+                    ResourcesCompat.getDrawable(modRes, R.drawable.ic_charging_powercable, mContext.getTheme());
+            case 13 ->
+                    ResourcesCompat.getDrawable(modRes, R.drawable.ic_charging_powercord, mContext.getTheme());
+            case 14 ->
+                    ResourcesCompat.getDrawable(modRes, R.drawable.ic_charging_powerstation, mContext.getTheme());
+            case 15 ->
+                    ResourcesCompat.getDrawable(modRes, R.drawable.ic_charging_realme, mContext.getTheme());
+            case 16 ->
+                    ResourcesCompat.getDrawable(modRes, R.drawable.ic_charging_soak, mContext.getTheme());
+            case 17 ->
+                    ResourcesCompat.getDrawable(modRes, R.drawable.ic_charging_stres, mContext.getTheme());
+            case 18 ->
+                    ResourcesCompat.getDrawable(modRes, R.drawable.ic_charging_strip, mContext.getTheme());
+            case 19 ->
+                    ResourcesCompat.getDrawable(modRes, R.drawable.ic_charging_usbcable, mContext.getTheme());
+            case 20 ->
+                    ResourcesCompat.getDrawable(modRes, R.drawable.ic_charging_xiaomi, mContext.getTheme());
+            default -> null;
+        };
+
+        if (drawable != null && drawable != mChargingIconView.getDrawable()) {
+            mChargingIconView.setImageDrawable(drawable);
+        }
+
+        int left = ViewHelper.dp2px(mContext, mChargingIconML);
+        int right = ViewHelper.dp2px(mContext, mChargingIconMR);
+        int size = ViewHelper.dp2px(mContext, mChargingIconWH);
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(size, size);
+        lp.setMargins(left, 0, right, mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("battery_margin_bottom", "dimen", mContext.getPackageName())));
+        mChargingIconView.setLayoutParams(lp);
+
+        mChargingIconView.setVisibility(mCharging && mChargingIconSwitch ? View.VISIBLE : View.GONE);
+    }
+
+    private void updateSettings(XC_MethodHook.MethodHookParam param) {
+        updateCustomizeBatteryDrawable(param.thisObject);
+        updateChargingIconView(param.thisObject);
+        updateBatteryRotation(param.thisObject);
+        updateFlipper(param.thisObject);
+        updateChargingIconView();
+    }
+
+    private void updateFlipper(Object thisObject) {
+        LinearLayout batteryView = (LinearLayout) thisObject;
+        batteryView.setOrientation(LinearLayout.HORIZONTAL);
+        batteryView.setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
+        batteryView.setLayoutDirection(mSwapPercentage ? View.LAYOUT_DIRECTION_RTL : View.LAYOUT_DIRECTION_LTR);
+    }
+
+    private void updateBatteryRotation(Object thisObject) {
+        View mBatteryIconView = (View) getObjectField(thisObject, "mBatteryIconView");
+        updateBatteryRotation(mBatteryIconView);
+    }
+
+    private void updateBatteryRotation(View mBatteryIconView) {
+        mBatteryIconView.setRotation(!DefaultLandscapeBatteryEnabled && mBatteryLayoutReverse ? 180 : mBatteryRotation);
+    }
+
+    private void updateCustomizeBatteryDrawable(Object thisObject) {
+        if (!CustomBatteryEnabled) return;
+
+        BatteryDrawable mBatteryDrawable = (BatteryDrawable) getAdditionalInstanceField(thisObject, "mBatteryDrawable");
+        updateCustomizeBatteryDrawable(mBatteryDrawable);
+    }
+
+    private void updateCustomizeBatteryDrawable(BatteryDrawable mBatteryDrawable) {
+        if (!CustomBatteryEnabled) return;
+
+        mBatteryDrawable.customizeBatteryDrawable(
+                mBatteryLayoutReverse,
+                mScaledPerimeterAlpha,
+                mScaledFillAlpha,
+                mCustomBlendColor,
+                mRainbowFillColor,
+                mCustomFillColor,
+                mCustomFillGradColor,
+                mCustomChargingColor,
+                mCustomPowerSaveColor,
+                mCustomPowerSaveFillColor
+        );
     }
 }

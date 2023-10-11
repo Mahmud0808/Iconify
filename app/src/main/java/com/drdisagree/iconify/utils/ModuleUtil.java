@@ -72,14 +72,6 @@ public class ModuleUtil {
         Log.i(TAG, "Magisk module successfully created.");
     }
 
-    public static boolean flashModule(String modulePath) {
-        if (RootUtil.isMagiskInstalled()) {
-            return !Shell.cmd("magisk --install-module " + modulePath).exec().isSuccess();
-        } else {
-            return !Shell.cmd("/data/adb/ksud module install " + modulePath).exec().isSuccess();
-        }
-    }
-
     private static void writePostExec() {
         StringBuilder post_exec = new StringBuilder();
         boolean primaryColorEnabled = false;
@@ -156,5 +148,24 @@ public class ModuleUtil {
 
             return zipFile.getFile().getAbsolutePath();
         }
+    }
+
+    public static boolean flashModule(String modulePath) throws Exception {
+        Shell.Result result;
+
+        if (RootUtil.isMagiskInstalled()) {
+            result = Shell.cmd("magisk --install-module " + modulePath).exec();
+        } else {
+            result = Shell.cmd("/data/adb/ksud module install " + modulePath).exec();
+        }
+
+        if (result.isSuccess()) {
+            Log.i(TAG, "Successfully flashed module");
+        } else {
+            Log.e(TAG, "Failed to flash module");
+            throw new Exception(String.join("\n", result.getOut()));
+        }
+
+        return !result.isSuccess();
     }
 }

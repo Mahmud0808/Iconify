@@ -2,6 +2,8 @@ package com.drdisagree.iconify.xposed.mods;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.ICONIFY_DEPTH_WALLPAPER_TAG;
+import static com.drdisagree.iconify.common.Preferences.ICONIFY_LOCKSCREEN_CLOCK_TAG;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_BOTTOMMARGIN;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_SWITCH;
@@ -28,11 +30,9 @@ import android.os.Looper;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.utils.LockscreenClockStyles;
@@ -124,52 +124,27 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                 if (!showLockscreenClock || !showDepthWallpaper) return;
 
                 View view = (View) param.thisObject;
-                ViewGroup container = view.findViewById(mContext.getResources().getIdentifier("keyguard_indication_area", "id", mContext.getPackageName()));
+                ViewGroup mIndicationArea = view.findViewById(mContext.getResources().getIdentifier("keyguard_indication_area", "id", mContext.getPackageName()));
 
-                container.setClipChildren(false);
-                container.setClipToPadding(false);
-                container.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-                container.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-                ((ViewGroup.MarginLayoutParams) container.getLayoutParams()).bottomMargin = 0;
+                // Get the depth wallpaper layout and register clock updater
+                try {
+                    ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+                    executor.scheduleAtFixedRate(() -> {
+                        mClockViewContainer = mIndicationArea.findViewWithTag(ICONIFY_DEPTH_WALLPAPER_TAG);
 
-                // Create a new layout for the indication text views
-                LinearLayout mIndicationView = new LinearLayout(mContext);
-                LinearLayout.LayoutParams mIndicationViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                int bottomMargin = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("keyguard_indication_margin_bottom", "dimen", mContext.getPackageName()));
-                mIndicationViewParams.setMargins(0, 0, 0, bottomMargin);
-                mIndicationViewParams.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
-                mIndicationView.setOrientation(LinearLayout.VERTICAL);
-                mIndicationView.setLayoutParams(mIndicationViewParams);
+                        if (mClockViewContainer != null) {
+                            registerClockUpdater();
+                            executor.shutdown();
+                            executor.shutdownNow();
+                        }
 
-                // Add the indication text views to the new layout
-                TextView mTopIndicationView = container.findViewById(mContext.getResources().getIdentifier("keyguard_indication_text", "id", mContext.getPackageName()));
-                TextView mLockScreenIndicationView = container.findViewById(mContext.getResources().getIdentifier("keyguard_indication_text_bottom", "id", mContext.getPackageName()));
-
-                container.removeView(mTopIndicationView);
-                container.removeView(mLockScreenIndicationView);
-                mIndicationView.addView(mTopIndicationView);
-                mIndicationView.addView(mLockScreenIndicationView);
-                container.addView(mIndicationView);
-
-                // Get the depth wallpaper layout
-                String depth_wall_tag = "iconify_depth_wallpaper";
-                mClockViewContainer = container.findViewWithTag(depth_wall_tag);
-
-                // Create the depth wallpaper layout if it doesn't exist
-                if (mClockViewContainer == null) {
-                    mClockViewContainer = new FrameLayout(mContext);
-                    mClockViewContainer.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                    mClockViewContainer.setTag(depth_wall_tag);
-
-                    FrameLayout mIndicationArea = new FrameLayout(mContext);
-                    FrameLayout.LayoutParams mIndicationAreaParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                    mIndicationArea.setLayoutParams(mIndicationAreaParams);
-
-                    mIndicationArea.addView(mClockViewContainer, 0);
-                    container.addView(mIndicationArea, 0);
+                        if (!showLockscreenClock || !showDepthWallpaper) {
+                            executor.shutdown();
+                            executor.shutdownNow();
+                        }
+                    }, 0, 200, TimeUnit.MILLISECONDS);
+                } catch (Throwable ignored) {
                 }
-
-                registerClockUpdater();
             }
         });
 
@@ -215,30 +190,28 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
     private void updateClockView() {
         if (mClockViewContainer == null) return;
 
-        ViewGroup clockView = LockscreenClockStyles.getClock(mContext);
-        String clock_tag = "iconify_lockscreen_clock";
+        View clockView = LockscreenClockStyles.getClock(mContext);
 
         // Remove existing clock view
-        if (mClockViewContainer.findViewWithTag(clock_tag) != null) {
-            mClockViewContainer.removeView(mClockViewContainer.findViewWithTag(clock_tag));
+        if (mClockViewContainer.findViewWithTag(ICONIFY_LOCKSCREEN_CLOCK_TAG) != null) {
+            mClockViewContainer.removeView(mClockViewContainer.findViewWithTag(ICONIFY_LOCKSCREEN_CLOCK_TAG));
         }
 
         if (clockView != null) {
-            clockView.setTag(clock_tag);
+            clockView.setTag(ICONIFY_LOCKSCREEN_CLOCK_TAG);
 
             int idx = 0;
-            String depth_wall_tag = "iconify_depth_wallpaper";
 
-            if (mClockViewContainer.getTag() == depth_wall_tag) {
+            if (mClockViewContainer.getTag() == ICONIFY_DEPTH_WALLPAPER_TAG) {
                 /*
                  If the clock view container is the depth wallpaper container, we need to
                  add the clock view to the middle of foreground and background images
                  */
-                if (mClockViewContainer.getChildCount() == 2) {
+                if (mClockViewContainer.getChildCount() > 0) {
                     idx = 1;
                 }
 
-                // Add a dummy layout to the status view container so that we can move notifications
+                // Add a dummy layout to the status view container so that we can still move notifications
                 if (mStatusViewContainer != null) {
                     String dummy_tag = "dummy_layout";
                     LinearLayout dummyLayout = mStatusViewContainer.findViewWithTag(dummy_tag);
@@ -251,14 +224,13 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                     }
 
                     dummyLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
-                    ViewGroup.MarginLayoutParams clockParams = (ViewGroup.MarginLayoutParams) clockView.getLayoutParams();
                     ((LinearLayout.LayoutParams) clockView.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL;
-                    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) dummyLayout.getLayoutParams();
-                    params.topMargin = clockParams.topMargin;
-                    params.bottomMargin = clockParams.bottomMargin;
-                    dummyLayout.setLayoutParams(params);
 
-                    mStatusViewContainer.requestLayout();
+                    ViewGroup.MarginLayoutParams dummyParams = (ViewGroup.MarginLayoutParams) dummyLayout.getLayoutParams();
+                    ViewGroup.MarginLayoutParams clockParams = (ViewGroup.MarginLayoutParams) clockView.getLayoutParams();
+                    dummyParams.topMargin = clockParams.topMargin;
+                    dummyParams.bottomMargin = clockParams.bottomMargin;
+                    dummyLayout.setLayoutParams(dummyParams);
                 }
             }
 
@@ -266,7 +238,6 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                 ((ViewGroup) clockView.getParent()).removeView(clockView);
             }
             mClockViewContainer.addView(clockView, idx);
-            mClockViewContainer.requestLayout();
         }
     }
 }

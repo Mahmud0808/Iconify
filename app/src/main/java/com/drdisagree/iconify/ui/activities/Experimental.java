@@ -3,6 +3,7 @@ package com.drdisagree.iconify.ui.activities;
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_OVERLAP;
 import static com.drdisagree.iconify.common.Preferences.HIDE_DATA_DISABLED_ICON;
+import static com.drdisagree.iconify.common.Preferences.UNZOOM_DEPTH_WALLPAPER;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -36,6 +37,14 @@ public class Experimental extends BaseActivity {
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
         });
         binding.headerImageOverlapContainer.setOnClickListener(v -> binding.headerImageOverlap.toggle());
+
+        // Unzoom depth wallpaper
+        binding.unzoomDepthWallpaper.setChecked(RPrefs.getBoolean(UNZOOM_DEPTH_WALLPAPER, false));
+        binding.unzoomDepthWallpaper.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            RPrefs.putBoolean(UNZOOM_DEPTH_WALLPAPER, isChecked);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+        });
+        binding.unzoomDepthWallpaperContainer.setOnClickListener(v -> binding.unzoomDepthWallpaper.toggle());
 
         // Hide data disabled icon
         binding.hideDataDisabledIcon.setChecked(RPrefs.getBoolean(HIDE_DATA_DISABLED_ICON, false));

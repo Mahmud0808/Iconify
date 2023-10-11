@@ -56,6 +56,16 @@
     <color name="onboarding_background_two_bottom">#0A1212</color>
     <color name="onboarding_background_three_top">#00040C</color>
     <color name="onboarding_background_three_bottom">#000919</color>
+    <color name="onboarding_btn_text">#E6000000</color>
+
+    <!-- Onboarding text -->
+    <color name="onboarding_text_skip">#CCFFFFFF</color>
+    <color name="onboarding_text_one_primary">#FFFFF6F7</color>
+    <color name="onboarding_text_one_secondary">#CCFFF6F7</color>
+    <color name="onboarding_text_two_primary">#FFF3F9F9</color>
+    <color name="onboarding_text_two_secondary">#CCF3F9F9</color>
+    <color name="onboarding_text_three_primary">#FFF6FBFF</color>
+    <color name="onboarding_text_three_secondary">#CCF6FBFF</color>
 
     <!-- Previews -->
     <color name="offStateColor">@android:color/system_neutral2_800</color>
