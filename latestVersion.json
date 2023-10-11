@@ -1,8 +1,8 @@
 {
-  "versionName": "6.5.0",
-  "versionCode": 14,
-  "apkUrl": "https://github.com/Mahmud0808/Iconify/releases/download/v6.5.0/Iconify.v6.5.0.apk",
+  "versionName": "6.5.1",
+  "versionCode": 15,
+  "apkUrl": "https://github.com/Mahmud0808/Iconify/releases/download/v6.5.1/Iconify.v6.5.1.apk",
   "changelog": [
-    "### Iconify v6.5.0 has arrived! It has the following new changes:\n\n## Feature Changes:\n- __Settings Icons:__\n    - Added few missing settings icons\n- __Status Bar:__\n    - Added statusbar height changer\n- __XPosed Menu:__\n    - Introduce iOS-like depth wallpaper\n    - Fixed security footer view in QS light theme\n    - Fixed fluid QS theme light mode for Pixel variant\n    - Hid duplicate percentage while charging in iOS 16 battery\n    - Changed percentage color while charging in iOS 16 battery\n    - Enhanced transparency method and fixed for tablet devices\n    - Reintroduced status icons chip for A13+ devices\n    - Reintroduced fixed status icons for A13+ devices\n- __Settings:__\n    - Improved import/export configurations\n- __Others:__\n    - Option to disable media player wave animation\n\n## App Changes:\n- Redesigned UI in Material 3 style\n- Added Spanish translation\n- Updated Chinese and Arabic translations\n- And many more improvements...\n\nAlso included in this version are bug fixes and other improvements."
+    "### Iconify v6.5.1 has arrived! It has the following new changes:\n\n## Feature Changes:\n- __Xposed Menu:__\n    - Fix Xposed Menu not accessible in LSPosed beta (7010+)\n    - Small fixes related to depth wallpaper\n    - Update prebuilt overlays targeting android 14\n    - Add 15 more battery styles\n    - Add custom battery colors and margins\n    - Add custom battery charging icon. Thanks to [SuperiorExtended](https://github.com/SuperiorExtended/android_frameworks_base/commit/ec4d8e9f0d80353eb859c5994fd1d5252b6ecfc3)\n    - Fix battery icon color in landscape mode\n    - Improve battery styles to work on more roms\n    - Fix battery styles crashing on android 14\n\n## App Changes:\n- Add Min SDK and Target SDK in overlay manifest\n- Add signature scheme v2 for overlays\n- Add Polish language. Thanks to @SK00RUPA\n- Update Chinese and Turkish translation\n- And many more improvements...\n\nAlso included in this version are bug fixes and other improvements."
   ]
 }
