@@ -114,6 +114,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.drdisagree.iconify.R;
@@ -392,7 +393,7 @@ public class BatteryStyleManager extends ModPack {
                                     mBatteryPercentView.setVisibility(mShowPercentInside ? View.GONE : View.VISIBLE);
                                 }
 
-                                scaleBatteryMeterView(view);
+                                scaleBatteryMeterViews(view);
                                 updateChargingIconView(view, mIsCharging);
                             });
                         } catch (Throwable ignored) {
@@ -539,6 +540,19 @@ public class BatteryStyleManager extends ModPack {
         }
 
         try {
+            if (CustomBatteryEnabled) {
+                hookAllMethods(BatteryMeterViewClass, "scaleBatteryMeterViews", new XC_MethodReplacement() {
+                    @Override
+                    protected Object replaceHookedMethod(MethodHookParam methodHookParam) {
+                        refreshBatteryIcons();
+                        return null;
+                    }
+                });
+            }
+        } catch (Throwable ignored) {
+        }
+
+        try {
             hookAllMethods(BatteryMeterViewClass, "setPercentShowMode", new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) {
@@ -584,7 +598,7 @@ public class BatteryStyleManager extends ModPack {
                 callMethod(getObjectField(param.thisObject, "iconManager"), "setTint", textColorPrimary);
             }
             callMethod(batteryIcon, "updateColors", textColorPrimary, textColorSecondary, textColorPrimary);
-            scaleBatteryMeterView((Object) batteryIcon);
+            scaleBatteryMeterViews((Object) batteryIcon);
         } catch (Throwable throwable) {
             log(TAG + throwable);
         }
@@ -604,7 +618,7 @@ public class BatteryStyleManager extends ModPack {
             }
 
             if (CustomBatteryEnabled) {
-                scaleBatteryMeterView(mBatteryIconView);
+                scaleBatteryMeterViews(mBatteryIconView);
 
                 try {
                     BatteryDrawable mBatteryDrawable = (BatteryDrawable) getAdditionalInstanceField(view, "mBatteryDrawable");
@@ -620,12 +634,12 @@ public class BatteryStyleManager extends ModPack {
         }
     }
 
-    public static void scaleBatteryMeterView(Object thisObject) {
+    public static void scaleBatteryMeterViews(@NonNull Object thisObject) {
         ImageView mBatteryIconView = (ImageView) getObjectField(thisObject, "mBatteryIconView");
-        scaleBatteryMeterView(mBatteryIconView);
+        scaleBatteryMeterViews(mBatteryIconView);
     }
 
-    public static void scaleBatteryMeterView(ImageView mBatteryIconView) {
+    public static void scaleBatteryMeterViews(@Nullable ImageView mBatteryIconView) {
         if (mBatteryIconView == null) {
             return;
         }
