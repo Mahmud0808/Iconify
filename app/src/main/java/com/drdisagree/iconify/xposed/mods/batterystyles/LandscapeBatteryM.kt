@@ -136,12 +136,6 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
         postInvalidate()
     }
 
-    var customChargingIcon = false
-        set(value) {
-            field = value
-            postInvalidate()
-        }
-
     private val fillColorStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
         p.color = frameColor
         p.alpha = 255
@@ -579,7 +573,7 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
     }
 
     companion object {
-        private const val TAG = "LandscapeBatteryM"
+        private val TAG = LandscapeBatteryM::class.java.simpleName
         private const val WIDTH = 24f
         private const val HEIGHT = 12f
         private const val CRITICAL_LEVEL = 15

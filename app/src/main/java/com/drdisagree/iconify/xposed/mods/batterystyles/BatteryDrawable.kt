@@ -10,6 +10,7 @@ abstract class BatteryDrawable : Drawable() {
     protected var scaledPerimeterAlpha = false
     protected var customBlendColor = false
     protected var customFillRainbow = false
+    protected var customChargingIcon = false
 
     protected var chargingColor: Int = Color.TRANSPARENT
     protected var customFillColor: Int = Color.BLACK
@@ -27,7 +28,8 @@ abstract class BatteryDrawable : Drawable() {
         customFillGradColor: Int,
         chargingColor: Int,
         powerSaveColor: Int,
-        powerSaveFillColor: Int
+        powerSaveFillColor: Int,
+        customChargingIcon: Boolean
     ) {
         this.isRotation = isRotation
         this.scaledPerimeterAlpha = scaledPerimeterAlpha
@@ -39,6 +41,7 @@ abstract class BatteryDrawable : Drawable() {
         this.chargingColor = chargingColor
         this.powerSaveColor = powerSaveColor
         this.powerSaveFillColor = powerSaveFillColor
+        this.customChargingIcon = customChargingIcon
 
         invalidateSelf()
     }

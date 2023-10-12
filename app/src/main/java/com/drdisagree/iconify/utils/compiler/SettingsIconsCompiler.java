@@ -158,19 +158,15 @@ public class SettingsIconsCompiler {
     }
 
     private static void moveOverlaysToCache() {
-        Shell.cmd("mv -f \"" + Resources.DATA_DIR + "/CompileOnDemand/" + packages[0] + "/" + "SIP" + mIconSet + "\" \"" + Resources.TEMP_CACHE_DIR + "/" + packages[0] + "/" + "SIP1\"").exec().isSuccess();
-        Shell.cmd("mv -f \"" + Resources.DATA_DIR + "/CompileOnDemand/" + packages[1] + "/" + "SIP" + mIconSet + "\" \"" + Resources.TEMP_CACHE_DIR + "/" + packages[1] + "/" + "SIP2\"").exec().isSuccess();
-        Shell.cmd("mv -f \"" + Resources.DATA_DIR + "/CompileOnDemand/" + packages[2] + "/" + "SIP" + mIconSet + "\" \"" + Resources.TEMP_CACHE_DIR + "/" + packages[2] + "/" + "SIP3\"").exec().isSuccess();
+        for (int i = 0; i < packages.length; i++) {
+            Shell.cmd("mv -f \"" + Resources.DATA_DIR + "/CompileOnDemand/" + packages[i] + "/" + "SIP" + mIconSet + "\" \"" + Resources.TEMP_CACHE_DIR + "/" + packages[i] + "/" + "SIP" + (i + 1) + "\"").exec();
+        }
 
         if (mIconBg == 1) {
-            Shell.cmd("rm -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[0] + "/" + "SIP1/res/drawable\"", "cp -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[0] + "/" + "SIP1/res/drawable-night\" \"" + Resources.TEMP_CACHE_DIR + "/" + packages[0] + "/" + "SIP1/res/drawable\"").exec();
-            Shell.cmd("rm -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[0] + "/" + "SIP1/res/drawable-anydpi\"", "cp -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[0] + "/" + "SIP1/res/drawable-night-anydpi\" \"" + Resources.TEMP_CACHE_DIR + "/" + packages[0] + "/" + "SIP1/res/drawable-anydpi\"").exec();
-
-            Shell.cmd("rm -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[1] + "/" + "SIP2/res/drawable\"", "cp -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[1] + "/" + "SIP2/res/drawable-night\" \"" + Resources.TEMP_CACHE_DIR + "/" + packages[1] + "/" + "SIP2/res/drawable\"").exec();
-            Shell.cmd("rm -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[1] + "/" + "SIP2/res/drawable-anydpi\"", "cp -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[1] + "/" + "SIP2/res/drawable-night-anydpi\" \"" + Resources.TEMP_CACHE_DIR + "/" + packages[1] + "/" + "SIP2/res/drawable-anydpi\"").exec();
-
-            Shell.cmd("rm -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[2] + "/" + "SIP3/res/drawable\"", "cp -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[2] + "/" + "SIP3/res/drawable-night\" \"" + Resources.TEMP_CACHE_DIR + "/" + packages[2] + "/" + "SIP3/res/drawable\"").exec();
-            Shell.cmd("rm -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[2] + "/" + "SIP3/res/drawable-anydpi\"", "cp -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[2] + "/" + "SIP3/res/drawable-night-anydpi\" \"" + Resources.TEMP_CACHE_DIR + "/" + packages[2] + "/" + "SIP3/res/drawable-anydpi\"").exec();
+            for (int i = 0; i < packages.length; i++) {
+                Shell.cmd("rm -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[i] + "/" + "SIP" + (i + 1) + "/res/drawable\"", "cp -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[i] + "/" + "SIP" + (i + 1) + "/res/drawable-night\" \"" + Resources.TEMP_CACHE_DIR + "/" + packages[i] + "/" + "SIP" + (i + 1) + "/res/drawable\"").exec();
+                Shell.cmd("rm -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[i] + "/" + "SIP" + (i + 1) + "/res/drawable-anydpi\"", "cp -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[i] + "/" + "SIP" + (i + 1) + "/res/drawable-night-anydpi\" \"" + Resources.TEMP_CACHE_DIR + "/" + packages[i] + "/" + "SIP" + (i + 1) + "/res/drawable-anydpi\"").exec();
+            }
         }
     }
 
