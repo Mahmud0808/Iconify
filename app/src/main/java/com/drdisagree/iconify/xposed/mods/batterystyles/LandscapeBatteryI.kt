@@ -1028,7 +1028,7 @@ open class LandscapeBatteryI(private val context: Context, frameColor: Int) :
     }
 
     companion object {
-        private const val TAG = "LandscapeBatteryI"
+        private val TAG = LandscapeBatteryI::class.java.simpleName
         private const val WIDTH = 23f
         private const val HEIGHT = 13f
         private const val CRITICAL_LEVEL = 15

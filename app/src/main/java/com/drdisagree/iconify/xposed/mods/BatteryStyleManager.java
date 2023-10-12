@@ -167,7 +167,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class BatteryStyleManager extends ModPack {
 
     private static final String TAG = "Iconify - " + BatteryStyleManager.class.getSimpleName() + ": ";
-    private static final ArrayList<Object> batteryViews = new ArrayList<>();
+    private static final ArrayList<View> batteryViews = new ArrayList<>();
     private static final int BatteryIconOpacity = 100;
     private static int BatteryStyle = 0;
     private static boolean mShowPercentInside = false;
@@ -260,7 +260,7 @@ public class BatteryStyleManager extends ModPack {
         if (BatteryStyle != batteryStyle) {
             BatteryStyle = batteryStyle;
 
-            for (Object view : batteryViews) {
+            for (View view : batteryViews) {
                 ImageView mBatteryIconView = (ImageView) getObjectField(view, "mBatteryIconView");
                 if (mBatteryIconView != null) {
                     updateBatteryRotation(mBatteryIconView);
@@ -355,7 +355,7 @@ public class BatteryStyleManager extends ModPack {
                 protected void afterHookedMethod(MethodHookParam param) {
                     if (!CustomBatteryEnabled) return;
 
-                    for (Object view : batteryViews) {
+                    for (View view : batteryViews) {
                         BatteryDrawable mBatteryDrawable = (BatteryDrawable) getAdditionalInstanceField(view, "mBatteryDrawable");
                         callMethod(view, "setImageDrawable", mBatteryDrawable);
                     }
@@ -369,17 +369,17 @@ public class BatteryStyleManager extends ModPack {
             XC_MethodHook batteryDataRefreshHook = new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
-                    if (!CustomBatteryEnabled) return;
-
                     int mLevel = getIntField(param.thisObject, "mLevel");
                     mIsCharging = getBooleanField(param.thisObject, "mPluggedIn")
                             || getBooleanField(param.thisObject, "mCharging")
                             || getBooleanField(param.thisObject, "mWirelessCharging");
                     boolean mPowerSave = getBooleanField(param.thisObject, "mPowerSave");
 
-                    for (Object view : batteryViews) {
+                    if (!CustomBatteryEnabled) return;
+
+                    for (View view : batteryViews) {
                         try {
-                            ((View) view).post(() -> {
+                            view.post(() -> {
                                 BatteryDrawable mBatteryDrawable = (BatteryDrawable) getAdditionalInstanceField(view, "mBatteryDrawable");
                                 if (mBatteryDrawable != null) {
                                     mBatteryDrawable.setBatteryLevel(mLevel);
@@ -415,8 +415,8 @@ public class BatteryStyleManager extends ModPack {
                     batteryViews.add(v);
                     new Thread(() -> {
                         try {
-                            Thread.sleep(500);
                             if (BatteryController != null) {
+                                Thread.sleep(500);
                                 callMethod(BatteryController, "fireBatteryLevelChanged");
                             }
                         } catch (Throwable ignored) {
@@ -598,14 +598,14 @@ public class BatteryStyleManager extends ModPack {
                 callMethod(getObjectField(param.thisObject, "iconManager"), "setTint", textColorPrimary);
             }
             callMethod(batteryIcon, "updateColors", textColorPrimary, textColorSecondary, textColorPrimary);
-            scaleBatteryMeterViews((Object) batteryIcon);
+            scaleBatteryMeterViews(batteryIcon);
         } catch (Throwable throwable) {
             log(TAG + throwable);
         }
     }
 
     private void refreshBatteryIcons() {
-        for (Object view : batteryViews) {
+        for (View view : batteryViews) {
             ImageView mBatteryIconView = (ImageView) getObjectField(view, "mBatteryIconView");
             if (mBatteryIconView != null) {
                 updateBatteryRotation(mBatteryIconView);
@@ -785,7 +785,7 @@ public class BatteryStyleManager extends ModPack {
     }
 
     private void updateChargingIconView() {
-        for (Object view : batteryViews) {
+        for (View view : batteryViews) {
             updateChargingIconView(view, mIsCharging);
         }
     }
@@ -908,7 +908,8 @@ public class BatteryStyleManager extends ModPack {
                 mCustomFillGradColor,
                 mCustomChargingColor,
                 mCustomPowerSaveColor,
-                mCustomPowerSaveFillColor
+                mCustomPowerSaveFillColor,
+                mChargingIconSwitch
         );
     }
 }
