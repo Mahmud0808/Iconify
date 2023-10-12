@@ -377,28 +377,9 @@ public class BatteryStyleManager extends ModPack {
 
                     if (!CustomBatteryEnabled) return;
 
-                    for (View view : batteryViews) {
-                        try {
-                            view.post(() -> {
-                                BatteryDrawable mBatteryDrawable = (BatteryDrawable) getAdditionalInstanceField(view, "mBatteryDrawable");
-                                if (mBatteryDrawable != null) {
-                                    mBatteryDrawable.setBatteryLevel(mLevel);
-                                    mBatteryDrawable.setChargingEnabled(mIsCharging);
-                                    mBatteryDrawable.setPowerSavingEnabled(mPowerSave);
-                                    updateCustomizeBatteryDrawable(mBatteryDrawable);
-                                }
-
-                                TextView mBatteryPercentView = (TextView) getObjectField(view, "mBatteryPercentView");
-                                if (mBatteryPercentView != null) {
-                                    mBatteryPercentView.setVisibility(mShowPercentInside ? View.GONE : View.VISIBLE);
-                                }
-
-                                scaleBatteryMeterViews(view);
-                                updateChargingIconView(view, mIsCharging);
-                            });
-                        } catch (Throwable ignored) {
-                        }
-                    }
+                    refreshBatteryData(mLevel, mIsCharging, mPowerSave);
+                    // refreshing twice to avoid a bug where the battery icon updates incorrectly
+                    refreshBatteryData(mLevel, mIsCharging, mPowerSave);
                 }
             };
 
@@ -585,6 +566,31 @@ public class BatteryStyleManager extends ModPack {
 
         removeBatteryMeterViewMethods(BatteryMeterViewClass);
         setDefaultBatteryDimens();
+    }
+
+    private void refreshBatteryData(int mLevel, boolean mIsCharging, boolean mPowerSave) {
+        for (View view : batteryViews) {
+            try {
+                view.post(() -> {
+                    BatteryDrawable mBatteryDrawable = (BatteryDrawable) getAdditionalInstanceField(view, "mBatteryDrawable");
+                    if (mBatteryDrawable != null) {
+                        mBatteryDrawable.setBatteryLevel(mLevel);
+                        mBatteryDrawable.setChargingEnabled(mIsCharging);
+                        mBatteryDrawable.setPowerSavingEnabled(mPowerSave);
+                        updateCustomizeBatteryDrawable(mBatteryDrawable);
+                    }
+
+                    TextView mBatteryPercentView = (TextView) getObjectField(view, "mBatteryPercentView");
+                    if (mBatteryPercentView != null) {
+                        mBatteryPercentView.setVisibility(mShowPercentInside ? View.GONE : View.VISIBLE);
+                    }
+
+                    scaleBatteryMeterViews(view);
+                    updateChargingIconView(view, mIsCharging);
+                });
+            } catch (Throwable ignored) {
+            }
+        }
     }
 
     private void updateBatteryResources(XC_MethodHook.MethodHookParam param) {
