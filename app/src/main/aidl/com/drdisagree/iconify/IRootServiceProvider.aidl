@@ -1,14 +1,14 @@
 package com.drdisagree.iconify;
 
 interface IRootServiceProvider {
-    // Overlay Manager
     boolean isOverlayInstalled(String packageName);
     boolean isOverlayEnabled(String packageName);
-    void enableOverlay(String packageName);
-    void disableOverlay(String packageName);
-    boolean setHighestPriority(String packageName, int userId);
-    boolean setLowestPriority(String packageName, int userId);
+    void enableOverlay(in List<String> packages);
+    void disableOverlay(in List<String> packages);
+    void setHighestPriority(String packageName);
+    void setLowestPriority(String packageName);
     void uninstallOverlayUpdates(String packageName);
+    void fabricatedOverlayBuilder(String overlayName, String targetPackage, String targetOverlayable, String resourceName, int type, int data);
     void restartSystemUI();
-    String[] runCommand(String command);
+    String[] runCommand(in List<String> command);
 }

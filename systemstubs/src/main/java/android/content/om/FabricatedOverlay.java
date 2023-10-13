@@ -35,6 +35,7 @@ import androidx.annotation.Nullable;
  *
  * @hide
  */
+@SuppressWarnings({"unused"})
 public class FabricatedOverlay {
 
     /**

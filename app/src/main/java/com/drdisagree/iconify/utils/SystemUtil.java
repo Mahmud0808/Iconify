@@ -48,7 +48,11 @@ public class SystemUtil {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastClickTime >= CLICK_DELAY_TIME) {
             lastClickTime = currentTime;
-            Shell.cmd("killall " + SYSTEMUI_PACKAGE).submit();
+            try {
+                Iconify.mRootServiceProvider.restartSystemUI();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else {
             Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_try_again_later), Toast.LENGTH_SHORT).show();
         }

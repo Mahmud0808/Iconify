@@ -43,12 +43,13 @@ import java.util.List;
  *
  * @hide
  */
+@SuppressWarnings({"unused"})
 public class OverlayManagerTransaction
         implements Iterable<OverlayManagerTransaction.Request>, Parcelable {
 
 
     public static final Parcelable.Creator<OverlayManagerTransaction> CREATOR =
-            new Parcelable.Creator<OverlayManagerTransaction>() {
+            new Parcelable.Creator<>() {
 
                 @Override
                 public OverlayManagerTransaction createFromParcel(Parcel source) {
@@ -65,11 +66,13 @@ public class OverlayManagerTransaction
         throw new RuntimeException("Stub!");
     }
 
+    @NonNull
     @Override
     public Iterator<Request> iterator() {
         throw new RuntimeException("Stub!");
     }
 
+    @NonNull
     @Override
     public String toString() {
         throw new RuntimeException("Stub!");
@@ -81,7 +84,7 @@ public class OverlayManagerTransaction
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
         throw new RuntimeException("Stub!");
     }
 
@@ -104,6 +107,7 @@ public class OverlayManagerTransaction
         public final int userId;
         @Nullable
         public final Bundle extras;
+
         public Request(@RequestType final int type, @NonNull final OverlayIdentifier overlay,
                        final int userId) {
             throw new RuntimeException("Stub!");
@@ -114,6 +118,7 @@ public class OverlayManagerTransaction
             throw new RuntimeException("Stub!");
         }
 
+        @NonNull
         @Override
         public String toString() {
             throw new RuntimeException("Stub!");

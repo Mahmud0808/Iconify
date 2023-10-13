@@ -30,12 +30,11 @@ import androidx.annotation.Nullable;
  *
  * @hide
  */
-
-/** @hide */
+@SuppressWarnings({"unused"})
 public class OverlayIdentifier implements Parcelable {
 
     public static final @NonNull Parcelable.Creator<OverlayIdentifier> CREATOR
-            = new Parcelable.Creator<OverlayIdentifier>() {
+            = new Parcelable.Creator<>() {
         @Override
         public OverlayIdentifier[] newArray(int size) {
             return new OverlayIdentifier[size];
@@ -66,8 +65,9 @@ public class OverlayIdentifier implements Parcelable {
         throw new RuntimeException("Stub!");
     }
 
-    /** @hide */
-    @SuppressWarnings({"unchecked", "RedundantCast"})
+    /**
+     * @hide
+     */
     protected OverlayIdentifier(@NonNull Parcel in) {
         throw new RuntimeException("Stub!");
     }
@@ -85,11 +85,14 @@ public class OverlayIdentifier implements Parcelable {
     //   Settings > Editor > Code Style > Formatter Control
     //@formatter:off
 
-    /** @hide */
+    /**
+     * @hide
+     */
     public static OverlayIdentifier fromString(@NonNull String text) {
         throw new RuntimeException("Stub!");
     }
 
+    @NonNull
     @Override
     public String toString() {
         throw new RuntimeException("Stub!");

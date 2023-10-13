@@ -25,6 +25,7 @@ import androidx.annotation.Nullable;
  *
  * @hide
  */
+@SuppressWarnings({"unused"})
 public interface CriticalOverlayInfo {
 
     /**

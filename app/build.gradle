@@ -128,6 +128,9 @@ dependencies {
     // Optional: Provides remote file system support
     implementation "com.github.topjohnwu.libsu:nio:${libsuVersion}"
 
+    // Hidden API Bypass
+    implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:4.3'
+
     // Color Picker
     implementation 'com.github.PolideaInternal:ColorPicker:1.0.0'
 
@@ -135,7 +138,7 @@ dependencies {
     implementation 'androidx.core:core-splashscreen:1.0.1'
 
     // Material Components
-    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'com.google.android.material:material:1.10.0'
 
     // APK Signer
     implementation 'org.bouncycastle:bcpkix-jdk18on:1.76'

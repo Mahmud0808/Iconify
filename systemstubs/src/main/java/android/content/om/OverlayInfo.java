@@ -31,6 +31,7 @@ import java.lang.annotation.RetentionPolicy;
  * Immutable overlay information about a package. All PackageInfos that
  * represent an overlay package will have a corresponding OverlayInfo.
  */
+@SuppressWarnings({"unused"})
 public final class OverlayInfo implements CriticalOverlayInfo, Parcelable {
 
     /**
@@ -348,7 +349,7 @@ public final class OverlayInfo implements CriticalOverlayInfo, Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
         throw new RuntimeException("Stub!");
     }
 
@@ -385,7 +386,6 @@ public final class OverlayInfo implements CriticalOverlayInfo, Parcelable {
      * @hide
      */
     @IntDef
-    /** @hide */
     @Retention(RetentionPolicy.SOURCE)
     public @interface State {
     }

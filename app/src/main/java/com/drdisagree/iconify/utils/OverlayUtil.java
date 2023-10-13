@@ -5,6 +5,9 @@ import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.Prefs;
 import com.topjohnwu.superuser.Shell;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -44,8 +47,8 @@ public class OverlayUtil {
 
     public static void enableOverlay(String pkgName) {
         try {
-            Iconify.mRootServiceProvider.enableOverlay(pkgName);
             Prefs.putBoolean(pkgName, true);
+            Iconify.mRootServiceProvider.enableOverlay(Collections.singletonList(pkgName));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -53,8 +56,8 @@ public class OverlayUtil {
 
     public static void disableOverlay(String pkgName) {
         try {
-            Iconify.mRootServiceProvider.disableOverlay(pkgName);
             Prefs.putBoolean(pkgName, false);
+            Iconify.mRootServiceProvider.disableOverlay(Collections.singletonList(pkgName));
         } catch (Exception e) {
             e.printStackTrace();
         }
