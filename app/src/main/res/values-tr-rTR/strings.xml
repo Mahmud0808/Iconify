@@ -451,7 +451,7 @@
     <string name="charging_icon_style_title">Şarj Simgesi Stili</string>
     <string name="charging_icon_margin_left_title">Şarj Simgesi Sol Kenar Boşluğu</string>
     <string name="charging_icon_margin_right_title">Şarj Simgesi Sağ Kenar Boşluğu</string>
-    <string name="charing_icon_size_title">Şarj Simgesi Boyutu</string>
+    <string name="charging_icon_size_title">Şarj Simgesi Boyutu</string>
     <string name="perimeter_alpha_title">Çevresel Alfa</string>
     <string name="perimeter_alpha_desc">Batarya çevresini yarı şeffaf hale getirin</string>
     <string name="fill_alpha_title">Alfa\'yı Doldur</string>

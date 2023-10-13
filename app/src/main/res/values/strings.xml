@@ -486,7 +486,7 @@
     <string name="charging_icon_style_title">Charging Icon Style</string>
     <string name="charging_icon_margin_left_title">Charging Icon Margin Left</string>
     <string name="charging_icon_margin_right_title">Charging Icon Margin Right</string>
-    <string name="charing_icon_size_title">Charing Icon Size</string>
+    <string name="charging_icon_size_title">Charging Icon Size</string>
     <string name="perimeter_alpha_title">Perimeter Alpha</string>
     <string name="perimeter_alpha_desc">Make battery perimeter semi transparent</string>
     <string name="fill_alpha_title">Fill Alpha</string>
