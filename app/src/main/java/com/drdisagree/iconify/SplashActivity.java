@@ -23,15 +23,22 @@ public class SplashActivity extends AppCompatActivity {
 
     static {
         Shell.enableVerboseLogging = BuildConfig.DEBUG;
-        if (Shell.getCachedShell() == null)
-            Shell.setDefaultBuilder(Shell.Builder.create().setFlags(Shell.FLAG_REDIRECT_STDERR).setTimeout(20));
+        if (Shell.getCachedShell() == null) {
+            Shell.setDefaultBuilder(Shell.Builder.create()
+                    .setFlags(Shell.FLAG_MOUNT_MASTER)
+                    .setFlags(Shell.FLAG_REDIRECT_STDERR)
+                    .setTimeout(20)
+            );
+        }
     }
 
     private boolean keepShowing = true;
     private final Runnable runner = () -> Shell.getShell(shell -> {
         Intent intent;
 
-        if ((SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES && BuildConfig.DEBUG) || (RootUtil.deviceProperlyRooted() && ModuleUtil.moduleProperlyInstalled() && BuildConfig.VERSION_CODE == SystemUtil.getSavedVersionCode())) {
+        if ((SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES && BuildConfig.DEBUG) ||
+                (RootUtil.deviceProperlyRooted() && ModuleUtil.moduleProperlyInstalled() &&
+                        BuildConfig.VERSION_CODE == SystemUtil.getSavedVersionCode())) {
             keepShowing = false;
             intent = new Intent(SplashActivity.this, HomePage.class);
         } else {
@@ -51,8 +58,7 @@ public class SplashActivity extends AppCompatActivity {
         splashScreen.setKeepOnScreenCondition(() -> keepShowing);
         DynamicColors.applyToActivitiesIfAvailable(getApplication());
 
-        Thread thread = new Thread(runner);
-        thread.start();
+        new Thread(runner).start();
 
         new Thread(() -> {
             LottieCompositionFactory.fromRawRes(this, R.raw.onboarding_lottie_1);
