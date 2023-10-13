@@ -272,7 +272,7 @@ public class BatteryStyleManager extends ModPack {
                     mBatteryPercentView.setVisibility(mShowPercentInside ? View.GONE : View.VISIBLE);
                 }
 
-                boolean mCharging = (boolean) getObjectField(view, "mCharging");
+                boolean mCharging = isBatteryCharging(view);
                 int mLevel = (int) getObjectField(view, "mLevel");
 
                 if (CustomBatteryEnabled) {
@@ -451,7 +451,7 @@ public class BatteryStyleManager extends ModPack {
                         setObjectField(param.thisObject, "mBatteryIconView", mBatteryIconView);
                     }
 
-                    boolean mCharging = (boolean) getObjectField(param.thisObject, "mCharging");
+                    boolean mCharging = isBatteryCharging(param.thisObject);
                     updateChargingIconView(param.thisObject, mCharging);
                     updateSettings(param);
 
@@ -635,9 +635,23 @@ public class BatteryStyleManager extends ModPack {
                 }
             }
 
-            boolean mCharging = (boolean) getObjectField(view, "mCharging");
+            boolean mCharging = isBatteryCharging(view);
             updateChargingIconView(view, mCharging);
         }
+    }
+
+    private boolean isBatteryCharging(Object thisObject) {
+        boolean mCharging = mIsCharging;
+        try {
+            mCharging = (boolean) getObjectField(thisObject, "mCharging");
+        } catch (Throwable ignored) {
+            try {
+                mCharging = (boolean) getObjectField(thisObject, "mIsIncompatibleCharging");
+            } catch (Throwable throwable) {
+                log(TAG + throwable);
+            }
+        }
+        return mCharging;
     }
 
     public static void scaleBatteryMeterViews(@NonNull Object thisObject) {
