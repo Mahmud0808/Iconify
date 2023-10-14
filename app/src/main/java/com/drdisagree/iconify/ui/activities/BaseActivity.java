@@ -10,7 +10,7 @@ import androidx.core.view.WindowCompat;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.ui.utils.ThemeHelper;
-import com.drdisagree.iconify.utils.helpers.LocaleHelper;
+import com.drdisagree.iconify.utils.helper.LocaleHelper;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.shape.MaterialShapeDrawable;
 

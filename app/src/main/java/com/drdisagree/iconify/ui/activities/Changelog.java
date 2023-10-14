@@ -21,7 +21,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.databinding.ActivityChangelogBinding;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
-import com.drdisagree.iconify.utils.TaskExecutor;
+import com.drdisagree.iconify.utils.extension.TaskExecutor;
 
 import org.json.JSONException;
 import org.json.JSONObject;

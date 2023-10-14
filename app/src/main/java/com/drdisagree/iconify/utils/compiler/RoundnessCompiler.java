@@ -2,7 +2,7 @@ package com.drdisagree.iconify.utils.compiler;
 
 import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
-import static com.drdisagree.iconify.utils.helpers.Logger.writeLog;
+import static com.drdisagree.iconify.utils.helper.Logger.writeLog;
 
 import android.os.Build;
 import android.util.Log;
@@ -10,10 +10,10 @@ import android.util.Log;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.utils.FileUtil;
-import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.overlay.OverlayUtil;
 import com.drdisagree.iconify.utils.RootUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.helpers.BinaryInstaller;
+import com.drdisagree.iconify.utils.helper.BinaryInstaller;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.IOException;

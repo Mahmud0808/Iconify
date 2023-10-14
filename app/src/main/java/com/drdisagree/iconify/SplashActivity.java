@@ -23,13 +23,13 @@ public class SplashActivity extends AppCompatActivity {
 
     static {
         Shell.enableVerboseLogging = BuildConfig.DEBUG;
-        if (Shell.getCachedShell() == null) {
-            Shell.setDefaultBuilder(Shell.Builder.create()
-                    .setFlags(Shell.FLAG_MOUNT_MASTER)
-                    .setFlags(Shell.FLAG_REDIRECT_STDERR)
-                    .setTimeout(20)
-            );
-        }
+//        if (Shell.getCachedShell() == null) {
+//            Shell.setDefaultBuilder(Shell.Builder.create()
+//                    .setFlags(Shell.FLAG_MOUNT_MASTER)
+//                    .setFlags(Shell.FLAG_REDIRECT_STDERR)
+//                    .setTimeout(20)
+//            );
+//        }
     }
 
     private boolean keepShowing = true;

@@ -19,9 +19,9 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityQsTileSizeBinding;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
-import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.overlay.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.overlaymanager.QsTileHeightManager;
+import com.drdisagree.iconify.utils.overlay.manager.QsTileHeightManager;
 import com.google.android.material.slider.Slider;
 
 import java.io.IOException;

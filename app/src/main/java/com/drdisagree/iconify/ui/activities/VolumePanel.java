@@ -22,7 +22,7 @@ import com.drdisagree.iconify.databinding.ActivityVolumePanelBinding;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.InfoDialog;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
-import com.drdisagree.iconify.utils.FabricatedUtil;
+import com.drdisagree.iconify.utils.overlay.FabricatedUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.compiler.VolumeCompiler;
 

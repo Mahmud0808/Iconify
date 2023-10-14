@@ -4,7 +4,7 @@ import static com.drdisagree.iconify.common.Dynamic.AAPT;
 import static com.drdisagree.iconify.common.Dynamic.ZIPALIGN;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readCertificate;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;
-import static com.drdisagree.iconify.utils.helpers.Logger.writeLog;
+import static com.drdisagree.iconify.utils.helper.Logger.writeLog;
 
 import android.os.Build;
 import android.util.Log;

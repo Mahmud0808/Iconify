@@ -58,6 +58,7 @@ android {
         viewBinding true
         dataBinding true
         buildConfig true
+        aidl true
     }
 
     compileOptions {
@@ -114,12 +115,21 @@ dependencies {
     compileOnly files('libs/api-82.jar')
     compileOnly files('libs/api-82-sources.jar')
 
+    // SystemStubs
+    compileOnly project(path: ':systemstubs')
+
+    // Shizuku
+    implementation "dev.rikka.shizuku:api:12.1.0"
+
     // The core module that provides APIs to a shell
     implementation "com.github.topjohnwu.libsu:core:${libsuVersion}"
     // Optional: APIs for creating root services. Depends on ":core"
     implementation "com.github.topjohnwu.libsu:service:${libsuVersion}"
     // Optional: Provides remote file system support
     implementation "com.github.topjohnwu.libsu:nio:${libsuVersion}"
+
+    // Hidden API Bypass
+    implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:4.3'
 
     // Color Picker
     implementation 'com.github.PolideaInternal:ColorPicker:1.0.0'

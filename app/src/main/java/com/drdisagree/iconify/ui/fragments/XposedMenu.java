@@ -52,11 +52,11 @@ import com.drdisagree.iconify.ui.activities.XposedOthers;
 import com.drdisagree.iconify.ui.activities.XposedQuickSettings;
 import com.drdisagree.iconify.ui.activities.XposedThemes;
 import com.drdisagree.iconify.ui.activities.XposedTransparencyBlur;
-import com.drdisagree.iconify.utils.FabricatedUtil;
-import com.drdisagree.iconify.utils.ObservableVariable;
-import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.overlay.FabricatedUtil;
+import com.drdisagree.iconify.utils.extension.ObservableVariable;
+import com.drdisagree.iconify.utils.overlay.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.helpers.ImportExport;
+import com.drdisagree.iconify.utils.helper.ImportExport;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
