@@ -1,4 +1,4 @@
-package com.drdisagree.iconify;
+package com.drdisagree.iconify.services;
 
 interface IRootServiceProvider {
     boolean isOverlayInstalled(String packageName);
@@ -8,7 +8,6 @@ interface IRootServiceProvider {
     void setHighestPriority(String packageName);
     void setLowestPriority(String packageName);
     void uninstallOverlayUpdates(String packageName);
-    void fabricatedOverlayBuilder(String overlayName, String targetPackage, String targetOverlayable, String resourceName, int type, int data);
     void restartSystemUI();
     String[] runCommand(in List<String> command);
 }
