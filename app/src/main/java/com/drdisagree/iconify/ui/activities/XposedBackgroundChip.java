@@ -27,7 +27,7 @@ import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.ActivityXposedBackgroundChipBinding;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.RadioDialog;
-import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.overlay.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;

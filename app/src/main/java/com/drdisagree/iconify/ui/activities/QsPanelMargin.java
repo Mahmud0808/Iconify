@@ -21,9 +21,9 @@ import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.ActivityQsPanelMarginBinding;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
-import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.overlay.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.overlaymanager.QsMarginManager;
+import com.drdisagree.iconify.utils.overlay.manager.QsMarginManager;
 import com.google.android.material.slider.Slider;
 
 import java.io.IOException;

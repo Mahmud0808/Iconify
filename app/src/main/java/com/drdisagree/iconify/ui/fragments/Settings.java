@@ -54,7 +54,7 @@ import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.ui.views.RadioDialog;
 import com.drdisagree.iconify.utils.CacheUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.helpers.ImportExport;
+import com.drdisagree.iconify.utils.helper.ImportExport;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.topjohnwu.superuser.Shell;
 

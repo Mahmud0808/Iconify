@@ -1,7 +1,7 @@
 package com.drdisagree.iconify.utils.compiler;
 
 import static com.drdisagree.iconify.common.Dynamic.ZIP;
-import static com.drdisagree.iconify.utils.helpers.Logger.writeLog;
+import static com.drdisagree.iconify.utils.helper.Logger.writeLog;
 
 import android.os.Build;
 import android.util.Log;
@@ -11,8 +11,8 @@ import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.utils.AppUtil;
 import com.drdisagree.iconify.utils.FileUtil;
 import com.drdisagree.iconify.utils.ModuleUtil;
-import com.drdisagree.iconify.utils.OverlayUtil;
-import com.drdisagree.iconify.utils.helpers.BinaryInstaller;
+import com.drdisagree.iconify.utils.overlay.OverlayUtil;
+import com.drdisagree.iconify.utils.helper.BinaryInstaller;
 import com.topjohnwu.superuser.Shell;
 
 import net.lingala.zip4j.ZipFile;

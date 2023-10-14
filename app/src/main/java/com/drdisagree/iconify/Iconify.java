@@ -8,6 +8,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.drdisagree.iconify.services.IRootServiceProvider;
 import com.drdisagree.iconify.services.RootServiceProvider;
 import com.google.android.material.color.DynamicColors;
 import com.topjohnwu.superuser.ipc.RootService;

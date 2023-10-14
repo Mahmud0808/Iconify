@@ -5,7 +5,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.drdisagree.iconify.utils.helpers.LocaleHelper;
+import com.drdisagree.iconify.utils.helper.LocaleHelper;
 
 public class BaseFragment extends Fragment {
 

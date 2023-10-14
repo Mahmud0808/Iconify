@@ -14,7 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.databinding.FragmentOnboardingBinding;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.helpers.DisplayUtil;
+import com.drdisagree.iconify.utils.helper.DisplayUtil;
 
 import java.util.Objects;
 

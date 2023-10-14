@@ -13,8 +13,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.drdisagree.iconify.utils.fabricated.FabricatedOverlay;
-import com.drdisagree.iconify.utils.fabricated.FabricatedOverlayEntry;
+import com.drdisagree.iconify.utils.overlay.fabricated.FabricatedOverlay;
+import com.drdisagree.iconify.utils.overlay.fabricated.FabricatedOverlayEntry;
 import com.topjohnwu.superuser.Shell;
 import com.topjohnwu.superuser.ipc.RootService;
 

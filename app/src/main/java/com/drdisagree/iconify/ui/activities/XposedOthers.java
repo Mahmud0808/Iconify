@@ -24,7 +24,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.ActivityXposedOthersBinding;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
-import com.drdisagree.iconify.utils.FabricatedUtil;
+import com.drdisagree.iconify.utils.overlay.FabricatedUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.slider.Slider;
 
