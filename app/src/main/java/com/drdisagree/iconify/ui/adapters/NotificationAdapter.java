@@ -175,9 +175,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
             Runnable runnable = () -> {
                 if (Objects.equals(variant, "NFN"))
-                    NotificationManager.disable_pack(holder.getBindingAdapterPosition() + 1);
+                    NotificationManager.disableOverlay(holder.getBindingAdapterPosition() + 1);
                 else if (Objects.equals(variant, "NFP"))
-                    NotificationPixelManager.disable_pack(holder.getBindingAdapterPosition() + 1);
+                    NotificationPixelManager.disableOverlay(holder.getBindingAdapterPosition() + 1);
 
                 ((Activity) context).runOnUiThread(() -> {
                     new Handler(Looper.getMainLooper()).postDelayed(() -> {

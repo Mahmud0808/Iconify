@@ -8,10 +8,10 @@ import android.util.Log;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.utils.FileUtil;
-import com.drdisagree.iconify.utils.overlay.OverlayUtil;
 import com.drdisagree.iconify.utils.RootUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.helper.BinaryInstaller;
+import com.drdisagree.iconify.utils.overlay.OverlayUtil;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.IOException;
@@ -152,11 +152,12 @@ public class SwitchCompiler {
     }
 
     private static boolean createManifest(String overlayName, String mPackage, String source) {
+        String category = OverlayUtil.getCategory(overlayName);
         List<String> module = new ArrayList<>();
         module.add("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
         module.add("<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + overlayName + ".overlay\">");
         module.add("\\t<uses-sdk android:minSdkVersion=\"" + BuildConfig.MIN_SDK_VERSION + "\" android:targetSdkVersion=\"" + Build.VERSION.SDK_INT + "\" />");
-        module.add("\\t<overlay android:priority=\"1\" android:targetPackage=\"" + mPackage + "\" />");
+        module.add("\\t<overlay android:category=\"" + category + "\" android:priority=\"1\" android:targetPackage=\"" + mPackage + "\" />");
         module.add("\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />");
         module.add("</manifest>' > " + source + "/AndroidManifest.xml;");
 

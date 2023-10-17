@@ -181,9 +181,9 @@ public class QsShapeAdapter extends RecyclerView.Adapter<QsShapeAdapter.ViewHold
 
             Runnable runnable = () -> {
                 if (Objects.equals(variant, "QSSN"))
-                    QsShapeManager.disable_pack(holder.getBindingAdapterPosition() + 1);
+                    QsShapeManager.disableOverlay(holder.getBindingAdapterPosition() + 1);
                 else if (Objects.equals(variant, "QSSP"))
-                    QsShapePixelManager.disable_pack(holder.getBindingAdapterPosition() + 1);
+                    QsShapePixelManager.disableOverlay(holder.getBindingAdapterPosition() + 1);
 
                 ((Activity) context).runOnUiThread(() -> {
                     new Handler(Looper.getMainLooper()).postDelayed(() -> {

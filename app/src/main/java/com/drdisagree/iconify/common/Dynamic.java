@@ -10,15 +10,13 @@ import java.io.File;
 public class Dynamic {
 
     // Grab number of overlays dynamically for each variant
-    public static final int TOTAL_BRIGHTNESSBARS = (Shell.cmd("cmd overlay list |  grep -E '^....IconifyComponentBBN' | sed -E 's/^....//'").exec().getOut()).size();
-    public static final int TOTAL_BRIGHTNESSBARSPIXEL = (Shell.cmd("cmd overlay list |  grep -E '^....IconifyComponentBBP' | sed -E 's/^....//'").exec().getOut()).size();
-    public static final int TOTAL_ICONPACKS = Shell.cmd("cmd overlay list |  grep -E '^....IconifyComponentIPAS' | sed -E 's/^....//'").exec().getOut().size();
-    public static final int TOTAL_NOTIFICATIONS = Shell.cmd("cmd overlay list |  grep -E '^....IconifyComponentNFN' | sed -E 's/^....//'").exec().getOut().size();
-    public static final int TOTAL_NOTIFICATIONSPIXEL = Shell.cmd("cmd overlay list |  grep -E '^....IconifyComponentNFP' | sed -E 's/^....//'").exec().getOut().size();
-    public static final int TOTAL_QSSHAPES = Shell.cmd("cmd overlay list |  grep -E '^....IconifyComponentQSSN' | sed -E 's/^....//'").exec().getOut().size();
-    public static final int TOTAL_QSSHAPESPIXEL = Shell.cmd("cmd overlay list |  grep -E '^....IconifyComponentQSSP' | sed -E 's/^....//'").exec().getOut().size();
-    public static final int TOTAL_SETTINGSICONPACKS = Shell.cmd("cmd overlay list |  grep -E '^....IconifyComponentSIP' | sed -E 's/^....//'").exec().getOut().size();
-    public static final int TOTAL_ICONSHAPES = Shell.cmd("cmd overlay list |  grep -E '^....IconifyComponentSIS' | sed -E 's/^....//'").exec().getOut().size();
+    public static final int TOTAL_BRIGHTNESSBARS = (Shell.cmd("cmd overlay list | grep '....IconifyComponentBBN'").exec().getOut()).size();
+    public static final int TOTAL_BRIGHTNESSBARSPIXEL = (Shell.cmd("cmd overlay list | grep '....IconifyComponentBBP'").exec().getOut()).size();
+    public static final int TOTAL_ICONPACKS = Shell.cmd("cmd overlay list | grep '....IconifyComponentIPAS'").exec().getOut().size();
+    public static final int TOTAL_NOTIFICATIONS = Shell.cmd("cmd overlay list | grep '....IconifyComponentNFN'").exec().getOut().size();
+    public static final int TOTAL_NOTIFICATIONSPIXEL = Shell.cmd("cmd overlay list | grep '....IconifyComponentNFP'").exec().getOut().size();
+    public static final int TOTAL_QSSHAPES = Shell.cmd("cmd overlay list | grep '....IconifyComponentQSSN'").exec().getOut().size();
+    public static final int TOTAL_QSSHAPESPIXEL = Shell.cmd("cmd overlay list | grep '....IconifyComponentQSSP'").exec().getOut().size();
 
     // Overlay compiler tools
     public static final String NATIVE_LIBRARY_DIR = Iconify.getAppContext().getApplicationInfo().nativeLibraryDir;

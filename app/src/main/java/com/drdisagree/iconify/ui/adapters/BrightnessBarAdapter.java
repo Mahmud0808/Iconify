@@ -153,9 +153,9 @@ public class BrightnessBarAdapter extends RecyclerView.Adapter<BrightnessBarAdap
 
             Runnable runnable = () -> {
                 if (Objects.equals(variant, "BBN"))
-                    BrightnessBarManager.disable_pack(holder.getBindingAdapterPosition() + 1);
+                    BrightnessBarManager.disableOverlay(holder.getBindingAdapterPosition() + 1);
                 else if (Objects.equals(variant, "BBP"))
-                    BrightnessBarPixelManager.disable_pack(holder.getBindingAdapterPosition() + 1);
+                    BrightnessBarPixelManager.disableOverlay(holder.getBindingAdapterPosition() + 1);
 
                 ((Activity) context).runOnUiThread(() -> {
                     new Handler(Looper.getMainLooper()).postDelayed(() -> {

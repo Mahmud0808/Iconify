@@ -142,7 +142,7 @@ public class IconPackAdapter extends RecyclerView.Adapter<IconPackAdapter.ViewHo
             loadingDialog.show(context.getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
-                IconPackManager.disable_pack(holder.getBindingAdapterPosition() + 1);
+                IconPackManager.disableOverlay(holder.getBindingAdapterPosition() + 1);
 
                 ((Activity) context).runOnUiThread(() -> {
                     new Handler(Looper.getMainLooper()).postDelayed(() -> {

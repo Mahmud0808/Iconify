@@ -13,6 +13,7 @@ import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.utils.apksigner.SignAPK;
+import com.drdisagree.iconify.utils.overlay.OverlayUtil;
 import com.topjohnwu.superuser.Shell;
 
 import java.security.PrivateKey;
@@ -30,13 +31,14 @@ public class OnBoardingCompiler {
     public static boolean createManifest(String name, String target, String source) {
         Shell.Result result = null;
         int attempt = 3;
+        String category = OverlayUtil.getCategory(name);
 
         while (attempt-- != 0) {
             List<String> module = new ArrayList<>();
             module.add("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
             module.add("<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + name + ".overlay\">");
             module.add("\\t<uses-sdk android:minSdkVersion=\"" + BuildConfig.MIN_SDK_VERSION + "\" android:targetSdkVersion=\"" + Build.VERSION.SDK_INT + "\" />");
-            module.add("\\t<overlay android:priority=\"1\" android:targetPackage=\"" + target + "\" />");
+            module.add("\\t<overlay android:category=\"" + category + "\" android:priority=\"1\" android:targetPackage=\"" + target + "\" />");
             module.add("\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />");
             module.add("</manifest>' > " + source + "/AndroidManifest.xml;");
 
