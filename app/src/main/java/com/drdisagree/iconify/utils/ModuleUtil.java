@@ -119,18 +119,6 @@ public class ModuleUtil {
         return RootUtil.folderExists(Resources.MODULE_DIR);
     }
 
-    public static void extractPremadeOverlays() {
-        Log.d(TAG, "Extracting pre-made overlays...");
-        try {
-            FileUtil.copyAssets("PremadeOverlays");
-            Shell.cmd("rm " + Resources.DATA_DIR + "/PremadeOverlays/cheatsheet").exec();
-            Shell.cmd("cp -a " + Resources.DATA_DIR + "/PremadeOverlays/. " + Resources.TEMP_MODULE_OVERLAY_DIR).exec();
-            FileUtil.cleanDir("PremadeOverlays");
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to extract pre-made overlays.\n" + e);
-        }
-    }
-
     public static boolean moduleProperlyInstalled() {
         return moduleExists() && OverlayUtil.overlayExists();
     }

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="status_bar_mobile_signal_width">17.0dip</dimen>
+</resources>

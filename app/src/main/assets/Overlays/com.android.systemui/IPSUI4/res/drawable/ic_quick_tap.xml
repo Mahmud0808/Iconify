@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32.0dip"
+    android:height="32.0dip"
+    android:tint="?android:colorControlNormal"
+    android:viewportWidth="32.0"
+    android:viewportHeight="32.0">
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M15.96,13.33C21.63,13.67,23.30,15.00,23.96,17.33L23.96,23.33C23.30,25.33,21.96,25.33,21.30,25.33L13.96,25.33C12.96,25.33,10.63,22.00,8.19,18.22C7.30,16.67,10.63,16.00,11.96,17.33L11.96,8.67C11.96,6.00,15.96,6.00,15.96,8.67L15.96,13.33z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#66000000"
+        android:pathData="M14.00,2.67C16.95,2.67,19.33,5.05,19.33,8.00C19.33,10.95,16.95,13.33,14.00,13.33C11.05,13.33,8.67,10.95,8.67,8.00C8.67,5.05,11.05,2.67,14.00,2.67z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#66000000"
+        android:pathData="M12.67,25.33L23.33,25.33A2.00 2.00 0 0 1 25.33,27.33L25.33,27.33A2.00 2.00 0 0 1 23.33,29.33L12.67,29.33A2.00 2.00 0 0 1 10.67,27.33L10.67,27.33A2.00 2.00 0 0 1 12.67,25.33z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+</vector>

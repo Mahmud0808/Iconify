@@ -14,15 +14,15 @@ import java.util.regex.Pattern;
 public class OverlayUtil {
 
     public static List<String> getOverlayList() {
-        return Shell.cmd("cmd overlay list |  grep -E '^....IconifyComponent' | sed -E 's/^....//'").exec().getOut();
+        return Shell.cmd("cmd overlay list |  grep -E '....IconifyComponent' | sed -E 's/^....//'").exec().getOut();
     }
 
     public static List<String> getEnabledOverlayList() {
-        return Shell.cmd("cmd overlay list |  grep -E '^.x..IconifyComponent' | sed -E 's/^.x..//'").exec().getOut();
+        return Shell.cmd("cmd overlay list |  grep -E '.x..IconifyComponent' | sed -E 's/^.x..//'").exec().getOut();
     }
 
     public static List<String> getDisabledOverlayList() {
-        return Shell.cmd("cmd overlay list |  grep -E '^. ..IconifyComponent' | sed -E 's/^. ..//'").exec().getOut();
+        return Shell.cmd("cmd overlay list |  grep -E '. ..IconifyComponent' | sed -E 's/^. ..//'").exec().getOut();
     }
 
     public static boolean isOverlayEnabled(String pkgName) {

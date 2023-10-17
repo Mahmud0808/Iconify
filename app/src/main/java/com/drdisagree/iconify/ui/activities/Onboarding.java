@@ -41,12 +41,12 @@ import com.drdisagree.iconify.ui.utils.Animatoo;
 import com.drdisagree.iconify.ui.views.InstallationDialog;
 import com.drdisagree.iconify.utils.FileUtil;
 import com.drdisagree.iconify.utils.ModuleUtil;
-import com.drdisagree.iconify.utils.overlay.OverlayUtil;
 import com.drdisagree.iconify.utils.RootUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.extension.TaskExecutor;
-import com.drdisagree.iconify.utils.overlay.compiler.OnBoardingCompiler;
 import com.drdisagree.iconify.utils.helper.BackupRestore;
+import com.drdisagree.iconify.utils.overlay.OverlayUtil;
+import com.drdisagree.iconify.utils.overlay.compiler.OnBoardingCompiler;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
@@ -332,6 +332,7 @@ public class Onboarding extends BaseActivity {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onBackPressed() {
         if (mViewPager.getCurrentItem() == 0) {
@@ -376,28 +377,16 @@ public class Onboarding extends BaseActivity {
             super.onProgressUpdate(values);
 
             String title = getResources().getString(R.string.step) + ' ' + values[0] + "/6";
-            String desc = getResources().getString(R.string.loading_dialog_wait);
-
-            switch (values[0]) {
-                case 1:
-                    desc = getResources().getString(R.string.module_installation_step1);
-                    break;
-                case 2:
-                    desc = getResources().getString(R.string.module_installation_step2);
-                    break;
-                case 3:
-                    desc = getResources().getString(R.string.module_installation_step3);
-                    break;
-                case 4:
-                    desc = getResources().getString(R.string.module_installation_step4);
-                    break;
-                case 5:
-                    desc = getResources().getString(R.string.module_installation_step5);
-                    break;
-                case 6:
-                    desc = getResources().getString(R.string.module_installation_step6);
-                    break;
-            }
+            getResources().getString(R.string.loading_dialog_wait);
+            String desc = switch (values[0]) {
+                case 1 -> getResources().getString(R.string.module_installation_step1);
+                case 2 -> getResources().getString(R.string.module_installation_step2);
+                case 3 -> getResources().getString(R.string.module_installation_step3);
+                case 4 -> getResources().getString(R.string.module_installation_step4);
+                case 5 -> getResources().getString(R.string.module_installation_step5);
+                case 6 -> getResources().getString(R.string.module_installation_step6);
+                default -> getResources().getString(R.string.loading_dialog_wait);
+            };
 
             progressDialog.setMessage(title, desc);
 
@@ -431,7 +420,6 @@ public class Onboarding extends BaseActivity {
                 } else {
                     // Extract overlays from assets
                     FileUtil.copyAssets("Overlays");
-                    ModuleUtil.extractPremadeOverlays();
                 }
 
                 logger = "Creating temporary directories";
