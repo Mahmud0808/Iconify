@@ -13,15 +13,15 @@ import java.util.List;
 public class FabricatedUtil {
 
     public static List<String> getOverlayList() {
-        return Shell.cmd("cmd overlay list |  grep -E '^....com.android.shell:IconifyComponent' | sed -E 's/^....com.android.shell:IconifyComponent//'").exec().getOut();
+        return Shell.cmd("cmd overlay list |  grep -E '....com.android.shell:IconifyComponent' | sed -E 's/^....com.android.shell:IconifyComponent//'").exec().getOut();
     }
 
     public static List<String> getEnabledOverlayList() {
-        return Shell.cmd("cmd overlay list |  grep -E '^.x..com.android.shell:IconifyComponent' | sed -E 's/^.x..com.android.shell:IconifyComponent//'").exec().getOut();
+        return Shell.cmd("cmd overlay list |  grep -E '.x..com.android.shell:IconifyComponent' | sed -E 's/^.x..com.android.shell:IconifyComponent//'").exec().getOut();
     }
 
     public static List<String> getDisabledOverlayList() {
-        return Shell.cmd("cmd overlay list |  grep -E '^. ..com.android.shell:IconifyComponent' | sed -E 's/^. ..com.android.shell:IconifyComponent//'").exec().getOut();
+        return Shell.cmd("cmd overlay list |  grep -E '. ..com.android.shell:IconifyComponent' | sed -E 's/^. ..com.android.shell:IconifyComponent//'").exec().getOut();
     }
 
     public static void buildAndEnableOverlay(String target, String name, String type, String resourceName, String val) {
