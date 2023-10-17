@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24.0dip"
+    android:height="24.0dip"
+    android:viewportWidth="24.0"
+    android:viewportHeight="24.0">
+    <path
+        android:fillColor="#66000000"
+        android:pathData="M5.00,4.00L19.00,4.00A3.00 3.00 0 0 1 22.00,7.00L22.00,17.00A3.00 3.00 0 0 1 19.00,20.00L5.00,20.00A3.00 3.00 0 0 1 2.00,17.00L2.00,7.00A3.00 3.00 0 0 1 5.00,4.00z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M12.00,10.50C12.83,10.50,13.50,11.17,13.50,12.00C13.50,12.83,12.83,13.50,12.00,13.50C11.17,13.50,10.50,12.83,10.50,12.00C10.50,11.17,11.17,10.50,12.00,10.50z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M8.06,14.70C8.81,15.44,10.01,14.36,9.42,13.61C8.77,12.87,8.68,11.27,9.41,10.29C9.78,9.48,8.80,8.68,8.07,9.23C6.58,10.56,6.82,13.91,8.06,14.70z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M5.49,16.54C6.36,17.50,7.93,16.41,6.87,15.26C5.70,13.65,5.70,10.56,6.82,8.68C7.91,7.49,6.42,6.21,5.38,7.63C3.58,9.75,3.58,14.43,5.49,16.54z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M15.96,14.74C15.22,15.48,14.02,14.40,14.61,13.65C15.26,12.91,15.34,11.31,14.62,10.34C14.25,9.52,15.22,8.73,15.95,9.27C17.45,10.60,17.20,13.96,15.96,14.74z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M18.54,16.59C17.67,17.54,16.10,16.46,17.15,15.30C18.33,13.70,18.33,10.60,17.20,8.73C16.12,7.54,17.60,6.25,18.65,7.68C20.44,9.80,20.44,14.48,18.54,16.59z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+</vector>
