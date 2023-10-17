@@ -21,7 +21,7 @@ import com.drdisagree.iconify.databinding.ActivityUiRoundnessBinding;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.overlaymanager.RoundnessManager;
+import com.drdisagree.iconify.utils.overlay.manager.RoundnessManager;
 import com.google.android.material.slider.Slider;
 
 import java.io.IOException;

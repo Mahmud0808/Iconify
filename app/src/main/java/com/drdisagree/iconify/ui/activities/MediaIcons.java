@@ -15,8 +15,8 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityMediaIconsBinding;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.AppUtil;
-import com.drdisagree.iconify.utils.OverlayUtil;
-import com.drdisagree.iconify.utils.overlaymanager.MediaPlayerIconManager;
+import com.drdisagree.iconify.utils.overlay.OverlayUtil;
+import com.drdisagree.iconify.utils.overlay.manager.MediaPlayerIconManager;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 

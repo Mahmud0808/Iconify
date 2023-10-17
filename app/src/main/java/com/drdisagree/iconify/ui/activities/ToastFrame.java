@@ -22,7 +22,7 @@ import com.drdisagree.iconify.databinding.ActivityToastFrameBinding;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.compiler.OnDemandCompiler;
+import com.drdisagree.iconify.utils.overlay.compiler.OnDemandCompiler;
 
 import java.io.IOException;
 import java.util.ArrayList;

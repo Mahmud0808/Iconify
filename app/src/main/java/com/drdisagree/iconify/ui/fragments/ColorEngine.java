@@ -23,7 +23,7 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.FragmentColorEngineBinding;
 import com.drdisagree.iconify.ui.activities.BasicColors;
 import com.drdisagree.iconify.ui.activities.MonetEngine;
-import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.overlay.OverlayUtil;
 
 import java.util.Objects;
 

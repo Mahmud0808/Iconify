@@ -26,8 +26,8 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.models.NotificationModel;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
-import com.drdisagree.iconify.utils.overlaymanager.NotificationManager;
-import com.drdisagree.iconify.utils.overlaymanager.NotificationPixelManager;
+import com.drdisagree.iconify.utils.overlay.manager.NotificationManager;
+import com.drdisagree.iconify.utils.overlay.manager.NotificationPixelManager;
 
 import java.util.ArrayList;
 import java.util.Objects;

@@ -11,7 +11,7 @@ import static com.drdisagree.iconify.common.Preferences.CUSTOM_SECONDARY_COLOR_S
 import static com.drdisagree.iconify.common.Preferences.STR_NULL;
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECONDARY;
-import static com.drdisagree.iconify.utils.ColorUtil.colorToSpecialHex;
+import static com.drdisagree.iconify.utils.color.ColorUtil.colorToSpecialHex;
 
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -24,8 +24,8 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityBasicColorsBinding;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
-import com.drdisagree.iconify.utils.FabricatedUtil;
-import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.overlay.FabricatedUtil;
+import com.drdisagree.iconify.utils.overlay.OverlayUtil;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
