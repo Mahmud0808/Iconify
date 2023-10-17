@@ -670,7 +670,7 @@
     <string name="import_settings">Import Settings</string>
     <string name="restart_sysui_title">Restart SystemUI</string>
     <string name="import_settings_confirmation_title">Are you sure?</string>
-    <string name="import_settings_confirmation_desc">You will loose your current setup and settings.</string>
+    <string name="import_settings_confirmation_desc">You will lose your current setup and settings.</string>
     <!-- Xposed 3 dot menu -->
     <string name="reset_settings">Reset Settings</string>
     <string name="imported_settings">Imported settings successfully</string>
