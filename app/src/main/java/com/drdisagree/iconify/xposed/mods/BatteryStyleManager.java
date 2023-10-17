@@ -201,6 +201,7 @@ public class BatteryStyleManager extends ModPack {
     private int mChargingIconML = 1;
     private int mChargingIconMR = 0;
     private int mChargingIconWH = 14;
+    private boolean mIsChargingImpl = false;
     private boolean mIsCharging = false;
 
     public BatteryStyleManager(Context context) {
@@ -272,7 +273,7 @@ public class BatteryStyleManager extends ModPack {
                     mBatteryPercentView.setVisibility(mShowPercentInside ? View.GONE : View.VISIBLE);
                 }
 
-                boolean mCharging = (boolean) getObjectField(view, "mCharging");
+                boolean mCharging = isBatteryCharging(view);
                 int mLevel = (int) getObjectField(view, "mLevel");
 
                 if (CustomBatteryEnabled) {
@@ -370,16 +371,16 @@ public class BatteryStyleManager extends ModPack {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
                     int mLevel = getIntField(param.thisObject, "mLevel");
-                    mIsCharging = getBooleanField(param.thisObject, "mPluggedIn")
+                    mIsChargingImpl = getBooleanField(param.thisObject, "mPluggedIn")
                             || getBooleanField(param.thisObject, "mCharging")
                             || getBooleanField(param.thisObject, "mWirelessCharging");
                     boolean mPowerSave = getBooleanField(param.thisObject, "mPowerSave");
 
                     if (!CustomBatteryEnabled) return;
 
-                    refreshBatteryData(mLevel, mIsCharging, mPowerSave);
+                    refreshBatteryData(mLevel, mIsChargingImpl, mPowerSave);
                     // refreshing twice to avoid a bug where the battery icon updates incorrectly
-                    refreshBatteryData(mLevel, mIsCharging, mPowerSave);
+                    refreshBatteryData(mLevel, mIsChargingImpl, mPowerSave);
                 }
             };
 
@@ -451,7 +452,7 @@ public class BatteryStyleManager extends ModPack {
                         setObjectField(param.thisObject, "mBatteryIconView", mBatteryIconView);
                     }
 
-                    boolean mCharging = (boolean) getObjectField(param.thisObject, "mCharging");
+                    boolean mCharging = isBatteryCharging(param.thisObject);
                     updateChargingIconView(param.thisObject, mCharging);
                     updateSettings(param);
 
@@ -531,6 +532,21 @@ public class BatteryStyleManager extends ModPack {
                 });
             }
         } catch (Throwable ignored) {
+        }
+
+        try {
+            hookAllMethods(BatteryMeterViewClass, "onBatteryLevelChanged", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (BatteryMeterViewParam == null) {
+                        BatteryMeterViewParam = param;
+                    }
+
+                    mIsCharging = (boolean) param.args[1];
+                }
+            });
+        } catch (Throwable throwable) {
+            log(TAG + throwable);
         }
 
         try {
@@ -635,9 +651,25 @@ public class BatteryStyleManager extends ModPack {
                 }
             }
 
-            boolean mCharging = (boolean) getObjectField(view, "mCharging");
+            boolean mCharging = isBatteryCharging(view);
             updateChargingIconView(view, mCharging);
         }
+    }
+
+    private boolean isBatteryCharging(Object thisObject) {
+        boolean mCharging = mIsCharging;
+        boolean mIsIncompatibleCharging = false;
+
+        try {
+            mCharging = (boolean) getObjectField(thisObject, "mCharging");
+        } catch (Throwable ignored) {
+            try {
+                mIsIncompatibleCharging = (boolean) getObjectField(thisObject, "mIsIncompatibleCharging");
+            } catch (Throwable throwable) {
+                log(TAG + throwable);
+            }
+        }
+        return mCharging && !mIsIncompatibleCharging;
     }
 
     public static void scaleBatteryMeterViews(@NonNull Object thisObject) {
@@ -792,12 +824,12 @@ public class BatteryStyleManager extends ModPack {
 
     private void updateChargingIconView() {
         for (View view : batteryViews) {
-            updateChargingIconView(view, mIsCharging);
+            updateChargingIconView(view, mIsChargingImpl);
         }
     }
 
     private void updateChargingIconView(Object thisObject) {
-        updateChargingIconView(thisObject, mIsCharging);
+        updateChargingIconView(thisObject, mIsChargingImpl);
     }
 
     private void updateChargingIconView(Object thisObject, boolean mCharging) {

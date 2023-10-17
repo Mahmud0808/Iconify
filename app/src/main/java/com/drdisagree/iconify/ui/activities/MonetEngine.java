@@ -17,7 +17,7 @@ import static com.drdisagree.iconify.common.Preferences.MONET_SECONDARY_ACCENT_S
 import static com.drdisagree.iconify.common.Preferences.MONET_SECONDARY_COLOR;
 import static com.drdisagree.iconify.common.Preferences.MONET_STYLE;
 import static com.drdisagree.iconify.common.Preferences.STR_NULL;
-import static com.drdisagree.iconify.utils.ColorSchemeUtil.generateColorPalette;
+import static com.drdisagree.iconify.utils.color.ColorSchemeUtil.generateColorPalette;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -44,12 +44,12 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityMonetEngineBinding;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.RadioDialog;
-import com.drdisagree.iconify.utils.ColorUtil;
-import com.drdisagree.iconify.utils.FabricatedUtil;
-import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.color.ColorUtil;
+import com.drdisagree.iconify.utils.overlay.FabricatedUtil;
+import com.drdisagree.iconify.utils.overlay.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.helpers.ImportExport;
-import com.drdisagree.iconify.utils.overlaymanager.MonetEngineManager;
+import com.drdisagree.iconify.utils.helper.ImportExport;
+import com.drdisagree.iconify.utils.overlay.manager.MonetEngineManager;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.slider.Slider;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;

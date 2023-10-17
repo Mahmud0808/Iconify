@@ -29,9 +29,9 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.models.QsShapeModel;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.helpers.DisplayUtil;
-import com.drdisagree.iconify.utils.overlaymanager.QsShapeManager;
-import com.drdisagree.iconify.utils.overlaymanager.QsShapePixelManager;
+import com.drdisagree.iconify.utils.helper.DisplayUtil;
+import com.drdisagree.iconify.utils.overlay.manager.QsShapeManager;
+import com.drdisagree.iconify.utils.overlay.manager.QsShapePixelManager;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -181,9 +181,9 @@ public class QsShapeAdapter extends RecyclerView.Adapter<QsShapeAdapter.ViewHold
 
             Runnable runnable = () -> {
                 if (Objects.equals(variant, "QSSN"))
-                    QsShapeManager.disable_pack(holder.getBindingAdapterPosition() + 1);
+                    QsShapeManager.disableOverlay(holder.getBindingAdapterPosition() + 1);
                 else if (Objects.equals(variant, "QSSP"))
-                    QsShapePixelManager.disable_pack(holder.getBindingAdapterPosition() + 1);
+                    QsShapePixelManager.disableOverlay(holder.getBindingAdapterPosition() + 1);
 
                 ((Activity) context).runOnUiThread(() -> {
                     new Handler(Looper.getMainLooper()).postDelayed(() -> {

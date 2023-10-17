@@ -24,7 +24,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.models.IconPackModel;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
-import com.drdisagree.iconify.utils.overlaymanager.IconPackManager;
+import com.drdisagree.iconify.utils.overlay.manager.IconPackManager;
 
 import java.util.ArrayList;
 
@@ -142,7 +142,7 @@ public class IconPackAdapter extends RecyclerView.Adapter<IconPackAdapter.ViewHo
             loadingDialog.show(context.getResources().getString(R.string.loading_dialog_wait));
 
             Runnable runnable = () -> {
-                IconPackManager.disable_pack(holder.getBindingAdapterPosition() + 1);
+                IconPackManager.disableOverlay(holder.getBindingAdapterPosition() + 1);
 
                 ((Activity) context).runOnUiThread(() -> {
                     new Handler(Looper.getMainLooper()).postDelayed(() -> {

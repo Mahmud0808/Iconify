@@ -26,9 +26,9 @@ import com.drdisagree.iconify.databinding.ActivitySettingsIconsBinding;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
 import com.drdisagree.iconify.ui.views.RadioDialog;
-import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.overlay.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.overlaymanager.SettingsIconResourceManager;
+import com.drdisagree.iconify.utils.overlay.manager.SettingsIconResourceManager;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -24,8 +24,8 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.models.BrightnessBarModel;
 import com.drdisagree.iconify.ui.views.LoadingDialog;
-import com.drdisagree.iconify.utils.overlaymanager.BrightnessBarManager;
-import com.drdisagree.iconify.utils.overlaymanager.BrightnessBarPixelManager;
+import com.drdisagree.iconify.utils.overlay.manager.BrightnessBarManager;
+import com.drdisagree.iconify.utils.overlay.manager.BrightnessBarPixelManager;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -153,9 +153,9 @@ public class BrightnessBarAdapter extends RecyclerView.Adapter<BrightnessBarAdap
 
             Runnable runnable = () -> {
                 if (Objects.equals(variant, "BBN"))
-                    BrightnessBarManager.disable_pack(holder.getBindingAdapterPosition() + 1);
+                    BrightnessBarManager.disableOverlay(holder.getBindingAdapterPosition() + 1);
                 else if (Objects.equals(variant, "BBP"))
-                    BrightnessBarPixelManager.disable_pack(holder.getBindingAdapterPosition() + 1);
+                    BrightnessBarPixelManager.disableOverlay(holder.getBindingAdapterPosition() + 1);
 
                 ((Activity) context).runOnUiThread(() -> {
                     new Handler(Looper.getMainLooper()).postDelayed(() -> {

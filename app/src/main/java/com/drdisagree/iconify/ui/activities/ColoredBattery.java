@@ -9,7 +9,7 @@ import static com.drdisagree.iconify.common.Preferences.STR_NULL;
 import static com.drdisagree.iconify.common.References.FABRICATED_BATTERY_COLOR_BG;
 import static com.drdisagree.iconify.common.References.FABRICATED_BATTERY_COLOR_FG;
 import static com.drdisagree.iconify.common.References.FABRICATED_COLORED_BATTERY;
-import static com.drdisagree.iconify.utils.ColorUtil.colorToSpecialHex;
+import static com.drdisagree.iconify.utils.color.ColorUtil.colorToSpecialHex;
 
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -22,8 +22,8 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityColoredBatteryBinding;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
-import com.drdisagree.iconify.utils.FabricatedUtil;
-import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.overlay.FabricatedUtil;
+import com.drdisagree.iconify.utils.overlay.OverlayUtil;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 

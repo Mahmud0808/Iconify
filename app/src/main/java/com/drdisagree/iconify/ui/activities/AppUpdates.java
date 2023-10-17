@@ -26,7 +26,7 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityAppUpdatesBinding;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.RadioDialog;
-import com.drdisagree.iconify.utils.TaskExecutor;
+import com.drdisagree.iconify.utils.extension.TaskExecutor;
 
 import org.json.JSONArray;
 import org.json.JSONException;

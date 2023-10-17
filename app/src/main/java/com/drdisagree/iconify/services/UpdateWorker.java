@@ -22,7 +22,7 @@ import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.activities.AppUpdates;
-import com.drdisagree.iconify.utils.TaskExecutor;
+import com.drdisagree.iconify.utils.extension.TaskExecutor;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.topjohnwu.superuser.Shell;
 

@@ -5,7 +5,7 @@ import android.service.quicksettings.TileService;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.utils.OverlayUtil;
+import com.drdisagree.iconify.utils.overlay.OverlayUtil;
 
 public class TileNotchBarKiller extends TileService {
 
