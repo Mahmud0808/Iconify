@@ -144,4 +144,3 @@ You can help translate Iconify [on Crowdin](https://crowdin.com/project/iconify)
 - Please note that Iconify may not be fully compatible with all custom ROMs. It is discouraged to use on heavily modified ROMs.
 - I cannot be held responsible for any potential damage or issues that may occur to your device while using Iconify.
 - It is highly recommended to have a custom recovery installed on your device to revert any changes in case of unexpected problems.
-- The use of PremadeOverlays involves the inclusion of embedded APKs to expedite overlay compilation. For the source code, [click here](https://github.com/Mahmud0808/Iconify/blob/beta/app/src/main/assets/PremadeOverlays/cheatsheet).

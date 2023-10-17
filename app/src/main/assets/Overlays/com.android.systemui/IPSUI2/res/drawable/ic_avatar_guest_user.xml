@@ -1,0 +1,51 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="48.0dp"
+    android:height="48.0dp"
+    android:viewportWidth="48.0"
+    android:viewportHeight="48.0">
+    <group
+        android:pivotX="24.000"
+        android:pivotY="13.500"
+        android:rotation="-0.000"
+        android:scaleY="1.000">
+
+        <path
+            android:fillType="nonZero"
+            android:pathData="M24.00,4.00C29.25,4.00,33.50,8.25,33.50,13.50C33.50,18.75,29.25,23.00,24.00,23.00C18.75,23.00,14.50,18.75,14.50,13.50C14.50,8.25,18.75,4.00,24.00,4.00zM24.00,25.50C16.27,25.50,10.00,29.64,10.00,34.75C10.00,39.86,16.27,44.00,24.00,44.00C31.73,44.00,38.00,39.86,38.00,34.75C38.00,29.64,31.73,25.50,24.00,25.50z"
+            android:strokeLineCap="square"
+            android:strokeLineJoin="miter">
+            <aapt:attr name="android:strokeColor">
+                <gradient
+                    android:endX="38.000"
+                    android:endY="44.000"
+                    android:startX="10.000"
+                    android:startY="4.000"
+                    android:type="linear">
+                    <item
+                        android:color="#00000000"
+                        android:offset="0.000" />
+                    <item
+                        android:color="#00000000"
+                        android:offset="1.000" />
+                </gradient>
+            </aapt:attr>
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:endX="24.000"
+                    android:endY="48.000"
+                    android:startX="24.000"
+                    android:startY="-0.000"
+                    android:type="linear">
+                    <item
+                        android:color="#FFFFFFFF"
+                        android:offset="0.000" />
+                    <item
+                        android:color="#66FFFFFF"
+                        android:offset="1.000" />
+                </gradient>
+            </aapt:attr>
+
+        </path>
+    </group>
+</vector>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24.0dip"
+    android:height="24.0dip"
+    android:viewportWidth="24.0"
+    android:viewportHeight="24.0">
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M12.00,16.13C13.29,16.13,14.33,17.19,14.33,18.50C14.33,19.81,13.29,20.88,12.00,20.88C10.71,20.88,9.67,19.81,9.67,18.50C9.67,17.19,10.71,16.13,12.00,16.13z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M12.00,2.00L12.00,2.00A2.00 2.00 0 0 1 14.00,4.00L14.00,12.65A2.00 2.00 0 0 1 12.00,14.65L12.00,14.65A2.00 2.00 0 0 1 10.00,12.65L10.00,4.00A2.00 2.00 0 0 1 12.00,2.00z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M9.50,7.60C8.29,7.64,6.05,8.42,3.14,10.63C1.51,11.92,-1.05,9.23,0.79,7.55C3.30,5.34,6.63,3.76,9.50,3.75z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M14.50,7.57C15.71,7.62,17.95,8.40,20.86,10.61C22.49,11.90,25.05,9.21,23.21,7.53C20.70,5.32,17.37,3.74,14.50,3.75z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#66000000"
+        android:pathData="M9.50,9.83C9.50,11.00,9.50,13.38,9.83,13.67C9.00,13.83,8.00,14.00,7.38,14.79C5.46,15.90,3.36,13.21,5.08,11.84C7.50,10.25,8.50,10.00,9.50,9.83z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#66000000"
+        android:pathData="M14.48,9.81C14.48,10.98,14.48,13.35,14.14,13.65C14.98,13.81,15.98,13.98,16.59,14.77C18.51,15.88,20.61,13.19,18.90,11.81C16.50,10.25,15.48,9.98,14.48,9.81z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+</vector>

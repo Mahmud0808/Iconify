@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24.0dip"
+    android:height="24.0dip"
+    android:viewportWidth="24.0"
+    android:viewportHeight="24.0">
+    <path
+        android:fillColor="#66000000"
+        android:pathData="M7.00,4.00L17.00,4.00A3.00 3.00 0 0 1 20.00,7.00L20.00,17.00A3.00 3.00 0 0 1 17.00,20.00L7.00,20.00A3.00 3.00 0 0 1 4.00,17.00L4.00,7.00A3.00 3.00 0 0 1 7.00,4.00z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M8.00,7.00C8.55,7.00,9.00,7.45,9.00,8.00C9.00,8.55,8.55,9.00,8.00,9.00C7.45,9.00,7.00,8.55,7.00,8.00C7.00,7.45,7.45,7.00,8.00,7.00z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M16.00,15.00C16.55,15.00,17.00,15.45,17.00,16.00C17.00,16.55,16.55,17.00,16.00,17.00C15.45,17.00,15.00,16.55,15.00,16.00C15.00,15.45,15.45,15.00,16.00,15.00z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M9.00,21.13L9.00,20.00L7.00,20.00L7.00,21.13C7.00,22.13,9.00,22.13,9.00,21.13z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M13.00,21.12L13.00,20.00L11.00,20.00L11.00,21.12C11.00,22.13,13.00,22.13,13.00,21.12z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M17.00,21.19L17.00,20.00L15.00,20.00L15.00,21.19C15.00,22.19,17.00,22.19,17.00,21.19z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M17.00,2.78L17.00,4.00L15.00,4.00L15.00,2.78C15.00,1.78,17.00,1.78,17.00,2.78z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M13.00,2.78L13.00,4.00L11.00,4.00L11.00,2.78C11.00,1.78,13.00,1.78,13.00,2.78z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M9.00,2.78L9.00,4.00L7.00,4.00L7.00,2.78C7.00,1.78,9.00,1.78,9.00,2.78z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M21.22,9.00L20.00,9.00L20.00,7.00L21.22,7.00C22.22,7.00,22.22,9.00,21.22,9.00z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M21.24,13.00L20.00,13.00L20.00,11.00L21.23,11.00C22.23,11.00,22.24,13.00,21.24,13.00z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M21.25,17.00L20.00,17.00L20.00,15.00L21.24,15.00C22.24,15.00,22.25,17.00,21.25,17.00z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M2.75,17.00L4.00,17.00L4.00,15.00L2.75,15.00C1.75,15.00,1.75,17.00,2.75,17.00z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M2.75,13.00L4.00,13.00L4.00,11.00L2.75,11.00C1.75,11.00,1.75,13.00,2.75,13.00z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+    <path
+        android:fillColor="#ff000000"
+        android:pathData="M2.75,9.00L4.00,9.00L4.00,7.00L2.75,7.00C1.75,7.00,1.75,9.00,2.75,9.00z"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter" />
+</vector>

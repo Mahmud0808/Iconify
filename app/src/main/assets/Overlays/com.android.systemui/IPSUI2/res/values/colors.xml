@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="light_mode_icon_color_dual_tone_background">#ff919191</color>
+    <color name="light_mode_icon_color_dual_tone_fill">#ffc9c9c9</color>
+</resources>

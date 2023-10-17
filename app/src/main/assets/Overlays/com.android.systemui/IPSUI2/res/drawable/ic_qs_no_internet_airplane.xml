@@ -1,0 +1,51 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="24.0dp"
+    android:height="24.0dp"
+    android:viewportWidth="24.0"
+    android:viewportHeight="24.0">
+    <group
+        android:pivotX="12.000"
+        android:pivotY="12.000"
+        android:rotation="-0.000"
+        android:scaleY="1.000">
+
+        <path
+            android:fillType="nonZero"
+            android:pathData="M15.25,14.50C15.50,12.50,15.50,11.50,15.25,9.50L8.75,9.50C8.50,11.50,8.50,12.50,8.75,14.50L15.25,14.50zM15.00,8.00C13.50,0.00,10.50,0.00,9.00,8.00L15.00,8.00zM15.00,16.00C13.50,24.00,10.50,24.00,9.00,16.00L15.00,16.00zM21.00,8.00C20.00,5.50,17.50,3.50,15.00,2.50C16.00,4.25,16.50,6.00,16.75,8.00L21.00,8.00zM3.00,8.00C4.00,5.50,6.50,3.50,9.00,2.50C8.00,4.25,7.50,6.00,7.25,8.00L3.00,8.00zM21.00,16.00C20.00,18.50,17.50,20.50,15.00,21.50C16.00,19.75,16.50,18.00,16.75,16.00L21.00,16.00zM3.00,16.00C4.00,18.50,6.50,20.50,9.00,21.50C8.00,19.75,7.50,18.00,7.25,16.00L3.00,16.00zM21.50,14.50L17.00,14.50C17.13,12.50,17.13,11.50,17.00,9.50L21.50,9.50C22.00,11.00,22.00,12.50,21.50,14.50zM2.50,14.50L7.00,14.50C6.87,12.50,6.87,11.50,7.00,9.50L2.50,9.50C2.00,11.00,2.00,12.50,2.50,14.50z"
+            android:strokeLineCap="square"
+            android:strokeLineJoin="miter">
+            <aapt:attr name="android:strokeColor">
+                <gradient
+                    android:endX="21.875"
+                    android:endY="22.000"
+                    android:startX="2.125"
+                    android:startY="2.000"
+                    android:type="linear">
+                    <item
+                        android:color="#00000000"
+                        android:offset="0.000" />
+                    <item
+                        android:color="#00000000"
+                        android:offset="1.000" />
+                </gradient>
+            </aapt:attr>
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:endX="12.000"
+                    android:endY="22.000"
+                    android:startX="12.000"
+                    android:startY="2.000"
+                    android:type="linear">
+                    <item
+                        android:color="#FF000000"
+                        android:offset="0.000" />
+                    <item
+                        android:color="#66000000"
+                        android:offset="1.000" />
+                </gradient>
+            </aapt:attr>
+
+        </path>
+    </group>
+</vector>

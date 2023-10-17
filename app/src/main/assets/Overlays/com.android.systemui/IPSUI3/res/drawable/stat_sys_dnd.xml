@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<inset xmlns:android="http://schemas.android.com/apk/res/android">
+    <vector
+        android:width="17.0dip"
+        android:height="17.0dip"
+        android:viewportWidth="17.0"
+        android:viewportHeight="17.0">
+        <path
+            android:fillColor="#00000000"
+            android:fillType="nonZero"
+            android:pathData="M5.31,4.25L11.69,4.25A2.83 2.83 0 0 1 14.52,7.08L14.52,11.69A2.83 2.83 0 0 1 11.69,14.52L5.31,14.52A2.83 2.83 0 0 1 2.48,11.69L2.48,7.08A2.83 2.83 0 0 1 5.31,4.25z"
+            android:strokeWidth="2.091"
+            android:strokeColor="#ff000000"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+        <path
+            android:fillColor="#00000000"
+            android:fillType="nonZero"
+            android:pathData="M4.60,2.48L4.96,3.54"
+            android:strokeWidth="2.091"
+            android:strokeColor="#ff000000"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+        <path
+            android:fillColor="#00000000"
+            android:fillType="nonZero"
+            android:pathData="M12.40,2.48L12.04,3.54"
+            android:strokeWidth="2.091"
+            android:strokeColor="#ff000000"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+        <path
+            android:fillColor="#00000000"
+            android:fillType="nonZero"
+            android:pathData="M7.25,10.64L9.75,8.13"
+            android:strokeWidth="2.091"
+            android:strokeColor="#ff000000"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+        <path
+            android:fillColor="#00000000"
+            android:fillType="nonZero"
+            android:pathData="M7.25,8.13L9.75,10.64"
+            android:strokeWidth="2.091"
+            android:strokeColor="#ff000000"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+    </vector>
+</inset>

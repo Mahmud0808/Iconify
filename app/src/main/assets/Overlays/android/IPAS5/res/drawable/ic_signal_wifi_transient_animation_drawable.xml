@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:name="ic_signal_wifi_transient"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <group
+        android:name="ic_signal_wifi_4_bar_48px_2"
+        android:translateX="24.25"
+        android:translateY="25.734">
+        <group
+            android:name="ic_signal_wifi_4_bar_48px_2_pivot"
+            android:translateX="-23.2155"
+            android:translateY="-18.8665">
+            <group
+                android:name="wifi_2"
+                android:translateX="23.481"
+                android:translateY="18.7115">
+                <path
+                    android:name="wifi"
+                    android:fillAlpha="0.5"
+                    android:fillColor="#ffffffff"
+                    android:pathData="M0.017 18.44l23.214-28.767c-0.9-0.676-9.829-8.135-23.232-8.135-13.403 0-22.33 7.46-23.23 8.135l23.214 28.766 0.016 0.023L0 18.46l0.001 0.002 0.016-0.023z" />
+            </group>
+            <group
+                android:name="wifi_0"
+                android:translateX="23.481"
+                android:translateY="18.7115">
+                <path
+                    android:name="wifi_1"
+                    android:fillAlpha="0"
+                    android:fillColor="#ffffffff"
+                    android:pathData="M0.017 18.44l23.214-28.767c-0.9-0.676-9.829-8.135-23.232-8.135-13.403 0-22.33 7.46-23.23 8.135l23.214 28.766 0.016 0.023L0 18.46l0.001 0.002 0.016-0.023z" />
+            </group>
+        </group>
+    </group>
+</vector>

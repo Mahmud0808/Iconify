@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24.0dip"
+    android:height="24.0dip"
+    android:tint="?android:textColorPrimary"
+    android:viewportWidth="24.0"
+    android:viewportHeight="24.0">
+    <path
+        android:fillColor="#00000000"
+        android:fillType="nonZero"
+        android:pathData="M5.50,3.00C6.88,3.00,8.00,4.12,8.00,5.50C8.00,6.88,6.88,8.00,5.50,8.00C4.12,8.00,3.00,6.88,3.00,5.50C3.00,4.12,4.12,3.00,5.50,3.00zM12.50,5.50L8.00,5.50"
+        android:strokeWidth="2.016"
+        android:strokeColor="#ff000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:fillColor="#00000000"
+        android:fillType="nonZero"
+        android:pathData="M18.50,16.00C19.88,16.00,21.00,17.12,21.00,18.50C21.00,19.88,19.88,21.00,18.50,21.00C17.12,21.00,16.00,19.88,16.00,18.50C16.00,17.12,17.12,16.00,18.50,16.00zM11.50,18.50L16.00,18.50"
+        android:strokeWidth="2.016"
+        android:strokeColor="#ff000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:fillColor="#00000000"
+        android:fillType="nonZero"
+        android:pathData="M3.00,18.50C3.00,17.12,4.12,16.00,5.50,16.00C6.88,16.00,8.00,17.12,8.00,18.50C8.00,19.88,6.88,21.00,5.50,21.00C4.12,21.00,3.00,19.88,3.00,18.50zM5.50,11.50L5.50,16.00"
+        android:strokeWidth="2.016"
+        android:strokeColor="#ff000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:fillColor="#00000000"
+        android:fillType="nonZero"
+        android:pathData="M16.00,5.50C16.00,4.12,17.12,3.00,18.50,3.00C19.88,3.00,21.00,4.12,21.00,5.50C21.00,6.88,19.88,8.00,18.50,8.00C17.12,8.00,16.00,6.88,16.00,5.50zM18.50,12.50L18.50,8.00"
+        android:strokeWidth="2.016"
+        android:strokeColor="#66000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>
