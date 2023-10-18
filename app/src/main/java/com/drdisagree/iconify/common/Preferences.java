@@ -83,6 +83,7 @@ public class Preferences {
     public static final String CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT = "xposed_custombatterychargingiconmarginright";
     public static final String CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT = "xposed_custombatterychargingiconwidthheight";
     public static final String CUSTOM_BATTERY_HIDE_PERCENTAGE = "xposed_custombatteryhidepercentage";
+    public static final String CUSTOM_BATTERY_INSIDE_PERCENTAGE = "xposed_custombatteryinsidepercentage";
 
     // Xposed view tags
     public static final String ICONIFY_HEADER_CLOCK_TAG = "iconify_header_clock";

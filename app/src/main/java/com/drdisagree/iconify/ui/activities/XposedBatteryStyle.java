@@ -20,6 +20,7 @@ import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_FILL_COLO
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_FILL_GRAD_COLOR;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_HEIGHT;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_HIDE_PERCENTAGE;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_INSIDE_PERCENTAGE;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_LAYOUT_REVERSE;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_MARGIN_BOTTOM;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_MARGIN_LEFT;
@@ -153,10 +154,22 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
 
         // Hide percentage
         bindingMiscSettings.hidePercentage.setChecked(RPrefs.getBoolean(CUSTOM_BATTERY_HIDE_PERCENTAGE, false));
-        bindingMiscSettings.hidePercentage.setOnCheckedChangeListener((buttonView, isChecked) -> RPrefs.putBoolean(CUSTOM_BATTERY_HIDE_PERCENTAGE, isChecked));
+        bindingMiscSettings.hidePercentage.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(CUSTOM_BATTERY_HIDE_PERCENTAGE, isChecked);
+            updateLayoutVisibility();
+        });
         bindingMiscSettings.hidePercentageContainer.setOnClickListener(v -> {
             if (bindingMiscSettings.hidePercentage.isEnabled()) {
                 bindingMiscSettings.hidePercentage.toggle();
+            }
+        });
+
+        // Inside percentage
+        bindingMiscSettings.insidePercentage.setChecked(RPrefs.getBoolean(CUSTOM_BATTERY_INSIDE_PERCENTAGE, false));
+        bindingMiscSettings.insidePercentage.setOnCheckedChangeListener((buttonView, isChecked) -> RPrefs.putBoolean(CUSTOM_BATTERY_INSIDE_PERCENTAGE, isChecked));
+        bindingMiscSettings.insidePercentageContainer.setOnClickListener(v -> {
+            if (bindingMiscSettings.insidePercentage.isEnabled()) {
+                bindingMiscSettings.insidePercentage.toggle();
             }
         });
 
@@ -406,7 +419,9 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
                 selectedIndex != BATTERY_STYLE_LANDSCAPE_IOS_16 &&
                 selectedIndex != BATTERY_STYLE_LANDSCAPE_BATTERYL &&
                 selectedIndex != BATTERY_STYLE_LANDSCAPE_BATTERYM;
+        boolean showInsidePercentage = showPercentage && !bindingMiscSettings.hidePercentage.isChecked();
         boolean showChargingIconCustomization = selectedIndex > 2 && bindingChargingIcon.enableChargingIcon.isChecked();
+        boolean showReverseLayout = selectedIndex > 2 && showInsidePercentage;
 
         int visibility_advanced = showAdvancedCustomizations ? View.VISIBLE : View.GONE;
         int visibility_colorpickers = showAdvancedCustomizations && showColorPickers ? View.VISIBLE : View.GONE;
@@ -414,6 +429,8 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
         int visibility_wh = selectedIndex > 2 ? View.VISIBLE : View.GONE;
         int visibility_dimensions = showBatteryDimensions ? View.VISIBLE : View.GONE;
         int visibility_percentage = showPercentage ? View.VISIBLE : View.GONE;
+        int visibility_inside_percentage = showInsidePercentage ? View.VISIBLE : View.GONE;
+        int visibility_reverse_layout = showReverseLayout ? View.VISIBLE : View.GONE;
         int visibility_charging_icon_switch = selectedIndex > 2 ? View.VISIBLE : View.GONE;
         int visibility_charging_icon_cust = showChargingIconCustomization ? View.VISIBLE : View.GONE;
 
@@ -421,7 +438,8 @@ public class XposedBatteryStyle extends BaseActivity implements RadioDialog.Radi
         bindingMiscSettings.batteryWidthSeekbar.setEnabled(showCommonCustomizations);
         bindingMiscSettings.batteryHeightSeekbar.setEnabled(showCommonCustomizations);
         bindingMiscSettings.hidePercentageContainer.setVisibility(visibility_percentage);
-        bindingMiscSettings.reverseLayoutContainer.setVisibility(visibility_advanced);
+        bindingMiscSettings.insidePercentageContainer.setVisibility(visibility_inside_percentage);
+        bindingMiscSettings.reverseLayoutContainer.setVisibility(visibility_reverse_layout);
         bindingMiscSettings.rotateLayoutContainer.setVisibility(visibility_advanced);
 
         // Custom colors

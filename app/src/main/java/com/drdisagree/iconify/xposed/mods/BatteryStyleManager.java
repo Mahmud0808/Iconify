@@ -66,6 +66,7 @@ import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_FILL_COLO
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_FILL_GRAD_COLOR;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_HEIGHT;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_HIDE_PERCENTAGE;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_INSIDE_PERCENTAGE;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_LAYOUT_REVERSE;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_MARGIN_BOTTOM;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_MARGIN_LEFT;
@@ -171,6 +172,7 @@ public class BatteryStyleManager extends ModPack {
     private static final int BatteryIconOpacity = 100;
     private static int BatteryStyle = 0;
     private static boolean mShowPercentInside = false;
+    private static boolean mHidePercentage = false;
     private boolean DefaultLandscapeBatteryEnabled = false;
     private static int mBatteryRotation = 0;
     private static boolean CustomBatteryEnabled = false;
@@ -212,6 +214,12 @@ public class BatteryStyleManager extends ModPack {
         if (Xprefs == null) return;
 
         int batteryStyle = Xprefs.getInt(CUSTOM_BATTERY_STYLE, 0);
+        boolean hidePercentage = Xprefs.getBoolean(CUSTOM_BATTERY_HIDE_PERCENTAGE, false);
+        boolean defaultInsidePercentage = batteryStyle == BATTERY_STYLE_LANDSCAPE_IOS_16 ||
+                batteryStyle == BATTERY_STYLE_LANDSCAPE_BATTERYL ||
+                batteryStyle == BATTERY_STYLE_LANDSCAPE_BATTERYM;
+        boolean insidePercentage = (defaultInsidePercentage ||
+                Xprefs.getBoolean(CUSTOM_BATTERY_INSIDE_PERCENTAGE, false));
 
         DefaultLandscapeBatteryEnabled = batteryStyle == BATTERY_STYLE_DEFAULT_LANDSCAPE ||
                 batteryStyle == BATTERY_STYLE_DEFAULT_RLANDSCAPE;
@@ -229,11 +237,8 @@ public class BatteryStyleManager extends ModPack {
             mBatteryRotation = 0;
         }
 
-        mShowPercentInside = batteryStyle == BATTERY_STYLE_LANDSCAPE_IOS_16 ||
-                batteryStyle == BATTERY_STYLE_LANDSCAPE_BATTERYL ||
-                batteryStyle == BATTERY_STYLE_LANDSCAPE_BATTERYM ||
-                Xprefs.getBoolean(CUSTOM_BATTERY_HIDE_PERCENTAGE, false);
-
+        mHidePercentage = hidePercentage || insidePercentage;
+        mShowPercentInside = insidePercentage && (defaultInsidePercentage || !hidePercentage);
         mBatteryLayoutReverse = Xprefs.getBoolean(CUSTOM_BATTERY_LAYOUT_REVERSE, false);
         mBatteryCustomDimension = Xprefs.getBoolean(CUSTOM_BATTERY_DIMENSION, false);
         mBatteryScaleWidth = Xprefs.getInt(CUSTOM_BATTERY_WIDTH, 20);
@@ -270,7 +275,7 @@ public class BatteryStyleManager extends ModPack {
 
                 TextView mBatteryPercentView = (TextView) getObjectField(view, "mBatteryPercentView");
                 if (mBatteryPercentView != null) {
-                    mBatteryPercentView.setVisibility(mShowPercentInside ? View.GONE : View.VISIBLE);
+                    mBatteryPercentView.setVisibility(mHidePercentage ? View.GONE : View.VISIBLE);
                 }
 
                 boolean mCharging = isBatteryCharging(view);
@@ -557,7 +562,7 @@ public class BatteryStyleManager extends ModPack {
                         BatteryMeterViewParam = param;
                     }
 
-                    if ((CustomBatteryEnabled || DefaultLandscapeBatteryEnabled) && mShowPercentInside) {
+                    if ((CustomBatteryEnabled || DefaultLandscapeBatteryEnabled) && (mHidePercentage || mShowPercentInside)) {
                         param.setResult(2);
                     }
                 }
@@ -572,7 +577,7 @@ public class BatteryStyleManager extends ModPack {
 
                     TextView mBatteryPercentView = (TextView) getObjectField(param.thisObject, "mBatteryPercentView");
                     if (mBatteryPercentView != null) {
-                        mBatteryPercentView.setVisibility(mShowPercentInside ? View.GONE : View.VISIBLE);
+                        mBatteryPercentView.setVisibility(mHidePercentage ? View.GONE : View.VISIBLE);
                     }
                 }
             });
@@ -598,7 +603,7 @@ public class BatteryStyleManager extends ModPack {
 
                     TextView mBatteryPercentView = (TextView) getObjectField(view, "mBatteryPercentView");
                     if (mBatteryPercentView != null) {
-                        mBatteryPercentView.setVisibility(mShowPercentInside ? View.GONE : View.VISIBLE);
+                        mBatteryPercentView.setVisibility(mHidePercentage ? View.GONE : View.VISIBLE);
                     }
 
                     scaleBatteryMeterViews(view);
@@ -636,7 +641,7 @@ public class BatteryStyleManager extends ModPack {
 
             TextView mBatteryPercentView = (TextView) getObjectField(view, "mBatteryPercentView");
             if (mBatteryPercentView != null) {
-                mBatteryPercentView.setVisibility(mShowPercentInside ? View.GONE : View.VISIBLE);
+                mBatteryPercentView.setVisibility(mHidePercentage ? View.GONE : View.VISIBLE);
             }
 
             if (CustomBatteryEnabled) {

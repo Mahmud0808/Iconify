@@ -506,7 +506,7 @@
     <string name="powersave_indicator_color_title">Powersave Indicator Color</string>
     <string name="powersave_indicator_color_desc">Change color of powersave indicator</string>
     <string name="custom_dimensions_title">Custom Dimensions</string>
-    <string name="custom_dimensions_desc">Set custom dimensions for the battery</string>
+    <string name="custom_dimensions_desc">Set custom dimensions for battery icon</string>
     <string name="battery_margin_left_title">Battery Margin Left</string>
     <string name="battery_margin_right_title">Battery Margin Right</string>
     <string name="battery_margin_top_title">Battery Margin Top</string>
@@ -517,6 +517,8 @@
     <string name="rotate_layout_desc">Rotate battery layout 180 degrees</string>
     <string name="hide_percentage_title">Hide Percentage</string>
     <string name="hide_percentage_desc">Hide battery percentage text</string>
+    <string name="inside_percentage_title">Inside Percentage</string>
+    <string name="inside_percentage_desc">Move percentage to inside battery icon</string>
 
     <string name="battery_default">Default</string>
     <string name="battery_landscape_r_default">Landscape R Default</string>
