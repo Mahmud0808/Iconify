@@ -1,7 +1,8 @@
-package com.drdisagree.iconify.ui.activities;
+package com.drdisagree.iconify.ui.base;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Window;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,7 +35,9 @@ public class BaseActivity extends AppCompatActivity {
             ((AppBarLayout) findViewById(R.id.appBarLayout)).setStatusBarForeground(MaterialShapeDrawable.createWithElevationOverlay(getApplicationContext()));
         } catch (Exception ignored) {
         }
-        WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
+
+        Window window = getWindow();
+        WindowCompat.setDecorFitsSystemWindows(window, false);
     }
 
     @Override
