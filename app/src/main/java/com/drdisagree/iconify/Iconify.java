@@ -9,15 +9,25 @@ import java.lang.ref.WeakReference;
 
 public class Iconify extends Application {
 
+    private static Iconify instance;
     private static WeakReference<Context> contextReference;
-
-    public static Context getAppContext() {
-        return contextReference.get();
-    }
 
     public void onCreate() {
         super.onCreate();
+        instance = this;
         contextReference = new WeakReference<>(getApplicationContext());
         DynamicColors.applyToActivitiesIfAvailable(this);
+    }
+
+    public static Context getAppContext() {
+        if (contextReference == null || contextReference.get() == null) {
+            contextReference = new WeakReference<>(Iconify.getInstance().getApplicationContext());
+        }
+
+        return contextReference.get();
+    }
+
+    private static Iconify getInstance() {
+        return instance;
     }
 }
