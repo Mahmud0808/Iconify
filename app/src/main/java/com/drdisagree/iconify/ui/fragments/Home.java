@@ -5,10 +5,10 @@ import static com.drdisagree.iconify.common.Preferences.AUTO_UPDATE;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.LAST_UPDATE_CHECK_TIME;
 import static com.drdisagree.iconify.common.Preferences.SHOW_HOME_CARD;
+import static com.drdisagree.iconify.common.Preferences.UPDATE_CHECK_TIME;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED;
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,23 +22,20 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.drdisagree.iconify.BuildConfig;
+import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.FragmentHomeBinding;
-import com.drdisagree.iconify.ui.activities.AppUpdates;
-import com.drdisagree.iconify.ui.activities.BrightnessBar;
-import com.drdisagree.iconify.ui.activities.IconPack;
-import com.drdisagree.iconify.ui.activities.IconShape;
-import com.drdisagree.iconify.ui.activities.Notification;
-import com.drdisagree.iconify.ui.activities.ProgressBar;
-import com.drdisagree.iconify.ui.activities.QsPanelTile;
-import com.drdisagree.iconify.ui.activities.Switch;
-import com.drdisagree.iconify.ui.activities.ToastFrame;
-import com.drdisagree.iconify.ui.views.LoadingDialog;
+import com.drdisagree.iconify.services.UpdateScheduler;
+import com.drdisagree.iconify.ui.base.BaseFragment;
+import com.drdisagree.iconify.ui.dialogs.LoadingDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.extension.TaskExecutor;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONObject;
 
@@ -51,11 +48,8 @@ import java.util.ArrayList;
 
 public class Home extends BaseFragment {
 
-    public static boolean isServiceRunning = false;
-    @SuppressLint("StaticFieldLeak")
-    private static LinearLayout check_update;
+    private LinearLayout check_update;
     private FragmentHomeBinding binding;
-    @SuppressLint("StaticFieldLeak")
     private CheckForUpdate checkForUpdate = null;
     private TextView update_desc;
 
@@ -68,6 +62,15 @@ public class Home extends BaseFragment {
         binding.header.toolbar.setTitle(getResources().getString(R.string.activity_title_home_page));
         ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.header.toolbar);
 
+        Intent intent = requireActivity().getIntent();
+        if (intent != null && intent.getBooleanExtra(AppUpdates.KEY_NEW_UPDATE, false)) {
+            ((BottomNavigationView) requireActivity().findViewById(R.id.bottomNavigationView)).setSelectedItemId(R.id.settings);
+            NavHostFragment.findNavController(this).navigate(R.id.action_settings_to_appUpdates);
+            intent.removeExtra(AppUpdates.KEY_NEW_UPDATE);
+        } else {
+            UpdateScheduler.scheduleUpdates(Iconify.getAppContext());
+        }
+
         // New update available dialog
         View list_view1 = LayoutInflater.from(requireActivity()).inflate(R.layout.view_new_update, binding.homePageList, false);
         check_update = list_view1.findViewById(R.id.check_update);
@@ -77,10 +80,13 @@ public class Home extends BaseFragment {
 
         long lastChecked = Prefs.getLong(LAST_UPDATE_CHECK_TIME, -1);
 
-        if (Prefs.getBoolean(AUTO_UPDATE, true) && (lastChecked == -1 || (System.currentTimeMillis() - lastChecked >= Prefs.getLong("UPDATE_CHECK_TIME", 0)))) {
+        if (Prefs.getBoolean(AUTO_UPDATE, true) && (lastChecked == -1 || (System.currentTimeMillis() - lastChecked >= Prefs.getLong(UPDATE_CHECK_TIME, 0)))) {
             Prefs.putLong(LAST_UPDATE_CHECK_TIME, System.currentTimeMillis());
-            checkForUpdate = new CheckForUpdate();
-            checkForUpdate.execute();
+            try {
+                checkForUpdate = new CheckForUpdate();
+                checkForUpdate.execute();
+            } catch (Exception ignored) {
+            }
         }
 
         // Reboot needed dialog
@@ -111,14 +117,14 @@ public class Home extends BaseFragment {
         // Home page list items
         ArrayList<Object[]> home_page = new ArrayList<>();
 
-        home_page.add(new Object[]{IconPack.class, getResources().getString(R.string.activity_title_icon_pack), getResources().getString(R.string.activity_desc_icon_pack), R.drawable.ic_styles_iconpack});
-        home_page.add(new Object[]{BrightnessBar.class, getResources().getString(R.string.activity_title_brightness_bar), getResources().getString(R.string.activity_desc_brightness_bar), R.drawable.ic_styles_brightness});
-        home_page.add(new Object[]{QsPanelTile.class, getResources().getString(R.string.activity_title_qs_shape), getResources().getString(R.string.activity_desc_qs_shape), R.drawable.ic_styles_qs_shape});
-        home_page.add(new Object[]{Notification.class, getResources().getString(R.string.activity_title_notification), getResources().getString(R.string.activity_desc_notification), R.drawable.ic_styles_notification});
-        home_page.add(new Object[]{ProgressBar.class, getResources().getString(R.string.activity_title_progress_bar), getResources().getString(R.string.activity_desc_progress_bar), R.drawable.ic_styles_progress});
-        home_page.add(new Object[]{Switch.class, getResources().getString(R.string.activity_title_switch), getResources().getString(R.string.activity_desc_switch), R.drawable.ic_styles_switch});
-        home_page.add(new Object[]{ToastFrame.class, getResources().getString(R.string.activity_title_toast_frame), getResources().getString(R.string.activity_desc_toast_frame), R.drawable.ic_styles_toast_frame});
-        home_page.add(new Object[]{IconShape.class, getResources().getString(R.string.activity_title_icon_shape), getResources().getString(R.string.activity_desc_icon_shape), R.drawable.ic_styles_icon_shape});
+        home_page.add(new Object[]{R.id.action_homePage_to_iconPack, Iconify.getAppContext().getResources().getString(R.string.activity_title_icon_pack), Iconify.getAppContext().getResources().getString(R.string.activity_desc_icon_pack), R.drawable.ic_styles_iconpack});
+        home_page.add(new Object[]{R.id.action_homePage_to_brightnessBar, Iconify.getAppContext().getResources().getString(R.string.activity_title_brightness_bar), Iconify.getAppContext().getResources().getString(R.string.activity_desc_brightness_bar), R.drawable.ic_styles_brightness});
+        home_page.add(new Object[]{R.id.action_homePage_to_qsPanelTile, Iconify.getAppContext().getResources().getString(R.string.activity_title_qs_shape), Iconify.getAppContext().getResources().getString(R.string.activity_desc_qs_shape), R.drawable.ic_styles_qs_shape});
+        home_page.add(new Object[]{R.id.action_homePage_to_notification, Iconify.getAppContext().getResources().getString(R.string.activity_title_notification), Iconify.getAppContext().getResources().getString(R.string.activity_desc_notification), R.drawable.ic_styles_notification});
+        home_page.add(new Object[]{R.id.action_homePage_to_progressBar, Iconify.getAppContext().getResources().getString(R.string.activity_title_progress_bar), Iconify.getAppContext().getResources().getString(R.string.activity_desc_progress_bar), R.drawable.ic_styles_progress});
+        home_page.add(new Object[]{R.id.action_homePage_to_switch1, Iconify.getAppContext().getResources().getString(R.string.activity_title_switch), Iconify.getAppContext().getResources().getString(R.string.activity_desc_switch), R.drawable.ic_styles_switch});
+        home_page.add(new Object[]{R.id.action_homePage_to_toastFrame, Iconify.getAppContext().getResources().getString(R.string.activity_title_toast_frame), Iconify.getAppContext().getResources().getString(R.string.activity_desc_toast_frame), R.drawable.ic_styles_toast_frame});
+        home_page.add(new Object[]{R.id.action_homePage_to_iconShape, Iconify.getAppContext().getResources().getString(R.string.activity_title_icon_shape), Iconify.getAppContext().getResources().getString(R.string.activity_desc_icon_shape), R.drawable.ic_styles_icon_shape});
 
         addItem(home_page);
 
@@ -174,11 +180,7 @@ public class Home extends BaseFragment {
 
             int finalI = i;
             list.setOnClickListener(view -> {
-                if (checkForUpdate != null && (checkForUpdate.getStatus() == TaskExecutor.Status.PENDING || checkForUpdate.getStatus() == TaskExecutor.Status.RUNNING))
-                    checkForUpdate.cancel(true);
-
-                Intent intent = new Intent(requireActivity(), (Class<?>) pack.get(finalI)[0]);
-                startActivity(intent);
+                Navigation.findNavController(binding.getRoot()).navigate((Integer) pack.get(finalI)[0]);
             });
 
             binding.homePageList.addView(list);
@@ -242,8 +244,7 @@ public class Home extends BaseFragment {
 
                     if (Integer.parseInt(latestVersion.getString(VER_CODE)) > BuildConfig.VERSION_CODE) {
                         check_update.setOnClickListener(v -> {
-                            Intent intent = new Intent(requireActivity(), AppUpdates.class);
-                            startActivity(intent);
+                            Navigation.findNavController(requireActivity(), R.id.fragmentContainerView).navigate(R.id.action_homePage_to_appUpdates);
                         });
                         update_desc.setText(getResources().getString(R.string.update_dialog_desc, latestVersion.getString("versionName")));
                         check_update.setVisibility(View.VISIBLE);
@@ -252,5 +253,16 @@ public class Home extends BaseFragment {
                 }
             }
         }
+    }
+
+    @Override
+    public void onStop() {
+        if (checkForUpdate != null &&
+                (checkForUpdate.getStatus() == TaskExecutor.Status.PENDING ||
+                        checkForUpdate.getStatus() == TaskExecutor.Status.RUNNING)
+        ) {
+            checkForUpdate.cancel(true);
+        }
+        super.onStop();
     }
 }

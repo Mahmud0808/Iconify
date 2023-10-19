@@ -1,12 +1,10 @@
 package com.drdisagree.iconify.ui.fragments;
 
-import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
 import static com.drdisagree.iconify.common.Preferences.STR_NULL;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -16,16 +14,14 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.Navigation;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.FragmentColorEngineBinding;
-import com.drdisagree.iconify.ui.activities.BasicColors;
-import com.drdisagree.iconify.ui.activities.MonetEngine;
+import com.drdisagree.iconify.ui.base.BaseFragment;
+import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.overlay.OverlayUtil;
-
-import java.util.Objects;
 
 public class ColorEngine extends BaseFragment {
 
@@ -38,25 +34,13 @@ public class ColorEngine extends BaseFragment {
         View view = binding.getRoot();
 
         // Header
-        binding.header.toolbar.setTitle(getResources().getString(R.string.activity_title_color_engine));
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.header.toolbar);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        binding.header.toolbar.setNavigationOnClickListener(view1 -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            getParentFragmentManager().popBackStack();
-        }, FRAGMENT_BACK_BUTTON_DELAY));
+        ViewHelper.setHeader(requireContext(), getParentFragmentManager(), binding.header.toolbar, R.string.activity_title_color_engine);
 
         // Basic colors
-        binding.basicColors.setOnClickListener(v -> {
-            Intent intent = new Intent(requireActivity(), BasicColors.class);
-            startActivity(intent);
-        });
+        binding.basicColors.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_colorEngine_to_basicColors));
 
         // Monet engine
-        binding.monetEngine.setOnClickListener(v -> {
-            Intent intent = new Intent(requireActivity(), MonetEngine.class);
-            startActivity(intent);
-        });
+        binding.monetEngine.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_colorEngine_to_monetEngine));
 
         // Apply monet accent and gradient
         binding.applyMonetAccent.setChecked(Prefs.getBoolean("IconifyComponentAMAC.overlay"));
@@ -250,6 +234,4 @@ public class ColorEngine extends BaseFragment {
             }
         }, SWITCH_ANIMATION_DELAY);
     };
-
-
 }

@@ -2,7 +2,6 @@ package com.drdisagree.iconify.ui.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.drdisagree.iconify.R;
@@ -41,11 +41,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         holder.title.setText(itemList.get(position).getTitle());
         holder.desc.setText(itemList.get(position).getDesc());
         holder.icon.setImageResource(itemList.get(position).getIcon());
-
-        holder.container.setOnClickListener(v -> {
-            Intent intent = new Intent(context, itemList.get(position).getaClass());
-            context.startActivity(intent);
-        });
+        holder.container.setOnClickListener(v -> Navigation.findNavController(v).navigate(itemList.get(position).getId()));
     }
 
     @Override

@@ -27,7 +27,7 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.models.ProgressBarModel;
-import com.drdisagree.iconify.ui.views.LoadingDialog;
+import com.drdisagree.iconify.ui.dialogs.LoadingDialog;
 import com.drdisagree.iconify.utils.overlay.OverlayUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.overlay.compiler.OnDemandCompiler;

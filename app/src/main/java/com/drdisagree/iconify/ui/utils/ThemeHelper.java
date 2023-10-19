@@ -11,14 +11,10 @@ public class ThemeHelper {
     public static int getTheme() {
         int theme = Prefs.getInt(APP_THEME, 2);
 
-        switch (theme) {
-            case 0:
-                return AppCompatDelegate.MODE_NIGHT_NO;
-            case 1:
-                return AppCompatDelegate.MODE_NIGHT_YES;
-            case 2:
-            default:
-                return AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
-        }
+        return switch (theme) {
+            case 0 -> AppCompatDelegate.MODE_NIGHT_NO;
+            case 1 -> AppCompatDelegate.MODE_NIGHT_YES;
+            default -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+        };
     }
 }

@@ -21,7 +21,8 @@ import androidx.work.WorkerParameters;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.ui.activities.AppUpdates;
+import com.drdisagree.iconify.ui.activities.HomePage;
+import com.drdisagree.iconify.ui.fragments.AppUpdates;
 import com.drdisagree.iconify.utils.extension.TaskExecutor;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.topjohnwu.superuser.Shell;
@@ -72,12 +73,26 @@ public class UpdateWorker extends ListenableWorker {
     private void showUpdateNotification() {
         Shell.cmd("pm grant " + BuildConfig.APPLICATION_ID + " android.permission.POST_NOTIFICATIONS").exec();
 
-        Intent notificationIntent = new Intent(mContext, AppUpdates.class);
-        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent notificationIntent = new Intent(mContext, HomePage.class);
+        notificationIntent.putExtra(AppUpdates.KEY_NEW_UPDATE, true);
+        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, notificationIntent, PendingIntent.FLAG_MUTABLE);
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(mContext, mContext.getResources().getString(R.string.update_notification_channel_name)).setSmallIcon(R.drawable.ic_launcher_fg).setContentTitle(mContext.getResources().getString(R.string.new_update_title)).setContentText(mContext.getResources().getString(R.string.new_update_desc)).setContentIntent(pendingIntent).setOnlyAlertOnce(true).setAutoCancel(true);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(
+                mContext,
+                mContext.getResources().getString(R.string.update_notification_channel_name)
+        )
+                .setSmallIcon(R.drawable.ic_launcher_fg)
+                .setContentTitle(
+                        mContext.getResources().getString(R.string.new_update_title)
+                )
+                .setContentText(
+                        mContext.getResources().getString(R.string.new_update_desc)
+                )
+                .setContentIntent(pendingIntent)
+                .setOnlyAlertOnce(true)
+                .setAutoCancel(true);
 
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         createChannel(notificationManager);

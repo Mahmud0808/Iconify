@@ -31,6 +31,16 @@ public class AppUtil {
         return Shell.cmd("res=$(pm path " + packageName + "); if [ ! -z \"$res\" ]; then echo \"installed\"; else echo \"not found\"; fi").exec().getOut().get(0).contains("installed");
     }
 
+    public static int getAppUid(String packageName) {
+        PackageManager pm = Iconify.getAppContext().getPackageManager();
+        try {
+            pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
+            return pm.getApplicationInfo(packageName, 0).uid;
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
+        return 0;
+    }
+
     @SuppressLint("UseCompatLoadingForDrawables")
     public static Drawable getAppIcon(String packageName) {
         Drawable appIcon = ContextCompat.getDrawable(Iconify.getAppContext(), R.drawable.ic_android);

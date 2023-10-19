@@ -38,133 +38,7 @@
         android:theme="@style/Theme.Iconify"
         tools:targetApi="tiramisu">
         <activity
-            android:name=".ui.activities.XposedDepthWallpaper"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.XposedThemes"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.QsPanelMargin"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.XposedMenu"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.Switch"
-            android:exported="false" />
-        <activity
             android:name=".ui.activities.Onboarding"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.ProgressBar"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.XposedBatteryStyle"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.ToastFrame"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.QsTileSize"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.NotificationPixel"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.IconShape"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.SettingsIcons"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.Statusbar"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.XposedOthers"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.ColoredBattery"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.XposedQuickSettings"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.XposedBackgroundChip"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.XposedHeaderClock"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.XposedHeaderImage"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.XposedTransparencyBlur"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.XposedLockscreenClock"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.Miscellaneous"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.AppUpdates"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.Changelog"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.Experimental"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.MonetEngine"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.NavigationBar"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.VolumePanel"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.BrightnessBarPixel"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.QsPanelTilePixel"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.QsIconLabel"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.QsRowColumn"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.BasicColors"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.UiRoundness"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.Credits"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.MediaPlayer"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.MediaIcons"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.Notification"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.QsPanelTile"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.BrightnessBar"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activities.IconPack"
             android:exported="false" />
         <activity
             android:name=".ui.activities.HomePage"
@@ -212,7 +86,7 @@
         </activity-alias> <!-- Custom App Icon -->
 
         <receiver
-            android:name=".services.BootReceiver"
+            android:name=".receiver.BootReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter android:priority="999">
@@ -297,7 +171,7 @@
             android:name="xposedscope"
             android:resource="@array/module_scope" /> <!-- xposed meta data -->
         <provider
-            android:name=".services.RemotePrefProvider"
+            android:name=".provider.RemotePrefProvider"
             android:authorities="${applicationId}"
             android:directBootAware="true"
             android:exported="true"

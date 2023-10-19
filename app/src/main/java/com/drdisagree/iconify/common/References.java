@@ -40,12 +40,4 @@ public class References {
 
     // Notification service checker
     public static boolean isNotificationServiceRunning = false;
-
-    // Fragment Tags
-    public static String FRAGMENT_HOME = "fragment_home";
-    public static String FRAGMENT_TWEAKS = "fragment_tweaks";
-    public static String FRAGMENT_SETTINGS = "fragment_settings";
-    public static String FRAGMENT_COLORENGINE = "fragment_colorengine";
-    public static String FRAGMENT_QSPANEL = "fragment_qspanel";
-    public static String FRAGMENT_XPOSEDMENU = "fragment_xposedmenu";
 }

@@ -37,8 +37,11 @@ public class SplashActivity extends AppCompatActivity {
         Intent intent;
 
         if ((SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES && BuildConfig.DEBUG) ||
-                (RootUtil.deviceProperlyRooted() && ModuleUtil.moduleProperlyInstalled() &&
-                        BuildConfig.VERSION_CODE == SystemUtil.getSavedVersionCode())) {
+                (RootUtil.deviceProperlyRooted() &&
+                        ModuleUtil.moduleProperlyInstalled() &&
+                        BuildConfig.VERSION_CODE == SystemUtil.getSavedVersionCode()
+                )
+        ) {
             keepShowing = false;
             intent = new Intent(SplashActivity.this, HomePage.class);
         } else {

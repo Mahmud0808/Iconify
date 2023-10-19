@@ -189,6 +189,7 @@ public class Preferences {
     public static final String SHOW_XPOSED_WARN = "IconifyShowXposedWarn";
     public static final String SHOW_HOME_CARD = "IconifyShowHomeCard";
     public static final String RESTART_SYSUI_BEHAVIOR = "IconifyRestartSysuiBehavior";
+    public static final String XPOSED_ONLY_MODE = "IconifyXposedOnlyMode";
 
     // Others
     public static final String BOOT_ID = "boot_id";
