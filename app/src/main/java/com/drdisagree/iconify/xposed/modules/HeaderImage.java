@@ -2,6 +2,7 @@ package com.drdisagree.iconify.xposed.modules;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ALPHA;
+import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ALPHA_GRADIENT;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_HEIGHT;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_LANDSCAPE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_OVERLAP;
@@ -32,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.drdisagree.iconify.xposed.ModPack;
+import com.drdisagree.iconify.xposed.utils.GradientFadedImageView;
 
 import java.io.File;
 import java.util.Objects;
@@ -50,10 +52,11 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
     int imageHeight = 140;
     int headerImageAlpha = 100;
     boolean zoomToFit = false;
+    boolean alphaGradient = false;
     boolean headerImageOverlap = false;
     boolean hideLandscapeHeaderImage = true;
     LinearLayout mQsHeaderLayout = null;
-    ImageView mQsHeaderImageView = null;
+    GradientFadedImageView mQsHeaderImageView = null;
 
     public HeaderImage(Context context) {
         super(context);
@@ -67,10 +70,11 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
         headerImageAlpha = Xprefs.getInt(HEADER_IMAGE_ALPHA, 100);
         imageHeight = Xprefs.getInt(HEADER_IMAGE_HEIGHT, 140);
         zoomToFit = Xprefs.getBoolean(HEADER_IMAGE_ZOOMTOFIT, false);
+        alphaGradient = Xprefs.getBoolean(HEADER_IMAGE_ALPHA_GRADIENT, false);
         headerImageOverlap = Xprefs.getBoolean(HEADER_IMAGE_OVERLAP, false);
         hideLandscapeHeaderImage = Xprefs.getBoolean(HEADER_IMAGE_LANDSCAPE_SWITCH, true);
 
-        if (Key.length > 0 && (Objects.equals(Key[0], HEADER_IMAGE_SWITCH) || Objects.equals(Key[0], HEADER_IMAGE_LANDSCAPE_SWITCH) || Objects.equals(Key[0], HEADER_IMAGE_ALPHA) || Objects.equals(Key[0], HEADER_IMAGE_HEIGHT) || Objects.equals(Key[0], HEADER_IMAGE_ZOOMTOFIT))) {
+        if (Key.length > 0 && (Objects.equals(Key[0], HEADER_IMAGE_SWITCH) || Objects.equals(Key[0], HEADER_IMAGE_LANDSCAPE_SWITCH) || Objects.equals(Key[0], HEADER_IMAGE_ALPHA) || Objects.equals(Key[0], HEADER_IMAGE_HEIGHT) || Objects.equals(Key[0], HEADER_IMAGE_ZOOMTOFIT) || Objects.equals(Key[0], HEADER_IMAGE_ALPHA_GRADIENT))) {
             updateQSHeaderImage();
         }
     }
@@ -95,7 +99,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
                     mQsHeaderLayout.setLayoutParams(layoutParams);
                     mQsHeaderLayout.setVisibility(View.GONE);
 
-                    mQsHeaderImageView = new ImageView(mContext);
+                    mQsHeaderImageView = new GradientFadedImageView(mContext);
                     mQsHeaderImageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
                     mQsHeaderLayout.addView(mQsHeaderImageView);
@@ -151,6 +155,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
 
         loadImageOrGif(mQsHeaderImageView);
         mQsHeaderImageView.setImageAlpha((int) (headerImageAlpha / 100.0 * 255.0));
+        mQsHeaderImageView.setAlphaGradient(alphaGradient);
         mQsHeaderLayout.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, imageHeight, mContext.getResources().getDisplayMetrics());
         mQsHeaderLayout.requestLayout();
 

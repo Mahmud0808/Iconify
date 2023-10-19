@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ALPHA;
+import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ALPHA_GRADIENT;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_HEIGHT;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_LANDSCAPE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_SWITCH;
@@ -21,7 +22,6 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -101,6 +101,15 @@ public class XposedHeaderImage extends BaseFragment {
                 RPrefs.putInt(HEADER_IMAGE_ALPHA, imageAlpha[0]);
             }
         });
+
+        // Header image alpha gradient
+        binding.enableAlphaGradient.setChecked(RPrefs.getBoolean(HEADER_IMAGE_ALPHA_GRADIENT, false));
+        binding.enableAlphaGradient.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(HEADER_IMAGE_ALPHA_GRADIENT, isChecked);
+            binding.enableZoomToFitContainer.setVisibility(isChecked ? View.GONE : View.VISIBLE);
+        });
+        binding.enableAlphaGradientContainer.setOnClickListener(v -> binding.enableAlphaGradient.toggle());
+        binding.enableZoomToFitContainer.setVisibility(binding.enableAlphaGradient.isChecked() ? View.GONE : View.VISIBLE);
 
         // Header image zoom to fit
         binding.enableZoomToFit.setChecked(RPrefs.getBoolean(HEADER_IMAGE_ZOOMTOFIT, false));
