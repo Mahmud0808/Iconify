@@ -166,9 +166,16 @@ dependencies {
     // Collapsing Toolbar with subtitle
     implementation "com.hendraanggrian.material:collapsingtoolbarlayout-subtitle:1.5.0"
 
+    // Naviation Component
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.4'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.7.4'
+
     // Concurrency
     implementation 'androidx.work:work-runtime:2.8.1'
     implementation "androidx.concurrent:concurrent-futures:1.1.0"
+
+    // Event Bus
+    implementation 'org.greenrobot:eventbus:3.3.1'
 
     // Misc
     implementation 'androidx.appcompat:appcompat:1.6.1'

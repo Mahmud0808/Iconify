@@ -415,7 +415,7 @@
 
     <!-- Xposed Menu -->
     <string name="lsposed_warn">Before enabling Iconify from LSPosed modules, long press on Iconify and click on Re-optimize. After that enable Iconify and restart your SystemUI. This is necessary for a smoother experience.</string>
-    <string name="xposed_only_desc">You are currently in Xposed Only mode. This requires iconify to be enabled in LSPosed app. Also make sure that Iconify module is shown in Magisk manager. To get access to all features, simply re-open the app and go through the installation process!</string>
+    <string name="xposed_only_desc">You are currently in Xposed Only mode. This requires iconify to be enabled in LSPosed app. Also make sure that Iconify module is shown in Magisk manager. To get access to all features, clear data of iconify app and go through the installation process!</string>
     <string name="xposed_module_disabled_title">Module Not Activated</string>
     <string name="xposed_module_disabled_desc">System service not running</string>
     <string name="activity_title_transparency_blur">Transparency &amp; Blur</string>
@@ -803,6 +803,7 @@
     <string name="toast_import_settings_successfull">Imported settings successfully</string>
     <string name="toast_export_settings_successfull">Exported settings successfully</string>
     <string name="toast_selected_successfully">Selected successfully</string>
+    <string name="toast_unavailable">Unavailable</string>
 
     <!-- Push Notification -->
     <string name="new_update_title">Update Available</string>

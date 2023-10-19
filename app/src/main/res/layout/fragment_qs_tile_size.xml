@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    tools:context=".ui.fragments.QsTileSize">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/section_title_portrait"
+                android:textColor="?attr/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/item_background_material"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:paddingHorizontal="24dp"
+                android:paddingTop="22dp"
+                android:paddingBottom="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center"
+                        android:text="@string/qs_tile_non_expanded_height"
+                        android:textColor="@color/text_color_primary" />
+
+                    <ImageView
+                        android:id="@+id/reset_port_nonexpanded_height"
+                        android:layout_width="@dimen/reset_button_size"
+                        android:layout_height="@dimen/reset_button_size"
+                        android:layout_gravity="start|center"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:contentDescription="@string/icon"
+                        app:srcCompat="@drawable/ic_reset"
+                        app:tint="@color/textColorSecondary" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/port_nonexpanded_height_output"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color_secondary" />
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/port_nonexpanded_height_seekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="4dp"
+                    android:stepSize="1"
+                    android:value="60"
+                    android:valueFrom="50"
+                    android:valueTo="80" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/item_background_material"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:paddingHorizontal="24dp"
+                android:paddingTop="22dp"
+                android:paddingBottom="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center"
+                        android:text="@string/qs_tile_expanded_height"
+                        android:textColor="@color/text_color_primary" />
+
+                    <ImageView
+                        android:id="@+id/reset_port_expanded_height"
+                        android:layout_width="@dimen/reset_button_size"
+                        android:layout_height="@dimen/reset_button_size"
+                        android:layout_gravity="start|center"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:contentDescription="@string/icon"
+                        app:srcCompat="@drawable/ic_reset"
+                        app:tint="@color/textColorSecondary" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/port_expanded_height_output"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color_secondary" />
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/port_expanded_height_seekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="4dp"
+                    android:stepSize="1"
+                    android:value="80"
+                    android:valueFrom="50"
+                    android:valueTo="80" />
+
+            </LinearLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/section_title_landscape"
+                android:textColor="?attr/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/item_background_material"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:paddingHorizontal="24dp"
+                android:paddingTop="22dp"
+                android:paddingBottom="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center"
+                        android:text="@string/qs_tile_non_expanded_height"
+                        android:textColor="@color/text_color_primary" />
+
+                    <ImageView
+                        android:id="@+id/reset_land_nonexpanded_height"
+                        android:layout_width="@dimen/reset_button_size"
+                        android:layout_height="@dimen/reset_button_size"
+                        android:layout_gravity="start|center"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:contentDescription="@string/icon"
+                        app:srcCompat="@drawable/ic_reset"
+                        app:tint="@color/textColorSecondary" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/land_nonexpanded_height_output"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color_secondary" />
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/land_nonexpanded_height_seekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="4dp"
+                    android:stepSize="1"
+                    android:value="60"
+                    android:valueFrom="50"
+                    android:valueTo="80" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/item_background_material"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:paddingHorizontal="24dp"
+                android:paddingTop="22dp"
+                android:paddingBottom="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center"
+                        android:text="@string/qs_tile_expanded_height"
+                        android:textColor="@color/text_color_primary" />
+
+                    <ImageView
+                        android:id="@+id/reset_land_expanded_height"
+                        android:layout_width="@dimen/reset_button_size"
+                        android:layout_height="@dimen/reset_button_size"
+                        android:layout_gravity="start|center"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="true"
+                        android:contentDescription="@string/icon"
+                        app:srcCompat="@drawable/ic_reset"
+                        app:tint="@color/textColorSecondary" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/land_expanded_height_output"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color_secondary" />
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/land_expanded_height_seekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="4dp"
+                    android:stepSize="1"
+                    android:value="80"
+                    android:valueFrom="50"
+                    android:valueTo="80" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/item_background_material"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:padding="@dimen/container_paddingSide">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/qs_tile_height_apply"
+                    style="@style/Widget.MaterialButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_apply" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/qs_tile_height_reset"
+                    style="@style/Widget.MaterialButton.Red"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/btn_reset"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

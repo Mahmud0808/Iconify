@@ -16,6 +16,7 @@ import static com.drdisagree.iconify.common.Preferences.UPDATE_OVER_WIFI;
 import static com.drdisagree.iconify.common.Resources.MODULE_DIR;
 import static com.drdisagree.iconify.utils.AppUtil.restartApplication;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -37,6 +38,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.Navigation;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
@@ -46,12 +48,9 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.FragmentSettingsBinding;
 import com.drdisagree.iconify.services.UpdateScheduler;
-import com.drdisagree.iconify.ui.activities.AppUpdates;
-import com.drdisagree.iconify.ui.activities.Changelog;
-import com.drdisagree.iconify.ui.activities.Credits;
-import com.drdisagree.iconify.ui.activities.Experimental;
-import com.drdisagree.iconify.ui.views.LoadingDialog;
-import com.drdisagree.iconify.ui.views.RadioDialog;
+import com.drdisagree.iconify.ui.base.BaseFragment;
+import com.drdisagree.iconify.ui.dialogs.LoadingDialog;
+import com.drdisagree.iconify.ui.dialogs.RadioDialog;
 import com.drdisagree.iconify.utils.CacheUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.helper.ImportExport;
@@ -165,7 +164,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         loadingDialog = new LoadingDialog(requireActivity());
 
         // Language
-        int current_language = Arrays.asList(getResources().getStringArray(R.array.locale_code)).indexOf(Prefs.getString(APP_LANGUAGE, getResources().getConfiguration().getLocales().get(0).getLanguage()));
+        int current_language = Arrays.asList(getResources().getStringArray(R.array.locale_code)).indexOf(Prefs.getString(APP_LANGUAGE, Iconify.getAppContext().getResources().getConfiguration().getLocales().get(0).getLanguage()));
         rd_app_language = new RadioDialog(requireActivity(), 0, current_language == -1 ? 0 : current_language);
         rd_app_language.setRadioDialogListener(this);
         binding.settingsGeneral.appLanguage.setOnClickListener(v -> rd_app_language.show(R.string.settings_app_language, R.array.locale_name, binding.settingsGeneral.selectedAppLanguage));
@@ -185,7 +184,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
 
         // Check for update
         binding.settingsUpdate.currentVersion.setText(getResources().getString(R.string.settings_current_version, BuildConfig.VERSION_NAME));
-        binding.settingsUpdate.checkUpdate.setOnClickListener(v -> startActivity(new Intent(requireActivity(), AppUpdates.class)));
+        binding.settingsUpdate.checkUpdate.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_settings_to_appUpdates));
 
         // Auto update
         binding.settingsUpdate.buttonAutoUpdate.setChecked(Prefs.getBoolean(AUTO_UPDATE, true));
@@ -244,12 +243,12 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         // Clear App Cache
         binding.settingsMisc.clearCache.setOnClickListener(v -> {
             CacheUtil.clearCache(Iconify.getAppContext());
-            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_clear_cache), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_clear_cache), Toast.LENGTH_SHORT).show();
         });
 
         // Experimental features
         binding.settingsMisc.settingsMiscTitle.setOnClickListener(v -> onEasterViewClicked());
-        binding.settingsMisc.experimentalFeatures.setOnClickListener(v -> startActivity(new Intent(requireActivity(), Experimental.class)));
+        binding.settingsMisc.experimentalFeatures.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_settings_to_experimental));
         binding.settingsMisc.experimentalFeatures.setVisibility(Prefs.getBoolean(EASTER_EGG) ? View.VISIBLE : View.GONE);
 
         // Disable Everything
@@ -289,7 +288,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         });
 
         // Credits
-        binding.settingsAbout.credits.setOnClickListener(v -> startActivity(new Intent(requireActivity(), Credits.class)));
+        binding.settingsAbout.credits.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_settings_to_credits2));
 
         return view;
     }
@@ -303,6 +302,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         super.onDestroy();
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         menu.clear();
@@ -310,19 +310,17 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    @SuppressWarnings("deprecation")
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int itemID = item.getItemId();
-
-        if (itemID == R.id.menu_changelog) {
-            Intent intent = new Intent(requireActivity(), Changelog.class);
-            startActivity(intent);
-        } else if (itemID == R.id.menu_export_settings) {
-            importExportSettings(true);
-        } else if (itemID == R.id.menu_import_settings) {
-            importExportSettings(false);
-        } else if (itemID == R.id.restart_systemui) {
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, 300);
+        switch (item.getItemId()) {
+            case R.id.menu_changelog ->
+                    Navigation.findNavController(requireView()).navigate(R.id.action_settings_to_changelog2);
+            case R.id.menu_export_settings -> importExportSettings(true);
+            case R.id.menu_import_settings -> importExportSettings(false);
+            case R.id.restart_systemui ->
+                    new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, 300);
         }
 
         return super.onOptionsItemSelected(item);
@@ -331,19 +329,19 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
     @Override
     public void onItemSelected(int dialogId, int selectedIndex) {
         switch (dialogId) {
-            case 0:
+            case 0 -> {
                 Prefs.putString(APP_LANGUAGE, Arrays.asList(getResources().getStringArray(R.array.locale_code)).get(selectedIndex));
                 restartApplication(requireActivity());
-                break;
-            case 1:
+            }
+            case 1 -> {
                 Prefs.putInt(APP_THEME, selectedIndex);
                 restartApplication(requireActivity());
-                break;
-            case 2:
+            }
+            case 2 -> {
                 Prefs.putInt(APP_ICON, selectedIndex);
-                String[] splashActivities = getResources().getStringArray(R.array.app_icon_identifier);
+                String[] splashActivities = Iconify.getAppContext().getResources().getStringArray(R.array.app_icon_identifier);
                 changeIcon(splashActivities[selectedIndex]);
-                break;
+            }
         }
     }
 
@@ -365,7 +363,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
 
     private void changeIcon(String splash) {
         PackageManager manager = requireActivity().getPackageManager();
-        String[] splashActivities = getResources().getStringArray(R.array.app_icon_identifier);
+        String[] splashActivities = Iconify.getAppContext().getResources().getStringArray(R.array.app_icon_identifier);
 
         for (String splashActivity : splashActivities) {
             manager.setComponentEnabledSetting(new ComponentName(requireActivity(), "com.drdisagree.iconify." + splashActivity), Objects.equals(splash, splashActivity) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);

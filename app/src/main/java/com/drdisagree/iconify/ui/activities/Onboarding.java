@@ -5,6 +5,7 @@ import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED;
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
+import static com.drdisagree.iconify.common.Preferences.XPOSED_ONLY_MODE;
 import static com.drdisagree.iconify.utils.SystemUtil.isDarkMode;
 import static com.drdisagree.iconify.utils.helper.Logger.writeLog;
 
@@ -37,8 +38,9 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.ActivityOnboardingBinding;
 import com.drdisagree.iconify.ui.adapters.OnboardingAdapter;
+import com.drdisagree.iconify.ui.base.BaseActivity;
+import com.drdisagree.iconify.ui.dialogs.InstallationDialog;
 import com.drdisagree.iconify.ui.utils.Animatoo;
-import com.drdisagree.iconify.ui.views.InstallationDialog;
 import com.drdisagree.iconify.utils.FileUtil;
 import com.drdisagree.iconify.utils.ModuleUtil;
 import com.drdisagree.iconify.utils.RootUtil;
@@ -180,7 +182,8 @@ public class Onboarding extends BaseActivity {
 
                                         handleInstallation();
                                     } else {
-                                        Intent intent = new Intent(Onboarding.this, XposedMenu.class);
+                                        Prefs.putBoolean(XPOSED_ONLY_MODE, true);
+                                        Intent intent = new Intent(Onboarding.this, HomePage.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
                                         Animatoo.animateSlideLeft(Onboarding.this);
@@ -233,6 +236,7 @@ public class Onboarding extends BaseActivity {
 
                                     handleInstallation();
                                 } else {
+                                    Prefs.putBoolean(XPOSED_ONLY_MODE, false);
                                     Intent intent = new Intent(Onboarding.this, HomePage.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
@@ -584,6 +588,7 @@ public class Onboarding extends BaseActivity {
 
                     if (OverlayUtil.overlayExists()) {
                         new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                            Prefs.putBoolean(XPOSED_ONLY_MODE, false);
                             Intent intent = new Intent(Onboarding.this, HomePage.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
@@ -598,7 +603,8 @@ public class Onboarding extends BaseActivity {
                         binding.btnNextStep.setOnLongClickListener(null);
                     }
                 } else {
-                    Intent intent = new Intent(Onboarding.this, XposedMenu.class);
+                    Prefs.putBoolean(XPOSED_ONLY_MODE, true);
+                    Intent intent = new Intent(Onboarding.this, HomePage.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     Animatoo.animateSlideLeft(Onboarding.this);
