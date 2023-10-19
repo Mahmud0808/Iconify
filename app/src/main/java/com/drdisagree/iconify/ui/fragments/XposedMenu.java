@@ -332,20 +332,28 @@ public class XposedMenu extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        handler.removeCallbacks(checkSystemUIHooked);
-        requireContext().unregisterReceiver(receiverHookedSystemui);
+        try {
+            handler.removeCallbacks(checkSystemUIHooked);
+        } catch (Exception ignored) {
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        isXposedHooked.notifyChanged();
-        handler.post(checkSystemUIHooked);
+        try {
+            isXposedHooked.notifyChanged();
+            handler.post(checkSystemUIHooked);
+        } catch (Exception ignored) {
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        handler.removeCallbacks(checkSystemUIHooked);
+        try {
+            handler.removeCallbacks(checkSystemUIHooked);
+        } catch (Exception ignored) {
+        }
     }
 }
