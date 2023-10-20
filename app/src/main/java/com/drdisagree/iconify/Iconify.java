@@ -3,7 +3,6 @@ package com.drdisagree.iconify;
 import android.app.Application;
 import android.content.Context;
 
-import com.drdisagree.iconify.utils.helper.LocaleHelper;
 import com.google.android.material.color.DynamicColors;
 
 import java.lang.ref.WeakReference;
