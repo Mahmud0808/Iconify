@@ -129,7 +129,7 @@ public class BasicColors extends BaseFragment {
 
                         new Handler(Looper.getMainLooper()).postDelayed(() -> {
                             if (getContext() != null) {
-                                Toast.makeText(requireContext(), Iconify.getAppContext().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                             }
                         }, 2000);
                     });
@@ -155,7 +155,7 @@ public class BasicColors extends BaseFragment {
                 if (getActivity() != null) {
                     requireActivity().runOnUiThread(() -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
                         if (getContext() != null) {
-                            Toast.makeText(requireContext(), Iconify.getAppContext().getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(requireContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
                         }
                     }, 2000));
                 }
@@ -203,22 +203,22 @@ public class BasicColors extends BaseFragment {
     private void updatePrimaryColor() {
         GradientDrawable gd;
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentPrimary)});
-        gd.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * Iconify.getAppContext().getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * Iconify.getAppContextLocale().getResources().getDisplayMetrics().density);
         binding.previewColorPickerPrimary.setBackground(gd);
 
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentSecondary)});
-        gd.setCornerRadius(24 * Iconify.getAppContext().getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(24 * Iconify.getAppContextLocale().getResources().getDisplayMetrics().density);
         binding.colorPreviewLarge.setBackground(gd);
     }
 
     private void updateSecondaryColor() {
         GradientDrawable gd;
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentSecondary), Integer.parseInt(accentSecondary)});
-        gd.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * Iconify.getAppContext().getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * Iconify.getAppContextLocale().getResources().getDisplayMetrics().density);
         binding.previewColorPickerSecondary.setBackground(gd);
 
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentSecondary)});
-        gd.setCornerRadius(24 * Iconify.getAppContext().getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(24 * Iconify.getAppContextLocale().getResources().getDisplayMetrics().density);
         binding.colorPreviewLarge.setBackground(gd);
     }
 

@@ -67,12 +67,12 @@ public class UiRoundness extends BaseFragment {
         final int[] finalUiCornerRadius = {Prefs.getInt(UI_CORNER_RADIUS, 28)};
 
         if (finalUiCornerRadius[0] == 28) {
-            binding.cornerRadiusOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalUiCornerRadius[0] + "dp " + Iconify.getAppContext().getResources().getString(R.string.opt_default));
+            binding.cornerRadiusOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalUiCornerRadius[0] + "dp " + Iconify.getAppContextLocale().getResources().getString(R.string.opt_default));
         } else {
             binding.cornerRadiusOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalUiCornerRadius[0] + "dp");
         }
         for (GradientDrawable drawable : drawables) {
-            drawable.setCornerRadius(finalUiCornerRadius[0] * Iconify.getAppContext().getResources().getDisplayMetrics().density);
+            drawable.setCornerRadius(finalUiCornerRadius[0] * Iconify.getAppContextLocale().getResources().getDisplayMetrics().density);
         }
         binding.cornerRadiusSeekbar.setValue(finalUiCornerRadius[0]);
 
@@ -85,7 +85,7 @@ public class UiRoundness extends BaseFragment {
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 finalUiCornerRadius[0] = (int) slider.getValue();
                 if (finalUiCornerRadius[0] == 28)
-                    binding.cornerRadiusOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalUiCornerRadius[0] + "dp " + Iconify.getAppContext().getResources().getString(R.string.opt_default));
+                    binding.cornerRadiusOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalUiCornerRadius[0] + "dp " + Iconify.getAppContextLocale().getResources().getString(R.string.opt_default));
                 else
                     binding.cornerRadiusOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalUiCornerRadius[0] + "dp");
             }
@@ -93,7 +93,7 @@ public class UiRoundness extends BaseFragment {
 
         binding.cornerRadiusSeekbar.addOnChangeListener((slider, value, fromUser) -> {
             for (GradientDrawable drawable : drawables) {
-                drawable.setCornerRadius(value * Iconify.getAppContext().getResources().getDisplayMetrics().density);
+                drawable.setCornerRadius(value * Iconify.getAppContextLocale().getResources().getDisplayMetrics().density);
             }
         });
 
@@ -124,9 +124,9 @@ public class UiRoundness extends BaseFragment {
                             loadingDialog.hide();
 
                             if (hasErroredOut.get())
-                                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                             else
-                                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                         }, 2000);
                     });
                 }).start();

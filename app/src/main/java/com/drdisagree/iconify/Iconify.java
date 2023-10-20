@@ -16,16 +16,20 @@ public class Iconify extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        contextReference = new WeakReference<>(LocaleHelper.setLocale(getApplicationContext()));
+        contextReference = new WeakReference<>(getApplicationContext());
         DynamicColors.applyToActivitiesIfAvailable(this);
     }
 
     public static Context getAppContext() {
         if (contextReference == null || contextReference.get() == null) {
-            contextReference = new WeakReference<>(LocaleHelper.setLocale(Iconify.getInstance().getApplicationContext()));
+            contextReference = new WeakReference<>(Iconify.getInstance().getApplicationContext());
         }
 
         return contextReference.get();
+    }
+
+    public static Context getAppContextLocale() {
+        return LocaleHelper.setLocale(getAppContext());
     }
 
     private static Iconify getInstance() {

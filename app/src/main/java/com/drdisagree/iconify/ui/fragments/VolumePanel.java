@@ -128,7 +128,7 @@ public class VolumePanel extends BaseFragment {
                 SystemUtil.requestStoragePermission(requireContext());
             } else {
                 if (realCheckedId == -1) {
-                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
                 } else {
                     installVolumeModule(realCheckedId);
                 }
@@ -165,9 +165,9 @@ public class VolumePanel extends BaseFragment {
                 loadingDialog.hide();
 
                 if (hasErroredOut.get()) {
-                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_module_created), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_module_created), Toast.LENGTH_SHORT).show();
                 }
             }, 2000);
         }).start();

@@ -135,7 +135,7 @@ public class QsRowColumn extends BaseFragment {
                         // Reset button visibility
                         binding.qsRowColumnReset.setVisibility(View.VISIBLE);
 
-                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                     }, 2000);
                 });
             }).start();
@@ -161,7 +161,7 @@ public class QsRowColumn extends BaseFragment {
                         // Reset button visibility
                         binding.qsRowColumnReset.setVisibility(View.GONE);
 
-                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_reset), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_reset), Toast.LENGTH_SHORT).show();
                     }, 2000);
                 });
             };

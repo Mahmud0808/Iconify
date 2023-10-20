@@ -29,6 +29,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.FragmentColoredBatteryBinding;
 import com.drdisagree.iconify.ui.activities.HomePage;
+import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.events.ColorSelectedEvent;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.overlay.FabricatedUtil;
@@ -39,7 +40,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.Objects;
 
-public class ColoredBattery extends Fragment {
+public class ColoredBattery extends BaseFragment {
 
     private FragmentColoredBatteryBinding binding;
     private static String colorBackground, colorFilled;
@@ -72,9 +73,9 @@ public class ColoredBattery extends Fragment {
                 }
 
                 if (OverlayUtil.isOverlayEnabled("IconifyComponentIPSUI2.overlay"))
-                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_lorn_colored_battery), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_lorn_colored_battery), Toast.LENGTH_SHORT).show();
                 else if (OverlayUtil.isOverlayEnabled("IconifyComponentIPSUI4.overlay"))
-                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_plumpy_colored_battery), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_plumpy_colored_battery), Toast.LENGTH_SHORT).show();
 
                 Prefs.putBoolean(COLORED_BATTERY_SWITCH, isChecked);
             }, SWITCH_ANIMATION_DELAY);
@@ -119,11 +120,11 @@ public class ColoredBattery extends Fragment {
 
     private void updateColorPreview() {
         GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(colorBackground), Integer.parseInt(colorBackground)});
-        gd.setCornerRadius(Iconify.getAppContext().getResources().getDimension(R.dimen.preview_color_picker_radius) * Iconify.getAppContext().getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(Iconify.getAppContextLocale().getResources().getDimension(R.dimen.preview_color_picker_radius) * Iconify.getAppContextLocale().getResources().getDisplayMetrics().density);
         binding.previewColorPickerBackground.setBackground(gd);
 
         gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(colorFilled), Integer.parseInt(colorFilled)});
-        gd.setCornerRadius(Iconify.getAppContext().getResources().getDimension(R.dimen.preview_color_picker_radius) * Iconify.getAppContext().getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(Iconify.getAppContextLocale().getResources().getDimension(R.dimen.preview_color_picker_radius) * Iconify.getAppContextLocale().getResources().getDisplayMetrics().density);
         binding.previewColorPickerFill.setBackground(gd);
     }
 

@@ -60,7 +60,7 @@ public class Statusbar extends BaseFragment {
             Prefs.putInt(FABRICATED_SB_LEFT_PADDING, finalSBLeftPadding[0]);
             FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_SB_LEFT_PADDING, "dimen", "status_bar_padding_start", finalSBLeftPadding[0] + "dp");
             binding.resetSbLeftPadding.setVisibility(View.VISIBLE);
-            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
         }
     };
     private final Slider.OnSliderTouchListener sbRightPaddingListener = new Slider.OnSliderTouchListener() {
@@ -75,7 +75,7 @@ public class Statusbar extends BaseFragment {
             Prefs.putInt(FABRICATED_SB_RIGHT_PADDING, finalSBRightPadding[0]);
             FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_SB_RIGHT_PADDING, "dimen", "status_bar_padding_end", finalSBRightPadding[0] + "dp");
             binding.resetSbRightPadding.setVisibility(View.VISIBLE);
-            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
         }
     };
     private final Slider.OnSliderTouchListener sbHeightListener = new Slider.OnSliderTouchListener() {
@@ -95,7 +95,7 @@ public class Statusbar extends BaseFragment {
                     new Object[]{FRAMEWORK_PACKAGE, FABRICATED_SB_HEIGHT + "Landscape", "dimen", "status_bar_height_landscape", finalSBHeight[0] + "dp"}
             );
             binding.resetSbHeight.setVisibility(View.VISIBLE);
-            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
         }
     };
 
