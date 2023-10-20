@@ -7,19 +7,27 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.LocaleList;
+import android.util.Log;
 
 import java.util.Locale;
 
 public class LocaleHelper {
 
+    private static final String TAG = LocaleHelper.class.getSimpleName();
+
     public static Context setLocale(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
+        Context deviceContext = context.createDeviceProtectedStorageContext();
+        if (!deviceContext.moveSharedPreferencesFrom(context, SharedPref)) {
+            Log.w(TAG, "Failed to migrate shared preferences.");
+        }
+
+        SharedPreferences prefs = deviceContext.getSharedPreferences(SharedPref, Context.MODE_PRIVATE);
         String localeCode = prefs.getString(APP_LANGUAGE, "");
 
         if (!localeCode.isEmpty()) {
             Locale locale = Locale.forLanguageTag(localeCode);
 
-            Configuration configuration = context.getResources().getConfiguration();
+            Configuration configuration = deviceContext.getResources().getConfiguration();
             configuration.setLocale(locale);
             configuration.setLayoutDirection(locale);
 
@@ -27,9 +35,9 @@ public class LocaleHelper {
             LocaleList.setDefault(localeList);
             configuration.setLocales(localeList);
 
-            context = context.createConfigurationContext(configuration);
+            deviceContext = deviceContext.createConfigurationContext(configuration);
         }
 
-        return context;
+        return deviceContext;
     }
 }
