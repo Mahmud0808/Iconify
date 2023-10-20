@@ -87,7 +87,7 @@ public class Onboarding extends Fragment {
         binding.getRoot().requestLayout();
         int screenWidth = SystemUtil.getScreenWidth(requireActivity());
         int screenHeight = SystemUtil.getScreenHeight(requireActivity());
-        Configuration configuration = Iconify.getAppContext().getResources().getConfiguration();
+        Configuration configuration = getResources().getConfiguration();
 
         if (screenWidth > screenHeight || configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             ConstraintLayout.LayoutParams lottieLayoutParams = new ConstraintLayout.LayoutParams(0, ConstraintLayout.LayoutParams.WRAP_CONTENT);
@@ -139,7 +139,7 @@ public class Onboarding extends Fragment {
     }
 
     public void animateUpdateTextView(int title, int desc) {
-        if (binding.textOnboardingTitle.getText() == Iconify.getAppContext().getResources().getString(title) && binding.textOnboardingDescription.getText() == Iconify.getAppContext().getResources().getString(desc))
+        if (binding.textOnboardingTitle.getText() == getResources().getString(title) && binding.textOnboardingDescription.getText() == getResources().getString(desc))
             return;
 
         AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
@@ -167,7 +167,7 @@ public class Onboarding extends Fragment {
     }
 
     public void updateTextView(int title, int desc) {
-        if (binding.textOnboardingTitle.getText() == Iconify.getAppContext().getResources().getString(title) && binding.textOnboardingDescription.getText() == Iconify.getAppContext().getResources().getString(desc))
+        if (binding.textOnboardingTitle.getText() == getResources().getString(title) && binding.textOnboardingDescription.getText() == getResources().getString(desc))
             return;
 
         binding.textOnboardingTitle.setText(getResources().getString(title));

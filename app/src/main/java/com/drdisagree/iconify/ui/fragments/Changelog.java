@@ -72,7 +72,7 @@ public class Changelog extends BaseFragment {
 
         @Override
         protected void onPreExecute() {
-            loadingDialog.show(Iconify.getAppContext().getResources().getString(R.string.loading_dialog_wait), true);
+            loadingDialog.show(getResources().getString(R.string.loading_dialog_wait), true);
         }
 
         @Override

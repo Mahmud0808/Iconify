@@ -171,7 +171,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
         finalPalette.add(temp);
 
         isDarkMode = SystemUtil.isDarkMode();
-        selectedStyle = Prefs.getString(MONET_STYLE, Iconify.getAppContext().getResources().getString(R.string.monet_neutral));
+        selectedStyle = Prefs.getString(MONET_STYLE, getResources().getString(R.string.monet_neutral));
 
         // Monet Style
         int selectedIndex = Arrays.asList(getResources().getStringArray(R.array.monet_style)).indexOf(selectedStyle);
@@ -384,7 +384,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
             if (!SystemUtil.hasStoragePermission()) {
                 SystemUtil.requestStoragePermission(requireContext());
             } else if (Objects.equals(selectedStyle, STR_NULL)) {
-                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
             } else {
                 Prefs.putBoolean(MONET_ACCURATE_SHADES, accurateShades);
                 if (isSelectedPrimary) Prefs.putString(MONET_PRIMARY_COLOR, accentPrimary);
@@ -421,7 +421,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
 
                         new Handler(Looper.getMainLooper()).postDelayed(() -> {
                             if (!hasErroredOut.get()) {
-                                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
 
                                 try {
                                     binding.floatingActionMenu.show();
@@ -431,7 +431,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
                                 } catch (Exception ignored) {
                                 }
                             } else
-                                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                         }, 20);
                     });
                 }).start();
@@ -453,7 +453,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
                 OverlayUtil.disableOverlays("IconifyComponentDM.overlay", "IconifyComponentME.overlay");
 
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
 
                     try {
                         if (!showApplyButton) {
@@ -513,13 +513,13 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
 
     private void updatePrimaryColor() {
         GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentPrimary)});
-        gd.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * Iconify.getAppContext().getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * getResources().getDisplayMetrics().density);
         binding.previewColorPickerPrimary.setBackground(gd);
     }
 
     private void updateSecondaryColor() {
         GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentSecondary), Integer.parseInt(accentSecondary)});
-        gd.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * Iconify.getAppContext().getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * getResources().getDisplayMetrics().density);
         binding.previewColorPickerSecondary.setBackground(gd);
     }
 
@@ -527,7 +527,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
         for (int i = 0; i < colorTableRows.length; i++) {
             for (int j = 0; j < colorTableRows[i].getChildCount(); j++) {
                 GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{systemColors[i][j], systemColors[i][j]});
-                colorbg.setCornerRadius(8 * Iconify.getAppContext().getResources().getDisplayMetrics().density);
+                colorbg.setCornerRadius(8 * getResources().getDisplayMetrics().density);
                 colorTableRows[i].getChildAt(j).setBackground(colorbg);
             }
         }
@@ -537,7 +537,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
         List<List<Object>> palette = generateColorPalette(requireContext(), selectedStyle, Integer.parseInt(accentPrimary));
         List<List<Object>> palette_night = cloneList(palette);
 
-        if (!Objects.equals(selectedStyle, Iconify.getAppContext().getResources().getString(R.string.monet_monochrome))) {
+        if (!Objects.equals(selectedStyle, getResources().getString(R.string.monet_monochrome))) {
             // Set primary accent saturation
             for (int i = 0; i <= 1; i++) {
                 for (int j = palette.get(i).size() - 2; j >= 1; j--) {
@@ -577,7 +577,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
         }
 
         // Set background saturation
-        if (!Objects.equals(selectedStyle, Iconify.getAppContext().getResources().getString(R.string.monet_monochrome))) {
+        if (!Objects.equals(selectedStyle, getResources().getString(R.string.monet_monochrome))) {
             for (int i = 3; i < palette.size(); i++) {
                 for (int j = palette.get(i).size() - 2; j >= 1; j--) {
                     int color;
@@ -593,7 +593,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
         }
 
         // Set background lightness
-        for (int i = Objects.equals(selectedStyle, Iconify.getAppContext().getResources().getString(R.string.monet_monochrome)) ? 0 : 3; i < palette.size(); i++) {
+        for (int i = Objects.equals(selectedStyle, getResources().getString(R.string.monet_monochrome)) ? 0 : 3; i < palette.size(); i++) {
             for (int j = 1; j < palette.get(i).size() - 1; j++) {
                 int color = ColorUtil.setLightness(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), (float) monetBackgroundLightness[0] / 1000.0F);
 
@@ -603,7 +603,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
         }
 
         for (int i = 0; i < colorTableRows.length; i++) {
-            if (i == 2 && (Prefs.getBoolean(CUSTOM_SECONDARY_COLOR_SWITCH) || isSelectedSecondary) && !Objects.equals(selectedStyle, Iconify.getAppContext().getResources().getString(R.string.monet_monochrome))) {
+            if (i == 2 && (Prefs.getBoolean(CUSTOM_SECONDARY_COLOR_SWITCH) || isSelectedSecondary) && !Objects.equals(selectedStyle, getResources().getString(R.string.monet_monochrome))) {
                 Prefs.putBoolean(CUSTOM_SECONDARY_COLOR_SWITCH, true);
                 List<List<Object>> secondaryPalette = generateColorPalette(requireContext(), selectedStyle, Integer.parseInt(accentSecondary));
 
@@ -630,14 +630,14 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
                     }
 
                     GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{!isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j), !isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j)});
-                    colorbg.setCornerRadius(8 * Iconify.getAppContext().getResources().getDisplayMetrics().density);
+                    colorbg.setCornerRadius(8 * getResources().getDisplayMetrics().density);
                     colorTableRows[i].getChildAt(j).setBackground(colorbg);
                 }
             } else {
                 for (int j = 0; j < colorTableRows[i].getChildCount(); j++) {
                     try {
                         GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{!isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j), !isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j)});
-                        colorbg.setCornerRadius(8 * Iconify.getAppContext().getResources().getDisplayMetrics().density);
+                        colorbg.setCornerRadius(8 * getResources().getDisplayMetrics().density);
                         colorTableRows[i].getChildAt(j).setBackground(colorbg);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -703,7 +703,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
             }
             case 3 -> {
                 GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{event.selectedColor(), event.selectedColor()});
-                gd.setCornerRadius(8 * Iconify.getAppContext().getResources().getDisplayMetrics().density);
+                gd.setCornerRadius(8 * getResources().getDisplayMetrics().density);
                 colorTableRows[selectedChild[0]].getChildAt(selectedChild[1]).setBackground(gd);
                 finalPalette.get(0).get(selectedChild[0]).set(selectedChild[1], event.selectedColor());
                 finalPalette.get(1).get(selectedChild[0]).set(selectedChild[1], event.selectedColor());
@@ -784,12 +784,12 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
                     OverlayUtil.changeOverlayState("IconifyComponentQSPBA.overlay", false, "IconifyComponentQSPBA.overlay", true);
                 }
 
-                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                 binding.floatingActionMenu.show();
                 showApplyButton = false;
                 showDisableButton = true;
             } else
-                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
         } catch (Exception exception) {
             Log.e("ImportSettings", "Error building Monet Engine", exception);
         }

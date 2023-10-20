@@ -75,9 +75,9 @@ public class AppUpdates extends BaseFragment implements RadioDialog.RadioDialogL
 
     @SuppressLint("SetTextI18n")
     private void failedToCheck() {
-        binding.updateTitle.setText(Iconify.getAppContext().getResources().getString(R.string.update_checking_failed));
-        binding.currentVersion.setText(Iconify.getAppContext().getResources().getString(R.string.current_version) + " " + BuildConfig.VERSION_NAME);
-        binding.latestVersion.setText(Iconify.getAppContext().getResources().getString(R.string.latest_version) + " " + Iconify.getAppContext().getResources().getString(R.string.not_available));
+        binding.updateTitle.setText(getResources().getString(R.string.update_checking_failed));
+        binding.currentVersion.setText(getResources().getString(R.string.current_version) + " " + BuildConfig.VERSION_NAME);
+        binding.latestVersion.setText(getResources().getString(R.string.latest_version) + " " + getResources().getString(R.string.not_available));
     }
 
     @Override

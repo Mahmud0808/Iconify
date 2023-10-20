@@ -62,13 +62,13 @@ public class QsIconLabel extends BaseFragment {
 
         if (!Prefs.getString(FABRICATED_QS_TEXT_SIZE).equals(STR_NULL)) {
             if (Integer.parseInt(Prefs.getString(FABRICATED_QS_TEXT_SIZE)) == 14)
-                binding.textSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_TEXT_SIZE)) + "sp " + Iconify.getAppContext().getResources().getString(R.string.opt_default));
+                binding.textSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_TEXT_SIZE)) + "sp " + getResources().getString(R.string.opt_default));
             else
                 binding.textSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_TEXT_SIZE)) + "sp");
             finalTextSize[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_TEXT_SIZE));
             binding.textSize.setValue(finalTextSize[0]);
         } else
-            binding.textSizeOutput.setText(getResources().getString(R.string.opt_selected) + " 14sp " + Iconify.getAppContext().getResources().getString(R.string.opt_default));
+            binding.textSizeOutput.setText(getResources().getString(R.string.opt_selected) + " 14sp " + getResources().getString(R.string.opt_default));
 
         // Reset button
         binding.resetTextSize.setVisibility(finalTextSize[0] == 14 ? View.INVISIBLE : View.VISIBLE);
@@ -76,7 +76,7 @@ public class QsIconLabel extends BaseFragment {
             finalTextSize[0] = 14;
             binding.textSize.setValue(finalTextSize[0]);
             binding.resetTextSize.setVisibility(View.INVISIBLE);
-            binding.textSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalTextSize[0] + "sp " + Iconify.getAppContext().getResources().getString(R.string.opt_default));
+            binding.textSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalTextSize[0] + "sp " + getResources().getString(R.string.opt_default));
             Prefs.putString(FABRICATED_QS_TEXT_SIZE, String.valueOf(finalTextSize[0]));
             FabricatedUtil.disableOverlay(FABRICATED_QS_TEXT_SIZE);
             return true;
@@ -91,7 +91,7 @@ public class QsIconLabel extends BaseFragment {
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 finalTextSize[0] = (int) slider.getValue();
                 if (finalTextSize[0] == 14) {
-                    binding.textSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalTextSize[0] + "sp " + Iconify.getAppContext().getResources().getString(R.string.opt_default));
+                    binding.textSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalTextSize[0] + "sp " + getResources().getString(R.string.opt_default));
                     binding.resetTextSize.setVisibility(View.INVISIBLE);
                 } else {
                     binding.textSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalTextSize[0] + "sp");
@@ -99,7 +99,7 @@ public class QsIconLabel extends BaseFragment {
                 }
                 Prefs.putString(FABRICATED_QS_TEXT_SIZE, String.valueOf(finalTextSize[0]));
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_QS_TEXT_SIZE, "dimen", "qs_tile_text_size", finalTextSize[0] + "sp");
-                Toast.makeText(Iconify.getAppContext(), finalTextSize[0] + "sp " + Iconify.getAppContext().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Iconify.getAppContext(), finalTextSize[0] + "sp " + getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -108,14 +108,14 @@ public class QsIconLabel extends BaseFragment {
 
         if (!Prefs.getString(FABRICATED_QS_ICON_SIZE).equals(STR_NULL)) {
             if (Integer.parseInt(Prefs.getString(FABRICATED_QS_ICON_SIZE)) == 20) {
-                binding.iconSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_ICON_SIZE)) + "dp " + Iconify.getAppContext().getResources().getString(R.string.opt_default));
+                binding.iconSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_ICON_SIZE)) + "dp " + getResources().getString(R.string.opt_default));
             } else {
                 binding.iconSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_ICON_SIZE)) + "dp");
             }
             finalIconSize[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_ICON_SIZE));
             binding.iconSize.setValue(finalIconSize[0]);
         } else
-            binding.iconSizeOutput.setText(getResources().getString(R.string.opt_selected) + " 20dp " + Iconify.getAppContext().getResources().getString(R.string.opt_default));
+            binding.iconSizeOutput.setText(getResources().getString(R.string.opt_selected) + " 20dp " + getResources().getString(R.string.opt_default));
 
         // Reset button
         binding.resetIconSize.setVisibility(finalIconSize[0] == 20 ? View.INVISIBLE : View.VISIBLE);
@@ -123,7 +123,7 @@ public class QsIconLabel extends BaseFragment {
             finalIconSize[0] = 20;
             binding.iconSize.setValue(finalIconSize[0]);
             binding.resetIconSize.setVisibility(View.INVISIBLE);
-            binding.iconSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalIconSize[0] + "dp " + Iconify.getAppContext().getResources().getString(R.string.opt_default));
+            binding.iconSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalIconSize[0] + "dp " + getResources().getString(R.string.opt_default));
             Prefs.putString(FABRICATED_QS_ICON_SIZE, String.valueOf(finalIconSize[0]));
             FabricatedUtil.disableOverlay(FABRICATED_QS_ICON_SIZE);
             return true;
@@ -138,7 +138,7 @@ public class QsIconLabel extends BaseFragment {
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 finalIconSize[0] = (int) slider.getValue();
                 if (finalIconSize[0] == 20) {
-                    binding.iconSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalIconSize[0] + "dp " + Iconify.getAppContext().getResources().getString(R.string.opt_default));
+                    binding.iconSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalIconSize[0] + "dp " + getResources().getString(R.string.opt_default));
                     binding.resetIconSize.setVisibility(View.INVISIBLE);
                 } else {
                     binding.iconSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalIconSize[0] + "dp");
@@ -146,7 +146,7 @@ public class QsIconLabel extends BaseFragment {
                 }
                 Prefs.putString(FABRICATED_QS_ICON_SIZE, String.valueOf(finalIconSize[0]));
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_QS_ICON_SIZE, "dimen", "qs_icon_size", finalIconSize[0] + "dp");
-                Toast.makeText(Iconify.getAppContext(), finalIconSize[0] + "dp " + Iconify.getAppContext().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Iconify.getAppContext(), finalIconSize[0] + "dp " + getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -311,13 +311,13 @@ public class QsIconLabel extends BaseFragment {
 
         if (!Prefs.getString(FABRICATED_QS_MOVE_ICON).equals(STR_NULL)) {
             if (Integer.parseInt(Prefs.getString(FABRICATED_QS_MOVE_ICON)) == 16)
-                binding.moveIconOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_MOVE_ICON)) + "dp " + Iconify.getAppContext().getResources().getString(R.string.opt_default));
+                binding.moveIconOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_MOVE_ICON)) + "dp " + getResources().getString(R.string.opt_default));
             else
                 binding.moveIconOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_MOVE_ICON)) + "dp");
             finalMoveIcon[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_MOVE_ICON));
             binding.moveIcon.setValue(finalMoveIcon[0]);
         } else
-            binding.moveIconOutput.setText(getResources().getString(R.string.opt_selected) + " 16dp " + Iconify.getAppContext().getResources().getString(R.string.opt_default));
+            binding.moveIconOutput.setText(getResources().getString(R.string.opt_selected) + " 16dp " + getResources().getString(R.string.opt_default));
 
         // Reset button
         binding.resetMoveIcon.setVisibility(finalMoveIcon[0] == 16 ? View.INVISIBLE : View.VISIBLE);
@@ -325,7 +325,7 @@ public class QsIconLabel extends BaseFragment {
             finalMoveIcon[0] = 16;
             binding.moveIcon.setValue(finalMoveIcon[0]);
             binding.resetMoveIcon.setVisibility(View.INVISIBLE);
-            binding.moveIconOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalMoveIcon[0] + "dp " + Iconify.getAppContext().getResources().getString(R.string.opt_default));
+            binding.moveIconOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalMoveIcon[0] + "dp " + getResources().getString(R.string.opt_default));
             Prefs.putString(FABRICATED_QS_MOVE_ICON, String.valueOf(finalMoveIcon[0]));
             FabricatedUtil.disableOverlay(FABRICATED_QS_MOVE_ICON);
             return true;
@@ -341,7 +341,7 @@ public class QsIconLabel extends BaseFragment {
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 finalMoveIcon[0] = (int) slider.getValue();
                 if (finalMoveIcon[0] == 16) {
-                    binding.moveIconOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalMoveIcon[0] + "dp " + Iconify.getAppContext().getResources().getString(R.string.opt_default));
+                    binding.moveIconOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalMoveIcon[0] + "dp " + getResources().getString(R.string.opt_default));
                     binding.resetMoveIcon.setVisibility(View.INVISIBLE);
                 } else {
                     binding.moveIconOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalMoveIcon[0] + "dp");
@@ -349,7 +349,7 @@ public class QsIconLabel extends BaseFragment {
                 }
                 Prefs.putString(FABRICATED_QS_MOVE_ICON, String.valueOf(finalMoveIcon[0]));
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_QS_MOVE_ICON, "dimen", "qs_tile_start_padding", finalMoveIcon[0] + "dp");
-                Toast.makeText(Iconify.getAppContext(), finalMoveIcon[0] + "dp " + Iconify.getAppContext().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Iconify.getAppContext(), finalMoveIcon[0] + "dp " + getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
             }
         });
 

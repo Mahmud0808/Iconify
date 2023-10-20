@@ -228,7 +228,7 @@ public class XposedHeaderClock extends BaseFragment {
 
     private void updateColorPreview() {
         GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{colorHeaderClock, colorHeaderClock});
-        gd.setCornerRadius(Iconify.getAppContext().getResources().getDimension(R.dimen.preview_color_picker_radius) * Iconify.getAppContext().getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * getResources().getDisplayMetrics().density);
         binding.previewColorPickerClocktext.setBackground(gd);
     }
 
@@ -242,7 +242,7 @@ public class XposedHeaderClock extends BaseFragment {
                     if (path != null && copyToIconifyHiddenDir(path, HEADER_CLOCK_FONT_DIR)) {
                         binding.enableHeaderClockFont.setVisibility(View.VISIBLE);
                     } else {
-                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
                     }
                 }
             });

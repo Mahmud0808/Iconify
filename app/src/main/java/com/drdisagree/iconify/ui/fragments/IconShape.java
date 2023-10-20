@@ -125,9 +125,9 @@ public class IconShape extends BaseFragment {
                                 loadingDialog.hide();
 
                                 if (!hasErroredOut.get()) {
-                                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                                 }
                             }, 3000);
                         }).start();
@@ -145,9 +145,9 @@ public class IconShape extends BaseFragment {
             LinearLayout child = binding.iconShapePreviewContainer.getChildAt(i).findViewById(R.id.list_item_shape);
             TextView title = child.findViewById(R.id.shape_name);
             if (i == Prefs.getInt(SELECTED_ICON_SHAPE, 0)) {
-                title.setTextColor(Iconify.getAppContext().getResources().getColor(R.color.colorSuccess, requireActivity().getTheme()));
+                title.setTextColor(getResources().getColor(R.color.colorSuccess, requireActivity().getTheme()));
             } else {
-                title.setTextColor(Iconify.getAppContext().getResources().getColor(R.color.textColorSecondary, requireActivity().getTheme()));
+                title.setTextColor(getResources().getColor(R.color.textColorSecondary, requireActivity().getTheme()));
             }
         }
     }

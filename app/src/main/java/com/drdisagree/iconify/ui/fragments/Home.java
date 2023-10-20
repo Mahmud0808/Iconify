@@ -117,14 +117,14 @@ public class Home extends BaseFragment {
         // Home page list items
         ArrayList<Object[]> home_page = new ArrayList<>();
 
-        home_page.add(new Object[]{R.id.action_homePage_to_iconPack, Iconify.getAppContext().getResources().getString(R.string.activity_title_icon_pack), Iconify.getAppContext().getResources().getString(R.string.activity_desc_icon_pack), R.drawable.ic_styles_iconpack});
-        home_page.add(new Object[]{R.id.action_homePage_to_brightnessBar, Iconify.getAppContext().getResources().getString(R.string.activity_title_brightness_bar), Iconify.getAppContext().getResources().getString(R.string.activity_desc_brightness_bar), R.drawable.ic_styles_brightness});
-        home_page.add(new Object[]{R.id.action_homePage_to_qsPanelTile, Iconify.getAppContext().getResources().getString(R.string.activity_title_qs_shape), Iconify.getAppContext().getResources().getString(R.string.activity_desc_qs_shape), R.drawable.ic_styles_qs_shape});
-        home_page.add(new Object[]{R.id.action_homePage_to_notification, Iconify.getAppContext().getResources().getString(R.string.activity_title_notification), Iconify.getAppContext().getResources().getString(R.string.activity_desc_notification), R.drawable.ic_styles_notification});
-        home_page.add(new Object[]{R.id.action_homePage_to_progressBar, Iconify.getAppContext().getResources().getString(R.string.activity_title_progress_bar), Iconify.getAppContext().getResources().getString(R.string.activity_desc_progress_bar), R.drawable.ic_styles_progress});
-        home_page.add(new Object[]{R.id.action_homePage_to_switch1, Iconify.getAppContext().getResources().getString(R.string.activity_title_switch), Iconify.getAppContext().getResources().getString(R.string.activity_desc_switch), R.drawable.ic_styles_switch});
-        home_page.add(new Object[]{R.id.action_homePage_to_toastFrame, Iconify.getAppContext().getResources().getString(R.string.activity_title_toast_frame), Iconify.getAppContext().getResources().getString(R.string.activity_desc_toast_frame), R.drawable.ic_styles_toast_frame});
-        home_page.add(new Object[]{R.id.action_homePage_to_iconShape, Iconify.getAppContext().getResources().getString(R.string.activity_title_icon_shape), Iconify.getAppContext().getResources().getString(R.string.activity_desc_icon_shape), R.drawable.ic_styles_icon_shape});
+        home_page.add(new Object[]{R.id.action_homePage_to_iconPack, getResources().getString(R.string.activity_title_icon_pack), getResources().getString(R.string.activity_desc_icon_pack), R.drawable.ic_styles_iconpack});
+        home_page.add(new Object[]{R.id.action_homePage_to_brightnessBar, getResources().getString(R.string.activity_title_brightness_bar), getResources().getString(R.string.activity_desc_brightness_bar), R.drawable.ic_styles_brightness});
+        home_page.add(new Object[]{R.id.action_homePage_to_qsPanelTile, getResources().getString(R.string.activity_title_qs_shape), getResources().getString(R.string.activity_desc_qs_shape), R.drawable.ic_styles_qs_shape});
+        home_page.add(new Object[]{R.id.action_homePage_to_notification, getResources().getString(R.string.activity_title_notification), getResources().getString(R.string.activity_desc_notification), R.drawable.ic_styles_notification});
+        home_page.add(new Object[]{R.id.action_homePage_to_progressBar, getResources().getString(R.string.activity_title_progress_bar), getResources().getString(R.string.activity_desc_progress_bar), R.drawable.ic_styles_progress});
+        home_page.add(new Object[]{R.id.action_homePage_to_switch1, getResources().getString(R.string.activity_title_switch), getResources().getString(R.string.activity_desc_switch), R.drawable.ic_styles_switch});
+        home_page.add(new Object[]{R.id.action_homePage_to_toastFrame, getResources().getString(R.string.activity_title_toast_frame), getResources().getString(R.string.activity_desc_toast_frame), R.drawable.ic_styles_toast_frame});
+        home_page.add(new Object[]{R.id.action_homePage_to_iconShape, getResources().getString(R.string.activity_title_icon_shape), getResources().getString(R.string.activity_desc_icon_shape), R.drawable.ic_styles_icon_shape});
 
         addItem(home_page);
 

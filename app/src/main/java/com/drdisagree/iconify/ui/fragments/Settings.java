@@ -76,7 +76,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                     Executors.newSingleThreadExecutor().execute(() -> {
                         try {
                             ImportExport.exportSettings(Prefs.prefs, Objects.requireNonNull(Objects.requireNonNull(Iconify.getAppContext()).getContentResolver().openOutputStream(Objects.requireNonNull(data.getData()))));
-                            new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_export_settings_successfull), Toast.LENGTH_SHORT).show());
+                            new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_export_settings_successfull), Toast.LENGTH_SHORT).show());
                         } catch (Exception exception) {
                             new Handler(Looper.getMainLooper()).post(() -> {
                                 Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
@@ -164,7 +164,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         loadingDialog = new LoadingDialog(requireActivity());
 
         // Language
-        int current_language = Arrays.asList(getResources().getStringArray(R.array.locale_code)).indexOf(Prefs.getString(APP_LANGUAGE, Iconify.getAppContext().getResources().getConfiguration().getLocales().get(0).getLanguage()));
+        int current_language = Arrays.asList(getResources().getStringArray(R.array.locale_code)).indexOf(Prefs.getString(APP_LANGUAGE, getResources().getConfiguration().getLocales().get(0).getLanguage()));
         rd_app_language = new RadioDialog(requireActivity(), 0, current_language == -1 ? 0 : current_language);
         rd_app_language.setRadioDialogListener(this);
         binding.settingsGeneral.appLanguage.setOnClickListener(v -> rd_app_language.show(R.string.settings_app_language, R.array.locale_name, binding.settingsGeneral.selectedAppLanguage));
@@ -243,7 +243,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         // Clear App Cache
         binding.settingsMisc.clearCache.setOnClickListener(v -> {
             CacheUtil.clearCache(Iconify.getAppContext());
-            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_clear_cache), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_clear_cache), Toast.LENGTH_SHORT).show();
         });
 
         // Experimental features
@@ -339,7 +339,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
             }
             case 2 -> {
                 Prefs.putInt(APP_ICON, selectedIndex);
-                String[] splashActivities = Iconify.getAppContext().getResources().getStringArray(R.array.app_icon_identifier);
+                String[] splashActivities = getResources().getStringArray(R.array.app_icon_identifier);
                 changeIcon(splashActivities[selectedIndex]);
             }
         }
@@ -363,7 +363,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
 
     private void changeIcon(String splash) {
         PackageManager manager = requireActivity().getPackageManager();
-        String[] splashActivities = Iconify.getAppContext().getResources().getStringArray(R.array.app_icon_identifier);
+        String[] splashActivities = getResources().getStringArray(R.array.app_icon_identifier);
 
         for (String splashActivity : splashActivities) {
             manager.setComponentEnabledSetting(new ComponentName(requireActivity(), "com.drdisagree.iconify." + splashActivity), Objects.equals(splash, splashActivity) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
