@@ -141,16 +141,16 @@ public class ToastFrame extends BaseFragment {
             TextView title = child.findViewById(R.id.style_name);
             if (i == Prefs.getInt(SELECTED_TOAST_FRAME, -1)) {
                 selected = true;
-                title.setTextColor(Iconify.getAppContextLocale().getResources().getColor(R.color.colorAccent, requireActivity().getTheme()));
+                title.setTextColor(Iconify.getAppContextLocale().getResources().getColor(R.color.colorAccent, Iconify.getAppContext().getTheme()));
             } else {
-                title.setTextColor(Iconify.getAppContextLocale().getResources().getColor(R.color.textColorSecondary, requireActivity().getTheme()));
+                title.setTextColor(Iconify.getAppContextLocale().getResources().getColor(R.color.textColorSecondary, Iconify.getAppContext().getTheme()));
             }
         }
 
         if (!selected) {
             LinearLayout child = binding.toastFrameContainer.getChildAt(0).findViewById(R.id.list_item_toast);
             TextView title = child.findViewById(R.id.style_name);
-            title.setTextColor(Iconify.getAppContextLocale().getResources().getColor(R.color.colorAccent, requireActivity().getTheme()));
+            title.setTextColor(Iconify.getAppContextLocale().getResources().getColor(R.color.colorAccent, Iconify.getAppContext().getTheme()));
         }
     }
 

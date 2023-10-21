@@ -101,11 +101,11 @@ public class Home extends BaseFragment {
                 LoadingDialog rebootingDialog = new LoadingDialog(requireActivity());
                 rebootingDialog.show(getResources().getString(R.string.rebooting_desc));
 
-                requireActivity().runOnUiThread(() -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     rebootingDialog.hide();
 
                     SystemUtil.restartDevice();
-                }, 5000));
+                }, 5000);
             });
         }
 

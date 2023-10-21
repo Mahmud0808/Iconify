@@ -85,7 +85,7 @@ public class XposedHeaderClock extends BaseFragment {
 
         binding.headerClockPreview.setCurrentItem(RPrefs.getInt(HEADER_CLOCK_STYLE, 1) - 1);
         binding.headerClockPreviewIndicator.setViewPager(binding.headerClockPreview);
-        binding.headerClockPreviewIndicator.tintIndicator(getResources().getColor(R.color.textColorSecondary, requireActivity().getTheme()));
+        binding.headerClockPreviewIndicator.tintIndicator(getResources().getColor(R.color.textColorSecondary, Iconify.getAppContext().getTheme()));
 
         // Lockscreen clock font picker
         binding.pickHeaderClockFont.setOnClickListener(v -> {

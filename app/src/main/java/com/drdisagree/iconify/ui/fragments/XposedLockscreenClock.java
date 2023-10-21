@@ -84,7 +84,7 @@ public class XposedLockscreenClock extends BaseFragment {
 
         binding.lockscreenClockPreview.setCurrentItem(RPrefs.getInt(LSCLOCK_STYLE, 0));
         binding.lockscreenClockPreviewIndicator.setViewPager(binding.lockscreenClockPreview);
-        binding.lockscreenClockPreviewIndicator.tintIndicator(getResources().getColor(R.color.textColorSecondary, requireActivity().getTheme()));
+        binding.lockscreenClockPreviewIndicator.tintIndicator(getResources().getColor(R.color.textColorSecondary, Iconify.getAppContext().getTheme()));
 
         // Lockscreen clock font picker
         binding.pickLsclockFont.setOnClickListener(v -> {

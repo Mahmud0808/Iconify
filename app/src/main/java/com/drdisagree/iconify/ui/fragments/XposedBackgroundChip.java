@@ -159,9 +159,9 @@ public class XposedBackgroundChip extends BaseFragment implements RadioDialog.Ra
             LinearLayout child = binding.statusBarChipContainer.getChildAt(i).findViewById(R.id.list_item_chip);
             TextView title = child.findViewById(R.id.style_name);
             if (i == RPrefs.getInt(CHIP_STATUSBAR_CLOCKBG_STYLE, 0)) {
-                title.setTextColor(getResources().getColor(R.color.colorAccent, requireActivity().getTheme()));
+                title.setTextColor(getResources().getColor(R.color.colorAccent, Iconify.getAppContext().getTheme()));
             } else {
-                title.setTextColor(getResources().getColor(R.color.textColorSecondary, requireActivity().getTheme()));
+                title.setTextColor(getResources().getColor(R.color.textColorSecondary, Iconify.getAppContext().getTheme()));
             }
         }
     }
@@ -198,9 +198,9 @@ public class XposedBackgroundChip extends BaseFragment implements RadioDialog.Ra
             LinearLayout child = binding.statusIconsChipContainer.getChildAt(i).findViewById(R.id.list_item_chip);
             TextView title = child.findViewById(R.id.style_name);
             if (i == RPrefs.getInt(CHIP_QSSTATUSICONS_STYLE, 0)) {
-                title.setTextColor(getResources().getColor(R.color.colorAccent, requireActivity().getTheme()));
+                title.setTextColor(getResources().getColor(R.color.colorAccent, Iconify.getAppContext().getTheme()));
             } else {
-                title.setTextColor(getResources().getColor(R.color.textColorSecondary, requireActivity().getTheme()));
+                title.setTextColor(getResources().getColor(R.color.textColorSecondary, Iconify.getAppContext().getTheme()));
             }
         }
     }

@@ -145,9 +145,9 @@ public class IconShape extends BaseFragment {
             LinearLayout child = binding.iconShapePreviewContainer.getChildAt(i).findViewById(R.id.list_item_shape);
             TextView title = child.findViewById(R.id.shape_name);
             if (i == Prefs.getInt(SELECTED_ICON_SHAPE, 0)) {
-                title.setTextColor(Iconify.getAppContextLocale().getResources().getColor(R.color.colorSuccess, requireActivity().getTheme()));
+                title.setTextColor(Iconify.getAppContextLocale().getResources().getColor(R.color.colorSuccess, Iconify.getAppContext().getTheme()));
             } else {
-                title.setTextColor(Iconify.getAppContextLocale().getResources().getColor(R.color.textColorSecondary, requireActivity().getTheme()));
+                title.setTextColor(Iconify.getAppContextLocale().getResources().getColor(R.color.textColorSecondary, Iconify.getAppContext().getTheme()));
             }
         }
     }

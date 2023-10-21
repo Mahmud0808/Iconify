@@ -180,8 +180,8 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
         binding.monetStyles.setOnClickListener(v -> rd_monet_style.show(R.string.monet_style_title, R.array.monet_style, binding.selectedMonetStyle));
         binding.selectedMonetStyle.setText(getResources().getString(R.string.opt_selected) + " " + Arrays.asList(getResources().getStringArray(R.array.monet_style)).get(rd_monet_style.getSelectedIndex()));
 
-        accentPrimary = Prefs.getString(MONET_PRIMARY_COLOR, String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent1_300 : android.R.color.system_accent1_600, requireActivity().getTheme())));
-        accentSecondary = Prefs.getString(MONET_SECONDARY_COLOR, String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent3_300 : android.R.color.system_accent3_600, requireActivity().getTheme())));
+        accentPrimary = Prefs.getString(MONET_PRIMARY_COLOR, String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent1_300 : android.R.color.system_accent1_600, Iconify.getAppContext().getTheme())));
+        accentSecondary = Prefs.getString(MONET_SECONDARY_COLOR, String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent3_300 : android.R.color.system_accent3_600, Iconify.getAppContext().getTheme())));
 
         updatePrimaryColor();
         updateSecondaryColor();

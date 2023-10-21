@@ -267,13 +267,13 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                     Executors.newSingleThreadExecutor().execute(() -> {
                         disableEverything();
 
-                        requireActivity().runOnUiThread(() -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
                             // Hide loading dialog
                             loadingDialog.hide();
 
                             // Restart SystemUI
                             SystemUtil.restartSystemUI();
-                        }, 3000));
+                        }, 3000);
                     });
                 })
                 .setNegativeButton(getString(R.string.negative), (dialog, i) -> dialog.dismiss())
