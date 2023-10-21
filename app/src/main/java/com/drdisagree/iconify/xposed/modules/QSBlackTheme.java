@@ -37,6 +37,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -231,7 +232,9 @@ public class QSBlackTheme extends ModPack {
                         try {
                             ((ImageView) getObjectField(param.thisObject, "mIconView")).setImageTintList(ColorStateList.valueOf(colorText));
                         } catch (Throwable throwable1) {
-                            log(TAG + throwable1);
+                            if (Build.VERSION.SDK_INT < 34) {
+                                log(TAG + throwable1);
+                            }
                         }
                     }
                 }

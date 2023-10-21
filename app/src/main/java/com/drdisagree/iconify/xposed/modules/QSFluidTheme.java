@@ -32,6 +32,7 @@ import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
+import android.os.Build;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -299,7 +300,10 @@ public class QSFluidTheme extends ModPack {
                         try {
                             ((ImageView) getObjectField(param.thisObject, "mIconView")).setImageTintList(ColorStateList.valueOf(colorActive[0]));
                             ((ImageView) getObjectField(param.thisObject, "mIconView")).setBackgroundTintList(ColorStateList.valueOf(colorActiveAlpha[0]));
-                        } catch (Throwable ignored) {
+                        } catch (Throwable throwable1) {
+                            if (Build.VERSION.SDK_INT < 34) {
+                                log(TAG + throwable1);
+                            }
                         }
                     }
                 }
