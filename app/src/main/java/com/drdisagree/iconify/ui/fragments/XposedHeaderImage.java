@@ -106,9 +106,11 @@ public class XposedHeaderImage extends BaseFragment {
         binding.enableAlphaGradient.setChecked(RPrefs.getBoolean(HEADER_IMAGE_ALPHA_GRADIENT, false));
         binding.enableAlphaGradient.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HEADER_IMAGE_ALPHA_GRADIENT, isChecked);
+            binding.headerImageAlphaContainer.setVisibility(isChecked ? View.GONE : View.VISIBLE);
             binding.enableZoomToFitContainer.setVisibility(isChecked ? View.GONE : View.VISIBLE);
         });
         binding.enableAlphaGradientContainer.setOnClickListener(v -> binding.enableAlphaGradient.toggle());
+        binding.headerImageAlphaContainer.setVisibility(binding.enableAlphaGradient.isChecked() ? View.GONE : View.VISIBLE);
         binding.enableZoomToFitContainer.setVisibility(binding.enableAlphaGradient.isChecked() ? View.GONE : View.VISIBLE);
 
         // Header image zoom to fit

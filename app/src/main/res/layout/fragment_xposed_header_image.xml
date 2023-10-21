@@ -110,6 +110,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/header_image_alpha_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/item_background_material"
