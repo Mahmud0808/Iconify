@@ -38,6 +38,7 @@ import androidx.navigation.Navigation;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.common.Preferences;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.FragmentXposedMenuBinding;
@@ -138,7 +139,7 @@ public class XposedMenu extends BaseFragment {
         binding.header.toolbar.setTitle(getResources().getString(R.string.activity_title_xposed_menu));
         ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.header.toolbar);
         setHasOptionsMenu(true);
-        if (!Prefs.getBoolean(XPOSED_ONLY_MODE, false)) {
+        if (!Preferences.isXposedOnlyMode) {
             Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
             Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
             binding.header.toolbar.setNavigationOnClickListener(view1 -> Navigation.findNavController(view).popBackStack());
@@ -207,7 +208,7 @@ public class XposedMenu extends BaseFragment {
         if (Prefs.getBoolean(SHOW_XPOSED_WARN, true)) {
             new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialComponents_MaterialAlertDialog)
                     .setTitle(requireContext().getResources().getString(R.string.attention))
-                    .setMessage((Prefs.getBoolean(XPOSED_ONLY_MODE, false) ? Iconify.getAppContextLocale().getResources().getString(R.string.xposed_only_desc) + "\n\n" : "") + Iconify.getAppContextLocale().getResources().getString(R.string.lsposed_warn))
+                    .setMessage((Preferences.isXposedOnlyMode ? Iconify.getAppContextLocale().getResources().getString(R.string.xposed_only_desc) + "\n\n" : "") + Iconify.getAppContextLocale().getResources().getString(R.string.lsposed_warn))
                     .setPositiveButton(requireContext().getResources().getString(R.string.understood), (dialog, which) -> dialog.dismiss())
                     .setNegativeButton(requireContext().getResources().getString(R.string.dont_show_again), (dialog, which) -> {
                         dialog.dismiss();

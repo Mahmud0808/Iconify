@@ -2,7 +2,6 @@ package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
-import static com.drdisagree.iconify.common.Preferences.XPOSED_ONLY_MODE;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -16,6 +15,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.airbnb.lottie.LottieCompositionFactory;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.common.Preferences;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.ActivityHomePageBinding;
 import com.drdisagree.iconify.ui.base.BaseActivity;
@@ -72,16 +72,17 @@ public class HomePage extends BaseActivity implements ColorPickerDialogListener 
         if (navHostFragment == null) return;
 
         NavController navController = navHostFragment.getNavController();
-        final boolean isXposedOnlyMode = Prefs.getBoolean(XPOSED_ONLY_MODE, false);
-        if (isXposedOnlyMode) {
+
+        if (Preferences.isXposedOnlyMode) {
             navController.setGraph(R.navigation.nav_xposed_menu);
             binding.bottomNavigationView.getMenu().clear();
             binding.bottomNavigationView.inflateMenu(R.menu.bottom_nav_menu_xposed_only);
         }
+
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController);
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
-            setFragment(item.getItemId(), navController, isXposedOnlyMode);
+            setFragment(item.getItemId(), navController, Preferences.isXposedOnlyMode);
             return true;
         });
     }

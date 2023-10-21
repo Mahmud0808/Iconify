@@ -1,5 +1,9 @@
 package com.drdisagree.iconify.common;
 
+import static com.drdisagree.iconify.SplashActivity.SKIP_TO_HOMEPAGE_FOR_TESTING;
+
+import com.drdisagree.iconify.config.Prefs;
+
 public class Preferences {
 
     // Xposed mods
@@ -191,6 +195,8 @@ public class Preferences {
     public static final String SHOW_HOME_CARD = "IconifyShowHomeCard";
     public static final String RESTART_SYSUI_BEHAVIOR = "IconifyRestartSysuiBehavior";
     public static final String XPOSED_ONLY_MODE = "IconifyXposedOnlyMode";
+    public static boolean isXposedOnlyMode = Prefs.getBoolean(XPOSED_ONLY_MODE, true) &&
+            !SKIP_TO_HOMEPAGE_FOR_TESTING;
 
     // Others
     public static final String BOOT_ID = "boot_id";

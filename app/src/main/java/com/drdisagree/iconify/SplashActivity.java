@@ -19,7 +19,8 @@ import com.topjohnwu.superuser.Shell;
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
 
-    public static final boolean SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES = false;
+    public static final boolean SKIP_INSTALLATION = false;
+    public static final boolean SKIP_TO_HOMEPAGE_FOR_TESTING = SKIP_INSTALLATION && BuildConfig.DEBUG;
 
     static {
         Shell.enableVerboseLogging = BuildConfig.DEBUG;
@@ -36,7 +37,7 @@ public class SplashActivity extends AppCompatActivity {
     private final Runnable runner = () -> Shell.getShell(shell -> {
         Intent intent;
 
-        if ((SKIP_TO_HOMEPAGE_FOR_TESTING_PURPOSES && BuildConfig.DEBUG) ||
+        if (SKIP_TO_HOMEPAGE_FOR_TESTING ||
                 (RootUtil.deviceProperlyRooted() &&
                         ModuleUtil.moduleProperlyInstalled() &&
                         BuildConfig.VERSION_CODE == SystemUtil.getSavedVersionCode()

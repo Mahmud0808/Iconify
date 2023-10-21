@@ -155,6 +155,7 @@ public class Onboarding extends BaseActivity {
                 if (position == 2) {
                     // Reboot button
                     if (rebootRequired) {
+                        Prefs.putBoolean(XPOSED_ONLY_MODE, false);
                         showInfoNow(R.string.need_reboot_title, R.string.need_reboot_desc);
                         binding.btnNextStep.setText(R.string.btn_reboot);
                         binding.btnNextStep.setTextColor(getResources().getColor(R.color.onboarding_btn_text, getTheme()));
@@ -318,8 +319,6 @@ public class Onboarding extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
-
         if (Build.VERSION.SDK_INT >= 33) {
             try {
                 getOnBackInvokedDispatcher().unregisterOnBackInvokedCallback(this::onBackPressed);
@@ -334,6 +333,8 @@ public class Onboarding extends BaseActivity {
         if (installModule != null) {
             installModule.cancel(true);
         }
+
+        super.onDestroy();
     }
 
     @SuppressWarnings("deprecation")
@@ -596,6 +597,7 @@ public class Onboarding extends BaseActivity {
                         }, 10);
                     } else {
                         rebootRequired = true;
+                        Prefs.putBoolean(XPOSED_ONLY_MODE, false);
                         showInfo(R.string.need_reboot_title, R.string.need_reboot_desc);
                         binding.btnNextStep.setText(R.string.btn_reboot);
                         binding.btnNextStep.setTextColor(getResources().getColor(R.color.onboarding_btn_text, getTheme()));
@@ -611,6 +613,7 @@ public class Onboarding extends BaseActivity {
                     Toast.makeText(Onboarding.this, R.string.one_time_reboot_needed, Toast.LENGTH_LONG).show();
                 }
             } else {
+                Prefs.clearPref(XPOSED_ONLY_MODE);
                 Shell.cmd("rm -rf " + Resources.DATA_DIR).exec();
                 Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
                 Shell.cmd("rm -rf " + Resources.BACKUP_DIR).exec();
@@ -632,6 +635,7 @@ public class Onboarding extends BaseActivity {
 
         @Override
         protected void onCancelled() {
+            Prefs.clearPref(XPOSED_ONLY_MODE);
             Shell.cmd("rm -rf " + Resources.DATA_DIR).exec();
             Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
             Shell.cmd("rm -rf " + Resources.BACKUP_DIR).exec();

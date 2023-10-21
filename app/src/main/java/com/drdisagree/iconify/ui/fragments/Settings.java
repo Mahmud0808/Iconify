@@ -44,6 +44,7 @@ import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.Const;
+import com.drdisagree.iconify.common.Preferences;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.FragmentSettingsBinding;
@@ -239,6 +240,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         binding.settingsMisc.homePageCard.setChecked(Prefs.getBoolean(SHOW_HOME_CARD, true));
         binding.settingsMisc.homePageCard.setOnCheckedChangeListener((buttonView, isChecked) -> Prefs.putBoolean(SHOW_HOME_CARD, isChecked));
         binding.settingsMisc.homePageCardContainer.setOnClickListener(v -> binding.settingsMisc.homePageCard.toggle());
+        binding.settingsMisc.homePageCardContainer.setVisibility(Preferences.isXposedOnlyMode ? View.GONE : View.VISIBLE);
 
         // Clear App Cache
         binding.settingsMisc.clearCache.setOnClickListener(v -> {
@@ -276,6 +278,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                 })
                 .setNegativeButton(getString(R.string.negative), (dialog, i) -> dialog.dismiss())
                 .show());
+        binding.settingsMisc.buttonDisableEverything.setVisibility(Preferences.isXposedOnlyMode ? View.GONE : View.VISIBLE);
 
         // Github repository
         binding.settingsAbout.githubRepository.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(Const.GITHUB_REPO))));
