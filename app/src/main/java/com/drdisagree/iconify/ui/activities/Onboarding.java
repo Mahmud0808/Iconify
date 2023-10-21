@@ -1,6 +1,6 @@
 package com.drdisagree.iconify.ui.activities;
 
-import static com.drdisagree.iconify.common.Const.FRAGMENT_TRANSITION_DELAY;
+import static com.drdisagree.iconify.common.Const.TRANSITION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED;
@@ -254,7 +254,7 @@ public class Onboarding extends BaseActivity {
                     mViewPager.setCurrentItem(getItem() + 1, true);
                 }
 
-                new Handler(Looper.getMainLooper()).postDelayed(() -> isClickable[0] = true, FRAGMENT_TRANSITION_DELAY + 50);
+                new Handler(Looper.getMainLooper()).postDelayed(() -> isClickable[0] = true, TRANSITION_DELAY + 50);
             }
         });
 

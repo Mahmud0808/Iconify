@@ -184,6 +184,7 @@ public class Preferences {
     public static final String PORT_QS_TOP_MARGIN = "portraitQsTopMargin";
     public static final String LAND_QQS_TOP_MARGIN = "landscapeQqsTopMargin";
     public static final String LAND_QS_TOP_MARGIN = "landscapeQsTopMargin";
+    public static final String DYNAMIC_OVERLAY_RESOURCES = "dynamicOverlayResources";
 
     // Settings
     public static final String APP_LANGUAGE = "IconifyAppLanguage";

@@ -5,6 +5,7 @@ import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY_LIGHT;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY_LIGHT;
+import static com.drdisagree.iconify.common.Preferences.DYNAMIC_OVERLAY_RESOURCES;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.LAND_QQS_TOP_MARGIN;
 import static com.drdisagree.iconify.common.Preferences.LAND_QSTILE_EXPANDED_HEIGHT;
@@ -36,9 +37,10 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.drdisagree.iconify.common.Resources;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.color.ColorUtil;
 import com.drdisagree.iconify.utils.overlay.FabricatedUtil;
-import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.utils.overlay.compiler.DynamicCompiler;
 import com.drdisagree.iconify.utils.overlay.compiler.OnDemandCompiler;
 import com.drdisagree.iconify.utils.overlay.compiler.SwitchCompiler;
 import com.drdisagree.iconify.utils.overlay.manager.MonetEngineManager;
@@ -291,6 +293,10 @@ public class ImportExport {
                                 Log.e("ImportSettings", "Error building fabricated commands", exception);
                             }
                         }
+                    }
+                } else if (item.getValue() instanceof String) {
+                    if (item.getKey().equals(DYNAMIC_OVERLAY_RESOURCES)) {
+                        DynamicCompiler.buildOverlay(false);
                     }
                 }
             }
