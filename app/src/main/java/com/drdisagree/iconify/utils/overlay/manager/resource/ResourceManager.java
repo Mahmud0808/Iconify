@@ -1,11 +1,22 @@
 package com.drdisagree.iconify.utils.overlay.manager.resource;
 
+import static com.drdisagree.iconify.common.Const.TRANSITION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.DYNAMIC_OVERLAY_RESOURCES;
+import static com.drdisagree.iconify.common.Preferences.DYNAMIC_OVERLAY_RESOURCES_LAND;
+import static com.drdisagree.iconify.common.Preferences.DYNAMIC_OVERLAY_RESOURCES_NIGHT;
 
+import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.util.Xml;
+import android.widget.Toast;
 
+import com.drdisagree.iconify.Iconify;
+import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.Const;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.overlay.compiler.DynamicCompiler;
 
 import org.json.JSONObject;
@@ -13,33 +24,114 @@ import org.xmlpull.v1.XmlSerializer;
 
 import java.io.StringWriter;
 import java.util.Iterator;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ResourceManager {
 
-    public static void createResource(ResourceEntry... resourceEntries) throws Exception {
-        JSONObject jsonObject = getResources();
-        JSONObject jsonObject2 = generateJsonData(resourceEntries);
-        JSONObject mergedJson = new JSONObject();
+    private static final String TAG = ResourceManager.class.getSimpleName();
 
-        if (jsonObject != null) {
-            mergeJsonObjects(mergedJson, jsonObject);
+    public static boolean buildOverlayWithResource(ResourceEntry... resourceEntries) {
+        AtomicBoolean hasErroredOut = new AtomicBoolean(false);
+
+        try {
+            ResourceManager.createResource(resourceEntries);
+            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            hasErroredOut.set(true);
+            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "buildOverlayWithResource:", e);
         }
-        mergeJsonObjects(mergedJson, jsonObject2);
+
+        return hasErroredOut.get();
+    }
+
+    public static boolean buildOverlayWithResource(Context context, ResourceEntry... resourceEntries) {
+        AtomicBoolean hasErroredOut = new AtomicBoolean(false);
+
+        if (!SystemUtil.hasStoragePermission()) {
+            SystemUtil.requestStoragePermission(context);
+        } else {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                try {
+                    ResourceManager.createResource(resourceEntries);
+                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    hasErroredOut.set(true);
+                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "buildOverlayWithResource:", e);
+                }
+            }, TRANSITION_DELAY + TRANSITION_DELAY);
+        }
+
+        return hasErroredOut.get();
+    }
+
+    public static boolean removeResourceFromOverlay(ResourceEntry... resourceEntries) {
+        AtomicBoolean hasErroredOut = new AtomicBoolean(false);
+
+        try {
+            ResourceManager.removeResource(resourceEntries);
+            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_reset), Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            hasErroredOut.set(true);
+            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "removeResourceFromOverlay:", e);
+        }
+
+        return hasErroredOut.get();
+    }
+
+    public static boolean removeResourceFromOverlay(Context context, ResourceEntry... resourceEntries) {
+        AtomicBoolean hasErroredOut = new AtomicBoolean(false);
+
+        if (!SystemUtil.hasStoragePermission()) {
+            SystemUtil.requestStoragePermission(context);
+        } else {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                try {
+                    ResourceManager.removeResource(resourceEntries);
+                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_reset), Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    hasErroredOut.set(true);
+                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "removeResourceFromOverlay:", e);
+                }
+            }, TRANSITION_DELAY + TRANSITION_DELAY);
+        }
+
+        return hasErroredOut.get();
+    }
+
+    private static void createResource(ResourceEntry... resourceEntries) throws Exception {
+        JSONObject[] jsonObject = getResources();
+        JSONObject[] newJsonObject = generateJsonData(resourceEntries);
+        JSONObject[] mergedJson = new JSONObject[3];
+
+        for (int i = 0; i < 3; i++) {
+            mergedJson[i] = initResourceIfNull(new JSONObject());
+            mergeJsonObjects(mergedJson[i], jsonObject[i]);
+            mergeJsonObjects(mergedJson[i], newJsonObject[i]);
+        }
 
         saveResources(mergedJson);
 
         DynamicCompiler.buildOverlay();
     }
 
-    public static void removeResource(ResourceEntry... resourceEntries) throws Exception {
-        JSONObject jsonObject = getResources();
-
-        if (jsonObject == null) {
-            return;
-        }
+    private static void removeResource(ResourceEntry... resourceEntries) throws Exception {
+        JSONObject[] jsonObject = getResources();
 
         for (ResourceEntry resourceEntry : resourceEntries) {
-            JSONObject resourceTypes = jsonObject.optJSONObject(resourceEntry.getPackageName());
+            int index = -1;
+            if (resourceEntry.isPortrait()) {
+                index = 0;
+            } else if (resourceEntry.isLandscape()) {
+                index = 1;
+            } else if (resourceEntry.isNightMode()) {
+                index = 2;
+            }
+
+            JSONObject resourceTypes = jsonObject[index].optJSONObject(resourceEntry.getPackageName());
 
             if (resourceTypes == null) {
                 continue;
@@ -59,36 +151,31 @@ public class ResourceManager {
         DynamicCompiler.buildOverlay();
     }
 
-    private static void mergeJsonObjects(JSONObject mergedJson, JSONObject jsonObject) throws Exception {
-        Iterator<String> keys = jsonObject.keys();
-
-        while (keys.hasNext()) {
-            String key = keys.next();
-            Object value = jsonObject.get(key);
-
-            if (value instanceof JSONObject) {
-                JSONObject existingValue = mergedJson.optJSONObject(key);
-
-                if (existingValue != null) {
-                    mergeJsonObjects(existingValue, (JSONObject) value);
-                } else {
-                    mergedJson.put(key, value);
-                }
-            } else {
-                mergedJson.put(key, value);
-            }
-        }
-    }
-
-    private static JSONObject generateJsonData(ResourceEntry... resourceEntries) throws Exception {
-        JSONObject packages = new JSONObject();
+    private static JSONObject[] generateJsonData(ResourceEntry... resourceEntries) throws Exception {
+        JSONObject[] packages = new JSONObject[3];
+        packages[0] = initResourceIfNull(packages[0]);
+        packages[1] = initResourceIfNull(packages[1]);
+        packages[2] = initResourceIfNull(packages[2]);
 
         for (ResourceEntry entry : resourceEntries) {
-            JSONObject resourceTypes = packages.optJSONObject(entry.getPackageName());
+            if (entry.getResourceValue().isEmpty()) {
+                throw new Exception("Resource value is empty.");
+            }
+
+            int index = -1;
+            if (entry.isPortrait()) {
+                index = 0;
+            } else if (entry.isLandscape()) {
+                index = 1;
+            } else if (entry.isNightMode()) {
+                index = 2;
+            }
+
+            JSONObject resourceTypes = packages[index].optJSONObject(entry.getPackageName());
 
             if (resourceTypes == null) {
                 resourceTypes = new JSONObject();
-                packages.put(entry.getPackageName(), resourceTypes);
+                packages[index].put(entry.getPackageName(), resourceTypes);
             }
 
             JSONObject resources = resourceTypes.optJSONObject(entry.getStartEndTag());
@@ -105,7 +192,7 @@ public class ResourceManager {
     }
 
     public static JSONObject generateJsonResource(JSONObject jsonObject) throws Exception {
-        JSONObject newJsonObject = new JSONObject();
+        JSONObject newJsonObject = initResourceIfNull(new JSONObject());
         Iterator<String> keys = jsonObject.keys();
 
         while (keys.hasNext()) {
@@ -153,15 +240,83 @@ public class ResourceManager {
         }
     }
 
-    public static JSONObject getResources() throws Exception {
-        String resources = Prefs.getString(DYNAMIC_OVERLAY_RESOURCES, null);
-        if (resources == null) {
-            return null;
+    private static void mergeJsonObjects(JSONObject mergedJson, JSONObject jsonObject) throws Exception {
+        Iterator<String> keys = jsonObject.keys();
+
+        while (keys.hasNext()) {
+            String key = keys.next();
+            Object value = jsonObject.get(key);
+
+            if (value instanceof JSONObject) {
+                JSONObject existingValue = mergedJson.optJSONObject(key);
+
+                if (existingValue != null) {
+                    mergeJsonObjects(existingValue, (JSONObject) value);
+                } else {
+                    mergedJson.put(key, value);
+                }
+            } else {
+                mergedJson.put(key, value);
+            }
         }
-        return new JSONObject(resources);
     }
 
-    private static void saveResources(JSONObject jsonObject) {
-        Prefs.putString(DYNAMIC_OVERLAY_RESOURCES, jsonObject.toString());
+    public static JSONObject[] getResources() throws Exception {
+        String resources = Prefs.getString(DYNAMIC_OVERLAY_RESOURCES, "{}");
+        String resourcesLand = Prefs.getString(DYNAMIC_OVERLAY_RESOURCES_LAND, "{}");
+        String resourcesNight = Prefs.getString(DYNAMIC_OVERLAY_RESOURCES_NIGHT, "{}");
+
+        JSONObject values = initResourceIfNull(resources);
+        JSONObject valuesLand = initResourceIfNull(resourcesLand);
+        JSONObject valuesNight = initResourceIfNull(resourcesNight);
+
+        return new JSONObject[]{values, valuesLand, valuesNight};
+    }
+
+    private static void saveResources(JSONObject[] resources) {
+        Prefs.putString(DYNAMIC_OVERLAY_RESOURCES, resources[0].toString());
+        Prefs.putString(DYNAMIC_OVERLAY_RESOURCES_LAND, resources[1].toString());
+        Prefs.putString(DYNAMIC_OVERLAY_RESOURCES_NIGHT, resources[2].toString());
+    }
+
+    private static JSONObject initResourceIfNull(String json) throws Exception {
+        return initResourceIfNull(new JSONObject(json));
+    }
+
+    private static JSONObject initResourceIfNull(JSONObject jsonObject) throws Exception {
+        if (jsonObject == null) {
+            jsonObject = new JSONObject();
+        }
+
+        JSONObject resourceTypes1 = jsonObject.optJSONObject(Const.FRAMEWORK_PACKAGE);
+        JSONObject resourceTypes2 = jsonObject.optJSONObject(Const.SYSTEMUI_PACKAGE);
+
+        if (resourceTypes1 == null) {
+            resourceTypes1 = new JSONObject();
+            jsonObject.put(Const.FRAMEWORK_PACKAGE, resourceTypes1);
+        }
+
+        if (resourceTypes2 == null) {
+            resourceTypes2 = new JSONObject();
+            jsonObject.put(Const.SYSTEMUI_PACKAGE, resourceTypes2);
+        }
+
+        JSONObject resources1 = resourceTypes1.optJSONObject("color");
+        JSONObject resources2 = resourceTypes2.optJSONObject("color");
+
+        if (resources1 == null) {
+            resources1 = new JSONObject();
+            resourceTypes1.put("color", resources1);
+        }
+
+        if (resources2 == null) {
+            resources2 = new JSONObject();
+            resourceTypes2.put("color", resources2);
+        }
+
+        resources1.put("dummy1", "#00000000");
+        resources2.put("dummy2", "#00000000");
+
+        return jsonObject;
     }
 }

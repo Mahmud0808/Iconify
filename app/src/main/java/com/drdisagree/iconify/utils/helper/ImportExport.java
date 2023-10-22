@@ -5,7 +5,6 @@ import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY_LIGHT;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY_LIGHT;
-import static com.drdisagree.iconify.common.Preferences.DYNAMIC_OVERLAY_RESOURCES;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.LAND_QQS_TOP_MARGIN;
 import static com.drdisagree.iconify.common.Preferences.LAND_QSTILE_EXPANDED_HEIGHT;
@@ -130,7 +129,8 @@ public class ImportExport {
             editor.putBoolean(FIRST_INSTALL, false);
             editor.putBoolean(QSPANEL_BLUR_SWITCH, false);
 
-            boolean sip = false, pgb = false, sw = false, tstfrm = false, sis = false, cr = false, me = false, qsth = false, hsize = false;
+            boolean sip = false, pgb = false, sw = false, tstfrm = false, sis = false, cr = false,
+                    me = false, qsth = false, hsize = false, dynamic = false;
 
             for (Map.Entry<String, Object> item : map.entrySet()) {
                 if (item.getValue() instanceof Boolean) {
@@ -243,6 +243,13 @@ public class ImportExport {
                                 } catch (Exception exception) {
                                     Log.e("ImportSettings", "Error building QS Header Size", exception);
                                 }
+                            } else if (item.getKey().contains("IconifyComponentDynamic") && !dynamic) { // Dynamic overlays
+                                dynamic = true;
+                                try {
+                                    DynamicCompiler.buildOverlay(false);
+                                } catch (Exception exception) {
+                                    Log.e("ImportSettings", "Error building dynamic overlays", exception);
+                                }
                             }
                         } else if (item.getKey().startsWith("fabricated")) { // Handling fabricated overlays
                             String overlayName = item.getKey().replace("fabricated", "");
@@ -294,18 +301,14 @@ public class ImportExport {
                             }
                         }
                     }
-                } else if (item.getValue() instanceof String) {
-                    if (item.getKey().equals(DYNAMIC_OVERLAY_RESOURCES)) {
-                        DynamicCompiler.buildOverlay(false);
-                    }
                 }
             }
 
             // Copy overlay APK files
-            commands.add("find " + Resources.BACKUP_DIR + " -name \"*.apk\" -exec cp {} " + Resources.DATA_DIR + " \\; ");
+            commands.add("find " + Resources.BACKUP_DIR + " -name \"IconifyComponent*.apk\" -exec cp {} " + Resources.DATA_DIR + " \\; ");
 
             // Change permissions for copied overlay APKs
-            commands.add("find " + Resources.DATA_DIR + " -name \"*.apk\" -exec chmod 644 {} \\; ");
+            commands.add("find " + Resources.DATA_DIR + " -name \"IconifyComponent*.apk\" -exec chmod 644 {} \\; ");
 
             // Install overlay APKs
             commands.add("for file in " + Resources.DATA_DIR + "/IconifyComponent*.apk; do pm install -r \"$file\"; done");
@@ -317,7 +320,7 @@ public class ImportExport {
             commands.add("mount -o remount,rw /");
 
             // Copy overlay APKs to system overlay
-            commands.add("find " + Resources.DATA_DIR + " -name \"*.apk\" -exec cp {} " + Resources.SYSTEM_OVERLAY_DIR + " \\; ");
+            commands.add("find " + Resources.DATA_DIR + " -name \"IconifyComponent*.apk\" -exec cp {} " + Resources.SYSTEM_OVERLAY_DIR + " \\; ");
 
             // Change permissions for copied overlay APKs in system overlay
             commands.add("find " + Resources.SYSTEM_OVERLAY_DIR + " -name \"IconifyComponent*.apk\" -exec chmod 644 {} \\; ");

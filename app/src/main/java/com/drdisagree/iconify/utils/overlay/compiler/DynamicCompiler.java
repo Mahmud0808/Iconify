@@ -28,8 +28,9 @@ public class DynamicCompiler {
     private static final String TAG = DynamicCompiler.class.getSimpleName();
     private static String mOverlayName = null;
     private static String mPackage = null;
-    private static String mResource = null;
     private static boolean mForce = false;
+    private static final String[] mResource = new String[3];
+    private static final JSONObject[] jsonResources = new JSONObject[3];
 
     public static boolean buildOverlay() throws IOException {
         return buildOverlay(true);
@@ -39,23 +40,25 @@ public class DynamicCompiler {
         mForce = force;
 
         try {
-            JSONObject jsonObject = ResourceManager.getResources();
+            JSONObject[] jsonObject = ResourceManager.getResources();
 
-            if (jsonObject == null) {
-                OverlayUtil.disableOverlays("IconifyComponentDynamic1.overlay", "IconifyComponentDynamic2.overlay");
-                return false;
-            }
             Shell.cmd("mkdir -p " + Resources.BACKUP_DIR).exec();
 
-            JSONObject jsonResources = ResourceManager.generateJsonResource(jsonObject);
-            Iterator<String> keys = jsonResources.keys();
+            for (int i = 0; i < 3; i++) {
+                jsonResources[i] = ResourceManager.generateJsonResource(jsonObject[i]);
+            }
+
+            Iterator<String> keys = jsonResources[0].keys();
 
             // Create overlay for each package
             while (keys.hasNext()) {
                 mPackage = keys.next();
-                mResource = jsonResources.getString(mPackage)
-                        .replace("'", "\"")
-                        .replace("><", ">\n<");
+                for (int i = 0; i < 3; i++) {
+                    mResource[i] = jsonResources[i].getString(mPackage)
+                            .replace("'", "\"")
+                            .replace("><", ">\n<");
+                    Log.i(TAG, "Resource for " + mPackage + ":\n" + mResource[i]);
+                }
                 mOverlayName = mPackage.equals(Const.FRAMEWORK_PACKAGE) ? "Dynamic1" : "Dynamic2";
 
                 preExecute();
@@ -172,8 +175,12 @@ public class DynamicCompiler {
 
     private static boolean createManifestResource(String overlayName, String source) {
         Shell.cmd("mkdir -p " + source + "/res").exec();
-        Shell.cmd("mkdir -p " + source + "/res/values");
-        Shell.cmd("printf '" + mResource + "' > " + source + "/res/values/iconify.xml;").exec();
+        String[] values = {"values", "values-land", "values-night"};
+
+        for (int i = 0; i < 3; i++) {
+            Shell.cmd("mkdir -p " + source + "/res/" + values[i]).exec();
+            Shell.cmd("printf '" + mResource[i] + "' > " + source + "/res/" + values[i] + "/iconify.xml;").exec();
+        }
 
         String category = OverlayUtil.getCategory(overlayName);
         List<String> module = new ArrayList<>();

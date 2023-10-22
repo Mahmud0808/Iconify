@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.ui.fragments;
 
-import static com.drdisagree.iconify.common.Const.TRANSITION_DELAY;
 import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
@@ -15,11 +14,9 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -62,19 +59,10 @@ public class Statusbar extends BaseFragment {
             finalSBLeftPadding[0] = (int) slider.getValue();
             binding.sbLeftPaddingOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalSBLeftPadding[0] + "dp");
             Prefs.putInt(FABRICATED_SB_LEFT_PADDING, finalSBLeftPadding[0]);
-            if (!SystemUtil.hasStoragePermission()) {
-                SystemUtil.requestStoragePermission(requireContext());
-            } else {
-                new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    try {
-                        ResourceManager.createResource(new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "status_bar_padding_start", finalSBLeftPadding[0] + "dp"));
-                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
-                    } catch (Exception e) {
-                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                        Log.e("Iconify", e.toString());
-                    }
-                }, TRANSITION_DELAY);
-            }
+            ResourceManager.buildOverlayWithResource(
+                    requireContext(),
+                    new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "status_bar_padding_start", finalSBLeftPadding[0] + "dp")
+            );
             binding.resetSbLeftPadding.setVisibility(View.VISIBLE);
         }
     };
@@ -88,19 +76,10 @@ public class Statusbar extends BaseFragment {
             finalSBRightPadding[0] = (int) slider.getValue();
             binding.sbRightPaddingOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalSBRightPadding[0] + "dp");
             Prefs.putInt(FABRICATED_SB_RIGHT_PADDING, finalSBRightPadding[0]);
-            if (!SystemUtil.hasStoragePermission()) {
-                SystemUtil.requestStoragePermission(requireContext());
-            } else {
-                new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    try {
-                        ResourceManager.createResource(new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "status_bar_padding_end", finalSBRightPadding[0] + "dp"));
-                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
-                    } catch (Exception e) {
-                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                        Log.e("Iconify", e.toString());
-                    }
-                }, TRANSITION_DELAY);
-            }
+            ResourceManager.buildOverlayWithResource(
+                    requireContext(),
+                    new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "status_bar_padding_end", finalSBRightPadding[0] + "dp")
+            );
             binding.resetSbRightPadding.setVisibility(View.VISIBLE);
         }
     };
@@ -114,20 +93,13 @@ public class Statusbar extends BaseFragment {
             finalSBHeight[0] = (int) slider.getValue();
             binding.sbHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalSBHeight[0] + "dp");
             Prefs.putInt(FABRICATED_SB_HEIGHT, finalSBHeight[0]);
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                try {
-                    ResourceManager.createResource(
-                            new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "status_bar_height", finalSBHeight[0] + "dp"),
-                            new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "status_bar_height_default", finalSBHeight[0] + "dp"),
-                            new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "status_bar_height_portrait", finalSBHeight[0] + "dp"),
-                            new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "status_bar_height_landscape", finalSBHeight[0] + "dp")
-                    );
-                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                    Log.e("Iconify", e.toString());
-                }
-            }, TRANSITION_DELAY);
+            ResourceManager.buildOverlayWithResource(
+                    requireContext(),
+                    new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "status_bar_height", finalSBHeight[0] + "dp"),
+                    new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "status_bar_height_default", finalSBHeight[0] + "dp"),
+                    new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "status_bar_height_portrait", finalSBHeight[0] + "dp"),
+                    new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "status_bar_height_landscape", finalSBHeight[0] + "dp")
+            );
             binding.resetSbHeight.setVisibility(View.VISIBLE);
         }
     };
@@ -150,19 +122,10 @@ public class Statusbar extends BaseFragment {
 
         binding.resetSbLeftPadding.setOnLongClickListener(v -> {
             Prefs.putInt(FABRICATED_SB_LEFT_PADDING, 8);
-            if (!SystemUtil.hasStoragePermission()) {
-                SystemUtil.requestStoragePermission(requireContext());
-            } else {
-                new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    try {
-                        ResourceManager.removeResource(new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "status_bar_padding_start", "8dp"));
-                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_reset), Toast.LENGTH_SHORT).show();
-                    } catch (Exception e) {
-                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                        Log.e("Iconify", e.toString());
-                    }
-                }, TRANSITION_DELAY);
-            }
+            ResourceManager.removeResourceFromOverlay(
+                    requireContext(),
+                    new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "status_bar_padding_start")
+            );
             binding.resetSbLeftPadding.setVisibility(View.INVISIBLE);
             binding.sbLeftPaddingSeekbar.removeOnSliderTouchListener(sbLeftPaddingListener);
             binding.sbLeftPaddingSeekbar.setValue(8);
@@ -181,19 +144,10 @@ public class Statusbar extends BaseFragment {
 
         binding.resetSbRightPadding.setOnLongClickListener(v -> {
             Prefs.putInt(FABRICATED_SB_RIGHT_PADDING, 8);
-            if (!SystemUtil.hasStoragePermission()) {
-                SystemUtil.requestStoragePermission(requireContext());
-            } else {
-                new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    try {
-                        ResourceManager.removeResource(new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "status_bar_padding_end", "8dp"));
-                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_reset), Toast.LENGTH_SHORT).show();
-                    } catch (Exception e) {
-                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                        Log.e("Iconify", e.toString());
-                    }
-                }, TRANSITION_DELAY);
-            }
+            ResourceManager.removeResourceFromOverlay(
+                    requireContext(),
+                    new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "status_bar_padding_end")
+            );
             binding.resetSbRightPadding.setVisibility(View.INVISIBLE);
             binding.sbRightPaddingSeekbar.removeOnSliderTouchListener(sbRightPaddingListener);
             binding.sbRightPaddingSeekbar.setValue(8);
@@ -212,24 +166,13 @@ public class Statusbar extends BaseFragment {
 
         binding.resetSbHeight.setOnLongClickListener(v -> {
             Prefs.putInt(FABRICATED_SB_HEIGHT, 28);
-            if (!SystemUtil.hasStoragePermission()) {
-                SystemUtil.requestStoragePermission(requireContext());
-            } else {
-                new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    try {
-                        ResourceManager.removeResource(
-                                new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "status_bar_height", "28dp"),
-                                new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "status_bar_height_default", "28dp"),
-                                new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "status_bar_height_portrait", "28dp"),
-                                new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "status_bar_height_landscape", "28dp")
-                        );
-                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_reset), Toast.LENGTH_SHORT).show();
-                    } catch (Exception e) {
-                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                        Log.e("Iconify", e.toString());
-                    }
-                }, TRANSITION_DELAY);
-            }
+            ResourceManager.removeResourceFromOverlay(
+                    requireContext(),
+                    new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "status_bar_height"),
+                    new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "status_bar_height_default"),
+                    new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "status_bar_height_portrait"),
+                    new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "status_bar_height_landscape")
+            );
             binding.resetSbHeight.setVisibility(View.INVISIBLE);
             binding.sbHeightSeekbar.removeOnSliderTouchListener(sbHeightListener);
             binding.sbHeightSeekbar.setValue(28);

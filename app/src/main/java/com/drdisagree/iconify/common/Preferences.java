@@ -185,6 +185,8 @@ public class Preferences {
     public static final String LAND_QQS_TOP_MARGIN = "landscapeQqsTopMargin";
     public static final String LAND_QS_TOP_MARGIN = "landscapeQsTopMargin";
     public static final String DYNAMIC_OVERLAY_RESOURCES = "dynamicOverlayResources";
+    public static final String DYNAMIC_OVERLAY_RESOURCES_NIGHT = "dynamicOverlayResourcesNight";
+    public static final String DYNAMIC_OVERLAY_RESOURCES_LAND = "dynamicOverlayResourcesLand";
 
     // Settings
     public static final String APP_LANGUAGE = "IconifyAppLanguage";
