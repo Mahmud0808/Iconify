@@ -384,7 +384,7 @@
     <string name="disable_progress_wave_desc">Disable progress bar wave animation</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">Antes de ativar a Iconify nos módulos da LSPosed, mantenha premido o módulo Iconify e depois escolha Re-otimizar. Depois disso, ative o módulo Iconify e reinicie a IU do Sistema. Isto é necessário para uma experiência mais otimizada.</string>
-    <string name="xposed_only_desc">You are currently in Xposed Only mode. This requires iconify to be enabled in LSPosed app. Also make sure that Iconify module is shown in Magisk manager. To get access to all features, simply re-open the app and go through the installation process!</string>
+    <string name="xposed_only_desc">You are currently in Xposed Only mode. This requires iconify to be enabled in LSPosed app. Also make sure that Iconify module is shown in Magisk manager. To get access to all features, clear data of iconify app and go through the installation process!</string>
     <string name="xposed_module_disabled_title">Module Not Activated</string>
     <string name="xposed_module_disabled_desc">System service not running</string>
     <string name="activity_title_transparency_blur">Transparência &amp; Blur</string>
@@ -471,7 +471,7 @@
     <string name="powersave_indicator_color_title">Powersave Indicator Color</string>
     <string name="powersave_indicator_color_desc">Change color of powersave indicator</string>
     <string name="custom_dimensions_title">Custom Dimensions</string>
-    <string name="custom_dimensions_desc">Set custom dimensions for the battery</string>
+    <string name="custom_dimensions_desc">Set custom dimensions for battery icon</string>
     <string name="battery_margin_left_title">Battery Margin Left</string>
     <string name="battery_margin_right_title">Battery Margin Right</string>
     <string name="battery_margin_top_title">Battery Margin Top</string>
@@ -482,6 +482,8 @@
     <string name="rotate_layout_desc">Rotate battery layout 180 degrees</string>
     <string name="hide_percentage_title">Hide Percentage</string>
     <string name="hide_percentage_desc">Hide battery percentage text</string>
+    <string name="inside_percentage_title">Inside Percentage</string>
+    <string name="inside_percentage_desc">Move percentage to inside battery icon</string>
     <string name="battery_default">Default</string>
     <string name="battery_landscape_r_default">Landscape R Default</string>
     <string name="battery_landscape_l_default">Landscape L Default</string>
@@ -527,6 +529,8 @@
     <string name="header_image_zoom_to_fit_desc">A imagem é esticada para ajuste por defeito</string>
     <string name="header_image_hide_in_landscape_title">Esconder em modo paisagem</string>
     <string name="header_image_hide_in_landscape_desc">Esconder a imagem em modo paisagem</string>
+    <string name="header_image_alpha_gradient_title">Alpha Gradient</string>
+    <string name="header_image_alpha_gradient_desc">Add faded effect to the header image</string>
     <!-- Header Clock -->
     <string name="custom_header_clock_title">Relógio no cabeçalho personalizado</string>
     <string name="custom_header_clock_desc">Personalizar o relógio no cabeçalho das DR</string>
@@ -670,7 +674,7 @@
     <string name="import_settings">Definições de importação</string>
     <string name="restart_sysui_title">Reiniciar IU do sistema</string>
     <string name="import_settings_confirmation_title">Tem a certeza?</string>
-    <string name="import_settings_confirmation_desc">Irá perder todas as suas definições atuais.</string>
+    <string name="import_settings_confirmation_desc">You will lose your current setup and settings.</string>
     <!-- Xposed 3 dot menu -->
     <string name="reset_settings">Reset Settings</string>
     <string name="imported_settings">Definições importadas com sucesso</string>
@@ -749,6 +753,7 @@
     <string name="toast_import_settings_successfull">Imported settings successfully</string>
     <string name="toast_export_settings_successfull">Exported settings successfully</string>
     <string name="toast_selected_successfully">Selected successfully</string>
+    <string name="toast_unavailable">Unavailable</string>
     <!-- Push Notification -->
     <string name="new_update_title">Atualização disponível</string>
     <string name="new_update_desc">Está disponível uma nova versão da Iconify</string>
