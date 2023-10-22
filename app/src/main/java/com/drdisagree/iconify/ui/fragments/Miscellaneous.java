@@ -2,8 +2,7 @@ package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
-import static com.drdisagree.iconify.common.References.FABRICATED_MUSIC_AMPLITUDE;
-import static com.drdisagree.iconify.common.References.FABRICATED_MUSIC_PHASE;
+import static com.drdisagree.iconify.common.Preferences.PROGRESS_WAVE_ANIMATION_SWITCH;
 import static com.drdisagree.iconify.common.References.FABRICATED_TABLET_HEADER;
 
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
@@ -24,6 +22,10 @@ import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.overlay.FabricatedUtil;
 import com.drdisagree.iconify.utils.overlay.OverlayUtil;
+import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceEntry;
+import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceManager;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Miscellaneous extends BaseFragment {
 
@@ -79,19 +81,38 @@ public class Miscellaneous extends BaseFragment {
         }, SWITCH_ANIMATION_DELAY));
         binding.accentPrivacyChip.setOnClickListener(v -> binding.enableAccentPrivacyChip.toggle());
 
-        binding.disableProgressWave.setChecked(FabricatedUtil.isOverlayEnabled(FABRICATED_MUSIC_AMPLITUDE));
-        binding.disableProgressWave.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            if (isChecked) {
-                FabricatedUtil.buildAndEnableOverlays(
-                        new Object[]{SYSTEMUI_PACKAGE, FABRICATED_MUSIC_AMPLITUDE, "dimen", "qs_media_seekbar_progress_amplitude", "0dp"},
-                        new Object[]{SYSTEMUI_PACKAGE, FABRICATED_MUSIC_PHASE, "dimen", "qs_media_seekbar_progress_phase", "0dp"}
-                );
-            } else {
-                FabricatedUtil.disableOverlays(FABRICATED_MUSIC_AMPLITUDE, FABRICATED_MUSIC_PHASE);
+        AtomicBoolean isProgressWaveContainerClicked = new AtomicBoolean(false);
+        binding.disableProgressWave.setChecked(Prefs.getBoolean(PROGRESS_WAVE_ANIMATION_SWITCH, false));
+        binding.disableProgressWave.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!SystemUtil.hasStoragePermission()) {
+                isProgressWaveContainerClicked.set(false);
+                SystemUtil.requestStoragePermission(requireContext());
+                binding.disableProgressWave.setChecked(!isChecked);
+            } else if (buttonView.isPressed() || isProgressWaveContainerClicked.get()) {
+                isProgressWaveContainerClicked.set(false);
+                Prefs.putBoolean(PROGRESS_WAVE_ANIMATION_SWITCH, isChecked);
+
+                if (isChecked) {
+                    ResourceManager.buildOverlayWithResource(
+                            requireContext(),
+                            new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_media_seekbar_progress_amplitude", "0dp"),
+                            new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_media_seekbar_progress_phase", "0dp")
+                    );
+                } else {
+                    ResourceManager.removeResourceFromOverlay(
+                            requireContext(),
+                            new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_media_seekbar_progress_amplitude"),
+                            new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_media_seekbar_progress_phase")
+                    );
+                }
+
+                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
             }
-            SystemUtil.restartSystemUI();
-        }, SWITCH_ANIMATION_DELAY));
-        binding.disableProgressWaveContainer.setOnClickListener(v -> binding.disableProgressWave.toggle());
+        });
+        binding.disableProgressWaveContainer.setOnClickListener(v -> {
+            isProgressWaveContainerClicked.set(true);
+            binding.disableProgressWave.toggle();
+        });
 
         return view;
     }

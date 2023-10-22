@@ -188,6 +188,7 @@ public class Preferences {
     public static final String DYNAMIC_OVERLAY_RESOURCES_NIGHT = "dynamicOverlayResourcesNight";
     public static final String DYNAMIC_OVERLAY_RESOURCES_LAND = "dynamicOverlayResourcesLand";
     public static final String QS_HIDE_LABEL_SWITCH = "qsHideLabelSwitch";
+    public static final String PROGRESS_WAVE_ANIMATION_SWITCH = "progressWaveAnimationSwitch";
 
     // Settings
     public static final String APP_LANGUAGE = "IconifyAppLanguage";
