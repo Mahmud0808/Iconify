@@ -2,8 +2,8 @@ package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.PILL_SHAPE_SWITCH;
 import static com.drdisagree.iconify.common.References.FABRICATED_PILL_BOTTOM_SPACE;
-import static com.drdisagree.iconify.common.References.FABRICATED_PILL_SHAPE_SWITCH;
 import static com.drdisagree.iconify.common.References.FABRICATED_PILL_THICKNESS;
 import static com.drdisagree.iconify.common.References.FABRICATED_PILL_WIDTH;
 
@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
@@ -24,8 +23,9 @@ import com.drdisagree.iconify.databinding.FragmentNavigationBarBinding;
 import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.overlay.FabricatedUtil;
 import com.drdisagree.iconify.utils.overlay.OverlayUtil;
+import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceEntry;
+import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceManager;
 import com.google.android.material.slider.Slider;
 import com.topjohnwu.superuser.Shell;
 
@@ -235,30 +235,50 @@ public class NavigationBar extends BaseFragment {
 
         // Apply button
         binding.pillShape.pillShapeApply.setOnClickListener(v -> {
-            Prefs.putBoolean(FABRICATED_PILL_SHAPE_SWITCH, true);
-            Prefs.putInt(FABRICATED_PILL_WIDTH, finalPillWidth[0]);
-            Prefs.putInt(FABRICATED_PILL_THICKNESS, finalPillThickness[0]);
-            Prefs.putInt(FABRICATED_PILL_BOTTOM_SPACE, finalBottomSpace[0]);
+            if (!SystemUtil.hasStoragePermission()) {
+                SystemUtil.requestStoragePermission(requireContext());
+                return;
+            }
 
-            FabricatedUtil.buildAndEnableOverlays(
-                    new Object[]{SYSTEMUI_PACKAGE, FABRICATED_PILL_WIDTH, "dimen", "navigation_home_handle_width", finalPillWidth[0] + "dp"},
-                    new Object[]{SYSTEMUI_PACKAGE, FABRICATED_PILL_THICKNESS, "dimen", "navigation_handle_radius", finalPillThickness[0] + "dp"},
-                    new Object[]{SYSTEMUI_PACKAGE, FABRICATED_PILL_BOTTOM_SPACE, "dimen", "navigation_handle_bottom", finalBottomSpace[0] + "dp"}
-            );
+            new Handler(Looper.getMainLooper()).post(() -> {
+                Prefs.putBoolean(PILL_SHAPE_SWITCH, true);
+                Prefs.putInt(FABRICATED_PILL_WIDTH, finalPillWidth[0]);
+                Prefs.putInt(FABRICATED_PILL_THICKNESS, finalPillThickness[0]);
+                Prefs.putInt(FABRICATED_PILL_BOTTOM_SPACE, finalBottomSpace[0]);
 
-            binding.pillShape.pillShapeReset.setVisibility(View.VISIBLE);
-            SystemUtil.restartSystemUI();
+                ResourceManager.buildOverlayWithResource(
+                        new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "navigation_home_handle_width", finalPillWidth[0] + "dp"),
+                        new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "navigation_handle_radius", finalPillThickness[0] + "dp"),
+                        new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "navigation_handle_bottom", finalBottomSpace[0] + "dp")
+                );
+
+                binding.pillShape.pillShapeReset.setVisibility(View.VISIBLE);
+
+                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+            });
         });
 
         // Reset button
-        binding.pillShape.pillShapeReset.setVisibility(Prefs.getBoolean(FABRICATED_PILL_SHAPE_SWITCH) ? View.VISIBLE : View.GONE);
+        binding.pillShape.pillShapeReset.setVisibility(Prefs.getBoolean(PILL_SHAPE_SWITCH) ? View.VISIBLE : View.GONE);
         binding.pillShape.pillShapeReset.setOnClickListener(v -> {
-            Prefs.putBoolean(FABRICATED_PILL_SHAPE_SWITCH, false);
+            if (!SystemUtil.hasStoragePermission()) {
+                SystemUtil.requestStoragePermission(requireContext());
+                return;
+            }
 
-            FabricatedUtil.disableOverlays(FABRICATED_PILL_WIDTH, FABRICATED_PILL_THICKNESS, FABRICATED_PILL_BOTTOM_SPACE);
+            new Handler(Looper.getMainLooper()).post(() -> {
+                Prefs.putBoolean(PILL_SHAPE_SWITCH, false);
 
-            binding.pillShape.pillShapeReset.setVisibility(View.GONE);
-            SystemUtil.restartSystemUI();
+                ResourceManager.removeResourceFromOverlay(
+                        new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "navigation_home_handle_width"),
+                        new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "navigation_handle_radius"),
+                        new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "navigation_handle_bottom")
+                );
+
+                binding.pillShape.pillShapeReset.setVisibility(View.GONE);
+
+                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
+            });
         });
 
         return view;

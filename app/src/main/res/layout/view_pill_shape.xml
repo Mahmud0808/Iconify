@@ -132,7 +132,8 @@
         android:background="@drawable/item_background_material"
         android:clickable="true"
         android:orientation="vertical"
-        android:padding="@dimen/container_paddingSide">
+        android:paddingHorizontal="@dimen/container_paddingSide"
+        android:paddingVertical="16dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/pill_shape_apply"
