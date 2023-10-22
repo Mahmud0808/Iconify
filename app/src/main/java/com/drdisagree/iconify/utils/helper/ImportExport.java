@@ -7,13 +7,9 @@ import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY_LIGHT;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.LAND_QQS_TOP_MARGIN;
-import static com.drdisagree.iconify.common.Preferences.LAND_QSTILE_EXPANDED_HEIGHT;
-import static com.drdisagree.iconify.common.Preferences.LAND_QSTILE_NONEXPANDED_HEIGHT;
 import static com.drdisagree.iconify.common.Preferences.LAND_QS_TOP_MARGIN;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
 import static com.drdisagree.iconify.common.Preferences.PORT_QQS_TOP_MARGIN;
-import static com.drdisagree.iconify.common.Preferences.PORT_QSTILE_EXPANDED_HEIGHT;
-import static com.drdisagree.iconify.common.Preferences.PORT_QSTILE_NONEXPANDED_HEIGHT;
 import static com.drdisagree.iconify.common.Preferences.PORT_QS_TOP_MARGIN;
 import static com.drdisagree.iconify.common.Preferences.QSPANEL_BLUR_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.SELECTED_ICON_SHAPE;
@@ -44,7 +40,6 @@ import com.drdisagree.iconify.utils.overlay.compiler.OnDemandCompiler;
 import com.drdisagree.iconify.utils.overlay.compiler.SwitchCompiler;
 import com.drdisagree.iconify.utils.overlay.manager.MonetEngineManager;
 import com.drdisagree.iconify.utils.overlay.manager.QsMarginManager;
-import com.drdisagree.iconify.utils.overlay.manager.QsTileHeightManager;
 import com.drdisagree.iconify.utils.overlay.manager.RoundnessManager;
 import com.drdisagree.iconify.utils.overlay.manager.SettingsIconResourceManager;
 import com.topjohnwu.superuser.Shell;
@@ -130,7 +125,7 @@ public class ImportExport {
             editor.putBoolean(QSPANEL_BLUR_SWITCH, false);
 
             boolean sip = false, pgb = false, sw = false, tstfrm = false, sis = false, cr = false,
-                    me = false, qsth = false, hsize = false, dynamic = false;
+                    me = false, hsize = false, dynamic = false;
 
             for (Map.Entry<String, Object> item : map.entrySet()) {
                 if (item.getValue() instanceof Boolean) {
@@ -218,18 +213,6 @@ public class ImportExport {
                                     MonetEngineManager.buildOverlay(palette, false);
                                 } catch (Exception exception) {
                                     Log.e("ImportSettings", "Error building Monet Engine", exception);
-                                }
-                            } else if (item.getKey().contains("IconifyComponentQSTH") && !qsth) { // QS Tile Size
-                                qsth = true;
-                                try {
-                                    int pneh = (int) Objects.requireNonNull(map.get(PORT_QSTILE_NONEXPANDED_HEIGHT));
-                                    int peh = (int) Objects.requireNonNull(map.get(PORT_QSTILE_EXPANDED_HEIGHT));
-                                    int lneh = (int) Objects.requireNonNull(map.get(LAND_QSTILE_NONEXPANDED_HEIGHT));
-                                    int leh = (int) Objects.requireNonNull(map.get(LAND_QSTILE_EXPANDED_HEIGHT));
-
-                                    QsTileHeightManager.buildOverlay(pneh, peh, lneh, leh, false);
-                                } catch (Exception exception) {
-                                    Log.e("ImportSettings", "Error building QS Tile Size", exception);
                                 }
                             } else if (item.getKey().contains("IconifyComponentHSIZE") && !hsize) { // QS Header Size
                                 hsize = true;

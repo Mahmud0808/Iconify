@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.fragments;
 
+import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.LAND_QSTILE_EXPANDED_HEIGHT;
 import static com.drdisagree.iconify.common.Preferences.LAND_QSTILE_NONEXPANDED_HEIGHT;
 import static com.drdisagree.iconify.common.Preferences.PORT_QSTILE_EXPANDED_HEIGHT;
@@ -12,12 +13,9 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.FragmentQsTileSizeBinding;
@@ -25,11 +23,10 @@ import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.overlay.OverlayUtil;
-import com.drdisagree.iconify.utils.overlay.manager.QsTileHeightManager;
+import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceEntry;
+import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceManager;
 import com.google.android.material.slider.Slider;
 
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class QsTileSize extends BaseFragment {
@@ -175,8 +172,9 @@ public class QsTileSize extends BaseFragment {
         });
 
         // Apply and reset button
-        if (Prefs.getBoolean("IconifyComponentQSTH.overlay"))
+        if (isQsTileHeightEnabled()) {
             binding.qsTileHeightReset.setVisibility(View.VISIBLE);
+        }
 
         binding.qsTileHeightApply.setOnClickListener(v -> {
             if (!SystemUtil.hasStoragePermission()) {
@@ -184,68 +182,116 @@ public class QsTileSize extends BaseFragment {
             } else {
                 // Show loading dialog
                 loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
-                AtomicBoolean hasErroredOut = new AtomicBoolean(false);
 
-                new Thread(() -> {
-                    try {
-                        hasErroredOut.set(QsTileHeightManager.buildOverlay(portNonExpandedHeight[0], portExpandedHeight[0], landNonExpandedHeight[0], landExpandedHeight[0], true));
-                    } catch (IOException e) {
-                        hasErroredOut.set(true);
+                ResourceEntry qsTileNonExpandedPort = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_quick_tile_size", portNonExpandedHeight[0] + "dp");
+                qsTileNonExpandedPort.setPortrait(true);
+                ResourceEntry qsTileExpandedPort = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_tile_height", portExpandedHeight[0] + "dp");
+                qsTileExpandedPort.setPortrait(true);
+                ResourceEntry qsTileNonExpandedLand = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_quick_tile_size", landNonExpandedHeight[0] + "dp");
+                qsTileNonExpandedLand.setLandscape(true);
+                ResourceEntry qsTileExpandedLand = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_tile_height", landExpandedHeight[0] + "dp");
+                qsTileExpandedLand.setLandscape(true);
+
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    AtomicBoolean hasErroredOut = new AtomicBoolean(ResourceManager.buildOverlayWithResource(
+                            qsTileNonExpandedPort,
+                            qsTileExpandedPort,
+                            qsTileNonExpandedLand,
+                            qsTileExpandedLand
+                    ));
+
+                    if (!hasErroredOut.get()) {
+                        Prefs.putInt(PORT_QSTILE_NONEXPANDED_HEIGHT, portNonExpandedHeight[0]);
+                        Prefs.putInt(PORT_QSTILE_EXPANDED_HEIGHT, portExpandedHeight[0]);
+                        Prefs.putInt(LAND_QSTILE_NONEXPANDED_HEIGHT, landNonExpandedHeight[0]);
+                        Prefs.putInt(LAND_QSTILE_EXPANDED_HEIGHT, landExpandedHeight[0]);
                     }
 
-                    new Handler(Looper.getMainLooper()).post(() -> {
-                        if (!hasErroredOut.get()) {
-                            Prefs.putInt(PORT_QSTILE_NONEXPANDED_HEIGHT, portNonExpandedHeight[0]);
-                            Prefs.putInt(PORT_QSTILE_EXPANDED_HEIGHT, portExpandedHeight[0]);
-                            Prefs.putInt(LAND_QSTILE_NONEXPANDED_HEIGHT, landNonExpandedHeight[0]);
-                            Prefs.putInt(LAND_QSTILE_EXPANDED_HEIGHT, landExpandedHeight[0]);
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                        // Hide loading dialog
+                        loadingDialog.hide();
 
+                        if (!hasErroredOut.get()) {
                             binding.qsTileHeightReset.setVisibility(View.VISIBLE);
                         }
-
-                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                            // Hide loading dialog
-                            loadingDialog.hide();
-
-                            if (hasErroredOut.get())
-                                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                            else
-                                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
-                        }, 2000);
-                    });
-                }).start();
+                    }, 2000);
+                });
             }
         });
 
         binding.qsTileHeightReset.setOnClickListener(v -> {
-            Prefs.clearPrefs(PORT_QSTILE_NONEXPANDED_HEIGHT, PORT_QSTILE_EXPANDED_HEIGHT, LAND_QSTILE_NONEXPANDED_HEIGHT, LAND_QSTILE_EXPANDED_HEIGHT);
+            if (!SystemUtil.hasStoragePermission()) {
+                SystemUtil.requestStoragePermission(requireContext());
+            } else {
+                // Show loading dialog
+                loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
-            portNonExpandedHeight[0] = 60;
-            portExpandedHeight[0] = 80;
-            landNonExpandedHeight[0] = 60;
-            landExpandedHeight[0] = 80;
+                ResourceEntry qsTileNonExpandedPort = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_quick_tile_size");
+                qsTileNonExpandedPort.setPortrait(true);
+                ResourceEntry qsTileExpandedPort = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_tile_height");
+                qsTileExpandedPort.setPortrait(true);
+                ResourceEntry qsTileNonExpandedLand = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_quick_tile_size");
+                qsTileNonExpandedLand.setLandscape(true);
+                ResourceEntry qsTileExpandedLand = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_tile_height");
+                qsTileExpandedLand.setLandscape(true);
 
-            binding.portNonexpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + "60dp");
-            binding.portExpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + "80dp");
-            binding.landNonexpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + "60dp");
-            binding.landExpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + "80dp");
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    AtomicBoolean hasErroredOut = new AtomicBoolean(ResourceManager.removeResourceFromOverlay(
+                            qsTileNonExpandedPort,
+                            qsTileExpandedPort,
+                            qsTileNonExpandedLand,
+                            qsTileExpandedLand
+                    ));
 
-            binding.portNonexpandedHeightSeekbar.setValue(60);
-            binding.portExpandedHeightSeekbar.setValue(80);
-            binding.landNonexpandedHeightSeekbar.setValue(60);
-            binding.landExpandedHeightSeekbar.setValue(80);
+                    if (!hasErroredOut.get()) {
+                        Prefs.clearPrefs(
+                                PORT_QSTILE_NONEXPANDED_HEIGHT,
+                                PORT_QSTILE_EXPANDED_HEIGHT,
+                                LAND_QSTILE_NONEXPANDED_HEIGHT,
+                                LAND_QSTILE_EXPANDED_HEIGHT
+                        );
 
-            binding.resetPortNonexpandedHeight.setVisibility(View.INVISIBLE);
-            binding.resetPortExpandedHeight.setVisibility(View.INVISIBLE);
-            binding.resetLandNonexpandedHeight.setVisibility(View.INVISIBLE);
-            binding.resetLandExpandedHeight.setVisibility(View.INVISIBLE);
+                        portNonExpandedHeight[0] = 60;
+                        portExpandedHeight[0] = 80;
+                        landNonExpandedHeight[0] = 60;
+                        landExpandedHeight[0] = 80;
 
-            binding.qsTileHeightReset.setVisibility(View.GONE);
+                        binding.portNonexpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + "60dp");
+                        binding.portExpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + "80dp");
+                        binding.landNonexpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + "60dp");
+                        binding.landExpandedHeightOutput.setText(getResources().getString(R.string.opt_selected) + "80dp");
 
-            OverlayUtil.disableOverlay("IconifyComponentQSTH.overlay");
+                        binding.portNonexpandedHeightSeekbar.setValue(60);
+                        binding.portExpandedHeightSeekbar.setValue(80);
+                        binding.landNonexpandedHeightSeekbar.setValue(60);
+                        binding.landExpandedHeightSeekbar.setValue(80);
+
+                        binding.resetPortNonexpandedHeight.setVisibility(View.INVISIBLE);
+                        binding.resetPortExpandedHeight.setVisibility(View.INVISIBLE);
+                        binding.resetLandNonexpandedHeight.setVisibility(View.INVISIBLE);
+                        binding.resetLandExpandedHeight.setVisibility(View.INVISIBLE);
+                    }
+
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                        // Hide loading dialog
+                        loadingDialog.hide();
+
+                        if (!hasErroredOut.get()) {
+                            binding.qsTileHeightReset.setVisibility(View.GONE);
+                        }
+                    }, 2000);
+                });
+            }
         });
 
         return view;
+    }
+
+    private boolean isQsTileHeightEnabled() {
+        return Prefs.getInt(PORT_QSTILE_NONEXPANDED_HEIGHT, 60) != 60 ||
+                Prefs.getInt(PORT_QSTILE_EXPANDED_HEIGHT, 80) != 80 ||
+                Prefs.getInt(LAND_QSTILE_NONEXPANDED_HEIGHT, 60) != 60 ||
+                Prefs.getInt(LAND_QSTILE_EXPANDED_HEIGHT, 80) != 80;
     }
 
     @Override
