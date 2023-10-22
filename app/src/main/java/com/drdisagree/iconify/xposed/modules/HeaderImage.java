@@ -2,7 +2,6 @@ package com.drdisagree.iconify.xposed.modules;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ALPHA;
-import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ALPHA_GRADIENT;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_HEIGHT;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_LANDSCAPE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_OVERLAP;
@@ -33,7 +32,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.drdisagree.iconify.xposed.ModPack;
-import com.drdisagree.iconify.xposed.utils.AlphaGradientImageView;
 
 import java.io.File;
 import java.util.Objects;
@@ -52,12 +50,10 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
     private int imageHeight = 140;
     private int headerImageAlpha = 100;
     private boolean zoomToFit = false;
-    private boolean alphaGradient = false;
     private boolean headerImageOverlap = false;
     private boolean hideLandscapeHeaderImage = true;
     private LinearLayout mQsHeaderLayout = null;
     private ImageView mQsHeaderImageView = null;
-    private AlphaGradientImageView mQsHeaderAlphaGradientImageView = null;
 
     public HeaderImage(Context context) {
         super(context);
@@ -71,11 +67,10 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
         headerImageAlpha = Xprefs.getInt(HEADER_IMAGE_ALPHA, 100);
         imageHeight = Xprefs.getInt(HEADER_IMAGE_HEIGHT, 140);
         zoomToFit = Xprefs.getBoolean(HEADER_IMAGE_ZOOMTOFIT, false);
-        alphaGradient = Xprefs.getBoolean(HEADER_IMAGE_ALPHA_GRADIENT, false);
         headerImageOverlap = Xprefs.getBoolean(HEADER_IMAGE_OVERLAP, false);
         hideLandscapeHeaderImage = Xprefs.getBoolean(HEADER_IMAGE_LANDSCAPE_SWITCH, true);
 
-        if (Key.length > 0 && (Objects.equals(Key[0], HEADER_IMAGE_SWITCH) || Objects.equals(Key[0], HEADER_IMAGE_LANDSCAPE_SWITCH) || Objects.equals(Key[0], HEADER_IMAGE_ALPHA) || Objects.equals(Key[0], HEADER_IMAGE_HEIGHT) || Objects.equals(Key[0], HEADER_IMAGE_ZOOMTOFIT) || Objects.equals(Key[0], HEADER_IMAGE_ALPHA_GRADIENT))) {
+        if (Key.length > 0 && (Objects.equals(Key[0], HEADER_IMAGE_SWITCH) || Objects.equals(Key[0], HEADER_IMAGE_LANDSCAPE_SWITCH) || Objects.equals(Key[0], HEADER_IMAGE_ALPHA) || Objects.equals(Key[0], HEADER_IMAGE_HEIGHT) || Objects.equals(Key[0], HEADER_IMAGE_ZOOMTOFIT))) {
             updateQSHeaderImage();
         }
     }
@@ -100,16 +95,9 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
                     mQsHeaderLayout.setLayoutParams(layoutParams);
                     mQsHeaderLayout.setVisibility(View.GONE);
 
-                    try {
-                        mQsHeaderAlphaGradientImageView = new AlphaGradientImageView(mContext);
-                        mQsHeaderAlphaGradientImageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                        mQsHeaderLayout.addView(mQsHeaderAlphaGradientImageView);
-                    } catch (Throwable ignored) {
-                        mQsHeaderAlphaGradientImageView = null;
-                        mQsHeaderImageView = new ImageView(mContext);
-                        mQsHeaderImageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                        mQsHeaderLayout.addView(mQsHeaderImageView);
-                    }
+                    mQsHeaderImageView = new ImageView(mContext);
+                    mQsHeaderImageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    mQsHeaderLayout.addView(mQsHeaderImageView);
 
                     mQuickStatusBarHeader.addView(mQsHeaderLayout, 0);
 
@@ -154,7 +142,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
     }
 
     private void updateQSHeaderImage() {
-        if (mQsHeaderLayout == null || (mQsHeaderAlphaGradientImageView == null && mQsHeaderImageView == null)) {
+        if (mQsHeaderLayout == null || mQsHeaderImageView == null) {
             return;
         }
 
@@ -163,13 +151,9 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
             return;
         }
 
-        if (mQsHeaderAlphaGradientImageView != null) {
-            loadImageOrGif(mQsHeaderAlphaGradientImageView);
-            mQsHeaderAlphaGradientImageView.setAlphaGradient(alphaGradient);
-        } else {
-            loadImageOrGif(mQsHeaderImageView);
-            mQsHeaderImageView.setImageAlpha((int) (headerImageAlpha / 100.0 * 255.0));
-        }
+
+        loadImageOrGif(mQsHeaderImageView);
+        mQsHeaderImageView.setImageAlpha((int) (headerImageAlpha / 100.0 * 255.0));
 
         mQsHeaderLayout.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, imageHeight, mContext.getResources().getDisplayMetrics());
         mQsHeaderLayout.requestLayout();

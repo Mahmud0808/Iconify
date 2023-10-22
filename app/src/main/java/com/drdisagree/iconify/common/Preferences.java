@@ -23,7 +23,6 @@ public class Preferences {
     public static final String HEADER_IMAGE_HEIGHT = "xposed_headerimageheight";
     public static final String HEADER_IMAGE_ALPHA = "xposed_headerimagealpha";
     public static final String HEADER_IMAGE_ZOOMTOFIT = "xposed_headerimagezoomtofit";
-    public static final String HEADER_IMAGE_ALPHA_GRADIENT = "xposed_headerimagealphagradient";
     public static final String HEADER_IMAGE_OVERLAP = "xposed_headerimageoverlap";
     public static final String HIDE_STATUS_ICONS_SWITCH = "xposed_hidestatusicons";
     public static final String HEADER_CLOCK_SWITCH = "xposed_headerclock";

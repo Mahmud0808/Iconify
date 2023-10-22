@@ -1,7 +1,6 @@
 package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ALPHA;
-import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ALPHA_GRADIENT;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_HEIGHT;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_LANDSCAPE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_SWITCH;
@@ -101,17 +100,6 @@ public class XposedHeaderImage extends BaseFragment {
                 RPrefs.putInt(HEADER_IMAGE_ALPHA, imageAlpha[0]);
             }
         });
-
-        // Header image alpha gradient
-        binding.enableAlphaGradient.setChecked(RPrefs.getBoolean(HEADER_IMAGE_ALPHA_GRADIENT, false));
-        binding.enableAlphaGradient.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RPrefs.putBoolean(HEADER_IMAGE_ALPHA_GRADIENT, isChecked);
-            binding.headerImageAlphaContainer.setVisibility(isChecked ? View.GONE : View.VISIBLE);
-            binding.enableZoomToFitContainer.setVisibility(isChecked ? View.GONE : View.VISIBLE);
-        });
-        binding.enableAlphaGradientContainer.setOnClickListener(v -> binding.enableAlphaGradient.toggle());
-        binding.headerImageAlphaContainer.setVisibility(binding.enableAlphaGradient.isChecked() ? View.GONE : View.VISIBLE);
-        binding.enableZoomToFitContainer.setVisibility(binding.enableAlphaGradient.isChecked() ? View.GONE : View.VISIBLE);
 
         // Header image zoom to fit
         binding.enableZoomToFit.setChecked(RPrefs.getBoolean(HEADER_IMAGE_ZOOMTOFIT, false));
