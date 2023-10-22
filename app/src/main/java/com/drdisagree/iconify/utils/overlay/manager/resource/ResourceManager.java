@@ -45,9 +45,7 @@ public class ResourceManager {
         return hasErroredOut.get();
     }
 
-    public static boolean buildOverlayWithResource(Context context, ResourceEntry... resourceEntries) {
-        AtomicBoolean hasErroredOut = new AtomicBoolean(false);
-
+    public static void buildOverlayWithResource(Context context, ResourceEntry... resourceEntries) {
         if (!SystemUtil.hasStoragePermission()) {
             SystemUtil.requestStoragePermission(context);
         } else {
@@ -56,14 +54,11 @@ public class ResourceManager {
                     ResourceManager.createResource(resourceEntries);
                     Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
-                    hasErroredOut.set(true);
                     Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "buildOverlayWithResource:", e);
                 }
             }, TRANSITION_DELAY + TRANSITION_DELAY);
         }
-
-        return hasErroredOut.get();
     }
 
     public static boolean removeResourceFromOverlay(ResourceEntry... resourceEntries) {
@@ -81,9 +76,7 @@ public class ResourceManager {
         return hasErroredOut.get();
     }
 
-    public static boolean removeResourceFromOverlay(Context context, ResourceEntry... resourceEntries) {
-        AtomicBoolean hasErroredOut = new AtomicBoolean(false);
-
+    public static void removeResourceFromOverlay(Context context, ResourceEntry... resourceEntries) {
         if (!SystemUtil.hasStoragePermission()) {
             SystemUtil.requestStoragePermission(context);
         } else {
@@ -92,14 +85,11 @@ public class ResourceManager {
                     ResourceManager.removeResource(resourceEntries);
                     Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_reset), Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
-                    hasErroredOut.set(true);
                     Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "removeResourceFromOverlay:", e);
                 }
             }, TRANSITION_DELAY + TRANSITION_DELAY);
         }
-
-        return hasErroredOut.get();
     }
 
     private static void createResource(ResourceEntry... resourceEntries) throws Exception {

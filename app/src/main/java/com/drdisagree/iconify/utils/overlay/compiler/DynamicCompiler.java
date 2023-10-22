@@ -57,7 +57,6 @@ public class DynamicCompiler {
                     mResource[i] = jsonResources[i].getString(mPackage)
                             .replace("'", "\"")
                             .replace("><", ">\n<");
-                    Log.i(TAG, "Resource for " + mPackage + ":\n" + mResource[i]);
                 }
                 mOverlayName = mPackage.equals(Const.FRAMEWORK_PACKAGE) ? "Dynamic1" : "Dynamic2";
 
