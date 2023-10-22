@@ -21,7 +21,6 @@ public class References {
     public static final String FABRICATED_SB_HEIGHT = "sbTotalHeight";
     public static final String FABRICATED_SB_COLOR_SOURCE = "colorSBSource";
     public static final String FABRICATED_SB_COLOR_TINT = "colorSBTint";
-    public static final String FABRICATED_QSPANEL_BLUR_RADIUS = "qsBlurRadius";
     public static final String FABRICATED_PILL_WIDTH = "navigationPillWidth";
     public static final String FABRICATED_PILL_THICKNESS = "navigationPillThickness";
     public static final String FABRICATED_PILL_BOTTOM_SPACE = "navigationPillBottomSpace";

@@ -1,19 +1,14 @@
 package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
-import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.BLUR_RADIUS_VALUE;
 import static com.drdisagree.iconify.common.Preferences.NOTIF_TRANSPARENCY_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.QSALPHA_LEVEL;
 import static com.drdisagree.iconify.common.Preferences.QSPANEL_BLUR_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.QS_TRANSPARENCY_SWITCH;
-import static com.drdisagree.iconify.common.References.FABRICATED_QSPANEL_BLUR_RADIUS;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -21,14 +16,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
+import androidx.annotation.NonNull;
+
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.FragmentXposedTransparencyBlurBinding;
 import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.overlay.FabricatedUtil;
 import com.google.android.material.slider.Slider;
 
 public class XposedTransparencyBlur extends BaseFragment {
@@ -72,19 +67,18 @@ public class XposedTransparencyBlur extends BaseFragment {
         });
 
         // Qs Panel Blur
-        Prefs.putBoolean(QSPANEL_BLUR_SWITCH, SystemUtil.isBlurEnabled());
-        binding.enableBlur.setChecked(Prefs.getBoolean(QSPANEL_BLUR_SWITCH, false));
+        RPrefs.putBoolean(QSPANEL_BLUR_SWITCH, SystemUtil.isBlurEnabled());
+        binding.enableBlur.setChecked(RPrefs.getBoolean(QSPANEL_BLUR_SWITCH, false));
         binding.enableBlur.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Prefs.putBoolean(QSPANEL_BLUR_SWITCH, isChecked);
+            RPrefs.putBoolean(QSPANEL_BLUR_SWITCH, isChecked);
             if (isChecked) SystemUtil.enableBlur();
             else {
                 SystemUtil.disableBlur();
-                FabricatedUtil.disableOverlay(FABRICATED_QSPANEL_BLUR_RADIUS);
             }
         });
         binding.blurContainer.setOnClickListener(v -> binding.enableBlur.toggle());
 
-        final int[] blur_radius = {Prefs.getInt(FABRICATED_QSPANEL_BLUR_RADIUS, 23)};
+        final int[] blur_radius = {RPrefs.getInt(BLUR_RADIUS_VALUE, 23)};
         binding.blurOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + blur_radius[0] + "px");
         binding.blurSeekbar.setValue(blur_radius[0]);
         binding.blurSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
@@ -96,8 +90,7 @@ public class XposedTransparencyBlur extends BaseFragment {
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 blur_radius[0] = (int) slider.getValue();
                 binding.blurOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + blur_radius[0] + "px");
-                Prefs.putInt(FABRICATED_QSPANEL_BLUR_RADIUS, blur_radius[0]);
-                FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_QSPANEL_BLUR_RADIUS, "dimen", "max_window_blur_radius", blur_radius[0] + "px");
+                RPrefs.putInt(BLUR_RADIUS_VALUE, blur_radius[0]);
                 new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
             }
         });

@@ -1,16 +1,21 @@
 package com.drdisagree.iconify.xposed.modules;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.BLUR_RADIUS_VALUE;
 import static com.drdisagree.iconify.common.Preferences.NOTIF_TRANSPARENCY_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.QSALPHA_LEVEL;
+import static com.drdisagree.iconify.common.Preferences.QSPANEL_BLUR_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.QS_TRANSPARENCY_SWITCH;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
+import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.findField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
 
 import com.drdisagree.iconify.xposed.ModPack;
 
@@ -24,6 +29,8 @@ public class QSTransparency extends ModPack {
     boolean qsTransparencyActive = false;
     boolean onlyNotifTransparencyActive = false;
     private float alpha = 60;
+    private boolean blurEnabled = false;
+    private int blurRadius = 23;
 
     public QSTransparency(Context context) {
         super(context);
@@ -36,6 +43,8 @@ public class QSTransparency extends ModPack {
         qsTransparencyActive = Xprefs.getBoolean(QS_TRANSPARENCY_SWITCH, false);
         onlyNotifTransparencyActive = Xprefs.getBoolean(NOTIF_TRANSPARENCY_SWITCH, false);
         alpha = (float) ((float) Xprefs.getInt(QSALPHA_LEVEL, 60) / 100.0);
+        blurEnabled = Xprefs.getBoolean(QSPANEL_BLUR_SWITCH, false);
+        blurRadius = Xprefs.getInt(BLUR_RADIUS_VALUE, 23);
     }
 
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpParam) {
@@ -76,6 +85,23 @@ public class QSTransparency extends ModPack {
                         default:
                             break;
                     }
+                }
+            }
+        });
+
+        hookAllMethods(Resources.class, "getDimensionPixelSize", new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) {
+                if (!blurEnabled) return;
+
+                try {
+                    @SuppressLint("DiscouragedApi") int resId = mContext.getResources()
+                            .getIdentifier("max_window_blur_radius", "dimen", mContext.getPackageName());
+                    if (param.args[0].equals(resId)) {
+                        param.setResult(blurRadius);
+                    }
+                } catch (Throwable throwable) {
+                    log(TAG + throwable);
                 }
             }
         });
