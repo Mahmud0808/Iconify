@@ -66,7 +66,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
         QSCarrierGroupHidden = Xprefs.getBoolean(QSPANEL_HIDE_CARRIER, false);
         hideStatusIcons = Xprefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false);
         fixedStatusIcons = Xprefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false);
-        topMarginStatusIcons = Xprefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 0);
+        topMarginStatusIcons = Xprefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8);
         sideMarginStatusIcons = Xprefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0);
         hideLockscreenCarrier = Xprefs.getBoolean(HIDE_LOCKSCREEN_CARRIER, false);
         hideLockscreenStatusbar = Xprefs.getBoolean(HIDE_LOCKSCREEN_STATUSBAR, false);

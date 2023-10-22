@@ -3,6 +3,7 @@ package com.drdisagree.iconify.xposed.modules;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.CHIP_QSSTATUSICONS_STYLE;
 import static com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCKBG_STYLE;
+import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SIDEMARGIN;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_TOPMARGIN;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SWITCH;
@@ -66,6 +67,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     boolean mShowQSStatusIconsBg = false;
     boolean showHeaderClock = false;
     int topMarginStatusIcons = 8;
+    int sideMarginStatusIcons = 0;
     int QSStatusIconsChipStyle = 0;
     int statusBarClockChipStyle = 0;
     int statusBarClockColorOption = 0;
@@ -99,6 +101,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         hideStatusIcons = Xprefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false);
         fixedStatusIcons = Xprefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false);
         topMarginStatusIcons = Xprefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8);
+        sideMarginStatusIcons = Xprefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0);
 
         if (Key.length > 0) {
             if (Objects.equals(Key[0], STATUSBAR_CLOCKBG_SWITCH) || Objects.equals(Key[0], CHIP_STATUSBAR_CLOCKBG_STYLE) || Objects.equals(Key[0], STATUSBAR_CLOCK_COLOR_OPTION) || Objects.equals(Key[0], STATUSBAR_CLOCK_COLOR_CODE))
@@ -107,7 +110,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
             if (Objects.equals(Key[0], QSPANEL_STATUSICONSBG_SWITCH) || Objects.equals(Key[0], CHIP_STATUSBAR_CLOCKBG_STYLE) || Objects.equals(Key[0], HEADER_CLOCK_SWITCH) || Objects.equals(Key[0], HIDE_STATUS_ICONS_SWITCH) || Objects.equals(Key[0], FIXED_STATUS_ICONS_SWITCH))
                 setQSStatusIconsBgA12();
 
-            if (Objects.equals(Key[0], CHIP_QSSTATUSICONS_STYLE) || Objects.equals(Key[0], FIXED_STATUS_ICONS_TOPMARGIN))
+            if (Objects.equals(Key[0], CHIP_QSSTATUSICONS_STYLE) || Objects.equals(Key[0], FIXED_STATUS_ICONS_TOPMARGIN) || Objects.equals(Key[0], FIXED_STATUS_ICONS_SIDEMARGIN))
                 updateStatusIcons();
         }
     }
@@ -352,8 +355,10 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
 
         if (mQsStatusIconsContainer.getLayoutParams() instanceof FrameLayout.LayoutParams) {
             ((FrameLayout.LayoutParams) mQsStatusIconsContainer.getLayoutParams()).setMargins(0, dp2px(mContext, topMarginStatusIcons), 0, 0);
+            ((FrameLayout.LayoutParams) mQsStatusIconsContainer.getLayoutParams()).setMarginEnd(dp2px(mContext, sideMarginStatusIcons));
         } else if (mQsStatusIconsContainer.getLayoutParams() instanceof LinearLayout.LayoutParams) {
             ((LinearLayout.LayoutParams) mQsStatusIconsContainer.getLayoutParams()).setMargins(0, dp2px(mContext, topMarginStatusIcons), 0, 0);
+            ((LinearLayout.LayoutParams) mQsStatusIconsContainer.getLayoutParams()).setMarginEnd(dp2px(mContext, sideMarginStatusIcons));
         } else if (mLoadPackageParam != null && header != null && constraintLayoutId != -1) {
             try {
                 Class<?> ConstraintSetClass = findClass("androidx.constraintlayout.widget.ConstraintSet", mLoadPackageParam.classLoader);
@@ -377,6 +382,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                 callMethod(mConstraintSet, "applyTo", header);
 
                 callMethod(callMethod(mQsStatusIconsContainer, "getLayoutParams"), "setMargins", 0, dp2px(mContext, topMarginStatusIcons), 0, 0);
+                callMethod(callMethod(mQsStatusIconsContainer, "getLayoutParams"), "setMarginEnd", dp2px(mContext, sideMarginStatusIcons));
             } catch (Throwable throwable) {
                 log(TAG + throwable);
             }

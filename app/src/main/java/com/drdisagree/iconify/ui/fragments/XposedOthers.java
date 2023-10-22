@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.ui.fragments;
 
-import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SIDEMARGIN;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SWITCH;
@@ -28,7 +27,6 @@ import com.drdisagree.iconify.databinding.FragmentXposedOthersBinding;
 import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.overlay.FabricatedUtil;
 import com.google.android.material.slider.Slider;
 
 public class XposedOthers extends BaseFragment {
@@ -91,27 +89,13 @@ public class XposedOthers extends BaseFragment {
         binding.hideLockscreenStatusbarContainer.setOnClickListener(v -> binding.hideLockscreenStatusbar.toggle());
 
         // Fixed status icons
-        if (Build.VERSION.SDK_INT >= 33) {
-            ((View) binding.statusIconsSideMarginSeekbar.getParent()).setVisibility(View.GONE);
-        }
-
         binding.enableFixedStatusIcons.setChecked(RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false));
         binding.enableFixedStatusIcons.setOnCheckedChangeListener((buttonView, isChecked) -> {
             binding.statusIconsSideMarginSeekbar.setEnabled(isChecked);
             binding.statusIconsTopMarginSeekbar.setEnabled(isChecked);
-
             RPrefs.putBoolean(FIXED_STATUS_ICONS_SWITCH, isChecked);
-            if (!isChecked) FabricatedUtil.disableOverlay("quickQsOffsetHeight");
-            else if (RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8) > 32)
-                FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (48 + RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8)) + "dp");
 
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                if (Build.VERSION.SDK_INT >= 33) {
-                    SystemUtil.handleSystemUIRestart();
-                } else {
-                    SystemUtil.doubleToggleDarkMode();
-                }
-            }, SWITCH_ANIMATION_DELAY);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
         binding.enableFixedStatusIconsContainer.setOnClickListener(v -> binding.enableFixedStatusIcons.toggle());
 
@@ -135,20 +119,8 @@ public class XposedOthers extends BaseFragment {
                 topMarginStatusIcons[0] = (int) slider.getValue();
                 binding.statusIconsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + topMarginStatusIcons[0] + "dp");
                 RPrefs.putInt(FIXED_STATUS_ICONS_TOPMARGIN, topMarginStatusIcons[0]);
-                if (Build.VERSION.SDK_INT >= 33 ?
-                        RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false) || RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false) :
-                        RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)
-                ) {
-                    if (Build.VERSION.SDK_INT < 33) {
-                        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (40 + topMarginStatusIcons[0]) + "dp");
-                    }
-                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                        if (Build.VERSION.SDK_INT >= 33) {
-                            SystemUtil.handleSystemUIRestart();
-                        } else {
-                            SystemUtil.doubleToggleDarkMode();
-                        }
-                    }, SWITCH_ANIMATION_DELAY);
+                if (RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)) {
+                    new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
                 }
             }
         });
@@ -169,13 +141,7 @@ public class XposedOthers extends BaseFragment {
                 binding.statusIconsSideMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + sideMarginStatusIcons[0] + "dp");
                 RPrefs.putInt(FIXED_STATUS_ICONS_SIDEMARGIN, sideMarginStatusIcons[0]);
                 if (RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)) {
-                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                        if (Build.VERSION.SDK_INT >= 33) {
-                            SystemUtil.handleSystemUIRestart();
-                        } else {
-                            SystemUtil.doubleToggleDarkMode();
-                        }
-                    }, SWITCH_ANIMATION_DELAY);
+                    new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
                 }
             }
         });
