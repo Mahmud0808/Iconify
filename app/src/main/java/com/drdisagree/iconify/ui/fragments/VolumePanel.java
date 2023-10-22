@@ -2,9 +2,6 @@ package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.VOLUME_PANEL_BACKGROUND_WIDTH;
-import static com.drdisagree.iconify.common.References.FABRICATED_ROUNDED_SLIDER_TRACK_INSET;
-import static com.drdisagree.iconify.common.References.FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH;
-import static com.drdisagree.iconify.common.References.FABRICATED_VOLUME_DIALOG_TRACK_WIDTH;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -19,7 +16,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -30,8 +26,9 @@ import com.drdisagree.iconify.ui.dialogs.InfoDialog;
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.overlay.FabricatedUtil;
 import com.drdisagree.iconify.utils.overlay.compiler.VolumeCompiler;
+import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceEntry;
+import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceManager;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -52,57 +49,94 @@ public class VolumePanel extends BaseFragment {
 
         binding.thinBg.setChecked(Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 1);
         binding.thinBg.addOnCheckedChangeListener((button, isChecked) -> {
-            if (isChecked) {
-                binding.toggleButtonGroup.uncheck(binding.thickBg.getId());
-                binding.toggleButtonGroup.uncheck(binding.noBg.getId());
+            if (button.isPressed()) {
+                if (!SystemUtil.hasStoragePermission()) {
+                    SystemUtil.requestStoragePermission(requireContext());
+                    binding.toggleButtonGroup.uncheck(binding.thinBg.getId());
+                } else {
+                    if (isChecked) {
+                        binding.toggleButtonGroup.uncheck(binding.thickBg.getId());
+                        binding.toggleButtonGroup.uncheck(binding.noBg.getId());
 
-                Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 1);
-                FabricatedUtil.buildAndEnableOverlays(
-                        new Object[]{SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, "dimen", "volume_dialog_slider_width", "42dp"},
-                        new Object[]{SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_TRACK_WIDTH, "dimen", "volume_dialog_track_width", "4dp"},
-                        new Object[]{SYSTEMUI_PACKAGE, FABRICATED_ROUNDED_SLIDER_TRACK_INSET, "dimen", "rounded_slider_track_inset", "22dp"}
-                );
-                FabricatedUtil.disableOverlay(FABRICATED_ROUNDED_SLIDER_TRACK_INSET);
-            } else {
-                Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0);
-                FabricatedUtil.disableOverlays(FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, FABRICATED_VOLUME_DIALOG_TRACK_WIDTH, FABRICATED_ROUNDED_SLIDER_TRACK_INSET);
+                        Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 1);
+                        ResourceManager.buildOverlayWithResource(
+                                requireContext(),
+                                new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "volume_dialog_slider_width", "42dp"),
+                                new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "volume_dialog_track_width", "4dp"),
+                                new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "rounded_slider_track_inset", "22dp")
+                        );
+                    } else {
+                        Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0);
+                        ResourceManager.removeResourceFromOverlay(
+                                requireContext(),
+                                new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "volume_dialog_slider_width"),
+                                new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "volume_dialog_track_width"),
+                                new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "rounded_slider_track_inset")
+                        );
+                    }
+                }
             }
         });
 
         binding.thickBg.setChecked(Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 2);
         binding.thickBg.addOnCheckedChangeListener((button, isChecked) -> {
-            if (isChecked) {
-                binding.toggleButtonGroup.uncheck(binding.thinBg.getId());
-                binding.toggleButtonGroup.uncheck(binding.noBg.getId());
+            if (button.isPressed()) {
+                if (!SystemUtil.hasStoragePermission()) {
+                    SystemUtil.requestStoragePermission(requireContext());
+                    binding.toggleButtonGroup.uncheck(binding.thickBg.getId());
+                } else {
+                    if (isChecked) {
+                        binding.toggleButtonGroup.uncheck(binding.thinBg.getId());
+                        binding.toggleButtonGroup.uncheck(binding.noBg.getId());
 
-                Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 2);
-                FabricatedUtil.buildAndEnableOverlays(
-                        new Object[]{SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, "dimen", "volume_dialog_slider_width", "42dp"},
-                        new Object[]{SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_TRACK_WIDTH, "dimen", "volume_dialog_track_width", "42dp"},
-                        new Object[]{SYSTEMUI_PACKAGE, FABRICATED_ROUNDED_SLIDER_TRACK_INSET, "dimen", "rounded_slider_track_inset", "0dp"}
-                );
-            } else {
-                Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0);
-                FabricatedUtil.disableOverlays(FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, FABRICATED_VOLUME_DIALOG_TRACK_WIDTH, FABRICATED_ROUNDED_SLIDER_TRACK_INSET);
+                        Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 2);
+                        ResourceManager.buildOverlayWithResource(
+                                requireContext(),
+                                new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "volume_dialog_slider_width", "42dp"),
+                                new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "volume_dialog_track_width", "42dp"),
+                                new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "rounded_slider_track_inset", "0dp")
+                        );
+                    } else {
+                        Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0);
+                        ResourceManager.removeResourceFromOverlay(
+                                requireContext(),
+                                new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "volume_dialog_slider_width"),
+                                new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "volume_dialog_track_width"),
+                                new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "rounded_slider_track_inset")
+                        );
+                    }
+                }
             }
         });
 
         binding.noBg.setChecked(Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 3);
         binding.noBg.addOnCheckedChangeListener((button, isChecked) -> {
-            if (isChecked) {
-                binding.toggleButtonGroup.uncheck(binding.thinBg.getId());
-                binding.toggleButtonGroup.uncheck(binding.thickBg.getId());
+            if (button.isPressed()) {
+                if (!SystemUtil.hasStoragePermission()) {
+                    SystemUtil.requestStoragePermission(requireContext());
+                    binding.toggleButtonGroup.uncheck(binding.noBg.getId());
+                } else {
+                    if (isChecked) {
+                        binding.toggleButtonGroup.uncheck(binding.thinBg.getId());
+                        binding.toggleButtonGroup.uncheck(binding.thickBg.getId());
 
-                Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 3);
-                FabricatedUtil.buildAndEnableOverlays(
-                        new Object[]{SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, "dimen", "volume_dialog_slider_width", "42dp"},
-                        new Object[]{SYSTEMUI_PACKAGE, FABRICATED_VOLUME_DIALOG_TRACK_WIDTH, "dimen", "volume_dialog_track_width", "0dp"},
-                        new Object[]{SYSTEMUI_PACKAGE, FABRICATED_ROUNDED_SLIDER_TRACK_INSET, "dimen", "rounded_slider_track_inset", "24dp"}
-                );
-                FabricatedUtil.disableOverlay(FABRICATED_ROUNDED_SLIDER_TRACK_INSET);
-            } else {
-                Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0);
-                FabricatedUtil.disableOverlays(FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH, FABRICATED_VOLUME_DIALOG_TRACK_WIDTH, FABRICATED_ROUNDED_SLIDER_TRACK_INSET);
+                        Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 3);
+                        ResourceManager.buildOverlayWithResource(
+                                requireContext(),
+                                new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "volume_dialog_slider_width", "42dp"),
+                                new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "volume_dialog_track_width", "0dp"),
+                                new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "rounded_slider_track_inset", "24dp")
+                        );
+                    } else {
+                        Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0);
+                        ResourceManager.removeResourceFromOverlay(
+                                requireContext(),
+                                new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "volume_dialog_slider_width"),
+                                new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "volume_dialog_track_width"),
+                                new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "rounded_slider_track_inset")
+                        );
+                    }
+                }
             }
         });
 
@@ -221,7 +255,9 @@ public class VolumePanel extends BaseFragment {
     public void onDestroy() {
         loadingDialog.dismiss();
         super.onDestroy();
-    }    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
+    }
+
+    private final RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if (checkedId != -1) {
