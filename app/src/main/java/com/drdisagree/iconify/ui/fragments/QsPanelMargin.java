@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.fragments;
 
-import static com.drdisagree.iconify.common.Preferences.HEADER_QQS_TOPMARGIN;
+import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
+import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.LAND_QQS_TOP_MARGIN;
 import static com.drdisagree.iconify.common.Preferences.LAND_QS_TOP_MARGIN;
 import static com.drdisagree.iconify.common.Preferences.PORT_QQS_TOP_MARGIN;
@@ -13,25 +14,20 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.FragmentQsPanelMarginBinding;
 import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.overlay.OverlayUtil;
-import com.drdisagree.iconify.utils.overlay.manager.QsMarginManager;
+import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceEntry;
+import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceManager;
 import com.google.android.material.slider.Slider;
 
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class QsPanelMargin extends BaseFragment {
@@ -120,8 +116,9 @@ public class QsPanelMargin extends BaseFragment {
         });
 
         // Apply and reset button
-        if (Prefs.getBoolean("IconifyComponentHSIZE1.overlay") || Prefs.getBoolean("IconifyComponentHSIZE2.overlay"))
+        if (isQsMarginEnabled()) {
             binding.qsMarginReset.setVisibility(View.VISIBLE);
+        }
 
         binding.qsMarginApply.setOnClickListener(v -> {
             if (!SystemUtil.hasStoragePermission()) {
@@ -129,67 +126,154 @@ public class QsPanelMargin extends BaseFragment {
             } else {
                 // Show loading dialog
                 loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
-                AtomicBoolean hasErroredOut = new AtomicBoolean(false);
 
-                new Thread(() -> {
-                    try {
-                        hasErroredOut.set(QsMarginManager.buildOverlay(portQqsMargin[0], portQsMargin[0], landQqsMargin[0], landQsMargin[0], true));
-                    } catch (IOException e) {
-                        hasErroredOut.set(true);
+                // Framework portrait
+                ResourceEntry qqsMarginPortF = new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "quick_qs_offset_height", portQqsMargin[0] + "dp");
+                qqsMarginPortF.setPortrait(true);
+                ResourceEntry qsMarginPortF = new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "quick_qs_total_height", portQsMargin[0] + "dp");
+                qsMarginPortF.setPortrait(true);
+
+                // Framework landscape
+                ResourceEntry qqsMarginLandF = new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "quick_qs_offset_height", landQqsMargin[0] + "dp");
+                qqsMarginLandF.setLandscape(true);
+                ResourceEntry qsMarginLandF = new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "quick_qs_total_height", landQsMargin[0] + "dp");
+                qsMarginLandF.setLandscape(true);
+
+                // SystemUI portrait
+                ResourceEntry qqsMarginPortS1 = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qqs_layout_margin_top", portQqsMargin[0] + "dp");
+                qqsMarginPortS1.setPortrait(true);
+                ResourceEntry qqsMarginPortS2 = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_header_row_min_height", portQqsMargin[0] + "dp");
+                qqsMarginPortS2.setPortrait(true);
+                ResourceEntry qsMarginPortS1 = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_panel_padding_top", portQsMargin[0] + "dp");
+                qsMarginPortS1.setPortrait(true);
+                ResourceEntry qsMarginPortS2 = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_panel_padding_top_combined_headers", portQsMargin[0] + "dp");
+                qsMarginPortS2.setPortrait(true);
+
+                // SystemUI landscape
+                ResourceEntry qqsMarginLandS1 = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qqs_layout_margin_top", landQqsMargin[0] + "dp");
+                qqsMarginLandS1.setLandscape(true);
+                ResourceEntry qqsMarginLandS2 = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_header_row_min_height", landQqsMargin[0] + "dp");
+                qqsMarginLandS2.setLandscape(true);
+                ResourceEntry qsMarginLandS1 = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_panel_padding_top", landQsMargin[0] + "dp");
+                qsMarginLandS1.setLandscape(true);
+                ResourceEntry qsMarginLandS2 = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_panel_padding_top_combined_headers", landQsMargin[0] + "dp");
+                qsMarginLandS2.setLandscape(true);
+
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    AtomicBoolean hasErroredOut = new AtomicBoolean(ResourceManager.buildOverlayWithResource(
+                            qqsMarginPortF, qsMarginPortF, qqsMarginLandF, qsMarginLandF,
+                            qqsMarginPortS1, qqsMarginPortS2, qsMarginPortS1, qsMarginPortS2,
+                            qqsMarginLandS1, qqsMarginLandS2, qsMarginLandS1, qsMarginLandS2
+                    ));
+
+                    if (!hasErroredOut.get()) {
+                        Prefs.putInt(PORT_QQS_TOP_MARGIN, portQqsMargin[0]);
+                        Prefs.putInt(PORT_QS_TOP_MARGIN, portQsMargin[0]);
+                        Prefs.putInt(LAND_QQS_TOP_MARGIN, landQqsMargin[0]);
+                        Prefs.putInt(LAND_QS_TOP_MARGIN, landQsMargin[0]);
                     }
 
-                    new Handler(Looper.getMainLooper()).post(() -> {
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                        // Hide loading dialog
+                        loadingDialog.hide();
+
                         if (!hasErroredOut.get()) {
-                            Prefs.putInt(PORT_QQS_TOP_MARGIN, portQqsMargin[0]);
-                            Prefs.putInt(PORT_QS_TOP_MARGIN, portQsMargin[0]);
-                            Prefs.putInt(LAND_QQS_TOP_MARGIN, landQqsMargin[0]);
-                            Prefs.putInt(LAND_QS_TOP_MARGIN, landQsMargin[0]);
-                            RPrefs.putInt(HEADER_QQS_TOPMARGIN, portQqsMargin[0]);
-
                             binding.qsMarginReset.setVisibility(View.VISIBLE);
-                        } else {
-                            RPrefs.clearPref(HEADER_QQS_TOPMARGIN);
                         }
-
-                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                            // Hide loading dialog
-                            loadingDialog.hide();
-
-                            if (hasErroredOut.get())
-                                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                            else
-                                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
-                        }, 2000);
-                    });
-                }).start();
+                    }, 2000);
+                });
             }
         });
 
         binding.qsMarginReset.setOnClickListener(v -> {
-            Prefs.clearPrefs(PORT_QQS_TOP_MARGIN, PORT_QS_TOP_MARGIN, LAND_QQS_TOP_MARGIN, LAND_QS_TOP_MARGIN);
-            RPrefs.clearPref(HEADER_QQS_TOPMARGIN);
+            if (!SystemUtil.hasStoragePermission()) {
+                SystemUtil.requestStoragePermission(requireContext());
+            } else {
+                // Show loading dialog
+                loadingDialog.show(getResources().getString(R.string.loading_dialog_wait));
 
-            portQqsMargin[0] = 100;
-            portQsMargin[0] = 100;
-            landQqsMargin[0] = 100;
-            landQsMargin[0] = 100;
+                // Framework portrait
+                ResourceEntry qqsMarginPortF = new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "quick_qs_offset_height");
+                qqsMarginPortF.setPortrait(true);
+                ResourceEntry qsMarginPortF = new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "quick_qs_total_height");
+                qsMarginPortF.setPortrait(true);
 
-            binding.portQqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + "100dp");
-            binding.portQsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + "100dp");
-            binding.landQqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + "100dp");
-            binding.landQsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + "100dp");
+                // Framework landscape
+                ResourceEntry qqsMarginLandF = new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "quick_qs_offset_height");
+                qqsMarginLandF.setLandscape(true);
+                ResourceEntry qsMarginLandF = new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "quick_qs_total_height");
+                qsMarginLandF.setLandscape(true);
 
-            binding.portQqsTopMarginSeekbar.setValue(100);
-            binding.portQsTopMarginSeekbar.setValue(100);
-            binding.landQqsTopMarginSeekbar.setValue(100);
-            binding.landQsTopMarginSeekbar.setValue(100);
+                // SystemUI portrait
+                ResourceEntry qqsMarginPortS1 = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qqs_layout_margin_top");
+                qqsMarginPortS1.setPortrait(true);
+                ResourceEntry qqsMarginPortS2 = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_header_row_min_height");
+                qqsMarginPortS2.setPortrait(true);
+                ResourceEntry qsMarginPortS1 = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_panel_padding_top");
+                qsMarginPortS1.setPortrait(true);
+                ResourceEntry qsMarginPortS2 = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_panel_padding_top_combined_headers");
+                qsMarginPortS2.setPortrait(true);
 
-            binding.qsMarginReset.setVisibility(View.GONE);
+                // SystemUI landscape
+                ResourceEntry qqsMarginLandS1 = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qqs_layout_margin_top");
+                qqsMarginLandS1.setLandscape(true);
+                ResourceEntry qqsMarginLandS2 = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_header_row_min_height");
+                qqsMarginLandS2.setLandscape(true);
+                ResourceEntry qsMarginLandS1 = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_panel_padding_top");
+                qsMarginLandS1.setLandscape(true);
+                ResourceEntry qsMarginLandS2 = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_panel_padding_top_combined_headers");
+                qsMarginLandS2.setLandscape(true);
 
-            OverlayUtil.disableOverlays("IconifyComponentHSIZE1.overlay", "IconifyComponentHSIZE2.overlay");
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    AtomicBoolean hasErroredOut = new AtomicBoolean(ResourceManager.removeResourceFromOverlay(
+                            qqsMarginPortF, qsMarginPortF, qqsMarginLandF, qsMarginLandF,
+                            qqsMarginPortS1, qqsMarginPortS2, qsMarginPortS1, qsMarginPortS2,
+                            qqsMarginLandS1, qqsMarginLandS2, qsMarginLandS1, qsMarginLandS2
+                    ));
+
+                    if (!hasErroredOut.get()) {
+                        Prefs.clearPrefs(
+                                PORT_QQS_TOP_MARGIN,
+                                PORT_QS_TOP_MARGIN,
+                                LAND_QQS_TOP_MARGIN,
+                                LAND_QS_TOP_MARGIN
+                        );
+
+                        portQqsMargin[0] = 100;
+                        portQsMargin[0] = 100;
+                        landQqsMargin[0] = 100;
+                        landQsMargin[0] = 100;
+
+                        binding.portQqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + "100dp");
+                        binding.portQsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + "100dp");
+                        binding.landQqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + "100dp");
+                        binding.landQsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + "100dp");
+
+                        binding.portQqsTopMarginSeekbar.setValue(100);
+                        binding.portQsTopMarginSeekbar.setValue(100);
+                        binding.landQqsTopMarginSeekbar.setValue(100);
+                        binding.landQsTopMarginSeekbar.setValue(100);
+                    }
+
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                        // Hide loading dialog
+                        loadingDialog.hide();
+
+                        if (!hasErroredOut.get()) {
+                            binding.qsMarginReset.setVisibility(View.GONE);
+                        }
+                    }, 2000);
+                });
+            }
         });
-
         return view;
+    }
+
+    private boolean isQsMarginEnabled() {
+        return Prefs.getInt(PORT_QQS_TOP_MARGIN, 100) != 100 ||
+                Prefs.getInt(PORT_QS_TOP_MARGIN, 100) != 100 ||
+                Prefs.getInt(LAND_QQS_TOP_MARGIN, 100) != 100 ||
+                Prefs.getInt(LAND_QS_TOP_MARGIN, 100) != 100;
     }
 
     @Override

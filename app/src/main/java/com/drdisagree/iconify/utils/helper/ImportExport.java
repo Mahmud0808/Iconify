@@ -6,11 +6,7 @@ import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY_LIG
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY_LIGHT;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
-import static com.drdisagree.iconify.common.Preferences.LAND_QQS_TOP_MARGIN;
-import static com.drdisagree.iconify.common.Preferences.LAND_QS_TOP_MARGIN;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
-import static com.drdisagree.iconify.common.Preferences.PORT_QQS_TOP_MARGIN;
-import static com.drdisagree.iconify.common.Preferences.PORT_QS_TOP_MARGIN;
 import static com.drdisagree.iconify.common.Preferences.QSPANEL_BLUR_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.SELECTED_ICON_SHAPE;
 import static com.drdisagree.iconify.common.Preferences.SELECTED_PROGRESSBAR;
@@ -39,7 +35,6 @@ import com.drdisagree.iconify.utils.overlay.compiler.DynamicCompiler;
 import com.drdisagree.iconify.utils.overlay.compiler.OnDemandCompiler;
 import com.drdisagree.iconify.utils.overlay.compiler.SwitchCompiler;
 import com.drdisagree.iconify.utils.overlay.manager.MonetEngineManager;
-import com.drdisagree.iconify.utils.overlay.manager.QsMarginManager;
 import com.drdisagree.iconify.utils.overlay.manager.RoundnessManager;
 import com.drdisagree.iconify.utils.overlay.manager.SettingsIconResourceManager;
 import com.topjohnwu.superuser.Shell;
@@ -57,19 +52,11 @@ import java.util.Set;
 
 public class ImportExport {
 
-    public static void exportSettings(SharedPreferences preferences, final @NonNull OutputStream outputStream) throws IOException {
-        ObjectOutputStream objectOutputStream = null;
-        try {
-            objectOutputStream = new ObjectOutputStream(outputStream);
+    public static void exportSettings(SharedPreferences preferences, final @NonNull OutputStream outputStream) {
+        try (outputStream; ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream)) {
             objectOutputStream.writeObject(preferences.getAll());
-            objectOutputStream.close();
         } catch (IOException ioException) {
             Log.e("ExportSettings", "Error serializing preferences", ioException);
-        } finally {
-            if (objectOutputStream != null) {
-                objectOutputStream.close();
-            }
-            outputStream.close();
         }
     }
 
@@ -125,7 +112,7 @@ public class ImportExport {
             editor.putBoolean(QSPANEL_BLUR_SWITCH, false);
 
             boolean sip = false, pgb = false, sw = false, tstfrm = false, sis = false, cr = false,
-                    me = false, hsize = false, dynamic = false;
+                    me = false, dynamic = false;
 
             for (Map.Entry<String, Object> item : map.entrySet()) {
                 if (item.getValue() instanceof Boolean) {
@@ -213,18 +200,6 @@ public class ImportExport {
                                     MonetEngineManager.buildOverlay(palette, false);
                                 } catch (Exception exception) {
                                     Log.e("ImportSettings", "Error building Monet Engine", exception);
-                                }
-                            } else if (item.getKey().contains("IconifyComponentHSIZE") && !hsize) { // QS Header Size
-                                hsize = true;
-                                try {
-                                    int pqqs = (int) Objects.requireNonNull(map.get(PORT_QQS_TOP_MARGIN));
-                                    int pqs = (int) Objects.requireNonNull(map.get(PORT_QS_TOP_MARGIN));
-                                    int lqqs = (int) Objects.requireNonNull(map.get(LAND_QQS_TOP_MARGIN));
-                                    int lqs = (int) Objects.requireNonNull(map.get(LAND_QS_TOP_MARGIN));
-
-                                    QsMarginManager.buildOverlay(pqqs, pqs, lqqs, lqs, false);
-                                } catch (Exception exception) {
-                                    Log.e("ImportSettings", "Error building QS Header Size", exception);
                                 }
                             } else if (item.getKey().contains("IconifyComponentDynamic") && !dynamic) { // Dynamic overlays
                                 dynamic = true;
